@@ -1,0 +1,669 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Coordinator.Shared.JsonStatusObject
+  commentId: T:Mewdeko.Coordinator.Shared.JsonStatusObject
+  id: JsonStatusObject
+  parent: Mewdeko.Coordinator.Shared
+  children:
+  - Mewdeko.Coordinator.Shared.JsonStatusObject.ConnectionState
+  - Mewdeko.Coordinator.Shared.JsonStatusObject.GuildCount
+  - Mewdeko.Coordinator.Shared.JsonStatusObject.Pid
+  - Mewdeko.Coordinator.Shared.JsonStatusObject.UserCount
+  langs:
+  - csharp
+  - vb
+  name: JsonStatusObject
+  nameWithType: JsonStatusObject
+  fullName: Mewdeko.Coordinator.Shared.JsonStatusObject
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko.Coordinator/Shared/JsonStatusObject.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: JsonStatusObject
+    path: src/Mewdeko.Coordinator/Shared/JsonStatusObject.cs
+    startLine: 2
+  assemblies:
+  - Mewdeko.Coordinator
+  namespace: Mewdeko.Coordinator.Shared
+  syntax:
+    content: public class JsonStatusObject
+    content.vb: Public Class JsonStatusObject
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Coordinator.Shared.JsonStatusObject.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Coordinator.Shared.JsonStatusObject.Pid
+  commentId: P:Mewdeko.Coordinator.Shared.JsonStatusObject.Pid
+  id: Pid
+  parent: Mewdeko.Coordinator.Shared.JsonStatusObject
+  langs:
+  - csharp
+  - vb
+  name: Pid
+  nameWithType: JsonStatusObject.Pid
+  fullName: Mewdeko.Coordinator.Shared.JsonStatusObject.Pid
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Coordinator/Shared/JsonStatusObject.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Pid
+    path: src/Mewdeko.Coordinator/Shared/JsonStatusObject.cs
+    startLine: 4
+  assemblies:
+  - Mewdeko.Coordinator
+  namespace: Mewdeko.Coordinator.Shared
+  syntax:
+    content: public int? Pid { get; init; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public Property Pid As Integer?
+  overload: Mewdeko.Coordinator.Shared.JsonStatusObject.Pid*
+- uid: Mewdeko.Coordinator.Shared.JsonStatusObject.GuildCount
+  commentId: P:Mewdeko.Coordinator.Shared.JsonStatusObject.GuildCount
+  id: GuildCount
+  parent: Mewdeko.Coordinator.Shared.JsonStatusObject
+  langs:
+  - csharp
+  - vb
+  name: GuildCount
+  nameWithType: JsonStatusObject.GuildCount
+  fullName: Mewdeko.Coordinator.Shared.JsonStatusObject.GuildCount
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Coordinator/Shared/JsonStatusObject.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GuildCount
+    path: src/Mewdeko.Coordinator/Shared/JsonStatusObject.cs
+    startLine: 5
+  assemblies:
+  - Mewdeko.Coordinator
+  namespace: Mewdeko.Coordinator.Shared
+  syntax:
+    content: public int GuildCount { get; init; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property GuildCount As Integer
+  overload: Mewdeko.Coordinator.Shared.JsonStatusObject.GuildCount*
+- uid: Mewdeko.Coordinator.Shared.JsonStatusObject.ConnectionState
+  commentId: P:Mewdeko.Coordinator.Shared.JsonStatusObject.ConnectionState
+  id: ConnectionState
+  parent: Mewdeko.Coordinator.Shared.JsonStatusObject
+  langs:
+  - csharp
+  - vb
+  name: ConnectionState
+  nameWithType: JsonStatusObject.ConnectionState
+  fullName: Mewdeko.Coordinator.Shared.JsonStatusObject.ConnectionState
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Coordinator/Shared/JsonStatusObject.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ConnectionState
+    path: src/Mewdeko.Coordinator/Shared/JsonStatusObject.cs
+    startLine: 6
+  assemblies:
+  - Mewdeko.Coordinator
+  namespace: Mewdeko.Coordinator.Shared
+  syntax:
+    content: public ConnState ConnectionState { get; init; }
+    parameters: []
+    return:
+      type: Mewdeko.Coordinator.ConnState
+    content.vb: Public Property ConnectionState As ConnState
+  overload: Mewdeko.Coordinator.Shared.JsonStatusObject.ConnectionState*
+- uid: Mewdeko.Coordinator.Shared.JsonStatusObject.UserCount
+  commentId: P:Mewdeko.Coordinator.Shared.JsonStatusObject.UserCount
+  id: UserCount
+  parent: Mewdeko.Coordinator.Shared.JsonStatusObject
+  langs:
+  - csharp
+  - vb
+  name: UserCount
+  nameWithType: JsonStatusObject.UserCount
+  fullName: Mewdeko.Coordinator.Shared.JsonStatusObject.UserCount
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Coordinator/Shared/JsonStatusObject.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserCount
+    path: src/Mewdeko.Coordinator/Shared/JsonStatusObject.cs
+    startLine: 7
+  assemblies:
+  - Mewdeko.Coordinator
+  namespace: Mewdeko.Coordinator.Shared
+  syntax:
+    content: public int UserCount { get; init; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property UserCount As Integer
+  overload: Mewdeko.Coordinator.Shared.JsonStatusObject.UserCount*
+references:
+- uid: Mewdeko.Coordinator.Shared
+  commentId: N:Mewdeko.Coordinator.Shared
+  href: Mewdeko.html
+  name: Mewdeko.Coordinator.Shared
+  nameWithType: Mewdeko.Coordinator.Shared
+  fullName: Mewdeko.Coordinator.Shared
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Coordinator
+    name: Coordinator
+    href: Mewdeko.Coordinator.html
+  - name: .
+  - uid: Mewdeko.Coordinator.Shared
+    name: Shared
+    href: Mewdeko.Coordinator.Shared.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Coordinator
+    name: Coordinator
+    href: Mewdeko.Coordinator.html
+  - name: .
+  - uid: Mewdeko.Coordinator.Shared
+    name: Shared
+    href: Mewdeko.Coordinator.Shared.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Coordinator.Shared.JsonStatusObject.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<JsonStatusObject>(JsonStatusObject, string)
+  nameWithType: Extensions.ThrowIfNull<JsonStatusObject>(JsonStatusObject, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Coordinator.Shared.JsonStatusObject>(Mewdeko.Coordinator.Shared.JsonStatusObject, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of JsonStatusObject)(JsonStatusObject, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Coordinator.Shared.JsonStatusObject)(Mewdeko.Coordinator.Shared.JsonStatusObject, String)
+  name.vb: ThrowIfNull(Of JsonStatusObject)(JsonStatusObject, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Coordinator.Shared.JsonStatusObject,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Coordinator.Shared.JsonStatusObject
+    name: JsonStatusObject
+    href: Mewdeko.Coordinator.Shared.JsonStatusObject.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Coordinator.Shared.JsonStatusObject
+    name: JsonStatusObject
+    href: Mewdeko.Coordinator.Shared.JsonStatusObject.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Coordinator.Shared.JsonStatusObject,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Coordinator.Shared.JsonStatusObject
+    name: JsonStatusObject
+    href: Mewdeko.Coordinator.Shared.JsonStatusObject.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Coordinator.Shared.JsonStatusObject
+    name: JsonStatusObject
+    href: Mewdeko.Coordinator.Shared.JsonStatusObject.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Coordinator.Shared.JsonStatusObject.Pid*
+  commentId: Overload:Mewdeko.Coordinator.Shared.JsonStatusObject.Pid
+  href: Mewdeko.Coordinator.Shared.JsonStatusObject.html#Mewdeko_Coordinator_Shared_JsonStatusObject_Pid
+  name: Pid
+  nameWithType: JsonStatusObject.Pid
+  fullName: Mewdeko.Coordinator.Shared.JsonStatusObject.Pid
+- uid: System.Nullable{System.Int32}
+  commentId: T:System.Nullable{System.Int32}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int?
+  nameWithType: int?
+  fullName: int?
+  nameWithType.vb: Integer?
+  fullName.vb: Integer?
+  name.vb: Integer?
+  spec.csharp:
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '?'
+  spec.vb:
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Coordinator.Shared.JsonStatusObject.GuildCount*
+  commentId: Overload:Mewdeko.Coordinator.Shared.JsonStatusObject.GuildCount
+  href: Mewdeko.Coordinator.Shared.JsonStatusObject.html#Mewdeko_Coordinator_Shared_JsonStatusObject_GuildCount
+  name: GuildCount
+  nameWithType: JsonStatusObject.GuildCount
+  fullName: Mewdeko.Coordinator.Shared.JsonStatusObject.GuildCount
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Coordinator.Shared.JsonStatusObject.ConnectionState*
+  commentId: Overload:Mewdeko.Coordinator.Shared.JsonStatusObject.ConnectionState
+  href: Mewdeko.Coordinator.Shared.JsonStatusObject.html#Mewdeko_Coordinator_Shared_JsonStatusObject_ConnectionState
+  name: ConnectionState
+  nameWithType: JsonStatusObject.ConnectionState
+  fullName: Mewdeko.Coordinator.Shared.JsonStatusObject.ConnectionState
+- uid: Mewdeko.Coordinator.ConnState
+  commentId: T:Mewdeko.Coordinator.ConnState
+  parent: Mewdeko.Coordinator
+  href: Mewdeko.Coordinator.ConnState.html
+  name: ConnState
+  nameWithType: ConnState
+  fullName: Mewdeko.Coordinator.ConnState
+- uid: Mewdeko.Coordinator
+  commentId: N:Mewdeko.Coordinator
+  href: Mewdeko.html
+  name: Mewdeko.Coordinator
+  nameWithType: Mewdeko.Coordinator
+  fullName: Mewdeko.Coordinator
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Coordinator
+    name: Coordinator
+    href: Mewdeko.Coordinator.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Coordinator
+    name: Coordinator
+    href: Mewdeko.Coordinator.html
+- uid: Mewdeko.Coordinator.Shared.JsonStatusObject.UserCount*
+  commentId: Overload:Mewdeko.Coordinator.Shared.JsonStatusObject.UserCount
+  href: Mewdeko.Coordinator.Shared.JsonStatusObject.html#Mewdeko_Coordinator_Shared_JsonStatusObject_UserCount
+  name: UserCount
+  nameWithType: JsonStatusObject.UserCount
+  fullName: Mewdeko.Coordinator.Shared.JsonStatusObject.UserCount

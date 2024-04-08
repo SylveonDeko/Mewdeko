@@ -1,0 +1,855 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter
+  commentId: T:Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter
+  id: MultilineScalarFlowStyleEmitter
+  parent: Mewdeko.Common.Yml
+  children:
+  - Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.#ctor(YamlDotNet.Serialization.IEventEmitter)
+  - Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.Emit(YamlDotNet.Serialization.ScalarEventInfo,YamlDotNet.Core.IEmitter)
+  langs:
+  - csharp
+  - vb
+  name: MultilineScalarFlowStyleEmitter
+  nameWithType: MultilineScalarFlowStyleEmitter
+  fullName: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Common/Yml/MultilineScalarFlowStyleEmitter.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MultilineScalarFlowStyleEmitter
+    path: src/Mewdeko/Common/Yml/MultilineScalarFlowStyleEmitter.cs
+    startLine: 9
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Yml
+  summary: Event emitter responsible for emitting multi-line scalar values in a literal style during YAML serialization.
+  example: []
+  syntax:
+    content: 'public class MultilineScalarFlowStyleEmitter : ChainedEventEmitter, IEventEmitter'
+    content.vb: Public Class MultilineScalarFlowStyleEmitter Inherits ChainedEventEmitter Implements IEventEmitter
+  inheritance:
+  - System.Object
+  - YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter
+  implements:
+  - YamlDotNet.Serialization.IEventEmitter
+  inheritedMembers:
+  - YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.nextEmitter
+  - YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.AliasEventInfo,YamlDotNet.Core.IEmitter)
+  - YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.MappingStartEventInfo,YamlDotNet.Core.IEmitter)
+  - YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.MappingEndEventInfo,YamlDotNet.Core.IEmitter)
+  - YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.SequenceStartEventInfo,YamlDotNet.Core.IEmitter)
+  - YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.SequenceEndEventInfo,YamlDotNet.Core.IEmitter)
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.#ctor(YamlDotNet.Serialization.IEventEmitter)
+  commentId: M:Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.#ctor(YamlDotNet.Serialization.IEventEmitter)
+  id: '#ctor(YamlDotNet.Serialization.IEventEmitter)'
+  parent: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter
+  langs:
+  - csharp
+  - vb
+  name: MultilineScalarFlowStyleEmitter(IEventEmitter)
+  nameWithType: MultilineScalarFlowStyleEmitter.MultilineScalarFlowStyleEmitter(IEventEmitter)
+  fullName: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.MultilineScalarFlowStyleEmitter(YamlDotNet.Serialization.IEventEmitter)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Common/Yml/MultilineScalarFlowStyleEmitter.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Common/Yml/MultilineScalarFlowStyleEmitter.cs
+    startLine: 15
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Yml
+  summary: Initializes a new instance of the <xref href="Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public MultilineScalarFlowStyleEmitter(IEventEmitter nextEmitter)
+    parameters:
+    - id: nextEmitter
+      type: YamlDotNet.Serialization.IEventEmitter
+      description: The next emitter in the chain.
+    content.vb: Public Sub New(nextEmitter As IEventEmitter)
+  overload: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.#ctor*
+  nameWithType.vb: MultilineScalarFlowStyleEmitter.New(IEventEmitter)
+  fullName.vb: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.New(YamlDotNet.Serialization.IEventEmitter)
+  name.vb: New(IEventEmitter)
+- uid: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.Emit(YamlDotNet.Serialization.ScalarEventInfo,YamlDotNet.Core.IEmitter)
+  commentId: M:Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.Emit(YamlDotNet.Serialization.ScalarEventInfo,YamlDotNet.Core.IEmitter)
+  id: Emit(YamlDotNet.Serialization.ScalarEventInfo,YamlDotNet.Core.IEmitter)
+  parent: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter
+  langs:
+  - csharp
+  - vb
+  name: Emit(ScalarEventInfo, IEmitter)
+  nameWithType: MultilineScalarFlowStyleEmitter.Emit(ScalarEventInfo, IEmitter)
+  fullName: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.Emit(YamlDotNet.Serialization.ScalarEventInfo, YamlDotNet.Core.IEmitter)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Yml/MultilineScalarFlowStyleEmitter.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Emit
+    path: src/Mewdeko/Common/Yml/MultilineScalarFlowStyleEmitter.cs
+    startLine: 21
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Yml
+  example: []
+  syntax:
+    content: public override void Emit(ScalarEventInfo eventInfo, IEmitter emitter)
+    parameters:
+    - id: eventInfo
+      type: YamlDotNet.Serialization.ScalarEventInfo
+    - id: emitter
+      type: YamlDotNet.Core.IEmitter
+    content.vb: Public Overrides Sub Emit(eventInfo As ScalarEventInfo, emitter As IEmitter)
+  overridden: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.ScalarEventInfo,YamlDotNet.Core.IEmitter)
+  overload: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.Emit*
+references:
+- uid: Mewdeko.Common.Yml
+  commentId: N:Mewdeko.Common.Yml
+  href: Mewdeko.html
+  name: Mewdeko.Common.Yml
+  nameWithType: Mewdeko.Common.Yml
+  fullName: Mewdeko.Common.Yml
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Yml
+    name: Yml
+    href: Mewdeko.Common.Yml.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Yml
+    name: Yml
+    href: Mewdeko.Common.Yml.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter
+  commentId: T:YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter
+  parent: YamlDotNet.Serialization.EventEmitters
+  isExternal: true
+  name: ChainedEventEmitter
+  nameWithType: ChainedEventEmitter
+  fullName: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter
+- uid: YamlDotNet.Serialization.IEventEmitter
+  commentId: T:YamlDotNet.Serialization.IEventEmitter
+  parent: YamlDotNet.Serialization
+  isExternal: true
+  name: IEventEmitter
+  nameWithType: IEventEmitter
+  fullName: YamlDotNet.Serialization.IEventEmitter
+- uid: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.nextEmitter
+  commentId: F:YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.nextEmitter
+  parent: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter
+  isExternal: true
+  name: nextEmitter
+  nameWithType: ChainedEventEmitter.nextEmitter
+  fullName: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.nextEmitter
+- uid: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.AliasEventInfo,YamlDotNet.Core.IEmitter)
+  commentId: M:YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.AliasEventInfo,YamlDotNet.Core.IEmitter)
+  parent: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter
+  isExternal: true
+  name: Emit(AliasEventInfo, IEmitter)
+  nameWithType: ChainedEventEmitter.Emit(AliasEventInfo, IEmitter)
+  fullName: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.AliasEventInfo, YamlDotNet.Core.IEmitter)
+  spec.csharp:
+  - uid: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.AliasEventInfo,YamlDotNet.Core.IEmitter)
+    name: Emit
+    isExternal: true
+  - name: (
+  - uid: YamlDotNet.Serialization.AliasEventInfo
+    name: AliasEventInfo
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: YamlDotNet.Core.IEmitter
+    name: IEmitter
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.AliasEventInfo,YamlDotNet.Core.IEmitter)
+    name: Emit
+    isExternal: true
+  - name: (
+  - uid: YamlDotNet.Serialization.AliasEventInfo
+    name: AliasEventInfo
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: YamlDotNet.Core.IEmitter
+    name: IEmitter
+    isExternal: true
+  - name: )
+- uid: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.MappingStartEventInfo,YamlDotNet.Core.IEmitter)
+  commentId: M:YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.MappingStartEventInfo,YamlDotNet.Core.IEmitter)
+  parent: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter
+  isExternal: true
+  name: Emit(MappingStartEventInfo, IEmitter)
+  nameWithType: ChainedEventEmitter.Emit(MappingStartEventInfo, IEmitter)
+  fullName: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.MappingStartEventInfo, YamlDotNet.Core.IEmitter)
+  spec.csharp:
+  - uid: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.MappingStartEventInfo,YamlDotNet.Core.IEmitter)
+    name: Emit
+    isExternal: true
+  - name: (
+  - uid: YamlDotNet.Serialization.MappingStartEventInfo
+    name: MappingStartEventInfo
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: YamlDotNet.Core.IEmitter
+    name: IEmitter
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.MappingStartEventInfo,YamlDotNet.Core.IEmitter)
+    name: Emit
+    isExternal: true
+  - name: (
+  - uid: YamlDotNet.Serialization.MappingStartEventInfo
+    name: MappingStartEventInfo
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: YamlDotNet.Core.IEmitter
+    name: IEmitter
+    isExternal: true
+  - name: )
+- uid: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.MappingEndEventInfo,YamlDotNet.Core.IEmitter)
+  commentId: M:YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.MappingEndEventInfo,YamlDotNet.Core.IEmitter)
+  parent: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter
+  isExternal: true
+  name: Emit(MappingEndEventInfo, IEmitter)
+  nameWithType: ChainedEventEmitter.Emit(MappingEndEventInfo, IEmitter)
+  fullName: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.MappingEndEventInfo, YamlDotNet.Core.IEmitter)
+  spec.csharp:
+  - uid: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.MappingEndEventInfo,YamlDotNet.Core.IEmitter)
+    name: Emit
+    isExternal: true
+  - name: (
+  - uid: YamlDotNet.Serialization.MappingEndEventInfo
+    name: MappingEndEventInfo
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: YamlDotNet.Core.IEmitter
+    name: IEmitter
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.MappingEndEventInfo,YamlDotNet.Core.IEmitter)
+    name: Emit
+    isExternal: true
+  - name: (
+  - uid: YamlDotNet.Serialization.MappingEndEventInfo
+    name: MappingEndEventInfo
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: YamlDotNet.Core.IEmitter
+    name: IEmitter
+    isExternal: true
+  - name: )
+- uid: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.SequenceStartEventInfo,YamlDotNet.Core.IEmitter)
+  commentId: M:YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.SequenceStartEventInfo,YamlDotNet.Core.IEmitter)
+  parent: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter
+  isExternal: true
+  name: Emit(SequenceStartEventInfo, IEmitter)
+  nameWithType: ChainedEventEmitter.Emit(SequenceStartEventInfo, IEmitter)
+  fullName: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.SequenceStartEventInfo, YamlDotNet.Core.IEmitter)
+  spec.csharp:
+  - uid: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.SequenceStartEventInfo,YamlDotNet.Core.IEmitter)
+    name: Emit
+    isExternal: true
+  - name: (
+  - uid: YamlDotNet.Serialization.SequenceStartEventInfo
+    name: SequenceStartEventInfo
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: YamlDotNet.Core.IEmitter
+    name: IEmitter
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.SequenceStartEventInfo,YamlDotNet.Core.IEmitter)
+    name: Emit
+    isExternal: true
+  - name: (
+  - uid: YamlDotNet.Serialization.SequenceStartEventInfo
+    name: SequenceStartEventInfo
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: YamlDotNet.Core.IEmitter
+    name: IEmitter
+    isExternal: true
+  - name: )
+- uid: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.SequenceEndEventInfo,YamlDotNet.Core.IEmitter)
+  commentId: M:YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.SequenceEndEventInfo,YamlDotNet.Core.IEmitter)
+  parent: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter
+  isExternal: true
+  name: Emit(SequenceEndEventInfo, IEmitter)
+  nameWithType: ChainedEventEmitter.Emit(SequenceEndEventInfo, IEmitter)
+  fullName: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.SequenceEndEventInfo, YamlDotNet.Core.IEmitter)
+  spec.csharp:
+  - uid: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.SequenceEndEventInfo,YamlDotNet.Core.IEmitter)
+    name: Emit
+    isExternal: true
+  - name: (
+  - uid: YamlDotNet.Serialization.SequenceEndEventInfo
+    name: SequenceEndEventInfo
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: YamlDotNet.Core.IEmitter
+    name: IEmitter
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.SequenceEndEventInfo,YamlDotNet.Core.IEmitter)
+    name: Emit
+    isExternal: true
+  - name: (
+  - uid: YamlDotNet.Serialization.SequenceEndEventInfo
+    name: SequenceEndEventInfo
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: YamlDotNet.Core.IEmitter
+    name: IEmitter
+    isExternal: true
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<MultilineScalarFlowStyleEmitter>(MultilineScalarFlowStyleEmitter, string)
+  nameWithType: Extensions.ThrowIfNull<MultilineScalarFlowStyleEmitter>(MultilineScalarFlowStyleEmitter, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter>(Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of MultilineScalarFlowStyleEmitter)(MultilineScalarFlowStyleEmitter, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter)(Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter, String)
+  name.vb: ThrowIfNull(Of MultilineScalarFlowStyleEmitter)(MultilineScalarFlowStyleEmitter, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter
+    name: MultilineScalarFlowStyleEmitter
+    href: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter
+    name: MultilineScalarFlowStyleEmitter
+    href: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter
+    name: MultilineScalarFlowStyleEmitter
+    href: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter
+    name: MultilineScalarFlowStyleEmitter
+    href: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: YamlDotNet.Serialization.EventEmitters
+  commentId: N:YamlDotNet.Serialization.EventEmitters
+  isExternal: true
+  name: YamlDotNet.Serialization.EventEmitters
+  nameWithType: YamlDotNet.Serialization.EventEmitters
+  fullName: YamlDotNet.Serialization.EventEmitters
+  spec.csharp:
+  - uid: YamlDotNet
+    name: YamlDotNet
+    isExternal: true
+  - name: .
+  - uid: YamlDotNet.Serialization
+    name: Serialization
+    isExternal: true
+  - name: .
+  - uid: YamlDotNet.Serialization.EventEmitters
+    name: EventEmitters
+    isExternal: true
+  spec.vb:
+  - uid: YamlDotNet
+    name: YamlDotNet
+    isExternal: true
+  - name: .
+  - uid: YamlDotNet.Serialization
+    name: Serialization
+    isExternal: true
+  - name: .
+  - uid: YamlDotNet.Serialization.EventEmitters
+    name: EventEmitters
+    isExternal: true
+- uid: YamlDotNet.Serialization
+  commentId: N:YamlDotNet.Serialization
+  isExternal: true
+  name: YamlDotNet.Serialization
+  nameWithType: YamlDotNet.Serialization
+  fullName: YamlDotNet.Serialization
+  spec.csharp:
+  - uid: YamlDotNet
+    name: YamlDotNet
+    isExternal: true
+  - name: .
+  - uid: YamlDotNet.Serialization
+    name: Serialization
+    isExternal: true
+  spec.vb:
+  - uid: YamlDotNet
+    name: YamlDotNet
+    isExternal: true
+  - name: .
+  - uid: YamlDotNet.Serialization
+    name: Serialization
+    isExternal: true
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter
+  commentId: T:Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter
+  href: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.html
+  name: MultilineScalarFlowStyleEmitter
+  nameWithType: MultilineScalarFlowStyleEmitter
+  fullName: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter
+- uid: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.#ctor*
+  commentId: Overload:Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.#ctor
+  href: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.html#Mewdeko_Common_Yml_MultilineScalarFlowStyleEmitter__ctor_YamlDotNet_Serialization_IEventEmitter_
+  name: MultilineScalarFlowStyleEmitter
+  nameWithType: MultilineScalarFlowStyleEmitter.MultilineScalarFlowStyleEmitter
+  fullName: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.MultilineScalarFlowStyleEmitter
+  nameWithType.vb: MultilineScalarFlowStyleEmitter.New
+  fullName.vb: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.New
+  name.vb: New
+- uid: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.ScalarEventInfo,YamlDotNet.Core.IEmitter)
+  commentId: M:YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.ScalarEventInfo,YamlDotNet.Core.IEmitter)
+  parent: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter
+  isExternal: true
+  name: Emit(ScalarEventInfo, IEmitter)
+  nameWithType: ChainedEventEmitter.Emit(ScalarEventInfo, IEmitter)
+  fullName: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.ScalarEventInfo, YamlDotNet.Core.IEmitter)
+  spec.csharp:
+  - uid: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.ScalarEventInfo,YamlDotNet.Core.IEmitter)
+    name: Emit
+    isExternal: true
+  - name: (
+  - uid: YamlDotNet.Serialization.ScalarEventInfo
+    name: ScalarEventInfo
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: YamlDotNet.Core.IEmitter
+    name: IEmitter
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: YamlDotNet.Serialization.EventEmitters.ChainedEventEmitter.Emit(YamlDotNet.Serialization.ScalarEventInfo,YamlDotNet.Core.IEmitter)
+    name: Emit
+    isExternal: true
+  - name: (
+  - uid: YamlDotNet.Serialization.ScalarEventInfo
+    name: ScalarEventInfo
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: YamlDotNet.Core.IEmitter
+    name: IEmitter
+    isExternal: true
+  - name: )
+- uid: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.Emit*
+  commentId: Overload:Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.Emit
+  href: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.html#Mewdeko_Common_Yml_MultilineScalarFlowStyleEmitter_Emit_YamlDotNet_Serialization_ScalarEventInfo_YamlDotNet_Core_IEmitter_
+  name: Emit
+  nameWithType: MultilineScalarFlowStyleEmitter.Emit
+  fullName: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.Emit
+- uid: YamlDotNet.Serialization.ScalarEventInfo
+  commentId: T:YamlDotNet.Serialization.ScalarEventInfo
+  parent: YamlDotNet.Serialization
+  isExternal: true
+  name: ScalarEventInfo
+  nameWithType: ScalarEventInfo
+  fullName: YamlDotNet.Serialization.ScalarEventInfo
+- uid: YamlDotNet.Core.IEmitter
+  commentId: T:YamlDotNet.Core.IEmitter
+  parent: YamlDotNet.Core
+  isExternal: true
+  name: IEmitter
+  nameWithType: IEmitter
+  fullName: YamlDotNet.Core.IEmitter
+- uid: YamlDotNet.Core
+  commentId: N:YamlDotNet.Core
+  isExternal: true
+  name: YamlDotNet.Core
+  nameWithType: YamlDotNet.Core
+  fullName: YamlDotNet.Core
+  spec.csharp:
+  - uid: YamlDotNet
+    name: YamlDotNet
+    isExternal: true
+  - name: .
+  - uid: YamlDotNet.Core
+    name: Core
+    isExternal: true
+  spec.vb:
+  - uid: YamlDotNet
+    name: YamlDotNet
+    isExternal: true
+  - name: .
+  - uid: YamlDotNet.Core
+    name: Core
+    isExternal: true

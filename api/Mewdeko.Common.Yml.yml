@@ -1,0 +1,117 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.Yml
+  commentId: N:Mewdeko.Common.Yml
+  id: Mewdeko.Common.Yml
+  children:
+  - Mewdeko.Common.Yml.CommentAttribute
+  - Mewdeko.Common.Yml.CommentGatheringTypeInspector
+  - Mewdeko.Common.Yml.CommentsObjectDescriptor
+  - Mewdeko.Common.Yml.CommentsObjectGraphVisitor
+  - Mewdeko.Common.Yml.CultureInfoConverter
+  - Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter
+  - Mewdeko.Common.Yml.SkColorConverter
+  - Mewdeko.Common.Yml.UriConverter
+  - Mewdeko.Common.Yml.Yaml
+  - Mewdeko.Common.Yml.YamlHelper
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Common.Yml
+  nameWithType: Mewdeko.Common.Yml
+  fullName: Mewdeko.Common.Yml
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Common.Yml.CommentAttribute
+  commentId: T:Mewdeko.Common.Yml.CommentAttribute
+  parent: Mewdeko.Common.Yml
+  href: Mewdeko.Common.Yml.CommentAttribute.html
+  name: CommentAttribute
+  nameWithType: CommentAttribute
+  fullName: Mewdeko.Common.Yml.CommentAttribute
+- uid: Mewdeko.Common.Yml.CommentGatheringTypeInspector
+  commentId: T:Mewdeko.Common.Yml.CommentGatheringTypeInspector
+  href: Mewdeko.Common.Yml.CommentGatheringTypeInspector.html
+  name: CommentGatheringTypeInspector
+  nameWithType: CommentGatheringTypeInspector
+  fullName: Mewdeko.Common.Yml.CommentGatheringTypeInspector
+- uid: Mewdeko.Common.Yml.CommentsObjectDescriptor
+  commentId: T:Mewdeko.Common.Yml.CommentsObjectDescriptor
+  href: Mewdeko.Common.Yml.CommentsObjectDescriptor.html
+  name: CommentsObjectDescriptor
+  nameWithType: CommentsObjectDescriptor
+  fullName: Mewdeko.Common.Yml.CommentsObjectDescriptor
+- uid: Mewdeko.Common.Yml.CommentsObjectGraphVisitor
+  commentId: T:Mewdeko.Common.Yml.CommentsObjectGraphVisitor
+  href: Mewdeko.Common.Yml.CommentsObjectGraphVisitor.html
+  name: CommentsObjectGraphVisitor
+  nameWithType: CommentsObjectGraphVisitor
+  fullName: Mewdeko.Common.Yml.CommentsObjectGraphVisitor
+- uid: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter
+  commentId: T:Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter
+  href: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.html
+  name: MultilineScalarFlowStyleEmitter
+  nameWithType: MultilineScalarFlowStyleEmitter
+  fullName: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter
+- uid: Mewdeko.Common.Yml.SkColorConverter
+  commentId: T:Mewdeko.Common.Yml.SkColorConverter
+  href: Mewdeko.Common.Yml.SkColorConverter.html
+  name: SkColorConverter
+  nameWithType: SkColorConverter
+  fullName: Mewdeko.Common.Yml.SkColorConverter
+- uid: Mewdeko.Common.Yml.CultureInfoConverter
+  commentId: T:Mewdeko.Common.Yml.CultureInfoConverter
+  href: Mewdeko.Common.Yml.CultureInfoConverter.html
+  name: CultureInfoConverter
+  nameWithType: CultureInfoConverter
+  fullName: Mewdeko.Common.Yml.CultureInfoConverter
+- uid: Mewdeko.Common.Yml.UriConverter
+  commentId: T:Mewdeko.Common.Yml.UriConverter
+  href: Mewdeko.Common.Yml.UriConverter.html
+  name: UriConverter
+  nameWithType: UriConverter
+  fullName: Mewdeko.Common.Yml.UriConverter
+- uid: Mewdeko.Common.Yml.Yaml
+  commentId: T:Mewdeko.Common.Yml.Yaml
+  href: Mewdeko.Common.Yml.Yaml.html
+  name: Yaml
+  nameWithType: Yaml
+  fullName: Mewdeko.Common.Yml.Yaml
+- uid: Mewdeko.Common.Yml.YamlHelper
+  commentId: T:Mewdeko.Common.Yml.YamlHelper
+  href: Mewdeko.Common.Yml.YamlHelper.html
+  name: YamlHelper
+  nameWithType: YamlHelper
+  fullName: Mewdeko.Common.Yml.YamlHelper
+- uid: Mewdeko.Common.Yml
+  commentId: N:Mewdeko.Common.Yml
+  href: Mewdeko.html
+  name: Mewdeko.Common.Yml
+  nameWithType: Mewdeko.Common.Yml
+  fullName: Mewdeko.Common.Yml
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Yml
+    name: Yml
+    href: Mewdeko.Common.Yml.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Yml
+    name: Yml
+    href: Mewdeko.Common.Yml.html

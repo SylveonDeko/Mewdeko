@@ -1,0 +1,142 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type
+  commentId: T:Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type
+  id: CommandOrCrInfo.Type
+  parent: Mewdeko.Common.TypeReaders
+  children:
+  - Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type.Custom
+  - Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type.Normal
+  langs:
+  - csharp
+  - vb
+  name: CommandOrCrInfo.Type
+  nameWithType: CommandOrCrInfo.Type
+  fullName: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Common/TypeReaders/BotCommandTypeReader.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Type
+    path: src/Mewdeko/Common/TypeReaders/BotCommandTypeReader.cs
+    startLine: 106
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.TypeReaders
+  summary: Specifies the type of the command or custom reaction.
+  example: []
+  syntax:
+    content: public enum CommandOrCrInfo.Type
+    content.vb: Public Enum CommandOrCrInfo.Type
+- uid: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type.Normal
+  commentId: F:Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type.Normal
+  id: Normal
+  parent: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type
+  langs:
+  - csharp
+  - vb
+  name: Normal
+  nameWithType: CommandOrCrInfo.Type.Normal
+  fullName: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type.Normal
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Common/TypeReaders/BotCommandTypeReader.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Normal
+    path: src/Mewdeko/Common/TypeReaders/BotCommandTypeReader.cs
+    startLine: 111
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.TypeReaders
+  summary: Indicates a normal command.
+  example: []
+  syntax:
+    content: Normal = 0
+    return:
+      type: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type
+- uid: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type.Custom
+  commentId: F:Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type.Custom
+  id: Custom
+  parent: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type
+  langs:
+  - csharp
+  - vb
+  name: Custom
+  nameWithType: CommandOrCrInfo.Type.Custom
+  fullName: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type.Custom
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Common/TypeReaders/BotCommandTypeReader.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Custom
+    path: src/Mewdeko/Common/TypeReaders/BotCommandTypeReader.cs
+    startLine: 116
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.TypeReaders
+  summary: Indicates a chat trigger.
+  example: []
+  syntax:
+    content: Custom = 1
+    return:
+      type: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type
+references:
+- uid: Mewdeko.Common.TypeReaders
+  commentId: N:Mewdeko.Common.TypeReaders
+  href: Mewdeko.html
+  name: Mewdeko.Common.TypeReaders
+  nameWithType: Mewdeko.Common.TypeReaders
+  fullName: Mewdeko.Common.TypeReaders
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders
+    name: TypeReaders
+    href: Mewdeko.Common.TypeReaders.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders
+    name: TypeReaders
+    href: Mewdeko.Common.TypeReaders.html
+- uid: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type
+  commentId: T:Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type
+  parent: Mewdeko.Common.TypeReaders
+  href: Mewdeko.Common.TypeReaders.CommandOrCrInfo.html
+  name: CommandOrCrInfo.Type
+  nameWithType: CommandOrCrInfo.Type
+  fullName: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type
+  spec.csharp:
+  - uid: Mewdeko.Common.TypeReaders.CommandOrCrInfo
+    name: CommandOrCrInfo
+    href: Mewdeko.Common.TypeReaders.CommandOrCrInfo.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type
+    name: Type
+    href: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type.html
+  spec.vb:
+  - uid: Mewdeko.Common.TypeReaders.CommandOrCrInfo
+    name: CommandOrCrInfo
+    href: Mewdeko.Common.TypeReaders.CommandOrCrInfo.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type
+    name: Type
+    href: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type.html

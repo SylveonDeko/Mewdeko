@@ -1,0 +1,102 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Permissions.Common
+  commentId: N:Mewdeko.Modules.Permissions.Common
+  id: Mewdeko.Modules.Permissions.Common
+  children:
+  - Mewdeko.Modules.Permissions.Common.OldPermissionCache
+  - Mewdeko.Modules.Permissions.Common.PermissionCache
+  - Mewdeko.Modules.Permissions.Common.PermissionExtensions
+  - Mewdeko.Modules.Permissions.Common.PermissionsCollection`1
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Permissions.Common
+  nameWithType: Mewdeko.Modules.Permissions.Common
+  fullName: Mewdeko.Modules.Permissions.Common
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Permissions.Common.OldPermissionCache
+  commentId: T:Mewdeko.Modules.Permissions.Common.OldPermissionCache
+  href: Mewdeko.Modules.Permissions.Common.OldPermissionCache.html
+  name: OldPermissionCache
+  nameWithType: OldPermissionCache
+  fullName: Mewdeko.Modules.Permissions.Common.OldPermissionCache
+- uid: Mewdeko.Modules.Permissions.Common.PermissionCache
+  commentId: T:Mewdeko.Modules.Permissions.Common.PermissionCache
+  href: Mewdeko.Modules.Permissions.Common.PermissionCache.html
+  name: PermissionCache
+  nameWithType: PermissionCache
+  fullName: Mewdeko.Modules.Permissions.Common.PermissionCache
+- uid: Mewdeko.Modules.Permissions.Common.PermissionExtensions
+  commentId: T:Mewdeko.Modules.Permissions.Common.PermissionExtensions
+  href: Mewdeko.Modules.Permissions.Common.PermissionExtensions.html
+  name: PermissionExtensions
+  nameWithType: PermissionExtensions
+  fullName: Mewdeko.Modules.Permissions.Common.PermissionExtensions
+- uid: Mewdeko.Modules.Permissions.Common.PermissionsCollection`1
+  commentId: T:Mewdeko.Modules.Permissions.Common.PermissionsCollection`1
+  parent: Mewdeko.Modules.Permissions.Common
+  href: Mewdeko.Modules.Permissions.Common.PermissionsCollection-1.html
+  name: PermissionsCollection<T>
+  nameWithType: PermissionsCollection<T>
+  fullName: Mewdeko.Modules.Permissions.Common.PermissionsCollection<T>
+  nameWithType.vb: PermissionsCollection(Of T)
+  fullName.vb: Mewdeko.Modules.Permissions.Common.PermissionsCollection(Of T)
+  name.vb: PermissionsCollection(Of T)
+  spec.csharp:
+  - uid: Mewdeko.Modules.Permissions.Common.PermissionsCollection`1
+    name: PermissionsCollection
+    href: Mewdeko.Modules.Permissions.Common.PermissionsCollection-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Modules.Permissions.Common.PermissionsCollection`1
+    name: PermissionsCollection
+    href: Mewdeko.Modules.Permissions.Common.PermissionsCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Modules.Permissions.Common
+  commentId: N:Mewdeko.Modules.Permissions.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Permissions.Common
+  nameWithType: Mewdeko.Modules.Permissions.Common
+  fullName: Mewdeko.Modules.Permissions.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.Common
+    name: Common
+    href: Mewdeko.Modules.Permissions.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.Common
+    name: Common
+    href: Mewdeko.Modules.Permissions.Common.html

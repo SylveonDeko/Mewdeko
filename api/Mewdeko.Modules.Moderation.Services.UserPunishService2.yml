@@ -1,0 +1,1625 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2
+  commentId: T:Mewdeko.Modules.Moderation.Services.UserPunishService2
+  id: UserPunishService2
+  parent: Mewdeko.Modules.Moderation.Services
+  children:
+  - Mewdeko.Modules.Moderation.Services.UserPunishService2.#ctor(Mewdeko.Modules.Moderation.Services.MuteService,Mewdeko.Database.DbService,Mewdeko.Services.GuildSettingsService)
+  - Mewdeko.Modules.Moderation.Services.UserPunishService2.CheckAllWarnExpiresAsync
+  - Mewdeko.Modules.Moderation.Services.UserPunishService2.CheckWarnExpiresAsync(System.UInt64)
+  - Mewdeko.Modules.Moderation.Services.UserPunishService2.GetMWarnlogChannel(System.UInt64)
+  - Mewdeko.Modules.Moderation.Services.UserPunishService2.GetWarnings(Discord.IGuild,System.UInt64)
+  - Mewdeko.Modules.Moderation.Services.UserPunishService2.SetMWarnlogChannelId(Discord.IGuild,Discord.ITextChannel)
+  - Mewdeko.Modules.Moderation.Services.UserPunishService2.UserWarnings(System.UInt64,System.UInt64)
+  - Mewdeko.Modules.Moderation.Services.UserPunishService2.Warn(Discord.IGuild,System.UInt64,Discord.IUser,System.String)
+  - Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnClearAsync(System.UInt64,System.UInt64,System.Int32,System.String)
+  - Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnExpireAsync(System.UInt64,System.Int32,Mewdeko.Database.Models.WarnExpireAction)
+  - Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunish(System.UInt64,System.Int32,Mewdeko.Database.Models.PunishmentAction,Mewdeko.Common.TypeReaders.Models.StoopidTime,Discord.IRole)
+  - Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunishList(System.UInt64)
+  - Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunishRemove(System.UInt64,System.Int32)
+  - Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnlogAll(System.UInt64)
+  langs:
+  - csharp
+  - vb
+  name: UserPunishService2
+  nameWithType: UserPunishService2
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserPunishService2
+    path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+    startLine: 10
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Secondary service for user punishment.
+  example: []
+  syntax:
+    content: 'public class UserPunishService2 : INService'
+    content.vb: Public Class UserPunishService2 Implements INService
+  inheritance:
+  - System.Object
+  implements:
+  - Mewdeko.Services.INService
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Moderation.Services.UserPunishService2.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.#ctor(Mewdeko.Modules.Moderation.Services.MuteService,Mewdeko.Database.DbService,Mewdeko.Services.GuildSettingsService)
+  commentId: M:Mewdeko.Modules.Moderation.Services.UserPunishService2.#ctor(Mewdeko.Modules.Moderation.Services.MuteService,Mewdeko.Database.DbService,Mewdeko.Services.GuildSettingsService)
+  id: '#ctor(Mewdeko.Modules.Moderation.Services.MuteService,Mewdeko.Database.DbService,Mewdeko.Services.GuildSettingsService)'
+  parent: Mewdeko.Modules.Moderation.Services.UserPunishService2
+  langs:
+  - csharp
+  - vb
+  name: UserPunishService2(MuteService, DbService, GuildSettingsService)
+  nameWithType: UserPunishService2.UserPunishService2(MuteService, DbService, GuildSettingsService)
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.UserPunishService2(Mewdeko.Modules.Moderation.Services.MuteService, Mewdeko.Database.DbService, Mewdeko.Services.GuildSettingsService)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+    startLine: 22
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Initializes a new instance of <xref href="Mewdeko.Modules.Moderation.Services.UserPunishService2" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public UserPunishService2(MuteService mute, DbService db, GuildSettingsService guildSettings)
+    parameters:
+    - id: mute
+      type: Mewdeko.Modules.Moderation.Services.MuteService
+      description: The mute service
+    - id: db
+      type: Mewdeko.Database.DbService
+      description: The database service
+    - id: guildSettings
+      type: Mewdeko.Services.GuildSettingsService
+      description: The guild settings service
+    content.vb: Public Sub New(mute As MuteService, db As DbService, guildSettings As GuildSettingsService)
+  overload: Mewdeko.Modules.Moderation.Services.UserPunishService2.#ctor*
+  nameWithType.vb: UserPunishService2.New(MuteService, DbService, GuildSettingsService)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.UserPunishService2.New(Mewdeko.Modules.Moderation.Services.MuteService, Mewdeko.Database.DbService, Mewdeko.Services.GuildSettingsService)
+  name.vb: New(MuteService, DbService, GuildSettingsService)
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.GetMWarnlogChannel(System.UInt64)
+  commentId: M:Mewdeko.Modules.Moderation.Services.UserPunishService2.GetMWarnlogChannel(System.UInt64)
+  id: GetMWarnlogChannel(System.UInt64)
+  parent: Mewdeko.Modules.Moderation.Services.UserPunishService2
+  langs:
+  - csharp
+  - vb
+  name: GetMWarnlogChannel(ulong)
+  nameWithType: UserPunishService2.GetMWarnlogChannel(ulong)
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.GetMWarnlogChannel(ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetMWarnlogChannel
+    path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+    startLine: 38
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Gets the channel ID for the mini warnlog.
+  example: []
+  syntax:
+    content: public Task<ulong> GetMWarnlogChannel(ulong id)
+    parameters:
+    - id: id
+      type: System.UInt64
+      description: The guild ID
+    return:
+      type: System.Threading.Tasks.Task{System.UInt64}
+      description: ulong of the warnlog channel
+    content.vb: Public Function GetMWarnlogChannel(id As ULong) As Task(Of ULong)
+  overload: Mewdeko.Modules.Moderation.Services.UserPunishService2.GetMWarnlogChannel*
+  nameWithType.vb: UserPunishService2.GetMWarnlogChannel(ULong)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.UserPunishService2.GetMWarnlogChannel(ULong)
+  name.vb: GetMWarnlogChannel(ULong)
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.SetMWarnlogChannelId(Discord.IGuild,Discord.ITextChannel)
+  commentId: M:Mewdeko.Modules.Moderation.Services.UserPunishService2.SetMWarnlogChannelId(Discord.IGuild,Discord.ITextChannel)
+  id: SetMWarnlogChannelId(Discord.IGuild,Discord.ITextChannel)
+  parent: Mewdeko.Modules.Moderation.Services.UserPunishService2
+  langs:
+  - csharp
+  - vb
+  name: SetMWarnlogChannelId(IGuild, ITextChannel)
+  nameWithType: UserPunishService2.SetMWarnlogChannelId(IGuild, ITextChannel)
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.SetMWarnlogChannelId(Discord.IGuild, Discord.ITextChannel)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetMWarnlogChannelId
+    path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+    startLine: 46
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Sets the channel ID for the mini warnlog.
+  example: []
+  syntax:
+    content: public Task SetMWarnlogChannelId(IGuild guild, ITextChannel channel)
+    parameters:
+    - id: guild
+      type: Discord.IGuild
+      description: The guild
+    - id: channel
+      type: Discord.ITextChannel
+      description: The channel
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function SetMWarnlogChannelId(guild As IGuild, channel As ITextChannel) As Task
+  overload: Mewdeko.Modules.Moderation.Services.UserPunishService2.SetMWarnlogChannelId*
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.Warn(Discord.IGuild,System.UInt64,Discord.IUser,System.String)
+  commentId: M:Mewdeko.Modules.Moderation.Services.UserPunishService2.Warn(Discord.IGuild,System.UInt64,Discord.IUser,System.String)
+  id: Warn(Discord.IGuild,System.UInt64,Discord.IUser,System.String)
+  parent: Mewdeko.Modules.Moderation.Services.UserPunishService2
+  langs:
+  - csharp
+  - vb
+  name: Warn(IGuild, ulong, IUser, string)
+  nameWithType: UserPunishService2.Warn(IGuild, ulong, IUser, string)
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.Warn(Discord.IGuild, ulong, Discord.IUser, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Warn
+    path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+    startLine: 63
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Warns a user.
+  example: []
+  syntax:
+    content: public Task<WarningPunishment2>? Warn(IGuild guild, ulong userId, IUser mod, string reason)
+    parameters:
+    - id: guild
+      type: Discord.IGuild
+      description: The guild
+    - id: userId
+      type: System.UInt64
+      description: The user ID
+    - id: mod
+      type: Discord.IUser
+      description: The moderator
+    - id: reason
+      type: System.String
+      description: The reason
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Database.Models.WarningPunishment2}
+      description: ''
+    content.vb: Public Function Warn(guild As IGuild, userId As ULong, [mod] As IUser, reason As String) As Task(Of WarningPunishment2)
+  overload: Mewdeko.Modules.Moderation.Services.UserPunishService2.Warn*
+  nameWithType.vb: UserPunishService2.Warn(IGuild, ULong, IUser, String)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.UserPunishService2.Warn(Discord.IGuild, ULong, Discord.IUser, String)
+  name.vb: Warn(IGuild, ULong, IUser, String)
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.GetWarnings(Discord.IGuild,System.UInt64)
+  commentId: M:Mewdeko.Modules.Moderation.Services.UserPunishService2.GetWarnings(Discord.IGuild,System.UInt64)
+  id: GetWarnings(Discord.IGuild,System.UInt64)
+  parent: Mewdeko.Modules.Moderation.Services.UserPunishService2
+  langs:
+  - csharp
+  - vb
+  name: GetWarnings(IGuild, ulong)
+  nameWithType: UserPunishService2.GetWarnings(IGuild, ulong)
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.GetWarnings(Discord.IGuild, ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetWarnings
+    path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+    startLine: 208
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Gets the number of warnings for a user.
+  example: []
+  syntax:
+    content: public int GetWarnings(IGuild guild, ulong userId)
+    parameters:
+    - id: guild
+      type: Discord.IGuild
+      description: The guild
+    - id: userId
+      type: System.UInt64
+      description: The user ID
+    return:
+      type: System.Int32
+      description: ''
+    content.vb: Public Function GetWarnings(guild As IGuild, userId As ULong) As Integer
+  overload: Mewdeko.Modules.Moderation.Services.UserPunishService2.GetWarnings*
+  nameWithType.vb: UserPunishService2.GetWarnings(IGuild, ULong)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.UserPunishService2.GetWarnings(Discord.IGuild, ULong)
+  name.vb: GetWarnings(IGuild, ULong)
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.CheckAllWarnExpiresAsync
+  commentId: M:Mewdeko.Modules.Moderation.Services.UserPunishService2.CheckAllWarnExpiresAsync
+  id: CheckAllWarnExpiresAsync
+  parent: Mewdeko.Modules.Moderation.Services.UserPunishService2
+  langs:
+  - csharp
+  - vb
+  name: CheckAllWarnExpiresAsync()
+  nameWithType: UserPunishService2.CheckAllWarnExpiresAsync()
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.CheckAllWarnExpiresAsync()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CheckAllWarnExpiresAsync
+    path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+    startLine: 219
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Checks all warnings for expiry.
+  example: []
+  syntax:
+    content: public Task CheckAllWarnExpiresAsync()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function CheckAllWarnExpiresAsync() As Task
+  overload: Mewdeko.Modules.Moderation.Services.UserPunishService2.CheckAllWarnExpiresAsync*
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.CheckWarnExpiresAsync(System.UInt64)
+  commentId: M:Mewdeko.Modules.Moderation.Services.UserPunishService2.CheckWarnExpiresAsync(System.UInt64)
+  id: CheckWarnExpiresAsync(System.UInt64)
+  parent: Mewdeko.Modules.Moderation.Services.UserPunishService2
+  langs:
+  - csharp
+  - vb
+  name: CheckWarnExpiresAsync(ulong)
+  nameWithType: UserPunishService2.CheckWarnExpiresAsync(ulong)
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.CheckWarnExpiresAsync(ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CheckWarnExpiresAsync
+    path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+    startLine: 279
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Checks the expiry of warnings for a guild.
+  example: []
+  syntax:
+    content: public Task CheckWarnExpiresAsync(ulong guildId)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The guild ID
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function CheckWarnExpiresAsync(guildId As ULong) As Task
+  overload: Mewdeko.Modules.Moderation.Services.UserPunishService2.CheckWarnExpiresAsync*
+  nameWithType.vb: UserPunishService2.CheckWarnExpiresAsync(ULong)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.UserPunishService2.CheckWarnExpiresAsync(ULong)
+  name.vb: CheckWarnExpiresAsync(ULong)
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnExpireAsync(System.UInt64,System.Int32,Mewdeko.Database.Models.WarnExpireAction)
+  commentId: M:Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnExpireAsync(System.UInt64,System.Int32,Mewdeko.Database.Models.WarnExpireAction)
+  id: WarnExpireAsync(System.UInt64,System.Int32,Mewdeko.Database.Models.WarnExpireAction)
+  parent: Mewdeko.Modules.Moderation.Services.UserPunishService2
+  langs:
+  - csharp
+  - vb
+  name: WarnExpireAsync(ulong, int, WarnExpireAction)
+  nameWithType: UserPunishService2.WarnExpireAsync(ulong, int, WarnExpireAction)
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnExpireAsync(ulong, int, Mewdeko.Database.Models.WarnExpireAction)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: WarnExpireAsync
+    path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+    startLine: 317
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Checks the expiry of warnings for a guild.
+  example: []
+  syntax:
+    content: public Task WarnExpireAsync(ulong guildId, int days, WarnExpireAction delete)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The guild ID
+    - id: days
+      type: System.Int32
+      description: The number of days
+    - id: delete
+      type: Mewdeko.Database.Models.WarnExpireAction
+      description: Whether to delete the warnings
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function WarnExpireAsync(guildId As ULong, days As Integer, delete As WarnExpireAction) As Task
+  overload: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnExpireAsync*
+  nameWithType.vb: UserPunishService2.WarnExpireAsync(ULong, Integer, WarnExpireAction)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnExpireAsync(ULong, Integer, Mewdeko.Database.Models.WarnExpireAction)
+  name.vb: WarnExpireAsync(ULong, Integer, WarnExpireAction)
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnlogAll(System.UInt64)
+  commentId: M:Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnlogAll(System.UInt64)
+  id: WarnlogAll(System.UInt64)
+  parent: Mewdeko.Modules.Moderation.Services.UserPunishService2
+  langs:
+  - csharp
+  - vb
+  name: WarnlogAll(ulong)
+  nameWithType: UserPunishService2.WarnlogAll(ulong)
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnlogAll(ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: WarnlogAll
+    path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+    startLine: 341
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Gets the amount of warnings every user has.
+  example: []
+  syntax:
+    content: public IGrouping<ulong, Warning2>[] WarnlogAll(ulong gid)
+    parameters:
+    - id: gid
+      type: System.UInt64
+      description: ''
+    return:
+      type: System.Linq.IGrouping{System.UInt64,Mewdeko.Database.Models.Warning2}[]
+      description: ''
+    content.vb: Public Function WarnlogAll(gid As ULong) As IGrouping(Of ULong, Warning2)()
+  overload: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnlogAll*
+  nameWithType.vb: UserPunishService2.WarnlogAll(ULong)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnlogAll(ULong)
+  name.vb: WarnlogAll(ULong)
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.UserWarnings(System.UInt64,System.UInt64)
+  commentId: M:Mewdeko.Modules.Moderation.Services.UserPunishService2.UserWarnings(System.UInt64,System.UInt64)
+  id: UserWarnings(System.UInt64,System.UInt64)
+  parent: Mewdeko.Modules.Moderation.Services.UserPunishService2
+  langs:
+  - csharp
+  - vb
+  name: UserWarnings(ulong, ulong)
+  nameWithType: UserPunishService2.UserWarnings(ulong, ulong)
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.UserWarnings(ulong, ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserWarnings
+    path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+    startLine: 353
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Gets the warnings for a user.
+  example: []
+  syntax:
+    content: public Warning2[] UserWarnings(ulong gid, ulong userId)
+    parameters:
+    - id: gid
+      type: System.UInt64
+      description: The guild ID
+    - id: userId
+      type: System.UInt64
+      description: The user ID
+    return:
+      type: Mewdeko.Database.Models.Warning2[]
+      description: ''
+    content.vb: Public Function UserWarnings(gid As ULong, userId As ULong) As Warning2()
+  overload: Mewdeko.Modules.Moderation.Services.UserPunishService2.UserWarnings*
+  nameWithType.vb: UserPunishService2.UserWarnings(ULong, ULong)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.UserPunishService2.UserWarnings(ULong, ULong)
+  name.vb: UserWarnings(ULong, ULong)
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnClearAsync(System.UInt64,System.UInt64,System.Int32,System.String)
+  commentId: M:Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnClearAsync(System.UInt64,System.UInt64,System.Int32,System.String)
+  id: WarnClearAsync(System.UInt64,System.UInt64,System.Int32,System.String)
+  parent: Mewdeko.Modules.Moderation.Services.UserPunishService2
+  langs:
+  - csharp
+  - vb
+  name: WarnClearAsync(ulong, ulong, int, string)
+  nameWithType: UserPunishService2.WarnClearAsync(ulong, ulong, int, string)
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnClearAsync(ulong, ulong, int, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: WarnClearAsync
+    path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+    startLine: 367
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Clears a warning. If index is 0, clears all warnings.
+  example: []
+  syntax:
+    content: public Task<bool> WarnClearAsync(ulong guildId, ulong userId, int index, string moderator)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The guild ID
+    - id: userId
+      type: System.UInt64
+      description: The user ID
+    - id: index
+      type: System.Int32
+      description: The warning index
+    - id: moderator
+      type: System.String
+      description: The moderator
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+      description: ''
+    content.vb: Public Function WarnClearAsync(guildId As ULong, userId As ULong, index As Integer, moderator As String) As Task(Of Boolean)
+  overload: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnClearAsync*
+  nameWithType.vb: UserPunishService2.WarnClearAsync(ULong, ULong, Integer, String)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnClearAsync(ULong, ULong, Integer, String)
+  name.vb: WarnClearAsync(ULong, ULong, Integer, String)
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunish(System.UInt64,System.Int32,Mewdeko.Database.Models.PunishmentAction,Mewdeko.Common.TypeReaders.Models.StoopidTime,Discord.IRole)
+  commentId: M:Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunish(System.UInt64,System.Int32,Mewdeko.Database.Models.PunishmentAction,Mewdeko.Common.TypeReaders.Models.StoopidTime,Discord.IRole)
+  id: WarnPunish(System.UInt64,System.Int32,Mewdeko.Database.Models.PunishmentAction,Mewdeko.Common.TypeReaders.Models.StoopidTime,Discord.IRole)
+  parent: Mewdeko.Modules.Moderation.Services.UserPunishService2
+  langs:
+  - csharp
+  - vb
+  name: WarnPunish(ulong, int, PunishmentAction, StoopidTime?, IRole?)
+  nameWithType: UserPunishService2.WarnPunish(ulong, int, PunishmentAction, StoopidTime?, IRole?)
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunish(ulong, int, Mewdeko.Database.Models.PunishmentAction, Mewdeko.Common.TypeReaders.Models.StoopidTime?, Discord.IRole?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: WarnPunish
+    path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+    startLine: 389
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Sets what each warning count should do.
+  example: []
+  syntax:
+    content: public Task<bool> WarnPunish(ulong guildId, int number, PunishmentAction punish, StoopidTime? time, IRole? role = null)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The guild ID
+    - id: number
+      type: System.Int32
+      description: The number of warnings
+    - id: punish
+      type: Mewdeko.Database.Models.PunishmentAction
+      description: The punishment
+    - id: time
+      type: Mewdeko.Common.TypeReaders.Models.StoopidTime
+      description: The time
+    - id: role
+      type: Discord.IRole
+      description: The role
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+      description: ''
+    content.vb: Public Function WarnPunish(guildId As ULong, number As Integer, punish As PunishmentAction, time As StoopidTime, role As IRole = Nothing) As Task(Of Boolean)
+  overload: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunish*
+  nameWithType.vb: UserPunishService2.WarnPunish(ULong, Integer, PunishmentAction, StoopidTime, IRole)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunish(ULong, Integer, Mewdeko.Database.Models.PunishmentAction, Mewdeko.Common.TypeReaders.Models.StoopidTime, Discord.IRole)
+  name.vb: WarnPunish(ULong, Integer, PunishmentAction, StoopidTime, IRole)
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunishRemove(System.UInt64,System.Int32)
+  commentId: M:Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunishRemove(System.UInt64,System.Int32)
+  id: WarnPunishRemove(System.UInt64,System.Int32)
+  parent: Mewdeko.Modules.Moderation.Services.UserPunishService2
+  langs:
+  - csharp
+  - vb
+  name: WarnPunishRemove(ulong, int)
+  nameWithType: UserPunishService2.WarnPunishRemove(ulong, int)
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunishRemove(ulong, int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: WarnPunishRemove
+    path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+    startLine: 422
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Removes a warning punishment.
+  example: []
+  syntax:
+    content: public Task<bool> WarnPunishRemove(ulong guildId, int number)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The guild ID to remove the punishment from
+    - id: number
+      type: System.Int32
+      description: The number of warnings
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+      description: ''
+    content.vb: Public Function WarnPunishRemove(guildId As ULong, number As Integer) As Task(Of Boolean)
+  overload: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunishRemove*
+  nameWithType.vb: UserPunishService2.WarnPunishRemove(ULong, Integer)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunishRemove(ULong, Integer)
+  name.vb: WarnPunishRemove(ULong, Integer)
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunishList(System.UInt64)
+  commentId: M:Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunishList(System.UInt64)
+  id: WarnPunishList(System.UInt64)
+  parent: Mewdeko.Modules.Moderation.Services.UserPunishService2
+  langs:
+  - csharp
+  - vb
+  name: WarnPunishList(ulong)
+  nameWithType: UserPunishService2.WarnPunishList(ulong)
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunishList(ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: WarnPunishList
+    path: src/Mewdeko/Modules/Moderation/Services/UserPunishService2.cs
+    startLine: 443
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Gets the warning punishments for a guild.
+  example: []
+  syntax:
+    content: public Task<WarningPunishment2[]> WarnPunishList(ulong guildId)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The guild ID
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Database.Models.WarningPunishment2[]}
+      description: ''
+    content.vb: Public Function WarnPunishList(guildId As ULong) As Task(Of WarningPunishment2())
+  overload: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunishList*
+  nameWithType.vb: UserPunishService2.WarnPunishList(ULong)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunishList(ULong)
+  name.vb: WarnPunishList(ULong)
+references:
+- uid: Mewdeko.Modules.Moderation.Services
+  commentId: N:Mewdeko.Modules.Moderation.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Moderation.Services
+  nameWithType: Mewdeko.Modules.Moderation.Services
+  fullName: Mewdeko.Modules.Moderation.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation
+    name: Moderation
+    href: Mewdeko.Modules.Moderation.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation.Services
+    name: Services
+    href: Mewdeko.Modules.Moderation.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation
+    name: Moderation
+    href: Mewdeko.Modules.Moderation.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation.Services
+    name: Services
+    href: Mewdeko.Modules.Moderation.Services.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Mewdeko.Services.INService
+  commentId: T:Mewdeko.Services.INService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.INService.html
+  name: INService
+  nameWithType: INService
+  fullName: Mewdeko.Services.INService
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<UserPunishService2>(UserPunishService2, string)
+  nameWithType: Extensions.ThrowIfNull<UserPunishService2>(UserPunishService2, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Moderation.Services.UserPunishService2>(Mewdeko.Modules.Moderation.Services.UserPunishService2, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of UserPunishService2)(UserPunishService2, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Moderation.Services.UserPunishService2)(Mewdeko.Modules.Moderation.Services.UserPunishService2, String)
+  name.vb: ThrowIfNull(Of UserPunishService2)(UserPunishService2, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Moderation.Services.UserPunishService2,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Moderation.Services.UserPunishService2
+    name: UserPunishService2
+    href: Mewdeko.Modules.Moderation.Services.UserPunishService2.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Moderation.Services.UserPunishService2
+    name: UserPunishService2
+    href: Mewdeko.Modules.Moderation.Services.UserPunishService2.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Moderation.Services.UserPunishService2,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Moderation.Services.UserPunishService2
+    name: UserPunishService2
+    href: Mewdeko.Modules.Moderation.Services.UserPunishService2.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Moderation.Services.UserPunishService2
+    name: UserPunishService2
+    href: Mewdeko.Modules.Moderation.Services.UserPunishService2.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Services
+  commentId: N:Mewdeko.Services
+  href: Mewdeko.html
+  name: Mewdeko.Services
+  nameWithType: Mewdeko.Services
+  fullName: Mewdeko.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2
+  commentId: T:Mewdeko.Modules.Moderation.Services.UserPunishService2
+  href: Mewdeko.Modules.Moderation.Services.UserPunishService2.html
+  name: UserPunishService2
+  nameWithType: UserPunishService2
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.#ctor*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.UserPunishService2.#ctor
+  href: Mewdeko.Modules.Moderation.Services.UserPunishService2.html#Mewdeko_Modules_Moderation_Services_UserPunishService2__ctor_Mewdeko_Modules_Moderation_Services_MuteService_Mewdeko_Database_DbService_Mewdeko_Services_GuildSettingsService_
+  name: UserPunishService2
+  nameWithType: UserPunishService2.UserPunishService2
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.UserPunishService2
+  nameWithType.vb: UserPunishService2.New
+  fullName.vb: Mewdeko.Modules.Moderation.Services.UserPunishService2.New
+  name.vb: New
+- uid: Mewdeko.Modules.Moderation.Services.MuteService
+  commentId: T:Mewdeko.Modules.Moderation.Services.MuteService
+  parent: Mewdeko.Modules.Moderation.Services
+  href: Mewdeko.Modules.Moderation.Services.MuteService.html
+  name: MuteService
+  nameWithType: MuteService
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService
+- uid: Mewdeko.Database.DbService
+  commentId: T:Mewdeko.Database.DbService
+  parent: Mewdeko.Database
+  href: Mewdeko.Database.DbService.html
+  name: DbService
+  nameWithType: DbService
+  fullName: Mewdeko.Database.DbService
+- uid: Mewdeko.Services.GuildSettingsService
+  commentId: T:Mewdeko.Services.GuildSettingsService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.GuildSettingsService.html
+  name: GuildSettingsService
+  nameWithType: GuildSettingsService
+  fullName: Mewdeko.Services.GuildSettingsService
+- uid: Mewdeko.Database
+  commentId: N:Mewdeko.Database
+  href: Mewdeko.html
+  name: Mewdeko.Database
+  nameWithType: Mewdeko.Database
+  fullName: Mewdeko.Database
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.GetMWarnlogChannel*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.UserPunishService2.GetMWarnlogChannel
+  href: Mewdeko.Modules.Moderation.Services.UserPunishService2.html#Mewdeko_Modules_Moderation_Services_UserPunishService2_GetMWarnlogChannel_System_UInt64_
+  name: GetMWarnlogChannel
+  nameWithType: UserPunishService2.GetMWarnlogChannel
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.GetMWarnlogChannel
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong
+  nameWithType: ulong
+  fullName: ulong
+  nameWithType.vb: ULong
+  fullName.vb: ULong
+  name.vb: ULong
+- uid: System.Threading.Tasks.Task{System.UInt64}
+  commentId: T:System.Threading.Tasks.Task{System.UInt64}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<ulong>
+  nameWithType: Task<ulong>
+  fullName: System.Threading.Tasks.Task<ulong>
+  nameWithType.vb: Task(Of ULong)
+  fullName.vb: System.Threading.Tasks.Task(Of ULong)
+  name.vb: Task(Of ULong)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.SetMWarnlogChannelId*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.UserPunishService2.SetMWarnlogChannelId
+  href: Mewdeko.Modules.Moderation.Services.UserPunishService2.html#Mewdeko_Modules_Moderation_Services_UserPunishService2_SetMWarnlogChannelId_Discord_IGuild_Discord_ITextChannel_
+  name: SetMWarnlogChannelId
+  nameWithType: UserPunishService2.SetMWarnlogChannelId
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.SetMWarnlogChannelId
+- uid: Discord.IGuild
+  commentId: T:Discord.IGuild
+  parent: Discord
+  isExternal: true
+  name: IGuild
+  nameWithType: IGuild
+  fullName: Discord.IGuild
+- uid: Discord.ITextChannel
+  commentId: T:Discord.ITextChannel
+  parent: Discord
+  isExternal: true
+  name: ITextChannel
+  nameWithType: ITextChannel
+  fullName: Discord.ITextChannel
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: Discord
+  commentId: N:Discord
+  isExternal: true
+  name: Discord
+  nameWithType: Discord
+  fullName: Discord
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.Warn*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.UserPunishService2.Warn
+  href: Mewdeko.Modules.Moderation.Services.UserPunishService2.html#Mewdeko_Modules_Moderation_Services_UserPunishService2_Warn_Discord_IGuild_System_UInt64_Discord_IUser_System_String_
+  name: Warn
+  nameWithType: UserPunishService2.Warn
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.Warn
+- uid: Discord.IUser
+  commentId: T:Discord.IUser
+  parent: Discord
+  isExternal: true
+  name: IUser
+  nameWithType: IUser
+  fullName: Discord.IUser
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Threading.Tasks.Task{Mewdeko.Database.Models.WarningPunishment2}
+  commentId: T:System.Threading.Tasks.Task{Mewdeko.Database.Models.WarningPunishment2}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<WarningPunishment2>
+  nameWithType: Task<WarningPunishment2>
+  fullName: System.Threading.Tasks.Task<Mewdeko.Database.Models.WarningPunishment2>
+  nameWithType.vb: Task(Of WarningPunishment2)
+  fullName.vb: System.Threading.Tasks.Task(Of Mewdeko.Database.Models.WarningPunishment2)
+  name.vb: Task(Of WarningPunishment2)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Mewdeko.Database.Models.WarningPunishment2
+    name: WarningPunishment2
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Models.WarningPunishment2
+    name: WarningPunishment2
+  - name: )
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.GetWarnings*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.UserPunishService2.GetWarnings
+  href: Mewdeko.Modules.Moderation.Services.UserPunishService2.html#Mewdeko_Modules_Moderation_Services_UserPunishService2_GetWarnings_Discord_IGuild_System_UInt64_
+  name: GetWarnings
+  nameWithType: UserPunishService2.GetWarnings
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.GetWarnings
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.CheckAllWarnExpiresAsync*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.UserPunishService2.CheckAllWarnExpiresAsync
+  href: Mewdeko.Modules.Moderation.Services.UserPunishService2.html#Mewdeko_Modules_Moderation_Services_UserPunishService2_CheckAllWarnExpiresAsync
+  name: CheckAllWarnExpiresAsync
+  nameWithType: UserPunishService2.CheckAllWarnExpiresAsync
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.CheckAllWarnExpiresAsync
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.CheckWarnExpiresAsync*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.UserPunishService2.CheckWarnExpiresAsync
+  href: Mewdeko.Modules.Moderation.Services.UserPunishService2.html#Mewdeko_Modules_Moderation_Services_UserPunishService2_CheckWarnExpiresAsync_System_UInt64_
+  name: CheckWarnExpiresAsync
+  nameWithType: UserPunishService2.CheckWarnExpiresAsync
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.CheckWarnExpiresAsync
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnExpireAsync*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnExpireAsync
+  href: Mewdeko.Modules.Moderation.Services.UserPunishService2.html#Mewdeko_Modules_Moderation_Services_UserPunishService2_WarnExpireAsync_System_UInt64_System_Int32_Mewdeko_Database_Models_WarnExpireAction_
+  name: WarnExpireAsync
+  nameWithType: UserPunishService2.WarnExpireAsync
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnExpireAsync
+- uid: Mewdeko.Database.Models.WarnExpireAction
+  commentId: T:Mewdeko.Database.Models.WarnExpireAction
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.WarnExpireAction.html
+  name: WarnExpireAction
+  nameWithType: WarnExpireAction
+  fullName: Mewdeko.Database.Models.WarnExpireAction
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnlogAll*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnlogAll
+  href: Mewdeko.Modules.Moderation.Services.UserPunishService2.html#Mewdeko_Modules_Moderation_Services_UserPunishService2_WarnlogAll_System_UInt64_
+  name: WarnlogAll
+  nameWithType: UserPunishService2.WarnlogAll
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnlogAll
+- uid: System.Linq.IGrouping{System.UInt64,Mewdeko.Database.Models.Warning2}[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.linq.igrouping-2
+  name: IGrouping<ulong, Warning2>[]
+  nameWithType: IGrouping<ulong, Warning2>[]
+  fullName: System.Linq.IGrouping<ulong, Mewdeko.Database.Models.Warning2>[]
+  nameWithType.vb: IGrouping(Of ULong, Warning2)()
+  fullName.vb: System.Linq.IGrouping(Of ULong, Mewdeko.Database.Models.Warning2)()
+  name.vb: IGrouping(Of ULong, Warning2)()
+  spec.csharp:
+  - uid: System.Linq.IGrouping`2
+    name: IGrouping
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.linq.igrouping-2
+  - name: <
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Database.Models.Warning2
+    name: Warning2
+  - name: '>'
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Linq.IGrouping`2
+    name: IGrouping
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.linq.igrouping-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Database.Models.Warning2
+    name: Warning2
+  - name: )
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.UserWarnings*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.UserPunishService2.UserWarnings
+  href: Mewdeko.Modules.Moderation.Services.UserPunishService2.html#Mewdeko_Modules_Moderation_Services_UserPunishService2_UserWarnings_System_UInt64_System_UInt64_
+  name: UserWarnings
+  nameWithType: UserPunishService2.UserWarnings
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.UserWarnings
+- uid: Mewdeko.Database.Models.Warning2[]
+  isExternal: true
+  href: Mewdeko.Database.Models.Warning2.html
+  name: Warning2[]
+  nameWithType: Warning2[]
+  fullName: Mewdeko.Database.Models.Warning2[]
+  nameWithType.vb: Warning2()
+  fullName.vb: Mewdeko.Database.Models.Warning2()
+  name.vb: Warning2()
+  spec.csharp:
+  - uid: Mewdeko.Database.Models.Warning2
+    name: Warning2
+    href: Mewdeko.Database.Models.Warning2.html
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: Mewdeko.Database.Models.Warning2
+    name: Warning2
+    href: Mewdeko.Database.Models.Warning2.html
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnClearAsync*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnClearAsync
+  href: Mewdeko.Modules.Moderation.Services.UserPunishService2.html#Mewdeko_Modules_Moderation_Services_UserPunishService2_WarnClearAsync_System_UInt64_System_UInt64_System_Int32_System_String_
+  name: WarnClearAsync
+  nameWithType: UserPunishService2.WarnClearAsync
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnClearAsync
+- uid: System.Threading.Tasks.Task{System.Boolean}
+  commentId: T:System.Threading.Tasks.Task{System.Boolean}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<bool>
+  nameWithType: Task<bool>
+  fullName: System.Threading.Tasks.Task<bool>
+  nameWithType.vb: Task(Of Boolean)
+  fullName.vb: System.Threading.Tasks.Task(Of Boolean)
+  name.vb: Task(Of Boolean)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunish*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunish
+  href: Mewdeko.Modules.Moderation.Services.UserPunishService2.html#Mewdeko_Modules_Moderation_Services_UserPunishService2_WarnPunish_System_UInt64_System_Int32_Mewdeko_Database_Models_PunishmentAction_Mewdeko_Common_TypeReaders_Models_StoopidTime_Discord_IRole_
+  name: WarnPunish
+  nameWithType: UserPunishService2.WarnPunish
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunish
+- uid: Mewdeko.Database.Models.PunishmentAction
+  commentId: T:Mewdeko.Database.Models.PunishmentAction
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.PunishmentAction.html
+  name: PunishmentAction
+  nameWithType: PunishmentAction
+  fullName: Mewdeko.Database.Models.PunishmentAction
+- uid: Mewdeko.Common.TypeReaders.Models.StoopidTime
+  commentId: T:Mewdeko.Common.TypeReaders.Models.StoopidTime
+  parent: Mewdeko.Common.TypeReaders.Models
+  href: Mewdeko.Common.TypeReaders.Models.StoopidTime.html
+  name: StoopidTime
+  nameWithType: StoopidTime
+  fullName: Mewdeko.Common.TypeReaders.Models.StoopidTime
+- uid: Discord.IRole
+  commentId: T:Discord.IRole
+  parent: Discord
+  isExternal: true
+  name: IRole
+  nameWithType: IRole
+  fullName: Discord.IRole
+- uid: Mewdeko.Common.TypeReaders.Models
+  commentId: N:Mewdeko.Common.TypeReaders.Models
+  href: Mewdeko.html
+  name: Mewdeko.Common.TypeReaders.Models
+  nameWithType: Mewdeko.Common.TypeReaders.Models
+  fullName: Mewdeko.Common.TypeReaders.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders
+    name: TypeReaders
+    href: Mewdeko.Common.TypeReaders.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders.Models
+    name: Models
+    href: Mewdeko.Common.TypeReaders.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders
+    name: TypeReaders
+    href: Mewdeko.Common.TypeReaders.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders.Models
+    name: Models
+    href: Mewdeko.Common.TypeReaders.Models.html
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunishRemove*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunishRemove
+  href: Mewdeko.Modules.Moderation.Services.UserPunishService2.html#Mewdeko_Modules_Moderation_Services_UserPunishService2_WarnPunishRemove_System_UInt64_System_Int32_
+  name: WarnPunishRemove
+  nameWithType: UserPunishService2.WarnPunishRemove
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunishRemove
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunishList*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunishList
+  href: Mewdeko.Modules.Moderation.Services.UserPunishService2.html#Mewdeko_Modules_Moderation_Services_UserPunishService2_WarnPunishList_System_UInt64_
+  name: WarnPunishList
+  nameWithType: UserPunishService2.WarnPunishList
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2.WarnPunishList
+- uid: System.Threading.Tasks.Task{Mewdeko.Database.Models.WarningPunishment2[]}
+  commentId: T:System.Threading.Tasks.Task{Mewdeko.Database.Models.WarningPunishment2[]}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<WarningPunishment2[]>
+  nameWithType: Task<WarningPunishment2[]>
+  fullName: System.Threading.Tasks.Task<Mewdeko.Database.Models.WarningPunishment2[]>
+  nameWithType.vb: Task(Of WarningPunishment2())
+  fullName.vb: System.Threading.Tasks.Task(Of Mewdeko.Database.Models.WarningPunishment2())
+  name.vb: Task(Of WarningPunishment2())
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Mewdeko.Database.Models.WarningPunishment2
+    name: WarningPunishment2
+  - name: '['
+  - name: ']'
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Models.WarningPunishment2
+    name: WarningPunishment2
+  - name: (
+  - name: )
+  - name: )

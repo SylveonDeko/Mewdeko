@@ -1,0 +1,30 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.RoleStates
+  commentId: N:Mewdeko.Modules.RoleStates
+  id: Mewdeko.Modules.RoleStates
+  children:
+  - Mewdeko.Modules.RoleStates.RoleStates
+  - Mewdeko.Modules.RoleStates.SlashRoleStates
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.RoleStates
+  nameWithType: Mewdeko.Modules.RoleStates
+  fullName: Mewdeko.Modules.RoleStates
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.RoleStates.RoleStates
+  commentId: T:Mewdeko.Modules.RoleStates.RoleStates
+  href: Mewdeko.Modules.RoleStates.RoleStates.html
+  name: RoleStates
+  nameWithType: RoleStates
+  fullName: Mewdeko.Modules.RoleStates.RoleStates
+- uid: Mewdeko.Modules.RoleStates.SlashRoleStates
+  commentId: T:Mewdeko.Modules.RoleStates.SlashRoleStates
+  href: Mewdeko.Modules.RoleStates.SlashRoleStates.html
+  name: SlashRoleStates
+  nameWithType: SlashRoleStates
+  fullName: Mewdeko.Modules.RoleStates.SlashRoleStates

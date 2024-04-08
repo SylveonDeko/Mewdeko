@@ -1,0 +1,217 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Models.FollowedStream.FType
+  commentId: T:Mewdeko.Database.Models.FollowedStream.FType
+  id: FollowedStream.FType
+  parent: Mewdeko.Database.Models
+  children:
+  - Mewdeko.Database.Models.FollowedStream.FType.Facebook
+  - Mewdeko.Database.Models.FollowedStream.FType.Picarto
+  - Mewdeko.Database.Models.FollowedStream.FType.Trovo
+  - Mewdeko.Database.Models.FollowedStream.FType.Twitch
+  - Mewdeko.Database.Models.FollowedStream.FType.Youtube
+  langs:
+  - csharp
+  - vb
+  name: FollowedStream.FType
+  nameWithType: FollowedStream.FType
+  fullName: Mewdeko.Database.Models.FollowedStream.FType
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/FollowedStream.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: FType
+    path: src/Mewdeko.Database/Models/FollowedStream.cs
+    startLine: 7
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public enum FollowedStream.FType
+    content.vb: Public Enum FollowedStream.FType
+- uid: Mewdeko.Database.Models.FollowedStream.FType.Twitch
+  commentId: F:Mewdeko.Database.Models.FollowedStream.FType.Twitch
+  id: Twitch
+  parent: Mewdeko.Database.Models.FollowedStream.FType
+  langs:
+  - csharp
+  - vb
+  name: Twitch
+  nameWithType: FollowedStream.FType.Twitch
+  fullName: Mewdeko.Database.Models.FollowedStream.FType.Twitch
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/FollowedStream.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Twitch
+    path: src/Mewdeko.Database/Models/FollowedStream.cs
+    startLine: 9
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Twitch = 0
+    return:
+      type: Mewdeko.Database.Models.FollowedStream.FType
+- uid: Mewdeko.Database.Models.FollowedStream.FType.Picarto
+  commentId: F:Mewdeko.Database.Models.FollowedStream.FType.Picarto
+  id: Picarto
+  parent: Mewdeko.Database.Models.FollowedStream.FType
+  langs:
+  - csharp
+  - vb
+  name: Picarto
+  nameWithType: FollowedStream.FType.Picarto
+  fullName: Mewdeko.Database.Models.FollowedStream.FType.Picarto
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/FollowedStream.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Picarto
+    path: src/Mewdeko.Database/Models/FollowedStream.cs
+    startLine: 10
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Picarto = 3
+    return:
+      type: Mewdeko.Database.Models.FollowedStream.FType
+- uid: Mewdeko.Database.Models.FollowedStream.FType.Youtube
+  commentId: F:Mewdeko.Database.Models.FollowedStream.FType.Youtube
+  id: Youtube
+  parent: Mewdeko.Database.Models.FollowedStream.FType
+  langs:
+  - csharp
+  - vb
+  name: Youtube
+  nameWithType: FollowedStream.FType.Youtube
+  fullName: Mewdeko.Database.Models.FollowedStream.FType.Youtube
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/FollowedStream.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Youtube
+    path: src/Mewdeko.Database/Models/FollowedStream.cs
+    startLine: 11
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Youtube = 4
+    return:
+      type: Mewdeko.Database.Models.FollowedStream.FType
+- uid: Mewdeko.Database.Models.FollowedStream.FType.Facebook
+  commentId: F:Mewdeko.Database.Models.FollowedStream.FType.Facebook
+  id: Facebook
+  parent: Mewdeko.Database.Models.FollowedStream.FType
+  langs:
+  - csharp
+  - vb
+  name: Facebook
+  nameWithType: FollowedStream.FType.Facebook
+  fullName: Mewdeko.Database.Models.FollowedStream.FType.Facebook
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/FollowedStream.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Facebook
+    path: src/Mewdeko.Database/Models/FollowedStream.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Facebook = 5
+    return:
+      type: Mewdeko.Database.Models.FollowedStream.FType
+- uid: Mewdeko.Database.Models.FollowedStream.FType.Trovo
+  commentId: F:Mewdeko.Database.Models.FollowedStream.FType.Trovo
+  id: Trovo
+  parent: Mewdeko.Database.Models.FollowedStream.FType
+  langs:
+  - csharp
+  - vb
+  name: Trovo
+  nameWithType: FollowedStream.FType.Trovo
+  fullName: Mewdeko.Database.Models.FollowedStream.FType.Trovo
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/FollowedStream.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Trovo
+    path: src/Mewdeko.Database/Models/FollowedStream.cs
+    startLine: 13
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Trovo = 6
+    return:
+      type: Mewdeko.Database.Models.FollowedStream.FType
+references:
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: Mewdeko.Database.Models.FollowedStream.FType
+  commentId: T:Mewdeko.Database.Models.FollowedStream.FType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.FollowedStream.html
+  name: FollowedStream.FType
+  nameWithType: FollowedStream.FType
+  fullName: Mewdeko.Database.Models.FollowedStream.FType
+  spec.csharp:
+  - uid: Mewdeko.Database.Models.FollowedStream
+    name: FollowedStream
+    href: Mewdeko.Database.Models.FollowedStream.html
+  - name: .
+  - uid: Mewdeko.Database.Models.FollowedStream.FType
+    name: FType
+    href: Mewdeko.Database.Models.FollowedStream.FType.html
+  spec.vb:
+  - uid: Mewdeko.Database.Models.FollowedStream
+    name: FollowedStream
+    href: Mewdeko.Database.Models.FollowedStream.html
+  - name: .
+  - uid: Mewdeko.Database.Models.FollowedStream.FType
+    name: FType
+    href: Mewdeko.Database.Models.FollowedStream.FType.html

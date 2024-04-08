@@ -1,0 +1,2098 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Moderation.Services.MuteService
+  commentId: T:Mewdeko.Modules.Moderation.Services.MuteService
+  id: MuteService
+  parent: Mewdeko.Modules.Moderation.Services
+  children:
+  - Mewdeko.Modules.Moderation.Services.MuteService.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Database.DbService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Mewdeko)
+  - Mewdeko.Modules.Moderation.Services.MuteService.GetMuteRole(Discord.IGuild)
+  - Mewdeko.Modules.Moderation.Services.MuteService.GetRemoveOnMute(System.UInt64)
+  - Mewdeko.Modules.Moderation.Services.MuteService.GuildMuteRoles
+  - Mewdeko.Modules.Moderation.Services.MuteService.MuteUser(Discord.IGuildUser,Discord.IUser,Mewdeko.Modules.Moderation.Services.MuteType,System.String)
+  - Mewdeko.Modules.Moderation.Services.MuteService.MutedUsers
+  - Mewdeko.Modules.Moderation.Services.MuteService.Removeonmute(Discord.IGuild,System.String)
+  - Mewdeko.Modules.Moderation.Services.MuteService.SetMuteRoleAsync(System.UInt64,System.String)
+  - Mewdeko.Modules.Moderation.Services.MuteService.StartUn_Timer(System.UInt64,System.UInt64,System.TimeSpan,Mewdeko.Modules.Moderation.Services.MuteService.TimerType,System.Nullable{System.UInt64})
+  - Mewdeko.Modules.Moderation.Services.MuteService.StopTimer(System.UInt64,System.UInt64,Mewdeko.Modules.Moderation.Services.MuteService.TimerType)
+  - Mewdeko.Modules.Moderation.Services.MuteService.TimedBan(Discord.IGuild,Discord.IUser,System.TimeSpan,System.String,System.TimeSpan)
+  - Mewdeko.Modules.Moderation.Services.MuteService.TimedMute(Discord.IGuildUser,Discord.IUser,System.TimeSpan,Mewdeko.Modules.Moderation.Services.MuteType,System.String)
+  - Mewdeko.Modules.Moderation.Services.MuteService.TimedRole(Discord.IGuildUser,System.TimeSpan,System.String,Discord.IRole)
+  - Mewdeko.Modules.Moderation.Services.MuteService.UnTimers
+  - Mewdeko.Modules.Moderation.Services.MuteService.UnmuteUser(System.UInt64,System.UInt64,Discord.IUser,Mewdeko.Modules.Moderation.Services.MuteType,System.String)
+  - Mewdeko.Modules.Moderation.Services.MuteService.Uroles
+  - Mewdeko.Modules.Moderation.Services.MuteService.UserMuted
+  - Mewdeko.Modules.Moderation.Services.MuteService.UserUnmuted
+  langs:
+  - csharp
+  - vb
+  name: MuteService
+  nameWithType: MuteService
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MuteService
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 31
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Service for managing mutes.
+  example: []
+  syntax:
+    content: 'public class MuteService : INService'
+    content.vb: Public Class MuteService Implements INService
+  inheritance:
+  - System.Object
+  implements:
+  - Mewdeko.Services.INService
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Moderation.Services.MuteService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.Uroles
+  commentId: F:Mewdeko.Modules.Moderation.Services.MuteService.Uroles
+  id: Uroles
+  parent: Mewdeko.Modules.Moderation.Services.MuteService
+  langs:
+  - csharp
+  - vb
+  name: Uroles
+  nameWithType: MuteService.Uroles
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.Uroles
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Uroles
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 64
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Roles to remove on mute.
+  example: []
+  syntax:
+    content: public string[] Uroles
+    return:
+      type: System.String[]
+    content.vb: Public Uroles As String()
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Database.DbService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Mewdeko)
+  commentId: M:Mewdeko.Modules.Moderation.Services.MuteService.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Database.DbService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Mewdeko)
+  id: '#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Database.DbService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Mewdeko)'
+  parent: Mewdeko.Modules.Moderation.Services.MuteService
+  langs:
+  - csharp
+  - vb
+  name: MuteService(DiscordSocketClient, DbService, GuildSettingsService, EventHandler, Mewdeko)
+  nameWithType: MuteService.MuteService(DiscordSocketClient, DbService, GuildSettingsService, EventHandler, Mewdeko)
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.MuteService(Discord.WebSocket.DiscordSocketClient, Mewdeko.Database.DbService, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Impl.EventHandler, Mewdeko.Mewdeko)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 76
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Initializes a new instance of <xref href="Mewdeko.Modules.Moderation.Services.MuteService" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public MuteService(DiscordSocketClient client, DbService db, GuildSettingsService guildSettings, EventHandler eventHandler, Mewdeko bot)
+    parameters:
+    - id: client
+      type: Discord.WebSocket.DiscordSocketClient
+      description: The discord client
+    - id: db
+      type: Mewdeko.Database.DbService
+      description: The database provider
+    - id: guildSettings
+      type: Mewdeko.Services.GuildSettingsService
+      description: Service for retrieving guildconfigs
+    - id: eventHandler
+      type: Mewdeko.Services.Impl.EventHandler
+      description: Handler for async events (Hear that dnet? ASYNC, not GATEWAY THREAD)
+    - id: bot
+      type: Mewdeko.Mewdeko
+      description: The bot
+    content.vb: Public Sub New(client As DiscordSocketClient, db As DbService, guildSettings As GuildSettingsService, eventHandler As EventHandler, bot As Mewdeko)
+  overload: Mewdeko.Modules.Moderation.Services.MuteService.#ctor*
+  nameWithType.vb: MuteService.New(DiscordSocketClient, DbService, GuildSettingsService, EventHandler, Mewdeko)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.MuteService.New(Discord.WebSocket.DiscordSocketClient, Mewdeko.Database.DbService, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Impl.EventHandler, Mewdeko.Mewdeko)
+  name.vb: New(DiscordSocketClient, DbService, GuildSettingsService, EventHandler, Mewdeko)
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.GuildMuteRoles
+  commentId: P:Mewdeko.Modules.Moderation.Services.MuteService.GuildMuteRoles
+  id: GuildMuteRoles
+  parent: Mewdeko.Modules.Moderation.Services.MuteService
+  langs:
+  - csharp
+  - vb
+  name: GuildMuteRoles
+  nameWithType: MuteService.GuildMuteRoles
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.GuildMuteRoles
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GuildMuteRoles
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 158
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Guild mute roles cache.
+  example: []
+  syntax:
+    content: public ConcurrentDictionary<ulong, string> GuildMuteRoles { get; }
+    parameters: []
+    return:
+      type: NonBlocking.ConcurrentDictionary{System.UInt64,System.String}
+    content.vb: Public ReadOnly Property GuildMuteRoles As ConcurrentDictionary(Of ULong, String)
+  overload: Mewdeko.Modules.Moderation.Services.MuteService.GuildMuteRoles*
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.MutedUsers
+  commentId: P:Mewdeko.Modules.Moderation.Services.MuteService.MutedUsers
+  id: MutedUsers
+  parent: Mewdeko.Modules.Moderation.Services.MuteService
+  langs:
+  - csharp
+  - vb
+  name: MutedUsers
+  nameWithType: MuteService.MutedUsers
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.MutedUsers
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MutedUsers
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 163
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Muted users cache.
+  example: []
+  syntax:
+    content: public ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> MutedUsers { get; }
+    parameters: []
+    return:
+      type: NonBlocking.ConcurrentDictionary{System.UInt64,Mewdeko.Common.Collections.ConcurrentHashSet{System.UInt64}}
+    content.vb: Public ReadOnly Property MutedUsers As ConcurrentDictionary(Of ULong, ConcurrentHashSet(Of ULong))
+  overload: Mewdeko.Modules.Moderation.Services.MuteService.MutedUsers*
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.UnTimers
+  commentId: P:Mewdeko.Modules.Moderation.Services.MuteService.UnTimers
+  id: UnTimers
+  parent: Mewdeko.Modules.Moderation.Services.MuteService
+  langs:
+  - csharp
+  - vb
+  name: UnTimers
+  nameWithType: MuteService.UnTimers
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.UnTimers
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UnTimers
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 168
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Unmute timers cache.
+  example: []
+  syntax:
+    content: public ConcurrentDictionary<ulong, ConcurrentDictionary<(ulong, MuteService.TimerType), Timer>> UnTimers { get; }
+    parameters: []
+    return:
+      type: NonBlocking.ConcurrentDictionary{System.UInt64,NonBlocking.ConcurrentDictionary{System.ValueTuple{System.UInt64,Mewdeko.Modules.Moderation.Services.MuteService.TimerType},System.Threading.Timer}}
+    content.vb: Public ReadOnly Property UnTimers As ConcurrentDictionary(Of ULong, ConcurrentDictionary(Of (ULong, MuteService.TimerType), Timer))
+  overload: Mewdeko.Modules.Moderation.Services.MuteService.UnTimers*
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.UserMuted
+  commentId: E:Mewdeko.Modules.Moderation.Services.MuteService.UserMuted
+  id: UserMuted
+  parent: Mewdeko.Modules.Moderation.Services.MuteService
+  langs:
+  - csharp
+  - vb
+  name: UserMuted
+  nameWithType: MuteService.UserMuted
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.UserMuted
+  type: Event
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserMuted
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 174
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Event for when a user is muted.
+  example: []
+  syntax:
+    content: public event EventHandler.AsyncEventHandler<IGuildUser, IUser, MuteType, string> UserMuted
+    return:
+      type: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler{Discord.IGuildUser,Discord.IUser,Mewdeko.Modules.Moderation.Services.MuteType,System.String}
+    content.vb: Public Event UserMuted As EventHandler.AsyncEventHandler(Of IGuildUser, IUser, MuteType, String)
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.UserUnmuted
+  commentId: E:Mewdeko.Modules.Moderation.Services.MuteService.UserUnmuted
+  id: UserUnmuted
+  parent: Mewdeko.Modules.Moderation.Services.MuteService
+  langs:
+  - csharp
+  - vb
+  name: UserUnmuted
+  nameWithType: MuteService.UserUnmuted
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.UserUnmuted
+  type: Event
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserUnmuted
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 179
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Event for when a user is unmuted.
+  example: []
+  syntax:
+    content: public event EventHandler.AsyncEventHandler<IGuildUser, IUser, MuteType, string> UserUnmuted
+    return:
+      type: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler{Discord.IGuildUser,Discord.IUser,Mewdeko.Modules.Moderation.Services.MuteType,System.String}
+    content.vb: Public Event UserUnmuted As EventHandler.AsyncEventHandler(Of IGuildUser, IUser, MuteType, String)
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.SetMuteRoleAsync(System.UInt64,System.String)
+  commentId: M:Mewdeko.Modules.Moderation.Services.MuteService.SetMuteRoleAsync(System.UInt64,System.String)
+  id: SetMuteRoleAsync(System.UInt64,System.String)
+  parent: Mewdeko.Modules.Moderation.Services.MuteService
+  langs:
+  - csharp
+  - vb
+  name: SetMuteRoleAsync(ulong, string)
+  nameWithType: MuteService.SetMuteRoleAsync(ulong, string)
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.SetMuteRoleAsync(ulong, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetMuteRoleAsync
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 228
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Sets the mute role for a guild.
+  example: []
+  syntax:
+    content: public Task SetMuteRoleAsync(ulong guildId, string name)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The id of the guild to set the role in
+    - id: name
+      type: System.String
+      description: The name of the role (What in your right fucking mind possessed you to make it this way kwoth???)
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function SetMuteRoleAsync(guildId As ULong, name As String) As Task
+  overload: Mewdeko.Modules.Moderation.Services.MuteService.SetMuteRoleAsync*
+  nameWithType.vb: MuteService.SetMuteRoleAsync(ULong, String)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.MuteService.SetMuteRoleAsync(ULong, String)
+  name.vb: SetMuteRoleAsync(ULong, String)
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.MuteUser(Discord.IGuildUser,Discord.IUser,Mewdeko.Modules.Moderation.Services.MuteType,System.String)
+  commentId: M:Mewdeko.Modules.Moderation.Services.MuteService.MuteUser(Discord.IGuildUser,Discord.IUser,Mewdeko.Modules.Moderation.Services.MuteType,System.String)
+  id: MuteUser(Discord.IGuildUser,Discord.IUser,Mewdeko.Modules.Moderation.Services.MuteType,System.String)
+  parent: Mewdeko.Modules.Moderation.Services.MuteService
+  langs:
+  - csharp
+  - vb
+  name: MuteUser(IGuildUser, IUser, MuteType, string)
+  nameWithType: MuteService.MuteUser(IGuildUser, IUser, MuteType, string)
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.MuteUser(Discord.IGuildUser, Discord.IUser, Mewdeko.Modules.Moderation.Services.MuteType, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MuteUser
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 245
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Flow for muting a user
+  example: []
+  syntax:
+    content: public Task MuteUser(IGuildUser usr, IUser mod, MuteType type = MuteType.All, string reason = "")
+    parameters:
+    - id: usr
+      type: Discord.IGuildUser
+      description: The user to mute
+    - id: mod
+      type: Discord.IUser
+      description: The mod who muted the user
+    - id: type
+      type: Mewdeko.Modules.Moderation.Services.MuteType
+      description: The type of mute
+    - id: reason
+      type: System.String
+      description: The mute reason
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function MuteUser(usr As IGuildUser, [mod] As IUser, type As MuteType = MuteType.All, reason As String = "") As Task
+  overload: Mewdeko.Modules.Moderation.Services.MuteService.MuteUser*
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: ''
+  nameWithType.vb: MuteService.MuteUser(IGuildUser, IUser, MuteType, String)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.MuteService.MuteUser(Discord.IGuildUser, Discord.IUser, Mewdeko.Modules.Moderation.Services.MuteType, String)
+  name.vb: MuteUser(IGuildUser, IUser, MuteType, String)
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.GetRemoveOnMute(System.UInt64)
+  commentId: M:Mewdeko.Modules.Moderation.Services.MuteService.GetRemoveOnMute(System.UInt64)
+  id: GetRemoveOnMute(System.UInt64)
+  parent: Mewdeko.Modules.Moderation.Services.MuteService
+  langs:
+  - csharp
+  - vb
+  name: GetRemoveOnMute(ulong)
+  nameWithType: MuteService.GetRemoveOnMute(ulong)
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.GetRemoveOnMute(ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetRemoveOnMute
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 324
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: gets whether roles should be removed on mute
+  example: []
+  syntax:
+    content: public Task<int> GetRemoveOnMute(ulong id)
+    parameters:
+    - id: id
+      type: System.UInt64
+      description: The server id
+    return:
+      type: System.Threading.Tasks.Task{System.Int32}
+      description: ''
+    content.vb: Public Function GetRemoveOnMute(id As ULong) As Task(Of Integer)
+  overload: Mewdeko.Modules.Moderation.Services.MuteService.GetRemoveOnMute*
+  nameWithType.vb: MuteService.GetRemoveOnMute(ULong)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.MuteService.GetRemoveOnMute(ULong)
+  name.vb: GetRemoveOnMute(ULong)
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.Removeonmute(Discord.IGuild,System.String)
+  commentId: M:Mewdeko.Modules.Moderation.Services.MuteService.Removeonmute(Discord.IGuild,System.String)
+  id: Removeonmute(Discord.IGuild,System.String)
+  parent: Mewdeko.Modules.Moderation.Services.MuteService
+  langs:
+  - csharp
+  - vb
+  name: Removeonmute(IGuild, string)
+  nameWithType: MuteService.Removeonmute(IGuild, string)
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.Removeonmute(Discord.IGuild, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Removeonmute
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 332
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Sets whether roles should be removed on mute
+  example: []
+  syntax:
+    content: public Task Removeonmute(IGuild guild, string yesnt)
+    parameters:
+    - id: guild
+      type: Discord.IGuild
+      description: The server to set this setting
+    - id: yesnt
+      type: System.String
+      description: nosnt
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function Removeonmute(guild As IGuild, yesnt As String) As Task
+  overload: Mewdeko.Modules.Moderation.Services.MuteService.Removeonmute*
+  nameWithType.vb: MuteService.Removeonmute(IGuild, String)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.MuteService.Removeonmute(Discord.IGuild, String)
+  name.vb: Removeonmute(IGuild, String)
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.UnmuteUser(System.UInt64,System.UInt64,Discord.IUser,Mewdeko.Modules.Moderation.Services.MuteType,System.String)
+  commentId: M:Mewdeko.Modules.Moderation.Services.MuteService.UnmuteUser(System.UInt64,System.UInt64,Discord.IUser,Mewdeko.Modules.Moderation.Services.MuteType,System.String)
+  id: UnmuteUser(System.UInt64,System.UInt64,Discord.IUser,Mewdeko.Modules.Moderation.Services.MuteType,System.String)
+  parent: Mewdeko.Modules.Moderation.Services.MuteService
+  langs:
+  - csharp
+  - vb
+  name: UnmuteUser(ulong, ulong, IUser, MuteType, string)
+  nameWithType: MuteService.UnmuteUser(ulong, ulong, IUser, MuteType, string)
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.UnmuteUser(ulong, ulong, Discord.IUser, Mewdeko.Modules.Moderation.Services.MuteType, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UnmuteUser
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 357
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Flow for unmuting a user
+  example: []
+  syntax:
+    content: public Task UnmuteUser(ulong guildId, ulong usrId, IUser mod, MuteType type = MuteType.All, string reason = "")
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The guildId where the user is unmooted
+    - id: usrId
+      type: System.UInt64
+      description: The user to unmoot
+    - id: mod
+      type: Discord.IUser
+      description: The mod who unmooted the user
+    - id: type
+      type: Mewdeko.Modules.Moderation.Services.MuteType
+      description: The type of moot
+    - id: reason
+      type: System.String
+      description: The unmoot reason reason
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function UnmuteUser(guildId As ULong, usrId As ULong, [mod] As IUser, type As MuteType = MuteType.All, reason As String = "") As Task
+  overload: Mewdeko.Modules.Moderation.Services.MuteService.UnmuteUser*
+  nameWithType.vb: MuteService.UnmuteUser(ULong, ULong, IUser, MuteType, String)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.MuteService.UnmuteUser(ULong, ULong, Discord.IUser, Mewdeko.Modules.Moderation.Services.MuteType, String)
+  name.vb: UnmuteUser(ULong, ULong, IUser, MuteType, String)
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.GetMuteRole(Discord.IGuild)
+  commentId: M:Mewdeko.Modules.Moderation.Services.MuteService.GetMuteRole(Discord.IGuild)
+  id: GetMuteRole(Discord.IGuild)
+  parent: Mewdeko.Modules.Moderation.Services.MuteService
+  langs:
+  - csharp
+  - vb
+  name: GetMuteRole(IGuild)
+  nameWithType: MuteService.GetMuteRole(IGuild)
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.GetMuteRole(Discord.IGuild)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetMuteRole
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 470
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Gets the mute role for a guild.
+  example: []
+  syntax:
+    content: public Task<IRole> GetMuteRole(IGuild guild)
+    parameters:
+    - id: guild
+      type: Discord.IGuild
+      description: The guildid to get the mute role from
+    return:
+      type: System.Threading.Tasks.Task{Discord.IRole}
+      description: The mute <xref href="Discord.IRole" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Function GetMuteRole(guild As IGuild) As Task(Of IRole)
+  overload: Mewdeko.Modules.Moderation.Services.MuteService.GetMuteRole*
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: ''
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.TimedMute(Discord.IGuildUser,Discord.IUser,System.TimeSpan,Mewdeko.Modules.Moderation.Services.MuteType,System.String)
+  commentId: M:Mewdeko.Modules.Moderation.Services.MuteService.TimedMute(Discord.IGuildUser,Discord.IUser,System.TimeSpan,Mewdeko.Modules.Moderation.Services.MuteType,System.String)
+  id: TimedMute(Discord.IGuildUser,Discord.IUser,System.TimeSpan,Mewdeko.Modules.Moderation.Services.MuteType,System.String)
+  parent: Mewdeko.Modules.Moderation.Services.MuteService
+  langs:
+  - csharp
+  - vb
+  name: TimedMute(IGuildUser, IUser, TimeSpan, MuteType, string)
+  nameWithType: MuteService.TimedMute(IGuildUser, IUser, TimeSpan, MuteType, string)
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.TimedMute(Discord.IGuildUser, Discord.IUser, System.TimeSpan, Mewdeko.Modules.Moderation.Services.MuteType, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TimedMute
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 529
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Mutes a user for a specified amount of time.
+  example: []
+  syntax:
+    content: public Task TimedMute(IGuildUser user, IUser mod, TimeSpan after, MuteType muteType = MuteType.All, string reason = "")
+    parameters:
+    - id: user
+      type: Discord.IGuildUser
+      description: The user to mute
+    - id: mod
+      type: Discord.IUser
+      description: The mod who muted the user
+    - id: after
+      type: System.TimeSpan
+      description: The time to mute the user for
+    - id: muteType
+      type: Mewdeko.Modules.Moderation.Services.MuteType
+      description: The type of mute
+    - id: reason
+      type: System.String
+      description: The reason for the mute
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function TimedMute(user As IGuildUser, [mod] As IUser, after As TimeSpan, muteType As MuteType = MuteType.All, reason As String = "") As Task
+  overload: Mewdeko.Modules.Moderation.Services.MuteService.TimedMute*
+  nameWithType.vb: MuteService.TimedMute(IGuildUser, IUser, TimeSpan, MuteType, String)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.MuteService.TimedMute(Discord.IGuildUser, Discord.IUser, System.TimeSpan, Mewdeko.Modules.Moderation.Services.MuteType, String)
+  name.vb: TimedMute(IGuildUser, IUser, TimeSpan, MuteType, String)
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.TimedBan(Discord.IGuild,Discord.IUser,System.TimeSpan,System.String,System.TimeSpan)
+  commentId: M:Mewdeko.Modules.Moderation.Services.MuteService.TimedBan(Discord.IGuild,Discord.IUser,System.TimeSpan,System.String,System.TimeSpan)
+  id: TimedBan(Discord.IGuild,Discord.IUser,System.TimeSpan,System.String,System.TimeSpan)
+  parent: Mewdeko.Modules.Moderation.Services.MuteService
+  langs:
+  - csharp
+  - vb
+  name: TimedBan(IGuild, IUser, TimeSpan, string, TimeSpan)
+  nameWithType: MuteService.TimedBan(IGuild, IUser, TimeSpan, string, TimeSpan)
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.TimedBan(Discord.IGuild, Discord.IUser, System.TimeSpan, string, System.TimeSpan)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TimedBan
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 556
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Bans a user for a specified amount of time.
+  example: []
+  syntax:
+    content: public Task TimedBan(IGuild guild, IUser user, TimeSpan after, string reason, TimeSpan todelete = default)
+    parameters:
+    - id: guild
+      type: Discord.IGuild
+      description: The guild to ban the user from
+    - id: user
+      type: Discord.IUser
+      description: The user to ban
+    - id: after
+      type: System.TimeSpan
+      description: The time to ban the user for
+    - id: reason
+      type: System.String
+      description: The reason for the ban
+    - id: todelete
+      type: System.TimeSpan
+      description: The time to delete the ban message
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function TimedBan(guild As IGuild, user As IUser, after As TimeSpan, reason As String, todelete As TimeSpan = Nothing) As Task
+  overload: Mewdeko.Modules.Moderation.Services.MuteService.TimedBan*
+  nameWithType.vb: MuteService.TimedBan(IGuild, IUser, TimeSpan, String, TimeSpan)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.MuteService.TimedBan(Discord.IGuild, Discord.IUser, System.TimeSpan, String, System.TimeSpan)
+  name.vb: TimedBan(IGuild, IUser, TimeSpan, String, TimeSpan)
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.TimedRole(Discord.IGuildUser,System.TimeSpan,System.String,Discord.IRole)
+  commentId: M:Mewdeko.Modules.Moderation.Services.MuteService.TimedRole(Discord.IGuildUser,System.TimeSpan,System.String,Discord.IRole)
+  id: TimedRole(Discord.IGuildUser,System.TimeSpan,System.String,Discord.IRole)
+  parent: Mewdeko.Modules.Moderation.Services.MuteService
+  langs:
+  - csharp
+  - vb
+  name: TimedRole(IGuildUser, TimeSpan, string, IRole)
+  nameWithType: MuteService.TimedRole(IGuildUser, TimeSpan, string, IRole)
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.TimedRole(Discord.IGuildUser, System.TimeSpan, string, Discord.IRole)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TimedRole
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 583
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Adds a role to a user for a specified amount of time.
+  example: []
+  syntax:
+    content: public Task TimedRole(IGuildUser user, TimeSpan after, string reason, IRole role)
+    parameters:
+    - id: user
+      type: Discord.IGuildUser
+      description: The user to add the role to
+    - id: after
+      type: System.TimeSpan
+      description: The time to add the role for
+    - id: reason
+      type: System.String
+      description: The reason for adding the role
+    - id: role
+      type: Discord.IRole
+      description: The role to add
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function TimedRole(user As IGuildUser, after As TimeSpan, reason As String, role As IRole) As Task
+  overload: Mewdeko.Modules.Moderation.Services.MuteService.TimedRole*
+  nameWithType.vb: MuteService.TimedRole(IGuildUser, TimeSpan, String, IRole)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.MuteService.TimedRole(Discord.IGuildUser, System.TimeSpan, String, Discord.IRole)
+  name.vb: TimedRole(IGuildUser, TimeSpan, String, IRole)
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.StartUn_Timer(System.UInt64,System.UInt64,System.TimeSpan,Mewdeko.Modules.Moderation.Services.MuteService.TimerType,System.Nullable{System.UInt64})
+  commentId: M:Mewdeko.Modules.Moderation.Services.MuteService.StartUn_Timer(System.UInt64,System.UInt64,System.TimeSpan,Mewdeko.Modules.Moderation.Services.MuteService.TimerType,System.Nullable{System.UInt64})
+  id: StartUn_Timer(System.UInt64,System.UInt64,System.TimeSpan,Mewdeko.Modules.Moderation.Services.MuteService.TimerType,System.Nullable{System.UInt64})
+  parent: Mewdeko.Modules.Moderation.Services.MuteService
+  langs:
+  - csharp
+  - vb
+  name: StartUn_Timer(ulong, ulong, TimeSpan, TimerType, ulong?)
+  nameWithType: MuteService.StartUn_Timer(ulong, ulong, TimeSpan, MuteService.TimerType, ulong?)
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.StartUn_Timer(ulong, ulong, System.TimeSpan, Mewdeko.Modules.Moderation.Services.MuteService.TimerType, ulong?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: StartUn_Timer
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 608
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Starts a timer to unmute a user.
+  example: []
+  syntax:
+    content: public void StartUn_Timer(ulong guildId, ulong userId, TimeSpan after, MuteService.TimerType type, ulong? roleId = null)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The guildId where the user is unmuted
+    - id: userId
+      type: System.UInt64
+      description: The user to unmute
+    - id: after
+      type: System.TimeSpan
+      description: The time to unmute the user after
+    - id: type
+      type: Mewdeko.Modules.Moderation.Services.MuteService.TimerType
+      description: The type of timer
+    - id: roleId
+      type: System.Nullable{System.UInt64}
+      description: The role to remove
+    content.vb: Public Sub StartUn_Timer(guildId As ULong, userId As ULong, after As TimeSpan, type As MuteService.TimerType, roleId As ULong? = Nothing)
+  overload: Mewdeko.Modules.Moderation.Services.MuteService.StartUn_Timer*
+  nameWithType.vb: MuteService.StartUn_Timer(ULong, ULong, TimeSpan, MuteService.TimerType, ULong?)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.MuteService.StartUn_Timer(ULong, ULong, System.TimeSpan, Mewdeko.Modules.Moderation.Services.MuteService.TimerType, ULong?)
+  name.vb: StartUn_Timer(ULong, ULong, TimeSpan, TimerType, ULong?)
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.StopTimer(System.UInt64,System.UInt64,Mewdeko.Modules.Moderation.Services.MuteService.TimerType)
+  commentId: M:Mewdeko.Modules.Moderation.Services.MuteService.StopTimer(System.UInt64,System.UInt64,Mewdeko.Modules.Moderation.Services.MuteService.TimerType)
+  id: StopTimer(System.UInt64,System.UInt64,Mewdeko.Modules.Moderation.Services.MuteService.TimerType)
+  parent: Mewdeko.Modules.Moderation.Services.MuteService
+  langs:
+  - csharp
+  - vb
+  name: StopTimer(ulong, ulong, TimerType)
+  nameWithType: MuteService.StopTimer(ulong, ulong, MuteService.TimerType)
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.StopTimer(ulong, ulong, Mewdeko.Modules.Moderation.Services.MuteService.TimerType)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: StopTimer
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 683
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Stops a timer for a user.
+  example: []
+  syntax:
+    content: public void StopTimer(ulong guildId, ulong userId, MuteService.TimerType type)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The guildId where the timer is stopped
+    - id: userId
+      type: System.UInt64
+      description: The user to stop the timer for
+    - id: type
+      type: Mewdeko.Modules.Moderation.Services.MuteService.TimerType
+      description: The type of timer
+    content.vb: Public Sub StopTimer(guildId As ULong, userId As ULong, type As MuteService.TimerType)
+  overload: Mewdeko.Modules.Moderation.Services.MuteService.StopTimer*
+  nameWithType.vb: MuteService.StopTimer(ULong, ULong, MuteService.TimerType)
+  fullName.vb: Mewdeko.Modules.Moderation.Services.MuteService.StopTimer(ULong, ULong, Mewdeko.Modules.Moderation.Services.MuteService.TimerType)
+  name.vb: StopTimer(ULong, ULong, TimerType)
+references:
+- uid: Mewdeko.Modules.Moderation.Services
+  commentId: N:Mewdeko.Modules.Moderation.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Moderation.Services
+  nameWithType: Mewdeko.Modules.Moderation.Services
+  fullName: Mewdeko.Modules.Moderation.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation
+    name: Moderation
+    href: Mewdeko.Modules.Moderation.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation.Services
+    name: Services
+    href: Mewdeko.Modules.Moderation.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation
+    name: Moderation
+    href: Mewdeko.Modules.Moderation.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation.Services
+    name: Services
+    href: Mewdeko.Modules.Moderation.Services.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Mewdeko.Services.INService
+  commentId: T:Mewdeko.Services.INService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.INService.html
+  name: INService
+  nameWithType: INService
+  fullName: Mewdeko.Services.INService
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<MuteService>(MuteService, string)
+  nameWithType: Extensions.ThrowIfNull<MuteService>(MuteService, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Moderation.Services.MuteService>(Mewdeko.Modules.Moderation.Services.MuteService, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of MuteService)(MuteService, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Moderation.Services.MuteService)(Mewdeko.Modules.Moderation.Services.MuteService, String)
+  name.vb: ThrowIfNull(Of MuteService)(MuteService, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Moderation.Services.MuteService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Moderation.Services.MuteService
+    name: MuteService
+    href: Mewdeko.Modules.Moderation.Services.MuteService.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Moderation.Services.MuteService
+    name: MuteService
+    href: Mewdeko.Modules.Moderation.Services.MuteService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Moderation.Services.MuteService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Moderation.Services.MuteService
+    name: MuteService
+    href: Mewdeko.Modules.Moderation.Services.MuteService.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Moderation.Services.MuteService
+    name: MuteService
+    href: Mewdeko.Modules.Moderation.Services.MuteService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Services
+  commentId: N:Mewdeko.Services
+  href: Mewdeko.html
+  name: Mewdeko.Services
+  nameWithType: Mewdeko.Services
+  fullName: Mewdeko.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: System.String[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string[]
+  nameWithType: string[]
+  fullName: string[]
+  nameWithType.vb: String()
+  fullName.vb: String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Moderation.Services.MuteService
+  commentId: T:Mewdeko.Modules.Moderation.Services.MuteService
+  parent: Mewdeko.Modules.Moderation.Services
+  href: Mewdeko.Modules.Moderation.Services.MuteService.html
+  name: MuteService
+  nameWithType: MuteService
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.#ctor*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.MuteService.#ctor
+  href: Mewdeko.Modules.Moderation.Services.MuteService.html#Mewdeko_Modules_Moderation_Services_MuteService__ctor_Discord_WebSocket_DiscordSocketClient_Mewdeko_Database_DbService_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_Impl_EventHandler_Mewdeko_Mewdeko_
+  name: MuteService
+  nameWithType: MuteService.MuteService
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.MuteService
+  nameWithType.vb: MuteService.New
+  fullName.vb: Mewdeko.Modules.Moderation.Services.MuteService.New
+  name.vb: New
+- uid: Discord.WebSocket.DiscordSocketClient
+  commentId: T:Discord.WebSocket.DiscordSocketClient
+  parent: Discord.WebSocket
+  isExternal: true
+  name: DiscordSocketClient
+  nameWithType: DiscordSocketClient
+  fullName: Discord.WebSocket.DiscordSocketClient
+- uid: Mewdeko.Database.DbService
+  commentId: T:Mewdeko.Database.DbService
+  parent: Mewdeko.Database
+  href: Mewdeko.Database.DbService.html
+  name: DbService
+  nameWithType: DbService
+  fullName: Mewdeko.Database.DbService
+- uid: Mewdeko.Services.GuildSettingsService
+  commentId: T:Mewdeko.Services.GuildSettingsService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.GuildSettingsService.html
+  name: GuildSettingsService
+  nameWithType: GuildSettingsService
+  fullName: Mewdeko.Services.GuildSettingsService
+- uid: Mewdeko.Services.Impl.EventHandler
+  commentId: T:Mewdeko.Services.Impl.EventHandler
+  parent: Mewdeko.Services.Impl
+  href: Mewdeko.Services.Impl.EventHandler.html
+  name: EventHandler
+  nameWithType: EventHandler
+  fullName: Mewdeko.Services.Impl.EventHandler
+- uid: Mewdeko.Mewdeko
+  commentId: T:Mewdeko.Mewdeko
+  parent: Mewdeko
+  href: Mewdeko.Mewdeko.html
+  name: Mewdeko
+  nameWithType: Mewdeko
+  fullName: Mewdeko.Mewdeko
+- uid: Discord.WebSocket
+  commentId: N:Discord.WebSocket
+  isExternal: true
+  name: Discord.WebSocket
+  nameWithType: Discord.WebSocket
+  fullName: Discord.WebSocket
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.WebSocket
+    name: WebSocket
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.WebSocket
+    name: WebSocket
+    isExternal: true
+- uid: Mewdeko.Database
+  commentId: N:Mewdeko.Database
+  href: Mewdeko.html
+  name: Mewdeko.Database
+  nameWithType: Mewdeko.Database
+  fullName: Mewdeko.Database
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+- uid: Mewdeko.Services.Impl
+  commentId: N:Mewdeko.Services.Impl
+  href: Mewdeko.html
+  name: Mewdeko.Services.Impl
+  nameWithType: Mewdeko.Services.Impl
+  fullName: Mewdeko.Services.Impl
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Impl
+    name: Impl
+    href: Mewdeko.Services.Impl.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Impl
+    name: Impl
+    href: Mewdeko.Services.Impl.html
+- uid: Mewdeko
+  commentId: N:Mewdeko
+  href: Mewdeko.html
+  name: Mewdeko
+  nameWithType: Mewdeko
+  fullName: Mewdeko
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.GuildMuteRoles*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.MuteService.GuildMuteRoles
+  href: Mewdeko.Modules.Moderation.Services.MuteService.html#Mewdeko_Modules_Moderation_Services_MuteService_GuildMuteRoles
+  name: GuildMuteRoles
+  nameWithType: MuteService.GuildMuteRoles
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.GuildMuteRoles
+- uid: NonBlocking.ConcurrentDictionary{System.UInt64,System.String}
+  commentId: T:NonBlocking.ConcurrentDictionary{System.UInt64,System.String}
+  parent: NonBlocking
+  definition: NonBlocking.ConcurrentDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ConcurrentDictionary<ulong, string>
+  nameWithType: ConcurrentDictionary<ulong, string>
+  fullName: NonBlocking.ConcurrentDictionary<ulong, string>
+  nameWithType.vb: ConcurrentDictionary(Of ULong, String)
+  fullName.vb: NonBlocking.ConcurrentDictionary(Of ULong, String)
+  name.vb: ConcurrentDictionary(Of ULong, String)
+  spec.csharp:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: <
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: NonBlocking.ConcurrentDictionary`2
+  commentId: T:NonBlocking.ConcurrentDictionary`2
+  isExternal: true
+  name: ConcurrentDictionary<TKey, TValue>
+  nameWithType: ConcurrentDictionary<TKey, TValue>
+  fullName: NonBlocking.ConcurrentDictionary<TKey, TValue>
+  nameWithType.vb: ConcurrentDictionary(Of TKey, TValue)
+  fullName.vb: NonBlocking.ConcurrentDictionary(Of TKey, TValue)
+  name.vb: ConcurrentDictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: NonBlocking
+  commentId: N:NonBlocking
+  isExternal: true
+  name: NonBlocking
+  nameWithType: NonBlocking
+  fullName: NonBlocking
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.MutedUsers*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.MuteService.MutedUsers
+  href: Mewdeko.Modules.Moderation.Services.MuteService.html#Mewdeko_Modules_Moderation_Services_MuteService_MutedUsers
+  name: MutedUsers
+  nameWithType: MuteService.MutedUsers
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.MutedUsers
+- uid: NonBlocking.ConcurrentDictionary{System.UInt64,Mewdeko.Common.Collections.ConcurrentHashSet{System.UInt64}}
+  commentId: T:NonBlocking.ConcurrentDictionary{System.UInt64,Mewdeko.Common.Collections.ConcurrentHashSet{System.UInt64}}
+  parent: NonBlocking
+  definition: NonBlocking.ConcurrentDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>
+  nameWithType: ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>
+  fullName: NonBlocking.ConcurrentDictionary<ulong, Mewdeko.Common.Collections.ConcurrentHashSet<ulong>>
+  nameWithType.vb: ConcurrentDictionary(Of ULong, ConcurrentHashSet(Of ULong))
+  fullName.vb: NonBlocking.ConcurrentDictionary(Of ULong, Mewdeko.Common.Collections.ConcurrentHashSet(Of ULong))
+  name.vb: ConcurrentDictionary(Of ULong, ConcurrentHashSet(Of ULong))
+  spec.csharp:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: <
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Common.Collections.ConcurrentHashSet`1
+    name: ConcurrentHashSet
+    href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html
+  - name: <
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Common.Collections.ConcurrentHashSet`1
+    name: ConcurrentHashSet
+    href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  - name: )
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.UnTimers*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.MuteService.UnTimers
+  href: Mewdeko.Modules.Moderation.Services.MuteService.html#Mewdeko_Modules_Moderation_Services_MuteService_UnTimers
+  name: UnTimers
+  nameWithType: MuteService.UnTimers
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.UnTimers
+- uid: NonBlocking.ConcurrentDictionary{System.UInt64,NonBlocking.ConcurrentDictionary{System.ValueTuple{System.UInt64,Mewdeko.Modules.Moderation.Services.MuteService.TimerType},System.Threading.Timer}}
+  commentId: T:NonBlocking.ConcurrentDictionary{System.UInt64,NonBlocking.ConcurrentDictionary{System.ValueTuple{System.UInt64,Mewdeko.Modules.Moderation.Services.MuteService.TimerType},System.Threading.Timer}}
+  parent: NonBlocking
+  definition: NonBlocking.ConcurrentDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ConcurrentDictionary<ulong, ConcurrentDictionary<(ulong, MuteService.TimerType), Timer>>
+  nameWithType: ConcurrentDictionary<ulong, ConcurrentDictionary<(ulong, MuteService.TimerType), Timer>>
+  fullName: NonBlocking.ConcurrentDictionary<ulong, NonBlocking.ConcurrentDictionary<(ulong, Mewdeko.Modules.Moderation.Services.MuteService.TimerType), System.Threading.Timer>>
+  nameWithType.vb: ConcurrentDictionary(Of ULong, ConcurrentDictionary(Of (ULong, MuteService.TimerType), Timer))
+  fullName.vb: NonBlocking.ConcurrentDictionary(Of ULong, NonBlocking.ConcurrentDictionary(Of (ULong, Mewdeko.Modules.Moderation.Services.MuteService.TimerType), System.Threading.Timer))
+  name.vb: ConcurrentDictionary(Of ULong, ConcurrentDictionary(Of (ULong, MuteService.TimerType), Timer))
+  spec.csharp:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: <
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: <
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Modules.Moderation.Services.MuteService
+    name: MuteService
+    href: Mewdeko.Modules.Moderation.Services.MuteService.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation.Services.MuteService.TimerType
+    name: TimerType
+    href: Mewdeko.Modules.Moderation.Services.MuteService.TimerType.html
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Timer
+    name: Timer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.timer
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Modules.Moderation.Services.MuteService
+    name: MuteService
+    href: Mewdeko.Modules.Moderation.Services.MuteService.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation.Services.MuteService.TimerType
+    name: TimerType
+    href: Mewdeko.Modules.Moderation.Services.MuteService.TimerType.html
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Timer
+    name: Timer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.timer
+  - name: )
+  - name: )
+- uid: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler{Discord.IGuildUser,Discord.IUser,Mewdeko.Modules.Moderation.Services.MuteType,System.String}
+  commentId: T:Mewdeko.Services.Impl.EventHandler.AsyncEventHandler{Discord.IGuildUser,Discord.IUser,Mewdeko.Modules.Moderation.Services.MuteType,System.String}
+  parent: Mewdeko.Services.Impl
+  definition: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`4
+  href: Mewdeko.Services.Impl.EventHandler.html
+  name: EventHandler.AsyncEventHandler<IGuildUser, IUser, MuteType, string>
+  nameWithType: EventHandler.AsyncEventHandler<IGuildUser, IUser, MuteType, string>
+  fullName: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler<Discord.IGuildUser, Discord.IUser, Mewdeko.Modules.Moderation.Services.MuteType, string>
+  nameWithType.vb: EventHandler.AsyncEventHandler(Of IGuildUser, IUser, MuteType, String)
+  fullName.vb: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler(Of Discord.IGuildUser, Discord.IUser, Mewdeko.Modules.Moderation.Services.MuteType, String)
+  name.vb: EventHandler.AsyncEventHandler(Of IGuildUser, IUser, MuteType, String)
+  spec.csharp:
+  - uid: Mewdeko.Services.Impl.EventHandler
+    name: EventHandler
+    href: Mewdeko.Services.Impl.EventHandler.html
+  - name: .
+  - uid: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`4
+    name: AsyncEventHandler
+    href: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler-4.html
+  - name: <
+  - uid: Discord.IGuildUser
+    name: IGuildUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.IUser
+    name: IUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Modules.Moderation.Services.MuteType
+    name: MuteType
+    href: Mewdeko.Modules.Moderation.Services.MuteType.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Services.Impl.EventHandler
+    name: EventHandler
+    href: Mewdeko.Services.Impl.EventHandler.html
+  - name: .
+  - uid: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`4
+    name: AsyncEventHandler
+    href: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler-4.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Discord.IGuildUser
+    name: IGuildUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.IUser
+    name: IUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Modules.Moderation.Services.MuteType
+    name: MuteType
+    href: Mewdeko.Modules.Moderation.Services.MuteType.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`4
+  commentId: T:Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`4
+  href: Mewdeko.Services.Impl.EventHandler.html
+  name: EventHandler.AsyncEventHandler<TEventArgs, TArgs, TEvent, TArgs2>
+  nameWithType: EventHandler.AsyncEventHandler<TEventArgs, TArgs, TEvent, TArgs2>
+  fullName: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler<TEventArgs, TArgs, TEvent, TArgs2>
+  nameWithType.vb: EventHandler.AsyncEventHandler(Of TEventArgs, TArgs, TEvent, TArgs2)
+  fullName.vb: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler(Of TEventArgs, TArgs, TEvent, TArgs2)
+  name.vb: EventHandler.AsyncEventHandler(Of TEventArgs, TArgs, TEvent, TArgs2)
+  spec.csharp:
+  - uid: Mewdeko.Services.Impl.EventHandler
+    name: EventHandler
+    href: Mewdeko.Services.Impl.EventHandler.html
+  - name: .
+  - uid: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`4
+    name: AsyncEventHandler
+    href: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler-4.html
+  - name: <
+  - name: TEventArgs
+  - name: ','
+  - name: " "
+  - name: TArgs
+  - name: ','
+  - name: " "
+  - name: TEvent
+  - name: ','
+  - name: " "
+  - name: TArgs2
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Services.Impl.EventHandler
+    name: EventHandler
+    href: Mewdeko.Services.Impl.EventHandler.html
+  - name: .
+  - uid: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`4
+    name: AsyncEventHandler
+    href: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler-4.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TEventArgs
+  - name: ','
+  - name: " "
+  - name: TArgs
+  - name: ','
+  - name: " "
+  - name: TEvent
+  - name: ','
+  - name: " "
+  - name: TArgs2
+  - name: )
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.SetMuteRoleAsync*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.MuteService.SetMuteRoleAsync
+  href: Mewdeko.Modules.Moderation.Services.MuteService.html#Mewdeko_Modules_Moderation_Services_MuteService_SetMuteRoleAsync_System_UInt64_System_String_
+  name: SetMuteRoleAsync
+  nameWithType: MuteService.SetMuteRoleAsync
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.SetMuteRoleAsync
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong
+  nameWithType: ulong
+  fullName: ulong
+  nameWithType.vb: ULong
+  fullName.vb: ULong
+  name.vb: ULong
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: System.ArgumentOutOfRangeException
+  commentId: T:System.ArgumentOutOfRangeException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception
+  name: ArgumentOutOfRangeException
+  nameWithType: ArgumentOutOfRangeException
+  fullName: System.ArgumentOutOfRangeException
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.MuteUser*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.MuteService.MuteUser
+  href: Mewdeko.Modules.Moderation.Services.MuteService.html#Mewdeko_Modules_Moderation_Services_MuteService_MuteUser_Discord_IGuildUser_Discord_IUser_Mewdeko_Modules_Moderation_Services_MuteType_System_String_
+  name: MuteUser
+  nameWithType: MuteService.MuteUser
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.MuteUser
+- uid: Discord.IGuildUser
+  commentId: T:Discord.IGuildUser
+  parent: Discord
+  isExternal: true
+  name: IGuildUser
+  nameWithType: IGuildUser
+  fullName: Discord.IGuildUser
+- uid: Discord.IUser
+  commentId: T:Discord.IUser
+  parent: Discord
+  isExternal: true
+  name: IUser
+  nameWithType: IUser
+  fullName: Discord.IUser
+- uid: Mewdeko.Modules.Moderation.Services.MuteType
+  commentId: T:Mewdeko.Modules.Moderation.Services.MuteType
+  parent: Mewdeko.Modules.Moderation.Services
+  href: Mewdeko.Modules.Moderation.Services.MuteType.html
+  name: MuteType
+  nameWithType: MuteType
+  fullName: Mewdeko.Modules.Moderation.Services.MuteType
+- uid: Discord
+  commentId: N:Discord
+  isExternal: true
+  name: Discord
+  nameWithType: Discord
+  fullName: Discord
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.GetRemoveOnMute*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.MuteService.GetRemoveOnMute
+  href: Mewdeko.Modules.Moderation.Services.MuteService.html#Mewdeko_Modules_Moderation_Services_MuteService_GetRemoveOnMute_System_UInt64_
+  name: GetRemoveOnMute
+  nameWithType: MuteService.GetRemoveOnMute
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.GetRemoveOnMute
+- uid: System.Threading.Tasks.Task{System.Int32}
+  commentId: T:System.Threading.Tasks.Task{System.Int32}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<int>
+  nameWithType: Task<int>
+  fullName: System.Threading.Tasks.Task<int>
+  nameWithType.vb: Task(Of Integer)
+  fullName.vb: System.Threading.Tasks.Task(Of Integer)
+  name.vb: Task(Of Integer)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.Removeonmute*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.MuteService.Removeonmute
+  href: Mewdeko.Modules.Moderation.Services.MuteService.html#Mewdeko_Modules_Moderation_Services_MuteService_Removeonmute_Discord_IGuild_System_String_
+  name: Removeonmute
+  nameWithType: MuteService.Removeonmute
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.Removeonmute
+- uid: Discord.IGuild
+  commentId: T:Discord.IGuild
+  parent: Discord
+  isExternal: true
+  name: IGuild
+  nameWithType: IGuild
+  fullName: Discord.IGuild
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.UnmuteUser*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.MuteService.UnmuteUser
+  href: Mewdeko.Modules.Moderation.Services.MuteService.html#Mewdeko_Modules_Moderation_Services_MuteService_UnmuteUser_System_UInt64_System_UInt64_Discord_IUser_Mewdeko_Modules_Moderation_Services_MuteType_System_String_
+  name: UnmuteUser
+  nameWithType: MuteService.UnmuteUser
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.UnmuteUser
+- uid: Discord.IRole
+  commentId: T:Discord.IRole
+  parent: Discord
+  isExternal: true
+  name: IRole
+  nameWithType: IRole
+  fullName: Discord.IRole
+- uid: System.ArgumentNullException
+  commentId: T:System.ArgumentNullException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.argumentnullexception
+  name: ArgumentNullException
+  nameWithType: ArgumentNullException
+  fullName: System.ArgumentNullException
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.GetMuteRole*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.MuteService.GetMuteRole
+  href: Mewdeko.Modules.Moderation.Services.MuteService.html#Mewdeko_Modules_Moderation_Services_MuteService_GetMuteRole_Discord_IGuild_
+  name: GetMuteRole
+  nameWithType: MuteService.GetMuteRole
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.GetMuteRole
+- uid: System.Threading.Tasks.Task{Discord.IRole}
+  commentId: T:System.Threading.Tasks.Task{Discord.IRole}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<IRole>
+  nameWithType: Task<IRole>
+  fullName: System.Threading.Tasks.Task<Discord.IRole>
+  nameWithType.vb: Task(Of IRole)
+  fullName.vb: System.Threading.Tasks.Task(Of Discord.IRole)
+  name.vb: Task(Of IRole)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Discord.IRole
+    name: IRole
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Discord.IRole
+    name: IRole
+    isExternal: true
+  - name: )
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.TimedMute*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.MuteService.TimedMute
+  href: Mewdeko.Modules.Moderation.Services.MuteService.html#Mewdeko_Modules_Moderation_Services_MuteService_TimedMute_Discord_IGuildUser_Discord_IUser_System_TimeSpan_Mewdeko_Modules_Moderation_Services_MuteType_System_String_
+  name: TimedMute
+  nameWithType: MuteService.TimedMute
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.TimedMute
+- uid: System.TimeSpan
+  commentId: T:System.TimeSpan
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.timespan
+  name: TimeSpan
+  nameWithType: TimeSpan
+  fullName: System.TimeSpan
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.TimedBan*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.MuteService.TimedBan
+  href: Mewdeko.Modules.Moderation.Services.MuteService.html#Mewdeko_Modules_Moderation_Services_MuteService_TimedBan_Discord_IGuild_Discord_IUser_System_TimeSpan_System_String_System_TimeSpan_
+  name: TimedBan
+  nameWithType: MuteService.TimedBan
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.TimedBan
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.TimedRole*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.MuteService.TimedRole
+  href: Mewdeko.Modules.Moderation.Services.MuteService.html#Mewdeko_Modules_Moderation_Services_MuteService_TimedRole_Discord_IGuildUser_System_TimeSpan_System_String_Discord_IRole_
+  name: TimedRole
+  nameWithType: MuteService.TimedRole
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.TimedRole
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.StartUn_Timer*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.MuteService.StartUn_Timer
+  href: Mewdeko.Modules.Moderation.Services.MuteService.html#Mewdeko_Modules_Moderation_Services_MuteService_StartUn_Timer_System_UInt64_System_UInt64_System_TimeSpan_Mewdeko_Modules_Moderation_Services_MuteService_TimerType_System_Nullable_System_UInt64__
+  name: StartUn_Timer
+  nameWithType: MuteService.StartUn_Timer
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.StartUn_Timer
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.TimerType
+  commentId: T:Mewdeko.Modules.Moderation.Services.MuteService.TimerType
+  parent: Mewdeko.Modules.Moderation.Services
+  href: Mewdeko.Modules.Moderation.Services.MuteService.html
+  name: MuteService.TimerType
+  nameWithType: MuteService.TimerType
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.TimerType
+  spec.csharp:
+  - uid: Mewdeko.Modules.Moderation.Services.MuteService
+    name: MuteService
+    href: Mewdeko.Modules.Moderation.Services.MuteService.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation.Services.MuteService.TimerType
+    name: TimerType
+    href: Mewdeko.Modules.Moderation.Services.MuteService.TimerType.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Moderation.Services.MuteService
+    name: MuteService
+    href: Mewdeko.Modules.Moderation.Services.MuteService.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation.Services.MuteService.TimerType
+    name: TimerType
+    href: Mewdeko.Modules.Moderation.Services.MuteService.TimerType.html
+- uid: System.Nullable{System.UInt64}
+  commentId: T:System.Nullable{System.UInt64}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong?
+  nameWithType: ulong?
+  fullName: ulong?
+  nameWithType.vb: ULong?
+  fullName.vb: ULong?
+  name.vb: ULong?
+  spec.csharp:
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  spec.vb:
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.StopTimer*
+  commentId: Overload:Mewdeko.Modules.Moderation.Services.MuteService.StopTimer
+  href: Mewdeko.Modules.Moderation.Services.MuteService.html#Mewdeko_Modules_Moderation_Services_MuteService_StopTimer_System_UInt64_System_UInt64_Mewdeko_Modules_Moderation_Services_MuteService_TimerType_
+  name: StopTimer
+  nameWithType: MuteService.StopTimer
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.StopTimer

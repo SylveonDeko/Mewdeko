@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Currency
+  commentId: N:Mewdeko.Modules.Currency
+  id: Mewdeko.Modules.Currency
+  children:
+  - Mewdeko.Modules.Currency.Currency
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Currency
+  nameWithType: Mewdeko.Modules.Currency
+  fullName: Mewdeko.Modules.Currency
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Currency.Currency
+  commentId: T:Mewdeko.Modules.Currency.Currency
+  href: Mewdeko.Modules.Currency.Currency.html
+  name: Currency
+  nameWithType: Currency
+  fullName: Mewdeko.Modules.Currency.Currency

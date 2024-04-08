@@ -1,0 +1,788 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Models.MusicPlayerSettings
+  commentId: T:Mewdeko.Database.Models.MusicPlayerSettings
+  id: MusicPlayerSettings
+  parent: Mewdeko.Database.Models
+  children:
+  - Mewdeko.Database.Models.MusicPlayerSettings.AutoDisconnect
+  - Mewdeko.Database.Models.MusicPlayerSettings.AutoPlay
+  - Mewdeko.Database.Models.MusicPlayerSettings.GuildId
+  - Mewdeko.Database.Models.MusicPlayerSettings.Id
+  - Mewdeko.Database.Models.MusicPlayerSettings.MusicChannelId
+  - Mewdeko.Database.Models.MusicPlayerSettings.PlayerRepeat
+  - Mewdeko.Database.Models.MusicPlayerSettings.Volume
+  langs:
+  - csharp
+  - vb
+  name: MusicPlayerSettings
+  nameWithType: MusicPlayerSettings
+  fullName: Mewdeko.Database.Models.MusicPlayerSettings
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/MusicSettings.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MusicPlayerSettings
+    path: src/Mewdeko.Database/Models/MusicSettings.cs
+    startLine: 2
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public class MusicPlayerSettings
+    content.vb: Public Class MusicPlayerSettings
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Database.Models.MusicPlayerSettings.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Database.Models.MusicPlayerSettings.Id
+  commentId: P:Mewdeko.Database.Models.MusicPlayerSettings.Id
+  id: Id
+  parent: Mewdeko.Database.Models.MusicPlayerSettings
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: MusicPlayerSettings.Id
+  fullName: Mewdeko.Database.Models.MusicPlayerSettings.Id
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/MusicSettings.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Id
+    path: src/Mewdeko.Database/Models/MusicSettings.cs
+    startLine: 7
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: Auto generated Id
+  example: []
+  syntax:
+    content: public int Id { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Id As Integer
+  overload: Mewdeko.Database.Models.MusicPlayerSettings.Id*
+- uid: Mewdeko.Database.Models.MusicPlayerSettings.GuildId
+  commentId: P:Mewdeko.Database.Models.MusicPlayerSettings.GuildId
+  id: GuildId
+  parent: Mewdeko.Database.Models.MusicPlayerSettings
+  langs:
+  - csharp
+  - vb
+  name: GuildId
+  nameWithType: MusicPlayerSettings.GuildId
+  fullName: Mewdeko.Database.Models.MusicPlayerSettings.GuildId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/MusicSettings.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GuildId
+    path: src/Mewdeko.Database/Models/MusicSettings.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: Id of the guild
+  example: []
+  syntax:
+    content: public ulong GuildId { get; set; }
+    parameters: []
+    return:
+      type: System.UInt64
+    content.vb: Public Property GuildId As ULong
+  overload: Mewdeko.Database.Models.MusicPlayerSettings.GuildId*
+- uid: Mewdeko.Database.Models.MusicPlayerSettings.PlayerRepeat
+  commentId: P:Mewdeko.Database.Models.MusicPlayerSettings.PlayerRepeat
+  id: PlayerRepeat
+  parent: Mewdeko.Database.Models.MusicPlayerSettings
+  langs:
+  - csharp
+  - vb
+  name: PlayerRepeat
+  nameWithType: MusicPlayerSettings.PlayerRepeat
+  fullName: Mewdeko.Database.Models.MusicPlayerSettings.PlayerRepeat
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/MusicSettings.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: PlayerRepeat
+    path: src/Mewdeko.Database/Models/MusicSettings.cs
+    startLine: 17
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: Queue repeat type
+  example: []
+  syntax:
+    content: public PlayerRepeatType PlayerRepeat { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Database.Models.PlayerRepeatType
+    content.vb: Public Property PlayerRepeat As PlayerRepeatType
+  overload: Mewdeko.Database.Models.MusicPlayerSettings.PlayerRepeat*
+- uid: Mewdeko.Database.Models.MusicPlayerSettings.MusicChannelId
+  commentId: P:Mewdeko.Database.Models.MusicPlayerSettings.MusicChannelId
+  id: MusicChannelId
+  parent: Mewdeko.Database.Models.MusicPlayerSettings
+  langs:
+  - csharp
+  - vb
+  name: MusicChannelId
+  nameWithType: MusicPlayerSettings.MusicChannelId
+  fullName: Mewdeko.Database.Models.MusicPlayerSettings.MusicChannelId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/MusicSettings.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MusicChannelId
+    path: src/Mewdeko.Database/Models/MusicSettings.cs
+    startLine: 22
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: Channel id the bot will always try to send track related messages to
+  example: []
+  syntax:
+    content: public ulong? MusicChannelId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property MusicChannelId As ULong?
+  overload: Mewdeko.Database.Models.MusicPlayerSettings.MusicChannelId*
+- uid: Mewdeko.Database.Models.MusicPlayerSettings.Volume
+  commentId: P:Mewdeko.Database.Models.MusicPlayerSettings.Volume
+  id: Volume
+  parent: Mewdeko.Database.Models.MusicPlayerSettings
+  langs:
+  - csharp
+  - vb
+  name: Volume
+  nameWithType: MusicPlayerSettings.Volume
+  fullName: Mewdeko.Database.Models.MusicPlayerSettings.Volume
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/MusicSettings.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Volume
+    path: src/Mewdeko.Database/Models/MusicSettings.cs
+    startLine: 27
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: Default volume player will be created with
+  example: []
+  syntax:
+    content: public int Volume { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Volume As Integer
+  overload: Mewdeko.Database.Models.MusicPlayerSettings.Volume*
+- uid: Mewdeko.Database.Models.MusicPlayerSettings.AutoDisconnect
+  commentId: P:Mewdeko.Database.Models.MusicPlayerSettings.AutoDisconnect
+  id: AutoDisconnect
+  parent: Mewdeko.Database.Models.MusicPlayerSettings
+  langs:
+  - csharp
+  - vb
+  name: AutoDisconnect
+  nameWithType: MusicPlayerSettings.AutoDisconnect
+  fullName: Mewdeko.Database.Models.MusicPlayerSettings.AutoDisconnect
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/MusicSettings.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AutoDisconnect
+    path: src/Mewdeko.Database/Models/MusicSettings.cs
+    startLine: 33
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: >-
+    Whether the bot should auto disconnect from the voice channel once the queue is done
+
+    This only has effect if
+  example: []
+  syntax:
+    content: public AutoDisconnect AutoDisconnect { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Database.Models.AutoDisconnect
+    content.vb: Public Property AutoDisconnect As AutoDisconnect
+  overload: Mewdeko.Database.Models.MusicPlayerSettings.AutoDisconnect*
+- uid: Mewdeko.Database.Models.MusicPlayerSettings.AutoPlay
+  commentId: P:Mewdeko.Database.Models.MusicPlayerSettings.AutoPlay
+  id: AutoPlay
+  parent: Mewdeko.Database.Models.MusicPlayerSettings
+  langs:
+  - csharp
+  - vb
+  name: AutoPlay
+  nameWithType: MusicPlayerSettings.AutoPlay
+  fullName: Mewdeko.Database.Models.MusicPlayerSettings.AutoPlay
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/MusicSettings.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AutoPlay
+    path: src/Mewdeko.Database/Models/MusicSettings.cs
+    startLine: 35
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public int AutoPlay { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property AutoPlay As Integer
+  overload: Mewdeko.Database.Models.MusicPlayerSettings.AutoPlay*
+references:
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Database.Models.MusicPlayerSettings.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<MusicPlayerSettings>(MusicPlayerSettings, string)
+  nameWithType: Extensions.ThrowIfNull<MusicPlayerSettings>(MusicPlayerSettings, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Database.Models.MusicPlayerSettings>(Mewdeko.Database.Models.MusicPlayerSettings, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of MusicPlayerSettings)(MusicPlayerSettings, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Database.Models.MusicPlayerSettings)(Mewdeko.Database.Models.MusicPlayerSettings, String)
+  name.vb: ThrowIfNull(Of MusicPlayerSettings)(MusicPlayerSettings, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Database.Models.MusicPlayerSettings,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Database.Models.MusicPlayerSettings
+    name: MusicPlayerSettings
+    href: Mewdeko.Database.Models.MusicPlayerSettings.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Database.Models.MusicPlayerSettings
+    name: MusicPlayerSettings
+    href: Mewdeko.Database.Models.MusicPlayerSettings.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Database.Models.MusicPlayerSettings,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Models.MusicPlayerSettings
+    name: MusicPlayerSettings
+    href: Mewdeko.Database.Models.MusicPlayerSettings.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Database.Models.MusicPlayerSettings
+    name: MusicPlayerSettings
+    href: Mewdeko.Database.Models.MusicPlayerSettings.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Database.Models.MusicPlayerSettings.Id*
+  commentId: Overload:Mewdeko.Database.Models.MusicPlayerSettings.Id
+  href: Mewdeko.Database.Models.MusicPlayerSettings.html#Mewdeko_Database_Models_MusicPlayerSettings_Id
+  name: Id
+  nameWithType: MusicPlayerSettings.Id
+  fullName: Mewdeko.Database.Models.MusicPlayerSettings.Id
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Database.Models.MusicPlayerSettings.GuildId*
+  commentId: Overload:Mewdeko.Database.Models.MusicPlayerSettings.GuildId
+  href: Mewdeko.Database.Models.MusicPlayerSettings.html#Mewdeko_Database_Models_MusicPlayerSettings_GuildId
+  name: GuildId
+  nameWithType: MusicPlayerSettings.GuildId
+  fullName: Mewdeko.Database.Models.MusicPlayerSettings.GuildId
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong
+  nameWithType: ulong
+  fullName: ulong
+  nameWithType.vb: ULong
+  fullName.vb: ULong
+  name.vb: ULong
+- uid: Mewdeko.Database.Models.MusicPlayerSettings.PlayerRepeat*
+  commentId: Overload:Mewdeko.Database.Models.MusicPlayerSettings.PlayerRepeat
+  href: Mewdeko.Database.Models.MusicPlayerSettings.html#Mewdeko_Database_Models_MusicPlayerSettings_PlayerRepeat
+  name: PlayerRepeat
+  nameWithType: MusicPlayerSettings.PlayerRepeat
+  fullName: Mewdeko.Database.Models.MusicPlayerSettings.PlayerRepeat
+- uid: Mewdeko.Database.Models.PlayerRepeatType
+  commentId: T:Mewdeko.Database.Models.PlayerRepeatType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.PlayerRepeatType.html
+  name: PlayerRepeatType
+  nameWithType: PlayerRepeatType
+  fullName: Mewdeko.Database.Models.PlayerRepeatType
+- uid: Mewdeko.Database.Models.MusicPlayerSettings.MusicChannelId*
+  commentId: Overload:Mewdeko.Database.Models.MusicPlayerSettings.MusicChannelId
+  href: Mewdeko.Database.Models.MusicPlayerSettings.html#Mewdeko_Database_Models_MusicPlayerSettings_MusicChannelId
+  name: MusicChannelId
+  nameWithType: MusicPlayerSettings.MusicChannelId
+  fullName: Mewdeko.Database.Models.MusicPlayerSettings.MusicChannelId
+- uid: System.Nullable{System.UInt64}
+  commentId: T:System.Nullable{System.UInt64}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong?
+  nameWithType: ulong?
+  fullName: ulong?
+  nameWithType.vb: ULong?
+  fullName.vb: ULong?
+  name.vb: ULong?
+  spec.csharp:
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  spec.vb:
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Database.Models.MusicPlayerSettings.Volume*
+  commentId: Overload:Mewdeko.Database.Models.MusicPlayerSettings.Volume
+  href: Mewdeko.Database.Models.MusicPlayerSettings.html#Mewdeko_Database_Models_MusicPlayerSettings_Volume
+  name: Volume
+  nameWithType: MusicPlayerSettings.Volume
+  fullName: Mewdeko.Database.Models.MusicPlayerSettings.Volume
+- uid: Mewdeko.Database.Models.MusicPlayerSettings.AutoDisconnect*
+  commentId: Overload:Mewdeko.Database.Models.MusicPlayerSettings.AutoDisconnect
+  href: Mewdeko.Database.Models.MusicPlayerSettings.html#Mewdeko_Database_Models_MusicPlayerSettings_AutoDisconnect
+  name: AutoDisconnect
+  nameWithType: MusicPlayerSettings.AutoDisconnect
+  fullName: Mewdeko.Database.Models.MusicPlayerSettings.AutoDisconnect
+- uid: Mewdeko.Database.Models.AutoDisconnect
+  commentId: T:Mewdeko.Database.Models.AutoDisconnect
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.AutoDisconnect.html
+  name: AutoDisconnect
+  nameWithType: AutoDisconnect
+  fullName: Mewdeko.Database.Models.AutoDisconnect
+- uid: Mewdeko.Database.Models.MusicPlayerSettings.AutoPlay*
+  commentId: Overload:Mewdeko.Database.Models.MusicPlayerSettings.AutoPlay
+  href: Mewdeko.Database.Models.MusicPlayerSettings.html#Mewdeko_Database_Models_MusicPlayerSettings_AutoPlay
+  name: AutoPlay
+  nameWithType: MusicPlayerSettings.AutoPlay
+  fullName: Mewdeko.Database.Models.MusicPlayerSettings.AutoPlay

@@ -1,0 +1,62 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.Replacements
+  commentId: N:Mewdeko.Common.Replacements
+  id: Mewdeko.Common.Replacements
+  children:
+  - Mewdeko.Common.Replacements.ReplacementBuilder
+  - Mewdeko.Common.Replacements.Replacer
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Common.Replacements
+  nameWithType: Mewdeko.Common.Replacements
+  fullName: Mewdeko.Common.Replacements
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Common.Replacements.ReplacementBuilder
+  commentId: T:Mewdeko.Common.Replacements.ReplacementBuilder
+  parent: Mewdeko.Common.Replacements
+  href: Mewdeko.Common.Replacements.ReplacementBuilder.html
+  name: ReplacementBuilder
+  nameWithType: ReplacementBuilder
+  fullName: Mewdeko.Common.Replacements.ReplacementBuilder
+- uid: Mewdeko.Common.Replacements.Replacer
+  commentId: T:Mewdeko.Common.Replacements.Replacer
+  parent: Mewdeko.Common.Replacements
+  href: Mewdeko.Common.Replacements.Replacer.html
+  name: Replacer
+  nameWithType: Replacer
+  fullName: Mewdeko.Common.Replacements.Replacer
+- uid: Mewdeko.Common.Replacements
+  commentId: N:Mewdeko.Common.Replacements
+  href: Mewdeko.html
+  name: Mewdeko.Common.Replacements
+  nameWithType: Mewdeko.Common.Replacements
+  fullName: Mewdeko.Common.Replacements
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Replacements
+    name: Replacements
+    href: Mewdeko.Common.Replacements.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Replacements
+    name: Replacements
+    href: Mewdeko.Common.Replacements.html

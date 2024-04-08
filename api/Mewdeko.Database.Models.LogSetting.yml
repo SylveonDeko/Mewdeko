@@ -1,0 +1,2350 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Models.LogSetting
+  commentId: T:Mewdeko.Database.Models.LogSetting
+  id: LogSetting
+  parent: Mewdeko.Database.Models
+  children:
+  - Mewdeko.Database.Models.LogSetting.AvatarUpdatedId
+  - Mewdeko.Database.Models.LogSetting.ChannelCreated
+  - Mewdeko.Database.Models.LogSetting.ChannelCreatedId
+  - Mewdeko.Database.Models.LogSetting.ChannelDestroyed
+  - Mewdeko.Database.Models.LogSetting.ChannelDestroyedId
+  - Mewdeko.Database.Models.LogSetting.ChannelId
+  - Mewdeko.Database.Models.LogSetting.ChannelUpdated
+  - Mewdeko.Database.Models.LogSetting.ChannelUpdatedId
+  - Mewdeko.Database.Models.LogSetting.EventCreatedId
+  - Mewdeko.Database.Models.LogSetting.IgnoredChannels
+  - Mewdeko.Database.Models.LogSetting.IgnoredVoicePresenceChannelIds
+  - Mewdeko.Database.Models.LogSetting.IsLogging
+  - Mewdeko.Database.Models.LogSetting.LogOtherId
+  - Mewdeko.Database.Models.LogSetting.LogUserPresence
+  - Mewdeko.Database.Models.LogSetting.LogUserPresenceId
+  - Mewdeko.Database.Models.LogSetting.LogVoicePresence
+  - Mewdeko.Database.Models.LogSetting.LogVoicePresenceId
+  - Mewdeko.Database.Models.LogSetting.LogVoicePresenceTTSId
+  - Mewdeko.Database.Models.LogSetting.MessageDeleted
+  - Mewdeko.Database.Models.LogSetting.MessageDeletedId
+  - Mewdeko.Database.Models.LogSetting.MessageUpdated
+  - Mewdeko.Database.Models.LogSetting.MessageUpdatedId
+  - Mewdeko.Database.Models.LogSetting.NicknameUpdatedId
+  - Mewdeko.Database.Models.LogSetting.RoleCreatedId
+  - Mewdeko.Database.Models.LogSetting.RoleDeletedId
+  - Mewdeko.Database.Models.LogSetting.RoleUpdatedId
+  - Mewdeko.Database.Models.LogSetting.ServerUpdatedId
+  - Mewdeko.Database.Models.LogSetting.ThreadCreatedId
+  - Mewdeko.Database.Models.LogSetting.ThreadDeletedId
+  - Mewdeko.Database.Models.LogSetting.ThreadUpdatedId
+  - Mewdeko.Database.Models.LogSetting.UserBanned
+  - Mewdeko.Database.Models.LogSetting.UserBannedId
+  - Mewdeko.Database.Models.LogSetting.UserJoined
+  - Mewdeko.Database.Models.LogSetting.UserJoinedId
+  - Mewdeko.Database.Models.LogSetting.UserLeft
+  - Mewdeko.Database.Models.LogSetting.UserLeftId
+  - Mewdeko.Database.Models.LogSetting.UserMutedId
+  - Mewdeko.Database.Models.LogSetting.UserPresenceChannelId
+  - Mewdeko.Database.Models.LogSetting.UserRoleAddedId
+  - Mewdeko.Database.Models.LogSetting.UserRoleRemovedId
+  - Mewdeko.Database.Models.LogSetting.UserUnbanned
+  - Mewdeko.Database.Models.LogSetting.UserUnbannedId
+  - Mewdeko.Database.Models.LogSetting.UserUpdated
+  - Mewdeko.Database.Models.LogSetting.UserUpdatedId
+  - Mewdeko.Database.Models.LogSetting.UsernameUpdatedId
+  - Mewdeko.Database.Models.LogSetting.VoicePresenceChannelId
+  langs:
+  - csharp
+  - vb
+  name: LogSetting
+  nameWithType: LogSetting
+  fullName: Mewdeko.Database.Models.LogSetting
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: LogSetting
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 2
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: 'public class LogSetting : DbEntity'
+    content.vb: Public Class LogSetting Inherits DbEntity
+  inheritance:
+  - System.Object
+  - Mewdeko.Database.Models.DbEntity
+  inheritedMembers:
+  - Mewdeko.Database.Models.DbEntity.Id
+  - Mewdeko.Database.Models.DbEntity.DateAdded
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Database.Models.LogSetting.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Database.Models.LogSetting.IgnoredChannels
+  commentId: P:Mewdeko.Database.Models.LogSetting.IgnoredChannels
+  id: IgnoredChannels
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: IgnoredChannels
+  nameWithType: LogSetting.IgnoredChannels
+  fullName: Mewdeko.Database.Models.LogSetting.IgnoredChannels
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IgnoredChannels
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 4
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public HashSet<IgnoredLogChannel> IgnoredChannels { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.HashSet{Mewdeko.Database.Models.IgnoredLogChannel}
+    content.vb: Public Property IgnoredChannels As HashSet(Of IgnoredLogChannel)
+  overload: Mewdeko.Database.Models.LogSetting.IgnoredChannels*
+- uid: Mewdeko.Database.Models.LogSetting.IgnoredVoicePresenceChannelIds
+  commentId: P:Mewdeko.Database.Models.LogSetting.IgnoredVoicePresenceChannelIds
+  id: IgnoredVoicePresenceChannelIds
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: IgnoredVoicePresenceChannelIds
+  nameWithType: LogSetting.IgnoredVoicePresenceChannelIds
+  fullName: Mewdeko.Database.Models.LogSetting.IgnoredVoicePresenceChannelIds
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IgnoredVoicePresenceChannelIds
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 5
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public HashSet<IgnoredVoicePresenceChannel> IgnoredVoicePresenceChannelIds { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.HashSet{Mewdeko.Database.Models.IgnoredVoicePresenceChannel}
+    content.vb: Public Property IgnoredVoicePresenceChannelIds As HashSet(Of IgnoredVoicePresenceChannel)
+  overload: Mewdeko.Database.Models.LogSetting.IgnoredVoicePresenceChannelIds*
+- uid: Mewdeko.Database.Models.LogSetting.LogOtherId
+  commentId: P:Mewdeko.Database.Models.LogSetting.LogOtherId
+  id: LogOtherId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: LogOtherId
+  nameWithType: LogSetting.LogOtherId
+  fullName: Mewdeko.Database.Models.LogSetting.LogOtherId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: LogOtherId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 7
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? LogOtherId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property LogOtherId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.LogOtherId*
+- uid: Mewdeko.Database.Models.LogSetting.MessageUpdatedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.MessageUpdatedId
+  id: MessageUpdatedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: MessageUpdatedId
+  nameWithType: LogSetting.MessageUpdatedId
+  fullName: Mewdeko.Database.Models.LogSetting.MessageUpdatedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MessageUpdatedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 8
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? MessageUpdatedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property MessageUpdatedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.MessageUpdatedId*
+- uid: Mewdeko.Database.Models.LogSetting.MessageDeletedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.MessageDeletedId
+  id: MessageDeletedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: MessageDeletedId
+  nameWithType: LogSetting.MessageDeletedId
+  fullName: Mewdeko.Database.Models.LogSetting.MessageDeletedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MessageDeletedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 10
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? MessageDeletedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property MessageDeletedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.MessageDeletedId*
+- uid: Mewdeko.Database.Models.LogSetting.ThreadCreatedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.ThreadCreatedId
+  id: ThreadCreatedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: ThreadCreatedId
+  nameWithType: LogSetting.ThreadCreatedId
+  fullName: Mewdeko.Database.Models.LogSetting.ThreadCreatedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ThreadCreatedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 13
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? ThreadCreatedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property ThreadCreatedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.ThreadCreatedId*
+- uid: Mewdeko.Database.Models.LogSetting.ThreadDeletedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.ThreadDeletedId
+  id: ThreadDeletedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: ThreadDeletedId
+  nameWithType: LogSetting.ThreadDeletedId
+  fullName: Mewdeko.Database.Models.LogSetting.ThreadDeletedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ThreadDeletedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 14
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? ThreadDeletedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property ThreadDeletedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.ThreadDeletedId*
+- uid: Mewdeko.Database.Models.LogSetting.ThreadUpdatedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.ThreadUpdatedId
+  id: ThreadUpdatedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: ThreadUpdatedId
+  nameWithType: LogSetting.ThreadUpdatedId
+  fullName: Mewdeko.Database.Models.LogSetting.ThreadUpdatedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ThreadUpdatedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 16
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? ThreadUpdatedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property ThreadUpdatedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.ThreadUpdatedId*
+- uid: Mewdeko.Database.Models.LogSetting.UsernameUpdatedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.UsernameUpdatedId
+  id: UsernameUpdatedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: UsernameUpdatedId
+  nameWithType: LogSetting.UsernameUpdatedId
+  fullName: Mewdeko.Database.Models.LogSetting.UsernameUpdatedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UsernameUpdatedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 19
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? UsernameUpdatedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property UsernameUpdatedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.UsernameUpdatedId*
+- uid: Mewdeko.Database.Models.LogSetting.NicknameUpdatedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.NicknameUpdatedId
+  id: NicknameUpdatedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: NicknameUpdatedId
+  nameWithType: LogSetting.NicknameUpdatedId
+  fullName: Mewdeko.Database.Models.LogSetting.NicknameUpdatedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: NicknameUpdatedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 20
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? NicknameUpdatedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property NicknameUpdatedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.NicknameUpdatedId*
+- uid: Mewdeko.Database.Models.LogSetting.AvatarUpdatedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.AvatarUpdatedId
+  id: AvatarUpdatedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: AvatarUpdatedId
+  nameWithType: LogSetting.AvatarUpdatedId
+  fullName: Mewdeko.Database.Models.LogSetting.AvatarUpdatedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AvatarUpdatedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 21
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? AvatarUpdatedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property AvatarUpdatedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.AvatarUpdatedId*
+- uid: Mewdeko.Database.Models.LogSetting.UserLeftId
+  commentId: P:Mewdeko.Database.Models.LogSetting.UserLeftId
+  id: UserLeftId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: UserLeftId
+  nameWithType: LogSetting.UserLeftId
+  fullName: Mewdeko.Database.Models.LogSetting.UserLeftId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserLeftId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 22
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? UserLeftId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property UserLeftId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.UserLeftId*
+- uid: Mewdeko.Database.Models.LogSetting.UserBannedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.UserBannedId
+  id: UserBannedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: UserBannedId
+  nameWithType: LogSetting.UserBannedId
+  fullName: Mewdeko.Database.Models.LogSetting.UserBannedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserBannedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 23
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? UserBannedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property UserBannedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.UserBannedId*
+- uid: Mewdeko.Database.Models.LogSetting.UserUnbannedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.UserUnbannedId
+  id: UserUnbannedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: UserUnbannedId
+  nameWithType: LogSetting.UserUnbannedId
+  fullName: Mewdeko.Database.Models.LogSetting.UserUnbannedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserUnbannedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 24
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? UserUnbannedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property UserUnbannedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.UserUnbannedId*
+- uid: Mewdeko.Database.Models.LogSetting.UserUpdatedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.UserUpdatedId
+  id: UserUpdatedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: UserUpdatedId
+  nameWithType: LogSetting.UserUpdatedId
+  fullName: Mewdeko.Database.Models.LogSetting.UserUpdatedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserUpdatedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 25
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? UserUpdatedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property UserUpdatedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.UserUpdatedId*
+- uid: Mewdeko.Database.Models.LogSetting.UserJoinedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.UserJoinedId
+  id: UserJoinedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: UserJoinedId
+  nameWithType: LogSetting.UserJoinedId
+  fullName: Mewdeko.Database.Models.LogSetting.UserJoinedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserJoinedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 26
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? UserJoinedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property UserJoinedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.UserJoinedId*
+- uid: Mewdeko.Database.Models.LogSetting.UserRoleAddedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.UserRoleAddedId
+  id: UserRoleAddedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: UserRoleAddedId
+  nameWithType: LogSetting.UserRoleAddedId
+  fullName: Mewdeko.Database.Models.LogSetting.UserRoleAddedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserRoleAddedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 27
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? UserRoleAddedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property UserRoleAddedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.UserRoleAddedId*
+- uid: Mewdeko.Database.Models.LogSetting.UserRoleRemovedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.UserRoleRemovedId
+  id: UserRoleRemovedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: UserRoleRemovedId
+  nameWithType: LogSetting.UserRoleRemovedId
+  fullName: Mewdeko.Database.Models.LogSetting.UserRoleRemovedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserRoleRemovedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 28
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? UserRoleRemovedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property UserRoleRemovedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.UserRoleRemovedId*
+- uid: Mewdeko.Database.Models.LogSetting.UserMutedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.UserMutedId
+  id: UserMutedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: UserMutedId
+  nameWithType: LogSetting.UserMutedId
+  fullName: Mewdeko.Database.Models.LogSetting.UserMutedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserMutedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 29
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? UserMutedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property UserMutedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.UserMutedId*
+- uid: Mewdeko.Database.Models.LogSetting.LogUserPresenceId
+  commentId: P:Mewdeko.Database.Models.LogSetting.LogUserPresenceId
+  id: LogUserPresenceId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: LogUserPresenceId
+  nameWithType: LogSetting.LogUserPresenceId
+  fullName: Mewdeko.Database.Models.LogSetting.LogUserPresenceId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: LogUserPresenceId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 30
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? LogUserPresenceId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property LogUserPresenceId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.LogUserPresenceId*
+- uid: Mewdeko.Database.Models.LogSetting.LogVoicePresenceId
+  commentId: P:Mewdeko.Database.Models.LogSetting.LogVoicePresenceId
+  id: LogVoicePresenceId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: LogVoicePresenceId
+  nameWithType: LogSetting.LogVoicePresenceId
+  fullName: Mewdeko.Database.Models.LogSetting.LogVoicePresenceId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: LogVoicePresenceId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 32
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? LogVoicePresenceId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property LogVoicePresenceId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.LogVoicePresenceId*
+- uid: Mewdeko.Database.Models.LogSetting.LogVoicePresenceTTSId
+  commentId: P:Mewdeko.Database.Models.LogSetting.LogVoicePresenceTTSId
+  id: LogVoicePresenceTTSId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: LogVoicePresenceTTSId
+  nameWithType: LogSetting.LogVoicePresenceTTSId
+  fullName: Mewdeko.Database.Models.LogSetting.LogVoicePresenceTTSId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: LogVoicePresenceTTSId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 35
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? LogVoicePresenceTTSId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property LogVoicePresenceTTSId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.LogVoicePresenceTTSId*
+- uid: Mewdeko.Database.Models.LogSetting.ServerUpdatedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.ServerUpdatedId
+  id: ServerUpdatedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: ServerUpdatedId
+  nameWithType: LogSetting.ServerUpdatedId
+  fullName: Mewdeko.Database.Models.LogSetting.ServerUpdatedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ServerUpdatedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 38
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? ServerUpdatedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property ServerUpdatedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.ServerUpdatedId*
+- uid: Mewdeko.Database.Models.LogSetting.RoleUpdatedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.RoleUpdatedId
+  id: RoleUpdatedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: RoleUpdatedId
+  nameWithType: LogSetting.RoleUpdatedId
+  fullName: Mewdeko.Database.Models.LogSetting.RoleUpdatedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RoleUpdatedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 39
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? RoleUpdatedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property RoleUpdatedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.RoleUpdatedId*
+- uid: Mewdeko.Database.Models.LogSetting.RoleDeletedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.RoleDeletedId
+  id: RoleDeletedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: RoleDeletedId
+  nameWithType: LogSetting.RoleDeletedId
+  fullName: Mewdeko.Database.Models.LogSetting.RoleDeletedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RoleDeletedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 40
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? RoleDeletedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property RoleDeletedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.RoleDeletedId*
+- uid: Mewdeko.Database.Models.LogSetting.EventCreatedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.EventCreatedId
+  id: EventCreatedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: EventCreatedId
+  nameWithType: LogSetting.EventCreatedId
+  fullName: Mewdeko.Database.Models.LogSetting.EventCreatedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: EventCreatedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 41
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? EventCreatedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property EventCreatedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.EventCreatedId*
+- uid: Mewdeko.Database.Models.LogSetting.RoleCreatedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.RoleCreatedId
+  id: RoleCreatedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: RoleCreatedId
+  nameWithType: LogSetting.RoleCreatedId
+  fullName: Mewdeko.Database.Models.LogSetting.RoleCreatedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RoleCreatedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 42
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? RoleCreatedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property RoleCreatedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.RoleCreatedId*
+- uid: Mewdeko.Database.Models.LogSetting.ChannelCreatedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.ChannelCreatedId
+  id: ChannelCreatedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: ChannelCreatedId
+  nameWithType: LogSetting.ChannelCreatedId
+  fullName: Mewdeko.Database.Models.LogSetting.ChannelCreatedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChannelCreatedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 45
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? ChannelCreatedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property ChannelCreatedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.ChannelCreatedId*
+- uid: Mewdeko.Database.Models.LogSetting.ChannelDestroyedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.ChannelDestroyedId
+  id: ChannelDestroyedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: ChannelDestroyedId
+  nameWithType: LogSetting.ChannelDestroyedId
+  fullName: Mewdeko.Database.Models.LogSetting.ChannelDestroyedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChannelDestroyedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 46
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? ChannelDestroyedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property ChannelDestroyedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.ChannelDestroyedId*
+- uid: Mewdeko.Database.Models.LogSetting.ChannelUpdatedId
+  commentId: P:Mewdeko.Database.Models.LogSetting.ChannelUpdatedId
+  id: ChannelUpdatedId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: ChannelUpdatedId
+  nameWithType: LogSetting.ChannelUpdatedId
+  fullName: Mewdeko.Database.Models.LogSetting.ChannelUpdatedId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChannelUpdatedId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 47
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? ChannelUpdatedId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property ChannelUpdatedId As ULong?
+  overload: Mewdeko.Database.Models.LogSetting.ChannelUpdatedId*
+- uid: Mewdeko.Database.Models.LogSetting.IsLogging
+  commentId: P:Mewdeko.Database.Models.LogSetting.IsLogging
+  id: IsLogging
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: IsLogging
+  nameWithType: LogSetting.IsLogging
+  fullName: Mewdeko.Database.Models.LogSetting.IsLogging
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IsLogging
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 55
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: DON'T USE
+  example: []
+  syntax:
+    content: public long IsLogging { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property IsLogging As Long
+  overload: Mewdeko.Database.Models.LogSetting.IsLogging*
+- uid: Mewdeko.Database.Models.LogSetting.ChannelId
+  commentId: P:Mewdeko.Database.Models.LogSetting.ChannelId
+  id: ChannelId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: ChannelId
+  nameWithType: LogSetting.ChannelId
+  fullName: Mewdeko.Database.Models.LogSetting.ChannelId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChannelId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 60
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: DON'T USE
+  example: []
+  syntax:
+    content: public ulong ChannelId { get; set; }
+    parameters: []
+    return:
+      type: System.UInt64
+    content.vb: Public Property ChannelId As ULong
+  overload: Mewdeko.Database.Models.LogSetting.ChannelId*
+- uid: Mewdeko.Database.Models.LogSetting.MessageUpdated
+  commentId: P:Mewdeko.Database.Models.LogSetting.MessageUpdated
+  id: MessageUpdated
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: MessageUpdated
+  nameWithType: LogSetting.MessageUpdated
+  fullName: Mewdeko.Database.Models.LogSetting.MessageUpdated
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MessageUpdated
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 65
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: DON'T USE
+  example: []
+  syntax:
+    content: public long MessageUpdated { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property MessageUpdated As Long
+  overload: Mewdeko.Database.Models.LogSetting.MessageUpdated*
+- uid: Mewdeko.Database.Models.LogSetting.MessageDeleted
+  commentId: P:Mewdeko.Database.Models.LogSetting.MessageDeleted
+  id: MessageDeleted
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: MessageDeleted
+  nameWithType: LogSetting.MessageDeleted
+  fullName: Mewdeko.Database.Models.LogSetting.MessageDeleted
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MessageDeleted
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 70
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: DON'T USE
+  example: []
+  syntax:
+    content: public long MessageDeleted { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property MessageDeleted As Long
+  overload: Mewdeko.Database.Models.LogSetting.MessageDeleted*
+- uid: Mewdeko.Database.Models.LogSetting.UserJoined
+  commentId: P:Mewdeko.Database.Models.LogSetting.UserJoined
+  id: UserJoined
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: UserJoined
+  nameWithType: LogSetting.UserJoined
+  fullName: Mewdeko.Database.Models.LogSetting.UserJoined
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserJoined
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 75
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: DON'T USE
+  example: []
+  syntax:
+    content: public long UserJoined { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property UserJoined As Long
+  overload: Mewdeko.Database.Models.LogSetting.UserJoined*
+- uid: Mewdeko.Database.Models.LogSetting.UserLeft
+  commentId: P:Mewdeko.Database.Models.LogSetting.UserLeft
+  id: UserLeft
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: UserLeft
+  nameWithType: LogSetting.UserLeft
+  fullName: Mewdeko.Database.Models.LogSetting.UserLeft
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserLeft
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 80
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: DON'T USE
+  example: []
+  syntax:
+    content: public long UserLeft { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property UserLeft As Long
+  overload: Mewdeko.Database.Models.LogSetting.UserLeft*
+- uid: Mewdeko.Database.Models.LogSetting.UserBanned
+  commentId: P:Mewdeko.Database.Models.LogSetting.UserBanned
+  id: UserBanned
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: UserBanned
+  nameWithType: LogSetting.UserBanned
+  fullName: Mewdeko.Database.Models.LogSetting.UserBanned
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserBanned
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 85
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: DON'T USE
+  example: []
+  syntax:
+    content: public long UserBanned { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property UserBanned As Long
+  overload: Mewdeko.Database.Models.LogSetting.UserBanned*
+- uid: Mewdeko.Database.Models.LogSetting.UserUnbanned
+  commentId: P:Mewdeko.Database.Models.LogSetting.UserUnbanned
+  id: UserUnbanned
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: UserUnbanned
+  nameWithType: LogSetting.UserUnbanned
+  fullName: Mewdeko.Database.Models.LogSetting.UserUnbanned
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserUnbanned
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 90
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: DON'T USE
+  example: []
+  syntax:
+    content: public long UserUnbanned { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property UserUnbanned As Long
+  overload: Mewdeko.Database.Models.LogSetting.UserUnbanned*
+- uid: Mewdeko.Database.Models.LogSetting.UserUpdated
+  commentId: P:Mewdeko.Database.Models.LogSetting.UserUpdated
+  id: UserUpdated
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: UserUpdated
+  nameWithType: LogSetting.UserUpdated
+  fullName: Mewdeko.Database.Models.LogSetting.UserUpdated
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserUpdated
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 95
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: DON'T USE
+  example: []
+  syntax:
+    content: public long UserUpdated { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property UserUpdated As Long
+  overload: Mewdeko.Database.Models.LogSetting.UserUpdated*
+- uid: Mewdeko.Database.Models.LogSetting.ChannelCreated
+  commentId: P:Mewdeko.Database.Models.LogSetting.ChannelCreated
+  id: ChannelCreated
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: ChannelCreated
+  nameWithType: LogSetting.ChannelCreated
+  fullName: Mewdeko.Database.Models.LogSetting.ChannelCreated
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChannelCreated
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 100
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: DON'T USE
+  example: []
+  syntax:
+    content: public long ChannelCreated { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property ChannelCreated As Long
+  overload: Mewdeko.Database.Models.LogSetting.ChannelCreated*
+- uid: Mewdeko.Database.Models.LogSetting.ChannelDestroyed
+  commentId: P:Mewdeko.Database.Models.LogSetting.ChannelDestroyed
+  id: ChannelDestroyed
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: ChannelDestroyed
+  nameWithType: LogSetting.ChannelDestroyed
+  fullName: Mewdeko.Database.Models.LogSetting.ChannelDestroyed
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChannelDestroyed
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 105
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: DON'T USE
+  example: []
+  syntax:
+    content: public long ChannelDestroyed { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property ChannelDestroyed As Long
+  overload: Mewdeko.Database.Models.LogSetting.ChannelDestroyed*
+- uid: Mewdeko.Database.Models.LogSetting.ChannelUpdated
+  commentId: P:Mewdeko.Database.Models.LogSetting.ChannelUpdated
+  id: ChannelUpdated
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: ChannelUpdated
+  nameWithType: LogSetting.ChannelUpdated
+  fullName: Mewdeko.Database.Models.LogSetting.ChannelUpdated
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChannelUpdated
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 110
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: DON'T USE
+  example: []
+  syntax:
+    content: public long ChannelUpdated { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property ChannelUpdated As Long
+  overload: Mewdeko.Database.Models.LogSetting.ChannelUpdated*
+- uid: Mewdeko.Database.Models.LogSetting.LogUserPresence
+  commentId: P:Mewdeko.Database.Models.LogSetting.LogUserPresence
+  id: LogUserPresence
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: LogUserPresence
+  nameWithType: LogSetting.LogUserPresence
+  fullName: Mewdeko.Database.Models.LogSetting.LogUserPresence
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: LogUserPresence
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 115
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: DON'T USE
+  example: []
+  syntax:
+    content: public long LogUserPresence { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property LogUserPresence As Long
+  overload: Mewdeko.Database.Models.LogSetting.LogUserPresence*
+- uid: Mewdeko.Database.Models.LogSetting.UserPresenceChannelId
+  commentId: P:Mewdeko.Database.Models.LogSetting.UserPresenceChannelId
+  id: UserPresenceChannelId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: UserPresenceChannelId
+  nameWithType: LogSetting.UserPresenceChannelId
+  fullName: Mewdeko.Database.Models.LogSetting.UserPresenceChannelId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserPresenceChannelId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 120
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: DON'T USE
+  example: []
+  syntax:
+    content: public ulong UserPresenceChannelId { get; set; }
+    parameters: []
+    return:
+      type: System.UInt64
+    content.vb: Public Property UserPresenceChannelId As ULong
+  overload: Mewdeko.Database.Models.LogSetting.UserPresenceChannelId*
+- uid: Mewdeko.Database.Models.LogSetting.LogVoicePresence
+  commentId: P:Mewdeko.Database.Models.LogSetting.LogVoicePresence
+  id: LogVoicePresence
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: LogVoicePresence
+  nameWithType: LogSetting.LogVoicePresence
+  fullName: Mewdeko.Database.Models.LogSetting.LogVoicePresence
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: LogVoicePresence
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 125
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: DON'T USE
+  example: []
+  syntax:
+    content: public long LogVoicePresence { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property LogVoicePresence As Long
+  overload: Mewdeko.Database.Models.LogSetting.LogVoicePresence*
+- uid: Mewdeko.Database.Models.LogSetting.VoicePresenceChannelId
+  commentId: P:Mewdeko.Database.Models.LogSetting.VoicePresenceChannelId
+  id: VoicePresenceChannelId
+  parent: Mewdeko.Database.Models.LogSetting
+  langs:
+  - csharp
+  - vb
+  name: VoicePresenceChannelId
+  nameWithType: LogSetting.VoicePresenceChannelId
+  fullName: Mewdeko.Database.Models.LogSetting.VoicePresenceChannelId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/LogSetting.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: VoicePresenceChannelId
+    path: src/Mewdeko.Database/Models/LogSetting.cs
+    startLine: 130
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  summary: DON'T USE
+  example: []
+  syntax:
+    content: public ulong VoicePresenceChannelId { get; set; }
+    parameters: []
+    return:
+      type: System.UInt64
+    content.vb: Public Property VoicePresenceChannelId As ULong
+  overload: Mewdeko.Database.Models.LogSetting.VoicePresenceChannelId*
+references:
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Mewdeko.Database.Models.DbEntity
+  commentId: T:Mewdeko.Database.Models.DbEntity
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.DbEntity.html
+  name: DbEntity
+  nameWithType: DbEntity
+  fullName: Mewdeko.Database.Models.DbEntity
+- uid: Mewdeko.Database.Models.DbEntity.Id
+  commentId: P:Mewdeko.Database.Models.DbEntity.Id
+  parent: Mewdeko.Database.Models.DbEntity
+  href: Mewdeko.Database.Models.DbEntity.html#Mewdeko_Database_Models_DbEntity_Id
+  name: Id
+  nameWithType: DbEntity.Id
+  fullName: Mewdeko.Database.Models.DbEntity.Id
+- uid: Mewdeko.Database.Models.DbEntity.DateAdded
+  commentId: P:Mewdeko.Database.Models.DbEntity.DateAdded
+  parent: Mewdeko.Database.Models.DbEntity
+  href: Mewdeko.Database.Models.DbEntity.html#Mewdeko_Database_Models_DbEntity_DateAdded
+  name: DateAdded
+  nameWithType: DbEntity.DateAdded
+  fullName: Mewdeko.Database.Models.DbEntity.DateAdded
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Database.Models.LogSetting.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<LogSetting>(LogSetting, string)
+  nameWithType: Extensions.ThrowIfNull<LogSetting>(LogSetting, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Database.Models.LogSetting>(Mewdeko.Database.Models.LogSetting, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of LogSetting)(LogSetting, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Database.Models.LogSetting)(Mewdeko.Database.Models.LogSetting, String)
+  name.vb: ThrowIfNull(Of LogSetting)(LogSetting, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Database.Models.LogSetting,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Database.Models.LogSetting
+    name: LogSetting
+    href: Mewdeko.Database.Models.LogSetting.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Database.Models.LogSetting
+    name: LogSetting
+    href: Mewdeko.Database.Models.LogSetting.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Database.Models.LogSetting,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Models.LogSetting
+    name: LogSetting
+    href: Mewdeko.Database.Models.LogSetting.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Database.Models.LogSetting
+    name: LogSetting
+    href: Mewdeko.Database.Models.LogSetting.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Database.Models.LogSetting.IgnoredChannels*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.IgnoredChannels
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_IgnoredChannels
+  name: IgnoredChannels
+  nameWithType: LogSetting.IgnoredChannels
+  fullName: Mewdeko.Database.Models.LogSetting.IgnoredChannels
+- uid: System.Collections.Generic.HashSet{Mewdeko.Database.Models.IgnoredLogChannel}
+  commentId: T:System.Collections.Generic.HashSet{Mewdeko.Database.Models.IgnoredLogChannel}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.HashSet`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  name: HashSet<IgnoredLogChannel>
+  nameWithType: HashSet<IgnoredLogChannel>
+  fullName: System.Collections.Generic.HashSet<Mewdeko.Database.Models.IgnoredLogChannel>
+  nameWithType.vb: HashSet(Of IgnoredLogChannel)
+  fullName.vb: System.Collections.Generic.HashSet(Of Mewdeko.Database.Models.IgnoredLogChannel)
+  name.vb: HashSet(Of IgnoredLogChannel)
+  spec.csharp:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: <
+  - uid: Mewdeko.Database.Models.IgnoredLogChannel
+    name: IgnoredLogChannel
+    href: Mewdeko.Database.Models.IgnoredLogChannel.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Models.IgnoredLogChannel
+    name: IgnoredLogChannel
+    href: Mewdeko.Database.Models.IgnoredLogChannel.html
+  - name: )
+- uid: System.Collections.Generic.HashSet`1
+  commentId: T:System.Collections.Generic.HashSet`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  name: HashSet<T>
+  nameWithType: HashSet<T>
+  fullName: System.Collections.Generic.HashSet<T>
+  nameWithType.vb: HashSet(Of T)
+  fullName.vb: System.Collections.Generic.HashSet(Of T)
+  name.vb: HashSet(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Mewdeko.Database.Models.LogSetting.IgnoredVoicePresenceChannelIds*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.IgnoredVoicePresenceChannelIds
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_IgnoredVoicePresenceChannelIds
+  name: IgnoredVoicePresenceChannelIds
+  nameWithType: LogSetting.IgnoredVoicePresenceChannelIds
+  fullName: Mewdeko.Database.Models.LogSetting.IgnoredVoicePresenceChannelIds
+- uid: System.Collections.Generic.HashSet{Mewdeko.Database.Models.IgnoredVoicePresenceChannel}
+  commentId: T:System.Collections.Generic.HashSet{Mewdeko.Database.Models.IgnoredVoicePresenceChannel}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.HashSet`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  name: HashSet<IgnoredVoicePresenceChannel>
+  nameWithType: HashSet<IgnoredVoicePresenceChannel>
+  fullName: System.Collections.Generic.HashSet<Mewdeko.Database.Models.IgnoredVoicePresenceChannel>
+  nameWithType.vb: HashSet(Of IgnoredVoicePresenceChannel)
+  fullName.vb: System.Collections.Generic.HashSet(Of Mewdeko.Database.Models.IgnoredVoicePresenceChannel)
+  name.vb: HashSet(Of IgnoredVoicePresenceChannel)
+  spec.csharp:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: <
+  - uid: Mewdeko.Database.Models.IgnoredVoicePresenceChannel
+    name: IgnoredVoicePresenceChannel
+    href: Mewdeko.Database.Models.IgnoredVoicePresenceChannel.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Models.IgnoredVoicePresenceChannel
+    name: IgnoredVoicePresenceChannel
+    href: Mewdeko.Database.Models.IgnoredVoicePresenceChannel.html
+  - name: )
+- uid: Mewdeko.Database.Models.LogSetting.LogOtherId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.LogOtherId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_LogOtherId
+  name: LogOtherId
+  nameWithType: LogSetting.LogOtherId
+  fullName: Mewdeko.Database.Models.LogSetting.LogOtherId
+- uid: System.Nullable{System.UInt64}
+  commentId: T:System.Nullable{System.UInt64}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong?
+  nameWithType: ulong?
+  fullName: ulong?
+  nameWithType.vb: ULong?
+  fullName.vb: ULong?
+  name.vb: ULong?
+  spec.csharp:
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  spec.vb:
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Database.Models.LogSetting.MessageUpdatedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.MessageUpdatedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_MessageUpdatedId
+  name: MessageUpdatedId
+  nameWithType: LogSetting.MessageUpdatedId
+  fullName: Mewdeko.Database.Models.LogSetting.MessageUpdatedId
+- uid: Mewdeko.Database.Models.LogSetting.MessageDeletedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.MessageDeletedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_MessageDeletedId
+  name: MessageDeletedId
+  nameWithType: LogSetting.MessageDeletedId
+  fullName: Mewdeko.Database.Models.LogSetting.MessageDeletedId
+- uid: Mewdeko.Database.Models.LogSetting.ThreadCreatedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.ThreadCreatedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_ThreadCreatedId
+  name: ThreadCreatedId
+  nameWithType: LogSetting.ThreadCreatedId
+  fullName: Mewdeko.Database.Models.LogSetting.ThreadCreatedId
+- uid: Mewdeko.Database.Models.LogSetting.ThreadDeletedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.ThreadDeletedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_ThreadDeletedId
+  name: ThreadDeletedId
+  nameWithType: LogSetting.ThreadDeletedId
+  fullName: Mewdeko.Database.Models.LogSetting.ThreadDeletedId
+- uid: Mewdeko.Database.Models.LogSetting.ThreadUpdatedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.ThreadUpdatedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_ThreadUpdatedId
+  name: ThreadUpdatedId
+  nameWithType: LogSetting.ThreadUpdatedId
+  fullName: Mewdeko.Database.Models.LogSetting.ThreadUpdatedId
+- uid: Mewdeko.Database.Models.LogSetting.UsernameUpdatedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.UsernameUpdatedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_UsernameUpdatedId
+  name: UsernameUpdatedId
+  nameWithType: LogSetting.UsernameUpdatedId
+  fullName: Mewdeko.Database.Models.LogSetting.UsernameUpdatedId
+- uid: Mewdeko.Database.Models.LogSetting.NicknameUpdatedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.NicknameUpdatedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_NicknameUpdatedId
+  name: NicknameUpdatedId
+  nameWithType: LogSetting.NicknameUpdatedId
+  fullName: Mewdeko.Database.Models.LogSetting.NicknameUpdatedId
+- uid: Mewdeko.Database.Models.LogSetting.AvatarUpdatedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.AvatarUpdatedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_AvatarUpdatedId
+  name: AvatarUpdatedId
+  nameWithType: LogSetting.AvatarUpdatedId
+  fullName: Mewdeko.Database.Models.LogSetting.AvatarUpdatedId
+- uid: Mewdeko.Database.Models.LogSetting.UserLeftId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.UserLeftId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_UserLeftId
+  name: UserLeftId
+  nameWithType: LogSetting.UserLeftId
+  fullName: Mewdeko.Database.Models.LogSetting.UserLeftId
+- uid: Mewdeko.Database.Models.LogSetting.UserBannedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.UserBannedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_UserBannedId
+  name: UserBannedId
+  nameWithType: LogSetting.UserBannedId
+  fullName: Mewdeko.Database.Models.LogSetting.UserBannedId
+- uid: Mewdeko.Database.Models.LogSetting.UserUnbannedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.UserUnbannedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_UserUnbannedId
+  name: UserUnbannedId
+  nameWithType: LogSetting.UserUnbannedId
+  fullName: Mewdeko.Database.Models.LogSetting.UserUnbannedId
+- uid: Mewdeko.Database.Models.LogSetting.UserUpdatedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.UserUpdatedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_UserUpdatedId
+  name: UserUpdatedId
+  nameWithType: LogSetting.UserUpdatedId
+  fullName: Mewdeko.Database.Models.LogSetting.UserUpdatedId
+- uid: Mewdeko.Database.Models.LogSetting.UserJoinedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.UserJoinedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_UserJoinedId
+  name: UserJoinedId
+  nameWithType: LogSetting.UserJoinedId
+  fullName: Mewdeko.Database.Models.LogSetting.UserJoinedId
+- uid: Mewdeko.Database.Models.LogSetting.UserRoleAddedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.UserRoleAddedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_UserRoleAddedId
+  name: UserRoleAddedId
+  nameWithType: LogSetting.UserRoleAddedId
+  fullName: Mewdeko.Database.Models.LogSetting.UserRoleAddedId
+- uid: Mewdeko.Database.Models.LogSetting.UserRoleRemovedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.UserRoleRemovedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_UserRoleRemovedId
+  name: UserRoleRemovedId
+  nameWithType: LogSetting.UserRoleRemovedId
+  fullName: Mewdeko.Database.Models.LogSetting.UserRoleRemovedId
+- uid: Mewdeko.Database.Models.LogSetting.UserMutedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.UserMutedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_UserMutedId
+  name: UserMutedId
+  nameWithType: LogSetting.UserMutedId
+  fullName: Mewdeko.Database.Models.LogSetting.UserMutedId
+- uid: Mewdeko.Database.Models.LogSetting.LogUserPresenceId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.LogUserPresenceId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_LogUserPresenceId
+  name: LogUserPresenceId
+  nameWithType: LogSetting.LogUserPresenceId
+  fullName: Mewdeko.Database.Models.LogSetting.LogUserPresenceId
+- uid: Mewdeko.Database.Models.LogSetting.LogVoicePresenceId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.LogVoicePresenceId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_LogVoicePresenceId
+  name: LogVoicePresenceId
+  nameWithType: LogSetting.LogVoicePresenceId
+  fullName: Mewdeko.Database.Models.LogSetting.LogVoicePresenceId
+- uid: Mewdeko.Database.Models.LogSetting.LogVoicePresenceTTSId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.LogVoicePresenceTTSId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_LogVoicePresenceTTSId
+  name: LogVoicePresenceTTSId
+  nameWithType: LogSetting.LogVoicePresenceTTSId
+  fullName: Mewdeko.Database.Models.LogSetting.LogVoicePresenceTTSId
+- uid: Mewdeko.Database.Models.LogSetting.ServerUpdatedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.ServerUpdatedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_ServerUpdatedId
+  name: ServerUpdatedId
+  nameWithType: LogSetting.ServerUpdatedId
+  fullName: Mewdeko.Database.Models.LogSetting.ServerUpdatedId
+- uid: Mewdeko.Database.Models.LogSetting.RoleUpdatedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.RoleUpdatedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_RoleUpdatedId
+  name: RoleUpdatedId
+  nameWithType: LogSetting.RoleUpdatedId
+  fullName: Mewdeko.Database.Models.LogSetting.RoleUpdatedId
+- uid: Mewdeko.Database.Models.LogSetting.RoleDeletedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.RoleDeletedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_RoleDeletedId
+  name: RoleDeletedId
+  nameWithType: LogSetting.RoleDeletedId
+  fullName: Mewdeko.Database.Models.LogSetting.RoleDeletedId
+- uid: Mewdeko.Database.Models.LogSetting.EventCreatedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.EventCreatedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_EventCreatedId
+  name: EventCreatedId
+  nameWithType: LogSetting.EventCreatedId
+  fullName: Mewdeko.Database.Models.LogSetting.EventCreatedId
+- uid: Mewdeko.Database.Models.LogSetting.RoleCreatedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.RoleCreatedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_RoleCreatedId
+  name: RoleCreatedId
+  nameWithType: LogSetting.RoleCreatedId
+  fullName: Mewdeko.Database.Models.LogSetting.RoleCreatedId
+- uid: Mewdeko.Database.Models.LogSetting.ChannelCreatedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.ChannelCreatedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_ChannelCreatedId
+  name: ChannelCreatedId
+  nameWithType: LogSetting.ChannelCreatedId
+  fullName: Mewdeko.Database.Models.LogSetting.ChannelCreatedId
+- uid: Mewdeko.Database.Models.LogSetting.ChannelDestroyedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.ChannelDestroyedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_ChannelDestroyedId
+  name: ChannelDestroyedId
+  nameWithType: LogSetting.ChannelDestroyedId
+  fullName: Mewdeko.Database.Models.LogSetting.ChannelDestroyedId
+- uid: Mewdeko.Database.Models.LogSetting.ChannelUpdatedId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.ChannelUpdatedId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_ChannelUpdatedId
+  name: ChannelUpdatedId
+  nameWithType: LogSetting.ChannelUpdatedId
+  fullName: Mewdeko.Database.Models.LogSetting.ChannelUpdatedId
+- uid: Mewdeko.Database.Models.LogSetting.IsLogging*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.IsLogging
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_IsLogging
+  name: IsLogging
+  nameWithType: LogSetting.IsLogging
+  fullName: Mewdeko.Database.Models.LogSetting.IsLogging
+- uid: System.Int64
+  commentId: T:System.Int64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int64
+  name: long
+  nameWithType: long
+  fullName: long
+  nameWithType.vb: Long
+  fullName.vb: Long
+  name.vb: Long
+- uid: Mewdeko.Database.Models.LogSetting.ChannelId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.ChannelId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_ChannelId
+  name: ChannelId
+  nameWithType: LogSetting.ChannelId
+  fullName: Mewdeko.Database.Models.LogSetting.ChannelId
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong
+  nameWithType: ulong
+  fullName: ulong
+  nameWithType.vb: ULong
+  fullName.vb: ULong
+  name.vb: ULong
+- uid: Mewdeko.Database.Models.LogSetting.MessageUpdated*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.MessageUpdated
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_MessageUpdated
+  name: MessageUpdated
+  nameWithType: LogSetting.MessageUpdated
+  fullName: Mewdeko.Database.Models.LogSetting.MessageUpdated
+- uid: Mewdeko.Database.Models.LogSetting.MessageDeleted*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.MessageDeleted
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_MessageDeleted
+  name: MessageDeleted
+  nameWithType: LogSetting.MessageDeleted
+  fullName: Mewdeko.Database.Models.LogSetting.MessageDeleted
+- uid: Mewdeko.Database.Models.LogSetting.UserJoined*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.UserJoined
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_UserJoined
+  name: UserJoined
+  nameWithType: LogSetting.UserJoined
+  fullName: Mewdeko.Database.Models.LogSetting.UserJoined
+- uid: Mewdeko.Database.Models.LogSetting.UserLeft*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.UserLeft
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_UserLeft
+  name: UserLeft
+  nameWithType: LogSetting.UserLeft
+  fullName: Mewdeko.Database.Models.LogSetting.UserLeft
+- uid: Mewdeko.Database.Models.LogSetting.UserBanned*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.UserBanned
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_UserBanned
+  name: UserBanned
+  nameWithType: LogSetting.UserBanned
+  fullName: Mewdeko.Database.Models.LogSetting.UserBanned
+- uid: Mewdeko.Database.Models.LogSetting.UserUnbanned*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.UserUnbanned
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_UserUnbanned
+  name: UserUnbanned
+  nameWithType: LogSetting.UserUnbanned
+  fullName: Mewdeko.Database.Models.LogSetting.UserUnbanned
+- uid: Mewdeko.Database.Models.LogSetting.UserUpdated*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.UserUpdated
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_UserUpdated
+  name: UserUpdated
+  nameWithType: LogSetting.UserUpdated
+  fullName: Mewdeko.Database.Models.LogSetting.UserUpdated
+- uid: Mewdeko.Database.Models.LogSetting.ChannelCreated*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.ChannelCreated
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_ChannelCreated
+  name: ChannelCreated
+  nameWithType: LogSetting.ChannelCreated
+  fullName: Mewdeko.Database.Models.LogSetting.ChannelCreated
+- uid: Mewdeko.Database.Models.LogSetting.ChannelDestroyed*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.ChannelDestroyed
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_ChannelDestroyed
+  name: ChannelDestroyed
+  nameWithType: LogSetting.ChannelDestroyed
+  fullName: Mewdeko.Database.Models.LogSetting.ChannelDestroyed
+- uid: Mewdeko.Database.Models.LogSetting.ChannelUpdated*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.ChannelUpdated
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_ChannelUpdated
+  name: ChannelUpdated
+  nameWithType: LogSetting.ChannelUpdated
+  fullName: Mewdeko.Database.Models.LogSetting.ChannelUpdated
+- uid: Mewdeko.Database.Models.LogSetting.LogUserPresence*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.LogUserPresence
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_LogUserPresence
+  name: LogUserPresence
+  nameWithType: LogSetting.LogUserPresence
+  fullName: Mewdeko.Database.Models.LogSetting.LogUserPresence
+- uid: Mewdeko.Database.Models.LogSetting.UserPresenceChannelId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.UserPresenceChannelId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_UserPresenceChannelId
+  name: UserPresenceChannelId
+  nameWithType: LogSetting.UserPresenceChannelId
+  fullName: Mewdeko.Database.Models.LogSetting.UserPresenceChannelId
+- uid: Mewdeko.Database.Models.LogSetting.LogVoicePresence*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.LogVoicePresence
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_LogVoicePresence
+  name: LogVoicePresence
+  nameWithType: LogSetting.LogVoicePresence
+  fullName: Mewdeko.Database.Models.LogSetting.LogVoicePresence
+- uid: Mewdeko.Database.Models.LogSetting.VoicePresenceChannelId*
+  commentId: Overload:Mewdeko.Database.Models.LogSetting.VoicePresenceChannelId
+  href: Mewdeko.Database.Models.LogSetting.html#Mewdeko_Database_Models_LogSetting_VoicePresenceChannelId
+  name: VoicePresenceChannelId
+  nameWithType: LogSetting.VoicePresenceChannelId
+  fullName: Mewdeko.Database.Models.LogSetting.VoicePresenceChannelId

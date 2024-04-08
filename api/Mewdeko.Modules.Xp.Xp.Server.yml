@@ -1,0 +1,113 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Xp.Xp.Server
+  commentId: T:Mewdeko.Modules.Xp.Xp.Server
+  id: Xp.Server
+  parent: Mewdeko.Modules.Xp
+  children:
+  - Mewdeko.Modules.Xp.Xp.Server.Server
+  langs:
+  - csharp
+  - vb
+  name: Xp.Server
+  nameWithType: Xp.Server
+  fullName: Mewdeko.Modules.Xp.Xp.Server
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Xp.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Server
+    path: src/Mewdeko/Modules/Xp/Xp.cs
+    startLine: 78
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Enumerates the possible servers within the XP module.
+  example: []
+  syntax:
+    content: public enum Xp.Server
+    content.vb: Public Enum Xp.Server
+- uid: Mewdeko.Modules.Xp.Xp.Server.Server
+  commentId: F:Mewdeko.Modules.Xp.Xp.Server.Server
+  id: Server
+  parent: Mewdeko.Modules.Xp.Xp.Server
+  langs:
+  - csharp
+  - vb
+  name: Server
+  nameWithType: Xp.Server.Server
+  fullName: Mewdeko.Modules.Xp.Xp.Server.Server
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Xp.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Server
+    path: src/Mewdeko/Modules/Xp/Xp.cs
+    startLine: 83
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Represents a server.
+  example: []
+  syntax:
+    content: Server = 0
+    return:
+      type: Mewdeko.Modules.Xp.Xp.Server
+references:
+- uid: Mewdeko.Modules.Xp
+  commentId: N:Mewdeko.Modules.Xp
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Xp
+  nameWithType: Mewdeko.Modules.Xp
+  fullName: Mewdeko.Modules.Xp
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Xp
+    name: Xp
+    href: Mewdeko.Modules.Xp.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Xp
+    name: Xp
+    href: Mewdeko.Modules.Xp.html
+- uid: Mewdeko.Modules.Xp.Xp.Server
+  commentId: T:Mewdeko.Modules.Xp.Xp.Server
+  parent: Mewdeko.Modules.Xp
+  href: Mewdeko.Modules.Xp.Xp.html
+  name: Xp.Server
+  nameWithType: Xp.Server
+  fullName: Mewdeko.Modules.Xp.Xp.Server
+  spec.csharp:
+  - uid: Mewdeko.Modules.Xp.Xp
+    name: Xp
+    href: Mewdeko.Modules.Xp.Xp.html
+  - name: .
+  - uid: Mewdeko.Modules.Xp.Xp.Server
+    name: Server
+    href: Mewdeko.Modules.Xp.Xp.Server.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Xp.Xp
+    name: Xp
+    href: Mewdeko.Modules.Xp.Xp.html
+  - name: .
+  - uid: Mewdeko.Modules.Xp.Xp.Server
+    name: Server
+    href: Mewdeko.Modules.Xp.Xp.Server.html

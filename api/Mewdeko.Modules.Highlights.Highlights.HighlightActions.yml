@@ -1,0 +1,287 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Highlights.Highlights.HighlightActions
+  commentId: T:Mewdeko.Modules.Highlights.Highlights.HighlightActions
+  id: Highlights.HighlightActions
+  parent: Mewdeko.Modules.Highlights
+  children:
+  - Mewdeko.Modules.Highlights.Highlights.HighlightActions.Add
+  - Mewdeko.Modules.Highlights.Highlights.HighlightActions.Delete
+  - Mewdeko.Modules.Highlights.Highlights.HighlightActions.List
+  - Mewdeko.Modules.Highlights.Highlights.HighlightActions.Match
+  - Mewdeko.Modules.Highlights.Highlights.HighlightActions.Remove
+  - Mewdeko.Modules.Highlights.Highlights.HighlightActions.Toggle
+  - Mewdeko.Modules.Highlights.Highlights.HighlightActions.ToggleIgnore
+  langs:
+  - csharp
+  - vb
+  name: Highlights.HighlightActions
+  nameWithType: Highlights.HighlightActions
+  fullName: Mewdeko.Modules.Highlights.Highlights.HighlightActions
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Highlights/Highlights.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: HighlightActions
+    path: src/Mewdeko/Modules/Highlights/Highlights.cs
+    startLine: 20
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Highlights
+  summary: The actions available for the highlight command.
+  example: []
+  syntax:
+    content: public enum Highlights.HighlightActions
+    content.vb: Public Enum Highlights.HighlightActions
+- uid: Mewdeko.Modules.Highlights.Highlights.HighlightActions.Add
+  commentId: F:Mewdeko.Modules.Highlights.Highlights.HighlightActions.Add
+  id: Add
+  parent: Mewdeko.Modules.Highlights.Highlights.HighlightActions
+  langs:
+  - csharp
+  - vb
+  name: Add
+  nameWithType: Highlights.HighlightActions.Add
+  fullName: Mewdeko.Modules.Highlights.Highlights.HighlightActions.Add
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Highlights/Highlights.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Add
+    path: src/Mewdeko/Modules/Highlights/Highlights.cs
+    startLine: 25
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Highlights
+  summary: Adds a highlight.
+  example: []
+  syntax:
+    content: Add = 0
+    return:
+      type: Mewdeko.Modules.Highlights.Highlights.HighlightActions
+- uid: Mewdeko.Modules.Highlights.Highlights.HighlightActions.List
+  commentId: F:Mewdeko.Modules.Highlights.Highlights.HighlightActions.List
+  id: List
+  parent: Mewdeko.Modules.Highlights.Highlights.HighlightActions
+  langs:
+  - csharp
+  - vb
+  name: List
+  nameWithType: Highlights.HighlightActions.List
+  fullName: Mewdeko.Modules.Highlights.Highlights.HighlightActions.List
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Highlights/Highlights.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: List
+    path: src/Mewdeko/Modules/Highlights/Highlights.cs
+    startLine: 30
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Highlights
+  summary: Lists current highlights
+  example: []
+  syntax:
+    content: List = 1
+    return:
+      type: Mewdeko.Modules.Highlights.Highlights.HighlightActions
+- uid: Mewdeko.Modules.Highlights.Highlights.HighlightActions.Delete
+  commentId: F:Mewdeko.Modules.Highlights.Highlights.HighlightActions.Delete
+  id: Delete
+  parent: Mewdeko.Modules.Highlights.Highlights.HighlightActions
+  langs:
+  - csharp
+  - vb
+  name: Delete
+  nameWithType: Highlights.HighlightActions.Delete
+  fullName: Mewdeko.Modules.Highlights.Highlights.HighlightActions.Delete
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Highlights/Highlights.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Delete
+    path: src/Mewdeko/Modules/Highlights/Highlights.cs
+    startLine: 35
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Highlights
+  summary: Deletes a highlight.
+  example: []
+  syntax:
+    content: Delete = 2
+    return:
+      type: Mewdeko.Modules.Highlights.Highlights.HighlightActions
+- uid: Mewdeko.Modules.Highlights.Highlights.HighlightActions.Remove
+  commentId: F:Mewdeko.Modules.Highlights.Highlights.HighlightActions.Remove
+  id: Remove
+  parent: Mewdeko.Modules.Highlights.Highlights.HighlightActions
+  langs:
+  - csharp
+  - vb
+  name: Remove
+  nameWithType: Highlights.HighlightActions.Remove
+  fullName: Mewdeko.Modules.Highlights.Highlights.HighlightActions.Remove
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Highlights/Highlights.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Remove
+    path: src/Mewdeko/Modules/Highlights/Highlights.cs
+    startLine: 40
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Highlights
+  summary: Removes a highlight.
+  example: []
+  syntax:
+    content: Remove = 3
+    return:
+      type: Mewdeko.Modules.Highlights.Highlights.HighlightActions
+- uid: Mewdeko.Modules.Highlights.Highlights.HighlightActions.Match
+  commentId: F:Mewdeko.Modules.Highlights.Highlights.HighlightActions.Match
+  id: Match
+  parent: Mewdeko.Modules.Highlights.Highlights.HighlightActions
+  langs:
+  - csharp
+  - vb
+  name: Match
+  nameWithType: Highlights.HighlightActions.Match
+  fullName: Mewdeko.Modules.Highlights.Highlights.HighlightActions.Match
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Highlights/Highlights.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Match
+    path: src/Mewdeko/Modules/Highlights/Highlights.cs
+    startLine: 45
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Highlights
+  summary: Attempts to match a highlight to a phrase
+  example: []
+  syntax:
+    content: Match = 4
+    return:
+      type: Mewdeko.Modules.Highlights.Highlights.HighlightActions
+- uid: Mewdeko.Modules.Highlights.Highlights.HighlightActions.ToggleIgnore
+  commentId: F:Mewdeko.Modules.Highlights.Highlights.HighlightActions.ToggleIgnore
+  id: ToggleIgnore
+  parent: Mewdeko.Modules.Highlights.Highlights.HighlightActions
+  langs:
+  - csharp
+  - vb
+  name: ToggleIgnore
+  nameWithType: Highlights.HighlightActions.ToggleIgnore
+  fullName: Mewdeko.Modules.Highlights.Highlights.HighlightActions.ToggleIgnore
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Highlights/Highlights.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ToggleIgnore
+    path: src/Mewdeko/Modules/Highlights/Highlights.cs
+    startLine: 50
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Highlights
+  summary: Toggles whether highlights ignore a user or channel
+  example: []
+  syntax:
+    content: ToggleIgnore = 5
+    return:
+      type: Mewdeko.Modules.Highlights.Highlights.HighlightActions
+- uid: Mewdeko.Modules.Highlights.Highlights.HighlightActions.Toggle
+  commentId: F:Mewdeko.Modules.Highlights.Highlights.HighlightActions.Toggle
+  id: Toggle
+  parent: Mewdeko.Modules.Highlights.Highlights.HighlightActions
+  langs:
+  - csharp
+  - vb
+  name: Toggle
+  nameWithType: Highlights.HighlightActions.Toggle
+  fullName: Mewdeko.Modules.Highlights.Highlights.HighlightActions.Toggle
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Highlights/Highlights.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Toggle
+    path: src/Mewdeko/Modules/Highlights/Highlights.cs
+    startLine: 55
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Highlights
+  summary: Toggles whether highlights are enabled
+  example: []
+  syntax:
+    content: Toggle = 6
+    return:
+      type: Mewdeko.Modules.Highlights.Highlights.HighlightActions
+references:
+- uid: Mewdeko.Modules.Highlights
+  commentId: N:Mewdeko.Modules.Highlights
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Highlights
+  nameWithType: Mewdeko.Modules.Highlights
+  fullName: Mewdeko.Modules.Highlights
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Highlights
+    name: Highlights
+    href: Mewdeko.Modules.Highlights.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Highlights
+    name: Highlights
+    href: Mewdeko.Modules.Highlights.html
+- uid: Mewdeko.Modules.Highlights.Highlights.HighlightActions
+  commentId: T:Mewdeko.Modules.Highlights.Highlights.HighlightActions
+  parent: Mewdeko.Modules.Highlights
+  href: Mewdeko.Modules.Highlights.Highlights.html
+  name: Highlights.HighlightActions
+  nameWithType: Highlights.HighlightActions
+  fullName: Mewdeko.Modules.Highlights.Highlights.HighlightActions
+  spec.csharp:
+  - uid: Mewdeko.Modules.Highlights.Highlights
+    name: Highlights
+    href: Mewdeko.Modules.Highlights.Highlights.html
+  - name: .
+  - uid: Mewdeko.Modules.Highlights.Highlights.HighlightActions
+    name: HighlightActions
+    href: Mewdeko.Modules.Highlights.Highlights.HighlightActions.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Highlights.Highlights
+    name: Highlights
+    href: Mewdeko.Modules.Highlights.Highlights.html
+  - name: .
+  - uid: Mewdeko.Modules.Highlights.Highlights.HighlightActions
+    name: HighlightActions
+    href: Mewdeko.Modules.Highlights.Highlights.HighlightActions.html

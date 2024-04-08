@@ -1,0 +1,171 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+  commentId: T:Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+  id: MultiGreets.MultiGreetTypes
+  parent: Mewdeko.Modules.MultiGreets
+  children:
+  - Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes.MultiGreet
+  - Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes.Off
+  - Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes.RandomGreet
+  langs:
+  - csharp
+  - vb
+  name: MultiGreets.MultiGreetTypes
+  nameWithType: MultiGreets.MultiGreetTypes
+  fullName: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/MultiGreets/MultiGreets.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MultiGreetTypes
+    path: src/Mewdeko/Modules/MultiGreets/MultiGreets.cs
+    startLine: 20
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.MultiGreets
+  summary: The types of MultiGreets.
+  example: []
+  syntax:
+    content: public enum MultiGreets.MultiGreetTypes
+    content.vb: Public Enum MultiGreets.MultiGreetTypes
+- uid: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes.MultiGreet
+  commentId: F:Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes.MultiGreet
+  id: MultiGreet
+  parent: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+  langs:
+  - csharp
+  - vb
+  name: MultiGreet
+  nameWithType: MultiGreets.MultiGreetTypes.MultiGreet
+  fullName: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes.MultiGreet
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/MultiGreets/MultiGreets.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MultiGreet
+    path: src/Mewdeko/Modules/MultiGreets/MultiGreets.cs
+    startLine: 25
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.MultiGreets
+  summary: Executes all MultiGreets.
+  example: []
+  syntax:
+    content: MultiGreet = 0
+    return:
+      type: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+- uid: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes.RandomGreet
+  commentId: F:Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes.RandomGreet
+  id: RandomGreet
+  parent: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+  langs:
+  - csharp
+  - vb
+  name: RandomGreet
+  nameWithType: MultiGreets.MultiGreetTypes.RandomGreet
+  fullName: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes.RandomGreet
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/MultiGreets/MultiGreets.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RandomGreet
+    path: src/Mewdeko/Modules/MultiGreets/MultiGreets.cs
+    startLine: 30
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.MultiGreets
+  summary: Executes a random MultiGreet.
+  example: []
+  syntax:
+    content: RandomGreet = 1
+    return:
+      type: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+- uid: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes.Off
+  commentId: F:Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes.Off
+  id: Off
+  parent: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+  langs:
+  - csharp
+  - vb
+  name: Off
+  nameWithType: MultiGreets.MultiGreetTypes.Off
+  fullName: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes.Off
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/MultiGreets/MultiGreets.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Off
+    path: src/Mewdeko/Modules/MultiGreets/MultiGreets.cs
+    startLine: 35
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.MultiGreets
+  summary: Disables MultiGreets.
+  example: []
+  syntax:
+    content: Off = 2
+    return:
+      type: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+references:
+- uid: Mewdeko.Modules.MultiGreets
+  commentId: N:Mewdeko.Modules.MultiGreets
+  href: Mewdeko.html
+  name: Mewdeko.Modules.MultiGreets
+  nameWithType: Mewdeko.Modules.MultiGreets
+  fullName: Mewdeko.Modules.MultiGreets
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.MultiGreets
+    name: MultiGreets
+    href: Mewdeko.Modules.MultiGreets.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.MultiGreets
+    name: MultiGreets
+    href: Mewdeko.Modules.MultiGreets.html
+- uid: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+  commentId: T:Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+  parent: Mewdeko.Modules.MultiGreets
+  href: Mewdeko.Modules.MultiGreets.MultiGreets.html
+  name: MultiGreets.MultiGreetTypes
+  nameWithType: MultiGreets.MultiGreetTypes
+  fullName: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+  spec.csharp:
+  - uid: Mewdeko.Modules.MultiGreets.MultiGreets
+    name: MultiGreets
+    href: Mewdeko.Modules.MultiGreets.MultiGreets.html
+  - name: .
+  - uid: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+    name: MultiGreetTypes
+    href: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes.html
+  spec.vb:
+  - uid: Mewdeko.Modules.MultiGreets.MultiGreets
+    name: MultiGreets
+    href: Mewdeko.Modules.MultiGreets.MultiGreets.html
+  - name: .
+  - uid: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+    name: MultiGreetTypes
+    href: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes.html

@@ -1,0 +1,307 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.Configs.IConfigSeria
+  commentId: T:Mewdeko.Common.Configs.IConfigSeria
+  id: IConfigSeria
+  parent: Mewdeko.Common.Configs
+  children:
+  - Mewdeko.Common.Configs.IConfigSeria.Deserialize``1(System.String)
+  - Mewdeko.Common.Configs.IConfigSeria.Serialize``1(``0)
+  langs:
+  - csharp
+  - vb
+  name: IConfigSeria
+  nameWithType: IConfigSeria
+  fullName: Mewdeko.Common.Configs.IConfigSeria
+  type: Interface
+  source:
+    remote:
+      path: src/Mewdeko/Common/Configs/IConfigSeria.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IConfigSeria
+    path: src/Mewdeko/Common/Configs/IConfigSeria.cs
+    startLine: 5
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Configs
+  summary: Base interface for available config serializers
+  example: []
+  syntax:
+    content: public interface IConfigSeria
+    content.vb: Public Interface IConfigSeria
+  extensionMethods:
+  - Mewdeko.Common.Configs.IConfigSeria.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Common.Configs.IConfigSeria.Serialize``1(``0)
+  commentId: M:Mewdeko.Common.Configs.IConfigSeria.Serialize``1(``0)
+  id: Serialize``1(``0)
+  parent: Mewdeko.Common.Configs.IConfigSeria
+  langs:
+  - csharp
+  - vb
+  name: Serialize<T>(T?)
+  nameWithType: IConfigSeria.Serialize<T>(T?)
+  fullName: Mewdeko.Common.Configs.IConfigSeria.Serialize<T>(T?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Configs/IConfigSeria.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Serialize
+    path: src/Mewdeko/Common/Configs/IConfigSeria.cs
+    startLine: 10
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Configs
+  summary: Serialize the object to string
+  example: []
+  syntax:
+    content: string? Serialize<T>(T? obj)
+    parameters:
+    - id: obj
+      type: '{T}'
+    typeParameters:
+    - id: T
+    return:
+      type: System.String
+    content.vb: Function Serialize(Of T)(obj As T) As String
+  overload: Mewdeko.Common.Configs.IConfigSeria.Serialize*
+  nameWithType.vb: IConfigSeria.Serialize(Of T)(T)
+  fullName.vb: Mewdeko.Common.Configs.IConfigSeria.Serialize(Of T)(T)
+  name.vb: Serialize(Of T)(T)
+- uid: Mewdeko.Common.Configs.IConfigSeria.Deserialize``1(System.String)
+  commentId: M:Mewdeko.Common.Configs.IConfigSeria.Deserialize``1(System.String)
+  id: Deserialize``1(System.String)
+  parent: Mewdeko.Common.Configs.IConfigSeria
+  langs:
+  - csharp
+  - vb
+  name: Deserialize<T>(string)
+  nameWithType: IConfigSeria.Deserialize<T>(string)
+  fullName: Mewdeko.Common.Configs.IConfigSeria.Deserialize<T>(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Configs/IConfigSeria.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Deserialize
+    path: src/Mewdeko/Common/Configs/IConfigSeria.cs
+    startLine: 15
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Configs
+  summary: Deserialize string data into an object of the specified type
+  example: []
+  syntax:
+    content: T Deserialize<T>(string data)
+    parameters:
+    - id: data
+      type: System.String
+    typeParameters:
+    - id: T
+    return:
+      type: '{T}'
+    content.vb: Function Deserialize(Of T)(data As String) As T
+  overload: Mewdeko.Common.Configs.IConfigSeria.Deserialize*
+  nameWithType.vb: IConfigSeria.Deserialize(Of T)(String)
+  fullName.vb: Mewdeko.Common.Configs.IConfigSeria.Deserialize(Of T)(String)
+  name.vb: Deserialize(Of T)(String)
+references:
+- uid: Mewdeko.Common.Configs
+  commentId: N:Mewdeko.Common.Configs
+  href: Mewdeko.html
+  name: Mewdeko.Common.Configs
+  nameWithType: Mewdeko.Common.Configs
+  fullName: Mewdeko.Common.Configs
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+- uid: Mewdeko.Common.Configs.IConfigSeria.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<IConfigSeria>(IConfigSeria, string)
+  nameWithType: Extensions.ThrowIfNull<IConfigSeria>(IConfigSeria, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Common.Configs.IConfigSeria>(Mewdeko.Common.Configs.IConfigSeria, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of IConfigSeria)(IConfigSeria, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Common.Configs.IConfigSeria)(Mewdeko.Common.Configs.IConfigSeria, String)
+  name.vb: ThrowIfNull(Of IConfigSeria)(IConfigSeria, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.Configs.IConfigSeria,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Common.Configs.IConfigSeria
+    name: IConfigSeria
+    href: Mewdeko.Common.Configs.IConfigSeria.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Common.Configs.IConfigSeria
+    name: IConfigSeria
+    href: Mewdeko.Common.Configs.IConfigSeria.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.Configs.IConfigSeria,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Common.Configs.IConfigSeria
+    name: IConfigSeria
+    href: Mewdeko.Common.Configs.IConfigSeria.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Common.Configs.IConfigSeria
+    name: IConfigSeria
+    href: Mewdeko.Common.Configs.IConfigSeria.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Common.Configs.IConfigSeria.Serialize*
+  commentId: Overload:Mewdeko.Common.Configs.IConfigSeria.Serialize
+  href: Mewdeko.Common.Configs.IConfigSeria.html#Mewdeko_Common_Configs_IConfigSeria_Serialize__1___0_
+  name: Serialize
+  nameWithType: IConfigSeria.Serialize
+  fullName: Mewdeko.Common.Configs.IConfigSeria.Serialize
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Common.Configs.IConfigSeria.Deserialize*
+  commentId: Overload:Mewdeko.Common.Configs.IConfigSeria.Deserialize
+  href: Mewdeko.Common.Configs.IConfigSeria.html#Mewdeko_Common_Configs_IConfigSeria_Deserialize__1_System_String_
+  name: Deserialize
+  nameWithType: IConfigSeria.Deserialize
+  fullName: Mewdeko.Common.Configs.IConfigSeria.Deserialize

@@ -1,0 +1,2133 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Games.Games.AcropobiaCommands
+  commentId: T:Mewdeko.Modules.Games.Games.AcropobiaCommands
+  id: Games.AcropobiaCommands
+  parent: Mewdeko.Modules.Games
+  children:
+  - Mewdeko.Modules.Games.Games.AcropobiaCommands.#ctor(Discord.WebSocket.DiscordSocketClient)
+  - Mewdeko.Modules.Games.Games.AcropobiaCommands.Acrophobia(System.String[])
+  langs:
+  - csharp
+  - vb
+  name: Games.AcropobiaCommands
+  nameWithType: Games.AcropobiaCommands
+  fullName: Mewdeko.Modules.Games.Games.AcropobiaCommands
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/AcropobiaCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AcropobiaCommands
+    path: src/Mewdeko/Modules/Games/AcropobiaCommands.cs
+    startLine: 17
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games
+  summary: A module containing Acrophobia commands.
+  example: []
+  syntax:
+    content: >-
+      [Group]
+
+      public class Games.AcropobiaCommands : MewdekoSubmodule<GamesService>, IModuleBase
+    content.vb: >-
+      <Group>
+
+      Public Class Games.AcropobiaCommands Inherits MewdekoSubmodule(Of GamesService) Implements IModuleBase
+  inheritance:
+  - System.Object
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  - Discord.Commands.ModuleBase
+  - Mewdeko.Common.MewdekoModule
+  - Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Games.Services.GamesService}
+  - Mewdeko.Common.MewdekoSubmodule{Mewdeko.Modules.Games.Services.GamesService}
+  implements:
+  - Discord.Commands.IModuleBase
+  inheritedMembers:
+  - Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Games.Services.GamesService}.Service
+  - Mewdeko.Common.MewdekoModule.CultureInfo
+  - Mewdeko.Common.MewdekoModule.Strings
+  - Mewdeko.Common.MewdekoModule.Localization
+  - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  - Mewdeko.Common.MewdekoModule.GetText(System.String)
+  - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  - Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Games.Games.AcropobiaCommands.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  attributes:
+  - type: Discord.Commands.GroupAttribute
+    ctor: Discord.Commands.GroupAttribute.#ctor
+    arguments: []
+- uid: Mewdeko.Modules.Games.Games.AcropobiaCommands.#ctor(Discord.WebSocket.DiscordSocketClient)
+  commentId: M:Mewdeko.Modules.Games.Games.AcropobiaCommands.#ctor(Discord.WebSocket.DiscordSocketClient)
+  id: '#ctor(Discord.WebSocket.DiscordSocketClient)'
+  parent: Mewdeko.Modules.Games.Games.AcropobiaCommands
+  langs:
+  - csharp
+  - vb
+  name: AcropobiaCommands(DiscordSocketClient)
+  nameWithType: Games.AcropobiaCommands.AcropobiaCommands(DiscordSocketClient)
+  fullName: Mewdeko.Modules.Games.Games.AcropobiaCommands.AcropobiaCommands(Discord.WebSocket.DiscordSocketClient)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/AcropobiaCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Games/AcropobiaCommands.cs
+    startLine: 17
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games
+  summary: A module containing Acrophobia commands.
+  example: []
+  syntax:
+    content: public AcropobiaCommands(DiscordSocketClient client)
+    parameters:
+    - id: client
+      type: Discord.WebSocket.DiscordSocketClient
+      description: The discord client
+    content.vb: Public Sub New(client As DiscordSocketClient)
+  overload: Mewdeko.Modules.Games.Games.AcropobiaCommands.#ctor*
+  nameWithType.vb: Games.AcropobiaCommands.New(DiscordSocketClient)
+  fullName.vb: Mewdeko.Modules.Games.Games.AcropobiaCommands.New(Discord.WebSocket.DiscordSocketClient)
+  name.vb: New(DiscordSocketClient)
+- uid: Mewdeko.Modules.Games.Games.AcropobiaCommands.Acrophobia(System.String[])
+  commentId: M:Mewdeko.Modules.Games.Games.AcropobiaCommands.Acrophobia(System.String[])
+  id: Acrophobia(System.String[])
+  parent: Mewdeko.Modules.Games.Games.AcropobiaCommands
+  langs:
+  - csharp
+  - vb
+  name: Acrophobia(params string[])
+  nameWithType: Games.AcropobiaCommands.Acrophobia(params string[])
+  fullName: Mewdeko.Modules.Games.Games.AcropobiaCommands.Acrophobia(params string[])
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/AcropobiaCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Acrophobia
+    path: src/Mewdeko/Modules/Games/AcropobiaCommands.cs
+    startLine: 25
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games
+  summary: Command for starting an Acrophobia game.
+  example:
+  - .acro
+  syntax:
+    content: >-
+      [Cmd("Acrophobia")]
+
+      [Aliases("Acrophobia")]
+
+      [RequireContext(ContextType.Guild)]
+
+      [MewdekoOptions(typeof(AcrophobiaGame.Options))]
+
+      public Task Acrophobia(params string[] args)
+    parameters:
+    - id: args
+      type: System.String[]
+      description: Arguments passed to the command.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Acrophobia")>
+
+      <Aliases("Acrophobia")>
+
+      <RequireContext(ContextType.Guild)>
+
+      <MewdekoOptions(GetType(AcrophobiaGame.Options))>
+
+      Public Function Acrophobia(ParamArray args As String()) As Task
+  overload: Mewdeko.Modules.Games.Games.AcropobiaCommands.Acrophobia*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Acrophobia
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Acrophobia
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.MewdekoOptionsAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.MewdekoOptionsAttribute.#ctor(System.Type)
+    arguments:
+    - type: System.Type
+      value: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options
+  nameWithType.vb: Games.AcropobiaCommands.Acrophobia(ParamArray String())
+  fullName.vb: Mewdeko.Modules.Games.Games.AcropobiaCommands.Acrophobia(ParamArray String())
+  name.vb: Acrophobia(ParamArray String())
+references:
+- uid: Mewdeko.Modules.Games
+  commentId: N:Mewdeko.Modules.Games
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Games
+  nameWithType: Mewdeko.Modules.Games
+  fullName: Mewdeko.Modules.Games
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  commentId: T:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  parent: Discord.Commands
+  definition: Discord.Commands.ModuleBase`1
+  name: ModuleBase<ICommandContext>
+  nameWithType: ModuleBase<ICommandContext>
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>
+  nameWithType.vb: ModuleBase(Of ICommandContext)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext)
+  name.vb: ModuleBase(Of ICommandContext)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: <
+  - uid: Discord.Commands.ICommandContext
+    name: ICommandContext
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Discord.Commands.ICommandContext
+    name: ICommandContext
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase
+  commentId: T:Discord.Commands.ModuleBase
+  parent: Discord.Commands
+  isExternal: true
+  name: ModuleBase
+  nameWithType: ModuleBase
+  fullName: Discord.Commands.ModuleBase
+- uid: Mewdeko.Common.MewdekoModule
+  commentId: T:Mewdeko.Common.MewdekoModule
+  parent: Mewdeko.Common
+  href: Mewdeko.Common.MewdekoModule.html
+  name: MewdekoModule
+  nameWithType: MewdekoModule
+  fullName: Mewdeko.Common.MewdekoModule
+- uid: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Games.Services.GamesService}
+  commentId: T:Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Games.Services.GamesService}
+  parent: Mewdeko.Common
+  definition: Mewdeko.Common.MewdekoModuleBase`1
+  href: Mewdeko.Common.MewdekoModuleBase-1.html
+  name: MewdekoModuleBase<GamesService>
+  nameWithType: MewdekoModuleBase<GamesService>
+  fullName: Mewdeko.Common.MewdekoModuleBase<Mewdeko.Modules.Games.Services.GamesService>
+  nameWithType.vb: MewdekoModuleBase(Of GamesService)
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of Mewdeko.Modules.Games.Services.GamesService)
+  name.vb: MewdekoModuleBase(Of GamesService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: <
+  - uid: Mewdeko.Modules.Games.Services.GamesService
+    name: GamesService
+    href: Mewdeko.Modules.Games.Services.GamesService.html
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Services.GamesService
+    name: GamesService
+    href: Mewdeko.Modules.Games.Services.GamesService.html
+  - name: )
+- uid: Mewdeko.Common.MewdekoSubmodule{Mewdeko.Modules.Games.Services.GamesService}
+  commentId: T:Mewdeko.Common.MewdekoSubmodule{Mewdeko.Modules.Games.Services.GamesService}
+  parent: Mewdeko.Common
+  definition: Mewdeko.Common.MewdekoSubmodule`1
+  href: Mewdeko.Common.MewdekoSubmodule-1.html
+  name: MewdekoSubmodule<GamesService>
+  nameWithType: MewdekoSubmodule<GamesService>
+  fullName: Mewdeko.Common.MewdekoSubmodule<Mewdeko.Modules.Games.Services.GamesService>
+  nameWithType.vb: MewdekoSubmodule(Of GamesService)
+  fullName.vb: Mewdeko.Common.MewdekoSubmodule(Of Mewdeko.Modules.Games.Services.GamesService)
+  name.vb: MewdekoSubmodule(Of GamesService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoSubmodule`1
+    name: MewdekoSubmodule
+    href: Mewdeko.Common.MewdekoSubmodule-1.html
+  - name: <
+  - uid: Mewdeko.Modules.Games.Services.GamesService
+    name: GamesService
+    href: Mewdeko.Modules.Games.Services.GamesService.html
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoSubmodule`1
+    name: MewdekoSubmodule
+    href: Mewdeko.Common.MewdekoSubmodule-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Services.GamesService
+    name: GamesService
+    href: Mewdeko.Modules.Games.Services.GamesService.html
+  - name: )
+- uid: Discord.Commands.IModuleBase
+  commentId: T:Discord.Commands.IModuleBase
+  parent: Discord.Commands
+  isExternal: true
+  name: IModuleBase
+  nameWithType: IModuleBase
+  fullName: Discord.Commands.IModuleBase
+- uid: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Games.Services.GamesService}.Service
+  commentId: P:Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Games.Services.GamesService}.Service
+  parent: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Games.Services.GamesService}
+  definition: Mewdeko.Common.MewdekoModuleBase`1.Service
+  href: Mewdeko.Common.MewdekoModuleBase-1.html#Mewdeko_Common_MewdekoModuleBase_1_Service
+  name: Service
+  nameWithType: MewdekoModuleBase<GamesService>.Service
+  fullName: Mewdeko.Common.MewdekoModuleBase<Mewdeko.Modules.Games.Services.GamesService>.Service
+  nameWithType.vb: MewdekoModuleBase(Of GamesService).Service
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of Mewdeko.Modules.Games.Services.GamesService).Service
+- uid: Mewdeko.Common.MewdekoModule.CultureInfo
+  commentId: P:Mewdeko.Common.MewdekoModule.CultureInfo
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CultureInfo
+  name: CultureInfo
+  nameWithType: MewdekoModule.CultureInfo
+  fullName: Mewdeko.Common.MewdekoModule.CultureInfo
+- uid: Mewdeko.Common.MewdekoModule.Strings
+  commentId: P:Mewdeko.Common.MewdekoModule.Strings
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Strings
+  name: Strings
+  nameWithType: MewdekoModule.Strings
+  fullName: Mewdeko.Common.MewdekoModule.Strings
+- uid: Mewdeko.Common.MewdekoModule.Localization
+  commentId: P:Mewdeko.Common.MewdekoModule.Localization
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Localization
+  name: Localization
+  nameWithType: MewdekoModule.Localization
+  fullName: Mewdeko.Common.MewdekoModule.Localization
+- uid: Mewdeko.Common.MewdekoModule.ctx
+  commentId: P:Mewdeko.Common.MewdekoModule.ctx
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ctx
+  name: ctx
+  nameWithType: MewdekoModule.ctx
+  fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  name: BeforeExecute(CommandInfo)
+  nameWithType: MewdekoModule.BeforeExecute(CommandInfo)
+  fullName: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+    name: BeforeExecute
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+    name: BeforeExecute
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+  commentId: M:Mewdeko.Common.MewdekoModule.GetText(System.String)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  name: GetText(string)
+  nameWithType: MewdekoModule.GetText(string)
+  fullName: Mewdeko.Common.MewdekoModule.GetText(string)
+  nameWithType.vb: MewdekoModule.GetText(String)
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetText(String)
+  name.vb: GetText(String)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  name: GetText(string, params object[])
+  nameWithType: MewdekoModule.GetText(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.GetText(string, params object[])
+  nameWithType.vb: MewdekoModule.GetText(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetText(String, ParamArray Object())
+  name.vb: GetText(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  name: ErrorLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ErrorLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ErrorLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(String, ParamArray Object())
+  name.vb: ErrorLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+    name: ErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+    name: ErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  name: ReplyErrorLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ReplyErrorLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ReplyErrorLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(String, ParamArray Object())
+  name.vb: ReplyErrorLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+    name: ReplyErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+    name: ReplyErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  name: ConfirmLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ConfirmLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ConfirmLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(String, ParamArray Object())
+  name.vb: ConfirmLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+    name: ConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+    name: ConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  name: ReplyConfirmLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ReplyConfirmLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  name.vb: ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+    name: ReplyConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+    name: ReplyConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  name: PromptUserConfirmAsync(string, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(string, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(string, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(String, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(String, ULong)
+  name.vb: PromptUserConfirmAsync(String, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  name: PromptUserConfirmAsync(EmbedBuilder, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(EmbedBuilder, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(EmbedBuilder, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder, ULong)
+  name.vb: PromptUserConfirmAsync(EmbedBuilder, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  commentId: M:Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  name: CheckRoleHierarchy(IGuildUser, bool)
+  nameWithType: MewdekoModule.CheckRoleHierarchy(IGuildUser, bool)
+  fullName: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser, bool)
+  nameWithType.vb: MewdekoModule.CheckRoleHierarchy(IGuildUser, Boolean)
+  fullName.vb: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser, Boolean)
+  name.vb: CheckRoleHierarchy(IGuildUser, Boolean)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+    name: CheckRoleHierarchy
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  - name: (
+  - uid: Discord.IGuildUser
+    name: IGuildUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+    name: CheckRoleHierarchy
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  - name: (
+  - uid: Discord.IGuildUser
+    name: IGuildUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  name: PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage, Discord.EmbedBuilder, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage, Discord.EmbedBuilder, ULong)
+  name.vb: PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  commentId: M:Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  name: GetButtonInputAsync(ulong, ulong, ulong, bool)
+  nameWithType: MewdekoModule.GetButtonInputAsync(ulong, ulong, ulong, bool)
+  fullName: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(ulong, ulong, ulong, bool)
+  nameWithType.vb: MewdekoModule.GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  name.vb: GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+    name: GetButtonInputAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+    name: GetButtonInputAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  name: NextMessageAsync(ulong, ulong)
+  nameWithType: MewdekoModule.NextMessageAsync(ulong, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.NextMessageAsync(ulong, ulong)
+  nameWithType.vb: MewdekoModule.NextMessageAsync(ULong, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.NextMessageAsync(ULong, ULong)
+  name.vb: NextMessageAsync(ULong, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+    name: NextMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+    name: NextMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  name: NextFullMessageAsync(ulong, ulong)
+  nameWithType: MewdekoModule.NextFullMessageAsync(ulong, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(ulong, ulong)
+  nameWithType.vb: MewdekoModule.NextFullMessageAsync(ULong, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(ULong, ULong)
+  name.vb: NextFullMessageAsync(ULong, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+    name: NextFullMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+    name: NextFullMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  nameWithType: ModuleBase<ICommandContext>.ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.ReplyAsync(string, bool, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker[], Discord.Embed[], Discord.MessageFlags)
+  nameWithType.vb: ModuleBase(Of ICommandContext).ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).ReplyAsync(String, Boolean, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker(), Discord.Embed(), Discord.MessageFlags)
+  name.vb: ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  name: BeforeExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.BeforeExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).BeforeExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  name: AfterExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.AfterExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).AfterExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).AfterExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  name: AfterExecute(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.AfterExecute(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.AfterExecute(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).AfterExecute(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).AfterExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  name: OnModuleBuilding(CommandService, ModuleBuilder)
+  nameWithType: ModuleBase<ICommandContext>.OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  nameWithType.vb: ModuleBase(Of ICommandContext).OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  commentId: P:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.Context
+  name: Context
+  nameWithType: ModuleBase<ICommandContext>.Context
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.Context
+  nameWithType.vb: ModuleBase(Of ICommandContext).Context
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).Context
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Games.Games.AcropobiaCommands.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<AcropobiaCommands>(AcropobiaCommands, string)
+  nameWithType: Extensions.ThrowIfNull<Games.AcropobiaCommands>(Games.AcropobiaCommands, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Games.Games.AcropobiaCommands>(Mewdeko.Modules.Games.Games.AcropobiaCommands, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of Games.AcropobiaCommands)(Games.AcropobiaCommands, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Games.Games.AcropobiaCommands)(Mewdeko.Modules.Games.Games.AcropobiaCommands, String)
+  name.vb: ThrowIfNull(Of AcropobiaCommands)(AcropobiaCommands, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Games.Games.AcropobiaCommands,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Games.Games.AcropobiaCommands
+    name: AcropobiaCommands
+    href: Mewdeko.Modules.Games.Games.AcropobiaCommands.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Games.Games.AcropobiaCommands
+    name: AcropobiaCommands
+    href: Mewdeko.Modules.Games.Games.AcropobiaCommands.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Games.Games.AcropobiaCommands,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Games.AcropobiaCommands
+    name: AcropobiaCommands
+    href: Mewdeko.Modules.Games.Games.AcropobiaCommands.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Games.Games.AcropobiaCommands
+    name: AcropobiaCommands
+    href: Mewdeko.Modules.Games.Games.AcropobiaCommands.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Discord.Commands.ModuleBase`1
+  commentId: T:Discord.Commands.ModuleBase`1
+  isExternal: true
+  name: ModuleBase<T>
+  nameWithType: ModuleBase<T>
+  fullName: Discord.Commands.ModuleBase<T>
+  nameWithType.vb: ModuleBase(Of T)
+  fullName.vb: Discord.Commands.ModuleBase(Of T)
+  name.vb: ModuleBase(Of T)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Discord.Commands
+  commentId: N:Discord.Commands
+  isExternal: true
+  name: Discord.Commands
+  nameWithType: Discord.Commands
+  fullName: Discord.Commands
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+- uid: Mewdeko.Common
+  commentId: N:Mewdeko.Common
+  href: Mewdeko.html
+  name: Mewdeko.Common
+  nameWithType: Mewdeko.Common
+  fullName: Mewdeko.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+- uid: Mewdeko.Common.MewdekoModuleBase`1
+  commentId: T:Mewdeko.Common.MewdekoModuleBase`1
+  href: Mewdeko.Common.MewdekoModuleBase-1.html
+  name: MewdekoModuleBase<TService>
+  nameWithType: MewdekoModuleBase<TService>
+  fullName: Mewdeko.Common.MewdekoModuleBase<TService>
+  nameWithType.vb: MewdekoModuleBase(Of TService)
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of TService)
+  name.vb: MewdekoModuleBase(Of TService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: <
+  - name: TService
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TService
+  - name: )
+- uid: Mewdeko.Common.MewdekoSubmodule`1
+  commentId: T:Mewdeko.Common.MewdekoSubmodule`1
+  href: Mewdeko.Common.MewdekoSubmodule-1.html
+  name: MewdekoSubmodule<TService>
+  nameWithType: MewdekoSubmodule<TService>
+  fullName: Mewdeko.Common.MewdekoSubmodule<TService>
+  nameWithType.vb: MewdekoSubmodule(Of TService)
+  fullName.vb: Mewdeko.Common.MewdekoSubmodule(Of TService)
+  name.vb: MewdekoSubmodule(Of TService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoSubmodule`1
+    name: MewdekoSubmodule
+    href: Mewdeko.Common.MewdekoSubmodule-1.html
+  - name: <
+  - name: TService
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoSubmodule`1
+    name: MewdekoSubmodule
+    href: Mewdeko.Common.MewdekoSubmodule-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TService
+  - name: )
+- uid: Mewdeko.Common.MewdekoModuleBase`1.Service
+  commentId: P:Mewdeko.Common.MewdekoModuleBase`1.Service
+  href: Mewdeko.Common.MewdekoModuleBase-1.html#Mewdeko_Common_MewdekoModuleBase_1_Service
+  name: Service
+  nameWithType: MewdekoModuleBase<TService>.Service
+  fullName: Mewdeko.Common.MewdekoModuleBase<TService>.Service
+  nameWithType.vb: MewdekoModuleBase(Of TService).Service
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of TService).Service
+- uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  commentId: M:Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  nameWithType: ModuleBase<T>.ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  fullName: Discord.Commands.ModuleBase<T>.ReplyAsync(string, bool, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker[], Discord.Embed[], Discord.MessageFlags)
+  nameWithType.vb: ModuleBase(Of T).ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).ReplyAsync(String, Boolean, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker(), Discord.Embed(), Discord.MessageFlags)
+  name.vb: ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: BeforeExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<T>.BeforeExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).BeforeExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: AfterExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<T>.AfterExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).AfterExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).AfterExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: AfterExecute(CommandInfo)
+  nameWithType: ModuleBase<T>.AfterExecute(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.AfterExecute(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).AfterExecute(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).AfterExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  commentId: M:Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  isExternal: true
+  name: OnModuleBuilding(CommandService, ModuleBuilder)
+  nameWithType: ModuleBase<T>.OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName: Discord.Commands.ModuleBase<T>.OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  nameWithType.vb: ModuleBase(Of T).OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.Context
+  commentId: P:Discord.Commands.ModuleBase`1.Context
+  isExternal: true
+  name: Context
+  nameWithType: ModuleBase<T>.Context
+  fullName: Discord.Commands.ModuleBase<T>.Context
+  nameWithType.vb: ModuleBase(Of T).Context
+  fullName.vb: Discord.Commands.ModuleBase(Of T).Context
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Games.Games.AcropobiaCommands.#ctor*
+  commentId: Overload:Mewdeko.Modules.Games.Games.AcropobiaCommands.#ctor
+  href: Mewdeko.Modules.Games.Games.AcropobiaCommands.html#Mewdeko_Modules_Games_Games_AcropobiaCommands__ctor_Discord_WebSocket_DiscordSocketClient_
+  name: AcropobiaCommands
+  nameWithType: Games.AcropobiaCommands.AcropobiaCommands
+  fullName: Mewdeko.Modules.Games.Games.AcropobiaCommands.AcropobiaCommands
+  nameWithType.vb: Games.AcropobiaCommands.New
+  fullName.vb: Mewdeko.Modules.Games.Games.AcropobiaCommands.New
+  name.vb: New
+- uid: Discord.WebSocket.DiscordSocketClient
+  commentId: T:Discord.WebSocket.DiscordSocketClient
+  parent: Discord.WebSocket
+  isExternal: true
+  name: DiscordSocketClient
+  nameWithType: DiscordSocketClient
+  fullName: Discord.WebSocket.DiscordSocketClient
+- uid: Discord.WebSocket
+  commentId: N:Discord.WebSocket
+  isExternal: true
+  name: Discord.WebSocket
+  nameWithType: Discord.WebSocket
+  fullName: Discord.WebSocket
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.WebSocket
+    name: WebSocket
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.WebSocket
+    name: WebSocket
+    isExternal: true
+- uid: Mewdeko.Modules.Games.Games.AcropobiaCommands.Acrophobia*
+  commentId: Overload:Mewdeko.Modules.Games.Games.AcropobiaCommands.Acrophobia
+  href: Mewdeko.Modules.Games.Games.AcropobiaCommands.html#Mewdeko_Modules_Games_Games_AcropobiaCommands_Acrophobia_System_String___
+  name: Acrophobia
+  nameWithType: Games.AcropobiaCommands.Acrophobia
+  fullName: Mewdeko.Modules.Games.Games.AcropobiaCommands.Acrophobia
+- uid: System.String[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string[]
+  nameWithType: string[]
+  fullName: string[]
+  nameWithType.vb: String()
+  fullName.vb: String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: (
+  - name: )
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks

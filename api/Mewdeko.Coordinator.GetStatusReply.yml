@@ -1,0 +1,1986 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Coordinator.GetStatusReply
+  commentId: T:Mewdeko.Coordinator.GetStatusReply
+  id: GetStatusReply
+  parent: Mewdeko.Coordinator
+  children:
+  - Mewdeko.Coordinator.GetStatusReply.#ctor
+  - Mewdeko.Coordinator.GetStatusReply.#ctor(Mewdeko.Coordinator.GetStatusReply)
+  - Mewdeko.Coordinator.GetStatusReply.CalculateSize
+  - Mewdeko.Coordinator.GetStatusReply.Clone
+  - Mewdeko.Coordinator.GetStatusReply.Descriptor
+  - Mewdeko.Coordinator.GetStatusReply.Equals(Mewdeko.Coordinator.GetStatusReply)
+  - Mewdeko.Coordinator.GetStatusReply.Equals(System.Object)
+  - Mewdeko.Coordinator.GetStatusReply.GetHashCode
+  - Mewdeko.Coordinator.GetStatusReply.GuildCount
+  - Mewdeko.Coordinator.GetStatusReply.GuildCountFieldNumber
+  - Mewdeko.Coordinator.GetStatusReply.LastUpdate
+  - Mewdeko.Coordinator.GetStatusReply.LastUpdateFieldNumber
+  - Mewdeko.Coordinator.GetStatusReply.MergeFrom(Google.Protobuf.CodedInputStream)
+  - Mewdeko.Coordinator.GetStatusReply.MergeFrom(Mewdeko.Coordinator.GetStatusReply)
+  - Mewdeko.Coordinator.GetStatusReply.Parser
+  - Mewdeko.Coordinator.GetStatusReply.ScheduledForRestart
+  - Mewdeko.Coordinator.GetStatusReply.ScheduledForRestartFieldNumber
+  - Mewdeko.Coordinator.GetStatusReply.ShardId
+  - Mewdeko.Coordinator.GetStatusReply.ShardIdFieldNumber
+  - Mewdeko.Coordinator.GetStatusReply.StartedAt
+  - Mewdeko.Coordinator.GetStatusReply.StartedAtFieldNumber
+  - Mewdeko.Coordinator.GetStatusReply.State
+  - Mewdeko.Coordinator.GetStatusReply.StateFieldNumber
+  - Mewdeko.Coordinator.GetStatusReply.ToString
+  - Mewdeko.Coordinator.GetStatusReply.UserCount
+  - Mewdeko.Coordinator.GetStatusReply.UserCountFieldNumber
+  - Mewdeko.Coordinator.GetStatusReply.WriteTo(Google.Protobuf.CodedOutputStream)
+  langs:
+  - csharp
+  - vb
+  name: GetStatusReply
+  nameWithType: GetStatusReply
+  fullName: Mewdeko.Coordinator.GetStatusReply
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetStatusReply
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1817
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  syntax:
+    content: 'public sealed class GetStatusReply : IMessage<GetStatusReply>, IEquatable<GetStatusReply>, IDeepCloneable<GetStatusReply>, IBufferMessage, IMessage'
+    content.vb: Public NotInheritable Class GetStatusReply Implements IMessage(Of GetStatusReply), IEquatable(Of GetStatusReply), IDeepCloneable(Of GetStatusReply), IBufferMessage, IMessage
+  inheritance:
+  - System.Object
+  implements:
+  - Google.Protobuf.IMessage{Mewdeko.Coordinator.GetStatusReply}
+  - System.IEquatable{Mewdeko.Coordinator.GetStatusReply}
+  - Google.Protobuf.IDeepCloneable{Mewdeko.Coordinator.GetStatusReply}
+  - Google.Protobuf.IBufferMessage
+  - Google.Protobuf.IMessage
+  inheritedMembers:
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  extensionMethods:
+  - Mewdeko.Coordinator.GetStatusReply.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Coordinator.GetStatusReply.Parser
+  commentId: P:Mewdeko.Coordinator.GetStatusReply.Parser
+  id: Parser
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: Parser
+  nameWithType: GetStatusReply.Parser
+  fullName: Mewdeko.Coordinator.GetStatusReply.Parser
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Parser
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1825
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  syntax:
+    content: public static MessageParser<GetStatusReply> Parser { get; }
+    parameters: []
+    return:
+      type: Google.Protobuf.MessageParser{Mewdeko.Coordinator.GetStatusReply}
+    content.vb: Public Shared ReadOnly Property Parser As MessageParser(Of GetStatusReply)
+  overload: Mewdeko.Coordinator.GetStatusReply.Parser*
+- uid: Mewdeko.Coordinator.GetStatusReply.Descriptor
+  commentId: P:Mewdeko.Coordinator.GetStatusReply.Descriptor
+  id: Descriptor
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: Descriptor
+  nameWithType: GetStatusReply.Descriptor
+  fullName: Mewdeko.Coordinator.GetStatusReply.Descriptor
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Descriptor
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1829
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  syntax:
+    content: public static MessageDescriptor Descriptor { get; }
+    parameters: []
+    return:
+      type: Google.Protobuf.Reflection.MessageDescriptor
+    content.vb: Public Shared ReadOnly Property Descriptor As MessageDescriptor
+  overload: Mewdeko.Coordinator.GetStatusReply.Descriptor*
+- uid: Mewdeko.Coordinator.GetStatusReply.#ctor
+  commentId: M:Mewdeko.Coordinator.GetStatusReply.#ctor
+  id: '#ctor'
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: GetStatusReply()
+  nameWithType: GetStatusReply.GetStatusReply()
+  fullName: Mewdeko.Coordinator.GetStatusReply.GetStatusReply()
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1841
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  syntax:
+    content: public GetStatusReply()
+    content.vb: Public Sub New()
+  overload: Mewdeko.Coordinator.GetStatusReply.#ctor*
+  nameWithType.vb: GetStatusReply.New()
+  fullName.vb: Mewdeko.Coordinator.GetStatusReply.New()
+  name.vb: New()
+- uid: Mewdeko.Coordinator.GetStatusReply.#ctor(Mewdeko.Coordinator.GetStatusReply)
+  commentId: M:Mewdeko.Coordinator.GetStatusReply.#ctor(Mewdeko.Coordinator.GetStatusReply)
+  id: '#ctor(Mewdeko.Coordinator.GetStatusReply)'
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: GetStatusReply(GetStatusReply)
+  nameWithType: GetStatusReply.GetStatusReply(GetStatusReply)
+  fullName: Mewdeko.Coordinator.GetStatusReply.GetStatusReply(Mewdeko.Coordinator.GetStatusReply)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1849
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  syntax:
+    content: public GetStatusReply(GetStatusReply other)
+    parameters:
+    - id: other
+      type: Mewdeko.Coordinator.GetStatusReply
+    content.vb: Public Sub New(other As GetStatusReply)
+  overload: Mewdeko.Coordinator.GetStatusReply.#ctor*
+  nameWithType.vb: GetStatusReply.New(GetStatusReply)
+  fullName.vb: Mewdeko.Coordinator.GetStatusReply.New(Mewdeko.Coordinator.GetStatusReply)
+  name.vb: New(GetStatusReply)
+- uid: Mewdeko.Coordinator.GetStatusReply.Clone
+  commentId: M:Mewdeko.Coordinator.GetStatusReply.Clone
+  id: Clone
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: Clone()
+  nameWithType: GetStatusReply.Clone()
+  fullName: Mewdeko.Coordinator.GetStatusReply.Clone()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Clone
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1862
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  summary: Creates a deep clone of this object.
+  example: []
+  syntax:
+    content: public GetStatusReply Clone()
+    return:
+      type: Mewdeko.Coordinator.GetStatusReply
+      description: A deep clone of this object.
+    content.vb: Public Function Clone() As GetStatusReply
+  overload: Mewdeko.Coordinator.GetStatusReply.Clone*
+  implements:
+  - Google.Protobuf.IDeepCloneable{Mewdeko.Coordinator.GetStatusReply}.Clone
+- uid: Mewdeko.Coordinator.GetStatusReply.ShardIdFieldNumber
+  commentId: F:Mewdeko.Coordinator.GetStatusReply.ShardIdFieldNumber
+  id: ShardIdFieldNumber
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: ShardIdFieldNumber
+  nameWithType: GetStatusReply.ShardIdFieldNumber
+  fullName: Mewdeko.Coordinator.GetStatusReply.ShardIdFieldNumber
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ShardIdFieldNumber
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1869
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  summary: Field number for the "shardId" field.
+  example: []
+  syntax:
+    content: public const int ShardIdFieldNumber = 1
+    return:
+      type: System.Int32
+    content.vb: Public Const ShardIdFieldNumber As Integer = 1
+- uid: Mewdeko.Coordinator.GetStatusReply.ShardId
+  commentId: P:Mewdeko.Coordinator.GetStatusReply.ShardId
+  id: ShardId
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: ShardId
+  nameWithType: GetStatusReply.ShardId
+  fullName: Mewdeko.Coordinator.GetStatusReply.ShardId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ShardId
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1871
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  syntax:
+    content: public int ShardId { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ShardId As Integer
+  overload: Mewdeko.Coordinator.GetStatusReply.ShardId*
+- uid: Mewdeko.Coordinator.GetStatusReply.StateFieldNumber
+  commentId: F:Mewdeko.Coordinator.GetStatusReply.StateFieldNumber
+  id: StateFieldNumber
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: StateFieldNumber
+  nameWithType: GetStatusReply.StateFieldNumber
+  fullName: Mewdeko.Coordinator.GetStatusReply.StateFieldNumber
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: StateFieldNumber
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1881
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  summary: Field number for the "state" field.
+  example: []
+  syntax:
+    content: public const int StateFieldNumber = 2
+    return:
+      type: System.Int32
+    content.vb: Public Const StateFieldNumber As Integer = 2
+- uid: Mewdeko.Coordinator.GetStatusReply.State
+  commentId: P:Mewdeko.Coordinator.GetStatusReply.State
+  id: State
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: State
+  nameWithType: GetStatusReply.State
+  fullName: Mewdeko.Coordinator.GetStatusReply.State
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: State
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1883
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  syntax:
+    content: public ConnState State { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Coordinator.ConnState
+    content.vb: Public Property State As ConnState
+  overload: Mewdeko.Coordinator.GetStatusReply.State*
+- uid: Mewdeko.Coordinator.GetStatusReply.GuildCountFieldNumber
+  commentId: F:Mewdeko.Coordinator.GetStatusReply.GuildCountFieldNumber
+  id: GuildCountFieldNumber
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: GuildCountFieldNumber
+  nameWithType: GetStatusReply.GuildCountFieldNumber
+  fullName: Mewdeko.Coordinator.GetStatusReply.GuildCountFieldNumber
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GuildCountFieldNumber
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1893
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  summary: Field number for the "guildCount" field.
+  example: []
+  syntax:
+    content: public const int GuildCountFieldNumber = 3
+    return:
+      type: System.Int32
+    content.vb: Public Const GuildCountFieldNumber As Integer = 3
+- uid: Mewdeko.Coordinator.GetStatusReply.GuildCount
+  commentId: P:Mewdeko.Coordinator.GetStatusReply.GuildCount
+  id: GuildCount
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: GuildCount
+  nameWithType: GetStatusReply.GuildCount
+  fullName: Mewdeko.Coordinator.GetStatusReply.GuildCount
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GuildCount
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1895
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  syntax:
+    content: public int GuildCount { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property GuildCount As Integer
+  overload: Mewdeko.Coordinator.GetStatusReply.GuildCount*
+- uid: Mewdeko.Coordinator.GetStatusReply.LastUpdateFieldNumber
+  commentId: F:Mewdeko.Coordinator.GetStatusReply.LastUpdateFieldNumber
+  id: LastUpdateFieldNumber
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: LastUpdateFieldNumber
+  nameWithType: GetStatusReply.LastUpdateFieldNumber
+  fullName: Mewdeko.Coordinator.GetStatusReply.LastUpdateFieldNumber
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: LastUpdateFieldNumber
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1905
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  summary: Field number for the "lastUpdate" field.
+  example: []
+  syntax:
+    content: public const int LastUpdateFieldNumber = 4
+    return:
+      type: System.Int32
+    content.vb: Public Const LastUpdateFieldNumber As Integer = 4
+- uid: Mewdeko.Coordinator.GetStatusReply.LastUpdate
+  commentId: P:Mewdeko.Coordinator.GetStatusReply.LastUpdate
+  id: LastUpdate
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: LastUpdate
+  nameWithType: GetStatusReply.LastUpdate
+  fullName: Mewdeko.Coordinator.GetStatusReply.LastUpdate
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: LastUpdate
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1907
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  syntax:
+    content: public Timestamp LastUpdate { get; set; }
+    parameters: []
+    return:
+      type: Google.Protobuf.WellKnownTypes.Timestamp
+    content.vb: Public Property LastUpdate As Timestamp
+  overload: Mewdeko.Coordinator.GetStatusReply.LastUpdate*
+- uid: Mewdeko.Coordinator.GetStatusReply.ScheduledForRestartFieldNumber
+  commentId: F:Mewdeko.Coordinator.GetStatusReply.ScheduledForRestartFieldNumber
+  id: ScheduledForRestartFieldNumber
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: ScheduledForRestartFieldNumber
+  nameWithType: GetStatusReply.ScheduledForRestartFieldNumber
+  fullName: Mewdeko.Coordinator.GetStatusReply.ScheduledForRestartFieldNumber
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ScheduledForRestartFieldNumber
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1917
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  summary: Field number for the "scheduledForRestart" field.
+  example: []
+  syntax:
+    content: public const int ScheduledForRestartFieldNumber = 5
+    return:
+      type: System.Int32
+    content.vb: Public Const ScheduledForRestartFieldNumber As Integer = 5
+- uid: Mewdeko.Coordinator.GetStatusReply.ScheduledForRestart
+  commentId: P:Mewdeko.Coordinator.GetStatusReply.ScheduledForRestart
+  id: ScheduledForRestart
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: ScheduledForRestart
+  nameWithType: GetStatusReply.ScheduledForRestart
+  fullName: Mewdeko.Coordinator.GetStatusReply.ScheduledForRestart
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ScheduledForRestart
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1919
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  syntax:
+    content: public bool ScheduledForRestart { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ScheduledForRestart As Boolean
+  overload: Mewdeko.Coordinator.GetStatusReply.ScheduledForRestart*
+- uid: Mewdeko.Coordinator.GetStatusReply.StartedAtFieldNumber
+  commentId: F:Mewdeko.Coordinator.GetStatusReply.StartedAtFieldNumber
+  id: StartedAtFieldNumber
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: StartedAtFieldNumber
+  nameWithType: GetStatusReply.StartedAtFieldNumber
+  fullName: Mewdeko.Coordinator.GetStatusReply.StartedAtFieldNumber
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: StartedAtFieldNumber
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1929
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  summary: Field number for the "startedAt" field.
+  example: []
+  syntax:
+    content: public const int StartedAtFieldNumber = 6
+    return:
+      type: System.Int32
+    content.vb: Public Const StartedAtFieldNumber As Integer = 6
+- uid: Mewdeko.Coordinator.GetStatusReply.StartedAt
+  commentId: P:Mewdeko.Coordinator.GetStatusReply.StartedAt
+  id: StartedAt
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: StartedAt
+  nameWithType: GetStatusReply.StartedAt
+  fullName: Mewdeko.Coordinator.GetStatusReply.StartedAt
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: StartedAt
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1931
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  syntax:
+    content: public Timestamp StartedAt { get; set; }
+    parameters: []
+    return:
+      type: Google.Protobuf.WellKnownTypes.Timestamp
+    content.vb: Public Property StartedAt As Timestamp
+  overload: Mewdeko.Coordinator.GetStatusReply.StartedAt*
+- uid: Mewdeko.Coordinator.GetStatusReply.UserCountFieldNumber
+  commentId: F:Mewdeko.Coordinator.GetStatusReply.UserCountFieldNumber
+  id: UserCountFieldNumber
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: UserCountFieldNumber
+  nameWithType: GetStatusReply.UserCountFieldNumber
+  fullName: Mewdeko.Coordinator.GetStatusReply.UserCountFieldNumber
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserCountFieldNumber
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1941
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  summary: Field number for the "userCount" field.
+  example: []
+  syntax:
+    content: public const int UserCountFieldNumber = 7
+    return:
+      type: System.Int32
+    content.vb: Public Const UserCountFieldNumber As Integer = 7
+- uid: Mewdeko.Coordinator.GetStatusReply.UserCount
+  commentId: P:Mewdeko.Coordinator.GetStatusReply.UserCount
+  id: UserCount
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: UserCount
+  nameWithType: GetStatusReply.UserCount
+  fullName: Mewdeko.Coordinator.GetStatusReply.UserCount
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserCount
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1943
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  syntax:
+    content: public int UserCount { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property UserCount As Integer
+  overload: Mewdeko.Coordinator.GetStatusReply.UserCount*
+- uid: Mewdeko.Coordinator.GetStatusReply.Equals(System.Object)
+  commentId: M:Mewdeko.Coordinator.GetStatusReply.Equals(System.Object)
+  id: Equals(System.Object)
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: Equals(object)
+  nameWithType: GetStatusReply.Equals(object)
+  fullName: Mewdeko.Coordinator.GetStatusReply.Equals(object)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Equals
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1952
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  summary: Determines whether the specified object is equal to the current object.
+  example: []
+  syntax:
+    content: public override bool Equals(object other)
+    parameters:
+    - id: other
+      type: System.Object
+    return:
+      type: System.Boolean
+      description: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the specified object  is equal to the current object; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
+    content.vb: Public Overrides Function Equals(other As Object) As Boolean
+  overridden: System.Object.Equals(System.Object)
+  overload: Mewdeko.Coordinator.GetStatusReply.Equals*
+  nameWithType.vb: GetStatusReply.Equals(Object)
+  fullName.vb: Mewdeko.Coordinator.GetStatusReply.Equals(Object)
+  name.vb: Equals(Object)
+- uid: Mewdeko.Coordinator.GetStatusReply.Equals(Mewdeko.Coordinator.GetStatusReply)
+  commentId: M:Mewdeko.Coordinator.GetStatusReply.Equals(Mewdeko.Coordinator.GetStatusReply)
+  id: Equals(Mewdeko.Coordinator.GetStatusReply)
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: Equals(GetStatusReply)
+  nameWithType: GetStatusReply.Equals(GetStatusReply)
+  fullName: Mewdeko.Coordinator.GetStatusReply.Equals(Mewdeko.Coordinator.GetStatusReply)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Equals
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1958
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  summary: Indicates whether the current object is equal to another object of the same type.
+  example: []
+  syntax:
+    content: public bool Equals(GetStatusReply other)
+    parameters:
+    - id: other
+      type: Mewdeko.Coordinator.GetStatusReply
+      description: An object to compare with this object.
+    return:
+      type: System.Boolean
+      description: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the current object is equal to the <code class="paramref">other</code> parameter; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
+    content.vb: Public Function Equals(other As GetStatusReply) As Boolean
+  overload: Mewdeko.Coordinator.GetStatusReply.Equals*
+  implements:
+  - System.IEquatable{Mewdeko.Coordinator.GetStatusReply}.Equals(Mewdeko.Coordinator.GetStatusReply)
+- uid: Mewdeko.Coordinator.GetStatusReply.GetHashCode
+  commentId: M:Mewdeko.Coordinator.GetStatusReply.GetHashCode
+  id: GetHashCode
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: GetHashCode()
+  nameWithType: GetStatusReply.GetHashCode()
+  fullName: Mewdeko.Coordinator.GetStatusReply.GetHashCode()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetHashCode
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1977
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  summary: Serves as the default hash function.
+  example: []
+  syntax:
+    content: public override int GetHashCode()
+    return:
+      type: System.Int32
+      description: A hash code for the current object.
+    content.vb: Public Overrides Function GetHashCode() As Integer
+  overridden: System.Object.GetHashCode
+  overload: Mewdeko.Coordinator.GetStatusReply.GetHashCode*
+- uid: Mewdeko.Coordinator.GetStatusReply.ToString
+  commentId: M:Mewdeko.Coordinator.GetStatusReply.ToString
+  id: ToString
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: GetStatusReply.ToString()
+  fullName: Mewdeko.Coordinator.GetStatusReply.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ToString
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 1994
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  summary: Returns a string that represents the current object.
+  example: []
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+      description: A string that represents the current object.
+    content.vb: Public Overrides Function ToString() As String
+  overridden: System.Object.ToString
+  overload: Mewdeko.Coordinator.GetStatusReply.ToString*
+- uid: Mewdeko.Coordinator.GetStatusReply.WriteTo(Google.Protobuf.CodedOutputStream)
+  commentId: M:Mewdeko.Coordinator.GetStatusReply.WriteTo(Google.Protobuf.CodedOutputStream)
+  id: WriteTo(Google.Protobuf.CodedOutputStream)
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: WriteTo(CodedOutputStream)
+  nameWithType: GetStatusReply.WriteTo(CodedOutputStream)
+  fullName: Mewdeko.Coordinator.GetStatusReply.WriteTo(Google.Protobuf.CodedOutputStream)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: WriteTo
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 2000
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  summary: Writes the data to the given coded output stream.
+  example: []
+  syntax:
+    content: public void WriteTo(CodedOutputStream output)
+    parameters:
+    - id: output
+      type: Google.Protobuf.CodedOutputStream
+      description: Coded output stream to write the data to. Must not be null.
+    content.vb: Public Sub WriteTo(output As CodedOutputStream)
+  overload: Mewdeko.Coordinator.GetStatusReply.WriteTo*
+  implements:
+  - Google.Protobuf.IMessage.WriteTo(Google.Protobuf.CodedOutputStream)
+- uid: Mewdeko.Coordinator.GetStatusReply.CalculateSize
+  commentId: M:Mewdeko.Coordinator.GetStatusReply.CalculateSize
+  id: CalculateSize
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: CalculateSize()
+  nameWithType: GetStatusReply.CalculateSize()
+  fullName: Mewdeko.Coordinator.GetStatusReply.CalculateSize()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CalculateSize
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 2078
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  summary: Calculates the size of this message in Protocol Buffer wire format, in bytes.
+  example: []
+  syntax:
+    content: public int CalculateSize()
+    return:
+      type: System.Int32
+      description: >-
+        The number of bytes required to write this message
+                    to a coded output stream.
+    content.vb: Public Function CalculateSize() As Integer
+  overload: Mewdeko.Coordinator.GetStatusReply.CalculateSize*
+  implements:
+  - Google.Protobuf.IMessage.CalculateSize
+- uid: Mewdeko.Coordinator.GetStatusReply.MergeFrom(Mewdeko.Coordinator.GetStatusReply)
+  commentId: M:Mewdeko.Coordinator.GetStatusReply.MergeFrom(Mewdeko.Coordinator.GetStatusReply)
+  id: MergeFrom(Mewdeko.Coordinator.GetStatusReply)
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: MergeFrom(GetStatusReply)
+  nameWithType: GetStatusReply.MergeFrom(GetStatusReply)
+  fullName: Mewdeko.Coordinator.GetStatusReply.MergeFrom(Mewdeko.Coordinator.GetStatusReply)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MergeFrom
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 2109
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  summary: Merges the given message into this one.
+  remarks: See the user guide for precise merge semantics.
+  example: []
+  syntax:
+    content: public void MergeFrom(GetStatusReply other)
+    parameters:
+    - id: other
+      type: Mewdeko.Coordinator.GetStatusReply
+    content.vb: Public Sub MergeFrom(other As GetStatusReply)
+  overload: Mewdeko.Coordinator.GetStatusReply.MergeFrom*
+  implements:
+  - Google.Protobuf.IMessage{Mewdeko.Coordinator.GetStatusReply}.MergeFrom(Mewdeko.Coordinator.GetStatusReply)
+- uid: Mewdeko.Coordinator.GetStatusReply.MergeFrom(Google.Protobuf.CodedInputStream)
+  commentId: M:Mewdeko.Coordinator.GetStatusReply.MergeFrom(Google.Protobuf.CodedInputStream)
+  id: MergeFrom(Google.Protobuf.CodedInputStream)
+  parent: Mewdeko.Coordinator.GetStatusReply
+  langs:
+  - csharp
+  - vb
+  name: MergeFrom(CodedInputStream)
+  nameWithType: GetStatusReply.MergeFrom(CodedInputStream)
+  fullName: Mewdeko.Coordinator.GetStatusReply.MergeFrom(Google.Protobuf.CodedInputStream)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MergeFrom
+    path: src/Mewdeko/obj/Release/net8.0/Coordinator.cs
+    startLine: 2145
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Coordinator
+  summary: Merges the data from the specified coded input stream with the current message.
+  remarks: See the user guide for precise merge semantics.
+  example: []
+  syntax:
+    content: public void MergeFrom(CodedInputStream input)
+    parameters:
+    - id: input
+      type: Google.Protobuf.CodedInputStream
+      description: ''
+    content.vb: Public Sub MergeFrom(input As CodedInputStream)
+  overload: Mewdeko.Coordinator.GetStatusReply.MergeFrom*
+  implements:
+  - Google.Protobuf.IMessage.MergeFrom(Google.Protobuf.CodedInputStream)
+references:
+- uid: Mewdeko.Coordinator
+  commentId: N:Mewdeko.Coordinator
+  href: Mewdeko.html
+  name: Mewdeko.Coordinator
+  nameWithType: Mewdeko.Coordinator
+  fullName: Mewdeko.Coordinator
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Coordinator
+    name: Coordinator
+    href: Mewdeko.Coordinator.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Coordinator
+    name: Coordinator
+    href: Mewdeko.Coordinator.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Google.Protobuf.IMessage{Mewdeko.Coordinator.GetStatusReply}
+  commentId: T:Google.Protobuf.IMessage{Mewdeko.Coordinator.GetStatusReply}
+  parent: Google.Protobuf
+  definition: Google.Protobuf.IMessage`1
+  href: Mewdeko.Coordinator.GetStatusReply.html
+  name: IMessage<GetStatusReply>
+  nameWithType: IMessage<GetStatusReply>
+  fullName: Google.Protobuf.IMessage<Mewdeko.Coordinator.GetStatusReply>
+  nameWithType.vb: IMessage(Of GetStatusReply)
+  fullName.vb: Google.Protobuf.IMessage(Of Mewdeko.Coordinator.GetStatusReply)
+  name.vb: IMessage(Of GetStatusReply)
+  spec.csharp:
+  - uid: Google.Protobuf.IMessage`1
+    name: IMessage
+    isExternal: true
+  - name: <
+  - uid: Mewdeko.Coordinator.GetStatusReply
+    name: GetStatusReply
+    href: Mewdeko.Coordinator.GetStatusReply.html
+  - name: '>'
+  spec.vb:
+  - uid: Google.Protobuf.IMessage`1
+    name: IMessage
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Coordinator.GetStatusReply
+    name: GetStatusReply
+    href: Mewdeko.Coordinator.GetStatusReply.html
+  - name: )
+- uid: System.IEquatable{Mewdeko.Coordinator.GetStatusReply}
+  commentId: T:System.IEquatable{Mewdeko.Coordinator.GetStatusReply}
+  parent: System
+  definition: System.IEquatable`1
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  name: IEquatable<GetStatusReply>
+  nameWithType: IEquatable<GetStatusReply>
+  fullName: System.IEquatable<Mewdeko.Coordinator.GetStatusReply>
+  nameWithType.vb: IEquatable(Of GetStatusReply)
+  fullName.vb: System.IEquatable(Of Mewdeko.Coordinator.GetStatusReply)
+  name.vb: IEquatable(Of GetStatusReply)
+  spec.csharp:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: <
+  - uid: Mewdeko.Coordinator.GetStatusReply
+    name: GetStatusReply
+    href: Mewdeko.Coordinator.GetStatusReply.html
+  - name: '>'
+  spec.vb:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Coordinator.GetStatusReply
+    name: GetStatusReply
+    href: Mewdeko.Coordinator.GetStatusReply.html
+  - name: )
+- uid: Google.Protobuf.IDeepCloneable{Mewdeko.Coordinator.GetStatusReply}
+  commentId: T:Google.Protobuf.IDeepCloneable{Mewdeko.Coordinator.GetStatusReply}
+  parent: Google.Protobuf
+  definition: Google.Protobuf.IDeepCloneable`1
+  href: Mewdeko.Coordinator.GetStatusReply.html
+  name: IDeepCloneable<GetStatusReply>
+  nameWithType: IDeepCloneable<GetStatusReply>
+  fullName: Google.Protobuf.IDeepCloneable<Mewdeko.Coordinator.GetStatusReply>
+  nameWithType.vb: IDeepCloneable(Of GetStatusReply)
+  fullName.vb: Google.Protobuf.IDeepCloneable(Of Mewdeko.Coordinator.GetStatusReply)
+  name.vb: IDeepCloneable(Of GetStatusReply)
+  spec.csharp:
+  - uid: Google.Protobuf.IDeepCloneable`1
+    name: IDeepCloneable
+    isExternal: true
+  - name: <
+  - uid: Mewdeko.Coordinator.GetStatusReply
+    name: GetStatusReply
+    href: Mewdeko.Coordinator.GetStatusReply.html
+  - name: '>'
+  spec.vb:
+  - uid: Google.Protobuf.IDeepCloneable`1
+    name: IDeepCloneable
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Coordinator.GetStatusReply
+    name: GetStatusReply
+    href: Mewdeko.Coordinator.GetStatusReply.html
+  - name: )
+- uid: Google.Protobuf.IBufferMessage
+  commentId: T:Google.Protobuf.IBufferMessage
+  parent: Google.Protobuf
+  isExternal: true
+  name: IBufferMessage
+  nameWithType: IBufferMessage
+  fullName: Google.Protobuf.IBufferMessage
+- uid: Google.Protobuf.IMessage
+  commentId: T:Google.Protobuf.IMessage
+  parent: Google.Protobuf
+  isExternal: true
+  name: IMessage
+  nameWithType: IMessage
+  fullName: Google.Protobuf.IMessage
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: Mewdeko.Coordinator.GetStatusReply.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<GetStatusReply>(GetStatusReply, string)
+  nameWithType: Extensions.ThrowIfNull<GetStatusReply>(GetStatusReply, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Coordinator.GetStatusReply>(Mewdeko.Coordinator.GetStatusReply, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of GetStatusReply)(GetStatusReply, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Coordinator.GetStatusReply)(Mewdeko.Coordinator.GetStatusReply, String)
+  name.vb: ThrowIfNull(Of GetStatusReply)(GetStatusReply, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Coordinator.GetStatusReply,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Coordinator.GetStatusReply
+    name: GetStatusReply
+    href: Mewdeko.Coordinator.GetStatusReply.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Coordinator.GetStatusReply
+    name: GetStatusReply
+    href: Mewdeko.Coordinator.GetStatusReply.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Coordinator.GetStatusReply,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Coordinator.GetStatusReply
+    name: GetStatusReply
+    href: Mewdeko.Coordinator.GetStatusReply.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Coordinator.GetStatusReply
+    name: GetStatusReply
+    href: Mewdeko.Coordinator.GetStatusReply.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Google.Protobuf.IMessage`1
+  commentId: T:Google.Protobuf.IMessage`1
+  isExternal: true
+  name: IMessage<T>
+  nameWithType: IMessage<T>
+  fullName: Google.Protobuf.IMessage<T>
+  nameWithType.vb: IMessage(Of T)
+  fullName.vb: Google.Protobuf.IMessage(Of T)
+  name.vb: IMessage(Of T)
+  spec.csharp:
+  - uid: Google.Protobuf.IMessage`1
+    name: IMessage
+    isExternal: true
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Google.Protobuf.IMessage`1
+    name: IMessage
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Google.Protobuf
+  commentId: N:Google.Protobuf
+  isExternal: true
+  name: Google.Protobuf
+  nameWithType: Google.Protobuf
+  fullName: Google.Protobuf
+  spec.csharp:
+  - uid: Google
+    name: Google
+    isExternal: true
+  - name: .
+  - uid: Google.Protobuf
+    name: Protobuf
+    isExternal: true
+  spec.vb:
+  - uid: Google
+    name: Google
+    isExternal: true
+  - name: .
+  - uid: Google.Protobuf
+    name: Protobuf
+    isExternal: true
+- uid: System.IEquatable`1
+  commentId: T:System.IEquatable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  name: IEquatable<T>
+  nameWithType: IEquatable<T>
+  fullName: System.IEquatable<T>
+  nameWithType.vb: IEquatable(Of T)
+  fullName.vb: System.IEquatable(Of T)
+  name.vb: IEquatable(Of T)
+  spec.csharp:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Google.Protobuf.IDeepCloneable`1
+  commentId: T:Google.Protobuf.IDeepCloneable`1
+  isExternal: true
+  name: IDeepCloneable<T>
+  nameWithType: IDeepCloneable<T>
+  fullName: Google.Protobuf.IDeepCloneable<T>
+  nameWithType.vb: IDeepCloneable(Of T)
+  fullName.vb: Google.Protobuf.IDeepCloneable(Of T)
+  name.vb: IDeepCloneable(Of T)
+  spec.csharp:
+  - uid: Google.Protobuf.IDeepCloneable`1
+    name: IDeepCloneable
+    isExternal: true
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Google.Protobuf.IDeepCloneable`1
+    name: IDeepCloneable
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Coordinator.GetStatusReply.Parser*
+  commentId: Overload:Mewdeko.Coordinator.GetStatusReply.Parser
+  href: Mewdeko.Coordinator.GetStatusReply.html#Mewdeko_Coordinator_GetStatusReply_Parser
+  name: Parser
+  nameWithType: GetStatusReply.Parser
+  fullName: Mewdeko.Coordinator.GetStatusReply.Parser
+- uid: Google.Protobuf.MessageParser{Mewdeko.Coordinator.GetStatusReply}
+  commentId: T:Google.Protobuf.MessageParser{Mewdeko.Coordinator.GetStatusReply}
+  parent: Google.Protobuf
+  definition: Google.Protobuf.MessageParser`1
+  href: Mewdeko.Coordinator.GetStatusReply.html
+  name: MessageParser<GetStatusReply>
+  nameWithType: MessageParser<GetStatusReply>
+  fullName: Google.Protobuf.MessageParser<Mewdeko.Coordinator.GetStatusReply>
+  nameWithType.vb: MessageParser(Of GetStatusReply)
+  fullName.vb: Google.Protobuf.MessageParser(Of Mewdeko.Coordinator.GetStatusReply)
+  name.vb: MessageParser(Of GetStatusReply)
+  spec.csharp:
+  - uid: Google.Protobuf.MessageParser`1
+    name: MessageParser
+    isExternal: true
+  - name: <
+  - uid: Mewdeko.Coordinator.GetStatusReply
+    name: GetStatusReply
+    href: Mewdeko.Coordinator.GetStatusReply.html
+  - name: '>'
+  spec.vb:
+  - uid: Google.Protobuf.MessageParser`1
+    name: MessageParser
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Coordinator.GetStatusReply
+    name: GetStatusReply
+    href: Mewdeko.Coordinator.GetStatusReply.html
+  - name: )
+- uid: Google.Protobuf.MessageParser`1
+  commentId: T:Google.Protobuf.MessageParser`1
+  isExternal: true
+  name: MessageParser<T>
+  nameWithType: MessageParser<T>
+  fullName: Google.Protobuf.MessageParser<T>
+  nameWithType.vb: MessageParser(Of T)
+  fullName.vb: Google.Protobuf.MessageParser(Of T)
+  name.vb: MessageParser(Of T)
+  spec.csharp:
+  - uid: Google.Protobuf.MessageParser`1
+    name: MessageParser
+    isExternal: true
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Google.Protobuf.MessageParser`1
+    name: MessageParser
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Coordinator.GetStatusReply.Descriptor*
+  commentId: Overload:Mewdeko.Coordinator.GetStatusReply.Descriptor
+  href: Mewdeko.Coordinator.GetStatusReply.html#Mewdeko_Coordinator_GetStatusReply_Descriptor
+  name: Descriptor
+  nameWithType: GetStatusReply.Descriptor
+  fullName: Mewdeko.Coordinator.GetStatusReply.Descriptor
+- uid: Google.Protobuf.Reflection.MessageDescriptor
+  commentId: T:Google.Protobuf.Reflection.MessageDescriptor
+  parent: Google.Protobuf.Reflection
+  isExternal: true
+  name: MessageDescriptor
+  nameWithType: MessageDescriptor
+  fullName: Google.Protobuf.Reflection.MessageDescriptor
+- uid: Google.Protobuf.Reflection
+  commentId: N:Google.Protobuf.Reflection
+  isExternal: true
+  name: Google.Protobuf.Reflection
+  nameWithType: Google.Protobuf.Reflection
+  fullName: Google.Protobuf.Reflection
+  spec.csharp:
+  - uid: Google
+    name: Google
+    isExternal: true
+  - name: .
+  - uid: Google.Protobuf
+    name: Protobuf
+    isExternal: true
+  - name: .
+  - uid: Google.Protobuf.Reflection
+    name: Reflection
+    isExternal: true
+  spec.vb:
+  - uid: Google
+    name: Google
+    isExternal: true
+  - name: .
+  - uid: Google.Protobuf
+    name: Protobuf
+    isExternal: true
+  - name: .
+  - uid: Google.Protobuf.Reflection
+    name: Reflection
+    isExternal: true
+- uid: Mewdeko.Coordinator.GetStatusReply.#ctor*
+  commentId: Overload:Mewdeko.Coordinator.GetStatusReply.#ctor
+  href: Mewdeko.Coordinator.GetStatusReply.html#Mewdeko_Coordinator_GetStatusReply__ctor
+  name: GetStatusReply
+  nameWithType: GetStatusReply.GetStatusReply
+  fullName: Mewdeko.Coordinator.GetStatusReply.GetStatusReply
+  nameWithType.vb: GetStatusReply.New
+  fullName.vb: Mewdeko.Coordinator.GetStatusReply.New
+  name.vb: New
+- uid: Mewdeko.Coordinator.GetStatusReply
+  commentId: T:Mewdeko.Coordinator.GetStatusReply
+  parent: Mewdeko.Coordinator
+  href: Mewdeko.Coordinator.GetStatusReply.html
+  name: GetStatusReply
+  nameWithType: GetStatusReply
+  fullName: Mewdeko.Coordinator.GetStatusReply
+- uid: Mewdeko.Coordinator.GetStatusReply.Clone*
+  commentId: Overload:Mewdeko.Coordinator.GetStatusReply.Clone
+  href: Mewdeko.Coordinator.GetStatusReply.html#Mewdeko_Coordinator_GetStatusReply_Clone
+  name: Clone
+  nameWithType: GetStatusReply.Clone
+  fullName: Mewdeko.Coordinator.GetStatusReply.Clone
+- uid: Google.Protobuf.IDeepCloneable{Mewdeko.Coordinator.GetStatusReply}.Clone
+  commentId: M:Google.Protobuf.IDeepCloneable{Mewdeko.Coordinator.GetStatusReply}.Clone
+  parent: Google.Protobuf.IDeepCloneable{Mewdeko.Coordinator.GetStatusReply}
+  definition: Google.Protobuf.IDeepCloneable`1.Clone
+  name: Clone()
+  nameWithType: IDeepCloneable<GetStatusReply>.Clone()
+  fullName: Google.Protobuf.IDeepCloneable<Mewdeko.Coordinator.GetStatusReply>.Clone()
+  nameWithType.vb: IDeepCloneable(Of GetStatusReply).Clone()
+  fullName.vb: Google.Protobuf.IDeepCloneable(Of Mewdeko.Coordinator.GetStatusReply).Clone()
+  spec.csharp:
+  - uid: Google.Protobuf.IDeepCloneable{Mewdeko.Coordinator.GetStatusReply}.Clone
+    name: Clone
+    isExternal: true
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Google.Protobuf.IDeepCloneable{Mewdeko.Coordinator.GetStatusReply}.Clone
+    name: Clone
+    isExternal: true
+  - name: (
+  - name: )
+- uid: Google.Protobuf.IDeepCloneable`1.Clone
+  commentId: M:Google.Protobuf.IDeepCloneable`1.Clone
+  isExternal: true
+  name: Clone()
+  nameWithType: IDeepCloneable<T>.Clone()
+  fullName: Google.Protobuf.IDeepCloneable<T>.Clone()
+  nameWithType.vb: IDeepCloneable(Of T).Clone()
+  fullName.vb: Google.Protobuf.IDeepCloneable(Of T).Clone()
+  spec.csharp:
+  - uid: Google.Protobuf.IDeepCloneable`1.Clone
+    name: Clone
+    isExternal: true
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Google.Protobuf.IDeepCloneable`1.Clone
+    name: Clone
+    isExternal: true
+  - name: (
+  - name: )
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Coordinator.GetStatusReply.ShardId*
+  commentId: Overload:Mewdeko.Coordinator.GetStatusReply.ShardId
+  href: Mewdeko.Coordinator.GetStatusReply.html#Mewdeko_Coordinator_GetStatusReply_ShardId
+  name: ShardId
+  nameWithType: GetStatusReply.ShardId
+  fullName: Mewdeko.Coordinator.GetStatusReply.ShardId
+- uid: Mewdeko.Coordinator.GetStatusReply.State*
+  commentId: Overload:Mewdeko.Coordinator.GetStatusReply.State
+  href: Mewdeko.Coordinator.GetStatusReply.html#Mewdeko_Coordinator_GetStatusReply_State
+  name: State
+  nameWithType: GetStatusReply.State
+  fullName: Mewdeko.Coordinator.GetStatusReply.State
+- uid: Mewdeko.Coordinator.ConnState
+  commentId: T:Mewdeko.Coordinator.ConnState
+  parent: Mewdeko.Coordinator
+  href: Mewdeko.Coordinator.ConnState.html
+  name: ConnState
+  nameWithType: ConnState
+  fullName: Mewdeko.Coordinator.ConnState
+- uid: Mewdeko.Coordinator.GetStatusReply.GuildCount*
+  commentId: Overload:Mewdeko.Coordinator.GetStatusReply.GuildCount
+  href: Mewdeko.Coordinator.GetStatusReply.html#Mewdeko_Coordinator_GetStatusReply_GuildCount
+  name: GuildCount
+  nameWithType: GetStatusReply.GuildCount
+  fullName: Mewdeko.Coordinator.GetStatusReply.GuildCount
+- uid: Mewdeko.Coordinator.GetStatusReply.LastUpdate*
+  commentId: Overload:Mewdeko.Coordinator.GetStatusReply.LastUpdate
+  href: Mewdeko.Coordinator.GetStatusReply.html#Mewdeko_Coordinator_GetStatusReply_LastUpdate
+  name: LastUpdate
+  nameWithType: GetStatusReply.LastUpdate
+  fullName: Mewdeko.Coordinator.GetStatusReply.LastUpdate
+- uid: Google.Protobuf.WellKnownTypes.Timestamp
+  commentId: T:Google.Protobuf.WellKnownTypes.Timestamp
+  parent: Google.Protobuf.WellKnownTypes
+  isExternal: true
+  name: Timestamp
+  nameWithType: Timestamp
+  fullName: Google.Protobuf.WellKnownTypes.Timestamp
+- uid: Google.Protobuf.WellKnownTypes
+  commentId: N:Google.Protobuf.WellKnownTypes
+  isExternal: true
+  name: Google.Protobuf.WellKnownTypes
+  nameWithType: Google.Protobuf.WellKnownTypes
+  fullName: Google.Protobuf.WellKnownTypes
+  spec.csharp:
+  - uid: Google
+    name: Google
+    isExternal: true
+  - name: .
+  - uid: Google.Protobuf
+    name: Protobuf
+    isExternal: true
+  - name: .
+  - uid: Google.Protobuf.WellKnownTypes
+    name: WellKnownTypes
+    isExternal: true
+  spec.vb:
+  - uid: Google
+    name: Google
+    isExternal: true
+  - name: .
+  - uid: Google.Protobuf
+    name: Protobuf
+    isExternal: true
+  - name: .
+  - uid: Google.Protobuf.WellKnownTypes
+    name: WellKnownTypes
+    isExternal: true
+- uid: Mewdeko.Coordinator.GetStatusReply.ScheduledForRestart*
+  commentId: Overload:Mewdeko.Coordinator.GetStatusReply.ScheduledForRestart
+  href: Mewdeko.Coordinator.GetStatusReply.html#Mewdeko_Coordinator_GetStatusReply_ScheduledForRestart
+  name: ScheduledForRestart
+  nameWithType: GetStatusReply.ScheduledForRestart
+  fullName: Mewdeko.Coordinator.GetStatusReply.ScheduledForRestart
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Mewdeko.Coordinator.GetStatusReply.StartedAt*
+  commentId: Overload:Mewdeko.Coordinator.GetStatusReply.StartedAt
+  href: Mewdeko.Coordinator.GetStatusReply.html#Mewdeko_Coordinator_GetStatusReply_StartedAt
+  name: StartedAt
+  nameWithType: GetStatusReply.StartedAt
+  fullName: Mewdeko.Coordinator.GetStatusReply.StartedAt
+- uid: Mewdeko.Coordinator.GetStatusReply.UserCount*
+  commentId: Overload:Mewdeko.Coordinator.GetStatusReply.UserCount
+  href: Mewdeko.Coordinator.GetStatusReply.html#Mewdeko_Coordinator_GetStatusReply_UserCount
+  name: UserCount
+  nameWithType: GetStatusReply.UserCount
+  fullName: Mewdeko.Coordinator.GetStatusReply.UserCount
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: Mewdeko.Coordinator.GetStatusReply.Equals*
+  commentId: Overload:Mewdeko.Coordinator.GetStatusReply.Equals
+  href: Mewdeko.Coordinator.GetStatusReply.html#Mewdeko_Coordinator_GetStatusReply_Equals_System_Object_
+  name: Equals
+  nameWithType: GetStatusReply.Equals
+  fullName: Mewdeko.Coordinator.GetStatusReply.Equals
+- uid: System.IEquatable{Mewdeko.Coordinator.GetStatusReply}.Equals(Mewdeko.Coordinator.GetStatusReply)
+  commentId: M:System.IEquatable{Mewdeko.Coordinator.GetStatusReply}.Equals(Mewdeko.Coordinator.GetStatusReply)
+  parent: System.IEquatable{Mewdeko.Coordinator.GetStatusReply}
+  definition: System.IEquatable`1.Equals(`0)
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  name: Equals(GetStatusReply)
+  nameWithType: IEquatable<GetStatusReply>.Equals(GetStatusReply)
+  fullName: System.IEquatable<Mewdeko.Coordinator.GetStatusReply>.Equals(Mewdeko.Coordinator.GetStatusReply)
+  nameWithType.vb: IEquatable(Of GetStatusReply).Equals(GetStatusReply)
+  fullName.vb: System.IEquatable(Of Mewdeko.Coordinator.GetStatusReply).Equals(Mewdeko.Coordinator.GetStatusReply)
+  spec.csharp:
+  - uid: System.IEquatable{Mewdeko.Coordinator.GetStatusReply}.Equals(Mewdeko.Coordinator.GetStatusReply)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - uid: Mewdeko.Coordinator.GetStatusReply
+    name: GetStatusReply
+    href: Mewdeko.Coordinator.GetStatusReply.html
+  - name: )
+  spec.vb:
+  - uid: System.IEquatable{Mewdeko.Coordinator.GetStatusReply}.Equals(Mewdeko.Coordinator.GetStatusReply)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - uid: Mewdeko.Coordinator.GetStatusReply
+    name: GetStatusReply
+    href: Mewdeko.Coordinator.GetStatusReply.html
+  - name: )
+- uid: System.IEquatable`1.Equals(`0)
+  commentId: M:System.IEquatable`1.Equals(`0)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  name: Equals(T)
+  nameWithType: IEquatable<T>.Equals(T)
+  fullName: System.IEquatable<T>.Equals(T)
+  nameWithType.vb: IEquatable(Of T).Equals(T)
+  fullName.vb: System.IEquatable(Of T).Equals(T)
+  spec.csharp:
+  - uid: System.IEquatable`1.Equals(`0)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: System.IEquatable`1.Equals(`0)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1.equals
+  - name: (
+  - name: T
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: Mewdeko.Coordinator.GetStatusReply.GetHashCode*
+  commentId: Overload:Mewdeko.Coordinator.GetStatusReply.GetHashCode
+  href: Mewdeko.Coordinator.GetStatusReply.html#Mewdeko_Coordinator_GetStatusReply_GetHashCode
+  name: GetHashCode
+  nameWithType: GetStatusReply.GetHashCode
+  fullName: Mewdeko.Coordinator.GetStatusReply.GetHashCode
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Coordinator.GetStatusReply.ToString*
+  commentId: Overload:Mewdeko.Coordinator.GetStatusReply.ToString
+  href: Mewdeko.Coordinator.GetStatusReply.html#Mewdeko_Coordinator_GetStatusReply_ToString
+  name: ToString
+  nameWithType: GetStatusReply.ToString
+  fullName: Mewdeko.Coordinator.GetStatusReply.ToString
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Coordinator.GetStatusReply.WriteTo*
+  commentId: Overload:Mewdeko.Coordinator.GetStatusReply.WriteTo
+  href: Mewdeko.Coordinator.GetStatusReply.html#Mewdeko_Coordinator_GetStatusReply_WriteTo_Google_Protobuf_CodedOutputStream_
+  name: WriteTo
+  nameWithType: GetStatusReply.WriteTo
+  fullName: Mewdeko.Coordinator.GetStatusReply.WriteTo
+- uid: Google.Protobuf.IMessage.WriteTo(Google.Protobuf.CodedOutputStream)
+  commentId: M:Google.Protobuf.IMessage.WriteTo(Google.Protobuf.CodedOutputStream)
+  parent: Google.Protobuf.IMessage
+  isExternal: true
+  name: WriteTo(CodedOutputStream)
+  nameWithType: IMessage.WriteTo(CodedOutputStream)
+  fullName: Google.Protobuf.IMessage.WriteTo(Google.Protobuf.CodedOutputStream)
+  spec.csharp:
+  - uid: Google.Protobuf.IMessage.WriteTo(Google.Protobuf.CodedOutputStream)
+    name: WriteTo
+    isExternal: true
+  - name: (
+  - uid: Google.Protobuf.CodedOutputStream
+    name: CodedOutputStream
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Google.Protobuf.IMessage.WriteTo(Google.Protobuf.CodedOutputStream)
+    name: WriteTo
+    isExternal: true
+  - name: (
+  - uid: Google.Protobuf.CodedOutputStream
+    name: CodedOutputStream
+    isExternal: true
+  - name: )
+- uid: Google.Protobuf.CodedOutputStream
+  commentId: T:Google.Protobuf.CodedOutputStream
+  parent: Google.Protobuf
+  isExternal: true
+  name: CodedOutputStream
+  nameWithType: CodedOutputStream
+  fullName: Google.Protobuf.CodedOutputStream
+- uid: Mewdeko.Coordinator.GetStatusReply.CalculateSize*
+  commentId: Overload:Mewdeko.Coordinator.GetStatusReply.CalculateSize
+  href: Mewdeko.Coordinator.GetStatusReply.html#Mewdeko_Coordinator_GetStatusReply_CalculateSize
+  name: CalculateSize
+  nameWithType: GetStatusReply.CalculateSize
+  fullName: Mewdeko.Coordinator.GetStatusReply.CalculateSize
+- uid: Google.Protobuf.IMessage.CalculateSize
+  commentId: M:Google.Protobuf.IMessage.CalculateSize
+  parent: Google.Protobuf.IMessage
+  isExternal: true
+  name: CalculateSize()
+  nameWithType: IMessage.CalculateSize()
+  fullName: Google.Protobuf.IMessage.CalculateSize()
+  spec.csharp:
+  - uid: Google.Protobuf.IMessage.CalculateSize
+    name: CalculateSize
+    isExternal: true
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Google.Protobuf.IMessage.CalculateSize
+    name: CalculateSize
+    isExternal: true
+  - name: (
+  - name: )
+- uid: Mewdeko.Coordinator.GetStatusReply.MergeFrom*
+  commentId: Overload:Mewdeko.Coordinator.GetStatusReply.MergeFrom
+  href: Mewdeko.Coordinator.GetStatusReply.html#Mewdeko_Coordinator_GetStatusReply_MergeFrom_Mewdeko_Coordinator_GetStatusReply_
+  name: MergeFrom
+  nameWithType: GetStatusReply.MergeFrom
+  fullName: Mewdeko.Coordinator.GetStatusReply.MergeFrom
+- uid: Google.Protobuf.IMessage{Mewdeko.Coordinator.GetStatusReply}.MergeFrom(Mewdeko.Coordinator.GetStatusReply)
+  commentId: M:Google.Protobuf.IMessage{Mewdeko.Coordinator.GetStatusReply}.MergeFrom(Mewdeko.Coordinator.GetStatusReply)
+  parent: Google.Protobuf.IMessage{Mewdeko.Coordinator.GetStatusReply}
+  definition: Google.Protobuf.IMessage`1.MergeFrom(`0)
+  href: Mewdeko.Coordinator.GetStatusReply.html
+  name: MergeFrom(GetStatusReply)
+  nameWithType: IMessage<GetStatusReply>.MergeFrom(GetStatusReply)
+  fullName: Google.Protobuf.IMessage<Mewdeko.Coordinator.GetStatusReply>.MergeFrom(Mewdeko.Coordinator.GetStatusReply)
+  nameWithType.vb: IMessage(Of GetStatusReply).MergeFrom(GetStatusReply)
+  fullName.vb: Google.Protobuf.IMessage(Of Mewdeko.Coordinator.GetStatusReply).MergeFrom(Mewdeko.Coordinator.GetStatusReply)
+  spec.csharp:
+  - uid: Google.Protobuf.IMessage{Mewdeko.Coordinator.GetStatusReply}.MergeFrom(Mewdeko.Coordinator.GetStatusReply)
+    name: MergeFrom
+    isExternal: true
+  - name: (
+  - uid: Mewdeko.Coordinator.GetStatusReply
+    name: GetStatusReply
+    href: Mewdeko.Coordinator.GetStatusReply.html
+  - name: )
+  spec.vb:
+  - uid: Google.Protobuf.IMessage{Mewdeko.Coordinator.GetStatusReply}.MergeFrom(Mewdeko.Coordinator.GetStatusReply)
+    name: MergeFrom
+    isExternal: true
+  - name: (
+  - uid: Mewdeko.Coordinator.GetStatusReply
+    name: GetStatusReply
+    href: Mewdeko.Coordinator.GetStatusReply.html
+  - name: )
+- uid: Google.Protobuf.IMessage`1.MergeFrom(`0)
+  commentId: M:Google.Protobuf.IMessage`1.MergeFrom(`0)
+  isExternal: true
+  name: MergeFrom(T)
+  nameWithType: IMessage<T>.MergeFrom(T)
+  fullName: Google.Protobuf.IMessage<T>.MergeFrom(T)
+  nameWithType.vb: IMessage(Of T).MergeFrom(T)
+  fullName.vb: Google.Protobuf.IMessage(Of T).MergeFrom(T)
+  spec.csharp:
+  - uid: Google.Protobuf.IMessage`1.MergeFrom(`0)
+    name: MergeFrom
+    isExternal: true
+  - name: (
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: Google.Protobuf.IMessage`1.MergeFrom(`0)
+    name: MergeFrom
+    isExternal: true
+  - name: (
+  - name: T
+  - name: )
+- uid: Google.Protobuf.IMessage.MergeFrom(Google.Protobuf.CodedInputStream)
+  commentId: M:Google.Protobuf.IMessage.MergeFrom(Google.Protobuf.CodedInputStream)
+  parent: Google.Protobuf.IMessage
+  isExternal: true
+  name: MergeFrom(CodedInputStream)
+  nameWithType: IMessage.MergeFrom(CodedInputStream)
+  fullName: Google.Protobuf.IMessage.MergeFrom(Google.Protobuf.CodedInputStream)
+  spec.csharp:
+  - uid: Google.Protobuf.IMessage.MergeFrom(Google.Protobuf.CodedInputStream)
+    name: MergeFrom
+    isExternal: true
+  - name: (
+  - uid: Google.Protobuf.CodedInputStream
+    name: CodedInputStream
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Google.Protobuf.IMessage.MergeFrom(Google.Protobuf.CodedInputStream)
+    name: MergeFrom
+    isExternal: true
+  - name: (
+  - uid: Google.Protobuf.CodedInputStream
+    name: CodedInputStream
+    isExternal: true
+  - name: )
+- uid: Google.Protobuf.CodedInputStream
+  commentId: T:Google.Protobuf.CodedInputStream
+  parent: Google.Protobuf
+  isExternal: true
+  name: CodedInputStream
+  nameWithType: CodedInputStream
+  fullName: Google.Protobuf.CodedInputStream

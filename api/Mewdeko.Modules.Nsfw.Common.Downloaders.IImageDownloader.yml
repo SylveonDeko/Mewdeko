@@ -1,0 +1,503 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader
+  commentId: T:Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader
+  id: IImageDownloader
+  parent: Mewdeko.Modules.Nsfw.Common.Downloaders
+  children:
+  - Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader.DownloadImageDataAsync(System.String[],System.Int32,System.Boolean,System.Threading.CancellationToken)
+  langs:
+  - csharp
+  - vb
+  name: IImageDownloader
+  nameWithType: IImageDownloader
+  fullName: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader
+  type: Interface
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Nsfw/Common/Downloaders/IImageDownloader.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IImageDownloader
+    path: src/Mewdeko/Modules/Nsfw/Common/Downloaders/IImageDownloader.cs
+    startLine: 7
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Nsfw.Common.Downloaders
+  summary: Represents an interface for downloading image data.
+  example: []
+  syntax:
+    content: public interface IImageDownloader
+    content.vb: Public Interface IImageDownloader
+  extensionMethods:
+  - Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader.DownloadImageDataAsync(System.String[],System.Int32,System.Boolean,System.Threading.CancellationToken)
+  commentId: M:Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader.DownloadImageDataAsync(System.String[],System.Int32,System.Boolean,System.Threading.CancellationToken)
+  id: DownloadImageDataAsync(System.String[],System.Int32,System.Boolean,System.Threading.CancellationToken)
+  parent: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader
+  langs:
+  - csharp
+  - vb
+  name: DownloadImageDataAsync(string[], int, bool, CancellationToken)
+  nameWithType: IImageDownloader.DownloadImageDataAsync(string[], int, bool, CancellationToken)
+  fullName: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader.DownloadImageDataAsync(string[], int, bool, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Nsfw/Common/Downloaders/IImageDownloader.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: DownloadImageDataAsync
+    path: src/Mewdeko/Modules/Nsfw/Common/Downloaders/IImageDownloader.cs
+    startLine: 17
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Nsfw.Common.Downloaders
+  summary: Downloads image data asynchronously.
+  example: []
+  syntax:
+    content: Task<List<ImageData>> DownloadImageDataAsync(string[] tags, int page = 0, bool isExplicit = false, CancellationToken cancel = default)
+    parameters:
+    - id: tags
+      type: System.String[]
+      description: An array of tags for filtering images.
+    - id: page
+      type: System.Int32
+      description: The page number of the results.
+    - id: isExplicit
+      type: System.Boolean
+      description: Indicates whether explicit content is allowed.
+    - id: cancel
+      type: System.Threading.CancellationToken
+      description: A cancellation token that can be used to cancel the operation.
+    return:
+      type: System.Threading.Tasks.Task{System.Collections.Generic.List{Mewdeko.Modules.Nsfw.Common.ImageData}}
+      description: A task representing the asynchronous operation, containing a list of <xref href="Mewdeko.Modules.Nsfw.Common.ImageData" data-throw-if-not-resolved="false"></xref>.
+    content.vb: Function DownloadImageDataAsync(tags As String(), page As Integer = 0, isExplicit As Boolean = False, cancel As CancellationToken = Nothing) As Task(Of List(Of ImageData))
+  overload: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader.DownloadImageDataAsync*
+  nameWithType.vb: IImageDownloader.DownloadImageDataAsync(String(), Integer, Boolean, CancellationToken)
+  fullName.vb: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader.DownloadImageDataAsync(String(), Integer, Boolean, System.Threading.CancellationToken)
+  name.vb: DownloadImageDataAsync(String(), Integer, Boolean, CancellationToken)
+references:
+- uid: Mewdeko.Modules.Nsfw.Common.Downloaders
+  commentId: N:Mewdeko.Modules.Nsfw.Common.Downloaders
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Nsfw.Common.Downloaders
+  nameWithType: Mewdeko.Modules.Nsfw.Common.Downloaders
+  fullName: Mewdeko.Modules.Nsfw.Common.Downloaders
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Nsfw
+    name: Nsfw
+    href: Mewdeko.Modules.Nsfw.html
+  - name: .
+  - uid: Mewdeko.Modules.Nsfw.Common
+    name: Common
+    href: Mewdeko.Modules.Nsfw.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders
+    name: Downloaders
+    href: Mewdeko.Modules.Nsfw.Common.Downloaders.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Nsfw
+    name: Nsfw
+    href: Mewdeko.Modules.Nsfw.html
+  - name: .
+  - uid: Mewdeko.Modules.Nsfw.Common
+    name: Common
+    href: Mewdeko.Modules.Nsfw.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders
+    name: Downloaders
+    href: Mewdeko.Modules.Nsfw.Common.Downloaders.html
+- uid: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<IImageDownloader>(IImageDownloader, string)
+  nameWithType: Extensions.ThrowIfNull<IImageDownloader>(IImageDownloader, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader>(Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of IImageDownloader)(IImageDownloader, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader)(Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader, String)
+  name.vb: ThrowIfNull(Of IImageDownloader)(IImageDownloader, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader
+    name: IImageDownloader
+    href: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader
+    name: IImageDownloader
+    href: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader
+    name: IImageDownloader
+    href: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader
+    name: IImageDownloader
+    href: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Nsfw.Common.ImageData
+  commentId: T:Mewdeko.Modules.Nsfw.Common.ImageData
+  parent: Mewdeko.Modules.Nsfw.Common
+  href: Mewdeko.Modules.Nsfw.Common.ImageData.html
+  name: ImageData
+  nameWithType: ImageData
+  fullName: Mewdeko.Modules.Nsfw.Common.ImageData
+- uid: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader.DownloadImageDataAsync*
+  commentId: Overload:Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader.DownloadImageDataAsync
+  href: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader.html#Mewdeko_Modules_Nsfw_Common_Downloaders_IImageDownloader_DownloadImageDataAsync_System_String___System_Int32_System_Boolean_System_Threading_CancellationToken_
+  name: DownloadImageDataAsync
+  nameWithType: IImageDownloader.DownloadImageDataAsync
+  fullName: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader.DownloadImageDataAsync
+- uid: System.String[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string[]
+  nameWithType: string[]
+  fullName: string[]
+  nameWithType.vb: String()
+  fullName.vb: String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: (
+  - name: )
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: System.Threading.CancellationToken
+  commentId: T:System.Threading.CancellationToken
+  parent: System.Threading
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  name: CancellationToken
+  nameWithType: CancellationToken
+  fullName: System.Threading.CancellationToken
+- uid: System.Threading.Tasks.Task{System.Collections.Generic.List{Mewdeko.Modules.Nsfw.Common.ImageData}}
+  commentId: T:System.Threading.Tasks.Task{System.Collections.Generic.List{Mewdeko.Modules.Nsfw.Common.ImageData}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<List<ImageData>>
+  nameWithType: Task<List<ImageData>>
+  fullName: System.Threading.Tasks.Task<System.Collections.Generic.List<Mewdeko.Modules.Nsfw.Common.ImageData>>
+  nameWithType.vb: Task(Of List(Of ImageData))
+  fullName.vb: System.Threading.Tasks.Task(Of System.Collections.Generic.List(Of Mewdeko.Modules.Nsfw.Common.ImageData))
+  name.vb: Task(Of List(Of ImageData))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: Mewdeko.Modules.Nsfw.Common.ImageData
+    name: ImageData
+    href: Mewdeko.Modules.Nsfw.Common.ImageData.html
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Nsfw.Common.ImageData
+    name: ImageData
+    href: Mewdeko.Modules.Nsfw.Common.ImageData.html
+  - name: )
+  - name: )
+- uid: Mewdeko.Modules.Nsfw.Common
+  commentId: N:Mewdeko.Modules.Nsfw.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Nsfw.Common
+  nameWithType: Mewdeko.Modules.Nsfw.Common
+  fullName: Mewdeko.Modules.Nsfw.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Nsfw
+    name: Nsfw
+    href: Mewdeko.Modules.Nsfw.html
+  - name: .
+  - uid: Mewdeko.Modules.Nsfw.Common
+    name: Common
+    href: Mewdeko.Modules.Nsfw.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Nsfw
+    name: Nsfw
+    href: Mewdeko.Modules.Nsfw.html
+  - name: .
+  - uid: Mewdeko.Modules.Nsfw.Common
+    name: Common
+    href: Mewdeko.Modules.Nsfw.Common.html
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Threading
+  commentId: N:System.Threading
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading
+  nameWithType: System.Threading
+  fullName: System.Threading
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks

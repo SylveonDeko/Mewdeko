@@ -1,0 +1,68 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Votes.Services
+  commentId: N:Mewdeko.Votes.Services
+  id: Mewdeko.Votes.Services
+  children:
+  - Mewdeko.Votes.Services.BotCredentials
+  - Mewdeko.Votes.Services.IBotCredentials
+  - Mewdeko.Votes.Services.LogSetup
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Votes.Services
+  nameWithType: Mewdeko.Votes.Services
+  fullName: Mewdeko.Votes.Services
+  type: Namespace
+  assemblies:
+  - Mewdeko.Votes
+references:
+- uid: Mewdeko.Votes.Services.BotCredentials
+  commentId: T:Mewdeko.Votes.Services.BotCredentials
+  href: Mewdeko.Votes.Services.BotCredentials.html
+  name: BotCredentials
+  nameWithType: BotCredentials
+  fullName: Mewdeko.Votes.Services.BotCredentials
+- uid: Mewdeko.Votes.Services.IBotCredentials
+  commentId: T:Mewdeko.Votes.Services.IBotCredentials
+  parent: Mewdeko.Votes.Services
+  href: Mewdeko.Votes.Services.IBotCredentials.html
+  name: IBotCredentials
+  nameWithType: IBotCredentials
+  fullName: Mewdeko.Votes.Services.IBotCredentials
+- uid: Mewdeko.Votes.Services.LogSetup
+  commentId: T:Mewdeko.Votes.Services.LogSetup
+  href: Mewdeko.Votes.Services.LogSetup.html
+  name: LogSetup
+  nameWithType: LogSetup
+  fullName: Mewdeko.Votes.Services.LogSetup
+- uid: Mewdeko.Votes.Services
+  commentId: N:Mewdeko.Votes.Services
+  href: Mewdeko.html
+  name: Mewdeko.Votes.Services
+  nameWithType: Mewdeko.Votes.Services
+  fullName: Mewdeko.Votes.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
+  - name: .
+  - uid: Mewdeko.Votes.Services
+    name: Services
+    href: Mewdeko.Votes.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
+  - name: .
+  - uid: Mewdeko.Votes.Services
+    name: Services
+    href: Mewdeko.Votes.Services.html

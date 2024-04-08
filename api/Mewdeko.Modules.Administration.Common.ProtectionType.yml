@@ -1,0 +1,192 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Administration.Common.ProtectionType
+  commentId: T:Mewdeko.Modules.Administration.Common.ProtectionType
+  id: ProtectionType
+  parent: Mewdeko.Modules.Administration.Common
+  children:
+  - Mewdeko.Modules.Administration.Common.ProtectionType.Alting
+  - Mewdeko.Modules.Administration.Common.ProtectionType.MassMention
+  - Mewdeko.Modules.Administration.Common.ProtectionType.Raiding
+  - Mewdeko.Modules.Administration.Common.ProtectionType.Spamming
+  langs:
+  - csharp
+  - vb
+  name: ProtectionType
+  nameWithType: ProtectionType
+  fullName: Mewdeko.Modules.Administration.Common.ProtectionType
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Common/ProtectionStats.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ProtectionType
+    path: src/Mewdeko/Modules/Administration/Common/ProtectionStats.cs
+    startLine: 8
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Common
+  summary: Enumeration representing different types of protection against unwanted activities.
+  example: []
+  syntax:
+    content: public enum ProtectionType
+    content.vb: Public Enum ProtectionType
+- uid: Mewdeko.Modules.Administration.Common.ProtectionType.Raiding
+  commentId: F:Mewdeko.Modules.Administration.Common.ProtectionType.Raiding
+  id: Raiding
+  parent: Mewdeko.Modules.Administration.Common.ProtectionType
+  langs:
+  - csharp
+  - vb
+  name: Raiding
+  nameWithType: ProtectionType.Raiding
+  fullName: Mewdeko.Modules.Administration.Common.ProtectionType.Raiding
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Common/ProtectionStats.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Raiding
+    path: src/Mewdeko/Modules/Administration/Common/ProtectionStats.cs
+    startLine: 13
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Common
+  summary: Protection against raiding.
+  example: []
+  syntax:
+    content: Raiding = 0
+    return:
+      type: Mewdeko.Modules.Administration.Common.ProtectionType
+- uid: Mewdeko.Modules.Administration.Common.ProtectionType.Spamming
+  commentId: F:Mewdeko.Modules.Administration.Common.ProtectionType.Spamming
+  id: Spamming
+  parent: Mewdeko.Modules.Administration.Common.ProtectionType
+  langs:
+  - csharp
+  - vb
+  name: Spamming
+  nameWithType: ProtectionType.Spamming
+  fullName: Mewdeko.Modules.Administration.Common.ProtectionType.Spamming
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Common/ProtectionStats.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Spamming
+    path: src/Mewdeko/Modules/Administration/Common/ProtectionStats.cs
+    startLine: 18
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Common
+  summary: Protection against spamming.
+  example: []
+  syntax:
+    content: Spamming = 1
+    return:
+      type: Mewdeko.Modules.Administration.Common.ProtectionType
+- uid: Mewdeko.Modules.Administration.Common.ProtectionType.Alting
+  commentId: F:Mewdeko.Modules.Administration.Common.ProtectionType.Alting
+  id: Alting
+  parent: Mewdeko.Modules.Administration.Common.ProtectionType
+  langs:
+  - csharp
+  - vb
+  name: Alting
+  nameWithType: ProtectionType.Alting
+  fullName: Mewdeko.Modules.Administration.Common.ProtectionType.Alting
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Common/ProtectionStats.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Alting
+    path: src/Mewdeko/Modules/Administration/Common/ProtectionStats.cs
+    startLine: 23
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Common
+  summary: Protection against alting.
+  example: []
+  syntax:
+    content: Alting = 2
+    return:
+      type: Mewdeko.Modules.Administration.Common.ProtectionType
+- uid: Mewdeko.Modules.Administration.Common.ProtectionType.MassMention
+  commentId: F:Mewdeko.Modules.Administration.Common.ProtectionType.MassMention
+  id: MassMention
+  parent: Mewdeko.Modules.Administration.Common.ProtectionType
+  langs:
+  - csharp
+  - vb
+  name: MassMention
+  nameWithType: ProtectionType.MassMention
+  fullName: Mewdeko.Modules.Administration.Common.ProtectionType.MassMention
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Common/ProtectionStats.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MassMention
+    path: src/Mewdeko/Modules/Administration/Common/ProtectionStats.cs
+    startLine: 28
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Common
+  summary: Protection against mass mention.
+  example: []
+  syntax:
+    content: MassMention = 3
+    return:
+      type: Mewdeko.Modules.Administration.Common.ProtectionType
+references:
+- uid: Mewdeko.Modules.Administration.Common
+  commentId: N:Mewdeko.Modules.Administration.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Administration.Common
+  nameWithType: Mewdeko.Modules.Administration.Common
+  fullName: Mewdeko.Modules.Administration.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Common
+    name: Common
+    href: Mewdeko.Modules.Administration.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Common
+    name: Common
+    href: Mewdeko.Modules.Administration.Common.html
+- uid: Mewdeko.Modules.Administration.Common.ProtectionType
+  commentId: T:Mewdeko.Modules.Administration.Common.ProtectionType
+  parent: Mewdeko.Modules.Administration.Common
+  href: Mewdeko.Modules.Administration.Common.ProtectionType.html
+  name: ProtectionType
+  nameWithType: ProtectionType
+  fullName: Mewdeko.Modules.Administration.Common.ProtectionType

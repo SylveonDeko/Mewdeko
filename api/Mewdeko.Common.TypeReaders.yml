@@ -1,0 +1,313 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.TypeReaders
+  commentId: N:Mewdeko.Common.TypeReaders
+  id: Mewdeko.Common.TypeReaders
+  children:
+  - Mewdeko.Common.TypeReaders.AddRemove
+  - Mewdeko.Common.TypeReaders.CommandOrCrInfo
+  - Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type
+  - Mewdeko.Common.TypeReaders.CommandOrCrTypeReader
+  - Mewdeko.Common.TypeReaders.CommandTypeReader
+  - Mewdeko.Common.TypeReaders.EnumTryParseTypeReader`1
+  - Mewdeko.Common.TypeReaders.GuildDateTime
+  - Mewdeko.Common.TypeReaders.GuildDateTimeTypeReader
+  - Mewdeko.Common.TypeReaders.GuildTypeReader
+  - Mewdeko.Common.TypeReaders.MewdekoTypeReader`1
+  - Mewdeko.Common.TypeReaders.ModuleOrCrInfo
+  - Mewdeko.Common.TypeReaders.ModuleOrCrTypeReader
+  - Mewdeko.Common.TypeReaders.ModuleTypeReader
+  - Mewdeko.Common.TypeReaders.PermValue
+  - Mewdeko.Common.TypeReaders.PermissionActionTypeReader
+  - Mewdeko.Common.TypeReaders.SkColorTypeReader
+  - Mewdeko.Common.TypeReaders.StoopidTimeTypeReader
+  - Mewdeko.Common.TypeReaders.TimeSpanConverter
+  - Mewdeko.Common.TypeReaders.TryParseTypeReader`1
+  - Mewdeko.Common.TypeReaders.TryParseTypeReader`1.TryParseDelegate`1
+  - Mewdeko.Common.TypeReaders.TypeReaderCollection
+  - Mewdeko.Common.TypeReaders.UlongArrayTypeReader
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Common.TypeReaders
+  nameWithType: Mewdeko.Common.TypeReaders
+  fullName: Mewdeko.Common.TypeReaders
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Common.TypeReaders.AddRemove
+  commentId: T:Mewdeko.Common.TypeReaders.AddRemove
+  parent: Mewdeko.Common.TypeReaders
+  href: Mewdeko.Common.TypeReaders.AddRemove.html
+  name: AddRemove
+  nameWithType: AddRemove
+  fullName: Mewdeko.Common.TypeReaders.AddRemove
+- uid: Mewdeko.Common.TypeReaders.CommandTypeReader
+  commentId: T:Mewdeko.Common.TypeReaders.CommandTypeReader
+  href: Mewdeko.Common.TypeReaders.CommandTypeReader.html
+  name: CommandTypeReader
+  nameWithType: CommandTypeReader
+  fullName: Mewdeko.Common.TypeReaders.CommandTypeReader
+- uid: Mewdeko.Common.TypeReaders.CommandOrCrTypeReader
+  commentId: T:Mewdeko.Common.TypeReaders.CommandOrCrTypeReader
+  href: Mewdeko.Common.TypeReaders.CommandOrCrTypeReader.html
+  name: CommandOrCrTypeReader
+  nameWithType: CommandOrCrTypeReader
+  fullName: Mewdeko.Common.TypeReaders.CommandOrCrTypeReader
+- uid: Mewdeko.Common.TypeReaders.CommandOrCrInfo
+  commentId: T:Mewdeko.Common.TypeReaders.CommandOrCrInfo
+  parent: Mewdeko.Common.TypeReaders
+  href: Mewdeko.Common.TypeReaders.CommandOrCrInfo.html
+  name: CommandOrCrInfo
+  nameWithType: CommandOrCrInfo
+  fullName: Mewdeko.Common.TypeReaders.CommandOrCrInfo
+- uid: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type
+  commentId: T:Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type
+  parent: Mewdeko.Common.TypeReaders
+  href: Mewdeko.Common.TypeReaders.CommandOrCrInfo.html
+  name: CommandOrCrInfo.Type
+  nameWithType: CommandOrCrInfo.Type
+  fullName: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type
+  spec.csharp:
+  - uid: Mewdeko.Common.TypeReaders.CommandOrCrInfo
+    name: CommandOrCrInfo
+    href: Mewdeko.Common.TypeReaders.CommandOrCrInfo.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type
+    name: Type
+    href: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type.html
+  spec.vb:
+  - uid: Mewdeko.Common.TypeReaders.CommandOrCrInfo
+    name: CommandOrCrInfo
+    href: Mewdeko.Common.TypeReaders.CommandOrCrInfo.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type
+    name: Type
+    href: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type.html
+- uid: Mewdeko.Common.TypeReaders.GuildDateTimeTypeReader
+  commentId: T:Mewdeko.Common.TypeReaders.GuildDateTimeTypeReader
+  href: Mewdeko.Common.TypeReaders.GuildDateTimeTypeReader.html
+  name: GuildDateTimeTypeReader
+  nameWithType: GuildDateTimeTypeReader
+  fullName: Mewdeko.Common.TypeReaders.GuildDateTimeTypeReader
+- uid: Mewdeko.Common.TypeReaders.GuildDateTime
+  commentId: T:Mewdeko.Common.TypeReaders.GuildDateTime
+  parent: Mewdeko.Common.TypeReaders
+  href: Mewdeko.Common.TypeReaders.GuildDateTime.html
+  name: GuildDateTime
+  nameWithType: GuildDateTime
+  fullName: Mewdeko.Common.TypeReaders.GuildDateTime
+- uid: Mewdeko.Common.TypeReaders.GuildTypeReader
+  commentId: T:Mewdeko.Common.TypeReaders.GuildTypeReader
+  href: Mewdeko.Common.TypeReaders.GuildTypeReader.html
+  name: GuildTypeReader
+  nameWithType: GuildTypeReader
+  fullName: Mewdeko.Common.TypeReaders.GuildTypeReader
+- uid: Mewdeko.Common.TypeReaders.TimeSpanConverter
+  commentId: T:Mewdeko.Common.TypeReaders.TimeSpanConverter
+  href: Mewdeko.Common.TypeReaders.TimeSpanConverter.html
+  name: TimeSpanConverter
+  nameWithType: TimeSpanConverter
+  fullName: Mewdeko.Common.TypeReaders.TimeSpanConverter
+- uid: Mewdeko.Common.TypeReaders.MewdekoTypeReader`1
+  commentId: T:Mewdeko.Common.TypeReaders.MewdekoTypeReader`1
+  href: Mewdeko.Common.TypeReaders.MewdekoTypeReader-1.html
+  name: MewdekoTypeReader<T>
+  nameWithType: MewdekoTypeReader<T>
+  fullName: Mewdeko.Common.TypeReaders.MewdekoTypeReader<T>
+  nameWithType.vb: MewdekoTypeReader(Of T)
+  fullName.vb: Mewdeko.Common.TypeReaders.MewdekoTypeReader(Of T)
+  name.vb: MewdekoTypeReader(Of T)
+  spec.csharp:
+  - uid: Mewdeko.Common.TypeReaders.MewdekoTypeReader`1
+    name: MewdekoTypeReader
+    href: Mewdeko.Common.TypeReaders.MewdekoTypeReader-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.TypeReaders.MewdekoTypeReader`1
+    name: MewdekoTypeReader
+    href: Mewdeko.Common.TypeReaders.MewdekoTypeReader-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Common.TypeReaders.ModuleTypeReader
+  commentId: T:Mewdeko.Common.TypeReaders.ModuleTypeReader
+  href: Mewdeko.Common.TypeReaders.ModuleTypeReader.html
+  name: ModuleTypeReader
+  nameWithType: ModuleTypeReader
+  fullName: Mewdeko.Common.TypeReaders.ModuleTypeReader
+- uid: Mewdeko.Common.TypeReaders.ModuleOrCrTypeReader
+  commentId: T:Mewdeko.Common.TypeReaders.ModuleOrCrTypeReader
+  href: Mewdeko.Common.TypeReaders.ModuleOrCrTypeReader.html
+  name: ModuleOrCrTypeReader
+  nameWithType: ModuleOrCrTypeReader
+  fullName: Mewdeko.Common.TypeReaders.ModuleOrCrTypeReader
+- uid: Mewdeko.Common.TypeReaders.ModuleOrCrInfo
+  commentId: T:Mewdeko.Common.TypeReaders.ModuleOrCrInfo
+  parent: Mewdeko.Common.TypeReaders
+  href: Mewdeko.Common.TypeReaders.ModuleOrCrInfo.html
+  name: ModuleOrCrInfo
+  nameWithType: ModuleOrCrInfo
+  fullName: Mewdeko.Common.TypeReaders.ModuleOrCrInfo
+- uid: Mewdeko.Common.TypeReaders.PermissionActionTypeReader
+  commentId: T:Mewdeko.Common.TypeReaders.PermissionActionTypeReader
+  href: Mewdeko.Common.TypeReaders.PermissionActionTypeReader.html
+  name: PermissionActionTypeReader
+  nameWithType: PermissionActionTypeReader
+  fullName: Mewdeko.Common.TypeReaders.PermissionActionTypeReader
+- uid: Mewdeko.Common.TypeReaders.PermValue
+  commentId: T:Mewdeko.Common.TypeReaders.PermValue
+  href: Mewdeko.Common.TypeReaders.PermValue.html
+  name: PermValue
+  nameWithType: PermValue
+  fullName: Mewdeko.Common.TypeReaders.PermValue
+- uid: Mewdeko.Common.TypeReaders.SkColorTypeReader
+  commentId: T:Mewdeko.Common.TypeReaders.SkColorTypeReader
+  href: Mewdeko.Common.TypeReaders.SkColorTypeReader.html
+  name: SkColorTypeReader
+  nameWithType: SkColorTypeReader
+  fullName: Mewdeko.Common.TypeReaders.SkColorTypeReader
+- uid: Mewdeko.Common.TypeReaders.StoopidTimeTypeReader
+  commentId: T:Mewdeko.Common.TypeReaders.StoopidTimeTypeReader
+  href: Mewdeko.Common.TypeReaders.StoopidTimeTypeReader.html
+  name: StoopidTimeTypeReader
+  nameWithType: StoopidTimeTypeReader
+  fullName: Mewdeko.Common.TypeReaders.StoopidTimeTypeReader
+- uid: Mewdeko.Common.TypeReaders.TryParseTypeReader`1
+  commentId: T:Mewdeko.Common.TypeReaders.TryParseTypeReader`1
+  href: Mewdeko.Common.TypeReaders.TryParseTypeReader-1.html
+  name: TryParseTypeReader<T>
+  nameWithType: TryParseTypeReader<T>
+  fullName: Mewdeko.Common.TypeReaders.TryParseTypeReader<T>
+  nameWithType.vb: TryParseTypeReader(Of T)
+  fullName.vb: Mewdeko.Common.TypeReaders.TryParseTypeReader(Of T)
+  name.vb: TryParseTypeReader(Of T)
+  spec.csharp:
+  - uid: Mewdeko.Common.TypeReaders.TryParseTypeReader`1
+    name: TryParseTypeReader
+    href: Mewdeko.Common.TypeReaders.TryParseTypeReader-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.TypeReaders.TryParseTypeReader`1
+    name: TryParseTypeReader
+    href: Mewdeko.Common.TypeReaders.TryParseTypeReader-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Common.TypeReaders.TryParseTypeReader`1.TryParseDelegate`1
+  commentId: T:Mewdeko.Common.TypeReaders.TryParseTypeReader`1.TryParseDelegate`1
+  href: Mewdeko.Common.TypeReaders.TryParseTypeReader-1.html
+  name: TryParseTypeReader<T>.TryParseDelegate<TA>
+  nameWithType: TryParseTypeReader<T>.TryParseDelegate<TA>
+  fullName: Mewdeko.Common.TypeReaders.TryParseTypeReader<T>.TryParseDelegate<TA>
+  nameWithType.vb: TryParseTypeReader(Of T).TryParseDelegate(Of TA)
+  fullName.vb: Mewdeko.Common.TypeReaders.TryParseTypeReader(Of T).TryParseDelegate(Of TA)
+  name.vb: TryParseTypeReader(Of T).TryParseDelegate(Of TA)
+  spec.csharp:
+  - uid: Mewdeko.Common.TypeReaders.TryParseTypeReader`1
+    name: TryParseTypeReader
+    href: Mewdeko.Common.TypeReaders.TryParseTypeReader-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders.TryParseTypeReader`1.TryParseDelegate`1
+    name: TryParseDelegate
+    href: Mewdeko.Common.TypeReaders.TryParseTypeReader-1.TryParseDelegate-1.html
+  - name: <
+  - name: TA
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.TypeReaders.TryParseTypeReader`1
+    name: TryParseTypeReader
+    href: Mewdeko.Common.TypeReaders.TryParseTypeReader-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders.TryParseTypeReader`1.TryParseDelegate`1
+    name: TryParseDelegate
+    href: Mewdeko.Common.TypeReaders.TryParseTypeReader-1.TryParseDelegate-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TA
+  - name: )
+- uid: Mewdeko.Common.TypeReaders.EnumTryParseTypeReader`1
+  commentId: T:Mewdeko.Common.TypeReaders.EnumTryParseTypeReader`1
+  href: Mewdeko.Common.TypeReaders.EnumTryParseTypeReader-1.html
+  name: EnumTryParseTypeReader<T>
+  nameWithType: EnumTryParseTypeReader<T>
+  fullName: Mewdeko.Common.TypeReaders.EnumTryParseTypeReader<T>
+  nameWithType.vb: EnumTryParseTypeReader(Of T)
+  fullName.vb: Mewdeko.Common.TypeReaders.EnumTryParseTypeReader(Of T)
+  name.vb: EnumTryParseTypeReader(Of T)
+  spec.csharp:
+  - uid: Mewdeko.Common.TypeReaders.EnumTryParseTypeReader`1
+    name: EnumTryParseTypeReader
+    href: Mewdeko.Common.TypeReaders.EnumTryParseTypeReader-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.TypeReaders.EnumTryParseTypeReader`1
+    name: EnumTryParseTypeReader
+    href: Mewdeko.Common.TypeReaders.EnumTryParseTypeReader-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Common.TypeReaders.TypeReaderCollection
+  commentId: T:Mewdeko.Common.TypeReaders.TypeReaderCollection
+  href: Mewdeko.Common.TypeReaders.TypeReaderCollection.html
+  name: TypeReaderCollection
+  nameWithType: TypeReaderCollection
+  fullName: Mewdeko.Common.TypeReaders.TypeReaderCollection
+- uid: Mewdeko.Common.TypeReaders.UlongArrayTypeReader
+  commentId: T:Mewdeko.Common.TypeReaders.UlongArrayTypeReader
+  href: Mewdeko.Common.TypeReaders.UlongArrayTypeReader.html
+  name: UlongArrayTypeReader
+  nameWithType: UlongArrayTypeReader
+  fullName: Mewdeko.Common.TypeReaders.UlongArrayTypeReader
+- uid: Mewdeko.Common.TypeReaders
+  commentId: N:Mewdeko.Common.TypeReaders
+  href: Mewdeko.html
+  name: Mewdeko.Common.TypeReaders
+  nameWithType: Mewdeko.Common.TypeReaders
+  fullName: Mewdeko.Common.TypeReaders
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders
+    name: TypeReaders
+    href: Mewdeko.Common.TypeReaders.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders
+    name: TypeReaders
+    href: Mewdeko.Common.TypeReaders.html

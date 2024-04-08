@@ -1,0 +1,1747 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Games.Services.GamesService
+  commentId: T:Mewdeko.Modules.Games.Services.GamesService
+  id: GamesService
+  parent: Mewdeko.Modules.Games.Services
+  children:
+  - Mewdeko.Modules.Games.Services.GamesService.#ctor(Mewdeko.Modules.Games.Services.GamesConfigService)
+  - Mewdeko.Modules.Games.Services.GamesService.AcrophobiaGames
+  - Mewdeko.Modules.Games.Services.GamesService.AddTypingArticle(Discord.IUser,System.String)
+  - Mewdeko.Modules.Games.Services.GamesService.EightBallResponses
+  - Mewdeko.Modules.Games.Services.GamesService.GetEightballResponse(System.String)
+  - Mewdeko.Modules.Games.Services.GamesService.HangmanGames
+  - Mewdeko.Modules.Games.Services.GamesService.NunchiGames
+  - Mewdeko.Modules.Games.Services.GamesService.RemoveTypingArticle(System.Int32)
+  - Mewdeko.Modules.Games.Services.GamesService.RunningContests
+  - Mewdeko.Modules.Games.Services.GamesService.RunningTrivias
+  - Mewdeko.Modules.Games.Services.GamesService.TermPool
+  - Mewdeko.Modules.Games.Services.GamesService.TicTacToeGames
+  - Mewdeko.Modules.Games.Services.GamesService.TypingArticles
+  - Mewdeko.Modules.Games.Services.GamesService.Unload
+  langs:
+  - csharp
+  - vb
+  name: GamesService
+  nameWithType: GamesService
+  fullName: Mewdeko.Modules.Games.Services.GamesService
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GamesService
+    path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+    startLine: 14
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Services
+  summary: Service for managing various games and game-related operations.
+  example: []
+  syntax:
+    content: 'public class GamesService : INService, IUnloadableService'
+    content.vb: Public Class GamesService Implements INService, IUnloadableService
+  inheritance:
+  - System.Object
+  implements:
+  - Mewdeko.Services.INService
+  - Mewdeko.Services.IUnloadableService
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Games.Services.GamesService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Games.Services.GamesService.#ctor(Mewdeko.Modules.Games.Services.GamesConfigService)
+  commentId: M:Mewdeko.Modules.Games.Services.GamesService.#ctor(Mewdeko.Modules.Games.Services.GamesConfigService)
+  id: '#ctor(Mewdeko.Modules.Games.Services.GamesConfigService)'
+  parent: Mewdeko.Modules.Games.Services.GamesService
+  langs:
+  - csharp
+  - vb
+  name: GamesService(GamesConfigService)
+  nameWithType: GamesService.GamesService(GamesConfigService)
+  fullName: Mewdeko.Modules.Games.Services.GamesService.GamesService(Mewdeko.Modules.Games.Services.GamesConfigService)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+    startLine: 24
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Services
+  summary: Initializes a new instance of the <xref href="Mewdeko.Modules.Games.Services.GamesService" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public GamesService(GamesConfigService gamesConfig)
+    parameters:
+    - id: gamesConfig
+      type: Mewdeko.Modules.Games.Services.GamesConfigService
+      description: The configuration service for games.
+    content.vb: Public Sub New(gamesConfig As GamesConfigService)
+  overload: Mewdeko.Modules.Games.Services.GamesService.#ctor*
+  nameWithType.vb: GamesService.New(GamesConfigService)
+  fullName.vb: Mewdeko.Modules.Games.Services.GamesService.New(Mewdeko.Modules.Games.Services.GamesConfigService)
+  name.vb: New(GamesConfigService)
+- uid: Mewdeko.Modules.Games.Services.GamesService.EightBallResponses
+  commentId: P:Mewdeko.Modules.Games.Services.GamesService.EightBallResponses
+  id: EightBallResponses
+  parent: Mewdeko.Modules.Games.Services.GamesService
+  langs:
+  - csharp
+  - vb
+  name: EightBallResponses
+  nameWithType: GamesService.EightBallResponses
+  fullName: Mewdeko.Modules.Games.Services.GamesService.EightBallResponses
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: EightBallResponses
+    path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+    startLine: 47
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Services
+  summary: Gets the responses used by the EightBall game.
+  example: []
+  syntax:
+    content: public IReadOnlyList<string> EightBallResponses { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IReadOnlyList{System.String}
+    content.vb: Public ReadOnly Property EightBallResponses As IReadOnlyList(Of String)
+  overload: Mewdeko.Modules.Games.Services.GamesService.EightBallResponses*
+- uid: Mewdeko.Modules.Games.Services.GamesService.TypingArticles
+  commentId: P:Mewdeko.Modules.Games.Services.GamesService.TypingArticles
+  id: TypingArticles
+  parent: Mewdeko.Modules.Games.Services.GamesService
+  langs:
+  - csharp
+  - vb
+  name: TypingArticles
+  nameWithType: GamesService.TypingArticles
+  fullName: Mewdeko.Modules.Games.Services.GamesService.TypingArticles
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TypingArticles
+    path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+    startLine: 52
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Services
+  summary: Gets the list of typing articles.
+  example: []
+  syntax:
+    content: public List<TypingArticle> TypingArticles { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{Mewdeko.Modules.Games.Common.TypingArticle}
+    content.vb: Public ReadOnly Property TypingArticles As List(Of TypingArticle)
+  overload: Mewdeko.Modules.Games.Services.GamesService.TypingArticles*
+- uid: Mewdeko.Modules.Games.Services.GamesService.AcrophobiaGames
+  commentId: P:Mewdeko.Modules.Games.Services.GamesService.AcrophobiaGames
+  id: AcrophobiaGames
+  parent: Mewdeko.Modules.Games.Services.GamesService
+  langs:
+  - csharp
+  - vb
+  name: AcrophobiaGames
+  nameWithType: GamesService.AcrophobiaGames
+  fullName: Mewdeko.Modules.Games.Services.GamesService.AcrophobiaGames
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AcrophobiaGames
+    path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+    startLine: 58
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Services
+  summary: Represents a collection of Acrophobia games.
+  example: []
+  syntax:
+    content: public ConcurrentDictionary<ulong, AcrophobiaGame> AcrophobiaGames { get; }
+    parameters: []
+    return:
+      type: NonBlocking.ConcurrentDictionary{System.UInt64,Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame}
+    content.vb: Public ReadOnly Property AcrophobiaGames As ConcurrentDictionary(Of ULong, AcrophobiaGame)
+  overload: Mewdeko.Modules.Games.Services.GamesService.AcrophobiaGames*
+- uid: Mewdeko.Modules.Games.Services.GamesService.HangmanGames
+  commentId: P:Mewdeko.Modules.Games.Services.GamesService.HangmanGames
+  id: HangmanGames
+  parent: Mewdeko.Modules.Games.Services.GamesService
+  langs:
+  - csharp
+  - vb
+  name: HangmanGames
+  nameWithType: GamesService.HangmanGames
+  fullName: Mewdeko.Modules.Games.Services.GamesService.HangmanGames
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: HangmanGames
+    path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+    startLine: 63
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Services
+  summary: Represents a collection of Hangman games.
+  example: []
+  syntax:
+    content: public ConcurrentDictionary<ulong, Hangman> HangmanGames { get; }
+    parameters: []
+    return:
+      type: NonBlocking.ConcurrentDictionary{System.UInt64,Mewdeko.Modules.Games.Common.Hangman.Hangman}
+    content.vb: Public ReadOnly Property HangmanGames As ConcurrentDictionary(Of ULong, Hangman)
+  overload: Mewdeko.Modules.Games.Services.GamesService.HangmanGames*
+- uid: Mewdeko.Modules.Games.Services.GamesService.TermPool
+  commentId: P:Mewdeko.Modules.Games.Services.GamesService.TermPool
+  id: TermPool
+  parent: Mewdeko.Modules.Games.Services.GamesService
+  langs:
+  - csharp
+  - vb
+  name: TermPool
+  nameWithType: GamesService.TermPool
+  fullName: Mewdeko.Modules.Games.Services.GamesService.TermPool
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TermPool
+    path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+    startLine: 68
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Services
+  summary: Represents the term pool for Hangman games.
+  example: []
+  syntax:
+    content: public TermPool TermPool { get; }
+    parameters: []
+    return:
+      type: Mewdeko.Modules.Games.Common.Hangman.TermPool
+    content.vb: Public ReadOnly Property TermPool As TermPool
+  overload: Mewdeko.Modules.Games.Services.GamesService.TermPool*
+- uid: Mewdeko.Modules.Games.Services.GamesService.RunningTrivias
+  commentId: P:Mewdeko.Modules.Games.Services.GamesService.RunningTrivias
+  id: RunningTrivias
+  parent: Mewdeko.Modules.Games.Services.GamesService
+  langs:
+  - csharp
+  - vb
+  name: RunningTrivias
+  nameWithType: GamesService.RunningTrivias
+  fullName: Mewdeko.Modules.Games.Services.GamesService.RunningTrivias
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RunningTrivias
+    path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+    startLine: 73
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Services
+  summary: Represents a collection of running Trivia games.
+  example: []
+  syntax:
+    content: public ConcurrentDictionary<ulong, TriviaGame> RunningTrivias { get; }
+    parameters: []
+    return:
+      type: NonBlocking.ConcurrentDictionary{System.UInt64,Mewdeko.Modules.Games.Common.Trivia.TriviaGame}
+    content.vb: Public ReadOnly Property RunningTrivias As ConcurrentDictionary(Of ULong, TriviaGame)
+  overload: Mewdeko.Modules.Games.Services.GamesService.RunningTrivias*
+- uid: Mewdeko.Modules.Games.Services.GamesService.TicTacToeGames
+  commentId: P:Mewdeko.Modules.Games.Services.GamesService.TicTacToeGames
+  id: TicTacToeGames
+  parent: Mewdeko.Modules.Games.Services.GamesService
+  langs:
+  - csharp
+  - vb
+  name: TicTacToeGames
+  nameWithType: GamesService.TicTacToeGames
+  fullName: Mewdeko.Modules.Games.Services.GamesService.TicTacToeGames
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TicTacToeGames
+    path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+    startLine: 78
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Services
+  summary: Represents a collection of TicTacToe games.
+  example: []
+  syntax:
+    content: public Dictionary<ulong, TicTacToe> TicTacToeGames { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.Dictionary{System.UInt64,Mewdeko.Modules.Games.Common.TicTacToe}
+    content.vb: Public ReadOnly Property TicTacToeGames As Dictionary(Of ULong, TicTacToe)
+  overload: Mewdeko.Modules.Games.Services.GamesService.TicTacToeGames*
+- uid: Mewdeko.Modules.Games.Services.GamesService.RunningContests
+  commentId: P:Mewdeko.Modules.Games.Services.GamesService.RunningContests
+  id: RunningContests
+  parent: Mewdeko.Modules.Games.Services.GamesService
+  langs:
+  - csharp
+  - vb
+  name: RunningContests
+  nameWithType: GamesService.RunningContests
+  fullName: Mewdeko.Modules.Games.Services.GamesService.RunningContests
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RunningContests
+    path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+    startLine: 83
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Services
+  summary: Represents a collection of running Typing contests.
+  example: []
+  syntax:
+    content: public ConcurrentDictionary<ulong, TypingGame> RunningContests { get; }
+    parameters: []
+    return:
+      type: NonBlocking.ConcurrentDictionary{System.UInt64,Mewdeko.Modules.Games.Common.TypingGame}
+    content.vb: Public ReadOnly Property RunningContests As ConcurrentDictionary(Of ULong, TypingGame)
+  overload: Mewdeko.Modules.Games.Services.GamesService.RunningContests*
+- uid: Mewdeko.Modules.Games.Services.GamesService.NunchiGames
+  commentId: P:Mewdeko.Modules.Games.Services.GamesService.NunchiGames
+  id: NunchiGames
+  parent: Mewdeko.Modules.Games.Services.GamesService
+  langs:
+  - csharp
+  - vb
+  name: NunchiGames
+  nameWithType: GamesService.NunchiGames
+  fullName: Mewdeko.Modules.Games.Services.GamesService.NunchiGames
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: NunchiGames
+    path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+    startLine: 88
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Services
+  summary: Represents a collection of Nunchi games.
+  example: []
+  syntax:
+    content: public ConcurrentDictionary<ulong, NunchiGame> NunchiGames { get; }
+    parameters: []
+    return:
+      type: NonBlocking.ConcurrentDictionary{System.UInt64,Mewdeko.Modules.Games.Common.Nunchi.NunchiGame}
+    content.vb: Public ReadOnly Property NunchiGames As ConcurrentDictionary(Of ULong, NunchiGame)
+  overload: Mewdeko.Modules.Games.Services.GamesService.NunchiGames*
+- uid: Mewdeko.Modules.Games.Services.GamesService.Unload
+  commentId: M:Mewdeko.Modules.Games.Services.GamesService.Unload
+  id: Unload
+  parent: Mewdeko.Modules.Games.Services.GamesService
+  langs:
+  - csharp
+  - vb
+  name: Unload()
+  nameWithType: GamesService.Unload()
+  fullName: Mewdeko.Modules.Games.Services.GamesService.Unload()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Unload
+    path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+    startLine: 93
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Services
+  summary: Unloads all active games and clears game-related data.
+  example: []
+  syntax:
+    content: public Task Unload()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function Unload() As Task
+  overload: Mewdeko.Modules.Games.Services.GamesService.Unload*
+  implements:
+  - Mewdeko.Services.IUnloadableService.Unload
+- uid: Mewdeko.Modules.Games.Services.GamesService.AddTypingArticle(Discord.IUser,System.String)
+  commentId: M:Mewdeko.Modules.Games.Services.GamesService.AddTypingArticle(Discord.IUser,System.String)
+  id: AddTypingArticle(Discord.IUser,System.String)
+  parent: Mewdeko.Modules.Games.Services.GamesService
+  langs:
+  - csharp
+  - vb
+  name: AddTypingArticle(IUser, string)
+  nameWithType: GamesService.AddTypingArticle(IUser, string)
+  fullName: Mewdeko.Modules.Games.Services.GamesService.AddTypingArticle(Discord.IUser, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AddTypingArticle
+    path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+    startLine: 124
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Services
+  summary: Adds a new typing article to the list.
+  example: []
+  syntax:
+    content: public void AddTypingArticle(IUser user, string text)
+    parameters:
+    - id: user
+      type: Discord.IUser
+      description: The user who added the article.
+    - id: text
+      type: System.String
+      description: The text of the article.
+    content.vb: Public Sub AddTypingArticle(user As IUser, text As String)
+  overload: Mewdeko.Modules.Games.Services.GamesService.AddTypingArticle*
+  nameWithType.vb: GamesService.AddTypingArticle(IUser, String)
+  fullName.vb: Mewdeko.Modules.Games.Services.GamesService.AddTypingArticle(Discord.IUser, String)
+  name.vb: AddTypingArticle(IUser, String)
+- uid: Mewdeko.Modules.Games.Services.GamesService.GetEightballResponse(System.String)
+  commentId: M:Mewdeko.Modules.Games.Services.GamesService.GetEightballResponse(System.String)
+  id: GetEightballResponse(System.String)
+  parent: Mewdeko.Modules.Games.Services.GamesService
+  langs:
+  - csharp
+  - vb
+  name: GetEightballResponse(string)
+  nameWithType: GamesService.GetEightballResponse(string)
+  fullName: Mewdeko.Modules.Games.Services.GamesService.GetEightballResponse(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetEightballResponse
+    path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+    startLine: 142
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Services
+  summary: Retrieves a response from the EightBall game.
+  example: []
+  syntax:
+    content: public string GetEightballResponse(string _)
+    parameters:
+    - id: _
+      type: System.String
+      description: The input string (not used).
+    return:
+      type: System.String
+      description: A response from the EightBall game.
+    content.vb: Public Function GetEightballResponse(_ As String) As String
+  overload: Mewdeko.Modules.Games.Services.GamesService.GetEightballResponse*
+  nameWithType.vb: GamesService.GetEightballResponse(String)
+  fullName.vb: Mewdeko.Modules.Games.Services.GamesService.GetEightballResponse(String)
+  name.vb: GetEightballResponse(String)
+- uid: Mewdeko.Modules.Games.Services.GamesService.RemoveTypingArticle(System.Int32)
+  commentId: M:Mewdeko.Modules.Games.Services.GamesService.RemoveTypingArticle(System.Int32)
+  id: RemoveTypingArticle(System.Int32)
+  parent: Mewdeko.Modules.Games.Services.GamesService
+  langs:
+  - csharp
+  - vb
+  name: RemoveTypingArticle(int)
+  nameWithType: GamesService.RemoveTypingArticle(int)
+  fullName: Mewdeko.Modules.Games.Services.GamesService.RemoveTypingArticle(int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RemoveTypingArticle
+    path: src/Mewdeko/Modules/Games/Services/GamesService.cs
+    startLine: 149
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Services
+  summary: Removes a typing article from the list.
+  example: []
+  syntax:
+    content: public TypingArticle? RemoveTypingArticle(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index of the article to remove.
+    return:
+      type: Mewdeko.Modules.Games.Common.TypingArticle
+      description: The removed typing article, or null if the index is out of range.
+    content.vb: Public Function RemoveTypingArticle(index As Integer) As TypingArticle
+  overload: Mewdeko.Modules.Games.Services.GamesService.RemoveTypingArticle*
+  nameWithType.vb: GamesService.RemoveTypingArticle(Integer)
+  fullName.vb: Mewdeko.Modules.Games.Services.GamesService.RemoveTypingArticle(Integer)
+  name.vb: RemoveTypingArticle(Integer)
+references:
+- uid: Mewdeko.Modules.Games.Services
+  commentId: N:Mewdeko.Modules.Games.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Games.Services
+  nameWithType: Mewdeko.Modules.Games.Services
+  fullName: Mewdeko.Modules.Games.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Services
+    name: Services
+    href: Mewdeko.Modules.Games.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Services
+    name: Services
+    href: Mewdeko.Modules.Games.Services.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Mewdeko.Services.INService
+  commentId: T:Mewdeko.Services.INService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.INService.html
+  name: INService
+  nameWithType: INService
+  fullName: Mewdeko.Services.INService
+- uid: Mewdeko.Services.IUnloadableService
+  commentId: T:Mewdeko.Services.IUnloadableService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.IUnloadableService.html
+  name: IUnloadableService
+  nameWithType: IUnloadableService
+  fullName: Mewdeko.Services.IUnloadableService
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Games.Services.GamesService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<GamesService>(GamesService, string)
+  nameWithType: Extensions.ThrowIfNull<GamesService>(GamesService, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Games.Services.GamesService>(Mewdeko.Modules.Games.Services.GamesService, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of GamesService)(GamesService, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Games.Services.GamesService)(Mewdeko.Modules.Games.Services.GamesService, String)
+  name.vb: ThrowIfNull(Of GamesService)(GamesService, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Games.Services.GamesService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Games.Services.GamesService
+    name: GamesService
+    href: Mewdeko.Modules.Games.Services.GamesService.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Games.Services.GamesService
+    name: GamesService
+    href: Mewdeko.Modules.Games.Services.GamesService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Games.Services.GamesService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Services.GamesService
+    name: GamesService
+    href: Mewdeko.Modules.Games.Services.GamesService.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Games.Services.GamesService
+    name: GamesService
+    href: Mewdeko.Modules.Games.Services.GamesService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Services
+  commentId: N:Mewdeko.Services
+  href: Mewdeko.html
+  name: Mewdeko.Services
+  nameWithType: Mewdeko.Services
+  fullName: Mewdeko.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Games.Services.GamesService
+  commentId: T:Mewdeko.Modules.Games.Services.GamesService
+  parent: Mewdeko.Modules.Games.Services
+  href: Mewdeko.Modules.Games.Services.GamesService.html
+  name: GamesService
+  nameWithType: GamesService
+  fullName: Mewdeko.Modules.Games.Services.GamesService
+- uid: Mewdeko.Modules.Games.Services.GamesService.#ctor*
+  commentId: Overload:Mewdeko.Modules.Games.Services.GamesService.#ctor
+  href: Mewdeko.Modules.Games.Services.GamesService.html#Mewdeko_Modules_Games_Services_GamesService__ctor_Mewdeko_Modules_Games_Services_GamesConfigService_
+  name: GamesService
+  nameWithType: GamesService.GamesService
+  fullName: Mewdeko.Modules.Games.Services.GamesService.GamesService
+  nameWithType.vb: GamesService.New
+  fullName.vb: Mewdeko.Modules.Games.Services.GamesService.New
+  name.vb: New
+- uid: Mewdeko.Modules.Games.Services.GamesConfigService
+  commentId: T:Mewdeko.Modules.Games.Services.GamesConfigService
+  parent: Mewdeko.Modules.Games.Services
+  href: Mewdeko.Modules.Games.Services.GamesConfigService.html
+  name: GamesConfigService
+  nameWithType: GamesConfigService
+  fullName: Mewdeko.Modules.Games.Services.GamesConfigService
+- uid: Mewdeko.Modules.Games.Services.GamesService.EightBallResponses*
+  commentId: Overload:Mewdeko.Modules.Games.Services.GamesService.EightBallResponses
+  href: Mewdeko.Modules.Games.Services.GamesService.html#Mewdeko_Modules_Games_Services_GamesService_EightBallResponses
+  name: EightBallResponses
+  nameWithType: GamesService.EightBallResponses
+  fullName: Mewdeko.Modules.Games.Services.GamesService.EightBallResponses
+- uid: System.Collections.Generic.IReadOnlyList{System.String}
+  commentId: T:System.Collections.Generic.IReadOnlyList{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IReadOnlyList`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  name: IReadOnlyList<string>
+  nameWithType: IReadOnlyList<string>
+  fullName: System.Collections.Generic.IReadOnlyList<string>
+  nameWithType.vb: IReadOnlyList(Of String)
+  fullName.vb: System.Collections.Generic.IReadOnlyList(Of String)
+  name.vb: IReadOnlyList(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Collections.Generic.IReadOnlyList`1
+  commentId: T:System.Collections.Generic.IReadOnlyList`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  name: IReadOnlyList<T>
+  nameWithType: IReadOnlyList<T>
+  fullName: System.Collections.Generic.IReadOnlyList<T>
+  nameWithType.vb: IReadOnlyList(Of T)
+  fullName.vb: System.Collections.Generic.IReadOnlyList(Of T)
+  name.vb: IReadOnlyList(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Mewdeko.Modules.Games.Services.GamesService.TypingArticles*
+  commentId: Overload:Mewdeko.Modules.Games.Services.GamesService.TypingArticles
+  href: Mewdeko.Modules.Games.Services.GamesService.html#Mewdeko_Modules_Games_Services_GamesService_TypingArticles
+  name: TypingArticles
+  nameWithType: GamesService.TypingArticles
+  fullName: Mewdeko.Modules.Games.Services.GamesService.TypingArticles
+- uid: System.Collections.Generic.List{Mewdeko.Modules.Games.Common.TypingArticle}
+  commentId: T:System.Collections.Generic.List{Mewdeko.Modules.Games.Common.TypingArticle}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<TypingArticle>
+  nameWithType: List<TypingArticle>
+  fullName: System.Collections.Generic.List<Mewdeko.Modules.Games.Common.TypingArticle>
+  nameWithType.vb: List(Of TypingArticle)
+  fullName.vb: System.Collections.Generic.List(Of Mewdeko.Modules.Games.Common.TypingArticle)
+  name.vb: List(Of TypingArticle)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: Mewdeko.Modules.Games.Common.TypingArticle
+    name: TypingArticle
+    href: Mewdeko.Modules.Games.Common.TypingArticle.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.TypingArticle
+    name: TypingArticle
+    href: Mewdeko.Modules.Games.Common.TypingArticle.html
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Modules.Games.Services.GamesService.AcrophobiaGames*
+  commentId: Overload:Mewdeko.Modules.Games.Services.GamesService.AcrophobiaGames
+  href: Mewdeko.Modules.Games.Services.GamesService.html#Mewdeko_Modules_Games_Services_GamesService_AcrophobiaGames
+  name: AcrophobiaGames
+  nameWithType: GamesService.AcrophobiaGames
+  fullName: Mewdeko.Modules.Games.Services.GamesService.AcrophobiaGames
+- uid: NonBlocking.ConcurrentDictionary{System.UInt64,Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame}
+  commentId: T:NonBlocking.ConcurrentDictionary{System.UInt64,Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame}
+  parent: NonBlocking
+  definition: NonBlocking.ConcurrentDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ConcurrentDictionary<ulong, AcrophobiaGame>
+  nameWithType: ConcurrentDictionary<ulong, AcrophobiaGame>
+  fullName: NonBlocking.ConcurrentDictionary<ulong, Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame>
+  nameWithType.vb: ConcurrentDictionary(Of ULong, AcrophobiaGame)
+  fullName.vb: NonBlocking.ConcurrentDictionary(Of ULong, Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame)
+  name.vb: ConcurrentDictionary(Of ULong, AcrophobiaGame)
+  spec.csharp:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: <
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+    name: AcrophobiaGame
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
+  - name: '>'
+  spec.vb:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+    name: AcrophobiaGame
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
+  - name: )
+- uid: NonBlocking.ConcurrentDictionary`2
+  commentId: T:NonBlocking.ConcurrentDictionary`2
+  isExternal: true
+  name: ConcurrentDictionary<TKey, TValue>
+  nameWithType: ConcurrentDictionary<TKey, TValue>
+  fullName: NonBlocking.ConcurrentDictionary<TKey, TValue>
+  nameWithType.vb: ConcurrentDictionary(Of TKey, TValue)
+  fullName.vb: NonBlocking.ConcurrentDictionary(Of TKey, TValue)
+  name.vb: ConcurrentDictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: NonBlocking
+  commentId: N:NonBlocking
+  isExternal: true
+  name: NonBlocking
+  nameWithType: NonBlocking
+  fullName: NonBlocking
+- uid: Mewdeko.Modules.Games.Services.GamesService.HangmanGames*
+  commentId: Overload:Mewdeko.Modules.Games.Services.GamesService.HangmanGames
+  href: Mewdeko.Modules.Games.Services.GamesService.html#Mewdeko_Modules_Games_Services_GamesService_HangmanGames
+  name: HangmanGames
+  nameWithType: GamesService.HangmanGames
+  fullName: Mewdeko.Modules.Games.Services.GamesService.HangmanGames
+- uid: NonBlocking.ConcurrentDictionary{System.UInt64,Mewdeko.Modules.Games.Common.Hangman.Hangman}
+  commentId: T:NonBlocking.ConcurrentDictionary{System.UInt64,Mewdeko.Modules.Games.Common.Hangman.Hangman}
+  parent: NonBlocking
+  definition: NonBlocking.ConcurrentDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ConcurrentDictionary<ulong, Hangman>
+  nameWithType: ConcurrentDictionary<ulong, Hangman>
+  fullName: NonBlocking.ConcurrentDictionary<ulong, Mewdeko.Modules.Games.Common.Hangman.Hangman>
+  nameWithType.vb: ConcurrentDictionary(Of ULong, Hangman)
+  fullName.vb: NonBlocking.ConcurrentDictionary(Of ULong, Mewdeko.Modules.Games.Common.Hangman.Hangman)
+  name.vb: ConcurrentDictionary(Of ULong, Hangman)
+  spec.csharp:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: <
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.Hangman.Hangman
+    name: Hangman
+    href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html
+  - name: '>'
+  spec.vb:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.Hangman.Hangman
+    name: Hangman
+    href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html
+  - name: )
+- uid: Mewdeko.Modules.Games.Services.GamesService.TermPool*
+  commentId: Overload:Mewdeko.Modules.Games.Services.GamesService.TermPool
+  href: Mewdeko.Modules.Games.Services.GamesService.html#Mewdeko_Modules_Games_Services_GamesService_TermPool
+  name: TermPool
+  nameWithType: GamesService.TermPool
+  fullName: Mewdeko.Modules.Games.Services.GamesService.TermPool
+- uid: Mewdeko.Modules.Games.Common.Hangman.TermPool
+  commentId: T:Mewdeko.Modules.Games.Common.Hangman.TermPool
+  parent: Mewdeko.Modules.Games.Common.Hangman
+  href: Mewdeko.Modules.Games.Common.Hangman.TermPool.html
+  name: TermPool
+  nameWithType: TermPool
+  fullName: Mewdeko.Modules.Games.Common.Hangman.TermPool
+- uid: Mewdeko.Modules.Games.Common.Hangman
+  commentId: N:Mewdeko.Modules.Games.Common.Hangman
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Games.Common.Hangman
+  nameWithType: Mewdeko.Modules.Games.Common.Hangman
+  fullName: Mewdeko.Modules.Games.Common.Hangman
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Hangman
+    name: Hangman
+    href: Mewdeko.Modules.Games.Common.Hangman.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Hangman
+    name: Hangman
+    href: Mewdeko.Modules.Games.Common.Hangman.html
+- uid: Mewdeko.Modules.Games.Services.GamesService.RunningTrivias*
+  commentId: Overload:Mewdeko.Modules.Games.Services.GamesService.RunningTrivias
+  href: Mewdeko.Modules.Games.Services.GamesService.html#Mewdeko_Modules_Games_Services_GamesService_RunningTrivias
+  name: RunningTrivias
+  nameWithType: GamesService.RunningTrivias
+  fullName: Mewdeko.Modules.Games.Services.GamesService.RunningTrivias
+- uid: NonBlocking.ConcurrentDictionary{System.UInt64,Mewdeko.Modules.Games.Common.Trivia.TriviaGame}
+  commentId: T:NonBlocking.ConcurrentDictionary{System.UInt64,Mewdeko.Modules.Games.Common.Trivia.TriviaGame}
+  parent: NonBlocking
+  definition: NonBlocking.ConcurrentDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ConcurrentDictionary<ulong, TriviaGame>
+  nameWithType: ConcurrentDictionary<ulong, TriviaGame>
+  fullName: NonBlocking.ConcurrentDictionary<ulong, Mewdeko.Modules.Games.Common.Trivia.TriviaGame>
+  nameWithType.vb: ConcurrentDictionary(Of ULong, TriviaGame)
+  fullName.vb: NonBlocking.ConcurrentDictionary(Of ULong, Mewdeko.Modules.Games.Common.Trivia.TriviaGame)
+  name.vb: ConcurrentDictionary(Of ULong, TriviaGame)
+  spec.csharp:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: <
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.Trivia.TriviaGame
+    name: TriviaGame
+    href: Mewdeko.Modules.Games.Common.Trivia.TriviaGame.html
+  - name: '>'
+  spec.vb:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.Trivia.TriviaGame
+    name: TriviaGame
+    href: Mewdeko.Modules.Games.Common.Trivia.TriviaGame.html
+  - name: )
+- uid: Mewdeko.Modules.Games.Services.GamesService.TicTacToeGames*
+  commentId: Overload:Mewdeko.Modules.Games.Services.GamesService.TicTacToeGames
+  href: Mewdeko.Modules.Games.Services.GamesService.html#Mewdeko_Modules_Games_Services_GamesService_TicTacToeGames
+  name: TicTacToeGames
+  nameWithType: GamesService.TicTacToeGames
+  fullName: Mewdeko.Modules.Games.Services.GamesService.TicTacToeGames
+- uid: System.Collections.Generic.Dictionary{System.UInt64,Mewdeko.Modules.Games.Common.TicTacToe}
+  commentId: T:System.Collections.Generic.Dictionary{System.UInt64,Mewdeko.Modules.Games.Common.TicTacToe}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<ulong, TicTacToe>
+  nameWithType: Dictionary<ulong, TicTacToe>
+  fullName: System.Collections.Generic.Dictionary<ulong, Mewdeko.Modules.Games.Common.TicTacToe>
+  nameWithType.vb: Dictionary(Of ULong, TicTacToe)
+  fullName.vb: System.Collections.Generic.Dictionary(Of ULong, Mewdeko.Modules.Games.Common.TicTacToe)
+  name.vb: Dictionary(Of ULong, TicTacToe)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.TicTacToe
+    name: TicTacToe
+    href: Mewdeko.Modules.Games.Common.TicTacToe.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.TicTacToe
+    name: TicTacToe
+    href: Mewdeko.Modules.Games.Common.TicTacToe.html
+  - name: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: Mewdeko.Modules.Games.Services.GamesService.RunningContests*
+  commentId: Overload:Mewdeko.Modules.Games.Services.GamesService.RunningContests
+  href: Mewdeko.Modules.Games.Services.GamesService.html#Mewdeko_Modules_Games_Services_GamesService_RunningContests
+  name: RunningContests
+  nameWithType: GamesService.RunningContests
+  fullName: Mewdeko.Modules.Games.Services.GamesService.RunningContests
+- uid: NonBlocking.ConcurrentDictionary{System.UInt64,Mewdeko.Modules.Games.Common.TypingGame}
+  commentId: T:NonBlocking.ConcurrentDictionary{System.UInt64,Mewdeko.Modules.Games.Common.TypingGame}
+  parent: NonBlocking
+  definition: NonBlocking.ConcurrentDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ConcurrentDictionary<ulong, TypingGame>
+  nameWithType: ConcurrentDictionary<ulong, TypingGame>
+  fullName: NonBlocking.ConcurrentDictionary<ulong, Mewdeko.Modules.Games.Common.TypingGame>
+  nameWithType.vb: ConcurrentDictionary(Of ULong, TypingGame)
+  fullName.vb: NonBlocking.ConcurrentDictionary(Of ULong, Mewdeko.Modules.Games.Common.TypingGame)
+  name.vb: ConcurrentDictionary(Of ULong, TypingGame)
+  spec.csharp:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: <
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.TypingGame
+    name: TypingGame
+    href: Mewdeko.Modules.Games.Common.TypingGame.html
+  - name: '>'
+  spec.vb:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.TypingGame
+    name: TypingGame
+    href: Mewdeko.Modules.Games.Common.TypingGame.html
+  - name: )
+- uid: Mewdeko.Modules.Games.Services.GamesService.NunchiGames*
+  commentId: Overload:Mewdeko.Modules.Games.Services.GamesService.NunchiGames
+  href: Mewdeko.Modules.Games.Services.GamesService.html#Mewdeko_Modules_Games_Services_GamesService_NunchiGames
+  name: NunchiGames
+  nameWithType: GamesService.NunchiGames
+  fullName: Mewdeko.Modules.Games.Services.GamesService.NunchiGames
+- uid: NonBlocking.ConcurrentDictionary{System.UInt64,Mewdeko.Modules.Games.Common.Nunchi.NunchiGame}
+  commentId: T:NonBlocking.ConcurrentDictionary{System.UInt64,Mewdeko.Modules.Games.Common.Nunchi.NunchiGame}
+  parent: NonBlocking
+  definition: NonBlocking.ConcurrentDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ConcurrentDictionary<ulong, NunchiGame>
+  nameWithType: ConcurrentDictionary<ulong, NunchiGame>
+  fullName: NonBlocking.ConcurrentDictionary<ulong, Mewdeko.Modules.Games.Common.Nunchi.NunchiGame>
+  nameWithType.vb: ConcurrentDictionary(Of ULong, NunchiGame)
+  fullName.vb: NonBlocking.ConcurrentDictionary(Of ULong, Mewdeko.Modules.Games.Common.Nunchi.NunchiGame)
+  name.vb: ConcurrentDictionary(Of ULong, NunchiGame)
+  spec.csharp:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: <
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame
+    name: NunchiGame
+    href: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.html
+  - name: '>'
+  spec.vb:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame
+    name: NunchiGame
+    href: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.html
+  - name: )
+- uid: Mewdeko.Modules.Games.Services.GamesService.Unload*
+  commentId: Overload:Mewdeko.Modules.Games.Services.GamesService.Unload
+  href: Mewdeko.Modules.Games.Services.GamesService.html#Mewdeko_Modules_Games_Services_GamesService_Unload
+  name: Unload
+  nameWithType: GamesService.Unload
+  fullName: Mewdeko.Modules.Games.Services.GamesService.Unload
+- uid: Mewdeko.Services.IUnloadableService.Unload
+  commentId: M:Mewdeko.Services.IUnloadableService.Unload
+  parent: Mewdeko.Services.IUnloadableService
+  href: Mewdeko.Services.IUnloadableService.html#Mewdeko_Services_IUnloadableService_Unload
+  name: Unload()
+  nameWithType: IUnloadableService.Unload()
+  fullName: Mewdeko.Services.IUnloadableService.Unload()
+  spec.csharp:
+  - uid: Mewdeko.Services.IUnloadableService.Unload
+    name: Unload
+    href: Mewdeko.Services.IUnloadableService.html#Mewdeko_Services_IUnloadableService_Unload
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Services.IUnloadableService.Unload
+    name: Unload
+    href: Mewdeko.Services.IUnloadableService.html#Mewdeko_Services_IUnloadableService_Unload
+  - name: (
+  - name: )
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Modules.Games.Services.GamesService.AddTypingArticle*
+  commentId: Overload:Mewdeko.Modules.Games.Services.GamesService.AddTypingArticle
+  href: Mewdeko.Modules.Games.Services.GamesService.html#Mewdeko_Modules_Games_Services_GamesService_AddTypingArticle_Discord_IUser_System_String_
+  name: AddTypingArticle
+  nameWithType: GamesService.AddTypingArticle
+  fullName: Mewdeko.Modules.Games.Services.GamesService.AddTypingArticle
+- uid: Discord.IUser
+  commentId: T:Discord.IUser
+  parent: Discord
+  isExternal: true
+  name: IUser
+  nameWithType: IUser
+  fullName: Discord.IUser
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Discord
+  commentId: N:Discord
+  isExternal: true
+  name: Discord
+  nameWithType: Discord
+  fullName: Discord
+- uid: Mewdeko.Modules.Games.Services.GamesService.GetEightballResponse*
+  commentId: Overload:Mewdeko.Modules.Games.Services.GamesService.GetEightballResponse
+  href: Mewdeko.Modules.Games.Services.GamesService.html#Mewdeko_Modules_Games_Services_GamesService_GetEightballResponse_System_String_
+  name: GetEightballResponse
+  nameWithType: GamesService.GetEightballResponse
+  fullName: Mewdeko.Modules.Games.Services.GamesService.GetEightballResponse
+- uid: Mewdeko.Modules.Games.Services.GamesService.RemoveTypingArticle*
+  commentId: Overload:Mewdeko.Modules.Games.Services.GamesService.RemoveTypingArticle
+  href: Mewdeko.Modules.Games.Services.GamesService.html#Mewdeko_Modules_Games_Services_GamesService_RemoveTypingArticle_System_Int32_
+  name: RemoveTypingArticle
+  nameWithType: GamesService.RemoveTypingArticle
+  fullName: Mewdeko.Modules.Games.Services.GamesService.RemoveTypingArticle
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Modules.Games.Common.TypingArticle
+  commentId: T:Mewdeko.Modules.Games.Common.TypingArticle
+  parent: Mewdeko.Modules.Games.Common
+  href: Mewdeko.Modules.Games.Common.TypingArticle.html
+  name: TypingArticle
+  nameWithType: TypingArticle
+  fullName: Mewdeko.Modules.Games.Common.TypingArticle
+- uid: Mewdeko.Modules.Games.Common
+  commentId: N:Mewdeko.Modules.Games.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Games.Common
+  nameWithType: Mewdeko.Modules.Games.Common
+  fullName: Mewdeko.Modules.Games.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html

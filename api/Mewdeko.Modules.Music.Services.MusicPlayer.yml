@@ -1,0 +1,1577 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Music.Services.MusicPlayer
+  commentId: T:Mewdeko.Modules.Music.Services.MusicPlayer
+  id: MusicPlayer
+  parent: Mewdeko.Modules.Music.Services
+  children:
+  - Mewdeko.Modules.Music.Services.MusicPlayer.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Music.Services.MusicService,Mewdeko.Services.Settings.BotConfigService)
+  - Mewdeko.Modules.Music.Services.MusicPlayer.OnTrackEndAsync(Lavalink4NET.Events.TrackEndEventArgs)
+  - Mewdeko.Modules.Music.Services.MusicPlayer.OnTrackStartedAsync(Lavalink4NET.Events.TrackStartedEventArgs)
+  langs:
+  - csharp
+  - vb
+  name: MusicPlayer
+  nameWithType: MusicPlayer
+  fullName: Mewdeko.Modules.Music.Services.MusicPlayer
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Services/MusicPlayer.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MusicPlayer
+    path: src/Mewdeko/Modules/Music/Services/MusicPlayer.cs
+    startLine: 15
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music.Services
+  summary: Music player service.
+  example: []
+  syntax:
+    content: 'public class MusicPlayer : LavalinkPlayer, IDisposable, IAsyncDisposable'
+    content.vb: Public Class MusicPlayer Inherits LavalinkPlayer Implements IDisposable, IAsyncDisposable
+  inheritance:
+  - System.Object
+  - Lavalink4NET.Player.LavalinkPlayer
+  implements:
+  - System.IDisposable
+  - System.IAsyncDisposable
+  inheritedMembers:
+  - Lavalink4NET.Player.LavalinkPlayer.ConnectAsync(System.UInt64,System.Boolean,System.Boolean)
+  - Lavalink4NET.Player.LavalinkPlayer.DestroyAsync
+  - Lavalink4NET.Player.LavalinkPlayer.DisconnectAsync
+  - Lavalink4NET.Player.LavalinkPlayer.Dispose
+  - Lavalink4NET.Player.LavalinkPlayer.DisposeAsync
+  - Lavalink4NET.Player.LavalinkPlayer.Dispose(System.Boolean)
+  - Lavalink4NET.Player.LavalinkPlayer.DisposeAsyncCore
+  - Lavalink4NET.Player.LavalinkPlayer.OnConnectedAsync(Lavalink4NET.VoiceServer,Lavalink4NET.VoiceState)
+  - Lavalink4NET.Player.LavalinkPlayer.OnSocketChanged(Lavalink4NET.Events.SocketChangedEventArgs)
+  - Lavalink4NET.Player.LavalinkPlayer.OnTrackExceptionAsync(Lavalink4NET.Events.TrackExceptionEventArgs)
+  - Lavalink4NET.Player.LavalinkPlayer.OnTrackStuckAsync(Lavalink4NET.Events.TrackStuckEventArgs)
+  - Lavalink4NET.Player.LavalinkPlayer.PauseAsync
+  - Lavalink4NET.Player.LavalinkPlayer.PlayAsync(Lavalink4NET.Player.LavalinkTrack,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan},System.Boolean)
+  - Lavalink4NET.Player.LavalinkPlayer.ReplayAsync
+  - Lavalink4NET.Player.LavalinkPlayer.ResumeAsync
+  - Lavalink4NET.Player.LavalinkPlayer.SeekPositionAsync(System.TimeSpan)
+  - Lavalink4NET.Player.LavalinkPlayer.SetVolumeAsync(System.Single,System.Boolean,System.Boolean)
+  - Lavalink4NET.Player.LavalinkPlayer.StopAsync(System.Boolean)
+  - Lavalink4NET.Player.LavalinkPlayer.UpdateEqualizerAsync(System.Collections.Generic.IEnumerable{Lavalink4NET.Filters.EqualizerBand},System.Boolean,System.Boolean)
+  - Lavalink4NET.Player.LavalinkPlayer.EnsureConnected
+  - Lavalink4NET.Player.LavalinkPlayer.EnsureNotDestroyed
+  - Lavalink4NET.Player.LavalinkPlayer.Client
+  - Lavalink4NET.Player.LavalinkPlayer.CurrentTrack
+  - Lavalink4NET.Player.LavalinkPlayer.Filters
+  - Lavalink4NET.Player.LavalinkPlayer.GuildId
+  - Lavalink4NET.Player.LavalinkPlayer.State
+  - Lavalink4NET.Player.LavalinkPlayer.Position
+  - Lavalink4NET.Player.LavalinkPlayer.TrackPosition
+  - Lavalink4NET.Player.LavalinkPlayer.VoiceChannelId
+  - Lavalink4NET.Player.LavalinkPlayer.Volume
+  - Lavalink4NET.Player.LavalinkPlayer.LavalinkSocket
+  - Lavalink4NET.Player.LavalinkPlayer.DisconnectOnStop
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Music.Services.MusicPlayer.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Music.Services.MusicPlayer.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Music.Services.MusicService,Mewdeko.Services.Settings.BotConfigService)
+  commentId: M:Mewdeko.Modules.Music.Services.MusicPlayer.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Music.Services.MusicService,Mewdeko.Services.Settings.BotConfigService)
+  id: '#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Music.Services.MusicService,Mewdeko.Services.Settings.BotConfigService)'
+  parent: Mewdeko.Modules.Music.Services.MusicPlayer
+  langs:
+  - csharp
+  - vb
+  name: MusicPlayer(DiscordSocketClient, MusicService, BotConfigService)
+  nameWithType: MusicPlayer.MusicPlayer(DiscordSocketClient, MusicService, BotConfigService)
+  fullName: Mewdeko.Modules.Music.Services.MusicPlayer.MusicPlayer(Discord.WebSocket.DiscordSocketClient, Mewdeko.Modules.Music.Services.MusicService, Mewdeko.Services.Settings.BotConfigService)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Services/MusicPlayer.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Music/Services/MusicPlayer.cs
+    startLine: 15
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music.Services
+  summary: Music player service.
+  example: []
+  syntax:
+    content: public MusicPlayer(DiscordSocketClient client, MusicService musicService, BotConfigService config)
+    parameters:
+    - id: client
+      type: Discord.WebSocket.DiscordSocketClient
+      description: The Discord client
+    - id: musicService
+      type: Mewdeko.Modules.Music.Services.MusicService
+      description: The music service
+    - id: config
+      type: Mewdeko.Services.Settings.BotConfigService
+      description: The bot configuration service
+    content.vb: Public Sub New(client As DiscordSocketClient, musicService As MusicService, config As BotConfigService)
+  overload: Mewdeko.Modules.Music.Services.MusicPlayer.#ctor*
+  nameWithType.vb: MusicPlayer.New(DiscordSocketClient, MusicService, BotConfigService)
+  fullName.vb: Mewdeko.Modules.Music.Services.MusicPlayer.New(Discord.WebSocket.DiscordSocketClient, Mewdeko.Modules.Music.Services.MusicService, Mewdeko.Services.Settings.BotConfigService)
+  name.vb: New(DiscordSocketClient, MusicService, BotConfigService)
+- uid: Mewdeko.Modules.Music.Services.MusicPlayer.OnTrackStartedAsync(Lavalink4NET.Events.TrackStartedEventArgs)
+  commentId: M:Mewdeko.Modules.Music.Services.MusicPlayer.OnTrackStartedAsync(Lavalink4NET.Events.TrackStartedEventArgs)
+  id: OnTrackStartedAsync(Lavalink4NET.Events.TrackStartedEventArgs)
+  parent: Mewdeko.Modules.Music.Services.MusicPlayer
+  langs:
+  - csharp
+  - vb
+  name: OnTrackStartedAsync(TrackStartedEventArgs)
+  nameWithType: MusicPlayer.OnTrackStartedAsync(TrackStartedEventArgs)
+  fullName: Mewdeko.Modules.Music.Services.MusicPlayer.OnTrackStartedAsync(Lavalink4NET.Events.TrackStartedEventArgs)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Services/MusicPlayer.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OnTrackStartedAsync
+    path: src/Mewdeko/Modules/Music/Services/MusicPlayer.cs
+    startLine: 25
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music.Services
+  summary: Handles the track started event.
+  example: []
+  syntax:
+    content: public override Task OnTrackStartedAsync(TrackStartedEventArgs args)
+    parameters:
+    - id: args
+      type: Lavalink4NET.Events.TrackStartedEventArgs
+      description: The event arguments
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Overrides Function OnTrackStartedAsync(args As TrackStartedEventArgs) As Task
+  overridden: Lavalink4NET.Player.LavalinkPlayer.OnTrackStartedAsync(Lavalink4NET.Events.TrackStartedEventArgs)
+  overload: Mewdeko.Modules.Music.Services.MusicPlayer.OnTrackStartedAsync*
+- uid: Mewdeko.Modules.Music.Services.MusicPlayer.OnTrackEndAsync(Lavalink4NET.Events.TrackEndEventArgs)
+  commentId: M:Mewdeko.Modules.Music.Services.MusicPlayer.OnTrackEndAsync(Lavalink4NET.Events.TrackEndEventArgs)
+  id: OnTrackEndAsync(Lavalink4NET.Events.TrackEndEventArgs)
+  parent: Mewdeko.Modules.Music.Services.MusicPlayer
+  langs:
+  - csharp
+  - vb
+  name: OnTrackEndAsync(TrackEndEventArgs)
+  nameWithType: MusicPlayer.OnTrackEndAsync(TrackEndEventArgs)
+  fullName: Mewdeko.Modules.Music.Services.MusicPlayer.OnTrackEndAsync(Lavalink4NET.Events.TrackEndEventArgs)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Services/MusicPlayer.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OnTrackEndAsync
+    path: src/Mewdeko/Modules/Music/Services/MusicPlayer.cs
+    startLine: 82
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music.Services
+  summary: Handles the track end event.
+  example: []
+  syntax:
+    content: public override Task OnTrackEndAsync(TrackEndEventArgs args)
+    parameters:
+    - id: args
+      type: Lavalink4NET.Events.TrackEndEventArgs
+      description: The event arguments
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Overrides Function OnTrackEndAsync(args As TrackEndEventArgs) As Task
+  overridden: Lavalink4NET.Player.LavalinkPlayer.OnTrackEndAsync(Lavalink4NET.Events.TrackEndEventArgs)
+  overload: Mewdeko.Modules.Music.Services.MusicPlayer.OnTrackEndAsync*
+references:
+- uid: Mewdeko.Modules.Music.Services
+  commentId: N:Mewdeko.Modules.Music.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Music.Services
+  nameWithType: Mewdeko.Modules.Music.Services
+  fullName: Mewdeko.Modules.Music.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Music
+    name: Music
+    href: Mewdeko.Modules.Music.html
+  - name: .
+  - uid: Mewdeko.Modules.Music.Services
+    name: Services
+    href: Mewdeko.Modules.Music.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Music
+    name: Music
+    href: Mewdeko.Modules.Music.html
+  - name: .
+  - uid: Mewdeko.Modules.Music.Services
+    name: Services
+    href: Mewdeko.Modules.Music.Services.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Lavalink4NET.Player.LavalinkPlayer
+  commentId: T:Lavalink4NET.Player.LavalinkPlayer
+  parent: Lavalink4NET.Player
+  isExternal: true
+  name: LavalinkPlayer
+  nameWithType: LavalinkPlayer
+  fullName: Lavalink4NET.Player.LavalinkPlayer
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.IAsyncDisposable
+  commentId: T:System.IAsyncDisposable
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iasyncdisposable
+  name: IAsyncDisposable
+  nameWithType: IAsyncDisposable
+  fullName: System.IAsyncDisposable
+- uid: Lavalink4NET.Player.LavalinkPlayer.ConnectAsync(System.UInt64,System.Boolean,System.Boolean)
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.ConnectAsync(System.UInt64,System.Boolean,System.Boolean)
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ConnectAsync(ulong, bool, bool)
+  nameWithType: LavalinkPlayer.ConnectAsync(ulong, bool, bool)
+  fullName: Lavalink4NET.Player.LavalinkPlayer.ConnectAsync(ulong, bool, bool)
+  nameWithType.vb: LavalinkPlayer.ConnectAsync(ULong, Boolean, Boolean)
+  fullName.vb: Lavalink4NET.Player.LavalinkPlayer.ConnectAsync(ULong, Boolean, Boolean)
+  name.vb: ConnectAsync(ULong, Boolean, Boolean)
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.ConnectAsync(System.UInt64,System.Boolean,System.Boolean)
+    name: ConnectAsync
+    isExternal: true
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.ConnectAsync(System.UInt64,System.Boolean,System.Boolean)
+    name: ConnectAsync
+    isExternal: true
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Lavalink4NET.Player.LavalinkPlayer.DestroyAsync
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.DestroyAsync
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: DestroyAsync()
+  nameWithType: LavalinkPlayer.DestroyAsync()
+  fullName: Lavalink4NET.Player.LavalinkPlayer.DestroyAsync()
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.DestroyAsync
+    name: DestroyAsync
+    isExternal: true
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.DestroyAsync
+    name: DestroyAsync
+    isExternal: true
+  - name: (
+  - name: )
+- uid: Lavalink4NET.Player.LavalinkPlayer.DisconnectAsync
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.DisconnectAsync
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: DisconnectAsync()
+  nameWithType: LavalinkPlayer.DisconnectAsync()
+  fullName: Lavalink4NET.Player.LavalinkPlayer.DisconnectAsync()
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.DisconnectAsync
+    name: DisconnectAsync
+    isExternal: true
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.DisconnectAsync
+    name: DisconnectAsync
+    isExternal: true
+  - name: (
+  - name: )
+- uid: Lavalink4NET.Player.LavalinkPlayer.Dispose
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.Dispose
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: Dispose()
+  nameWithType: LavalinkPlayer.Dispose()
+  fullName: Lavalink4NET.Player.LavalinkPlayer.Dispose()
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.Dispose
+    name: Dispose
+    isExternal: true
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.Dispose
+    name: Dispose
+    isExternal: true
+  - name: (
+  - name: )
+- uid: Lavalink4NET.Player.LavalinkPlayer.DisposeAsync
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.DisposeAsync
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: DisposeAsync()
+  nameWithType: LavalinkPlayer.DisposeAsync()
+  fullName: Lavalink4NET.Player.LavalinkPlayer.DisposeAsync()
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.DisposeAsync
+    name: DisposeAsync
+    isExternal: true
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.DisposeAsync
+    name: DisposeAsync
+    isExternal: true
+  - name: (
+  - name: )
+- uid: Lavalink4NET.Player.LavalinkPlayer.Dispose(System.Boolean)
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.Dispose(System.Boolean)
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: Dispose(bool)
+  nameWithType: LavalinkPlayer.Dispose(bool)
+  fullName: Lavalink4NET.Player.LavalinkPlayer.Dispose(bool)
+  nameWithType.vb: LavalinkPlayer.Dispose(Boolean)
+  fullName.vb: Lavalink4NET.Player.LavalinkPlayer.Dispose(Boolean)
+  name.vb: Dispose(Boolean)
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.Dispose(System.Boolean)
+    name: Dispose
+    isExternal: true
+  - name: (
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.Dispose(System.Boolean)
+    name: Dispose
+    isExternal: true
+  - name: (
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Lavalink4NET.Player.LavalinkPlayer.DisposeAsyncCore
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.DisposeAsyncCore
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: DisposeAsyncCore()
+  nameWithType: LavalinkPlayer.DisposeAsyncCore()
+  fullName: Lavalink4NET.Player.LavalinkPlayer.DisposeAsyncCore()
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.DisposeAsyncCore
+    name: DisposeAsyncCore
+    isExternal: true
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.DisposeAsyncCore
+    name: DisposeAsyncCore
+    isExternal: true
+  - name: (
+  - name: )
+- uid: Lavalink4NET.Player.LavalinkPlayer.OnConnectedAsync(Lavalink4NET.VoiceServer,Lavalink4NET.VoiceState)
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.OnConnectedAsync(Lavalink4NET.VoiceServer,Lavalink4NET.VoiceState)
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: OnConnectedAsync(VoiceServer, VoiceState)
+  nameWithType: LavalinkPlayer.OnConnectedAsync(VoiceServer, VoiceState)
+  fullName: Lavalink4NET.Player.LavalinkPlayer.OnConnectedAsync(Lavalink4NET.VoiceServer, Lavalink4NET.VoiceState)
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.OnConnectedAsync(Lavalink4NET.VoiceServer,Lavalink4NET.VoiceState)
+    name: OnConnectedAsync
+    isExternal: true
+  - name: (
+  - uid: Lavalink4NET.VoiceServer
+    name: VoiceServer
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Lavalink4NET.VoiceState
+    name: VoiceState
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.OnConnectedAsync(Lavalink4NET.VoiceServer,Lavalink4NET.VoiceState)
+    name: OnConnectedAsync
+    isExternal: true
+  - name: (
+  - uid: Lavalink4NET.VoiceServer
+    name: VoiceServer
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Lavalink4NET.VoiceState
+    name: VoiceState
+    isExternal: true
+  - name: )
+- uid: Lavalink4NET.Player.LavalinkPlayer.OnSocketChanged(Lavalink4NET.Events.SocketChangedEventArgs)
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.OnSocketChanged(Lavalink4NET.Events.SocketChangedEventArgs)
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: OnSocketChanged(SocketChangedEventArgs)
+  nameWithType: LavalinkPlayer.OnSocketChanged(SocketChangedEventArgs)
+  fullName: Lavalink4NET.Player.LavalinkPlayer.OnSocketChanged(Lavalink4NET.Events.SocketChangedEventArgs)
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.OnSocketChanged(Lavalink4NET.Events.SocketChangedEventArgs)
+    name: OnSocketChanged
+    isExternal: true
+  - name: (
+  - uid: Lavalink4NET.Events.SocketChangedEventArgs
+    name: SocketChangedEventArgs
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.OnSocketChanged(Lavalink4NET.Events.SocketChangedEventArgs)
+    name: OnSocketChanged
+    isExternal: true
+  - name: (
+  - uid: Lavalink4NET.Events.SocketChangedEventArgs
+    name: SocketChangedEventArgs
+    isExternal: true
+  - name: )
+- uid: Lavalink4NET.Player.LavalinkPlayer.OnTrackExceptionAsync(Lavalink4NET.Events.TrackExceptionEventArgs)
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.OnTrackExceptionAsync(Lavalink4NET.Events.TrackExceptionEventArgs)
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: OnTrackExceptionAsync(TrackExceptionEventArgs)
+  nameWithType: LavalinkPlayer.OnTrackExceptionAsync(TrackExceptionEventArgs)
+  fullName: Lavalink4NET.Player.LavalinkPlayer.OnTrackExceptionAsync(Lavalink4NET.Events.TrackExceptionEventArgs)
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.OnTrackExceptionAsync(Lavalink4NET.Events.TrackExceptionEventArgs)
+    name: OnTrackExceptionAsync
+    isExternal: true
+  - name: (
+  - uid: Lavalink4NET.Events.TrackExceptionEventArgs
+    name: TrackExceptionEventArgs
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.OnTrackExceptionAsync(Lavalink4NET.Events.TrackExceptionEventArgs)
+    name: OnTrackExceptionAsync
+    isExternal: true
+  - name: (
+  - uid: Lavalink4NET.Events.TrackExceptionEventArgs
+    name: TrackExceptionEventArgs
+    isExternal: true
+  - name: )
+- uid: Lavalink4NET.Player.LavalinkPlayer.OnTrackStuckAsync(Lavalink4NET.Events.TrackStuckEventArgs)
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.OnTrackStuckAsync(Lavalink4NET.Events.TrackStuckEventArgs)
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: OnTrackStuckAsync(TrackStuckEventArgs)
+  nameWithType: LavalinkPlayer.OnTrackStuckAsync(TrackStuckEventArgs)
+  fullName: Lavalink4NET.Player.LavalinkPlayer.OnTrackStuckAsync(Lavalink4NET.Events.TrackStuckEventArgs)
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.OnTrackStuckAsync(Lavalink4NET.Events.TrackStuckEventArgs)
+    name: OnTrackStuckAsync
+    isExternal: true
+  - name: (
+  - uid: Lavalink4NET.Events.TrackStuckEventArgs
+    name: TrackStuckEventArgs
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.OnTrackStuckAsync(Lavalink4NET.Events.TrackStuckEventArgs)
+    name: OnTrackStuckAsync
+    isExternal: true
+  - name: (
+  - uid: Lavalink4NET.Events.TrackStuckEventArgs
+    name: TrackStuckEventArgs
+    isExternal: true
+  - name: )
+- uid: Lavalink4NET.Player.LavalinkPlayer.PauseAsync
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.PauseAsync
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: PauseAsync()
+  nameWithType: LavalinkPlayer.PauseAsync()
+  fullName: Lavalink4NET.Player.LavalinkPlayer.PauseAsync()
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.PauseAsync
+    name: PauseAsync
+    isExternal: true
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.PauseAsync
+    name: PauseAsync
+    isExternal: true
+  - name: (
+  - name: )
+- uid: Lavalink4NET.Player.LavalinkPlayer.PlayAsync(Lavalink4NET.Player.LavalinkTrack,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan},System.Boolean)
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.PlayAsync(Lavalink4NET.Player.LavalinkTrack,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan},System.Boolean)
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.timespan
+  name: PlayAsync(LavalinkTrack, TimeSpan?, TimeSpan?, bool)
+  nameWithType: LavalinkPlayer.PlayAsync(LavalinkTrack, TimeSpan?, TimeSpan?, bool)
+  fullName: Lavalink4NET.Player.LavalinkPlayer.PlayAsync(Lavalink4NET.Player.LavalinkTrack, System.TimeSpan?, System.TimeSpan?, bool)
+  nameWithType.vb: LavalinkPlayer.PlayAsync(LavalinkTrack, TimeSpan?, TimeSpan?, Boolean)
+  fullName.vb: Lavalink4NET.Player.LavalinkPlayer.PlayAsync(Lavalink4NET.Player.LavalinkTrack, System.TimeSpan?, System.TimeSpan?, Boolean)
+  name.vb: PlayAsync(LavalinkTrack, TimeSpan?, TimeSpan?, Boolean)
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.PlayAsync(Lavalink4NET.Player.LavalinkTrack,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan},System.Boolean)
+    name: PlayAsync
+    isExternal: true
+  - name: (
+  - uid: Lavalink4NET.Player.LavalinkTrack
+    name: LavalinkTrack
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: '?'
+  - name: ','
+  - name: " "
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: '?'
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.PlayAsync(Lavalink4NET.Player.LavalinkTrack,System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan},System.Boolean)
+    name: PlayAsync
+    isExternal: true
+  - name: (
+  - uid: Lavalink4NET.Player.LavalinkTrack
+    name: LavalinkTrack
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: '?'
+  - name: ','
+  - name: " "
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: '?'
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Lavalink4NET.Player.LavalinkPlayer.ReplayAsync
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.ReplayAsync
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: ReplayAsync()
+  nameWithType: LavalinkPlayer.ReplayAsync()
+  fullName: Lavalink4NET.Player.LavalinkPlayer.ReplayAsync()
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.ReplayAsync
+    name: ReplayAsync
+    isExternal: true
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.ReplayAsync
+    name: ReplayAsync
+    isExternal: true
+  - name: (
+  - name: )
+- uid: Lavalink4NET.Player.LavalinkPlayer.ResumeAsync
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.ResumeAsync
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: ResumeAsync()
+  nameWithType: LavalinkPlayer.ResumeAsync()
+  fullName: Lavalink4NET.Player.LavalinkPlayer.ResumeAsync()
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.ResumeAsync
+    name: ResumeAsync
+    isExternal: true
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.ResumeAsync
+    name: ResumeAsync
+    isExternal: true
+  - name: (
+  - name: )
+- uid: Lavalink4NET.Player.LavalinkPlayer.SeekPositionAsync(System.TimeSpan)
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.SeekPositionAsync(System.TimeSpan)
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.timespan
+  name: SeekPositionAsync(TimeSpan)
+  nameWithType: LavalinkPlayer.SeekPositionAsync(TimeSpan)
+  fullName: Lavalink4NET.Player.LavalinkPlayer.SeekPositionAsync(System.TimeSpan)
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.SeekPositionAsync(System.TimeSpan)
+    name: SeekPositionAsync
+    isExternal: true
+  - name: (
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.SeekPositionAsync(System.TimeSpan)
+    name: SeekPositionAsync
+    isExternal: true
+  - name: (
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: )
+- uid: Lavalink4NET.Player.LavalinkPlayer.SetVolumeAsync(System.Single,System.Boolean,System.Boolean)
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.SetVolumeAsync(System.Single,System.Boolean,System.Boolean)
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: SetVolumeAsync(float, bool, bool)
+  nameWithType: LavalinkPlayer.SetVolumeAsync(float, bool, bool)
+  fullName: Lavalink4NET.Player.LavalinkPlayer.SetVolumeAsync(float, bool, bool)
+  nameWithType.vb: LavalinkPlayer.SetVolumeAsync(Single, Boolean, Boolean)
+  fullName.vb: Lavalink4NET.Player.LavalinkPlayer.SetVolumeAsync(Single, Boolean, Boolean)
+  name.vb: SetVolumeAsync(Single, Boolean, Boolean)
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.SetVolumeAsync(System.Single,System.Boolean,System.Boolean)
+    name: SetVolumeAsync
+    isExternal: true
+  - name: (
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.SetVolumeAsync(System.Single,System.Boolean,System.Boolean)
+    name: SetVolumeAsync
+    isExternal: true
+  - name: (
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Lavalink4NET.Player.LavalinkPlayer.StopAsync(System.Boolean)
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.StopAsync(System.Boolean)
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: StopAsync(bool)
+  nameWithType: LavalinkPlayer.StopAsync(bool)
+  fullName: Lavalink4NET.Player.LavalinkPlayer.StopAsync(bool)
+  nameWithType.vb: LavalinkPlayer.StopAsync(Boolean)
+  fullName.vb: Lavalink4NET.Player.LavalinkPlayer.StopAsync(Boolean)
+  name.vb: StopAsync(Boolean)
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.StopAsync(System.Boolean)
+    name: StopAsync
+    isExternal: true
+  - name: (
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.StopAsync(System.Boolean)
+    name: StopAsync
+    isExternal: true
+  - name: (
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Lavalink4NET.Player.LavalinkPlayer.UpdateEqualizerAsync(System.Collections.Generic.IEnumerable{Lavalink4NET.Filters.EqualizerBand},System.Boolean,System.Boolean)
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.UpdateEqualizerAsync(System.Collections.Generic.IEnumerable{Lavalink4NET.Filters.EqualizerBand},System.Boolean,System.Boolean)
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: UpdateEqualizerAsync(IEnumerable<EqualizerBand>, bool, bool)
+  nameWithType: LavalinkPlayer.UpdateEqualizerAsync(IEnumerable<EqualizerBand>, bool, bool)
+  fullName: Lavalink4NET.Player.LavalinkPlayer.UpdateEqualizerAsync(System.Collections.Generic.IEnumerable<Lavalink4NET.Filters.EqualizerBand>, bool, bool)
+  nameWithType.vb: LavalinkPlayer.UpdateEqualizerAsync(IEnumerable(Of EqualizerBand), Boolean, Boolean)
+  fullName.vb: Lavalink4NET.Player.LavalinkPlayer.UpdateEqualizerAsync(System.Collections.Generic.IEnumerable(Of Lavalink4NET.Filters.EqualizerBand), Boolean, Boolean)
+  name.vb: UpdateEqualizerAsync(IEnumerable(Of EqualizerBand), Boolean, Boolean)
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.UpdateEqualizerAsync(System.Collections.Generic.IEnumerable{Lavalink4NET.Filters.EqualizerBand},System.Boolean,System.Boolean)
+    name: UpdateEqualizerAsync
+    isExternal: true
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: Lavalink4NET.Filters.EqualizerBand
+    name: EqualizerBand
+    isExternal: true
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.UpdateEqualizerAsync(System.Collections.Generic.IEnumerable{Lavalink4NET.Filters.EqualizerBand},System.Boolean,System.Boolean)
+    name: UpdateEqualizerAsync
+    isExternal: true
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Lavalink4NET.Filters.EqualizerBand
+    name: EqualizerBand
+    isExternal: true
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Lavalink4NET.Player.LavalinkPlayer.EnsureConnected
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.EnsureConnected
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: EnsureConnected()
+  nameWithType: LavalinkPlayer.EnsureConnected()
+  fullName: Lavalink4NET.Player.LavalinkPlayer.EnsureConnected()
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.EnsureConnected
+    name: EnsureConnected
+    isExternal: true
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.EnsureConnected
+    name: EnsureConnected
+    isExternal: true
+  - name: (
+  - name: )
+- uid: Lavalink4NET.Player.LavalinkPlayer.EnsureNotDestroyed
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.EnsureNotDestroyed
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: EnsureNotDestroyed()
+  nameWithType: LavalinkPlayer.EnsureNotDestroyed()
+  fullName: Lavalink4NET.Player.LavalinkPlayer.EnsureNotDestroyed()
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.EnsureNotDestroyed
+    name: EnsureNotDestroyed
+    isExternal: true
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.EnsureNotDestroyed
+    name: EnsureNotDestroyed
+    isExternal: true
+  - name: (
+  - name: )
+- uid: Lavalink4NET.Player.LavalinkPlayer.Client
+  commentId: P:Lavalink4NET.Player.LavalinkPlayer.Client
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: Client
+  nameWithType: LavalinkPlayer.Client
+  fullName: Lavalink4NET.Player.LavalinkPlayer.Client
+- uid: Lavalink4NET.Player.LavalinkPlayer.CurrentTrack
+  commentId: P:Lavalink4NET.Player.LavalinkPlayer.CurrentTrack
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: CurrentTrack
+  nameWithType: LavalinkPlayer.CurrentTrack
+  fullName: Lavalink4NET.Player.LavalinkPlayer.CurrentTrack
+- uid: Lavalink4NET.Player.LavalinkPlayer.Filters
+  commentId: P:Lavalink4NET.Player.LavalinkPlayer.Filters
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: Filters
+  nameWithType: LavalinkPlayer.Filters
+  fullName: Lavalink4NET.Player.LavalinkPlayer.Filters
+- uid: Lavalink4NET.Player.LavalinkPlayer.GuildId
+  commentId: P:Lavalink4NET.Player.LavalinkPlayer.GuildId
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: GuildId
+  nameWithType: LavalinkPlayer.GuildId
+  fullName: Lavalink4NET.Player.LavalinkPlayer.GuildId
+- uid: Lavalink4NET.Player.LavalinkPlayer.State
+  commentId: P:Lavalink4NET.Player.LavalinkPlayer.State
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: State
+  nameWithType: LavalinkPlayer.State
+  fullName: Lavalink4NET.Player.LavalinkPlayer.State
+- uid: Lavalink4NET.Player.LavalinkPlayer.Position
+  commentId: P:Lavalink4NET.Player.LavalinkPlayer.Position
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: Position
+  nameWithType: LavalinkPlayer.Position
+  fullName: Lavalink4NET.Player.LavalinkPlayer.Position
+- uid: Lavalink4NET.Player.LavalinkPlayer.TrackPosition
+  commentId: P:Lavalink4NET.Player.LavalinkPlayer.TrackPosition
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: TrackPosition
+  nameWithType: LavalinkPlayer.TrackPosition
+  fullName: Lavalink4NET.Player.LavalinkPlayer.TrackPosition
+- uid: Lavalink4NET.Player.LavalinkPlayer.VoiceChannelId
+  commentId: P:Lavalink4NET.Player.LavalinkPlayer.VoiceChannelId
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: VoiceChannelId
+  nameWithType: LavalinkPlayer.VoiceChannelId
+  fullName: Lavalink4NET.Player.LavalinkPlayer.VoiceChannelId
+- uid: Lavalink4NET.Player.LavalinkPlayer.Volume
+  commentId: P:Lavalink4NET.Player.LavalinkPlayer.Volume
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: Volume
+  nameWithType: LavalinkPlayer.Volume
+  fullName: Lavalink4NET.Player.LavalinkPlayer.Volume
+- uid: Lavalink4NET.Player.LavalinkPlayer.LavalinkSocket
+  commentId: P:Lavalink4NET.Player.LavalinkPlayer.LavalinkSocket
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: LavalinkSocket
+  nameWithType: LavalinkPlayer.LavalinkSocket
+  fullName: Lavalink4NET.Player.LavalinkPlayer.LavalinkSocket
+- uid: Lavalink4NET.Player.LavalinkPlayer.DisconnectOnStop
+  commentId: P:Lavalink4NET.Player.LavalinkPlayer.DisconnectOnStop
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: DisconnectOnStop
+  nameWithType: LavalinkPlayer.DisconnectOnStop
+  fullName: Lavalink4NET.Player.LavalinkPlayer.DisconnectOnStop
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Music.Services.MusicPlayer.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<MusicPlayer>(MusicPlayer, string)
+  nameWithType: Extensions.ThrowIfNull<MusicPlayer>(MusicPlayer, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Music.Services.MusicPlayer>(Mewdeko.Modules.Music.Services.MusicPlayer, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of MusicPlayer)(MusicPlayer, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Music.Services.MusicPlayer)(Mewdeko.Modules.Music.Services.MusicPlayer, String)
+  name.vb: ThrowIfNull(Of MusicPlayer)(MusicPlayer, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Music.Services.MusicPlayer,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Music.Services.MusicPlayer
+    name: MusicPlayer
+    href: Mewdeko.Modules.Music.Services.MusicPlayer.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Music.Services.MusicPlayer
+    name: MusicPlayer
+    href: Mewdeko.Modules.Music.Services.MusicPlayer.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Music.Services.MusicPlayer,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Music.Services.MusicPlayer
+    name: MusicPlayer
+    href: Mewdeko.Modules.Music.Services.MusicPlayer.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Music.Services.MusicPlayer
+    name: MusicPlayer
+    href: Mewdeko.Modules.Music.Services.MusicPlayer.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Lavalink4NET.Player
+  commentId: N:Lavalink4NET.Player
+  isExternal: true
+  name: Lavalink4NET.Player
+  nameWithType: Lavalink4NET.Player
+  fullName: Lavalink4NET.Player
+  spec.csharp:
+  - uid: Lavalink4NET
+    name: Lavalink4NET
+    isExternal: true
+  - name: .
+  - uid: Lavalink4NET.Player
+    name: Player
+    isExternal: true
+  spec.vb:
+  - uid: Lavalink4NET
+    name: Lavalink4NET
+    isExternal: true
+  - name: .
+  - uid: Lavalink4NET.Player
+    name: Player
+    isExternal: true
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Music.Services.MusicPlayer.#ctor*
+  commentId: Overload:Mewdeko.Modules.Music.Services.MusicPlayer.#ctor
+  href: Mewdeko.Modules.Music.Services.MusicPlayer.html#Mewdeko_Modules_Music_Services_MusicPlayer__ctor_Discord_WebSocket_DiscordSocketClient_Mewdeko_Modules_Music_Services_MusicService_Mewdeko_Services_Settings_BotConfigService_
+  name: MusicPlayer
+  nameWithType: MusicPlayer.MusicPlayer
+  fullName: Mewdeko.Modules.Music.Services.MusicPlayer.MusicPlayer
+  nameWithType.vb: MusicPlayer.New
+  fullName.vb: Mewdeko.Modules.Music.Services.MusicPlayer.New
+  name.vb: New
+- uid: Discord.WebSocket.DiscordSocketClient
+  commentId: T:Discord.WebSocket.DiscordSocketClient
+  parent: Discord.WebSocket
+  isExternal: true
+  name: DiscordSocketClient
+  nameWithType: DiscordSocketClient
+  fullName: Discord.WebSocket.DiscordSocketClient
+- uid: Mewdeko.Modules.Music.Services.MusicService
+  commentId: T:Mewdeko.Modules.Music.Services.MusicService
+  parent: Mewdeko.Modules.Music.Services
+  href: Mewdeko.Modules.Music.Services.MusicService.html
+  name: MusicService
+  nameWithType: MusicService
+  fullName: Mewdeko.Modules.Music.Services.MusicService
+- uid: Mewdeko.Services.Settings.BotConfigService
+  commentId: T:Mewdeko.Services.Settings.BotConfigService
+  parent: Mewdeko.Services.Settings
+  href: Mewdeko.Services.Settings.BotConfigService.html
+  name: BotConfigService
+  nameWithType: BotConfigService
+  fullName: Mewdeko.Services.Settings.BotConfigService
+- uid: Discord.WebSocket
+  commentId: N:Discord.WebSocket
+  isExternal: true
+  name: Discord.WebSocket
+  nameWithType: Discord.WebSocket
+  fullName: Discord.WebSocket
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.WebSocket
+    name: WebSocket
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.WebSocket
+    name: WebSocket
+    isExternal: true
+- uid: Mewdeko.Services.Settings
+  commentId: N:Mewdeko.Services.Settings
+  href: Mewdeko.html
+  name: Mewdeko.Services.Settings
+  nameWithType: Mewdeko.Services.Settings
+  fullName: Mewdeko.Services.Settings
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+- uid: Lavalink4NET.Player.LavalinkPlayer.OnTrackStartedAsync(Lavalink4NET.Events.TrackStartedEventArgs)
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.OnTrackStartedAsync(Lavalink4NET.Events.TrackStartedEventArgs)
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: OnTrackStartedAsync(TrackStartedEventArgs)
+  nameWithType: LavalinkPlayer.OnTrackStartedAsync(TrackStartedEventArgs)
+  fullName: Lavalink4NET.Player.LavalinkPlayer.OnTrackStartedAsync(Lavalink4NET.Events.TrackStartedEventArgs)
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.OnTrackStartedAsync(Lavalink4NET.Events.TrackStartedEventArgs)
+    name: OnTrackStartedAsync
+    isExternal: true
+  - name: (
+  - uid: Lavalink4NET.Events.TrackStartedEventArgs
+    name: TrackStartedEventArgs
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.OnTrackStartedAsync(Lavalink4NET.Events.TrackStartedEventArgs)
+    name: OnTrackStartedAsync
+    isExternal: true
+  - name: (
+  - uid: Lavalink4NET.Events.TrackStartedEventArgs
+    name: TrackStartedEventArgs
+    isExternal: true
+  - name: )
+- uid: Mewdeko.Modules.Music.Services.MusicPlayer.OnTrackStartedAsync*
+  commentId: Overload:Mewdeko.Modules.Music.Services.MusicPlayer.OnTrackStartedAsync
+  href: Mewdeko.Modules.Music.Services.MusicPlayer.html#Mewdeko_Modules_Music_Services_MusicPlayer_OnTrackStartedAsync_Lavalink4NET_Events_TrackStartedEventArgs_
+  name: OnTrackStartedAsync
+  nameWithType: MusicPlayer.OnTrackStartedAsync
+  fullName: Mewdeko.Modules.Music.Services.MusicPlayer.OnTrackStartedAsync
+- uid: Lavalink4NET.Events.TrackStartedEventArgs
+  commentId: T:Lavalink4NET.Events.TrackStartedEventArgs
+  parent: Lavalink4NET.Events
+  isExternal: true
+  name: TrackStartedEventArgs
+  nameWithType: TrackStartedEventArgs
+  fullName: Lavalink4NET.Events.TrackStartedEventArgs
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: Lavalink4NET.Events
+  commentId: N:Lavalink4NET.Events
+  isExternal: true
+  name: Lavalink4NET.Events
+  nameWithType: Lavalink4NET.Events
+  fullName: Lavalink4NET.Events
+  spec.csharp:
+  - uid: Lavalink4NET
+    name: Lavalink4NET
+    isExternal: true
+  - name: .
+  - uid: Lavalink4NET.Events
+    name: Events
+    isExternal: true
+  spec.vb:
+  - uid: Lavalink4NET
+    name: Lavalink4NET
+    isExternal: true
+  - name: .
+  - uid: Lavalink4NET.Events
+    name: Events
+    isExternal: true
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Lavalink4NET.Player.LavalinkPlayer.OnTrackEndAsync(Lavalink4NET.Events.TrackEndEventArgs)
+  commentId: M:Lavalink4NET.Player.LavalinkPlayer.OnTrackEndAsync(Lavalink4NET.Events.TrackEndEventArgs)
+  parent: Lavalink4NET.Player.LavalinkPlayer
+  isExternal: true
+  name: OnTrackEndAsync(TrackEndEventArgs)
+  nameWithType: LavalinkPlayer.OnTrackEndAsync(TrackEndEventArgs)
+  fullName: Lavalink4NET.Player.LavalinkPlayer.OnTrackEndAsync(Lavalink4NET.Events.TrackEndEventArgs)
+  spec.csharp:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.OnTrackEndAsync(Lavalink4NET.Events.TrackEndEventArgs)
+    name: OnTrackEndAsync
+    isExternal: true
+  - name: (
+  - uid: Lavalink4NET.Events.TrackEndEventArgs
+    name: TrackEndEventArgs
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Lavalink4NET.Player.LavalinkPlayer.OnTrackEndAsync(Lavalink4NET.Events.TrackEndEventArgs)
+    name: OnTrackEndAsync
+    isExternal: true
+  - name: (
+  - uid: Lavalink4NET.Events.TrackEndEventArgs
+    name: TrackEndEventArgs
+    isExternal: true
+  - name: )
+- uid: Mewdeko.Modules.Music.Services.MusicPlayer.OnTrackEndAsync*
+  commentId: Overload:Mewdeko.Modules.Music.Services.MusicPlayer.OnTrackEndAsync
+  href: Mewdeko.Modules.Music.Services.MusicPlayer.html#Mewdeko_Modules_Music_Services_MusicPlayer_OnTrackEndAsync_Lavalink4NET_Events_TrackEndEventArgs_
+  name: OnTrackEndAsync
+  nameWithType: MusicPlayer.OnTrackEndAsync
+  fullName: Mewdeko.Modules.Music.Services.MusicPlayer.OnTrackEndAsync
+- uid: Lavalink4NET.Events.TrackEndEventArgs
+  commentId: T:Lavalink4NET.Events.TrackEndEventArgs
+  parent: Lavalink4NET.Events
+  isExternal: true
+  name: TrackEndEventArgs
+  nameWithType: TrackEndEventArgs
+  fullName: Lavalink4NET.Events.TrackEndEventArgs

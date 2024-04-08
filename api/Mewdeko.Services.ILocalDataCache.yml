@@ -1,0 +1,240 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Services.ILocalDataCache
+  commentId: T:Mewdeko.Services.ILocalDataCache
+  id: ILocalDataCache
+  parent: Mewdeko.Services
+  children:
+  - Mewdeko.Services.ILocalDataCache.TriviaQuestions
+  langs:
+  - csharp
+  - vb
+  name: ILocalDataCache
+  nameWithType: ILocalDataCache
+  fullName: Mewdeko.Services.ILocalDataCache
+  type: Interface
+  source:
+    remote:
+      path: src/Mewdeko/Services/ILocalDataCache.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ILocalDataCache
+    path: src/Mewdeko/Services/ILocalDataCache.cs
+    startLine: 7
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services
+  summary: Represents a cache for local data.
+  example: []
+  syntax:
+    content: public interface ILocalDataCache
+    content.vb: Public Interface ILocalDataCache
+  extensionMethods:
+  - Mewdeko.Services.ILocalDataCache.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Services.ILocalDataCache.TriviaQuestions
+  commentId: P:Mewdeko.Services.ILocalDataCache.TriviaQuestions
+  id: TriviaQuestions
+  parent: Mewdeko.Services.ILocalDataCache
+  langs:
+  - csharp
+  - vb
+  name: TriviaQuestions
+  nameWithType: ILocalDataCache.TriviaQuestions
+  fullName: Mewdeko.Services.ILocalDataCache.TriviaQuestions
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Services/ILocalDataCache.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TriviaQuestions
+    path: src/Mewdeko/Services/ILocalDataCache.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services
+  summary: Gets the array of trivia questions.
+  example: []
+  syntax:
+    content: TriviaQuestion[] TriviaQuestions { get; }
+    parameters: []
+    return:
+      type: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion[]
+    content.vb: ReadOnly Property TriviaQuestions As TriviaQuestion()
+  overload: Mewdeko.Services.ILocalDataCache.TriviaQuestions*
+references:
+- uid: Mewdeko.Services
+  commentId: N:Mewdeko.Services
+  href: Mewdeko.html
+  name: Mewdeko.Services
+  nameWithType: Mewdeko.Services
+  fullName: Mewdeko.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+- uid: Mewdeko.Services.ILocalDataCache.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<ILocalDataCache>(ILocalDataCache, string)
+  nameWithType: Extensions.ThrowIfNull<ILocalDataCache>(ILocalDataCache, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Services.ILocalDataCache>(Mewdeko.Services.ILocalDataCache, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of ILocalDataCache)(ILocalDataCache, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Services.ILocalDataCache)(Mewdeko.Services.ILocalDataCache, String)
+  name.vb: ThrowIfNull(Of ILocalDataCache)(ILocalDataCache, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Services.ILocalDataCache,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Services.ILocalDataCache
+    name: ILocalDataCache
+    href: Mewdeko.Services.ILocalDataCache.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Services.ILocalDataCache
+    name: ILocalDataCache
+    href: Mewdeko.Services.ILocalDataCache.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Services.ILocalDataCache,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Services.ILocalDataCache
+    name: ILocalDataCache
+    href: Mewdeko.Services.ILocalDataCache.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Services.ILocalDataCache
+    name: ILocalDataCache
+    href: Mewdeko.Services.ILocalDataCache.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Services.ILocalDataCache.TriviaQuestions*
+  commentId: Overload:Mewdeko.Services.ILocalDataCache.TriviaQuestions
+  href: Mewdeko.Services.ILocalDataCache.html#Mewdeko_Services_ILocalDataCache_TriviaQuestions
+  name: TriviaQuestions
+  nameWithType: ILocalDataCache.TriviaQuestions
+  fullName: Mewdeko.Services.ILocalDataCache.TriviaQuestions
+- uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion[]
+  isExternal: true
+  href: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion.html
+  name: TriviaQuestion[]
+  nameWithType: TriviaQuestion[]
+  fullName: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion[]
+  nameWithType.vb: TriviaQuestion()
+  fullName.vb: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion()
+  name.vb: TriviaQuestion()
+  spec.csharp:
+  - uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion
+    name: TriviaQuestion
+    href: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion.html
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion
+    name: TriviaQuestion
+    href: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion.html
+  - name: (
+  - name: )

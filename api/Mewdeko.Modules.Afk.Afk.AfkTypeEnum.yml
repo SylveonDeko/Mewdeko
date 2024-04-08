@@ -1,0 +1,200 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Afk.Afk.AfkTypeEnum
+  commentId: T:Mewdeko.Modules.Afk.Afk.AfkTypeEnum
+  id: Afk.AfkTypeEnum
+  parent: Mewdeko.Modules.Afk
+  children:
+  - Mewdeko.Modules.Afk.Afk.AfkTypeEnum.Either
+  - Mewdeko.Modules.Afk.Afk.AfkTypeEnum.OnMessage
+  - Mewdeko.Modules.Afk.Afk.AfkTypeEnum.OnType
+  - Mewdeko.Modules.Afk.Afk.AfkTypeEnum.SelfDisable
+  langs:
+  - csharp
+  - vb
+  name: Afk.AfkTypeEnum
+  nameWithType: Afk.AfkTypeEnum
+  fullName: Mewdeko.Modules.Afk.Afk.AfkTypeEnum
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Afk/Afk.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AfkTypeEnum
+    path: src/Mewdeko/Modules/Afk/Afk.cs
+    startLine: 20
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Afk
+  summary: Enumerates different types of AFK (Away From Keyboard) settings.
+  example: []
+  syntax:
+    content: public enum Afk.AfkTypeEnum
+    content.vb: Public Enum Afk.AfkTypeEnum
+- uid: Mewdeko.Modules.Afk.Afk.AfkTypeEnum.SelfDisable
+  commentId: F:Mewdeko.Modules.Afk.Afk.AfkTypeEnum.SelfDisable
+  id: SelfDisable
+  parent: Mewdeko.Modules.Afk.Afk.AfkTypeEnum
+  langs:
+  - csharp
+  - vb
+  name: SelfDisable
+  nameWithType: Afk.AfkTypeEnum.SelfDisable
+  fullName: Mewdeko.Modules.Afk.Afk.AfkTypeEnum.SelfDisable
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Afk/Afk.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SelfDisable
+    path: src/Mewdeko/Modules/Afk/Afk.cs
+    startLine: 25
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Afk
+  summary: Indicates self-disable AFK.
+  example: []
+  syntax:
+    content: SelfDisable = 1
+    return:
+      type: Mewdeko.Modules.Afk.Afk.AfkTypeEnum
+- uid: Mewdeko.Modules.Afk.Afk.AfkTypeEnum.OnMessage
+  commentId: F:Mewdeko.Modules.Afk.Afk.AfkTypeEnum.OnMessage
+  id: OnMessage
+  parent: Mewdeko.Modules.Afk.Afk.AfkTypeEnum
+  langs:
+  - csharp
+  - vb
+  name: OnMessage
+  nameWithType: Afk.AfkTypeEnum.OnMessage
+  fullName: Mewdeko.Modules.Afk.Afk.AfkTypeEnum.OnMessage
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Afk/Afk.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OnMessage
+    path: src/Mewdeko/Modules/Afk/Afk.cs
+    startLine: 30
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Afk
+  summary: Indicates AFK removed on receiving a message.
+  example: []
+  syntax:
+    content: OnMessage = 2
+    return:
+      type: Mewdeko.Modules.Afk.Afk.AfkTypeEnum
+- uid: Mewdeko.Modules.Afk.Afk.AfkTypeEnum.OnType
+  commentId: F:Mewdeko.Modules.Afk.Afk.AfkTypeEnum.OnType
+  id: OnType
+  parent: Mewdeko.Modules.Afk.Afk.AfkTypeEnum
+  langs:
+  - csharp
+  - vb
+  name: OnType
+  nameWithType: Afk.AfkTypeEnum.OnType
+  fullName: Mewdeko.Modules.Afk.Afk.AfkTypeEnum.OnType
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Afk/Afk.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OnType
+    path: src/Mewdeko/Modules/Afk/Afk.cs
+    startLine: 35
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Afk
+  summary: Indicates AFK removed on typing.
+  example: []
+  syntax:
+    content: OnType = 3
+    return:
+      type: Mewdeko.Modules.Afk.Afk.AfkTypeEnum
+- uid: Mewdeko.Modules.Afk.Afk.AfkTypeEnum.Either
+  commentId: F:Mewdeko.Modules.Afk.Afk.AfkTypeEnum.Either
+  id: Either
+  parent: Mewdeko.Modules.Afk.Afk.AfkTypeEnum
+  langs:
+  - csharp
+  - vb
+  name: Either
+  nameWithType: Afk.AfkTypeEnum.Either
+  fullName: Mewdeko.Modules.Afk.Afk.AfkTypeEnum.Either
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Afk/Afk.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Either
+    path: src/Mewdeko/Modules/Afk/Afk.cs
+    startLine: 40
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Afk
+  summary: Indicates AFK removed either by receiving a message or typing.
+  example: []
+  syntax:
+    content: Either = 4
+    return:
+      type: Mewdeko.Modules.Afk.Afk.AfkTypeEnum
+references:
+- uid: Mewdeko.Modules.Afk
+  commentId: N:Mewdeko.Modules.Afk
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Afk
+  nameWithType: Mewdeko.Modules.Afk
+  fullName: Mewdeko.Modules.Afk
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Afk
+    name: Afk
+    href: Mewdeko.Modules.Afk.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Afk
+    name: Afk
+    href: Mewdeko.Modules.Afk.html
+- uid: Mewdeko.Modules.Afk.Afk.AfkTypeEnum
+  commentId: T:Mewdeko.Modules.Afk.Afk.AfkTypeEnum
+  parent: Mewdeko.Modules.Afk
+  href: Mewdeko.Modules.Afk.Afk.html
+  name: Afk.AfkTypeEnum
+  nameWithType: Afk.AfkTypeEnum
+  fullName: Mewdeko.Modules.Afk.Afk.AfkTypeEnum
+  spec.csharp:
+  - uid: Mewdeko.Modules.Afk.Afk
+    name: Afk
+    href: Mewdeko.Modules.Afk.Afk.html
+  - name: .
+  - uid: Mewdeko.Modules.Afk.Afk.AfkTypeEnum
+    name: AfkTypeEnum
+    href: Mewdeko.Modules.Afk.Afk.AfkTypeEnum.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Afk.Afk
+    name: Afk
+    href: Mewdeko.Modules.Afk.Afk.html
+  - name: .
+  - uid: Mewdeko.Modules.Afk.Afk.AfkTypeEnum
+    name: AfkTypeEnum
+    href: Mewdeko.Modules.Afk.Afk.AfkTypeEnum.html

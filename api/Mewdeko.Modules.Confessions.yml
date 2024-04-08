@@ -1,0 +1,30 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Confessions
+  commentId: N:Mewdeko.Modules.Confessions
+  id: Mewdeko.Modules.Confessions
+  children:
+  - Mewdeko.Modules.Confessions.Confessions
+  - Mewdeko.Modules.Confessions.SlashConfessions
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Confessions
+  nameWithType: Mewdeko.Modules.Confessions
+  fullName: Mewdeko.Modules.Confessions
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Confessions.Confessions
+  commentId: T:Mewdeko.Modules.Confessions.Confessions
+  href: Mewdeko.Modules.Confessions.Confessions.html
+  name: Confessions
+  nameWithType: Confessions
+  fullName: Mewdeko.Modules.Confessions.Confessions
+- uid: Mewdeko.Modules.Confessions.SlashConfessions
+  commentId: T:Mewdeko.Modules.Confessions.SlashConfessions
+  href: Mewdeko.Modules.Confessions.SlashConfessions.html
+  name: SlashConfessions
+  nameWithType: SlashConfessions
+  fullName: Mewdeko.Modules.Confessions.SlashConfessions

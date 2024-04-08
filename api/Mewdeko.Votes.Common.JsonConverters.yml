@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Votes.Common.JsonConverters
+  commentId: N:Mewdeko.Votes.Common.JsonConverters
+  id: Mewdeko.Votes.Common.JsonConverters
+  children:
+  - Mewdeko.Votes.Common.JsonConverters.CultureInfoConverter
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Votes.Common.JsonConverters
+  nameWithType: Mewdeko.Votes.Common.JsonConverters
+  fullName: Mewdeko.Votes.Common.JsonConverters
+  type: Namespace
+  assemblies:
+  - Mewdeko.Votes
+references:
+- uid: Mewdeko.Votes.Common.JsonConverters.CultureInfoConverter
+  commentId: T:Mewdeko.Votes.Common.JsonConverters.CultureInfoConverter
+  href: Mewdeko.Votes.Common.JsonConverters.CultureInfoConverter.html
+  name: CultureInfoConverter
+  nameWithType: CultureInfoConverter
+  fullName: Mewdeko.Votes.Common.JsonConverters.CultureInfoConverter

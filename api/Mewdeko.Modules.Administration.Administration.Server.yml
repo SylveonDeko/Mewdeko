@@ -1,0 +1,113 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Administration.Administration.Server
+  commentId: T:Mewdeko.Modules.Administration.Administration.Server
+  id: Administration.Server
+  parent: Mewdeko.Modules.Administration
+  children:
+  - Mewdeko.Modules.Administration.Administration.Server.Server
+  langs:
+  - csharp
+  - vb
+  name: Administration.Server
+  nameWithType: Administration.Server
+  fullName: Mewdeko.Modules.Administration.Administration.Server
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Administration.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Server
+    path: src/Mewdeko/Modules/Administration/Administration.cs
+    startLine: 66
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration
+  summary: Enumerates different variations of the term "server".
+  example: []
+  syntax:
+    content: public enum Administration.Server
+    content.vb: Public Enum Administration.Server
+- uid: Mewdeko.Modules.Administration.Administration.Server.Server
+  commentId: F:Mewdeko.Modules.Administration.Administration.Server.Server
+  id: Server
+  parent: Mewdeko.Modules.Administration.Administration.Server
+  langs:
+  - csharp
+  - vb
+  name: Server
+  nameWithType: Administration.Server.Server
+  fullName: Mewdeko.Modules.Administration.Administration.Server.Server
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Administration.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Server
+    path: src/Mewdeko/Modules/Administration/Administration.cs
+    startLine: 71
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration
+  summary: Represents the term "server".
+  example: []
+  syntax:
+    content: Server = 0
+    return:
+      type: Mewdeko.Modules.Administration.Administration.Server
+references:
+- uid: Mewdeko.Modules.Administration
+  commentId: N:Mewdeko.Modules.Administration
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Administration
+  nameWithType: Mewdeko.Modules.Administration
+  fullName: Mewdeko.Modules.Administration
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+- uid: Mewdeko.Modules.Administration.Administration.Server
+  commentId: T:Mewdeko.Modules.Administration.Administration.Server
+  parent: Mewdeko.Modules.Administration
+  href: Mewdeko.Modules.Administration.Administration.html
+  name: Administration.Server
+  nameWithType: Administration.Server
+  fullName: Mewdeko.Modules.Administration.Administration.Server
+  spec.csharp:
+  - uid: Mewdeko.Modules.Administration.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Administration.Server
+    name: Server
+    href: Mewdeko.Modules.Administration.Administration.Server.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Administration.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Administration.Server
+    name: Server
+    href: Mewdeko.Modules.Administration.Administration.Server.html

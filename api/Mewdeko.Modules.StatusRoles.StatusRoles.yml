@@ -1,0 +1,2885 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles
+  commentId: T:Mewdeko.Modules.StatusRoles.StatusRoles
+  id: StatusRoles
+  parent: Mewdeko.Modules.StatusRoles
+  children:
+  - Mewdeko.Modules.StatusRoles.StatusRoles.#ctor(Mewdeko.Services.Settings.BotConfigService,Fergun.Interactive.InteractiveService)
+  - Mewdeko.Modules.StatusRoles.StatusRoles.AddStatusRole(System.String)
+  - Mewdeko.Modules.StatusRoles.StatusRoles.ListStatusRoles
+  - Mewdeko.Modules.StatusRoles.StatusRoles.RemoveAddRoles(System.Int32,Discord.IRole[])
+  - Mewdeko.Modules.StatusRoles.StatusRoles.RemoveRemoveRoles(System.Int32,Discord.IRole[])
+  - Mewdeko.Modules.StatusRoles.StatusRoles.RemoveStatusRole(System.Int32)
+  - Mewdeko.Modules.StatusRoles.StatusRoles.SetAddRoles(System.Int32,Discord.IRole[])
+  - Mewdeko.Modules.StatusRoles.StatusRoles.SetRemoveRoles(System.Int32,Discord.IRole[])
+  - Mewdeko.Modules.StatusRoles.StatusRoles.SetStatusRoleChannel(System.Int32,Discord.ITextChannel)
+  - Mewdeko.Modules.StatusRoles.StatusRoles.SetStatusRoleEmbed(System.Int32,System.String)
+  - Mewdeko.Modules.StatusRoles.StatusRoles.ToggleReaddRemoved(System.Int32)
+  - Mewdeko.Modules.StatusRoles.StatusRoles.ToggleRemoveAdded(System.Int32)
+  langs:
+  - csharp
+  - vb
+  name: StatusRoles
+  nameWithType: StatusRoles
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: StatusRoles
+    path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.StatusRoles
+  summary: Module for managing roles that are assigned based on user status.
+  example: []
+  syntax:
+    content: 'public class StatusRoles : MewdekoModuleBase<StatusRolesService>, IModuleBase'
+    content.vb: Public Class StatusRoles Inherits MewdekoModuleBase(Of StatusRolesService) Implements IModuleBase
+  inheritance:
+  - System.Object
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  - Discord.Commands.ModuleBase
+  - Mewdeko.Common.MewdekoModule
+  - Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.StatusRoles.Services.StatusRolesService}
+  implements:
+  - Discord.Commands.IModuleBase
+  inheritedMembers:
+  - Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.StatusRoles.Services.StatusRolesService}.Service
+  - Mewdeko.Common.MewdekoModule.CultureInfo
+  - Mewdeko.Common.MewdekoModule.Strings
+  - Mewdeko.Common.MewdekoModule.Localization
+  - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  - Mewdeko.Common.MewdekoModule.GetText(System.String)
+  - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  - Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.StatusRoles.StatusRoles.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.#ctor(Mewdeko.Services.Settings.BotConfigService,Fergun.Interactive.InteractiveService)
+  commentId: M:Mewdeko.Modules.StatusRoles.StatusRoles.#ctor(Mewdeko.Services.Settings.BotConfigService,Fergun.Interactive.InteractiveService)
+  id: '#ctor(Mewdeko.Services.Settings.BotConfigService,Fergun.Interactive.InteractiveService)'
+  parent: Mewdeko.Modules.StatusRoles.StatusRoles
+  langs:
+  - csharp
+  - vb
+  name: StatusRoles(BotConfigService, InteractiveService)
+  nameWithType: StatusRoles.StatusRoles(BotConfigService, InteractiveService)
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.StatusRoles(Mewdeko.Services.Settings.BotConfigService, Fergun.Interactive.InteractiveService)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.StatusRoles
+  summary: Module for managing roles that are assigned based on user status.
+  example: []
+  syntax:
+    content: public StatusRoles(BotConfigService bss, InteractiveService interactivity)
+    parameters:
+    - id: bss
+      type: Mewdeko.Services.Settings.BotConfigService
+    - id: interactivity
+      type: Fergun.Interactive.InteractiveService
+    content.vb: Public Sub New(bss As BotConfigService, interactivity As InteractiveService)
+  overload: Mewdeko.Modules.StatusRoles.StatusRoles.#ctor*
+  nameWithType.vb: StatusRoles.New(BotConfigService, InteractiveService)
+  fullName.vb: Mewdeko.Modules.StatusRoles.StatusRoles.New(Mewdeko.Services.Settings.BotConfigService, Fergun.Interactive.InteractiveService)
+  name.vb: New(BotConfigService, InteractiveService)
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.AddStatusRole(System.String)
+  commentId: M:Mewdeko.Modules.StatusRoles.StatusRoles.AddStatusRole(System.String)
+  id: AddStatusRole(System.String)
+  parent: Mewdeko.Modules.StatusRoles.StatusRoles
+  langs:
+  - csharp
+  - vb
+  name: AddStatusRole(string)
+  nameWithType: StatusRoles.AddStatusRole(string)
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.AddStatusRole(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AddStatusRole
+    path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+    startLine: 18
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.StatusRoles
+  summary: Adds a status role configuration.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("AddStatusRole")]
+
+      [Aliases("AddStatusRole")]
+
+      [UserPerm(GuildPermission.ManageGuild)]
+
+      public Task AddStatusRole(string status)
+    parameters:
+    - id: status
+      type: System.String
+      description: The status to add.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("AddStatusRole")>
+
+      <Aliases("AddStatusRole")>
+
+      <UserPerm(GuildPermission.ManageGuild)>
+
+      Public Function AddStatusRole(status As String) As Task
+  overload: Mewdeko.Modules.StatusRoles.StatusRoles.AddStatusRole*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: AddStatusRole
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: AddStatusRole
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "32"
+  nameWithType.vb: StatusRoles.AddStatusRole(String)
+  fullName.vb: Mewdeko.Modules.StatusRoles.StatusRoles.AddStatusRole(String)
+  name.vb: AddStatusRole(String)
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.RemoveStatusRole(System.Int32)
+  commentId: M:Mewdeko.Modules.StatusRoles.StatusRoles.RemoveStatusRole(System.Int32)
+  id: RemoveStatusRole(System.Int32)
+  parent: Mewdeko.Modules.StatusRoles.StatusRoles
+  langs:
+  - csharp
+  - vb
+  name: RemoveStatusRole(int)
+  nameWithType: StatusRoles.RemoveStatusRole(int)
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.RemoveStatusRole(int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RemoveStatusRole
+    path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+    startLine: 39
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.StatusRoles
+  summary: Removes a status role configuration.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("RemoveStatusRole")]
+
+      [Aliases("RemoveStatusRole")]
+
+      [UserPerm(GuildPermission.ManageGuild)]
+
+      public Task RemoveStatusRole(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index of the status role to remove.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("RemoveStatusRole")>
+
+      <Aliases("RemoveStatusRole")>
+
+      <UserPerm(GuildPermission.ManageGuild)>
+
+      Public Function RemoveStatusRole(index As Integer) As Task
+  overload: Mewdeko.Modules.StatusRoles.StatusRoles.RemoveStatusRole*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RemoveStatusRole
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RemoveStatusRole
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "32"
+  nameWithType.vb: StatusRoles.RemoveStatusRole(Integer)
+  fullName.vb: Mewdeko.Modules.StatusRoles.StatusRoles.RemoveStatusRole(Integer)
+  name.vb: RemoveStatusRole(Integer)
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.SetStatusRoleEmbed(System.Int32,System.String)
+  commentId: M:Mewdeko.Modules.StatusRoles.StatusRoles.SetStatusRoleEmbed(System.Int32,System.String)
+  id: SetStatusRoleEmbed(System.Int32,System.String)
+  parent: Mewdeko.Modules.StatusRoles.StatusRoles
+  langs:
+  - csharp
+  - vb
+  name: SetStatusRoleEmbed(int, string)
+  nameWithType: StatusRoles.SetStatusRoleEmbed(int, string)
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.SetStatusRoleEmbed(int, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetStatusRoleEmbed
+    path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+    startLine: 65
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.StatusRoles
+  summary: Sets or previews the embed text for a specific status role.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("SetStatusRoleEmbed")]
+
+      [Aliases("SetStatusRoleEmbed")]
+
+      [UserPerm(GuildPermission.ManageGuild)]
+
+      public Task SetStatusRoleEmbed(int index, string embedText = null)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index of the status role.
+    - id: embedText
+      type: System.String
+      description: The embed text to set.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("SetStatusRoleEmbed")>
+
+      <Aliases("SetStatusRoleEmbed")>
+
+      <UserPerm(GuildPermission.ManageGuild)>
+
+      Public Function SetStatusRoleEmbed(index As Integer, embedText As String = Nothing) As Task
+  overload: Mewdeko.Modules.StatusRoles.StatusRoles.SetStatusRoleEmbed*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: SetStatusRoleEmbed
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: SetStatusRoleEmbed
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "32"
+  nameWithType.vb: StatusRoles.SetStatusRoleEmbed(Integer, String)
+  fullName.vb: Mewdeko.Modules.StatusRoles.StatusRoles.SetStatusRoleEmbed(Integer, String)
+  name.vb: SetStatusRoleEmbed(Integer, String)
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.SetStatusRoleChannel(System.Int32,Discord.ITextChannel)
+  commentId: M:Mewdeko.Modules.StatusRoles.StatusRoles.SetStatusRoleChannel(System.Int32,Discord.ITextChannel)
+  id: SetStatusRoleChannel(System.Int32,Discord.ITextChannel)
+  parent: Mewdeko.Modules.StatusRoles.StatusRoles
+  langs:
+  - csharp
+  - vb
+  name: SetStatusRoleChannel(int, ITextChannel)
+  nameWithType: StatusRoles.SetStatusRoleChannel(int, ITextChannel)
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.SetStatusRoleChannel(int, Discord.ITextChannel)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetStatusRoleChannel
+    path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+    startLine: 133
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.StatusRoles
+  summary: Sets the channel for a specific status role.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("SetStatusRoleChannel")]
+
+      [Aliases("SetStatusRoleChannel")]
+
+      [UserPerm(GuildPermission.ManageGuild)]
+
+      public Task SetStatusRoleChannel(int index, ITextChannel channel)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index of the status role.
+    - id: channel
+      type: Discord.ITextChannel
+      description: The channel to set.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("SetStatusRoleChannel")>
+
+      <Aliases("SetStatusRoleChannel")>
+
+      <UserPerm(GuildPermission.ManageGuild)>
+
+      Public Function SetStatusRoleChannel(index As Integer, channel As ITextChannel) As Task
+  overload: Mewdeko.Modules.StatusRoles.StatusRoles.SetStatusRoleChannel*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: SetStatusRoleChannel
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: SetStatusRoleChannel
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "32"
+  nameWithType.vb: StatusRoles.SetStatusRoleChannel(Integer, ITextChannel)
+  fullName.vb: Mewdeko.Modules.StatusRoles.StatusRoles.SetStatusRoleChannel(Integer, Discord.ITextChannel)
+  name.vb: SetStatusRoleChannel(Integer, ITextChannel)
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.SetAddRoles(System.Int32,Discord.IRole[])
+  commentId: M:Mewdeko.Modules.StatusRoles.StatusRoles.SetAddRoles(System.Int32,Discord.IRole[])
+  id: SetAddRoles(System.Int32,Discord.IRole[])
+  parent: Mewdeko.Modules.StatusRoles.StatusRoles
+  langs:
+  - csharp
+  - vb
+  name: SetAddRoles(int, params IRole[])
+  nameWithType: StatusRoles.SetAddRoles(int, params IRole[])
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.SetAddRoles(int, params Discord.IRole[])
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetAddRoles
+    path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+    startLine: 166
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.StatusRoles
+  summary: Sets the roles to add when a user has the selected status.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("SetAddRoles")]
+
+      [Aliases("SetAddRoles")]
+
+      [UserPerm(GuildPermission.ManageGuild)]
+
+      public Task SetAddRoles(int index, params IRole[] roles)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index of the status role.
+    - id: roles
+      type: Discord.IRole[]
+      description: The roles to add.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("SetAddRoles")>
+
+      <Aliases("SetAddRoles")>
+
+      <UserPerm(GuildPermission.ManageGuild)>
+
+      Public Function SetAddRoles(index As Integer, ParamArray roles As IRole()) As Task
+  overload: Mewdeko.Modules.StatusRoles.StatusRoles.SetAddRoles*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: SetAddRoles
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: SetAddRoles
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "32"
+  nameWithType.vb: StatusRoles.SetAddRoles(Integer, ParamArray IRole())
+  fullName.vb: Mewdeko.Modules.StatusRoles.StatusRoles.SetAddRoles(Integer, ParamArray Discord.IRole())
+  name.vb: SetAddRoles(Integer, ParamArray IRole())
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.SetRemoveRoles(System.Int32,Discord.IRole[])
+  commentId: M:Mewdeko.Modules.StatusRoles.StatusRoles.SetRemoveRoles(System.Int32,Discord.IRole[])
+  id: SetRemoveRoles(System.Int32,Discord.IRole[])
+  parent: Mewdeko.Modules.StatusRoles.StatusRoles
+  langs:
+  - csharp
+  - vb
+  name: SetRemoveRoles(int, params IRole[])
+  nameWithType: StatusRoles.SetRemoveRoles(int, params IRole[])
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.SetRemoveRoles(int, params Discord.IRole[])
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetRemoveRoles
+    path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+    startLine: 205
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.StatusRoles
+  summary: Sets the roles to remove when a user has the selected status.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("SetRemoveRoles")]
+
+      [Aliases("SetRemoveRoles")]
+
+      [UserPerm(GuildPermission.ManageGuild)]
+
+      public Task SetRemoveRoles(int index, params IRole[] roles)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index of the status role.
+    - id: roles
+      type: Discord.IRole[]
+      description: The roles to remove.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("SetRemoveRoles")>
+
+      <Aliases("SetRemoveRoles")>
+
+      <UserPerm(GuildPermission.ManageGuild)>
+
+      Public Function SetRemoveRoles(index As Integer, ParamArray roles As IRole()) As Task
+  overload: Mewdeko.Modules.StatusRoles.StatusRoles.SetRemoveRoles*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: SetRemoveRoles
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: SetRemoveRoles
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "32"
+  nameWithType.vb: StatusRoles.SetRemoveRoles(Integer, ParamArray IRole())
+  fullName.vb: Mewdeko.Modules.StatusRoles.StatusRoles.SetRemoveRoles(Integer, ParamArray Discord.IRole())
+  name.vb: SetRemoveRoles(Integer, ParamArray IRole())
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.RemoveAddRoles(System.Int32,Discord.IRole[])
+  commentId: M:Mewdeko.Modules.StatusRoles.StatusRoles.RemoveAddRoles(System.Int32,Discord.IRole[])
+  id: RemoveAddRoles(System.Int32,Discord.IRole[])
+  parent: Mewdeko.Modules.StatusRoles.StatusRoles
+  langs:
+  - csharp
+  - vb
+  name: RemoveAddRoles(int, params IRole[])
+  nameWithType: StatusRoles.RemoveAddRoles(int, params IRole[])
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.RemoveAddRoles(int, params Discord.IRole[])
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RemoveAddRoles
+    path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+    startLine: 244
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.StatusRoles
+  summary: Sets the roles to remove when a user has the selected status.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("RemoveAddRoles")]
+
+      [Aliases("RemoveAddRoles")]
+
+      [UserPerm(GuildPermission.ManageGuild)]
+
+      public Task RemoveAddRoles(int index, params IRole[] roles)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index of the status role.
+    - id: roles
+      type: Discord.IRole[]
+      description: The roles to remove.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("RemoveAddRoles")>
+
+      <Aliases("RemoveAddRoles")>
+
+      <UserPerm(GuildPermission.ManageGuild)>
+
+      Public Function RemoveAddRoles(index As Integer, ParamArray roles As IRole()) As Task
+  overload: Mewdeko.Modules.StatusRoles.StatusRoles.RemoveAddRoles*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RemoveAddRoles
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RemoveAddRoles
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "32"
+  nameWithType.vb: StatusRoles.RemoveAddRoles(Integer, ParamArray IRole())
+  fullName.vb: Mewdeko.Modules.StatusRoles.StatusRoles.RemoveAddRoles(Integer, ParamArray Discord.IRole())
+  name.vb: RemoveAddRoles(Integer, ParamArray IRole())
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.RemoveRemoveRoles(System.Int32,Discord.IRole[])
+  commentId: M:Mewdeko.Modules.StatusRoles.StatusRoles.RemoveRemoveRoles(System.Int32,Discord.IRole[])
+  id: RemoveRemoveRoles(System.Int32,Discord.IRole[])
+  parent: Mewdeko.Modules.StatusRoles.StatusRoles
+  langs:
+  - csharp
+  - vb
+  name: RemoveRemoveRoles(int, params IRole[])
+  nameWithType: StatusRoles.RemoveRemoveRoles(int, params IRole[])
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.RemoveRemoveRoles(int, params Discord.IRole[])
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RemoveRemoveRoles
+    path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+    startLine: 280
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.StatusRoles
+  summary: Removes one or more roles from the roles added when a user has the selected status.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("RemoveRemoveRoles")]
+
+      [Aliases("RemoveRemoveRoles")]
+
+      [UserPerm(GuildPermission.ManageGuild)]
+
+      public Task RemoveRemoveRoles(int index, params IRole[] roles)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index of the status role.
+    - id: roles
+      type: Discord.IRole[]
+      description: The roles to remove.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("RemoveRemoveRoles")>
+
+      <Aliases("RemoveRemoveRoles")>
+
+      <UserPerm(GuildPermission.ManageGuild)>
+
+      Public Function RemoveRemoveRoles(index As Integer, ParamArray roles As IRole()) As Task
+  overload: Mewdeko.Modules.StatusRoles.StatusRoles.RemoveRemoveRoles*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RemoveRemoveRoles
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RemoveRemoveRoles
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "32"
+  nameWithType.vb: StatusRoles.RemoveRemoveRoles(Integer, ParamArray IRole())
+  fullName.vb: Mewdeko.Modules.StatusRoles.StatusRoles.RemoveRemoveRoles(Integer, ParamArray Discord.IRole())
+  name.vb: RemoveRemoveRoles(Integer, ParamArray IRole())
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.ToggleRemoveAdded(System.Int32)
+  commentId: M:Mewdeko.Modules.StatusRoles.StatusRoles.ToggleRemoveAdded(System.Int32)
+  id: ToggleRemoveAdded(System.Int32)
+  parent: Mewdeko.Modules.StatusRoles.StatusRoles
+  langs:
+  - csharp
+  - vb
+  name: ToggleRemoveAdded(int)
+  nameWithType: StatusRoles.ToggleRemoveAdded(int)
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.ToggleRemoveAdded(int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ToggleRemoveAdded
+    path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+    startLine: 316
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.StatusRoles
+  summary: Removes one or more roles from the roles removed when a user has the selected status.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ToggleRemoveAdded")]
+
+      [Aliases("ToggleRemoveAdded")]
+
+      [UserPerm(GuildPermission.ManageGuild)]
+
+      public Task ToggleRemoveAdded(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index of the status role.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("ToggleRemoveAdded")>
+
+      <Aliases("ToggleRemoveAdded")>
+
+      <UserPerm(GuildPermission.ManageGuild)>
+
+      Public Function ToggleRemoveAdded(index As Integer) As Task
+  overload: Mewdeko.Modules.StatusRoles.StatusRoles.ToggleRemoveAdded*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ToggleRemoveAdded
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ToggleRemoveAdded
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "32"
+  nameWithType.vb: StatusRoles.ToggleRemoveAdded(Integer)
+  fullName.vb: Mewdeko.Modules.StatusRoles.StatusRoles.ToggleRemoveAdded(Integer)
+  name.vb: ToggleRemoveAdded(Integer)
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.ToggleReaddRemoved(System.Int32)
+  commentId: M:Mewdeko.Modules.StatusRoles.StatusRoles.ToggleReaddRemoved(System.Int32)
+  id: ToggleReaddRemoved(System.Int32)
+  parent: Mewdeko.Modules.StatusRoles.StatusRoles
+  langs:
+  - csharp
+  - vb
+  name: ToggleReaddRemoved(int)
+  nameWithType: StatusRoles.ToggleReaddRemoved(int)
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.ToggleReaddRemoved(int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ToggleReaddRemoved
+    path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+    startLine: 341
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.StatusRoles
+  summary: Toggles whether added roles are removed when a status is removed.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ToggleReaddRemoved")]
+
+      [Aliases("ToggleReaddRemoved")]
+
+      [UserPerm(GuildPermission.ManageGuild)]
+
+      public Task ToggleReaddRemoved(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The index of the status role.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("ToggleReaddRemoved")>
+
+      <Aliases("ToggleReaddRemoved")>
+
+      <UserPerm(GuildPermission.ManageGuild)>
+
+      Public Function ToggleReaddRemoved(index As Integer) As Task
+  overload: Mewdeko.Modules.StatusRoles.StatusRoles.ToggleReaddRemoved*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ToggleReaddRemoved
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ToggleReaddRemoved
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "32"
+  nameWithType.vb: StatusRoles.ToggleReaddRemoved(Integer)
+  fullName.vb: Mewdeko.Modules.StatusRoles.StatusRoles.ToggleReaddRemoved(Integer)
+  name.vb: ToggleReaddRemoved(Integer)
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.ListStatusRoles
+  commentId: M:Mewdeko.Modules.StatusRoles.StatusRoles.ListStatusRoles
+  id: ListStatusRoles
+  parent: Mewdeko.Modules.StatusRoles.StatusRoles
+  langs:
+  - csharp
+  - vb
+  name: ListStatusRoles()
+  nameWithType: StatusRoles.ListStatusRoles()
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.ListStatusRoles()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ListStatusRoles
+    path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
+    startLine: 365
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.StatusRoles
+  summary: Lists all current status roles with their details.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ListStatusRoles")]
+
+      [Aliases("ListStatusRoles")]
+
+      [UserPerm(GuildPermission.ManageGuild)]
+
+      public Task ListStatusRoles()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("ListStatusRoles")>
+
+      <Aliases("ListStatusRoles")>
+
+      <UserPerm(GuildPermission.ManageGuild)>
+
+      Public Function ListStatusRoles() As Task
+  overload: Mewdeko.Modules.StatusRoles.StatusRoles.ListStatusRoles*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ListStatusRoles
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ListStatusRoles
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "32"
+references:
+- uid: Mewdeko.Modules.StatusRoles
+  commentId: N:Mewdeko.Modules.StatusRoles
+  href: Mewdeko.html
+  name: Mewdeko.Modules.StatusRoles
+  nameWithType: Mewdeko.Modules.StatusRoles
+  fullName: Mewdeko.Modules.StatusRoles
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.StatusRoles
+    name: StatusRoles
+    href: Mewdeko.Modules.StatusRoles.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.StatusRoles
+    name: StatusRoles
+    href: Mewdeko.Modules.StatusRoles.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  commentId: T:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  parent: Discord.Commands
+  definition: Discord.Commands.ModuleBase`1
+  name: ModuleBase<ICommandContext>
+  nameWithType: ModuleBase<ICommandContext>
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>
+  nameWithType.vb: ModuleBase(Of ICommandContext)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext)
+  name.vb: ModuleBase(Of ICommandContext)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: <
+  - uid: Discord.Commands.ICommandContext
+    name: ICommandContext
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Discord.Commands.ICommandContext
+    name: ICommandContext
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase
+  commentId: T:Discord.Commands.ModuleBase
+  parent: Discord.Commands
+  isExternal: true
+  name: ModuleBase
+  nameWithType: ModuleBase
+  fullName: Discord.Commands.ModuleBase
+- uid: Mewdeko.Common.MewdekoModule
+  commentId: T:Mewdeko.Common.MewdekoModule
+  parent: Mewdeko.Common
+  href: Mewdeko.Common.MewdekoModule.html
+  name: MewdekoModule
+  nameWithType: MewdekoModule
+  fullName: Mewdeko.Common.MewdekoModule
+- uid: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.StatusRoles.Services.StatusRolesService}
+  commentId: T:Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.StatusRoles.Services.StatusRolesService}
+  parent: Mewdeko.Common
+  definition: Mewdeko.Common.MewdekoModuleBase`1
+  href: Mewdeko.Common.MewdekoModuleBase-1.html
+  name: MewdekoModuleBase<StatusRolesService>
+  nameWithType: MewdekoModuleBase<StatusRolesService>
+  fullName: Mewdeko.Common.MewdekoModuleBase<Mewdeko.Modules.StatusRoles.Services.StatusRolesService>
+  nameWithType.vb: MewdekoModuleBase(Of StatusRolesService)
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of Mewdeko.Modules.StatusRoles.Services.StatusRolesService)
+  name.vb: MewdekoModuleBase(Of StatusRolesService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: <
+  - uid: Mewdeko.Modules.StatusRoles.Services.StatusRolesService
+    name: StatusRolesService
+    href: Mewdeko.Modules.StatusRoles.Services.StatusRolesService.html
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.StatusRoles.Services.StatusRolesService
+    name: StatusRolesService
+    href: Mewdeko.Modules.StatusRoles.Services.StatusRolesService.html
+  - name: )
+- uid: Discord.Commands.IModuleBase
+  commentId: T:Discord.Commands.IModuleBase
+  parent: Discord.Commands
+  isExternal: true
+  name: IModuleBase
+  nameWithType: IModuleBase
+  fullName: Discord.Commands.IModuleBase
+- uid: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.StatusRoles.Services.StatusRolesService}.Service
+  commentId: P:Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.StatusRoles.Services.StatusRolesService}.Service
+  parent: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.StatusRoles.Services.StatusRolesService}
+  definition: Mewdeko.Common.MewdekoModuleBase`1.Service
+  href: Mewdeko.Common.MewdekoModuleBase-1.html#Mewdeko_Common_MewdekoModuleBase_1_Service
+  name: Service
+  nameWithType: MewdekoModuleBase<StatusRolesService>.Service
+  fullName: Mewdeko.Common.MewdekoModuleBase<Mewdeko.Modules.StatusRoles.Services.StatusRolesService>.Service
+  nameWithType.vb: MewdekoModuleBase(Of StatusRolesService).Service
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of Mewdeko.Modules.StatusRoles.Services.StatusRolesService).Service
+- uid: Mewdeko.Common.MewdekoModule.CultureInfo
+  commentId: P:Mewdeko.Common.MewdekoModule.CultureInfo
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CultureInfo
+  name: CultureInfo
+  nameWithType: MewdekoModule.CultureInfo
+  fullName: Mewdeko.Common.MewdekoModule.CultureInfo
+- uid: Mewdeko.Common.MewdekoModule.Strings
+  commentId: P:Mewdeko.Common.MewdekoModule.Strings
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Strings
+  name: Strings
+  nameWithType: MewdekoModule.Strings
+  fullName: Mewdeko.Common.MewdekoModule.Strings
+- uid: Mewdeko.Common.MewdekoModule.Localization
+  commentId: P:Mewdeko.Common.MewdekoModule.Localization
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Localization
+  name: Localization
+  nameWithType: MewdekoModule.Localization
+  fullName: Mewdeko.Common.MewdekoModule.Localization
+- uid: Mewdeko.Common.MewdekoModule.ctx
+  commentId: P:Mewdeko.Common.MewdekoModule.ctx
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ctx
+  name: ctx
+  nameWithType: MewdekoModule.ctx
+  fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  name: BeforeExecute(CommandInfo)
+  nameWithType: MewdekoModule.BeforeExecute(CommandInfo)
+  fullName: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+    name: BeforeExecute
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+    name: BeforeExecute
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+  commentId: M:Mewdeko.Common.MewdekoModule.GetText(System.String)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  name: GetText(string)
+  nameWithType: MewdekoModule.GetText(string)
+  fullName: Mewdeko.Common.MewdekoModule.GetText(string)
+  nameWithType.vb: MewdekoModule.GetText(String)
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetText(String)
+  name.vb: GetText(String)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  name: GetText(string, params object[])
+  nameWithType: MewdekoModule.GetText(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.GetText(string, params object[])
+  nameWithType.vb: MewdekoModule.GetText(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetText(String, ParamArray Object())
+  name.vb: GetText(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  name: ErrorLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ErrorLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ErrorLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(String, ParamArray Object())
+  name.vb: ErrorLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+    name: ErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+    name: ErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  name: ReplyErrorLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ReplyErrorLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ReplyErrorLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(String, ParamArray Object())
+  name.vb: ReplyErrorLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+    name: ReplyErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+    name: ReplyErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  name: ConfirmLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ConfirmLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ConfirmLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(String, ParamArray Object())
+  name.vb: ConfirmLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+    name: ConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+    name: ConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  name: ReplyConfirmLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ReplyConfirmLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  name.vb: ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+    name: ReplyConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+    name: ReplyConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  name: PromptUserConfirmAsync(string, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(string, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(string, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(String, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(String, ULong)
+  name.vb: PromptUserConfirmAsync(String, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  name: PromptUserConfirmAsync(EmbedBuilder, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(EmbedBuilder, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(EmbedBuilder, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder, ULong)
+  name.vb: PromptUserConfirmAsync(EmbedBuilder, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  commentId: M:Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  name: CheckRoleHierarchy(IGuildUser, bool)
+  nameWithType: MewdekoModule.CheckRoleHierarchy(IGuildUser, bool)
+  fullName: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser, bool)
+  nameWithType.vb: MewdekoModule.CheckRoleHierarchy(IGuildUser, Boolean)
+  fullName.vb: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser, Boolean)
+  name.vb: CheckRoleHierarchy(IGuildUser, Boolean)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+    name: CheckRoleHierarchy
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  - name: (
+  - uid: Discord.IGuildUser
+    name: IGuildUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+    name: CheckRoleHierarchy
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  - name: (
+  - uid: Discord.IGuildUser
+    name: IGuildUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  name: PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage, Discord.EmbedBuilder, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage, Discord.EmbedBuilder, ULong)
+  name.vb: PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  commentId: M:Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  name: GetButtonInputAsync(ulong, ulong, ulong, bool)
+  nameWithType: MewdekoModule.GetButtonInputAsync(ulong, ulong, ulong, bool)
+  fullName: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(ulong, ulong, ulong, bool)
+  nameWithType.vb: MewdekoModule.GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  name.vb: GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+    name: GetButtonInputAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+    name: GetButtonInputAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  name: NextMessageAsync(ulong, ulong)
+  nameWithType: MewdekoModule.NextMessageAsync(ulong, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.NextMessageAsync(ulong, ulong)
+  nameWithType.vb: MewdekoModule.NextMessageAsync(ULong, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.NextMessageAsync(ULong, ULong)
+  name.vb: NextMessageAsync(ULong, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+    name: NextMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+    name: NextMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  name: NextFullMessageAsync(ulong, ulong)
+  nameWithType: MewdekoModule.NextFullMessageAsync(ulong, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(ulong, ulong)
+  nameWithType.vb: MewdekoModule.NextFullMessageAsync(ULong, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(ULong, ULong)
+  name.vb: NextFullMessageAsync(ULong, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+    name: NextFullMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+    name: NextFullMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  nameWithType: ModuleBase<ICommandContext>.ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.ReplyAsync(string, bool, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker[], Discord.Embed[], Discord.MessageFlags)
+  nameWithType.vb: ModuleBase(Of ICommandContext).ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).ReplyAsync(String, Boolean, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker(), Discord.Embed(), Discord.MessageFlags)
+  name.vb: ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  name: BeforeExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.BeforeExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).BeforeExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  name: AfterExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.AfterExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).AfterExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).AfterExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  name: AfterExecute(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.AfterExecute(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.AfterExecute(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).AfterExecute(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).AfterExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  name: OnModuleBuilding(CommandService, ModuleBuilder)
+  nameWithType: ModuleBase<ICommandContext>.OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  nameWithType.vb: ModuleBase(Of ICommandContext).OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  commentId: P:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.Context
+  name: Context
+  nameWithType: ModuleBase<ICommandContext>.Context
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.Context
+  nameWithType.vb: ModuleBase(Of ICommandContext).Context
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).Context
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<StatusRoles>(StatusRoles, string)
+  nameWithType: Extensions.ThrowIfNull<StatusRoles>(StatusRoles, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.StatusRoles.StatusRoles>(Mewdeko.Modules.StatusRoles.StatusRoles, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of StatusRoles)(StatusRoles, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.StatusRoles.StatusRoles)(Mewdeko.Modules.StatusRoles.StatusRoles, String)
+  name.vb: ThrowIfNull(Of StatusRoles)(StatusRoles, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.StatusRoles.StatusRoles,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.StatusRoles.StatusRoles
+    name: StatusRoles
+    href: Mewdeko.Modules.StatusRoles.StatusRoles.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.StatusRoles.StatusRoles
+    name: StatusRoles
+    href: Mewdeko.Modules.StatusRoles.StatusRoles.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.StatusRoles.StatusRoles,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.StatusRoles.StatusRoles
+    name: StatusRoles
+    href: Mewdeko.Modules.StatusRoles.StatusRoles.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.StatusRoles.StatusRoles
+    name: StatusRoles
+    href: Mewdeko.Modules.StatusRoles.StatusRoles.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Discord.Commands.ModuleBase`1
+  commentId: T:Discord.Commands.ModuleBase`1
+  isExternal: true
+  name: ModuleBase<T>
+  nameWithType: ModuleBase<T>
+  fullName: Discord.Commands.ModuleBase<T>
+  nameWithType.vb: ModuleBase(Of T)
+  fullName.vb: Discord.Commands.ModuleBase(Of T)
+  name.vb: ModuleBase(Of T)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Discord.Commands
+  commentId: N:Discord.Commands
+  isExternal: true
+  name: Discord.Commands
+  nameWithType: Discord.Commands
+  fullName: Discord.Commands
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+- uid: Mewdeko.Common
+  commentId: N:Mewdeko.Common
+  href: Mewdeko.html
+  name: Mewdeko.Common
+  nameWithType: Mewdeko.Common
+  fullName: Mewdeko.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+- uid: Mewdeko.Common.MewdekoModuleBase`1
+  commentId: T:Mewdeko.Common.MewdekoModuleBase`1
+  href: Mewdeko.Common.MewdekoModuleBase-1.html
+  name: MewdekoModuleBase<TService>
+  nameWithType: MewdekoModuleBase<TService>
+  fullName: Mewdeko.Common.MewdekoModuleBase<TService>
+  nameWithType.vb: MewdekoModuleBase(Of TService)
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of TService)
+  name.vb: MewdekoModuleBase(Of TService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: <
+  - name: TService
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TService
+  - name: )
+- uid: Mewdeko.Common.MewdekoModuleBase`1.Service
+  commentId: P:Mewdeko.Common.MewdekoModuleBase`1.Service
+  href: Mewdeko.Common.MewdekoModuleBase-1.html#Mewdeko_Common_MewdekoModuleBase_1_Service
+  name: Service
+  nameWithType: MewdekoModuleBase<TService>.Service
+  fullName: Mewdeko.Common.MewdekoModuleBase<TService>.Service
+  nameWithType.vb: MewdekoModuleBase(Of TService).Service
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of TService).Service
+- uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  commentId: M:Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  nameWithType: ModuleBase<T>.ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  fullName: Discord.Commands.ModuleBase<T>.ReplyAsync(string, bool, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker[], Discord.Embed[], Discord.MessageFlags)
+  nameWithType.vb: ModuleBase(Of T).ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).ReplyAsync(String, Boolean, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker(), Discord.Embed(), Discord.MessageFlags)
+  name.vb: ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: BeforeExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<T>.BeforeExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).BeforeExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: AfterExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<T>.AfterExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).AfterExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).AfterExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: AfterExecute(CommandInfo)
+  nameWithType: ModuleBase<T>.AfterExecute(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.AfterExecute(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).AfterExecute(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).AfterExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  commentId: M:Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  isExternal: true
+  name: OnModuleBuilding(CommandService, ModuleBuilder)
+  nameWithType: ModuleBase<T>.OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName: Discord.Commands.ModuleBase<T>.OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  nameWithType.vb: ModuleBase(Of T).OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.Context
+  commentId: P:Discord.Commands.ModuleBase`1.Context
+  isExternal: true
+  name: Context
+  nameWithType: ModuleBase<T>.Context
+  fullName: Discord.Commands.ModuleBase<T>.Context
+  nameWithType.vb: ModuleBase(Of T).Context
+  fullName.vb: Discord.Commands.ModuleBase(Of T).Context
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.#ctor*
+  commentId: Overload:Mewdeko.Modules.StatusRoles.StatusRoles.#ctor
+  href: Mewdeko.Modules.StatusRoles.StatusRoles.html#Mewdeko_Modules_StatusRoles_StatusRoles__ctor_Mewdeko_Services_Settings_BotConfigService_Fergun_Interactive_InteractiveService_
+  name: StatusRoles
+  nameWithType: StatusRoles.StatusRoles
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.StatusRoles
+  nameWithType.vb: StatusRoles.New
+  fullName.vb: Mewdeko.Modules.StatusRoles.StatusRoles.New
+  name.vb: New
+- uid: Mewdeko.Services.Settings.BotConfigService
+  commentId: T:Mewdeko.Services.Settings.BotConfigService
+  parent: Mewdeko.Services.Settings
+  href: Mewdeko.Services.Settings.BotConfigService.html
+  name: BotConfigService
+  nameWithType: BotConfigService
+  fullName: Mewdeko.Services.Settings.BotConfigService
+- uid: Fergun.Interactive.InteractiveService
+  commentId: T:Fergun.Interactive.InteractiveService
+  parent: Fergun.Interactive
+  isExternal: true
+  name: InteractiveService
+  nameWithType: InteractiveService
+  fullName: Fergun.Interactive.InteractiveService
+- uid: Mewdeko.Services.Settings
+  commentId: N:Mewdeko.Services.Settings
+  href: Mewdeko.html
+  name: Mewdeko.Services.Settings
+  nameWithType: Mewdeko.Services.Settings
+  fullName: Mewdeko.Services.Settings
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+- uid: Fergun.Interactive
+  commentId: N:Fergun.Interactive
+  isExternal: true
+  name: Fergun.Interactive
+  nameWithType: Fergun.Interactive
+  fullName: Fergun.Interactive
+  spec.csharp:
+  - uid: Fergun
+    name: Fergun
+    isExternal: true
+  - name: .
+  - uid: Fergun.Interactive
+    name: Interactive
+    isExternal: true
+  spec.vb:
+  - uid: Fergun
+    name: Fergun
+    isExternal: true
+  - name: .
+  - uid: Fergun.Interactive
+    name: Interactive
+    isExternal: true
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.AddStatusRole*
+  commentId: Overload:Mewdeko.Modules.StatusRoles.StatusRoles.AddStatusRole
+  href: Mewdeko.Modules.StatusRoles.StatusRoles.html#Mewdeko_Modules_StatusRoles_StatusRoles_AddStatusRole_System_String_
+  name: AddStatusRole
+  nameWithType: StatusRoles.AddStatusRole
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.AddStatusRole
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.RemoveStatusRole*
+  commentId: Overload:Mewdeko.Modules.StatusRoles.StatusRoles.RemoveStatusRole
+  href: Mewdeko.Modules.StatusRoles.StatusRoles.html#Mewdeko_Modules_StatusRoles_StatusRoles_RemoveStatusRole_System_Int32_
+  name: RemoveStatusRole
+  nameWithType: StatusRoles.RemoveStatusRole
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.RemoveStatusRole
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.SetStatusRoleEmbed*
+  commentId: Overload:Mewdeko.Modules.StatusRoles.StatusRoles.SetStatusRoleEmbed
+  href: Mewdeko.Modules.StatusRoles.StatusRoles.html#Mewdeko_Modules_StatusRoles_StatusRoles_SetStatusRoleEmbed_System_Int32_System_String_
+  name: SetStatusRoleEmbed
+  nameWithType: StatusRoles.SetStatusRoleEmbed
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.SetStatusRoleEmbed
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.SetStatusRoleChannel*
+  commentId: Overload:Mewdeko.Modules.StatusRoles.StatusRoles.SetStatusRoleChannel
+  href: Mewdeko.Modules.StatusRoles.StatusRoles.html#Mewdeko_Modules_StatusRoles_StatusRoles_SetStatusRoleChannel_System_Int32_Discord_ITextChannel_
+  name: SetStatusRoleChannel
+  nameWithType: StatusRoles.SetStatusRoleChannel
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.SetStatusRoleChannel
+- uid: Discord.ITextChannel
+  commentId: T:Discord.ITextChannel
+  parent: Discord
+  isExternal: true
+  name: ITextChannel
+  nameWithType: ITextChannel
+  fullName: Discord.ITextChannel
+- uid: Discord
+  commentId: N:Discord
+  isExternal: true
+  name: Discord
+  nameWithType: Discord
+  fullName: Discord
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.SetAddRoles*
+  commentId: Overload:Mewdeko.Modules.StatusRoles.StatusRoles.SetAddRoles
+  href: Mewdeko.Modules.StatusRoles.StatusRoles.html#Mewdeko_Modules_StatusRoles_StatusRoles_SetAddRoles_System_Int32_Discord_IRole___
+  name: SetAddRoles
+  nameWithType: StatusRoles.SetAddRoles
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.SetAddRoles
+- uid: Discord.IRole[]
+  isExternal: true
+  name: IRole[]
+  nameWithType: IRole[]
+  fullName: Discord.IRole[]
+  nameWithType.vb: IRole()
+  fullName.vb: Discord.IRole()
+  name.vb: IRole()
+  spec.csharp:
+  - uid: Discord.IRole
+    name: IRole
+    isExternal: true
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: Discord.IRole
+    name: IRole
+    isExternal: true
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.SetRemoveRoles*
+  commentId: Overload:Mewdeko.Modules.StatusRoles.StatusRoles.SetRemoveRoles
+  href: Mewdeko.Modules.StatusRoles.StatusRoles.html#Mewdeko_Modules_StatusRoles_StatusRoles_SetRemoveRoles_System_Int32_Discord_IRole___
+  name: SetRemoveRoles
+  nameWithType: StatusRoles.SetRemoveRoles
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.SetRemoveRoles
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.RemoveAddRoles*
+  commentId: Overload:Mewdeko.Modules.StatusRoles.StatusRoles.RemoveAddRoles
+  href: Mewdeko.Modules.StatusRoles.StatusRoles.html#Mewdeko_Modules_StatusRoles_StatusRoles_RemoveAddRoles_System_Int32_Discord_IRole___
+  name: RemoveAddRoles
+  nameWithType: StatusRoles.RemoveAddRoles
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.RemoveAddRoles
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.RemoveRemoveRoles*
+  commentId: Overload:Mewdeko.Modules.StatusRoles.StatusRoles.RemoveRemoveRoles
+  href: Mewdeko.Modules.StatusRoles.StatusRoles.html#Mewdeko_Modules_StatusRoles_StatusRoles_RemoveRemoveRoles_System_Int32_Discord_IRole___
+  name: RemoveRemoveRoles
+  nameWithType: StatusRoles.RemoveRemoveRoles
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.RemoveRemoveRoles
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.ToggleRemoveAdded*
+  commentId: Overload:Mewdeko.Modules.StatusRoles.StatusRoles.ToggleRemoveAdded
+  href: Mewdeko.Modules.StatusRoles.StatusRoles.html#Mewdeko_Modules_StatusRoles_StatusRoles_ToggleRemoveAdded_System_Int32_
+  name: ToggleRemoveAdded
+  nameWithType: StatusRoles.ToggleRemoveAdded
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.ToggleRemoveAdded
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.ToggleReaddRemoved*
+  commentId: Overload:Mewdeko.Modules.StatusRoles.StatusRoles.ToggleReaddRemoved
+  href: Mewdeko.Modules.StatusRoles.StatusRoles.html#Mewdeko_Modules_StatusRoles_StatusRoles_ToggleReaddRemoved_System_Int32_
+  name: ToggleReaddRemoved
+  nameWithType: StatusRoles.ToggleReaddRemoved
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.ToggleReaddRemoved
+- uid: Mewdeko.Modules.StatusRoles.StatusRoles.ListStatusRoles*
+  commentId: Overload:Mewdeko.Modules.StatusRoles.StatusRoles.ListStatusRoles
+  href: Mewdeko.Modules.StatusRoles.StatusRoles.html#Mewdeko_Modules_StatusRoles_StatusRoles_ListStatusRoles
+  name: ListStatusRoles
+  nameWithType: StatusRoles.ListStatusRoles
+  fullName: Mewdeko.Modules.StatusRoles.StatusRoles.ListStatusRoles

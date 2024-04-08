@@ -1,0 +1,1017 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Searches.Common.WeatherData
+  commentId: T:Mewdeko.Modules.Searches.Common.WeatherData
+  id: WeatherData
+  parent: Mewdeko.Modules.Searches.Common
+  children:
+  - Mewdeko.Modules.Searches.Common.WeatherData.Clouds
+  - Mewdeko.Modules.Searches.Common.WeatherData.Cod
+  - Mewdeko.Modules.Searches.Common.WeatherData.Coord
+  - Mewdeko.Modules.Searches.Common.WeatherData.Dt
+  - Mewdeko.Modules.Searches.Common.WeatherData.Id
+  - Mewdeko.Modules.Searches.Common.WeatherData.Main
+  - Mewdeko.Modules.Searches.Common.WeatherData.Name
+  - Mewdeko.Modules.Searches.Common.WeatherData.Sys
+  - Mewdeko.Modules.Searches.Common.WeatherData.Visibility
+  - Mewdeko.Modules.Searches.Common.WeatherData.Weather
+  - Mewdeko.Modules.Searches.Common.WeatherData.Wind
+  langs:
+  - csharp
+  - vb
+  name: WeatherData
+  nameWithType: WeatherData
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: WeatherData
+    path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+    startLine: 145
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Represents weather data for a location.
+  example: []
+  syntax:
+    content: public class WeatherData
+    content.vb: Public Class WeatherData
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Searches.Common.WeatherData.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Coord
+  commentId: P:Mewdeko.Modules.Searches.Common.WeatherData.Coord
+  id: Coord
+  parent: Mewdeko.Modules.Searches.Common.WeatherData
+  langs:
+  - csharp
+  - vb
+  name: Coord
+  nameWithType: WeatherData.Coord
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Coord
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Coord
+    path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+    startLine: 150
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the coordinates of the location.
+  example: []
+  syntax:
+    content: public Coord Coord { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Modules.Searches.Common.Coord
+    content.vb: Public Property Coord As Coord
+  overload: Mewdeko.Modules.Searches.Common.WeatherData.Coord*
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Weather
+  commentId: P:Mewdeko.Modules.Searches.Common.WeatherData.Weather
+  id: Weather
+  parent: Mewdeko.Modules.Searches.Common.WeatherData
+  langs:
+  - csharp
+  - vb
+  name: Weather
+  nameWithType: WeatherData.Weather
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Weather
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Weather
+    path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+    startLine: 155
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the weather conditions.
+  example: []
+  syntax:
+    content: public List<Weather> Weather { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{Mewdeko.Modules.Searches.Common.Weather}
+    content.vb: Public Property Weather As List(Of Weather)
+  overload: Mewdeko.Modules.Searches.Common.WeatherData.Weather*
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Main
+  commentId: P:Mewdeko.Modules.Searches.Common.WeatherData.Main
+  id: Main
+  parent: Mewdeko.Modules.Searches.Common.WeatherData
+  langs:
+  - csharp
+  - vb
+  name: Main
+  nameWithType: WeatherData.Main
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Main
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Main
+    path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+    startLine: 160
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the main weather parameters.
+  example: []
+  syntax:
+    content: public Main Main { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Modules.Searches.Common.Main
+    content.vb: Public Property Main As Main
+  overload: Mewdeko.Modules.Searches.Common.WeatherData.Main*
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Visibility
+  commentId: P:Mewdeko.Modules.Searches.Common.WeatherData.Visibility
+  id: Visibility
+  parent: Mewdeko.Modules.Searches.Common.WeatherData
+  langs:
+  - csharp
+  - vb
+  name: Visibility
+  nameWithType: WeatherData.Visibility
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Visibility
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Visibility
+    path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+    startLine: 165
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the visibility, meter.
+  example: []
+  syntax:
+    content: public int Visibility { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Visibility As Integer
+  overload: Mewdeko.Modules.Searches.Common.WeatherData.Visibility*
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Wind
+  commentId: P:Mewdeko.Modules.Searches.Common.WeatherData.Wind
+  id: Wind
+  parent: Mewdeko.Modules.Searches.Common.WeatherData
+  langs:
+  - csharp
+  - vb
+  name: Wind
+  nameWithType: WeatherData.Wind
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Wind
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Wind
+    path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+    startLine: 170
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the wind parameters.
+  example: []
+  syntax:
+    content: public Wind Wind { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Modules.Searches.Common.Wind
+    content.vb: Public Property Wind As Wind
+  overload: Mewdeko.Modules.Searches.Common.WeatherData.Wind*
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Clouds
+  commentId: P:Mewdeko.Modules.Searches.Common.WeatherData.Clouds
+  id: Clouds
+  parent: Mewdeko.Modules.Searches.Common.WeatherData
+  langs:
+  - csharp
+  - vb
+  name: Clouds
+  nameWithType: WeatherData.Clouds
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Clouds
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Clouds
+    path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+    startLine: 175
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the cloud parameters.
+  example: []
+  syntax:
+    content: public Clouds Clouds { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Modules.Searches.Common.Clouds
+    content.vb: Public Property Clouds As Clouds
+  overload: Mewdeko.Modules.Searches.Common.WeatherData.Clouds*
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Dt
+  commentId: P:Mewdeko.Modules.Searches.Common.WeatherData.Dt
+  id: Dt
+  parent: Mewdeko.Modules.Searches.Common.WeatherData
+  langs:
+  - csharp
+  - vb
+  name: Dt
+  nameWithType: WeatherData.Dt
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Dt
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Dt
+    path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+    startLine: 180
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the time of data calculation, unix, UTC.
+  example: []
+  syntax:
+    content: public int Dt { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Dt As Integer
+  overload: Mewdeko.Modules.Searches.Common.WeatherData.Dt*
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Sys
+  commentId: P:Mewdeko.Modules.Searches.Common.WeatherData.Sys
+  id: Sys
+  parent: Mewdeko.Modules.Searches.Common.WeatherData
+  langs:
+  - csharp
+  - vb
+  name: Sys
+  nameWithType: WeatherData.Sys
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Sys
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Sys
+    path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+    startLine: 185
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the system parameters.
+  example: []
+  syntax:
+    content: public Sys Sys { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Modules.Searches.Common.Sys
+    content.vb: Public Property Sys As Sys
+  overload: Mewdeko.Modules.Searches.Common.WeatherData.Sys*
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Id
+  commentId: P:Mewdeko.Modules.Searches.Common.WeatherData.Id
+  id: Id
+  parent: Mewdeko.Modules.Searches.Common.WeatherData
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: WeatherData.Id
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Id
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Id
+    path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+    startLine: 190
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the city ID.
+  example: []
+  syntax:
+    content: public int Id { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Id As Integer
+  overload: Mewdeko.Modules.Searches.Common.WeatherData.Id*
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Name
+  commentId: P:Mewdeko.Modules.Searches.Common.WeatherData.Name
+  id: Name
+  parent: Mewdeko.Modules.Searches.Common.WeatherData
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: WeatherData.Name
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Name
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Name
+    path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+    startLine: 195
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the city name.
+  example: []
+  syntax:
+    content: public string Name { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Name As String
+  overload: Mewdeko.Modules.Searches.Common.WeatherData.Name*
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Cod
+  commentId: P:Mewdeko.Modules.Searches.Common.WeatherData.Cod
+  id: Cod
+  parent: Mewdeko.Modules.Searches.Common.WeatherData
+  langs:
+  - csharp
+  - vb
+  name: Cod
+  nameWithType: WeatherData.Cod
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Cod
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Cod
+    path: src/Mewdeko/Modules/Searches/Common/WeatherModels.cs
+    startLine: 200
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the internal parameter.
+  example: []
+  syntax:
+    content: public int Cod { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Cod As Integer
+  overload: Mewdeko.Modules.Searches.Common.WeatherData.Cod*
+references:
+- uid: Mewdeko.Modules.Searches.Common
+  commentId: N:Mewdeko.Modules.Searches.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Common
+  nameWithType: Mewdeko.Modules.Searches.Common
+  fullName: Mewdeko.Modules.Searches.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<WeatherData>(WeatherData, string)
+  nameWithType: Extensions.ThrowIfNull<WeatherData>(WeatherData, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Searches.Common.WeatherData>(Mewdeko.Modules.Searches.Common.WeatherData, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of WeatherData)(WeatherData, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Searches.Common.WeatherData)(Mewdeko.Modules.Searches.Common.WeatherData, String)
+  name.vb: ThrowIfNull(Of WeatherData)(WeatherData, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Common.WeatherData,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.WeatherData
+    name: WeatherData
+    href: Mewdeko.Modules.Searches.Common.WeatherData.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Common.WeatherData
+    name: WeatherData
+    href: Mewdeko.Modules.Searches.Common.WeatherData.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Common.WeatherData,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.WeatherData
+    name: WeatherData
+    href: Mewdeko.Modules.Searches.Common.WeatherData.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Common.WeatherData
+    name: WeatherData
+    href: Mewdeko.Modules.Searches.Common.WeatherData.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Coord*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.WeatherData.Coord
+  href: Mewdeko.Modules.Searches.Common.WeatherData.html#Mewdeko_Modules_Searches_Common_WeatherData_Coord
+  name: Coord
+  nameWithType: WeatherData.Coord
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Coord
+- uid: Mewdeko.Modules.Searches.Common.Coord
+  commentId: T:Mewdeko.Modules.Searches.Common.Coord
+  parent: Mewdeko.Modules.Searches.Common
+  href: Mewdeko.Modules.Searches.Common.Coord.html
+  name: Coord
+  nameWithType: Coord
+  fullName: Mewdeko.Modules.Searches.Common.Coord
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Weather*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.WeatherData.Weather
+  href: Mewdeko.Modules.Searches.Common.WeatherData.html#Mewdeko_Modules_Searches_Common_WeatherData_Weather
+  name: Weather
+  nameWithType: WeatherData.Weather
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Weather
+- uid: System.Collections.Generic.List{Mewdeko.Modules.Searches.Common.Weather}
+  commentId: T:System.Collections.Generic.List{Mewdeko.Modules.Searches.Common.Weather}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<Weather>
+  nameWithType: List<Weather>
+  fullName: System.Collections.Generic.List<Mewdeko.Modules.Searches.Common.Weather>
+  nameWithType.vb: List(Of Weather)
+  fullName.vb: System.Collections.Generic.List(Of Mewdeko.Modules.Searches.Common.Weather)
+  name.vb: List(Of Weather)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.Weather
+    name: Weather
+    href: Mewdeko.Modules.Searches.Common.Weather.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.Weather
+    name: Weather
+    href: Mewdeko.Modules.Searches.Common.Weather.html
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Main*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.WeatherData.Main
+  href: Mewdeko.Modules.Searches.Common.WeatherData.html#Mewdeko_Modules_Searches_Common_WeatherData_Main
+  name: Main
+  nameWithType: WeatherData.Main
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Main
+- uid: Mewdeko.Modules.Searches.Common.Main
+  commentId: T:Mewdeko.Modules.Searches.Common.Main
+  parent: Mewdeko.Modules.Searches.Common
+  href: Mewdeko.Modules.Searches.Common.Main.html
+  name: Main
+  nameWithType: Main
+  fullName: Mewdeko.Modules.Searches.Common.Main
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Visibility*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.WeatherData.Visibility
+  href: Mewdeko.Modules.Searches.Common.WeatherData.html#Mewdeko_Modules_Searches_Common_WeatherData_Visibility
+  name: Visibility
+  nameWithType: WeatherData.Visibility
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Visibility
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Wind*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.WeatherData.Wind
+  href: Mewdeko.Modules.Searches.Common.WeatherData.html#Mewdeko_Modules_Searches_Common_WeatherData_Wind
+  name: Wind
+  nameWithType: WeatherData.Wind
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Wind
+- uid: Mewdeko.Modules.Searches.Common.Wind
+  commentId: T:Mewdeko.Modules.Searches.Common.Wind
+  parent: Mewdeko.Modules.Searches.Common
+  href: Mewdeko.Modules.Searches.Common.Wind.html
+  name: Wind
+  nameWithType: Wind
+  fullName: Mewdeko.Modules.Searches.Common.Wind
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Clouds*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.WeatherData.Clouds
+  href: Mewdeko.Modules.Searches.Common.WeatherData.html#Mewdeko_Modules_Searches_Common_WeatherData_Clouds
+  name: Clouds
+  nameWithType: WeatherData.Clouds
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Clouds
+- uid: Mewdeko.Modules.Searches.Common.Clouds
+  commentId: T:Mewdeko.Modules.Searches.Common.Clouds
+  parent: Mewdeko.Modules.Searches.Common
+  href: Mewdeko.Modules.Searches.Common.Clouds.html
+  name: Clouds
+  nameWithType: Clouds
+  fullName: Mewdeko.Modules.Searches.Common.Clouds
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Dt*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.WeatherData.Dt
+  href: Mewdeko.Modules.Searches.Common.WeatherData.html#Mewdeko_Modules_Searches_Common_WeatherData_Dt
+  name: Dt
+  nameWithType: WeatherData.Dt
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Dt
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Sys*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.WeatherData.Sys
+  href: Mewdeko.Modules.Searches.Common.WeatherData.html#Mewdeko_Modules_Searches_Common_WeatherData_Sys
+  name: Sys
+  nameWithType: WeatherData.Sys
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Sys
+- uid: Mewdeko.Modules.Searches.Common.Sys
+  commentId: T:Mewdeko.Modules.Searches.Common.Sys
+  parent: Mewdeko.Modules.Searches.Common
+  href: Mewdeko.Modules.Searches.Common.Sys.html
+  name: Sys
+  nameWithType: Sys
+  fullName: Mewdeko.Modules.Searches.Common.Sys
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Id*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.WeatherData.Id
+  href: Mewdeko.Modules.Searches.Common.WeatherData.html#Mewdeko_Modules_Searches_Common_WeatherData_Id
+  name: Id
+  nameWithType: WeatherData.Id
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Id
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Name*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.WeatherData.Name
+  href: Mewdeko.Modules.Searches.Common.WeatherData.html#Mewdeko_Modules_Searches_Common_WeatherData_Name
+  name: Name
+  nameWithType: WeatherData.Name
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Modules.Searches.Common.WeatherData.Cod*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.WeatherData.Cod
+  href: Mewdeko.Modules.Searches.Common.WeatherData.html#Mewdeko_Modules_Searches_Common_WeatherData_Cod
+  name: Cod
+  nameWithType: WeatherData.Cod
+  fullName: Mewdeko.Modules.Searches.Common.WeatherData.Cod

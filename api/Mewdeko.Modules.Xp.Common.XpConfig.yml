@@ -1,0 +1,691 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Xp.Common.XpConfig
+  commentId: T:Mewdeko.Modules.Xp.Common.XpConfig
+  id: XpConfig
+  parent: Mewdeko.Modules.Xp.Common
+  children:
+  - Mewdeko.Modules.Xp.Common.XpConfig.MessageXpCooldown
+  - Mewdeko.Modules.Xp.Common.XpConfig.Version
+  - Mewdeko.Modules.Xp.Common.XpConfig.VoiceMaxMinutes
+  - Mewdeko.Modules.Xp.Common.XpConfig.VoiceXpPerMinute
+  - Mewdeko.Modules.Xp.Common.XpConfig.XpPerMessage
+  langs:
+  - csharp
+  - vb
+  name: XpConfig
+  nameWithType: XpConfig
+  fullName: Mewdeko.Modules.Xp.Common.XpConfig
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Common/XpConfig.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: XpConfig
+    path: src/Mewdeko/Modules/Xp/Common/XpConfig.cs
+    startLine: 7
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp.Common
+  summary: Represents the configuration for the XP system, including rates of XP gain and cooldowns.
+  example: []
+  syntax:
+    content: public sealed class XpConfig
+    content.vb: Public NotInheritable Class XpConfig
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Xp.Common.XpConfig.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Xp.Common.XpConfig.Version
+  commentId: P:Mewdeko.Modules.Xp.Common.XpConfig.Version
+  id: Version
+  parent: Mewdeko.Modules.Xp.Common.XpConfig
+  langs:
+  - csharp
+  - vb
+  name: Version
+  nameWithType: XpConfig.Version
+  fullName: Mewdeko.Modules.Xp.Common.XpConfig.Version
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Common/XpConfig.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Version
+    path: src/Mewdeko/Modules/Xp/Common/XpConfig.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp.Common
+  summary: Gets or sets the configuration version. Do not change manually.
+  example: []
+  syntax:
+    content: >-
+      [Comment("DO NOT CHANGE")]
+
+      public int Version { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <Comment("DO NOT CHANGE")>
+
+      Public Property Version As Integer
+  overload: Mewdeko.Modules.Xp.Common.XpConfig.Version*
+  attributes:
+  - type: Mewdeko.Common.Yml.CommentAttribute
+    ctor: Mewdeko.Common.Yml.CommentAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: DO NOT CHANGE
+- uid: Mewdeko.Modules.Xp.Common.XpConfig.XpPerMessage
+  commentId: P:Mewdeko.Modules.Xp.Common.XpConfig.XpPerMessage
+  id: XpPerMessage
+  parent: Mewdeko.Modules.Xp.Common.XpConfig
+  langs:
+  - csharp
+  - vb
+  name: XpPerMessage
+  nameWithType: XpConfig.XpPerMessage
+  fullName: Mewdeko.Modules.Xp.Common.XpConfig.XpPerMessage
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Common/XpConfig.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: XpPerMessage
+    path: src/Mewdeko/Modules/Xp/Common/XpConfig.cs
+    startLine: 18
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp.Common
+  summary: Gets or sets the amount of XP received per message.
+  example: []
+  syntax:
+    content: >-
+      [Comment("How much XP will the users receive per message")]
+
+      public int XpPerMessage { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <Comment("How much XP will the users receive per message")>
+
+      Public Property XpPerMessage As Integer
+  overload: Mewdeko.Modules.Xp.Common.XpConfig.XpPerMessage*
+  attributes:
+  - type: Mewdeko.Common.Yml.CommentAttribute
+    ctor: Mewdeko.Common.Yml.CommentAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: How much XP will the users receive per message
+- uid: Mewdeko.Modules.Xp.Common.XpConfig.MessageXpCooldown
+  commentId: P:Mewdeko.Modules.Xp.Common.XpConfig.MessageXpCooldown
+  id: MessageXpCooldown
+  parent: Mewdeko.Modules.Xp.Common.XpConfig
+  langs:
+  - csharp
+  - vb
+  name: MessageXpCooldown
+  nameWithType: XpConfig.MessageXpCooldown
+  fullName: Mewdeko.Modules.Xp.Common.XpConfig.MessageXpCooldown
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Common/XpConfig.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MessageXpCooldown
+    path: src/Mewdeko/Modules/Xp/Common/XpConfig.cs
+    startLine: 24
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp.Common
+  summary: Gets or sets the cooldown (in minutes) for how often users can receive XP for messages.
+  example: []
+  syntax:
+    content: >-
+      [Comment("How often can the users receive XP in minutes")]
+
+      public int MessageXpCooldown { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <Comment("How often can the users receive XP in minutes")>
+
+      Public Property MessageXpCooldown As Integer
+  overload: Mewdeko.Modules.Xp.Common.XpConfig.MessageXpCooldown*
+  attributes:
+  - type: Mewdeko.Common.Yml.CommentAttribute
+    ctor: Mewdeko.Common.Yml.CommentAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: How often can the users receive XP in minutes
+- uid: Mewdeko.Modules.Xp.Common.XpConfig.VoiceXpPerMinute
+  commentId: P:Mewdeko.Modules.Xp.Common.XpConfig.VoiceXpPerMinute
+  id: VoiceXpPerMinute
+  parent: Mewdeko.Modules.Xp.Common.XpConfig
+  langs:
+  - csharp
+  - vb
+  name: VoiceXpPerMinute
+  nameWithType: XpConfig.VoiceXpPerMinute
+  fullName: Mewdeko.Modules.Xp.Common.XpConfig.VoiceXpPerMinute
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Common/XpConfig.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: VoiceXpPerMinute
+    path: src/Mewdeko/Modules/Xp/Common/XpConfig.cs
+    startLine: 30
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp.Common
+  summary: Gets or sets the average amount of XP earned per minute in voice chat.
+  example: []
+  syntax:
+    content: >-
+      [Comment("Average amount of xp earned per minute in VC")]
+
+      public double VoiceXpPerMinute { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: >-
+      <Comment("Average amount of xp earned per minute in VC")>
+
+      Public Property VoiceXpPerMinute As Double
+  overload: Mewdeko.Modules.Xp.Common.XpConfig.VoiceXpPerMinute*
+  attributes:
+  - type: Mewdeko.Common.Yml.CommentAttribute
+    ctor: Mewdeko.Common.Yml.CommentAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Average amount of xp earned per minute in VC
+- uid: Mewdeko.Modules.Xp.Common.XpConfig.VoiceMaxMinutes
+  commentId: P:Mewdeko.Modules.Xp.Common.XpConfig.VoiceMaxMinutes
+  id: VoiceMaxMinutes
+  parent: Mewdeko.Modules.Xp.Common.XpConfig
+  langs:
+  - csharp
+  - vb
+  name: VoiceMaxMinutes
+  nameWithType: XpConfig.VoiceMaxMinutes
+  fullName: Mewdeko.Modules.Xp.Common.XpConfig.VoiceMaxMinutes
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Common/XpConfig.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: VoiceMaxMinutes
+    path: src/Mewdeko/Modules/Xp/Common/XpConfig.cs
+    startLine: 36
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp.Common
+  summary: Gets or sets the maximum amount of minutes the bot will keep track of a user in a voice channel.
+  example: []
+  syntax:
+    content: >-
+      [Comment("The maximum amount of minutes the bot will keep track of a user in a voice channel")]
+
+      public int VoiceMaxMinutes { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <Comment("The maximum amount of minutes the bot will keep track of a user in a voice channel")>
+
+      Public Property VoiceMaxMinutes As Integer
+  overload: Mewdeko.Modules.Xp.Common.XpConfig.VoiceMaxMinutes*
+  attributes:
+  - type: Mewdeko.Common.Yml.CommentAttribute
+    ctor: Mewdeko.Common.Yml.CommentAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: The maximum amount of minutes the bot will keep track of a user in a voice channel
+references:
+- uid: Mewdeko.Modules.Xp.Common
+  commentId: N:Mewdeko.Modules.Xp.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Xp.Common
+  nameWithType: Mewdeko.Modules.Xp.Common
+  fullName: Mewdeko.Modules.Xp.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Xp
+    name: Xp
+    href: Mewdeko.Modules.Xp.html
+  - name: .
+  - uid: Mewdeko.Modules.Xp.Common
+    name: Common
+    href: Mewdeko.Modules.Xp.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Xp
+    name: Xp
+    href: Mewdeko.Modules.Xp.html
+  - name: .
+  - uid: Mewdeko.Modules.Xp.Common
+    name: Common
+    href: Mewdeko.Modules.Xp.Common.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Xp.Common.XpConfig.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<XpConfig>(XpConfig, string)
+  nameWithType: Extensions.ThrowIfNull<XpConfig>(XpConfig, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Xp.Common.XpConfig>(Mewdeko.Modules.Xp.Common.XpConfig, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of XpConfig)(XpConfig, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Xp.Common.XpConfig)(Mewdeko.Modules.Xp.Common.XpConfig, String)
+  name.vb: ThrowIfNull(Of XpConfig)(XpConfig, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Xp.Common.XpConfig,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Xp.Common.XpConfig
+    name: XpConfig
+    href: Mewdeko.Modules.Xp.Common.XpConfig.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Xp.Common.XpConfig
+    name: XpConfig
+    href: Mewdeko.Modules.Xp.Common.XpConfig.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Xp.Common.XpConfig,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Xp.Common.XpConfig
+    name: XpConfig
+    href: Mewdeko.Modules.Xp.Common.XpConfig.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Xp.Common.XpConfig
+    name: XpConfig
+    href: Mewdeko.Modules.Xp.Common.XpConfig.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Xp.Common.XpConfig.Version*
+  commentId: Overload:Mewdeko.Modules.Xp.Common.XpConfig.Version
+  href: Mewdeko.Modules.Xp.Common.XpConfig.html#Mewdeko_Modules_Xp_Common_XpConfig_Version
+  name: Version
+  nameWithType: XpConfig.Version
+  fullName: Mewdeko.Modules.Xp.Common.XpConfig.Version
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Modules.Xp.Common.XpConfig.XpPerMessage*
+  commentId: Overload:Mewdeko.Modules.Xp.Common.XpConfig.XpPerMessage
+  href: Mewdeko.Modules.Xp.Common.XpConfig.html#Mewdeko_Modules_Xp_Common_XpConfig_XpPerMessage
+  name: XpPerMessage
+  nameWithType: XpConfig.XpPerMessage
+  fullName: Mewdeko.Modules.Xp.Common.XpConfig.XpPerMessage
+- uid: Mewdeko.Modules.Xp.Common.XpConfig.MessageXpCooldown*
+  commentId: Overload:Mewdeko.Modules.Xp.Common.XpConfig.MessageXpCooldown
+  href: Mewdeko.Modules.Xp.Common.XpConfig.html#Mewdeko_Modules_Xp_Common_XpConfig_MessageXpCooldown
+  name: MessageXpCooldown
+  nameWithType: XpConfig.MessageXpCooldown
+  fullName: Mewdeko.Modules.Xp.Common.XpConfig.MessageXpCooldown
+- uid: Mewdeko.Modules.Xp.Common.XpConfig.VoiceXpPerMinute*
+  commentId: Overload:Mewdeko.Modules.Xp.Common.XpConfig.VoiceXpPerMinute
+  href: Mewdeko.Modules.Xp.Common.XpConfig.html#Mewdeko_Modules_Xp_Common_XpConfig_VoiceXpPerMinute
+  name: VoiceXpPerMinute
+  nameWithType: XpConfig.VoiceXpPerMinute
+  fullName: Mewdeko.Modules.Xp.Common.XpConfig.VoiceXpPerMinute
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
+- uid: Mewdeko.Modules.Xp.Common.XpConfig.VoiceMaxMinutes*
+  commentId: Overload:Mewdeko.Modules.Xp.Common.XpConfig.VoiceMaxMinutes
+  href: Mewdeko.Modules.Xp.Common.XpConfig.html#Mewdeko_Modules_Xp_Common_XpConfig_VoiceMaxMinutes
+  name: VoiceMaxMinutes
+  nameWithType: XpConfig.VoiceMaxMinutes
+  fullName: Mewdeko.Modules.Xp.Common.XpConfig.VoiceMaxMinutes

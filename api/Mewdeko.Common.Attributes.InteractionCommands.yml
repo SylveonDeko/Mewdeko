@@ -1,0 +1,98 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.Attributes.InteractionCommands
+  commentId: N:Mewdeko.Common.Attributes.InteractionCommands
+  id: Mewdeko.Common.Attributes.InteractionCommands
+  children:
+  - Mewdeko.Common.Attributes.InteractionCommands.CheckPermissions
+  - Mewdeko.Common.Attributes.InteractionCommands.InteractionRatelimitAttribute
+  - Mewdeko.Common.Attributes.InteractionCommands.PermRoleCheck
+  - Mewdeko.Common.Attributes.InteractionCommands.RequireDragonAttribute
+  - Mewdeko.Common.Attributes.InteractionCommands.SlashOwnerOnlyAttribute
+  - Mewdeko.Common.Attributes.InteractionCommands.SlashUserPermAttribute
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Common.Attributes.InteractionCommands
+  nameWithType: Mewdeko.Common.Attributes.InteractionCommands
+  fullName: Mewdeko.Common.Attributes.InteractionCommands
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Common.Attributes.InteractionCommands.CheckPermissions
+  commentId: T:Mewdeko.Common.Attributes.InteractionCommands.CheckPermissions
+  href: Mewdeko.Common.Attributes.InteractionCommands.CheckPermissions.html
+  name: CheckPermissions
+  nameWithType: CheckPermissions
+  fullName: Mewdeko.Common.Attributes.InteractionCommands.CheckPermissions
+- uid: Mewdeko.Common.Attributes.InteractionCommands.InteractionRatelimitAttribute
+  commentId: T:Mewdeko.Common.Attributes.InteractionCommands.InteractionRatelimitAttribute
+  parent: Mewdeko.Common.Attributes.InteractionCommands
+  href: Mewdeko.Common.Attributes.InteractionCommands.InteractionRatelimitAttribute.html
+  name: InteractionRatelimitAttribute
+  nameWithType: InteractionRatelimitAttribute
+  fullName: Mewdeko.Common.Attributes.InteractionCommands.InteractionRatelimitAttribute
+- uid: Mewdeko.Common.Attributes.InteractionCommands.PermRoleCheck
+  commentId: T:Mewdeko.Common.Attributes.InteractionCommands.PermRoleCheck
+  href: Mewdeko.Common.Attributes.InteractionCommands.PermRoleCheck.html
+  name: PermRoleCheck
+  nameWithType: PermRoleCheck
+  fullName: Mewdeko.Common.Attributes.InteractionCommands.PermRoleCheck
+- uid: Mewdeko.Common.Attributes.InteractionCommands.RequireDragonAttribute
+  commentId: T:Mewdeko.Common.Attributes.InteractionCommands.RequireDragonAttribute
+  href: Mewdeko.Common.Attributes.InteractionCommands.RequireDragonAttribute.html
+  name: RequireDragonAttribute
+  nameWithType: RequireDragonAttribute
+  fullName: Mewdeko.Common.Attributes.InteractionCommands.RequireDragonAttribute
+- uid: Mewdeko.Common.Attributes.InteractionCommands.SlashOwnerOnlyAttribute
+  commentId: T:Mewdeko.Common.Attributes.InteractionCommands.SlashOwnerOnlyAttribute
+  href: Mewdeko.Common.Attributes.InteractionCommands.SlashOwnerOnlyAttribute.html
+  name: SlashOwnerOnlyAttribute
+  nameWithType: SlashOwnerOnlyAttribute
+  fullName: Mewdeko.Common.Attributes.InteractionCommands.SlashOwnerOnlyAttribute
+- uid: Mewdeko.Common.Attributes.InteractionCommands.SlashUserPermAttribute
+  commentId: T:Mewdeko.Common.Attributes.InteractionCommands.SlashUserPermAttribute
+  parent: Mewdeko.Common.Attributes.InteractionCommands
+  href: Mewdeko.Common.Attributes.InteractionCommands.SlashUserPermAttribute.html
+  name: SlashUserPermAttribute
+  nameWithType: SlashUserPermAttribute
+  fullName: Mewdeko.Common.Attributes.InteractionCommands.SlashUserPermAttribute
+- uid: Mewdeko.Common.Attributes.InteractionCommands
+  commentId: N:Mewdeko.Common.Attributes.InteractionCommands
+  href: Mewdeko.html
+  name: Mewdeko.Common.Attributes.InteractionCommands
+  nameWithType: Mewdeko.Common.Attributes.InteractionCommands
+  fullName: Mewdeko.Common.Attributes.InteractionCommands
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Attributes
+    name: Attributes
+    href: Mewdeko.Common.Attributes.html
+  - name: .
+  - uid: Mewdeko.Common.Attributes.InteractionCommands
+    name: InteractionCommands
+    href: Mewdeko.Common.Attributes.InteractionCommands.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Attributes
+    name: Attributes
+    href: Mewdeko.Common.Attributes.html
+  - name: .
+  - uid: Mewdeko.Common.Attributes.InteractionCommands
+    name: InteractionCommands
+    href: Mewdeko.Common.Attributes.InteractionCommands.html

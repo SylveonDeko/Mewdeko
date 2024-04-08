@@ -1,0 +1,3927 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Permissions.Permissions
+  commentId: T:Mewdeko.Modules.Permissions.Permissions
+  id: Permissions
+  parent: Mewdeko.Modules.Permissions
+  children:
+  - Mewdeko.Modules.Permissions.Permissions.#ctor(Mewdeko.Database.DbService,Fergun.Interactive.InteractiveService,Mewdeko.Services.GuildSettingsService)
+  - Mewdeko.Modules.Permissions.Permissions.AllCatMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ICategoryChannel)
+  - Mewdeko.Modules.Permissions.Permissions.AllChnlMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ITextChannel)
+  - Mewdeko.Modules.Permissions.Permissions.AllRoleMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IRole)
+  - Mewdeko.Modules.Permissions.Permissions.AllSrvrMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction)
+  - Mewdeko.Modules.Permissions.Permissions.AllUsrMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IUser)
+  - Mewdeko.Modules.Permissions.Permissions.CatCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ICategoryChannel)
+  - Mewdeko.Modules.Permissions.Permissions.CatMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ICategoryChannel)
+  - Mewdeko.Modules.Permissions.Permissions.ChnlCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ITextChannel)
+  - Mewdeko.Modules.Permissions.Permissions.ChnlMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ITextChannel)
+  - Mewdeko.Modules.Permissions.Permissions.ListPerms
+  - Mewdeko.Modules.Permissions.Permissions.MovePerm(System.Int32,System.Int32)
+  - Mewdeko.Modules.Permissions.Permissions.PermRole(Discord.IRole)
+  - Mewdeko.Modules.Permissions.Permissions.PermRole(Mewdeko.Modules.Permissions.Permissions.Reset)
+  - Mewdeko.Modules.Permissions.Permissions.RemovePerm(System.Int32)
+  - Mewdeko.Modules.Permissions.Permissions.ResetPerms
+  - Mewdeko.Modules.Permissions.Permissions.RoleCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IRole)
+  - Mewdeko.Modules.Permissions.Permissions.RoleMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IRole)
+  - Mewdeko.Modules.Permissions.Permissions.SrvrCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction)
+  - Mewdeko.Modules.Permissions.Permissions.SrvrMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction)
+  - Mewdeko.Modules.Permissions.Permissions.UsrCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IGuildUser)
+  - Mewdeko.Modules.Permissions.Permissions.UsrMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IGuildUser)
+  - Mewdeko.Modules.Permissions.Permissions.Verbose(Mewdeko.Common.TypeReaders.Models.PermissionAction)
+  langs:
+  - csharp
+  - vb
+  name: Permissions
+  nameWithType: Permissions
+  fullName: Mewdeko.Modules.Permissions.Permissions
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Permissions
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 17
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Defines permission-related commands, including user, channel, and server blacklist operations.
+  example: []
+  syntax:
+    content: 'public class Permissions : MewdekoModuleBase<PermissionService>, IModuleBase'
+    content.vb: Public Class Permissions Inherits MewdekoModuleBase(Of PermissionService) Implements IModuleBase
+  inheritance:
+  - System.Object
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  - Discord.Commands.ModuleBase
+  - Mewdeko.Common.MewdekoModule
+  - Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Permissions.Services.PermissionService}
+  implements:
+  - Discord.Commands.IModuleBase
+  inheritedMembers:
+  - Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Permissions.Services.PermissionService}.Service
+  - Mewdeko.Common.MewdekoModule.CultureInfo
+  - Mewdeko.Common.MewdekoModule.Strings
+  - Mewdeko.Common.MewdekoModule.Localization
+  - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  - Mewdeko.Common.MewdekoModule.GetText(System.String)
+  - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  - Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Permissions.Permissions.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Permissions.Permissions.#ctor(Mewdeko.Database.DbService,Fergun.Interactive.InteractiveService,Mewdeko.Services.GuildSettingsService)
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.#ctor(Mewdeko.Database.DbService,Fergun.Interactive.InteractiveService,Mewdeko.Services.GuildSettingsService)
+  id: '#ctor(Mewdeko.Database.DbService,Fergun.Interactive.InteractiveService,Mewdeko.Services.GuildSettingsService)'
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: Permissions(DbService, InteractiveService, GuildSettingsService)
+  nameWithType: Permissions.Permissions(DbService, InteractiveService, GuildSettingsService)
+  fullName: Mewdeko.Modules.Permissions.Permissions.Permissions(Mewdeko.Database.DbService, Fergun.Interactive.InteractiveService, Mewdeko.Services.GuildSettingsService)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 17
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: A module for managing permissions for commands.
+  example: []
+  syntax:
+    content: public Permissions(DbService db, InteractiveService inter, GuildSettingsService guildSettings)
+    parameters:
+    - id: db
+      type: Mewdeko.Database.DbService
+      description: The database service.
+    - id: inter
+      type: Fergun.Interactive.InteractiveService
+      description: The interactive service.
+    - id: guildSettings
+      type: Mewdeko.Services.GuildSettingsService
+      description: The guild settings service.
+    content.vb: Public Sub New(db As DbService, inter As InteractiveService, guildSettings As GuildSettingsService)
+  overload: Mewdeko.Modules.Permissions.Permissions.#ctor*
+  nameWithType.vb: Permissions.New(DbService, InteractiveService, GuildSettingsService)
+  fullName.vb: Mewdeko.Modules.Permissions.Permissions.New(Mewdeko.Database.DbService, Fergun.Interactive.InteractiveService, Mewdeko.Services.GuildSettingsService)
+  name.vb: New(DbService, InteractiveService, GuildSettingsService)
+- uid: Mewdeko.Modules.Permissions.Permissions.ResetPerms
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.ResetPerms
+  id: ResetPerms
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: ResetPerms()
+  nameWithType: Permissions.ResetPerms()
+  fullName: Mewdeko.Modules.Permissions.Permissions.ResetPerms()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ResetPerms
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 34
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Resets the permissions for the guild.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ResetPerms")]
+
+      [Aliases("ResetPerms")]
+
+      [RequireContext(ContextType.Guild)]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task ResetPerms()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("ResetPerms")>
+
+      <Aliases("ResetPerms")>
+
+      <RequireContext(ContextType.Guild)>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function ResetPerms() As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.ResetPerms*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ResetPerms
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ResetPerms
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+- uid: Mewdeko.Modules.Permissions.Permissions.Verbose(Mewdeko.Common.TypeReaders.Models.PermissionAction)
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.Verbose(Mewdeko.Common.TypeReaders.Models.PermissionAction)
+  id: Verbose(Mewdeko.Common.TypeReaders.Models.PermissionAction)
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: Verbose(PermissionAction?)
+  nameWithType: Permissions.Verbose(PermissionAction?)
+  fullName: Mewdeko.Modules.Permissions.Permissions.Verbose(Mewdeko.Common.TypeReaders.Models.PermissionAction?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Verbose
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 46
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Sets whether commands should throw an error based on what the issue is when using a command.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Verbose")]
+
+      [Aliases("Verbose")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task Verbose(PermissionAction? action = null)
+    parameters:
+    - id: action
+      type: Mewdeko.Common.TypeReaders.Models.PermissionAction
+      description: Just a true or false thing. Kinda useless since its a toggle anyway.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Verbose")>
+
+      <Aliases("Verbose")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function Verbose(action As PermissionAction = Nothing) As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.Verbose*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Verbose
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Verbose
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  nameWithType.vb: Permissions.Verbose(PermissionAction)
+  fullName.vb: Mewdeko.Modules.Permissions.Permissions.Verbose(Mewdeko.Common.TypeReaders.Models.PermissionAction)
+  name.vb: Verbose(PermissionAction)
+- uid: Mewdeko.Modules.Permissions.Permissions.PermRole(Discord.IRole)
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.PermRole(Discord.IRole)
+  id: PermRole(Discord.IRole)
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: PermRole(IRole?)
+  nameWithType: Permissions.PermRole(IRole?)
+  fullName: Mewdeko.Modules.Permissions.Permissions.PermRole(Discord.IRole?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: PermRole
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 69
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Sets the role that will be used for permissions. If no role is provided, it will show the current permission role.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("PermRole")]
+
+      [Aliases("PermRole")]
+
+      [RequireContext(ContextType.Guild)]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      [Priority(0)]
+
+      public Task PermRole(IRole? role = null)
+    parameters:
+    - id: role
+      type: Discord.IRole
+      description: The role, if any, to set as the permissions role
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("PermRole")>
+
+      <Aliases("PermRole")>
+
+      <RequireContext(ContextType.Guild)>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      <Priority(0)>
+
+      Public Function PermRole(role As IRole = Nothing) As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.PermRole*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: PermRole
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: PermRole
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  - type: Discord.Commands.PriorityAttribute
+    ctor: Discord.Commands.PriorityAttribute.#ctor(System.Int32)
+    arguments:
+    - type: System.Int32
+      value: 0
+  nameWithType.vb: Permissions.PermRole(IRole)
+  fullName.vb: Mewdeko.Modules.Permissions.Permissions.PermRole(Discord.IRole)
+  name.vb: PermRole(IRole)
+- uid: Mewdeko.Modules.Permissions.Permissions.PermRole(Mewdeko.Modules.Permissions.Permissions.Reset)
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.PermRole(Mewdeko.Modules.Permissions.Permissions.Reset)
+  id: PermRole(Mewdeko.Modules.Permissions.Permissions.Reset)
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: PermRole(Reset)
+  nameWithType: Permissions.PermRole(Permissions.Reset)
+  fullName: Mewdeko.Modules.Permissions.Permissions.PermRole(Mewdeko.Modules.Permissions.Permissions.Reset)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: PermRole
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 109
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Resets the permission role.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("PermRole")]
+
+      [Aliases("PermRole")]
+
+      [RequireContext(ContextType.Guild)]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      [Priority(1)]
+
+      public Task PermRole(Permissions.Reset _)
+    parameters:
+    - id: _
+      type: Mewdeko.Modules.Permissions.Permissions.Reset
+      description: ''
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("PermRole")>
+
+      <Aliases("PermRole")>
+
+      <RequireContext(ContextType.Guild)>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      <Priority(1)>
+
+      Public Function PermRole(_ As Permissions.Reset) As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.PermRole*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: PermRole
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: PermRole
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  - type: Discord.Commands.PriorityAttribute
+    ctor: Discord.Commands.PriorityAttribute.#ctor(System.Int32)
+    arguments:
+    - type: System.Int32
+      value: 1
+- uid: Mewdeko.Modules.Permissions.Permissions.ListPerms
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.ListPerms
+  id: ListPerms
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: ListPerms()
+  nameWithType: Permissions.ListPerms()
+  fullName: Mewdeko.Modules.Permissions.Permissions.ListPerms()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ListPerms
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 128
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Lists the permissions for the guild.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ListPerms")]
+
+      [Aliases("ListPerms")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task ListPerms()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("ListPerms")>
+
+      <Aliases("ListPerms")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function ListPerms() As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.ListPerms*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ListPerms
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ListPerms
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Permissions.Permissions.RemovePerm(System.Int32)
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.RemovePerm(System.Int32)
+  id: RemovePerm(System.Int32)
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: RemovePerm(int)
+  nameWithType: Permissions.RemovePerm(int)
+  fullName: Mewdeko.Modules.Permissions.Permissions.RemovePerm(int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RemovePerm
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 163
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Removes a permission from the list based on its index.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("RemovePerm")]
+
+      [Aliases("RemovePerm")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task RemovePerm(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The perm to remove
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("RemovePerm")>
+
+      <Aliases("RemovePerm")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function RemovePerm(index As Integer) As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.RemovePerm*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RemovePerm
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RemovePerm
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  nameWithType.vb: Permissions.RemovePerm(Integer)
+  fullName.vb: Mewdeko.Modules.Permissions.Permissions.RemovePerm(Integer)
+  name.vb: RemovePerm(Integer)
+- uid: Mewdeko.Modules.Permissions.Permissions.MovePerm(System.Int32,System.Int32)
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.MovePerm(System.Int32,System.Int32)
+  id: MovePerm(System.Int32,System.Int32)
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: MovePerm(int, int)
+  nameWithType: Permissions.MovePerm(int, int)
+  fullName: Mewdeko.Modules.Permissions.Permissions.MovePerm(int, int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MovePerm
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 200
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Moves a permission higher in the heirarchy.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("MovePerm")]
+
+      [Aliases("MovePerm")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task MovePerm(int from, int to)
+    parameters:
+    - id: from
+      type: System.Int32
+      description: Initial Index
+    - id: to
+      type: System.Int32
+      description: Replacement index
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("MovePerm")>
+
+      <Aliases("MovePerm")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function MovePerm(from As Integer, [to] As Integer) As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.MovePerm*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: MovePerm
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: MovePerm
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  nameWithType.vb: Permissions.MovePerm(Integer, Integer)
+  fullName.vb: Mewdeko.Modules.Permissions.Permissions.MovePerm(Integer, Integer)
+  name.vb: MovePerm(Integer, Integer)
+- uid: Mewdeko.Modules.Permissions.Permissions.SrvrCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction)
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.SrvrCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction)
+  id: SrvrCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction)
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: SrvrCmd(CommandOrCrInfo, PermissionAction)
+  nameWithType: Permissions.SrvrCmd(CommandOrCrInfo, PermissionAction)
+  fullName: Mewdeko.Modules.Permissions.Permissions.SrvrCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo, Mewdeko.Common.TypeReaders.Models.PermissionAction)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SrvrCmd
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 260
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Enables or disables a command in the server.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("SrvrCmd")]
+
+      [Aliases("SrvrCmd")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task SrvrCmd(CommandOrCrInfo command, PermissionAction action)
+    parameters:
+    - id: command
+      type: Mewdeko.Common.TypeReaders.CommandOrCrInfo
+      description: The command to run an action on
+    - id: action
+      type: Mewdeko.Common.TypeReaders.Models.PermissionAction
+      description: Whether to disable or enable the command
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("SrvrCmd")>
+
+      <Aliases("SrvrCmd")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function SrvrCmd(command As CommandOrCrInfo, action As PermissionAction) As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.SrvrCmd*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: SrvrCmd
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: SrvrCmd
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Permissions.Permissions.SrvrMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction)
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.SrvrMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction)
+  id: SrvrMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction)
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: SrvrMdl(ModuleOrCrInfo, PermissionAction)
+  nameWithType: Permissions.SrvrMdl(ModuleOrCrInfo, PermissionAction)
+  fullName: Mewdeko.Modules.Permissions.Permissions.SrvrMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo, Mewdeko.Common.TypeReaders.Models.PermissionAction)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SrvrMdl
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 295
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Adds or removes server-level permissions for a specific module.
+  remarks: This method allows setting permissions for a particular module at the server level.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("SrvrMdl")]
+
+      [Aliases("SrvrMdl")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task SrvrMdl(ModuleOrCrInfo module, PermissionAction action)
+    parameters:
+    - id: module
+      type: Mewdeko.Common.TypeReaders.ModuleOrCrInfo
+      description: The module to set permissions for.
+    - id: action
+      type: Mewdeko.Common.TypeReaders.Models.PermissionAction
+      description: The action to perform (enable/disable).
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("SrvrMdl")>
+
+      <Aliases("SrvrMdl")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function SrvrMdl([module] As ModuleOrCrInfo, action As PermissionAction) As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.SrvrMdl*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: SrvrMdl
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: SrvrMdl
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Permissions.Permissions.UsrCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IGuildUser)
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.UsrCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IGuildUser)
+  id: UsrCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IGuildUser)
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: UsrCmd(CommandOrCrInfo, PermissionAction, IGuildUser)
+  nameWithType: Permissions.UsrCmd(CommandOrCrInfo, PermissionAction, IGuildUser)
+  fullName: Mewdeko.Modules.Permissions.Permissions.UsrCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo, Mewdeko.Common.TypeReaders.Models.PermissionAction, Discord.IGuildUser)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UsrCmd
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 330
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Adds or removes user-specific permissions for a specific command.
+  remarks: This method allows setting permissions for a particular command for a specific user.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("UsrCmd")]
+
+      [Aliases("UsrCmd")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task UsrCmd(CommandOrCrInfo command, PermissionAction action, IGuildUser user)
+    parameters:
+    - id: command
+      type: Mewdeko.Common.TypeReaders.CommandOrCrInfo
+      description: The command to set permissions for.
+    - id: action
+      type: Mewdeko.Common.TypeReaders.Models.PermissionAction
+      description: The action to perform (enable/disable).
+    - id: user
+      type: Discord.IGuildUser
+      description: The user to set permissions for.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("UsrCmd")>
+
+      <Aliases("UsrCmd")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function UsrCmd(command As CommandOrCrInfo, action As PermissionAction, user As IGuildUser) As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.UsrCmd*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: UsrCmd
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: UsrCmd
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Permissions.Permissions.UsrMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IGuildUser)
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.UsrMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IGuildUser)
+  id: UsrMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IGuildUser)
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: UsrMdl(ModuleOrCrInfo, PermissionAction, IGuildUser)
+  nameWithType: Permissions.UsrMdl(ModuleOrCrInfo, PermissionAction, IGuildUser)
+  fullName: Mewdeko.Modules.Permissions.Permissions.UsrMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo, Mewdeko.Common.TypeReaders.Models.PermissionAction, Discord.IGuildUser)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UsrMdl
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 368
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Adds or removes user-specific permissions for a specific module.
+  remarks: This method allows setting permissions for a particular module for a specific user.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("UsrMdl")]
+
+      [Aliases("UsrMdl")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task UsrMdl(ModuleOrCrInfo module, PermissionAction action, IGuildUser user)
+    parameters:
+    - id: module
+      type: Mewdeko.Common.TypeReaders.ModuleOrCrInfo
+      description: The module to set permissions for.
+    - id: action
+      type: Mewdeko.Common.TypeReaders.Models.PermissionAction
+      description: The action to perform (enable/disable).
+    - id: user
+      type: Discord.IGuildUser
+      description: The user to set permissions for.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("UsrMdl")>
+
+      <Aliases("UsrMdl")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function UsrMdl([module] As ModuleOrCrInfo, action As PermissionAction, user As IGuildUser) As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.UsrMdl*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: UsrMdl
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: UsrMdl
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Permissions.Permissions.RoleCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IRole)
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.RoleCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IRole)
+  id: RoleCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IRole)
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: RoleCmd(CommandOrCrInfo, PermissionAction, IRole)
+  nameWithType: Permissions.RoleCmd(CommandOrCrInfo, PermissionAction, IRole)
+  fullName: Mewdeko.Modules.Permissions.Permissions.RoleCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo, Mewdeko.Common.TypeReaders.Models.PermissionAction, Discord.IRole)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RoleCmd
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 405
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Adds or removes role-specific permissions for a specific command.
+  remarks: This method allows setting permissions for a particular command for a specific role.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("RoleCmd")]
+
+      [Aliases("RoleCmd")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task RoleCmd(CommandOrCrInfo command, PermissionAction action, IRole role)
+    parameters:
+    - id: command
+      type: Mewdeko.Common.TypeReaders.CommandOrCrInfo
+      description: The command to set permissions for.
+    - id: action
+      type: Mewdeko.Common.TypeReaders.Models.PermissionAction
+      description: The action to perform (enable/disable).
+    - id: role
+      type: Discord.IRole
+      description: The role to set permissions for.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("RoleCmd")>
+
+      <Aliases("RoleCmd")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function RoleCmd(command As CommandOrCrInfo, action As PermissionAction, role As IRole) As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.RoleCmd*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RoleCmd
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RoleCmd
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Permissions.Permissions.RoleMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IRole)
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.RoleMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IRole)
+  id: RoleMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IRole)
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: RoleMdl(ModuleOrCrInfo, PermissionAction, IRole)
+  nameWithType: Permissions.RoleMdl(ModuleOrCrInfo, PermissionAction, IRole)
+  fullName: Mewdeko.Modules.Permissions.Permissions.RoleMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo, Mewdeko.Common.TypeReaders.Models.PermissionAction, Discord.IRole)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RoleMdl
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 446
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Adds or removes role-specific permissions for a specific module.
+  remarks: This method allows setting permissions for a particular module for a specific role.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("RoleMdl")]
+
+      [Aliases("RoleMdl")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task RoleMdl(ModuleOrCrInfo module, PermissionAction action, IRole role)
+    parameters:
+    - id: module
+      type: Mewdeko.Common.TypeReaders.ModuleOrCrInfo
+      description: The module to set permissions for.
+    - id: action
+      type: Mewdeko.Common.TypeReaders.Models.PermissionAction
+      description: The action to perform (enable/disable).
+    - id: role
+      type: Discord.IRole
+      description: The role to set permissions for.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("RoleMdl")>
+
+      <Aliases("RoleMdl")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function RoleMdl([module] As ModuleOrCrInfo, action As PermissionAction, role As IRole) As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.RoleMdl*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RoleMdl
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RoleMdl
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Permissions.Permissions.ChnlCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ITextChannel)
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.ChnlCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ITextChannel)
+  id: ChnlCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ITextChannel)
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: ChnlCmd(CommandOrCrInfo, PermissionAction, ITextChannel)
+  nameWithType: Permissions.ChnlCmd(CommandOrCrInfo, PermissionAction, ITextChannel)
+  fullName: Mewdeko.Modules.Permissions.Permissions.ChnlCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo, Mewdeko.Common.TypeReaders.Models.PermissionAction, Discord.ITextChannel)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChnlCmd
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 486
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Adds or removes channel-specific permissions for a specific command.
+  remarks: This method allows setting permissions for a particular command for a specific channel.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ChnlCmd")]
+
+      [Aliases("ChnlCmd")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task ChnlCmd(CommandOrCrInfo command, PermissionAction action, ITextChannel chnl)
+    parameters:
+    - id: command
+      type: Mewdeko.Common.TypeReaders.CommandOrCrInfo
+      description: The command to set permissions for.
+    - id: action
+      type: Mewdeko.Common.TypeReaders.Models.PermissionAction
+      description: The action to perform (enable/disable).
+    - id: chnl
+      type: Discord.ITextChannel
+      description: The channel to set permissions for.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("ChnlCmd")>
+
+      <Aliases("ChnlCmd")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function ChnlCmd(command As CommandOrCrInfo, action As PermissionAction, chnl As ITextChannel) As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.ChnlCmd*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ChnlCmd
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ChnlCmd
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Permissions.Permissions.ChnlMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ITextChannel)
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.ChnlMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ITextChannel)
+  id: ChnlMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ITextChannel)
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: ChnlMdl(ModuleOrCrInfo, PermissionAction, ITextChannel)
+  nameWithType: Permissions.ChnlMdl(ModuleOrCrInfo, PermissionAction, ITextChannel)
+  fullName: Mewdeko.Modules.Permissions.Permissions.ChnlMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo, Mewdeko.Common.TypeReaders.Models.PermissionAction, Discord.ITextChannel)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChnlMdl
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 524
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Adds or removes channel-specific permissions for a specific module.
+  remarks: This method allows setting permissions for a particular module for a specific channel.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ChnlMdl")]
+
+      [Aliases("ChnlMdl")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task ChnlMdl(ModuleOrCrInfo module, PermissionAction action, ITextChannel chnl)
+    parameters:
+    - id: module
+      type: Mewdeko.Common.TypeReaders.ModuleOrCrInfo
+      description: The module to set permissions for.
+    - id: action
+      type: Mewdeko.Common.TypeReaders.Models.PermissionAction
+      description: The action to perform (enable/disable).
+    - id: chnl
+      type: Discord.ITextChannel
+      description: The channel to set permissions for.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("ChnlMdl")>
+
+      <Aliases("ChnlMdl")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function ChnlMdl([module] As ModuleOrCrInfo, action As PermissionAction, chnl As ITextChannel) As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.ChnlMdl*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ChnlMdl
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ChnlMdl
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Permissions.Permissions.AllChnlMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ITextChannel)
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.AllChnlMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ITextChannel)
+  id: AllChnlMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ITextChannel)
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: AllChnlMdls(PermissionAction, ITextChannel)
+  nameWithType: Permissions.AllChnlMdls(PermissionAction, ITextChannel)
+  fullName: Mewdeko.Modules.Permissions.Permissions.AllChnlMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction, Discord.ITextChannel)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AllChnlMdls
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 560
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Adds or removes permissions for all modules in a specific channel.
+  remarks: This method allows setting permissions for all modules in a specific channel.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("AllChnlMdls")]
+
+      [Aliases("AllChnlMdls")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task AllChnlMdls(PermissionAction action, ITextChannel chnl)
+    parameters:
+    - id: action
+      type: Mewdeko.Common.TypeReaders.Models.PermissionAction
+      description: The action to perform (enable/disable).
+    - id: chnl
+      type: Discord.ITextChannel
+      description: The channel to set permissions for.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("AllChnlMdls")>
+
+      <Aliases("AllChnlMdls")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function AllChnlMdls(action As PermissionAction, chnl As ITextChannel) As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.AllChnlMdls*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: AllChnlMdls
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: AllChnlMdls
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Permissions.Permissions.CatCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ICategoryChannel)
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.CatCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ICategoryChannel)
+  id: CatCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ICategoryChannel)
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: CatCmd(CommandOrCrInfo, PermissionAction, ICategoryChannel)
+  nameWithType: Permissions.CatCmd(CommandOrCrInfo, PermissionAction, ICategoryChannel)
+  fullName: Mewdeko.Modules.Permissions.Permissions.CatCmd(Mewdeko.Common.TypeReaders.CommandOrCrInfo, Mewdeko.Common.TypeReaders.Models.PermissionAction, Discord.ICategoryChannel)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CatCmd
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 593
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Adds or removes command-specific permissions for a specific category.
+  remarks: This method allows setting permissions for a particular command for a specific category.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("CatCmd")]
+
+      [Aliases("CatCmd")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task CatCmd(CommandOrCrInfo command, PermissionAction action, ICategoryChannel chnl)
+    parameters:
+    - id: command
+      type: Mewdeko.Common.TypeReaders.CommandOrCrInfo
+      description: The command to set permissions for.
+    - id: action
+      type: Mewdeko.Common.TypeReaders.Models.PermissionAction
+      description: The action to perform (enable/disable).
+    - id: chnl
+      type: Discord.ICategoryChannel
+      description: The category to set permissions for.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CatCmd")>
+
+      <Aliases("CatCmd")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function CatCmd(command As CommandOrCrInfo, action As PermissionAction, chnl As ICategoryChannel) As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.CatCmd*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CatCmd
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CatCmd
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Permissions.Permissions.CatMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ICategoryChannel)
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.CatMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ICategoryChannel)
+  id: CatMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo,Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ICategoryChannel)
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: CatMdl(ModuleOrCrInfo, PermissionAction, ICategoryChannel)
+  nameWithType: Permissions.CatMdl(ModuleOrCrInfo, PermissionAction, ICategoryChannel)
+  fullName: Mewdeko.Modules.Permissions.Permissions.CatMdl(Mewdeko.Common.TypeReaders.ModuleOrCrInfo, Mewdeko.Common.TypeReaders.Models.PermissionAction, Discord.ICategoryChannel)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CatMdl
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 631
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Adds or removes module-specific permissions for a specific category.
+  remarks: This method allows setting permissions for a particular module for a specific category.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("CatMdl")]
+
+      [Aliases("CatMdl")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task CatMdl(ModuleOrCrInfo module, PermissionAction action, ICategoryChannel chnl)
+    parameters:
+    - id: module
+      type: Mewdeko.Common.TypeReaders.ModuleOrCrInfo
+      description: The module to set permissions for.
+    - id: action
+      type: Mewdeko.Common.TypeReaders.Models.PermissionAction
+      description: The action to perform (enable/disable).
+    - id: chnl
+      type: Discord.ICategoryChannel
+      description: The category to set permissions for.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CatMdl")>
+
+      <Aliases("CatMdl")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function CatMdl([module] As ModuleOrCrInfo, action As PermissionAction, chnl As ICategoryChannel) As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.CatMdl*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CatMdl
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CatMdl
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Permissions.Permissions.AllCatMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ICategoryChannel)
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.AllCatMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ICategoryChannel)
+  id: AllCatMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.ICategoryChannel)
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: AllCatMdls(PermissionAction, ICategoryChannel)
+  nameWithType: Permissions.AllCatMdls(PermissionAction, ICategoryChannel)
+  fullName: Mewdeko.Modules.Permissions.Permissions.AllCatMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction, Discord.ICategoryChannel)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AllCatMdls
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 667
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Adds or removes permissions for all modules in a specific category.
+  remarks: This method allows setting permissions for all modules in a specific category.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("AllCatMdls")]
+
+      [Aliases("AllCatMdls")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task AllCatMdls(PermissionAction action, ICategoryChannel chnl)
+    parameters:
+    - id: action
+      type: Mewdeko.Common.TypeReaders.Models.PermissionAction
+      description: The action to perform (enable/disable).
+    - id: chnl
+      type: Discord.ICategoryChannel
+      description: The category to set permissions for.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("AllCatMdls")>
+
+      <Aliases("AllCatMdls")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function AllCatMdls(action As PermissionAction, chnl As ICategoryChannel) As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.AllCatMdls*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: AllCatMdls
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: AllCatMdls
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Permissions.Permissions.AllRoleMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IRole)
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.AllRoleMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IRole)
+  id: AllRoleMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IRole)
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: AllRoleMdls(PermissionAction, IRole)
+  nameWithType: Permissions.AllRoleMdls(PermissionAction, IRole)
+  fullName: Mewdeko.Modules.Permissions.Permissions.AllRoleMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction, Discord.IRole)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AllRoleMdls
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 699
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Adds or removes permissions for all modules for a specific role.
+  remarks: This method allows setting permissions for all modules for a specific role.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("AllRoleMdls")]
+
+      [Aliases("AllRoleMdls")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task AllRoleMdls(PermissionAction action, IRole role)
+    parameters:
+    - id: action
+      type: Mewdeko.Common.TypeReaders.Models.PermissionAction
+      description: The action to perform (enable/disable).
+    - id: role
+      type: Discord.IRole
+      description: The role to set permissions for.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("AllRoleMdls")>
+
+      <Aliases("AllRoleMdls")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function AllRoleMdls(action As PermissionAction, role As IRole) As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.AllRoleMdls*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: AllRoleMdls
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: AllRoleMdls
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Permissions.Permissions.AllUsrMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IUser)
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.AllUsrMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IUser)
+  id: AllUsrMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction,Discord.IUser)
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: AllUsrMdls(PermissionAction, IUser)
+  nameWithType: Permissions.AllUsrMdls(PermissionAction, IUser)
+  fullName: Mewdeko.Modules.Permissions.Permissions.AllUsrMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction, Discord.IUser)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AllUsrMdls
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 734
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Adds or removes permissions for all modules for a specific user.
+  remarks: This method allows setting permissions for all modules for a specific user.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("AllUsrMdls")]
+
+      [Aliases("AllUsrMdls")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task AllUsrMdls(PermissionAction action, IUser user)
+    parameters:
+    - id: action
+      type: Mewdeko.Common.TypeReaders.Models.PermissionAction
+      description: The action to perform (enable/disable).
+    - id: user
+      type: Discord.IUser
+      description: The user to set permissions for.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("AllUsrMdls")>
+
+      <Aliases("AllUsrMdls")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function AllUsrMdls(action As PermissionAction, user As IUser) As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.AllUsrMdls*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: AllUsrMdls
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: AllUsrMdls
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Permissions.Permissions.AllSrvrMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction)
+  commentId: M:Mewdeko.Modules.Permissions.Permissions.AllSrvrMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction)
+  id: AllSrvrMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction)
+  parent: Mewdeko.Modules.Permissions.Permissions
+  langs:
+  - csharp
+  - vb
+  name: AllSrvrMdls(PermissionAction)
+  nameWithType: Permissions.AllSrvrMdls(PermissionAction)
+  fullName: Mewdeko.Modules.Permissions.Permissions.AllSrvrMdls(Mewdeko.Common.TypeReaders.Models.PermissionAction)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Permissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AllSrvrMdls
+    path: src/Mewdeko/Modules/Permissions/Permissions.cs
+    startLine: 765
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Adds or removes permissions for all modules for the entire server.
+  remarks: This method allows setting permissions for all modules for all users in the server.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("AllSrvrMdls")]
+
+      [Aliases("AllSrvrMdls")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task AllSrvrMdls(PermissionAction action)
+    parameters:
+    - id: action
+      type: Mewdeko.Common.TypeReaders.Models.PermissionAction
+      description: The action to perform (enable/disable).
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("AllSrvrMdls")>
+
+      <Aliases("AllSrvrMdls")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function AllSrvrMdls(action As PermissionAction) As Task
+  overload: Mewdeko.Modules.Permissions.Permissions.AllSrvrMdls*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: AllSrvrMdls
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: AllSrvrMdls
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+references:
+- uid: Mewdeko.Modules.Permissions
+  commentId: N:Mewdeko.Modules.Permissions
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Permissions
+  nameWithType: Mewdeko.Modules.Permissions
+  fullName: Mewdeko.Modules.Permissions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  commentId: T:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  parent: Discord.Commands
+  definition: Discord.Commands.ModuleBase`1
+  name: ModuleBase<ICommandContext>
+  nameWithType: ModuleBase<ICommandContext>
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>
+  nameWithType.vb: ModuleBase(Of ICommandContext)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext)
+  name.vb: ModuleBase(Of ICommandContext)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: <
+  - uid: Discord.Commands.ICommandContext
+    name: ICommandContext
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Discord.Commands.ICommandContext
+    name: ICommandContext
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase
+  commentId: T:Discord.Commands.ModuleBase
+  parent: Discord.Commands
+  isExternal: true
+  name: ModuleBase
+  nameWithType: ModuleBase
+  fullName: Discord.Commands.ModuleBase
+- uid: Mewdeko.Common.MewdekoModule
+  commentId: T:Mewdeko.Common.MewdekoModule
+  parent: Mewdeko.Common
+  href: Mewdeko.Common.MewdekoModule.html
+  name: MewdekoModule
+  nameWithType: MewdekoModule
+  fullName: Mewdeko.Common.MewdekoModule
+- uid: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Permissions.Services.PermissionService}
+  commentId: T:Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Permissions.Services.PermissionService}
+  parent: Mewdeko.Common
+  definition: Mewdeko.Common.MewdekoModuleBase`1
+  href: Mewdeko.Common.MewdekoModuleBase-1.html
+  name: MewdekoModuleBase<PermissionService>
+  nameWithType: MewdekoModuleBase<PermissionService>
+  fullName: Mewdeko.Common.MewdekoModuleBase<Mewdeko.Modules.Permissions.Services.PermissionService>
+  nameWithType.vb: MewdekoModuleBase(Of PermissionService)
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of Mewdeko.Modules.Permissions.Services.PermissionService)
+  name.vb: MewdekoModuleBase(Of PermissionService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: <
+  - uid: Mewdeko.Modules.Permissions.Services.PermissionService
+    name: PermissionService
+    href: Mewdeko.Modules.Permissions.Services.PermissionService.html
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Permissions.Services.PermissionService
+    name: PermissionService
+    href: Mewdeko.Modules.Permissions.Services.PermissionService.html
+  - name: )
+- uid: Discord.Commands.IModuleBase
+  commentId: T:Discord.Commands.IModuleBase
+  parent: Discord.Commands
+  isExternal: true
+  name: IModuleBase
+  nameWithType: IModuleBase
+  fullName: Discord.Commands.IModuleBase
+- uid: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Permissions.Services.PermissionService}.Service
+  commentId: P:Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Permissions.Services.PermissionService}.Service
+  parent: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Permissions.Services.PermissionService}
+  definition: Mewdeko.Common.MewdekoModuleBase`1.Service
+  href: Mewdeko.Common.MewdekoModuleBase-1.html#Mewdeko_Common_MewdekoModuleBase_1_Service
+  name: Service
+  nameWithType: MewdekoModuleBase<PermissionService>.Service
+  fullName: Mewdeko.Common.MewdekoModuleBase<Mewdeko.Modules.Permissions.Services.PermissionService>.Service
+  nameWithType.vb: MewdekoModuleBase(Of PermissionService).Service
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of Mewdeko.Modules.Permissions.Services.PermissionService).Service
+- uid: Mewdeko.Common.MewdekoModule.CultureInfo
+  commentId: P:Mewdeko.Common.MewdekoModule.CultureInfo
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CultureInfo
+  name: CultureInfo
+  nameWithType: MewdekoModule.CultureInfo
+  fullName: Mewdeko.Common.MewdekoModule.CultureInfo
+- uid: Mewdeko.Common.MewdekoModule.Strings
+  commentId: P:Mewdeko.Common.MewdekoModule.Strings
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Strings
+  name: Strings
+  nameWithType: MewdekoModule.Strings
+  fullName: Mewdeko.Common.MewdekoModule.Strings
+- uid: Mewdeko.Common.MewdekoModule.Localization
+  commentId: P:Mewdeko.Common.MewdekoModule.Localization
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Localization
+  name: Localization
+  nameWithType: MewdekoModule.Localization
+  fullName: Mewdeko.Common.MewdekoModule.Localization
+- uid: Mewdeko.Common.MewdekoModule.ctx
+  commentId: P:Mewdeko.Common.MewdekoModule.ctx
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ctx
+  name: ctx
+  nameWithType: MewdekoModule.ctx
+  fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  name: BeforeExecute(CommandInfo)
+  nameWithType: MewdekoModule.BeforeExecute(CommandInfo)
+  fullName: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+    name: BeforeExecute
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+    name: BeforeExecute
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+  commentId: M:Mewdeko.Common.MewdekoModule.GetText(System.String)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  name: GetText(string)
+  nameWithType: MewdekoModule.GetText(string)
+  fullName: Mewdeko.Common.MewdekoModule.GetText(string)
+  nameWithType.vb: MewdekoModule.GetText(String)
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetText(String)
+  name.vb: GetText(String)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  name: GetText(string, params object[])
+  nameWithType: MewdekoModule.GetText(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.GetText(string, params object[])
+  nameWithType.vb: MewdekoModule.GetText(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetText(String, ParamArray Object())
+  name.vb: GetText(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  name: ErrorLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ErrorLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ErrorLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(String, ParamArray Object())
+  name.vb: ErrorLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+    name: ErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+    name: ErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  name: ReplyErrorLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ReplyErrorLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ReplyErrorLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(String, ParamArray Object())
+  name.vb: ReplyErrorLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+    name: ReplyErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+    name: ReplyErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  name: ConfirmLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ConfirmLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ConfirmLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(String, ParamArray Object())
+  name.vb: ConfirmLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+    name: ConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+    name: ConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  name: ReplyConfirmLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ReplyConfirmLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  name.vb: ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+    name: ReplyConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+    name: ReplyConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  name: PromptUserConfirmAsync(string, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(string, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(string, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(String, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(String, ULong)
+  name.vb: PromptUserConfirmAsync(String, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  name: PromptUserConfirmAsync(EmbedBuilder, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(EmbedBuilder, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(EmbedBuilder, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder, ULong)
+  name.vb: PromptUserConfirmAsync(EmbedBuilder, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  commentId: M:Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  name: CheckRoleHierarchy(IGuildUser, bool)
+  nameWithType: MewdekoModule.CheckRoleHierarchy(IGuildUser, bool)
+  fullName: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser, bool)
+  nameWithType.vb: MewdekoModule.CheckRoleHierarchy(IGuildUser, Boolean)
+  fullName.vb: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser, Boolean)
+  name.vb: CheckRoleHierarchy(IGuildUser, Boolean)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+    name: CheckRoleHierarchy
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  - name: (
+  - uid: Discord.IGuildUser
+    name: IGuildUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+    name: CheckRoleHierarchy
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  - name: (
+  - uid: Discord.IGuildUser
+    name: IGuildUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  name: PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage, Discord.EmbedBuilder, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage, Discord.EmbedBuilder, ULong)
+  name.vb: PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  commentId: M:Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  name: GetButtonInputAsync(ulong, ulong, ulong, bool)
+  nameWithType: MewdekoModule.GetButtonInputAsync(ulong, ulong, ulong, bool)
+  fullName: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(ulong, ulong, ulong, bool)
+  nameWithType.vb: MewdekoModule.GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  name.vb: GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+    name: GetButtonInputAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+    name: GetButtonInputAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  name: NextMessageAsync(ulong, ulong)
+  nameWithType: MewdekoModule.NextMessageAsync(ulong, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.NextMessageAsync(ulong, ulong)
+  nameWithType.vb: MewdekoModule.NextMessageAsync(ULong, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.NextMessageAsync(ULong, ULong)
+  name.vb: NextMessageAsync(ULong, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+    name: NextMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+    name: NextMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  name: NextFullMessageAsync(ulong, ulong)
+  nameWithType: MewdekoModule.NextFullMessageAsync(ulong, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(ulong, ulong)
+  nameWithType.vb: MewdekoModule.NextFullMessageAsync(ULong, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(ULong, ULong)
+  name.vb: NextFullMessageAsync(ULong, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+    name: NextFullMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+    name: NextFullMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  nameWithType: ModuleBase<ICommandContext>.ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.ReplyAsync(string, bool, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker[], Discord.Embed[], Discord.MessageFlags)
+  nameWithType.vb: ModuleBase(Of ICommandContext).ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).ReplyAsync(String, Boolean, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker(), Discord.Embed(), Discord.MessageFlags)
+  name.vb: ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  name: BeforeExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.BeforeExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).BeforeExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  name: AfterExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.AfterExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).AfterExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).AfterExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  name: AfterExecute(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.AfterExecute(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.AfterExecute(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).AfterExecute(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).AfterExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  name: OnModuleBuilding(CommandService, ModuleBuilder)
+  nameWithType: ModuleBase<ICommandContext>.OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  nameWithType.vb: ModuleBase(Of ICommandContext).OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  commentId: P:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.Context
+  name: Context
+  nameWithType: ModuleBase<ICommandContext>.Context
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.Context
+  nameWithType.vb: ModuleBase(Of ICommandContext).Context
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).Context
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Permissions.Permissions.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<Permissions>(Permissions, string)
+  nameWithType: Extensions.ThrowIfNull<Permissions>(Permissions, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Permissions.Permissions>(Mewdeko.Modules.Permissions.Permissions, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of Permissions)(Permissions, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Permissions.Permissions)(Mewdeko.Modules.Permissions.Permissions, String)
+  name.vb: ThrowIfNull(Of Permissions)(Permissions, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Permissions.Permissions,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Permissions.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.Permissions.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Permissions.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.Permissions.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Permissions.Permissions,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Permissions.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.Permissions.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Permissions.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.Permissions.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Discord.Commands.ModuleBase`1
+  commentId: T:Discord.Commands.ModuleBase`1
+  isExternal: true
+  name: ModuleBase<T>
+  nameWithType: ModuleBase<T>
+  fullName: Discord.Commands.ModuleBase<T>
+  nameWithType.vb: ModuleBase(Of T)
+  fullName.vb: Discord.Commands.ModuleBase(Of T)
+  name.vb: ModuleBase(Of T)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Discord.Commands
+  commentId: N:Discord.Commands
+  isExternal: true
+  name: Discord.Commands
+  nameWithType: Discord.Commands
+  fullName: Discord.Commands
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+- uid: Mewdeko.Common
+  commentId: N:Mewdeko.Common
+  href: Mewdeko.html
+  name: Mewdeko.Common
+  nameWithType: Mewdeko.Common
+  fullName: Mewdeko.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+- uid: Mewdeko.Common.MewdekoModuleBase`1
+  commentId: T:Mewdeko.Common.MewdekoModuleBase`1
+  href: Mewdeko.Common.MewdekoModuleBase-1.html
+  name: MewdekoModuleBase<TService>
+  nameWithType: MewdekoModuleBase<TService>
+  fullName: Mewdeko.Common.MewdekoModuleBase<TService>
+  nameWithType.vb: MewdekoModuleBase(Of TService)
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of TService)
+  name.vb: MewdekoModuleBase(Of TService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: <
+  - name: TService
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TService
+  - name: )
+- uid: Mewdeko.Common.MewdekoModuleBase`1.Service
+  commentId: P:Mewdeko.Common.MewdekoModuleBase`1.Service
+  href: Mewdeko.Common.MewdekoModuleBase-1.html#Mewdeko_Common_MewdekoModuleBase_1_Service
+  name: Service
+  nameWithType: MewdekoModuleBase<TService>.Service
+  fullName: Mewdeko.Common.MewdekoModuleBase<TService>.Service
+  nameWithType.vb: MewdekoModuleBase(Of TService).Service
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of TService).Service
+- uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  commentId: M:Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  nameWithType: ModuleBase<T>.ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  fullName: Discord.Commands.ModuleBase<T>.ReplyAsync(string, bool, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker[], Discord.Embed[], Discord.MessageFlags)
+  nameWithType.vb: ModuleBase(Of T).ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).ReplyAsync(String, Boolean, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker(), Discord.Embed(), Discord.MessageFlags)
+  name.vb: ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: BeforeExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<T>.BeforeExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).BeforeExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: AfterExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<T>.AfterExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).AfterExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).AfterExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: AfterExecute(CommandInfo)
+  nameWithType: ModuleBase<T>.AfterExecute(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.AfterExecute(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).AfterExecute(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).AfterExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  commentId: M:Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  isExternal: true
+  name: OnModuleBuilding(CommandService, ModuleBuilder)
+  nameWithType: ModuleBase<T>.OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName: Discord.Commands.ModuleBase<T>.OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  nameWithType.vb: ModuleBase(Of T).OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.Context
+  commentId: P:Discord.Commands.ModuleBase`1.Context
+  isExternal: true
+  name: Context
+  nameWithType: ModuleBase<T>.Context
+  fullName: Discord.Commands.ModuleBase<T>.Context
+  nameWithType.vb: ModuleBase(Of T).Context
+  fullName.vb: Discord.Commands.ModuleBase(Of T).Context
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Permissions.Permissions.#ctor*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.#ctor
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions__ctor_Mewdeko_Database_DbService_Fergun_Interactive_InteractiveService_Mewdeko_Services_GuildSettingsService_
+  name: Permissions
+  nameWithType: Permissions.Permissions
+  fullName: Mewdeko.Modules.Permissions.Permissions.Permissions
+  nameWithType.vb: Permissions.New
+  fullName.vb: Mewdeko.Modules.Permissions.Permissions.New
+  name.vb: New
+- uid: Mewdeko.Database.DbService
+  commentId: T:Mewdeko.Database.DbService
+  parent: Mewdeko.Database
+  href: Mewdeko.Database.DbService.html
+  name: DbService
+  nameWithType: DbService
+  fullName: Mewdeko.Database.DbService
+- uid: Fergun.Interactive.InteractiveService
+  commentId: T:Fergun.Interactive.InteractiveService
+  parent: Fergun.Interactive
+  isExternal: true
+  name: InteractiveService
+  nameWithType: InteractiveService
+  fullName: Fergun.Interactive.InteractiveService
+- uid: Mewdeko.Services.GuildSettingsService
+  commentId: T:Mewdeko.Services.GuildSettingsService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.GuildSettingsService.html
+  name: GuildSettingsService
+  nameWithType: GuildSettingsService
+  fullName: Mewdeko.Services.GuildSettingsService
+- uid: Mewdeko.Database
+  commentId: N:Mewdeko.Database
+  href: Mewdeko.html
+  name: Mewdeko.Database
+  nameWithType: Mewdeko.Database
+  fullName: Mewdeko.Database
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+- uid: Fergun.Interactive
+  commentId: N:Fergun.Interactive
+  isExternal: true
+  name: Fergun.Interactive
+  nameWithType: Fergun.Interactive
+  fullName: Fergun.Interactive
+  spec.csharp:
+  - uid: Fergun
+    name: Fergun
+    isExternal: true
+  - name: .
+  - uid: Fergun.Interactive
+    name: Interactive
+    isExternal: true
+  spec.vb:
+  - uid: Fergun
+    name: Fergun
+    isExternal: true
+  - name: .
+  - uid: Fergun.Interactive
+    name: Interactive
+    isExternal: true
+- uid: Mewdeko.Services
+  commentId: N:Mewdeko.Services
+  href: Mewdeko.html
+  name: Mewdeko.Services
+  nameWithType: Mewdeko.Services
+  fullName: Mewdeko.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+- uid: Mewdeko.Modules.Permissions.Permissions.ResetPerms*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.ResetPerms
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions_ResetPerms
+  name: ResetPerms
+  nameWithType: Permissions.ResetPerms
+  fullName: Mewdeko.Modules.Permissions.Permissions.ResetPerms
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Modules.Permissions.Permissions.Verbose*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.Verbose
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions_Verbose_Mewdeko_Common_TypeReaders_Models_PermissionAction_
+  name: Verbose
+  nameWithType: Permissions.Verbose
+  fullName: Mewdeko.Modules.Permissions.Permissions.Verbose
+- uid: Mewdeko.Common.TypeReaders.Models.PermissionAction
+  commentId: T:Mewdeko.Common.TypeReaders.Models.PermissionAction
+  parent: Mewdeko.Common.TypeReaders.Models
+  href: Mewdeko.Common.TypeReaders.Models.PermissionAction.html
+  name: PermissionAction
+  nameWithType: PermissionAction
+  fullName: Mewdeko.Common.TypeReaders.Models.PermissionAction
+- uid: Mewdeko.Common.TypeReaders.Models
+  commentId: N:Mewdeko.Common.TypeReaders.Models
+  href: Mewdeko.html
+  name: Mewdeko.Common.TypeReaders.Models
+  nameWithType: Mewdeko.Common.TypeReaders.Models
+  fullName: Mewdeko.Common.TypeReaders.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders
+    name: TypeReaders
+    href: Mewdeko.Common.TypeReaders.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders.Models
+    name: Models
+    href: Mewdeko.Common.TypeReaders.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders
+    name: TypeReaders
+    href: Mewdeko.Common.TypeReaders.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders.Models
+    name: Models
+    href: Mewdeko.Common.TypeReaders.Models.html
+- uid: Mewdeko.Modules.Permissions.Permissions.PermRole*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.PermRole
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions_PermRole_Discord_IRole_
+  name: PermRole
+  nameWithType: Permissions.PermRole
+  fullName: Mewdeko.Modules.Permissions.Permissions.PermRole
+- uid: Discord.IRole
+  commentId: T:Discord.IRole
+  parent: Discord
+  isExternal: true
+  name: IRole
+  nameWithType: IRole
+  fullName: Discord.IRole
+- uid: Discord
+  commentId: N:Discord
+  isExternal: true
+  name: Discord
+  nameWithType: Discord
+  fullName: Discord
+- uid: Mewdeko.Modules.Permissions.Permissions.Reset
+  commentId: T:Mewdeko.Modules.Permissions.Permissions.Reset
+  parent: Mewdeko.Modules.Permissions
+  href: Mewdeko.Modules.Permissions.Permissions.html
+  name: Permissions.Reset
+  nameWithType: Permissions.Reset
+  fullName: Mewdeko.Modules.Permissions.Permissions.Reset
+  spec.csharp:
+  - uid: Mewdeko.Modules.Permissions.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.Permissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.Permissions.Reset
+    name: Reset
+    href: Mewdeko.Modules.Permissions.Permissions.Reset.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Permissions.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.Permissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.Permissions.Reset
+    name: Reset
+    href: Mewdeko.Modules.Permissions.Permissions.Reset.html
+- uid: Mewdeko.Modules.Permissions.Permissions.ListPerms*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.ListPerms
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions_ListPerms
+  name: ListPerms
+  nameWithType: Permissions.ListPerms
+  fullName: Mewdeko.Modules.Permissions.Permissions.ListPerms
+- uid: Mewdeko.Modules.Permissions.Permissions.RemovePerm*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.RemovePerm
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions_RemovePerm_System_Int32_
+  name: RemovePerm
+  nameWithType: Permissions.RemovePerm
+  fullName: Mewdeko.Modules.Permissions.Permissions.RemovePerm
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Modules.Permissions.Permissions.MovePerm*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.MovePerm
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions_MovePerm_System_Int32_System_Int32_
+  name: MovePerm
+  nameWithType: Permissions.MovePerm
+  fullName: Mewdeko.Modules.Permissions.Permissions.MovePerm
+- uid: Mewdeko.Modules.Permissions.Permissions.SrvrCmd*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.SrvrCmd
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions_SrvrCmd_Mewdeko_Common_TypeReaders_CommandOrCrInfo_Mewdeko_Common_TypeReaders_Models_PermissionAction_
+  name: SrvrCmd
+  nameWithType: Permissions.SrvrCmd
+  fullName: Mewdeko.Modules.Permissions.Permissions.SrvrCmd
+- uid: Mewdeko.Common.TypeReaders.CommandOrCrInfo
+  commentId: T:Mewdeko.Common.TypeReaders.CommandOrCrInfo
+  parent: Mewdeko.Common.TypeReaders
+  href: Mewdeko.Common.TypeReaders.CommandOrCrInfo.html
+  name: CommandOrCrInfo
+  nameWithType: CommandOrCrInfo
+  fullName: Mewdeko.Common.TypeReaders.CommandOrCrInfo
+- uid: Mewdeko.Common.TypeReaders
+  commentId: N:Mewdeko.Common.TypeReaders
+  href: Mewdeko.html
+  name: Mewdeko.Common.TypeReaders
+  nameWithType: Mewdeko.Common.TypeReaders
+  fullName: Mewdeko.Common.TypeReaders
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders
+    name: TypeReaders
+    href: Mewdeko.Common.TypeReaders.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders
+    name: TypeReaders
+    href: Mewdeko.Common.TypeReaders.html
+- uid: Mewdeko.Modules.Permissions.Permissions.SrvrMdl*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.SrvrMdl
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions_SrvrMdl_Mewdeko_Common_TypeReaders_ModuleOrCrInfo_Mewdeko_Common_TypeReaders_Models_PermissionAction_
+  name: SrvrMdl
+  nameWithType: Permissions.SrvrMdl
+  fullName: Mewdeko.Modules.Permissions.Permissions.SrvrMdl
+- uid: Mewdeko.Common.TypeReaders.ModuleOrCrInfo
+  commentId: T:Mewdeko.Common.TypeReaders.ModuleOrCrInfo
+  parent: Mewdeko.Common.TypeReaders
+  href: Mewdeko.Common.TypeReaders.ModuleOrCrInfo.html
+  name: ModuleOrCrInfo
+  nameWithType: ModuleOrCrInfo
+  fullName: Mewdeko.Common.TypeReaders.ModuleOrCrInfo
+- uid: Mewdeko.Modules.Permissions.Permissions.UsrCmd*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.UsrCmd
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions_UsrCmd_Mewdeko_Common_TypeReaders_CommandOrCrInfo_Mewdeko_Common_TypeReaders_Models_PermissionAction_Discord_IGuildUser_
+  name: UsrCmd
+  nameWithType: Permissions.UsrCmd
+  fullName: Mewdeko.Modules.Permissions.Permissions.UsrCmd
+- uid: Discord.IGuildUser
+  commentId: T:Discord.IGuildUser
+  parent: Discord
+  isExternal: true
+  name: IGuildUser
+  nameWithType: IGuildUser
+  fullName: Discord.IGuildUser
+- uid: Mewdeko.Modules.Permissions.Permissions.UsrMdl*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.UsrMdl
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions_UsrMdl_Mewdeko_Common_TypeReaders_ModuleOrCrInfo_Mewdeko_Common_TypeReaders_Models_PermissionAction_Discord_IGuildUser_
+  name: UsrMdl
+  nameWithType: Permissions.UsrMdl
+  fullName: Mewdeko.Modules.Permissions.Permissions.UsrMdl
+- uid: Mewdeko.Modules.Permissions.Permissions.RoleCmd*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.RoleCmd
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions_RoleCmd_Mewdeko_Common_TypeReaders_CommandOrCrInfo_Mewdeko_Common_TypeReaders_Models_PermissionAction_Discord_IRole_
+  name: RoleCmd
+  nameWithType: Permissions.RoleCmd
+  fullName: Mewdeko.Modules.Permissions.Permissions.RoleCmd
+- uid: Mewdeko.Modules.Permissions.Permissions.RoleMdl*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.RoleMdl
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions_RoleMdl_Mewdeko_Common_TypeReaders_ModuleOrCrInfo_Mewdeko_Common_TypeReaders_Models_PermissionAction_Discord_IRole_
+  name: RoleMdl
+  nameWithType: Permissions.RoleMdl
+  fullName: Mewdeko.Modules.Permissions.Permissions.RoleMdl
+- uid: Mewdeko.Modules.Permissions.Permissions.ChnlCmd*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.ChnlCmd
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions_ChnlCmd_Mewdeko_Common_TypeReaders_CommandOrCrInfo_Mewdeko_Common_TypeReaders_Models_PermissionAction_Discord_ITextChannel_
+  name: ChnlCmd
+  nameWithType: Permissions.ChnlCmd
+  fullName: Mewdeko.Modules.Permissions.Permissions.ChnlCmd
+- uid: Discord.ITextChannel
+  commentId: T:Discord.ITextChannel
+  parent: Discord
+  isExternal: true
+  name: ITextChannel
+  nameWithType: ITextChannel
+  fullName: Discord.ITextChannel
+- uid: Mewdeko.Modules.Permissions.Permissions.ChnlMdl*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.ChnlMdl
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions_ChnlMdl_Mewdeko_Common_TypeReaders_ModuleOrCrInfo_Mewdeko_Common_TypeReaders_Models_PermissionAction_Discord_ITextChannel_
+  name: ChnlMdl
+  nameWithType: Permissions.ChnlMdl
+  fullName: Mewdeko.Modules.Permissions.Permissions.ChnlMdl
+- uid: Mewdeko.Modules.Permissions.Permissions.AllChnlMdls*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.AllChnlMdls
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions_AllChnlMdls_Mewdeko_Common_TypeReaders_Models_PermissionAction_Discord_ITextChannel_
+  name: AllChnlMdls
+  nameWithType: Permissions.AllChnlMdls
+  fullName: Mewdeko.Modules.Permissions.Permissions.AllChnlMdls
+- uid: Mewdeko.Modules.Permissions.Permissions.CatCmd*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.CatCmd
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions_CatCmd_Mewdeko_Common_TypeReaders_CommandOrCrInfo_Mewdeko_Common_TypeReaders_Models_PermissionAction_Discord_ICategoryChannel_
+  name: CatCmd
+  nameWithType: Permissions.CatCmd
+  fullName: Mewdeko.Modules.Permissions.Permissions.CatCmd
+- uid: Discord.ICategoryChannel
+  commentId: T:Discord.ICategoryChannel
+  parent: Discord
+  isExternal: true
+  name: ICategoryChannel
+  nameWithType: ICategoryChannel
+  fullName: Discord.ICategoryChannel
+- uid: Mewdeko.Modules.Permissions.Permissions.CatMdl*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.CatMdl
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions_CatMdl_Mewdeko_Common_TypeReaders_ModuleOrCrInfo_Mewdeko_Common_TypeReaders_Models_PermissionAction_Discord_ICategoryChannel_
+  name: CatMdl
+  nameWithType: Permissions.CatMdl
+  fullName: Mewdeko.Modules.Permissions.Permissions.CatMdl
+- uid: Mewdeko.Modules.Permissions.Permissions.AllCatMdls*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.AllCatMdls
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions_AllCatMdls_Mewdeko_Common_TypeReaders_Models_PermissionAction_Discord_ICategoryChannel_
+  name: AllCatMdls
+  nameWithType: Permissions.AllCatMdls
+  fullName: Mewdeko.Modules.Permissions.Permissions.AllCatMdls
+- uid: Mewdeko.Modules.Permissions.Permissions.AllRoleMdls*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.AllRoleMdls
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions_AllRoleMdls_Mewdeko_Common_TypeReaders_Models_PermissionAction_Discord_IRole_
+  name: AllRoleMdls
+  nameWithType: Permissions.AllRoleMdls
+  fullName: Mewdeko.Modules.Permissions.Permissions.AllRoleMdls
+- uid: Mewdeko.Modules.Permissions.Permissions.AllUsrMdls*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.AllUsrMdls
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions_AllUsrMdls_Mewdeko_Common_TypeReaders_Models_PermissionAction_Discord_IUser_
+  name: AllUsrMdls
+  nameWithType: Permissions.AllUsrMdls
+  fullName: Mewdeko.Modules.Permissions.Permissions.AllUsrMdls
+- uid: Discord.IUser
+  commentId: T:Discord.IUser
+  parent: Discord
+  isExternal: true
+  name: IUser
+  nameWithType: IUser
+  fullName: Discord.IUser
+- uid: Mewdeko.Modules.Permissions.Permissions.AllSrvrMdls*
+  commentId: Overload:Mewdeko.Modules.Permissions.Permissions.AllSrvrMdls
+  href: Mewdeko.Modules.Permissions.Permissions.html#Mewdeko_Modules_Permissions_Permissions_AllSrvrMdls_Mewdeko_Common_TypeReaders_Models_PermissionAction_
+  name: AllSrvrMdls
+  nameWithType: Permissions.AllSrvrMdls
+  fullName: Mewdeko.Modules.Permissions.Permissions.AllSrvrMdls

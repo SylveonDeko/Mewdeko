@@ -1,0 +1,136 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
+  commentId: T:Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
+  id: DiscordUser.ProfilePrivacyEnum
+  parent: Mewdeko.Database.Models
+  children:
+  - Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum.Private
+  - Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum.Public
+  langs:
+  - csharp
+  - vb
+  name: DiscordUser.ProfilePrivacyEnum
+  nameWithType: DiscordUser.ProfilePrivacyEnum
+  fullName: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/DiscordUser.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ProfilePrivacyEnum
+    path: src/Mewdeko.Database/Models/DiscordUser.cs
+    startLine: 39
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public enum DiscordUser.ProfilePrivacyEnum
+    content.vb: Public Enum DiscordUser.ProfilePrivacyEnum
+- uid: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum.Public
+  commentId: F:Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum.Public
+  id: Public
+  parent: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
+  langs:
+  - csharp
+  - vb
+  name: Public
+  nameWithType: DiscordUser.ProfilePrivacyEnum.Public
+  fullName: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum.Public
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/DiscordUser.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Public
+    path: src/Mewdeko.Database/Models/DiscordUser.cs
+    startLine: 41
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Public = 0
+    return:
+      type: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
+- uid: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum.Private
+  commentId: F:Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum.Private
+  id: Private
+  parent: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
+  langs:
+  - csharp
+  - vb
+  name: Private
+  nameWithType: DiscordUser.ProfilePrivacyEnum.Private
+  fullName: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum.Private
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/DiscordUser.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Private
+    path: src/Mewdeko.Database/Models/DiscordUser.cs
+    startLine: 42
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Private = 1
+    return:
+      type: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
+references:
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
+  commentId: T:Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.DiscordUser.html
+  name: DiscordUser.ProfilePrivacyEnum
+  nameWithType: DiscordUser.ProfilePrivacyEnum
+  fullName: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
+  spec.csharp:
+  - uid: Mewdeko.Database.Models.DiscordUser
+    name: DiscordUser
+    href: Mewdeko.Database.Models.DiscordUser.html
+  - name: .
+  - uid: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
+    name: ProfilePrivacyEnum
+    href: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum.html
+  spec.vb:
+  - uid: Mewdeko.Database.Models.DiscordUser
+    name: DiscordUser
+    href: Mewdeko.Database.Models.DiscordUser.html
+  - name: .
+  - uid: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
+    name: ProfilePrivacyEnum
+    href: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum.html

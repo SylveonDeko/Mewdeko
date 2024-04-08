@@ -1,0 +1,888 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Models.Poll
+  commentId: T:Mewdeko.Database.Models.Poll
+  id: Poll
+  parent: Mewdeko.Database.Models
+  children:
+  - Mewdeko.Database.Models.Poll.Answers
+  - Mewdeko.Database.Models.Poll.ChannelId
+  - Mewdeko.Database.Models.Poll.GuildId
+  - Mewdeko.Database.Models.Poll.PollType
+  - Mewdeko.Database.Models.Poll.Question
+  - Mewdeko.Database.Models.Poll.Votes
+  langs:
+  - csharp
+  - vb
+  name: Poll
+  nameWithType: Poll
+  fullName: Mewdeko.Database.Models.Poll
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Poll.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Poll
+    path: src/Mewdeko.Database/Models/Poll.cs
+    startLine: 4
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: 'public class Poll : DbEntity'
+    content.vb: Public Class Poll Inherits DbEntity
+  inheritance:
+  - System.Object
+  - Mewdeko.Database.Models.DbEntity
+  inheritedMembers:
+  - Mewdeko.Database.Models.DbEntity.Id
+  - Mewdeko.Database.Models.DbEntity.DateAdded
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Database.Models.Poll.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Database.Models.Poll.GuildId
+  commentId: P:Mewdeko.Database.Models.Poll.GuildId
+  id: GuildId
+  parent: Mewdeko.Database.Models.Poll
+  langs:
+  - csharp
+  - vb
+  name: GuildId
+  nameWithType: Poll.GuildId
+  fullName: Mewdeko.Database.Models.Poll.GuildId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Poll.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GuildId
+    path: src/Mewdeko.Database/Models/Poll.cs
+    startLine: 6
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong GuildId { get; set; }
+    parameters: []
+    return:
+      type: System.UInt64
+    content.vb: Public Property GuildId As ULong
+  overload: Mewdeko.Database.Models.Poll.GuildId*
+- uid: Mewdeko.Database.Models.Poll.ChannelId
+  commentId: P:Mewdeko.Database.Models.Poll.ChannelId
+  id: ChannelId
+  parent: Mewdeko.Database.Models.Poll
+  langs:
+  - csharp
+  - vb
+  name: ChannelId
+  nameWithType: Poll.ChannelId
+  fullName: Mewdeko.Database.Models.Poll.ChannelId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Poll.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChannelId
+    path: src/Mewdeko.Database/Models/Poll.cs
+    startLine: 7
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong ChannelId { get; set; }
+    parameters: []
+    return:
+      type: System.UInt64
+    content.vb: Public Property ChannelId As ULong
+  overload: Mewdeko.Database.Models.Poll.ChannelId*
+- uid: Mewdeko.Database.Models.Poll.Question
+  commentId: P:Mewdeko.Database.Models.Poll.Question
+  id: Question
+  parent: Mewdeko.Database.Models.Poll
+  langs:
+  - csharp
+  - vb
+  name: Question
+  nameWithType: Poll.Question
+  fullName: Mewdeko.Database.Models.Poll.Question
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Poll.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Question
+    path: src/Mewdeko.Database/Models/Poll.cs
+    startLine: 8
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public string Question { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Question As String
+  overload: Mewdeko.Database.Models.Poll.Question*
+- uid: Mewdeko.Database.Models.Poll.Answers
+  commentId: P:Mewdeko.Database.Models.Poll.Answers
+  id: Answers
+  parent: Mewdeko.Database.Models.Poll
+  langs:
+  - csharp
+  - vb
+  name: Answers
+  nameWithType: Poll.Answers
+  fullName: Mewdeko.Database.Models.Poll.Answers
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Poll.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Answers
+    path: src/Mewdeko.Database/Models/Poll.cs
+    startLine: 9
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public IndexedCollection<PollAnswer> Answers { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Database.Common.IndexedCollection{Mewdeko.Database.Models.PollAnswer}
+    content.vb: Public Property Answers As IndexedCollection(Of PollAnswer)
+  overload: Mewdeko.Database.Models.Poll.Answers*
+- uid: Mewdeko.Database.Models.Poll.PollType
+  commentId: P:Mewdeko.Database.Models.Poll.PollType
+  id: PollType
+  parent: Mewdeko.Database.Models.Poll
+  langs:
+  - csharp
+  - vb
+  name: PollType
+  nameWithType: Poll.PollType
+  fullName: Mewdeko.Database.Models.Poll.PollType
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Poll.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: PollType
+    path: src/Mewdeko.Database/Models/Poll.cs
+    startLine: 10
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public PollType PollType { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Database.Models.PollType
+    content.vb: Public Property PollType As PollType
+  overload: Mewdeko.Database.Models.Poll.PollType*
+- uid: Mewdeko.Database.Models.Poll.Votes
+  commentId: P:Mewdeko.Database.Models.Poll.Votes
+  id: Votes
+  parent: Mewdeko.Database.Models.Poll
+  langs:
+  - csharp
+  - vb
+  name: Votes
+  nameWithType: Poll.Votes
+  fullName: Mewdeko.Database.Models.Poll.Votes
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Poll.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Votes
+    path: src/Mewdeko.Database/Models/Poll.cs
+    startLine: 11
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public List<PollVote> Votes { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{Mewdeko.Database.Models.PollVote}
+    content.vb: Public Property Votes As List(Of PollVote)
+  overload: Mewdeko.Database.Models.Poll.Votes*
+references:
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Mewdeko.Database.Models.DbEntity
+  commentId: T:Mewdeko.Database.Models.DbEntity
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.DbEntity.html
+  name: DbEntity
+  nameWithType: DbEntity
+  fullName: Mewdeko.Database.Models.DbEntity
+- uid: Mewdeko.Database.Models.DbEntity.Id
+  commentId: P:Mewdeko.Database.Models.DbEntity.Id
+  parent: Mewdeko.Database.Models.DbEntity
+  href: Mewdeko.Database.Models.DbEntity.html#Mewdeko_Database_Models_DbEntity_Id
+  name: Id
+  nameWithType: DbEntity.Id
+  fullName: Mewdeko.Database.Models.DbEntity.Id
+- uid: Mewdeko.Database.Models.DbEntity.DateAdded
+  commentId: P:Mewdeko.Database.Models.DbEntity.DateAdded
+  parent: Mewdeko.Database.Models.DbEntity
+  href: Mewdeko.Database.Models.DbEntity.html#Mewdeko_Database_Models_DbEntity_DateAdded
+  name: DateAdded
+  nameWithType: DbEntity.DateAdded
+  fullName: Mewdeko.Database.Models.DbEntity.DateAdded
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Database.Models.Poll.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<Poll>(Poll, string)
+  nameWithType: Extensions.ThrowIfNull<Poll>(Poll, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Database.Models.Poll>(Mewdeko.Database.Models.Poll, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of Poll)(Poll, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Database.Models.Poll)(Mewdeko.Database.Models.Poll, String)
+  name.vb: ThrowIfNull(Of Poll)(Poll, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Database.Models.Poll,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Database.Models.Poll
+    name: Poll
+    href: Mewdeko.Database.Models.Poll.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Database.Models.Poll
+    name: Poll
+    href: Mewdeko.Database.Models.Poll.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Database.Models.Poll,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Models.Poll
+    name: Poll
+    href: Mewdeko.Database.Models.Poll.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Database.Models.Poll
+    name: Poll
+    href: Mewdeko.Database.Models.Poll.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Database.Models.Poll.GuildId*
+  commentId: Overload:Mewdeko.Database.Models.Poll.GuildId
+  href: Mewdeko.Database.Models.Poll.html#Mewdeko_Database_Models_Poll_GuildId
+  name: GuildId
+  nameWithType: Poll.GuildId
+  fullName: Mewdeko.Database.Models.Poll.GuildId
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong
+  nameWithType: ulong
+  fullName: ulong
+  nameWithType.vb: ULong
+  fullName.vb: ULong
+  name.vb: ULong
+- uid: Mewdeko.Database.Models.Poll.ChannelId*
+  commentId: Overload:Mewdeko.Database.Models.Poll.ChannelId
+  href: Mewdeko.Database.Models.Poll.html#Mewdeko_Database_Models_Poll_ChannelId
+  name: ChannelId
+  nameWithType: Poll.ChannelId
+  fullName: Mewdeko.Database.Models.Poll.ChannelId
+- uid: Mewdeko.Database.Models.Poll.Question*
+  commentId: Overload:Mewdeko.Database.Models.Poll.Question
+  href: Mewdeko.Database.Models.Poll.html#Mewdeko_Database_Models_Poll_Question
+  name: Question
+  nameWithType: Poll.Question
+  fullName: Mewdeko.Database.Models.Poll.Question
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Database.Models.Poll.Answers*
+  commentId: Overload:Mewdeko.Database.Models.Poll.Answers
+  href: Mewdeko.Database.Models.Poll.html#Mewdeko_Database_Models_Poll_Answers
+  name: Answers
+  nameWithType: Poll.Answers
+  fullName: Mewdeko.Database.Models.Poll.Answers
+- uid: Mewdeko.Database.Common.IndexedCollection{Mewdeko.Database.Models.PollAnswer}
+  commentId: T:Mewdeko.Database.Common.IndexedCollection{Mewdeko.Database.Models.PollAnswer}
+  parent: Mewdeko.Database.Common
+  definition: Mewdeko.Database.Common.IndexedCollection`1
+  href: Mewdeko.Database.Common.IndexedCollection-1.html
+  name: IndexedCollection<PollAnswer>
+  nameWithType: IndexedCollection<PollAnswer>
+  fullName: Mewdeko.Database.Common.IndexedCollection<Mewdeko.Database.Models.PollAnswer>
+  nameWithType.vb: IndexedCollection(Of PollAnswer)
+  fullName.vb: Mewdeko.Database.Common.IndexedCollection(Of Mewdeko.Database.Models.PollAnswer)
+  name.vb: IndexedCollection(Of PollAnswer)
+  spec.csharp:
+  - uid: Mewdeko.Database.Common.IndexedCollection`1
+    name: IndexedCollection
+    href: Mewdeko.Database.Common.IndexedCollection-1.html
+  - name: <
+  - uid: Mewdeko.Database.Models.PollAnswer
+    name: PollAnswer
+    href: Mewdeko.Database.Models.PollAnswer.html
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Database.Common.IndexedCollection`1
+    name: IndexedCollection
+    href: Mewdeko.Database.Common.IndexedCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Models.PollAnswer
+    name: PollAnswer
+    href: Mewdeko.Database.Models.PollAnswer.html
+  - name: )
+- uid: Mewdeko.Database.Common.IndexedCollection`1
+  commentId: T:Mewdeko.Database.Common.IndexedCollection`1
+  parent: Mewdeko.Database.Common
+  href: Mewdeko.Database.Common.IndexedCollection-1.html
+  name: IndexedCollection<T>
+  nameWithType: IndexedCollection<T>
+  fullName: Mewdeko.Database.Common.IndexedCollection<T>
+  nameWithType.vb: IndexedCollection(Of T)
+  fullName.vb: Mewdeko.Database.Common.IndexedCollection(Of T)
+  name.vb: IndexedCollection(Of T)
+  spec.csharp:
+  - uid: Mewdeko.Database.Common.IndexedCollection`1
+    name: IndexedCollection
+    href: Mewdeko.Database.Common.IndexedCollection-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Database.Common.IndexedCollection`1
+    name: IndexedCollection
+    href: Mewdeko.Database.Common.IndexedCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Database.Common
+  commentId: N:Mewdeko.Database.Common
+  href: Mewdeko.html
+  name: Mewdeko.Database.Common
+  nameWithType: Mewdeko.Database.Common
+  fullName: Mewdeko.Database.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Common
+    name: Common
+    href: Mewdeko.Database.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Common
+    name: Common
+    href: Mewdeko.Database.Common.html
+- uid: Mewdeko.Database.Models.Poll.PollType*
+  commentId: Overload:Mewdeko.Database.Models.Poll.PollType
+  href: Mewdeko.Database.Models.Poll.html#Mewdeko_Database_Models_Poll_PollType
+  name: PollType
+  nameWithType: Poll.PollType
+  fullName: Mewdeko.Database.Models.Poll.PollType
+- uid: Mewdeko.Database.Models.PollType
+  commentId: T:Mewdeko.Database.Models.PollType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.PollType.html
+  name: PollType
+  nameWithType: PollType
+  fullName: Mewdeko.Database.Models.PollType
+- uid: Mewdeko.Database.Models.Poll.Votes*
+  commentId: Overload:Mewdeko.Database.Models.Poll.Votes
+  href: Mewdeko.Database.Models.Poll.html#Mewdeko_Database_Models_Poll_Votes
+  name: Votes
+  nameWithType: Poll.Votes
+  fullName: Mewdeko.Database.Models.Poll.Votes
+- uid: System.Collections.Generic.List{Mewdeko.Database.Models.PollVote}
+  commentId: T:System.Collections.Generic.List{Mewdeko.Database.Models.PollVote}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<PollVote>
+  nameWithType: List<PollVote>
+  fullName: System.Collections.Generic.List<Mewdeko.Database.Models.PollVote>
+  nameWithType.vb: List(Of PollVote)
+  fullName.vb: System.Collections.Generic.List(Of Mewdeko.Database.Models.PollVote)
+  name.vb: List(Of PollVote)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: Mewdeko.Database.Models.PollVote
+    name: PollVote
+    href: Mewdeko.Database.Models.PollVote.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Models.PollVote
+    name: PollVote
+    href: Mewdeko.Database.Models.PollVote.html
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic

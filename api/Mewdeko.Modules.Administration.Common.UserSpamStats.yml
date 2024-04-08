@@ -1,0 +1,689 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Administration.Common.UserSpamStats
+  commentId: T:Mewdeko.Modules.Administration.Common.UserSpamStats
+  id: UserSpamStats
+  parent: Mewdeko.Modules.Administration.Common
+  children:
+  - Mewdeko.Modules.Administration.Common.UserSpamStats.#ctor(Discord.IUserMessage)
+  - Mewdeko.Modules.Administration.Common.UserSpamStats.ApplyNextMessage(Discord.IUserMessage)
+  - Mewdeko.Modules.Administration.Common.UserSpamStats.Count
+  - Mewdeko.Modules.Administration.Common.UserSpamStats.Dispose
+  - Mewdeko.Modules.Administration.Common.UserSpamStats.LastMessage
+  langs:
+  - csharp
+  - vb
+  name: UserSpamStats
+  nameWithType: UserSpamStats
+  fullName: Mewdeko.Modules.Administration.Common.UserSpamStats
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Common/UserSpamStats.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserSpamStats
+    path: src/Mewdeko/Modules/Administration/Common/UserSpamStats.cs
+    startLine: 8
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Common
+  summary: Represents statistics for a user's spam behavior.
+  example: []
+  syntax:
+    content: 'public sealed class UserSpamStats : IDisposable'
+    content.vb: Public NotInheritable Class UserSpamStats Implements IDisposable
+  inheritance:
+  - System.Object
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Administration.Common.UserSpamStats.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Administration.Common.UserSpamStats.#ctor(Discord.IUserMessage)
+  commentId: M:Mewdeko.Modules.Administration.Common.UserSpamStats.#ctor(Discord.IUserMessage)
+  id: '#ctor(Discord.IUserMessage)'
+  parent: Mewdeko.Modules.Administration.Common.UserSpamStats
+  langs:
+  - csharp
+  - vb
+  name: UserSpamStats(IUserMessage)
+  nameWithType: UserSpamStats.UserSpamStats(IUserMessage)
+  fullName: Mewdeko.Modules.Administration.Common.UserSpamStats.UserSpamStats(Discord.IUserMessage)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Common/UserSpamStats.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Administration/Common/UserSpamStats.cs
+    startLine: 16
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Common
+  summary: Initializes a new instance of the <xref href="Mewdeko.Modules.Administration.Common.UserSpamStats" data-throw-if-not-resolved="false"></xref> class with the specified message.
+  example: []
+  syntax:
+    content: public UserSpamStats(IUserMessage msg)
+    parameters:
+    - id: msg
+      type: Discord.IUserMessage
+      description: The message to initialize the statistics.
+    content.vb: Public Sub New(msg As IUserMessage)
+  overload: Mewdeko.Modules.Administration.Common.UserSpamStats.#ctor*
+  nameWithType.vb: UserSpamStats.New(IUserMessage)
+  fullName.vb: Mewdeko.Modules.Administration.Common.UserSpamStats.New(Discord.IUserMessage)
+  name.vb: New(IUserMessage)
+- uid: Mewdeko.Modules.Administration.Common.UserSpamStats.Count
+  commentId: P:Mewdeko.Modules.Administration.Common.UserSpamStats.Count
+  id: Count
+  parent: Mewdeko.Modules.Administration.Common.UserSpamStats
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: UserSpamStats.Count
+  fullName: Mewdeko.Modules.Administration.Common.UserSpamStats.Count
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Common/UserSpamStats.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Count
+    path: src/Mewdeko/Modules/Administration/Common/UserSpamStats.cs
+    startLine: 27
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Common
+  summary: Gets the number of active timers.
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: Mewdeko.Modules.Administration.Common.UserSpamStats.Count*
+- uid: Mewdeko.Modules.Administration.Common.UserSpamStats.LastMessage
+  commentId: P:Mewdeko.Modules.Administration.Common.UserSpamStats.LastMessage
+  id: LastMessage
+  parent: Mewdeko.Modules.Administration.Common.UserSpamStats
+  langs:
+  - csharp
+  - vb
+  name: LastMessage
+  nameWithType: UserSpamStats.LastMessage
+  fullName: Mewdeko.Modules.Administration.Common.UserSpamStats.LastMessage
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Common/UserSpamStats.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: LastMessage
+    path: src/Mewdeko/Modules/Administration/Common/UserSpamStats.cs
+    startLine: 32
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Common
+  summary: Gets or sets the content of the last message.
+  example: []
+  syntax:
+    content: public string LastMessage { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property LastMessage As String
+  overload: Mewdeko.Modules.Administration.Common.UserSpamStats.LastMessage*
+- uid: Mewdeko.Modules.Administration.Common.UserSpamStats.Dispose
+  commentId: M:Mewdeko.Modules.Administration.Common.UserSpamStats.Dispose
+  id: Dispose
+  parent: Mewdeko.Modules.Administration.Common.UserSpamStats
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: UserSpamStats.Dispose()
+  fullName: Mewdeko.Modules.Administration.Common.UserSpamStats.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Common/UserSpamStats.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Dispose
+    path: src/Mewdeko/Modules/Administration/Common/UserSpamStats.cs
+    startLine: 39
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Common
+  summary: Disposes the instance, cancelling all active timers.
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose()
+  overload: Mewdeko.Modules.Administration.Common.UserSpamStats.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+- uid: Mewdeko.Modules.Administration.Common.UserSpamStats.ApplyNextMessage(Discord.IUserMessage)
+  commentId: M:Mewdeko.Modules.Administration.Common.UserSpamStats.ApplyNextMessage(Discord.IUserMessage)
+  id: ApplyNextMessage(Discord.IUserMessage)
+  parent: Mewdeko.Modules.Administration.Common.UserSpamStats
+  langs:
+  - csharp
+  - vb
+  name: ApplyNextMessage(IUserMessage)
+  nameWithType: UserSpamStats.ApplyNextMessage(IUserMessage)
+  fullName: Mewdeko.Modules.Administration.Common.UserSpamStats.ApplyNextMessage(Discord.IUserMessage)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Common/UserSpamStats.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ApplyNextMessage
+    path: src/Mewdeko/Modules/Administration/Common/UserSpamStats.cs
+    startLine: 49
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Common
+  summary: Applies the next message to update the statistics.
+  example: []
+  syntax:
+    content: public void ApplyNextMessage(IUserMessage message)
+    parameters:
+    - id: message
+      type: Discord.IUserMessage
+      description: The message to apply.
+    content.vb: Public Sub ApplyNextMessage(message As IUserMessage)
+  overload: Mewdeko.Modules.Administration.Common.UserSpamStats.ApplyNextMessage*
+references:
+- uid: Mewdeko.Modules.Administration.Common
+  commentId: N:Mewdeko.Modules.Administration.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Administration.Common
+  nameWithType: Mewdeko.Modules.Administration.Common
+  fullName: Mewdeko.Modules.Administration.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Common
+    name: Common
+    href: Mewdeko.Modules.Administration.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Common
+    name: Common
+    href: Mewdeko.Modules.Administration.Common.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Administration.Common.UserSpamStats.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<UserSpamStats>(UserSpamStats, string)
+  nameWithType: Extensions.ThrowIfNull<UserSpamStats>(UserSpamStats, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Administration.Common.UserSpamStats>(Mewdeko.Modules.Administration.Common.UserSpamStats, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of UserSpamStats)(UserSpamStats, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Administration.Common.UserSpamStats)(Mewdeko.Modules.Administration.Common.UserSpamStats, String)
+  name.vb: ThrowIfNull(Of UserSpamStats)(UserSpamStats, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Administration.Common.UserSpamStats,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Administration.Common.UserSpamStats
+    name: UserSpamStats
+    href: Mewdeko.Modules.Administration.Common.UserSpamStats.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Administration.Common.UserSpamStats
+    name: UserSpamStats
+    href: Mewdeko.Modules.Administration.Common.UserSpamStats.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Administration.Common.UserSpamStats,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Administration.Common.UserSpamStats
+    name: UserSpamStats
+    href: Mewdeko.Modules.Administration.Common.UserSpamStats.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Administration.Common.UserSpamStats
+    name: UserSpamStats
+    href: Mewdeko.Modules.Administration.Common.UserSpamStats.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Administration.Common.UserSpamStats
+  commentId: T:Mewdeko.Modules.Administration.Common.UserSpamStats
+  href: Mewdeko.Modules.Administration.Common.UserSpamStats.html
+  name: UserSpamStats
+  nameWithType: UserSpamStats
+  fullName: Mewdeko.Modules.Administration.Common.UserSpamStats
+- uid: Mewdeko.Modules.Administration.Common.UserSpamStats.#ctor*
+  commentId: Overload:Mewdeko.Modules.Administration.Common.UserSpamStats.#ctor
+  href: Mewdeko.Modules.Administration.Common.UserSpamStats.html#Mewdeko_Modules_Administration_Common_UserSpamStats__ctor_Discord_IUserMessage_
+  name: UserSpamStats
+  nameWithType: UserSpamStats.UserSpamStats
+  fullName: Mewdeko.Modules.Administration.Common.UserSpamStats.UserSpamStats
+  nameWithType.vb: UserSpamStats.New
+  fullName.vb: Mewdeko.Modules.Administration.Common.UserSpamStats.New
+  name.vb: New
+- uid: Discord.IUserMessage
+  commentId: T:Discord.IUserMessage
+  parent: Discord
+  isExternal: true
+  name: IUserMessage
+  nameWithType: IUserMessage
+  fullName: Discord.IUserMessage
+- uid: Discord
+  commentId: N:Discord
+  isExternal: true
+  name: Discord
+  nameWithType: Discord
+  fullName: Discord
+- uid: Mewdeko.Modules.Administration.Common.UserSpamStats.Count*
+  commentId: Overload:Mewdeko.Modules.Administration.Common.UserSpamStats.Count
+  href: Mewdeko.Modules.Administration.Common.UserSpamStats.html#Mewdeko_Modules_Administration_Common_UserSpamStats_Count
+  name: Count
+  nameWithType: UserSpamStats.Count
+  fullName: Mewdeko.Modules.Administration.Common.UserSpamStats.Count
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Modules.Administration.Common.UserSpamStats.LastMessage*
+  commentId: Overload:Mewdeko.Modules.Administration.Common.UserSpamStats.LastMessage
+  href: Mewdeko.Modules.Administration.Common.UserSpamStats.html#Mewdeko_Modules_Administration_Common_UserSpamStats_LastMessage
+  name: LastMessage
+  nameWithType: UserSpamStats.LastMessage
+  fullName: Mewdeko.Modules.Administration.Common.UserSpamStats.LastMessage
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Modules.Administration.Common.UserSpamStats.Dispose*
+  commentId: Overload:Mewdeko.Modules.Administration.Common.UserSpamStats.Dispose
+  href: Mewdeko.Modules.Administration.Common.UserSpamStats.html#Mewdeko_Modules_Administration_Common_UserSpamStats_Dispose
+  name: Dispose
+  nameWithType: UserSpamStats.Dispose
+  fullName: Mewdeko.Modules.Administration.Common.UserSpamStats.Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Administration.Common.UserSpamStats.ApplyNextMessage*
+  commentId: Overload:Mewdeko.Modules.Administration.Common.UserSpamStats.ApplyNextMessage
+  href: Mewdeko.Modules.Administration.Common.UserSpamStats.html#Mewdeko_Modules_Administration_Common_UserSpamStats_ApplyNextMessage_Discord_IUserMessage_
+  name: ApplyNextMessage
+  nameWithType: UserSpamStats.ApplyNextMessage
+  fullName: Mewdeko.Modules.Administration.Common.UserSpamStats.ApplyNextMessage

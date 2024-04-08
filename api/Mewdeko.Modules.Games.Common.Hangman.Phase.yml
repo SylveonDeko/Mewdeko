@@ -1,0 +1,142 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Games.Common.Hangman.Phase
+  commentId: T:Mewdeko.Modules.Games.Common.Hangman.Phase
+  id: Phase
+  parent: Mewdeko.Modules.Games.Common.Hangman
+  children:
+  - Mewdeko.Modules.Games.Common.Hangman.Phase.Active
+  - Mewdeko.Modules.Games.Common.Hangman.Phase.Ended
+  langs:
+  - csharp
+  - vb
+  name: Phase
+  nameWithType: Phase
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Phase
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Phase.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Phase
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Phase.cs
+    startLine: 5
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Represents the phase of a hangman game.
+  example: []
+  syntax:
+    content: public enum Phase
+    content.vb: Public Enum Phase
+- uid: Mewdeko.Modules.Games.Common.Hangman.Phase.Active
+  commentId: F:Mewdeko.Modules.Games.Common.Hangman.Phase.Active
+  id: Active
+  parent: Mewdeko.Modules.Games.Common.Hangman.Phase
+  langs:
+  - csharp
+  - vb
+  name: Active
+  nameWithType: Phase.Active
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Phase.Active
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Phase.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Active
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Phase.cs
+    startLine: 10
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Represents the active phase of the game where guesses can be made.
+  example: []
+  syntax:
+    content: Active = 0
+    return:
+      type: Mewdeko.Modules.Games.Common.Hangman.Phase
+- uid: Mewdeko.Modules.Games.Common.Hangman.Phase.Ended
+  commentId: F:Mewdeko.Modules.Games.Common.Hangman.Phase.Ended
+  id: Ended
+  parent: Mewdeko.Modules.Games.Common.Hangman.Phase
+  langs:
+  - csharp
+  - vb
+  name: Ended
+  nameWithType: Phase.Ended
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Phase.Ended
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Phase.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Ended
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Phase.cs
+    startLine: 15
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Represents the ended phase of the game where no more guesses can be made.
+  example: []
+  syntax:
+    content: Ended = 1
+    return:
+      type: Mewdeko.Modules.Games.Common.Hangman.Phase
+references:
+- uid: Mewdeko.Modules.Games.Common.Hangman
+  commentId: N:Mewdeko.Modules.Games.Common.Hangman
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Games.Common.Hangman
+  nameWithType: Mewdeko.Modules.Games.Common.Hangman
+  fullName: Mewdeko.Modules.Games.Common.Hangman
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Hangman
+    name: Hangman
+    href: Mewdeko.Modules.Games.Common.Hangman.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Hangman
+    name: Hangman
+    href: Mewdeko.Modules.Games.Common.Hangman.html
+- uid: Mewdeko.Modules.Games.Common.Hangman.Phase
+  commentId: T:Mewdeko.Modules.Games.Common.Hangman.Phase
+  parent: Mewdeko.Modules.Games.Common.Hangman
+  href: Mewdeko.Modules.Games.Common.Hangman.Phase.html
+  name: Phase
+  nameWithType: Phase
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Phase

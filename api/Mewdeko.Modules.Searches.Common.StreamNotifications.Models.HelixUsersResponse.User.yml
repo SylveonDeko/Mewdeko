@@ -1,0 +1,1043 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+  id: HelixUsersResponse.User
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  children:
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.BroadcasterType
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.CreatedAt
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Description
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.DisplayName
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Email
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Id
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Login
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.OfflineImageUrl
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.ProfileImageUrl
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Type
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.ViewCount
+  langs:
+  - csharp
+  - vb
+  name: HelixUsersResponse.User
+  nameWithType: HelixUsersResponse.User
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: User
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Represents individual user information returned by the Helix API.
+  example: []
+  syntax:
+    content: public class HelixUsersResponse.User
+    content.vb: Public Class HelixUsersResponse.User
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Id
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Id
+  id: Id
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: HelixUsersResponse.User.Id
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Id
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Id
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+    startLine: 17
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The unique identifier of the user.
+  example: []
+  syntax:
+    content: >-
+      [JsonPropertyName("id")]
+
+      public string Id { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonPropertyName("id")>
+
+      Public Property Id As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Id*
+  attributes:
+  - type: System.Text.Json.Serialization.JsonPropertyNameAttribute
+    ctor: System.Text.Json.Serialization.JsonPropertyNameAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: id
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Login
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Login
+  id: Login
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+  langs:
+  - csharp
+  - vb
+  name: Login
+  nameWithType: HelixUsersResponse.User.Login
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Login
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Login
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+    startLine: 23
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The login name of the user.
+  example: []
+  syntax:
+    content: >-
+      [JsonPropertyName("login")]
+
+      public string Login { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonPropertyName("login")>
+
+      Public Property Login As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Login*
+  attributes:
+  - type: System.Text.Json.Serialization.JsonPropertyNameAttribute
+    ctor: System.Text.Json.Serialization.JsonPropertyNameAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: login
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.DisplayName
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.DisplayName
+  id: DisplayName
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+  langs:
+  - csharp
+  - vb
+  name: DisplayName
+  nameWithType: HelixUsersResponse.User.DisplayName
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.DisplayName
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: DisplayName
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+    startLine: 29
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The display name of the user.
+  example: []
+  syntax:
+    content: >-
+      [JsonPropertyName("display_name")]
+
+      public string DisplayName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonPropertyName("display_name")>
+
+      Public Property DisplayName As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.DisplayName*
+  attributes:
+  - type: System.Text.Json.Serialization.JsonPropertyNameAttribute
+    ctor: System.Text.Json.Serialization.JsonPropertyNameAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: display_name
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Type
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Type
+  id: Type
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: HelixUsersResponse.User.Type
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Type
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Type
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+    startLine: 35
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The type of the user.
+  example: []
+  syntax:
+    content: >-
+      [JsonPropertyName("type")]
+
+      public string Type { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonPropertyName("type")>
+
+      Public Property Type As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Type*
+  attributes:
+  - type: System.Text.Json.Serialization.JsonPropertyNameAttribute
+    ctor: System.Text.Json.Serialization.JsonPropertyNameAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: type
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.BroadcasterType
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.BroadcasterType
+  id: BroadcasterType
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+  langs:
+  - csharp
+  - vb
+  name: BroadcasterType
+  nameWithType: HelixUsersResponse.User.BroadcasterType
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.BroadcasterType
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: BroadcasterType
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+    startLine: 41
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The broadcaster type of the user.
+  example: []
+  syntax:
+    content: >-
+      [JsonPropertyName("broadcaster_type")]
+
+      public string BroadcasterType { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonPropertyName("broadcaster_type")>
+
+      Public Property BroadcasterType As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.BroadcasterType*
+  attributes:
+  - type: System.Text.Json.Serialization.JsonPropertyNameAttribute
+    ctor: System.Text.Json.Serialization.JsonPropertyNameAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: broadcaster_type
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Description
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Description
+  id: Description
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+  langs:
+  - csharp
+  - vb
+  name: Description
+  nameWithType: HelixUsersResponse.User.Description
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Description
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Description
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+    startLine: 47
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The description of the user's profile.
+  example: []
+  syntax:
+    content: >-
+      [JsonPropertyName("description")]
+
+      public string Description { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonPropertyName("description")>
+
+      Public Property Description As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Description*
+  attributes:
+  - type: System.Text.Json.Serialization.JsonPropertyNameAttribute
+    ctor: System.Text.Json.Serialization.JsonPropertyNameAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: description
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.ProfileImageUrl
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.ProfileImageUrl
+  id: ProfileImageUrl
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+  langs:
+  - csharp
+  - vb
+  name: ProfileImageUrl
+  nameWithType: HelixUsersResponse.User.ProfileImageUrl
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.ProfileImageUrl
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ProfileImageUrl
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+    startLine: 53
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The URL of the user's profile image.
+  example: []
+  syntax:
+    content: >-
+      [JsonPropertyName("profile_image_url")]
+
+      public string ProfileImageUrl { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonPropertyName("profile_image_url")>
+
+      Public Property ProfileImageUrl As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.ProfileImageUrl*
+  attributes:
+  - type: System.Text.Json.Serialization.JsonPropertyNameAttribute
+    ctor: System.Text.Json.Serialization.JsonPropertyNameAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: profile_image_url
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.OfflineImageUrl
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.OfflineImageUrl
+  id: OfflineImageUrl
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+  langs:
+  - csharp
+  - vb
+  name: OfflineImageUrl
+  nameWithType: HelixUsersResponse.User.OfflineImageUrl
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.OfflineImageUrl
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OfflineImageUrl
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+    startLine: 59
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The URL of the user's offline image.
+  example: []
+  syntax:
+    content: >-
+      [JsonPropertyName("offline_image_url")]
+
+      public string OfflineImageUrl { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonPropertyName("offline_image_url")>
+
+      Public Property OfflineImageUrl As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.OfflineImageUrl*
+  attributes:
+  - type: System.Text.Json.Serialization.JsonPropertyNameAttribute
+    ctor: System.Text.Json.Serialization.JsonPropertyNameAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: offline_image_url
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.ViewCount
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.ViewCount
+  id: ViewCount
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+  langs:
+  - csharp
+  - vb
+  name: ViewCount
+  nameWithType: HelixUsersResponse.User.ViewCount
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.ViewCount
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ViewCount
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+    startLine: 65
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The total number of views of the user's channel.
+  example: []
+  syntax:
+    content: >-
+      [JsonPropertyName("view_count")]
+
+      public int ViewCount { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <JsonPropertyName("view_count")>
+
+      Public Property ViewCount As Integer
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.ViewCount*
+  attributes:
+  - type: System.Text.Json.Serialization.JsonPropertyNameAttribute
+    ctor: System.Text.Json.Serialization.JsonPropertyNameAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: view_count
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Email
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Email
+  id: Email
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+  langs:
+  - csharp
+  - vb
+  name: Email
+  nameWithType: HelixUsersResponse.User.Email
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Email
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Email
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+    startLine: 71
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The email of the user.
+  example: []
+  syntax:
+    content: >-
+      [JsonPropertyName("email")]
+
+      public string Email { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonPropertyName("email")>
+
+      Public Property Email As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Email*
+  attributes:
+  - type: System.Text.Json.Serialization.JsonPropertyNameAttribute
+    ctor: System.Text.Json.Serialization.JsonPropertyNameAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: email
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.CreatedAt
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.CreatedAt
+  id: CreatedAt
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+  langs:
+  - csharp
+  - vb
+  name: CreatedAt
+  nameWithType: HelixUsersResponse.User.CreatedAt
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.CreatedAt
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CreatedAt
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/HelixUsersResponse.cs
+    startLine: 77
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The date and time when the user's account was created.
+  example: []
+  syntax:
+    content: >-
+      [JsonPropertyName("created_at")]
+
+      public DateTime CreatedAt { get; set; }
+    parameters: []
+    return:
+      type: System.DateTime
+    content.vb: >-
+      <JsonPropertyName("created_at")>
+
+      Public Property CreatedAt As Date
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.CreatedAt*
+  attributes:
+  - type: System.Text.Json.Serialization.JsonPropertyNameAttribute
+    ctor: System.Text.Json.Serialization.JsonPropertyNameAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: created_at
+references:
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  commentId: N:Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  nameWithType: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications
+    name: StreamNotifications
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+    name: Models
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications
+    name: StreamNotifications
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+    name: Models
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<User>(User, string)
+  nameWithType: Extensions.ThrowIfNull<HelixUsersResponse.User>(HelixUsersResponse.User, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User>(Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of HelixUsersResponse.User)(HelixUsersResponse.User, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User)(Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User, String)
+  name.vb: ThrowIfNull(Of User)(User, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+    name: User
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+    name: User
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+    name: User
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+    name: User
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Id*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Id
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_HelixUsersResponse_User_Id
+  name: Id
+  nameWithType: HelixUsersResponse.User.Id
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Id
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Login*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Login
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_HelixUsersResponse_User_Login
+  name: Login
+  nameWithType: HelixUsersResponse.User.Login
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Login
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.DisplayName*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.DisplayName
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_HelixUsersResponse_User_DisplayName
+  name: DisplayName
+  nameWithType: HelixUsersResponse.User.DisplayName
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.DisplayName
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Type*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Type
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_HelixUsersResponse_User_Type
+  name: Type
+  nameWithType: HelixUsersResponse.User.Type
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Type
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.BroadcasterType*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.BroadcasterType
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_HelixUsersResponse_User_BroadcasterType
+  name: BroadcasterType
+  nameWithType: HelixUsersResponse.User.BroadcasterType
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.BroadcasterType
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Description*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Description
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_HelixUsersResponse_User_Description
+  name: Description
+  nameWithType: HelixUsersResponse.User.Description
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Description
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.ProfileImageUrl*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.ProfileImageUrl
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_HelixUsersResponse_User_ProfileImageUrl
+  name: ProfileImageUrl
+  nameWithType: HelixUsersResponse.User.ProfileImageUrl
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.ProfileImageUrl
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.OfflineImageUrl*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.OfflineImageUrl
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_HelixUsersResponse_User_OfflineImageUrl
+  name: OfflineImageUrl
+  nameWithType: HelixUsersResponse.User.OfflineImageUrl
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.OfflineImageUrl
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.ViewCount*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.ViewCount
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_HelixUsersResponse_User_ViewCount
+  name: ViewCount
+  nameWithType: HelixUsersResponse.User.ViewCount
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.ViewCount
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Email*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Email
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_HelixUsersResponse_User_Email
+  name: Email
+  nameWithType: HelixUsersResponse.User.Email
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.Email
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.CreatedAt*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.CreatedAt
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_HelixUsersResponse_User_CreatedAt
+  name: CreatedAt
+  nameWithType: HelixUsersResponse.User.CreatedAt
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.CreatedAt
+- uid: System.DateTime
+  commentId: T:System.DateTime
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.datetime
+  name: DateTime
+  nameWithType: DateTime
+  fullName: System.DateTime
+  nameWithType.vb: Date
+  fullName.vb: Date
+  name.vb: Date

@@ -1,0 +1,669 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.Modals.ChatTriggerModal
+  commentId: T:Mewdeko.Common.Modals.ChatTriggerModal
+  id: ChatTriggerModal
+  parent: Mewdeko.Common.Modals
+  children:
+  - Mewdeko.Common.Modals.ChatTriggerModal.Message
+  - Mewdeko.Common.Modals.ChatTriggerModal.Title
+  - Mewdeko.Common.Modals.ChatTriggerModal.Trigger
+  langs:
+  - csharp
+  - vb
+  name: ChatTriggerModal
+  nameWithType: ChatTriggerModal
+  fullName: Mewdeko.Common.Modals.ChatTriggerModal
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Common/Modals/ChatTriggerModal.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChatTriggerModal
+    path: src/Mewdeko/Common/Modals/ChatTriggerModal.cs
+    startLine: 7
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Modals
+  summary: Represents a modal for adding a chat trigger.
+  example: []
+  syntax:
+    content: 'public class ChatTriggerModal : IModal'
+    content.vb: Public Class ChatTriggerModal Implements IModal
+  inheritance:
+  - System.Object
+  implements:
+  - Discord.Interactions.IModal
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Common.Modals.ChatTriggerModal.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Common.Modals.ChatTriggerModal.Title
+  commentId: P:Mewdeko.Common.Modals.ChatTriggerModal.Title
+  id: Title
+  parent: Mewdeko.Common.Modals.ChatTriggerModal
+  langs:
+  - csharp
+  - vb
+  name: Title
+  nameWithType: ChatTriggerModal.Title
+  fullName: Mewdeko.Common.Modals.ChatTriggerModal.Title
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/Modals/ChatTriggerModal.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Title
+    path: src/Mewdeko/Common/Modals/ChatTriggerModal.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Modals
+  summary: Gets the title of the modal.
+  example: []
+  syntax:
+    content: public string Title { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Title As String
+  overload: Mewdeko.Common.Modals.ChatTriggerModal.Title*
+  implements:
+  - Discord.Interactions.IModal.Title
+- uid: Mewdeko.Common.Modals.ChatTriggerModal.Trigger
+  commentId: P:Mewdeko.Common.Modals.ChatTriggerModal.Trigger
+  id: Trigger
+  parent: Mewdeko.Common.Modals.ChatTriggerModal
+  langs:
+  - csharp
+  - vb
+  name: Trigger
+  nameWithType: ChatTriggerModal.Trigger
+  fullName: Mewdeko.Common.Modals.ChatTriggerModal.Trigger
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/Modals/ChatTriggerModal.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Trigger
+    path: src/Mewdeko/Common/Modals/ChatTriggerModal.cs
+    startLine: 21
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Modals
+  summary: Gets or sets the key to trigger the response.
+  remarks: >-
+    This property is decorated with the InputLabel attribute with a value of "Key",
+
+    and the ModalTextInput attribute with a style of TextInputStyle.Short and a placeholder of "The key to trigger the response".
+  example: []
+  syntax:
+    content: >-
+      [InputLabel("Key")]
+
+      [ModalTextInput("key", TextInputStyle.Short, "The key to trigger the response", 1, 4000, null)]
+
+      public string? Trigger { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <InputLabel("Key")>
+
+      <ModalTextInput("key", TextInputStyle.Short, "The key to trigger the response", 1, 4000, Nothing)>
+
+      Public Property Trigger As String
+  overload: Mewdeko.Common.Modals.ChatTriggerModal.Trigger*
+  attributes:
+  - type: Discord.Interactions.InputLabelAttribute
+    ctor: Discord.Interactions.InputLabelAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Key
+  - type: Discord.Interactions.ModalTextInputAttribute
+    ctor: Discord.Interactions.ModalTextInputAttribute.#ctor(System.String,Discord.TextInputStyle,System.String,System.Int32,System.Int32,System.String)
+    arguments:
+    - type: System.String
+      value: key
+    - type: Discord.TextInputStyle
+      value: 1
+    - type: System.String
+      value: The key to trigger the response
+    - type: System.Int32
+      value: 1
+    - type: System.Int32
+      value: 4000
+    - type: System.String
+- uid: Mewdeko.Common.Modals.ChatTriggerModal.Message
+  commentId: P:Mewdeko.Common.Modals.ChatTriggerModal.Message
+  id: Message
+  parent: Mewdeko.Common.Modals.ChatTriggerModal
+  langs:
+  - csharp
+  - vb
+  name: Message
+  nameWithType: ChatTriggerModal.Message
+  fullName: Mewdeko.Common.Modals.ChatTriggerModal.Message
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/Modals/ChatTriggerModal.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Message
+    path: src/Mewdeko/Common/Modals/ChatTriggerModal.cs
+    startLine: 32
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Modals
+  summary: Gets or sets the message to respond with when the key is triggered.
+  remarks: >-
+    This property is decorated with the InputLabel attribute with a value of "Message",
+
+    and the ModalTextInput attribute with a style of TextInputStyle.Paragraph and a placeholder of "The key to message to respond with".
+  example: []
+  syntax:
+    content: >-
+      [InputLabel("Message")]
+
+      [ModalTextInput("message", TextInputStyle.Paragraph, "The key to message to respond with", 1, 4000, null)]
+
+      public string? Message { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <InputLabel("Message")>
+
+      <ModalTextInput("message", TextInputStyle.Paragraph, "The key to message to respond with", 1, 4000, Nothing)>
+
+      Public Property Message As String
+  overload: Mewdeko.Common.Modals.ChatTriggerModal.Message*
+  attributes:
+  - type: Discord.Interactions.InputLabelAttribute
+    ctor: Discord.Interactions.InputLabelAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Message
+  - type: Discord.Interactions.ModalTextInputAttribute
+    ctor: Discord.Interactions.ModalTextInputAttribute.#ctor(System.String,Discord.TextInputStyle,System.String,System.Int32,System.Int32,System.String)
+    arguments:
+    - type: System.String
+      value: message
+    - type: Discord.TextInputStyle
+      value: 2
+    - type: System.String
+      value: The key to message to respond with
+    - type: System.Int32
+      value: 1
+    - type: System.Int32
+      value: 4000
+    - type: System.String
+references:
+- uid: Mewdeko.Common.Modals
+  commentId: N:Mewdeko.Common.Modals
+  href: Mewdeko.html
+  name: Mewdeko.Common.Modals
+  nameWithType: Mewdeko.Common.Modals
+  fullName: Mewdeko.Common.Modals
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Modals
+    name: Modals
+    href: Mewdeko.Common.Modals.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Modals
+    name: Modals
+    href: Mewdeko.Common.Modals.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Discord.Interactions.IModal
+  commentId: T:Discord.Interactions.IModal
+  parent: Discord.Interactions
+  isExternal: true
+  name: IModal
+  nameWithType: IModal
+  fullName: Discord.Interactions.IModal
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Common.Modals.ChatTriggerModal.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<ChatTriggerModal>(ChatTriggerModal, string)
+  nameWithType: Extensions.ThrowIfNull<ChatTriggerModal>(ChatTriggerModal, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Common.Modals.ChatTriggerModal>(Mewdeko.Common.Modals.ChatTriggerModal, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of ChatTriggerModal)(ChatTriggerModal, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Common.Modals.ChatTriggerModal)(Mewdeko.Common.Modals.ChatTriggerModal, String)
+  name.vb: ThrowIfNull(Of ChatTriggerModal)(ChatTriggerModal, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.Modals.ChatTriggerModal,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Common.Modals.ChatTriggerModal
+    name: ChatTriggerModal
+    href: Mewdeko.Common.Modals.ChatTriggerModal.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Common.Modals.ChatTriggerModal
+    name: ChatTriggerModal
+    href: Mewdeko.Common.Modals.ChatTriggerModal.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.Modals.ChatTriggerModal,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Common.Modals.ChatTriggerModal
+    name: ChatTriggerModal
+    href: Mewdeko.Common.Modals.ChatTriggerModal.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Common.Modals.ChatTriggerModal
+    name: ChatTriggerModal
+    href: Mewdeko.Common.Modals.ChatTriggerModal.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Discord.Interactions
+  commentId: N:Discord.Interactions
+  isExternal: true
+  name: Discord.Interactions
+  nameWithType: Discord.Interactions
+  fullName: Discord.Interactions
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Interactions
+    name: Interactions
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Interactions
+    name: Interactions
+    isExternal: true
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Common.Modals.ChatTriggerModal.Title*
+  commentId: Overload:Mewdeko.Common.Modals.ChatTriggerModal.Title
+  href: Mewdeko.Common.Modals.ChatTriggerModal.html#Mewdeko_Common_Modals_ChatTriggerModal_Title
+  name: Title
+  nameWithType: ChatTriggerModal.Title
+  fullName: Mewdeko.Common.Modals.ChatTriggerModal.Title
+- uid: Discord.Interactions.IModal.Title
+  commentId: P:Discord.Interactions.IModal.Title
+  parent: Discord.Interactions.IModal
+  isExternal: true
+  name: Title
+  nameWithType: IModal.Title
+  fullName: Discord.Interactions.IModal.Title
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Common.Modals.ChatTriggerModal.Trigger*
+  commentId: Overload:Mewdeko.Common.Modals.ChatTriggerModal.Trigger
+  href: Mewdeko.Common.Modals.ChatTriggerModal.html#Mewdeko_Common_Modals_ChatTriggerModal_Trigger
+  name: Trigger
+  nameWithType: ChatTriggerModal.Trigger
+  fullName: Mewdeko.Common.Modals.ChatTriggerModal.Trigger
+- uid: Mewdeko.Common.Modals.ChatTriggerModal.Message*
+  commentId: Overload:Mewdeko.Common.Modals.ChatTriggerModal.Message
+  href: Mewdeko.Common.Modals.ChatTriggerModal.html#Mewdeko_Common_Modals_ChatTriggerModal_Message
+  name: Message
+  nameWithType: ChatTriggerModal.Message
+  fullName: Mewdeko.Common.Modals.ChatTriggerModal.Message

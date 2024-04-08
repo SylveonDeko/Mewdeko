@@ -1,0 +1,682 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool
+  commentId: T:Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool
+  id: TriviaQuestionPool
+  parent: Mewdeko.Modules.Games.Common.Trivia
+  children:
+  - Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.#ctor(Mewdeko.Services.IDataCache)
+  - Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.GetRandomQuestion(System.Collections.Generic.HashSet{Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion})
+  langs:
+  - csharp
+  - vb
+  name: TriviaQuestionPool
+  nameWithType: TriviaQuestionPool
+  fullName: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Trivia/TriviaQuestionPool.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TriviaQuestionPool
+    path: src/Mewdeko/Modules/Games/Common/Trivia/TriviaQuestionPool.cs
+    startLine: 5
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Trivia
+  summary: Represents a pool of trivia questions.
+  example: []
+  syntax:
+    content: public class TriviaQuestionPool
+    content.vb: Public Class TriviaQuestionPool
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.#ctor(Mewdeko.Services.IDataCache)
+  commentId: M:Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.#ctor(Mewdeko.Services.IDataCache)
+  id: '#ctor(Mewdeko.Services.IDataCache)'
+  parent: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool
+  langs:
+  - csharp
+  - vb
+  name: TriviaQuestionPool(IDataCache)
+  nameWithType: TriviaQuestionPool.TriviaQuestionPool(IDataCache)
+  fullName: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.TriviaQuestionPool(Mewdeko.Services.IDataCache)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Trivia/TriviaQuestionPool.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Games/Common/Trivia/TriviaQuestionPool.cs
+    startLine: 15
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Trivia
+  summary: Initializes a new instance of the <xref href="Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public TriviaQuestionPool(IDataCache cache)
+    parameters:
+    - id: cache
+      type: Mewdeko.Services.IDataCache
+      description: The data cache.
+    content.vb: Public Sub New(cache As IDataCache)
+  overload: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.#ctor*
+  nameWithType.vb: TriviaQuestionPool.New(IDataCache)
+  fullName.vb: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.New(Mewdeko.Services.IDataCache)
+  name.vb: New(IDataCache)
+- uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.GetRandomQuestion(System.Collections.Generic.HashSet{Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion})
+  commentId: M:Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.GetRandomQuestion(System.Collections.Generic.HashSet{Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion})
+  id: GetRandomQuestion(System.Collections.Generic.HashSet{Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion})
+  parent: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool
+  langs:
+  - csharp
+  - vb
+  name: GetRandomQuestion(HashSet<TriviaQuestion>)
+  nameWithType: TriviaQuestionPool.GetRandomQuestion(HashSet<TriviaQuestion>)
+  fullName: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.GetRandomQuestion(System.Collections.Generic.HashSet<Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Trivia/TriviaQuestionPool.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetRandomQuestion
+    path: src/Mewdeko/Modules/Games/Common/Trivia/TriviaQuestionPool.cs
+    startLine: 24
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Trivia
+  summary: Gets a random question from the pool, excluding those specified.
+  example: []
+  syntax:
+    content: public TriviaQuestion? GetRandomQuestion(HashSet<TriviaQuestion> exclude)
+    parameters:
+    - id: exclude
+      type: System.Collections.Generic.HashSet{Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion}
+      description: The set of questions to exclude.
+    return:
+      type: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion
+      description: A random trivia question.
+    content.vb: Public Function GetRandomQuestion(exclude As HashSet(Of TriviaQuestion)) As TriviaQuestion
+  overload: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.GetRandomQuestion*
+  nameWithType.vb: TriviaQuestionPool.GetRandomQuestion(HashSet(Of TriviaQuestion))
+  fullName.vb: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.GetRandomQuestion(System.Collections.Generic.HashSet(Of Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion))
+  name.vb: GetRandomQuestion(HashSet(Of TriviaQuestion))
+references:
+- uid: Mewdeko.Modules.Games.Common.Trivia
+  commentId: N:Mewdeko.Modules.Games.Common.Trivia
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Games.Common.Trivia
+  nameWithType: Mewdeko.Modules.Games.Common.Trivia
+  fullName: Mewdeko.Modules.Games.Common.Trivia
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Trivia
+    name: Trivia
+    href: Mewdeko.Modules.Games.Common.Trivia.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Trivia
+    name: Trivia
+    href: Mewdeko.Modules.Games.Common.Trivia.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<TriviaQuestionPool>(TriviaQuestionPool, string)
+  nameWithType: Extensions.ThrowIfNull<TriviaQuestionPool>(TriviaQuestionPool, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool>(Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of TriviaQuestionPool)(TriviaQuestionPool, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool)(Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool, String)
+  name.vb: ThrowIfNull(Of TriviaQuestionPool)(TriviaQuestionPool, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool
+    name: TriviaQuestionPool
+    href: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool
+    name: TriviaQuestionPool
+    href: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool
+    name: TriviaQuestionPool
+    href: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool
+    name: TriviaQuestionPool
+    href: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool
+  commentId: T:Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool
+  href: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.html
+  name: TriviaQuestionPool
+  nameWithType: TriviaQuestionPool
+  fullName: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool
+- uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.#ctor*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.#ctor
+  href: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.html#Mewdeko_Modules_Games_Common_Trivia_TriviaQuestionPool__ctor_Mewdeko_Services_IDataCache_
+  name: TriviaQuestionPool
+  nameWithType: TriviaQuestionPool.TriviaQuestionPool
+  fullName: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.TriviaQuestionPool
+  nameWithType.vb: TriviaQuestionPool.New
+  fullName.vb: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.New
+  name.vb: New
+- uid: Mewdeko.Services.IDataCache
+  commentId: T:Mewdeko.Services.IDataCache
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.IDataCache.html
+  name: IDataCache
+  nameWithType: IDataCache
+  fullName: Mewdeko.Services.IDataCache
+- uid: Mewdeko.Services
+  commentId: N:Mewdeko.Services
+  href: Mewdeko.html
+  name: Mewdeko.Services
+  nameWithType: Mewdeko.Services
+  fullName: Mewdeko.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+- uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.GetRandomQuestion*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.GetRandomQuestion
+  href: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.html#Mewdeko_Modules_Games_Common_Trivia_TriviaQuestionPool_GetRandomQuestion_System_Collections_Generic_HashSet_Mewdeko_Modules_Games_Common_Trivia_TriviaQuestion__
+  name: GetRandomQuestion
+  nameWithType: TriviaQuestionPool.GetRandomQuestion
+  fullName: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.GetRandomQuestion
+- uid: System.Collections.Generic.HashSet{Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion}
+  commentId: T:System.Collections.Generic.HashSet{Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.HashSet`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  name: HashSet<TriviaQuestion>
+  nameWithType: HashSet<TriviaQuestion>
+  fullName: System.Collections.Generic.HashSet<Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion>
+  nameWithType.vb: HashSet(Of TriviaQuestion)
+  fullName.vb: System.Collections.Generic.HashSet(Of Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion)
+  name.vb: HashSet(Of TriviaQuestion)
+  spec.csharp:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: <
+  - uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion
+    name: TriviaQuestion
+    href: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion
+    name: TriviaQuestion
+    href: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion.html
+  - name: )
+- uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion
+  commentId: T:Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion
+  parent: Mewdeko.Modules.Games.Common.Trivia
+  href: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion.html
+  name: TriviaQuestion
+  nameWithType: TriviaQuestion
+  fullName: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion
+- uid: System.Collections.Generic.HashSet`1
+  commentId: T:System.Collections.Generic.HashSet`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  name: HashSet<T>
+  nameWithType: HashSet<T>
+  fullName: System.Collections.Generic.HashSet<T>
+  nameWithType.vb: HashSet(Of T)
+  fullName.vb: System.Collections.Generic.HashSet(Of T)
+  name.vb: HashSet(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic

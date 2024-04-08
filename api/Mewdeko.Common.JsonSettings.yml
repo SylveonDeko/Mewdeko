@@ -1,0 +1,30 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.JsonSettings
+  commentId: N:Mewdeko.Common.JsonSettings
+  id: Mewdeko.Common.JsonSettings
+  children:
+  - Mewdeko.Common.JsonSettings.LowercaseContractResolver
+  - Mewdeko.Common.JsonSettings.OrderedResolver
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Common.JsonSettings
+  nameWithType: Mewdeko.Common.JsonSettings
+  fullName: Mewdeko.Common.JsonSettings
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Common.JsonSettings.OrderedResolver
+  commentId: T:Mewdeko.Common.JsonSettings.OrderedResolver
+  href: Mewdeko.Common.JsonSettings.OrderedResolver.html
+  name: OrderedResolver
+  nameWithType: OrderedResolver
+  fullName: Mewdeko.Common.JsonSettings.OrderedResolver
+- uid: Mewdeko.Common.JsonSettings.LowercaseContractResolver
+  commentId: T:Mewdeko.Common.JsonSettings.LowercaseContractResolver
+  href: Mewdeko.Common.JsonSettings.LowercaseContractResolver.html
+  name: LowercaseContractResolver
+  nameWithType: LowercaseContractResolver
+  fullName: Mewdeko.Common.JsonSettings.LowercaseContractResolver

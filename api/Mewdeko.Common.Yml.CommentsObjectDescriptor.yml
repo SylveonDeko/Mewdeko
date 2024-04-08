@@ -1,0 +1,770 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.Yml.CommentsObjectDescriptor
+  commentId: T:Mewdeko.Common.Yml.CommentsObjectDescriptor
+  id: CommentsObjectDescriptor
+  parent: Mewdeko.Common.Yml
+  children:
+  - Mewdeko.Common.Yml.CommentsObjectDescriptor.#ctor(YamlDotNet.Serialization.IObjectDescriptor,System.String)
+  - Mewdeko.Common.Yml.CommentsObjectDescriptor.Comment
+  - Mewdeko.Common.Yml.CommentsObjectDescriptor.ScalarStyle
+  - Mewdeko.Common.Yml.CommentsObjectDescriptor.StaticType
+  - Mewdeko.Common.Yml.CommentsObjectDescriptor.Type
+  - Mewdeko.Common.Yml.CommentsObjectDescriptor.Value
+  langs:
+  - csharp
+  - vb
+  name: CommentsObjectDescriptor
+  nameWithType: CommentsObjectDescriptor
+  fullName: Mewdeko.Common.Yml.CommentsObjectDescriptor
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Common/Yml/CommentsObjectDescriptor.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CommentsObjectDescriptor
+    path: src/Mewdeko/Common/Yml/CommentsObjectDescriptor.cs
+    startLine: 8
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Yml
+  summary: Represents an object descriptor with associated comments during YAML serialization.
+  example: []
+  syntax:
+    content: 'public sealed class CommentsObjectDescriptor : IObjectDescriptor'
+    content.vb: Public NotInheritable Class CommentsObjectDescriptor Implements IObjectDescriptor
+  inheritance:
+  - System.Object
+  implements:
+  - YamlDotNet.Serialization.IObjectDescriptor
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Common.Yml.CommentsObjectDescriptor.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Common.Yml.CommentsObjectDescriptor.#ctor(YamlDotNet.Serialization.IObjectDescriptor,System.String)
+  commentId: M:Mewdeko.Common.Yml.CommentsObjectDescriptor.#ctor(YamlDotNet.Serialization.IObjectDescriptor,System.String)
+  id: '#ctor(YamlDotNet.Serialization.IObjectDescriptor,System.String)'
+  parent: Mewdeko.Common.Yml.CommentsObjectDescriptor
+  langs:
+  - csharp
+  - vb
+  name: CommentsObjectDescriptor(IObjectDescriptor, string)
+  nameWithType: CommentsObjectDescriptor.CommentsObjectDescriptor(IObjectDescriptor, string)
+  fullName: Mewdeko.Common.Yml.CommentsObjectDescriptor.CommentsObjectDescriptor(YamlDotNet.Serialization.IObjectDescriptor, string)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Common/Yml/CommentsObjectDescriptor.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Common/Yml/CommentsObjectDescriptor.cs
+    startLine: 17
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Yml
+  summary: Initializes a new instance of the <xref href="Mewdeko.Common.Yml.CommentsObjectDescriptor" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public CommentsObjectDescriptor(IObjectDescriptor innerDescriptor, string comment)
+    parameters:
+    - id: innerDescriptor
+      type: YamlDotNet.Serialization.IObjectDescriptor
+      description: The inner object descriptor.
+    - id: comment
+      type: System.String
+      description: The comment associated with the object.
+    content.vb: Public Sub New(innerDescriptor As IObjectDescriptor, comment As String)
+  overload: Mewdeko.Common.Yml.CommentsObjectDescriptor.#ctor*
+  nameWithType.vb: CommentsObjectDescriptor.New(IObjectDescriptor, String)
+  fullName.vb: Mewdeko.Common.Yml.CommentsObjectDescriptor.New(YamlDotNet.Serialization.IObjectDescriptor, String)
+  name.vb: New(IObjectDescriptor, String)
+- uid: Mewdeko.Common.Yml.CommentsObjectDescriptor.Comment
+  commentId: P:Mewdeko.Common.Yml.CommentsObjectDescriptor.Comment
+  id: Comment
+  parent: Mewdeko.Common.Yml.CommentsObjectDescriptor
+  langs:
+  - csharp
+  - vb
+  name: Comment
+  nameWithType: CommentsObjectDescriptor.Comment
+  fullName: Mewdeko.Common.Yml.CommentsObjectDescriptor.Comment
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/Yml/CommentsObjectDescriptor.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Comment
+    path: src/Mewdeko/Common/Yml/CommentsObjectDescriptor.cs
+    startLine: 26
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Yml
+  summary: Gets the comment associated with the object.
+  example: []
+  syntax:
+    content: public string Comment { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Comment As String
+  overload: Mewdeko.Common.Yml.CommentsObjectDescriptor.Comment*
+- uid: Mewdeko.Common.Yml.CommentsObjectDescriptor.Value
+  commentId: P:Mewdeko.Common.Yml.CommentsObjectDescriptor.Value
+  id: Value
+  parent: Mewdeko.Common.Yml.CommentsObjectDescriptor
+  langs:
+  - csharp
+  - vb
+  name: Value
+  nameWithType: CommentsObjectDescriptor.Value
+  fullName: Mewdeko.Common.Yml.CommentsObjectDescriptor.Value
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/Yml/CommentsObjectDescriptor.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Value
+    path: src/Mewdeko/Common/Yml/CommentsObjectDescriptor.cs
+    startLine: 29
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Yml
+  summary: A reference to the object.
+  example: []
+  syntax:
+    content: public object Value { get; }
+    parameters: []
+    return:
+      type: System.Object
+    content.vb: Public ReadOnly Property Value As Object
+  overload: Mewdeko.Common.Yml.CommentsObjectDescriptor.Value*
+  implements:
+  - YamlDotNet.Serialization.IObjectDescriptor.Value
+- uid: Mewdeko.Common.Yml.CommentsObjectDescriptor.Type
+  commentId: P:Mewdeko.Common.Yml.CommentsObjectDescriptor.Type
+  id: Type
+  parent: Mewdeko.Common.Yml.CommentsObjectDescriptor
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: CommentsObjectDescriptor.Type
+  fullName: Mewdeko.Common.Yml.CommentsObjectDescriptor.Type
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/Yml/CommentsObjectDescriptor.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Type
+    path: src/Mewdeko/Common/Yml/CommentsObjectDescriptor.cs
+    startLine: 32
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Yml
+  summary: The type that should be used when to interpret the <xref href="YamlDotNet.Serialization.IObjectDescriptor.Value" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public Type Type { get; }
+    parameters: []
+    return:
+      type: System.Type
+    content.vb: Public ReadOnly Property Type As Type
+  overload: Mewdeko.Common.Yml.CommentsObjectDescriptor.Type*
+  implements:
+  - YamlDotNet.Serialization.IObjectDescriptor.Type
+- uid: Mewdeko.Common.Yml.CommentsObjectDescriptor.StaticType
+  commentId: P:Mewdeko.Common.Yml.CommentsObjectDescriptor.StaticType
+  id: StaticType
+  parent: Mewdeko.Common.Yml.CommentsObjectDescriptor
+  langs:
+  - csharp
+  - vb
+  name: StaticType
+  nameWithType: CommentsObjectDescriptor.StaticType
+  fullName: Mewdeko.Common.Yml.CommentsObjectDescriptor.StaticType
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/Yml/CommentsObjectDescriptor.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: StaticType
+    path: src/Mewdeko/Common/Yml/CommentsObjectDescriptor.cs
+    startLine: 35
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Yml
+  summary: The type of <xref href="YamlDotNet.Serialization.IObjectDescriptor.Value" data-throw-if-not-resolved="false"></xref> as determined by its container (e.g. a property).
+  example: []
+  syntax:
+    content: public Type StaticType { get; }
+    parameters: []
+    return:
+      type: System.Type
+    content.vb: Public ReadOnly Property StaticType As Type
+  overload: Mewdeko.Common.Yml.CommentsObjectDescriptor.StaticType*
+  implements:
+  - YamlDotNet.Serialization.IObjectDescriptor.StaticType
+- uid: Mewdeko.Common.Yml.CommentsObjectDescriptor.ScalarStyle
+  commentId: P:Mewdeko.Common.Yml.CommentsObjectDescriptor.ScalarStyle
+  id: ScalarStyle
+  parent: Mewdeko.Common.Yml.CommentsObjectDescriptor
+  langs:
+  - csharp
+  - vb
+  name: ScalarStyle
+  nameWithType: CommentsObjectDescriptor.ScalarStyle
+  fullName: Mewdeko.Common.Yml.CommentsObjectDescriptor.ScalarStyle
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/Yml/CommentsObjectDescriptor.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ScalarStyle
+    path: src/Mewdeko/Common/Yml/CommentsObjectDescriptor.cs
+    startLine: 38
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Yml
+  summary: The style to be used for scalars.
+  example: []
+  syntax:
+    content: public ScalarStyle ScalarStyle { get; }
+    parameters: []
+    return:
+      type: YamlDotNet.Core.ScalarStyle
+    content.vb: Public ReadOnly Property ScalarStyle As ScalarStyle
+  overload: Mewdeko.Common.Yml.CommentsObjectDescriptor.ScalarStyle*
+  implements:
+  - YamlDotNet.Serialization.IObjectDescriptor.ScalarStyle
+references:
+- uid: Mewdeko.Common.Yml
+  commentId: N:Mewdeko.Common.Yml
+  href: Mewdeko.html
+  name: Mewdeko.Common.Yml
+  nameWithType: Mewdeko.Common.Yml
+  fullName: Mewdeko.Common.Yml
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Yml
+    name: Yml
+    href: Mewdeko.Common.Yml.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Yml
+    name: Yml
+    href: Mewdeko.Common.Yml.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: YamlDotNet.Serialization.IObjectDescriptor
+  commentId: T:YamlDotNet.Serialization.IObjectDescriptor
+  parent: YamlDotNet.Serialization
+  isExternal: true
+  name: IObjectDescriptor
+  nameWithType: IObjectDescriptor
+  fullName: YamlDotNet.Serialization.IObjectDescriptor
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Common.Yml.CommentsObjectDescriptor.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<CommentsObjectDescriptor>(CommentsObjectDescriptor, string)
+  nameWithType: Extensions.ThrowIfNull<CommentsObjectDescriptor>(CommentsObjectDescriptor, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Common.Yml.CommentsObjectDescriptor>(Mewdeko.Common.Yml.CommentsObjectDescriptor, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of CommentsObjectDescriptor)(CommentsObjectDescriptor, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Common.Yml.CommentsObjectDescriptor)(Mewdeko.Common.Yml.CommentsObjectDescriptor, String)
+  name.vb: ThrowIfNull(Of CommentsObjectDescriptor)(CommentsObjectDescriptor, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.Yml.CommentsObjectDescriptor,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Common.Yml.CommentsObjectDescriptor
+    name: CommentsObjectDescriptor
+    href: Mewdeko.Common.Yml.CommentsObjectDescriptor.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Common.Yml.CommentsObjectDescriptor
+    name: CommentsObjectDescriptor
+    href: Mewdeko.Common.Yml.CommentsObjectDescriptor.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.Yml.CommentsObjectDescriptor,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Common.Yml.CommentsObjectDescriptor
+    name: CommentsObjectDescriptor
+    href: Mewdeko.Common.Yml.CommentsObjectDescriptor.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Common.Yml.CommentsObjectDescriptor
+    name: CommentsObjectDescriptor
+    href: Mewdeko.Common.Yml.CommentsObjectDescriptor.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: YamlDotNet.Serialization
+  commentId: N:YamlDotNet.Serialization
+  isExternal: true
+  name: YamlDotNet.Serialization
+  nameWithType: YamlDotNet.Serialization
+  fullName: YamlDotNet.Serialization
+  spec.csharp:
+  - uid: YamlDotNet
+    name: YamlDotNet
+    isExternal: true
+  - name: .
+  - uid: YamlDotNet.Serialization
+    name: Serialization
+    isExternal: true
+  spec.vb:
+  - uid: YamlDotNet
+    name: YamlDotNet
+    isExternal: true
+  - name: .
+  - uid: YamlDotNet.Serialization
+    name: Serialization
+    isExternal: true
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Common.Yml.CommentsObjectDescriptor
+  commentId: T:Mewdeko.Common.Yml.CommentsObjectDescriptor
+  href: Mewdeko.Common.Yml.CommentsObjectDescriptor.html
+  name: CommentsObjectDescriptor
+  nameWithType: CommentsObjectDescriptor
+  fullName: Mewdeko.Common.Yml.CommentsObjectDescriptor
+- uid: Mewdeko.Common.Yml.CommentsObjectDescriptor.#ctor*
+  commentId: Overload:Mewdeko.Common.Yml.CommentsObjectDescriptor.#ctor
+  href: Mewdeko.Common.Yml.CommentsObjectDescriptor.html#Mewdeko_Common_Yml_CommentsObjectDescriptor__ctor_YamlDotNet_Serialization_IObjectDescriptor_System_String_
+  name: CommentsObjectDescriptor
+  nameWithType: CommentsObjectDescriptor.CommentsObjectDescriptor
+  fullName: Mewdeko.Common.Yml.CommentsObjectDescriptor.CommentsObjectDescriptor
+  nameWithType.vb: CommentsObjectDescriptor.New
+  fullName.vb: Mewdeko.Common.Yml.CommentsObjectDescriptor.New
+  name.vb: New
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Common.Yml.CommentsObjectDescriptor.Comment*
+  commentId: Overload:Mewdeko.Common.Yml.CommentsObjectDescriptor.Comment
+  href: Mewdeko.Common.Yml.CommentsObjectDescriptor.html#Mewdeko_Common_Yml_CommentsObjectDescriptor_Comment
+  name: Comment
+  nameWithType: CommentsObjectDescriptor.Comment
+  fullName: Mewdeko.Common.Yml.CommentsObjectDescriptor.Comment
+- uid: Mewdeko.Common.Yml.CommentsObjectDescriptor.Value*
+  commentId: Overload:Mewdeko.Common.Yml.CommentsObjectDescriptor.Value
+  href: Mewdeko.Common.Yml.CommentsObjectDescriptor.html#Mewdeko_Common_Yml_CommentsObjectDescriptor_Value
+  name: Value
+  nameWithType: CommentsObjectDescriptor.Value
+  fullName: Mewdeko.Common.Yml.CommentsObjectDescriptor.Value
+- uid: YamlDotNet.Serialization.IObjectDescriptor.Value
+  commentId: P:YamlDotNet.Serialization.IObjectDescriptor.Value
+  parent: YamlDotNet.Serialization.IObjectDescriptor
+  isExternal: true
+  name: Value
+  nameWithType: IObjectDescriptor.Value
+  fullName: YamlDotNet.Serialization.IObjectDescriptor.Value
+- uid: Mewdeko.Common.Yml.CommentsObjectDescriptor.Type*
+  commentId: Overload:Mewdeko.Common.Yml.CommentsObjectDescriptor.Type
+  href: Mewdeko.Common.Yml.CommentsObjectDescriptor.html#Mewdeko_Common_Yml_CommentsObjectDescriptor_Type
+  name: Type
+  nameWithType: CommentsObjectDescriptor.Type
+  fullName: Mewdeko.Common.Yml.CommentsObjectDescriptor.Type
+- uid: YamlDotNet.Serialization.IObjectDescriptor.Type
+  commentId: P:YamlDotNet.Serialization.IObjectDescriptor.Type
+  parent: YamlDotNet.Serialization.IObjectDescriptor
+  isExternal: true
+  name: Type
+  nameWithType: IObjectDescriptor.Type
+  fullName: YamlDotNet.Serialization.IObjectDescriptor.Type
+- uid: System.Type
+  commentId: T:System.Type
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.type
+  name: Type
+  nameWithType: Type
+  fullName: System.Type
+- uid: Mewdeko.Common.Yml.CommentsObjectDescriptor.StaticType*
+  commentId: Overload:Mewdeko.Common.Yml.CommentsObjectDescriptor.StaticType
+  href: Mewdeko.Common.Yml.CommentsObjectDescriptor.html#Mewdeko_Common_Yml_CommentsObjectDescriptor_StaticType
+  name: StaticType
+  nameWithType: CommentsObjectDescriptor.StaticType
+  fullName: Mewdeko.Common.Yml.CommentsObjectDescriptor.StaticType
+- uid: YamlDotNet.Serialization.IObjectDescriptor.StaticType
+  commentId: P:YamlDotNet.Serialization.IObjectDescriptor.StaticType
+  parent: YamlDotNet.Serialization.IObjectDescriptor
+  isExternal: true
+  name: StaticType
+  nameWithType: IObjectDescriptor.StaticType
+  fullName: YamlDotNet.Serialization.IObjectDescriptor.StaticType
+- uid: Mewdeko.Common.Yml.CommentsObjectDescriptor.ScalarStyle*
+  commentId: Overload:Mewdeko.Common.Yml.CommentsObjectDescriptor.ScalarStyle
+  href: Mewdeko.Common.Yml.CommentsObjectDescriptor.html#Mewdeko_Common_Yml_CommentsObjectDescriptor_ScalarStyle
+  name: ScalarStyle
+  nameWithType: CommentsObjectDescriptor.ScalarStyle
+  fullName: Mewdeko.Common.Yml.CommentsObjectDescriptor.ScalarStyle
+- uid: YamlDotNet.Serialization.IObjectDescriptor.ScalarStyle
+  commentId: P:YamlDotNet.Serialization.IObjectDescriptor.ScalarStyle
+  parent: YamlDotNet.Serialization.IObjectDescriptor
+  isExternal: true
+  name: ScalarStyle
+  nameWithType: IObjectDescriptor.ScalarStyle
+  fullName: YamlDotNet.Serialization.IObjectDescriptor.ScalarStyle
+- uid: YamlDotNet.Core.ScalarStyle
+  commentId: T:YamlDotNet.Core.ScalarStyle
+  parent: YamlDotNet.Core
+  isExternal: true
+  name: ScalarStyle
+  nameWithType: ScalarStyle
+  fullName: YamlDotNet.Core.ScalarStyle
+- uid: YamlDotNet.Core
+  commentId: N:YamlDotNet.Core
+  isExternal: true
+  name: YamlDotNet.Core
+  nameWithType: YamlDotNet.Core
+  fullName: YamlDotNet.Core
+  spec.csharp:
+  - uid: YamlDotNet
+    name: YamlDotNet
+    isExternal: true
+  - name: .
+  - uid: YamlDotNet.Core
+    name: Core
+    isExternal: true
+  spec.vb:
+  - uid: YamlDotNet
+    name: YamlDotNet
+    isExternal: true
+  - name: .
+  - uid: YamlDotNet.Core
+    name: Core
+    isExternal: true

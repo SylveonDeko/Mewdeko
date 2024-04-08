@@ -1,0 +1,93 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Suggestions.Services
+  commentId: N:Mewdeko.Modules.Suggestions.Services
+  id: Mewdeko.Modules.Suggestions.Services
+  children:
+  - Mewdeko.Modules.Suggestions.Services.SuggestButtonService
+  - Mewdeko.Modules.Suggestions.Services.SuggestionsService
+  - Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Suggestions.Services
+  nameWithType: Mewdeko.Modules.Suggestions.Services
+  fullName: Mewdeko.Modules.Suggestions.Services
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Suggestions.Services.SuggestButtonService
+  commentId: T:Mewdeko.Modules.Suggestions.Services.SuggestButtonService
+  href: Mewdeko.Modules.Suggestions.Services.SuggestButtonService.html
+  name: SuggestButtonService
+  nameWithType: SuggestButtonService
+  fullName: Mewdeko.Modules.Suggestions.Services.SuggestButtonService
+- uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService
+  commentId: T:Mewdeko.Modules.Suggestions.Services.SuggestionsService
+  parent: Mewdeko.Modules.Suggestions.Services
+  href: Mewdeko.Modules.Suggestions.Services.SuggestionsService.html
+  name: SuggestionsService
+  nameWithType: SuggestionsService
+  fullName: Mewdeko.Modules.Suggestions.Services.SuggestionsService
+- uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+  commentId: T:Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+  parent: Mewdeko.Modules.Suggestions.Services
+  href: Mewdeko.Modules.Suggestions.Services.SuggestionsService.html
+  name: SuggestionsService.SuggestState
+  nameWithType: SuggestionsService.SuggestState
+  fullName: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+  spec.csharp:
+  - uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService
+    name: SuggestionsService
+    href: Mewdeko.Modules.Suggestions.Services.SuggestionsService.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+    name: SuggestState
+    href: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService
+    name: SuggestionsService
+    href: Mewdeko.Modules.Suggestions.Services.SuggestionsService.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+    name: SuggestState
+    href: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.html
+- uid: Mewdeko.Modules.Suggestions.Services
+  commentId: N:Mewdeko.Modules.Suggestions.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Suggestions.Services
+  nameWithType: Mewdeko.Modules.Suggestions.Services
+  fullName: Mewdeko.Modules.Suggestions.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions
+    name: Suggestions
+    href: Mewdeko.Modules.Suggestions.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions.Services
+    name: Services
+    href: Mewdeko.Modules.Suggestions.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions
+    name: Suggestions
+    href: Mewdeko.Modules.Suggestions.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions.Services
+    name: Services
+    href: Mewdeko.Modules.Suggestions.Services.html

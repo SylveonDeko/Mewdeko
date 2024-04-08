@@ -1,0 +1,636 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Permissions.Common.PermissionCache
+  commentId: T:Mewdeko.Modules.Permissions.Common.PermissionCache
+  id: PermissionCache
+  parent: Mewdeko.Modules.Permissions.Common
+  children:
+  - Mewdeko.Modules.Permissions.Common.PermissionCache.PermRole
+  - Mewdeko.Modules.Permissions.Common.PermissionCache.Permissions
+  - Mewdeko.Modules.Permissions.Common.PermissionCache.Verbose
+  langs:
+  - csharp
+  - vb
+  name: PermissionCache
+  nameWithType: PermissionCache
+  fullName: Mewdeko.Modules.Permissions.Common.PermissionCache
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Common/PermissionCache.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: PermissionCache
+    path: src/Mewdeko/Modules/Permissions/Common/PermissionCache.cs
+    startLine: 26
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions.Common
+  summary: Represents the new permission cache structure with enhanced permission management.
+  example: []
+  syntax:
+    content: public class PermissionCache
+    content.vb: Public Class PermissionCache
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Permissions.Common.PermissionCache.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Permissions.Common.PermissionCache.PermRole
+  commentId: P:Mewdeko.Modules.Permissions.Common.PermissionCache.PermRole
+  id: PermRole
+  parent: Mewdeko.Modules.Permissions.Common.PermissionCache
+  langs:
+  - csharp
+  - vb
+  name: PermRole
+  nameWithType: PermissionCache.PermRole
+  fullName: Mewdeko.Modules.Permissions.Common.PermissionCache.PermRole
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Common/PermissionCache.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: PermRole
+    path: src/Mewdeko/Modules/Permissions/Common/PermissionCache.cs
+    startLine: 31
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions.Common
+  summary: Gets or sets the role associated with these permissions.
+  example: []
+  syntax:
+    content: public string PermRole { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property PermRole As String
+  overload: Mewdeko.Modules.Permissions.Common.PermissionCache.PermRole*
+- uid: Mewdeko.Modules.Permissions.Common.PermissionCache.Verbose
+  commentId: P:Mewdeko.Modules.Permissions.Common.PermissionCache.Verbose
+  id: Verbose
+  parent: Mewdeko.Modules.Permissions.Common.PermissionCache
+  langs:
+  - csharp
+  - vb
+  name: Verbose
+  nameWithType: PermissionCache.Verbose
+  fullName: Mewdeko.Modules.Permissions.Common.PermissionCache.Verbose
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Common/PermissionCache.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Verbose
+    path: src/Mewdeko/Modules/Permissions/Common/PermissionCache.cs
+    startLine: 36
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions.Common
+  summary: Gets or sets a value indicating whether verbose logging or responses should be enabled.
+  example: []
+  syntax:
+    content: public bool Verbose { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Verbose As Boolean
+  overload: Mewdeko.Modules.Permissions.Common.PermissionCache.Verbose*
+- uid: Mewdeko.Modules.Permissions.Common.PermissionCache.Permissions
+  commentId: P:Mewdeko.Modules.Permissions.Common.PermissionCache.Permissions
+  id: Permissions
+  parent: Mewdeko.Modules.Permissions.Common.PermissionCache
+  langs:
+  - csharp
+  - vb
+  name: Permissions
+  nameWithType: PermissionCache.Permissions
+  fullName: Mewdeko.Modules.Permissions.Common.PermissionCache.Permissions
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/Common/PermissionCache.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Permissions
+    path: src/Mewdeko/Modules/Permissions/Common/PermissionCache.cs
+    startLine: 44
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions.Common
+  summary: Gets or sets the collection of version 2 permissions.
+  remarks: This property introduces a new permissions system, allowing for more granular control and organization of permissions.
+  example: []
+  syntax:
+    content: public PermissionsCollection<Permissionv2>? Permissions { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Modules.Permissions.Common.PermissionsCollection{Mewdeko.Database.Models.Permissionv2}
+    content.vb: Public Property Permissions As PermissionsCollection(Of Permissionv2)
+  overload: Mewdeko.Modules.Permissions.Common.PermissionCache.Permissions*
+references:
+- uid: Mewdeko.Modules.Permissions.Common
+  commentId: N:Mewdeko.Modules.Permissions.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Permissions.Common
+  nameWithType: Mewdeko.Modules.Permissions.Common
+  fullName: Mewdeko.Modules.Permissions.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.Common
+    name: Common
+    href: Mewdeko.Modules.Permissions.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.Common
+    name: Common
+    href: Mewdeko.Modules.Permissions.Common.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Permissions.Common.PermissionCache.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<PermissionCache>(PermissionCache, string)
+  nameWithType: Extensions.ThrowIfNull<PermissionCache>(PermissionCache, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Permissions.Common.PermissionCache>(Mewdeko.Modules.Permissions.Common.PermissionCache, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of PermissionCache)(PermissionCache, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Permissions.Common.PermissionCache)(Mewdeko.Modules.Permissions.Common.PermissionCache, String)
+  name.vb: ThrowIfNull(Of PermissionCache)(PermissionCache, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Permissions.Common.PermissionCache,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Permissions.Common.PermissionCache
+    name: PermissionCache
+    href: Mewdeko.Modules.Permissions.Common.PermissionCache.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Permissions.Common.PermissionCache
+    name: PermissionCache
+    href: Mewdeko.Modules.Permissions.Common.PermissionCache.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Permissions.Common.PermissionCache,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Permissions.Common.PermissionCache
+    name: PermissionCache
+    href: Mewdeko.Modules.Permissions.Common.PermissionCache.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Permissions.Common.PermissionCache
+    name: PermissionCache
+    href: Mewdeko.Modules.Permissions.Common.PermissionCache.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Permissions.Common.PermissionCache.PermRole*
+  commentId: Overload:Mewdeko.Modules.Permissions.Common.PermissionCache.PermRole
+  href: Mewdeko.Modules.Permissions.Common.PermissionCache.html#Mewdeko_Modules_Permissions_Common_PermissionCache_PermRole
+  name: PermRole
+  nameWithType: PermissionCache.PermRole
+  fullName: Mewdeko.Modules.Permissions.Common.PermissionCache.PermRole
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Modules.Permissions.Common.PermissionCache.Verbose*
+  commentId: Overload:Mewdeko.Modules.Permissions.Common.PermissionCache.Verbose
+  href: Mewdeko.Modules.Permissions.Common.PermissionCache.html#Mewdeko_Modules_Permissions_Common_PermissionCache_Verbose
+  name: Verbose
+  nameWithType: PermissionCache.Verbose
+  fullName: Mewdeko.Modules.Permissions.Common.PermissionCache.Verbose
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Mewdeko.Modules.Permissions.Common.PermissionCache.Permissions*
+  commentId: Overload:Mewdeko.Modules.Permissions.Common.PermissionCache.Permissions
+  href: Mewdeko.Modules.Permissions.Common.PermissionCache.html#Mewdeko_Modules_Permissions_Common_PermissionCache_Permissions
+  name: Permissions
+  nameWithType: PermissionCache.Permissions
+  fullName: Mewdeko.Modules.Permissions.Common.PermissionCache.Permissions
+- uid: Mewdeko.Modules.Permissions.Common.PermissionsCollection{Mewdeko.Database.Models.Permissionv2}
+  commentId: T:Mewdeko.Modules.Permissions.Common.PermissionsCollection{Mewdeko.Database.Models.Permissionv2}
+  parent: Mewdeko.Modules.Permissions.Common
+  definition: Mewdeko.Modules.Permissions.Common.PermissionsCollection`1
+  href: Mewdeko.Modules.Permissions.Common.PermissionsCollection-1.html
+  name: PermissionsCollection<Permissionv2>
+  nameWithType: PermissionsCollection<Permissionv2>
+  fullName: Mewdeko.Modules.Permissions.Common.PermissionsCollection<Mewdeko.Database.Models.Permissionv2>
+  nameWithType.vb: PermissionsCollection(Of Permissionv2)
+  fullName.vb: Mewdeko.Modules.Permissions.Common.PermissionsCollection(Of Mewdeko.Database.Models.Permissionv2)
+  name.vb: PermissionsCollection(Of Permissionv2)
+  spec.csharp:
+  - uid: Mewdeko.Modules.Permissions.Common.PermissionsCollection`1
+    name: PermissionsCollection
+    href: Mewdeko.Modules.Permissions.Common.PermissionsCollection-1.html
+  - name: <
+  - uid: Mewdeko.Database.Models.Permissionv2
+    name: Permissionv2
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Modules.Permissions.Common.PermissionsCollection`1
+    name: PermissionsCollection
+    href: Mewdeko.Modules.Permissions.Common.PermissionsCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Models.Permissionv2
+    name: Permissionv2
+  - name: )
+- uid: Mewdeko.Modules.Permissions.Common.PermissionsCollection`1
+  commentId: T:Mewdeko.Modules.Permissions.Common.PermissionsCollection`1
+  parent: Mewdeko.Modules.Permissions.Common
+  href: Mewdeko.Modules.Permissions.Common.PermissionsCollection-1.html
+  name: PermissionsCollection<T>
+  nameWithType: PermissionsCollection<T>
+  fullName: Mewdeko.Modules.Permissions.Common.PermissionsCollection<T>
+  nameWithType.vb: PermissionsCollection(Of T)
+  fullName.vb: Mewdeko.Modules.Permissions.Common.PermissionsCollection(Of T)
+  name.vb: PermissionsCollection(Of T)
+  spec.csharp:
+  - uid: Mewdeko.Modules.Permissions.Common.PermissionsCollection`1
+    name: PermissionsCollection
+    href: Mewdeko.Modules.Permissions.Common.PermissionsCollection-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Modules.Permissions.Common.PermissionsCollection`1
+    name: PermissionsCollection
+    href: Mewdeko.Modules.Permissions.Common.PermissionsCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )

@@ -1,0 +1,353 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+  commentId: T:Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+  id: NewLogCommandService.LogCategoryTypes
+  parent: Mewdeko.Modules.Administration.Services
+  children:
+  - Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.All
+  - Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Channel
+  - Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Messages
+  - Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Moderation
+  - Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.None
+  - Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Roles
+  - Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Server
+  - Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Threads
+  - Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Users
+  langs:
+  - csharp
+  - vb
+  name: NewLogCommandService.LogCategoryTypes
+  nameWithType: NewLogCommandService.LogCategoryTypes
+  fullName: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/NewLogCommandService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: LogCategoryTypes
+    path: src/Mewdeko/Modules/Administration/Services/NewLogCommandService.cs
+    startLine: 159
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: Log category types.
+  example: []
+  syntax:
+    content: public enum NewLogCommandService.LogCategoryTypes
+    content.vb: Public Enum NewLogCommandService.LogCategoryTypes
+- uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.All
+  commentId: F:Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.All
+  id: All
+  parent: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+  langs:
+  - csharp
+  - vb
+  name: All
+  nameWithType: NewLogCommandService.LogCategoryTypes.All
+  fullName: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.All
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/NewLogCommandService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: All
+    path: src/Mewdeko/Modules/Administration/Services/NewLogCommandService.cs
+    startLine: 164
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: All events.
+  example: []
+  syntax:
+    content: All = 0
+    return:
+      type: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+- uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Users
+  commentId: F:Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Users
+  id: Users
+  parent: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+  langs:
+  - csharp
+  - vb
+  name: Users
+  nameWithType: NewLogCommandService.LogCategoryTypes.Users
+  fullName: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Users
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/NewLogCommandService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Users
+    path: src/Mewdeko/Modules/Administration/Services/NewLogCommandService.cs
+    startLine: 169
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: All events related to users.
+  example: []
+  syntax:
+    content: Users = 1
+    return:
+      type: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+- uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Threads
+  commentId: F:Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Threads
+  id: Threads
+  parent: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+  langs:
+  - csharp
+  - vb
+  name: Threads
+  nameWithType: NewLogCommandService.LogCategoryTypes.Threads
+  fullName: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Threads
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/NewLogCommandService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Threads
+    path: src/Mewdeko/Modules/Administration/Services/NewLogCommandService.cs
+    startLine: 174
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: All events related to threads.
+  example: []
+  syntax:
+    content: Threads = 2
+    return:
+      type: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+- uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Roles
+  commentId: F:Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Roles
+  id: Roles
+  parent: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+  langs:
+  - csharp
+  - vb
+  name: Roles
+  nameWithType: NewLogCommandService.LogCategoryTypes.Roles
+  fullName: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Roles
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/NewLogCommandService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Roles
+    path: src/Mewdeko/Modules/Administration/Services/NewLogCommandService.cs
+    startLine: 179
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: All events related to roles.
+  example: []
+  syntax:
+    content: Roles = 3
+    return:
+      type: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+- uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Server
+  commentId: F:Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Server
+  id: Server
+  parent: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+  langs:
+  - csharp
+  - vb
+  name: Server
+  nameWithType: NewLogCommandService.LogCategoryTypes.Server
+  fullName: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Server
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/NewLogCommandService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Server
+    path: src/Mewdeko/Modules/Administration/Services/NewLogCommandService.cs
+    startLine: 184
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: All events related to the server.
+  example: []
+  syntax:
+    content: Server = 4
+    return:
+      type: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+- uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Channel
+  commentId: F:Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Channel
+  id: Channel
+  parent: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+  langs:
+  - csharp
+  - vb
+  name: Channel
+  nameWithType: NewLogCommandService.LogCategoryTypes.Channel
+  fullName: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Channel
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/NewLogCommandService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Channel
+    path: src/Mewdeko/Modules/Administration/Services/NewLogCommandService.cs
+    startLine: 189
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: All events related to messages.
+  example: []
+  syntax:
+    content: Channel = 5
+    return:
+      type: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+- uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Messages
+  commentId: F:Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Messages
+  id: Messages
+  parent: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+  langs:
+  - csharp
+  - vb
+  name: Messages
+  nameWithType: NewLogCommandService.LogCategoryTypes.Messages
+  fullName: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Messages
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/NewLogCommandService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Messages
+    path: src/Mewdeko/Modules/Administration/Services/NewLogCommandService.cs
+    startLine: 194
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: All events related to messages.
+  example: []
+  syntax:
+    content: Messages = 6
+    return:
+      type: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+- uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Moderation
+  commentId: F:Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Moderation
+  id: Moderation
+  parent: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+  langs:
+  - csharp
+  - vb
+  name: Moderation
+  nameWithType: NewLogCommandService.LogCategoryTypes.Moderation
+  fullName: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.Moderation
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/NewLogCommandService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Moderation
+    path: src/Mewdeko/Modules/Administration/Services/NewLogCommandService.cs
+    startLine: 199
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: All events related to moderation.
+  example: []
+  syntax:
+    content: Moderation = 7
+    return:
+      type: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+- uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.None
+  commentId: F:Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.None
+  id: None
+  parent: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: NewLogCommandService.LogCategoryTypes.None
+  fullName: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.None
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/NewLogCommandService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: None
+    path: src/Mewdeko/Modules/Administration/Services/NewLogCommandService.cs
+    startLine: 204
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: Sets all events to none.
+  example: []
+  syntax:
+    content: None = 8
+    return:
+      type: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+references:
+- uid: Mewdeko.Modules.Administration.Services
+  commentId: N:Mewdeko.Modules.Administration.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Administration.Services
+  nameWithType: Mewdeko.Modules.Administration.Services
+  fullName: Mewdeko.Modules.Administration.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services
+    name: Services
+    href: Mewdeko.Modules.Administration.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services
+    name: Services
+    href: Mewdeko.Modules.Administration.Services.html
+- uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+  commentId: T:Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+  parent: Mewdeko.Modules.Administration.Services
+  href: Mewdeko.Modules.Administration.Services.NewLogCommandService.html
+  name: NewLogCommandService.LogCategoryTypes
+  nameWithType: NewLogCommandService.LogCategoryTypes
+  fullName: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+  spec.csharp:
+  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService
+    name: NewLogCommandService
+    href: Mewdeko.Modules.Administration.Services.NewLogCommandService.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+    name: LogCategoryTypes
+    href: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService
+    name: NewLogCommandService
+    href: Mewdeko.Modules.Administration.Services.NewLogCommandService.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+    name: LogCategoryTypes
+    href: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.html

@@ -1,0 +1,1100 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Services.Impl.StatsService
+  commentId: T:Mewdeko.Services.Impl.StatsService
+  id: StatsService
+  parent: Mewdeko.Services.Impl
+  children:
+  - Mewdeko.Services.Impl.StatsService.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.IBotCredentials,Mewdeko.Services.ICoordinator,Discord.Commands.CommandService,System.Net.Http.HttpClient,Mewdeko.Services.IDataCache)
+  - Mewdeko.Services.Impl.StatsService.BotVersion
+  - Mewdeko.Services.Impl.StatsService.Dispose
+  - Mewdeko.Services.Impl.StatsService.GetUptimeString(System.String)
+  - Mewdeko.Services.Impl.StatsService.Heap
+  - Mewdeko.Services.Impl.StatsService.Library
+  - Mewdeko.Services.Impl.StatsService.OnReadyAsync
+  langs:
+  - csharp
+  - vb
+  name: StatsService
+  nameWithType: StatsService
+  fullName: Mewdeko.Services.Impl.StatsService
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/StatsService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: StatsService
+    path: src/Mewdeko/Services/Impl/StatsService.cs
+    startLine: 16
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Service for collecting and posting statistics about the bot.
+  example: []
+  syntax:
+    content: 'public class StatsService : IStatsService, INService, IReadyExecutor, IDisposable'
+    content.vb: Public Class StatsService Implements IStatsService, INService, IReadyExecutor, IDisposable
+  inheritance:
+  - System.Object
+  implements:
+  - Mewdeko.Services.IStatsService
+  - Mewdeko.Services.INService
+  - Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  - System.IDisposable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Services.Impl.StatsService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Services.Impl.StatsService.BotVersion
+  commentId: F:Mewdeko.Services.Impl.StatsService.BotVersion
+  id: BotVersion
+  parent: Mewdeko.Services.Impl.StatsService
+  langs:
+  - csharp
+  - vb
+  name: BotVersion
+  nameWithType: StatsService.BotVersion
+  fullName: Mewdeko.Services.Impl.StatsService.BotVersion
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/StatsService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: BotVersion
+    path: src/Mewdeko/Services/Impl/StatsService.cs
+    startLine: 27
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: The version of the bot. I should make this set from commits somehow idk
+  example: []
+  syntax:
+    content: public const string BotVersion = "8"
+    return:
+      type: System.String
+    content.vb: Public Const BotVersion As String = "8"
+- uid: Mewdeko.Services.Impl.StatsService.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.IBotCredentials,Mewdeko.Services.ICoordinator,Discord.Commands.CommandService,System.Net.Http.HttpClient,Mewdeko.Services.IDataCache)
+  commentId: M:Mewdeko.Services.Impl.StatsService.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.IBotCredentials,Mewdeko.Services.ICoordinator,Discord.Commands.CommandService,System.Net.Http.HttpClient,Mewdeko.Services.IDataCache)
+  id: '#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.IBotCredentials,Mewdeko.Services.ICoordinator,Discord.Commands.CommandService,System.Net.Http.HttpClient,Mewdeko.Services.IDataCache)'
+  parent: Mewdeko.Services.Impl.StatsService
+  langs:
+  - csharp
+  - vb
+  name: StatsService(DiscordSocketClient, IBotCredentials, ICoordinator, CommandService, HttpClient, IDataCache)
+  nameWithType: StatsService.StatsService(DiscordSocketClient, IBotCredentials, ICoordinator, CommandService, HttpClient, IDataCache)
+  fullName: Mewdeko.Services.Impl.StatsService.StatsService(Discord.WebSocket.DiscordSocketClient, Mewdeko.Services.IBotCredentials, Mewdeko.Services.ICoordinator, Discord.Commands.CommandService, System.Net.Http.HttpClient, Mewdeko.Services.IDataCache)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/StatsService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Services/Impl/StatsService.cs
+    startLine: 44
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Initializes a new instance of the <xref href="Mewdeko.Services.Impl.StatsService" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public StatsService(DiscordSocketClient client, IBotCredentials creds, ICoordinator coord, CommandService cmdServ, HttpClient http, IDataCache cache)
+    parameters:
+    - id: client
+      type: Discord.WebSocket.DiscordSocketClient
+      description: The discord client
+    - id: creds
+      type: Mewdeko.Services.IBotCredentials
+      description: The bots credentials
+    - id: coord
+      type: Mewdeko.Services.ICoordinator
+      description: The coordinator service
+    - id: cmdServ
+      type: Discord.Commands.CommandService
+      description: The command service
+    - id: http
+      type: System.Net.Http.HttpClient
+      description: The http client
+    - id: cache
+      type: Mewdeko.Services.IDataCache
+      description: The caching service
+    content.vb: Public Sub New(client As DiscordSocketClient, creds As IBotCredentials, coord As ICoordinator, cmdServ As CommandService, http As HttpClient, cache As IDataCache)
+  overload: Mewdeko.Services.Impl.StatsService.#ctor*
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: ''
+  nameWithType.vb: StatsService.New(DiscordSocketClient, IBotCredentials, ICoordinator, CommandService, HttpClient, IDataCache)
+  fullName.vb: Mewdeko.Services.Impl.StatsService.New(Discord.WebSocket.DiscordSocketClient, Mewdeko.Services.IBotCredentials, Mewdeko.Services.ICoordinator, Discord.Commands.CommandService, System.Net.Http.HttpClient, Mewdeko.Services.IDataCache)
+  name.vb: New(DiscordSocketClient, IBotCredentials, ICoordinator, CommandService, HttpClient, IDataCache)
+- uid: Mewdeko.Services.Impl.StatsService.Library
+  commentId: P:Mewdeko.Services.Impl.StatsService.Library
+  id: Library
+  parent: Mewdeko.Services.Impl.StatsService
+  langs:
+  - csharp
+  - vb
+  name: Library
+  nameWithType: StatsService.Library
+  fullName: Mewdeko.Services.Impl.StatsService.Library
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/StatsService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Library
+    path: src/Mewdeko/Services/Impl/StatsService.cs
+    startLine: 69
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Gets the version of the Discord.Net library.
+  example: []
+  syntax:
+    content: public string Library { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Library As String
+  overload: Mewdeko.Services.Impl.StatsService.Library*
+  implements:
+  - Mewdeko.Services.IStatsService.Library
+- uid: Mewdeko.Services.Impl.StatsService.Heap
+  commentId: P:Mewdeko.Services.Impl.StatsService.Heap
+  id: Heap
+  parent: Mewdeko.Services.Impl.StatsService
+  langs:
+  - csharp
+  - vb
+  name: Heap
+  nameWithType: StatsService.Heap
+  fullName: Mewdeko.Services.Impl.StatsService.Heap
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/StatsService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Heap
+    path: src/Mewdeko/Services/Impl/StatsService.cs
+    startLine: 74
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Gets the memory usage of the bot.
+  example: []
+  syntax:
+    content: public string Heap { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Heap As String
+  overload: Mewdeko.Services.Impl.StatsService.Heap*
+  implements:
+  - Mewdeko.Services.IStatsService.Heap
+- uid: Mewdeko.Services.Impl.StatsService.GetUptimeString(System.String)
+  commentId: M:Mewdeko.Services.Impl.StatsService.GetUptimeString(System.String)
+  id: GetUptimeString(System.String)
+  parent: Mewdeko.Services.Impl.StatsService
+  langs:
+  - csharp
+  - vb
+  name: GetUptimeString(string)
+  nameWithType: StatsService.GetUptimeString(string)
+  fullName: Mewdeko.Services.Impl.StatsService.GetUptimeString(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/StatsService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetUptimeString
+    path: src/Mewdeko/Services/Impl/StatsService.cs
+    startLine: 84
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Gets the uptime of the bot as a human-readable string.
+  example: []
+  syntax:
+    content: public string GetUptimeString(string separator = ", ")
+    parameters:
+    - id: separator
+      type: System.String
+      description: The separator
+    return:
+      type: System.String
+      description: A string used in .stats to display uptime
+    content.vb: Public Function GetUptimeString(separator As String = ", ") As String
+  overload: Mewdeko.Services.Impl.StatsService.GetUptimeString*
+  implements:
+  - Mewdeko.Services.IStatsService.GetUptimeString(System.String)
+  nameWithType.vb: StatsService.GetUptimeString(String)
+  fullName.vb: Mewdeko.Services.Impl.StatsService.GetUptimeString(String)
+  name.vb: GetUptimeString(String)
+- uid: Mewdeko.Services.Impl.StatsService.OnReadyAsync
+  commentId: M:Mewdeko.Services.Impl.StatsService.OnReadyAsync
+  id: OnReadyAsync
+  parent: Mewdeko.Services.Impl.StatsService
+  langs:
+  - csharp
+  - vb
+  name: OnReadyAsync()
+  nameWithType: StatsService.OnReadyAsync()
+  fullName: Mewdeko.Services.Impl.StatsService.OnReadyAsync()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/StatsService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OnReadyAsync
+    path: src/Mewdeko/Services/Impl/StatsService.cs
+    startLine: 152
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Method to be executed when the bot is ready.
+  example: []
+  syntax:
+    content: public Task OnReadyAsync()
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: Public Function OnReadyAsync() As Task
+  overload: Mewdeko.Services.Impl.StatsService.OnReadyAsync*
+  implements:
+  - Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+- uid: Mewdeko.Services.Impl.StatsService.Dispose
+  commentId: M:Mewdeko.Services.Impl.StatsService.Dispose
+  id: Dispose
+  parent: Mewdeko.Services.Impl.StatsService
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: StatsService.Dispose()
+  fullName: Mewdeko.Services.Impl.StatsService.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/StatsService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Dispose
+    path: src/Mewdeko/Services/Impl/StatsService.cs
+    startLine: 189
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Disposes of the timers.
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose()
+  overload: Mewdeko.Services.Impl.StatsService.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+references:
+- uid: Mewdeko.Services.Impl
+  commentId: N:Mewdeko.Services.Impl
+  href: Mewdeko.html
+  name: Mewdeko.Services.Impl
+  nameWithType: Mewdeko.Services.Impl
+  fullName: Mewdeko.Services.Impl
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Impl
+    name: Impl
+    href: Mewdeko.Services.Impl.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Impl
+    name: Impl
+    href: Mewdeko.Services.Impl.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Mewdeko.Services.IStatsService
+  commentId: T:Mewdeko.Services.IStatsService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.IStatsService.html
+  name: IStatsService
+  nameWithType: IStatsService
+  fullName: Mewdeko.Services.IStatsService
+- uid: Mewdeko.Services.INService
+  commentId: T:Mewdeko.Services.INService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.INService.html
+  name: INService
+  nameWithType: INService
+  fullName: Mewdeko.Services.INService
+- uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  commentId: T:Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  parent: Mewdeko.Common.ModuleBehaviors
+  href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html
+  name: IReadyExecutor
+  nameWithType: IReadyExecutor
+  fullName: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Services.Impl.StatsService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<StatsService>(StatsService, string)
+  nameWithType: Extensions.ThrowIfNull<StatsService>(StatsService, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Services.Impl.StatsService>(Mewdeko.Services.Impl.StatsService, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of StatsService)(StatsService, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Services.Impl.StatsService)(Mewdeko.Services.Impl.StatsService, String)
+  name.vb: ThrowIfNull(Of StatsService)(StatsService, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Services.Impl.StatsService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Services.Impl.StatsService
+    name: StatsService
+    href: Mewdeko.Services.Impl.StatsService.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Services.Impl.StatsService
+    name: StatsService
+    href: Mewdeko.Services.Impl.StatsService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Services.Impl.StatsService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Services.Impl.StatsService
+    name: StatsService
+    href: Mewdeko.Services.Impl.StatsService.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Services.Impl.StatsService
+    name: StatsService
+    href: Mewdeko.Services.Impl.StatsService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Services
+  commentId: N:Mewdeko.Services
+  href: Mewdeko.html
+  name: Mewdeko.Services
+  nameWithType: Mewdeko.Services
+  fullName: Mewdeko.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+- uid: Mewdeko.Common.ModuleBehaviors
+  commentId: N:Mewdeko.Common.ModuleBehaviors
+  href: Mewdeko.html
+  name: Mewdeko.Common.ModuleBehaviors
+  nameWithType: Mewdeko.Common.ModuleBehaviors
+  fullName: Mewdeko.Common.ModuleBehaviors
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.ModuleBehaviors
+    name: ModuleBehaviors
+    href: Mewdeko.Common.ModuleBehaviors.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.ModuleBehaviors
+    name: ModuleBehaviors
+    href: Mewdeko.Common.ModuleBehaviors.html
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Services.Impl.StatsService
+  commentId: T:Mewdeko.Services.Impl.StatsService
+  parent: Mewdeko.Services.Impl
+  href: Mewdeko.Services.Impl.StatsService.html
+  name: StatsService
+  nameWithType: StatsService
+  fullName: Mewdeko.Services.Impl.StatsService
+- uid: System.ArgumentNullException
+  commentId: T:System.ArgumentNullException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.argumentnullexception
+  name: ArgumentNullException
+  nameWithType: ArgumentNullException
+  fullName: System.ArgumentNullException
+- uid: Mewdeko.Services.Impl.StatsService.#ctor*
+  commentId: Overload:Mewdeko.Services.Impl.StatsService.#ctor
+  href: Mewdeko.Services.Impl.StatsService.html#Mewdeko_Services_Impl_StatsService__ctor_Discord_WebSocket_DiscordSocketClient_Mewdeko_Services_IBotCredentials_Mewdeko_Services_ICoordinator_Discord_Commands_CommandService_System_Net_Http_HttpClient_Mewdeko_Services_IDataCache_
+  name: StatsService
+  nameWithType: StatsService.StatsService
+  fullName: Mewdeko.Services.Impl.StatsService.StatsService
+  nameWithType.vb: StatsService.New
+  fullName.vb: Mewdeko.Services.Impl.StatsService.New
+  name.vb: New
+- uid: Discord.WebSocket.DiscordSocketClient
+  commentId: T:Discord.WebSocket.DiscordSocketClient
+  parent: Discord.WebSocket
+  isExternal: true
+  name: DiscordSocketClient
+  nameWithType: DiscordSocketClient
+  fullName: Discord.WebSocket.DiscordSocketClient
+- uid: Mewdeko.Services.IBotCredentials
+  commentId: T:Mewdeko.Services.IBotCredentials
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.IBotCredentials.html
+  name: IBotCredentials
+  nameWithType: IBotCredentials
+  fullName: Mewdeko.Services.IBotCredentials
+- uid: Mewdeko.Services.ICoordinator
+  commentId: T:Mewdeko.Services.ICoordinator
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.ICoordinator.html
+  name: ICoordinator
+  nameWithType: ICoordinator
+  fullName: Mewdeko.Services.ICoordinator
+- uid: Discord.Commands.CommandService
+  commentId: T:Discord.Commands.CommandService
+  parent: Discord.Commands
+  isExternal: true
+  name: CommandService
+  nameWithType: CommandService
+  fullName: Discord.Commands.CommandService
+- uid: System.Net.Http.HttpClient
+  commentId: T:System.Net.Http.HttpClient
+  parent: System.Net.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.net.http.httpclient
+  name: HttpClient
+  nameWithType: HttpClient
+  fullName: System.Net.Http.HttpClient
+- uid: Mewdeko.Services.IDataCache
+  commentId: T:Mewdeko.Services.IDataCache
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.IDataCache.html
+  name: IDataCache
+  nameWithType: IDataCache
+  fullName: Mewdeko.Services.IDataCache
+- uid: Discord.WebSocket
+  commentId: N:Discord.WebSocket
+  isExternal: true
+  name: Discord.WebSocket
+  nameWithType: Discord.WebSocket
+  fullName: Discord.WebSocket
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.WebSocket
+    name: WebSocket
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.WebSocket
+    name: WebSocket
+    isExternal: true
+- uid: Discord.Commands
+  commentId: N:Discord.Commands
+  isExternal: true
+  name: Discord.Commands
+  nameWithType: Discord.Commands
+  fullName: Discord.Commands
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+- uid: System.Net.Http
+  commentId: N:System.Net.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Net.Http
+  nameWithType: System.Net.Http
+  fullName: System.Net.Http
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http
+- uid: Mewdeko.Services.Impl.StatsService.Library*
+  commentId: Overload:Mewdeko.Services.Impl.StatsService.Library
+  href: Mewdeko.Services.Impl.StatsService.html#Mewdeko_Services_Impl_StatsService_Library
+  name: Library
+  nameWithType: StatsService.Library
+  fullName: Mewdeko.Services.Impl.StatsService.Library
+- uid: Mewdeko.Services.IStatsService.Library
+  commentId: P:Mewdeko.Services.IStatsService.Library
+  parent: Mewdeko.Services.IStatsService
+  href: Mewdeko.Services.IStatsService.html#Mewdeko_Services_IStatsService_Library
+  name: Library
+  nameWithType: IStatsService.Library
+  fullName: Mewdeko.Services.IStatsService.Library
+- uid: Mewdeko.Services.Impl.StatsService.Heap*
+  commentId: Overload:Mewdeko.Services.Impl.StatsService.Heap
+  href: Mewdeko.Services.Impl.StatsService.html#Mewdeko_Services_Impl_StatsService_Heap
+  name: Heap
+  nameWithType: StatsService.Heap
+  fullName: Mewdeko.Services.Impl.StatsService.Heap
+- uid: Mewdeko.Services.IStatsService.Heap
+  commentId: P:Mewdeko.Services.IStatsService.Heap
+  parent: Mewdeko.Services.IStatsService
+  href: Mewdeko.Services.IStatsService.html#Mewdeko_Services_IStatsService_Heap
+  name: Heap
+  nameWithType: IStatsService.Heap
+  fullName: Mewdeko.Services.IStatsService.Heap
+- uid: Mewdeko.Services.Impl.StatsService.GetUptimeString*
+  commentId: Overload:Mewdeko.Services.Impl.StatsService.GetUptimeString
+  href: Mewdeko.Services.Impl.StatsService.html#Mewdeko_Services_Impl_StatsService_GetUptimeString_System_String_
+  name: GetUptimeString
+  nameWithType: StatsService.GetUptimeString
+  fullName: Mewdeko.Services.Impl.StatsService.GetUptimeString
+- uid: Mewdeko.Services.IStatsService.GetUptimeString(System.String)
+  commentId: M:Mewdeko.Services.IStatsService.GetUptimeString(System.String)
+  parent: Mewdeko.Services.IStatsService
+  isExternal: true
+  href: Mewdeko.Services.IStatsService.html#Mewdeko_Services_IStatsService_GetUptimeString_System_String_
+  name: GetUptimeString(string)
+  nameWithType: IStatsService.GetUptimeString(string)
+  fullName: Mewdeko.Services.IStatsService.GetUptimeString(string)
+  nameWithType.vb: IStatsService.GetUptimeString(String)
+  fullName.vb: Mewdeko.Services.IStatsService.GetUptimeString(String)
+  name.vb: GetUptimeString(String)
+  spec.csharp:
+  - uid: Mewdeko.Services.IStatsService.GetUptimeString(System.String)
+    name: GetUptimeString
+    href: Mewdeko.Services.IStatsService.html#Mewdeko_Services_IStatsService_GetUptimeString_System_String_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Services.IStatsService.GetUptimeString(System.String)
+    name: GetUptimeString
+    href: Mewdeko.Services.IStatsService.html#Mewdeko_Services_IStatsService_GetUptimeString_System_String_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Services.Impl.StatsService.OnReadyAsync*
+  commentId: Overload:Mewdeko.Services.Impl.StatsService.OnReadyAsync
+  href: Mewdeko.Services.Impl.StatsService.html#Mewdeko_Services_Impl_StatsService_OnReadyAsync
+  name: OnReadyAsync
+  nameWithType: StatsService.OnReadyAsync
+  fullName: Mewdeko.Services.Impl.StatsService.OnReadyAsync
+- uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+  commentId: M:Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+  parent: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html#Mewdeko_Common_ModuleBehaviors_IReadyExecutor_OnReadyAsync
+  name: OnReadyAsync()
+  nameWithType: IReadyExecutor.OnReadyAsync()
+  fullName: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync()
+  spec.csharp:
+  - uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+    name: OnReadyAsync
+    href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html#Mewdeko_Common_ModuleBehaviors_IReadyExecutor_OnReadyAsync
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+    name: OnReadyAsync
+    href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html#Mewdeko_Common_ModuleBehaviors_IReadyExecutor_OnReadyAsync
+  - name: (
+  - name: )
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Services.Impl.StatsService.Dispose*
+  commentId: Overload:Mewdeko.Services.Impl.StatsService.Dispose
+  href: Mewdeko.Services.Impl.StatsService.html#Mewdeko_Services_Impl_StatsService_Dispose
+  name: Dispose
+  nameWithType: StatsService.Dispose
+  fullName: Mewdeko.Services.Impl.StatsService.Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )

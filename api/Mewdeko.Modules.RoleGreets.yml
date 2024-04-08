@@ -1,0 +1,30 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.RoleGreets
+  commentId: N:Mewdeko.Modules.RoleGreets
+  id: Mewdeko.Modules.RoleGreets
+  children:
+  - Mewdeko.Modules.RoleGreets.RoleGreets
+  - Mewdeko.Modules.RoleGreets.SlashRoleGreets
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.RoleGreets
+  nameWithType: Mewdeko.Modules.RoleGreets
+  fullName: Mewdeko.Modules.RoleGreets
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.RoleGreets.RoleGreets
+  commentId: T:Mewdeko.Modules.RoleGreets.RoleGreets
+  href: Mewdeko.Modules.RoleGreets.RoleGreets.html
+  name: RoleGreets
+  nameWithType: RoleGreets
+  fullName: Mewdeko.Modules.RoleGreets.RoleGreets
+- uid: Mewdeko.Modules.RoleGreets.SlashRoleGreets
+  commentId: T:Mewdeko.Modules.RoleGreets.SlashRoleGreets
+  href: Mewdeko.Modules.RoleGreets.SlashRoleGreets.html
+  name: SlashRoleGreets
+  nameWithType: SlashRoleGreets
+  fullName: Mewdeko.Modules.RoleGreets.SlashRoleGreets

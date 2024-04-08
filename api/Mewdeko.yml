@@ -1,0 +1,30 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko
+  commentId: N:Mewdeko
+  id: Mewdeko
+  children:
+  - Mewdeko.Mewdeko
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko
+  nameWithType: Mewdeko
+  fullName: Mewdeko
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Mewdeko
+  commentId: T:Mewdeko.Mewdeko
+  parent: Mewdeko
+  href: Mewdeko.Mewdeko.html
+  name: Mewdeko
+  nameWithType: Mewdeko
+  fullName: Mewdeko.Mewdeko
+- uid: Mewdeko
+  commentId: N:Mewdeko
+  href: Mewdeko.html
+  name: Mewdeko
+  nameWithType: Mewdeko
+  fullName: Mewdeko

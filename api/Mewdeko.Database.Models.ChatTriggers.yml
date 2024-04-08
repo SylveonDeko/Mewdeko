@@ -1,0 +1,2031 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Models.ChatTriggers
+  commentId: T:Mewdeko.Database.Models.ChatTriggers
+  id: ChatTriggers
+  parent: Mewdeko.Database.Models
+  children:
+  - Mewdeko.Database.Models.ChatTriggers.AllowTarget
+  - Mewdeko.Database.Models.ChatTriggers.ApplicationCommandDescription
+  - Mewdeko.Database.Models.ChatTriggers.ApplicationCommandId
+  - Mewdeko.Database.Models.ChatTriggers.ApplicationCommandName
+  - Mewdeko.Database.Models.ChatTriggers.ApplicationCommandType
+  - Mewdeko.Database.Models.ChatTriggers.AutoDeleteTrigger
+  - Mewdeko.Database.Models.ChatTriggers.ContainsAnywhere
+  - Mewdeko.Database.Models.ChatTriggers.CrosspostingChannelId
+  - Mewdeko.Database.Models.ChatTriggers.CrosspostingWebhookUrl
+  - Mewdeko.Database.Models.ChatTriggers.CustomPrefix
+  - Mewdeko.Database.Models.ChatTriggers.DmResponse
+  - Mewdeko.Database.Models.ChatTriggers.EphemeralResponse
+  - Mewdeko.Database.Models.ChatTriggers.GetReactions
+  - Mewdeko.Database.Models.ChatTriggers.GrantedRoles
+  - Mewdeko.Database.Models.ChatTriggers.GuildId
+  - Mewdeko.Database.Models.ChatTriggers.IsGlobal
+  - Mewdeko.Database.Models.ChatTriggers.IsRegex
+  - Mewdeko.Database.Models.ChatTriggers.NoRespond
+  - Mewdeko.Database.Models.ChatTriggers.OwnerOnly
+  - Mewdeko.Database.Models.ChatTriggers.PrefixType
+  - Mewdeko.Database.Models.ChatTriggers.ReactToTrigger
+  - Mewdeko.Database.Models.ChatTriggers.Reactions
+  - Mewdeko.Database.Models.ChatTriggers.RealName
+  - Mewdeko.Database.Models.ChatTriggers.RemovedRoles
+  - Mewdeko.Database.Models.ChatTriggers.Response
+  - Mewdeko.Database.Models.ChatTriggers.RoleGrantType
+  - Mewdeko.Database.Models.ChatTriggers.Trigger
+  - Mewdeko.Database.Models.ChatTriggers.UseCount
+  - Mewdeko.Database.Models.ChatTriggers.ValidTriggerTypes
+  langs:
+  - csharp
+  - vb
+  name: ChatTriggers
+  nameWithType: ChatTriggers
+  fullName: Mewdeko.Database.Models.ChatTriggers
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChatTriggers
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 2
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: 'public class ChatTriggers : DbEntity'
+    content.vb: Public Class ChatTriggers Inherits DbEntity
+  inheritance:
+  - System.Object
+  - Mewdeko.Database.Models.DbEntity
+  inheritedMembers:
+  - Mewdeko.Database.Models.DbEntity.Id
+  - Mewdeko.Database.Models.DbEntity.DateAdded
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Database.Models.ChatTriggers.Mewdeko.Database.Extensions.ChatTriggersExtensions.GetGrantedRoles
+  - Mewdeko.Database.Models.ChatTriggers.Mewdeko.Database.Extensions.ChatTriggersExtensions.GetRemovedRoles
+  - Mewdeko.Database.Models.ChatTriggers.Mewdeko.Database.Extensions.ChatTriggersExtensions.IsGranted(System.UInt64)
+  - Mewdeko.Database.Models.ChatTriggers.Mewdeko.Database.Extensions.ChatTriggersExtensions.IsRemoved(System.UInt64)
+  - Mewdeko.Database.Models.ChatTriggers.Mewdeko.Database.Extensions.ChatTriggersExtensions.IsToggled(System.UInt64)
+  - Mewdeko.Database.Models.ChatTriggers.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Database.Models.ChatTriggers.UseCount
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.UseCount
+  id: UseCount
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: UseCount
+  nameWithType: ChatTriggers.UseCount
+  fullName: Mewdeko.Database.Models.ChatTriggers.UseCount
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UseCount
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 4
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong UseCount { get; set; }
+    parameters: []
+    return:
+      type: System.UInt64
+    content.vb: Public Property UseCount As ULong
+  overload: Mewdeko.Database.Models.ChatTriggers.UseCount*
+- uid: Mewdeko.Database.Models.ChatTriggers.IsRegex
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.IsRegex
+  id: IsRegex
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: IsRegex
+  nameWithType: ChatTriggers.IsRegex
+  fullName: Mewdeko.Database.Models.ChatTriggers.IsRegex
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IsRegex
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 5
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public long IsRegex { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property IsRegex As Long
+  overload: Mewdeko.Database.Models.ChatTriggers.IsRegex*
+- uid: Mewdeko.Database.Models.ChatTriggers.OwnerOnly
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.OwnerOnly
+  id: OwnerOnly
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: OwnerOnly
+  nameWithType: ChatTriggers.OwnerOnly
+  fullName: Mewdeko.Database.Models.ChatTriggers.OwnerOnly
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OwnerOnly
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 6
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public long OwnerOnly { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property OwnerOnly As Long
+  overload: Mewdeko.Database.Models.ChatTriggers.OwnerOnly*
+- uid: Mewdeko.Database.Models.ChatTriggers.GuildId
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.GuildId
+  id: GuildId
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: GuildId
+  nameWithType: ChatTriggers.GuildId
+  fullName: Mewdeko.Database.Models.ChatTriggers.GuildId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GuildId
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 8
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong? GuildId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.UInt64}
+    content.vb: Public Property GuildId As ULong?
+  overload: Mewdeko.Database.Models.ChatTriggers.GuildId*
+- uid: Mewdeko.Database.Models.ChatTriggers.Response
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.Response
+  id: Response
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: Response
+  nameWithType: ChatTriggers.Response
+  fullName: Mewdeko.Database.Models.ChatTriggers.Response
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Response
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 9
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public string Response { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Response As String
+  overload: Mewdeko.Database.Models.ChatTriggers.Response*
+- uid: Mewdeko.Database.Models.ChatTriggers.Trigger
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.Trigger
+  id: Trigger
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: Trigger
+  nameWithType: ChatTriggers.Trigger
+  fullName: Mewdeko.Database.Models.ChatTriggers.Trigger
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Trigger
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 10
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public string Trigger { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Trigger As String
+  overload: Mewdeko.Database.Models.ChatTriggers.Trigger*
+- uid: Mewdeko.Database.Models.ChatTriggers.PrefixType
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.PrefixType
+  id: PrefixType
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: PrefixType
+  nameWithType: ChatTriggers.PrefixType
+  fullName: Mewdeko.Database.Models.ChatTriggers.PrefixType
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: PrefixType
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public RequirePrefixType PrefixType { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Database.Models.RequirePrefixType
+    content.vb: Public Property PrefixType As RequirePrefixType
+  overload: Mewdeko.Database.Models.ChatTriggers.PrefixType*
+- uid: Mewdeko.Database.Models.ChatTriggers.CustomPrefix
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.CustomPrefix
+  id: CustomPrefix
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: CustomPrefix
+  nameWithType: ChatTriggers.CustomPrefix
+  fullName: Mewdeko.Database.Models.ChatTriggers.CustomPrefix
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CustomPrefix
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 13
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public string CustomPrefix { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property CustomPrefix As String
+  overload: Mewdeko.Database.Models.ChatTriggers.CustomPrefix*
+- uid: Mewdeko.Database.Models.ChatTriggers.AutoDeleteTrigger
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.AutoDeleteTrigger
+  id: AutoDeleteTrigger
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: AutoDeleteTrigger
+  nameWithType: ChatTriggers.AutoDeleteTrigger
+  fullName: Mewdeko.Database.Models.ChatTriggers.AutoDeleteTrigger
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AutoDeleteTrigger
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 15
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public long AutoDeleteTrigger { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property AutoDeleteTrigger As Long
+  overload: Mewdeko.Database.Models.ChatTriggers.AutoDeleteTrigger*
+- uid: Mewdeko.Database.Models.ChatTriggers.ReactToTrigger
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.ReactToTrigger
+  id: ReactToTrigger
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: ReactToTrigger
+  nameWithType: ChatTriggers.ReactToTrigger
+  fullName: Mewdeko.Database.Models.ChatTriggers.ReactToTrigger
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ReactToTrigger
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 16
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public long ReactToTrigger { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property ReactToTrigger As Long
+  overload: Mewdeko.Database.Models.ChatTriggers.ReactToTrigger*
+- uid: Mewdeko.Database.Models.ChatTriggers.NoRespond
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.NoRespond
+  id: NoRespond
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: NoRespond
+  nameWithType: ChatTriggers.NoRespond
+  fullName: Mewdeko.Database.Models.ChatTriggers.NoRespond
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: NoRespond
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 17
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public long NoRespond { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property NoRespond As Long
+  overload: Mewdeko.Database.Models.ChatTriggers.NoRespond*
+- uid: Mewdeko.Database.Models.ChatTriggers.DmResponse
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.DmResponse
+  id: DmResponse
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: DmResponse
+  nameWithType: ChatTriggers.DmResponse
+  fullName: Mewdeko.Database.Models.ChatTriggers.DmResponse
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: DmResponse
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 18
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public long DmResponse { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property DmResponse As Long
+  overload: Mewdeko.Database.Models.ChatTriggers.DmResponse*
+- uid: Mewdeko.Database.Models.ChatTriggers.ContainsAnywhere
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.ContainsAnywhere
+  id: ContainsAnywhere
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: ContainsAnywhere
+  nameWithType: ChatTriggers.ContainsAnywhere
+  fullName: Mewdeko.Database.Models.ChatTriggers.ContainsAnywhere
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ContainsAnywhere
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 19
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public long ContainsAnywhere { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property ContainsAnywhere As Long
+  overload: Mewdeko.Database.Models.ChatTriggers.ContainsAnywhere*
+- uid: Mewdeko.Database.Models.ChatTriggers.AllowTarget
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.AllowTarget
+  id: AllowTarget
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: AllowTarget
+  nameWithType: ChatTriggers.AllowTarget
+  fullName: Mewdeko.Database.Models.ChatTriggers.AllowTarget
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AllowTarget
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 20
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public long AllowTarget { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property AllowTarget As Long
+  overload: Mewdeko.Database.Models.ChatTriggers.AllowTarget*
+- uid: Mewdeko.Database.Models.ChatTriggers.Reactions
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.Reactions
+  id: Reactions
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: Reactions
+  nameWithType: ChatTriggers.Reactions
+  fullName: Mewdeko.Database.Models.ChatTriggers.Reactions
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Reactions
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 21
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public string Reactions { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Reactions As String
+  overload: Mewdeko.Database.Models.ChatTriggers.Reactions*
+- uid: Mewdeko.Database.Models.ChatTriggers.GrantedRoles
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.GrantedRoles
+  id: GrantedRoles
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: GrantedRoles
+  nameWithType: ChatTriggers.GrantedRoles
+  fullName: Mewdeko.Database.Models.ChatTriggers.GrantedRoles
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GrantedRoles
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 23
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public string GrantedRoles { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property GrantedRoles As String
+  overload: Mewdeko.Database.Models.ChatTriggers.GrantedRoles*
+- uid: Mewdeko.Database.Models.ChatTriggers.RemovedRoles
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.RemovedRoles
+  id: RemovedRoles
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: RemovedRoles
+  nameWithType: ChatTriggers.RemovedRoles
+  fullName: Mewdeko.Database.Models.ChatTriggers.RemovedRoles
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RemovedRoles
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 24
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public string RemovedRoles { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property RemovedRoles As String
+  overload: Mewdeko.Database.Models.ChatTriggers.RemovedRoles*
+- uid: Mewdeko.Database.Models.ChatTriggers.RoleGrantType
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.RoleGrantType
+  id: RoleGrantType
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: RoleGrantType
+  nameWithType: ChatTriggers.RoleGrantType
+  fullName: Mewdeko.Database.Models.ChatTriggers.RoleGrantType
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RoleGrantType
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 25
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public CtRoleGrantType RoleGrantType { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Database.Models.CtRoleGrantType
+    content.vb: Public Property RoleGrantType As CtRoleGrantType
+  overload: Mewdeko.Database.Models.ChatTriggers.RoleGrantType*
+- uid: Mewdeko.Database.Models.ChatTriggers.GetReactions
+  commentId: M:Mewdeko.Database.Models.ChatTriggers.GetReactions
+  id: GetReactions
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: GetReactions()
+  nameWithType: ChatTriggers.GetReactions()
+  fullName: Mewdeko.Database.Models.ChatTriggers.GetReactions()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetReactions
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 27
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public string[] GetReactions()
+    return:
+      type: System.String[]
+    content.vb: Public Function GetReactions() As String()
+  overload: Mewdeko.Database.Models.ChatTriggers.GetReactions*
+- uid: Mewdeko.Database.Models.ChatTriggers.IsGlobal
+  commentId: M:Mewdeko.Database.Models.ChatTriggers.IsGlobal
+  id: IsGlobal
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: IsGlobal()
+  nameWithType: ChatTriggers.IsGlobal()
+  fullName: Mewdeko.Database.Models.ChatTriggers.IsGlobal()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IsGlobal
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 32
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public bool IsGlobal()
+    return:
+      type: System.Boolean
+    content.vb: Public Function IsGlobal() As Boolean
+  overload: Mewdeko.Database.Models.ChatTriggers.IsGlobal*
+- uid: Mewdeko.Database.Models.ChatTriggers.ValidTriggerTypes
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.ValidTriggerTypes
+  id: ValidTriggerTypes
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: ValidTriggerTypes
+  nameWithType: ChatTriggers.ValidTriggerTypes
+  fullName: Mewdeko.Database.Models.ChatTriggers.ValidTriggerTypes
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ValidTriggerTypes
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 34
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ChatTriggerType ValidTriggerTypes { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Database.Models.ChatTriggerType
+    content.vb: Public Property ValidTriggerTypes As ChatTriggerType
+  overload: Mewdeko.Database.Models.ChatTriggers.ValidTriggerTypes*
+- uid: Mewdeko.Database.Models.ChatTriggers.ApplicationCommandId
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.ApplicationCommandId
+  id: ApplicationCommandId
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: ApplicationCommandId
+  nameWithType: ChatTriggers.ApplicationCommandId
+  fullName: Mewdeko.Database.Models.ChatTriggers.ApplicationCommandId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ApplicationCommandId
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 35
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong ApplicationCommandId { get; set; }
+    parameters: []
+    return:
+      type: System.UInt64
+    content.vb: Public Property ApplicationCommandId As ULong
+  overload: Mewdeko.Database.Models.ChatTriggers.ApplicationCommandId*
+- uid: Mewdeko.Database.Models.ChatTriggers.ApplicationCommandName
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.ApplicationCommandName
+  id: ApplicationCommandName
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: ApplicationCommandName
+  nameWithType: ChatTriggers.ApplicationCommandName
+  fullName: Mewdeko.Database.Models.ChatTriggers.ApplicationCommandName
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ApplicationCommandName
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 36
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public string ApplicationCommandName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ApplicationCommandName As String
+  overload: Mewdeko.Database.Models.ChatTriggers.ApplicationCommandName*
+- uid: Mewdeko.Database.Models.ChatTriggers.ApplicationCommandDescription
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.ApplicationCommandDescription
+  id: ApplicationCommandDescription
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: ApplicationCommandDescription
+  nameWithType: ChatTriggers.ApplicationCommandDescription
+  fullName: Mewdeko.Database.Models.ChatTriggers.ApplicationCommandDescription
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ApplicationCommandDescription
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 37
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public string ApplicationCommandDescription { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ApplicationCommandDescription As String
+  overload: Mewdeko.Database.Models.ChatTriggers.ApplicationCommandDescription*
+- uid: Mewdeko.Database.Models.ChatTriggers.ApplicationCommandType
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.ApplicationCommandType
+  id: ApplicationCommandType
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: ApplicationCommandType
+  nameWithType: ChatTriggers.ApplicationCommandType
+  fullName: Mewdeko.Database.Models.ChatTriggers.ApplicationCommandType
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ApplicationCommandType
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 38
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public CtApplicationCommandType ApplicationCommandType { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Database.Models.CtApplicationCommandType
+    content.vb: Public Property ApplicationCommandType As CtApplicationCommandType
+  overload: Mewdeko.Database.Models.ChatTriggers.ApplicationCommandType*
+- uid: Mewdeko.Database.Models.ChatTriggers.EphemeralResponse
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.EphemeralResponse
+  id: EphemeralResponse
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: EphemeralResponse
+  nameWithType: ChatTriggers.EphemeralResponse
+  fullName: Mewdeko.Database.Models.ChatTriggers.EphemeralResponse
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: EphemeralResponse
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 39
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public long EphemeralResponse { get; set; }
+    parameters: []
+    return:
+      type: System.Int64
+    content.vb: Public Property EphemeralResponse As Long
+  overload: Mewdeko.Database.Models.ChatTriggers.EphemeralResponse*
+- uid: Mewdeko.Database.Models.ChatTriggers.CrosspostingChannelId
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.CrosspostingChannelId
+  id: CrosspostingChannelId
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: CrosspostingChannelId
+  nameWithType: ChatTriggers.CrosspostingChannelId
+  fullName: Mewdeko.Database.Models.ChatTriggers.CrosspostingChannelId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CrosspostingChannelId
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 40
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public ulong CrosspostingChannelId { get; set; }
+    parameters: []
+    return:
+      type: System.UInt64
+    content.vb: Public Property CrosspostingChannelId As ULong
+  overload: Mewdeko.Database.Models.ChatTriggers.CrosspostingChannelId*
+- uid: Mewdeko.Database.Models.ChatTriggers.CrosspostingWebhookUrl
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.CrosspostingWebhookUrl
+  id: CrosspostingWebhookUrl
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: CrosspostingWebhookUrl
+  nameWithType: ChatTriggers.CrosspostingWebhookUrl
+  fullName: Mewdeko.Database.Models.ChatTriggers.CrosspostingWebhookUrl
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CrosspostingWebhookUrl
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 41
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public string CrosspostingWebhookUrl { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property CrosspostingWebhookUrl As String
+  overload: Mewdeko.Database.Models.ChatTriggers.CrosspostingWebhookUrl*
+- uid: Mewdeko.Database.Models.ChatTriggers.RealName
+  commentId: P:Mewdeko.Database.Models.ChatTriggers.RealName
+  id: RealName
+  parent: Mewdeko.Database.Models.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: RealName
+  nameWithType: ChatTriggers.RealName
+  fullName: Mewdeko.Database.Models.ChatTriggers.RealName
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RealName
+    path: src/Mewdeko.Database/Models/ChatTriggers.cs
+    startLine: 43
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public string RealName { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property RealName As String
+  overload: Mewdeko.Database.Models.ChatTriggers.RealName*
+references:
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Mewdeko.Database.Models.DbEntity
+  commentId: T:Mewdeko.Database.Models.DbEntity
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.DbEntity.html
+  name: DbEntity
+  nameWithType: DbEntity
+  fullName: Mewdeko.Database.Models.DbEntity
+- uid: Mewdeko.Database.Models.DbEntity.Id
+  commentId: P:Mewdeko.Database.Models.DbEntity.Id
+  parent: Mewdeko.Database.Models.DbEntity
+  href: Mewdeko.Database.Models.DbEntity.html#Mewdeko_Database_Models_DbEntity_Id
+  name: Id
+  nameWithType: DbEntity.Id
+  fullName: Mewdeko.Database.Models.DbEntity.Id
+- uid: Mewdeko.Database.Models.DbEntity.DateAdded
+  commentId: P:Mewdeko.Database.Models.DbEntity.DateAdded
+  parent: Mewdeko.Database.Models.DbEntity
+  href: Mewdeko.Database.Models.DbEntity.html#Mewdeko_Database_Models_DbEntity_DateAdded
+  name: DateAdded
+  nameWithType: DbEntity.DateAdded
+  fullName: Mewdeko.Database.Models.DbEntity.DateAdded
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Database.Models.ChatTriggers.Mewdeko.Database.Extensions.ChatTriggersExtensions.GetGrantedRoles
+  commentId: M:Mewdeko.Database.Extensions.ChatTriggersExtensions.GetGrantedRoles(Mewdeko.Database.Models.ChatTriggers)
+  parent: Mewdeko.Database.Extensions.ChatTriggersExtensions
+  definition: Mewdeko.Database.Extensions.ChatTriggersExtensions.GetGrantedRoles(Mewdeko.Database.Models.ChatTriggers)
+  href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_GetGrantedRoles_Mewdeko_Database_Models_ChatTriggers_
+  name: GetGrantedRoles(ChatTriggers)
+  nameWithType: ChatTriggersExtensions.GetGrantedRoles(ChatTriggers)
+  fullName: Mewdeko.Database.Extensions.ChatTriggersExtensions.GetGrantedRoles(Mewdeko.Database.Models.ChatTriggers)
+  spec.csharp:
+  - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.GetGrantedRoles(Mewdeko.Database.Models.ChatTriggers)
+    name: GetGrantedRoles
+    href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_GetGrantedRoles_Mewdeko_Database_Models_ChatTriggers_
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.GetGrantedRoles(Mewdeko.Database.Models.ChatTriggers)
+    name: GetGrantedRoles
+    href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_GetGrantedRoles_Mewdeko_Database_Models_ChatTriggers_
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: )
+- uid: Mewdeko.Database.Models.ChatTriggers.Mewdeko.Database.Extensions.ChatTriggersExtensions.GetRemovedRoles
+  commentId: M:Mewdeko.Database.Extensions.ChatTriggersExtensions.GetRemovedRoles(Mewdeko.Database.Models.ChatTriggers)
+  parent: Mewdeko.Database.Extensions.ChatTriggersExtensions
+  definition: Mewdeko.Database.Extensions.ChatTriggersExtensions.GetRemovedRoles(Mewdeko.Database.Models.ChatTriggers)
+  href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_GetRemovedRoles_Mewdeko_Database_Models_ChatTriggers_
+  name: GetRemovedRoles(ChatTriggers)
+  nameWithType: ChatTriggersExtensions.GetRemovedRoles(ChatTriggers)
+  fullName: Mewdeko.Database.Extensions.ChatTriggersExtensions.GetRemovedRoles(Mewdeko.Database.Models.ChatTriggers)
+  spec.csharp:
+  - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.GetRemovedRoles(Mewdeko.Database.Models.ChatTriggers)
+    name: GetRemovedRoles
+    href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_GetRemovedRoles_Mewdeko_Database_Models_ChatTriggers_
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.GetRemovedRoles(Mewdeko.Database.Models.ChatTriggers)
+    name: GetRemovedRoles
+    href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_GetRemovedRoles_Mewdeko_Database_Models_ChatTriggers_
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: )
+- uid: Mewdeko.Database.Models.ChatTriggers.Mewdeko.Database.Extensions.ChatTriggersExtensions.IsGranted(System.UInt64)
+  commentId: M:Mewdeko.Database.Extensions.ChatTriggersExtensions.IsGranted(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+  parent: Mewdeko.Database.Extensions.ChatTriggersExtensions
+  definition: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsGranted(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+  href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_IsGranted_Mewdeko_Database_Models_ChatTriggers_System_UInt64_
+  name: IsGranted(ChatTriggers, ulong)
+  nameWithType: ChatTriggersExtensions.IsGranted(ChatTriggers, ulong)
+  fullName: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsGranted(Mewdeko.Database.Models.ChatTriggers, ulong)
+  nameWithType.vb: ChatTriggersExtensions.IsGranted(ChatTriggers, ULong)
+  fullName.vb: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsGranted(Mewdeko.Database.Models.ChatTriggers, ULong)
+  name.vb: IsGranted(ChatTriggers, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsGranted(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+    name: IsGranted
+    href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_IsGranted_Mewdeko_Database_Models_ChatTriggers_System_UInt64_
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsGranted(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+    name: IsGranted
+    href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_IsGranted_Mewdeko_Database_Models_ChatTriggers_System_UInt64_
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Database.Models.ChatTriggers.Mewdeko.Database.Extensions.ChatTriggersExtensions.IsRemoved(System.UInt64)
+  commentId: M:Mewdeko.Database.Extensions.ChatTriggersExtensions.IsRemoved(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+  parent: Mewdeko.Database.Extensions.ChatTriggersExtensions
+  definition: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsRemoved(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+  href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_IsRemoved_Mewdeko_Database_Models_ChatTriggers_System_UInt64_
+  name: IsRemoved(ChatTriggers, ulong)
+  nameWithType: ChatTriggersExtensions.IsRemoved(ChatTriggers, ulong)
+  fullName: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsRemoved(Mewdeko.Database.Models.ChatTriggers, ulong)
+  nameWithType.vb: ChatTriggersExtensions.IsRemoved(ChatTriggers, ULong)
+  fullName.vb: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsRemoved(Mewdeko.Database.Models.ChatTriggers, ULong)
+  name.vb: IsRemoved(ChatTriggers, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsRemoved(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+    name: IsRemoved
+    href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_IsRemoved_Mewdeko_Database_Models_ChatTriggers_System_UInt64_
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsRemoved(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+    name: IsRemoved
+    href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_IsRemoved_Mewdeko_Database_Models_ChatTriggers_System_UInt64_
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Database.Models.ChatTriggers.Mewdeko.Database.Extensions.ChatTriggersExtensions.IsToggled(System.UInt64)
+  commentId: M:Mewdeko.Database.Extensions.ChatTriggersExtensions.IsToggled(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+  parent: Mewdeko.Database.Extensions.ChatTriggersExtensions
+  definition: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsToggled(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+  href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_IsToggled_Mewdeko_Database_Models_ChatTriggers_System_UInt64_
+  name: IsToggled(ChatTriggers, ulong)
+  nameWithType: ChatTriggersExtensions.IsToggled(ChatTriggers, ulong)
+  fullName: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsToggled(Mewdeko.Database.Models.ChatTriggers, ulong)
+  nameWithType.vb: ChatTriggersExtensions.IsToggled(ChatTriggers, ULong)
+  fullName.vb: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsToggled(Mewdeko.Database.Models.ChatTriggers, ULong)
+  name.vb: IsToggled(ChatTriggers, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsToggled(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+    name: IsToggled
+    href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_IsToggled_Mewdeko_Database_Models_ChatTriggers_System_UInt64_
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsToggled(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+    name: IsToggled
+    href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_IsToggled_Mewdeko_Database_Models_ChatTriggers_System_UInt64_
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Database.Models.ChatTriggers.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<ChatTriggers>(ChatTriggers, string)
+  nameWithType: Extensions.ThrowIfNull<ChatTriggers>(ChatTriggers, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Database.Models.ChatTriggers>(Mewdeko.Database.Models.ChatTriggers, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of ChatTriggers)(ChatTriggers, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Database.Models.ChatTriggers)(Mewdeko.Database.Models.ChatTriggers, String)
+  name.vb: ThrowIfNull(Of ChatTriggers)(ChatTriggers, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Database.Models.ChatTriggers,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Database.Models.ChatTriggers,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.GetGrantedRoles(Mewdeko.Database.Models.ChatTriggers)
+  commentId: M:Mewdeko.Database.Extensions.ChatTriggersExtensions.GetGrantedRoles(Mewdeko.Database.Models.ChatTriggers)
+  href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_GetGrantedRoles_Mewdeko_Database_Models_ChatTriggers_
+  name: GetGrantedRoles(ChatTriggers)
+  nameWithType: ChatTriggersExtensions.GetGrantedRoles(ChatTriggers)
+  fullName: Mewdeko.Database.Extensions.ChatTriggersExtensions.GetGrantedRoles(Mewdeko.Database.Models.ChatTriggers)
+  spec.csharp:
+  - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.GetGrantedRoles(Mewdeko.Database.Models.ChatTriggers)
+    name: GetGrantedRoles
+    href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_GetGrantedRoles_Mewdeko_Database_Models_ChatTriggers_
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.GetGrantedRoles(Mewdeko.Database.Models.ChatTriggers)
+    name: GetGrantedRoles
+    href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_GetGrantedRoles_Mewdeko_Database_Models_ChatTriggers_
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: )
+- uid: Mewdeko.Database.Extensions.ChatTriggersExtensions
+  commentId: T:Mewdeko.Database.Extensions.ChatTriggersExtensions
+  parent: Mewdeko.Database.Extensions
+  href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html
+  name: ChatTriggersExtensions
+  nameWithType: ChatTriggersExtensions
+  fullName: Mewdeko.Database.Extensions.ChatTriggersExtensions
+- uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.GetRemovedRoles(Mewdeko.Database.Models.ChatTriggers)
+  commentId: M:Mewdeko.Database.Extensions.ChatTriggersExtensions.GetRemovedRoles(Mewdeko.Database.Models.ChatTriggers)
+  href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_GetRemovedRoles_Mewdeko_Database_Models_ChatTriggers_
+  name: GetRemovedRoles(ChatTriggers)
+  nameWithType: ChatTriggersExtensions.GetRemovedRoles(ChatTriggers)
+  fullName: Mewdeko.Database.Extensions.ChatTriggersExtensions.GetRemovedRoles(Mewdeko.Database.Models.ChatTriggers)
+  spec.csharp:
+  - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.GetRemovedRoles(Mewdeko.Database.Models.ChatTriggers)
+    name: GetRemovedRoles
+    href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_GetRemovedRoles_Mewdeko_Database_Models_ChatTriggers_
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.GetRemovedRoles(Mewdeko.Database.Models.ChatTriggers)
+    name: GetRemovedRoles
+    href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_GetRemovedRoles_Mewdeko_Database_Models_ChatTriggers_
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: )
+- uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsGranted(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+  commentId: M:Mewdeko.Database.Extensions.ChatTriggersExtensions.IsGranted(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+  isExternal: true
+  href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_IsGranted_Mewdeko_Database_Models_ChatTriggers_System_UInt64_
+  name: IsGranted(ChatTriggers, ulong)
+  nameWithType: ChatTriggersExtensions.IsGranted(ChatTriggers, ulong)
+  fullName: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsGranted(Mewdeko.Database.Models.ChatTriggers, ulong)
+  nameWithType.vb: ChatTriggersExtensions.IsGranted(ChatTriggers, ULong)
+  fullName.vb: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsGranted(Mewdeko.Database.Models.ChatTriggers, ULong)
+  name.vb: IsGranted(ChatTriggers, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsGranted(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+    name: IsGranted
+    href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_IsGranted_Mewdeko_Database_Models_ChatTriggers_System_UInt64_
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsGranted(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+    name: IsGranted
+    href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_IsGranted_Mewdeko_Database_Models_ChatTriggers_System_UInt64_
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsRemoved(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+  commentId: M:Mewdeko.Database.Extensions.ChatTriggersExtensions.IsRemoved(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+  isExternal: true
+  href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_IsRemoved_Mewdeko_Database_Models_ChatTriggers_System_UInt64_
+  name: IsRemoved(ChatTriggers, ulong)
+  nameWithType: ChatTriggersExtensions.IsRemoved(ChatTriggers, ulong)
+  fullName: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsRemoved(Mewdeko.Database.Models.ChatTriggers, ulong)
+  nameWithType.vb: ChatTriggersExtensions.IsRemoved(ChatTriggers, ULong)
+  fullName.vb: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsRemoved(Mewdeko.Database.Models.ChatTriggers, ULong)
+  name.vb: IsRemoved(ChatTriggers, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsRemoved(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+    name: IsRemoved
+    href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_IsRemoved_Mewdeko_Database_Models_ChatTriggers_System_UInt64_
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsRemoved(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+    name: IsRemoved
+    href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_IsRemoved_Mewdeko_Database_Models_ChatTriggers_System_UInt64_
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsToggled(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+  commentId: M:Mewdeko.Database.Extensions.ChatTriggersExtensions.IsToggled(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+  isExternal: true
+  href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_IsToggled_Mewdeko_Database_Models_ChatTriggers_System_UInt64_
+  name: IsToggled(ChatTriggers, ulong)
+  nameWithType: ChatTriggersExtensions.IsToggled(ChatTriggers, ulong)
+  fullName: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsToggled(Mewdeko.Database.Models.ChatTriggers, ulong)
+  nameWithType.vb: ChatTriggersExtensions.IsToggled(ChatTriggers, ULong)
+  fullName.vb: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsToggled(Mewdeko.Database.Models.ChatTriggers, ULong)
+  name.vb: IsToggled(ChatTriggers, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsToggled(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+    name: IsToggled
+    href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_IsToggled_Mewdeko_Database_Models_ChatTriggers_System_UInt64_
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions.IsToggled(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+    name: IsToggled
+    href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html#Mewdeko_Database_Extensions_ChatTriggersExtensions_IsToggled_Mewdeko_Database_Models_ChatTriggers_System_UInt64_
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Database.Extensions
+  commentId: N:Mewdeko.Database.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Database.Extensions
+  nameWithType: Mewdeko.Database.Extensions
+  fullName: Mewdeko.Database.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Extensions
+    name: Extensions
+    href: Mewdeko.Database.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Extensions
+    name: Extensions
+    href: Mewdeko.Database.Extensions.html
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Database.Models.ChatTriggers.UseCount*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.UseCount
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_UseCount
+  name: UseCount
+  nameWithType: ChatTriggers.UseCount
+  fullName: Mewdeko.Database.Models.ChatTriggers.UseCount
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong
+  nameWithType: ulong
+  fullName: ulong
+  nameWithType.vb: ULong
+  fullName.vb: ULong
+  name.vb: ULong
+- uid: Mewdeko.Database.Models.ChatTriggers.IsRegex*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.IsRegex
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_IsRegex
+  name: IsRegex
+  nameWithType: ChatTriggers.IsRegex
+  fullName: Mewdeko.Database.Models.ChatTriggers.IsRegex
+- uid: System.Int64
+  commentId: T:System.Int64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int64
+  name: long
+  nameWithType: long
+  fullName: long
+  nameWithType.vb: Long
+  fullName.vb: Long
+  name.vb: Long
+- uid: Mewdeko.Database.Models.ChatTriggers.OwnerOnly*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.OwnerOnly
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_OwnerOnly
+  name: OwnerOnly
+  nameWithType: ChatTriggers.OwnerOnly
+  fullName: Mewdeko.Database.Models.ChatTriggers.OwnerOnly
+- uid: Mewdeko.Database.Models.ChatTriggers.GuildId*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.GuildId
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_GuildId
+  name: GuildId
+  nameWithType: ChatTriggers.GuildId
+  fullName: Mewdeko.Database.Models.ChatTriggers.GuildId
+- uid: System.Nullable{System.UInt64}
+  commentId: T:System.Nullable{System.UInt64}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong?
+  nameWithType: ulong?
+  fullName: ulong?
+  nameWithType.vb: ULong?
+  fullName.vb: ULong?
+  name.vb: ULong?
+  spec.csharp:
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  spec.vb:
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Database.Models.ChatTriggers.Response*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.Response
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_Response
+  name: Response
+  nameWithType: ChatTriggers.Response
+  fullName: Mewdeko.Database.Models.ChatTriggers.Response
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Database.Models.ChatTriggers.Trigger*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.Trigger
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_Trigger
+  name: Trigger
+  nameWithType: ChatTriggers.Trigger
+  fullName: Mewdeko.Database.Models.ChatTriggers.Trigger
+- uid: Mewdeko.Database.Models.ChatTriggers.PrefixType*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.PrefixType
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_PrefixType
+  name: PrefixType
+  nameWithType: ChatTriggers.PrefixType
+  fullName: Mewdeko.Database.Models.ChatTriggers.PrefixType
+- uid: Mewdeko.Database.Models.RequirePrefixType
+  commentId: T:Mewdeko.Database.Models.RequirePrefixType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.RequirePrefixType.html
+  name: RequirePrefixType
+  nameWithType: RequirePrefixType
+  fullName: Mewdeko.Database.Models.RequirePrefixType
+- uid: Mewdeko.Database.Models.ChatTriggers.CustomPrefix*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.CustomPrefix
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_CustomPrefix
+  name: CustomPrefix
+  nameWithType: ChatTriggers.CustomPrefix
+  fullName: Mewdeko.Database.Models.ChatTriggers.CustomPrefix
+- uid: Mewdeko.Database.Models.ChatTriggers.AutoDeleteTrigger*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.AutoDeleteTrigger
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_AutoDeleteTrigger
+  name: AutoDeleteTrigger
+  nameWithType: ChatTriggers.AutoDeleteTrigger
+  fullName: Mewdeko.Database.Models.ChatTriggers.AutoDeleteTrigger
+- uid: Mewdeko.Database.Models.ChatTriggers.ReactToTrigger*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.ReactToTrigger
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_ReactToTrigger
+  name: ReactToTrigger
+  nameWithType: ChatTriggers.ReactToTrigger
+  fullName: Mewdeko.Database.Models.ChatTriggers.ReactToTrigger
+- uid: Mewdeko.Database.Models.ChatTriggers.NoRespond*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.NoRespond
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_NoRespond
+  name: NoRespond
+  nameWithType: ChatTriggers.NoRespond
+  fullName: Mewdeko.Database.Models.ChatTriggers.NoRespond
+- uid: Mewdeko.Database.Models.ChatTriggers.DmResponse*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.DmResponse
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_DmResponse
+  name: DmResponse
+  nameWithType: ChatTriggers.DmResponse
+  fullName: Mewdeko.Database.Models.ChatTriggers.DmResponse
+- uid: Mewdeko.Database.Models.ChatTriggers.ContainsAnywhere*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.ContainsAnywhere
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_ContainsAnywhere
+  name: ContainsAnywhere
+  nameWithType: ChatTriggers.ContainsAnywhere
+  fullName: Mewdeko.Database.Models.ChatTriggers.ContainsAnywhere
+- uid: Mewdeko.Database.Models.ChatTriggers.AllowTarget*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.AllowTarget
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_AllowTarget
+  name: AllowTarget
+  nameWithType: ChatTriggers.AllowTarget
+  fullName: Mewdeko.Database.Models.ChatTriggers.AllowTarget
+- uid: Mewdeko.Database.Models.ChatTriggers.Reactions*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.Reactions
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_Reactions
+  name: Reactions
+  nameWithType: ChatTriggers.Reactions
+  fullName: Mewdeko.Database.Models.ChatTriggers.Reactions
+- uid: Mewdeko.Database.Models.ChatTriggers.GrantedRoles*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.GrantedRoles
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_GrantedRoles
+  name: GrantedRoles
+  nameWithType: ChatTriggers.GrantedRoles
+  fullName: Mewdeko.Database.Models.ChatTriggers.GrantedRoles
+- uid: Mewdeko.Database.Models.ChatTriggers.RemovedRoles*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.RemovedRoles
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_RemovedRoles
+  name: RemovedRoles
+  nameWithType: ChatTriggers.RemovedRoles
+  fullName: Mewdeko.Database.Models.ChatTriggers.RemovedRoles
+- uid: Mewdeko.Database.Models.ChatTriggers.RoleGrantType*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.RoleGrantType
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_RoleGrantType
+  name: RoleGrantType
+  nameWithType: ChatTriggers.RoleGrantType
+  fullName: Mewdeko.Database.Models.ChatTriggers.RoleGrantType
+- uid: Mewdeko.Database.Models.CtRoleGrantType
+  commentId: T:Mewdeko.Database.Models.CtRoleGrantType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.CtRoleGrantType.html
+  name: CtRoleGrantType
+  nameWithType: CtRoleGrantType
+  fullName: Mewdeko.Database.Models.CtRoleGrantType
+- uid: Mewdeko.Database.Models.ChatTriggers.GetReactions*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.GetReactions
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_GetReactions
+  name: GetReactions
+  nameWithType: ChatTriggers.GetReactions
+  fullName: Mewdeko.Database.Models.ChatTriggers.GetReactions
+- uid: System.String[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string[]
+  nameWithType: string[]
+  fullName: string[]
+  nameWithType.vb: String()
+  fullName.vb: String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: (
+  - name: )
+- uid: Mewdeko.Database.Models.ChatTriggers.IsGlobal*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.IsGlobal
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_IsGlobal
+  name: IsGlobal
+  nameWithType: ChatTriggers.IsGlobal
+  fullName: Mewdeko.Database.Models.ChatTriggers.IsGlobal
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Mewdeko.Database.Models.ChatTriggers.ValidTriggerTypes*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.ValidTriggerTypes
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_ValidTriggerTypes
+  name: ValidTriggerTypes
+  nameWithType: ChatTriggers.ValidTriggerTypes
+  fullName: Mewdeko.Database.Models.ChatTriggers.ValidTriggerTypes
+- uid: Mewdeko.Database.Models.ChatTriggerType
+  commentId: T:Mewdeko.Database.Models.ChatTriggerType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.ChatTriggerType.html
+  name: ChatTriggerType
+  nameWithType: ChatTriggerType
+  fullName: Mewdeko.Database.Models.ChatTriggerType
+- uid: Mewdeko.Database.Models.ChatTriggers.ApplicationCommandId*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.ApplicationCommandId
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_ApplicationCommandId
+  name: ApplicationCommandId
+  nameWithType: ChatTriggers.ApplicationCommandId
+  fullName: Mewdeko.Database.Models.ChatTriggers.ApplicationCommandId
+- uid: Mewdeko.Database.Models.ChatTriggers.ApplicationCommandName*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.ApplicationCommandName
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_ApplicationCommandName
+  name: ApplicationCommandName
+  nameWithType: ChatTriggers.ApplicationCommandName
+  fullName: Mewdeko.Database.Models.ChatTriggers.ApplicationCommandName
+- uid: Mewdeko.Database.Models.ChatTriggers.ApplicationCommandDescription*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.ApplicationCommandDescription
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_ApplicationCommandDescription
+  name: ApplicationCommandDescription
+  nameWithType: ChatTriggers.ApplicationCommandDescription
+  fullName: Mewdeko.Database.Models.ChatTriggers.ApplicationCommandDescription
+- uid: Mewdeko.Database.Models.ChatTriggers.ApplicationCommandType*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.ApplicationCommandType
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_ApplicationCommandType
+  name: ApplicationCommandType
+  nameWithType: ChatTriggers.ApplicationCommandType
+  fullName: Mewdeko.Database.Models.ChatTriggers.ApplicationCommandType
+- uid: Mewdeko.Database.Models.CtApplicationCommandType
+  commentId: T:Mewdeko.Database.Models.CtApplicationCommandType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.CtApplicationCommandType.html
+  name: CtApplicationCommandType
+  nameWithType: CtApplicationCommandType
+  fullName: Mewdeko.Database.Models.CtApplicationCommandType
+- uid: Mewdeko.Database.Models.ChatTriggers.EphemeralResponse*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.EphemeralResponse
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_EphemeralResponse
+  name: EphemeralResponse
+  nameWithType: ChatTriggers.EphemeralResponse
+  fullName: Mewdeko.Database.Models.ChatTriggers.EphemeralResponse
+- uid: Mewdeko.Database.Models.ChatTriggers.CrosspostingChannelId*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.CrosspostingChannelId
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_CrosspostingChannelId
+  name: CrosspostingChannelId
+  nameWithType: ChatTriggers.CrosspostingChannelId
+  fullName: Mewdeko.Database.Models.ChatTriggers.CrosspostingChannelId
+- uid: Mewdeko.Database.Models.ChatTriggers.CrosspostingWebhookUrl*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.CrosspostingWebhookUrl
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_CrosspostingWebhookUrl
+  name: CrosspostingWebhookUrl
+  nameWithType: ChatTriggers.CrosspostingWebhookUrl
+  fullName: Mewdeko.Database.Models.ChatTriggers.CrosspostingWebhookUrl
+- uid: Mewdeko.Database.Models.ChatTriggers.RealName*
+  commentId: Overload:Mewdeko.Database.Models.ChatTriggers.RealName
+  href: Mewdeko.Database.Models.ChatTriggers.html#Mewdeko_Database_Models_ChatTriggers_RealName
+  name: RealName
+  nameWithType: ChatTriggers.RealName
+  fullName: Mewdeko.Database.Models.ChatTriggers.RealName

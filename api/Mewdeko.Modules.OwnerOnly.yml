@@ -1,0 +1,168 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.OwnerOnly
+  commentId: N:Mewdeko.Modules.OwnerOnly
+  id: Mewdeko.Modules.OwnerOnly
+  children:
+  - Mewdeko.Modules.OwnerOnly.EvaluationEnvironment
+  - Mewdeko.Modules.OwnerOnly.InteractionEvaluationEnvironment
+  - Mewdeko.Modules.OwnerOnly.OwnerOnly
+  - Mewdeko.Modules.OwnerOnly.OwnerOnly.SettableUserStatus
+  - Mewdeko.Modules.OwnerOnly.SlashOwnerOnly
+  - Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands
+  - Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.SettableUserStatus
+  - Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.StatusCommands
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.OwnerOnly
+  nameWithType: Mewdeko.Modules.OwnerOnly
+  fullName: Mewdeko.Modules.OwnerOnly
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.OwnerOnly.OwnerOnly
+  commentId: T:Mewdeko.Modules.OwnerOnly.OwnerOnly
+  href: Mewdeko.Modules.OwnerOnly.OwnerOnly.html
+  name: OwnerOnly
+  nameWithType: OwnerOnly
+  fullName: Mewdeko.Modules.OwnerOnly.OwnerOnly
+- uid: Mewdeko.Modules.OwnerOnly.OwnerOnly.SettableUserStatus
+  commentId: T:Mewdeko.Modules.OwnerOnly.OwnerOnly.SettableUserStatus
+  parent: Mewdeko.Modules.OwnerOnly
+  href: Mewdeko.Modules.OwnerOnly.OwnerOnly.html
+  name: OwnerOnly.SettableUserStatus
+  nameWithType: OwnerOnly.SettableUserStatus
+  fullName: Mewdeko.Modules.OwnerOnly.OwnerOnly.SettableUserStatus
+  spec.csharp:
+  - uid: Mewdeko.Modules.OwnerOnly.OwnerOnly
+    name: OwnerOnly
+    href: Mewdeko.Modules.OwnerOnly.OwnerOnly.html
+  - name: .
+  - uid: Mewdeko.Modules.OwnerOnly.OwnerOnly.SettableUserStatus
+    name: SettableUserStatus
+    href: Mewdeko.Modules.OwnerOnly.OwnerOnly.SettableUserStatus.html
+  spec.vb:
+  - uid: Mewdeko.Modules.OwnerOnly.OwnerOnly
+    name: OwnerOnly
+    href: Mewdeko.Modules.OwnerOnly.OwnerOnly.html
+  - name: .
+  - uid: Mewdeko.Modules.OwnerOnly.OwnerOnly.SettableUserStatus
+    name: SettableUserStatus
+    href: Mewdeko.Modules.OwnerOnly.OwnerOnly.SettableUserStatus.html
+- uid: Mewdeko.Modules.OwnerOnly.EvaluationEnvironment
+  commentId: T:Mewdeko.Modules.OwnerOnly.EvaluationEnvironment
+  href: Mewdeko.Modules.OwnerOnly.EvaluationEnvironment.html
+  name: EvaluationEnvironment
+  nameWithType: EvaluationEnvironment
+  fullName: Mewdeko.Modules.OwnerOnly.EvaluationEnvironment
+- uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly
+  commentId: T:Mewdeko.Modules.OwnerOnly.SlashOwnerOnly
+  href: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.html
+  name: SlashOwnerOnly
+  nameWithType: SlashOwnerOnly
+  fullName: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly
+- uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.SettableUserStatus
+  commentId: T:Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.SettableUserStatus
+  parent: Mewdeko.Modules.OwnerOnly
+  href: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.html
+  name: SlashOwnerOnly.SettableUserStatus
+  nameWithType: SlashOwnerOnly.SettableUserStatus
+  fullName: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.SettableUserStatus
+  spec.csharp:
+  - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly
+    name: SlashOwnerOnly
+    href: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.html
+  - name: .
+  - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.SettableUserStatus
+    name: SettableUserStatus
+    href: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.SettableUserStatus.html
+  spec.vb:
+  - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly
+    name: SlashOwnerOnly
+    href: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.html
+  - name: .
+  - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.SettableUserStatus
+    name: SettableUserStatus
+    href: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.SettableUserStatus.html
+- uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands
+  commentId: T:Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands
+  href: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.html
+  name: SlashOwnerOnly.ConfigCommands
+  nameWithType: SlashOwnerOnly.ConfigCommands
+  fullName: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands
+  spec.csharp:
+  - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly
+    name: SlashOwnerOnly
+    href: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.html
+  - name: .
+  - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands
+    name: ConfigCommands
+    href: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.html
+  spec.vb:
+  - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly
+    name: SlashOwnerOnly
+    href: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.html
+  - name: .
+  - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands
+    name: ConfigCommands
+    href: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.html
+- uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.StatusCommands
+  commentId: T:Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.StatusCommands
+  href: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.html
+  name: SlashOwnerOnly.StatusCommands
+  nameWithType: SlashOwnerOnly.StatusCommands
+  fullName: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.StatusCommands
+  spec.csharp:
+  - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly
+    name: SlashOwnerOnly
+    href: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.html
+  - name: .
+  - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.StatusCommands
+    name: StatusCommands
+    href: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.StatusCommands.html
+  spec.vb:
+  - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly
+    name: SlashOwnerOnly
+    href: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.html
+  - name: .
+  - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.StatusCommands
+    name: StatusCommands
+    href: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.StatusCommands.html
+- uid: Mewdeko.Modules.OwnerOnly.InteractionEvaluationEnvironment
+  commentId: T:Mewdeko.Modules.OwnerOnly.InteractionEvaluationEnvironment
+  href: Mewdeko.Modules.OwnerOnly.InteractionEvaluationEnvironment.html
+  name: InteractionEvaluationEnvironment
+  nameWithType: InteractionEvaluationEnvironment
+  fullName: Mewdeko.Modules.OwnerOnly.InteractionEvaluationEnvironment
+- uid: Mewdeko.Modules.OwnerOnly
+  commentId: N:Mewdeko.Modules.OwnerOnly
+  href: Mewdeko.html
+  name: Mewdeko.Modules.OwnerOnly
+  nameWithType: Mewdeko.Modules.OwnerOnly
+  fullName: Mewdeko.Modules.OwnerOnly
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.OwnerOnly
+    name: OwnerOnly
+    href: Mewdeko.Modules.OwnerOnly.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.OwnerOnly
+    name: OwnerOnly
+    href: Mewdeko.Modules.OwnerOnly.html

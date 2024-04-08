@@ -1,0 +1,120 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Models.WarnExpireAction
+  commentId: T:Mewdeko.Database.Models.WarnExpireAction
+  id: WarnExpireAction
+  parent: Mewdeko.Database.Models
+  children:
+  - Mewdeko.Database.Models.WarnExpireAction.Clear
+  - Mewdeko.Database.Models.WarnExpireAction.Delete
+  langs:
+  - csharp
+  - vb
+  name: WarnExpireAction
+  nameWithType: WarnExpireAction
+  fullName: Mewdeko.Database.Models.WarnExpireAction
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/WarnExpireAction.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: WarnExpireAction
+    path: src/Mewdeko.Database/Models/WarnExpireAction.cs
+    startLine: 2
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public enum WarnExpireAction
+    content.vb: Public Enum WarnExpireAction
+- uid: Mewdeko.Database.Models.WarnExpireAction.Clear
+  commentId: F:Mewdeko.Database.Models.WarnExpireAction.Clear
+  id: Clear
+  parent: Mewdeko.Database.Models.WarnExpireAction
+  langs:
+  - csharp
+  - vb
+  name: Clear
+  nameWithType: WarnExpireAction.Clear
+  fullName: Mewdeko.Database.Models.WarnExpireAction.Clear
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/WarnExpireAction.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Clear
+    path: src/Mewdeko.Database/Models/WarnExpireAction.cs
+    startLine: 4
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Clear = 0
+    return:
+      type: Mewdeko.Database.Models.WarnExpireAction
+- uid: Mewdeko.Database.Models.WarnExpireAction.Delete
+  commentId: F:Mewdeko.Database.Models.WarnExpireAction.Delete
+  id: Delete
+  parent: Mewdeko.Database.Models.WarnExpireAction
+  langs:
+  - csharp
+  - vb
+  name: Delete
+  nameWithType: WarnExpireAction.Delete
+  fullName: Mewdeko.Database.Models.WarnExpireAction.Delete
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/WarnExpireAction.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Delete
+    path: src/Mewdeko.Database/Models/WarnExpireAction.cs
+    startLine: 5
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Delete = 1
+    return:
+      type: Mewdeko.Database.Models.WarnExpireAction
+references:
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: Mewdeko.Database.Models.WarnExpireAction
+  commentId: T:Mewdeko.Database.Models.WarnExpireAction
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.WarnExpireAction.html
+  name: WarnExpireAction
+  nameWithType: WarnExpireAction
+  fullName: Mewdeko.Database.Models.WarnExpireAction

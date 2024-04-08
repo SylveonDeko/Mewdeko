@@ -1,0 +1,70 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.TypeReaders.Interactions
+  commentId: N:Mewdeko.Common.TypeReaders.Interactions
+  id: Mewdeko.Common.TypeReaders.Interactions
+  children:
+  - Mewdeko.Common.TypeReaders.Interactions.EmoteArrayTypeConverter
+  - Mewdeko.Common.TypeReaders.Interactions.MewdekoTypeReader`1
+  - Mewdeko.Common.TypeReaders.Interactions.RoleArrayConverter
+  - Mewdeko.Common.TypeReaders.Interactions.StatusRolesTypeConverter
+  - Mewdeko.Common.TypeReaders.Interactions.UserArrayConverter
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Common.TypeReaders.Interactions
+  nameWithType: Mewdeko.Common.TypeReaders.Interactions
+  fullName: Mewdeko.Common.TypeReaders.Interactions
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Common.TypeReaders.Interactions.EmoteArrayTypeConverter
+  commentId: T:Mewdeko.Common.TypeReaders.Interactions.EmoteArrayTypeConverter
+  href: Mewdeko.Common.TypeReaders.Interactions.EmoteArrayTypeConverter.html
+  name: EmoteArrayTypeConverter
+  nameWithType: EmoteArrayTypeConverter
+  fullName: Mewdeko.Common.TypeReaders.Interactions.EmoteArrayTypeConverter
+- uid: Mewdeko.Common.TypeReaders.Interactions.MewdekoTypeReader`1
+  commentId: T:Mewdeko.Common.TypeReaders.Interactions.MewdekoTypeReader`1
+  href: Mewdeko.Common.TypeReaders.Interactions.MewdekoTypeReader-1.html
+  name: MewdekoTypeReader<T>
+  nameWithType: MewdekoTypeReader<T>
+  fullName: Mewdeko.Common.TypeReaders.Interactions.MewdekoTypeReader<T>
+  nameWithType.vb: MewdekoTypeReader(Of T)
+  fullName.vb: Mewdeko.Common.TypeReaders.Interactions.MewdekoTypeReader(Of T)
+  name.vb: MewdekoTypeReader(Of T)
+  spec.csharp:
+  - uid: Mewdeko.Common.TypeReaders.Interactions.MewdekoTypeReader`1
+    name: MewdekoTypeReader
+    href: Mewdeko.Common.TypeReaders.Interactions.MewdekoTypeReader-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.TypeReaders.Interactions.MewdekoTypeReader`1
+    name: MewdekoTypeReader
+    href: Mewdeko.Common.TypeReaders.Interactions.MewdekoTypeReader-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Common.TypeReaders.Interactions.RoleArrayConverter
+  commentId: T:Mewdeko.Common.TypeReaders.Interactions.RoleArrayConverter
+  href: Mewdeko.Common.TypeReaders.Interactions.RoleArrayConverter.html
+  name: RoleArrayConverter
+  nameWithType: RoleArrayConverter
+  fullName: Mewdeko.Common.TypeReaders.Interactions.RoleArrayConverter
+- uid: Mewdeko.Common.TypeReaders.Interactions.StatusRolesTypeConverter
+  commentId: T:Mewdeko.Common.TypeReaders.Interactions.StatusRolesTypeConverter
+  href: Mewdeko.Common.TypeReaders.Interactions.StatusRolesTypeConverter.html
+  name: StatusRolesTypeConverter
+  nameWithType: StatusRolesTypeConverter
+  fullName: Mewdeko.Common.TypeReaders.Interactions.StatusRolesTypeConverter
+- uid: Mewdeko.Common.TypeReaders.Interactions.UserArrayConverter
+  commentId: T:Mewdeko.Common.TypeReaders.Interactions.UserArrayConverter
+  href: Mewdeko.Common.TypeReaders.Interactions.UserArrayConverter.html
+  name: UserArrayConverter
+  nameWithType: UserArrayConverter
+  fullName: Mewdeko.Common.TypeReaders.Interactions.UserArrayConverter

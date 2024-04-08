@@ -1,0 +1,1035 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Searches.Services.ToneTagService
+  commentId: T:Mewdeko.Modules.Searches.Services.ToneTagService
+  id: ToneTagService
+  parent: Mewdeko.Modules.Searches.Services
+  children:
+  - Mewdeko.Modules.Searches.Services.ToneTagService.#ctor(Mewdeko.Services.strings.IBotStrings,Mewdeko.Services.Settings.BotConfigService)
+  - Mewdeko.Modules.Searches.Services.ToneTagService.GetEmbed(Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult,Discord.IGuild)
+  - Mewdeko.Modules.Searches.Services.ToneTagService.GetMarkdownLink(Mewdeko.Common.ToneTagSource)
+  - Mewdeko.Modules.Searches.Services.ToneTagService.GetToneTags(System.String)
+  - Mewdeko.Modules.Searches.Services.ToneTagService.ParseTags(System.String)
+  - Mewdeko.Modules.Searches.Services.ToneTagService.Tags
+  langs:
+  - csharp
+  - vb
+  name: ToneTagService
+  nameWithType: ToneTagService
+  fullName: Mewdeko.Modules.Searches.Services.ToneTagService
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/ToneTagService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ToneTagService
+    path: src/Mewdeko/Modules/Searches/Services/ToneTagService.cs
+    startLine: 11
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Service for handling tone tags.
+  example: []
+  syntax:
+    content: public class ToneTagService
+    content.vb: Public Class ToneTagService
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Searches.Services.ToneTagService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Searches.Services.ToneTagService.Tags
+  commentId: P:Mewdeko.Modules.Searches.Services.ToneTagService.Tags
+  id: Tags
+  parent: Mewdeko.Modules.Searches.Services.ToneTagService
+  langs:
+  - csharp
+  - vb
+  name: Tags
+  nameWithType: ToneTagService.Tags
+  fullName: Mewdeko.Modules.Searches.Services.ToneTagService.Tags
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/ToneTagService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Tags
+    path: src/Mewdeko/Modules/Searches/Services/ToneTagService.cs
+    startLine: 20
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Gets the list of tone tags.
+  example: []
+  syntax:
+    content: public IReadOnlyList<ToneTag> Tags { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IReadOnlyList{Mewdeko.Common.ToneTag}
+    content.vb: Public Property Tags As IReadOnlyList(Of ToneTag)
+  overload: Mewdeko.Modules.Searches.Services.ToneTagService.Tags*
+- uid: Mewdeko.Modules.Searches.Services.ToneTagService.#ctor(Mewdeko.Services.strings.IBotStrings,Mewdeko.Services.Settings.BotConfigService)
+  commentId: M:Mewdeko.Modules.Searches.Services.ToneTagService.#ctor(Mewdeko.Services.strings.IBotStrings,Mewdeko.Services.Settings.BotConfigService)
+  id: '#ctor(Mewdeko.Services.strings.IBotStrings,Mewdeko.Services.Settings.BotConfigService)'
+  parent: Mewdeko.Modules.Searches.Services.ToneTagService
+  langs:
+  - csharp
+  - vb
+  name: ToneTagService(IBotStrings, BotConfigService)
+  nameWithType: ToneTagService.ToneTagService(IBotStrings, BotConfigService)
+  fullName: Mewdeko.Modules.Searches.Services.ToneTagService.ToneTagService(Mewdeko.Services.strings.IBotStrings, Mewdeko.Services.Settings.BotConfigService)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/ToneTagService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Searches/Services/ToneTagService.cs
+    startLine: 27
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Initializes a new instance of the <xref href="Mewdeko.Modules.Searches.Services.ToneTagService" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public ToneTagService(IBotStrings strings, BotConfigService bss)
+    parameters:
+    - id: strings
+      type: Mewdeko.Services.strings.IBotStrings
+      description: The bot strings service instance.
+    - id: bss
+      type: Mewdeko.Services.Settings.BotConfigService
+      description: The bot configuration service instance.
+    content.vb: Public Sub New(strings As IBotStrings, bss As BotConfigService)
+  overload: Mewdeko.Modules.Searches.Services.ToneTagService.#ctor*
+  nameWithType.vb: ToneTagService.New(IBotStrings, BotConfigService)
+  fullName.vb: Mewdeko.Modules.Searches.Services.ToneTagService.New(Mewdeko.Services.strings.IBotStrings, Mewdeko.Services.Settings.BotConfigService)
+  name.vb: New(IBotStrings, BotConfigService)
+- uid: Mewdeko.Modules.Searches.Services.ToneTagService.GetToneTags(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Services.ToneTagService.GetToneTags(System.String)
+  id: GetToneTags(System.String)
+  parent: Mewdeko.Modules.Searches.Services.ToneTagService
+  langs:
+  - csharp
+  - vb
+  name: GetToneTags(string)
+  nameWithType: ToneTagService.GetToneTags(string)
+  fullName: Mewdeko.Modules.Searches.Services.ToneTagService.GetToneTags(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/ToneTagService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetToneTags
+    path: src/Mewdeko/Modules/Searches/Services/ToneTagService.cs
+    startLine: 36
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Parses tone tags from the input string.
+  example: []
+  syntax:
+    content: public List<string> GetToneTags(string input)
+    parameters:
+    - id: input
+      type: System.String
+      description: The input string.
+    return:
+      type: System.Collections.Generic.List{System.String}
+      description: A list of tone tags parsed from the input.
+    content.vb: Public Function GetToneTags(input As String) As List(Of String)
+  overload: Mewdeko.Modules.Searches.Services.ToneTagService.GetToneTags*
+  nameWithType.vb: ToneTagService.GetToneTags(String)
+  fullName.vb: Mewdeko.Modules.Searches.Services.ToneTagService.GetToneTags(String)
+  name.vb: GetToneTags(String)
+- uid: Mewdeko.Modules.Searches.Services.ToneTagService.GetEmbed(Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult,Discord.IGuild)
+  commentId: M:Mewdeko.Modules.Searches.Services.ToneTagService.GetEmbed(Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult,Discord.IGuild)
+  id: GetEmbed(Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult,Discord.IGuild)
+  parent: Mewdeko.Modules.Searches.Services.ToneTagService
+  langs:
+  - csharp
+  - vb
+  name: GetEmbed(ParseResult, IGuild?)
+  nameWithType: ToneTagService.GetEmbed(ToneTagService.ParseResult, IGuild?)
+  fullName: Mewdeko.Modules.Searches.Services.ToneTagService.GetEmbed(Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult, Discord.IGuild?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/ToneTagService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetEmbed
+    path: src/Mewdeko/Modules/Searches/Services/ToneTagService.cs
+    startLine: 66
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Gets an embed builder representing the parsing result.
+  example: []
+  syntax:
+    content: public EmbedBuilder GetEmbed(ToneTagService.ParseResult result, IGuild? guild = null)
+    parameters:
+    - id: result
+      type: Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult
+      description: The parsing result.
+    - id: guild
+      type: Discord.IGuild
+      description: The guild for which to get the embed.
+    return:
+      type: Discord.EmbedBuilder
+      description: An embed builder representing the parsing result.
+    content.vb: Public Function GetEmbed(result As ToneTagService.ParseResult, guild As IGuild = Nothing) As EmbedBuilder
+  overload: Mewdeko.Modules.Searches.Services.ToneTagService.GetEmbed*
+  nameWithType.vb: ToneTagService.GetEmbed(ToneTagService.ParseResult, IGuild)
+  fullName.vb: Mewdeko.Modules.Searches.Services.ToneTagService.GetEmbed(Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult, Discord.IGuild)
+  name.vb: GetEmbed(ParseResult, IGuild)
+- uid: Mewdeko.Modules.Searches.Services.ToneTagService.GetMarkdownLink(Mewdeko.Common.ToneTagSource)
+  commentId: M:Mewdeko.Modules.Searches.Services.ToneTagService.GetMarkdownLink(Mewdeko.Common.ToneTagSource)
+  id: GetMarkdownLink(Mewdeko.Common.ToneTagSource)
+  parent: Mewdeko.Modules.Searches.Services.ToneTagService
+  langs:
+  - csharp
+  - vb
+  name: GetMarkdownLink(ToneTagSource)
+  nameWithType: ToneTagService.GetMarkdownLink(ToneTagSource)
+  fullName: Mewdeko.Modules.Searches.Services.ToneTagService.GetMarkdownLink(Mewdeko.Common.ToneTagSource)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/ToneTagService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetMarkdownLink
+    path: src/Mewdeko/Modules/Searches/Services/ToneTagService.cs
+    startLine: 108
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Gets a markdown-formatted link for a tone tag source.
+  example: []
+  syntax:
+    content: public static string GetMarkdownLink(ToneTagSource source)
+    parameters:
+    - id: source
+      type: Mewdeko.Common.ToneTagSource
+      description: The tone tag source.
+    return:
+      type: System.String
+      description: A markdown-formatted link for the tone tag source.
+    content.vb: Public Shared Function GetMarkdownLink(source As ToneTagSource) As String
+  overload: Mewdeko.Modules.Searches.Services.ToneTagService.GetMarkdownLink*
+- uid: Mewdeko.Modules.Searches.Services.ToneTagService.ParseTags(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Services.ToneTagService.ParseTags(System.String)
+  id: ParseTags(System.String)
+  parent: Mewdeko.Modules.Searches.Services.ToneTagService
+  langs:
+  - csharp
+  - vb
+  name: ParseTags(string)
+  nameWithType: ToneTagService.ParseTags(string)
+  fullName: Mewdeko.Modules.Searches.Services.ToneTagService.ParseTags(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/ToneTagService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ParseTags
+    path: src/Mewdeko/Modules/Searches/Services/ToneTagService.cs
+    startLine: 116
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Parses tone tags from the input string.
+  example: []
+  syntax:
+    content: public ToneTagService.ParseResult ParseTags(string input)
+    parameters:
+    - id: input
+      type: System.String
+      description: The input string.
+    return:
+      type: Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult
+      description: The parsing result containing successfully parsed tags, actual tag strings, and missing tags.
+    content.vb: Public Function ParseTags(input As String) As ToneTagService.ParseResult
+  overload: Mewdeko.Modules.Searches.Services.ToneTagService.ParseTags*
+  nameWithType.vb: ToneTagService.ParseTags(String)
+  fullName.vb: Mewdeko.Modules.Searches.Services.ToneTagService.ParseTags(String)
+  name.vb: ParseTags(String)
+references:
+- uid: Mewdeko.Modules.Searches.Services
+  commentId: N:Mewdeko.Modules.Searches.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Services
+  nameWithType: Mewdeko.Modules.Searches.Services
+  fullName: Mewdeko.Modules.Searches.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services
+    name: Services
+    href: Mewdeko.Modules.Searches.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services
+    name: Services
+    href: Mewdeko.Modules.Searches.Services.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Searches.Services.ToneTagService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<ToneTagService>(ToneTagService, string)
+  nameWithType: Extensions.ThrowIfNull<ToneTagService>(ToneTagService, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Searches.Services.ToneTagService>(Mewdeko.Modules.Searches.Services.ToneTagService, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of ToneTagService)(ToneTagService, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Searches.Services.ToneTagService)(Mewdeko.Modules.Searches.Services.ToneTagService, String)
+  name.vb: ThrowIfNull(Of ToneTagService)(ToneTagService, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Services.ToneTagService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Services.ToneTagService
+    name: ToneTagService
+    href: Mewdeko.Modules.Searches.Services.ToneTagService.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Services.ToneTagService
+    name: ToneTagService
+    href: Mewdeko.Modules.Searches.Services.ToneTagService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Services.ToneTagService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Services.ToneTagService
+    name: ToneTagService
+    href: Mewdeko.Modules.Searches.Services.ToneTagService.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Services.ToneTagService
+    name: ToneTagService
+    href: Mewdeko.Modules.Searches.Services.ToneTagService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Searches.Services.ToneTagService.Tags*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.ToneTagService.Tags
+  href: Mewdeko.Modules.Searches.Services.ToneTagService.html#Mewdeko_Modules_Searches_Services_ToneTagService_Tags
+  name: Tags
+  nameWithType: ToneTagService.Tags
+  fullName: Mewdeko.Modules.Searches.Services.ToneTagService.Tags
+- uid: System.Collections.Generic.IReadOnlyList{Mewdeko.Common.ToneTag}
+  commentId: T:System.Collections.Generic.IReadOnlyList{Mewdeko.Common.ToneTag}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IReadOnlyList`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  name: IReadOnlyList<ToneTag>
+  nameWithType: IReadOnlyList<ToneTag>
+  fullName: System.Collections.Generic.IReadOnlyList<Mewdeko.Common.ToneTag>
+  nameWithType.vb: IReadOnlyList(Of ToneTag)
+  fullName.vb: System.Collections.Generic.IReadOnlyList(Of Mewdeko.Common.ToneTag)
+  name.vb: IReadOnlyList(Of ToneTag)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: <
+  - uid: Mewdeko.Common.ToneTag
+    name: ToneTag
+    href: Mewdeko.Common.ToneTag.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Common.ToneTag
+    name: ToneTag
+    href: Mewdeko.Common.ToneTag.html
+  - name: )
+- uid: System.Collections.Generic.IReadOnlyList`1
+  commentId: T:System.Collections.Generic.IReadOnlyList`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  name: IReadOnlyList<T>
+  nameWithType: IReadOnlyList<T>
+  fullName: System.Collections.Generic.IReadOnlyList<T>
+  nameWithType.vb: IReadOnlyList(Of T)
+  fullName.vb: System.Collections.Generic.IReadOnlyList(Of T)
+  name.vb: IReadOnlyList(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Mewdeko.Modules.Searches.Services.ToneTagService
+  commentId: T:Mewdeko.Modules.Searches.Services.ToneTagService
+  parent: Mewdeko.Modules.Searches.Services
+  href: Mewdeko.Modules.Searches.Services.ToneTagService.html
+  name: ToneTagService
+  nameWithType: ToneTagService
+  fullName: Mewdeko.Modules.Searches.Services.ToneTagService
+- uid: Mewdeko.Modules.Searches.Services.ToneTagService.#ctor*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.ToneTagService.#ctor
+  href: Mewdeko.Modules.Searches.Services.ToneTagService.html#Mewdeko_Modules_Searches_Services_ToneTagService__ctor_Mewdeko_Services_strings_IBotStrings_Mewdeko_Services_Settings_BotConfigService_
+  name: ToneTagService
+  nameWithType: ToneTagService.ToneTagService
+  fullName: Mewdeko.Modules.Searches.Services.ToneTagService.ToneTagService
+  nameWithType.vb: ToneTagService.New
+  fullName.vb: Mewdeko.Modules.Searches.Services.ToneTagService.New
+  name.vb: New
+- uid: Mewdeko.Services.strings.IBotStrings
+  commentId: T:Mewdeko.Services.strings.IBotStrings
+  parent: Mewdeko.Services.strings
+  href: Mewdeko.Services.strings.IBotStrings.html
+  name: IBotStrings
+  nameWithType: IBotStrings
+  fullName: Mewdeko.Services.strings.IBotStrings
+- uid: Mewdeko.Services.Settings.BotConfigService
+  commentId: T:Mewdeko.Services.Settings.BotConfigService
+  parent: Mewdeko.Services.Settings
+  href: Mewdeko.Services.Settings.BotConfigService.html
+  name: BotConfigService
+  nameWithType: BotConfigService
+  fullName: Mewdeko.Services.Settings.BotConfigService
+- uid: Mewdeko.Services.strings
+  commentId: N:Mewdeko.Services.strings
+  href: Mewdeko.html
+  name: Mewdeko.Services.strings
+  nameWithType: Mewdeko.Services.strings
+  fullName: Mewdeko.Services.strings
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.strings
+    name: strings
+    href: Mewdeko.Services.strings.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.strings
+    name: strings
+    href: Mewdeko.Services.strings.html
+- uid: Mewdeko.Services.Settings
+  commentId: N:Mewdeko.Services.Settings
+  href: Mewdeko.html
+  name: Mewdeko.Services.Settings
+  nameWithType: Mewdeko.Services.Settings
+  fullName: Mewdeko.Services.Settings
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+- uid: Mewdeko.Modules.Searches.Services.ToneTagService.GetToneTags*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.ToneTagService.GetToneTags
+  href: Mewdeko.Modules.Searches.Services.ToneTagService.html#Mewdeko_Modules_Searches_Services_ToneTagService_GetToneTags_System_String_
+  name: GetToneTags
+  nameWithType: ToneTagService.GetToneTags
+  fullName: Mewdeko.Modules.Searches.Services.ToneTagService.GetToneTags
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Collections.Generic.List{System.String}
+  commentId: T:System.Collections.Generic.List{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<string>
+  nameWithType: List<string>
+  fullName: System.Collections.Generic.List<string>
+  nameWithType.vb: List(Of String)
+  fullName.vb: System.Collections.Generic.List(Of String)
+  name.vb: List(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Modules.Searches.Services.ToneTagService.GetEmbed*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.ToneTagService.GetEmbed
+  href: Mewdeko.Modules.Searches.Services.ToneTagService.html#Mewdeko_Modules_Searches_Services_ToneTagService_GetEmbed_Mewdeko_Modules_Searches_Services_ToneTagService_ParseResult_Discord_IGuild_
+  name: GetEmbed
+  nameWithType: ToneTagService.GetEmbed
+  fullName: Mewdeko.Modules.Searches.Services.ToneTagService.GetEmbed
+- uid: Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult
+  commentId: T:Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult
+  parent: Mewdeko.Modules.Searches.Services
+  href: Mewdeko.Modules.Searches.Services.ToneTagService.html
+  name: ToneTagService.ParseResult
+  nameWithType: ToneTagService.ParseResult
+  fullName: Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult
+  spec.csharp:
+  - uid: Mewdeko.Modules.Searches.Services.ToneTagService
+    name: ToneTagService
+    href: Mewdeko.Modules.Searches.Services.ToneTagService.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult
+    name: ParseResult
+    href: Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Searches.Services.ToneTagService
+    name: ToneTagService
+    href: Mewdeko.Modules.Searches.Services.ToneTagService.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult
+    name: ParseResult
+    href: Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult.html
+- uid: Discord.IGuild
+  commentId: T:Discord.IGuild
+  parent: Discord
+  isExternal: true
+  name: IGuild
+  nameWithType: IGuild
+  fullName: Discord.IGuild
+- uid: Discord.EmbedBuilder
+  commentId: T:Discord.EmbedBuilder
+  parent: Discord
+  isExternal: true
+  name: EmbedBuilder
+  nameWithType: EmbedBuilder
+  fullName: Discord.EmbedBuilder
+- uid: Discord
+  commentId: N:Discord
+  isExternal: true
+  name: Discord
+  nameWithType: Discord
+  fullName: Discord
+- uid: Mewdeko.Modules.Searches.Services.ToneTagService.GetMarkdownLink*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.ToneTagService.GetMarkdownLink
+  href: Mewdeko.Modules.Searches.Services.ToneTagService.html#Mewdeko_Modules_Searches_Services_ToneTagService_GetMarkdownLink_Mewdeko_Common_ToneTagSource_
+  name: GetMarkdownLink
+  nameWithType: ToneTagService.GetMarkdownLink
+  fullName: Mewdeko.Modules.Searches.Services.ToneTagService.GetMarkdownLink
+- uid: Mewdeko.Common.ToneTagSource
+  commentId: T:Mewdeko.Common.ToneTagSource
+  parent: Mewdeko.Common
+  href: Mewdeko.Common.ToneTagSource.html
+  name: ToneTagSource
+  nameWithType: ToneTagSource
+  fullName: Mewdeko.Common.ToneTagSource
+- uid: Mewdeko.Common
+  commentId: N:Mewdeko.Common
+  href: Mewdeko.html
+  name: Mewdeko.Common
+  nameWithType: Mewdeko.Common
+  fullName: Mewdeko.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+- uid: Mewdeko.Modules.Searches.Services.ToneTagService.ParseTags*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.ToneTagService.ParseTags
+  href: Mewdeko.Modules.Searches.Services.ToneTagService.html#Mewdeko_Modules_Searches_Services_ToneTagService_ParseTags_System_String_
+  name: ParseTags
+  nameWithType: ToneTagService.ParseTags
+  fullName: Mewdeko.Modules.Searches.Services.ToneTagService.ParseTags

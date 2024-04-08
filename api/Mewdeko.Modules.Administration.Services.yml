@@ -1,0 +1,244 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Administration.Services
+  commentId: N:Mewdeko.Modules.Administration.Services
+  id: Mewdeko.Modules.Administration.Services
+  children:
+  - Mewdeko.Modules.Administration.Services.AdministrationService
+  - Mewdeko.Modules.Administration.Services.AutoAssignRoleService
+  - Mewdeko.Modules.Administration.Services.AutoBanRoleService
+  - Mewdeko.Modules.Administration.Services.DiscordPermOverrideService
+  - Mewdeko.Modules.Administration.Services.GameVoiceChannelService
+  - Mewdeko.Modules.Administration.Services.GuildConfigExtensions
+  - Mewdeko.Modules.Administration.Services.GuildTimezoneService
+  - Mewdeko.Modules.Administration.Services.NewLogCommandService
+  - Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+  - Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType
+  - Mewdeko.Modules.Administration.Services.ProtectionService
+  - Mewdeko.Modules.Administration.Services.RoleCommandsService
+  - Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+  - Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult
+  - Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult
+  - Mewdeko.Modules.Administration.Services.ServerRecoveryService
+  - Mewdeko.Modules.Administration.Services.VcRoleService
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Administration.Services
+  nameWithType: Mewdeko.Modules.Administration.Services
+  fullName: Mewdeko.Modules.Administration.Services
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Administration.Services.AdministrationService
+  commentId: T:Mewdeko.Modules.Administration.Services.AdministrationService
+  parent: Mewdeko.Modules.Administration.Services
+  href: Mewdeko.Modules.Administration.Services.AdministrationService.html
+  name: AdministrationService
+  nameWithType: AdministrationService
+  fullName: Mewdeko.Modules.Administration.Services.AdministrationService
+- uid: Mewdeko.Modules.Administration.Services.AutoAssignRoleService
+  commentId: T:Mewdeko.Modules.Administration.Services.AutoAssignRoleService
+  href: Mewdeko.Modules.Administration.Services.AutoAssignRoleService.html
+  name: AutoAssignRoleService
+  nameWithType: AutoAssignRoleService
+  fullName: Mewdeko.Modules.Administration.Services.AutoAssignRoleService
+- uid: Mewdeko.Modules.Administration.Services.GuildConfigExtensions
+  commentId: T:Mewdeko.Modules.Administration.Services.GuildConfigExtensions
+  href: Mewdeko.Modules.Administration.Services.GuildConfigExtensions.html
+  name: GuildConfigExtensions
+  nameWithType: GuildConfigExtensions
+  fullName: Mewdeko.Modules.Administration.Services.GuildConfigExtensions
+- uid: Mewdeko.Modules.Administration.Services.AutoBanRoleService
+  commentId: T:Mewdeko.Modules.Administration.Services.AutoBanRoleService
+  href: Mewdeko.Modules.Administration.Services.AutoBanRoleService.html
+  name: AutoBanRoleService
+  nameWithType: AutoBanRoleService
+  fullName: Mewdeko.Modules.Administration.Services.AutoBanRoleService
+- uid: Mewdeko.Modules.Administration.Services.DiscordPermOverrideService
+  commentId: T:Mewdeko.Modules.Administration.Services.DiscordPermOverrideService
+  parent: Mewdeko.Modules.Administration.Services
+  href: Mewdeko.Modules.Administration.Services.DiscordPermOverrideService.html
+  name: DiscordPermOverrideService
+  nameWithType: DiscordPermOverrideService
+  fullName: Mewdeko.Modules.Administration.Services.DiscordPermOverrideService
+- uid: Mewdeko.Modules.Administration.Services.GameVoiceChannelService
+  commentId: T:Mewdeko.Modules.Administration.Services.GameVoiceChannelService
+  href: Mewdeko.Modules.Administration.Services.GameVoiceChannelService.html
+  name: GameVoiceChannelService
+  nameWithType: GameVoiceChannelService
+  fullName: Mewdeko.Modules.Administration.Services.GameVoiceChannelService
+- uid: Mewdeko.Modules.Administration.Services.GuildTimezoneService
+  commentId: T:Mewdeko.Modules.Administration.Services.GuildTimezoneService
+  parent: Mewdeko.Modules.Administration.Services
+  href: Mewdeko.Modules.Administration.Services.GuildTimezoneService.html
+  name: GuildTimezoneService
+  nameWithType: GuildTimezoneService
+  fullName: Mewdeko.Modules.Administration.Services.GuildTimezoneService
+- uid: Mewdeko.Modules.Administration.Services.NewLogCommandService
+  commentId: T:Mewdeko.Modules.Administration.Services.NewLogCommandService
+  href: Mewdeko.Modules.Administration.Services.NewLogCommandService.html
+  name: NewLogCommandService
+  nameWithType: NewLogCommandService
+  fullName: Mewdeko.Modules.Administration.Services.NewLogCommandService
+- uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType
+  commentId: T:Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType
+  parent: Mewdeko.Modules.Administration.Services
+  href: Mewdeko.Modules.Administration.Services.NewLogCommandService.html
+  name: NewLogCommandService.LogType
+  nameWithType: NewLogCommandService.LogType
+  fullName: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType
+  spec.csharp:
+  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService
+    name: NewLogCommandService
+    href: Mewdeko.Modules.Administration.Services.NewLogCommandService.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType
+    name: LogType
+    href: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService
+    name: NewLogCommandService
+    href: Mewdeko.Modules.Administration.Services.NewLogCommandService.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType
+    name: LogType
+    href: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType.html
+- uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+  commentId: T:Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+  parent: Mewdeko.Modules.Administration.Services
+  href: Mewdeko.Modules.Administration.Services.NewLogCommandService.html
+  name: NewLogCommandService.LogCategoryTypes
+  nameWithType: NewLogCommandService.LogCategoryTypes
+  fullName: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+  spec.csharp:
+  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService
+    name: NewLogCommandService
+    href: Mewdeko.Modules.Administration.Services.NewLogCommandService.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+    name: LogCategoryTypes
+    href: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService
+    name: NewLogCommandService
+    href: Mewdeko.Modules.Administration.Services.NewLogCommandService.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+    name: LogCategoryTypes
+    href: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.html
+- uid: Mewdeko.Modules.Administration.Services.ProtectionService
+  commentId: T:Mewdeko.Modules.Administration.Services.ProtectionService
+  href: Mewdeko.Modules.Administration.Services.ProtectionService.html
+  name: ProtectionService
+  nameWithType: ProtectionService
+  fullName: Mewdeko.Modules.Administration.Services.ProtectionService
+- uid: Mewdeko.Modules.Administration.Services.RoleCommandsService
+  commentId: T:Mewdeko.Modules.Administration.Services.RoleCommandsService
+  href: Mewdeko.Modules.Administration.Services.RoleCommandsService.html
+  name: RoleCommandsService
+  nameWithType: RoleCommandsService
+  fullName: Mewdeko.Modules.Administration.Services.RoleCommandsService
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+  commentId: T:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+  href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html
+  name: SelfAssignedRolesService
+  nameWithType: SelfAssignedRolesService
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult
+  commentId: T:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult
+  parent: Mewdeko.Modules.Administration.Services
+  href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html
+  name: SelfAssignedRolesService.AssignResult
+  nameWithType: SelfAssignedRolesService.AssignResult
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult
+  spec.csharp:
+  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+    name: SelfAssignedRolesService
+    href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult
+    name: AssignResult
+    href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+    name: SelfAssignedRolesService
+    href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult
+    name: AssignResult
+    href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult.html
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult
+  commentId: T:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult
+  parent: Mewdeko.Modules.Administration.Services
+  href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html
+  name: SelfAssignedRolesService.RemoveResult
+  nameWithType: SelfAssignedRolesService.RemoveResult
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult
+  spec.csharp:
+  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+    name: SelfAssignedRolesService
+    href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult
+    name: RemoveResult
+    href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+    name: SelfAssignedRolesService
+    href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult
+    name: RemoveResult
+    href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult.html
+- uid: Mewdeko.Modules.Administration.Services.ServerRecoveryService
+  commentId: T:Mewdeko.Modules.Administration.Services.ServerRecoveryService
+  href: Mewdeko.Modules.Administration.Services.ServerRecoveryService.html
+  name: ServerRecoveryService
+  nameWithType: ServerRecoveryService
+  fullName: Mewdeko.Modules.Administration.Services.ServerRecoveryService
+- uid: Mewdeko.Modules.Administration.Services.VcRoleService
+  commentId: T:Mewdeko.Modules.Administration.Services.VcRoleService
+  href: Mewdeko.Modules.Administration.Services.VcRoleService.html
+  name: VcRoleService
+  nameWithType: VcRoleService
+  fullName: Mewdeko.Modules.Administration.Services.VcRoleService
+- uid: Mewdeko.Modules.Administration.Services
+  commentId: N:Mewdeko.Modules.Administration.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Administration.Services
+  nameWithType: Mewdeko.Modules.Administration.Services
+  fullName: Mewdeko.Modules.Administration.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services
+    name: Services
+    href: Mewdeko.Modules.Administration.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services
+    name: Services
+    href: Mewdeko.Modules.Administration.Services.html

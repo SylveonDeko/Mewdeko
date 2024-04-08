@@ -1,0 +1,1597 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Services.CommandHandler
+  commentId: T:Mewdeko.Services.CommandHandler
+  id: CommandHandler
+  parent: Mewdeko.Services
+  children:
+  - Mewdeko.Services.CommandHandler.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Database.DbService,Discord.Commands.CommandService,Mewdeko.Services.Settings.BotConfigService,Mewdeko.Mewdeko,System.IServiceProvider,Mewdeko.Services.strings.IBotStrings,Discord.Interactions.InteractionService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Services.IBotCredentials,Mewdeko.Services.IDataCache)
+  - Mewdeko.Services.CommandHandler.AddCommandToParseQueue(Discord.IUserMessage)
+  - Mewdeko.Services.CommandHandler.AddServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  - Mewdeko.Services.CommandHandler.CommandErrored
+  - Mewdeko.Services.CommandHandler.CommandExecuted
+  - Mewdeko.Services.CommandHandler.ExecuteCommandsInChannelAsync(System.UInt64)
+  - Mewdeko.Services.CommandHandler.ExecuteExternal(System.Nullable{System.UInt64},System.UInt64,System.String)
+  - Mewdeko.Services.CommandHandler.OnMessageNoTrigger
+  langs:
+  - csharp
+  - vb
+  name: CommandHandler
+  nameWithType: CommandHandler
+  fullName: Mewdeko.Services.CommandHandler
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Services/CommandHandler.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CommandHandler
+    path: src/Mewdeko/Services/CommandHandler.cs
+    startLine: 26
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services
+  summary: Handles command parsing and execution, integrating with various services to process Discord interactions and messages.
+  example: []
+  syntax:
+    content: 'public class CommandHandler : INService'
+    content.vb: Public Class CommandHandler Implements INService
+  inheritance:
+  - System.Object
+  implements:
+  - Mewdeko.Services.INService
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Services.CommandHandler.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Services.CommandHandler.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Database.DbService,Discord.Commands.CommandService,Mewdeko.Services.Settings.BotConfigService,Mewdeko.Mewdeko,System.IServiceProvider,Mewdeko.Services.strings.IBotStrings,Discord.Interactions.InteractionService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Services.IBotCredentials,Mewdeko.Services.IDataCache)
+  commentId: M:Mewdeko.Services.CommandHandler.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Database.DbService,Discord.Commands.CommandService,Mewdeko.Services.Settings.BotConfigService,Mewdeko.Mewdeko,System.IServiceProvider,Mewdeko.Services.strings.IBotStrings,Discord.Interactions.InteractionService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Services.IBotCredentials,Mewdeko.Services.IDataCache)
+  id: '#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Database.DbService,Discord.Commands.CommandService,Mewdeko.Services.Settings.BotConfigService,Mewdeko.Mewdeko,System.IServiceProvider,Mewdeko.Services.strings.IBotStrings,Discord.Interactions.InteractionService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Services.IBotCredentials,Mewdeko.Services.IDataCache)'
+  parent: Mewdeko.Services.CommandHandler
+  langs:
+  - csharp
+  - vb
+  name: CommandHandler(DiscordSocketClient, DbService, CommandService, BotConfigService, Mewdeko, IServiceProvider, IBotStrings, InteractionService, GuildSettingsService, EventHandler, IBotCredentials, IDataCache)
+  nameWithType: CommandHandler.CommandHandler(DiscordSocketClient, DbService, CommandService, BotConfigService, Mewdeko, IServiceProvider, IBotStrings, InteractionService, GuildSettingsService, EventHandler, IBotCredentials, IDataCache)
+  fullName: Mewdeko.Services.CommandHandler.CommandHandler(Discord.WebSocket.DiscordSocketClient, Mewdeko.Database.DbService, Discord.Commands.CommandService, Mewdeko.Services.Settings.BotConfigService, Mewdeko.Mewdeko, System.IServiceProvider, Mewdeko.Services.strings.IBotStrings, Discord.Interactions.InteractionService, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Impl.EventHandler, Mewdeko.Services.IBotCredentials, Mewdeko.Services.IDataCache)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Services/CommandHandler.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Services/CommandHandler.cs
+    startLine: 75
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services
+  summary: Initializes a new instance of the <xref href="Mewdeko.Services.CommandHandler" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public CommandHandler(DiscordSocketClient client, DbService db, CommandService commandService, BotConfigService bss, Mewdeko bot, IServiceProvider services, IBotStrings strngs, InteractionService interactionService, GuildSettingsService gss, EventHandler eventHandler, IBotCredentials creds, IDataCache cache)
+    parameters:
+    - id: client
+      type: Discord.WebSocket.DiscordSocketClient
+      description: The Discord client.
+    - id: db
+      type: Mewdeko.Database.DbService
+      description: The database service.
+    - id: commandService
+      type: Discord.Commands.CommandService
+      description: The service for handling commands.
+    - id: bss
+      type: Mewdeko.Services.Settings.BotConfigService
+      description: The bot configuration service.
+    - id: bot
+      type: Mewdeko.Mewdeko
+      description: The bot instance.
+    - id: services
+      type: System.IServiceProvider
+      description: The service provider for dependency injection.
+    - id: strngs
+      type: Mewdeko.Services.strings.IBotStrings
+      description: The strings resources service.
+    - id: interactionService
+      type: Discord.Interactions.InteractionService
+      description: The service for handling interactions.
+    - id: gss
+      type: Mewdeko.Services.GuildSettingsService
+      description: The guild settings service.
+    - id: eventHandler
+      type: Mewdeko.Services.Impl.EventHandler
+      description: The event handler for discord events.
+    - id: creds
+      type: Mewdeko.Services.IBotCredentials
+      description: The bot credentials.
+    - id: cache
+      type: Mewdeko.Services.IDataCache
+      description: The data cache service.
+    content.vb: Public Sub New(client As DiscordSocketClient, db As DbService, commandService As CommandService, bss As BotConfigService, bot As Mewdeko, services As IServiceProvider, strngs As IBotStrings, interactionService As InteractionService, gss As GuildSettingsService, eventHandler As EventHandler, creds As IBotCredentials, cache As IDataCache)
+  overload: Mewdeko.Services.CommandHandler.#ctor*
+  nameWithType.vb: CommandHandler.New(DiscordSocketClient, DbService, CommandService, BotConfigService, Mewdeko, IServiceProvider, IBotStrings, InteractionService, GuildSettingsService, EventHandler, IBotCredentials, IDataCache)
+  fullName.vb: Mewdeko.Services.CommandHandler.New(Discord.WebSocket.DiscordSocketClient, Mewdeko.Database.DbService, Discord.Commands.CommandService, Mewdeko.Services.Settings.BotConfigService, Mewdeko.Mewdeko, System.IServiceProvider, Mewdeko.Services.strings.IBotStrings, Discord.Interactions.InteractionService, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Impl.EventHandler, Mewdeko.Services.IBotCredentials, Mewdeko.Services.IDataCache)
+  name.vb: New(DiscordSocketClient, DbService, CommandService, BotConfigService, Mewdeko, IServiceProvider, IBotStrings, InteractionService, GuildSettingsService, EventHandler, IBotCredentials, IDataCache)
+- uid: Mewdeko.Services.CommandHandler.CommandExecuted
+  commentId: E:Mewdeko.Services.CommandHandler.CommandExecuted
+  id: CommandExecuted
+  parent: Mewdeko.Services.CommandHandler
+  langs:
+  - csharp
+  - vb
+  name: CommandExecuted
+  nameWithType: CommandHandler.CommandExecuted
+  fullName: Mewdeko.Services.CommandHandler.CommandExecuted
+  type: Event
+  source:
+    remote:
+      path: src/Mewdeko/Services/CommandHandler.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CommandExecuted
+    path: src/Mewdeko/Services/CommandHandler.cs
+    startLine: 104
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services
+  summary: Event that occurs when a command is executed.
+  example: []
+  syntax:
+    content: public event Func<IUserMessage, CommandInfo, Task> CommandExecuted
+    return:
+      type: System.Func{Discord.IUserMessage,Discord.Commands.CommandInfo,System.Threading.Tasks.Task}
+    content.vb: Public Event CommandExecuted As Func(Of IUserMessage, CommandInfo, Task)
+- uid: Mewdeko.Services.CommandHandler.CommandErrored
+  commentId: E:Mewdeko.Services.CommandHandler.CommandErrored
+  id: CommandErrored
+  parent: Mewdeko.Services.CommandHandler
+  langs:
+  - csharp
+  - vb
+  name: CommandErrored
+  nameWithType: CommandHandler.CommandErrored
+  fullName: Mewdeko.Services.CommandHandler.CommandErrored
+  type: Event
+  source:
+    remote:
+      path: src/Mewdeko/Services/CommandHandler.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CommandErrored
+    path: src/Mewdeko/Services/CommandHandler.cs
+    startLine: 109
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services
+  summary: Event that occurs when a command is errored.w
+  example: []
+  syntax:
+    content: public event Func<CommandInfo, ITextChannel, string, IUser?, Task> CommandErrored
+    return:
+      type: System.Func{Discord.Commands.CommandInfo,Discord.ITextChannel,System.String,Discord.IUser,System.Threading.Tasks.Task}
+    content.vb: Public Event CommandErrored As Func(Of CommandInfo, ITextChannel, String, IUser, Task)
+- uid: Mewdeko.Services.CommandHandler.OnMessageNoTrigger
+  commentId: E:Mewdeko.Services.CommandHandler.OnMessageNoTrigger
+  id: OnMessageNoTrigger
+  parent: Mewdeko.Services.CommandHandler
+  langs:
+  - csharp
+  - vb
+  name: OnMessageNoTrigger
+  nameWithType: CommandHandler.OnMessageNoTrigger
+  fullName: Mewdeko.Services.CommandHandler.OnMessageNoTrigger
+  type: Event
+  source:
+    remote:
+      path: src/Mewdeko/Services/CommandHandler.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OnMessageNoTrigger
+    path: src/Mewdeko/Services/CommandHandler.cs
+    startLine: 117
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services
+  summary: Used for xp, for some reason.
+  example: []
+  syntax:
+    content: public event Func<IUserMessage, Task> OnMessageNoTrigger
+    return:
+      type: System.Func{Discord.IUserMessage,System.Threading.Tasks.Task}
+    content.vb: Public Event OnMessageNoTrigger As Func(Of IUserMessage, Task)
+- uid: Mewdeko.Services.CommandHandler.AddServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  commentId: M:Mewdeko.Services.CommandHandler.AddServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  id: AddServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  parent: Mewdeko.Services.CommandHandler
+  langs:
+  - csharp
+  - vb
+  name: AddServices(IServiceCollection)
+  nameWithType: CommandHandler.AddServices(IServiceCollection)
+  fullName: Mewdeko.Services.CommandHandler.AddServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/CommandHandler.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AddServices
+    path: src/Mewdeko/Services/CommandHandler.cs
+    startLine: 437
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services
+  summary: Adds services to the handler for command processing.
+  example: []
+  syntax:
+    content: public void AddServices(IServiceCollection services)
+    parameters:
+    - id: services
+      type: Microsoft.Extensions.DependencyInjection.IServiceCollection
+      description: The collection of service descriptors.
+    content.vb: Public Sub AddServices(services As IServiceCollection)
+  overload: Mewdeko.Services.CommandHandler.AddServices*
+- uid: Mewdeko.Services.CommandHandler.ExecuteExternal(System.Nullable{System.UInt64},System.UInt64,System.String)
+  commentId: M:Mewdeko.Services.CommandHandler.ExecuteExternal(System.Nullable{System.UInt64},System.UInt64,System.String)
+  id: ExecuteExternal(System.Nullable{System.UInt64},System.UInt64,System.String)
+  parent: Mewdeko.Services.CommandHandler
+  langs:
+  - csharp
+  - vb
+  name: ExecuteExternal(ulong?, ulong, string)
+  nameWithType: CommandHandler.ExecuteExternal(ulong?, ulong, string)
+  fullName: Mewdeko.Services.CommandHandler.ExecuteExternal(ulong?, ulong, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/CommandHandler.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ExecuteExternal
+    path: src/Mewdeko/Services/CommandHandler.cs
+    startLine: 468
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services
+  summary: Executes an external command within a specific guild and channel context.
+  example: []
+  syntax:
+    content: public Task ExecuteExternal(ulong? guildId, ulong channelId, string commandText)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild.
+    - id: channelId
+      type: System.UInt64
+      description: The ID of the channel.
+    - id: commandText
+      type: System.String
+      description: The text of the command to execute.
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: Public Function ExecuteExternal(guildId As ULong?, channelId As ULong, commandText As String) As Task
+  overload: Mewdeko.Services.CommandHandler.ExecuteExternal*
+  nameWithType.vb: CommandHandler.ExecuteExternal(ULong?, ULong, String)
+  fullName.vb: Mewdeko.Services.CommandHandler.ExecuteExternal(ULong?, ULong, String)
+  name.vb: ExecuteExternal(ULong?, ULong, String)
+- uid: Mewdeko.Services.CommandHandler.AddCommandToParseQueue(Discord.IUserMessage)
+  commentId: M:Mewdeko.Services.CommandHandler.AddCommandToParseQueue(Discord.IUserMessage)
+  id: AddCommandToParseQueue(Discord.IUserMessage)
+  parent: Mewdeko.Services.CommandHandler
+  langs:
+  - csharp
+  - vb
+  name: AddCommandToParseQueue(IUserMessage)
+  nameWithType: CommandHandler.AddCommandToParseQueue(IUserMessage)
+  fullName: Mewdeko.Services.CommandHandler.AddCommandToParseQueue(Discord.IUserMessage)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/CommandHandler.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AddCommandToParseQueue
+    path: src/Mewdeko/Services/CommandHandler.cs
+    startLine: 605
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services
+  summary: Adds a command to the parse queue for a given channel.
+  example: []
+  syntax:
+    content: public void AddCommandToParseQueue(IUserMessage usrMsg)
+    parameters:
+    - id: usrMsg
+      type: Discord.IUserMessage
+      description: The user message to add to the queue.
+    content.vb: Public Sub AddCommandToParseQueue(usrMsg As IUserMessage)
+  overload: Mewdeko.Services.CommandHandler.AddCommandToParseQueue*
+- uid: Mewdeko.Services.CommandHandler.ExecuteCommandsInChannelAsync(System.UInt64)
+  commentId: M:Mewdeko.Services.CommandHandler.ExecuteCommandsInChannelAsync(System.UInt64)
+  id: ExecuteCommandsInChannelAsync(System.UInt64)
+  parent: Mewdeko.Services.CommandHandler
+  langs:
+  - csharp
+  - vb
+  name: ExecuteCommandsInChannelAsync(ulong)
+  nameWithType: CommandHandler.ExecuteCommandsInChannelAsync(ulong)
+  fullName: Mewdeko.Services.CommandHandler.ExecuteCommandsInChannelAsync(ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/CommandHandler.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ExecuteCommandsInChannelAsync
+    path: src/Mewdeko/Services/CommandHandler.cs
+    startLine: 620
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services
+  summary: Attempts to execute commands in the parse queue for a given channel.
+  example: []
+  syntax:
+    content: public Task<bool> ExecuteCommandsInChannelAsync(ulong channelId)
+    parameters:
+    - id: channelId
+      type: System.UInt64
+      description: The ID of the channel.
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+      description: A task that represents the asynchronous operation, returning true if commands were executed.
+    content.vb: Public Function ExecuteCommandsInChannelAsync(channelId As ULong) As Task(Of Boolean)
+  overload: Mewdeko.Services.CommandHandler.ExecuteCommandsInChannelAsync*
+  nameWithType.vb: CommandHandler.ExecuteCommandsInChannelAsync(ULong)
+  fullName.vb: Mewdeko.Services.CommandHandler.ExecuteCommandsInChannelAsync(ULong)
+  name.vb: ExecuteCommandsInChannelAsync(ULong)
+references:
+- uid: Mewdeko.Services
+  commentId: N:Mewdeko.Services
+  href: Mewdeko.html
+  name: Mewdeko.Services
+  nameWithType: Mewdeko.Services
+  fullName: Mewdeko.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Mewdeko.Services.INService
+  commentId: T:Mewdeko.Services.INService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.INService.html
+  name: INService
+  nameWithType: INService
+  fullName: Mewdeko.Services.INService
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Services.CommandHandler.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<CommandHandler>(CommandHandler, string)
+  nameWithType: Extensions.ThrowIfNull<CommandHandler>(CommandHandler, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Services.CommandHandler>(Mewdeko.Services.CommandHandler, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of CommandHandler)(CommandHandler, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Services.CommandHandler)(Mewdeko.Services.CommandHandler, String)
+  name.vb: ThrowIfNull(Of CommandHandler)(CommandHandler, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Services.CommandHandler,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Services.CommandHandler
+    name: CommandHandler
+    href: Mewdeko.Services.CommandHandler.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Services.CommandHandler
+    name: CommandHandler
+    href: Mewdeko.Services.CommandHandler.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Services.CommandHandler,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Services.CommandHandler
+    name: CommandHandler
+    href: Mewdeko.Services.CommandHandler.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Services.CommandHandler
+    name: CommandHandler
+    href: Mewdeko.Services.CommandHandler.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Services.CommandHandler
+  commentId: T:Mewdeko.Services.CommandHandler
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.CommandHandler.html
+  name: CommandHandler
+  nameWithType: CommandHandler
+  fullName: Mewdeko.Services.CommandHandler
+- uid: Mewdeko.Services.CommandHandler.#ctor*
+  commentId: Overload:Mewdeko.Services.CommandHandler.#ctor
+  href: Mewdeko.Services.CommandHandler.html#Mewdeko_Services_CommandHandler__ctor_Discord_WebSocket_DiscordSocketClient_Mewdeko_Database_DbService_Discord_Commands_CommandService_Mewdeko_Services_Settings_BotConfigService_Mewdeko_Mewdeko_System_IServiceProvider_Mewdeko_Services_strings_IBotStrings_Discord_Interactions_InteractionService_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_Impl_EventHandler_Mewdeko_Services_IBotCredentials_Mewdeko_Services_IDataCache_
+  name: CommandHandler
+  nameWithType: CommandHandler.CommandHandler
+  fullName: Mewdeko.Services.CommandHandler.CommandHandler
+  nameWithType.vb: CommandHandler.New
+  fullName.vb: Mewdeko.Services.CommandHandler.New
+  name.vb: New
+- uid: Discord.WebSocket.DiscordSocketClient
+  commentId: T:Discord.WebSocket.DiscordSocketClient
+  parent: Discord.WebSocket
+  isExternal: true
+  name: DiscordSocketClient
+  nameWithType: DiscordSocketClient
+  fullName: Discord.WebSocket.DiscordSocketClient
+- uid: Mewdeko.Database.DbService
+  commentId: T:Mewdeko.Database.DbService
+  parent: Mewdeko.Database
+  href: Mewdeko.Database.DbService.html
+  name: DbService
+  nameWithType: DbService
+  fullName: Mewdeko.Database.DbService
+- uid: Discord.Commands.CommandService
+  commentId: T:Discord.Commands.CommandService
+  parent: Discord.Commands
+  isExternal: true
+  name: CommandService
+  nameWithType: CommandService
+  fullName: Discord.Commands.CommandService
+- uid: Mewdeko.Services.Settings.BotConfigService
+  commentId: T:Mewdeko.Services.Settings.BotConfigService
+  parent: Mewdeko.Services.Settings
+  href: Mewdeko.Services.Settings.BotConfigService.html
+  name: BotConfigService
+  nameWithType: BotConfigService
+  fullName: Mewdeko.Services.Settings.BotConfigService
+- uid: Mewdeko.Mewdeko
+  commentId: T:Mewdeko.Mewdeko
+  parent: Mewdeko
+  href: Mewdeko.Mewdeko.html
+  name: Mewdeko
+  nameWithType: Mewdeko
+  fullName: Mewdeko.Mewdeko
+- uid: System.IServiceProvider
+  commentId: T:System.IServiceProvider
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iserviceprovider
+  name: IServiceProvider
+  nameWithType: IServiceProvider
+  fullName: System.IServiceProvider
+- uid: Mewdeko.Services.strings.IBotStrings
+  commentId: T:Mewdeko.Services.strings.IBotStrings
+  parent: Mewdeko.Services.strings
+  href: Mewdeko.Services.strings.IBotStrings.html
+  name: IBotStrings
+  nameWithType: IBotStrings
+  fullName: Mewdeko.Services.strings.IBotStrings
+- uid: Discord.Interactions.InteractionService
+  commentId: T:Discord.Interactions.InteractionService
+  parent: Discord.Interactions
+  isExternal: true
+  name: InteractionService
+  nameWithType: InteractionService
+  fullName: Discord.Interactions.InteractionService
+- uid: Mewdeko.Services.GuildSettingsService
+  commentId: T:Mewdeko.Services.GuildSettingsService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.GuildSettingsService.html
+  name: GuildSettingsService
+  nameWithType: GuildSettingsService
+  fullName: Mewdeko.Services.GuildSettingsService
+- uid: Mewdeko.Services.Impl.EventHandler
+  commentId: T:Mewdeko.Services.Impl.EventHandler
+  parent: Mewdeko.Services.Impl
+  href: Mewdeko.Services.Impl.EventHandler.html
+  name: EventHandler
+  nameWithType: EventHandler
+  fullName: Mewdeko.Services.Impl.EventHandler
+- uid: Mewdeko.Services.IBotCredentials
+  commentId: T:Mewdeko.Services.IBotCredentials
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.IBotCredentials.html
+  name: IBotCredentials
+  nameWithType: IBotCredentials
+  fullName: Mewdeko.Services.IBotCredentials
+- uid: Mewdeko.Services.IDataCache
+  commentId: T:Mewdeko.Services.IDataCache
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.IDataCache.html
+  name: IDataCache
+  nameWithType: IDataCache
+  fullName: Mewdeko.Services.IDataCache
+- uid: Discord.WebSocket
+  commentId: N:Discord.WebSocket
+  isExternal: true
+  name: Discord.WebSocket
+  nameWithType: Discord.WebSocket
+  fullName: Discord.WebSocket
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.WebSocket
+    name: WebSocket
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.WebSocket
+    name: WebSocket
+    isExternal: true
+- uid: Mewdeko.Database
+  commentId: N:Mewdeko.Database
+  href: Mewdeko.html
+  name: Mewdeko.Database
+  nameWithType: Mewdeko.Database
+  fullName: Mewdeko.Database
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+- uid: Discord.Commands
+  commentId: N:Discord.Commands
+  isExternal: true
+  name: Discord.Commands
+  nameWithType: Discord.Commands
+  fullName: Discord.Commands
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+- uid: Mewdeko.Services.Settings
+  commentId: N:Mewdeko.Services.Settings
+  href: Mewdeko.html
+  name: Mewdeko.Services.Settings
+  nameWithType: Mewdeko.Services.Settings
+  fullName: Mewdeko.Services.Settings
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+- uid: Mewdeko
+  commentId: N:Mewdeko
+  href: Mewdeko.html
+  name: Mewdeko
+  nameWithType: Mewdeko
+  fullName: Mewdeko
+- uid: Mewdeko.Services.strings
+  commentId: N:Mewdeko.Services.strings
+  href: Mewdeko.html
+  name: Mewdeko.Services.strings
+  nameWithType: Mewdeko.Services.strings
+  fullName: Mewdeko.Services.strings
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.strings
+    name: strings
+    href: Mewdeko.Services.strings.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.strings
+    name: strings
+    href: Mewdeko.Services.strings.html
+- uid: Discord.Interactions
+  commentId: N:Discord.Interactions
+  isExternal: true
+  name: Discord.Interactions
+  nameWithType: Discord.Interactions
+  fullName: Discord.Interactions
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Interactions
+    name: Interactions
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Interactions
+    name: Interactions
+    isExternal: true
+- uid: Mewdeko.Services.Impl
+  commentId: N:Mewdeko.Services.Impl
+  href: Mewdeko.html
+  name: Mewdeko.Services.Impl
+  nameWithType: Mewdeko.Services.Impl
+  fullName: Mewdeko.Services.Impl
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Impl
+    name: Impl
+    href: Mewdeko.Services.Impl.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Impl
+    name: Impl
+    href: Mewdeko.Services.Impl.html
+- uid: System.Func{Discord.IUserMessage,Discord.Commands.CommandInfo,System.Threading.Tasks.Task}
+  commentId: T:System.Func{Discord.IUserMessage,Discord.Commands.CommandInfo,System.Threading.Tasks.Task}
+  parent: System
+  definition: System.Func`3
+  href: https://learn.microsoft.com/dotnet/api/system.func-3
+  name: Func<IUserMessage, CommandInfo, Task>
+  nameWithType: Func<IUserMessage, CommandInfo, Task>
+  fullName: System.Func<Discord.IUserMessage, Discord.Commands.CommandInfo, System.Threading.Tasks.Task>
+  nameWithType.vb: Func(Of IUserMessage, CommandInfo, Task)
+  fullName.vb: System.Func(Of Discord.IUserMessage, Discord.Commands.CommandInfo, System.Threading.Tasks.Task)
+  name.vb: Func(Of IUserMessage, CommandInfo, Task)
+  spec.csharp:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: <
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: )
+- uid: System.Func`3
+  commentId: T:System.Func`3
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-3
+  name: Func<T1, T2, TResult>
+  nameWithType: Func<T1, T2, TResult>
+  fullName: System.Func<T1, T2, TResult>
+  nameWithType.vb: Func(Of T1, T2, TResult)
+  fullName.vb: System.Func(Of T1, T2, TResult)
+  name.vb: Func(Of T1, T2, TResult)
+  spec.csharp:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func{Discord.Commands.CommandInfo,Discord.ITextChannel,System.String,Discord.IUser,System.Threading.Tasks.Task}
+  commentId: T:System.Func{Discord.Commands.CommandInfo,Discord.ITextChannel,System.String,Discord.IUser,System.Threading.Tasks.Task}
+  parent: System
+  definition: System.Func`5
+  href: https://learn.microsoft.com/dotnet/api/system.func-5
+  name: Func<CommandInfo, ITextChannel, string, IUser, Task>
+  nameWithType: Func<CommandInfo, ITextChannel, string, IUser, Task>
+  fullName: System.Func<Discord.Commands.CommandInfo, Discord.ITextChannel, string, Discord.IUser, System.Threading.Tasks.Task>
+  nameWithType.vb: Func(Of CommandInfo, ITextChannel, String, IUser, Task)
+  fullName.vb: System.Func(Of Discord.Commands.CommandInfo, Discord.ITextChannel, String, Discord.IUser, System.Threading.Tasks.Task)
+  name.vb: Func(Of CommandInfo, ITextChannel, String, IUser, Task)
+  spec.csharp:
+  - uid: System.Func`5
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-5
+  - name: <
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ITextChannel
+    name: ITextChannel
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: Discord.IUser
+    name: IUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`5
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-5
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ITextChannel
+    name: ITextChannel
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: Discord.IUser
+    name: IUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: )
+- uid: System.Func`5
+  commentId: T:System.Func`5
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-5
+  name: Func<T1, T2, T3, T4, TResult>
+  nameWithType: Func<T1, T2, T3, T4, TResult>
+  fullName: System.Func<T1, T2, T3, T4, TResult>
+  nameWithType.vb: Func(Of T1, T2, T3, T4, TResult)
+  fullName.vb: System.Func(Of T1, T2, T3, T4, TResult)
+  name.vb: Func(Of T1, T2, T3, T4, TResult)
+  spec.csharp:
+  - uid: System.Func`5
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-5
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`5
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-5
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func{Discord.IUserMessage,System.Threading.Tasks.Task}
+  commentId: T:System.Func{Discord.IUserMessage,System.Threading.Tasks.Task}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<IUserMessage, Task>
+  nameWithType: Func<IUserMessage, Task>
+  fullName: System.Func<Discord.IUserMessage, System.Threading.Tasks.Task>
+  nameWithType.vb: Func(Of IUserMessage, Task)
+  fullName.vb: System.Func(Of Discord.IUserMessage, System.Threading.Tasks.Task)
+  name.vb: Func(Of IUserMessage, Task)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: )
+- uid: System.Func`2
+  commentId: T:System.Func`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Mewdeko.Services.CommandHandler.AddServices*
+  commentId: Overload:Mewdeko.Services.CommandHandler.AddServices
+  href: Mewdeko.Services.CommandHandler.html#Mewdeko_Services_CommandHandler_AddServices_Microsoft_Extensions_DependencyInjection_IServiceCollection_
+  name: AddServices
+  nameWithType: CommandHandler.AddServices
+  fullName: Mewdeko.Services.CommandHandler.AddServices
+- uid: Microsoft.Extensions.DependencyInjection.IServiceCollection
+  commentId: T:Microsoft.Extensions.DependencyInjection.IServiceCollection
+  parent: Microsoft.Extensions.DependencyInjection
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection.iservicecollection
+  name: IServiceCollection
+  nameWithType: IServiceCollection
+  fullName: Microsoft.Extensions.DependencyInjection.IServiceCollection
+- uid: Microsoft.Extensions.DependencyInjection
+  commentId: N:Microsoft.Extensions.DependencyInjection
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft
+  name: Microsoft.Extensions.DependencyInjection
+  nameWithType: Microsoft.Extensions.DependencyInjection
+  fullName: Microsoft.Extensions.DependencyInjection
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.Extensions
+    name: Extensions
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions
+  - name: .
+  - uid: Microsoft.Extensions.DependencyInjection
+    name: DependencyInjection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.Extensions
+    name: Extensions
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions
+  - name: .
+  - uid: Microsoft.Extensions.DependencyInjection
+    name: DependencyInjection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection
+- uid: Mewdeko.Services.CommandHandler.ExecuteExternal*
+  commentId: Overload:Mewdeko.Services.CommandHandler.ExecuteExternal
+  href: Mewdeko.Services.CommandHandler.html#Mewdeko_Services_CommandHandler_ExecuteExternal_System_Nullable_System_UInt64__System_UInt64_System_String_
+  name: ExecuteExternal
+  nameWithType: CommandHandler.ExecuteExternal
+  fullName: Mewdeko.Services.CommandHandler.ExecuteExternal
+- uid: System.Nullable{System.UInt64}
+  commentId: T:System.Nullable{System.UInt64}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong?
+  nameWithType: ulong?
+  fullName: ulong?
+  nameWithType.vb: ULong?
+  fullName.vb: ULong?
+  name.vb: ULong?
+  spec.csharp:
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  spec.vb:
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong
+  nameWithType: ulong
+  fullName: ulong
+  nameWithType.vb: ULong
+  fullName.vb: ULong
+  name.vb: ULong
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Services.CommandHandler.AddCommandToParseQueue*
+  commentId: Overload:Mewdeko.Services.CommandHandler.AddCommandToParseQueue
+  href: Mewdeko.Services.CommandHandler.html#Mewdeko_Services_CommandHandler_AddCommandToParseQueue_Discord_IUserMessage_
+  name: AddCommandToParseQueue
+  nameWithType: CommandHandler.AddCommandToParseQueue
+  fullName: Mewdeko.Services.CommandHandler.AddCommandToParseQueue
+- uid: Discord.IUserMessage
+  commentId: T:Discord.IUserMessage
+  parent: Discord
+  isExternal: true
+  name: IUserMessage
+  nameWithType: IUserMessage
+  fullName: Discord.IUserMessage
+- uid: Discord
+  commentId: N:Discord
+  isExternal: true
+  name: Discord
+  nameWithType: Discord
+  fullName: Discord
+- uid: Mewdeko.Services.CommandHandler.ExecuteCommandsInChannelAsync*
+  commentId: Overload:Mewdeko.Services.CommandHandler.ExecuteCommandsInChannelAsync
+  href: Mewdeko.Services.CommandHandler.html#Mewdeko_Services_CommandHandler_ExecuteCommandsInChannelAsync_System_UInt64_
+  name: ExecuteCommandsInChannelAsync
+  nameWithType: CommandHandler.ExecuteCommandsInChannelAsync
+  fullName: Mewdeko.Services.CommandHandler.ExecuteCommandsInChannelAsync
+- uid: System.Threading.Tasks.Task{System.Boolean}
+  commentId: T:System.Threading.Tasks.Task{System.Boolean}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<bool>
+  nameWithType: Task<bool>
+  fullName: System.Threading.Tasks.Task<bool>
+  nameWithType.vb: Task(Of Boolean)
+  fullName.vb: System.Threading.Tasks.Task(Of Boolean)
+  name.vb: Task(Of Boolean)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )

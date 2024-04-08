@@ -1,0 +1,922 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+  id: XkcdComic
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  children:
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Alt
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Day
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.ImageLink
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Link
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Month
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.News
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Num
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Title
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Transcript
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Year
+  langs:
+  - csharp
+  - vb
+  name: XkcdComic
+  nameWithType: XkcdComic
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: XkcdComic
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+    startLine: 7
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Represents an XKCD comic, including metadata and content.
+  example: []
+  syntax:
+    content: public class XkcdComic
+    content.vb: Public Class XkcdComic
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Num
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Num
+  id: Num
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+  langs:
+  - csharp
+  - vb
+  name: Num
+  nameWithType: XkcdComic.Num
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Num
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Num
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The unique identifier for the comic.
+  example: []
+  syntax:
+    content: public int Num { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Num As Integer
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Num*
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Month
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Month
+  id: Month
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+  langs:
+  - csharp
+  - vb
+  name: Month
+  nameWithType: XkcdComic.Month
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Month
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Month
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+    startLine: 17
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The publication month of the comic.
+  example: []
+  syntax:
+    content: public string Month { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Month As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Month*
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Year
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Year
+  id: Year
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+  langs:
+  - csharp
+  - vb
+  name: Year
+  nameWithType: XkcdComic.Year
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Year
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Year
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+    startLine: 22
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The publication year of the comic.
+  example: []
+  syntax:
+    content: public string Year { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Year As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Year*
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Title
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Title
+  id: Title
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+  langs:
+  - csharp
+  - vb
+  name: Title
+  nameWithType: XkcdComic.Title
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Title
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Title
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+    startLine: 27
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The sanitized title of the comic.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("safe_title")]
+
+      public string Title { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("safe_title")>
+
+      Public Property Title As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Title*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: safe_title
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.ImageLink
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.ImageLink
+  id: ImageLink
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+  langs:
+  - csharp
+  - vb
+  name: ImageLink
+  nameWithType: XkcdComic.ImageLink
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.ImageLink
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ImageLink
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+    startLine: 33
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The direct URL to the comic's image.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("img")]
+
+      public string ImageLink { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("img")>
+
+      Public Property ImageLink As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.ImageLink*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: img
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Alt
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Alt
+  id: Alt
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+  langs:
+  - csharp
+  - vb
+  name: Alt
+  nameWithType: XkcdComic.Alt
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Alt
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Alt
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+    startLine: 39
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The alt text provided for the comic's image, often containing humor or additional context.
+  example: []
+  syntax:
+    content: public string Alt { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Alt As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Alt*
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Day
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Day
+  id: Day
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+  langs:
+  - csharp
+  - vb
+  name: Day
+  nameWithType: XkcdComic.Day
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Day
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Day
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+    startLine: 44
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The day of the month on which the comic was published.
+  example: []
+  syntax:
+    content: public string Day { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Day As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Day*
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Transcript
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Transcript
+  id: Transcript
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+  langs:
+  - csharp
+  - vb
+  name: Transcript
+  nameWithType: XkcdComic.Transcript
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Transcript
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Transcript
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+    startLine: 49
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: A transcript or text contained within the comic, if available.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("transcript")]
+
+      public string Transcript { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("transcript")>
+
+      Public Property Transcript As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Transcript*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: transcript
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Link
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Link
+  id: Link
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+  langs:
+  - csharp
+  - vb
+  name: Link
+  nameWithType: XkcdComic.Link
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Link
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Link
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+    startLine: 55
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: A link to a related comic or external content, if provided.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("link")]
+
+      public string Link { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("link")>
+
+      Public Property Link As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Link*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: link
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.News
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.News
+  id: News
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+  langs:
+  - csharp
+  - vb
+  name: News
+  nameWithType: XkcdComic.News
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.News
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: News
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/XkcdComics.cs
+    startLine: 61
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The news headline or message associated with the comic's publication, if available.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("news")]
+
+      public string News { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("news")>
+
+      Public Property News As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.News*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: news
+references:
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  commentId: N:Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  nameWithType: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications
+    name: StreamNotifications
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+    name: Models
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications
+    name: StreamNotifications
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+    name: Models
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<XkcdComic>(XkcdComic, string)
+  nameWithType: Extensions.ThrowIfNull<XkcdComic>(XkcdComic, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic>(Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of XkcdComic)(XkcdComic, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic)(Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic, String)
+  name.vb: ThrowIfNull(Of XkcdComic)(XkcdComic, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+    name: XkcdComic
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+    name: XkcdComic
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+    name: XkcdComic
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+    name: XkcdComic
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Num*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Num
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_XkcdComic_Num
+  name: Num
+  nameWithType: XkcdComic.Num
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Num
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Month*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Month
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_XkcdComic_Month
+  name: Month
+  nameWithType: XkcdComic.Month
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Month
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Year*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Year
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_XkcdComic_Year
+  name: Year
+  nameWithType: XkcdComic.Year
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Year
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Title*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Title
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_XkcdComic_Title
+  name: Title
+  nameWithType: XkcdComic.Title
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Title
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.ImageLink*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.ImageLink
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_XkcdComic_ImageLink
+  name: ImageLink
+  nameWithType: XkcdComic.ImageLink
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.ImageLink
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Alt*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Alt
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_XkcdComic_Alt
+  name: Alt
+  nameWithType: XkcdComic.Alt
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Alt
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Day*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Day
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_XkcdComic_Day
+  name: Day
+  nameWithType: XkcdComic.Day
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Day
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Transcript*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Transcript
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_XkcdComic_Transcript
+  name: Transcript
+  nameWithType: XkcdComic.Transcript
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Transcript
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Link*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Link
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_XkcdComic_Link
+  name: Link
+  nameWithType: XkcdComic.Link
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.Link
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.News*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.News
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_XkcdComic_News
+  name: News
+  nameWithType: XkcdComic.News
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.News

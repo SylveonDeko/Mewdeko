@@ -1,0 +1,1035 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Searches.Common.ImageCacherObject
+  commentId: T:Mewdeko.Modules.Searches.Common.ImageCacherObject
+  id: ImageCacherObject
+  parent: Mewdeko.Modules.Searches.Common
+  children:
+  - Mewdeko.Modules.Searches.Common.ImageCacherObject.#ctor(Mewdeko.Modules.Searches.Common.DapiImageObject,Mewdeko.Modules.Searches.Common.DapiSearchType)
+  - Mewdeko.Modules.Searches.Common.ImageCacherObject.#ctor(System.String,Mewdeko.Modules.Searches.Common.DapiSearchType,System.String,System.String)
+  - Mewdeko.Modules.Searches.Common.ImageCacherObject.CompareTo(Mewdeko.Modules.Searches.Common.ImageCacherObject)
+  - Mewdeko.Modules.Searches.Common.ImageCacherObject.FileUrl
+  - Mewdeko.Modules.Searches.Common.ImageCacherObject.Rating
+  - Mewdeko.Modules.Searches.Common.ImageCacherObject.SearchType
+  - Mewdeko.Modules.Searches.Common.ImageCacherObject.Tags
+  - Mewdeko.Modules.Searches.Common.ImageCacherObject.ToString
+  langs:
+  - csharp
+  - vb
+  name: ImageCacherObject
+  nameWithType: ImageCacherObject
+  fullName: Mewdeko.Modules.Searches.Common.ImageCacherObject
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/ImageCacherObject.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ImageCacherObject
+    path: src/Mewdeko/Modules/Searches/Common/ImageCacherObject.cs
+    startLine: 5
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Represents an object that holds information about an image cached from various image searching APIs.
+  example: []
+  syntax:
+    content: 'public class ImageCacherObject : IComparable<ImageCacherObject>'
+    content.vb: Public Class ImageCacherObject Implements IComparable(Of ImageCacherObject)
+  inheritance:
+  - System.Object
+  implements:
+  - System.IComparable{Mewdeko.Modules.Searches.Common.ImageCacherObject}
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  extensionMethods:
+  - Mewdeko.Modules.Searches.Common.ImageCacherObject.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Searches.Common.ImageCacherObject.#ctor(Mewdeko.Modules.Searches.Common.DapiImageObject,Mewdeko.Modules.Searches.Common.DapiSearchType)
+  commentId: M:Mewdeko.Modules.Searches.Common.ImageCacherObject.#ctor(Mewdeko.Modules.Searches.Common.DapiImageObject,Mewdeko.Modules.Searches.Common.DapiSearchType)
+  id: '#ctor(Mewdeko.Modules.Searches.Common.DapiImageObject,Mewdeko.Modules.Searches.Common.DapiSearchType)'
+  parent: Mewdeko.Modules.Searches.Common.ImageCacherObject
+  langs:
+  - csharp
+  - vb
+  name: ImageCacherObject(DapiImageObject, DapiSearchType)
+  nameWithType: ImageCacherObject.ImageCacherObject(DapiImageObject, DapiSearchType)
+  fullName: Mewdeko.Modules.Searches.Common.ImageCacherObject.ImageCacherObject(Mewdeko.Modules.Searches.Common.DapiImageObject, Mewdeko.Modules.Searches.Common.DapiSearchType)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/ImageCacherObject.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Searches/Common/ImageCacherObject.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Initializes a new instance of the <xref href="Mewdeko.Modules.Searches.Common.ImageCacherObject" data-throw-if-not-resolved="false"></xref> class using data from a <xref href="Mewdeko.Modules.Searches.Common.DapiImageObject" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public ImageCacherObject(DapiImageObject obj, DapiSearchType type)
+    parameters:
+    - id: obj
+      type: Mewdeko.Modules.Searches.Common.DapiImageObject
+      description: The <xref href="Mewdeko.Modules.Searches.Common.DapiImageObject" data-throw-if-not-resolved="false"></xref> containing image data.
+    - id: type
+      type: Mewdeko.Modules.Searches.Common.DapiSearchType
+      description: The source <xref href="Mewdeko.Modules.Searches.Common.DapiSearchType" data-throw-if-not-resolved="false"></xref> where the image was found.
+    content.vb: Public Sub New(obj As DapiImageObject, type As DapiSearchType)
+  overload: Mewdeko.Modules.Searches.Common.ImageCacherObject.#ctor*
+  nameWithType.vb: ImageCacherObject.New(DapiImageObject, DapiSearchType)
+  fullName.vb: Mewdeko.Modules.Searches.Common.ImageCacherObject.New(Mewdeko.Modules.Searches.Common.DapiImageObject, Mewdeko.Modules.Searches.Common.DapiSearchType)
+  name.vb: New(DapiImageObject, DapiSearchType)
+- uid: Mewdeko.Modules.Searches.Common.ImageCacherObject.#ctor(System.String,Mewdeko.Modules.Searches.Common.DapiSearchType,System.String,System.String)
+  commentId: M:Mewdeko.Modules.Searches.Common.ImageCacherObject.#ctor(System.String,Mewdeko.Modules.Searches.Common.DapiSearchType,System.String,System.String)
+  id: '#ctor(System.String,Mewdeko.Modules.Searches.Common.DapiSearchType,System.String,System.String)'
+  parent: Mewdeko.Modules.Searches.Common.ImageCacherObject
+  langs:
+  - csharp
+  - vb
+  name: ImageCacherObject(string, DapiSearchType, string, string)
+  nameWithType: ImageCacherObject.ImageCacherObject(string, DapiSearchType, string, string)
+  fullName: Mewdeko.Modules.Searches.Common.ImageCacherObject.ImageCacherObject(string, Mewdeko.Modules.Searches.Common.DapiSearchType, string, string)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/ImageCacherObject.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Searches/Common/ImageCacherObject.cs
+    startLine: 37
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Initializes a new instance of the <xref href="Mewdeko.Modules.Searches.Common.ImageCacherObject" data-throw-if-not-resolved="false"></xref> class using specified image data.
+  example: []
+  syntax:
+    content: public ImageCacherObject(string url, DapiSearchType type, string tags, string rating)
+    parameters:
+    - id: url
+      type: System.String
+      description: The URL of the image.
+    - id: type
+      type: Mewdeko.Modules.Searches.Common.DapiSearchType
+      description: The source <xref href="Mewdeko.Modules.Searches.Common.DapiSearchType" data-throw-if-not-resolved="false"></xref> where the image was found.
+    - id: tags
+      type: System.String
+      description: A string of space-separated tags associated with the image.
+    - id: rating
+      type: System.String
+      description: The rating of the image (e.g., safe, explicit).
+    content.vb: Public Sub New(url As String, type As DapiSearchType, tags As String, rating As String)
+  overload: Mewdeko.Modules.Searches.Common.ImageCacherObject.#ctor*
+  nameWithType.vb: ImageCacherObject.New(String, DapiSearchType, String, String)
+  fullName.vb: Mewdeko.Modules.Searches.Common.ImageCacherObject.New(String, Mewdeko.Modules.Searches.Common.DapiSearchType, String, String)
+  name.vb: New(String, DapiSearchType, String, String)
+- uid: Mewdeko.Modules.Searches.Common.ImageCacherObject.SearchType
+  commentId: P:Mewdeko.Modules.Searches.Common.ImageCacherObject.SearchType
+  id: SearchType
+  parent: Mewdeko.Modules.Searches.Common.ImageCacherObject
+  langs:
+  - csharp
+  - vb
+  name: SearchType
+  nameWithType: ImageCacherObject.SearchType
+  fullName: Mewdeko.Modules.Searches.Common.ImageCacherObject.SearchType
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/ImageCacherObject.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SearchType
+    path: src/Mewdeko/Modules/Searches/Common/ImageCacherObject.cs
+    startLine: 48
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets the type of the source where the image was found.
+  example: []
+  syntax:
+    content: public DapiSearchType SearchType { get; }
+    parameters: []
+    return:
+      type: Mewdeko.Modules.Searches.Common.DapiSearchType
+    content.vb: Public ReadOnly Property SearchType As DapiSearchType
+  overload: Mewdeko.Modules.Searches.Common.ImageCacherObject.SearchType*
+- uid: Mewdeko.Modules.Searches.Common.ImageCacherObject.FileUrl
+  commentId: P:Mewdeko.Modules.Searches.Common.ImageCacherObject.FileUrl
+  id: FileUrl
+  parent: Mewdeko.Modules.Searches.Common.ImageCacherObject
+  langs:
+  - csharp
+  - vb
+  name: FileUrl
+  nameWithType: ImageCacherObject.FileUrl
+  fullName: Mewdeko.Modules.Searches.Common.ImageCacherObject.FileUrl
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/ImageCacherObject.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: FileUrl
+    path: src/Mewdeko/Modules/Searches/Common/ImageCacherObject.cs
+    startLine: 53
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets the URL of the image.
+  example: []
+  syntax:
+    content: public string FileUrl { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property FileUrl As String
+  overload: Mewdeko.Modules.Searches.Common.ImageCacherObject.FileUrl*
+- uid: Mewdeko.Modules.Searches.Common.ImageCacherObject.Tags
+  commentId: P:Mewdeko.Modules.Searches.Common.ImageCacherObject.Tags
+  id: Tags
+  parent: Mewdeko.Modules.Searches.Common.ImageCacherObject
+  langs:
+  - csharp
+  - vb
+  name: Tags
+  nameWithType: ImageCacherObject.Tags
+  fullName: Mewdeko.Modules.Searches.Common.ImageCacherObject.Tags
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/ImageCacherObject.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Tags
+    path: src/Mewdeko/Modules/Searches/Common/ImageCacherObject.cs
+    startLine: 58
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets a collection of tags associated with the image.
+  example: []
+  syntax:
+    content: public HashSet<string> Tags { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.HashSet{System.String}
+    content.vb: Public ReadOnly Property Tags As HashSet(Of String)
+  overload: Mewdeko.Modules.Searches.Common.ImageCacherObject.Tags*
+- uid: Mewdeko.Modules.Searches.Common.ImageCacherObject.Rating
+  commentId: P:Mewdeko.Modules.Searches.Common.ImageCacherObject.Rating
+  id: Rating
+  parent: Mewdeko.Modules.Searches.Common.ImageCacherObject
+  langs:
+  - csharp
+  - vb
+  name: Rating
+  nameWithType: ImageCacherObject.Rating
+  fullName: Mewdeko.Modules.Searches.Common.ImageCacherObject.Rating
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/ImageCacherObject.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Rating
+    path: src/Mewdeko/Modules/Searches/Common/ImageCacherObject.cs
+    startLine: 63
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets the rating of the image (e.g., safe, explicit).
+  example: []
+  syntax:
+    content: public string Rating { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Rating As String
+  overload: Mewdeko.Modules.Searches.Common.ImageCacherObject.Rating*
+- uid: Mewdeko.Modules.Searches.Common.ImageCacherObject.CompareTo(Mewdeko.Modules.Searches.Common.ImageCacherObject)
+  commentId: M:Mewdeko.Modules.Searches.Common.ImageCacherObject.CompareTo(Mewdeko.Modules.Searches.Common.ImageCacherObject)
+  id: CompareTo(Mewdeko.Modules.Searches.Common.ImageCacherObject)
+  parent: Mewdeko.Modules.Searches.Common.ImageCacherObject
+  langs:
+  - csharp
+  - vb
+  name: CompareTo(ImageCacherObject?)
+  nameWithType: ImageCacherObject.CompareTo(ImageCacherObject?)
+  fullName: Mewdeko.Modules.Searches.Common.ImageCacherObject.CompareTo(Mewdeko.Modules.Searches.Common.ImageCacherObject?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/ImageCacherObject.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CompareTo
+    path: src/Mewdeko/Modules/Searches/Common/ImageCacherObject.cs
+    startLine: 71
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Compares the current object with another object of the same type.
+  example: []
+  syntax:
+    content: public int CompareTo(ImageCacherObject? other)
+    parameters:
+    - id: other
+      type: Mewdeko.Modules.Searches.Common.ImageCacherObject
+      description: An object to compare with this object.
+    return:
+      type: System.Int32
+      description: A value that indicates the relative order of the objects being compared.
+    content.vb: Public Function CompareTo(other As ImageCacherObject) As Integer
+  overload: Mewdeko.Modules.Searches.Common.ImageCacherObject.CompareTo*
+  implements:
+  - System.IComparable{Mewdeko.Modules.Searches.Common.ImageCacherObject}.CompareTo(Mewdeko.Modules.Searches.Common.ImageCacherObject)
+  nameWithType.vb: ImageCacherObject.CompareTo(ImageCacherObject)
+  fullName.vb: Mewdeko.Modules.Searches.Common.ImageCacherObject.CompareTo(Mewdeko.Modules.Searches.Common.ImageCacherObject)
+  name.vb: CompareTo(ImageCacherObject)
+- uid: Mewdeko.Modules.Searches.Common.ImageCacherObject.ToString
+  commentId: M:Mewdeko.Modules.Searches.Common.ImageCacherObject.ToString
+  id: ToString
+  parent: Mewdeko.Modules.Searches.Common.ImageCacherObject
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: ImageCacherObject.ToString()
+  fullName: Mewdeko.Modules.Searches.Common.ImageCacherObject.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/ImageCacherObject.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ToString
+    path: src/Mewdeko/Modules/Searches/Common/ImageCacherObject.cs
+    startLine: 78
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Returns a string that represents the current object.
+  example: []
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+      description: A string that represents the current object.
+    content.vb: Public Overrides Function ToString() As String
+  overridden: System.Object.ToString
+  overload: Mewdeko.Modules.Searches.Common.ImageCacherObject.ToString*
+references:
+- uid: Mewdeko.Modules.Searches.Common
+  commentId: N:Mewdeko.Modules.Searches.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Common
+  nameWithType: Mewdeko.Modules.Searches.Common
+  fullName: Mewdeko.Modules.Searches.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.IComparable{Mewdeko.Modules.Searches.Common.ImageCacherObject}
+  commentId: T:System.IComparable{Mewdeko.Modules.Searches.Common.ImageCacherObject}
+  parent: System
+  definition: System.IComparable`1
+  href: https://learn.microsoft.com/dotnet/api/system.icomparable-1
+  name: IComparable<ImageCacherObject>
+  nameWithType: IComparable<ImageCacherObject>
+  fullName: System.IComparable<Mewdeko.Modules.Searches.Common.ImageCacherObject>
+  nameWithType.vb: IComparable(Of ImageCacherObject)
+  fullName.vb: System.IComparable(Of Mewdeko.Modules.Searches.Common.ImageCacherObject)
+  name.vb: IComparable(Of ImageCacherObject)
+  spec.csharp:
+  - uid: System.IComparable`1
+    name: IComparable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.icomparable-1
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.ImageCacherObject
+    name: ImageCacherObject
+    href: Mewdeko.Modules.Searches.Common.ImageCacherObject.html
+  - name: '>'
+  spec.vb:
+  - uid: System.IComparable`1
+    name: IComparable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.icomparable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.ImageCacherObject
+    name: ImageCacherObject
+    href: Mewdeko.Modules.Searches.Common.ImageCacherObject.html
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: Mewdeko.Modules.Searches.Common.ImageCacherObject.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<ImageCacherObject>(ImageCacherObject, string)
+  nameWithType: Extensions.ThrowIfNull<ImageCacherObject>(ImageCacherObject, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Searches.Common.ImageCacherObject>(Mewdeko.Modules.Searches.Common.ImageCacherObject, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of ImageCacherObject)(ImageCacherObject, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Searches.Common.ImageCacherObject)(Mewdeko.Modules.Searches.Common.ImageCacherObject, String)
+  name.vb: ThrowIfNull(Of ImageCacherObject)(ImageCacherObject, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Common.ImageCacherObject,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.ImageCacherObject
+    name: ImageCacherObject
+    href: Mewdeko.Modules.Searches.Common.ImageCacherObject.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Common.ImageCacherObject
+    name: ImageCacherObject
+    href: Mewdeko.Modules.Searches.Common.ImageCacherObject.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Common.ImageCacherObject,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.ImageCacherObject
+    name: ImageCacherObject
+    href: Mewdeko.Modules.Searches.Common.ImageCacherObject.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Common.ImageCacherObject
+    name: ImageCacherObject
+    href: Mewdeko.Modules.Searches.Common.ImageCacherObject.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.IComparable`1
+  commentId: T:System.IComparable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.icomparable-1
+  name: IComparable<T>
+  nameWithType: IComparable<T>
+  fullName: System.IComparable<T>
+  nameWithType.vb: IComparable(Of T)
+  fullName.vb: System.IComparable(Of T)
+  name.vb: IComparable(Of T)
+  spec.csharp:
+  - uid: System.IComparable`1
+    name: IComparable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.icomparable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.IComparable`1
+    name: IComparable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.icomparable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Searches.Common.ImageCacherObject
+  commentId: T:Mewdeko.Modules.Searches.Common.ImageCacherObject
+  parent: Mewdeko.Modules.Searches.Common
+  href: Mewdeko.Modules.Searches.Common.ImageCacherObject.html
+  name: ImageCacherObject
+  nameWithType: ImageCacherObject
+  fullName: Mewdeko.Modules.Searches.Common.ImageCacherObject
+- uid: Mewdeko.Modules.Searches.Common.DapiImageObject
+  commentId: T:Mewdeko.Modules.Searches.Common.DapiImageObject
+  parent: Mewdeko.Modules.Searches.Common
+  href: Mewdeko.Modules.Searches.Common.DapiImageObject.html
+  name: DapiImageObject
+  nameWithType: DapiImageObject
+  fullName: Mewdeko.Modules.Searches.Common.DapiImageObject
+- uid: Mewdeko.Modules.Searches.Common.DapiSearchType
+  commentId: T:Mewdeko.Modules.Searches.Common.DapiSearchType
+  parent: Mewdeko.Modules.Searches.Common
+  href: Mewdeko.Modules.Searches.Common.DapiSearchType.html
+  name: DapiSearchType
+  nameWithType: DapiSearchType
+  fullName: Mewdeko.Modules.Searches.Common.DapiSearchType
+- uid: Mewdeko.Modules.Searches.Common.ImageCacherObject.#ctor*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.ImageCacherObject.#ctor
+  href: Mewdeko.Modules.Searches.Common.ImageCacherObject.html#Mewdeko_Modules_Searches_Common_ImageCacherObject__ctor_Mewdeko_Modules_Searches_Common_DapiImageObject_Mewdeko_Modules_Searches_Common_DapiSearchType_
+  name: ImageCacherObject
+  nameWithType: ImageCacherObject.ImageCacherObject
+  fullName: Mewdeko.Modules.Searches.Common.ImageCacherObject.ImageCacherObject
+  nameWithType.vb: ImageCacherObject.New
+  fullName.vb: Mewdeko.Modules.Searches.Common.ImageCacherObject.New
+  name.vb: New
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Modules.Searches.Common.ImageCacherObject.SearchType*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.ImageCacherObject.SearchType
+  href: Mewdeko.Modules.Searches.Common.ImageCacherObject.html#Mewdeko_Modules_Searches_Common_ImageCacherObject_SearchType
+  name: SearchType
+  nameWithType: ImageCacherObject.SearchType
+  fullName: Mewdeko.Modules.Searches.Common.ImageCacherObject.SearchType
+- uid: Mewdeko.Modules.Searches.Common.ImageCacherObject.FileUrl*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.ImageCacherObject.FileUrl
+  href: Mewdeko.Modules.Searches.Common.ImageCacherObject.html#Mewdeko_Modules_Searches_Common_ImageCacherObject_FileUrl
+  name: FileUrl
+  nameWithType: ImageCacherObject.FileUrl
+  fullName: Mewdeko.Modules.Searches.Common.ImageCacherObject.FileUrl
+- uid: Mewdeko.Modules.Searches.Common.ImageCacherObject.Tags*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.ImageCacherObject.Tags
+  href: Mewdeko.Modules.Searches.Common.ImageCacherObject.html#Mewdeko_Modules_Searches_Common_ImageCacherObject_Tags
+  name: Tags
+  nameWithType: ImageCacherObject.Tags
+  fullName: Mewdeko.Modules.Searches.Common.ImageCacherObject.Tags
+- uid: System.Collections.Generic.HashSet{System.String}
+  commentId: T:System.Collections.Generic.HashSet{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.HashSet`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  name: HashSet<string>
+  nameWithType: HashSet<string>
+  fullName: System.Collections.Generic.HashSet<string>
+  nameWithType.vb: HashSet(Of String)
+  fullName.vb: System.Collections.Generic.HashSet(Of String)
+  name.vb: HashSet(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Collections.Generic.HashSet`1
+  commentId: T:System.Collections.Generic.HashSet`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  name: HashSet<T>
+  nameWithType: HashSet<T>
+  fullName: System.Collections.Generic.HashSet<T>
+  nameWithType.vb: HashSet(Of T)
+  fullName.vb: System.Collections.Generic.HashSet(Of T)
+  name.vb: HashSet(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Mewdeko.Modules.Searches.Common.ImageCacherObject.Rating*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.ImageCacherObject.Rating
+  href: Mewdeko.Modules.Searches.Common.ImageCacherObject.html#Mewdeko_Modules_Searches_Common_ImageCacherObject_Rating
+  name: Rating
+  nameWithType: ImageCacherObject.Rating
+  fullName: Mewdeko.Modules.Searches.Common.ImageCacherObject.Rating
+- uid: Mewdeko.Modules.Searches.Common.ImageCacherObject.CompareTo*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.ImageCacherObject.CompareTo
+  href: Mewdeko.Modules.Searches.Common.ImageCacherObject.html#Mewdeko_Modules_Searches_Common_ImageCacherObject_CompareTo_Mewdeko_Modules_Searches_Common_ImageCacherObject_
+  name: CompareTo
+  nameWithType: ImageCacherObject.CompareTo
+  fullName: Mewdeko.Modules.Searches.Common.ImageCacherObject.CompareTo
+- uid: System.IComparable{Mewdeko.Modules.Searches.Common.ImageCacherObject}.CompareTo(Mewdeko.Modules.Searches.Common.ImageCacherObject)
+  commentId: M:System.IComparable{Mewdeko.Modules.Searches.Common.ImageCacherObject}.CompareTo(Mewdeko.Modules.Searches.Common.ImageCacherObject)
+  parent: System.IComparable{Mewdeko.Modules.Searches.Common.ImageCacherObject}
+  definition: System.IComparable`1.CompareTo(`0)
+  href: https://learn.microsoft.com/dotnet/api/system.icomparable-1.compareto
+  name: CompareTo(ImageCacherObject)
+  nameWithType: IComparable<ImageCacherObject>.CompareTo(ImageCacherObject)
+  fullName: System.IComparable<Mewdeko.Modules.Searches.Common.ImageCacherObject>.CompareTo(Mewdeko.Modules.Searches.Common.ImageCacherObject)
+  nameWithType.vb: IComparable(Of ImageCacherObject).CompareTo(ImageCacherObject)
+  fullName.vb: System.IComparable(Of Mewdeko.Modules.Searches.Common.ImageCacherObject).CompareTo(Mewdeko.Modules.Searches.Common.ImageCacherObject)
+  spec.csharp:
+  - uid: System.IComparable{Mewdeko.Modules.Searches.Common.ImageCacherObject}.CompareTo(Mewdeko.Modules.Searches.Common.ImageCacherObject)
+    name: CompareTo
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.icomparable-1.compareto
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Common.ImageCacherObject
+    name: ImageCacherObject
+    href: Mewdeko.Modules.Searches.Common.ImageCacherObject.html
+  - name: )
+  spec.vb:
+  - uid: System.IComparable{Mewdeko.Modules.Searches.Common.ImageCacherObject}.CompareTo(Mewdeko.Modules.Searches.Common.ImageCacherObject)
+    name: CompareTo
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.icomparable-1.compareto
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Common.ImageCacherObject
+    name: ImageCacherObject
+    href: Mewdeko.Modules.Searches.Common.ImageCacherObject.html
+  - name: )
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.IComparable`1.CompareTo(`0)
+  commentId: M:System.IComparable`1.CompareTo(`0)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.icomparable-1.compareto
+  name: CompareTo(T)
+  nameWithType: IComparable<T>.CompareTo(T)
+  fullName: System.IComparable<T>.CompareTo(T)
+  nameWithType.vb: IComparable(Of T).CompareTo(T)
+  fullName.vb: System.IComparable(Of T).CompareTo(T)
+  spec.csharp:
+  - uid: System.IComparable`1.CompareTo(`0)
+    name: CompareTo
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.icomparable-1.compareto
+  - name: (
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: System.IComparable`1.CompareTo(`0)
+    name: CompareTo
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.icomparable-1.compareto
+  - name: (
+  - name: T
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Searches.Common.ImageCacherObject.ToString*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.ImageCacherObject.ToString
+  href: Mewdeko.Modules.Searches.Common.ImageCacherObject.html#Mewdeko_Modules_Searches_Common_ImageCacherObject_ToString
+  name: ToString
+  nameWithType: ImageCacherObject.ToString
+  fullName: Mewdeko.Modules.Searches.Common.ImageCacherObject.ToString

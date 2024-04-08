@@ -1,0 +1,3633 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  commentId: T:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  id: ChatTriggersService
+  parent: Mewdeko.Modules.Chat_Triggers.Services
+  children:
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.#ctor(Mewdeko.Modules.Permissions.Services.PermissionService,Mewdeko.Database.DbService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Mewdeko,Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Permissions.Services.GlobalPermissionService,Mewdeko.Modules.Permissions.Services.CmdCdService,Mewdeko.Common.PubSub.IPubSub,Mewdeko.Modules.Administration.Services.DiscordPermOverrideService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Settings.BotConfigService,Mewdeko.Services.IBotCredentials)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.AddAsync(System.Nullable{System.UInt64},System.String,System.String,System.Boolean)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.BehaviorType
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.DeleteAllChatTriggers(System.UInt64)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.DeleteAsync(System.Nullable{System.UInt64},System.Int32)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.EditAsync(System.Nullable{System.UInt64},System.Int32,System.String,System.Nullable{System.Boolean},System.String)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ExportCrs(System.Nullable{System.UInt64})
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetAcctErrors(System.Collections.Generic.IEnumerable{Mewdeko.Database.Models.ChatTriggers})
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetAcctErrors(System.Nullable{System.UInt64})
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetApplicationCommandProperties(System.UInt64)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetChatTriggers(System.Nullable{System.UInt64},System.Int32)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetChatTriggersFor(System.Nullable{System.UInt64})
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetEmbed(Mewdeko.Database.Models.ChatTriggers,System.Nullable{System.UInt64},System.String)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetGuildOrGlobalTriggers(System.Nullable{System.UInt64},System.Int32)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ImportCrsAsync(Discord.IGuildUser,System.String)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.IsValidName(Mewdeko.Database.Models.CtApplicationCommandType,System.String)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.OnReadyAsync
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.Priority
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ReactionExists(System.Nullable{System.UInt64},System.String)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RegisterTriggersToGuildAsync(Discord.IGuild)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ResetCrReactions(System.Nullable{System.UInt64},System.Int32)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RunBehavior(Discord.WebSocket.DiscordSocketClient,Discord.IGuild,Discord.IUserMessage)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RunInteractionTrigger(Discord.WebSocket.SocketInteraction,Mewdeko.Database.Models.ChatTriggers,System.Boolean)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrReactions(System.Nullable{System.UInt64},System.Int32,System.Collections.Generic.IEnumerable{System.String})
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrosspostingChannelId(System.Nullable{System.UInt64},System.Int32,System.UInt64)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrosspostingWebhookUrl(System.Nullable{System.UInt64},System.Int32,System.String,System.Boolean)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionDescription(System.Nullable{System.UInt64},System.Int32,System.String)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionEphemeral(System.Nullable{System.UInt64},System.Int32,System.Boolean)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionName(System.Nullable{System.UInt64},System.Int32,System.String)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionType(System.Nullable{System.UInt64},System.Int32,Mewdeko.Database.Models.CtApplicationCommandType)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetPrefix(System.Nullable{System.UInt64},System.Int32,System.String)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetPrefixType(System.Nullable{System.UInt64},System.Int32,Mewdeko.Database.Models.RequirePrefixType)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetRoleGrantType(System.Nullable{System.UInt64},System.Int32,Mewdeko.Database.Models.CtRoleGrantType)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetValidTriggerType(System.Nullable{System.UInt64},System.Int32,Mewdeko.Database.Models.ChatTriggerType,System.Boolean)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleCrOptionAsync(Mewdeko.Database.Models.ChatTriggers,System.Nullable{Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField})
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleGrantedRole(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleRemovedRole(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.TriggerReloadChatTriggers
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.TryGetApplicationCommandProperties(System.UInt64,System.Collections.Generic.List{Discord.ApplicationCommandProperties}@)
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ValidCommandRegex
+  langs:
+  - csharp
+  - vb
+  name: ChatTriggersService
+  nameWithType: ChatTriggersService
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChatTriggersService
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 25
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: The service for managing chat triggers. Hell.
+  example: []
+  syntax:
+    content: 'public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecutor'
+    content.vb: Public NotInheritable Class ChatTriggersService Implements IEarlyBehavior, INService, IReadyExecutor
+  inheritance:
+  - System.Object
+  implements:
+  - Mewdeko.Common.ModuleBehaviors.IEarlyBehavior
+  - Mewdeko.Services.INService
+  - Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.#ctor(Mewdeko.Modules.Permissions.Services.PermissionService,Mewdeko.Database.DbService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Mewdeko,Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Permissions.Services.GlobalPermissionService,Mewdeko.Modules.Permissions.Services.CmdCdService,Mewdeko.Common.PubSub.IPubSub,Mewdeko.Modules.Administration.Services.DiscordPermOverrideService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Settings.BotConfigService,Mewdeko.Services.IBotCredentials)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.#ctor(Mewdeko.Modules.Permissions.Services.PermissionService,Mewdeko.Database.DbService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Mewdeko,Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Permissions.Services.GlobalPermissionService,Mewdeko.Modules.Permissions.Services.CmdCdService,Mewdeko.Common.PubSub.IPubSub,Mewdeko.Modules.Administration.Services.DiscordPermOverrideService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Settings.BotConfigService,Mewdeko.Services.IBotCredentials)
+  id: '#ctor(Mewdeko.Modules.Permissions.Services.PermissionService,Mewdeko.Database.DbService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Mewdeko,Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Permissions.Services.GlobalPermissionService,Mewdeko.Modules.Permissions.Services.CmdCdService,Mewdeko.Common.PubSub.IPubSub,Mewdeko.Modules.Administration.Services.DiscordPermOverrideService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Settings.BotConfigService,Mewdeko.Services.IBotCredentials)'
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: ChatTriggersService(PermissionService, DbService, IBotStrings, Mewdeko, DiscordSocketClient, GlobalPermissionService, CmdCdService, IPubSub, DiscordPermOverrideService, GuildSettingsService, BotConfigService, IBotCredentials)
+  nameWithType: ChatTriggersService.ChatTriggersService(PermissionService, DbService, IBotStrings, Mewdeko, DiscordSocketClient, GlobalPermissionService, CmdCdService, IPubSub, DiscordPermOverrideService, GuildSettingsService, BotConfigService, IBotCredentials)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ChatTriggersService(Mewdeko.Modules.Permissions.Services.PermissionService, Mewdeko.Database.DbService, Mewdeko.Services.strings.IBotStrings, Mewdeko.Mewdeko, Discord.WebSocket.DiscordSocketClient, Mewdeko.Modules.Permissions.Services.GlobalPermissionService, Mewdeko.Modules.Permissions.Services.CmdCdService, Mewdeko.Common.PubSub.IPubSub, Mewdeko.Modules.Administration.Services.DiscordPermOverrideService, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Settings.BotConfigService, Mewdeko.Services.IBotCredentials)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 151
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Initializes a new instance of the <xref href="Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public ChatTriggersService(PermissionService perms, DbService db, IBotStrings strings, Mewdeko bot, DiscordSocketClient client, GlobalPermissionService gperm, CmdCdService cmdCds, IPubSub pubSub, DiscordPermOverrideService discordPermOverride, GuildSettingsService guildSettings, BotConfigService configService, IBotCredentials creds)
+    parameters:
+    - id: perms
+      type: Mewdeko.Modules.Permissions.Services.PermissionService
+      description: The permission service.
+    - id: db
+      type: Mewdeko.Database.DbService
+      description: The database service.
+    - id: strings
+      type: Mewdeko.Services.strings.IBotStrings
+      description: The bot strings.
+    - id: bot
+      type: Mewdeko.Mewdeko
+      description: The bot instance.
+    - id: client
+      type: Discord.WebSocket.DiscordSocketClient
+      description: The Discord socket client.
+    - id: gperm
+      type: Mewdeko.Modules.Permissions.Services.GlobalPermissionService
+      description: The global permission service.
+    - id: cmdCds
+      type: Mewdeko.Modules.Permissions.Services.CmdCdService
+      description: The command cooldown service.
+    - id: pubSub
+      type: Mewdeko.Common.PubSub.IPubSub
+      description: The pub-sub service.
+    - id: discordPermOverride
+      type: Mewdeko.Modules.Administration.Services.DiscordPermOverrideService
+      description: The Discord permission override service.
+    - id: guildSettings
+      type: Mewdeko.Services.GuildSettingsService
+      description: The guild settings service.
+    - id: configService
+      type: Mewdeko.Services.Settings.BotConfigService
+      description: The bot configuration service.
+    - id: creds
+      type: Mewdeko.Services.IBotCredentials
+      description: The bot credentials.
+    content.vb: Public Sub New(perms As PermissionService, db As DbService, strings As IBotStrings, bot As Mewdeko, client As DiscordSocketClient, gperm As GlobalPermissionService, cmdCds As CmdCdService, pubSub As IPubSub, discordPermOverride As DiscordPermOverrideService, guildSettings As GuildSettingsService, configService As BotConfigService, creds As IBotCredentials)
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.#ctor*
+  nameWithType.vb: ChatTriggersService.New(PermissionService, DbService, IBotStrings, Mewdeko, DiscordSocketClient, GlobalPermissionService, CmdCdService, IPubSub, DiscordPermOverrideService, GuildSettingsService, BotConfigService, IBotCredentials)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.New(Mewdeko.Modules.Permissions.Services.PermissionService, Mewdeko.Database.DbService, Mewdeko.Services.strings.IBotStrings, Mewdeko.Mewdeko, Discord.WebSocket.DiscordSocketClient, Mewdeko.Modules.Permissions.Services.GlobalPermissionService, Mewdeko.Modules.Permissions.Services.CmdCdService, Mewdeko.Common.PubSub.IPubSub, Mewdeko.Modules.Administration.Services.DiscordPermOverrideService, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Settings.BotConfigService, Mewdeko.Services.IBotCredentials)
+  name.vb: New(PermissionService, DbService, IBotStrings, Mewdeko, DiscordSocketClient, GlobalPermissionService, CmdCdService, IPubSub, DiscordPermOverrideService, GuildSettingsService, BotConfigService, IBotCredentials)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.Priority
+  commentId: P:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.Priority
+  id: Priority
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: Priority
+  nameWithType: ChatTriggersService.Priority
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.Priority
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Priority
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 201
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Gets the priority of the module.
+  example: []
+  syntax:
+    content: public int Priority { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Priority As Integer
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.Priority*
+  implements:
+  - Mewdeko.Common.ModuleBehaviors.IEarlyBehavior.Priority
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.BehaviorType
+  commentId: P:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.BehaviorType
+  id: BehaviorType
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: BehaviorType
+  nameWithType: ChatTriggersService.BehaviorType
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.BehaviorType
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: BehaviorType
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 206
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Gets the behavior type of the module.
+  example: []
+  syntax:
+    content: public ModuleBehaviorType BehaviorType { get; }
+    parameters: []
+    return:
+      type: Mewdeko.Common.ModuleBehaviors.ModuleBehaviorType
+    content.vb: Public ReadOnly Property BehaviorType As ModuleBehaviorType
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.BehaviorType*
+  implements:
+  - Mewdeko.Common.ModuleBehaviors.IEarlyBehavior.BehaviorType
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RunBehavior(Discord.WebSocket.DiscordSocketClient,Discord.IGuild,Discord.IUserMessage)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RunBehavior(Discord.WebSocket.DiscordSocketClient,Discord.IGuild,Discord.IUserMessage)
+  id: RunBehavior(Discord.WebSocket.DiscordSocketClient,Discord.IGuild,Discord.IUserMessage)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: RunBehavior(DiscordSocketClient, IGuild, IUserMessage)
+  nameWithType: ChatTriggersService.RunBehavior(DiscordSocketClient, IGuild, IUserMessage)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RunBehavior(Discord.WebSocket.DiscordSocketClient, Discord.IGuild, Discord.IUserMessage)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RunBehavior
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 216
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Executes the behavior associated with the chat triggers in response to a user message.
+  example: []
+  syntax:
+    content: public Task<bool> RunBehavior(DiscordSocketClient socketClient, IGuild guild, IUserMessage msg)
+    parameters:
+    - id: socketClient
+      type: Discord.WebSocket.DiscordSocketClient
+      description: The Discord socket client.
+    - id: guild
+      type: Discord.IGuild
+      description: The guild where the message was sent.
+    - id: msg
+      type: Discord.IUserMessage
+      description: The user message triggering the behavior.
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+      description: A <xref href="System.Threading.Tasks.Task%601" data-throw-if-not-resolved="false"></xref> representing the asynchronous operation, returning <code>true</code> if the behavior is executed successfully, otherwise <code>false</code>.
+    content.vb: Public Function RunBehavior(socketClient As DiscordSocketClient, guild As IGuild, msg As IUserMessage) As Task(Of Boolean)
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RunBehavior*
+  implements:
+  - Mewdeko.Common.ModuleBehaviors.IEarlyBehavior.RunBehavior(Discord.WebSocket.DiscordSocketClient,Discord.IGuild,Discord.IUserMessage)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RunInteractionTrigger(Discord.WebSocket.SocketInteraction,Mewdeko.Database.Models.ChatTriggers,System.Boolean)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RunInteractionTrigger(Discord.WebSocket.SocketInteraction,Mewdeko.Database.Models.ChatTriggers,System.Boolean)
+  id: RunInteractionTrigger(Discord.WebSocket.SocketInteraction,Mewdeko.Database.Models.ChatTriggers,System.Boolean)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: RunInteractionTrigger(SocketInteraction, ChatTriggers, bool)
+  nameWithType: ChatTriggersService.RunInteractionTrigger(SocketInteraction, ChatTriggers, bool)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RunInteractionTrigger(Discord.WebSocket.SocketInteraction, Mewdeko.Database.Models.ChatTriggers, bool)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RunInteractionTrigger
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 378
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Runs an interaction trigger. Thank you to cottagedwelling cat for this. Really.
+  example: []
+  syntax:
+    content: public Task RunInteractionTrigger(SocketInteraction inter, ChatTriggers ct, bool followup = false)
+    parameters:
+    - id: inter
+      type: Discord.WebSocket.SocketInteraction
+      description: The SocketInteraction to process.
+    - id: ct
+      type: Mewdeko.Database.Models.ChatTriggers
+      description: The CTModel representing the chat trigger.
+    - id: followup
+      type: System.Boolean
+      description: A boolean indicating whether the response should be sent as a follow-up message.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function RunInteractionTrigger(inter As SocketInteraction, ct As ChatTriggers, followup As Boolean = False) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RunInteractionTrigger*
+  nameWithType.vb: ChatTriggersService.RunInteractionTrigger(SocketInteraction, ChatTriggers, Boolean)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RunInteractionTrigger(Discord.WebSocket.SocketInteraction, Mewdeko.Database.Models.ChatTriggers, Boolean)
+  name.vb: RunInteractionTrigger(SocketInteraction, ChatTriggers, Boolean)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ExportCrs(System.Nullable{System.UInt64})
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ExportCrs(System.Nullable{System.UInt64})
+  id: ExportCrs(System.Nullable{System.UInt64})
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: ExportCrs(ulong?)
+  nameWithType: ChatTriggersService.ExportCrs(ulong?)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ExportCrs(ulong?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ExportCrs
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 551
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Exports chat triggers data for a specific guild or all guilds.
+  example: []
+  syntax:
+    content: public string ExportCrs(ulong? guildId)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild for which to export chat triggers. If null, exports for all guilds.
+    return:
+      type: System.String
+      description: A string containing the exported chat triggers data.
+    content.vb: Public Function ExportCrs(guildId As ULong?) As String
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ExportCrs*
+  nameWithType.vb: ChatTriggersService.ExportCrs(ULong?)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ExportCrs(ULong?)
+  name.vb: ExportCrs(ULong?)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ImportCrsAsync(Discord.IGuildUser,System.String)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ImportCrsAsync(Discord.IGuildUser,System.String)
+  id: ImportCrsAsync(Discord.IGuildUser,System.String)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: ImportCrsAsync(IGuildUser, string)
+  nameWithType: ChatTriggersService.ImportCrsAsync(IGuildUser, string)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ImportCrsAsync(Discord.IGuildUser, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ImportCrsAsync
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 573
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Imports chat triggers data into the database for a specific user.
+  example: []
+  syntax:
+    content: public Task<bool> ImportCrsAsync(IGuildUser user, string input)
+    parameters:
+    - id: user
+      type: Discord.IGuildUser
+      description: The user initiating the import operation.
+    - id: input
+      type: System.String
+      description: The input string containing the chat triggers data to import.
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+      description: True if the import operation is successful, false otherwise.
+    content.vb: Public Function ImportCrsAsync(user As IGuildUser, input As String) As Task(Of Boolean)
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ImportCrsAsync*
+  nameWithType.vb: ChatTriggersService.ImportCrsAsync(IGuildUser, String)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ImportCrsAsync(Discord.IGuildUser, String)
+  name.vb: ImportCrsAsync(IGuildUser, String)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ResetCrReactions(System.Nullable{System.UInt64},System.Int32)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ResetCrReactions(System.Nullable{System.UInt64},System.Int32)
+  id: ResetCrReactions(System.Nullable{System.UInt64},System.Int32)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: ResetCrReactions(ulong?, int)
+  nameWithType: ChatTriggersService.ResetCrReactions(ulong?, int)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ResetCrReactions(ulong?, int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ResetCrReactions
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 824
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Resets the reactions of a chat trigger to empty string.
+  example: []
+  syntax:
+    content: public Task ResetCrReactions(ulong? maybeGuildId, int id)
+    parameters:
+    - id: maybeGuildId
+      type: System.Nullable{System.UInt64}
+      description: The optional guild ID.
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger to reset reactions.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function ResetCrReactions(maybeGuildId As ULong?, id As Integer) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ResetCrReactions*
+  nameWithType.vb: ChatTriggersService.ResetCrReactions(ULong?, Integer)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ResetCrReactions(ULong?, Integer)
+  name.vb: ResetCrReactions(ULong?, Integer)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrReactions(System.Nullable{System.UInt64},System.Int32,System.Collections.Generic.IEnumerable{System.String})
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrReactions(System.Nullable{System.UInt64},System.Int32,System.Collections.Generic.IEnumerable{System.String})
+  id: SetCrReactions(System.Nullable{System.UInt64},System.Int32,System.Collections.Generic.IEnumerable{System.String})
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: SetCrReactions(ulong?, int, IEnumerable<string>)
+  nameWithType: ChatTriggersService.SetCrReactions(ulong?, int, IEnumerable<string>)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrReactions(ulong?, int, System.Collections.Generic.IEnumerable<string>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetCrReactions
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1007
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Sets reactions for a chat trigger.
+  example: []
+  syntax:
+    content: public Task SetCrReactions(ulong? guildId, int id, IEnumerable<string> emojis)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The guild ID.
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger to set reactions for.
+    - id: emojis
+      type: System.Collections.Generic.IEnumerable{System.String}
+      description: The emojis to set as reactions.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function SetCrReactions(guildId As ULong?, id As Integer, emojis As IEnumerable(Of String)) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrReactions*
+  nameWithType.vb: ChatTriggersService.SetCrReactions(ULong?, Integer, IEnumerable(Of String))
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrReactions(ULong?, Integer, System.Collections.Generic.IEnumerable(Of String))
+  name.vb: SetCrReactions(ULong?, Integer, IEnumerable(Of String))
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleCrOptionAsync(Mewdeko.Database.Models.ChatTriggers,System.Nullable{Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField})
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleCrOptionAsync(Mewdeko.Database.Models.ChatTriggers,System.Nullable{Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField})
+  id: ToggleCrOptionAsync(Mewdeko.Database.Models.ChatTriggers,System.Nullable{Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField})
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: ToggleCrOptionAsync(ChatTriggers?, CtField?)
+  nameWithType: ChatTriggersService.ToggleCrOptionAsync(ChatTriggers?, ChatTriggersService.CtField?)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleCrOptionAsync(Mewdeko.Database.Models.ChatTriggers?, Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ToggleCrOptionAsync
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1036
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Toggles the value of a specified chat trigger option asynchronously.
+  example: []
+  syntax:
+    content: public Task<(bool Success, bool NewValue)> ToggleCrOptionAsync(ChatTriggers? ct, ChatTriggersService.CtField? field)
+    parameters:
+    - id: ct
+      type: Mewdeko.Database.Models.ChatTriggers
+      description: The chat trigger to toggle the option for.
+    - id: field
+      type: System.Nullable{Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField}
+      description: The field representing the option to toggle.
+    return:
+      type: System.Threading.Tasks.Task{System.ValueTuple{System.Boolean,System.Boolean}}
+      description: A tuple indicating the success of the operation and the new value of the option.
+    content.vb: Public Function ToggleCrOptionAsync(ct As ChatTriggers, field As ChatTriggersService.CtField?) As Task(Of (Success As Boolean, NewValue As Boolean))
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleCrOptionAsync*
+  nameWithType.vb: ChatTriggersService.ToggleCrOptionAsync(ChatTriggers, ChatTriggersService.CtField?)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleCrOptionAsync(Mewdeko.Database.Models.ChatTriggers, Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField?)
+  name.vb: ToggleCrOptionAsync(ChatTriggers, CtField?)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetChatTriggers(System.Nullable{System.UInt64},System.Int32)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetChatTriggers(System.Nullable{System.UInt64},System.Int32)
+  id: GetChatTriggers(System.Nullable{System.UInt64},System.Int32)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: GetChatTriggers(ulong?, int)
+  nameWithType: ChatTriggersService.GetChatTriggers(ulong?, int)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetChatTriggers(ulong?, int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetChatTriggers
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1074
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Retrieves a chat trigger by ID and guild ID asynchronously.
+  example: []
+  syntax:
+    content: public Task<ChatTriggers?> GetChatTriggers(ulong? guildId, int id)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild to retrieve the chat trigger for.
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger to retrieve.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Database.Models.ChatTriggers}
+      description: The chat trigger if found, otherwise null.
+    content.vb: Public Function GetChatTriggers(guildId As ULong?, id As Integer) As Task(Of ChatTriggers)
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetChatTriggers*
+  nameWithType.vb: ChatTriggersService.GetChatTriggers(ULong?, Integer)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetChatTriggers(ULong?, Integer)
+  name.vb: GetChatTriggers(ULong?, Integer)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetGuildOrGlobalTriggers(System.Nullable{System.UInt64},System.Int32)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetGuildOrGlobalTriggers(System.Nullable{System.UInt64},System.Int32)
+  id: GetGuildOrGlobalTriggers(System.Nullable{System.UInt64},System.Int32)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: GetGuildOrGlobalTriggers(ulong?, int)
+  nameWithType: ChatTriggersService.GetGuildOrGlobalTriggers(ulong?, int)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetGuildOrGlobalTriggers(ulong?, int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetGuildOrGlobalTriggers
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1090
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Retrieves a chat trigger by ID, considering both guild-specific and global triggers asynchronously.
+  example: []
+  syntax:
+    content: public Task<ChatTriggers?> GetGuildOrGlobalTriggers(ulong? guildId, int id)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild to retrieve the chat trigger for.
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger to retrieve.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Database.Models.ChatTriggers}
+      description: The chat trigger if found, otherwise null.
+    content.vb: Public Function GetGuildOrGlobalTriggers(guildId As ULong?, id As Integer) As Task(Of ChatTriggers)
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetGuildOrGlobalTriggers*
+  nameWithType.vb: ChatTriggersService.GetGuildOrGlobalTriggers(ULong?, Integer)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetGuildOrGlobalTriggers(ULong?, Integer)
+  name.vb: GetGuildOrGlobalTriggers(ULong?, Integer)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.DeleteAllChatTriggers(System.UInt64)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.DeleteAllChatTriggers(System.UInt64)
+  id: DeleteAllChatTriggers(System.UInt64)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: DeleteAllChatTriggers(ulong)
+  nameWithType: ChatTriggersService.DeleteAllChatTriggers(ulong)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.DeleteAllChatTriggers(ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: DeleteAllChatTriggers
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1106
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Deletes all chat triggers associated with a guild and returns the count of deleted triggers.
+  example: []
+  syntax:
+    content: public int DeleteAllChatTriggers(ulong guildId)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The ID of the guild to delete chat triggers from.
+    return:
+      type: System.Int32
+      description: The count of deleted chat triggers.
+    content.vb: Public Function DeleteAllChatTriggers(guildId As ULong) As Integer
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.DeleteAllChatTriggers*
+  nameWithType.vb: ChatTriggersService.DeleteAllChatTriggers(ULong)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.DeleteAllChatTriggers(ULong)
+  name.vb: DeleteAllChatTriggers(ULong)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ReactionExists(System.Nullable{System.UInt64},System.String)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ReactionExists(System.Nullable{System.UInt64},System.String)
+  id: ReactionExists(System.Nullable{System.UInt64},System.String)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: ReactionExists(ulong?, string)
+  nameWithType: ChatTriggersService.ReactionExists(ulong?, string)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ReactionExists(ulong?, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ReactionExists
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1122
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Checks if a reaction exists for a specific guild and input string.
+  example: []
+  syntax:
+    content: public Task<bool> ReactionExists(ulong? guildId, string input)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild to check for the reaction.
+    - id: input
+      type: System.String
+      description: The input string to check for the reaction.
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+      description: True if the reaction exists, otherwise false.
+    content.vb: Public Function ReactionExists(guildId As ULong?, input As String) As Task(Of Boolean)
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ReactionExists*
+  nameWithType.vb: ChatTriggersService.ReactionExists(ULong?, String)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ReactionExists(ULong?, String)
+  name.vb: ReactionExists(ULong?, String)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.OnReadyAsync
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.OnReadyAsync
+  id: OnReadyAsync
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: OnReadyAsync()
+  nameWithType: ChatTriggersService.OnReadyAsync()
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.OnReadyAsync()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OnReadyAsync
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1134
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Handles tasks to be executed when the bot is ready.
+  example: []
+  syntax:
+    content: public Task OnReadyAsync()
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task representing the asynchronous operation.
+    content.vb: Public Function OnReadyAsync() As Task
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.OnReadyAsync*
+  implements:
+  - Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.TriggerReloadChatTriggers
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.TriggerReloadChatTriggers
+  id: TriggerReloadChatTriggers
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: TriggerReloadChatTriggers()
+  nameWithType: ChatTriggersService.TriggerReloadChatTriggers()
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.TriggerReloadChatTriggers()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TriggerReloadChatTriggers
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1208
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Triggers the reloading of chat triggers.
+  example: []
+  syntax:
+    content: public Task TriggerReloadChatTriggers()
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task representing the asynchronous operation.
+    content.vb: Public Function TriggerReloadChatTriggers() As Task
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.TriggerReloadChatTriggers*
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.AddAsync(System.Nullable{System.UInt64},System.String,System.String,System.Boolean)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.AddAsync(System.Nullable{System.UInt64},System.String,System.String,System.Boolean)
+  id: AddAsync(System.Nullable{System.UInt64},System.String,System.String,System.Boolean)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: AddAsync(ulong?, string, string?, bool)
+  nameWithType: ChatTriggersService.AddAsync(ulong?, string, string?, bool)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.AddAsync(ulong?, string, string?, bool)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AddAsync
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1244
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Adds a new chat trigger asynchronously.
+  example: []
+  syntax:
+    content: public Task<ChatTriggers?> AddAsync(ulong? guildId, string key, string? message, bool regex)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild where the trigger should be added.
+    - id: key
+      type: System.String
+      description: The trigger key.
+    - id: message
+      type: System.String
+      description: The trigger message.
+    - id: regex
+      type: System.Boolean
+      description: A boolean indicating whether the trigger uses regex.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Database.Models.ChatTriggers}
+      description: The added chat trigger.
+    content.vb: Public Function AddAsync(guildId As ULong?, key As String, message As String, regex As Boolean) As Task(Of ChatTriggers)
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.AddAsync*
+  nameWithType.vb: ChatTriggersService.AddAsync(ULong?, String, String, Boolean)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.AddAsync(ULong?, String, String, Boolean)
+  name.vb: AddAsync(ULong?, String, String, Boolean)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.EditAsync(System.Nullable{System.UInt64},System.Int32,System.String,System.Nullable{System.Boolean},System.String)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.EditAsync(System.Nullable{System.UInt64},System.Int32,System.String,System.Nullable{System.Boolean},System.String)
+  id: EditAsync(System.Nullable{System.UInt64},System.Int32,System.String,System.Nullable{System.Boolean},System.String)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: EditAsync(ulong?, int, string?, bool?, string?)
+  nameWithType: ChatTriggersService.EditAsync(ulong?, int, string?, bool?, string?)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.EditAsync(ulong?, int, string?, bool?, string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: EditAsync
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1277
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Edits an existing chat trigger asynchronously.
+  example: []
+  syntax:
+    content: public Task<ChatTriggers?> EditAsync(ulong? guildId, int id, string? message, bool? regex, string? trigger = null)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild where the trigger belongs.
+    - id: id
+      type: System.Int32
+      description: The ID of the trigger to edit.
+    - id: message
+      type: System.String
+      description: The new trigger message.
+    - id: regex
+      type: System.Nullable{System.Boolean}
+      description: A boolean indicating whether the trigger uses regex.
+    - id: trigger
+      type: System.String
+      description: The new trigger key.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Database.Models.ChatTriggers}
+      description: The edited chat trigger.
+    content.vb: Public Function EditAsync(guildId As ULong?, id As Integer, message As String, regex As Boolean?, trigger As String = Nothing) As Task(Of ChatTriggers)
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.EditAsync*
+  nameWithType.vb: ChatTriggersService.EditAsync(ULong?, Integer, String, Boolean?, String)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.EditAsync(ULong?, Integer, String, Boolean?, String)
+  name.vb: EditAsync(ULong?, Integer, String, Boolean?, String)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.DeleteAsync(System.Nullable{System.UInt64},System.Int32)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.DeleteAsync(System.Nullable{System.UInt64},System.Int32)
+  id: DeleteAsync(System.Nullable{System.UInt64},System.Int32)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: DeleteAsync(ulong?, int)
+  nameWithType: ChatTriggersService.DeleteAsync(ulong?, int)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.DeleteAsync(ulong?, int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: DeleteAsync
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1314
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Deletes a chat trigger asynchronously.
+  example: []
+  syntax:
+    content: public Task<ChatTriggers?> DeleteAsync(ulong? guildId, int id)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild where the trigger belongs.
+    - id: id
+      type: System.Int32
+      description: The ID of the trigger to delete.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Database.Models.ChatTriggers}
+      description: The deleted chat trigger, or null if not found or not permitted.
+    content.vb: Public Function DeleteAsync(guildId As ULong?, id As Integer) As Task(Of ChatTriggers)
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.DeleteAsync*
+  nameWithType.vb: ChatTriggersService.DeleteAsync(ULong?, Integer)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.DeleteAsync(ULong?, Integer)
+  name.vb: DeleteAsync(ULong?, Integer)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetRoleGrantType(System.Nullable{System.UInt64},System.Int32,Mewdeko.Database.Models.CtRoleGrantType)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetRoleGrantType(System.Nullable{System.UInt64},System.Int32,Mewdeko.Database.Models.CtRoleGrantType)
+  id: SetRoleGrantType(System.Nullable{System.UInt64},System.Int32,Mewdeko.Database.Models.CtRoleGrantType)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: SetRoleGrantType(ulong?, int, CtRoleGrantType)
+  nameWithType: ChatTriggersService.SetRoleGrantType(ulong?, int, CtRoleGrantType)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetRoleGrantType(ulong?, int, Mewdeko.Database.Models.CtRoleGrantType)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetRoleGrantType
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1340
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Sets the role grant type of a chat trigger asynchronously.
+  example: []
+  syntax:
+    content: public Task<ChatTriggers?> SetRoleGrantType(ulong? guildId, int id, CtRoleGrantType type)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild where the trigger belongs.
+    - id: id
+      type: System.Int32
+      description: The ID of the trigger to update.
+    - id: type
+      type: Mewdeko.Database.Models.CtRoleGrantType
+      description: The new role grant type.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Database.Models.ChatTriggers}
+      description: The updated chat trigger, or null if not found or not permitted.
+    content.vb: Public Function SetRoleGrantType(guildId As ULong?, id As Integer, type As CtRoleGrantType) As Task(Of ChatTriggers)
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetRoleGrantType*
+  nameWithType.vb: ChatTriggersService.SetRoleGrantType(ULong?, Integer, CtRoleGrantType)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetRoleGrantType(ULong?, Integer, Mewdeko.Database.Models.CtRoleGrantType)
+  name.vb: SetRoleGrantType(ULong?, Integer, CtRoleGrantType)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionType(System.Nullable{System.UInt64},System.Int32,Mewdeko.Database.Models.CtApplicationCommandType)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionType(System.Nullable{System.UInt64},System.Int32,Mewdeko.Database.Models.CtApplicationCommandType)
+  id: SetInteractionType(System.Nullable{System.UInt64},System.Int32,Mewdeko.Database.Models.CtApplicationCommandType)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: SetInteractionType(ulong?, int, CtApplicationCommandType)
+  nameWithType: ChatTriggersService.SetInteractionType(ulong?, int, CtApplicationCommandType)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionType(ulong?, int, Mewdeko.Database.Models.CtApplicationCommandType)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetInteractionType
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1362
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Sets the interaction type of a chat trigger asynchronously.
+  example: []
+  syntax:
+    content: public Task<ChatTriggers?> SetInteractionType(ulong? guildId, int id, CtApplicationCommandType type)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild where the trigger belongs.
+    - id: id
+      type: System.Int32
+      description: The ID of the trigger to update.
+    - id: type
+      type: Mewdeko.Database.Models.CtApplicationCommandType
+      description: The new interaction type.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Database.Models.ChatTriggers}
+      description: The updated chat trigger, or null if not found or not permitted.
+    content.vb: Public Function SetInteractionType(guildId As ULong?, id As Integer, type As CtApplicationCommandType) As Task(Of ChatTriggers)
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionType*
+  nameWithType.vb: ChatTriggersService.SetInteractionType(ULong?, Integer, CtApplicationCommandType)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionType(ULong?, Integer, Mewdeko.Database.Models.CtApplicationCommandType)
+  name.vb: SetInteractionType(ULong?, Integer, CtApplicationCommandType)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionName(System.Nullable{System.UInt64},System.Int32,System.String)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionName(System.Nullable{System.UInt64},System.Int32,System.String)
+  id: SetInteractionName(System.Nullable{System.UInt64},System.Int32,System.String)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: SetInteractionName(ulong?, int, string)
+  nameWithType: ChatTriggersService.SetInteractionName(ulong?, int, string)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionName(ulong?, int, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetInteractionName
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1384
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Sets the interaction name of a chat trigger asynchronously.
+  example: []
+  syntax:
+    content: public Task<ChatTriggers?> SetInteractionName(ulong? guildId, int id, string name)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild where the trigger belongs.
+    - id: id
+      type: System.Int32
+      description: The ID of the trigger to update.
+    - id: name
+      type: System.String
+      description: The new interaction name.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Database.Models.ChatTriggers}
+      description: The updated chat trigger, or null if not found or not permitted.
+    content.vb: Public Function SetInteractionName(guildId As ULong?, id As Integer, name As String) As Task(Of ChatTriggers)
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionName*
+  nameWithType.vb: ChatTriggersService.SetInteractionName(ULong?, Integer, String)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionName(ULong?, Integer, String)
+  name.vb: SetInteractionName(ULong?, Integer, String)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionDescription(System.Nullable{System.UInt64},System.Int32,System.String)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionDescription(System.Nullable{System.UInt64},System.Int32,System.String)
+  id: SetInteractionDescription(System.Nullable{System.UInt64},System.Int32,System.String)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: SetInteractionDescription(ulong?, int, string)
+  nameWithType: ChatTriggersService.SetInteractionDescription(ulong?, int, string)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionDescription(ulong?, int, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetInteractionDescription
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1407
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Sets the interaction description of a chat trigger asynchronously.
+  example: []
+  syntax:
+    content: public Task<ChatTriggers?> SetInteractionDescription(ulong? guildId, int id, string description)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild where the trigger belongs.
+    - id: id
+      type: System.Int32
+      description: The ID of the trigger to update.
+    - id: description
+      type: System.String
+      description: The new interaction description.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Database.Models.ChatTriggers}
+      description: The updated chat trigger, or null if not found or not permitted.
+    content.vb: Public Function SetInteractionDescription(guildId As ULong?, id As Integer, description As String) As Task(Of ChatTriggers)
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionDescription*
+  nameWithType.vb: ChatTriggersService.SetInteractionDescription(ULong?, Integer, String)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionDescription(ULong?, Integer, String)
+  name.vb: SetInteractionDescription(ULong?, Integer, String)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionEphemeral(System.Nullable{System.UInt64},System.Int32,System.Boolean)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionEphemeral(System.Nullable{System.UInt64},System.Int32,System.Boolean)
+  id: SetInteractionEphemeral(System.Nullable{System.UInt64},System.Int32,System.Boolean)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: SetInteractionEphemeral(ulong?, int, bool)
+  nameWithType: ChatTriggersService.SetInteractionEphemeral(ulong?, int, bool)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionEphemeral(ulong?, int, bool)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetInteractionEphemeral
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1429
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Sets the ephemeral response property of a chat trigger asynchronously.
+  example: []
+  syntax:
+    content: public Task<ChatTriggers?> SetInteractionEphemeral(ulong? guildId, int id, bool ephemeral)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild where the trigger belongs.
+    - id: id
+      type: System.Int32
+      description: The ID of the trigger to update.
+    - id: ephemeral
+      type: System.Boolean
+      description: The value indicating whether the response should be ephemeral.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Database.Models.ChatTriggers}
+      description: The updated chat trigger, or null if not found or not permitted.
+    content.vb: Public Function SetInteractionEphemeral(guildId As ULong?, id As Integer, ephemeral As Boolean) As Task(Of ChatTriggers)
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionEphemeral*
+  nameWithType.vb: ChatTriggersService.SetInteractionEphemeral(ULong?, Integer, Boolean)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionEphemeral(ULong?, Integer, Boolean)
+  name.vb: SetInteractionEphemeral(ULong?, Integer, Boolean)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetPrefixType(System.Nullable{System.UInt64},System.Int32,Mewdeko.Database.Models.RequirePrefixType)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetPrefixType(System.Nullable{System.UInt64},System.Int32,Mewdeko.Database.Models.RequirePrefixType)
+  id: SetPrefixType(System.Nullable{System.UInt64},System.Int32,Mewdeko.Database.Models.RequirePrefixType)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: SetPrefixType(ulong?, int, RequirePrefixType)
+  nameWithType: ChatTriggersService.SetPrefixType(ulong?, int, RequirePrefixType)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetPrefixType(ulong?, int, Mewdeko.Database.Models.RequirePrefixType)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetPrefixType
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1451
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Sets the prefix type of a chat trigger asynchronously.
+  example: []
+  syntax:
+    content: public Task<ChatTriggers?> SetPrefixType(ulong? guildId, int id, RequirePrefixType type)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild where the trigger belongs.
+    - id: id
+      type: System.Int32
+      description: The ID of the trigger to update.
+    - id: type
+      type: Mewdeko.Database.Models.RequirePrefixType
+      description: The new prefix type.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Database.Models.ChatTriggers}
+      description: The updated chat trigger, or null if not found or not permitted.
+    content.vb: Public Function SetPrefixType(guildId As ULong?, id As Integer, type As RequirePrefixType) As Task(Of ChatTriggers)
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetPrefixType*
+  nameWithType.vb: ChatTriggersService.SetPrefixType(ULong?, Integer, RequirePrefixType)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetPrefixType(ULong?, Integer, Mewdeko.Database.Models.RequirePrefixType)
+  name.vb: SetPrefixType(ULong?, Integer, RequirePrefixType)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetPrefix(System.Nullable{System.UInt64},System.Int32,System.String)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetPrefix(System.Nullable{System.UInt64},System.Int32,System.String)
+  id: SetPrefix(System.Nullable{System.UInt64},System.Int32,System.String)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: SetPrefix(ulong?, int, string)
+  nameWithType: ChatTriggersService.SetPrefix(ulong?, int, string)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetPrefix(ulong?, int, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetPrefix
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1473
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Sets the custom prefix of a chat trigger asynchronously.
+  example: []
+  syntax:
+    content: public Task<ChatTriggers?> SetPrefix(ulong? guildId, int id, string name)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild where the trigger belongs.
+    - id: id
+      type: System.Int32
+      description: The ID of the trigger to update.
+    - id: name
+      type: System.String
+      description: The new custom prefix.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Database.Models.ChatTriggers}
+      description: The updated chat trigger, or null if not found or not permitted.
+    content.vb: Public Function SetPrefix(guildId As ULong?, id As Integer, name As String) As Task(Of ChatTriggers)
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetPrefix*
+  nameWithType.vb: ChatTriggersService.SetPrefix(ULong?, Integer, String)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetPrefix(ULong?, Integer, String)
+  name.vb: SetPrefix(ULong?, Integer, String)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrosspostingWebhookUrl(System.Nullable{System.UInt64},System.Int32,System.String,System.Boolean)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrosspostingWebhookUrl(System.Nullable{System.UInt64},System.Int32,System.String,System.Boolean)
+  id: SetCrosspostingWebhookUrl(System.Nullable{System.UInt64},System.Int32,System.String,System.Boolean)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: SetCrosspostingWebhookUrl(ulong?, int, string, bool)
+  nameWithType: ChatTriggersService.SetCrosspostingWebhookUrl(ulong?, int, string, bool)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrosspostingWebhookUrl(ulong?, int, string, bool)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetCrosspostingWebhookUrl
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1498
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Sets the crossposting webhook URL and channel ID of a chat trigger asynchronously.
+  example: []
+  syntax:
+    content: public Task<(ChatTriggers? Trigger, bool Valid)> SetCrosspostingWebhookUrl(ulong? guildId, int id, string webhookUrl, bool bypassTest = false)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild where the trigger belongs.
+    - id: id
+      type: System.Int32
+      description: The ID of the trigger to update.
+    - id: webhookUrl
+      type: System.String
+      description: The new webhook URL to set.
+    - id: bypassTest
+      type: System.Boolean
+      description: Indicates whether to bypass the test of the webhook.
+    return:
+      type: System.Threading.Tasks.Task{System.ValueTuple{Mewdeko.Database.Models.ChatTriggers,System.Boolean}}
+      description: A tuple containing the updated chat trigger (or null if not found or not permitted) and a boolean indicating if the operation was successful.
+    content.vb: Public Function SetCrosspostingWebhookUrl(guildId As ULong?, id As Integer, webhookUrl As String, bypassTest As Boolean = False) As Task(Of (Trigger As ChatTriggers, Valid As Boolean))
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrosspostingWebhookUrl*
+  nameWithType.vb: ChatTriggersService.SetCrosspostingWebhookUrl(ULong?, Integer, String, Boolean)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrosspostingWebhookUrl(ULong?, Integer, String, Boolean)
+  name.vb: SetCrosspostingWebhookUrl(ULong?, Integer, String, Boolean)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrosspostingChannelId(System.Nullable{System.UInt64},System.Int32,System.UInt64)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrosspostingChannelId(System.Nullable{System.UInt64},System.Int32,System.UInt64)
+  id: SetCrosspostingChannelId(System.Nullable{System.UInt64},System.Int32,System.UInt64)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: SetCrosspostingChannelId(ulong?, int, ulong)
+  nameWithType: ChatTriggersService.SetCrosspostingChannelId(ulong?, int, ulong)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrosspostingChannelId(ulong?, int, ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetCrosspostingChannelId
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1539
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Sets the channel ID for crossposting of a chat trigger asynchronously.
+  example: []
+  syntax:
+    content: public Task<ChatTriggers?> SetCrosspostingChannelId(ulong? guildId, int id, ulong channelId)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild where the trigger belongs.
+    - id: id
+      type: System.Int32
+      description: The ID of the trigger to update.
+    - id: channelId
+      type: System.UInt64
+      description: The ID of the channel where crossposting will occur.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Database.Models.ChatTriggers}
+      description: The updated chat trigger, or null if not found or not permitted.
+    content.vb: Public Function SetCrosspostingChannelId(guildId As ULong?, id As Integer, channelId As ULong) As Task(Of ChatTriggers)
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrosspostingChannelId*
+  nameWithType.vb: ChatTriggersService.SetCrosspostingChannelId(ULong?, Integer, ULong)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrosspostingChannelId(ULong?, Integer, ULong)
+  name.vb: SetCrosspostingChannelId(ULong?, Integer, ULong)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetValidTriggerType(System.Nullable{System.UInt64},System.Int32,Mewdeko.Database.Models.ChatTriggerType,System.Boolean)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetValidTriggerType(System.Nullable{System.UInt64},System.Int32,Mewdeko.Database.Models.ChatTriggerType,System.Boolean)
+  id: SetValidTriggerType(System.Nullable{System.UInt64},System.Int32,Mewdeko.Database.Models.ChatTriggerType,System.Boolean)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: SetValidTriggerType(ulong?, int, ChatTriggerType, bool)
+  nameWithType: ChatTriggersService.SetValidTriggerType(ulong?, int, ChatTriggerType, bool)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetValidTriggerType(ulong?, int, Mewdeko.Database.Models.ChatTriggerType, bool)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetValidTriggerType
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1563
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Sets the validity of a trigger type for a chat trigger asynchronously.
+  example: []
+  syntax:
+    content: public Task<ChatTriggers?> SetValidTriggerType(ulong? guildId, int id, ChatTriggerType type, bool enabled)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild where the trigger belongs.
+    - id: id
+      type: System.Int32
+      description: The ID of the trigger to update.
+    - id: type
+      type: Mewdeko.Database.Models.ChatTriggerType
+      description: The type of trigger.
+    - id: enabled
+      type: System.Boolean
+      description: Whether the trigger type is enabled or disabled.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Database.Models.ChatTriggers}
+      description: The updated chat trigger, or null if not found or not permitted.
+    content.vb: Public Function SetValidTriggerType(guildId As ULong?, id As Integer, type As ChatTriggerType, enabled As Boolean) As Task(Of ChatTriggers)
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetValidTriggerType*
+  nameWithType.vb: ChatTriggersService.SetValidTriggerType(ULong?, Integer, ChatTriggerType, Boolean)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetValidTriggerType(ULong?, Integer, Mewdeko.Database.Models.ChatTriggerType, Boolean)
+  name.vb: SetValidTriggerType(ULong?, Integer, ChatTriggerType, Boolean)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetChatTriggersFor(System.Nullable{System.UInt64})
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetChatTriggersFor(System.Nullable{System.UInt64})
+  id: GetChatTriggersFor(System.Nullable{System.UInt64})
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: GetChatTriggersFor(ulong?)
+  nameWithType: ChatTriggersService.GetChatTriggersFor(ulong?)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetChatTriggersFor(ulong?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetChatTriggersFor
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1592
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Retrieves chat triggers for a specified guild asynchronously.
+  example: []
+  syntax:
+    content: public ChatTriggers[] GetChatTriggersFor(ulong? maybeGuildId)
+    parameters:
+    - id: maybeGuildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild to retrieve triggers for.
+    return:
+      type: Mewdeko.Database.Models.ChatTriggers[]
+      description: An array of chat triggers for the specified guild.
+    content.vb: Public Function GetChatTriggersFor(maybeGuildId As ULong?) As ChatTriggers()
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetChatTriggersFor*
+  nameWithType.vb: ChatTriggersService.GetChatTriggersFor(ULong?)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetChatTriggersFor(ULong?)
+  name.vb: GetChatTriggersFor(ULong?)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleGrantedRole(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleGrantedRole(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+  id: ToggleGrantedRole(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: ToggleGrantedRole(ChatTriggers, ulong)
+  nameWithType: ChatTriggersService.ToggleGrantedRole(ChatTriggers, ulong)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleGrantedRole(Mewdeko.Database.Models.ChatTriggers, ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ToggleGrantedRole
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1615
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Toggles the granted role for a chat trigger asynchronously.
+  example: []
+  syntax:
+    content: public Task ToggleGrantedRole(ChatTriggers ct, ulong rId)
+    parameters:
+    - id: ct
+      type: Mewdeko.Database.Models.ChatTriggers
+      description: The chat trigger to update.
+    - id: rId
+      type: System.UInt64
+      description: The ID of the role to toggle.
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task representing the asynchronous operation.
+    content.vb: Public Function ToggleGrantedRole(ct As ChatTriggers, rId As ULong) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleGrantedRole*
+  nameWithType.vb: ChatTriggersService.ToggleGrantedRole(ChatTriggers, ULong)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleGrantedRole(Mewdeko.Database.Models.ChatTriggers, ULong)
+  name.vb: ToggleGrantedRole(ChatTriggers, ULong)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleRemovedRole(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleRemovedRole(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+  id: ToggleRemovedRole(Mewdeko.Database.Models.ChatTriggers,System.UInt64)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: ToggleRemovedRole(ChatTriggers, ulong)
+  nameWithType: ChatTriggersService.ToggleRemovedRole(ChatTriggers, ulong)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleRemovedRole(Mewdeko.Database.Models.ChatTriggers, ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ToggleRemovedRole
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1637
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Toggles the removed role for a chat trigger asynchronously.
+  example: []
+  syntax:
+    content: public Task ToggleRemovedRole(ChatTriggers ct, ulong rId)
+    parameters:
+    - id: ct
+      type: Mewdeko.Database.Models.ChatTriggers
+      description: The chat trigger to update.
+    - id: rId
+      type: System.UInt64
+      description: The ID of the role to toggle.
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task representing the asynchronous operation.
+    content.vb: Public Function ToggleRemovedRole(ct As ChatTriggers, rId As ULong) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleRemovedRole*
+  nameWithType.vb: ChatTriggersService.ToggleRemovedRole(ChatTriggers, ULong)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleRemovedRole(Mewdeko.Database.Models.ChatTriggers, ULong)
+  name.vb: ToggleRemovedRole(ChatTriggers, ULong)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetEmbed(Mewdeko.Database.Models.ChatTriggers,System.Nullable{System.UInt64},System.String)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetEmbed(Mewdeko.Database.Models.ChatTriggers,System.Nullable{System.UInt64},System.String)
+  id: GetEmbed(Mewdeko.Database.Models.ChatTriggers,System.Nullable{System.UInt64},System.String)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: GetEmbed(ChatTriggers, ulong?, string?)
+  nameWithType: ChatTriggersService.GetEmbed(ChatTriggers, ulong?, string?)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetEmbed(Mewdeko.Database.Models.ChatTriggers, ulong?, string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetEmbed
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1660
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Retrieves an embed builder containing information about a chat trigger.
+  example: []
+  syntax:
+    content: public EmbedBuilder GetEmbed(ChatTriggers ct, ulong? gId = null, string? title = null)
+    parameters:
+    - id: ct
+      type: Mewdeko.Database.Models.ChatTriggers
+      description: The chat trigger.
+    - id: gId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild.
+    - id: title
+      type: System.String
+      description: The title for the embed.
+    return:
+      type: Discord.EmbedBuilder
+      description: An embed builder containing information about the chat trigger.
+    content.vb: Public Function GetEmbed(ct As ChatTriggers, gId As ULong? = Nothing, title As String = Nothing) As EmbedBuilder
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetEmbed*
+  nameWithType.vb: ChatTriggersService.GetEmbed(ChatTriggers, ULong?, String)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetEmbed(Mewdeko.Database.Models.ChatTriggers, ULong?, String)
+  name.vb: GetEmbed(ChatTriggers, ULong?, String)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetApplicationCommandProperties(System.UInt64)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetApplicationCommandProperties(System.UInt64)
+  id: GetApplicationCommandProperties(System.UInt64)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: GetApplicationCommandProperties(ulong)
+  nameWithType: ChatTriggersService.GetApplicationCommandProperties(ulong)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetApplicationCommandProperties(ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetApplicationCommandProperties
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1728
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Gets the application command properties for a guild.
+  example: []
+  syntax:
+    content: public List<ApplicationCommandProperties> GetApplicationCommandProperties(ulong guildId)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The ID of the guild.
+    return:
+      type: System.Collections.Generic.List{Discord.ApplicationCommandProperties}
+      description: A list of application command properties.
+    content.vb: Public Function GetApplicationCommandProperties(guildId As ULong) As List(Of ApplicationCommandProperties)
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetApplicationCommandProperties*
+  nameWithType.vb: ChatTriggersService.GetApplicationCommandProperties(ULong)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetApplicationCommandProperties(ULong)
+  name.vb: GetApplicationCommandProperties(ULong)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.TryGetApplicationCommandProperties(System.UInt64,System.Collections.Generic.List{Discord.ApplicationCommandProperties}@)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.TryGetApplicationCommandProperties(System.UInt64,System.Collections.Generic.List{Discord.ApplicationCommandProperties}@)
+  id: TryGetApplicationCommandProperties(System.UInt64,System.Collections.Generic.List{Discord.ApplicationCommandProperties}@)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: TryGetApplicationCommandProperties(ulong, out List<ApplicationCommandProperties>?)
+  nameWithType: ChatTriggersService.TryGetApplicationCommandProperties(ulong, out List<ApplicationCommandProperties>?)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.TryGetApplicationCommandProperties(ulong, out System.Collections.Generic.List<Discord.ApplicationCommandProperties>?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TryGetApplicationCommandProperties
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1836
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Tries to retrieve the application command properties for a guild.
+  example: []
+  syntax:
+    content: public bool TryGetApplicationCommandProperties(ulong guildId, out List<ApplicationCommandProperties>? props)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The ID of the guild.
+    - id: props
+      type: System.Collections.Generic.List{Discord.ApplicationCommandProperties}
+      description: When this method returns, contains the application command properties for the guild, if they exist; otherwise, null.
+    return:
+      type: System.Boolean
+      description: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the application command properties were successfully retrieved; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
+    content.vb: Public Function TryGetApplicationCommandProperties(guildId As ULong, props As List(Of ApplicationCommandProperties)) As Boolean
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.TryGetApplicationCommandProperties*
+  nameWithType.vb: ChatTriggersService.TryGetApplicationCommandProperties(ULong, List(Of ApplicationCommandProperties))
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.TryGetApplicationCommandProperties(ULong, System.Collections.Generic.List(Of Discord.ApplicationCommandProperties))
+  name.vb: TryGetApplicationCommandProperties(ULong, List(Of ApplicationCommandProperties))
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RegisterTriggersToGuildAsync(Discord.IGuild)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RegisterTriggersToGuildAsync(Discord.IGuild)
+  id: RegisterTriggersToGuildAsync(Discord.IGuild)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: RegisterTriggersToGuildAsync(IGuild)
+  nameWithType: ChatTriggersService.RegisterTriggersToGuildAsync(IGuild)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RegisterTriggersToGuildAsync(Discord.IGuild)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RegisterTriggersToGuildAsync
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1855
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Registers chat triggers as application commands to a guild asynchronously.
+  example: []
+  syntax:
+    content: public Task RegisterTriggersToGuildAsync(IGuild guild)
+    parameters:
+    - id: guild
+      type: Discord.IGuild
+      description: The guild to register the chat triggers to.
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task representing the asynchronous operation.
+    content.vb: Public Function RegisterTriggersToGuildAsync(guild As IGuild) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RegisterTriggersToGuildAsync*
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ValidCommandRegex
+  commentId: F:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ValidCommandRegex
+  id: ValidCommandRegex
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: ValidCommandRegex
+  nameWithType: ChatTriggersService.ValidCommandRegex
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ValidCommandRegex
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ValidCommandRegex
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1884
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: A regex pattern to validate command names.
+  example: []
+  syntax:
+    content: public static readonly Regex ValidCommandRegex
+    return:
+      type: System.Text.RegularExpressions.Regex
+    content.vb: Public Shared ReadOnly ValidCommandRegex As Regex
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.IsValidName(Mewdeko.Database.Models.CtApplicationCommandType,System.String)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.IsValidName(Mewdeko.Database.Models.CtApplicationCommandType,System.String)
+  id: IsValidName(Mewdeko.Database.Models.CtApplicationCommandType,System.String)
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: IsValidName(CtApplicationCommandType, string)
+  nameWithType: ChatTriggersService.IsValidName(CtApplicationCommandType, string)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.IsValidName(Mewdeko.Database.Models.CtApplicationCommandType, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IsValidName
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1892
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Checks whether a given command name is valid for the specified application command type.
+  example: []
+  syntax:
+    content: public static bool IsValidName(CtApplicationCommandType type, string name)
+    parameters:
+    - id: type
+      type: Mewdeko.Database.Models.CtApplicationCommandType
+      description: The type of the application command.
+    - id: name
+      type: System.String
+      description: The name of the command.
+    return:
+      type: System.Boolean
+      description: <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if the command name is valid; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
+    content.vb: Public Shared Function IsValidName(type As CtApplicationCommandType, name As String) As Boolean
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.IsValidName*
+  nameWithType.vb: ChatTriggersService.IsValidName(CtApplicationCommandType, String)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.IsValidName(Mewdeko.Database.Models.CtApplicationCommandType, String)
+  name.vb: IsValidName(CtApplicationCommandType, String)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetAcctErrors(System.Nullable{System.UInt64})
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetAcctErrors(System.Nullable{System.UInt64})
+  id: GetAcctErrors(System.Nullable{System.UInt64})
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: GetAcctErrors(ulong?)
+  nameWithType: ChatTriggersService.GetAcctErrors(ulong?)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetAcctErrors(ulong?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetAcctErrors
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1905
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Gets a list of errors related to chat trigger interactions.
+  example: []
+  syntax:
+    content: public List<ChatTriggersInteractionError>? GetAcctErrors(ulong? guildId)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild.
+    return:
+      type: System.Collections.Generic.List{Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError}
+      description: A list of errors related to chat trigger interactions, if any; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>.
+    content.vb: Public Function GetAcctErrors(guildId As ULong?) As List(Of ChatTriggersInteractionError)
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetAcctErrors*
+  nameWithType.vb: ChatTriggersService.GetAcctErrors(ULong?)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetAcctErrors(ULong?)
+  name.vb: GetAcctErrors(ULong?)
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetAcctErrors(System.Collections.Generic.IEnumerable{Mewdeko.Database.Models.ChatTriggers})
+  commentId: M:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetAcctErrors(System.Collections.Generic.IEnumerable{Mewdeko.Database.Models.ChatTriggers})
+  id: GetAcctErrors(System.Collections.Generic.IEnumerable{Mewdeko.Database.Models.ChatTriggers})
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  langs:
+  - csharp
+  - vb
+  name: GetAcctErrors(IEnumerable<ChatTriggers>)
+  nameWithType: ChatTriggersService.GetAcctErrors(IEnumerable<ChatTriggers>)
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetAcctErrors(System.Collections.Generic.IEnumerable<Mewdeko.Database.Models.ChatTriggers>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetAcctErrors
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 1916
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Gets a list of errors related to chat trigger interactions based on the provided triggers.
+  example: []
+  syntax:
+    content: public static List<ChatTriggersInteractionError>? GetAcctErrors(IEnumerable<ChatTriggers> triggers)
+    parameters:
+    - id: triggers
+      type: System.Collections.Generic.IEnumerable{Mewdeko.Database.Models.ChatTriggers}
+      description: The collection of chat triggers to analyze.
+    return:
+      type: System.Collections.Generic.List{Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError}
+      description: A list of errors related to chat trigger interactions, if any; otherwise, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>.
+    content.vb: Public Shared Function GetAcctErrors(triggers As IEnumerable(Of ChatTriggers)) As List(Of ChatTriggersInteractionError)
+  overload: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetAcctErrors*
+  nameWithType.vb: ChatTriggersService.GetAcctErrors(IEnumerable(Of ChatTriggers))
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetAcctErrors(System.Collections.Generic.IEnumerable(Of Mewdeko.Database.Models.ChatTriggers))
+  name.vb: GetAcctErrors(IEnumerable(Of ChatTriggers))
+references:
+- uid: Mewdeko.Modules.Chat_Triggers.Services
+  commentId: N:Mewdeko.Modules.Chat_Triggers.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Chat_Triggers.Services
+  nameWithType: Mewdeko.Modules.Chat_Triggers.Services
+  fullName: Mewdeko.Modules.Chat_Triggers.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers
+    name: Chat_Triggers
+    href: Mewdeko.Modules.Chat_Triggers.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers.Services
+    name: Services
+    href: Mewdeko.Modules.Chat_Triggers.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers
+    name: Chat_Triggers
+    href: Mewdeko.Modules.Chat_Triggers.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers.Services
+    name: Services
+    href: Mewdeko.Modules.Chat_Triggers.Services.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior
+  commentId: T:Mewdeko.Common.ModuleBehaviors.IEarlyBehavior
+  parent: Mewdeko.Common.ModuleBehaviors
+  href: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior.html
+  name: IEarlyBehavior
+  nameWithType: IEarlyBehavior
+  fullName: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior
+- uid: Mewdeko.Services.INService
+  commentId: T:Mewdeko.Services.INService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.INService.html
+  name: INService
+  nameWithType: INService
+  fullName: Mewdeko.Services.INService
+- uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  commentId: T:Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  parent: Mewdeko.Common.ModuleBehaviors
+  href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html
+  name: IReadyExecutor
+  nameWithType: IReadyExecutor
+  fullName: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<ChatTriggersService>(ChatTriggersService, string)
+  nameWithType: Extensions.ThrowIfNull<ChatTriggersService>(ChatTriggersService, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService>(Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of ChatTriggersService)(ChatTriggersService, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService)(Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService, String)
+  name.vb: ThrowIfNull(Of ChatTriggersService)(ChatTriggersService, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+    name: ChatTriggersService
+    href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+    name: ChatTriggersService
+    href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+    name: ChatTriggersService
+    href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+    name: ChatTriggersService
+    href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Common.ModuleBehaviors
+  commentId: N:Mewdeko.Common.ModuleBehaviors
+  href: Mewdeko.html
+  name: Mewdeko.Common.ModuleBehaviors
+  nameWithType: Mewdeko.Common.ModuleBehaviors
+  fullName: Mewdeko.Common.ModuleBehaviors
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.ModuleBehaviors
+    name: ModuleBehaviors
+    href: Mewdeko.Common.ModuleBehaviors.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.ModuleBehaviors
+    name: ModuleBehaviors
+    href: Mewdeko.Common.ModuleBehaviors.html
+- uid: Mewdeko.Services
+  commentId: N:Mewdeko.Services
+  href: Mewdeko.html
+  name: Mewdeko.Services
+  nameWithType: Mewdeko.Services
+  fullName: Mewdeko.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  commentId: T:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+  parent: Mewdeko.Modules.Chat_Triggers.Services
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html
+  name: ChatTriggersService
+  nameWithType: ChatTriggersService
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.#ctor*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.#ctor
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService__ctor_Mewdeko_Modules_Permissions_Services_PermissionService_Mewdeko_Database_DbService_Mewdeko_Services_strings_IBotStrings_Mewdeko_Mewdeko_Discord_WebSocket_DiscordSocketClient_Mewdeko_Modules_Permissions_Services_GlobalPermissionService_Mewdeko_Modules_Permissions_Services_CmdCdService_Mewdeko_Common_PubSub_IPubSub_Mewdeko_Modules_Administration_Services_DiscordPermOverrideService_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_Settings_BotConfigService_Mewdeko_Services_IBotCredentials_
+  name: ChatTriggersService
+  nameWithType: ChatTriggersService.ChatTriggersService
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ChatTriggersService
+  nameWithType.vb: ChatTriggersService.New
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.New
+  name.vb: New
+- uid: Mewdeko.Modules.Permissions.Services.PermissionService
+  commentId: T:Mewdeko.Modules.Permissions.Services.PermissionService
+  parent: Mewdeko.Modules.Permissions.Services
+  href: Mewdeko.Modules.Permissions.Services.PermissionService.html
+  name: PermissionService
+  nameWithType: PermissionService
+  fullName: Mewdeko.Modules.Permissions.Services.PermissionService
+- uid: Mewdeko.Database.DbService
+  commentId: T:Mewdeko.Database.DbService
+  parent: Mewdeko.Database
+  href: Mewdeko.Database.DbService.html
+  name: DbService
+  nameWithType: DbService
+  fullName: Mewdeko.Database.DbService
+- uid: Mewdeko.Services.strings.IBotStrings
+  commentId: T:Mewdeko.Services.strings.IBotStrings
+  parent: Mewdeko.Services.strings
+  href: Mewdeko.Services.strings.IBotStrings.html
+  name: IBotStrings
+  nameWithType: IBotStrings
+  fullName: Mewdeko.Services.strings.IBotStrings
+- uid: Mewdeko.Mewdeko
+  commentId: T:Mewdeko.Mewdeko
+  parent: Mewdeko
+  href: Mewdeko.Mewdeko.html
+  name: Mewdeko
+  nameWithType: Mewdeko
+  fullName: Mewdeko.Mewdeko
+- uid: Discord.WebSocket.DiscordSocketClient
+  commentId: T:Discord.WebSocket.DiscordSocketClient
+  parent: Discord.WebSocket
+  isExternal: true
+  name: DiscordSocketClient
+  nameWithType: DiscordSocketClient
+  fullName: Discord.WebSocket.DiscordSocketClient
+- uid: Mewdeko.Modules.Permissions.Services.GlobalPermissionService
+  commentId: T:Mewdeko.Modules.Permissions.Services.GlobalPermissionService
+  parent: Mewdeko.Modules.Permissions.Services
+  href: Mewdeko.Modules.Permissions.Services.GlobalPermissionService.html
+  name: GlobalPermissionService
+  nameWithType: GlobalPermissionService
+  fullName: Mewdeko.Modules.Permissions.Services.GlobalPermissionService
+- uid: Mewdeko.Modules.Permissions.Services.CmdCdService
+  commentId: T:Mewdeko.Modules.Permissions.Services.CmdCdService
+  parent: Mewdeko.Modules.Permissions.Services
+  href: Mewdeko.Modules.Permissions.Services.CmdCdService.html
+  name: CmdCdService
+  nameWithType: CmdCdService
+  fullName: Mewdeko.Modules.Permissions.Services.CmdCdService
+- uid: Mewdeko.Common.PubSub.IPubSub
+  commentId: T:Mewdeko.Common.PubSub.IPubSub
+  parent: Mewdeko.Common.PubSub
+  href: Mewdeko.Common.PubSub.IPubSub.html
+  name: IPubSub
+  nameWithType: IPubSub
+  fullName: Mewdeko.Common.PubSub.IPubSub
+- uid: Mewdeko.Modules.Administration.Services.DiscordPermOverrideService
+  commentId: T:Mewdeko.Modules.Administration.Services.DiscordPermOverrideService
+  parent: Mewdeko.Modules.Administration.Services
+  href: Mewdeko.Modules.Administration.Services.DiscordPermOverrideService.html
+  name: DiscordPermOverrideService
+  nameWithType: DiscordPermOverrideService
+  fullName: Mewdeko.Modules.Administration.Services.DiscordPermOverrideService
+- uid: Mewdeko.Services.GuildSettingsService
+  commentId: T:Mewdeko.Services.GuildSettingsService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.GuildSettingsService.html
+  name: GuildSettingsService
+  nameWithType: GuildSettingsService
+  fullName: Mewdeko.Services.GuildSettingsService
+- uid: Mewdeko.Services.Settings.BotConfigService
+  commentId: T:Mewdeko.Services.Settings.BotConfigService
+  parent: Mewdeko.Services.Settings
+  href: Mewdeko.Services.Settings.BotConfigService.html
+  name: BotConfigService
+  nameWithType: BotConfigService
+  fullName: Mewdeko.Services.Settings.BotConfigService
+- uid: Mewdeko.Services.IBotCredentials
+  commentId: T:Mewdeko.Services.IBotCredentials
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.IBotCredentials.html
+  name: IBotCredentials
+  nameWithType: IBotCredentials
+  fullName: Mewdeko.Services.IBotCredentials
+- uid: Mewdeko.Modules.Permissions.Services
+  commentId: N:Mewdeko.Modules.Permissions.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Permissions.Services
+  nameWithType: Mewdeko.Modules.Permissions.Services
+  fullName: Mewdeko.Modules.Permissions.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.Services
+    name: Services
+    href: Mewdeko.Modules.Permissions.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.Services
+    name: Services
+    href: Mewdeko.Modules.Permissions.Services.html
+- uid: Mewdeko.Database
+  commentId: N:Mewdeko.Database
+  href: Mewdeko.html
+  name: Mewdeko.Database
+  nameWithType: Mewdeko.Database
+  fullName: Mewdeko.Database
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+- uid: Mewdeko.Services.strings
+  commentId: N:Mewdeko.Services.strings
+  href: Mewdeko.html
+  name: Mewdeko.Services.strings
+  nameWithType: Mewdeko.Services.strings
+  fullName: Mewdeko.Services.strings
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.strings
+    name: strings
+    href: Mewdeko.Services.strings.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.strings
+    name: strings
+    href: Mewdeko.Services.strings.html
+- uid: Mewdeko
+  commentId: N:Mewdeko
+  href: Mewdeko.html
+  name: Mewdeko
+  nameWithType: Mewdeko
+  fullName: Mewdeko
+- uid: Discord.WebSocket
+  commentId: N:Discord.WebSocket
+  isExternal: true
+  name: Discord.WebSocket
+  nameWithType: Discord.WebSocket
+  fullName: Discord.WebSocket
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.WebSocket
+    name: WebSocket
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.WebSocket
+    name: WebSocket
+    isExternal: true
+- uid: Mewdeko.Common.PubSub
+  commentId: N:Mewdeko.Common.PubSub
+  href: Mewdeko.html
+  name: Mewdeko.Common.PubSub
+  nameWithType: Mewdeko.Common.PubSub
+  fullName: Mewdeko.Common.PubSub
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.PubSub
+    name: PubSub
+    href: Mewdeko.Common.PubSub.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.PubSub
+    name: PubSub
+    href: Mewdeko.Common.PubSub.html
+- uid: Mewdeko.Modules.Administration.Services
+  commentId: N:Mewdeko.Modules.Administration.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Administration.Services
+  nameWithType: Mewdeko.Modules.Administration.Services
+  fullName: Mewdeko.Modules.Administration.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services
+    name: Services
+    href: Mewdeko.Modules.Administration.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services
+    name: Services
+    href: Mewdeko.Modules.Administration.Services.html
+- uid: Mewdeko.Services.Settings
+  commentId: N:Mewdeko.Services.Settings
+  href: Mewdeko.html
+  name: Mewdeko.Services.Settings
+  nameWithType: Mewdeko.Services.Settings
+  fullName: Mewdeko.Services.Settings
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.Priority*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.Priority
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_Priority
+  name: Priority
+  nameWithType: ChatTriggersService.Priority
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.Priority
+- uid: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior.Priority
+  commentId: P:Mewdeko.Common.ModuleBehaviors.IEarlyBehavior.Priority
+  parent: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior
+  href: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior.html#Mewdeko_Common_ModuleBehaviors_IEarlyBehavior_Priority
+  name: Priority
+  nameWithType: IEarlyBehavior.Priority
+  fullName: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior.Priority
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.BehaviorType*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.BehaviorType
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_BehaviorType
+  name: BehaviorType
+  nameWithType: ChatTriggersService.BehaviorType
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.BehaviorType
+- uid: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior.BehaviorType
+  commentId: P:Mewdeko.Common.ModuleBehaviors.IEarlyBehavior.BehaviorType
+  parent: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior
+  href: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior.html#Mewdeko_Common_ModuleBehaviors_IEarlyBehavior_BehaviorType
+  name: BehaviorType
+  nameWithType: IEarlyBehavior.BehaviorType
+  fullName: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior.BehaviorType
+- uid: Mewdeko.Common.ModuleBehaviors.ModuleBehaviorType
+  commentId: T:Mewdeko.Common.ModuleBehaviors.ModuleBehaviorType
+  parent: Mewdeko.Common.ModuleBehaviors
+  href: Mewdeko.Common.ModuleBehaviors.ModuleBehaviorType.html
+  name: ModuleBehaviorType
+  nameWithType: ModuleBehaviorType
+  fullName: Mewdeko.Common.ModuleBehaviors.ModuleBehaviorType
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RunBehavior*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RunBehavior
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_RunBehavior_Discord_WebSocket_DiscordSocketClient_Discord_IGuild_Discord_IUserMessage_
+  name: RunBehavior
+  nameWithType: ChatTriggersService.RunBehavior
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RunBehavior
+- uid: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior.RunBehavior(Discord.WebSocket.DiscordSocketClient,Discord.IGuild,Discord.IUserMessage)
+  commentId: M:Mewdeko.Common.ModuleBehaviors.IEarlyBehavior.RunBehavior(Discord.WebSocket.DiscordSocketClient,Discord.IGuild,Discord.IUserMessage)
+  parent: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior
+  isExternal: true
+  href: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior.html#Mewdeko_Common_ModuleBehaviors_IEarlyBehavior_RunBehavior_Discord_WebSocket_DiscordSocketClient_Discord_IGuild_Discord_IUserMessage_
+  name: RunBehavior(DiscordSocketClient, IGuild, IUserMessage)
+  nameWithType: IEarlyBehavior.RunBehavior(DiscordSocketClient, IGuild, IUserMessage)
+  fullName: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior.RunBehavior(Discord.WebSocket.DiscordSocketClient, Discord.IGuild, Discord.IUserMessage)
+  spec.csharp:
+  - uid: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior.RunBehavior(Discord.WebSocket.DiscordSocketClient,Discord.IGuild,Discord.IUserMessage)
+    name: RunBehavior
+    href: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior.html#Mewdeko_Common_ModuleBehaviors_IEarlyBehavior_RunBehavior_Discord_WebSocket_DiscordSocketClient_Discord_IGuild_Discord_IUserMessage_
+  - name: (
+  - uid: Discord.WebSocket.DiscordSocketClient
+    name: DiscordSocketClient
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.IGuild
+    name: IGuild
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior.RunBehavior(Discord.WebSocket.DiscordSocketClient,Discord.IGuild,Discord.IUserMessage)
+    name: RunBehavior
+    href: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior.html#Mewdeko_Common_ModuleBehaviors_IEarlyBehavior_RunBehavior_Discord_WebSocket_DiscordSocketClient_Discord_IGuild_Discord_IUserMessage_
+  - name: (
+  - uid: Discord.WebSocket.DiscordSocketClient
+    name: DiscordSocketClient
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.IGuild
+    name: IGuild
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: )
+- uid: Discord.IGuild
+  commentId: T:Discord.IGuild
+  parent: Discord
+  isExternal: true
+  name: IGuild
+  nameWithType: IGuild
+  fullName: Discord.IGuild
+- uid: Discord.IUserMessage
+  commentId: T:Discord.IUserMessage
+  parent: Discord
+  isExternal: true
+  name: IUserMessage
+  nameWithType: IUserMessage
+  fullName: Discord.IUserMessage
+- uid: System.Threading.Tasks.Task{System.Boolean}
+  commentId: T:System.Threading.Tasks.Task{System.Boolean}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<bool>
+  nameWithType: Task<bool>
+  fullName: System.Threading.Tasks.Task<bool>
+  nameWithType.vb: Task(Of Boolean)
+  fullName.vb: System.Threading.Tasks.Task(Of Boolean)
+  name.vb: Task(Of Boolean)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Discord
+  commentId: N:Discord
+  isExternal: true
+  name: Discord
+  nameWithType: Discord
+  fullName: Discord
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RunInteractionTrigger*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RunInteractionTrigger
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_RunInteractionTrigger_Discord_WebSocket_SocketInteraction_Mewdeko_Database_Models_ChatTriggers_System_Boolean_
+  name: RunInteractionTrigger
+  nameWithType: ChatTriggersService.RunInteractionTrigger
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RunInteractionTrigger
+- uid: Discord.WebSocket.SocketInteraction
+  commentId: T:Discord.WebSocket.SocketInteraction
+  parent: Discord.WebSocket
+  isExternal: true
+  name: SocketInteraction
+  nameWithType: SocketInteraction
+  fullName: Discord.WebSocket.SocketInteraction
+- uid: Mewdeko.Database.Models.ChatTriggers
+  commentId: T:Mewdeko.Database.Models.ChatTriggers
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.ChatTriggers.html
+  name: ChatTriggers
+  nameWithType: ChatTriggers
+  fullName: Mewdeko.Database.Models.ChatTriggers
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ExportCrs*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ExportCrs
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_ExportCrs_System_Nullable_System_UInt64__
+  name: ExportCrs
+  nameWithType: ChatTriggersService.ExportCrs
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ExportCrs
+- uid: System.Nullable{System.UInt64}
+  commentId: T:System.Nullable{System.UInt64}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong?
+  nameWithType: ulong?
+  fullName: ulong?
+  nameWithType.vb: ULong?
+  fullName.vb: ULong?
+  name.vb: ULong?
+  spec.csharp:
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  spec.vb:
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ImportCrsAsync*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ImportCrsAsync
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_ImportCrsAsync_Discord_IGuildUser_System_String_
+  name: ImportCrsAsync
+  nameWithType: ChatTriggersService.ImportCrsAsync
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ImportCrsAsync
+- uid: Discord.IGuildUser
+  commentId: T:Discord.IGuildUser
+  parent: Discord
+  isExternal: true
+  name: IGuildUser
+  nameWithType: IGuildUser
+  fullName: Discord.IGuildUser
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ResetCrReactions*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ResetCrReactions
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_ResetCrReactions_System_Nullable_System_UInt64__System_Int32_
+  name: ResetCrReactions
+  nameWithType: ChatTriggersService.ResetCrReactions
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ResetCrReactions
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrReactions*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrReactions
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_SetCrReactions_System_Nullable_System_UInt64__System_Int32_System_Collections_Generic_IEnumerable_System_String__
+  name: SetCrReactions
+  nameWithType: ChatTriggersService.SetCrReactions
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrReactions
+- uid: System.Collections.Generic.IEnumerable{System.String}
+  commentId: T:System.Collections.Generic.IEnumerable{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<string>
+  nameWithType: IEnumerable<string>
+  fullName: System.Collections.Generic.IEnumerable<string>
+  nameWithType.vb: IEnumerable(Of String)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of String)
+  name.vb: IEnumerable(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleCrOptionAsync*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleCrOptionAsync
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_ToggleCrOptionAsync_Mewdeko_Database_Models_ChatTriggers_System_Nullable_Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_CtField__
+  name: ToggleCrOptionAsync
+  nameWithType: ChatTriggersService.ToggleCrOptionAsync
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleCrOptionAsync
+- uid: System.Nullable{Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField}
+  commentId: T:System.Nullable{Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField}
+  parent: System
+  definition: System.Nullable`1
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html
+  name: ChatTriggersService.CtField?
+  nameWithType: ChatTriggersService.CtField?
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField?
+  spec.csharp:
+  - uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+    name: ChatTriggersService
+    href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+    name: CtField
+    href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.html
+  - name: '?'
+  spec.vb:
+  - uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+    name: ChatTriggersService
+    href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+    name: CtField
+    href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.html
+  - name: '?'
+- uid: System.Threading.Tasks.Task{System.ValueTuple{System.Boolean,System.Boolean}}
+  commentId: T:System.Threading.Tasks.Task{System.ValueTuple{System.Boolean,System.Boolean}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<(bool Success, bool NewValue)>
+  nameWithType: Task<(bool Success, bool NewValue)>
+  fullName: System.Threading.Tasks.Task<(bool Success, bool NewValue)>
+  nameWithType.vb: Task(Of (Success As Boolean, NewValue As Boolean))
+  fullName.vb: System.Threading.Tasks.Task(Of (Success As Boolean, NewValue As Boolean))
+  name.vb: Task(Of (Success As Boolean, NewValue As Boolean))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: (
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: " "
+  - uid: System.ValueTuple{System.Boolean,System.Boolean}.Success
+    name: Success
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.boolean,system.boolean-.success
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: " "
+  - uid: System.ValueTuple{System.Boolean,System.Boolean}.NewValue
+    name: NewValue
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.boolean,system.boolean-.newvalue
+  - name: )
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{System.Boolean,System.Boolean}.Success
+    name: Success
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.boolean,system.boolean-.success
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.Boolean,System.Boolean}.NewValue
+    name: NewValue
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.boolean,system.boolean-.newvalue
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  - name: )
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetChatTriggers*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetChatTriggers
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_GetChatTriggers_System_Nullable_System_UInt64__System_Int32_
+  name: GetChatTriggers
+  nameWithType: ChatTriggersService.GetChatTriggers
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetChatTriggers
+- uid: System.Threading.Tasks.Task{Mewdeko.Database.Models.ChatTriggers}
+  commentId: T:System.Threading.Tasks.Task{Mewdeko.Database.Models.ChatTriggers}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<ChatTriggers>
+  nameWithType: Task<ChatTriggers>
+  fullName: System.Threading.Tasks.Task<Mewdeko.Database.Models.ChatTriggers>
+  nameWithType.vb: Task(Of ChatTriggers)
+  fullName.vb: System.Threading.Tasks.Task(Of Mewdeko.Database.Models.ChatTriggers)
+  name.vb: Task(Of ChatTriggers)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Database.Models.ChatTriggers.html
+  - name: )
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetGuildOrGlobalTriggers*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetGuildOrGlobalTriggers
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_GetGuildOrGlobalTriggers_System_Nullable_System_UInt64__System_Int32_
+  name: GetGuildOrGlobalTriggers
+  nameWithType: ChatTriggersService.GetGuildOrGlobalTriggers
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetGuildOrGlobalTriggers
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.DeleteAllChatTriggers*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.DeleteAllChatTriggers
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_DeleteAllChatTriggers_System_UInt64_
+  name: DeleteAllChatTriggers
+  nameWithType: ChatTriggersService.DeleteAllChatTriggers
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.DeleteAllChatTriggers
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong
+  nameWithType: ulong
+  fullName: ulong
+  nameWithType.vb: ULong
+  fullName.vb: ULong
+  name.vb: ULong
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ReactionExists*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ReactionExists
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_ReactionExists_System_Nullable_System_UInt64__System_String_
+  name: ReactionExists
+  nameWithType: ChatTriggersService.ReactionExists
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ReactionExists
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.OnReadyAsync*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.OnReadyAsync
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_OnReadyAsync
+  name: OnReadyAsync
+  nameWithType: ChatTriggersService.OnReadyAsync
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.OnReadyAsync
+- uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+  commentId: M:Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+  parent: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html#Mewdeko_Common_ModuleBehaviors_IReadyExecutor_OnReadyAsync
+  name: OnReadyAsync()
+  nameWithType: IReadyExecutor.OnReadyAsync()
+  fullName: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync()
+  spec.csharp:
+  - uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+    name: OnReadyAsync
+    href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html#Mewdeko_Common_ModuleBehaviors_IReadyExecutor_OnReadyAsync
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+    name: OnReadyAsync
+    href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html#Mewdeko_Common_ModuleBehaviors_IReadyExecutor_OnReadyAsync
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.TriggerReloadChatTriggers*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.TriggerReloadChatTriggers
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_TriggerReloadChatTriggers
+  name: TriggerReloadChatTriggers
+  nameWithType: ChatTriggersService.TriggerReloadChatTriggers
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.TriggerReloadChatTriggers
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.AddAsync*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.AddAsync
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_AddAsync_System_Nullable_System_UInt64__System_String_System_String_System_Boolean_
+  name: AddAsync
+  nameWithType: ChatTriggersService.AddAsync
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.AddAsync
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.EditAsync*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.EditAsync
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_EditAsync_System_Nullable_System_UInt64__System_Int32_System_String_System_Nullable_System_Boolean__System_String_
+  name: EditAsync
+  nameWithType: ChatTriggersService.EditAsync
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.EditAsync
+- uid: System.Nullable{System.Boolean}
+  commentId: T:System.Nullable{System.Boolean}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool?
+  nameWithType: bool?
+  fullName: bool?
+  nameWithType.vb: Boolean?
+  fullName.vb: Boolean?
+  name.vb: Boolean?
+  spec.csharp:
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '?'
+  spec.vb:
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '?'
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.DeleteAsync*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.DeleteAsync
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_DeleteAsync_System_Nullable_System_UInt64__System_Int32_
+  name: DeleteAsync
+  nameWithType: ChatTriggersService.DeleteAsync
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.DeleteAsync
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetRoleGrantType*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetRoleGrantType
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_SetRoleGrantType_System_Nullable_System_UInt64__System_Int32_Mewdeko_Database_Models_CtRoleGrantType_
+  name: SetRoleGrantType
+  nameWithType: ChatTriggersService.SetRoleGrantType
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetRoleGrantType
+- uid: Mewdeko.Database.Models.CtRoleGrantType
+  commentId: T:Mewdeko.Database.Models.CtRoleGrantType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.CtRoleGrantType.html
+  name: CtRoleGrantType
+  nameWithType: CtRoleGrantType
+  fullName: Mewdeko.Database.Models.CtRoleGrantType
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionType*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionType
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_SetInteractionType_System_Nullable_System_UInt64__System_Int32_Mewdeko_Database_Models_CtApplicationCommandType_
+  name: SetInteractionType
+  nameWithType: ChatTriggersService.SetInteractionType
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionType
+- uid: Mewdeko.Database.Models.CtApplicationCommandType
+  commentId: T:Mewdeko.Database.Models.CtApplicationCommandType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.CtApplicationCommandType.html
+  name: CtApplicationCommandType
+  nameWithType: CtApplicationCommandType
+  fullName: Mewdeko.Database.Models.CtApplicationCommandType
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionName*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionName
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_SetInteractionName_System_Nullable_System_UInt64__System_Int32_System_String_
+  name: SetInteractionName
+  nameWithType: ChatTriggersService.SetInteractionName
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionName
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionDescription*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionDescription
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_SetInteractionDescription_System_Nullable_System_UInt64__System_Int32_System_String_
+  name: SetInteractionDescription
+  nameWithType: ChatTriggersService.SetInteractionDescription
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionDescription
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionEphemeral*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionEphemeral
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_SetInteractionEphemeral_System_Nullable_System_UInt64__System_Int32_System_Boolean_
+  name: SetInteractionEphemeral
+  nameWithType: ChatTriggersService.SetInteractionEphemeral
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetInteractionEphemeral
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetPrefixType*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetPrefixType
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_SetPrefixType_System_Nullable_System_UInt64__System_Int32_Mewdeko_Database_Models_RequirePrefixType_
+  name: SetPrefixType
+  nameWithType: ChatTriggersService.SetPrefixType
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetPrefixType
+- uid: Mewdeko.Database.Models.RequirePrefixType
+  commentId: T:Mewdeko.Database.Models.RequirePrefixType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.RequirePrefixType.html
+  name: RequirePrefixType
+  nameWithType: RequirePrefixType
+  fullName: Mewdeko.Database.Models.RequirePrefixType
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetPrefix*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetPrefix
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_SetPrefix_System_Nullable_System_UInt64__System_Int32_System_String_
+  name: SetPrefix
+  nameWithType: ChatTriggersService.SetPrefix
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetPrefix
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrosspostingWebhookUrl*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrosspostingWebhookUrl
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_SetCrosspostingWebhookUrl_System_Nullable_System_UInt64__System_Int32_System_String_System_Boolean_
+  name: SetCrosspostingWebhookUrl
+  nameWithType: ChatTriggersService.SetCrosspostingWebhookUrl
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrosspostingWebhookUrl
+- uid: System.Threading.Tasks.Task{System.ValueTuple{Mewdeko.Database.Models.ChatTriggers,System.Boolean}}
+  commentId: T:System.Threading.Tasks.Task{System.ValueTuple{Mewdeko.Database.Models.ChatTriggers,System.Boolean}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<(ChatTriggers Trigger, bool Valid)>
+  nameWithType: Task<(ChatTriggers Trigger, bool Valid)>
+  fullName: System.Threading.Tasks.Task<(Mewdeko.Database.Models.ChatTriggers Trigger, bool Valid)>
+  nameWithType.vb: Task(Of (Trigger As ChatTriggers, Valid As Boolean))
+  fullName.vb: System.Threading.Tasks.Task(Of (Trigger As Mewdeko.Database.Models.ChatTriggers, Valid As Boolean))
+  name.vb: Task(Of (Trigger As ChatTriggers, Valid As Boolean))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: (
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+  - name: " "
+  - uid: System.ValueTuple{Mewdeko.Database.Models.ChatTriggers,System.Boolean}.Trigger
+    name: Trigger
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mewdeko.database.models.chattriggers,system.boolean-.trigger
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: " "
+  - uid: System.ValueTuple{Mewdeko.Database.Models.ChatTriggers,System.Boolean}.Valid
+    name: Valid
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mewdeko.database.models.chattriggers,system.boolean-.valid
+  - name: )
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{Mewdeko.Database.Models.ChatTriggers,System.Boolean}.Trigger
+    name: Trigger
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mewdeko.database.models.chattriggers,system.boolean-.trigger
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{Mewdeko.Database.Models.ChatTriggers,System.Boolean}.Valid
+    name: Valid
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mewdeko.database.models.chattriggers,system.boolean-.valid
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  - name: )
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrosspostingChannelId*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrosspostingChannelId
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_SetCrosspostingChannelId_System_Nullable_System_UInt64__System_Int32_System_UInt64_
+  name: SetCrosspostingChannelId
+  nameWithType: ChatTriggersService.SetCrosspostingChannelId
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetCrosspostingChannelId
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetValidTriggerType*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetValidTriggerType
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_SetValidTriggerType_System_Nullable_System_UInt64__System_Int32_Mewdeko_Database_Models_ChatTriggerType_System_Boolean_
+  name: SetValidTriggerType
+  nameWithType: ChatTriggersService.SetValidTriggerType
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.SetValidTriggerType
+- uid: Mewdeko.Database.Models.ChatTriggerType
+  commentId: T:Mewdeko.Database.Models.ChatTriggerType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.ChatTriggerType.html
+  name: ChatTriggerType
+  nameWithType: ChatTriggerType
+  fullName: Mewdeko.Database.Models.ChatTriggerType
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetChatTriggersFor*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetChatTriggersFor
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_GetChatTriggersFor_System_Nullable_System_UInt64__
+  name: GetChatTriggersFor
+  nameWithType: ChatTriggersService.GetChatTriggersFor
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetChatTriggersFor
+- uid: Mewdeko.Database.Models.ChatTriggers[]
+  isExternal: true
+  name: ChatTriggers[]
+  nameWithType: ChatTriggers[]
+  fullName: Mewdeko.Database.Models.ChatTriggers[]
+  nameWithType.vb: ChatTriggers()
+  fullName.vb: Mewdeko.Database.Models.ChatTriggers()
+  name.vb: ChatTriggers()
+  spec.csharp:
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleGrantedRole*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleGrantedRole
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_ToggleGrantedRole_Mewdeko_Database_Models_ChatTriggers_System_UInt64_
+  name: ToggleGrantedRole
+  nameWithType: ChatTriggersService.ToggleGrantedRole
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleGrantedRole
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleRemovedRole*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleRemovedRole
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_ToggleRemovedRole_Mewdeko_Database_Models_ChatTriggers_System_UInt64_
+  name: ToggleRemovedRole
+  nameWithType: ChatTriggersService.ToggleRemovedRole
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.ToggleRemovedRole
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetEmbed*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetEmbed
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_GetEmbed_Mewdeko_Database_Models_ChatTriggers_System_Nullable_System_UInt64__System_String_
+  name: GetEmbed
+  nameWithType: ChatTriggersService.GetEmbed
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetEmbed
+- uid: Discord.EmbedBuilder
+  commentId: T:Discord.EmbedBuilder
+  parent: Discord
+  isExternal: true
+  name: EmbedBuilder
+  nameWithType: EmbedBuilder
+  fullName: Discord.EmbedBuilder
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetApplicationCommandProperties*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetApplicationCommandProperties
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_GetApplicationCommandProperties_System_UInt64_
+  name: GetApplicationCommandProperties
+  nameWithType: ChatTriggersService.GetApplicationCommandProperties
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetApplicationCommandProperties
+- uid: System.Collections.Generic.List{Discord.ApplicationCommandProperties}
+  commentId: T:System.Collections.Generic.List{Discord.ApplicationCommandProperties}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<ApplicationCommandProperties>
+  nameWithType: List<ApplicationCommandProperties>
+  fullName: System.Collections.Generic.List<Discord.ApplicationCommandProperties>
+  nameWithType.vb: List(Of ApplicationCommandProperties)
+  fullName.vb: System.Collections.Generic.List(Of Discord.ApplicationCommandProperties)
+  name.vb: List(Of ApplicationCommandProperties)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: Discord.ApplicationCommandProperties
+    name: ApplicationCommandProperties
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Discord.ApplicationCommandProperties
+    name: ApplicationCommandProperties
+    isExternal: true
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.TryGetApplicationCommandProperties*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.TryGetApplicationCommandProperties
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_TryGetApplicationCommandProperties_System_UInt64_System_Collections_Generic_List_Discord_ApplicationCommandProperties___
+  name: TryGetApplicationCommandProperties
+  nameWithType: ChatTriggersService.TryGetApplicationCommandProperties
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.TryGetApplicationCommandProperties
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RegisterTriggersToGuildAsync*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RegisterTriggersToGuildAsync
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_RegisterTriggersToGuildAsync_Discord_IGuild_
+  name: RegisterTriggersToGuildAsync
+  nameWithType: ChatTriggersService.RegisterTriggersToGuildAsync
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.RegisterTriggersToGuildAsync
+- uid: System.Text.RegularExpressions.Regex
+  commentId: T:System.Text.RegularExpressions.Regex
+  parent: System.Text.RegularExpressions
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.text.regularexpressions.regex
+  name: Regex
+  nameWithType: Regex
+  fullName: System.Text.RegularExpressions.Regex
+- uid: System.Text.RegularExpressions
+  commentId: N:System.Text.RegularExpressions
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Text.RegularExpressions
+  nameWithType: System.Text.RegularExpressions
+  fullName: System.Text.RegularExpressions
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Text
+    name: Text
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.text
+  - name: .
+  - uid: System.Text.RegularExpressions
+    name: RegularExpressions
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.text.regularexpressions
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Text
+    name: Text
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.text
+  - name: .
+  - uid: System.Text.RegularExpressions
+    name: RegularExpressions
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.text.regularexpressions
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.IsValidName*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.IsValidName
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_IsValidName_Mewdeko_Database_Models_CtApplicationCommandType_System_String_
+  name: IsValidName
+  nameWithType: ChatTriggersService.IsValidName
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.IsValidName
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetAcctErrors*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetAcctErrors
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html#Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_GetAcctErrors_System_Nullable_System_UInt64__
+  name: GetAcctErrors
+  nameWithType: ChatTriggersService.GetAcctErrors
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.GetAcctErrors
+- uid: System.Collections.Generic.List{Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError}
+  commentId: T:System.Collections.Generic.List{Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<ChatTriggersInteractionError>
+  nameWithType: List<ChatTriggersInteractionError>
+  fullName: System.Collections.Generic.List<Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError>
+  nameWithType.vb: List(Of ChatTriggersInteractionError)
+  fullName.vb: System.Collections.Generic.List(Of Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError)
+  name.vb: List(Of ChatTriggersInteractionError)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError
+    name: ChatTriggersInteractionError
+    href: Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError
+    name: ChatTriggersInteractionError
+    href: Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError.html
+  - name: )
+- uid: System.Collections.Generic.IEnumerable{Mewdeko.Database.Models.ChatTriggers}
+  commentId: T:System.Collections.Generic.IEnumerable{Mewdeko.Database.Models.ChatTriggers}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<ChatTriggers>
+  nameWithType: IEnumerable<ChatTriggers>
+  fullName: System.Collections.Generic.IEnumerable<Mewdeko.Database.Models.ChatTriggers>
+  nameWithType.vb: IEnumerable(Of ChatTriggers)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of Mewdeko.Database.Models.ChatTriggers)
+  name.vb: IEnumerable(Of ChatTriggers)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Models.ChatTriggers
+    name: ChatTriggers
+  - name: )

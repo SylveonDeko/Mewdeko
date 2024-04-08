@@ -1,0 +1,216 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.IMewdekoCommandOptions
+  commentId: T:Mewdeko.Common.IMewdekoCommandOptions
+  id: IMewdekoCommandOptions
+  parent: Mewdeko.Common
+  children:
+  - Mewdeko.Common.IMewdekoCommandOptions.NormalizeOptions
+  langs:
+  - csharp
+  - vb
+  name: IMewdekoCommandOptions
+  nameWithType: IMewdekoCommandOptions
+  fullName: Mewdeko.Common.IMewdekoCommandOptions
+  type: Interface
+  source:
+    remote:
+      path: src/Mewdeko/Common/IMewdekoCommandOptions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IMewdekoCommandOptions
+    path: src/Mewdeko/Common/IMewdekoCommandOptions.cs
+    startLine: 5
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common
+  summary: Represents options for Mewdeko commands.
+  example: []
+  syntax:
+    content: public interface IMewdekoCommandOptions
+    content.vb: Public Interface IMewdekoCommandOptions
+  extensionMethods:
+  - Mewdeko.Common.IMewdekoCommandOptions.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Common.IMewdekoCommandOptions.NormalizeOptions
+  commentId: M:Mewdeko.Common.IMewdekoCommandOptions.NormalizeOptions
+  id: NormalizeOptions
+  parent: Mewdeko.Common.IMewdekoCommandOptions
+  langs:
+  - csharp
+  - vb
+  name: NormalizeOptions()
+  nameWithType: IMewdekoCommandOptions.NormalizeOptions()
+  fullName: Mewdeko.Common.IMewdekoCommandOptions.NormalizeOptions()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/IMewdekoCommandOptions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: NormalizeOptions
+    path: src/Mewdeko/Common/IMewdekoCommandOptions.cs
+    startLine: 10
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common
+  summary: Normalizes the command options.
+  example: []
+  syntax:
+    content: void NormalizeOptions()
+    content.vb: Sub NormalizeOptions()
+  overload: Mewdeko.Common.IMewdekoCommandOptions.NormalizeOptions*
+references:
+- uid: Mewdeko.Common
+  commentId: N:Mewdeko.Common
+  href: Mewdeko.html
+  name: Mewdeko.Common
+  nameWithType: Mewdeko.Common
+  fullName: Mewdeko.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+- uid: Mewdeko.Common.IMewdekoCommandOptions.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<IMewdekoCommandOptions>(IMewdekoCommandOptions, string)
+  nameWithType: Extensions.ThrowIfNull<IMewdekoCommandOptions>(IMewdekoCommandOptions, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Common.IMewdekoCommandOptions>(Mewdeko.Common.IMewdekoCommandOptions, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of IMewdekoCommandOptions)(IMewdekoCommandOptions, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Common.IMewdekoCommandOptions)(Mewdeko.Common.IMewdekoCommandOptions, String)
+  name.vb: ThrowIfNull(Of IMewdekoCommandOptions)(IMewdekoCommandOptions, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.IMewdekoCommandOptions,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Common.IMewdekoCommandOptions
+    name: IMewdekoCommandOptions
+    href: Mewdeko.Common.IMewdekoCommandOptions.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Common.IMewdekoCommandOptions
+    name: IMewdekoCommandOptions
+    href: Mewdeko.Common.IMewdekoCommandOptions.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.IMewdekoCommandOptions,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Common.IMewdekoCommandOptions
+    name: IMewdekoCommandOptions
+    href: Mewdeko.Common.IMewdekoCommandOptions.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Common.IMewdekoCommandOptions
+    name: IMewdekoCommandOptions
+    href: Mewdeko.Common.IMewdekoCommandOptions.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Common.IMewdekoCommandOptions.NormalizeOptions*
+  commentId: Overload:Mewdeko.Common.IMewdekoCommandOptions.NormalizeOptions
+  href: Mewdeko.Common.IMewdekoCommandOptions.html#Mewdeko_Common_IMewdekoCommandOptions_NormalizeOptions
+  name: NormalizeOptions
+  nameWithType: IMewdekoCommandOptions.NormalizeOptions
+  fullName: Mewdeko.Common.IMewdekoCommandOptions.NormalizeOptions

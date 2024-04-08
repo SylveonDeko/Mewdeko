@@ -1,0 +1,4195 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  commentId: T:Mewdeko.Common.Collections.ConcurrentHashSet`1
+  id: ConcurrentHashSet`1
+  parent: Mewdeko.Common.Collections
+  children:
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.#ctor
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Collections.Generic.IEqualityComparer{`0})
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.Add(`0)
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.Clear
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.Comparer
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.Contains(`0)
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.CopyTo(`0[],System.Int32)
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.Count
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.ExceptWith(System.Collections.Generic.IEnumerable{`0})
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.GetEnumerator
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.IntersectWith(System.Collections.Generic.IEnumerable{`0})
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.IsProperSubsetOf(System.Collections.Generic.IEnumerable{`0})
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.IsProperSupersetOf(System.Collections.Generic.IEnumerable{`0})
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.IsReadOnly
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.IsSubsetOf(System.Collections.Generic.IEnumerable{`0})
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.IsSupersetOf(System.Collections.Generic.IEnumerable{`0})
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.Overlaps(System.Collections.Generic.IEnumerable{`0})
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.RemoveWhere(System.Func{`0,System.Boolean})
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.SetEquals(System.Collections.Generic.IEnumerable{`0})
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.SymmetricExceptWith(System.Collections.Generic.IEnumerable{`0})
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.TryRemove(`0)
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.UnionWith(System.Collections.Generic.IEnumerable{`0})
+  langs:
+  - csharp
+  - vb
+  name: ConcurrentHashSet<T>
+  nameWithType: ConcurrentHashSet<T>
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ConcurrentHashSet
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Represents a thread-safe hash-based unique collection.
+  remarks: >-
+    All public members of <xref href="Mewdeko.Common.Collections.ConcurrentHashSet%601" data-throw-if-not-resolved="false"></xref> are thread-safe and may be used
+
+    concurrently from multiple threads. The Add method returns true if the item was added to the set; false if it already exists.
+  example: []
+  syntax:
+    content: 'public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ISet<T>, ICollection<T>, IEnumerable<T>, IEnumerable where T : notnull'
+    typeParameters:
+    - id: T
+      description: The type of the items in the collection.
+    content.vb: Public NotInheritable Class ConcurrentHashSet(Of T) Implements IReadOnlyCollection(Of T), ISet(Of T), ICollection(Of T), IEnumerable(Of T), IEnumerable
+  inheritance:
+  - System.Object
+  implements:
+  - System.Collections.Generic.IReadOnlyCollection{{T}}
+  - System.Collections.Generic.ISet{{T}}
+  - System.Collections.Generic.ICollection{{T}}
+  - System.Collections.Generic.IEnumerable{{T}}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Common.Collections.ConcurrentHashSet`1.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  - System.Collections.Generic.IEnumerable{`0}.Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Func{{T},{TU}})
+  - System.Collections.Generic.IEnumerable{`0}.Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Action{{T}})
+  - System.Collections.Generic.IEnumerable{`0}.Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1
+  - System.Collections.Generic.IEnumerable{`0}.Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Char,System.Func{{T},System.String})
+  - System.Collections.Generic.IEnumerable{`0}.Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.String,System.Func{{T},System.String})
+  - System.Collections.Generic.IEnumerable{`0}.Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Char,System.Func{{T},System.String})
+  - System.Collections.Generic.IEnumerable{`0}.Mewdeko.Extensions.EnumerableExtensions.Shuffle``1
+  nameWithType.vb: ConcurrentHashSet(Of T)
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T)
+  name.vb: ConcurrentHashSet(Of T)
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.#ctor
+  commentId: M:Mewdeko.Common.Collections.ConcurrentHashSet`1.#ctor
+  id: '#ctor'
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: ConcurrentHashSet()
+  nameWithType: ConcurrentHashSet<T>.ConcurrentHashSet()
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.ConcurrentHashSet()
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 23
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Initializes a new instance of the ConcurrentHashSet class.
+  example: []
+  syntax:
+    content: public ConcurrentHashSet()
+    content.vb: Public Sub New()
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.#ctor*
+  nameWithType.vb: ConcurrentHashSet(Of T).New()
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).New()
+  name.vb: New()
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Collections.Generic.IEqualityComparer{`0})
+  commentId: M:Mewdeko.Common.Collections.ConcurrentHashSet`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Collections.Generic.IEqualityComparer{`0})
+  id: '#ctor(System.Collections.Generic.IEnumerable{`0},System.Collections.Generic.IEqualityComparer{`0})'
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: ConcurrentHashSet(IEnumerable<T>, IEqualityComparer<T>?)
+  nameWithType: ConcurrentHashSet<T>.ConcurrentHashSet(IEnumerable<T>, IEqualityComparer<T>?)
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.ConcurrentHashSet(System.Collections.Generic.IEnumerable<T>, System.Collections.Generic.IEqualityComparer<T>?)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 31
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Initializes a new instance of the ConcurrentHashSet class with the specified values and comparer.
+  example: []
+  syntax:
+    content: public ConcurrentHashSet(IEnumerable<T> values, IEqualityComparer<T>? comparer = null)
+    parameters:
+    - id: values
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The values to initialize the set with.
+    - id: comparer
+      type: System.Collections.Generic.IEqualityComparer{{T}}
+      description: The comparer to use for item equality.
+    content.vb: Public Sub New(values As IEnumerable(Of T), comparer As IEqualityComparer(Of T) = Nothing)
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.#ctor*
+  nameWithType.vb: ConcurrentHashSet(Of T).New(IEnumerable(Of T), IEqualityComparer(Of T))
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).New(System.Collections.Generic.IEnumerable(Of T), System.Collections.Generic.IEqualityComparer(Of T))
+  name.vb: New(IEnumerable(Of T), IEqualityComparer(Of T))
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.GetEnumerator
+  commentId: M:Mewdeko.Common.Collections.ConcurrentHashSet`1.GetEnumerator
+  id: GetEnumerator
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ConcurrentHashSet<T>.GetEnumerator()
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetEnumerator
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 46
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Returns an enumerator that iterates through the set.
+  example: []
+  syntax:
+    content: public IEnumerator<T> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{{T}}
+      description: An enumerator for the set.
+    content.vb: Public Function GetEnumerator() As IEnumerator(Of T)
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{{T}}.GetEnumerator
+  nameWithType.vb: ConcurrentHashSet(Of T).GetEnumerator()
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).GetEnumerator()
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.Add(`0)
+  commentId: M:Mewdeko.Common.Collections.ConcurrentHashSet`1.Add(`0)
+  id: Add(`0)
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: Add(T)
+  nameWithType: ConcurrentHashSet<T>.Add(T)
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.Add(T)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Add
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 61
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Adds an item to the set.
+  example: []
+  syntax:
+    content: public bool Add(T item)
+    parameters:
+    - id: item
+      type: '{T}'
+      description: The item to add.
+    return:
+      type: System.Boolean
+      description: true if the item was added to the set; false if the item already exists.
+    content.vb: Public Function Add(item As T) As Boolean
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.Add*
+  implements:
+  - System.Collections.Generic.ISet{{T}}.Add({T})
+  nameWithType.vb: ConcurrentHashSet(Of T).Add(T)
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).Add(T)
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.Clear
+  commentId: M:Mewdeko.Common.Collections.ConcurrentHashSet`1.Clear
+  id: Clear
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: ConcurrentHashSet<T>.Clear()
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Clear
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 76
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Removes all items from the set.
+  example: []
+  syntax:
+    content: public void Clear()
+    content.vb: Public Sub Clear()
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.Clear*
+  implements:
+  - System.Collections.Generic.ICollection{{T}}.Clear
+  nameWithType.vb: ConcurrentHashSet(Of T).Clear()
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).Clear()
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.Contains(`0)
+  commentId: M:Mewdeko.Common.Collections.ConcurrentHashSet`1.Contains(`0)
+  id: Contains(`0)
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: Contains(T)
+  nameWithType: ConcurrentHashSet<T>.Contains(T)
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.Contains(T)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Contains
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 84
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Determines whether the set contains a specific item.
+  example: []
+  syntax:
+    content: public bool Contains(T item)
+    parameters:
+    - id: item
+      type: '{T}'
+      description: The item to locate in the set.
+    return:
+      type: System.Boolean
+      description: true if the item is found in the set; otherwise, false.
+    content.vb: Public Function Contains(item As T) As Boolean
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.Contains*
+  implements:
+  - System.Collections.Generic.ICollection{{T}}.Contains({T})
+  nameWithType.vb: ConcurrentHashSet(Of T).Contains(T)
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).Contains(T)
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.CopyTo(`0[],System.Int32)
+  commentId: M:Mewdeko.Common.Collections.ConcurrentHashSet`1.CopyTo(`0[],System.Int32)
+  id: CopyTo(`0[],System.Int32)
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: CopyTo(T[], int)
+  nameWithType: ConcurrentHashSet<T>.CopyTo(T[], int)
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.CopyTo(T[], int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CopyTo
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 92
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Copies the elements of the set to an array, starting at a particular array index.
+  example: []
+  syntax:
+    content: public void CopyTo(T[] array, int arrayIndex)
+    parameters:
+    - id: array
+      type: '{T}[]'
+      description: The one-dimensional array that is the destination of the elements copied from the set.
+    - id: arrayIndex
+      type: System.Int32
+      description: The zero-based index in array at which copying begins.
+    content.vb: Public Sub CopyTo(array As T(), arrayIndex As Integer)
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.CopyTo*
+  implements:
+  - System.Collections.Generic.ICollection{{T}}.CopyTo({T}[],System.Int32)
+  nameWithType.vb: ConcurrentHashSet(Of T).CopyTo(T(), Integer)
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).CopyTo(T(), Integer)
+  name.vb: CopyTo(T(), Integer)
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.TryRemove(`0)
+  commentId: M:Mewdeko.Common.Collections.ConcurrentHashSet`1.TryRemove(`0)
+  id: TryRemove(`0)
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: TryRemove(T)
+  nameWithType: ConcurrentHashSet<T>.TryRemove(T)
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.TryRemove(T)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TryRemove
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 135
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Removes the first occurrence of a specific object from the set.
+  example: []
+  syntax:
+    content: public bool TryRemove(T item)
+    parameters:
+    - id: item
+      type: '{T}'
+      description: The object to remove from the set.
+    return:
+      type: System.Boolean
+      description: true if item was successfully removed from the set; otherwise, false. This method also returns false if item is not found in the set.
+    content.vb: Public Function TryRemove(item As T) As Boolean
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.TryRemove*
+  nameWithType.vb: ConcurrentHashSet(Of T).TryRemove(T)
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).TryRemove(T)
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.RemoveWhere(System.Func{`0,System.Boolean})
+  commentId: M:Mewdeko.Common.Collections.ConcurrentHashSet`1.RemoveWhere(System.Func{`0,System.Boolean})
+  id: RemoveWhere(System.Func{`0,System.Boolean})
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: RemoveWhere(Func<T, bool>)
+  nameWithType: ConcurrentHashSet<T>.RemoveWhere(Func<T, bool>)
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.RemoveWhere(System.Func<T, bool>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RemoveWhere
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 142
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Removes all items from the set that satisfy the specified predicate.
+  example: []
+  syntax:
+    content: public void RemoveWhere(Func<T, bool> predicate)
+    parameters:
+    - id: predicate
+      type: System.Func{{T},System.Boolean}
+      description: The predicate to determine which items to remove.
+    content.vb: Public Sub RemoveWhere(predicate As Func(Of T, Boolean))
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.RemoveWhere*
+  nameWithType.vb: ConcurrentHashSet(Of T).RemoveWhere(Func(Of T, Boolean))
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).RemoveWhere(System.Func(Of T, Boolean))
+  name.vb: RemoveWhere(Func(Of T, Boolean))
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.Count
+  commentId: P:Mewdeko.Common.Collections.ConcurrentHashSet`1.Count
+  id: Count
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: ConcurrentHashSet<T>.Count
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.Count
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Count
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 151
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Gets the number of elements contained in the set.
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.Count*
+  implements:
+  - System.Collections.Generic.IReadOnlyCollection{{T}}.Count
+  - System.Collections.Generic.ICollection{{T}}.Count
+  nameWithType.vb: ConcurrentHashSet(Of T).Count
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).Count
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.IsReadOnly
+  commentId: P:Mewdeko.Common.Collections.ConcurrentHashSet`1.IsReadOnly
+  id: IsReadOnly
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: IsReadOnly
+  nameWithType: ConcurrentHashSet<T>.IsReadOnly
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.IsReadOnly
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IsReadOnly
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 157
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Gets a value indicating whether the set is read-only.
+  example: []
+  syntax:
+    content: public bool IsReadOnly { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsReadOnly As Boolean
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.IsReadOnly*
+  implements:
+  - System.Collections.Generic.ICollection{{T}}.IsReadOnly
+  nameWithType.vb: ConcurrentHashSet(Of T).IsReadOnly
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).IsReadOnly
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.Comparer
+  commentId: P:Mewdeko.Common.Collections.ConcurrentHashSet`1.Comparer
+  id: Comparer
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: Comparer
+  nameWithType: ConcurrentHashSet<T>.Comparer
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.Comparer
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Comparer
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 163
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Gets the equality comparer that is used to determine equality of keys in the set.
+  example: []
+  syntax:
+    content: public IEqualityComparer<T> Comparer { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IEqualityComparer{{T}}
+    content.vb: Public ReadOnly Property Comparer As IEqualityComparer(Of T)
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.Comparer*
+  nameWithType.vb: ConcurrentHashSet(Of T).Comparer
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).Comparer
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.ExceptWith(System.Collections.Generic.IEnumerable{`0})
+  commentId: M:Mewdeko.Common.Collections.ConcurrentHashSet`1.ExceptWith(System.Collections.Generic.IEnumerable{`0})
+  id: ExceptWith(System.Collections.Generic.IEnumerable{`0})
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: ExceptWith(IEnumerable<T>)
+  nameWithType: ConcurrentHashSet<T>.ExceptWith(IEnumerable<T>)
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.ExceptWith(System.Collections.Generic.IEnumerable<T>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ExceptWith
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 170
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Removes all elements in the specified collection from the current set.
+  example: []
+  syntax:
+    content: public void ExceptWith(IEnumerable<T> other)
+    parameters:
+    - id: other
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The collection of items to remove from the set.
+    content.vb: Public Sub ExceptWith(other As IEnumerable(Of T))
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.ExceptWith*
+  implements:
+  - System.Collections.Generic.ISet{{T}}.ExceptWith(System.Collections.Generic.IEnumerable{{T}})
+  nameWithType.vb: ConcurrentHashSet(Of T).ExceptWith(IEnumerable(Of T))
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).ExceptWith(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: ExceptWith(IEnumerable(Of T))
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.IntersectWith(System.Collections.Generic.IEnumerable{`0})
+  commentId: M:Mewdeko.Common.Collections.ConcurrentHashSet`1.IntersectWith(System.Collections.Generic.IEnumerable{`0})
+  id: IntersectWith(System.Collections.Generic.IEnumerable{`0})
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: IntersectWith(IEnumerable<T>)
+  nameWithType: ConcurrentHashSet<T>.IntersectWith(IEnumerable<T>)
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.IntersectWith(System.Collections.Generic.IEnumerable<T>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IntersectWith
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 182
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Modifies the current set so that it contains only elements that are also in a specified collection.
+  example: []
+  syntax:
+    content: public void IntersectWith(IEnumerable<T> other)
+    parameters:
+    - id: other
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The collection to compare to the current set.
+    content.vb: Public Sub IntersectWith(other As IEnumerable(Of T))
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.IntersectWith*
+  implements:
+  - System.Collections.Generic.ISet{{T}}.IntersectWith(System.Collections.Generic.IEnumerable{{T}})
+  nameWithType.vb: ConcurrentHashSet(Of T).IntersectWith(IEnumerable(Of T))
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).IntersectWith(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: IntersectWith(IEnumerable(Of T))
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.IsProperSubsetOf(System.Collections.Generic.IEnumerable{`0})
+  commentId: M:Mewdeko.Common.Collections.ConcurrentHashSet`1.IsProperSubsetOf(System.Collections.Generic.IEnumerable{`0})
+  id: IsProperSubsetOf(System.Collections.Generic.IEnumerable{`0})
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: IsProperSubsetOf(IEnumerable<T>)
+  nameWithType: ConcurrentHashSet<T>.IsProperSubsetOf(IEnumerable<T>)
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.IsProperSubsetOf(System.Collections.Generic.IEnumerable<T>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IsProperSubsetOf
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 194
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Determines whether the current set is a proper (strict) subset of a specified collection.
+  example: []
+  syntax:
+    content: public bool IsProperSubsetOf(IEnumerable<T> other)
+    parameters:
+    - id: other
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The collection to compare to the current set.
+    return:
+      type: System.Boolean
+      description: true if the current set is a proper subset of other; otherwise, false.
+    content.vb: Public Function IsProperSubsetOf(other As IEnumerable(Of T)) As Boolean
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.IsProperSubsetOf*
+  implements:
+  - System.Collections.Generic.ISet{{T}}.IsProperSubsetOf(System.Collections.Generic.IEnumerable{{T}})
+  nameWithType.vb: ConcurrentHashSet(Of T).IsProperSubsetOf(IEnumerable(Of T))
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).IsProperSubsetOf(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: IsProperSubsetOf(IEnumerable(Of T))
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.IsProperSupersetOf(System.Collections.Generic.IEnumerable{`0})
+  commentId: M:Mewdeko.Common.Collections.ConcurrentHashSet`1.IsProperSupersetOf(System.Collections.Generic.IEnumerable{`0})
+  id: IsProperSupersetOf(System.Collections.Generic.IEnumerable{`0})
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: IsProperSupersetOf(IEnumerable<T>)
+  nameWithType: ConcurrentHashSet<T>.IsProperSupersetOf(IEnumerable<T>)
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.IsProperSupersetOf(System.Collections.Generic.IEnumerable<T>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IsProperSupersetOf
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 207
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Determines whether the current set is a proper (strict) superset of a specified collection.
+  example: []
+  syntax:
+    content: public bool IsProperSupersetOf(IEnumerable<T> other)
+    parameters:
+    - id: other
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The collection to compare to the current set.
+    return:
+      type: System.Boolean
+      description: true if the current set is a proper superset of other; otherwise, false.
+    content.vb: Public Function IsProperSupersetOf(other As IEnumerable(Of T)) As Boolean
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.IsProperSupersetOf*
+  implements:
+  - System.Collections.Generic.ISet{{T}}.IsProperSupersetOf(System.Collections.Generic.IEnumerable{{T}})
+  nameWithType.vb: ConcurrentHashSet(Of T).IsProperSupersetOf(IEnumerable(Of T))
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).IsProperSupersetOf(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: IsProperSupersetOf(IEnumerable(Of T))
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.IsSubsetOf(System.Collections.Generic.IEnumerable{`0})
+  commentId: M:Mewdeko.Common.Collections.ConcurrentHashSet`1.IsSubsetOf(System.Collections.Generic.IEnumerable{`0})
+  id: IsSubsetOf(System.Collections.Generic.IEnumerable{`0})
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: IsSubsetOf(IEnumerable<T>)
+  nameWithType: ConcurrentHashSet<T>.IsSubsetOf(IEnumerable<T>)
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.IsSubsetOf(System.Collections.Generic.IEnumerable<T>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IsSubsetOf
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 220
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Determines whether a set is a subset of a specified collection.
+  example: []
+  syntax:
+    content: public bool IsSubsetOf(IEnumerable<T> other)
+    parameters:
+    - id: other
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The collection to compare to the current set.
+    return:
+      type: System.Boolean
+      description: true if the current set is a subset of other; otherwise, false.
+    content.vb: Public Function IsSubsetOf(other As IEnumerable(Of T)) As Boolean
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.IsSubsetOf*
+  implements:
+  - System.Collections.Generic.ISet{{T}}.IsSubsetOf(System.Collections.Generic.IEnumerable{{T}})
+  nameWithType.vb: ConcurrentHashSet(Of T).IsSubsetOf(IEnumerable(Of T))
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).IsSubsetOf(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: IsSubsetOf(IEnumerable(Of T))
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.IsSupersetOf(System.Collections.Generic.IEnumerable{`0})
+  commentId: M:Mewdeko.Common.Collections.ConcurrentHashSet`1.IsSupersetOf(System.Collections.Generic.IEnumerable{`0})
+  id: IsSupersetOf(System.Collections.Generic.IEnumerable{`0})
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: IsSupersetOf(IEnumerable<T>)
+  nameWithType: ConcurrentHashSet<T>.IsSupersetOf(IEnumerable<T>)
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.IsSupersetOf(System.Collections.Generic.IEnumerable<T>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IsSupersetOf
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 233
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Determines whether the current set is a superset of a specified collection.
+  example: []
+  syntax:
+    content: public bool IsSupersetOf(IEnumerable<T> other)
+    parameters:
+    - id: other
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The collection to compare to the current set.
+    return:
+      type: System.Boolean
+      description: true if the current set is a superset of other; otherwise, false.
+    content.vb: Public Function IsSupersetOf(other As IEnumerable(Of T)) As Boolean
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.IsSupersetOf*
+  implements:
+  - System.Collections.Generic.ISet{{T}}.IsSupersetOf(System.Collections.Generic.IEnumerable{{T}})
+  nameWithType.vb: ConcurrentHashSet(Of T).IsSupersetOf(IEnumerable(Of T))
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).IsSupersetOf(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: IsSupersetOf(IEnumerable(Of T))
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.Overlaps(System.Collections.Generic.IEnumerable{`0})
+  commentId: M:Mewdeko.Common.Collections.ConcurrentHashSet`1.Overlaps(System.Collections.Generic.IEnumerable{`0})
+  id: Overlaps(System.Collections.Generic.IEnumerable{`0})
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: Overlaps(IEnumerable<T>)
+  nameWithType: ConcurrentHashSet<T>.Overlaps(IEnumerable<T>)
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.Overlaps(System.Collections.Generic.IEnumerable<T>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Overlaps
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 246
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Determines whether the current set overlaps with the specified collection.
+  example: []
+  syntax:
+    content: public bool Overlaps(IEnumerable<T> other)
+    parameters:
+    - id: other
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The collection to check for overlap with the current set.
+    return:
+      type: System.Boolean
+      description: true if the current set and other share at least one common element; otherwise, false.
+    content.vb: Public Function Overlaps(other As IEnumerable(Of T)) As Boolean
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.Overlaps*
+  implements:
+  - System.Collections.Generic.ISet{{T}}.Overlaps(System.Collections.Generic.IEnumerable{{T}})
+  nameWithType.vb: ConcurrentHashSet(Of T).Overlaps(IEnumerable(Of T))
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).Overlaps(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: Overlaps(IEnumerable(Of T))
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.SetEquals(System.Collections.Generic.IEnumerable{`0})
+  commentId: M:Mewdeko.Common.Collections.ConcurrentHashSet`1.SetEquals(System.Collections.Generic.IEnumerable{`0})
+  id: SetEquals(System.Collections.Generic.IEnumerable{`0})
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: SetEquals(IEnumerable<T>)
+  nameWithType: ConcurrentHashSet<T>.SetEquals(IEnumerable<T>)
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.SetEquals(System.Collections.Generic.IEnumerable<T>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetEquals
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 258
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Determines whether the current set and the specified collection contain the same elements.
+  example: []
+  syntax:
+    content: public bool SetEquals(IEnumerable<T> other)
+    parameters:
+    - id: other
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The collection to compare to the current set.
+    return:
+      type: System.Boolean
+      description: true if the current set is equal to other; otherwise, false.
+    content.vb: Public Function SetEquals(other As IEnumerable(Of T)) As Boolean
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.SetEquals*
+  implements:
+  - System.Collections.Generic.ISet{{T}}.SetEquals(System.Collections.Generic.IEnumerable{{T}})
+  nameWithType.vb: ConcurrentHashSet(Of T).SetEquals(IEnumerable(Of T))
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).SetEquals(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: SetEquals(IEnumerable(Of T))
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.SymmetricExceptWith(System.Collections.Generic.IEnumerable{`0})
+  commentId: M:Mewdeko.Common.Collections.ConcurrentHashSet`1.SymmetricExceptWith(System.Collections.Generic.IEnumerable{`0})
+  id: SymmetricExceptWith(System.Collections.Generic.IEnumerable{`0})
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: SymmetricExceptWith(IEnumerable<T>)
+  nameWithType: ConcurrentHashSet<T>.SymmetricExceptWith(IEnumerable<T>)
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.SymmetricExceptWith(System.Collections.Generic.IEnumerable<T>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SymmetricExceptWith
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 270
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Modifies the current set so that it contains only elements that are present either in the current set or in the specified collection, but not both.
+  example: []
+  syntax:
+    content: public void SymmetricExceptWith(IEnumerable<T> other)
+    parameters:
+    - id: other
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The collection to compare to the current set.
+    content.vb: Public Sub SymmetricExceptWith(other As IEnumerable(Of T))
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.SymmetricExceptWith*
+  implements:
+  - System.Collections.Generic.ISet{{T}}.SymmetricExceptWith(System.Collections.Generic.IEnumerable{{T}})
+  nameWithType.vb: ConcurrentHashSet(Of T).SymmetricExceptWith(IEnumerable(Of T))
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).SymmetricExceptWith(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: SymmetricExceptWith(IEnumerable(Of T))
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.UnionWith(System.Collections.Generic.IEnumerable{`0})
+  commentId: M:Mewdeko.Common.Collections.ConcurrentHashSet`1.UnionWith(System.Collections.Generic.IEnumerable{`0})
+  id: UnionWith(System.Collections.Generic.IEnumerable{`0})
+  parent: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  langs:
+  - csharp
+  - vb
+  name: UnionWith(IEnumerable<T>)
+  nameWithType: ConcurrentHashSet<T>.UnionWith(IEnumerable<T>)
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.UnionWith(System.Collections.Generic.IEnumerable<T>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UnionWith
+    path: src/Mewdeko/Common/Collections/ConcurrentHashSet.cs
+    startLine: 287
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Collections
+  summary: Modifies the current set so that it contains all elements that are present in the current set, in the specified collection, or in both.
+  example: []
+  syntax:
+    content: public void UnionWith(IEnumerable<T> other)
+    parameters:
+    - id: other
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The collection to compare to the current set.
+    content.vb: Public Sub UnionWith(other As IEnumerable(Of T))
+  overload: Mewdeko.Common.Collections.ConcurrentHashSet`1.UnionWith*
+  implements:
+  - System.Collections.Generic.ISet{{T}}.UnionWith(System.Collections.Generic.IEnumerable{{T}})
+  nameWithType.vb: ConcurrentHashSet(Of T).UnionWith(IEnumerable(Of T))
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).UnionWith(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: UnionWith(IEnumerable(Of T))
+references:
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1
+  commentId: T:Mewdeko.Common.Collections.ConcurrentHashSet`1
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html
+  name: ConcurrentHashSet<T>
+  nameWithType: ConcurrentHashSet<T>
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>
+  nameWithType.vb: ConcurrentHashSet(Of T)
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T)
+  name.vb: ConcurrentHashSet(Of T)
+  spec.csharp:
+  - uid: Mewdeko.Common.Collections.ConcurrentHashSet`1
+    name: ConcurrentHashSet
+    href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.Collections.ConcurrentHashSet`1
+    name: ConcurrentHashSet
+    href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Common.Collections
+  commentId: N:Mewdeko.Common.Collections
+  href: Mewdeko.html
+  name: Mewdeko.Common.Collections
+  nameWithType: Mewdeko.Common.Collections
+  fullName: Mewdeko.Common.Collections
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Collections
+    name: Collections
+    href: Mewdeko.Common.Collections.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Collections
+    name: Collections
+    href: Mewdeko.Common.Collections.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Collections.Generic.IReadOnlyCollection{{T}}
+  commentId: T:System.Collections.Generic.IReadOnlyCollection{`0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IReadOnlyCollection`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1
+  name: IReadOnlyCollection<T>
+  nameWithType: IReadOnlyCollection<T>
+  fullName: System.Collections.Generic.IReadOnlyCollection<T>
+  nameWithType.vb: IReadOnlyCollection(Of T)
+  fullName.vb: System.Collections.Generic.IReadOnlyCollection(Of T)
+  name.vb: IReadOnlyCollection(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyCollection`1
+    name: IReadOnlyCollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyCollection`1
+    name: IReadOnlyCollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic.ISet{{T}}
+  commentId: T:System.Collections.Generic.ISet{`0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.ISet`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1
+  name: ISet<T>
+  nameWithType: ISet<T>
+  fullName: System.Collections.Generic.ISet<T>
+  nameWithType.vb: ISet(Of T)
+  fullName.vb: System.Collections.Generic.ISet(Of T)
+  name.vb: ISet(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet`1
+    name: ISet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.ISet`1
+    name: ISet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic.ICollection{{T}}
+  commentId: T:System.Collections.Generic.ICollection{`0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.ICollection`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  name: ICollection<T>
+  nameWithType: ICollection<T>
+  fullName: System.Collections.Generic.ICollection<T>
+  nameWithType.vb: ICollection(Of T)
+  fullName.vb: System.Collections.Generic.ICollection(Of T)
+  name.vb: ICollection(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic.IEnumerable{{T}}
+  commentId: T:System.Collections.Generic.IEnumerable{`0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.ienumerable
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<ConcurrentHashSet<T>>(ConcurrentHashSet<T>, string)
+  nameWithType: Extensions.ThrowIfNull<ConcurrentHashSet<T>>(ConcurrentHashSet<T>, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Common.Collections.ConcurrentHashSet<T>>(Mewdeko.Common.Collections.ConcurrentHashSet<T>, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of ConcurrentHashSet(Of T))(ConcurrentHashSet(Of T), String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Common.Collections.ConcurrentHashSet(Of T))(Mewdeko.Common.Collections.ConcurrentHashSet(Of T), String)
+  name.vb: ThrowIfNull(Of ConcurrentHashSet(Of T))(ConcurrentHashSet(Of T), String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.Collections.ConcurrentHashSet{`0},System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Common.Collections.ConcurrentHashSet`1
+    name: ConcurrentHashSet
+    href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Common.Collections.ConcurrentHashSet`1
+    name: ConcurrentHashSet
+    href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.Collections.ConcurrentHashSet{`0},System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Common.Collections.ConcurrentHashSet`1
+    name: ConcurrentHashSet
+    href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+  - name: (
+  - uid: Mewdeko.Common.Collections.ConcurrentHashSet`1
+    name: ConcurrentHashSet
+    href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Collections.Generic.IEnumerable{`0}.Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Func{{T},{TU}})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  definition: Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Distinct__2_System_Collections_Generic_IEnumerable___0__System_Func___0___1__
+  name: Distinct<T, TU>(IEnumerable<T>, Func<T, TU>)
+  nameWithType: EnumerableExtensions.Distinct<T, TU>(IEnumerable<T>, Func<T, TU>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.Distinct<T, TU>(System.Collections.Generic.IEnumerable<T>, System.Func<T, TU>)
+  nameWithType.vb: EnumerableExtensions.Distinct(Of T, TU)(IEnumerable(Of T), Func(Of T, TU))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.Distinct(Of T, TU)(System.Collections.Generic.IEnumerable(Of T), System.Func(Of T, TU))
+  name.vb: Distinct(Of T, TU)(IEnumerable(Of T), Func(Of T, TU))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Collections.Generic.IEnumerable{`0},System.Func{`0,``1})
+    name: Distinct
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Distinct__2_System_Collections_Generic_IEnumerable___0__System_Func___0___1__
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TU
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TU
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Collections.Generic.IEnumerable{`0},System.Func{`0,``1})
+    name: Distinct
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Distinct__2_System_Collections_Generic_IEnumerable___0__System_Func___0___1__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TU
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TU
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.IEnumerable{`0}.Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Action{{T}})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  definition: Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0__
+  name: ForEach<T>(IEnumerable<T>, Action<T>)
+  nameWithType: EnumerableExtensions.ForEach<T>(IEnumerable<T>, Action<T>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.ForEach<T>(System.Collections.Generic.IEnumerable<T>, System.Action<T>)
+  nameWithType.vb: EnumerableExtensions.ForEach(Of T)(IEnumerable(Of T), Action(Of T))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.ForEach(Of T)(System.Collections.Generic.IEnumerable(Of T), System.Action(Of T))
+  name.vb: ForEach(Of T)(IEnumerable(Of T), Action(Of T))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{`0},System.Action{`0})
+    name: ForEach
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0__
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{`0},System.Action{`0})
+    name: ForEach
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.IEnumerable{`0}.Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0})
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  definition: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0})
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_GetRandomElement__1_System_Collections_Generic_IEnumerable___0__
+  name: GetRandomElement<T>(IEnumerable<T>)
+  nameWithType: EnumerableExtensions.GetRandomElement<T>(IEnumerable<T>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement<T>(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: EnumerableExtensions.GetRandomElement(Of T)(IEnumerable(Of T))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement(Of T)(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: GetRandomElement(Of T)(IEnumerable(Of T))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1(System.Collections.Generic.IEnumerable{`0})
+    name: GetRandomElement
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_GetRandomElement__1_System_Collections_Generic_IEnumerable___0__
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1(System.Collections.Generic.IEnumerable{`0})
+    name: GetRandomElement
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_GetRandomElement__1_System_Collections_Generic_IEnumerable___0__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.IEnumerable{`0}.Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Char,System.Func{{T},System.String})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  definition: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  name: JoinWith<T>(IEnumerable<T>, char, Func<T, string>)
+  nameWithType: EnumerableExtensions.JoinWith<T>(IEnumerable<T>, char, Func<T, string>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.JoinWith<T>(System.Collections.Generic.IEnumerable<T>, char, System.Func<T, string>)
+  nameWithType.vb: EnumerableExtensions.JoinWith(Of T)(IEnumerable(Of T), Char, Func(Of T, String))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.JoinWith(Of T)(System.Collections.Generic.IEnumerable(Of T), Char, System.Func(Of T, String))
+  name.vb: JoinWith(Of T)(IEnumerable(Of T), Char, Func(Of T, String))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{`0},System.Char,System.Func{`0,System.String})
+    name: JoinWith
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Char
+    name: char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{`0},System.Char,System.Func{`0,System.String})
+    name: JoinWith
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Char
+    name: Char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.IEnumerable{`0}.Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.String,System.Func{{T},System.String})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Func{``0,System.String})
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  definition: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Func{``0,System.String})
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_String_System_Func___0_System_String__
+  name: JoinWith<T>(IEnumerable<T>, string, Func<T, string>)
+  nameWithType: EnumerableExtensions.JoinWith<T>(IEnumerable<T>, string, Func<T, string>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.JoinWith<T>(System.Collections.Generic.IEnumerable<T>, string, System.Func<T, string>)
+  nameWithType.vb: EnumerableExtensions.JoinWith(Of T)(IEnumerable(Of T), String, Func(Of T, String))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.JoinWith(Of T)(System.Collections.Generic.IEnumerable(Of T), String, System.Func(Of T, String))
+  name.vb: JoinWith(Of T)(IEnumerable(Of T), String, Func(Of T, String))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{`0},System.String,System.Func{`0,System.String})
+    name: JoinWith
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_String_System_Func___0_System_String__
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{`0},System.String,System.Func{`0,System.String})
+    name: JoinWith
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_String_System_Func___0_System_String__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.IEnumerable{`0}.Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Char,System.Func{{T},System.String})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  definition: Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Join__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  name: Join<T>(IEnumerable<T>, char, Func<T, string>)
+  nameWithType: EnumerableExtensions.Join<T>(IEnumerable<T>, char, Func<T, string>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.Join<T>(System.Collections.Generic.IEnumerable<T>, char, System.Func<T, string>)
+  nameWithType.vb: EnumerableExtensions.Join(Of T)(IEnumerable(Of T), Char, Func(Of T, String))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.Join(Of T)(System.Collections.Generic.IEnumerable(Of T), Char, System.Func(Of T, String))
+  name.vb: Join(Of T)(IEnumerable(Of T), Char, Func(Of T, String))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{`0},System.Char,System.Func{`0,System.String})
+    name: Join
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Join__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Char
+    name: char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{`0},System.Char,System.Func{`0,System.String})
+    name: Join
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Join__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Char
+    name: Char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.IEnumerable{`0}.Mewdeko.Extensions.EnumerableExtensions.Shuffle``1
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.Shuffle``1(System.Collections.Generic.IEnumerable{``0})
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  definition: Mewdeko.Extensions.EnumerableExtensions.Shuffle``1(System.Collections.Generic.IEnumerable{``0})
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Shuffle__1_System_Collections_Generic_IEnumerable___0__
+  name: Shuffle<T>(IEnumerable<T>)
+  nameWithType: EnumerableExtensions.Shuffle<T>(IEnumerable<T>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.Shuffle<T>(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: EnumerableExtensions.Shuffle(Of T)(IEnumerable(Of T))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.Shuffle(Of T)(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: Shuffle(Of T)(IEnumerable(Of T))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Shuffle``1(System.Collections.Generic.IEnumerable{`0})
+    name: Shuffle
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Shuffle__1_System_Collections_Generic_IEnumerable___0__
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Shuffle``1(System.Collections.Generic.IEnumerable{`0})
+    name: Shuffle
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Shuffle__1_System_Collections_Generic_IEnumerable___0__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IReadOnlyCollection`1
+  commentId: T:System.Collections.Generic.IReadOnlyCollection`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1
+  name: IReadOnlyCollection<T>
+  nameWithType: IReadOnlyCollection<T>
+  fullName: System.Collections.Generic.IReadOnlyCollection<T>
+  nameWithType.vb: IReadOnlyCollection(Of T)
+  fullName.vb: System.Collections.Generic.IReadOnlyCollection(Of T)
+  name.vb: IReadOnlyCollection(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyCollection`1
+    name: IReadOnlyCollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyCollection`1
+    name: IReadOnlyCollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: System.Collections.Generic.ISet`1
+  commentId: T:System.Collections.Generic.ISet`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1
+  name: ISet<T>
+  nameWithType: ISet<T>
+  fullName: System.Collections.Generic.ISet<T>
+  nameWithType.vb: ISet(Of T)
+  fullName.vb: System.Collections.Generic.ISet(Of T)
+  name.vb: ISet(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet`1
+    name: ISet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.ISet`1
+    name: ISet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic.ICollection`1
+  commentId: T:System.Collections.Generic.ICollection`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  name: ICollection<T>
+  nameWithType: ICollection<T>
+  fullName: System.Collections.Generic.ICollection<T>
+  nameWithType.vb: ICollection(Of T)
+  fullName.vb: System.Collections.Generic.ICollection(Of T)
+  name.vb: ICollection(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})
+  isExternal: true
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Distinct__2_System_Collections_Generic_IEnumerable___0__System_Func___0___1__
+  name: Distinct<T, TU>(IEnumerable<T>, Func<T, TU>)
+  nameWithType: EnumerableExtensions.Distinct<T, TU>(IEnumerable<T>, Func<T, TU>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.Distinct<T, TU>(System.Collections.Generic.IEnumerable<T>, System.Func<T, TU>)
+  nameWithType.vb: EnumerableExtensions.Distinct(Of T, TU)(IEnumerable(Of T), Func(Of T, TU))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.Distinct(Of T, TU)(System.Collections.Generic.IEnumerable(Of T), System.Func(Of T, TU))
+  name.vb: Distinct(Of T, TU)(IEnumerable(Of T), Func(Of T, TU))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})
+    name: Distinct
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Distinct__2_System_Collections_Generic_IEnumerable___0__System_Func___0___1__
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TU
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TU
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})
+    name: Distinct
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Distinct__2_System_Collections_Generic_IEnumerable___0__System_Func___0___1__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TU
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TU
+  - name: )
+  - name: )
+- uid: Mewdeko.Extensions.EnumerableExtensions
+  commentId: T:Mewdeko.Extensions.EnumerableExtensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.EnumerableExtensions.html
+  name: EnumerableExtensions
+  nameWithType: EnumerableExtensions
+  fullName: Mewdeko.Extensions.EnumerableExtensions
+- uid: Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})
+  isExternal: true
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0__
+  name: ForEach<T>(IEnumerable<T>, Action<T>)
+  nameWithType: EnumerableExtensions.ForEach<T>(IEnumerable<T>, Action<T>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.ForEach<T>(System.Collections.Generic.IEnumerable<T>, System.Action<T>)
+  nameWithType.vb: EnumerableExtensions.ForEach(Of T)(IEnumerable(Of T), Action(Of T))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.ForEach(Of T)(System.Collections.Generic.IEnumerable(Of T), System.Action(Of T))
+  name.vb: ForEach(Of T)(IEnumerable(Of T), Action(Of T))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})
+    name: ForEach
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0__
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})
+    name: ForEach
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0})
+  isExternal: true
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_GetRandomElement__1_System_Collections_Generic_IEnumerable___0__
+  name: GetRandomElement<T>(IEnumerable<T>)
+  nameWithType: EnumerableExtensions.GetRandomElement<T>(IEnumerable<T>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement<T>(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: EnumerableExtensions.GetRandomElement(Of T)(IEnumerable(Of T))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement(Of T)(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: GetRandomElement(Of T)(IEnumerable(Of T))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0})
+    name: GetRandomElement
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_GetRandomElement__1_System_Collections_Generic_IEnumerable___0__
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0})
+    name: GetRandomElement
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_GetRandomElement__1_System_Collections_Generic_IEnumerable___0__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  isExternal: true
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  name: JoinWith<T>(IEnumerable<T>, char, Func<T, string>)
+  nameWithType: EnumerableExtensions.JoinWith<T>(IEnumerable<T>, char, Func<T, string>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.JoinWith<T>(System.Collections.Generic.IEnumerable<T>, char, System.Func<T, string>)
+  nameWithType.vb: EnumerableExtensions.JoinWith(Of T)(IEnumerable(Of T), Char, Func(Of T, String))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.JoinWith(Of T)(System.Collections.Generic.IEnumerable(Of T), Char, System.Func(Of T, String))
+  name.vb: JoinWith(Of T)(IEnumerable(Of T), Char, Func(Of T, String))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+    name: JoinWith
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Char
+    name: char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+    name: JoinWith
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Char
+    name: Char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: )
+- uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Func{``0,System.String})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Func{``0,System.String})
+  isExternal: true
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_String_System_Func___0_System_String__
+  name: JoinWith<T>(IEnumerable<T>, string, Func<T, string>)
+  nameWithType: EnumerableExtensions.JoinWith<T>(IEnumerable<T>, string, Func<T, string>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.JoinWith<T>(System.Collections.Generic.IEnumerable<T>, string, System.Func<T, string>)
+  nameWithType.vb: EnumerableExtensions.JoinWith(Of T)(IEnumerable(Of T), String, Func(Of T, String))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.JoinWith(Of T)(System.Collections.Generic.IEnumerable(Of T), String, System.Func(Of T, String))
+  name.vb: JoinWith(Of T)(IEnumerable(Of T), String, Func(Of T, String))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Func{``0,System.String})
+    name: JoinWith
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_String_System_Func___0_System_String__
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Func{``0,System.String})
+    name: JoinWith
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_String_System_Func___0_System_String__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: )
+- uid: Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  isExternal: true
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Join__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  name: Join<T>(IEnumerable<T>, char, Func<T, string>)
+  nameWithType: EnumerableExtensions.Join<T>(IEnumerable<T>, char, Func<T, string>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.Join<T>(System.Collections.Generic.IEnumerable<T>, char, System.Func<T, string>)
+  nameWithType.vb: EnumerableExtensions.Join(Of T)(IEnumerable(Of T), Char, Func(Of T, String))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.Join(Of T)(System.Collections.Generic.IEnumerable(Of T), Char, System.Func(Of T, String))
+  name.vb: Join(Of T)(IEnumerable(Of T), Char, Func(Of T, String))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+    name: Join
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Join__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Char
+    name: char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+    name: Join
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Join__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Char
+    name: Char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: )
+- uid: Mewdeko.Extensions.EnumerableExtensions.Shuffle``1(System.Collections.Generic.IEnumerable{``0})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.Shuffle``1(System.Collections.Generic.IEnumerable{``0})
+  isExternal: true
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Shuffle__1_System_Collections_Generic_IEnumerable___0__
+  name: Shuffle<T>(IEnumerable<T>)
+  nameWithType: EnumerableExtensions.Shuffle<T>(IEnumerable<T>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.Shuffle<T>(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: EnumerableExtensions.Shuffle(Of T)(IEnumerable(Of T))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.Shuffle(Of T)(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: Shuffle(Of T)(IEnumerable(Of T))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Shuffle``1(System.Collections.Generic.IEnumerable{``0})
+    name: Shuffle
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Shuffle__1_System_Collections_Generic_IEnumerable___0__
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Shuffle``1(System.Collections.Generic.IEnumerable{``0})
+    name: Shuffle
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Shuffle__1_System_Collections_Generic_IEnumerable___0__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.#ctor*
+  commentId: Overload:Mewdeko.Common.Collections.ConcurrentHashSet`1.#ctor
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html#Mewdeko_Common_Collections_ConcurrentHashSet_1__ctor
+  name: ConcurrentHashSet
+  nameWithType: ConcurrentHashSet<T>.ConcurrentHashSet
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.ConcurrentHashSet
+  nameWithType.vb: ConcurrentHashSet(Of T).New
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).New
+  name.vb: New
+- uid: System.Collections.Generic.IEqualityComparer{{T}}
+  commentId: T:System.Collections.Generic.IEqualityComparer{`0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEqualityComparer`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iequalitycomparer-1
+  name: IEqualityComparer<T>
+  nameWithType: IEqualityComparer<T>
+  fullName: System.Collections.Generic.IEqualityComparer<T>
+  nameWithType.vb: IEqualityComparer(Of T)
+  fullName.vb: System.Collections.Generic.IEqualityComparer(Of T)
+  name.vb: IEqualityComparer(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iequalitycomparer-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iequalitycomparer-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic.IEqualityComparer`1
+  commentId: T:System.Collections.Generic.IEqualityComparer`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iequalitycomparer-1
+  name: IEqualityComparer<T>
+  nameWithType: IEqualityComparer<T>
+  fullName: System.Collections.Generic.IEqualityComparer<T>
+  nameWithType.vb: IEqualityComparer(Of T)
+  fullName.vb: System.Collections.Generic.IEqualityComparer(Of T)
+  name.vb: IEqualityComparer(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iequalitycomparer-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iequalitycomparer-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.GetEnumerator*
+  commentId: Overload:Mewdeko.Common.Collections.ConcurrentHashSet`1.GetEnumerator
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html#Mewdeko_Common_Collections_ConcurrentHashSet_1_GetEnumerator
+  name: GetEnumerator
+  nameWithType: ConcurrentHashSet<T>.GetEnumerator
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.GetEnumerator
+  nameWithType.vb: ConcurrentHashSet(Of T).GetEnumerator
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{{T}}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{`0}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{{T}}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable{`0}.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable{`0}.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.IEnumerator{{T}}
+  commentId: T:System.Collections.Generic.IEnumerator{`0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.Add*
+  commentId: Overload:Mewdeko.Common.Collections.ConcurrentHashSet`1.Add
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html#Mewdeko_Common_Collections_ConcurrentHashSet_1_Add__0_
+  name: Add
+  nameWithType: ConcurrentHashSet<T>.Add
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.Add
+  nameWithType.vb: ConcurrentHashSet(Of T).Add
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).Add
+- uid: System.Collections.Generic.ISet{{T}}.Add({T})
+  commentId: M:System.Collections.Generic.ISet{`0}.Add(`0)
+  parent: System.Collections.Generic.ISet{{T}}
+  definition: System.Collections.Generic.ISet`1.Add(`0)
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.add
+  name: Add(T)
+  nameWithType: ISet<T>.Add(T)
+  fullName: System.Collections.Generic.ISet<T>.Add(T)
+  nameWithType.vb: ISet(Of T).Add(T)
+  fullName.vb: System.Collections.Generic.ISet(Of T).Add(T)
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet{`0}.Add(`0)
+    name: Add
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.add
+  - name: (
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet{`0}.Add(`0)
+    name: Add
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.add
+  - name: (
+  - name: T
+  - name: )
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: System.Collections.Generic.ISet`1.Add(`0)
+  commentId: M:System.Collections.Generic.ISet`1.Add(`0)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.add
+  name: Add(T)
+  nameWithType: ISet<T>.Add(T)
+  fullName: System.Collections.Generic.ISet<T>.Add(T)
+  nameWithType.vb: ISet(Of T).Add(T)
+  fullName.vb: System.Collections.Generic.ISet(Of T).Add(T)
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet`1.Add(`0)
+    name: Add
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.add
+  - name: (
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet`1.Add(`0)
+    name: Add
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.add
+  - name: (
+  - name: T
+  - name: )
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.Clear*
+  commentId: Overload:Mewdeko.Common.Collections.ConcurrentHashSet`1.Clear
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html#Mewdeko_Common_Collections_ConcurrentHashSet_1_Clear
+  name: Clear
+  nameWithType: ConcurrentHashSet<T>.Clear
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.Clear
+  nameWithType.vb: ConcurrentHashSet(Of T).Clear
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).Clear
+- uid: System.Collections.Generic.ICollection{{T}}.Clear
+  commentId: M:System.Collections.Generic.ICollection{`0}.Clear
+  parent: System.Collections.Generic.ICollection{{T}}
+  definition: System.Collections.Generic.ICollection`1.Clear
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.clear
+  name: Clear()
+  nameWithType: ICollection<T>.Clear()
+  fullName: System.Collections.Generic.ICollection<T>.Clear()
+  nameWithType.vb: ICollection(Of T).Clear()
+  fullName.vb: System.Collections.Generic.ICollection(Of T).Clear()
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection{`0}.Clear
+    name: Clear
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.clear
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection{`0}.Clear
+    name: Clear
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.clear
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.ICollection`1.Clear
+  commentId: M:System.Collections.Generic.ICollection`1.Clear
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.clear
+  name: Clear()
+  nameWithType: ICollection<T>.Clear()
+  fullName: System.Collections.Generic.ICollection<T>.Clear()
+  nameWithType.vb: ICollection(Of T).Clear()
+  fullName.vb: System.Collections.Generic.ICollection(Of T).Clear()
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1.Clear
+    name: Clear
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.clear
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1.Clear
+    name: Clear
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.clear
+  - name: (
+  - name: )
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.Contains*
+  commentId: Overload:Mewdeko.Common.Collections.ConcurrentHashSet`1.Contains
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html#Mewdeko_Common_Collections_ConcurrentHashSet_1_Contains__0_
+  name: Contains
+  nameWithType: ConcurrentHashSet<T>.Contains
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.Contains
+  nameWithType.vb: ConcurrentHashSet(Of T).Contains
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).Contains
+- uid: System.Collections.Generic.ICollection{{T}}.Contains({T})
+  commentId: M:System.Collections.Generic.ICollection{`0}.Contains(`0)
+  parent: System.Collections.Generic.ICollection{{T}}
+  definition: System.Collections.Generic.ICollection`1.Contains(`0)
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.contains
+  name: Contains(T)
+  nameWithType: ICollection<T>.Contains(T)
+  fullName: System.Collections.Generic.ICollection<T>.Contains(T)
+  nameWithType.vb: ICollection(Of T).Contains(T)
+  fullName.vb: System.Collections.Generic.ICollection(Of T).Contains(T)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection{`0}.Contains(`0)
+    name: Contains
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.contains
+  - name: (
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection{`0}.Contains(`0)
+    name: Contains
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.contains
+  - name: (
+  - name: T
+  - name: )
+- uid: System.Collections.Generic.ICollection`1.Contains(`0)
+  commentId: M:System.Collections.Generic.ICollection`1.Contains(`0)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.contains
+  name: Contains(T)
+  nameWithType: ICollection<T>.Contains(T)
+  fullName: System.Collections.Generic.ICollection<T>.Contains(T)
+  nameWithType.vb: ICollection(Of T).Contains(T)
+  fullName.vb: System.Collections.Generic.ICollection(Of T).Contains(T)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1.Contains(`0)
+    name: Contains
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.contains
+  - name: (
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1.Contains(`0)
+    name: Contains
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.contains
+  - name: (
+  - name: T
+  - name: )
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.CopyTo*
+  commentId: Overload:Mewdeko.Common.Collections.ConcurrentHashSet`1.CopyTo
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html#Mewdeko_Common_Collections_ConcurrentHashSet_1_CopyTo__0___System_Int32_
+  name: CopyTo
+  nameWithType: ConcurrentHashSet<T>.CopyTo
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.CopyTo
+  nameWithType.vb: ConcurrentHashSet(Of T).CopyTo
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).CopyTo
+- uid: System.Collections.Generic.ICollection{{T}}.CopyTo({T}[],System.Int32)
+  commentId: M:System.Collections.Generic.ICollection{`0}.CopyTo(`0[],System.Int32)
+  parent: System.Collections.Generic.ICollection{{T}}
+  definition: System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.copyto
+  name: CopyTo(T[], int)
+  nameWithType: ICollection<T>.CopyTo(T[], int)
+  fullName: System.Collections.Generic.ICollection<T>.CopyTo(T[], int)
+  nameWithType.vb: ICollection(Of T).CopyTo(T(), Integer)
+  fullName.vb: System.Collections.Generic.ICollection(Of T).CopyTo(T(), Integer)
+  name.vb: CopyTo(T(), Integer)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection{`0}.CopyTo(`0[],System.Int32)
+    name: CopyTo
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.copyto
+  - name: (
+  - name: T
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection{`0}.CopyTo(`0[],System.Int32)
+    name: CopyTo
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.copyto
+  - name: (
+  - name: T
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: '{T}[]'
+  isExternal: true
+  name: T[]
+  nameWithType: T[]
+  fullName: T[]
+  nameWithType.vb: T()
+  fullName.vb: T()
+  name.vb: T()
+  spec.csharp:
+  - name: T
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - name: T
+  - name: (
+  - name: )
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)
+  commentId: M:System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.copyto
+  name: CopyTo(T[], int)
+  nameWithType: ICollection<T>.CopyTo(T[], int)
+  fullName: System.Collections.Generic.ICollection<T>.CopyTo(T[], int)
+  nameWithType.vb: ICollection(Of T).CopyTo(T(), Integer)
+  fullName.vb: System.Collections.Generic.ICollection(Of T).CopyTo(T(), Integer)
+  name.vb: CopyTo(T(), Integer)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)
+    name: CopyTo
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.copyto
+  - name: (
+  - name: T
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)
+    name: CopyTo
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.copyto
+  - name: (
+  - name: T
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.TryRemove*
+  commentId: Overload:Mewdeko.Common.Collections.ConcurrentHashSet`1.TryRemove
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html#Mewdeko_Common_Collections_ConcurrentHashSet_1_TryRemove__0_
+  name: TryRemove
+  nameWithType: ConcurrentHashSet<T>.TryRemove
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.TryRemove
+  nameWithType.vb: ConcurrentHashSet(Of T).TryRemove
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).TryRemove
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.RemoveWhere*
+  commentId: Overload:Mewdeko.Common.Collections.ConcurrentHashSet`1.RemoveWhere
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html#Mewdeko_Common_Collections_ConcurrentHashSet_1_RemoveWhere_System_Func__0_System_Boolean__
+  name: RemoveWhere
+  nameWithType: ConcurrentHashSet<T>.RemoveWhere
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.RemoveWhere
+  nameWithType.vb: ConcurrentHashSet(Of T).RemoveWhere
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).RemoveWhere
+- uid: System.Func{{T},System.Boolean}
+  commentId: T:System.Func{`0,System.Boolean}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, bool>
+  nameWithType: Func<T, bool>
+  fullName: System.Func<T, bool>
+  nameWithType.vb: Func(Of T, Boolean)
+  fullName.vb: System.Func(Of T, Boolean)
+  name.vb: Func(Of T, Boolean)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: System.Func`2
+  commentId: T:System.Func`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.Count*
+  commentId: Overload:Mewdeko.Common.Collections.ConcurrentHashSet`1.Count
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html#Mewdeko_Common_Collections_ConcurrentHashSet_1_Count
+  name: Count
+  nameWithType: ConcurrentHashSet<T>.Count
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.Count
+  nameWithType.vb: ConcurrentHashSet(Of T).Count
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).Count
+- uid: System.Collections.Generic.IReadOnlyCollection{{T}}.Count
+  commentId: P:System.Collections.Generic.IReadOnlyCollection{`0}.Count
+  parent: System.Collections.Generic.IReadOnlyCollection{{T}}
+  definition: System.Collections.Generic.IReadOnlyCollection`1.Count
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1.count
+  name: Count
+  nameWithType: IReadOnlyCollection<T>.Count
+  fullName: System.Collections.Generic.IReadOnlyCollection<T>.Count
+  nameWithType.vb: IReadOnlyCollection(Of T).Count
+  fullName.vb: System.Collections.Generic.IReadOnlyCollection(Of T).Count
+- uid: System.Collections.Generic.ICollection{{T}}.Count
+  commentId: P:System.Collections.Generic.ICollection{`0}.Count
+  parent: System.Collections.Generic.ICollection{{T}}
+  definition: System.Collections.Generic.ICollection`1.Count
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.count
+  name: Count
+  nameWithType: ICollection<T>.Count
+  fullName: System.Collections.Generic.ICollection<T>.Count
+  nameWithType.vb: ICollection(Of T).Count
+  fullName.vb: System.Collections.Generic.ICollection(Of T).Count
+- uid: System.Collections.Generic.IReadOnlyCollection`1.Count
+  commentId: P:System.Collections.Generic.IReadOnlyCollection`1.Count
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1.count
+  name: Count
+  nameWithType: IReadOnlyCollection<T>.Count
+  fullName: System.Collections.Generic.IReadOnlyCollection<T>.Count
+  nameWithType.vb: IReadOnlyCollection(Of T).Count
+  fullName.vb: System.Collections.Generic.IReadOnlyCollection(Of T).Count
+- uid: System.Collections.Generic.ICollection`1.Count
+  commentId: P:System.Collections.Generic.ICollection`1.Count
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.count
+  name: Count
+  nameWithType: ICollection<T>.Count
+  fullName: System.Collections.Generic.ICollection<T>.Count
+  nameWithType.vb: ICollection(Of T).Count
+  fullName.vb: System.Collections.Generic.ICollection(Of T).Count
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.IsReadOnly*
+  commentId: Overload:Mewdeko.Common.Collections.ConcurrentHashSet`1.IsReadOnly
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html#Mewdeko_Common_Collections_ConcurrentHashSet_1_IsReadOnly
+  name: IsReadOnly
+  nameWithType: ConcurrentHashSet<T>.IsReadOnly
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.IsReadOnly
+  nameWithType.vb: ConcurrentHashSet(Of T).IsReadOnly
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).IsReadOnly
+- uid: System.Collections.Generic.ICollection{{T}}.IsReadOnly
+  commentId: P:System.Collections.Generic.ICollection{`0}.IsReadOnly
+  parent: System.Collections.Generic.ICollection{{T}}
+  definition: System.Collections.Generic.ICollection`1.IsReadOnly
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.isreadonly
+  name: IsReadOnly
+  nameWithType: ICollection<T>.IsReadOnly
+  fullName: System.Collections.Generic.ICollection<T>.IsReadOnly
+  nameWithType.vb: ICollection(Of T).IsReadOnly
+  fullName.vb: System.Collections.Generic.ICollection(Of T).IsReadOnly
+- uid: System.Collections.Generic.ICollection`1.IsReadOnly
+  commentId: P:System.Collections.Generic.ICollection`1.IsReadOnly
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1.isreadonly
+  name: IsReadOnly
+  nameWithType: ICollection<T>.IsReadOnly
+  fullName: System.Collections.Generic.ICollection<T>.IsReadOnly
+  nameWithType.vb: ICollection(Of T).IsReadOnly
+  fullName.vb: System.Collections.Generic.ICollection(Of T).IsReadOnly
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.Comparer*
+  commentId: Overload:Mewdeko.Common.Collections.ConcurrentHashSet`1.Comparer
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html#Mewdeko_Common_Collections_ConcurrentHashSet_1_Comparer
+  name: Comparer
+  nameWithType: ConcurrentHashSet<T>.Comparer
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.Comparer
+  nameWithType.vb: ConcurrentHashSet(Of T).Comparer
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).Comparer
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.ExceptWith*
+  commentId: Overload:Mewdeko.Common.Collections.ConcurrentHashSet`1.ExceptWith
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html#Mewdeko_Common_Collections_ConcurrentHashSet_1_ExceptWith_System_Collections_Generic_IEnumerable__0__
+  name: ExceptWith
+  nameWithType: ConcurrentHashSet<T>.ExceptWith
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.ExceptWith
+  nameWithType.vb: ConcurrentHashSet(Of T).ExceptWith
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).ExceptWith
+- uid: System.Collections.Generic.ISet{{T}}.ExceptWith(System.Collections.Generic.IEnumerable{{T}})
+  commentId: M:System.Collections.Generic.ISet{`0}.ExceptWith(System.Collections.Generic.IEnumerable{`0})
+  parent: System.Collections.Generic.ISet{{T}}
+  definition: System.Collections.Generic.ISet`1.ExceptWith(System.Collections.Generic.IEnumerable{`0})
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.exceptwith
+  name: ExceptWith(IEnumerable<T>)
+  nameWithType: ISet<T>.ExceptWith(IEnumerable<T>)
+  fullName: System.Collections.Generic.ISet<T>.ExceptWith(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: ISet(Of T).ExceptWith(IEnumerable(Of T))
+  fullName.vb: System.Collections.Generic.ISet(Of T).ExceptWith(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: ExceptWith(IEnumerable(Of T))
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet{`0}.ExceptWith(System.Collections.Generic.IEnumerable{`0})
+    name: ExceptWith
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.exceptwith
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet{`0}.ExceptWith(System.Collections.Generic.IEnumerable{`0})
+    name: ExceptWith
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.exceptwith
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.ISet`1.ExceptWith(System.Collections.Generic.IEnumerable{`0})
+  commentId: M:System.Collections.Generic.ISet`1.ExceptWith(System.Collections.Generic.IEnumerable{`0})
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.exceptwith
+  name: ExceptWith(IEnumerable<T>)
+  nameWithType: ISet<T>.ExceptWith(IEnumerable<T>)
+  fullName: System.Collections.Generic.ISet<T>.ExceptWith(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: ISet(Of T).ExceptWith(IEnumerable(Of T))
+  fullName.vb: System.Collections.Generic.ISet(Of T).ExceptWith(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: ExceptWith(IEnumerable(Of T))
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet`1.ExceptWith(System.Collections.Generic.IEnumerable{`0})
+    name: ExceptWith
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.exceptwith
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet`1.ExceptWith(System.Collections.Generic.IEnumerable{`0})
+    name: ExceptWith
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.exceptwith
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.IntersectWith*
+  commentId: Overload:Mewdeko.Common.Collections.ConcurrentHashSet`1.IntersectWith
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html#Mewdeko_Common_Collections_ConcurrentHashSet_1_IntersectWith_System_Collections_Generic_IEnumerable__0__
+  name: IntersectWith
+  nameWithType: ConcurrentHashSet<T>.IntersectWith
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.IntersectWith
+  nameWithType.vb: ConcurrentHashSet(Of T).IntersectWith
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).IntersectWith
+- uid: System.Collections.Generic.ISet{{T}}.IntersectWith(System.Collections.Generic.IEnumerable{{T}})
+  commentId: M:System.Collections.Generic.ISet{`0}.IntersectWith(System.Collections.Generic.IEnumerable{`0})
+  parent: System.Collections.Generic.ISet{{T}}
+  definition: System.Collections.Generic.ISet`1.IntersectWith(System.Collections.Generic.IEnumerable{`0})
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.intersectwith
+  name: IntersectWith(IEnumerable<T>)
+  nameWithType: ISet<T>.IntersectWith(IEnumerable<T>)
+  fullName: System.Collections.Generic.ISet<T>.IntersectWith(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: ISet(Of T).IntersectWith(IEnumerable(Of T))
+  fullName.vb: System.Collections.Generic.ISet(Of T).IntersectWith(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: IntersectWith(IEnumerable(Of T))
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet{`0}.IntersectWith(System.Collections.Generic.IEnumerable{`0})
+    name: IntersectWith
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.intersectwith
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet{`0}.IntersectWith(System.Collections.Generic.IEnumerable{`0})
+    name: IntersectWith
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.intersectwith
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.ISet`1.IntersectWith(System.Collections.Generic.IEnumerable{`0})
+  commentId: M:System.Collections.Generic.ISet`1.IntersectWith(System.Collections.Generic.IEnumerable{`0})
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.intersectwith
+  name: IntersectWith(IEnumerable<T>)
+  nameWithType: ISet<T>.IntersectWith(IEnumerable<T>)
+  fullName: System.Collections.Generic.ISet<T>.IntersectWith(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: ISet(Of T).IntersectWith(IEnumerable(Of T))
+  fullName.vb: System.Collections.Generic.ISet(Of T).IntersectWith(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: IntersectWith(IEnumerable(Of T))
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet`1.IntersectWith(System.Collections.Generic.IEnumerable{`0})
+    name: IntersectWith
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.intersectwith
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet`1.IntersectWith(System.Collections.Generic.IEnumerable{`0})
+    name: IntersectWith
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.intersectwith
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.IsProperSubsetOf*
+  commentId: Overload:Mewdeko.Common.Collections.ConcurrentHashSet`1.IsProperSubsetOf
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html#Mewdeko_Common_Collections_ConcurrentHashSet_1_IsProperSubsetOf_System_Collections_Generic_IEnumerable__0__
+  name: IsProperSubsetOf
+  nameWithType: ConcurrentHashSet<T>.IsProperSubsetOf
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.IsProperSubsetOf
+  nameWithType.vb: ConcurrentHashSet(Of T).IsProperSubsetOf
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).IsProperSubsetOf
+- uid: System.Collections.Generic.ISet{{T}}.IsProperSubsetOf(System.Collections.Generic.IEnumerable{{T}})
+  commentId: M:System.Collections.Generic.ISet{`0}.IsProperSubsetOf(System.Collections.Generic.IEnumerable{`0})
+  parent: System.Collections.Generic.ISet{{T}}
+  definition: System.Collections.Generic.ISet`1.IsProperSubsetOf(System.Collections.Generic.IEnumerable{`0})
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.ispropersubsetof
+  name: IsProperSubsetOf(IEnumerable<T>)
+  nameWithType: ISet<T>.IsProperSubsetOf(IEnumerable<T>)
+  fullName: System.Collections.Generic.ISet<T>.IsProperSubsetOf(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: ISet(Of T).IsProperSubsetOf(IEnumerable(Of T))
+  fullName.vb: System.Collections.Generic.ISet(Of T).IsProperSubsetOf(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: IsProperSubsetOf(IEnumerable(Of T))
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet{`0}.IsProperSubsetOf(System.Collections.Generic.IEnumerable{`0})
+    name: IsProperSubsetOf
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.ispropersubsetof
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet{`0}.IsProperSubsetOf(System.Collections.Generic.IEnumerable{`0})
+    name: IsProperSubsetOf
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.ispropersubsetof
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.ISet`1.IsProperSubsetOf(System.Collections.Generic.IEnumerable{`0})
+  commentId: M:System.Collections.Generic.ISet`1.IsProperSubsetOf(System.Collections.Generic.IEnumerable{`0})
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.ispropersubsetof
+  name: IsProperSubsetOf(IEnumerable<T>)
+  nameWithType: ISet<T>.IsProperSubsetOf(IEnumerable<T>)
+  fullName: System.Collections.Generic.ISet<T>.IsProperSubsetOf(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: ISet(Of T).IsProperSubsetOf(IEnumerable(Of T))
+  fullName.vb: System.Collections.Generic.ISet(Of T).IsProperSubsetOf(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: IsProperSubsetOf(IEnumerable(Of T))
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet`1.IsProperSubsetOf(System.Collections.Generic.IEnumerable{`0})
+    name: IsProperSubsetOf
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.ispropersubsetof
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet`1.IsProperSubsetOf(System.Collections.Generic.IEnumerable{`0})
+    name: IsProperSubsetOf
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.ispropersubsetof
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.IsProperSupersetOf*
+  commentId: Overload:Mewdeko.Common.Collections.ConcurrentHashSet`1.IsProperSupersetOf
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html#Mewdeko_Common_Collections_ConcurrentHashSet_1_IsProperSupersetOf_System_Collections_Generic_IEnumerable__0__
+  name: IsProperSupersetOf
+  nameWithType: ConcurrentHashSet<T>.IsProperSupersetOf
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.IsProperSupersetOf
+  nameWithType.vb: ConcurrentHashSet(Of T).IsProperSupersetOf
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).IsProperSupersetOf
+- uid: System.Collections.Generic.ISet{{T}}.IsProperSupersetOf(System.Collections.Generic.IEnumerable{{T}})
+  commentId: M:System.Collections.Generic.ISet{`0}.IsProperSupersetOf(System.Collections.Generic.IEnumerable{`0})
+  parent: System.Collections.Generic.ISet{{T}}
+  definition: System.Collections.Generic.ISet`1.IsProperSupersetOf(System.Collections.Generic.IEnumerable{`0})
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.ispropersupersetof
+  name: IsProperSupersetOf(IEnumerable<T>)
+  nameWithType: ISet<T>.IsProperSupersetOf(IEnumerable<T>)
+  fullName: System.Collections.Generic.ISet<T>.IsProperSupersetOf(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: ISet(Of T).IsProperSupersetOf(IEnumerable(Of T))
+  fullName.vb: System.Collections.Generic.ISet(Of T).IsProperSupersetOf(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: IsProperSupersetOf(IEnumerable(Of T))
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet{`0}.IsProperSupersetOf(System.Collections.Generic.IEnumerable{`0})
+    name: IsProperSupersetOf
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.ispropersupersetof
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet{`0}.IsProperSupersetOf(System.Collections.Generic.IEnumerable{`0})
+    name: IsProperSupersetOf
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.ispropersupersetof
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.ISet`1.IsProperSupersetOf(System.Collections.Generic.IEnumerable{`0})
+  commentId: M:System.Collections.Generic.ISet`1.IsProperSupersetOf(System.Collections.Generic.IEnumerable{`0})
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.ispropersupersetof
+  name: IsProperSupersetOf(IEnumerable<T>)
+  nameWithType: ISet<T>.IsProperSupersetOf(IEnumerable<T>)
+  fullName: System.Collections.Generic.ISet<T>.IsProperSupersetOf(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: ISet(Of T).IsProperSupersetOf(IEnumerable(Of T))
+  fullName.vb: System.Collections.Generic.ISet(Of T).IsProperSupersetOf(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: IsProperSupersetOf(IEnumerable(Of T))
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet`1.IsProperSupersetOf(System.Collections.Generic.IEnumerable{`0})
+    name: IsProperSupersetOf
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.ispropersupersetof
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet`1.IsProperSupersetOf(System.Collections.Generic.IEnumerable{`0})
+    name: IsProperSupersetOf
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.ispropersupersetof
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.IsSubsetOf*
+  commentId: Overload:Mewdeko.Common.Collections.ConcurrentHashSet`1.IsSubsetOf
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html#Mewdeko_Common_Collections_ConcurrentHashSet_1_IsSubsetOf_System_Collections_Generic_IEnumerable__0__
+  name: IsSubsetOf
+  nameWithType: ConcurrentHashSet<T>.IsSubsetOf
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.IsSubsetOf
+  nameWithType.vb: ConcurrentHashSet(Of T).IsSubsetOf
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).IsSubsetOf
+- uid: System.Collections.Generic.ISet{{T}}.IsSubsetOf(System.Collections.Generic.IEnumerable{{T}})
+  commentId: M:System.Collections.Generic.ISet{`0}.IsSubsetOf(System.Collections.Generic.IEnumerable{`0})
+  parent: System.Collections.Generic.ISet{{T}}
+  definition: System.Collections.Generic.ISet`1.IsSubsetOf(System.Collections.Generic.IEnumerable{`0})
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.issubsetof
+  name: IsSubsetOf(IEnumerable<T>)
+  nameWithType: ISet<T>.IsSubsetOf(IEnumerable<T>)
+  fullName: System.Collections.Generic.ISet<T>.IsSubsetOf(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: ISet(Of T).IsSubsetOf(IEnumerable(Of T))
+  fullName.vb: System.Collections.Generic.ISet(Of T).IsSubsetOf(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: IsSubsetOf(IEnumerable(Of T))
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet{`0}.IsSubsetOf(System.Collections.Generic.IEnumerable{`0})
+    name: IsSubsetOf
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.issubsetof
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet{`0}.IsSubsetOf(System.Collections.Generic.IEnumerable{`0})
+    name: IsSubsetOf
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.issubsetof
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.ISet`1.IsSubsetOf(System.Collections.Generic.IEnumerable{`0})
+  commentId: M:System.Collections.Generic.ISet`1.IsSubsetOf(System.Collections.Generic.IEnumerable{`0})
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.issubsetof
+  name: IsSubsetOf(IEnumerable<T>)
+  nameWithType: ISet<T>.IsSubsetOf(IEnumerable<T>)
+  fullName: System.Collections.Generic.ISet<T>.IsSubsetOf(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: ISet(Of T).IsSubsetOf(IEnumerable(Of T))
+  fullName.vb: System.Collections.Generic.ISet(Of T).IsSubsetOf(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: IsSubsetOf(IEnumerable(Of T))
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet`1.IsSubsetOf(System.Collections.Generic.IEnumerable{`0})
+    name: IsSubsetOf
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.issubsetof
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet`1.IsSubsetOf(System.Collections.Generic.IEnumerable{`0})
+    name: IsSubsetOf
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.issubsetof
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.IsSupersetOf*
+  commentId: Overload:Mewdeko.Common.Collections.ConcurrentHashSet`1.IsSupersetOf
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html#Mewdeko_Common_Collections_ConcurrentHashSet_1_IsSupersetOf_System_Collections_Generic_IEnumerable__0__
+  name: IsSupersetOf
+  nameWithType: ConcurrentHashSet<T>.IsSupersetOf
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.IsSupersetOf
+  nameWithType.vb: ConcurrentHashSet(Of T).IsSupersetOf
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).IsSupersetOf
+- uid: System.Collections.Generic.ISet{{T}}.IsSupersetOf(System.Collections.Generic.IEnumerable{{T}})
+  commentId: M:System.Collections.Generic.ISet{`0}.IsSupersetOf(System.Collections.Generic.IEnumerable{`0})
+  parent: System.Collections.Generic.ISet{{T}}
+  definition: System.Collections.Generic.ISet`1.IsSupersetOf(System.Collections.Generic.IEnumerable{`0})
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.issupersetof
+  name: IsSupersetOf(IEnumerable<T>)
+  nameWithType: ISet<T>.IsSupersetOf(IEnumerable<T>)
+  fullName: System.Collections.Generic.ISet<T>.IsSupersetOf(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: ISet(Of T).IsSupersetOf(IEnumerable(Of T))
+  fullName.vb: System.Collections.Generic.ISet(Of T).IsSupersetOf(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: IsSupersetOf(IEnumerable(Of T))
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet{`0}.IsSupersetOf(System.Collections.Generic.IEnumerable{`0})
+    name: IsSupersetOf
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.issupersetof
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet{`0}.IsSupersetOf(System.Collections.Generic.IEnumerable{`0})
+    name: IsSupersetOf
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.issupersetof
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.ISet`1.IsSupersetOf(System.Collections.Generic.IEnumerable{`0})
+  commentId: M:System.Collections.Generic.ISet`1.IsSupersetOf(System.Collections.Generic.IEnumerable{`0})
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.issupersetof
+  name: IsSupersetOf(IEnumerable<T>)
+  nameWithType: ISet<T>.IsSupersetOf(IEnumerable<T>)
+  fullName: System.Collections.Generic.ISet<T>.IsSupersetOf(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: ISet(Of T).IsSupersetOf(IEnumerable(Of T))
+  fullName.vb: System.Collections.Generic.ISet(Of T).IsSupersetOf(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: IsSupersetOf(IEnumerable(Of T))
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet`1.IsSupersetOf(System.Collections.Generic.IEnumerable{`0})
+    name: IsSupersetOf
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.issupersetof
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet`1.IsSupersetOf(System.Collections.Generic.IEnumerable{`0})
+    name: IsSupersetOf
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.issupersetof
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.Overlaps*
+  commentId: Overload:Mewdeko.Common.Collections.ConcurrentHashSet`1.Overlaps
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html#Mewdeko_Common_Collections_ConcurrentHashSet_1_Overlaps_System_Collections_Generic_IEnumerable__0__
+  name: Overlaps
+  nameWithType: ConcurrentHashSet<T>.Overlaps
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.Overlaps
+  nameWithType.vb: ConcurrentHashSet(Of T).Overlaps
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).Overlaps
+- uid: System.Collections.Generic.ISet{{T}}.Overlaps(System.Collections.Generic.IEnumerable{{T}})
+  commentId: M:System.Collections.Generic.ISet{`0}.Overlaps(System.Collections.Generic.IEnumerable{`0})
+  parent: System.Collections.Generic.ISet{{T}}
+  definition: System.Collections.Generic.ISet`1.Overlaps(System.Collections.Generic.IEnumerable{`0})
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.overlaps
+  name: Overlaps(IEnumerable<T>)
+  nameWithType: ISet<T>.Overlaps(IEnumerable<T>)
+  fullName: System.Collections.Generic.ISet<T>.Overlaps(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: ISet(Of T).Overlaps(IEnumerable(Of T))
+  fullName.vb: System.Collections.Generic.ISet(Of T).Overlaps(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: Overlaps(IEnumerable(Of T))
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet{`0}.Overlaps(System.Collections.Generic.IEnumerable{`0})
+    name: Overlaps
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.overlaps
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet{`0}.Overlaps(System.Collections.Generic.IEnumerable{`0})
+    name: Overlaps
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.overlaps
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.ISet`1.Overlaps(System.Collections.Generic.IEnumerable{`0})
+  commentId: M:System.Collections.Generic.ISet`1.Overlaps(System.Collections.Generic.IEnumerable{`0})
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.overlaps
+  name: Overlaps(IEnumerable<T>)
+  nameWithType: ISet<T>.Overlaps(IEnumerable<T>)
+  fullName: System.Collections.Generic.ISet<T>.Overlaps(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: ISet(Of T).Overlaps(IEnumerable(Of T))
+  fullName.vb: System.Collections.Generic.ISet(Of T).Overlaps(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: Overlaps(IEnumerable(Of T))
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet`1.Overlaps(System.Collections.Generic.IEnumerable{`0})
+    name: Overlaps
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.overlaps
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet`1.Overlaps(System.Collections.Generic.IEnumerable{`0})
+    name: Overlaps
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.overlaps
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.SetEquals*
+  commentId: Overload:Mewdeko.Common.Collections.ConcurrentHashSet`1.SetEquals
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html#Mewdeko_Common_Collections_ConcurrentHashSet_1_SetEquals_System_Collections_Generic_IEnumerable__0__
+  name: SetEquals
+  nameWithType: ConcurrentHashSet<T>.SetEquals
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.SetEquals
+  nameWithType.vb: ConcurrentHashSet(Of T).SetEquals
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).SetEquals
+- uid: System.Collections.Generic.ISet{{T}}.SetEquals(System.Collections.Generic.IEnumerable{{T}})
+  commentId: M:System.Collections.Generic.ISet{`0}.SetEquals(System.Collections.Generic.IEnumerable{`0})
+  parent: System.Collections.Generic.ISet{{T}}
+  definition: System.Collections.Generic.ISet`1.SetEquals(System.Collections.Generic.IEnumerable{`0})
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.setequals
+  name: SetEquals(IEnumerable<T>)
+  nameWithType: ISet<T>.SetEquals(IEnumerable<T>)
+  fullName: System.Collections.Generic.ISet<T>.SetEquals(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: ISet(Of T).SetEquals(IEnumerable(Of T))
+  fullName.vb: System.Collections.Generic.ISet(Of T).SetEquals(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: SetEquals(IEnumerable(Of T))
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet{`0}.SetEquals(System.Collections.Generic.IEnumerable{`0})
+    name: SetEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.setequals
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet{`0}.SetEquals(System.Collections.Generic.IEnumerable{`0})
+    name: SetEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.setequals
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.ISet`1.SetEquals(System.Collections.Generic.IEnumerable{`0})
+  commentId: M:System.Collections.Generic.ISet`1.SetEquals(System.Collections.Generic.IEnumerable{`0})
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.setequals
+  name: SetEquals(IEnumerable<T>)
+  nameWithType: ISet<T>.SetEquals(IEnumerable<T>)
+  fullName: System.Collections.Generic.ISet<T>.SetEquals(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: ISet(Of T).SetEquals(IEnumerable(Of T))
+  fullName.vb: System.Collections.Generic.ISet(Of T).SetEquals(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: SetEquals(IEnumerable(Of T))
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet`1.SetEquals(System.Collections.Generic.IEnumerable{`0})
+    name: SetEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.setequals
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet`1.SetEquals(System.Collections.Generic.IEnumerable{`0})
+    name: SetEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.setequals
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.SymmetricExceptWith*
+  commentId: Overload:Mewdeko.Common.Collections.ConcurrentHashSet`1.SymmetricExceptWith
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html#Mewdeko_Common_Collections_ConcurrentHashSet_1_SymmetricExceptWith_System_Collections_Generic_IEnumerable__0__
+  name: SymmetricExceptWith
+  nameWithType: ConcurrentHashSet<T>.SymmetricExceptWith
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.SymmetricExceptWith
+  nameWithType.vb: ConcurrentHashSet(Of T).SymmetricExceptWith
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).SymmetricExceptWith
+- uid: System.Collections.Generic.ISet{{T}}.SymmetricExceptWith(System.Collections.Generic.IEnumerable{{T}})
+  commentId: M:System.Collections.Generic.ISet{`0}.SymmetricExceptWith(System.Collections.Generic.IEnumerable{`0})
+  parent: System.Collections.Generic.ISet{{T}}
+  definition: System.Collections.Generic.ISet`1.SymmetricExceptWith(System.Collections.Generic.IEnumerable{`0})
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.symmetricexceptwith
+  name: SymmetricExceptWith(IEnumerable<T>)
+  nameWithType: ISet<T>.SymmetricExceptWith(IEnumerable<T>)
+  fullName: System.Collections.Generic.ISet<T>.SymmetricExceptWith(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: ISet(Of T).SymmetricExceptWith(IEnumerable(Of T))
+  fullName.vb: System.Collections.Generic.ISet(Of T).SymmetricExceptWith(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: SymmetricExceptWith(IEnumerable(Of T))
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet{`0}.SymmetricExceptWith(System.Collections.Generic.IEnumerable{`0})
+    name: SymmetricExceptWith
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.symmetricexceptwith
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet{`0}.SymmetricExceptWith(System.Collections.Generic.IEnumerable{`0})
+    name: SymmetricExceptWith
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.symmetricexceptwith
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.ISet`1.SymmetricExceptWith(System.Collections.Generic.IEnumerable{`0})
+  commentId: M:System.Collections.Generic.ISet`1.SymmetricExceptWith(System.Collections.Generic.IEnumerable{`0})
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.symmetricexceptwith
+  name: SymmetricExceptWith(IEnumerable<T>)
+  nameWithType: ISet<T>.SymmetricExceptWith(IEnumerable<T>)
+  fullName: System.Collections.Generic.ISet<T>.SymmetricExceptWith(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: ISet(Of T).SymmetricExceptWith(IEnumerable(Of T))
+  fullName.vb: System.Collections.Generic.ISet(Of T).SymmetricExceptWith(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: SymmetricExceptWith(IEnumerable(Of T))
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet`1.SymmetricExceptWith(System.Collections.Generic.IEnumerable{`0})
+    name: SymmetricExceptWith
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.symmetricexceptwith
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet`1.SymmetricExceptWith(System.Collections.Generic.IEnumerable{`0})
+    name: SymmetricExceptWith
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.symmetricexceptwith
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.Collections.ConcurrentHashSet`1.UnionWith*
+  commentId: Overload:Mewdeko.Common.Collections.ConcurrentHashSet`1.UnionWith
+  href: Mewdeko.Common.Collections.ConcurrentHashSet-1.html#Mewdeko_Common_Collections_ConcurrentHashSet_1_UnionWith_System_Collections_Generic_IEnumerable__0__
+  name: UnionWith
+  nameWithType: ConcurrentHashSet<T>.UnionWith
+  fullName: Mewdeko.Common.Collections.ConcurrentHashSet<T>.UnionWith
+  nameWithType.vb: ConcurrentHashSet(Of T).UnionWith
+  fullName.vb: Mewdeko.Common.Collections.ConcurrentHashSet(Of T).UnionWith
+- uid: System.Collections.Generic.ISet{{T}}.UnionWith(System.Collections.Generic.IEnumerable{{T}})
+  commentId: M:System.Collections.Generic.ISet{`0}.UnionWith(System.Collections.Generic.IEnumerable{`0})
+  parent: System.Collections.Generic.ISet{{T}}
+  definition: System.Collections.Generic.ISet`1.UnionWith(System.Collections.Generic.IEnumerable{`0})
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.unionwith
+  name: UnionWith(IEnumerable<T>)
+  nameWithType: ISet<T>.UnionWith(IEnumerable<T>)
+  fullName: System.Collections.Generic.ISet<T>.UnionWith(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: ISet(Of T).UnionWith(IEnumerable(Of T))
+  fullName.vb: System.Collections.Generic.ISet(Of T).UnionWith(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: UnionWith(IEnumerable(Of T))
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet{`0}.UnionWith(System.Collections.Generic.IEnumerable{`0})
+    name: UnionWith
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.unionwith
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet{`0}.UnionWith(System.Collections.Generic.IEnumerable{`0})
+    name: UnionWith
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.unionwith
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.ISet`1.UnionWith(System.Collections.Generic.IEnumerable{`0})
+  commentId: M:System.Collections.Generic.ISet`1.UnionWith(System.Collections.Generic.IEnumerable{`0})
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.unionwith
+  name: UnionWith(IEnumerable<T>)
+  nameWithType: ISet<T>.UnionWith(IEnumerable<T>)
+  fullName: System.Collections.Generic.ISet<T>.UnionWith(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: ISet(Of T).UnionWith(IEnumerable(Of T))
+  fullName.vb: System.Collections.Generic.ISet(Of T).UnionWith(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: UnionWith(IEnumerable(Of T))
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet`1.UnionWith(System.Collections.Generic.IEnumerable{`0})
+    name: UnionWith
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.unionwith
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.ISet`1.UnionWith(System.Collections.Generic.IEnumerable{`0})
+    name: UnionWith
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1.unionwith
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )

@@ -1,0 +1,94 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.ModuleBehaviors
+  commentId: N:Mewdeko.Common.ModuleBehaviors
+  id: Mewdeko.Common.ModuleBehaviors
+  children:
+  - Mewdeko.Common.ModuleBehaviors.IEarlyBehavior
+  - Mewdeko.Common.ModuleBehaviors.IInputTransformer
+  - Mewdeko.Common.ModuleBehaviors.ILateBlocker
+  - Mewdeko.Common.ModuleBehaviors.ILateExecutor
+  - Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  - Mewdeko.Common.ModuleBehaviors.ModuleBehaviorType
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Common.ModuleBehaviors
+  nameWithType: Mewdeko.Common.ModuleBehaviors
+  fullName: Mewdeko.Common.ModuleBehaviors
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior
+  commentId: T:Mewdeko.Common.ModuleBehaviors.IEarlyBehavior
+  parent: Mewdeko.Common.ModuleBehaviors
+  href: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior.html
+  name: IEarlyBehavior
+  nameWithType: IEarlyBehavior
+  fullName: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior
+- uid: Mewdeko.Common.ModuleBehaviors.ModuleBehaviorType
+  commentId: T:Mewdeko.Common.ModuleBehaviors.ModuleBehaviorType
+  parent: Mewdeko.Common.ModuleBehaviors
+  href: Mewdeko.Common.ModuleBehaviors.ModuleBehaviorType.html
+  name: ModuleBehaviorType
+  nameWithType: ModuleBehaviorType
+  fullName: Mewdeko.Common.ModuleBehaviors.ModuleBehaviorType
+- uid: Mewdeko.Common.ModuleBehaviors.IInputTransformer
+  commentId: T:Mewdeko.Common.ModuleBehaviors.IInputTransformer
+  parent: Mewdeko.Common.ModuleBehaviors
+  href: Mewdeko.Common.ModuleBehaviors.IInputTransformer.html
+  name: IInputTransformer
+  nameWithType: IInputTransformer
+  fullName: Mewdeko.Common.ModuleBehaviors.IInputTransformer
+- uid: Mewdeko.Common.ModuleBehaviors.ILateBlocker
+  commentId: T:Mewdeko.Common.ModuleBehaviors.ILateBlocker
+  parent: Mewdeko.Common.ModuleBehaviors
+  href: Mewdeko.Common.ModuleBehaviors.ILateBlocker.html
+  name: ILateBlocker
+  nameWithType: ILateBlocker
+  fullName: Mewdeko.Common.ModuleBehaviors.ILateBlocker
+- uid: Mewdeko.Common.ModuleBehaviors.ILateExecutor
+  commentId: T:Mewdeko.Common.ModuleBehaviors.ILateExecutor
+  parent: Mewdeko.Common.ModuleBehaviors
+  href: Mewdeko.Common.ModuleBehaviors.ILateExecutor.html
+  name: ILateExecutor
+  nameWithType: ILateExecutor
+  fullName: Mewdeko.Common.ModuleBehaviors.ILateExecutor
+- uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  commentId: T:Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  parent: Mewdeko.Common.ModuleBehaviors
+  href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html
+  name: IReadyExecutor
+  nameWithType: IReadyExecutor
+  fullName: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+- uid: Mewdeko.Common.ModuleBehaviors
+  commentId: N:Mewdeko.Common.ModuleBehaviors
+  href: Mewdeko.html
+  name: Mewdeko.Common.ModuleBehaviors
+  nameWithType: Mewdeko.Common.ModuleBehaviors
+  fullName: Mewdeko.Common.ModuleBehaviors
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.ModuleBehaviors
+    name: ModuleBehaviors
+    href: Mewdeko.Common.ModuleBehaviors.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.ModuleBehaviors
+    name: ModuleBehaviors
+    href: Mewdeko.Common.ModuleBehaviors.html

@@ -1,0 +1,3671 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Xp.Xp.Club
+  commentId: T:Mewdeko.Modules.Xp.Xp.Club
+  id: Xp.Club
+  parent: Mewdeko.Modules.Xp
+  children:
+  - Mewdeko.Modules.Xp.Xp.Club.#ctor(Fergun.Interactive.InteractiveService)
+  - Mewdeko.Modules.Xp.Xp.Club.ClubAccept(Discord.IUser)
+  - Mewdeko.Modules.Xp.Xp.Club.ClubAccept(System.String)
+  - Mewdeko.Modules.Xp.Xp.Club.ClubAdmin(Discord.IUser)
+  - Mewdeko.Modules.Xp.Xp.Club.ClubApply(System.String)
+  - Mewdeko.Modules.Xp.Xp.Club.ClubApps
+  - Mewdeko.Modules.Xp.Xp.Club.ClubBan(Discord.IUser)
+  - Mewdeko.Modules.Xp.Xp.Club.ClubBan(System.String)
+  - Mewdeko.Modules.Xp.Xp.Club.ClubBans
+  - Mewdeko.Modules.Xp.Xp.Club.ClubCreate(System.String)
+  - Mewdeko.Modules.Xp.Xp.Club.ClubDescription(System.String)
+  - Mewdeko.Modules.Xp.Xp.Club.ClubDisband
+  - Mewdeko.Modules.Xp.Xp.Club.ClubIcon(System.String)
+  - Mewdeko.Modules.Xp.Xp.Club.ClubInformation(Discord.IUser)
+  - Mewdeko.Modules.Xp.Xp.Club.ClubInformation(System.String)
+  - Mewdeko.Modules.Xp.Xp.Club.ClubKick(Discord.IUser)
+  - Mewdeko.Modules.Xp.Xp.Club.ClubKick(System.String)
+  - Mewdeko.Modules.Xp.Xp.Club.ClubLeaderboard(System.Int32)
+  - Mewdeko.Modules.Xp.Xp.Club.ClubLevelReq(System.Int32)
+  - Mewdeko.Modules.Xp.Xp.Club.ClubTransfer(Discord.IUser)
+  - Mewdeko.Modules.Xp.Xp.Club.ClubUnBan(Discord.IUser)
+  - Mewdeko.Modules.Xp.Xp.Club.ClubUnBan(System.String)
+  - Mewdeko.Modules.Xp.Xp.Club.Clubleave
+  langs:
+  - csharp
+  - vb
+  name: Xp.Club
+  nameWithType: Xp.Club
+  fullName: Mewdeko.Modules.Xp.Xp.Club
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Club
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 15
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Contains commands related to clubs.
+  example: []
+  syntax:
+    content: >-
+      [Group]
+
+      public class Xp.Club : MewdekoSubmodule<ClubService>, IModuleBase
+    content.vb: >-
+      <Group>
+
+      Public Class Xp.Club Inherits MewdekoSubmodule(Of ClubService) Implements IModuleBase
+  inheritance:
+  - System.Object
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  - Discord.Commands.ModuleBase
+  - Mewdeko.Common.MewdekoModule
+  - Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Xp.Services.ClubService}
+  - Mewdeko.Common.MewdekoSubmodule{Mewdeko.Modules.Xp.Services.ClubService}
+  implements:
+  - Discord.Commands.IModuleBase
+  inheritedMembers:
+  - Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Xp.Services.ClubService}.Service
+  - Mewdeko.Common.MewdekoModule.CultureInfo
+  - Mewdeko.Common.MewdekoModule.Strings
+  - Mewdeko.Common.MewdekoModule.Localization
+  - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  - Mewdeko.Common.MewdekoModule.GetText(System.String)
+  - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  - Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Xp.Xp.Club.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  attributes:
+  - type: Discord.Commands.GroupAttribute
+    ctor: Discord.Commands.GroupAttribute.#ctor
+    arguments: []
+- uid: Mewdeko.Modules.Xp.Xp.Club.#ctor(Fergun.Interactive.InteractiveService)
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.#ctor(Fergun.Interactive.InteractiveService)
+  id: '#ctor(Fergun.Interactive.InteractiveService)'
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: Club(InteractiveService)
+  nameWithType: Xp.Club.Club(InteractiveService)
+  fullName: Mewdeko.Modules.Xp.Xp.Club.Club(Fergun.Interactive.InteractiveService)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 15
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Contains commands related to clubs.
+  example: []
+  syntax:
+    content: public Club(InteractiveService serv)
+    parameters:
+    - id: serv
+      type: Fergun.Interactive.InteractiveService
+      description: The interactive service.
+    content.vb: Public Sub New(serv As InteractiveService)
+  overload: Mewdeko.Modules.Xp.Xp.Club.#ctor*
+  nameWithType.vb: Xp.Club.New(InteractiveService)
+  fullName.vb: Mewdeko.Modules.Xp.Xp.Club.New(Fergun.Interactive.InteractiveService)
+  name.vb: New(InteractiveService)
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubTransfer(Discord.IUser)
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.ClubTransfer(Discord.IUser)
+  id: ClubTransfer(Discord.IUser)
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: ClubTransfer(IUser)
+  nameWithType: Xp.Club.ClubTransfer(IUser)
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubTransfer(Discord.IUser)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubTransfer
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 27
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Transfers the ownership of the club to a new owner.
+  remarks: >-
+    The command initiates a transfer of club ownership. If successful, it notifies the command invoker of the transfer.
+
+    Otherwise, it reports a failure to transfer.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClubTransfer")]
+
+      [Aliases("ClubTransfer")]
+
+      public Task ClubTransfer(IUser newOwner)
+    parameters:
+    - id: newOwner
+      type: Discord.IUser
+      description: The user to whom the ownership will be transferred.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("ClubTransfer")>
+
+      <Aliases("ClubTransfer")>
+
+      Public Function ClubTransfer(newOwner As IUser) As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.ClubTransfer*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubTransfer
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubTransfer
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubAdmin(Discord.IUser)
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.ClubAdmin(Discord.IUser)
+  id: ClubAdmin(Discord.IUser)
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: ClubAdmin(IUser)
+  nameWithType: Xp.Club.ClubAdmin(IUser)
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubAdmin(Discord.IUser)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubAdmin
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 53
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Toggles the administrative status of a user within the club.
+  remarks: >-
+    The command attempts to toggle the specified user's administrative status in the club.
+
+    It notifies the invoker of the result.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClubAdmin")]
+
+      [Aliases("ClubAdmin")]
+
+      public Task ClubAdmin(IUser toAdmin)
+    parameters:
+    - id: toAdmin
+      type: Discord.IUser
+      description: The user whose admin status will be toggled.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("ClubAdmin")>
+
+      <Aliases("ClubAdmin")>
+
+      Public Function ClubAdmin(toAdmin As IUser) As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.ClubAdmin*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubAdmin
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubAdmin
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubCreate(System.String)
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.ClubCreate(System.String)
+  id: ClubCreate(System.String)
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: ClubCreate(string)
+  nameWithType: Xp.Club.ClubCreate(string)
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubCreate(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubCreate
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 88
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Creates a new club with the specified name.
+  remarks: >-
+    The command creates a new club with the given name. It checks for name validity and uniqueness.
+
+    On success, it notifies the invoker; on failure, it provides an error message.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClubCreate")]
+
+      [Aliases("ClubCreate")]
+
+      public Task ClubCreate(string clubName)
+    parameters:
+    - id: clubName
+      type: System.String
+      description: The name of the club to be created.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("ClubCreate")>
+
+      <Aliases("ClubCreate")>
+
+      Public Function ClubCreate(clubName As String) As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.ClubCreate*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubCreate
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubCreate
+  nameWithType.vb: Xp.Club.ClubCreate(String)
+  fullName.vb: Mewdeko.Modules.Xp.Xp.Club.ClubCreate(String)
+  name.vb: ClubCreate(String)
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubIcon(System.String)
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.ClubIcon(System.String)
+  id: ClubIcon(System.String)
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: ClubIcon(string?)
+  nameWithType: Xp.Club.ClubIcon(string?)
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubIcon(string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubIcon
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 116
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Sets or updates the club's icon.
+  remarks: >-
+    The command updates the club's icon to a new image from the provided URL.
+
+    If the URL is invalid or the operation fails, it notifies the invoker.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClubIcon")]
+
+      [Aliases("ClubIcon")]
+
+      public Task ClubIcon(string? url = null)
+    parameters:
+    - id: url
+      type: System.String
+      description: The URL of the new club icon. If null, the current icon will be removed.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("ClubIcon")>
+
+      <Aliases("ClubIcon")>
+
+      Public Function ClubIcon(url As String = Nothing) As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.ClubIcon*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubIcon
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubIcon
+  nameWithType.vb: Xp.Club.ClubIcon(String)
+  fullName.vb: Mewdeko.Modules.Xp.Xp.Club.ClubIcon(String)
+  name.vb: ClubIcon(String)
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubInformation(Discord.IUser)
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.ClubInformation(Discord.IUser)
+  id: ClubInformation(Discord.IUser)
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: ClubInformation(IUser?)
+  nameWithType: Xp.Club.ClubInformation(IUser?)
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubInformation(Discord.IUser?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubInformation
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 138
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Displays information about a club based on a member or a club name.
+  remarks: >-
+    Overloaded method that either takes a user to find their club or directly takes a club name.
+
+    It displays detailed information about the club, including members and their roles.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClubInformation")]
+
+      [Aliases("ClubInformation")]
+
+      [Priority(1)]
+
+      public Task ClubInformation(IUser? user = null)
+    parameters:
+    - id: user
+      type: Discord.IUser
+      description: The user whose club information will be displayed. If null, the command invoker's club will be used.
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("ClubInformation")>
+
+      <Aliases("ClubInformation")>
+
+      <Priority(1)>
+
+      Public Function ClubInformation(user As IUser = Nothing) As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.ClubInformation*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubInformation
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubInformation
+  - type: Discord.Commands.PriorityAttribute
+    ctor: Discord.Commands.PriorityAttribute.#ctor(System.Int32)
+    arguments:
+    - type: System.Int32
+      value: 1
+  nameWithType.vb: Xp.Club.ClubInformation(IUser)
+  fullName.vb: Mewdeko.Modules.Xp.Xp.Club.ClubInformation(Discord.IUser)
+  name.vb: ClubInformation(IUser)
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubInformation(System.String)
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.ClubInformation(System.String)
+  id: ClubInformation(System.String)
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: ClubInformation(string?)
+  nameWithType: Xp.Club.ClubInformation(string?)
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubInformation(string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubInformation
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 161
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Displays information about a club based on a member or a club name.
+  remarks: >-
+    Overloaded method that either takes a user to find their club or directly takes a club name.
+
+    It displays detailed information about the club, including members and their roles.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClubInformation")]
+
+      [Aliases("ClubInformation")]
+
+      [Priority(0)]
+
+      public Task ClubInformation(string? clubName = null)
+    parameters:
+    - id: clubName
+      type: System.String
+      description: The club information will be displayed. If null, the command invoker's club will be used.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("ClubInformation")>
+
+      <Aliases("ClubInformation")>
+
+      <Priority(0)>
+
+      Public Function ClubInformation(clubName As String = Nothing) As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.ClubInformation*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubInformation
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubInformation
+  - type: Discord.Commands.PriorityAttribute
+    ctor: Discord.Commands.PriorityAttribute.#ctor(System.Int32)
+    arguments:
+    - type: System.Int32
+      value: 0
+  nameWithType.vb: Xp.Club.ClubInformation(String)
+  fullName.vb: Mewdeko.Modules.Xp.Xp.Club.ClubInformation(String)
+  name.vb: ClubInformation(String)
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubBans
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.ClubBans
+  id: ClubBans
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: ClubBans()
+  nameWithType: Xp.Club.ClubBans()
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubBans()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubBans
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 237
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Displays the list of users banned from the club.
+  remarks: >-
+    The command fetches and displays a list of users who are banned from the club.
+
+    If the club does not exist or there are no bans, it provides an appropriate message.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClubBans")]
+
+      [Aliases("ClubBans")]
+
+      public Task ClubBans()
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("ClubBans")>
+
+      <Aliases("ClubBans")>
+
+      Public Function ClubBans() As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.ClubBans*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubBans
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubBans
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubApps
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.ClubApps
+  id: ClubApps
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: ClubApps()
+  nameWithType: Xp.Club.ClubApps()
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubApps()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubApps
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 286
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Displays the list of pending applications to the club.
+  remarks: >-
+    The command shows all users who have applied to join the club.
+
+    It allows the club owner to manage these applications.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClubApps")]
+
+      [Aliases("ClubApps")]
+
+      public Task ClubApps()
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("ClubApps")>
+
+      <Aliases("ClubApps")>
+
+      Public Function ClubApps() As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.ClubApps*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubApps
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubApps
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubApply(System.String)
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.ClubApply(System.String)
+  id: ClubApply(System.String)
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: ClubApply(string)
+  nameWithType: Xp.Club.ClubApply(string)
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubApply(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubApply
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 336
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Applies to join a specified club.
+  remarks: >-
+    The command sends an application to join the named club.
+
+    It checks for eligibility and notifies the user of the outcome.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClubApply")]
+
+      [Aliases("ClubApply")]
+
+      public Task ClubApply(string clubName)
+    parameters:
+    - id: clubName
+      type: System.String
+      description: The name of the club to apply to.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("ClubApply")>
+
+      <Aliases("ClubApply")>
+
+      Public Function ClubApply(clubName As String) As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.ClubApply*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubApply
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubApply
+  nameWithType.vb: Xp.Club.ClubApply(String)
+  fullName.vb: Mewdeko.Modules.Xp.Xp.Club.ClubApply(String)
+  name.vb: ClubApply(String)
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubAccept(Discord.IUser)
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.ClubAccept(Discord.IUser)
+  id: ClubAccept(Discord.IUser)
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: ClubAccept(IUser)
+  nameWithType: Xp.Club.ClubAccept(IUser)
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubAccept(Discord.IUser)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubAccept
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 368
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Accepts a user's application to join the club.
+  remarks: >-
+    This command accepts an application based on the user's name.
+
+    It adds the user to the club and notifies the invoker.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClubAccept")]
+
+      [Aliases("ClubAccept")]
+
+      [Priority(1)]
+
+      public Task ClubAccept(IUser user)
+    parameters:
+    - id: user
+      type: Discord.IUser
+      description: The user whose application will be accepted.
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("ClubAccept")>
+
+      <Aliases("ClubAccept")>
+
+      <Priority(1)>
+
+      Public Function ClubAccept(user As IUser) As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.ClubAccept*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubAccept
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubAccept
+  - type: Discord.Commands.PriorityAttribute
+    ctor: Discord.Commands.PriorityAttribute.#ctor(System.Int32)
+    arguments:
+    - type: System.Int32
+      value: 1
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubAccept(System.String)
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.ClubAccept(System.String)
+  id: ClubAccept(System.String)
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: ClubAccept(string)
+  nameWithType: Xp.Club.ClubAccept(string)
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubAccept(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubAccept
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 380
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Accepts a user's application to join the club.
+  remarks: >-
+    This command accepts an application based on the user's name.
+
+    It adds the user to the club and notifies the invoker.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClubAccept")]
+
+      [Aliases("ClubAccept")]
+
+      [Priority(0)]
+
+      public Task ClubAccept(string userName)
+    parameters:
+    - id: userName
+      type: System.String
+      description: The name of the user whose application will be accepted.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("ClubAccept")>
+
+      <Aliases("ClubAccept")>
+
+      <Priority(0)>
+
+      Public Function ClubAccept(userName As String) As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.ClubAccept*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubAccept
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubAccept
+  - type: Discord.Commands.PriorityAttribute
+    ctor: Discord.Commands.PriorityAttribute.#ctor(System.Int32)
+    arguments:
+    - type: System.Int32
+      value: 0
+  nameWithType.vb: Xp.Club.ClubAccept(String)
+  fullName.vb: Mewdeko.Modules.Xp.Xp.Club.ClubAccept(String)
+  name.vb: ClubAccept(String)
+- uid: Mewdeko.Modules.Xp.Xp.Club.Clubleave
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.Clubleave
+  id: Clubleave
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: Clubleave()
+  nameWithType: Xp.Club.Clubleave()
+  fullName: Mewdeko.Modules.Xp.Xp.Club.Clubleave()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Clubleave
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 403
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Leaves the current club.
+  remarks: >-
+    The command allows a user to leave their current club.
+
+    It ensures the user is part of a club before proceeding with the operation.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Clubleave")]
+
+      [Aliases("Clubleave")]
+
+      public Task Clubleave()
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("Clubleave")>
+
+      <Aliases("Clubleave")>
+
+      Public Function Clubleave() As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.Clubleave*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Clubleave
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Clubleave
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubKick(Discord.IUser)
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.ClubKick(Discord.IUser)
+  id: ClubKick(Discord.IUser)
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: ClubKick(IUser)
+  nameWithType: Xp.Club.ClubKick(IUser)
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubKick(Discord.IUser)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubKick
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 421
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Kicks a user from the club.
+  remarks: >-
+    The command removes a specified user from the club.
+
+    It requires administrative privileges within the club to execute.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClubKick")]
+
+      [Aliases("ClubKick")]
+
+      [Priority(1)]
+
+      public Task ClubKick(IUser user)
+    parameters:
+    - id: user
+      type: Discord.IUser
+      description: The user to be kicked.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("ClubKick")>
+
+      <Aliases("ClubKick")>
+
+      <Priority(1)>
+
+      Public Function ClubKick(user As IUser) As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.ClubKick*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubKick
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubKick
+  - type: Discord.Commands.PriorityAttribute
+    ctor: Discord.Commands.PriorityAttribute.#ctor(System.Int32)
+    arguments:
+    - type: System.Int32
+      value: 1
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubKick(System.String)
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.ClubKick(System.String)
+  id: ClubKick(System.String)
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: ClubKick(string)
+  nameWithType: Xp.Club.ClubKick(string)
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubKick(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubKick
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 433
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Kicks a user from the club.
+  remarks: >-
+    The command removes a specified user from the club.
+
+    It requires administrative privileges within the club to execute.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClubKick")]
+
+      [Aliases("ClubKick")]
+
+      [Priority(0)]
+
+      public Task ClubKick(string userName)
+    parameters:
+    - id: userName
+      type: System.String
+      description: The name of the user to be kicked.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("ClubKick")>
+
+      <Aliases("ClubKick")>
+
+      <Priority(0)>
+
+      Public Function ClubKick(userName As String) As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.ClubKick*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubKick
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubKick
+  - type: Discord.Commands.PriorityAttribute
+    ctor: Discord.Commands.PriorityAttribute.#ctor(System.Int32)
+    arguments:
+    - type: System.Int32
+      value: 0
+  nameWithType.vb: Xp.Club.ClubKick(String)
+  fullName.vb: Mewdeko.Modules.Xp.Xp.Club.ClubKick(String)
+  name.vb: ClubKick(String)
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubBan(Discord.IUser)
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.ClubBan(Discord.IUser)
+  id: ClubBan(Discord.IUser)
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: ClubBan(IUser)
+  nameWithType: Xp.Club.ClubBan(IUser)
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubBan(Discord.IUser)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubBan
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 456
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Bans a user from the club.
+  remarks: >-
+    The command bans a specified user from the club, preventing them from rejoining.
+
+    It requires club owner privileges to execute.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClubBan")]
+
+      [Aliases("ClubBan")]
+
+      [Priority(1)]
+
+      public Task ClubBan(IUser user)
+    parameters:
+    - id: user
+      type: Discord.IUser
+      description: The user to be banned.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("ClubBan")>
+
+      <Aliases("ClubBan")>
+
+      <Priority(1)>
+
+      Public Function ClubBan(user As IUser) As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.ClubBan*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubBan
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubBan
+  - type: Discord.Commands.PriorityAttribute
+    ctor: Discord.Commands.PriorityAttribute.#ctor(System.Int32)
+    arguments:
+    - type: System.Int32
+      value: 1
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubBan(System.String)
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.ClubBan(System.String)
+  id: ClubBan(System.String)
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: ClubBan(string)
+  nameWithType: Xp.Club.ClubBan(string)
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubBan(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubBan
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 468
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Bans a user from the club.
+  remarks: >-
+    The command bans a specified user from the club, preventing them from rejoining.
+
+    It requires club owner privileges to execute.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClubBan")]
+
+      [Aliases("ClubBan")]
+
+      [Priority(0)]
+
+      public Task ClubBan(string userName)
+    parameters:
+    - id: userName
+      type: System.String
+      description: The name of the user to be banned.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("ClubBan")>
+
+      <Aliases("ClubBan")>
+
+      <Priority(0)>
+
+      Public Function ClubBan(userName As String) As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.ClubBan*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubBan
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubBan
+  - type: Discord.Commands.PriorityAttribute
+    ctor: Discord.Commands.PriorityAttribute.#ctor(System.Int32)
+    arguments:
+    - type: System.Int32
+      value: 0
+  nameWithType.vb: Xp.Club.ClubBan(String)
+  fullName.vb: Mewdeko.Modules.Xp.Xp.Club.ClubBan(String)
+  name.vb: ClubBan(String)
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubUnBan(Discord.IUser)
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.ClubUnBan(Discord.IUser)
+  id: ClubUnBan(Discord.IUser)
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: ClubUnBan(IUser)
+  nameWithType: Xp.Club.ClubUnBan(IUser)
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubUnBan(Discord.IUser)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubUnBan
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 491
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Unbans a user from the club.
+  remarks: >-
+    The command removes a ban from a specified user, allowing them to rejoin the club or apply again.
+
+    It requires club owner privileges to execute.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClubUnBan")]
+
+      [Aliases("ClubUnBan")]
+
+      [Priority(1)]
+
+      public Task ClubUnBan(IUser user)
+    parameters:
+    - id: user
+      type: Discord.IUser
+      description: The user to be unbanned.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("ClubUnBan")>
+
+      <Aliases("ClubUnBan")>
+
+      <Priority(1)>
+
+      Public Function ClubUnBan(user As IUser) As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.ClubUnBan*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubUnBan
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubUnBan
+  - type: Discord.Commands.PriorityAttribute
+    ctor: Discord.Commands.PriorityAttribute.#ctor(System.Int32)
+    arguments:
+    - type: System.Int32
+      value: 1
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubUnBan(System.String)
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.ClubUnBan(System.String)
+  id: ClubUnBan(System.String)
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: ClubUnBan(string)
+  nameWithType: Xp.Club.ClubUnBan(string)
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubUnBan(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubUnBan
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 503
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Unbans a user from the club.
+  remarks: >-
+    The command removes a ban from a specified user, allowing them to rejoin the club or apply again.
+
+    It requires club owner privileges to execute.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClubUnBan")]
+
+      [Aliases("ClubUnBan")]
+
+      [Priority(0)]
+
+      public Task ClubUnBan(string userName)
+    parameters:
+    - id: userName
+      type: System.String
+      description: The name of the user to be unbanned.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("ClubUnBan")>
+
+      <Aliases("ClubUnBan")>
+
+      <Priority(0)>
+
+      Public Function ClubUnBan(userName As String) As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.ClubUnBan*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubUnBan
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubUnBan
+  - type: Discord.Commands.PriorityAttribute
+    ctor: Discord.Commands.PriorityAttribute.#ctor(System.Int32)
+    arguments:
+    - type: System.Int32
+      value: 0
+  nameWithType.vb: Xp.Club.ClubUnBan(String)
+  fullName.vb: Mewdeko.Modules.Xp.Xp.Club.ClubUnBan(String)
+  name.vb: ClubUnBan(String)
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubLevelReq(System.Int32)
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.ClubLevelReq(System.Int32)
+  id: ClubLevelReq(System.Int32)
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: ClubLevelReq(int)
+  nameWithType: Xp.Club.ClubLevelReq(int)
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubLevelReq(int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubLevelReq
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 526
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Sets the minimum level requirement for joining the club.
+  remarks: >-
+    The command updates the club's level requirement for new members.
+
+    It is used to ensure that only users of a certain level can join.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClubLevelReq")]
+
+      [Aliases("ClubLevelReq")]
+
+      public Task ClubLevelReq(int level)
+    parameters:
+    - id: level
+      type: System.Int32
+      description: The level requirement for joining the club.
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("ClubLevelReq")>
+
+      <Aliases("ClubLevelReq")>
+
+      Public Function ClubLevelReq(level As Integer) As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.ClubLevelReq*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubLevelReq
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubLevelReq
+  nameWithType.vb: Xp.Club.ClubLevelReq(Integer)
+  fullName.vb: Mewdeko.Modules.Xp.Xp.Club.ClubLevelReq(Integer)
+  name.vb: ClubLevelReq(Integer)
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubDescription(System.String)
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.ClubDescription(System.String)
+  id: ClubDescription(System.String)
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: ClubDescription(string?)
+  nameWithType: Xp.Club.ClubDescription(string?)
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubDescription(string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubDescription
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 550
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Updates the description of the club.
+  remarks: >-
+    The command allows for the modification of the club's public description.
+
+    It requires club owner privileges to execute.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClubDescription")]
+
+      [Aliases("ClubDescription")]
+
+      public Task ClubDescription(string? desc = null)
+    parameters:
+    - id: desc
+      type: System.String
+      description: The new description for the club. If null, the description is removed.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("ClubDescription")>
+
+      <Aliases("ClubDescription")>
+
+      Public Function ClubDescription(desc As String = Nothing) As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.ClubDescription*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubDescription
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubDescription
+  nameWithType.vb: Xp.Club.ClubDescription(String)
+  fullName.vb: Mewdeko.Modules.Xp.Xp.Club.ClubDescription(String)
+  name.vb: ClubDescription(String)
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubDisband
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.ClubDisband
+  id: ClubDisband
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: ClubDisband()
+  nameWithType: Xp.Club.ClubDisband()
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubDisband()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubDisband
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 572
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Disbands the club, removing all members and deleting it.
+  remarks: >-
+    The command permanently deletes the club and notifies the owner of the outcome.
+
+    It requires club owner privileges to execute.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClubDisband")]
+
+      [Aliases("ClubDisband")]
+
+      public Task ClubDisband()
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("ClubDisband")>
+
+      <Aliases("ClubDisband")>
+
+      Public Function ClubDisband() As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.ClubDisband*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubDisband
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubDisband
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubLeaderboard(System.Int32)
+  commentId: M:Mewdeko.Modules.Xp.Xp.Club.ClubLeaderboard(System.Int32)
+  id: ClubLeaderboard(System.Int32)
+  parent: Mewdeko.Modules.Xp.Xp.Club
+  langs:
+  - csharp
+  - vb
+  name: ClubLeaderboard(int)
+  nameWithType: Xp.Club.ClubLeaderboard(int)
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubLeaderboard(int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Club.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubLeaderboard
+    path: src/Mewdeko/Modules/Xp/Club.cs
+    startLine: 596
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp
+  summary: Displays the leaderboard of clubs based on their total XP.
+  remarks: >-
+    The command fetches and displays a page of the club leaderboard, sorted by club XP.
+
+    It provides a view into the most active and engaged clubs within the community.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClubLeaderboard")]
+
+      [Aliases("ClubLeaderboard")]
+
+      public Task ClubLeaderboard(int page = 1)
+    parameters:
+    - id: page
+      type: System.Int32
+      description: The page number of the leaderboard to display.
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: >-
+      <Cmd("ClubLeaderboard")>
+
+      <Aliases("ClubLeaderboard")>
+
+      Public Function ClubLeaderboard(page As Integer = 1) As Task
+  overload: Mewdeko.Modules.Xp.Xp.Club.ClubLeaderboard*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubLeaderboard
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClubLeaderboard
+  nameWithType.vb: Xp.Club.ClubLeaderboard(Integer)
+  fullName.vb: Mewdeko.Modules.Xp.Xp.Club.ClubLeaderboard(Integer)
+  name.vb: ClubLeaderboard(Integer)
+references:
+- uid: Mewdeko.Modules.Xp
+  commentId: N:Mewdeko.Modules.Xp
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Xp
+  nameWithType: Mewdeko.Modules.Xp
+  fullName: Mewdeko.Modules.Xp
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Xp
+    name: Xp
+    href: Mewdeko.Modules.Xp.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Xp
+    name: Xp
+    href: Mewdeko.Modules.Xp.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  commentId: T:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  parent: Discord.Commands
+  definition: Discord.Commands.ModuleBase`1
+  name: ModuleBase<ICommandContext>
+  nameWithType: ModuleBase<ICommandContext>
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>
+  nameWithType.vb: ModuleBase(Of ICommandContext)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext)
+  name.vb: ModuleBase(Of ICommandContext)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: <
+  - uid: Discord.Commands.ICommandContext
+    name: ICommandContext
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Discord.Commands.ICommandContext
+    name: ICommandContext
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase
+  commentId: T:Discord.Commands.ModuleBase
+  parent: Discord.Commands
+  isExternal: true
+  name: ModuleBase
+  nameWithType: ModuleBase
+  fullName: Discord.Commands.ModuleBase
+- uid: Mewdeko.Common.MewdekoModule
+  commentId: T:Mewdeko.Common.MewdekoModule
+  parent: Mewdeko.Common
+  href: Mewdeko.Common.MewdekoModule.html
+  name: MewdekoModule
+  nameWithType: MewdekoModule
+  fullName: Mewdeko.Common.MewdekoModule
+- uid: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Xp.Services.ClubService}
+  commentId: T:Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Xp.Services.ClubService}
+  parent: Mewdeko.Common
+  definition: Mewdeko.Common.MewdekoModuleBase`1
+  href: Mewdeko.Common.MewdekoModuleBase-1.html
+  name: MewdekoModuleBase<ClubService>
+  nameWithType: MewdekoModuleBase<ClubService>
+  fullName: Mewdeko.Common.MewdekoModuleBase<Mewdeko.Modules.Xp.Services.ClubService>
+  nameWithType.vb: MewdekoModuleBase(Of ClubService)
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of Mewdeko.Modules.Xp.Services.ClubService)
+  name.vb: MewdekoModuleBase(Of ClubService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: <
+  - uid: Mewdeko.Modules.Xp.Services.ClubService
+    name: ClubService
+    href: Mewdeko.Modules.Xp.Services.ClubService.html
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Xp.Services.ClubService
+    name: ClubService
+    href: Mewdeko.Modules.Xp.Services.ClubService.html
+  - name: )
+- uid: Mewdeko.Common.MewdekoSubmodule{Mewdeko.Modules.Xp.Services.ClubService}
+  commentId: T:Mewdeko.Common.MewdekoSubmodule{Mewdeko.Modules.Xp.Services.ClubService}
+  parent: Mewdeko.Common
+  definition: Mewdeko.Common.MewdekoSubmodule`1
+  href: Mewdeko.Common.MewdekoSubmodule-1.html
+  name: MewdekoSubmodule<ClubService>
+  nameWithType: MewdekoSubmodule<ClubService>
+  fullName: Mewdeko.Common.MewdekoSubmodule<Mewdeko.Modules.Xp.Services.ClubService>
+  nameWithType.vb: MewdekoSubmodule(Of ClubService)
+  fullName.vb: Mewdeko.Common.MewdekoSubmodule(Of Mewdeko.Modules.Xp.Services.ClubService)
+  name.vb: MewdekoSubmodule(Of ClubService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoSubmodule`1
+    name: MewdekoSubmodule
+    href: Mewdeko.Common.MewdekoSubmodule-1.html
+  - name: <
+  - uid: Mewdeko.Modules.Xp.Services.ClubService
+    name: ClubService
+    href: Mewdeko.Modules.Xp.Services.ClubService.html
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoSubmodule`1
+    name: MewdekoSubmodule
+    href: Mewdeko.Common.MewdekoSubmodule-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Xp.Services.ClubService
+    name: ClubService
+    href: Mewdeko.Modules.Xp.Services.ClubService.html
+  - name: )
+- uid: Discord.Commands.IModuleBase
+  commentId: T:Discord.Commands.IModuleBase
+  parent: Discord.Commands
+  isExternal: true
+  name: IModuleBase
+  nameWithType: IModuleBase
+  fullName: Discord.Commands.IModuleBase
+- uid: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Xp.Services.ClubService}.Service
+  commentId: P:Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Xp.Services.ClubService}.Service
+  parent: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Xp.Services.ClubService}
+  definition: Mewdeko.Common.MewdekoModuleBase`1.Service
+  href: Mewdeko.Common.MewdekoModuleBase-1.html#Mewdeko_Common_MewdekoModuleBase_1_Service
+  name: Service
+  nameWithType: MewdekoModuleBase<ClubService>.Service
+  fullName: Mewdeko.Common.MewdekoModuleBase<Mewdeko.Modules.Xp.Services.ClubService>.Service
+  nameWithType.vb: MewdekoModuleBase(Of ClubService).Service
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of Mewdeko.Modules.Xp.Services.ClubService).Service
+- uid: Mewdeko.Common.MewdekoModule.CultureInfo
+  commentId: P:Mewdeko.Common.MewdekoModule.CultureInfo
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CultureInfo
+  name: CultureInfo
+  nameWithType: MewdekoModule.CultureInfo
+  fullName: Mewdeko.Common.MewdekoModule.CultureInfo
+- uid: Mewdeko.Common.MewdekoModule.Strings
+  commentId: P:Mewdeko.Common.MewdekoModule.Strings
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Strings
+  name: Strings
+  nameWithType: MewdekoModule.Strings
+  fullName: Mewdeko.Common.MewdekoModule.Strings
+- uid: Mewdeko.Common.MewdekoModule.Localization
+  commentId: P:Mewdeko.Common.MewdekoModule.Localization
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Localization
+  name: Localization
+  nameWithType: MewdekoModule.Localization
+  fullName: Mewdeko.Common.MewdekoModule.Localization
+- uid: Mewdeko.Common.MewdekoModule.ctx
+  commentId: P:Mewdeko.Common.MewdekoModule.ctx
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ctx
+  name: ctx
+  nameWithType: MewdekoModule.ctx
+  fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  name: BeforeExecute(CommandInfo)
+  nameWithType: MewdekoModule.BeforeExecute(CommandInfo)
+  fullName: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+    name: BeforeExecute
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+    name: BeforeExecute
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+  commentId: M:Mewdeko.Common.MewdekoModule.GetText(System.String)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  name: GetText(string)
+  nameWithType: MewdekoModule.GetText(string)
+  fullName: Mewdeko.Common.MewdekoModule.GetText(string)
+  nameWithType.vb: MewdekoModule.GetText(String)
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetText(String)
+  name.vb: GetText(String)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  name: GetText(string, params object[])
+  nameWithType: MewdekoModule.GetText(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.GetText(string, params object[])
+  nameWithType.vb: MewdekoModule.GetText(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetText(String, ParamArray Object())
+  name.vb: GetText(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  name: ErrorLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ErrorLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ErrorLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(String, ParamArray Object())
+  name.vb: ErrorLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+    name: ErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+    name: ErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  name: ReplyErrorLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ReplyErrorLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ReplyErrorLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(String, ParamArray Object())
+  name.vb: ReplyErrorLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+    name: ReplyErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+    name: ReplyErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  name: ConfirmLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ConfirmLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ConfirmLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(String, ParamArray Object())
+  name.vb: ConfirmLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+    name: ConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+    name: ConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  name: ReplyConfirmLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ReplyConfirmLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  name.vb: ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+    name: ReplyConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+    name: ReplyConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  name: PromptUserConfirmAsync(string, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(string, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(string, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(String, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(String, ULong)
+  name.vb: PromptUserConfirmAsync(String, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  name: PromptUserConfirmAsync(EmbedBuilder, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(EmbedBuilder, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(EmbedBuilder, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder, ULong)
+  name.vb: PromptUserConfirmAsync(EmbedBuilder, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  commentId: M:Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  name: CheckRoleHierarchy(IGuildUser, bool)
+  nameWithType: MewdekoModule.CheckRoleHierarchy(IGuildUser, bool)
+  fullName: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser, bool)
+  nameWithType.vb: MewdekoModule.CheckRoleHierarchy(IGuildUser, Boolean)
+  fullName.vb: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser, Boolean)
+  name.vb: CheckRoleHierarchy(IGuildUser, Boolean)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+    name: CheckRoleHierarchy
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  - name: (
+  - uid: Discord.IGuildUser
+    name: IGuildUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+    name: CheckRoleHierarchy
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  - name: (
+  - uid: Discord.IGuildUser
+    name: IGuildUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  name: PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage, Discord.EmbedBuilder, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage, Discord.EmbedBuilder, ULong)
+  name.vb: PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  commentId: M:Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  name: GetButtonInputAsync(ulong, ulong, ulong, bool)
+  nameWithType: MewdekoModule.GetButtonInputAsync(ulong, ulong, ulong, bool)
+  fullName: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(ulong, ulong, ulong, bool)
+  nameWithType.vb: MewdekoModule.GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  name.vb: GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+    name: GetButtonInputAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+    name: GetButtonInputAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  name: NextMessageAsync(ulong, ulong)
+  nameWithType: MewdekoModule.NextMessageAsync(ulong, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.NextMessageAsync(ulong, ulong)
+  nameWithType.vb: MewdekoModule.NextMessageAsync(ULong, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.NextMessageAsync(ULong, ULong)
+  name.vb: NextMessageAsync(ULong, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+    name: NextMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+    name: NextMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  name: NextFullMessageAsync(ulong, ulong)
+  nameWithType: MewdekoModule.NextFullMessageAsync(ulong, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(ulong, ulong)
+  nameWithType.vb: MewdekoModule.NextFullMessageAsync(ULong, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(ULong, ULong)
+  name.vb: NextFullMessageAsync(ULong, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+    name: NextFullMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+    name: NextFullMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  nameWithType: ModuleBase<ICommandContext>.ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.ReplyAsync(string, bool, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker[], Discord.Embed[], Discord.MessageFlags)
+  nameWithType.vb: ModuleBase(Of ICommandContext).ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).ReplyAsync(String, Boolean, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker(), Discord.Embed(), Discord.MessageFlags)
+  name.vb: ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  name: BeforeExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.BeforeExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).BeforeExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  name: AfterExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.AfterExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).AfterExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).AfterExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  name: AfterExecute(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.AfterExecute(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.AfterExecute(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).AfterExecute(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).AfterExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  name: OnModuleBuilding(CommandService, ModuleBuilder)
+  nameWithType: ModuleBase<ICommandContext>.OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  nameWithType.vb: ModuleBase(Of ICommandContext).OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  commentId: P:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.Context
+  name: Context
+  nameWithType: ModuleBase<ICommandContext>.Context
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.Context
+  nameWithType.vb: ModuleBase(Of ICommandContext).Context
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).Context
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Xp.Xp.Club.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<Club>(Club, string)
+  nameWithType: Extensions.ThrowIfNull<Xp.Club>(Xp.Club, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Xp.Xp.Club>(Mewdeko.Modules.Xp.Xp.Club, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of Xp.Club)(Xp.Club, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Xp.Xp.Club)(Mewdeko.Modules.Xp.Xp.Club, String)
+  name.vb: ThrowIfNull(Of Club)(Club, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Xp.Xp.Club,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Xp.Xp.Club
+    name: Club
+    href: Mewdeko.Modules.Xp.Xp.Club.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Xp.Xp.Club
+    name: Club
+    href: Mewdeko.Modules.Xp.Xp.Club.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Xp.Xp.Club,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Xp.Xp.Club
+    name: Club
+    href: Mewdeko.Modules.Xp.Xp.Club.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Xp.Xp.Club
+    name: Club
+    href: Mewdeko.Modules.Xp.Xp.Club.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Discord.Commands.ModuleBase`1
+  commentId: T:Discord.Commands.ModuleBase`1
+  isExternal: true
+  name: ModuleBase<T>
+  nameWithType: ModuleBase<T>
+  fullName: Discord.Commands.ModuleBase<T>
+  nameWithType.vb: ModuleBase(Of T)
+  fullName.vb: Discord.Commands.ModuleBase(Of T)
+  name.vb: ModuleBase(Of T)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Discord.Commands
+  commentId: N:Discord.Commands
+  isExternal: true
+  name: Discord.Commands
+  nameWithType: Discord.Commands
+  fullName: Discord.Commands
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+- uid: Mewdeko.Common
+  commentId: N:Mewdeko.Common
+  href: Mewdeko.html
+  name: Mewdeko.Common
+  nameWithType: Mewdeko.Common
+  fullName: Mewdeko.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+- uid: Mewdeko.Common.MewdekoModuleBase`1
+  commentId: T:Mewdeko.Common.MewdekoModuleBase`1
+  href: Mewdeko.Common.MewdekoModuleBase-1.html
+  name: MewdekoModuleBase<TService>
+  nameWithType: MewdekoModuleBase<TService>
+  fullName: Mewdeko.Common.MewdekoModuleBase<TService>
+  nameWithType.vb: MewdekoModuleBase(Of TService)
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of TService)
+  name.vb: MewdekoModuleBase(Of TService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: <
+  - name: TService
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TService
+  - name: )
+- uid: Mewdeko.Common.MewdekoSubmodule`1
+  commentId: T:Mewdeko.Common.MewdekoSubmodule`1
+  href: Mewdeko.Common.MewdekoSubmodule-1.html
+  name: MewdekoSubmodule<TService>
+  nameWithType: MewdekoSubmodule<TService>
+  fullName: Mewdeko.Common.MewdekoSubmodule<TService>
+  nameWithType.vb: MewdekoSubmodule(Of TService)
+  fullName.vb: Mewdeko.Common.MewdekoSubmodule(Of TService)
+  name.vb: MewdekoSubmodule(Of TService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoSubmodule`1
+    name: MewdekoSubmodule
+    href: Mewdeko.Common.MewdekoSubmodule-1.html
+  - name: <
+  - name: TService
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoSubmodule`1
+    name: MewdekoSubmodule
+    href: Mewdeko.Common.MewdekoSubmodule-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TService
+  - name: )
+- uid: Mewdeko.Common.MewdekoModuleBase`1.Service
+  commentId: P:Mewdeko.Common.MewdekoModuleBase`1.Service
+  href: Mewdeko.Common.MewdekoModuleBase-1.html#Mewdeko_Common_MewdekoModuleBase_1_Service
+  name: Service
+  nameWithType: MewdekoModuleBase<TService>.Service
+  fullName: Mewdeko.Common.MewdekoModuleBase<TService>.Service
+  nameWithType.vb: MewdekoModuleBase(Of TService).Service
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of TService).Service
+- uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  commentId: M:Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  nameWithType: ModuleBase<T>.ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  fullName: Discord.Commands.ModuleBase<T>.ReplyAsync(string, bool, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker[], Discord.Embed[], Discord.MessageFlags)
+  nameWithType.vb: ModuleBase(Of T).ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).ReplyAsync(String, Boolean, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker(), Discord.Embed(), Discord.MessageFlags)
+  name.vb: ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: BeforeExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<T>.BeforeExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).BeforeExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: AfterExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<T>.AfterExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).AfterExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).AfterExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: AfterExecute(CommandInfo)
+  nameWithType: ModuleBase<T>.AfterExecute(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.AfterExecute(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).AfterExecute(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).AfterExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  commentId: M:Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  isExternal: true
+  name: OnModuleBuilding(CommandService, ModuleBuilder)
+  nameWithType: ModuleBase<T>.OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName: Discord.Commands.ModuleBase<T>.OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  nameWithType.vb: ModuleBase(Of T).OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.Context
+  commentId: P:Discord.Commands.ModuleBase`1.Context
+  isExternal: true
+  name: Context
+  nameWithType: ModuleBase<T>.Context
+  fullName: Discord.Commands.ModuleBase<T>.Context
+  nameWithType.vb: ModuleBase(Of T).Context
+  fullName.vb: Discord.Commands.ModuleBase(Of T).Context
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Xp.Xp.Club.#ctor*
+  commentId: Overload:Mewdeko.Modules.Xp.Xp.Club.#ctor
+  href: Mewdeko.Modules.Xp.Xp.Club.html#Mewdeko_Modules_Xp_Xp_Club__ctor_Fergun_Interactive_InteractiveService_
+  name: Club
+  nameWithType: Xp.Club.Club
+  fullName: Mewdeko.Modules.Xp.Xp.Club.Club
+  nameWithType.vb: Xp.Club.New
+  fullName.vb: Mewdeko.Modules.Xp.Xp.Club.New
+  name.vb: New
+- uid: Fergun.Interactive.InteractiveService
+  commentId: T:Fergun.Interactive.InteractiveService
+  parent: Fergun.Interactive
+  isExternal: true
+  name: InteractiveService
+  nameWithType: InteractiveService
+  fullName: Fergun.Interactive.InteractiveService
+- uid: Fergun.Interactive
+  commentId: N:Fergun.Interactive
+  isExternal: true
+  name: Fergun.Interactive
+  nameWithType: Fergun.Interactive
+  fullName: Fergun.Interactive
+  spec.csharp:
+  - uid: Fergun
+    name: Fergun
+    isExternal: true
+  - name: .
+  - uid: Fergun.Interactive
+    name: Interactive
+    isExternal: true
+  spec.vb:
+  - uid: Fergun
+    name: Fergun
+    isExternal: true
+  - name: .
+  - uid: Fergun.Interactive
+    name: Interactive
+    isExternal: true
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubTransfer*
+  commentId: Overload:Mewdeko.Modules.Xp.Xp.Club.ClubTransfer
+  href: Mewdeko.Modules.Xp.Xp.Club.html#Mewdeko_Modules_Xp_Xp_Club_ClubTransfer_Discord_IUser_
+  name: ClubTransfer
+  nameWithType: Xp.Club.ClubTransfer
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubTransfer
+- uid: Discord.IUser
+  commentId: T:Discord.IUser
+  parent: Discord
+  isExternal: true
+  name: IUser
+  nameWithType: IUser
+  fullName: Discord.IUser
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: Discord
+  commentId: N:Discord
+  isExternal: true
+  name: Discord
+  nameWithType: Discord
+  fullName: Discord
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubAdmin*
+  commentId: Overload:Mewdeko.Modules.Xp.Xp.Club.ClubAdmin
+  href: Mewdeko.Modules.Xp.Xp.Club.html#Mewdeko_Modules_Xp_Xp_Club_ClubAdmin_Discord_IUser_
+  name: ClubAdmin
+  nameWithType: Xp.Club.ClubAdmin
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubAdmin
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubCreate*
+  commentId: Overload:Mewdeko.Modules.Xp.Xp.Club.ClubCreate
+  href: Mewdeko.Modules.Xp.Xp.Club.html#Mewdeko_Modules_Xp_Xp_Club_ClubCreate_System_String_
+  name: ClubCreate
+  nameWithType: Xp.Club.ClubCreate
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubCreate
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubIcon*
+  commentId: Overload:Mewdeko.Modules.Xp.Xp.Club.ClubIcon
+  href: Mewdeko.Modules.Xp.Xp.Club.html#Mewdeko_Modules_Xp_Xp_Club_ClubIcon_System_String_
+  name: ClubIcon
+  nameWithType: Xp.Club.ClubIcon
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubIcon
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubInformation*
+  commentId: Overload:Mewdeko.Modules.Xp.Xp.Club.ClubInformation
+  href: Mewdeko.Modules.Xp.Xp.Club.html#Mewdeko_Modules_Xp_Xp_Club_ClubInformation_Discord_IUser_
+  name: ClubInformation
+  nameWithType: Xp.Club.ClubInformation
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubInformation
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubBans*
+  commentId: Overload:Mewdeko.Modules.Xp.Xp.Club.ClubBans
+  href: Mewdeko.Modules.Xp.Xp.Club.html#Mewdeko_Modules_Xp_Xp_Club_ClubBans
+  name: ClubBans
+  nameWithType: Xp.Club.ClubBans
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubBans
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubApps*
+  commentId: Overload:Mewdeko.Modules.Xp.Xp.Club.ClubApps
+  href: Mewdeko.Modules.Xp.Xp.Club.html#Mewdeko_Modules_Xp_Xp_Club_ClubApps
+  name: ClubApps
+  nameWithType: Xp.Club.ClubApps
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubApps
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubApply*
+  commentId: Overload:Mewdeko.Modules.Xp.Xp.Club.ClubApply
+  href: Mewdeko.Modules.Xp.Xp.Club.html#Mewdeko_Modules_Xp_Xp_Club_ClubApply_System_String_
+  name: ClubApply
+  nameWithType: Xp.Club.ClubApply
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubApply
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubAccept*
+  commentId: Overload:Mewdeko.Modules.Xp.Xp.Club.ClubAccept
+  href: Mewdeko.Modules.Xp.Xp.Club.html#Mewdeko_Modules_Xp_Xp_Club_ClubAccept_Discord_IUser_
+  name: ClubAccept
+  nameWithType: Xp.Club.ClubAccept
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubAccept
+- uid: Mewdeko.Modules.Xp.Xp.Club.Clubleave*
+  commentId: Overload:Mewdeko.Modules.Xp.Xp.Club.Clubleave
+  href: Mewdeko.Modules.Xp.Xp.Club.html#Mewdeko_Modules_Xp_Xp_Club_Clubleave
+  name: Clubleave
+  nameWithType: Xp.Club.Clubleave
+  fullName: Mewdeko.Modules.Xp.Xp.Club.Clubleave
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubKick*
+  commentId: Overload:Mewdeko.Modules.Xp.Xp.Club.ClubKick
+  href: Mewdeko.Modules.Xp.Xp.Club.html#Mewdeko_Modules_Xp_Xp_Club_ClubKick_Discord_IUser_
+  name: ClubKick
+  nameWithType: Xp.Club.ClubKick
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubKick
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubBan*
+  commentId: Overload:Mewdeko.Modules.Xp.Xp.Club.ClubBan
+  href: Mewdeko.Modules.Xp.Xp.Club.html#Mewdeko_Modules_Xp_Xp_Club_ClubBan_Discord_IUser_
+  name: ClubBan
+  nameWithType: Xp.Club.ClubBan
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubBan
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubUnBan*
+  commentId: Overload:Mewdeko.Modules.Xp.Xp.Club.ClubUnBan
+  href: Mewdeko.Modules.Xp.Xp.Club.html#Mewdeko_Modules_Xp_Xp_Club_ClubUnBan_Discord_IUser_
+  name: ClubUnBan
+  nameWithType: Xp.Club.ClubUnBan
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubUnBan
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubLevelReq*
+  commentId: Overload:Mewdeko.Modules.Xp.Xp.Club.ClubLevelReq
+  href: Mewdeko.Modules.Xp.Xp.Club.html#Mewdeko_Modules_Xp_Xp_Club_ClubLevelReq_System_Int32_
+  name: ClubLevelReq
+  nameWithType: Xp.Club.ClubLevelReq
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubLevelReq
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubDescription*
+  commentId: Overload:Mewdeko.Modules.Xp.Xp.Club.ClubDescription
+  href: Mewdeko.Modules.Xp.Xp.Club.html#Mewdeko_Modules_Xp_Xp_Club_ClubDescription_System_String_
+  name: ClubDescription
+  nameWithType: Xp.Club.ClubDescription
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubDescription
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubDisband*
+  commentId: Overload:Mewdeko.Modules.Xp.Xp.Club.ClubDisband
+  href: Mewdeko.Modules.Xp.Xp.Club.html#Mewdeko_Modules_Xp_Xp_Club_ClubDisband
+  name: ClubDisband
+  nameWithType: Xp.Club.ClubDisband
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubDisband
+- uid: Mewdeko.Modules.Xp.Xp.Club.ClubLeaderboard*
+  commentId: Overload:Mewdeko.Modules.Xp.Xp.Club.ClubLeaderboard
+  href: Mewdeko.Modules.Xp.Xp.Club.html#Mewdeko_Modules_Xp_Xp_Club_ClubLeaderboard_System_Int32_
+  name: ClubLeaderboard
+  nameWithType: Xp.Club.ClubLeaderboard
+  fullName: Mewdeko.Modules.Xp.Xp.Club.ClubLeaderboard

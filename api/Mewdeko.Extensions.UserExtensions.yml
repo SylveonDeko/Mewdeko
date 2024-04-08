@@ -1,0 +1,1008 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Extensions.UserExtensions
+  commentId: T:Mewdeko.Extensions.UserExtensions
+  id: UserExtensions
+  parent: Mewdeko.Extensions
+  children:
+  - Mewdeko.Extensions.UserExtensions.RealAvatarUrl(Discord.IUser,System.UInt16)
+  - Mewdeko.Extensions.UserExtensions.RealAvatarUrl(Mewdeko.Database.Models.DiscordUser)
+  - Mewdeko.Extensions.UserExtensions.ReplaceSpecialChars(System.String)
+  - Mewdeko.Extensions.UserExtensions.SanitizeUserName(Discord.IUser)
+  - Mewdeko.Extensions.UserExtensions.SendConfirmAsync(Discord.IUser,System.String)
+  - Mewdeko.Extensions.UserExtensions.SendConfirmAsync(Discord.IUser,System.String,System.String,System.String)
+  - Mewdeko.Extensions.UserExtensions.SendErrorAsync(Discord.IUser,System.String)
+  - Mewdeko.Extensions.UserExtensions.SendErrorAsync(Discord.IUser,System.String,System.String,System.String)
+  - Mewdeko.Extensions.UserExtensions.SendFileAsync(Discord.IUser,System.IO.Stream,System.String,System.String,System.Boolean)
+  - Mewdeko.Extensions.UserExtensions.SendFileAsync(Discord.IUser,System.String,System.String,System.String,System.Boolean)
+  langs:
+  - csharp
+  - vb
+  name: UserExtensions
+  nameWithType: UserExtensions
+  fullName: Mewdeko.Extensions.UserExtensions
+  type: Class
+  source:
+    id: UserExtensions
+    path: System.Text.RegularExpressions.Generator\System.Text.RegularExpressions.Generator.RegexGenerator\RegexGenerator.g.cs
+    startLine: 158
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Contains extension methods for the IUser interface.
+  example: []
+  syntax:
+    content: public static class UserExtensions
+    content.vb: Public Module UserExtensions
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Mewdeko.Extensions.UserExtensions.SendConfirmAsync(Discord.IUser,System.String)
+  commentId: M:Mewdeko.Extensions.UserExtensions.SendConfirmAsync(Discord.IUser,System.String)
+  id: SendConfirmAsync(Discord.IUser,System.String)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.UserExtensions
+  langs:
+  - csharp
+  - vb
+  name: SendConfirmAsync(IUser, string)
+  nameWithType: UserExtensions.SendConfirmAsync(IUser, string)
+  fullName: Mewdeko.Extensions.UserExtensions.SendConfirmAsync(Discord.IUser, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IUserExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SendConfirmAsync
+    path: src/Mewdeko/Extensions/IUserExtensions.cs
+    startLine: 165
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Sends a confirmation message to the specified user asynchronously.
+  example: []
+  syntax:
+    content: public static Task SendConfirmAsync(this IUser user, string text)
+    parameters:
+    - id: user
+      type: Discord.IUser
+      description: The user to send the confirmation message to.
+    - id: text
+      type: System.String
+      description: The text of the confirmation message.
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task representing the asynchronous operation.
+    content.vb: Public Shared Function SendConfirmAsync(user As IUser, text As String) As Task
+  overload: Mewdeko.Extensions.UserExtensions.SendConfirmAsync*
+  nameWithType.vb: UserExtensions.SendConfirmAsync(IUser, String)
+  fullName.vb: Mewdeko.Extensions.UserExtensions.SendConfirmAsync(Discord.IUser, String)
+  name.vb: SendConfirmAsync(IUser, String)
+- uid: Mewdeko.Extensions.UserExtensions.SanitizeUserName(Discord.IUser)
+  commentId: M:Mewdeko.Extensions.UserExtensions.SanitizeUserName(Discord.IUser)
+  id: SanitizeUserName(Discord.IUser)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.UserExtensions
+  langs:
+  - csharp
+  - vb
+  name: SanitizeUserName(IUser)
+  nameWithType: UserExtensions.SanitizeUserName(IUser)
+  fullName: Mewdeko.Extensions.UserExtensions.SanitizeUserName(Discord.IUser)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IUserExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SanitizeUserName
+    path: src/Mewdeko/Extensions/IUserExtensions.cs
+    startLine: 175
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Sanitizes the username of the specified user by removing mentions, replacing special characters, and trimming to a maximum length.
+  example: []
+  syntax:
+    content: public static string SanitizeUserName(this IUser user)
+    parameters:
+    - id: user
+      type: Discord.IUser
+      description: The user whose username is to be sanitized.
+    return:
+      type: System.String
+      description: The sanitized username.
+    content.vb: Public Shared Function SanitizeUserName(user As IUser) As String
+  overload: Mewdeko.Extensions.UserExtensions.SanitizeUserName*
+- uid: Mewdeko.Extensions.UserExtensions.ReplaceSpecialChars(System.String)
+  commentId: M:Mewdeko.Extensions.UserExtensions.ReplaceSpecialChars(System.String)
+  id: ReplaceSpecialChars(System.String)
+  parent: Mewdeko.Extensions.UserExtensions
+  langs:
+  - csharp
+  - vb
+  name: ReplaceSpecialChars(string)
+  nameWithType: UserExtensions.ReplaceSpecialChars(string)
+  fullName: Mewdeko.Extensions.UserExtensions.ReplaceSpecialChars(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IUserExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ReplaceSpecialChars
+    path: src/Mewdeko/Extensions/IUserExtensions.cs
+    startLine: 199
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Replaces special characters in the input string with their closest normal equivalents.
+  example: []
+  syntax:
+    content: public static string ReplaceSpecialChars(string input)
+    parameters:
+    - id: input
+      type: System.String
+      description: The input string to sanitize.
+    return:
+      type: System.String
+      description: The sanitized string with special characters replaced.
+    content.vb: Public Shared Function ReplaceSpecialChars(input As String) As String
+  overload: Mewdeko.Extensions.UserExtensions.ReplaceSpecialChars*
+  nameWithType.vb: UserExtensions.ReplaceSpecialChars(String)
+  fullName.vb: Mewdeko.Extensions.UserExtensions.ReplaceSpecialChars(String)
+  name.vb: ReplaceSpecialChars(String)
+- uid: Mewdeko.Extensions.UserExtensions.SendConfirmAsync(Discord.IUser,System.String,System.String,System.String)
+  commentId: M:Mewdeko.Extensions.UserExtensions.SendConfirmAsync(Discord.IUser,System.String,System.String,System.String)
+  id: SendConfirmAsync(Discord.IUser,System.String,System.String,System.String)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.UserExtensions
+  langs:
+  - csharp
+  - vb
+  name: SendConfirmAsync(IUser, string, string, string?)
+  nameWithType: UserExtensions.SendConfirmAsync(IUser, string, string, string?)
+  fullName: Mewdeko.Extensions.UserExtensions.SendConfirmAsync(Discord.IUser, string, string, string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IUserExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SendConfirmAsync
+    path: src/Mewdeko/Extensions/IUserExtensions.cs
+    startLine: 214
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Sends a confirmation message with the specified title, text, and URL to the user asynchronously.
+  example: []
+  syntax:
+    content: public static Task<IUserMessage> SendConfirmAsync(this IUser user, string title, string text, string? url = null)
+    parameters:
+    - id: user
+      type: Discord.IUser
+      description: The user to send the confirmation message to.
+    - id: title
+      type: System.String
+      description: The title of the confirmation message.
+    - id: text
+      type: System.String
+      description: The text of the confirmation message.
+    - id: url
+      type: System.String
+      description: The URL to include in the confirmation message.
+    return:
+      type: System.Threading.Tasks.Task{Discord.IUserMessage}
+      description: A task representing the asynchronous operation. The task result contains the sent message.
+    content.vb: Public Shared Function SendConfirmAsync(user As IUser, title As String, text As String, url As String = Nothing) As Task(Of IUserMessage)
+  overload: Mewdeko.Extensions.UserExtensions.SendConfirmAsync*
+  nameWithType.vb: UserExtensions.SendConfirmAsync(IUser, String, String, String)
+  fullName.vb: Mewdeko.Extensions.UserExtensions.SendConfirmAsync(Discord.IUser, String, String, String)
+  name.vb: SendConfirmAsync(IUser, String, String, String)
+- uid: Mewdeko.Extensions.UserExtensions.SendErrorAsync(Discord.IUser,System.String,System.String,System.String)
+  commentId: M:Mewdeko.Extensions.UserExtensions.SendErrorAsync(Discord.IUser,System.String,System.String,System.String)
+  id: SendErrorAsync(Discord.IUser,System.String,System.String,System.String)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.UserExtensions
+  langs:
+  - csharp
+  - vb
+  name: SendErrorAsync(IUser, string, string, string?)
+  nameWithType: UserExtensions.SendErrorAsync(IUser, string, string, string?)
+  fullName: Mewdeko.Extensions.UserExtensions.SendErrorAsync(Discord.IUser, string, string, string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IUserExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SendErrorAsync
+    path: src/Mewdeko/Extensions/IUserExtensions.cs
+    startLine: 232
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Sends an error message with the specified title, error description, and URL to the user asynchronously.
+  example: []
+  syntax:
+    content: public static Task<IUserMessage> SendErrorAsync(this IUser user, string title, string error, string? url = null)
+    parameters:
+    - id: user
+      type: Discord.IUser
+      description: The user to send the error message to.
+    - id: title
+      type: System.String
+      description: The title of the error message.
+    - id: error
+      type: System.String
+      description: The error description.
+    - id: url
+      type: System.String
+      description: The URL to include in the error message.
+    return:
+      type: System.Threading.Tasks.Task{Discord.IUserMessage}
+      description: A task representing the asynchronous operation. The task result contains the sent message.
+    content.vb: Public Shared Function SendErrorAsync(user As IUser, title As String, [error] As String, url As String = Nothing) As Task(Of IUserMessage)
+  overload: Mewdeko.Extensions.UserExtensions.SendErrorAsync*
+  nameWithType.vb: UserExtensions.SendErrorAsync(IUser, String, String, String)
+  fullName.vb: Mewdeko.Extensions.UserExtensions.SendErrorAsync(Discord.IUser, String, String, String)
+  name.vb: SendErrorAsync(IUser, String, String, String)
+- uid: Mewdeko.Extensions.UserExtensions.SendErrorAsync(Discord.IUser,System.String)
+  commentId: M:Mewdeko.Extensions.UserExtensions.SendErrorAsync(Discord.IUser,System.String)
+  id: SendErrorAsync(Discord.IUser,System.String)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.UserExtensions
+  langs:
+  - csharp
+  - vb
+  name: SendErrorAsync(IUser, string?)
+  nameWithType: UserExtensions.SendErrorAsync(IUser, string?)
+  fullName: Mewdeko.Extensions.UserExtensions.SendErrorAsync(Discord.IUser, string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IUserExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SendErrorAsync
+    path: src/Mewdeko/Extensions/IUserExtensions.cs
+    startLine: 249
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Sends an error message to the user asynchronously.
+  example: []
+  syntax:
+    content: public static Task<IUserMessage> SendErrorAsync(this IUser user, string? error)
+    parameters:
+    - id: user
+      type: Discord.IUser
+      description: The user to send the error message to.
+    - id: error
+      type: System.String
+      description: The error description.
+    return:
+      type: System.Threading.Tasks.Task{Discord.IUserMessage}
+      description: A task representing the asynchronous operation. The task result contains the sent message.
+    content.vb: Public Shared Function SendErrorAsync(user As IUser, [error] As String) As Task(Of IUserMessage)
+  overload: Mewdeko.Extensions.UserExtensions.SendErrorAsync*
+  nameWithType.vb: UserExtensions.SendErrorAsync(IUser, String)
+  fullName.vb: Mewdeko.Extensions.UserExtensions.SendErrorAsync(Discord.IUser, String)
+  name.vb: SendErrorAsync(IUser, String)
+- uid: Mewdeko.Extensions.UserExtensions.SendFileAsync(Discord.IUser,System.String,System.String,System.String,System.Boolean)
+  commentId: M:Mewdeko.Extensions.UserExtensions.SendFileAsync(Discord.IUser,System.String,System.String,System.String,System.Boolean)
+  id: SendFileAsync(Discord.IUser,System.String,System.String,System.String,System.Boolean)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.UserExtensions
+  langs:
+  - csharp
+  - vb
+  name: SendFileAsync(IUser, string, string?, string?, bool)
+  nameWithType: UserExtensions.SendFileAsync(IUser, string, string?, string?, bool)
+  fullName: Mewdeko.Extensions.UserExtensions.SendFileAsync(Discord.IUser, string, string?, string?, bool)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IUserExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SendFileAsync
+    path: src/Mewdeko/Extensions/IUserExtensions.cs
+    startLine: 264
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Sends a file asynchronously to the user.
+  example: []
+  syntax:
+    content: public static Task<IUserMessage> SendFileAsync(this IUser user, string filePath, string? caption = null, string? text = null, bool isTts = false)
+    parameters:
+    - id: user
+      type: Discord.IUser
+      description: The user to send the file to.
+    - id: filePath
+      type: System.String
+      description: The path to the file to send.
+    - id: caption
+      type: System.String
+      description: The caption to include with the file.
+    - id: text
+      type: System.String
+      description: The text to include with the file.
+    - id: isTts
+      type: System.Boolean
+      description: Specifies whether the message is text-to-speech.
+    return:
+      type: System.Threading.Tasks.Task{Discord.IUserMessage}
+      description: A task representing the asynchronous operation. The task result contains the sent message.
+    content.vb: Public Shared Function SendFileAsync(user As IUser, filePath As String, caption As String = Nothing, text As String = Nothing, isTts As Boolean = False) As Task(Of IUserMessage)
+  overload: Mewdeko.Extensions.UserExtensions.SendFileAsync*
+  nameWithType.vb: UserExtensions.SendFileAsync(IUser, String, String, String, Boolean)
+  fullName.vb: Mewdeko.Extensions.UserExtensions.SendFileAsync(Discord.IUser, String, String, String, Boolean)
+  name.vb: SendFileAsync(IUser, String, String, String, Boolean)
+- uid: Mewdeko.Extensions.UserExtensions.SendFileAsync(Discord.IUser,System.IO.Stream,System.String,System.String,System.Boolean)
+  commentId: M:Mewdeko.Extensions.UserExtensions.SendFileAsync(Discord.IUser,System.IO.Stream,System.String,System.String,System.Boolean)
+  id: SendFileAsync(Discord.IUser,System.IO.Stream,System.String,System.String,System.Boolean)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.UserExtensions
+  langs:
+  - csharp
+  - vb
+  name: SendFileAsync(IUser, Stream, string, string?, bool)
+  nameWithType: UserExtensions.SendFileAsync(IUser, Stream, string, string?, bool)
+  fullName: Mewdeko.Extensions.UserExtensions.SendFileAsync(Discord.IUser, System.IO.Stream, string, string?, bool)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IUserExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SendFileAsync
+    path: src/Mewdeko/Extensions/IUserExtensions.cs
+    startLine: 282
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Sends a file stream asynchronously to the user.
+  example: []
+  syntax:
+    content: public static Task<IUserMessage> SendFileAsync(this IUser user, Stream fileStream, string fileName, string? caption = null, bool isTts = false)
+    parameters:
+    - id: user
+      type: Discord.IUser
+      description: The user to send the file to.
+    - id: fileStream
+      type: System.IO.Stream
+      description: The file stream to send.
+    - id: fileName
+      type: System.String
+      description: The name of the file to send.
+    - id: caption
+      type: System.String
+      description: The caption to include with the file.
+    - id: isTts
+      type: System.Boolean
+      description: Specifies whether the message is text-to-speech.
+    return:
+      type: System.Threading.Tasks.Task{Discord.IUserMessage}
+      description: A task representing the asynchronous operation. The task result contains the sent message.
+    content.vb: Public Shared Function SendFileAsync(user As IUser, fileStream As Stream, fileName As String, caption As String = Nothing, isTts As Boolean = False) As Task(Of IUserMessage)
+  overload: Mewdeko.Extensions.UserExtensions.SendFileAsync*
+  nameWithType.vb: UserExtensions.SendFileAsync(IUser, Stream, String, String, Boolean)
+  fullName.vb: Mewdeko.Extensions.UserExtensions.SendFileAsync(Discord.IUser, System.IO.Stream, String, String, Boolean)
+  name.vb: SendFileAsync(IUser, Stream, String, String, Boolean)
+- uid: Mewdeko.Extensions.UserExtensions.RealAvatarUrl(Discord.IUser,System.UInt16)
+  commentId: M:Mewdeko.Extensions.UserExtensions.RealAvatarUrl(Discord.IUser,System.UInt16)
+  id: RealAvatarUrl(Discord.IUser,System.UInt16)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.UserExtensions
+  langs:
+  - csharp
+  - vb
+  name: RealAvatarUrl(IUser, ushort)
+  nameWithType: UserExtensions.RealAvatarUrl(IUser, ushort)
+  fullName: Mewdeko.Extensions.UserExtensions.RealAvatarUrl(Discord.IUser, ushort)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IUserExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RealAvatarUrl
+    path: src/Mewdeko/Extensions/IUserExtensions.cs
+    startLine: 293
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Gets the real avatar URL of the user.
+  example: []
+  syntax:
+    content: public static Uri RealAvatarUrl(this IUser usr, ushort size = 2048)
+    parameters:
+    - id: usr
+      type: Discord.IUser
+      description: The user to get the avatar URL for.
+    - id: size
+      type: System.UInt16
+      description: The desired size of the avatar image.
+    return:
+      type: System.Uri
+      description: The URL of the user's avatar.
+    content.vb: Public Shared Function RealAvatarUrl(usr As IUser, size As UShort = 2048) As Uri
+  overload: Mewdeko.Extensions.UserExtensions.RealAvatarUrl*
+  nameWithType.vb: UserExtensions.RealAvatarUrl(IUser, UShort)
+  fullName.vb: Mewdeko.Extensions.UserExtensions.RealAvatarUrl(Discord.IUser, UShort)
+  name.vb: RealAvatarUrl(IUser, UShort)
+- uid: Mewdeko.Extensions.UserExtensions.RealAvatarUrl(Mewdeko.Database.Models.DiscordUser)
+  commentId: M:Mewdeko.Extensions.UserExtensions.RealAvatarUrl(Mewdeko.Database.Models.DiscordUser)
+  id: RealAvatarUrl(Mewdeko.Database.Models.DiscordUser)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.UserExtensions
+  langs:
+  - csharp
+  - vb
+  name: RealAvatarUrl(DiscordUser)
+  nameWithType: UserExtensions.RealAvatarUrl(DiscordUser)
+  fullName: Mewdeko.Extensions.UserExtensions.RealAvatarUrl(Mewdeko.Database.Models.DiscordUser)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IUserExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RealAvatarUrl
+    path: src/Mewdeko/Extensions/IUserExtensions.cs
+    startLine: 303
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Gets the real avatar URL of the Discord user.
+  example: []
+  syntax:
+    content: public static Uri? RealAvatarUrl(this DiscordUser usr)
+    parameters:
+    - id: usr
+      type: Mewdeko.Database.Models.DiscordUser
+      description: The Discord user to get the avatar URL for.
+    return:
+      type: System.Uri
+      description: The URL of the user's avatar.
+    content.vb: Public Shared Function RealAvatarUrl(usr As DiscordUser) As Uri
+  overload: Mewdeko.Extensions.UserExtensions.RealAvatarUrl*
+references:
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.UserExtensions.SendConfirmAsync*
+  commentId: Overload:Mewdeko.Extensions.UserExtensions.SendConfirmAsync
+  href: Mewdeko.Extensions.UserExtensions.html#Mewdeko_Extensions_UserExtensions_SendConfirmAsync_Discord_IUser_System_String_
+  name: SendConfirmAsync
+  nameWithType: UserExtensions.SendConfirmAsync
+  fullName: Mewdeko.Extensions.UserExtensions.SendConfirmAsync
+- uid: Discord.IUser
+  commentId: T:Discord.IUser
+  parent: Discord
+  isExternal: true
+  name: IUser
+  nameWithType: IUser
+  fullName: Discord.IUser
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: Discord
+  commentId: N:Discord
+  isExternal: true
+  name: Discord
+  nameWithType: Discord
+  fullName: Discord
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Extensions.UserExtensions.SanitizeUserName*
+  commentId: Overload:Mewdeko.Extensions.UserExtensions.SanitizeUserName
+  href: Mewdeko.Extensions.UserExtensions.html#Mewdeko_Extensions_UserExtensions_SanitizeUserName_Discord_IUser_
+  name: SanitizeUserName
+  nameWithType: UserExtensions.SanitizeUserName
+  fullName: Mewdeko.Extensions.UserExtensions.SanitizeUserName
+- uid: Mewdeko.Extensions.UserExtensions.ReplaceSpecialChars*
+  commentId: Overload:Mewdeko.Extensions.UserExtensions.ReplaceSpecialChars
+  href: Mewdeko.Extensions.UserExtensions.html#Mewdeko_Extensions_UserExtensions_ReplaceSpecialChars_System_String_
+  name: ReplaceSpecialChars
+  nameWithType: UserExtensions.ReplaceSpecialChars
+  fullName: Mewdeko.Extensions.UserExtensions.ReplaceSpecialChars
+- uid: System.Threading.Tasks.Task{Discord.IUserMessage}
+  commentId: T:System.Threading.Tasks.Task{Discord.IUserMessage}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<IUserMessage>
+  nameWithType: Task<IUserMessage>
+  fullName: System.Threading.Tasks.Task<Discord.IUserMessage>
+  nameWithType.vb: Task(Of IUserMessage)
+  fullName.vb: System.Threading.Tasks.Task(Of Discord.IUserMessage)
+  name.vb: Task(Of IUserMessage)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Mewdeko.Extensions.UserExtensions.SendErrorAsync*
+  commentId: Overload:Mewdeko.Extensions.UserExtensions.SendErrorAsync
+  href: Mewdeko.Extensions.UserExtensions.html#Mewdeko_Extensions_UserExtensions_SendErrorAsync_Discord_IUser_System_String_System_String_System_String_
+  name: SendErrorAsync
+  nameWithType: UserExtensions.SendErrorAsync
+  fullName: Mewdeko.Extensions.UserExtensions.SendErrorAsync
+- uid: Mewdeko.Extensions.UserExtensions.SendFileAsync*
+  commentId: Overload:Mewdeko.Extensions.UserExtensions.SendFileAsync
+  href: Mewdeko.Extensions.UserExtensions.html#Mewdeko_Extensions_UserExtensions_SendFileAsync_Discord_IUser_System_String_System_String_System_String_System_Boolean_
+  name: SendFileAsync
+  nameWithType: UserExtensions.SendFileAsync
+  fullName: Mewdeko.Extensions.UserExtensions.SendFileAsync
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: System.IO.Stream
+  commentId: T:System.IO.Stream
+  parent: System.IO
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.io.stream
+  name: Stream
+  nameWithType: Stream
+  fullName: System.IO.Stream
+- uid: System.IO
+  commentId: N:System.IO
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.IO
+  nameWithType: System.IO
+  fullName: System.IO
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.IO
+    name: IO
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.io
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.IO
+    name: IO
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.io
+- uid: Mewdeko.Extensions.UserExtensions.RealAvatarUrl*
+  commentId: Overload:Mewdeko.Extensions.UserExtensions.RealAvatarUrl
+  href: Mewdeko.Extensions.UserExtensions.html#Mewdeko_Extensions_UserExtensions_RealAvatarUrl_Discord_IUser_System_UInt16_
+  name: RealAvatarUrl
+  nameWithType: UserExtensions.RealAvatarUrl
+  fullName: Mewdeko.Extensions.UserExtensions.RealAvatarUrl
+- uid: System.UInt16
+  commentId: T:System.UInt16
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint16
+  name: ushort
+  nameWithType: ushort
+  fullName: ushort
+  nameWithType.vb: UShort
+  fullName.vb: UShort
+  name.vb: UShort
+- uid: System.Uri
+  commentId: T:System.Uri
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uri
+  name: Uri
+  nameWithType: Uri
+  fullName: System.Uri
+- uid: Mewdeko.Database.Models.DiscordUser
+  commentId: T:Mewdeko.Database.Models.DiscordUser
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.DiscordUser.html
+  name: DiscordUser
+  nameWithType: DiscordUser
+  fullName: Mewdeko.Database.Models.DiscordUser
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html

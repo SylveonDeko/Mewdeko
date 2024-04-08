@@ -1,0 +1,1109 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Xp.Services.XpConfigService
+  commentId: T:Mewdeko.Modules.Xp.Services.XpConfigService
+  id: XpConfigService
+  parent: Mewdeko.Modules.Xp.Services
+  children:
+  - Mewdeko.Modules.Xp.Services.XpConfigService.#ctor(Mewdeko.Common.Configs.IConfigSeria,Mewdeko.Common.PubSub.IPubSub)
+  - Mewdeko.Modules.Xp.Services.XpConfigService.Name
+  langs:
+  - csharp
+  - vb
+  name: XpConfigService
+  nameWithType: XpConfigService
+  fullName: Mewdeko.Modules.Xp.Services.XpConfigService
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Services/XpConfigService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: XpConfigService
+    path: src/Mewdeko/Modules/Xp/Services/XpConfigService.cs
+    startLine: 10
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp.Services
+  summary: Provides services for managing XP configuration settings.
+  example: []
+  syntax:
+    content: 'public sealed class XpConfigService : ConfigServiceBase<XpConfig>, IConfigService'
+    content.vb: Public NotInheritable Class XpConfigService Inherits ConfigServiceBase(Of XpConfig) Implements IConfigService
+  inheritance:
+  - System.Object
+  - Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}
+  implements:
+  - Mewdeko.Services.Settings.IConfigService
+  inheritedMembers:
+  - Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.Data
+  - Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.Reload
+  - Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.GetSettableProps
+  - Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.GetSetting(System.String)
+  - Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.GetComment(System.String)
+  - Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.SetSetting(System.String,System.String)
+  - Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.ModifyConfig(System.Action{Mewdeko.Modules.Xp.Common.XpConfig})
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Xp.Services.XpConfigService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Xp.Services.XpConfigService.#ctor(Mewdeko.Common.Configs.IConfigSeria,Mewdeko.Common.PubSub.IPubSub)
+  commentId: M:Mewdeko.Modules.Xp.Services.XpConfigService.#ctor(Mewdeko.Common.Configs.IConfigSeria,Mewdeko.Common.PubSub.IPubSub)
+  id: '#ctor(Mewdeko.Common.Configs.IConfigSeria,Mewdeko.Common.PubSub.IPubSub)'
+  parent: Mewdeko.Modules.Xp.Services.XpConfigService
+  langs:
+  - csharp
+  - vb
+  name: XpConfigService(IConfigSeria, IPubSub)
+  nameWithType: XpConfigService.XpConfigService(IConfigSeria, IPubSub)
+  fullName: Mewdeko.Modules.Xp.Services.XpConfigService.XpConfigService(Mewdeko.Common.Configs.IConfigSeria, Mewdeko.Common.PubSub.IPubSub)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Services/XpConfigService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Xp/Services/XpConfigService.cs
+    startLine: 20
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp.Services
+  summary: Initializes a new instance of the <xref href="Mewdeko.Modules.Xp.Services.XpConfigService" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public XpConfigService(IConfigSeria serializer, IPubSub pubSub)
+    parameters:
+    - id: serializer
+      type: Mewdeko.Common.Configs.IConfigSeria
+      description: The configuration serializer.
+    - id: pubSub
+      type: Mewdeko.Common.PubSub.IPubSub
+      description: The pub/sub system for configuration changes.
+    content.vb: Public Sub New(serializer As IConfigSeria, pubSub As IPubSub)
+  overload: Mewdeko.Modules.Xp.Services.XpConfigService.#ctor*
+  nameWithType.vb: XpConfigService.New(IConfigSeria, IPubSub)
+  fullName.vb: Mewdeko.Modules.Xp.Services.XpConfigService.New(Mewdeko.Common.Configs.IConfigSeria, Mewdeko.Common.PubSub.IPubSub)
+  name.vb: New(IConfigSeria, IPubSub)
+- uid: Mewdeko.Modules.Xp.Services.XpConfigService.Name
+  commentId: P:Mewdeko.Modules.Xp.Services.XpConfigService.Name
+  id: Name
+  parent: Mewdeko.Modules.Xp.Services.XpConfigService
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: XpConfigService.Name
+  fullName: Mewdeko.Modules.Xp.Services.XpConfigService.Name
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Xp/Services/XpConfigService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Name
+    path: src/Mewdeko/Modules/Xp/Services/XpConfigService.cs
+    startLine: 37
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Xp.Services
+  summary: Gets the name of the configuration.
+  example: []
+  syntax:
+    content: public override string Name { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Overrides ReadOnly Property Name As String
+  overridden: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.Name
+  overload: Mewdeko.Modules.Xp.Services.XpConfigService.Name*
+references:
+- uid: Mewdeko.Modules.Xp.Services
+  commentId: N:Mewdeko.Modules.Xp.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Xp.Services
+  nameWithType: Mewdeko.Modules.Xp.Services
+  fullName: Mewdeko.Modules.Xp.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Xp
+    name: Xp
+    href: Mewdeko.Modules.Xp.html
+  - name: .
+  - uid: Mewdeko.Modules.Xp.Services
+    name: Services
+    href: Mewdeko.Modules.Xp.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Xp
+    name: Xp
+    href: Mewdeko.Modules.Xp.html
+  - name: .
+  - uid: Mewdeko.Modules.Xp.Services
+    name: Services
+    href: Mewdeko.Modules.Xp.Services.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}
+  commentId: T:Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}
+  parent: Mewdeko.Services.Settings
+  definition: Mewdeko.Services.Settings.ConfigServiceBase`1
+  href: Mewdeko.Services.Settings.ConfigServiceBase-1.html
+  name: ConfigServiceBase<XpConfig>
+  nameWithType: ConfigServiceBase<XpConfig>
+  fullName: Mewdeko.Services.Settings.ConfigServiceBase<Mewdeko.Modules.Xp.Common.XpConfig>
+  nameWithType.vb: ConfigServiceBase(Of XpConfig)
+  fullName.vb: Mewdeko.Services.Settings.ConfigServiceBase(Of Mewdeko.Modules.Xp.Common.XpConfig)
+  name.vb: ConfigServiceBase(Of XpConfig)
+  spec.csharp:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase`1
+    name: ConfigServiceBase
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html
+  - name: <
+  - uid: Mewdeko.Modules.Xp.Common.XpConfig
+    name: XpConfig
+    href: Mewdeko.Modules.Xp.Common.XpConfig.html
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase`1
+    name: ConfigServiceBase
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Xp.Common.XpConfig
+    name: XpConfig
+    href: Mewdeko.Modules.Xp.Common.XpConfig.html
+  - name: )
+- uid: Mewdeko.Services.Settings.IConfigService
+  commentId: T:Mewdeko.Services.Settings.IConfigService
+  parent: Mewdeko.Services.Settings
+  href: Mewdeko.Services.Settings.IConfigService.html
+  name: IConfigService
+  nameWithType: IConfigService
+  fullName: Mewdeko.Services.Settings.IConfigService
+- uid: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.Data
+  commentId: P:Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.Data
+  parent: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}
+  definition: Mewdeko.Services.Settings.ConfigServiceBase`1.Data
+  href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_Data
+  name: Data
+  nameWithType: ConfigServiceBase<XpConfig>.Data
+  fullName: Mewdeko.Services.Settings.ConfigServiceBase<Mewdeko.Modules.Xp.Common.XpConfig>.Data
+  nameWithType.vb: ConfigServiceBase(Of XpConfig).Data
+  fullName.vb: Mewdeko.Services.Settings.ConfigServiceBase(Of Mewdeko.Modules.Xp.Common.XpConfig).Data
+- uid: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.Reload
+  commentId: M:Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.Reload
+  parent: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}
+  definition: Mewdeko.Services.Settings.ConfigServiceBase`1.Reload
+  href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_Reload
+  name: Reload()
+  nameWithType: ConfigServiceBase<XpConfig>.Reload()
+  fullName: Mewdeko.Services.Settings.ConfigServiceBase<Mewdeko.Modules.Xp.Common.XpConfig>.Reload()
+  nameWithType.vb: ConfigServiceBase(Of XpConfig).Reload()
+  fullName.vb: Mewdeko.Services.Settings.ConfigServiceBase(Of Mewdeko.Modules.Xp.Common.XpConfig).Reload()
+  spec.csharp:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.Reload
+    name: Reload
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_Reload
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.Reload
+    name: Reload
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_Reload
+  - name: (
+  - name: )
+- uid: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.GetSettableProps
+  commentId: M:Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.GetSettableProps
+  parent: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}
+  definition: Mewdeko.Services.Settings.ConfigServiceBase`1.GetSettableProps
+  href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_GetSettableProps
+  name: GetSettableProps()
+  nameWithType: ConfigServiceBase<XpConfig>.GetSettableProps()
+  fullName: Mewdeko.Services.Settings.ConfigServiceBase<Mewdeko.Modules.Xp.Common.XpConfig>.GetSettableProps()
+  nameWithType.vb: ConfigServiceBase(Of XpConfig).GetSettableProps()
+  fullName.vb: Mewdeko.Services.Settings.ConfigServiceBase(Of Mewdeko.Modules.Xp.Common.XpConfig).GetSettableProps()
+  spec.csharp:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.GetSettableProps
+    name: GetSettableProps
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_GetSettableProps
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.GetSettableProps
+    name: GetSettableProps
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_GetSettableProps
+  - name: (
+  - name: )
+- uid: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.GetSetting(System.String)
+  commentId: M:Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.GetSetting(System.String)
+  parent: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}
+  definition: Mewdeko.Services.Settings.ConfigServiceBase`1.GetSetting(System.String)
+  href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_GetSetting_System_String_
+  name: GetSetting(string)
+  nameWithType: ConfigServiceBase<XpConfig>.GetSetting(string)
+  fullName: Mewdeko.Services.Settings.ConfigServiceBase<Mewdeko.Modules.Xp.Common.XpConfig>.GetSetting(string)
+  nameWithType.vb: ConfigServiceBase(Of XpConfig).GetSetting(String)
+  fullName.vb: Mewdeko.Services.Settings.ConfigServiceBase(Of Mewdeko.Modules.Xp.Common.XpConfig).GetSetting(String)
+  name.vb: GetSetting(String)
+  spec.csharp:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.GetSetting(System.String)
+    name: GetSetting
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_GetSetting_System_String_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.GetSetting(System.String)
+    name: GetSetting
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_GetSetting_System_String_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.GetComment(System.String)
+  commentId: M:Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.GetComment(System.String)
+  parent: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}
+  definition: Mewdeko.Services.Settings.ConfigServiceBase`1.GetComment(System.String)
+  href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_GetComment_System_String_
+  name: GetComment(string)
+  nameWithType: ConfigServiceBase<XpConfig>.GetComment(string)
+  fullName: Mewdeko.Services.Settings.ConfigServiceBase<Mewdeko.Modules.Xp.Common.XpConfig>.GetComment(string)
+  nameWithType.vb: ConfigServiceBase(Of XpConfig).GetComment(String)
+  fullName.vb: Mewdeko.Services.Settings.ConfigServiceBase(Of Mewdeko.Modules.Xp.Common.XpConfig).GetComment(String)
+  name.vb: GetComment(String)
+  spec.csharp:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.GetComment(System.String)
+    name: GetComment
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_GetComment_System_String_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.GetComment(System.String)
+    name: GetComment
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_GetComment_System_String_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.SetSetting(System.String,System.String)
+  commentId: M:Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.SetSetting(System.String,System.String)
+  parent: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}
+  definition: Mewdeko.Services.Settings.ConfigServiceBase`1.SetSetting(System.String,System.String)
+  href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_SetSetting_System_String_System_String_
+  name: SetSetting(string, string)
+  nameWithType: ConfigServiceBase<XpConfig>.SetSetting(string, string)
+  fullName: Mewdeko.Services.Settings.ConfigServiceBase<Mewdeko.Modules.Xp.Common.XpConfig>.SetSetting(string, string)
+  nameWithType.vb: ConfigServiceBase(Of XpConfig).SetSetting(String, String)
+  fullName.vb: Mewdeko.Services.Settings.ConfigServiceBase(Of Mewdeko.Modules.Xp.Common.XpConfig).SetSetting(String, String)
+  name.vb: SetSetting(String, String)
+  spec.csharp:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.SetSetting(System.String,System.String)
+    name: SetSetting
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_SetSetting_System_String_System_String_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.SetSetting(System.String,System.String)
+    name: SetSetting
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_SetSetting_System_String_System_String_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.ModifyConfig(System.Action{Mewdeko.Modules.Xp.Common.XpConfig})
+  commentId: M:Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.ModifyConfig(System.Action{Mewdeko.Modules.Xp.Common.XpConfig})
+  parent: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}
+  definition: Mewdeko.Services.Settings.ConfigServiceBase`1.ModifyConfig(System.Action{`0})
+  href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_ModifyConfig_System_Action__0__
+  name: ModifyConfig(Action<XpConfig>)
+  nameWithType: ConfigServiceBase<XpConfig>.ModifyConfig(Action<XpConfig>)
+  fullName: Mewdeko.Services.Settings.ConfigServiceBase<Mewdeko.Modules.Xp.Common.XpConfig>.ModifyConfig(System.Action<Mewdeko.Modules.Xp.Common.XpConfig>)
+  nameWithType.vb: ConfigServiceBase(Of XpConfig).ModifyConfig(Action(Of XpConfig))
+  fullName.vb: Mewdeko.Services.Settings.ConfigServiceBase(Of Mewdeko.Modules.Xp.Common.XpConfig).ModifyConfig(System.Action(Of Mewdeko.Modules.Xp.Common.XpConfig))
+  name.vb: ModifyConfig(Action(Of XpConfig))
+  spec.csharp:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.ModifyConfig(System.Action{Mewdeko.Modules.Xp.Common.XpConfig})
+    name: ModifyConfig
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_ModifyConfig_System_Action__0__
+  - name: (
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: Mewdeko.Modules.Xp.Common.XpConfig
+    name: XpConfig
+    href: Mewdeko.Modules.Xp.Common.XpConfig.html
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.ModifyConfig(System.Action{Mewdeko.Modules.Xp.Common.XpConfig})
+    name: ModifyConfig
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_ModifyConfig_System_Action__0__
+  - name: (
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Xp.Common.XpConfig
+    name: XpConfig
+    href: Mewdeko.Modules.Xp.Common.XpConfig.html
+  - name: )
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Xp.Services.XpConfigService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<XpConfigService>(XpConfigService, string)
+  nameWithType: Extensions.ThrowIfNull<XpConfigService>(XpConfigService, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Xp.Services.XpConfigService>(Mewdeko.Modules.Xp.Services.XpConfigService, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of XpConfigService)(XpConfigService, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Xp.Services.XpConfigService)(Mewdeko.Modules.Xp.Services.XpConfigService, String)
+  name.vb: ThrowIfNull(Of XpConfigService)(XpConfigService, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Xp.Services.XpConfigService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Xp.Services.XpConfigService
+    name: XpConfigService
+    href: Mewdeko.Modules.Xp.Services.XpConfigService.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Xp.Services.XpConfigService
+    name: XpConfigService
+    href: Mewdeko.Modules.Xp.Services.XpConfigService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Xp.Services.XpConfigService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Xp.Services.XpConfigService
+    name: XpConfigService
+    href: Mewdeko.Modules.Xp.Services.XpConfigService.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Xp.Services.XpConfigService
+    name: XpConfigService
+    href: Mewdeko.Modules.Xp.Services.XpConfigService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Services.Settings.ConfigServiceBase`1
+  commentId: T:Mewdeko.Services.Settings.ConfigServiceBase`1
+  href: Mewdeko.Services.Settings.ConfigServiceBase-1.html
+  name: ConfigServiceBase<TSettings>
+  nameWithType: ConfigServiceBase<TSettings>
+  fullName: Mewdeko.Services.Settings.ConfigServiceBase<TSettings>
+  nameWithType.vb: ConfigServiceBase(Of TSettings)
+  fullName.vb: Mewdeko.Services.Settings.ConfigServiceBase(Of TSettings)
+  name.vb: ConfigServiceBase(Of TSettings)
+  spec.csharp:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase`1
+    name: ConfigServiceBase
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html
+  - name: <
+  - name: TSettings
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase`1
+    name: ConfigServiceBase
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSettings
+  - name: )
+- uid: Mewdeko.Services.Settings
+  commentId: N:Mewdeko.Services.Settings
+  href: Mewdeko.html
+  name: Mewdeko.Services.Settings
+  nameWithType: Mewdeko.Services.Settings
+  fullName: Mewdeko.Services.Settings
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+- uid: Mewdeko.Services.Settings.ConfigServiceBase`1.Data
+  commentId: P:Mewdeko.Services.Settings.ConfigServiceBase`1.Data
+  href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_Data
+  name: Data
+  nameWithType: ConfigServiceBase<TSettings>.Data
+  fullName: Mewdeko.Services.Settings.ConfigServiceBase<TSettings>.Data
+  nameWithType.vb: ConfigServiceBase(Of TSettings).Data
+  fullName.vb: Mewdeko.Services.Settings.ConfigServiceBase(Of TSettings).Data
+- uid: Mewdeko.Services.Settings.ConfigServiceBase`1.Reload
+  commentId: M:Mewdeko.Services.Settings.ConfigServiceBase`1.Reload
+  href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_Reload
+  name: Reload()
+  nameWithType: ConfigServiceBase<TSettings>.Reload()
+  fullName: Mewdeko.Services.Settings.ConfigServiceBase<TSettings>.Reload()
+  nameWithType.vb: ConfigServiceBase(Of TSettings).Reload()
+  fullName.vb: Mewdeko.Services.Settings.ConfigServiceBase(Of TSettings).Reload()
+  spec.csharp:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase`1.Reload
+    name: Reload
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_Reload
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase`1.Reload
+    name: Reload
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_Reload
+  - name: (
+  - name: )
+- uid: Mewdeko.Services.Settings.ConfigServiceBase`1.GetSettableProps
+  commentId: M:Mewdeko.Services.Settings.ConfigServiceBase`1.GetSettableProps
+  href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_GetSettableProps
+  name: GetSettableProps()
+  nameWithType: ConfigServiceBase<TSettings>.GetSettableProps()
+  fullName: Mewdeko.Services.Settings.ConfigServiceBase<TSettings>.GetSettableProps()
+  nameWithType.vb: ConfigServiceBase(Of TSettings).GetSettableProps()
+  fullName.vb: Mewdeko.Services.Settings.ConfigServiceBase(Of TSettings).GetSettableProps()
+  spec.csharp:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase`1.GetSettableProps
+    name: GetSettableProps
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_GetSettableProps
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase`1.GetSettableProps
+    name: GetSettableProps
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_GetSettableProps
+  - name: (
+  - name: )
+- uid: Mewdeko.Services.Settings.ConfigServiceBase`1.GetSetting(System.String)
+  commentId: M:Mewdeko.Services.Settings.ConfigServiceBase`1.GetSetting(System.String)
+  isExternal: true
+  href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_GetSetting_System_String_
+  name: GetSetting(string)
+  nameWithType: ConfigServiceBase<TSettings>.GetSetting(string)
+  fullName: Mewdeko.Services.Settings.ConfigServiceBase<TSettings>.GetSetting(string)
+  nameWithType.vb: ConfigServiceBase(Of TSettings).GetSetting(String)
+  fullName.vb: Mewdeko.Services.Settings.ConfigServiceBase(Of TSettings).GetSetting(String)
+  name.vb: GetSetting(String)
+  spec.csharp:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase`1.GetSetting(System.String)
+    name: GetSetting
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_GetSetting_System_String_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase`1.GetSetting(System.String)
+    name: GetSetting
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_GetSetting_System_String_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Services.Settings.ConfigServiceBase`1.GetComment(System.String)
+  commentId: M:Mewdeko.Services.Settings.ConfigServiceBase`1.GetComment(System.String)
+  isExternal: true
+  href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_GetComment_System_String_
+  name: GetComment(string)
+  nameWithType: ConfigServiceBase<TSettings>.GetComment(string)
+  fullName: Mewdeko.Services.Settings.ConfigServiceBase<TSettings>.GetComment(string)
+  nameWithType.vb: ConfigServiceBase(Of TSettings).GetComment(String)
+  fullName.vb: Mewdeko.Services.Settings.ConfigServiceBase(Of TSettings).GetComment(String)
+  name.vb: GetComment(String)
+  spec.csharp:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase`1.GetComment(System.String)
+    name: GetComment
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_GetComment_System_String_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase`1.GetComment(System.String)
+    name: GetComment
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_GetComment_System_String_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Services.Settings.ConfigServiceBase`1.SetSetting(System.String,System.String)
+  commentId: M:Mewdeko.Services.Settings.ConfigServiceBase`1.SetSetting(System.String,System.String)
+  isExternal: true
+  href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_SetSetting_System_String_System_String_
+  name: SetSetting(string, string)
+  nameWithType: ConfigServiceBase<TSettings>.SetSetting(string, string)
+  fullName: Mewdeko.Services.Settings.ConfigServiceBase<TSettings>.SetSetting(string, string)
+  nameWithType.vb: ConfigServiceBase(Of TSettings).SetSetting(String, String)
+  fullName.vb: Mewdeko.Services.Settings.ConfigServiceBase(Of TSettings).SetSetting(String, String)
+  name.vb: SetSetting(String, String)
+  spec.csharp:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase`1.SetSetting(System.String,System.String)
+    name: SetSetting
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_SetSetting_System_String_System_String_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase`1.SetSetting(System.String,System.String)
+    name: SetSetting
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_SetSetting_System_String_System_String_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Services.Settings.ConfigServiceBase`1.ModifyConfig(System.Action{`0})
+  commentId: M:Mewdeko.Services.Settings.ConfigServiceBase`1.ModifyConfig(System.Action{`0})
+  isExternal: true
+  href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_ModifyConfig_System_Action__0__
+  name: ModifyConfig(Action<TSettings>)
+  nameWithType: ConfigServiceBase<TSettings>.ModifyConfig(Action<TSettings>)
+  fullName: Mewdeko.Services.Settings.ConfigServiceBase<TSettings>.ModifyConfig(System.Action<TSettings>)
+  nameWithType.vb: ConfigServiceBase(Of TSettings).ModifyConfig(Action(Of TSettings))
+  fullName.vb: Mewdeko.Services.Settings.ConfigServiceBase(Of TSettings).ModifyConfig(System.Action(Of TSettings))
+  name.vb: ModifyConfig(Action(Of TSettings))
+  spec.csharp:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase`1.ModifyConfig(System.Action{`0})
+    name: ModifyConfig
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_ModifyConfig_System_Action__0__
+  - name: (
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: TSettings
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase`1.ModifyConfig(System.Action{`0})
+    name: ModifyConfig
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_ModifyConfig_System_Action__0__
+  - name: (
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSettings
+  - name: )
+  - name: )
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Xp.Services.XpConfigService
+  commentId: T:Mewdeko.Modules.Xp.Services.XpConfigService
+  parent: Mewdeko.Modules.Xp.Services
+  href: Mewdeko.Modules.Xp.Services.XpConfigService.html
+  name: XpConfigService
+  nameWithType: XpConfigService
+  fullName: Mewdeko.Modules.Xp.Services.XpConfigService
+- uid: Mewdeko.Modules.Xp.Services.XpConfigService.#ctor*
+  commentId: Overload:Mewdeko.Modules.Xp.Services.XpConfigService.#ctor
+  href: Mewdeko.Modules.Xp.Services.XpConfigService.html#Mewdeko_Modules_Xp_Services_XpConfigService__ctor_Mewdeko_Common_Configs_IConfigSeria_Mewdeko_Common_PubSub_IPubSub_
+  name: XpConfigService
+  nameWithType: XpConfigService.XpConfigService
+  fullName: Mewdeko.Modules.Xp.Services.XpConfigService.XpConfigService
+  nameWithType.vb: XpConfigService.New
+  fullName.vb: Mewdeko.Modules.Xp.Services.XpConfigService.New
+  name.vb: New
+- uid: Mewdeko.Common.Configs.IConfigSeria
+  commentId: T:Mewdeko.Common.Configs.IConfigSeria
+  parent: Mewdeko.Common.Configs
+  href: Mewdeko.Common.Configs.IConfigSeria.html
+  name: IConfigSeria
+  nameWithType: IConfigSeria
+  fullName: Mewdeko.Common.Configs.IConfigSeria
+- uid: Mewdeko.Common.PubSub.IPubSub
+  commentId: T:Mewdeko.Common.PubSub.IPubSub
+  parent: Mewdeko.Common.PubSub
+  href: Mewdeko.Common.PubSub.IPubSub.html
+  name: IPubSub
+  nameWithType: IPubSub
+  fullName: Mewdeko.Common.PubSub.IPubSub
+- uid: Mewdeko.Common.Configs
+  commentId: N:Mewdeko.Common.Configs
+  href: Mewdeko.html
+  name: Mewdeko.Common.Configs
+  nameWithType: Mewdeko.Common.Configs
+  fullName: Mewdeko.Common.Configs
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+- uid: Mewdeko.Common.PubSub
+  commentId: N:Mewdeko.Common.PubSub
+  href: Mewdeko.html
+  name: Mewdeko.Common.PubSub
+  nameWithType: Mewdeko.Common.PubSub
+  fullName: Mewdeko.Common.PubSub
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.PubSub
+    name: PubSub
+    href: Mewdeko.Common.PubSub.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.PubSub
+    name: PubSub
+    href: Mewdeko.Common.PubSub.html
+- uid: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.Name
+  commentId: P:Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}.Name
+  parent: Mewdeko.Services.Settings.ConfigServiceBase{Mewdeko.Modules.Xp.Common.XpConfig}
+  definition: Mewdeko.Services.Settings.ConfigServiceBase`1.Name
+  href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_Name
+  name: Name
+  nameWithType: ConfigServiceBase<XpConfig>.Name
+  fullName: Mewdeko.Services.Settings.ConfigServiceBase<Mewdeko.Modules.Xp.Common.XpConfig>.Name
+  nameWithType.vb: ConfigServiceBase(Of XpConfig).Name
+  fullName.vb: Mewdeko.Services.Settings.ConfigServiceBase(Of Mewdeko.Modules.Xp.Common.XpConfig).Name
+- uid: Mewdeko.Modules.Xp.Services.XpConfigService.Name*
+  commentId: Overload:Mewdeko.Modules.Xp.Services.XpConfigService.Name
+  href: Mewdeko.Modules.Xp.Services.XpConfigService.html#Mewdeko_Modules_Xp_Services_XpConfigService_Name
+  name: Name
+  nameWithType: XpConfigService.Name
+  fullName: Mewdeko.Modules.Xp.Services.XpConfigService.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Services.Settings.ConfigServiceBase`1.Name
+  commentId: P:Mewdeko.Services.Settings.ConfigServiceBase`1.Name
+  href: Mewdeko.Services.Settings.ConfigServiceBase-1.html#Mewdeko_Services_Settings_ConfigServiceBase_1_Name
+  name: Name
+  nameWithType: ConfigServiceBase<TSettings>.Name
+  fullName: Mewdeko.Services.Settings.ConfigServiceBase<TSettings>.Name
+  nameWithType.vb: ConfigServiceBase(Of TSettings).Name
+  fullName.vb: Mewdeko.Services.Settings.ConfigServiceBase(Of TSettings).Name

@@ -1,0 +1,69 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Chat_Triggers.Common
+  commentId: N:Mewdeko.Modules.Chat_Triggers.Common
+  id: Mewdeko.Modules.Chat_Triggers.Common
+  children:
+  - Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError
+  - Mewdeko.Modules.Chat_Triggers.Common.ExportedTriggers
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Chat_Triggers.Common
+  nameWithType: Mewdeko.Modules.Chat_Triggers.Common
+  fullName: Mewdeko.Modules.Chat_Triggers.Common
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Chat_Triggers.Common.ExportedTriggers
+  commentId: T:Mewdeko.Modules.Chat_Triggers.Common.ExportedTriggers
+  parent: Mewdeko.Modules.Chat_Triggers.Common
+  href: Mewdeko.Modules.Chat_Triggers.Common.ExportedTriggers.html
+  name: ExportedTriggers
+  nameWithType: ExportedTriggers
+  fullName: Mewdeko.Modules.Chat_Triggers.Common.ExportedTriggers
+- uid: Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError
+  commentId: T:Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError
+  href: Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError.html
+  name: ChatTriggersInteractionError
+  nameWithType: ChatTriggersInteractionError
+  fullName: Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError
+- uid: Mewdeko.Modules.Chat_Triggers.Common
+  commentId: N:Mewdeko.Modules.Chat_Triggers.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Chat_Triggers.Common
+  nameWithType: Mewdeko.Modules.Chat_Triggers.Common
+  fullName: Mewdeko.Modules.Chat_Triggers.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers
+    name: Chat_Triggers
+    href: Mewdeko.Modules.Chat_Triggers.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers.Common
+    name: Common
+    href: Mewdeko.Modules.Chat_Triggers.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers
+    name: Chat_Triggers
+    href: Mewdeko.Modules.Chat_Triggers.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers.Common
+    name: Common
+    href: Mewdeko.Modules.Chat_Triggers.Common.html

@@ -1,0 +1,684 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Votes.Common.VoteModel
+  commentId: T:Mewdeko.Votes.Common.VoteModel
+  id: VoteModel
+  parent: Mewdeko.Votes.Common
+  children:
+  - Mewdeko.Votes.Common.VoteModel.Bot
+  - Mewdeko.Votes.Common.VoteModel.Guild
+  - Mewdeko.Votes.Common.VoteModel.Query
+  - Mewdeko.Votes.Common.VoteModel.Type
+  - Mewdeko.Votes.Common.VoteModel.User
+  - Mewdeko.Votes.Common.VoteModel.Weekend
+  langs:
+  - csharp
+  - vb
+  name: VoteModel
+  nameWithType: VoteModel
+  fullName: Mewdeko.Votes.Common.VoteModel
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko.Votes/Common/VoteModel.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: VoteModel
+    path: src/Mewdeko.Votes/Common/VoteModel.cs
+    startLine: 2
+  assemblies:
+  - Mewdeko.Votes
+  namespace: Mewdeko.Votes.Common
+  syntax:
+    content: public class VoteModel
+    content.vb: Public Class VoteModel
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Votes.Common.VoteModel.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Votes.Common.VoteModel.Bot
+  commentId: P:Mewdeko.Votes.Common.VoteModel.Bot
+  id: Bot
+  parent: Mewdeko.Votes.Common.VoteModel
+  langs:
+  - csharp
+  - vb
+  name: Bot
+  nameWithType: VoteModel.Bot
+  fullName: Mewdeko.Votes.Common.VoteModel.Bot
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Votes/Common/VoteModel.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Bot
+    path: src/Mewdeko.Votes/Common/VoteModel.cs
+    startLine: 7
+  assemblies:
+  - Mewdeko.Votes
+  namespace: Mewdeko.Votes.Common
+  summary: Discord ID of the bot that received a vote.
+  example: []
+  syntax:
+    content: public string Bot { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Bot As String
+  overload: Mewdeko.Votes.Common.VoteModel.Bot*
+- uid: Mewdeko.Votes.Common.VoteModel.Guild
+  commentId: P:Mewdeko.Votes.Common.VoteModel.Guild
+  id: Guild
+  parent: Mewdeko.Votes.Common.VoteModel
+  langs:
+  - csharp
+  - vb
+  name: Guild
+  nameWithType: VoteModel.Guild
+  fullName: Mewdeko.Votes.Common.VoteModel.Guild
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Votes/Common/VoteModel.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Guild
+    path: src/Mewdeko.Votes/Common/VoteModel.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko.Votes
+  namespace: Mewdeko.Votes.Common
+  summary: Server ID if Bot is not populated.
+  example: []
+  syntax:
+    content: public string Guild { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Guild As String
+  overload: Mewdeko.Votes.Common.VoteModel.Guild*
+- uid: Mewdeko.Votes.Common.VoteModel.User
+  commentId: P:Mewdeko.Votes.Common.VoteModel.User
+  id: User
+  parent: Mewdeko.Votes.Common.VoteModel
+  langs:
+  - csharp
+  - vb
+  name: User
+  nameWithType: VoteModel.User
+  fullName: Mewdeko.Votes.Common.VoteModel.User
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Votes/Common/VoteModel.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: User
+    path: src/Mewdeko.Votes/Common/VoteModel.cs
+    startLine: 17
+  assemblies:
+  - Mewdeko.Votes
+  namespace: Mewdeko.Votes.Common
+  summary: Discord ID of the user who voted.
+  example: []
+  syntax:
+    content: public string User { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property User As String
+  overload: Mewdeko.Votes.Common.VoteModel.User*
+- uid: Mewdeko.Votes.Common.VoteModel.Type
+  commentId: P:Mewdeko.Votes.Common.VoteModel.Type
+  id: Type
+  parent: Mewdeko.Votes.Common.VoteModel
+  langs:
+  - csharp
+  - vb
+  name: Type
+  nameWithType: VoteModel.Type
+  fullName: Mewdeko.Votes.Common.VoteModel.Type
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Votes/Common/VoteModel.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Type
+    path: src/Mewdeko.Votes/Common/VoteModel.cs
+    startLine: 22
+  assemblies:
+  - Mewdeko.Votes
+  namespace: Mewdeko.Votes.Common
+  summary: The type of the vote (should always be "upvote" except when using the test button it's "test").
+  example: []
+  syntax:
+    content: public string Type { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Type As String
+  overload: Mewdeko.Votes.Common.VoteModel.Type*
+- uid: Mewdeko.Votes.Common.VoteModel.Weekend
+  commentId: P:Mewdeko.Votes.Common.VoteModel.Weekend
+  id: Weekend
+  parent: Mewdeko.Votes.Common.VoteModel
+  langs:
+  - csharp
+  - vb
+  name: Weekend
+  nameWithType: VoteModel.Weekend
+  fullName: Mewdeko.Votes.Common.VoteModel.Weekend
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Votes/Common/VoteModel.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Weekend
+    path: src/Mewdeko.Votes/Common/VoteModel.cs
+    startLine: 27
+  assemblies:
+  - Mewdeko.Votes
+  namespace: Mewdeko.Votes.Common
+  summary: Whether the weekend multiplier is in effect, meaning users votes count as two.
+  example: []
+  syntax:
+    content: public bool Weekend { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Weekend As Boolean
+  overload: Mewdeko.Votes.Common.VoteModel.Weekend*
+- uid: Mewdeko.Votes.Common.VoteModel.Query
+  commentId: P:Mewdeko.Votes.Common.VoteModel.Query
+  id: Query
+  parent: Mewdeko.Votes.Common.VoteModel
+  langs:
+  - csharp
+  - vb
+  name: Query
+  nameWithType: VoteModel.Query
+  fullName: Mewdeko.Votes.Common.VoteModel.Query
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Votes/Common/VoteModel.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Query
+    path: src/Mewdeko.Votes/Common/VoteModel.cs
+    startLine: 32
+  assemblies:
+  - Mewdeko.Votes
+  namespace: Mewdeko.Votes.Common
+  summary: 'Query string params found on the /bot/:ID/vote page. Example: ?a=2.'
+  example: []
+  syntax:
+    content: public string Query { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Query As String
+  overload: Mewdeko.Votes.Common.VoteModel.Query*
+references:
+- uid: Mewdeko.Votes.Common
+  commentId: N:Mewdeko.Votes.Common
+  href: Mewdeko.html
+  name: Mewdeko.Votes.Common
+  nameWithType: Mewdeko.Votes.Common
+  fullName: Mewdeko.Votes.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
+  - name: .
+  - uid: Mewdeko.Votes.Common
+    name: Common
+    href: Mewdeko.Votes.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
+  - name: .
+  - uid: Mewdeko.Votes.Common
+    name: Common
+    href: Mewdeko.Votes.Common.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Votes.Common.VoteModel.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<VoteModel>(VoteModel, string)
+  nameWithType: Extensions.ThrowIfNull<VoteModel>(VoteModel, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Votes.Common.VoteModel>(Mewdeko.Votes.Common.VoteModel, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of VoteModel)(VoteModel, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Votes.Common.VoteModel)(Mewdeko.Votes.Common.VoteModel, String)
+  name.vb: ThrowIfNull(Of VoteModel)(VoteModel, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Votes.Common.VoteModel,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Votes.Common.VoteModel
+    name: VoteModel
+    href: Mewdeko.Votes.Common.VoteModel.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Votes.Common.VoteModel
+    name: VoteModel
+    href: Mewdeko.Votes.Common.VoteModel.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Votes.Common.VoteModel,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Votes.Common.VoteModel
+    name: VoteModel
+    href: Mewdeko.Votes.Common.VoteModel.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Votes.Common.VoteModel
+    name: VoteModel
+    href: Mewdeko.Votes.Common.VoteModel.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Votes.Common.VoteModel.Bot*
+  commentId: Overload:Mewdeko.Votes.Common.VoteModel.Bot
+  href: Mewdeko.Votes.Common.VoteModel.html#Mewdeko_Votes_Common_VoteModel_Bot
+  name: Bot
+  nameWithType: VoteModel.Bot
+  fullName: Mewdeko.Votes.Common.VoteModel.Bot
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Votes.Common.VoteModel.Guild*
+  commentId: Overload:Mewdeko.Votes.Common.VoteModel.Guild
+  href: Mewdeko.Votes.Common.VoteModel.html#Mewdeko_Votes_Common_VoteModel_Guild
+  name: Guild
+  nameWithType: VoteModel.Guild
+  fullName: Mewdeko.Votes.Common.VoteModel.Guild
+- uid: Mewdeko.Votes.Common.VoteModel.User*
+  commentId: Overload:Mewdeko.Votes.Common.VoteModel.User
+  href: Mewdeko.Votes.Common.VoteModel.html#Mewdeko_Votes_Common_VoteModel_User
+  name: User
+  nameWithType: VoteModel.User
+  fullName: Mewdeko.Votes.Common.VoteModel.User
+- uid: Mewdeko.Votes.Common.VoteModel.Type*
+  commentId: Overload:Mewdeko.Votes.Common.VoteModel.Type
+  href: Mewdeko.Votes.Common.VoteModel.html#Mewdeko_Votes_Common_VoteModel_Type
+  name: Type
+  nameWithType: VoteModel.Type
+  fullName: Mewdeko.Votes.Common.VoteModel.Type
+- uid: Mewdeko.Votes.Common.VoteModel.Weekend*
+  commentId: Overload:Mewdeko.Votes.Common.VoteModel.Weekend
+  href: Mewdeko.Votes.Common.VoteModel.html#Mewdeko_Votes_Common_VoteModel_Weekend
+  name: Weekend
+  nameWithType: VoteModel.Weekend
+  fullName: Mewdeko.Votes.Common.VoteModel.Weekend
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Mewdeko.Votes.Common.VoteModel.Query*
+  commentId: Overload:Mewdeko.Votes.Common.VoteModel.Query
+  href: Mewdeko.Votes.Common.VoteModel.html#Mewdeko_Votes_Common_VoteModel_Query
+  name: Query
+  nameWithType: VoteModel.Query
+  fullName: Mewdeko.Votes.Common.VoteModel.Query

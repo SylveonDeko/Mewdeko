@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.OwnerOnly.Services
+  commentId: N:Mewdeko.Modules.OwnerOnly.Services
+  id: Mewdeko.Modules.OwnerOnly.Services
+  children:
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.OwnerOnly.Services
+  nameWithType: Mewdeko.Modules.OwnerOnly.Services
+  fullName: Mewdeko.Modules.OwnerOnly.Services
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  commentId: T:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html
+  name: OwnerOnlyService
+  nameWithType: OwnerOnlyService
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService

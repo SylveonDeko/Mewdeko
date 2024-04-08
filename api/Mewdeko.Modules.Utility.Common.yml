@@ -1,0 +1,90 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Utility.Common
+  commentId: N:Mewdeko.Modules.Utility.Common
+  id: Mewdeko.Modules.Utility.Common
+  children:
+  - Mewdeko.Modules.Utility.Common.ConvertUnit
+  - Mewdeko.Modules.Utility.Common.PronounDbResult
+  - Mewdeko.Modules.Utility.Common.RepeatRunner
+  - Mewdeko.Modules.Utility.Common.SnipeStore
+  - Mewdeko.Modules.Utility.Common.StreamRoleListType
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Utility.Common
+  nameWithType: Mewdeko.Modules.Utility.Common
+  fullName: Mewdeko.Modules.Utility.Common
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Utility.Common.ConvertUnit
+  commentId: T:Mewdeko.Modules.Utility.Common.ConvertUnit
+  href: Mewdeko.Modules.Utility.Common.ConvertUnit.html
+  name: ConvertUnit
+  nameWithType: ConvertUnit
+  fullName: Mewdeko.Modules.Utility.Common.ConvertUnit
+- uid: Mewdeko.Modules.Utility.Common.PronounDbResult
+  commentId: T:Mewdeko.Modules.Utility.Common.PronounDbResult
+  href: Mewdeko.Modules.Utility.Common.PronounDbResult.html
+  name: PronounDbResult
+  nameWithType: PronounDbResult
+  fullName: Mewdeko.Modules.Utility.Common.PronounDbResult
+- uid: Mewdeko.Modules.Utility.Common.RepeatRunner
+  commentId: T:Mewdeko.Modules.Utility.Common.RepeatRunner
+  href: Mewdeko.Modules.Utility.Common.RepeatRunner.html
+  name: RepeatRunner
+  nameWithType: RepeatRunner
+  fullName: Mewdeko.Modules.Utility.Common.RepeatRunner
+- uid: Mewdeko.Modules.Utility.Common.SnipeStore
+  commentId: T:Mewdeko.Modules.Utility.Common.SnipeStore
+  href: Mewdeko.Modules.Utility.Common.SnipeStore.html
+  name: SnipeStore
+  nameWithType: SnipeStore
+  fullName: Mewdeko.Modules.Utility.Common.SnipeStore
+- uid: Mewdeko.Modules.Utility.Common.StreamRoleListType
+  commentId: T:Mewdeko.Modules.Utility.Common.StreamRoleListType
+  parent: Mewdeko.Modules.Utility.Common
+  href: Mewdeko.Modules.Utility.Common.StreamRoleListType.html
+  name: StreamRoleListType
+  nameWithType: StreamRoleListType
+  fullName: Mewdeko.Modules.Utility.Common.StreamRoleListType
+- uid: Mewdeko.Modules.Utility.Common
+  commentId: N:Mewdeko.Modules.Utility.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Utility.Common
+  nameWithType: Mewdeko.Modules.Utility.Common
+  fullName: Mewdeko.Modules.Utility.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility
+    name: Utility
+    href: Mewdeko.Modules.Utility.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility.Common
+    name: Common
+    href: Mewdeko.Modules.Utility.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility
+    name: Utility
+    href: Mewdeko.Modules.Utility.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility.Common
+    name: Common
+    href: Mewdeko.Modules.Utility.Common.html

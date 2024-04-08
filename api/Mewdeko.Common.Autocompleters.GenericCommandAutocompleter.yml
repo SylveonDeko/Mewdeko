@@ -1,0 +1,1005 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter
+  commentId: T:Mewdeko.Common.Autocompleters.GenericCommandAutocompleter
+  id: GenericCommandAutocompleter
+  parent: Mewdeko.Common.Autocompleters
+  children:
+  - Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.#ctor(Discord.Commands.CommandService,Mewdeko.Modules.Permissions.Services.GlobalPermissionService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Services.GuildSettingsService)
+  - Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.GenerateSuggestionsAsync(Discord.IInteractionContext,Discord.IAutocompleteInteraction,Discord.Interactions.IParameterInfo,System.IServiceProvider)
+  langs:
+  - csharp
+  - vb
+  name: GenericCommandAutocompleter
+  nameWithType: GenericCommandAutocompleter
+  fullName: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Common/Autocompleters/GenericCommandAutocompleter.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GenericCommandAutocompleter
+    path: src/Mewdeko/Common/Autocompleters/GenericCommandAutocompleter.cs
+    startLine: 10
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Autocompleters
+  summary: Autocompleter for generic commands.
+  example: []
+  syntax:
+    content: 'public class GenericCommandAutocompleter : AutocompleteHandler, IAutocompleteHandler'
+    content.vb: Public Class GenericCommandAutocompleter Inherits AutocompleteHandler Implements IAutocompleteHandler
+  inheritance:
+  - System.Object
+  - Discord.Interactions.AutocompleteHandler
+  implements:
+  - Discord.Interactions.IAutocompleteHandler
+  inheritedMembers:
+  - Discord.Interactions.AutocompleteHandler.GetLogString(Discord.IInteractionContext)
+  - Discord.Interactions.AutocompleteHandler.ExecuteAsync(Discord.IInteractionContext,Discord.IAutocompleteInteraction,Discord.Interactions.IParameterInfo,System.IServiceProvider)
+  - Discord.Interactions.AutocompleteHandler.InteractionService
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.#ctor(Discord.Commands.CommandService,Mewdeko.Modules.Permissions.Services.GlobalPermissionService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Services.GuildSettingsService)
+  commentId: M:Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.#ctor(Discord.Commands.CommandService,Mewdeko.Modules.Permissions.Services.GlobalPermissionService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Services.GuildSettingsService)
+  id: '#ctor(Discord.Commands.CommandService,Mewdeko.Modules.Permissions.Services.GlobalPermissionService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Services.GuildSettingsService)'
+  parent: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter
+  langs:
+  - csharp
+  - vb
+  name: GenericCommandAutocompleter(CommandService, GlobalPermissionService, IBotStrings, GuildSettingsService)
+  nameWithType: GenericCommandAutocompleter.GenericCommandAutocompleter(CommandService, GlobalPermissionService, IBotStrings, GuildSettingsService)
+  fullName: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.GenericCommandAutocompleter(Discord.Commands.CommandService, Mewdeko.Modules.Permissions.Services.GlobalPermissionService, Mewdeko.Services.strings.IBotStrings, Mewdeko.Services.GuildSettingsService)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Common/Autocompleters/GenericCommandAutocompleter.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Common/Autocompleters/GenericCommandAutocompleter.cs
+    startLine: 39
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Autocompleters
+  summary: Initializes a new instance of the GenericCommandAutocompleter class.
+  example: []
+  syntax:
+    content: public GenericCommandAutocompleter(CommandService commands, GlobalPermissionService perms, IBotStrings strings, GuildSettingsService guildSettings)
+    parameters:
+    - id: commands
+      type: Discord.Commands.CommandService
+      description: The CommandService.
+    - id: perms
+      type: Mewdeko.Modules.Permissions.Services.GlobalPermissionService
+      description: The GlobalPermissionService.
+    - id: strings
+      type: Mewdeko.Services.strings.IBotStrings
+      description: The IBotStrings.
+    - id: guildSettings
+      type: Mewdeko.Services.GuildSettingsService
+      description: The GuildSettingsService.
+    content.vb: Public Sub New(commands As CommandService, perms As GlobalPermissionService, strings As IBotStrings, guildSettings As GuildSettingsService)
+  overload: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.#ctor*
+  nameWithType.vb: GenericCommandAutocompleter.New(CommandService, GlobalPermissionService, IBotStrings, GuildSettingsService)
+  fullName.vb: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.New(Discord.Commands.CommandService, Mewdeko.Modules.Permissions.Services.GlobalPermissionService, Mewdeko.Services.strings.IBotStrings, Mewdeko.Services.GuildSettingsService)
+  name.vb: New(CommandService, GlobalPermissionService, IBotStrings, GuildSettingsService)
+- uid: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.GenerateSuggestionsAsync(Discord.IInteractionContext,Discord.IAutocompleteInteraction,Discord.Interactions.IParameterInfo,System.IServiceProvider)
+  commentId: M:Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.GenerateSuggestionsAsync(Discord.IInteractionContext,Discord.IAutocompleteInteraction,Discord.Interactions.IParameterInfo,System.IServiceProvider)
+  id: GenerateSuggestionsAsync(Discord.IInteractionContext,Discord.IAutocompleteInteraction,Discord.Interactions.IParameterInfo,System.IServiceProvider)
+  parent: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter
+  langs:
+  - csharp
+  - vb
+  name: GenerateSuggestionsAsync(IInteractionContext, IAutocompleteInteraction, IParameterInfo, IServiceProvider)
+  nameWithType: GenericCommandAutocompleter.GenerateSuggestionsAsync(IInteractionContext, IAutocompleteInteraction, IParameterInfo, IServiceProvider)
+  fullName: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.GenerateSuggestionsAsync(Discord.IInteractionContext, Discord.IAutocompleteInteraction, Discord.Interactions.IParameterInfo, System.IServiceProvider)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Autocompleters/GenericCommandAutocompleter.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GenerateSuggestionsAsync
+    path: src/Mewdeko/Common/Autocompleters/GenericCommandAutocompleter.cs
+    startLine: 56
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Autocompleters
+  summary: Generates suggestions for autocomplete.
+  example: []
+  syntax:
+    content: public override Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context, IAutocompleteInteraction autocompleteInteraction, IParameterInfo parameter, IServiceProvider services)
+    parameters:
+    - id: context
+      type: Discord.IInteractionContext
+      description: The interaction context.
+    - id: autocompleteInteraction
+      type: Discord.IAutocompleteInteraction
+      description: The autocomplete interaction.
+    - id: parameter
+      type: Discord.Interactions.IParameterInfo
+      description: The parameter info.
+    - id: services
+      type: System.IServiceProvider
+      description: The service provider.
+    return:
+      type: System.Threading.Tasks.Task{Discord.Interactions.AutocompletionResult}
+      description: A task that represents the asynchronous operation. The task result contains the autocomplete result.
+    content.vb: Public Overrides Function GenerateSuggestionsAsync(context As IInteractionContext, autocompleteInteraction As IAutocompleteInteraction, parameter As IParameterInfo, services As IServiceProvider) As Task(Of AutocompletionResult)
+  overridden: Discord.Interactions.AutocompleteHandler.GenerateSuggestionsAsync(Discord.IInteractionContext,Discord.IAutocompleteInteraction,Discord.Interactions.IParameterInfo,System.IServiceProvider)
+  overload: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.GenerateSuggestionsAsync*
+references:
+- uid: Mewdeko.Common.Autocompleters
+  commentId: N:Mewdeko.Common.Autocompleters
+  href: Mewdeko.html
+  name: Mewdeko.Common.Autocompleters
+  nameWithType: Mewdeko.Common.Autocompleters
+  fullName: Mewdeko.Common.Autocompleters
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Autocompleters
+    name: Autocompleters
+    href: Mewdeko.Common.Autocompleters.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Autocompleters
+    name: Autocompleters
+    href: Mewdeko.Common.Autocompleters.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Discord.Interactions.AutocompleteHandler
+  commentId: T:Discord.Interactions.AutocompleteHandler
+  parent: Discord.Interactions
+  isExternal: true
+  name: AutocompleteHandler
+  nameWithType: AutocompleteHandler
+  fullName: Discord.Interactions.AutocompleteHandler
+- uid: Discord.Interactions.IAutocompleteHandler
+  commentId: T:Discord.Interactions.IAutocompleteHandler
+  parent: Discord.Interactions
+  isExternal: true
+  name: IAutocompleteHandler
+  nameWithType: IAutocompleteHandler
+  fullName: Discord.Interactions.IAutocompleteHandler
+- uid: Discord.Interactions.AutocompleteHandler.GetLogString(Discord.IInteractionContext)
+  commentId: M:Discord.Interactions.AutocompleteHandler.GetLogString(Discord.IInteractionContext)
+  parent: Discord.Interactions.AutocompleteHandler
+  isExternal: true
+  name: GetLogString(IInteractionContext)
+  nameWithType: AutocompleteHandler.GetLogString(IInteractionContext)
+  fullName: Discord.Interactions.AutocompleteHandler.GetLogString(Discord.IInteractionContext)
+  spec.csharp:
+  - uid: Discord.Interactions.AutocompleteHandler.GetLogString(Discord.IInteractionContext)
+    name: GetLogString
+    isExternal: true
+  - name: (
+  - uid: Discord.IInteractionContext
+    name: IInteractionContext
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Interactions.AutocompleteHandler.GetLogString(Discord.IInteractionContext)
+    name: GetLogString
+    isExternal: true
+  - name: (
+  - uid: Discord.IInteractionContext
+    name: IInteractionContext
+    isExternal: true
+  - name: )
+- uid: Discord.Interactions.AutocompleteHandler.ExecuteAsync(Discord.IInteractionContext,Discord.IAutocompleteInteraction,Discord.Interactions.IParameterInfo,System.IServiceProvider)
+  commentId: M:Discord.Interactions.AutocompleteHandler.ExecuteAsync(Discord.IInteractionContext,Discord.IAutocompleteInteraction,Discord.Interactions.IParameterInfo,System.IServiceProvider)
+  parent: Discord.Interactions.AutocompleteHandler
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iserviceprovider
+  name: ExecuteAsync(IInteractionContext, IAutocompleteInteraction, IParameterInfo, IServiceProvider)
+  nameWithType: AutocompleteHandler.ExecuteAsync(IInteractionContext, IAutocompleteInteraction, IParameterInfo, IServiceProvider)
+  fullName: Discord.Interactions.AutocompleteHandler.ExecuteAsync(Discord.IInteractionContext, Discord.IAutocompleteInteraction, Discord.Interactions.IParameterInfo, System.IServiceProvider)
+  spec.csharp:
+  - uid: Discord.Interactions.AutocompleteHandler.ExecuteAsync(Discord.IInteractionContext,Discord.IAutocompleteInteraction,Discord.Interactions.IParameterInfo,System.IServiceProvider)
+    name: ExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.IInteractionContext
+    name: IInteractionContext
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.IAutocompleteInteraction
+    name: IAutocompleteInteraction
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Interactions.IParameterInfo
+    name: IParameterInfo
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.IServiceProvider
+    name: IServiceProvider
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iserviceprovider
+  - name: )
+  spec.vb:
+  - uid: Discord.Interactions.AutocompleteHandler.ExecuteAsync(Discord.IInteractionContext,Discord.IAutocompleteInteraction,Discord.Interactions.IParameterInfo,System.IServiceProvider)
+    name: ExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.IInteractionContext
+    name: IInteractionContext
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.IAutocompleteInteraction
+    name: IAutocompleteInteraction
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Interactions.IParameterInfo
+    name: IParameterInfo
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.IServiceProvider
+    name: IServiceProvider
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iserviceprovider
+  - name: )
+- uid: Discord.Interactions.AutocompleteHandler.InteractionService
+  commentId: P:Discord.Interactions.AutocompleteHandler.InteractionService
+  parent: Discord.Interactions.AutocompleteHandler
+  isExternal: true
+  name: InteractionService
+  nameWithType: AutocompleteHandler.InteractionService
+  fullName: Discord.Interactions.AutocompleteHandler.InteractionService
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<GenericCommandAutocompleter>(GenericCommandAutocompleter, string)
+  nameWithType: Extensions.ThrowIfNull<GenericCommandAutocompleter>(GenericCommandAutocompleter, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Common.Autocompleters.GenericCommandAutocompleter>(Mewdeko.Common.Autocompleters.GenericCommandAutocompleter, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of GenericCommandAutocompleter)(GenericCommandAutocompleter, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Common.Autocompleters.GenericCommandAutocompleter)(Mewdeko.Common.Autocompleters.GenericCommandAutocompleter, String)
+  name.vb: ThrowIfNull(Of GenericCommandAutocompleter)(GenericCommandAutocompleter, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.Autocompleters.GenericCommandAutocompleter,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter
+    name: GenericCommandAutocompleter
+    href: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter
+    name: GenericCommandAutocompleter
+    href: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.Autocompleters.GenericCommandAutocompleter,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter
+    name: GenericCommandAutocompleter
+    href: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter
+    name: GenericCommandAutocompleter
+    href: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Discord.Interactions
+  commentId: N:Discord.Interactions
+  isExternal: true
+  name: Discord.Interactions
+  nameWithType: Discord.Interactions
+  fullName: Discord.Interactions
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Interactions
+    name: Interactions
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Interactions
+    name: Interactions
+    isExternal: true
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.#ctor*
+  commentId: Overload:Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.#ctor
+  href: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.html#Mewdeko_Common_Autocompleters_GenericCommandAutocompleter__ctor_Discord_Commands_CommandService_Mewdeko_Modules_Permissions_Services_GlobalPermissionService_Mewdeko_Services_strings_IBotStrings_Mewdeko_Services_GuildSettingsService_
+  name: GenericCommandAutocompleter
+  nameWithType: GenericCommandAutocompleter.GenericCommandAutocompleter
+  fullName: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.GenericCommandAutocompleter
+  nameWithType.vb: GenericCommandAutocompleter.New
+  fullName.vb: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.New
+  name.vb: New
+- uid: Discord.Commands.CommandService
+  commentId: T:Discord.Commands.CommandService
+  parent: Discord.Commands
+  isExternal: true
+  name: CommandService
+  nameWithType: CommandService
+  fullName: Discord.Commands.CommandService
+- uid: Mewdeko.Modules.Permissions.Services.GlobalPermissionService
+  commentId: T:Mewdeko.Modules.Permissions.Services.GlobalPermissionService
+  parent: Mewdeko.Modules.Permissions.Services
+  href: Mewdeko.Modules.Permissions.Services.GlobalPermissionService.html
+  name: GlobalPermissionService
+  nameWithType: GlobalPermissionService
+  fullName: Mewdeko.Modules.Permissions.Services.GlobalPermissionService
+- uid: Mewdeko.Services.strings.IBotStrings
+  commentId: T:Mewdeko.Services.strings.IBotStrings
+  parent: Mewdeko.Services.strings
+  href: Mewdeko.Services.strings.IBotStrings.html
+  name: IBotStrings
+  nameWithType: IBotStrings
+  fullName: Mewdeko.Services.strings.IBotStrings
+- uid: Mewdeko.Services.GuildSettingsService
+  commentId: T:Mewdeko.Services.GuildSettingsService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.GuildSettingsService.html
+  name: GuildSettingsService
+  nameWithType: GuildSettingsService
+  fullName: Mewdeko.Services.GuildSettingsService
+- uid: Discord.Commands
+  commentId: N:Discord.Commands
+  isExternal: true
+  name: Discord.Commands
+  nameWithType: Discord.Commands
+  fullName: Discord.Commands
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+- uid: Mewdeko.Modules.Permissions.Services
+  commentId: N:Mewdeko.Modules.Permissions.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Permissions.Services
+  nameWithType: Mewdeko.Modules.Permissions.Services
+  fullName: Mewdeko.Modules.Permissions.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.Services
+    name: Services
+    href: Mewdeko.Modules.Permissions.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.Services
+    name: Services
+    href: Mewdeko.Modules.Permissions.Services.html
+- uid: Mewdeko.Services.strings
+  commentId: N:Mewdeko.Services.strings
+  href: Mewdeko.html
+  name: Mewdeko.Services.strings
+  nameWithType: Mewdeko.Services.strings
+  fullName: Mewdeko.Services.strings
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.strings
+    name: strings
+    href: Mewdeko.Services.strings.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.strings
+    name: strings
+    href: Mewdeko.Services.strings.html
+- uid: Mewdeko.Services
+  commentId: N:Mewdeko.Services
+  href: Mewdeko.html
+  name: Mewdeko.Services
+  nameWithType: Mewdeko.Services
+  fullName: Mewdeko.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+- uid: Discord.Interactions.AutocompleteHandler.GenerateSuggestionsAsync(Discord.IInteractionContext,Discord.IAutocompleteInteraction,Discord.Interactions.IParameterInfo,System.IServiceProvider)
+  commentId: M:Discord.Interactions.AutocompleteHandler.GenerateSuggestionsAsync(Discord.IInteractionContext,Discord.IAutocompleteInteraction,Discord.Interactions.IParameterInfo,System.IServiceProvider)
+  parent: Discord.Interactions.AutocompleteHandler
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iserviceprovider
+  name: GenerateSuggestionsAsync(IInteractionContext, IAutocompleteInteraction, IParameterInfo, IServiceProvider)
+  nameWithType: AutocompleteHandler.GenerateSuggestionsAsync(IInteractionContext, IAutocompleteInteraction, IParameterInfo, IServiceProvider)
+  fullName: Discord.Interactions.AutocompleteHandler.GenerateSuggestionsAsync(Discord.IInteractionContext, Discord.IAutocompleteInteraction, Discord.Interactions.IParameterInfo, System.IServiceProvider)
+  spec.csharp:
+  - uid: Discord.Interactions.AutocompleteHandler.GenerateSuggestionsAsync(Discord.IInteractionContext,Discord.IAutocompleteInteraction,Discord.Interactions.IParameterInfo,System.IServiceProvider)
+    name: GenerateSuggestionsAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.IInteractionContext
+    name: IInteractionContext
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.IAutocompleteInteraction
+    name: IAutocompleteInteraction
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Interactions.IParameterInfo
+    name: IParameterInfo
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.IServiceProvider
+    name: IServiceProvider
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iserviceprovider
+  - name: )
+  spec.vb:
+  - uid: Discord.Interactions.AutocompleteHandler.GenerateSuggestionsAsync(Discord.IInteractionContext,Discord.IAutocompleteInteraction,Discord.Interactions.IParameterInfo,System.IServiceProvider)
+    name: GenerateSuggestionsAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.IInteractionContext
+    name: IInteractionContext
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.IAutocompleteInteraction
+    name: IAutocompleteInteraction
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Interactions.IParameterInfo
+    name: IParameterInfo
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.IServiceProvider
+    name: IServiceProvider
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iserviceprovider
+  - name: )
+- uid: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.GenerateSuggestionsAsync*
+  commentId: Overload:Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.GenerateSuggestionsAsync
+  href: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.html#Mewdeko_Common_Autocompleters_GenericCommandAutocompleter_GenerateSuggestionsAsync_Discord_IInteractionContext_Discord_IAutocompleteInteraction_Discord_Interactions_IParameterInfo_System_IServiceProvider_
+  name: GenerateSuggestionsAsync
+  nameWithType: GenericCommandAutocompleter.GenerateSuggestionsAsync
+  fullName: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter.GenerateSuggestionsAsync
+- uid: Discord.IInteractionContext
+  commentId: T:Discord.IInteractionContext
+  parent: Discord
+  isExternal: true
+  name: IInteractionContext
+  nameWithType: IInteractionContext
+  fullName: Discord.IInteractionContext
+- uid: Discord.IAutocompleteInteraction
+  commentId: T:Discord.IAutocompleteInteraction
+  parent: Discord
+  isExternal: true
+  name: IAutocompleteInteraction
+  nameWithType: IAutocompleteInteraction
+  fullName: Discord.IAutocompleteInteraction
+- uid: Discord.Interactions.IParameterInfo
+  commentId: T:Discord.Interactions.IParameterInfo
+  parent: Discord.Interactions
+  isExternal: true
+  name: IParameterInfo
+  nameWithType: IParameterInfo
+  fullName: Discord.Interactions.IParameterInfo
+- uid: System.IServiceProvider
+  commentId: T:System.IServiceProvider
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iserviceprovider
+  name: IServiceProvider
+  nameWithType: IServiceProvider
+  fullName: System.IServiceProvider
+- uid: System.Threading.Tasks.Task{Discord.Interactions.AutocompletionResult}
+  commentId: T:System.Threading.Tasks.Task{Discord.Interactions.AutocompletionResult}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<AutocompletionResult>
+  nameWithType: Task<AutocompletionResult>
+  fullName: System.Threading.Tasks.Task<Discord.Interactions.AutocompletionResult>
+  nameWithType.vb: Task(Of AutocompletionResult)
+  fullName.vb: System.Threading.Tasks.Task(Of Discord.Interactions.AutocompletionResult)
+  name.vb: Task(Of AutocompletionResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Discord.Interactions.AutocompletionResult
+    name: AutocompletionResult
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Discord.Interactions.AutocompletionResult
+    name: AutocompletionResult
+    isExternal: true
+  - name: )
+- uid: Discord
+  commentId: N:Discord
+  isExternal: true
+  name: Discord
+  nameWithType: Discord
+  fullName: Discord
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks

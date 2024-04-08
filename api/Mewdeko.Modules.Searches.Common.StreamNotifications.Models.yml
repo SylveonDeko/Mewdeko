@@ -1,0 +1,234 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  commentId: N:Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  id: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  children:
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.ChatSettings
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.PaginationData
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.StreamData
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Language
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Thumbnails
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoGetUsersResponse
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoRequestData
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoSocialLink
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  nameWithType: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.html
+  name: HelixStreamsResponse
+  nameWithType: HelixStreamsResponse
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.PaginationData
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.PaginationData
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.html
+  name: HelixStreamsResponse.PaginationData
+  nameWithType: HelixStreamsResponse.PaginationData
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.PaginationData
+  spec.csharp:
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse
+    name: HelixStreamsResponse
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.PaginationData
+    name: PaginationData
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.PaginationData.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse
+    name: HelixStreamsResponse
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.PaginationData
+    name: PaginationData
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.PaginationData.html
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.StreamData
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.StreamData
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.html
+  name: HelixStreamsResponse.StreamData
+  nameWithType: HelixStreamsResponse.StreamData
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.StreamData
+  spec.csharp:
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse
+    name: HelixStreamsResponse
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.StreamData
+    name: StreamData
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.StreamData.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse
+    name: HelixStreamsResponse
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.StreamData
+    name: StreamData
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.StreamData.html
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.html
+  name: HelixUsersResponse
+  nameWithType: HelixUsersResponse
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.html
+  name: HelixUsersResponse.User
+  nameWithType: HelixUsersResponse.User
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+  spec.csharp:
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse
+    name: HelixUsersResponse
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+    name: User
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse
+    name: HelixUsersResponse
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+    name: User
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.html
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html
+  name: PicartoChannelResponse
+  nameWithType: PicartoChannelResponse
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Thumbnails
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Thumbnails
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Thumbnails.html
+  name: Thumbnails
+  nameWithType: Thumbnails
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Thumbnails
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.html
+  name: DescriptionPanel
+  nameWithType: DescriptionPanel
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.ChatSettings
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.ChatSettings
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.ChatSettings.html
+  name: ChatSettings
+  nameWithType: ChatSettings
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.ChatSettings
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream.html
+  name: Multistream
+  nameWithType: Multistream
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Language
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Language
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Language.html
+  name: Language
+  nameWithType: Language
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Language
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.html
+  name: StreamData
+  nameWithType: StreamData
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoGetUsersResponse
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoGetUsersResponse
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoGetUsersResponse.html
+  name: TrovoGetUsersResponse
+  nameWithType: TrovoGetUsersResponse
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoGetUsersResponse
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoRequestData
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoRequestData
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoRequestData.html
+  name: TrovoRequestData
+  nameWithType: TrovoRequestData
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoRequestData
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoSocialLink
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoSocialLink
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoSocialLink.html
+  name: TrovoSocialLink
+  nameWithType: TrovoSocialLink
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoSocialLink
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic.html
+  name: XkcdComic
+  nameWithType: XkcdComic
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  commentId: N:Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  nameWithType: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications
+    name: StreamNotifications
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+    name: Models
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications
+    name: StreamNotifications
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+    name: Models
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.html
