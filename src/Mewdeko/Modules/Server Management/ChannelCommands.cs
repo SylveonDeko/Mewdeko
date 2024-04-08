@@ -64,7 +64,8 @@ public partial class ServerManagement
             if (roles.Count > 0)
             {
                 await ctx.Channel.SendErrorAsync(
-                        $"{config.Data.ErrorEmote} Please run the Lockcheck command as you have roles that will get in the way of lockdown")
+                        $"{config.Data.ErrorEmote} Please run the Lockcheck command as you have roles that will get in the way of lockdown",
+                        Config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -72,7 +73,7 @@ public partial class ServerManagement
             if (!ctx.Guild.EveryoneRole.Permissions.SendMessages)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"{config.Data.ErrorEmote} Server is already in lockdown!").ConfigureAwait(false);
+                    $"{config.Data.ErrorEmote} Server is already in lockdown!", Config).ConfigureAwait(false);
             }
             else
             {
@@ -94,7 +95,8 @@ public partial class ServerManagement
             if (use.VoiceChannel == null)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"{config.Data.SuccessEmote} You need to be in a voice channel for this!").ConfigureAwait(false);
+                        $"{config.Data.SuccessEmote} You need to be in a voice channel for this!", Config)
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -114,7 +116,8 @@ public partial class ServerManagement
         {
             if (user.VoiceChannel == null)
             {
-                await ctx.Channel.SendErrorAsync("The user must be in a voice channel for this!").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("The user must be in a voice channel for this!", Config)
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -133,7 +136,7 @@ public partial class ServerManagement
             var vc = ((IGuildUser)ctx.User).VoiceChannel;
             if (vc == null)
             {
-                await ctx.Channel.SendErrorAsync("You need to be in a voice channel to use this!")
+                await ctx.Channel.SendErrorAsync("You need to be in a voice channel to use this!", Config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -141,7 +144,7 @@ public partial class ServerManagement
             if (user.VoiceChannel == null)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"{user.Mention} needs to be in a voice channel for this to work!").ConfigureAwait(false);
+                    $"{user.Mention} needs to be in a voice channel for this to work!", Config).ConfigureAwait(false);
                 return;
             }
 
@@ -159,7 +162,7 @@ public partial class ServerManagement
         {
             if (ctx.Guild.EveryoneRole.Permissions.SendMessages)
             {
-                await ctx.Channel.SendErrorAsync($"{config.Data.ErrorEmote} Server is not locked down!")
+                await ctx.Channel.SendErrorAsync($"{config.Data.ErrorEmote} Server is not locked down!", Config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -380,7 +383,7 @@ public partial class ServerManagement
         /// </remarks>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageChannels)]
-        public static Task Slowmode(StoopidTime time, ITextChannel channel) =>
+        public Task Slowmode(StoopidTime time, ITextChannel channel) =>
             InternalSlowmode(channel, (int)time.Time.TotalSeconds);
 
         /// <summary>
@@ -406,7 +409,7 @@ public partial class ServerManagement
         /// It requires the user to have the "Manage Channels" permission.
         /// </remarks>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageChannels)]
-        public static Task Slowmode(ITextChannel channel) =>
+        public Task Slowmode(ITextChannel channel) =>
             InternalSlowmode(channel);
 
         /// <summary>
@@ -421,7 +424,7 @@ public partial class ServerManagement
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageChannels)]
         public Task Slowmode() => InternalSlowmode((ITextChannel)ctx.Channel);
 
-        private static async Task InternalSlowmode(ITextChannel channel, int time = 0)
+        private async Task InternalSlowmode(ITextChannel channel, int time = 0)
         {
             switch (time)
             {
@@ -443,7 +446,8 @@ public partial class ServerManagement
                     return;
                 case >= 21600:
                     await channel.SendErrorAsync(
-                            "The max discord allows for slowmode is 6 hours! Please try again with a lower value.")
+                            "The max discord allows for slowmode is 6 hours! Please try again with a lower value.",
+                            Config)
                         .ConfigureAwait(false);
                     break;
                 default:

@@ -42,7 +42,7 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         user ??= ctx.User;
         var embed = await Service.GetProfileEmbed(user, ctx.User);
         if (embed is null)
-            await ctx.Interaction.SendErrorAsync("This user has their profile set to private.");
+            await ctx.Interaction.SendErrorAsync("This user has their profile set to private.", Config);
         else
             await ctx.Interaction.RespondAsync(embed: embed);
     }
@@ -57,7 +57,7 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     {
         if (bio.Length > 2048)
         {
-            await ctx.Interaction.SendErrorAsync("Keep it under 2048 characters please,");
+            await ctx.Interaction.SendErrorAsync("Keep it under 2048 characters please,", Config);
             return;
         }
 
@@ -89,9 +89,9 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
                 "Are you sure you want to delete your command stats? This action is irreversible!", ctx.User.Id))
         {
             if (await Service.DeleteStatsData(ctx.User))
-                await ctx.Channel.SendErrorAsync("Command Stats deleted.");
+                await ctx.Channel.SendErrorAsync("Command Stats deleted.", Config);
             else
-                await ctx.Channel.SendErrorAsync("There was no data to delete.");
+                await ctx.Channel.SendErrorAsync("There was no data to delete.", Config);
         }
     }
 
@@ -104,7 +104,7 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     {
         var result = await Service.SetZodiac(ctx.User, zodiac);
         if (!result)
-            await ctx.Interaction.SendErrorAsync("That zodiac sign doesn't exist.");
+            await ctx.Interaction.SendErrorAsync("That zodiac sign doesn't exist.", Config);
         else
             await ctx.Interaction.SendConfirmAsync($"Your Zodiac has been set to:\n`{zodiac}`");
     }
@@ -118,7 +118,7 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     {
         if (!SKColor.TryParse(input, out var inputColor))
         {
-            await ctx.Interaction.SendErrorAsync("You have input an invalid color.");
+            await ctx.Interaction.SendErrorAsync("You have input an invalid color.", Config);
             return;
         }
 
@@ -136,7 +136,7 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     {
         if (!DateTime.TryParse(timeInput, out var dateTime))
         {
-            await ctx.Interaction.SendErrorAsync("The format you input was incorrect. Please use MM/DD/YYYY");
+            await ctx.Interaction.SendErrorAsync("The format you input was incorrect. Please use MM/DD/YYYY", Config);
             return;
         }
 
@@ -169,7 +169,8 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         if (!await Service.SetSwitchFc(ctx.User, switchFc))
         {
             await Context.Interaction.SendErrorAsync(
-                "The Switch Friend Code you provided is invalid. Please make sure it matches the format sw-XXXX-XXXX-XXXX.");
+                "The Switch Friend Code you provided is invalid. Please make sure it matches the format sw-XXXX-XXXX-XXXX.",
+                Config);
             return;
         }
 
@@ -189,7 +190,8 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         if (!url.IsImage())
         {
             await ctx.Interaction.SendErrorAsync(
-                "The image url you provided is invalid. Please make sure it ends with `.gif`, `.png` or `.jpg`");
+                "The image url you provided is invalid. Please make sure it ends with `.gif`, `.png` or `.jpg`",
+                Config);
             return;
         }
 

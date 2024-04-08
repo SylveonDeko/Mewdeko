@@ -34,7 +34,8 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
             }
             else
             {
-                await ctx.Interaction.SendEphemeralFollowupErrorAsync("Vote not removed.").ConfigureAwait(false);
+                await ctx.Interaction.SendEphemeralFollowupErrorAsync("Vote not removed.", Config)
+                    .ConfigureAwait(false);
                 return;
             }
         }
@@ -44,7 +45,8 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
             if (!await PromptUserConfirmAsync("Are you sure you wanna change your vote?", ctx.User.Id, true, false)
                     .ConfigureAwait(false))
             {
-                await ctx.Interaction.SendEphemeralFollowupErrorAsync("Vote not changed.").ConfigureAwait(false);
+                await ctx.Interaction.SendEphemeralFollowupErrorAsync("Vote not changed.", Config)
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -136,7 +138,7 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
 
         var thread = await ctx.Guild.GetThreadChannelAsync(await Service.GetThreadByMessage(suggest.MessageId))
             .ConfigureAwait(false);
-        await ctx.Interaction.SendEphemeralErrorAsync($"There is already a thread open. {thread.Mention}")
+        await ctx.Interaction.SendEphemeralErrorAsync($"There is already a thread open. {thread.Mention}", Config)
             .ConfigureAwait(false);
     }
 
@@ -173,7 +175,7 @@ public class SuggestButtonService : MewdekoSlashSubmodule<SuggestionsService>
 
         var thread = await ctx.Guild.GetThreadChannelAsync(await Service.GetThreadByMessage(suggest.MessageId))
             .ConfigureAwait(false);
-        await ctx.Interaction.SendEphemeralErrorAsync($"There is already a thread open. {thread.Mention}")
+        await ctx.Interaction.SendEphemeralErrorAsync($"There is already a thread open. {thread.Mention}", Config)
             .ConfigureAwait(false);
     }
 

@@ -53,7 +53,8 @@ public partial class Utility
             {
                 case null when channel == null:
                     await ctx.Channel.SendErrorAsync(
-                            "You arent in a voice channel, and you haven't mentioned either to use this command!")
+                            "You arent in a voice channel, and you haven't mentioned either to use this command!",
+                            Config)
                         .ConfigureAwait(false);
                     return;
                 // ReSharper disable once ConditionIsAlwaysTrueOrFalse
@@ -106,7 +107,7 @@ public partial class Utility
             if (usr is null)
             {
                 await ctx.Channel.SendErrorAsync(
-                    "That user could not be found. Please ensure that was the correct ID.");
+                    "That user could not be found. Please ensure that was the correct ID.", Config);
             }
             else
             {

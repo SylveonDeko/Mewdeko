@@ -118,9 +118,9 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         if (await PromptUserConfirmAsync(GetText("command_stats_delete_confirm"), ctx.User.Id))
         {
             if (await Service.DeleteStatsData(ctx.Guild))
-                await ctx.Channel.SendErrorAsync(GetText("command_stats_delete_success"));
+                await ctx.Channel.SendErrorAsync(GetText("command_stats_delete_success"), Config);
             else
-                await ctx.Channel.SendErrorAsync(GetText("command_stats_delete_fail"));
+                await ctx.Channel.SendErrorAsync(GetText("command_stats_delete_fail"), Config);
         }
     }
 
@@ -158,13 +158,13 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         var usersToBan = users.Where(x => x.RoleIds.Contains(role.Id)).ToList();
         if (usersToBan.Count == 0)
         {
-            await ctx.Channel.SendErrorAsync(GetText("no_users_found")).ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync(GetText("no_users_found"), Config).ConfigureAwait(false);
             return;
         }
 
         if (!await PromptUserConfirmAsync(GetText("ban_in_role_confirm", usersToBan.Count, role.Mention), ctx.User.Id))
         {
-            await ctx.Channel.SendErrorAsync(GetText("ban_in_role_cancelled")).ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync(GetText("ban_in_role_cancelled"), Config).ConfigureAwait(false);
             return;
         }
 
@@ -186,7 +186,7 @@ public partial class Administration(InteractiveService serv, BotConfigService co
             await ctx.Channel.SendConfirmAsync(GetText("ban_in_role_done", usersToBan.Count, role.Mention))
                 .ConfigureAwait(false);
         else if (failedUsers == usersToBan.Count)
-            await ctx.Channel.SendErrorAsync(GetText("ban_in_role_fail", users.Count, role.Mention))
+            await ctx.Channel.SendErrorAsync(GetText("ban_in_role_fail", users.Count, role.Mention), Config)
                 .ConfigureAwait(false);
         else
             await ctx.Channel
@@ -224,7 +224,8 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         users = users.Where(x => regex.IsMatch(x.Username.ToLower())).ToList();
         if (!users.Any())
         {
-            await ctx.Channel.SendErrorAsync($"{configService.Data.ErrorEmote} {GetText("no_users_found_nameban")}");
+            await ctx.Channel.SendErrorAsync($"{configService.Data.ErrorEmote} {GetText("no_users_found_nameban")}",
+                Config);
             return;
         }
 
@@ -232,13 +233,14 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         var deleteString = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
         if (deleteString == null)
         {
-            await ctx.Channel.SendErrorAsync($"{configService.Data.ErrorEmote} {GetText("nameban_cancelled")}");
+            await ctx.Channel.SendErrorAsync($"{configService.Data.ErrorEmote} {GetText("nameban_cancelled")}", Config);
             return;
         }
 
         if (!int.TryParse(deleteString, out var _))
         {
-            await ctx.Channel.SendErrorAsync($"{configService.Data.ErrorEmote} {GetText("invalid_input_number")}");
+            await ctx.Channel.SendErrorAsync($"{configService.Data.ErrorEmote} {GetText("invalid_input_number")}",
+                Config);
             return;
         }
 
@@ -255,7 +257,8 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         switch (input)
         {
             case "cancel":
-                await ctx.Channel.SendErrorAsync($"{configService.Data.ErrorEmote} {GetText("nameban_cancelled")}");
+                await ctx.Channel.SendErrorAsync($"{configService.Data.ErrorEmote} {GetText("nameban_cancelled")}",
+                    Config);
                 break;
             case "previewbans":
                 var paginator = new LazyPaginatorBuilder()
@@ -338,7 +341,7 @@ public partial class Administration(InteractiveService serv, BotConfigService co
 
             if (!users.Any())
             {
-                await ctx.Channel.SendErrorAsync(GetText("banunder_no_users")).ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync(GetText("banunder_no_users"), Config).ConfigureAwait(false);
                 return;
             }
 
@@ -669,7 +672,7 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         var r = await Service.GetStaffRole(ctx.Guild.Id);
         if (r == 0)
         {
-            await ctx.Channel.SendErrorAsync(GetText("staff_role_missing")).ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync(GetText("staff_role_missing"), Config).ConfigureAwait(false);
         }
         else
         {

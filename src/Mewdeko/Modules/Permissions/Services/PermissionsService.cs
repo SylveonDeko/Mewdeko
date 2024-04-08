@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using Discord.Interactions;
+using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Services.strings;
@@ -21,6 +22,8 @@ public class PermissionService : ILateBlocker, INService
 
     private readonly GuildSettingsService guildSettings;
 
+    private readonly BotConfig config;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="PermissionService"/> class.
     /// </summary>
@@ -28,10 +31,12 @@ public class PermissionService : ILateBlocker, INService
     /// <param name="strings">The service for localized bot strings.</param>
     /// <param name="guildSettings">The service for managing guild-specific settings.</param>
     /// <param name="bot">The main bot instance for accessing global configurations.</param>
+    /// <param name="configService">The service for bot-wide configurations.</param>
     public PermissionService(DbService db,
         IBotStrings strings,
-        GuildSettingsService guildSettings, Mewdeko bot)
+        GuildSettingsService guildSettings, Mewdeko bot, BotConfig configService)
     {
+        config = configService;
         this.db = db;
         Strings = strings;
         this.guildSettings = guildSettings;
@@ -94,7 +99,7 @@ public class PermissionService : ILateBlocker, INService
                 {
                     await channel.SendErrorAsync(Strings.GetText("perm_prevent", guild.Id, index + 1,
                             Format.Bold(pc.Permissions[index]
-                                .GetCommand(await guildSettings.GetPrefix(guild), (SocketGuild)guild))))
+                                .GetCommand(await guildSettings.GetPrefix(guild), (SocketGuild)guild))), config)
                         .ConfigureAwait(false);
                 }
                 catch
@@ -126,7 +131,7 @@ public class PermissionService : ILateBlocker, INService
                 {
                     try
                     {
-                        await channel.SendErrorAsync(returnMsg).ConfigureAwait(false);
+                        await channel.SendErrorAsync(returnMsg, config).ConfigureAwait(false);
                     }
                     catch
                     {
@@ -144,7 +149,7 @@ public class PermissionService : ILateBlocker, INService
                 {
                     try
                     {
-                        await channel.SendErrorAsync(returnMsg).ConfigureAwait(false);
+                        await channel.SendErrorAsync(returnMsg, config).ConfigureAwait(false);
                     }
                     catch
                     {
@@ -187,7 +192,7 @@ public class PermissionService : ILateBlocker, INService
         {
             await ctx.Interaction.SendEphemeralErrorAsync(Strings.GetText("perm_prevent", guild.Id, index + 1,
                     Format.Bold(pc.Permissions[index]
-                        .GetCommand(await guildSettings.GetPrefix(guild), (SocketGuild)guild))))
+                        .GetCommand(await guildSettings.GetPrefix(guild), (SocketGuild)guild))), config)
                 .ConfigureAwait(false);
         }
         catch

@@ -50,7 +50,8 @@ public partial class SlashSuggestions
             if (length >= 2048)
             {
                 await ctx.Interaction
-                    .SendErrorAsync("Can't set this value because it means users will not be able to suggest anything!")
+                    .SendErrorAsync("Can't set this value because it means users will not be able to suggest anything!",
+                        Config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -72,7 +73,8 @@ public partial class SlashSuggestions
             if (length <= 0)
             {
                 await ctx.Interaction
-                    .SendErrorAsync("Cant set this value because it means users will not be able to suggest anything!")
+                    .SendErrorAsync("Cant set this value because it means users will not be able to suggest anything!",
+                        Config)
                     .ConfigureAwait(false);
                 return;
             }

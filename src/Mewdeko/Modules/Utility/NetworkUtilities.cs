@@ -28,7 +28,7 @@ public partial class Utility
             var embeds = new List<Embed>();
             if (count > 10)
             {
-                await ctx.Channel.SendErrorAsync("Maximum of 10 pings.");
+                await ctx.Channel.SendErrorAsync("Maximum of 10 pings.", Config);
                 typing.Dispose();
                 return;
             }
@@ -38,7 +38,8 @@ public partial class Utility
                 var pingReply = await ping.SendPingAsync(ip);
                 if (pingReply.Status == IPStatus.Unknown)
                 {
-                    await ctx.Channel.SendErrorAsync("The ICMP Echo failed for an unknown reason, cannot continue.");
+                    await ctx.Channel.SendErrorAsync("The ICMP Echo failed for an unknown reason, cannot continue.",
+                        Config);
                     typing.Dispose();
                     break;
                 }
@@ -53,58 +54,62 @@ public partial class Utility
                 }
                 else if (pingReply.Status == IPStatus.DestinationNetworkUnreachable)
                 {
-                    await ctx.Channel.SendErrorAsync("The destination network is unreachable, cannot continue.");
+                    await ctx.Channel.SendErrorAsync("The destination network is unreachable, cannot continue.",
+                        Config);
                     typing.Dispose();
                     break;
                 }
                 else if (pingReply.Status == IPStatus.DestinationHostUnreachable)
                 {
-                    await ctx.Channel.SendErrorAsync("The destination host is unreachable, cannot continue.");
+                    await ctx.Channel.SendErrorAsync("The destination host is unreachable, cannot continue.", Config);
                     typing.Dispose();
                     break;
                 }
                 else if (pingReply.Status == IPStatus.DestinationPortUnreachable)
                 {
-                    await ctx.Channel.SendErrorAsync("The destination port is unreachable, cannot continue.");
+                    await ctx.Channel.SendErrorAsync("The destination port is unreachable, cannot continue.", Config);
                     typing.Dispose();
                     break;
                 }
                 else if (pingReply.Status == IPStatus.NoResources)
                 {
                     await ctx.Channel.SendErrorAsync(
-                        "There is insufficent network resources to complete this request. (How the fuck did you stumble on this???)");
+                        "There is insufficent network resources to complete this request. (How the fuck did you stumble on this???)",
+                        Config);
                     typing.Dispose();
                     break;
                 }
                 else if (pingReply.Status == IPStatus.BadOption)
                 {
                     await ctx.Channel.SendErrorAsync(
-                        "Ping failed due to a bad option. (Again, how the fuck did you stumble on this???)");
+                        "Ping failed due to a bad option. (Again, how the fuck did you stumble on this???)", Config);
                     typing.Dispose();
                     break;
                 }
                 else if (pingReply.Status == IPStatus.HardwareError)
                 {
                     await ctx.Channel.SendErrorAsync(
-                        "Ping failed due to a hardware error. Please report this at https://discord.gg/mewdeko.");
+                        "Ping failed due to a hardware error. Please report this at https://discord.gg/mewdeko.",
+                        Config);
                     typing.Dispose();
                     break;
                 }
                 else if (pingReply.Status == IPStatus.TimedOut)
                 {
-                    await ctx.Channel.SendErrorAsync("Timed out attempting to recieve a ping cannot continue.");
+                    await ctx.Channel.SendErrorAsync("Timed out attempting to recieve a ping cannot continue.", Config);
                     typing.Dispose();
                     break;
                 }
                 else if (pingReply.Status == IPStatus.BadDestination)
                 {
-                    await ctx.Channel.SendErrorAsync("Double check that you entered a correct IP and try again.");
+                    await ctx.Channel.SendErrorAsync("Double check that you entered a correct IP and try again.",
+                        Config);
                     typing.Dispose();
                     break;
                 }
                 else if (pingReply.Status == IPStatus.DestinationUnreachable)
                 {
-                    await ctx.Channel.SendErrorAsync("The destination is unreachable, cannot continue.");
+                    await ctx.Channel.SendErrorAsync("The destination is unreachable, cannot continue.", Config);
                     typing.Dispose();
                     break;
                 }
@@ -141,7 +146,7 @@ public partial class Utility
         }
         else
             await ctx.Channel.SendErrorAsync(
-                "Seems like traceroute was not successful. Please double check the hostname/ip and try again.");
+                "Seems like traceroute was not successful. Please double check the hostname/ip and try again.", Config);
 
         toDispose.Dispose();
     }

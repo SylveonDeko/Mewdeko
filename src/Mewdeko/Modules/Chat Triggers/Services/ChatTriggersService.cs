@@ -247,7 +247,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                             Format.Bold(pc.Permissions[index].GetCommand(await guildSettings.GetPrefix(guild), sg)));
                         try
                         {
-                            await msg.Channel.SendErrorAsync(returnMsg).ConfigureAwait(false);
+                            await msg.Channel.SendErrorAsync(returnMsg, configService.Data).ConfigureAwait(false);
                         }
                         catch
                         {
@@ -418,7 +418,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                                     .GetCommand(await guildSettings.GetPrefix(guild), guild)));
                             try
                             {
-                                await fakeMsg.Channel.SendErrorAsync(returnMsg).ConfigureAwait(false);
+                                await fakeMsg.Channel.SendErrorAsync(returnMsg, configService.Data)
+                                    .ConfigureAwait(false);
                             }
                             catch
                             {

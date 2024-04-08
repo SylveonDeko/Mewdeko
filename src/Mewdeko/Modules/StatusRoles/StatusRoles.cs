@@ -22,7 +22,7 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
         if (status.Length > 128)
         {
             await ctx.Channel.SendErrorAsync(
-                $"{bss.Data.ErrorEmote} That's too long to even fit in a normal status. Try again.");
+                $"{bss.Data.ErrorEmote} That's too long to even fit in a normal status. Try again.", Config);
             return;
         }
 
@@ -30,7 +30,7 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
         if (added)
             await ctx.Channel.SendConfirmAsync("Added StatusRole config! Please configure it with the other commands.");
         else
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} That StatusRole already exists!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} That StatusRole already exists!", Config);
     }
 
     /// <summary>
@@ -43,14 +43,14 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);
         if (!statusRoles.Any())
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!", Config);
             return;
         }
 
         var potentialStatusRole = statusRoles.ElementAt(index - 1);
         if (potentialStatusRole is null)
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} No StatusRole found with that ID!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} No StatusRole found with that ID!", Config);
             return;
         }
 
@@ -69,14 +69,14 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);
         if (!statusRoles.Any())
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!", Config);
             return;
         }
 
         var potentialStatusRole = statusRoles.ElementAt(index - 1);
         if (potentialStatusRole is null)
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} No StatusRole found with that ID!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} No StatusRole found with that ID!", Config);
             return;
         }
 
@@ -85,7 +85,8 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
             if (string.IsNullOrWhiteSpace(potentialStatusRole.StatusEmbed))
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"{bss.Data.ErrorEmote} There is no embed/text set for this StatusRole! Please include embed json or text to preview it!");
+                    $"{bss.Data.ErrorEmote} There is no embed/text set for this StatusRole! Please include embed json or text to preview it!",
+                    Config);
                 return;
             }
 
@@ -115,7 +116,7 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
                     await ctx.Channel.SendConfirmAsync(potentialStatusRole.StatusEmbed);
                     break;
                 default:
-                    await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} Timed out.");
+                    await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} Timed out.", Config);
                     break;
             }
         }
@@ -137,20 +138,20 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);
         if (!statusRoles.Any())
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!", Config);
             return;
         }
 
         var potentialStatusRole = statusRoles.ElementAt(index - 1);
         if (potentialStatusRole is null)
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} No StatusRole found with that ID!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} No StatusRole found with that ID!", Config);
             return;
         }
 
         if (potentialStatusRole.StatusChannelId == channel.Id)
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} That's already your StatusEmbedChannel.");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} That's already your StatusEmbedChannel.", Config);
             return;
         }
 
@@ -170,14 +171,14 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);
         if (!statusRoles.Any())
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!", Config);
             return;
         }
 
         var potentialStatusRole = statusRoles.ElementAt(index - 1);
         if (potentialStatusRole is null)
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} No StatusRole found with that ID!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} No StatusRole found with that ID!", Config);
             return;
         }
 
@@ -209,14 +210,14 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);
         if (!statusRoles.Any())
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!", Config);
             return;
         }
 
         var potentialStatusRole = statusRoles.ElementAt(index - 1);
         if (potentialStatusRole is null)
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} No StatusRole found with that ID!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} No StatusRole found with that ID!", Config);
             return;
         }
 
@@ -248,14 +249,14 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);
         if (!statusRoles.Any())
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!", Config);
             return;
         }
 
         var potentialStatusRole = statusRoles.ElementAt(index - 1);
         if (potentialStatusRole is null)
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} No StatusRole found with that ID!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} No StatusRole found with that ID!", Config);
             return;
         }
 
@@ -264,7 +265,7 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
         if (addRoles.Length == newList.Count)
         {
             await ctx.Channel.SendErrorAsync(
-                $"{bss.Data.ErrorEmote} No AddRoles removed, none of the provided roles are in the list.");
+                $"{bss.Data.ErrorEmote} No AddRoles removed, none of the provided roles are in the list.", Config);
             return;
         }
 
@@ -284,14 +285,14 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);
         if (!statusRoles.Any())
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!", Config);
             return;
         }
 
         var potentialStatusRole = statusRoles.ElementAt(index - 1);
         if (potentialStatusRole is null)
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} No StatusRole found with that ID!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} No StatusRole found with that ID!", Config);
             return;
         }
 
@@ -300,7 +301,7 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
         if (removeRoles.Length == newList.Count)
         {
             await ctx.Channel.SendErrorAsync(
-                $"{bss.Data.ErrorEmote} No RemoveRoles removed, none of the provided roles are in the list.");
+                $"{bss.Data.ErrorEmote} No RemoveRoles removed, none of the provided roles are in the list.", Config);
             return;
         }
 
@@ -320,14 +321,14 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);
         if (!statusRoles.Any())
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!", Config);
             return;
         }
 
         var potentialStatusRole = statusRoles.ElementAt(index - 1);
         if (potentialStatusRole is null)
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} No StatusRole found with that ID!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} No StatusRole found with that ID!", Config);
             return;
         }
 
@@ -345,14 +346,14 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);
         if (!statusRoles.Any())
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!", Config);
             return;
         }
 
         var potentialStatusRole = statusRoles.ElementAt(index - 1);
         if (potentialStatusRole is null)
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} No StatusRole found with that ID!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} No StatusRole found with that ID!", Config);
             return;
         }
 
@@ -369,7 +370,7 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);
         if (!statusRoles.Any())
         {
-            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!");
+            await ctx.Channel.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!", Config);
             return;
         }
 

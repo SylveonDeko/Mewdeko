@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using Discord.Net;
 using Mewdeko.Common.Collections;
+using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Modules.Administration.Services;
@@ -20,6 +21,7 @@ public class FilterService : IEarlyBehavior, INService
     private readonly CultureInfo? cultureInfo = new("en-US");
     private readonly DbService db;
     private readonly IPubSub pubSub;
+    private readonly BotConfig config;
 
     private readonly TypedKey<HashSet<AutoBanEntry>> blPubKey = new("autobanword.reload");
     private readonly DiscordSocketClient client;
@@ -42,7 +44,7 @@ public class FilterService : IEarlyBehavior, INService
     /// </remarks>
     public FilterService(DiscordSocketClient client, DbService db, IPubSub pubSub,
         UserPunishService upun2, IBotStrings strng, AdministrationService ass,
-        GuildSettingsService gss, EventHandler eventHandler, Mewdeko bot)
+        GuildSettingsService gss, EventHandler eventHandler, Mewdeko bot, BotConfig config)
     {
         this.db = db;
         this.client = client;
@@ -53,6 +55,7 @@ public class FilterService : IEarlyBehavior, INService
         this.pubSub.Sub(blPubKey, OnReload);
         this.ass = ass;
         this.gss = gss;
+        this.config = config;
         var allgc = bot.AllGuildConfigs;
 
         InviteFilteringServers =
@@ -453,7 +456,8 @@ public class FilterService : IEarlyBehavior, INService
                             "Warned for Filtered Word").ConfigureAwait(false);
                         var user = await usrMsg.Author.CreateDMChannelAsync().ConfigureAwait(false);
                         await user.SendErrorAsync(
-                                $"You have been warned for using the word {Format.Code(regex.Match(usrMsg.Content.ToLower()).Value)}")
+                                $"You have been warned for using the word {Format.Code(regex.Match(usrMsg.Content.ToLower()).Value)}",
+                                config)
                             .ConfigureAwait(false);
                     }
                 }
@@ -480,7 +484,8 @@ public class FilterService : IEarlyBehavior, INService
                         "Warned for Filtered Word").ConfigureAwait(false);
                     var user = await usrMsg.Author.CreateDMChannelAsync().ConfigureAwait(false);
                     await user.SendErrorAsync(
-                            $"You have been warned for using the word {Format.Code(regex.Match(usrMsg.Content.ToLower()).Value)}")
+                            $"You have been warned for using the word {Format.Code(regex.Match(usrMsg.Content.ToLower()).Value)}",
+                            config)
                         .ConfigureAwait(false);
                 }
             }
@@ -520,7 +525,7 @@ public class FilterService : IEarlyBehavior, INService
                 await upun.Warn(guild, usrMsg.Author.Id, client.CurrentUser, "Warned for Posting Invite")
                     .ConfigureAwait(false);
                 var user = await usrMsg.Author.CreateDMChannelAsync().ConfigureAwait(false);
-                await user.SendErrorAsync("You have been warned for sending an invite, this is not allowed!")
+                await user.SendErrorAsync("You have been warned for sending an invite, this is not allowed!", config)
                     .ConfigureAwait(false);
 
                 return true;

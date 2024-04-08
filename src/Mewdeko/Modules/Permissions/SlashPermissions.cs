@@ -226,7 +226,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var index = int.Parse(perm);
         if (index == 0)
         {
-            await ctx.Interaction.SendErrorAsync("You cannot remove this permission!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("You cannot remove this permission!", Config).ConfigureAwait(false);
             return;
         }
 

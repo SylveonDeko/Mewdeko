@@ -1,4 +1,5 @@
-﻿using Mewdeko.Common.ModuleBehaviors;
+﻿using Mewdeko.Common.Configs;
+using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -14,6 +15,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     private readonly DbService db;
     private readonly IPubSub pubSub;
     private readonly DiscordSocketClient client;
+    private readonly BotConfig config;
 
     private readonly TypedKey<BlacklistEntry[]> blPubKey = new("blacklist.reload");
 
@@ -32,14 +34,17 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     /// <param name="pubSub">The publish-subscribe service for inter-service communication.</param>
     /// <param name="handler">Event handler for listening to Discord client events.</param>
     /// <param name="client">The Discord socket client instance.</param>
+    /// <param name="config">The bot configuration service.</param>
     /// <remarks>
     /// The service subscribes to relevant events to automatically enforce blacklist rules upon guild join events or when the bot starts.
     /// </remarks>
-    public BlacklistService(DbService db, IPubSub pubSub, EventHandler handler, DiscordSocketClient client)
+    public BlacklistService(DbService db, IPubSub pubSub, EventHandler handler, DiscordSocketClient client,
+        BotConfig config)
     {
         this.db = db;
         this.pubSub = pubSub;
         this.client = client;
+        this.config = config;
         Reload(false);
         this.pubSub.Sub(blPubKey, OnReload);
         this.pubSub.Sub(blPrivKey, ManualCheck);
@@ -133,7 +138,8 @@ public sealed class BlacklistService : IEarlyBehavior, INService
             {
                 await channel
                     .SendErrorAsync(
-                        "This server has been blacklisted. Please click the button below to potentially appeal your server ban.")
+                        "This server has been blacklisted. Please click the button below to potentially appeal your server ban.",
+                        config)
                     .ConfigureAwait(false);
             }
             catch
@@ -160,7 +166,8 @@ public sealed class BlacklistService : IEarlyBehavior, INService
             {
                 await channel
                     .SendErrorAsync(
-                        "This server has been blacklisted. Please click the button below to potentially appeal your server ban.")
+                        "This server has been blacklisted. Please click the button below to potentially appeal your server ban.",
+                        config)
                     .ConfigureAwait(false);
             }
             catch

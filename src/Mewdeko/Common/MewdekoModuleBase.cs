@@ -1,5 +1,6 @@
 using System.Globalization;
 using Discord.Commands;
+using Mewdeko.Common.Configs;
 using Mewdeko.Services.strings;
 
 namespace Mewdeko.Common
@@ -29,6 +30,11 @@ namespace Mewdeko.Common
         /// Gets the command context for the current module.
         /// </summary>
         protected ICommandContext ctx => Context;
+
+        /// <summary>
+        /// Gets or sets the bot configuration for the current module.
+        /// </summary>
+        public BotConfig Config { get; set; }
 
         /// <summary>
         /// Performs tasks before executing a command.
@@ -61,7 +67,7 @@ namespace Mewdeko.Common
         public Task<IUserMessage> ErrorLocalizedAsync(string? textKey, params object?[] args)
         {
             var text = GetText(textKey, args);
-            return ctx.Channel.SendErrorAsync(text);
+            return ctx.Channel.SendErrorAsync(text, Config);
         }
 
         /// <summary>
@@ -73,7 +79,7 @@ namespace Mewdeko.Common
         public Task<IUserMessage> ReplyErrorLocalizedAsync(string? textKey, params object?[] args)
         {
             var text = GetText(textKey, args);
-            return ctx.Channel.SendErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}");
+            return ctx.Channel.SendErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}", Config);
         }
 
         /// <summary>

@@ -158,7 +158,8 @@ public partial class Utility
             if (!await Service.GetSnipeSet(ctx.Guild.Id))
             {
                 await ctx.Channel.SendErrorAsync(
-                        $"Sniping is not enabled in this server! Use `{await guildSettings.GetPrefix(ctx.Guild)}snipeset enable` to enable it!")
+                        $"Sniping is not enabled in this server! Use `{await guildSettings.GetPrefix(ctx.Guild)}snipeset enable` to enable it!",
+                        Config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -173,7 +174,7 @@ public partial class Utility
             var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
             if (snipeStores.Length == 0)
             {
-                await ctx.Interaction.SendErrorAsync("There's nothing to snipe!").ConfigureAwait(false);
+                await ctx.Interaction.SendErrorAsync("There's nothing to snipe!", Config).ConfigureAwait(false);
                 return;
             }
 

@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using Discord.Commands;
 using Fergun.Interactive;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Common.Configs;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Services.strings;
 using SkiaSharp;
@@ -59,24 +60,32 @@ public static partial class Extensions
     /// </summary>
     /// <param name="interaction">Discord interaction context.</param>
     /// <param name="message">Message to include in the error.</param>
+    /// /// <param name="config">Bot configuration.</param>
     /// <returns>Task representing the asynchronous operation.</returns>
-    public static Task SendErrorAsync(this IDiscordInteraction interaction, string? message)
+    public static Task SendErrorAsync(this IDiscordInteraction interaction, string? message, BotConfig config)
         => interaction.RespondAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(),
-            components: new ComponentBuilder()
-                .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/mewdeko")
-                .Build());
+            components: config.ShowInviteButton
+                ? new ComponentBuilder()
+                    .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/mewdeko")
+                    .WithButton(label: "Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/mewdeko")
+                    .Build()
+                : null);
 
     /// <summary>
     /// Sends an error message asynchronously with ephemeral visibility.
     /// </summary>
     /// <param name="interaction">Discord interaction context.</param>
     /// <param name="message">Message to include in the error.</param>
+    /// /// <param name="config">Bot configuration.</param>
     /// <returns>Task representing the asynchronous operation.</returns>
-    public static Task SendEphemeralErrorAsync(this IDiscordInteraction interaction, string? message)
+    public static Task SendEphemeralErrorAsync(this IDiscordInteraction interaction, string? message, BotConfig config)
         => interaction.RespondAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(),
-            ephemeral: true, components: new ComponentBuilder()
-                .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/mewdeko")
-                .Build());
+            ephemeral: true, components: config.ShowInviteButton
+                ? new ComponentBuilder()
+                    .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/mewdeko")
+                    .WithButton(label: "Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/mewdeko")
+                    .Build()
+                : null);
 
     /// <summary>
     /// Sends a confirmation follow-up message asynchronously.
@@ -116,25 +125,34 @@ public static partial class Extensions
     /// </summary>
     /// <param name="interaction">Discord interaction context.</param>
     /// <param name="message">Message to include in the error.</param>
+    /// /// <param name="config">Bot configuration.</param>
     /// <returns>Task representing the asynchronous operation.</returns>
-    public static Task<IUserMessage> SendErrorFollowupAsync(this IDiscordInteraction interaction, string message)
+    public static Task<IUserMessage> SendErrorFollowupAsync(this IDiscordInteraction interaction, string message,
+        BotConfig config)
         => interaction.FollowupAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(),
-            components: new ComponentBuilder()
-                .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/mewdeko")
-                .Build());
+            components: config.ShowInviteButton
+                ? new ComponentBuilder()
+                    .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/mewdeko")
+                    .WithButton(label: "Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/mewdeko")
+                    .Build()
+                : null);
 
     /// <summary>
     /// Sends an ephemeral follow-up error message asynchronously.
     /// </summary>
     /// <param name="interaction">Discord interaction context.</param>
     /// <param name="message">Message to include in the error.</param>
+    /// <param name="config">Bot configuration.</param>
     /// <returns>Task representing the asynchronous operation.</returns>
     public static Task<IUserMessage> SendEphemeralFollowupErrorAsync(this IDiscordInteraction interaction,
-        string message)
+        string message, BotConfig config)
         => interaction.FollowupAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(message).Build(),
-            ephemeral: true, components: new ComponentBuilder()
-                .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/mewdeko")
-                .Build());
+            ephemeral: true, components: config.ShowInviteButton
+                ? new ComponentBuilder()
+                    .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/mewdeko")
+                    .WithButton(label: "Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/mewdeko")
+                    .Build()
+                : null);
 
     /// <summary>
     /// Checks if the first attachment in the collection is a valid music URL.

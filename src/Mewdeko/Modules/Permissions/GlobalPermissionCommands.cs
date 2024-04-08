@@ -105,7 +105,8 @@ public partial class Permissions
             if (commandName is "source")
             {
                 await ctx.Channel
-                    .SendErrorAsync("That command is not allowed to be globally disabled. What are you trying to do?")
+                    .SendErrorAsync("That command is not allowed to be globally disabled. What are you trying to do?",
+                        Config)
                     .ConfigureAwait(false);
                 return;
             }

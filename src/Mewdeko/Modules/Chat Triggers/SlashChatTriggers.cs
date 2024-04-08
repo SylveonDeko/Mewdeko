@@ -4,6 +4,7 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Autocompleters;
+using Mewdeko.Common.Configs;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Chat_Triggers.Services;
 
@@ -14,22 +15,9 @@ namespace Mewdeko.Modules.Chat_Triggers;
 /// </summary>
 [Group("triggers", "Manage chat triggers.")]
 // [RequireUserPermission(GuildPermission.Administrator)] coming soon???
-public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
+public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveService interactivity, BotConfig config)
+    : MewdekoSlashModuleBase<ChatTriggersService>
 {
-    private readonly IHttpClientFactory clientFactory;
-    private readonly InteractiveService interactivity;
-
-    /// <summary>
-    /// Initializes a new instance of <see cref="SlashChatTriggers"/>.
-    /// </summary>
-    /// <param name="clientFactory">Http client factory to avoid memory leaks with http clients being made everywhere lol.</param>
-    /// <param name="serv">Interactivity service for embed pagination</param>
-    public SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveService serv)
-    {
-        interactivity = serv;
-        this.clientFactory = clientFactory;
-    }
-
     /// <summary>
     /// Handles triggering run-in interactions.
     /// </summary>
@@ -316,7 +304,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
 
         if (!chatTriggers.Any())
         {
-            await ctx.Interaction.SendErrorAsync("no_found").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("no_found", config).ConfigureAwait(false);
         }
         else
         {
@@ -366,7 +354,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         var found = await Service.GetChatTriggers(ctx.Guild?.Id, id);
 
         if (found == null)
-            await ctx.Interaction.SendErrorAsync(GetText("no_found_id")).ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync(GetText("no_found_id"), config).ConfigureAwait(false);
         else
             await ctx.Interaction.RespondAsync(embed: Service.GetEmbed(found, ctx.Guild?.Id).Build())
                 .ConfigureAwait(false);
@@ -398,7 +386,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         }
         else
         {
-            await ctx.Interaction.SendErrorAsync(GetText("no_found_id")).ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync(GetText("no_found_id"), config).ConfigureAwait(false);
         }
 
         await FollowupWithTriggerStatus().ConfigureAwait(false);
@@ -424,7 +412,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         var ct = await Service.GetChatTriggers(Context.Guild?.Id, id);
         if (ct is null)
         {
-            await ctx.Interaction.SendErrorAsync(GetText("no_found")).ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync(GetText("no_found"), config).ConfigureAwait(false);
             return;
         }
 
@@ -433,7 +421,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase<ChatTriggersService>
         if (emojiStrs.Length == 0)
         {
             await Service.ResetCrReactions(ctx.Guild?.Id, id).ConfigureAwait(false);
-            await ctx.Interaction.SendErrorAsync(GetText("ctr_reset")).ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync(GetText("ctr_reset"), config).ConfigureAwait(false);
             return;
         }
 

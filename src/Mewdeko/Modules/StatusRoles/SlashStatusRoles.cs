@@ -25,7 +25,7 @@ public class SlashStatusRoles(BotConfigService bss, InteractiveService interacti
         if (status.Length > 128)
         {
             await ctx.Interaction.SendErrorAsync(
-                $"{bss.Data.ErrorEmote} That's too long to even fit in a normal status. Try again.");
+                $"{bss.Data.ErrorEmote} That's too long to even fit in a normal status. Try again.", Config);
             return;
         }
 
@@ -34,7 +34,7 @@ public class SlashStatusRoles(BotConfigService bss, InteractiveService interacti
             await ctx.Interaction.SendConfirmAsync(
                 "Added StatusRole config! Please configure it with the other commands.");
         else
-            await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} That StatusRole already exists!");
+            await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} That StatusRole already exists!", Config);
     }
 
     /// <summary>
@@ -66,7 +66,8 @@ public class SlashStatusRoles(BotConfigService bss, InteractiveService interacti
             if (string.IsNullOrWhiteSpace(potentialStatusRole.StatusEmbed))
             {
                 await ctx.Interaction.SendErrorAsync(
-                    $"{bss.Data.ErrorEmote} There is no embed/text set for this StatusRole! Please include embed json or text to preview it!");
+                    $"{bss.Data.ErrorEmote} There is no embed/text set for this StatusRole! Please include embed json or text to preview it!",
+                    Config);
                 return;
             }
 
@@ -98,7 +99,7 @@ public class SlashStatusRoles(BotConfigService bss, InteractiveService interacti
                     await ctx.Interaction.SendConfirmFollowupAsync(potentialStatusRole.StatusEmbed);
                     break;
                 default:
-                    await ctx.Interaction.SendErrorFollowupAsync($"{bss.Data.ErrorEmote} Timed out.");
+                    await ctx.Interaction.SendErrorFollowupAsync($"{bss.Data.ErrorEmote} Timed out.", Config);
                     break;
             }
         }
@@ -122,7 +123,8 @@ public class SlashStatusRoles(BotConfigService bss, InteractiveService interacti
     {
         if (potentialStatusRole.StatusChannelId == channel.Id)
         {
-            await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} That's already your StatusEmbedChannel.");
+            await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} That's already your StatusEmbedChannel.",
+                Config);
             return;
         }
 
@@ -202,7 +204,7 @@ public class SlashStatusRoles(BotConfigService bss, InteractiveService interacti
         if (addRoles.Length == newList.Count)
         {
             await ctx.Interaction.SendErrorAsync(
-                $"{bss.Data.ErrorEmote} No AddRoles removed, none of the provided roles are in the list.");
+                $"{bss.Data.ErrorEmote} No AddRoles removed, none of the provided roles are in the list.", Config);
             return;
         }
 
@@ -228,7 +230,7 @@ public class SlashStatusRoles(BotConfigService bss, InteractiveService interacti
         if (removeRoles.Length == newList.Count)
         {
             await ctx.Interaction.SendErrorAsync(
-                $"{bss.Data.ErrorEmote} No RemoveRoles removed, none of the provided roles are in the list.");
+                $"{bss.Data.ErrorEmote} No RemoveRoles removed, none of the provided roles are in the list.", Config);
             return;
         }
 
@@ -275,7 +277,7 @@ public class SlashStatusRoles(BotConfigService bss, InteractiveService interacti
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);
         if (!statusRoles.Any())
         {
-            await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!");
+            await ctx.Interaction.SendErrorAsync($"{bss.Data.ErrorEmote} There are no configured StatusRoles!", Config);
             return;
         }
 

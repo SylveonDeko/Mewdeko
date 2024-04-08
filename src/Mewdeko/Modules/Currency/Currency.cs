@@ -72,7 +72,7 @@ public class Currency(InteractiveService interactive) : MewdekoModuleBase<ICurre
         var (rewardAmount, cooldownSeconds) = await Service.GetReward(Context.Guild.Id);
         if (rewardAmount == 0)
         {
-            await Context.Channel.SendErrorAsync("Daily reward is not set up.");
+            await Context.Channel.SendErrorAsync("Daily reward is not set up.", Config);
             return;
         }
 
@@ -87,7 +87,8 @@ public class Currency(InteractiveService interactive) : MewdekoModuleBase<ICurre
             var nextAllowedClaimTime = recentTransactions.Max(t => t.DateAdded) + minimumTimeBetweenClaims;
 
             await Context.Channel.SendErrorAsync(
-                $"You already claimed your daily reward. Come back at {TimestampTag.FromDateTime(nextAllowedClaimTime.Value)}");
+                $"You already claimed your daily reward. Come back at {TimestampTag.FromDateTime(nextAllowedClaimTime.Value)}",
+                Config);
             return;
         }
 
@@ -193,14 +194,15 @@ public class Currency(InteractiveService interactive) : MewdekoModuleBase<ICurre
         if (balance <= 0)
         {
             await ctx.Channel.SendErrorAsync(
-                $"You either have no {Service.GetCurrencyEmote(Context.Guild.Id)} or are negative. Please do dailyreward and try again.");
+                $"You either have no {Service.GetCurrencyEmote(Context.Guild.Id)} or are negative. Please do dailyreward and try again.",
+                Config);
             return;
         }
 
         if (betAmount > balance)
         {
             await ctx.Channel.SendErrorAsync(
-                $"You don't have enough {Service.GetCurrencyEmote(Context.Guild.Id)} to place that bet.");
+                $"You don't have enough {Service.GetCurrencyEmote(Context.Guild.Id)} to place that bet.", Config);
             return;
         }
 

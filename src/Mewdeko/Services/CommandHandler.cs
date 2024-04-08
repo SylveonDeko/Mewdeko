@@ -148,7 +148,8 @@ public class CommandHandler : INService
             if (!result.IsSuccess)
             {
                 await ctx.Interaction
-                    .SendEphemeralErrorAsync($"Command failed for the following reason:\n{result.ErrorReason}")
+                    .SendEphemeralErrorAsync($"Command failed for the following reason:\n{result.ErrorReason}",
+                        bss.Data)
                     .ConfigureAwait(false);
                 Log.Warning(
                     "Slash Command Errored\n\t" + "User: {0}\n\t" + "Server: {1}\n\t" + "Channel: {2}\n\t" +
@@ -280,7 +281,8 @@ public class CommandHandler : INService
             if (!result.IsSuccess)
             {
                 await ctx.Interaction
-                    .SendEphemeralErrorAsync($"Command failed for the following reason:\n{result.ErrorReason}")
+                    .SendEphemeralErrorAsync($"Command failed for the following reason:\n{result.ErrorReason}",
+                        bss.Data)
                     .ConfigureAwait(false);
                 Log.Warning(
                     "Slash Command Errored\n\t" + "User: {0}\n\t" + "Server: {1}\n\t" + "Channel: {2}\n\t" +
@@ -759,7 +761,7 @@ public class CommandHandler : INService
             await LogErroredExecution(error, usrMsg, channel as ITextChannel, exec2, execTime);
             if (guild != null)
             {
-                var perms = new PermissionService(db, strings, gss, bot);
+                var perms = new PermissionService(db, strings, gss, bot, bss.Data);
                 var pc = await perms.GetCacheFor(guild.Id);
                 if (pc != null && pc.Permissions.CheckPermissions(usrMsg, info.Name, info.Module.Name, out _))
                     await CommandErrored(info, channel as ITextChannel, error, usrMsg.Author).ConfigureAwait(false);

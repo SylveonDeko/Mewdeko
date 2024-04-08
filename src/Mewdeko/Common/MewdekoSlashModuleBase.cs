@@ -1,5 +1,6 @@
 using System.Globalization;
 using Discord.Interactions;
+using Mewdeko.Common.Configs;
 using Mewdeko.Services.strings;
 
 namespace Mewdeko.Common
@@ -29,6 +30,11 @@ namespace Mewdeko.Common
         /// </summary>
         public ILocalization? Localization { get; set; }
 
+        /// <summary>
+        /// The bot configuration.
+        /// </summary>
+        public BotConfig Config { get; set; }
+
         // ReSharper disable once InconsistentNaming
         /// <summary>
         /// Gets the interaction context.
@@ -57,7 +63,7 @@ namespace Mewdeko.Common
         public Task ErrorLocalizedAsync(string? textKey, params object?[] args)
         {
             var text = GetText(textKey, args);
-            return ctx.Interaction.SendErrorAsync(text);
+            return ctx.Interaction.SendErrorAsync(text, Config);
         }
 
         /// <summary>
@@ -66,7 +72,7 @@ namespace Mewdeko.Common
         public Task ReplyErrorLocalizedAsync(string? textKey, params object?[] args)
         {
             var text = GetText(textKey, args);
-            return ctx.Interaction.SendErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}");
+            return ctx.Interaction.SendErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}", Config);
         }
 
         /// <summary>
@@ -75,7 +81,7 @@ namespace Mewdeko.Common
         public Task EphemeralReplyErrorLocalizedAsync(string? textKey, params object?[] args)
         {
             var text = GetText(textKey, args);
-            return ctx.Interaction.SendEphemeralErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}");
+            return ctx.Interaction.SendEphemeralErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}", Config);
         }
 
         /// <summary>

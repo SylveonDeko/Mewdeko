@@ -14,7 +14,6 @@ using Lavalink4NET.Rest;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Music.Common;
 using Mewdeko.Modules.Music.Services;
-using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Modules.Music;
 
@@ -26,7 +25,6 @@ namespace Mewdeko.Modules.Music;
 /// <param name="dbService">The database service</param>
 /// <param name="client">The Discord client</param>
 /// <param name="guildSettings">The guild settings service</param>
-/// <param name="config">The bot configuration service</param>
 /// <param name="creds">The bot credentials</param>
 public class Music(
     IAudioService lava,
@@ -34,7 +32,6 @@ public class Music(
     DbService dbService,
     DiscordSocketClient client,
     GuildSettingsService guildSettings,
-    BotConfigService config,
     IBotCredentials creds)
     : MewdekoModuleBase<MusicService>
 {
@@ -98,7 +95,8 @@ public class Music(
             var chanUsers = await voiceChannel.GetUsersAsync().FlattenAsync().ConfigureAwait(false);
             if (!chanUsers.Contains(ctx.User as IGuildUser))
             {
-                await ctx.Channel.SendErrorAsync("You are not in the bot's music channel!").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("You are not in the bot's music channel!", Config)
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -108,7 +106,8 @@ public class Music(
             }
             else
             {
-                await ctx.Channel.SendErrorAsync("Seems like that track doesn't exist or you have nothing in queue.")
+                await ctx.Channel
+                    .SendErrorAsync("Seems like that track doesn't exist or you have nothing in queue.", Config)
                     .ConfigureAwait(false);
             }
         }
@@ -142,7 +141,7 @@ public class Music(
         }
         else
         {
-            await ctx.Channel.SendErrorAsync("That track was not found.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("That track was not found.", Config).ConfigureAwait(false);
         }
     }
 
@@ -155,7 +154,7 @@ public class Music(
         var plists = Service.GetPlaylists(ctx.User);
         if (!plists.Any())
         {
-            await ctx.Channel.SendErrorAsync("You don't have any saved playlists!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("You don't have any saved playlists!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -203,7 +202,8 @@ public class Music(
                     else
                     {
                         await ctx.Channel.SendErrorAsync(
-                                "You have not specified a playlist name and do not have a default playlist set, there's nothing to show!")
+                                "You have not specified a playlist name and do not have a default playlist set, there's nothing to show!",
+                                Config)
                             .ConfigureAwait(false);
                         return;
                     }
@@ -218,13 +218,13 @@ public class Music(
                 var songcount = 1;
                 if (plist is null)
                 {
-                    await ctx.Channel.SendErrorAsync("This is not a valid playlist!").ConfigureAwait(false);
+                    await ctx.Channel.SendErrorAsync("This is not a valid playlist!", Config).ConfigureAwait(false);
                     return;
                 }
 
                 if (!plist.Songs.Any())
                 {
-                    await ctx.Channel.SendErrorAsync("This playlist has no songs!").ConfigureAwait(false);
+                    await ctx.Channel.SendErrorAsync("This playlist has no songs!", Config).ConfigureAwait(false);
                     return;
                 }
 
@@ -250,7 +250,7 @@ public class Music(
                 var plist1 = plists.FirstOrDefault(x => x.Name.ToLower() == playlistOrSongName?.ToLower());
                 if (plist1 == null)
                 {
-                    await ctx.Channel.SendErrorAsync("Playlist with that name could not be found!")
+                    await ctx.Channel.SendErrorAsync("Playlist with that name could not be found!", Config)
                         .ConfigureAwait(false);
                     return;
                 }
@@ -270,13 +270,14 @@ public class Music(
             case PlaylistAction.Create:
                 if (playlistOrSongName is null)
                 {
-                    await ctx.Channel.SendErrorAsync("You need to specify a playlist name!").ConfigureAwait(false);
+                    await ctx.Channel.SendErrorAsync("You need to specify a playlist name!", Config)
+                        .ConfigureAwait(false);
                     return;
                 }
 
                 if (Service.GetPlaylists(ctx.User).Select(x => x.Name.ToLower()).Contains(playlistOrSongName.ToLower()))
                 {
-                    await ctx.Channel.SendErrorAsync("You already have a playlist with this name!")
+                    await ctx.Channel.SendErrorAsync("You already have a playlist with this name!", Config)
                         .ConfigureAwait(false);
                 }
                 else
@@ -303,7 +304,8 @@ public class Music(
                     var vstate = ctx.User as IVoiceState;
                     if (vstate?.VoiceChannel is null)
                     {
-                        await ctx.Channel.SendErrorAsync("You must be in a channel to use this!").ConfigureAwait(false);
+                        await ctx.Channel.SendErrorAsync("You must be in a channel to use this!", Config)
+                            .ConfigureAwait(false);
                         return;
                     }
 
@@ -311,7 +313,7 @@ public class Music(
                     {
                         try
                         {
-                            await lava.JoinAsync(() => new MusicPlayer(client, Service, config), ctx.Guild.Id,
+                            await lava.JoinAsync(() => new MusicPlayer(client, Service, Config), ctx.Guild.Id,
                                 vstate.VoiceChannel.Id).ConfigureAwait(false);
                             if (vstate.VoiceChannel is IStageChannel chan)
                             {
@@ -320,7 +322,7 @@ public class Music(
                         }
                         catch (Exception)
                         {
-                            await ctx.Channel.SendErrorAsync("Seems I may not have permission to join...")
+                            await ctx.Channel.SendErrorAsync("Seems I may not have permission to join...", Config)
                                 .ConfigureAwait(false);
                             return;
                         }
@@ -330,7 +332,7 @@ public class Music(
                     var musicPlaylists = plist3 as MusicPlaylist?[] ?? plist3.ToArray();
                     if (musicPlaylists.Length == 0)
                     {
-                        await ctx.Channel.SendErrorAsync("A playlist with that name wasnt found!")
+                        await ctx.Channel.SendErrorAsync("A playlist with that name wasnt found!", Config)
                             .ConfigureAwait(false);
                         return;
                     }
@@ -378,7 +380,8 @@ public class Music(
                     var vstate = ctx.User as IVoiceState;
                     if (vstate?.VoiceChannel is null)
                     {
-                        await ctx.Channel.SendErrorAsync("You must be in a channel to use this!").ConfigureAwait(false);
+                        await ctx.Channel.SendErrorAsync("You must be in a channel to use this!", Config)
+                            .ConfigureAwait(false);
                         return;
                     }
 
@@ -389,7 +392,7 @@ public class Music(
                     if (!songs2.Any())
                     {
                         await ctx.Channel.SendErrorAsync(
-                                "Your default playlist has no songs! Please add songs and try again.")
+                                "Your default playlist has no songs! Please add songs and try again.", Config)
                             .ConfigureAwait(false);
                         return;
                     }
@@ -398,7 +401,7 @@ public class Music(
                     {
                         try
                         {
-                            await lava.JoinAsync(() => new MusicPlayer(client, Service, config), ctx.Guild.Id,
+                            await lava.JoinAsync(() => new MusicPlayer(client, Service, Config), ctx.Guild.Id,
                                 vstate.VoiceChannel.Id).ConfigureAwait(false);
                             if (vstate.VoiceChannel is IStageChannel chan)
                             {
@@ -407,7 +410,7 @@ public class Music(
                         }
                         catch (Exception)
                         {
-                            await ctx.Channel.SendErrorAsync("Seems I may not have permission to join...")
+                            await ctx.Channel.SendErrorAsync("Seems I may not have permission to join...", Config)
                                 .ConfigureAwait(false);
                             return;
                         }
@@ -438,7 +441,7 @@ public class Music(
                 if (await Service.GetDefaultPlaylist(ctx.User) is null && string.IsNullOrEmpty(playlistOrSongName))
                 {
                     await ctx.Channel.SendErrorAsync(
-                            "You don't have a default playlist set and have not specified a playlist name!")
+                            "You don't have a default playlist set and have not specified a playlist name!", Config)
                         .ConfigureAwait(false);
                 }
 
@@ -448,7 +451,7 @@ public class Music(
                 var plists5 = Service.GetPlaylists(ctx.User);
                 if (!plists5.Any())
                 {
-                    await ctx.Channel.SendErrorAsync("You do not have any playlists!").ConfigureAwait(false);
+                    await ctx.Channel.SendErrorAsync("You do not have any playlists!", Config).ConfigureAwait(false);
                     return;
                 }
 
@@ -497,7 +500,7 @@ public class Music(
                     }
                     else
                     {
-                        await ctx.Channel.SendErrorAsync("Please make sure you put in the right playlist name.")
+                        await ctx.Channel.SendErrorAsync("Please make sure you put in the right playlist name.", Config)
                             .ConfigureAwait(false);
                     }
                 }
@@ -548,7 +551,8 @@ public class Music(
                             else
                             {
                                 await ctx.Channel.SendErrorAsync(
-                                    "Please make sure you put in the right playlist name.").ConfigureAwait(false);
+                                        "Please make sure you put in the right playlist name.", Config)
+                                    .ConfigureAwait(false);
                             }
 
                             break;
@@ -616,7 +620,8 @@ public class Music(
                             else
                             {
                                 await ctx.Channel.SendErrorAsync(
-                                    "Please make sure you put in the right playlist name.").ConfigureAwait(false);
+                                        "Please make sure you put in the right playlist name.", Config)
+                                    .ConfigureAwait(false);
                             }
 
                             break;
@@ -635,7 +640,8 @@ public class Music(
 
                 if (string.IsNullOrEmpty(playlistOrSongName) && defaultplaylist is null)
                 {
-                    await ctx.Channel.SendErrorAsync("You do not have a default playlist set.").ConfigureAwait(false);
+                    await ctx.Channel.SendErrorAsync("You do not have a default playlist set.", Config)
+                        .ConfigureAwait(false);
                     return;
                 }
 
@@ -647,13 +653,14 @@ public class Music(
                     if (plist4 is null)
                     {
                         await ctx.Channel.SendErrorAsync(
-                            "Playlist by that name wasn't found. Please try another name!").ConfigureAwait(false);
+                                "Playlist by that name wasn't found. Please try another name!", Config)
+                            .ConfigureAwait(false);
                         return;
                     }
 
                     if (plist4.Name == defaultplaylist.Name)
                     {
-                        await ctx.Channel.SendErrorAsync("This is already your default playlist!")
+                        await ctx.Channel.SendErrorAsync("This is already your default playlist!", Config)
                             .ConfigureAwait(false);
                         return;
                     }
@@ -674,7 +681,8 @@ public class Music(
                     if (plist4 is null)
                     {
                         await ctx.Channel.SendErrorAsync(
-                            "Playlist by that name wasn't found. Please try another name!").ConfigureAwait(false);
+                                "Playlist by that name wasn't found. Please try another name!", Config)
+                            .ConfigureAwait(false);
                         return;
                     }
 
@@ -695,14 +703,14 @@ public class Music(
     {
         if (string.IsNullOrEmpty(creds.GeniusKey))
         {
-            await ctx.Channel.SendErrorAsync("Genius API key is not set up.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("Genius API key is not set up.", Config).ConfigureAwait(false);
             return;
         }
 
         var api = new GeniusClient(creds.GeniusKey);
         if (api is null)
         {
-            await ctx.Channel.SendErrorAsync("Wrong genius key.");
+            await ctx.Channel.SendErrorAsync("Wrong genius key.", Config);
             return;
         }
 
@@ -712,7 +720,7 @@ public class Music(
             var player = lava.GetPlayer<MusicPlayer>(ctx.Guild.Id);
             if (player is null)
             {
-                await ctx.Channel.SendErrorAsync("Theres nothing playing.").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("Theres nothing playing.", Config).ConfigureAwait(false);
                 return;
             }
 
@@ -720,7 +728,7 @@ public class Music(
                 .ConfigureAwait(false);
             if (!search.Response.Hits.Any())
             {
-                await ctx.Channel.SendErrorAsync("No lyrics found for this song.").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("No lyrics found for this song.", Config).ConfigureAwait(false);
                 return;
             }
 
@@ -731,7 +739,7 @@ public class Music(
             var search = await api.SearchClient.Search(name).ConfigureAwait(false);
             if (!search.Response.Hits.Any())
             {
-                await ctx.Channel.SendErrorAsync("No lyrics found for this song.").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("No lyrics found for this song.", Config).ConfigureAwait(false);
                 return;
             }
 
@@ -746,7 +754,7 @@ public class Music(
             htmlDoc.DocumentNode.SelectSingleNode("//*[contains(@class, 'Lyrics__Container-sc-1ynbvzw-5')]");
         if (lyricsDiv is null)
         {
-            await ctx.Channel.SendErrorAsync("Could not find lyrics for this song.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("Could not find lyrics for this song.", Config).ConfigureAwait(false);
             return;
         }
 
@@ -793,18 +801,18 @@ public class Music(
         var currentUser = await ctx.Guild.GetUserAsync(Context.Client.CurrentUser.Id).ConfigureAwait(false);
         if (lava.GetPlayer<MusicPlayer>(Context.Guild) != null && currentUser.VoiceChannel != null)
         {
-            await ctx.Channel.SendErrorAsync("I'm already connected to a voice channel!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("I'm already connected to a voice channel!", Config).ConfigureAwait(false);
             return;
         }
 
         var voiceState = Context.User as IVoiceState;
         if (voiceState?.VoiceChannel == null)
         {
-            await ctx.Channel.SendErrorAsync("You must be connected to a voice channel!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("You must be connected to a voice channel!", Config).ConfigureAwait(false);
             return;
         }
 
-        await lava.JoinAsync(() => new MusicPlayer(client, Service, config), ctx.Guild.Id, voiceState.VoiceChannel.Id)
+        await lava.JoinAsync(() => new MusicPlayer(client, Service, Config), ctx.Guild.Id, voiceState.VoiceChannel.Id)
             .ConfigureAwait(false);
         if (voiceState.VoiceChannel is IStageChannel chan)
         {
@@ -830,14 +838,15 @@ public class Music(
         var player = lava.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player == null)
         {
-            await ctx.Channel.SendErrorAsync("I'm not connected to any voice channels!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("I'm not connected to any voice channels!", Config).ConfigureAwait(false);
             return;
         }
 
         var voiceChannel = (Context.User as IVoiceState)?.VoiceChannel.Id ?? player.VoiceChannelId;
         if (voiceChannel == null)
         {
-            await ctx.Channel.SendErrorAsync("Not sure which voice channel to disconnect from.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("Not sure which voice channel to disconnect from.", Config)
+                .ConfigureAwait(false);
             return;
         }
 
@@ -860,7 +869,7 @@ public class Music(
             var vc = ctx.User as IVoiceState;
             if (vc?.VoiceChannel is null)
             {
-                await ctx.Channel.SendErrorAsync("Looks like both you and the bot are not in a voice channel.")
+                await ctx.Channel.SendErrorAsync("Looks like both you and the bot are not in a voice channel.", Config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -906,7 +915,7 @@ public class Music(
             var firstattach = ctx.Message.Attachments;
             if (firstattach.Count == 0)
             {
-                await ctx.Channel.SendErrorAsync("Please provide a url or file to play.").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("Please provide a url or file to play.", Config).ConfigureAwait(false);
                 return;
             }
 
@@ -918,14 +927,14 @@ public class Music(
             var vc = ctx.User as IVoiceState;
             if (vc?.VoiceChannel is null)
             {
-                await ctx.Channel.SendErrorAsync("Looks like both you and the bot are not in a voice channel.")
+                await ctx.Channel.SendErrorAsync("Looks like both you and the bot are not in a voice channel.", Config)
                     .ConfigureAwait(false);
                 return;
             }
 
             try
             {
-                await lava.JoinAsync(() => new MusicPlayer(client, Service, config), ctx.Guild.Id, vc.VoiceChannel.Id)
+                await lava.JoinAsync(() => new MusicPlayer(client, Service, Config), ctx.Guild.Id, vc.VoiceChannel.Id)
                     .ConfigureAwait(false);
                 if (vc.VoiceChannel is SocketStageChannel chan)
                 {
@@ -936,14 +945,15 @@ public class Music(
                     catch
                     {
                         await ctx.Channel.SendErrorAsync(
-                                "I tried to join as a speaker but I'm unable to! Please drag me to the channel manually.")
+                                "I tried to join as a speaker but I'm unable to! Please drag me to the channel manually.",
+                                Config)
                             .ConfigureAwait(false);
                     }
                 }
             }
             catch
             {
-                await ctx.Channel.SendErrorAsync("Seems I'm unable to join the channel! Check permissions!")
+                await ctx.Channel.SendErrorAsync("Seems I'm unable to join the channel! Check permissions!", Config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -952,8 +962,8 @@ public class Music(
         var player = lava.GetPlayer<MusicPlayer>(ctx.Guild);
         if (Uri.IsWellFormedUriString(searchQuery, UriKind.RelativeOrAbsolute))
         {
-            if ((!config.Data.YoutubeSupport && searchQuery.Contains("youtube.com")) ||
-                (!config.Data.YoutubeSupport && searchQuery.Contains("youtu.be")))
+            if ((!Config.YoutubeSupport && searchQuery.Contains("youtube.com")) ||
+                (!Config.YoutubeSupport && searchQuery.Contains("youtu.be")))
             {
                 var eb = new EmbedBuilder().WithErrorColor()
                     .WithTitle("YouTube support on this instance of Mewdeko has been disabled.")
@@ -962,7 +972,7 @@ public class Music(
                     .AddField("Donate for a Selfhost", Format.Bold("https://ko-fi.com/mewdeko"))
                     .AddField("Host one yourself", Format.Bold("https://github.com/Pusheon/Mewdeko"))
                     .AddField("More Info", Format.Bold("https://youtu.be/fOpEdS3JVYQ"))
-                    .AddField("Support Server", Format.Bold(config.Data.SupportServer))
+                    .AddField("Support Server", Format.Bold(Config.SupportServer))
                     .Build();
                 await ctx.Channel.SendMessageAsync(embed: eb);
                 return;
@@ -983,7 +993,7 @@ public class Music(
                 if (ctx.Message.Attachments.IsValidAttachment())
                     searchQuery = ctx.Message.Attachments.FirstOrDefault()?.Url;
                 TrackLoadResponsePayload searchResponse;
-                if (config.Data.YoutubeSupport)
+                if (Config.YoutubeSupport)
                     searchResponse = await lava.LoadTracksAsync(searchQuery)
                         .ConfigureAwait(false);
                 else
@@ -1008,13 +1018,15 @@ public class Music(
                             $"Queued {searchResponse.Tracks.Length} tracks from {searchResponse.PlaylistInfo.Name}")
                         .WithFooter($"{count} songs now in the queue");
                     await ctx.Channel.SendMessageAsync(embed: eb.Build(),
-                        components: config.Data.ShowInviteButton
+                        components: Config.ShowInviteButton
                             ? new ComponentBuilder()
                                 .WithButton(style: ButtonStyle.Link,
                                     url:
                                     "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
                                     label: "Invite Me!",
-                                    emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                                    emote: "<a:HaneMeow:968564817784877066>".ToIEmote())
+                                .WithButton("Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/Mewdeko")
+                                .Build()
                             : null).ConfigureAwait(false);
                     if (player.State != PlayerState.Playing)
                         await player.PlayAsync(searchResponse.Tracks.FirstOrDefault()).ConfigureAwait(false);
@@ -1033,13 +1045,15 @@ public class Music(
                         .WithDescription(
                             $"Queued {searchResponse.Tracks.FirstOrDefault().Title} by {searchResponse.Tracks.FirstOrDefault().Author}!");
                     await ctx.Channel.SendMessageAsync(embed: eb.Build(),
-                        components: config.Data.ShowInviteButton
+                        components: Config.ShowInviteButton
                             ? new ComponentBuilder()
                                 .WithButton(style: ButtonStyle.Link,
                                     url:
                                     "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
                                     label: "Invite Me!",
-                                    emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                                    emote: "<a:HaneMeow:968564817784877066>".ToIEmote())
+                                .WithButton("Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/Mewdeko")
+                                .Build()
                             : null).ConfigureAwait(false);
                     if (player.State != PlayerState.Playing)
                         await player.PlayAsync(searchResponse.Tracks.FirstOrDefault()).ConfigureAwait(false);
@@ -1058,7 +1072,7 @@ public class Music(
         }
 
         IEnumerable<LavalinkTrack> searchResponse2;
-        if (config.Data.YoutubeSupport)
+        if (Config.YoutubeSupport)
             searchResponse2 = await lava.GetTracksAsync(searchQuery, SearchMode.YouTube)
                 .ConfigureAwait(false);
         else
@@ -1066,7 +1080,7 @@ public class Music(
                 .ConfigureAwait(false);
         if (!searchResponse2.Any())
         {
-            await ctx.Channel.SendErrorAsync("Seems like I can't find that video, please try again.")
+            await ctx.Channel.SendErrorAsync("Seems like I can't find that video, please try again.", Config)
                 .ConfigureAwait(false);
             return;
         }
@@ -1209,7 +1223,7 @@ public class Music(
         var player = lava.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
-            await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.", Config).ConfigureAwait(false);
             return;
         }
 
@@ -1223,14 +1237,15 @@ public class Music(
         await player.PauseAsync().ConfigureAwait(false);
         await ctx.Channel.SendConfirmAsync(
             $"Paused player. Do {await guildSettings.GetPrefix(ctx.Guild)}pause again to resume.",
-            builder: config.Data.ShowInviteButton
+            builder: Config.ShowInviteButton
                 ? new ComponentBuilder()
                     .WithButton(style: ButtonStyle.Link,
                         url:
                         "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
                         label: "Invite Me!",
                         emote: "<a:HaneMeow:968564817784877066>".ToIEmote())
-                : null).ConfigureAwait(false);
+                    .WithButton("Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/Mewdeko")
+                : null);
     }
 
     /// <summary>
@@ -1242,31 +1257,33 @@ public class Music(
         var player = lava.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
-            await ctx.Channel.SendErrorAsync("I'm not even playing anything.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("I'm not even playing anything.", Config).ConfigureAwait(false);
             return;
         }
 
         if (Service.GetQueue(ctx.Guild.Id).Count == 0)
         {
-            await ctx.Channel.SendErrorAsync("There's nothing in queue.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("There's nothing in queue.", Config).ConfigureAwait(false);
             return;
         }
 
         if (Service.GetQueue(ctx.Guild.Id).Count == 1)
         {
-            await ctx.Channel.SendErrorAsync("... There's literally only one thing in queue.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("... There's literally only one thing in queue.", Config)
+                .ConfigureAwait(false);
             return;
         }
 
         Service.Shuffle(ctx.Guild);
         await ctx.Channel.SendConfirmAsync("Successfully shuffled the queue!",
-            builder: config.Data.ShowInviteButton
+            builder: Config.ShowInviteButton
                 ? new ComponentBuilder()
                     .WithButton(style: ButtonStyle.Link,
                         url:
                         "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
                         label: "Invite Me!",
                         emote: "<a:HaneMeow:968564817784877066>".ToIEmote())
+                    .WithButton("Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/Mewdeko")
                 : null).ConfigureAwait(false);
     }
 
@@ -1279,7 +1296,7 @@ public class Music(
         var player = lava.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
-            await ctx.Channel.SendErrorAsync("I'm not connected to a channel!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("I'm not connected to a channel!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -1297,14 +1314,14 @@ public class Music(
     {
         if (num < 1)
         {
-            await ctx.Channel.SendErrorAsync("You can only skip ahead.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("You can only skip ahead.", Config).ConfigureAwait(false);
             return;
         }
 
         var player = lava.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
-            await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.", Config).ConfigureAwait(false);
             return;
         }
 
@@ -1321,28 +1338,30 @@ public class Music(
         var player = lava.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
-            await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.", Config).ConfigureAwait(false);
             return;
         }
 
         if (player.State != PlayerState.Playing)
         {
-            await ctx.Channel.SendErrorAsync("Woaaah there, I can't seek when nothing is playing.")
+            await ctx.Channel.SendErrorAsync("Woaaah there, I can't seek when nothing is playing.", Config)
                 .ConfigureAwait(false);
             return;
         }
 
         if (timeSpan > player.CurrentTrack.Duration)
-            await ctx.Channel.SendErrorAsync("That's longer than the song lol, try again.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("That's longer than the song lol, try again.", Config)
+                .ConfigureAwait(false);
         await player.SeekPositionAsync(timeSpan).ConfigureAwait(false);
         await ctx.Channel.SendConfirmAsync($"I've seeked `{player.CurrentTrack.Title}` to {timeSpan}.",
-            builder: config.Data.ShowInviteButton
+            builder: Config.ShowInviteButton
                 ? new ComponentBuilder()
                     .WithButton(style: ButtonStyle.Link,
                         url:
                         "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
                         label: "Invite Me!",
                         emote: "<a:HaneMeow:968564817784877066>".ToIEmote())
+                    .WithButton("Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/Mewdeko")
                 : null).ConfigureAwait(false);
     }
 
@@ -1355,7 +1374,7 @@ public class Music(
         var player = lava.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
-            await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.", Config).ConfigureAwait(false);
             return;
         }
 
@@ -1386,13 +1405,13 @@ public class Music(
         var player = lava.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
-            await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("I'm not connected to a voice channel.", Config).ConfigureAwait(false);
             return;
         }
 
         if (volume > 100)
         {
-            await ctx.Channel.SendErrorAsync("Max is 100 m8").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("Max is 100 m8", Config).ConfigureAwait(false);
             return;
         }
 
@@ -1432,28 +1451,30 @@ public class Music(
             case > 0 and < 6:
                 await ctx.Channel.SendConfirmAsync(
                     $"When the last song is reached autoplay will attempt to add `{autoPlayNum}` songs to the queue.",
-                    builder: config.Data.ShowInviteButton
+                    builder: Config.ShowInviteButton
                         ? new ComponentBuilder()
                             .WithButton(style: ButtonStyle.Link,
                                 url:
                                 "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
                                 label: "Invite Me!",
                                 emote: "<a:HaneMeow:968564817784877066>".ToIEmote())
-                        : null);
+                            .WithButton("Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/Mewdeko")
+                        : null).ConfigureAwait(false);
                 break;
             case > 5:
-                await ctx.Channel.SendErrorAsync("I can only do so much. Keep it to a maximum of 5 please.");
+                await ctx.Channel.SendErrorAsync("I can only do so much. Keep it to a maximum of 5 please.", Config);
                 break;
             case 0:
                 await ctx.Channel.SendConfirmAsync("Autoplay has been disabled.",
-                    builder: config.Data.ShowInviteButton
+                    builder: Config.ShowInviteButton
                         ? new ComponentBuilder()
                             .WithButton(style: ButtonStyle.Link,
                                 url:
                                 "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
                                 label: "Invite Me!",
                                 emote: "<a:HaneMeow:968564817784877066>".ToIEmote())
-                        : null);
+                            .WithButton("Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/Mewdeko")
+                        : null).ConfigureAwait(false);
                 break;
         }
     }
@@ -1489,13 +1510,14 @@ public class Music(
             .WithFooter(
                 await Service.GetPrettyInfo(player, ctx.Guild).ConfigureAwait(false));
         await ctx.Channel.SendMessageAsync(embed: eb.Build(),
-            components: config.Data.ShowInviteButton
+            components: Config.ShowInviteButton
                 ? new ComponentBuilder()
                     .WithButton(style: ButtonStyle.Link,
                         url:
                         "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
                         label: "Invite Me!",
-                        emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                        emote: "<a:HaneMeow:968564817784877066>".ToIEmote())
+                    .WithButton("Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/Mewdeko").Build()
                 : null).ConfigureAwait(false);
     }
 
@@ -1508,7 +1530,7 @@ public class Music(
         var player = lava.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
-            await ctx.Channel.SendErrorAsync("I am not playing anything at the moment!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("I am not playing anything at the moment!", Config).ConfigureAwait(false);
             return;
         }
 

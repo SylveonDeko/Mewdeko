@@ -75,7 +75,8 @@ public class Highlights(InteractiveService interactivity, IServiceProvider svcs,
                 {
                     if (highlights.Select(x => x.Word.ToLower()).Contains(words.ToLower()))
                     {
-                        await ctx.Channel.SendErrorAsync("That's already in your highlights!").ConfigureAwait(false);
+                        await ctx.Channel.SendErrorAsync("That's already in your highlights!", Config)
+                            .ConfigureAwait(false);
                     }
                     else
                     {
@@ -96,7 +97,7 @@ public class Highlights(InteractiveService interactivity, IServiceProvider svcs,
                 var highlightsForUser = highlights.Where(x => x.UserId == ctx.User.Id).ToList();
                 if (highlightsForUser.Count == 0)
                 {
-                    await ctx.Channel.SendErrorAsync("You have no highlights set!").ConfigureAwait(false);
+                    await ctx.Channel.SendErrorAsync("You have no highlights set!", Config).ConfigureAwait(false);
                     return;
                 }
 
@@ -130,7 +131,7 @@ public class Highlights(InteractiveService interactivity, IServiceProvider svcs,
                 highlightsForUser = highlights.Where(x => x.UserId == ctx.User.Id).ToList();
                 if (highlightsForUser.Count == 0)
                 {
-                    await ctx.Channel.SendErrorAsync("Cannot delete because you have no highlights set!")
+                    await ctx.Channel.SendErrorAsync("Cannot delete because you have no highlights set!", Config)
                         .ConfigureAwait(false);
                     return;
                 }
@@ -140,7 +141,8 @@ public class Highlights(InteractiveService interactivity, IServiceProvider svcs,
                     var todelete = highlightsForUser.ElementAt(number - 1);
                     if (todelete is null)
                     {
-                        await ctx.Channel.SendErrorAsync("That Highlight does not exist!").ConfigureAwait(false);
+                        await ctx.Channel.SendErrorAsync("That Highlight does not exist!", Config)
+                            .ConfigureAwait(false);
                         return;
                     }
 
@@ -153,7 +155,7 @@ public class Highlights(InteractiveService interactivity, IServiceProvider svcs,
 
                 if (!highlightsForUser.Select(x => x.Word).Contains(words))
                 {
-                    await ctx.Channel.SendErrorAsync("This is not in your highlights!").ConfigureAwait(false);
+                    await ctx.Channel.SendErrorAsync("This is not in your highlights!", Config).ConfigureAwait(false);
                     return;
                 }
 
@@ -167,14 +169,15 @@ public class Highlights(InteractiveService interactivity, IServiceProvider svcs,
                 highlightsForUser = highlights.Where(x => x.UserId == ctx.User.Id).ToList();
                 if (highlightsForUser.Count == 0)
                 {
-                    await ctx.Channel.SendErrorAsync("There are no highlights to match to.").ConfigureAwait(false);
+                    await ctx.Channel.SendErrorAsync("There are no highlights to match to.", Config)
+                        .ConfigureAwait(false);
                     return;
                 }
 
                 var matched = highlightsForUser.Where(x => words.ToLower().Contains(x.Word.ToLower()));
                 if (!matched.Any())
                 {
-                    await ctx.Channel.SendErrorAsync("No matches found.").ConfigureAwait(false);
+                    await ctx.Channel.SendErrorAsync("No matches found.", Config).ConfigureAwait(false);
                     return;
                 }
 
@@ -214,7 +217,8 @@ public class Highlights(InteractiveService interactivity, IServiceProvider svcs,
                     var host = (IUser)result1.BestMatch;
                     if (host.Username is null)
                     {
-                        await ctx.Channel.SendErrorAsync("That user or channel wasnt found!").ConfigureAwait(false);
+                        await ctx.Channel.SendErrorAsync("That user or channel wasnt found!", Config)
+                            .ConfigureAwait(false);
                         return;
                     }
 
@@ -253,7 +257,7 @@ public class Highlights(InteractiveService interactivity, IServiceProvider svcs,
                     return;
                 if (!bool.TryParse(words, out var enabled))
                 {
-                    await ctx.Channel.SendErrorAsync("That's gonna be true or false. Not anything else.")
+                    await ctx.Channel.SendErrorAsync("That's gonna be true or false. Not anything else.", Config)
                         .ConfigureAwait(false);
                     return;
                 }

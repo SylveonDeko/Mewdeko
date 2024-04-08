@@ -52,7 +52,7 @@ public partial class Utility
             if (!invinfo.GuildId.HasValue)
             {
                 await ctx.Channel.SendErrorAsync(
-                    "That invite was not found. Please make sure it's valid and not a vanity.");
+                    "That invite was not found. Please make sure it's valid and not a vanity.", Config);
                 return;
             }
 

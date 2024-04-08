@@ -136,7 +136,8 @@ public partial class Xp(
             }
             else
             {
-                await ctx.Channel.SendErrorAsync("Please provide a valid URL or attachment.").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("Please provide a valid URL or attachment.", Config)
+                    .ConfigureAwait(false);
                 return;
             }
         }
@@ -145,7 +146,7 @@ public partial class Xp(
 
         if (!success)
         {
-            await ctx.Channel.SendErrorAsync(reason).ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync(reason, Config).ConfigureAwait(false);
             return;
         }
 
@@ -170,7 +171,8 @@ public partial class Xp(
         if (!perks.Any(x => x.Level <= userStats.Guild.Level))
         {
             await ctx.Channel.SendErrorAsync(
-                $"{bss.Data.ErrorEmote} There are no rewards configured in this guild, or you do not meet the requirements for them!");
+                $"{bss.Data.ErrorEmote} There are no rewards configured in this guild, or you do not meet the requirements for them!",
+                Config);
             return;
         }
 
@@ -331,7 +333,8 @@ public partial class Xp(
                     "`xptextrate`: Alows you to set the xp per message rate.\n" +
                     "`txtxptimeout`: Allows you to set after how many minutes xp is given so users cant spam for xp.\n" +
                     "`xpvoicerate`: Allows you to set how much xp a person gets in vc per minute.\n" +
-                    "`voiceminutestimeout`: Allows you to set the maximum time a user can remain in vc while gaining xp.")
+                    "`voiceminutestimeout`: Allows you to set the maximum time a user can remain in vc while gaining xp.",
+                    Config)
                 .ConfigureAwait(false);
         }
     }
@@ -787,7 +790,7 @@ public partial class Xp(
             BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
         if (propertyInfo == null)
         {
-            await ctx.Channel.SendErrorAsync($"No property named {property} found.");
+            await ctx.Channel.SendErrorAsync($"No property named {property} found.", Config);
             return;
         }
 
@@ -823,7 +826,8 @@ public partial class Xp(
                 else
                 {
                     await ctx.Channel.SendErrorAsync(
-                        $"Failed to set value. The type of {property} is {propertyInfo.PropertyType}, but received {subProperty}.");
+                        $"Failed to set value. The type of {property} is {propertyInfo.PropertyType}, but received {subProperty}.",
+                        Config);
                 }
             }
         }
@@ -837,13 +841,14 @@ public partial class Xp(
                     BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
                 if (subPropertyInfo == null)
                 {
-                    await ctx.Channel.SendErrorAsync($"No subproperty named {subProperty} found in {property}.");
+                    await ctx.Channel.SendErrorAsync($"No subproperty named {subProperty} found in {property}.",
+                        Config);
                     return;
                 }
 
                 if (subPropertyInfo.Name is "Id" or "DateAdded" or "GuildId")
                 {
-                    await ctx.Channel.SendErrorAsync("No.");
+                    await ctx.Channel.SendErrorAsync("No.", Config);
                     return;
                 }
 
@@ -855,7 +860,8 @@ public partial class Xp(
                 else
                 {
                     await ctx.Channel.SendErrorAsync(
-                        $"Failed to set value. The type of {subProperty} is {subPropertyInfo.PropertyType}, but received {value}.");
+                        $"Failed to set value. The type of {subProperty} is {subPropertyInfo.PropertyType}, but received {value}.",
+                        Config);
                     return;
                 }
             }
@@ -864,7 +870,7 @@ public partial class Xp(
                 // No subproperty is specified, user wants to set a property of Template directly
                 if (propertyInfo.Name is "Id" or "DateAdded" or "GuildId")
                 {
-                    await ctx.Channel.SendErrorAsync("No.");
+                    await ctx.Channel.SendErrorAsync("No.", Config);
                     return;
                 }
 
@@ -876,7 +882,8 @@ public partial class Xp(
                 else
                 {
                     await ctx.Channel.SendErrorAsync(
-                        $"Failed to set value. The type of {property} is {propertyInfo.PropertyType}, but received {value}.");
+                        $"Failed to set value. The type of {property} is {propertyInfo.PropertyType}, but received {value}.",
+                        Config);
                     return;
                 }
             }

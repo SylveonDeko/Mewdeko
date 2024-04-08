@@ -53,7 +53,7 @@ public partial class Moderation : MewdekoModule
             var massNick = Service.GetMassNick(ctx.Guild.Id);
             if (massNick is null)
             {
-                await ctx.Channel.SendErrorAsync("There is no mass nick in progress.");
+                await ctx.Channel.SendErrorAsync("There is no mass nick in progress.", Config);
             }
             else
             {
@@ -78,7 +78,7 @@ public partial class Moderation : MewdekoModule
             var massNick = Service.GetMassNick(ctx.Guild.Id);
             if (massNick is null)
             {
-                await ctx.Channel.SendErrorAsync("There is no mass nick in progress.");
+                await ctx.Channel.SendErrorAsync("There is no mass nick in progress.", Config);
             }
             else
             {
@@ -120,7 +120,7 @@ public partial class Moderation : MewdekoModule
 
             if (!dehoistedUsers.Any())
             {
-                await ctx.Channel.SendErrorAsync("There are no users to dehoist.");
+                await ctx.Channel.SendErrorAsync("There are no users to dehoist.", Config);
                 return;
             }
 
@@ -184,7 +184,7 @@ public partial class Moderation : MewdekoModule
                 return;
             if (!sanitizedUsers.Any())
             {
-                await ctx.Channel.SendErrorAsync("There are no users to sanitize.");
+                await ctx.Channel.SendErrorAsync("There are no users to sanitize.", Config);
                 return;
             }
 
@@ -276,7 +276,7 @@ public partial class Moderation : MewdekoModule
             var warnlogChannel = await Service.GetWarnlogChannel(ctx.Guild.Id);
             if (warnlogChannel == channel.Id)
             {
-                await ctx.Channel.SendErrorAsync("This is already your warnlog channel!").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("This is already your warnlog channel!", Config).ConfigureAwait(false);
                 return;
             }
 

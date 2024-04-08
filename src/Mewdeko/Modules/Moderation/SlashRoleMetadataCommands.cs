@@ -74,7 +74,8 @@ public class SlashRoleMetadataCommands : MewdekoSlashSubmodule
         if (response.access_token.IsNullOrWhiteSpace())
         {
             await ctx.Interaction.SendErrorFollowupAsync(
-                "This auth code is probably invalid or expired. Please retry with a different code. If this problem persists, please contact the bot owner.");
+                "This auth code is probably invalid or expired. Please retry with a different code. If this problem persists, please contact the bot owner.",
+                Config);
             return;
         }
 
@@ -84,7 +85,8 @@ public class SlashRoleMetadataCommands : MewdekoSlashSubmodule
         if (client.CurrentUser.Id != Context.Interaction.User.Id)
         {
             await ctx.Interaction.SendErrorFollowupAsync(
-                "This auth token was not issued to you. Attempting to impersonate another user may result in a permanent ban.");
+                "This auth token was not issued to you. Attempting to impersonate another user may result in a permanent ban.",
+                Config);
             return;
         }
 

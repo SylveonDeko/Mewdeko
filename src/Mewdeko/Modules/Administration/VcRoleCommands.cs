@@ -59,7 +59,7 @@ public partial class Administration
             }
             else
             {
-                await ctx.Channel.SendErrorAsync("This is not a voice channel!").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("This is not a voice channel!", Config).ConfigureAwait(false);
             }
         }
 

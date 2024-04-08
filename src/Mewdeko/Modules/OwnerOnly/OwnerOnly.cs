@@ -8,6 +8,7 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Common.Configs;
 using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Modules.OwnerOnly.Services;
 using Mewdeko.Services.Settings;
@@ -49,7 +50,8 @@ public class OwnerOnly(
     CommandService commandService,
     IServiceProvider services,
     GuildSettingsService guildSettings,
-    CommandHandler commandHandler)
+    CommandHandler commandHandler,
+    BotConfig config)
     : MewdekoModuleBase<OwnerOnlyService>
 {
     /// <summary>
@@ -93,7 +95,8 @@ public class OwnerOnly(
         if (await PromptUserConfirmAsync("Are you sure you want to clear the used token count for GPT?", ctx.User.Id))
         {
             await Service.ClearUsedTokens();
-            await ctx.Channel.SendErrorAsync("Cleared."); // Assuming SendErrorAsync sends a message to the channel.
+            await ctx.Channel.SendErrorAsync("Cleared.",
+                config); // Assuming SendErrorAsync sends a message to the channel.
         }
     }
 
@@ -178,7 +181,7 @@ public class OwnerOnly(
             }
             else
             {
-                await ctx.Channel.SendErrorAsync("Cancelled.");
+                await ctx.Channel.SendErrorAsync("Cancelled.", config);
             }
         }
         else
@@ -199,7 +202,7 @@ public class OwnerOnly(
             if (repo is null)
             {
                 await ctx.Channel.SendErrorAsync(
-                    "Failed to get repo info. Please create an issue on the repo or join the support server.");
+                    "Failed to get repo info. Please create an issue on the repo or join the support server.", config);
                 return;
             }
 
@@ -235,12 +238,12 @@ public class OwnerOnly(
                 }
                 else
                 {
-                    await ctx.Channel.SendErrorAsync("Cancelled.");
+                    await ctx.Channel.SendErrorAsync("Cancelled.", config);
                 }
             }
             else
             {
-                await ctx.Channel.SendErrorAsync("Already up to date.");
+                await ctx.Channel.SendErrorAsync("Already up to date.", config);
             }
         }
     }
@@ -322,7 +325,7 @@ public class OwnerOnly(
             return;
         await using var uow = db.GetDbContext();
         var affected = await uow.Database.ExecuteSqlRawAsync(sql).ConfigureAwait(false);
-        await ctx.Channel.SendErrorAsync($"Affected {affected} rows.").ConfigureAwait(false);
+        await ctx.Channel.SendErrorAsync($"Affected {affected} rows.", config).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -521,7 +524,7 @@ public class OwnerOnly(
         {
             Console.WriteLine(e);
             await ctx.Channel.SendErrorAsync(
-                "There was an error setting or printing the config, please check the logs.");
+                "There was an error setting or printing the config, please check the logs.", config);
         }
     }
 
@@ -1255,7 +1258,8 @@ public class OwnerOnly(
             var potentialUser = client.GetUser(whereOrTo);
             if (potentialUser is null)
             {
-                await ctx.Channel.SendErrorAsync("Unable to find that user or guild! Please double check the Id!")
+                await ctx.Channel.SendErrorAsync("Unable to find that user or guild! Please double check the Id!",
+                        config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -1276,7 +1280,7 @@ public class OwnerOnly(
 
         if (to == 0)
         {
-            await ctx.Channel.SendErrorAsync("You need to specify a Channel or User ID after the Server ID!")
+            await ctx.Channel.SendErrorAsync("You need to specify a Channel or User ID after the Server ID!", config)
                 .ConfigureAwait(false);
             return;
         }
@@ -1303,7 +1307,8 @@ public class OwnerOnly(
         var user = await potentialServer.GetUserAsync(to).ConfigureAwait(false);
         if (user is null)
         {
-            await ctx.Channel.SendErrorAsync("Unable to find that channel or user! Please check the ID and try again.")
+            await ctx.Channel.SendErrorAsync("Unable to find that channel or user! Please check the ID and try again.",
+                    config)
                 .ConfigureAwait(false);
             return;
         }
@@ -1450,7 +1455,7 @@ public class OwnerOnly(
             else
             {
                 process.Kill();
-                await ctx.Channel.SendErrorAsync("The process was hanging and has been terminated.")
+                await ctx.Channel.SendErrorAsync("The process was hanging and has been terminated.", config)
                     .ConfigureAwait(false);
             }
 

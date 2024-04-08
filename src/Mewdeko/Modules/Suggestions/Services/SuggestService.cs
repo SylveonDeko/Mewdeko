@@ -1,6 +1,7 @@
 ﻿using Discord.Net;
 using LinqToDB;
 using LinqToDB.EntityFrameworkCore;
+using Mewdeko.Common.Configs;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
@@ -20,6 +21,7 @@ public class SuggestionsService : INService
     private readonly List<ulong> repostChecking;
     private readonly List<ulong> spamCheck;
     private readonly GuildSettingsService guildSettings;
+    private readonly BotConfig config;
 
     /// <summary>
     /// Initializes a new instance of the SuggestionsService class.
@@ -35,10 +37,11 @@ public class SuggestionsService : INService
         DiscordSocketClient client,
         AdministrationService aserv,
         PermissionService permserv,
-        GuildSettingsService guildSettings, EventHandler eventHandler)
+        GuildSettingsService guildSettings, EventHandler eventHandler, BotConfig config)
     {
         perms = permserv;
         this.guildSettings = guildSettings;
+        this.config = config;
         repostChecking = [];
         spamCheck = [];
         adminserv = aserv;
@@ -1402,13 +1405,15 @@ public class SuggestionsService : INService
             {
                 if (interaction is null)
                 {
-                    await channel.SendErrorAsync("That suggestion wasn't found! Please check the number and try again.")
+                    await channel.SendErrorAsync("That suggestion wasn't found! Please check the number and try again.",
+                            config)
                         .ConfigureAwait(false);
                     return;
                 }
 
                 await interaction
-                    .SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.")
+                    .SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.",
+                        config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -1437,10 +1442,12 @@ public class SuggestionsService : INService
                 {
                     if (interaction is not null)
                         await interaction
-                            .SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!")
+                            .SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!",
+                                config)
                             .ConfigureAwait(false);
                     else
-                        await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!")
+                        await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!",
+                                config)
                             .ConfigureAwait(false);
                     return;
                 }
@@ -1564,10 +1571,12 @@ public class SuggestionsService : INService
                 {
                     if (interaction is not null)
                         await interaction
-                            .SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!")
+                            .SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!",
+                                config)
                             .ConfigureAwait(false);
                     else
-                        await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!")
+                        await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!",
+                                config)
                             .ConfigureAwait(false);
                     return;
                 }
@@ -1798,13 +1807,14 @@ public class SuggestionsService : INService
         {
             if (interaction is null)
             {
-                await channel.SendErrorAsync("That suggestion wasn't found! Please check the number and try again.")
+                await channel.SendErrorAsync("That suggestion wasn't found! Please check the number and try again.",
+                        config)
                     .ConfigureAwait(false);
                 return;
             }
 
             await interaction
-                .SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.")
+                .SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.", config)
                 .ConfigureAwait(false);
             return;
         }
@@ -1833,10 +1843,12 @@ public class SuggestionsService : INService
             {
                 if (interaction is not null)
                     await interaction
-                        .SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!")
+                        .SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!",
+                            config)
                         .ConfigureAwait(false);
                 else
-                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!")
+                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!",
+                            config)
                         .ConfigureAwait(false);
                 return;
             }
@@ -1959,10 +1971,12 @@ public class SuggestionsService : INService
             {
                 if (interaction is not null)
                     await interaction
-                        .SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!")
+                        .SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!",
+                            config)
                         .ConfigureAwait(false);
                 else
-                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!")
+                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!",
+                            config)
                         .ConfigureAwait(false);
                 return;
             }
@@ -2184,13 +2198,14 @@ public class SuggestionsService : INService
         {
             if (interaction is null)
             {
-                await channel.SendErrorAsync("That suggestion wasn't found! Please check the number and try again.")
+                await channel.SendErrorAsync("That suggestion wasn't found! Please check the number and try again.",
+                        config)
                     .ConfigureAwait(false);
                 return;
             }
 
             await interaction
-                .SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.")
+                .SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.", config)
                 .ConfigureAwait(false);
             return;
         }
@@ -2219,10 +2234,12 @@ public class SuggestionsService : INService
             {
                 if (interaction is not null)
                     await interaction
-                        .SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!")
+                        .SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!",
+                            config)
                         .ConfigureAwait(false);
                 else
-                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!")
+                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!",
+                            config)
                         .ConfigureAwait(false);
                 return;
             }
@@ -2345,10 +2362,12 @@ public class SuggestionsService : INService
             {
                 if (interaction is not null)
                     await interaction
-                        .SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!")
+                        .SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!",
+                            config)
                         .ConfigureAwait(false);
                 else
-                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!")
+                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!",
+                            config)
                         .ConfigureAwait(false);
                 return;
             }
@@ -2569,13 +2588,14 @@ public class SuggestionsService : INService
         {
             if (interaction is null)
             {
-                await channel.SendErrorAsync("That suggestion wasn't found! Please check the number and try again.")
+                await channel.SendErrorAsync("That suggestion wasn't found! Please check the number and try again.",
+                        config)
                     .ConfigureAwait(false);
                 return;
             }
 
             await interaction
-                .SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.")
+                .SendEphemeralErrorAsync("That suggestion wasn't found! Please check the number and try again.", config)
                 .ConfigureAwait(false);
             return;
         }
@@ -2604,10 +2624,12 @@ public class SuggestionsService : INService
             {
                 if (interaction is not null)
                     await interaction
-                        .SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!")
+                        .SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!",
+                            config)
                         .ConfigureAwait(false);
                 else
-                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!")
+                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!",
+                            config)
                         .ConfigureAwait(false);
                 return;
             }
@@ -2730,10 +2752,12 @@ public class SuggestionsService : INService
             {
                 if (interaction is not null)
                     await interaction
-                        .SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!")
+                        .SendEphemeralErrorAsync("The suggestion channel is invalid, please set it and try again!",
+                            config)
                         .ConfigureAwait(false);
                 else
-                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!")
+                    await channel.SendErrorAsync("The suggestion channel is invalid, please set it and try again!",
+                            config)
                         .ConfigureAwait(false);
                 return;
             }
@@ -2953,7 +2977,8 @@ public class SuggestionsService : INService
             {
                 var msg = await channel
                     .SendErrorAsync(
-                        "There is no suggestion channel set! Have an admin set it using `setsuggestchannel` and try again!")
+                        "There is no suggestion channel set! Have an admin set it using `setsuggestchannel` and try again!",
+                        config)
                     .ConfigureAwait(false);
                 msg.DeleteAfter(3);
                 return;
@@ -2961,7 +2986,8 @@ public class SuggestionsService : INService
 
             await interaction
                 .SendEphemeralErrorAsync(
-                    "There is no suggestion channel set! Have an admin set it using `setsuggestchannel` then try again!")
+                    "There is no suggestion channel set! Have an admin set it using `setsuggestchannel` then try again!",
+                    config)
                 .ConfigureAwait(false);
             return;
         }

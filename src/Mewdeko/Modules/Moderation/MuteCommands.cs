@@ -50,7 +50,7 @@ public partial class Moderation
             }
             else
             {
-                await ctx.Channel.SendErrorAsync("Hey! Its either yes or no, Not that I care anyway, hmph.")
+                await ctx.Channel.SendErrorAsync("Hey! Its either yes or no, Not that I care anyway, hmph.", Config)
                     .ConfigureAwait(false);
             }
         }
@@ -103,7 +103,7 @@ public partial class Moderation
                 .Where(x => x.RoleIds.ToList().Contains(Service.GetMuteRole(ctx.Guild).Result.Id));
             if (!users.Any())
             {
-                await ctx.Channel.SendErrorAsync("There are no muted users or you don't have a mute role set.")
+                await ctx.Channel.SendErrorAsync("There are no muted users or you don't have a mute role set.", Config)
                     .ConfigureAwait(false);
                 return;
             }

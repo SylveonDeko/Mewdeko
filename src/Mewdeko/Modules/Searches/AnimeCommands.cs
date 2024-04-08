@@ -317,7 +317,7 @@ public partial class Searches
                 }
                 catch
                 {
-                    await ctx.Channel.SendErrorAsync("You need to attach a file or use a url with this!")
+                    await ctx.Channel.SendErrorAsync("You need to attach a file or use a url with this!", Config)
                         .ConfigureAwait(false);
                     return;
                 }
@@ -336,7 +336,8 @@ public partial class Searches
                 });
             if (!string.IsNullOrWhiteSpace(stuff.Error))
             {
-                await ctx.Channel.SendErrorAsync($"There was an issue with the findanime command:\n{stuff.Error}")
+                await ctx.Channel.SendErrorAsync($"There was an issue with the findanime command:\n{stuff.Error}",
+                        Config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -345,7 +346,7 @@ public partial class Searches
             if (ert?.Filename is null)
             {
                 await ctx.Channel.SendErrorAsync(
-                        "No results found. Please try a different image, or avoid cropping the current one.")
+                        "No results found. Please try a different image, or avoid cropping the current one.", Config)
                     .ConfigureAwait(false);
             }
 
@@ -425,7 +426,8 @@ public partial class Searches
             if (result is null)
             {
                 await ctx.Channel.SendErrorAsync(
-                    "The anime you searched for wasn't found! Please try a different query!").ConfigureAwait(false);
+                        "The anime you searched for wasn't found! Please try a different query!", Config)
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -436,7 +438,7 @@ public partial class Searches
 
             if (!newResult.Any())
             {
-                await ctx.Channel.SendErrorAsync("No results found!").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("No results found!", Config).ConfigureAwait(false);
                 return;
             }
 

@@ -60,7 +60,7 @@ public partial class Games
                 return;
             }
 
-            await ctx.Channel.SendErrorAsync($"{GetText("trivia_already_running")}\n{trivia.CurrentQuestion}")
+            await ctx.Channel.SendErrorAsync($"{GetText("trivia_already_running")}\n{trivia.CurrentQuestion}", Config)
                 .ConfigureAwait(false);
         }
 

@@ -81,7 +81,8 @@ public class StarboardSlash(GuildSettingsService guildSettings) : MewdekoSlashSu
             var maybeEmote = (await Service.GetStar(ctx.Guild.Id)).ToIEmote();
             if (maybeEmote.Name is null)
             {
-                await ctx.Interaction.SendErrorFollowupAsync("You don't have an emote set!").ConfigureAwait(false);
+                await ctx.Interaction.SendErrorFollowupAsync("You don't have an emote set!", Config)
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -100,7 +101,8 @@ public class StarboardSlash(GuildSettingsService guildSettings) : MewdekoSlashSu
         catch
         {
             await msg.DeleteAsync().ConfigureAwait(false);
-            await ctx.Interaction.SendErrorFollowupAsync("This emote cannot be used! Please use a different one.")
+            await ctx.Interaction
+                .SendErrorFollowupAsync("This emote cannot be used! Please use a different one.", Config)
                 .ConfigureAwait(false);
             return;
         }
