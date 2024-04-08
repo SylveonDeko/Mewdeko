@@ -2,10 +2,13 @@
 items:
 - uid: Mewdeko.Modules.Music
   commentId: N:Mewdeko.Modules.Music
-  id: Mewdeko.Modules.Music
+  id: Music
+  parent: Mewdeko.Modules
   children:
+  - Mewdeko.Modules.Music.Common
   - Mewdeko.Modules.Music.Music
   - Mewdeko.Modules.Music.Music.PlaylistAction
+  - Mewdeko.Modules.Music.Services
   - Mewdeko.Modules.Music.SlashMusic
   - Mewdeko.Modules.Music.SlashMusic.PlaylistAction
   langs:
@@ -18,6 +21,82 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Modules.Music.Common
+  commentId: N:Mewdeko.Modules.Music.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Music.Common
+  nameWithType: Mewdeko.Modules.Music.Common
+  fullName: Mewdeko.Modules.Music.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Music
+    name: Music
+    href: Mewdeko.Modules.Music.html
+  - name: .
+  - uid: Mewdeko.Modules.Music.Common
+    name: Common
+    href: Mewdeko.Modules.Music.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Music
+    name: Music
+    href: Mewdeko.Modules.Music.html
+  - name: .
+  - uid: Mewdeko.Modules.Music.Common
+    name: Common
+    href: Mewdeko.Modules.Music.Common.html
+- uid: Mewdeko.Modules.Music.Services
+  commentId: N:Mewdeko.Modules.Music.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Music.Services
+  nameWithType: Mewdeko.Modules.Music.Services
+  fullName: Mewdeko.Modules.Music.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Music
+    name: Music
+    href: Mewdeko.Modules.Music.html
+  - name: .
+  - uid: Mewdeko.Modules.Music.Services
+    name: Services
+    href: Mewdeko.Modules.Music.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Music
+    name: Music
+    href: Mewdeko.Modules.Music.html
+  - name: .
+  - uid: Mewdeko.Modules.Music.Services
+    name: Services
+    href: Mewdeko.Modules.Music.Services.html
 - uid: Mewdeko.Modules.Music.Music
   commentId: T:Mewdeko.Modules.Music.Music
   href: Mewdeko.Modules.Music.Music.html

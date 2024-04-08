@@ -189,7 +189,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Avatar
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 26
+    startLine: 33
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -254,7 +254,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Banner
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 78
+    startLine: 85
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -321,7 +321,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetJson
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 127
+    startLine: 134
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -398,7 +398,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Say
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 154
+    startLine: 161
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -468,7 +468,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SayModal
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 170
+    startLine: 178
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -526,7 +526,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Stats
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 204
+    startLine: 212
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -584,7 +584,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RInfo
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 237
+    startLine: 245
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -637,7 +637,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: VInfo
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 257
+    startLine: 265
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -699,7 +699,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Fetch
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 314
+    startLine: 322
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -772,7 +772,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ServerInfo
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 345
+    startLine: 354
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -830,7 +830,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ChannelInfo
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 397
+    startLine: 406
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -892,7 +892,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UserInfo
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 419
+    startLine: 428
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -964,7 +964,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UserInfo
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 492
+    startLine: 501
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -1020,7 +1020,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UserId
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 500
+    startLine: 509
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -1091,7 +1091,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UserId
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 510
+    startLine: 519
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -1147,7 +1147,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Avatar
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 518
+    startLine: 527
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -1218,7 +1218,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GenerateTimestamp
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 561
+    startLine: 570
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -1309,7 +1309,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MoreSInfo
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 582
+    startLine: 591
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -1356,7 +1356,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MoreUInfo
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 612
+    startLine: 621
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility

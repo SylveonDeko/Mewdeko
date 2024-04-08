@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Games.Common.Acrophobia
   commentId: N:Mewdeko.Modules.Games.Common.Acrophobia
-  id: Mewdeko.Modules.Games.Common.Acrophobia
+  id: Acrophobia
+  parent: Mewdeko.Modules.Games.Common
   children:
   - Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
   - Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options
@@ -24,29 +25,6 @@ references:
   name: AcrophobiaGame
   nameWithType: AcrophobiaGame
   fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
-- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase
-  commentId: T:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase
-  parent: Mewdeko.Modules.Games.Common.Acrophobia
-  href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
-  name: AcrophobiaGame.Phase
-  nameWithType: AcrophobiaGame.Phase
-  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase
-  spec.csharp:
-  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
-    name: AcrophobiaGame
-    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
-  - name: .
-  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase
-    name: Phase
-    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase.html
-  spec.vb:
-  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
-    name: AcrophobiaGame
-    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
-  - name: .
-  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase
-    name: Phase
-    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase.html
 - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options
   commentId: T:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options
   parent: Mewdeko.Modules.Games.Common.Acrophobia
@@ -70,6 +48,29 @@ references:
   - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options
     name: Options
     href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options.html
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase
+  commentId: T:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase
+  parent: Mewdeko.Modules.Games.Common.Acrophobia
+  href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
+  name: AcrophobiaGame.Phase
+  nameWithType: AcrophobiaGame.Phase
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase
+  spec.csharp:
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+    name: AcrophobiaGame
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase
+    name: Phase
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+    name: AcrophobiaGame
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase
+    name: Phase
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase.html
 - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaUser
   commentId: T:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaUser
   href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaUser.html

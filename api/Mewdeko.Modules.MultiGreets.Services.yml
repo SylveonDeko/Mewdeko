@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.MultiGreets.Services
   commentId: N:Mewdeko.Modules.MultiGreets.Services
-  id: Mewdeko.Modules.MultiGreets.Services
+  id: Services
+  parent: Mewdeko.Modules.MultiGreets
   children:
   - Mewdeko.Modules.MultiGreets.Services.MultiGreetService
   langs:

@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Common.Autocompleters
   commentId: N:Mewdeko.Common.Autocompleters
-  id: Mewdeko.Common.Autocompleters
+  id: Autocompleters
+  parent: Mewdeko.Common
   children:
   - Mewdeko.Common.Autocompleters.ChatTriggerAutocompleter
   - Mewdeko.Common.Autocompleters.GenericCommandAutocompleter

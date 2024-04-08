@@ -258,7 +258,8 @@ public class PermissionService : ILateBlocker, INService
             return old;
         });
 
-    // Resets all permissions for a guild to their default values.
+    /// <summary>
+    /// Resets all permissions for a guild to their default values.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <remarks>Updates both the database and the in-memory cache.</remarks>

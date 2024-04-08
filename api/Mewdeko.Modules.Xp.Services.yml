@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Xp.Services
   commentId: N:Mewdeko.Modules.Xp.Services
-  id: Mewdeko.Modules.Xp.Services
+  id: Services
+  parent: Mewdeko.Modules.Xp
   children:
   - Mewdeko.Modules.Xp.Services.ClubService
   - Mewdeko.Modules.Xp.Services.UserCacheItem

@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Games.Services
   commentId: N:Mewdeko.Modules.Games.Services
-  id: Mewdeko.Modules.Games.Services
+  id: Services
+  parent: Mewdeko.Modules.Games
   children:
   - Mewdeko.Modules.Games.Services.ActivityService
   - Mewdeko.Modules.Games.Services.ChatterBotService

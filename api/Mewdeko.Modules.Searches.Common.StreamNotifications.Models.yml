@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
   commentId: N:Mewdeko.Modules.Searches.Common.StreamNotifications.Models
-  id: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  id: Models
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications
   children:
   - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.ChatSettings
   - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
@@ -30,6 +31,19 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.ChatSettings
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.ChatSettings
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.ChatSettings.html
+  name: ChatSettings
+  nameWithType: ChatSettings
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.ChatSettings
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.html
+  name: DescriptionPanel
+  nameWithType: DescriptionPanel
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
 - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse
   commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse
   href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.html
@@ -109,44 +123,24 @@ references:
   - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
     name: User
     href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User.html
-- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
-  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
-  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html
-  name: PicartoChannelResponse
-  nameWithType: PicartoChannelResponse
-  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
-- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Thumbnails
-  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Thumbnails
-  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
-  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Thumbnails.html
-  name: Thumbnails
-  nameWithType: Thumbnails
-  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Thumbnails
-- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
-  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
-  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.html
-  name: DescriptionPanel
-  nameWithType: DescriptionPanel
-  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
-- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.ChatSettings
-  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.ChatSettings
-  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
-  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.ChatSettings.html
-  name: ChatSettings
-  nameWithType: ChatSettings
-  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.ChatSettings
-- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream
-  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream
-  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream.html
-  name: Multistream
-  nameWithType: Multistream
-  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream
 - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Language
   commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Language
   href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Language.html
   name: Language
   nameWithType: Language
   fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Language
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream.html
+  name: Multistream
+  nameWithType: Multistream
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html
+  name: PicartoChannelResponse
+  nameWithType: PicartoChannelResponse
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
 - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
   commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
   parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
@@ -154,6 +148,13 @@ references:
   name: StreamData
   nameWithType: StreamData
   fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Thumbnails
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Thumbnails
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Thumbnails.html
+  name: Thumbnails
+  nameWithType: Thumbnails
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Thumbnails
 - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoGetUsersResponse
   commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoGetUsersResponse
   href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoGetUsersResponse.html

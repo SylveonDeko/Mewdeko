@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Votes.Services
   commentId: N:Mewdeko.Votes.Services
-  id: Mewdeko.Votes.Services
+  id: Services
+  parent: Mewdeko.Votes
   children:
   - Mewdeko.Votes.Services.BotCredentials
   - Mewdeko.Votes.Services.IBotCredentials

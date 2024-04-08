@@ -2,9 +2,14 @@
 items:
 - uid: Mewdeko.Votes
   commentId: N:Mewdeko.Votes
-  id: Mewdeko.Votes
+  id: Votes
+  parent: Mewdeko
   children:
+  - Mewdeko.Votes.Common
+  - Mewdeko.Votes.Controllers
+  - Mewdeko.Votes.Extensions
   - Mewdeko.Votes.Program
+  - Mewdeko.Votes.Services
   - Mewdeko.Votes.Startup
   - Mewdeko.Votes.WebhookEvents
   langs:
@@ -17,6 +22,126 @@ items:
   assemblies:
   - Mewdeko.Votes
 references:
+- uid: Mewdeko.Votes.Common
+  commentId: N:Mewdeko.Votes.Common
+  href: Mewdeko.html
+  name: Mewdeko.Votes.Common
+  nameWithType: Mewdeko.Votes.Common
+  fullName: Mewdeko.Votes.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
+  - name: .
+  - uid: Mewdeko.Votes.Common
+    name: Common
+    href: Mewdeko.Votes.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
+  - name: .
+  - uid: Mewdeko.Votes.Common
+    name: Common
+    href: Mewdeko.Votes.Common.html
+- uid: Mewdeko.Votes.Controllers
+  commentId: N:Mewdeko.Votes.Controllers
+  href: Mewdeko.html
+  name: Mewdeko.Votes.Controllers
+  nameWithType: Mewdeko.Votes.Controllers
+  fullName: Mewdeko.Votes.Controllers
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
+  - name: .
+  - uid: Mewdeko.Votes.Controllers
+    name: Controllers
+    href: Mewdeko.Votes.Controllers.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
+  - name: .
+  - uid: Mewdeko.Votes.Controllers
+    name: Controllers
+    href: Mewdeko.Votes.Controllers.html
+- uid: Mewdeko.Votes.Extensions
+  commentId: N:Mewdeko.Votes.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Votes.Extensions
+  nameWithType: Mewdeko.Votes.Extensions
+  fullName: Mewdeko.Votes.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
+  - name: .
+  - uid: Mewdeko.Votes.Extensions
+    name: Extensions
+    href: Mewdeko.Votes.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
+  - name: .
+  - uid: Mewdeko.Votes.Extensions
+    name: Extensions
+    href: Mewdeko.Votes.Extensions.html
+- uid: Mewdeko.Votes.Services
+  commentId: N:Mewdeko.Votes.Services
+  href: Mewdeko.html
+  name: Mewdeko.Votes.Services
+  nameWithType: Mewdeko.Votes.Services
+  fullName: Mewdeko.Votes.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
+  - name: .
+  - uid: Mewdeko.Votes.Services
+    name: Services
+    href: Mewdeko.Votes.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
+  - name: .
+  - uid: Mewdeko.Votes.Services
+    name: Services
+    href: Mewdeko.Votes.Services.html
 - uid: Mewdeko.Votes.Program
   commentId: T:Mewdeko.Votes.Program
   href: Mewdeko.Votes.Program.html

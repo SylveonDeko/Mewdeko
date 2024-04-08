@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Server_Management
   commentId: N:Mewdeko.Modules.Server_Management
-  id: Mewdeko.Modules.Server_Management
+  id: Server_Management
+  parent: Mewdeko.Modules
   children:
   - Mewdeko.Modules.Server_Management.EmoteStealer
   - Mewdeko.Modules.Server_Management.ServerManagement
@@ -10,6 +11,7 @@ items:
   - Mewdeko.Modules.Server_Management.ServerManagement.PermControls
   - Mewdeko.Modules.Server_Management.ServerManagement.RoleCommands
   - Mewdeko.Modules.Server_Management.ServerManagement.RoleCommands.ExportedRoles
+  - Mewdeko.Modules.Server_Management.Services
   langs:
   - csharp
   - vb
@@ -20,34 +22,56 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Modules.Server_Management.Services
+  commentId: N:Mewdeko.Modules.Server_Management.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Server_Management.Services
+  nameWithType: Mewdeko.Modules.Server_Management.Services
+  fullName: Mewdeko.Modules.Server_Management.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Server_Management
+    name: Server_Management
+    href: Mewdeko.Modules.Server_Management.html
+  - name: .
+  - uid: Mewdeko.Modules.Server_Management.Services
+    name: Services
+    href: Mewdeko.Modules.Server_Management.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Server_Management
+    name: Server_Management
+    href: Mewdeko.Modules.Server_Management.html
+  - name: .
+  - uid: Mewdeko.Modules.Server_Management.Services
+    name: Services
+    href: Mewdeko.Modules.Server_Management.Services.html
+- uid: Mewdeko.Modules.Server_Management.EmoteStealer
+  commentId: T:Mewdeko.Modules.Server_Management.EmoteStealer
+  href: Mewdeko.Modules.Server_Management.EmoteStealer.html
+  name: EmoteStealer
+  nameWithType: EmoteStealer
+  fullName: Mewdeko.Modules.Server_Management.EmoteStealer
 - uid: Mewdeko.Modules.Server_Management.ServerManagement
   commentId: T:Mewdeko.Modules.Server_Management.ServerManagement
   href: Mewdeko.Modules.Server_Management.ServerManagement.html
   name: ServerManagement
   nameWithType: ServerManagement
   fullName: Mewdeko.Modules.Server_Management.ServerManagement
-- uid: Mewdeko.Modules.Server_Management.ServerManagement.PermControls
-  commentId: T:Mewdeko.Modules.Server_Management.ServerManagement.PermControls
-  href: Mewdeko.Modules.Server_Management.ServerManagement.html
-  name: ServerManagement.PermControls
-  nameWithType: ServerManagement.PermControls
-  fullName: Mewdeko.Modules.Server_Management.ServerManagement.PermControls
-  spec.csharp:
-  - uid: Mewdeko.Modules.Server_Management.ServerManagement
-    name: ServerManagement
-    href: Mewdeko.Modules.Server_Management.ServerManagement.html
-  - name: .
-  - uid: Mewdeko.Modules.Server_Management.ServerManagement.PermControls
-    name: PermControls
-    href: Mewdeko.Modules.Server_Management.ServerManagement.PermControls.html
-  spec.vb:
-  - uid: Mewdeko.Modules.Server_Management.ServerManagement
-    name: ServerManagement
-    href: Mewdeko.Modules.Server_Management.ServerManagement.html
-  - name: .
-  - uid: Mewdeko.Modules.Server_Management.ServerManagement.PermControls
-    name: PermControls
-    href: Mewdeko.Modules.Server_Management.ServerManagement.PermControls.html
 - uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
   commentId: T:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
   href: Mewdeko.Modules.Server_Management.ServerManagement.html
@@ -70,6 +94,28 @@ references:
   - uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
     name: ChannelCommands
     href: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.html
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.PermControls
+  commentId: T:Mewdeko.Modules.Server_Management.ServerManagement.PermControls
+  href: Mewdeko.Modules.Server_Management.ServerManagement.html
+  name: ServerManagement.PermControls
+  nameWithType: ServerManagement.PermControls
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.PermControls
+  spec.csharp:
+  - uid: Mewdeko.Modules.Server_Management.ServerManagement
+    name: ServerManagement
+    href: Mewdeko.Modules.Server_Management.ServerManagement.html
+  - name: .
+  - uid: Mewdeko.Modules.Server_Management.ServerManagement.PermControls
+    name: PermControls
+    href: Mewdeko.Modules.Server_Management.ServerManagement.PermControls.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Server_Management.ServerManagement
+    name: ServerManagement
+    href: Mewdeko.Modules.Server_Management.ServerManagement.html
+  - name: .
+  - uid: Mewdeko.Modules.Server_Management.ServerManagement.PermControls
+    name: PermControls
+    href: Mewdeko.Modules.Server_Management.ServerManagement.PermControls.html
 - uid: Mewdeko.Modules.Server_Management.ServerManagement.RoleCommands
   commentId: T:Mewdeko.Modules.Server_Management.ServerManagement.RoleCommands
   href: Mewdeko.Modules.Server_Management.ServerManagement.html
@@ -122,9 +168,3 @@ references:
   - uid: Mewdeko.Modules.Server_Management.ServerManagement.RoleCommands.ExportedRoles
     name: ExportedRoles
     href: Mewdeko.Modules.Server_Management.ServerManagement.RoleCommands.ExportedRoles.html
-- uid: Mewdeko.Modules.Server_Management.EmoteStealer
-  commentId: T:Mewdeko.Modules.Server_Management.EmoteStealer
-  href: Mewdeko.Modules.Server_Management.EmoteStealer.html
-  name: EmoteStealer
-  nameWithType: EmoteStealer
-  fullName: Mewdeko.Modules.Server_Management.EmoteStealer

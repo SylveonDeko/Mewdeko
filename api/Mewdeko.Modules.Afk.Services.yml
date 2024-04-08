@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Afk.Services
   commentId: N:Mewdeko.Modules.Afk.Services
-  id: Mewdeko.Modules.Afk.Services
+  id: Services
+  parent: Mewdeko.Modules.Afk
   children:
   - Mewdeko.Modules.Afk.Services.AfkService
   langs:

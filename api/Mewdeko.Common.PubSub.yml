@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Common.PubSub
   commentId: N:Mewdeko.Common.PubSub
-  id: Mewdeko.Common.PubSub
+  id: PubSub
+  parent: Mewdeko.Common
   children:
   - Mewdeko.Common.PubSub.EventPubSub
   - Mewdeko.Common.PubSub.IPubSub

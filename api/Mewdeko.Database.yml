@@ -2,12 +2,17 @@
 items:
 - uid: Mewdeko.Database
   commentId: N:Mewdeko.Database
-  id: Mewdeko.Database
+  id: Database
+  parent: Mewdeko
   children:
+  - Mewdeko.Database.Common
   - Mewdeko.Database.DbService
+  - Mewdeko.Database.Extensions
   - Mewdeko.Database.MewdekoContext
   - Mewdeko.Database.MewdekoPostgresContext
   - Mewdeko.Database.MewdekoSqLiteContext
+  - Mewdeko.Database.Migrations
+  - Mewdeko.Database.Models
   langs:
   - csharp
   - vb
@@ -18,6 +23,98 @@ items:
   assemblies:
   - Mewdeko.Database
 references:
+- uid: Mewdeko.Database.Common
+  commentId: N:Mewdeko.Database.Common
+  href: Mewdeko.html
+  name: Mewdeko.Database.Common
+  nameWithType: Mewdeko.Database.Common
+  fullName: Mewdeko.Database.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Common
+    name: Common
+    href: Mewdeko.Database.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Common
+    name: Common
+    href: Mewdeko.Database.Common.html
+- uid: Mewdeko.Database.Extensions
+  commentId: N:Mewdeko.Database.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Database.Extensions
+  nameWithType: Mewdeko.Database.Extensions
+  fullName: Mewdeko.Database.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Extensions
+    name: Extensions
+    href: Mewdeko.Database.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Extensions
+    name: Extensions
+    href: Mewdeko.Database.Extensions.html
+- uid: Mewdeko.Database.Migrations
+  isExternal: true
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
 - uid: Mewdeko.Database.DbService
   commentId: T:Mewdeko.Database.DbService
   parent: Mewdeko.Database

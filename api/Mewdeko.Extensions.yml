@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Extensions
   commentId: N:Mewdeko.Extensions
-  id: Mewdeko.Extensions
+  id: Extensions
+  parent: Mewdeko
   children:
   - Mewdeko.Extensions.ArrayExtensions
   - Mewdeko.Extensions.EnumerableExtensions
@@ -34,13 +35,6 @@ references:
   name: ArrayExtensions
   nameWithType: ArrayExtensions
   fullName: Mewdeko.Extensions.ArrayExtensions
-- uid: Mewdeko.Extensions.Extensions
-  commentId: T:Mewdeko.Extensions.Extensions
-  parent: Mewdeko.Extensions
-  href: Mewdeko.Extensions.Extensions.html
-  name: Extensions
-  nameWithType: Extensions
-  fullName: Mewdeko.Extensions.Extensions
 - uid: Mewdeko.Extensions.EnumerableExtensions
   commentId: T:Mewdeko.Extensions.EnumerableExtensions
   parent: Mewdeko.Extensions
@@ -48,6 +42,13 @@ references:
   name: EnumerableExtensions
   nameWithType: EnumerableExtensions
   fullName: Mewdeko.Extensions.EnumerableExtensions
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
 - uid: Mewdeko.Extensions.MessageChannelExtensions
   commentId: T:Mewdeko.Extensions.MessageChannelExtensions
   parent: Mewdeko.Extensions
@@ -62,30 +63,12 @@ references:
   name: MessageExtensions
   nameWithType: MessageExtensions
   fullName: Mewdeko.Extensions.MessageExtensions
-- uid: Mewdeko.Extensions.RoleExtensions
-  commentId: T:Mewdeko.Extensions.RoleExtensions
-  href: Mewdeko.Extensions.RoleExtensions.html
-  name: RoleExtensions
-  nameWithType: RoleExtensions
-  fullName: Mewdeko.Extensions.RoleExtensions
-- uid: Mewdeko.Extensions.UserExtensions
-  commentId: T:Mewdeko.Extensions.UserExtensions
-  href: Mewdeko.Extensions.UserExtensions.html
-  name: UserExtensions
-  nameWithType: UserExtensions
-  fullName: Mewdeko.Extensions.UserExtensions
 - uid: Mewdeko.Extensions.ModalBuilderExtensions
   commentId: T:Mewdeko.Extensions.ModalBuilderExtensions
   href: Mewdeko.Extensions.ModalBuilderExtensions.html
   name: ModalBuilderExtensions
   nameWithType: ModalBuilderExtensions
   fullName: Mewdeko.Extensions.ModalBuilderExtensions
-- uid: Mewdeko.Extensions.Result
-  commentId: T:Mewdeko.Extensions.Result
-  href: Mewdeko.Extensions.Result.html
-  name: Result
-  nameWithType: Result
-  fullName: Mewdeko.Extensions.Result
 - uid: Mewdeko.Extensions.MoeResponse
   commentId: T:Mewdeko.Extensions.MoeResponse
   href: Mewdeko.Extensions.MoeResponse.html
@@ -129,6 +112,18 @@ references:
   - name: " "
   - name: TValue
   - name: )
+- uid: Mewdeko.Extensions.Result
+  commentId: T:Mewdeko.Extensions.Result
+  href: Mewdeko.Extensions.Result.html
+  name: Result
+  nameWithType: Result
+  fullName: Mewdeko.Extensions.Result
+- uid: Mewdeko.Extensions.RoleExtensions
+  commentId: T:Mewdeko.Extensions.RoleExtensions
+  href: Mewdeko.Extensions.RoleExtensions.html
+  name: RoleExtensions
+  nameWithType: RoleExtensions
+  fullName: Mewdeko.Extensions.RoleExtensions
 - uid: Mewdeko.Extensions.ServiceCollectionExtensions
   commentId: T:Mewdeko.Extensions.ServiceCollectionExtensions
   href: Mewdeko.Extensions.ServiceCollectionExtensions.html
@@ -141,6 +136,12 @@ references:
   name: StringExtensions
   nameWithType: StringExtensions
   fullName: Mewdeko.Extensions.StringExtensions
+- uid: Mewdeko.Extensions.UserExtensions
+  commentId: T:Mewdeko.Extensions.UserExtensions
+  href: Mewdeko.Extensions.UserExtensions.html
+  name: UserExtensions
+  nameWithType: UserExtensions
+  fullName: Mewdeko.Extensions.UserExtensions
 - uid: Mewdeko.Extensions
   commentId: N:Mewdeko.Extensions
   href: Mewdeko.html

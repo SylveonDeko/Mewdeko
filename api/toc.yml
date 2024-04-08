@@ -3,2273 +3,2282 @@ items:
 - uid: Mewdeko
   name: Mewdeko
   items:
+  - uid: Mewdeko.Common
+    name: Common
+    items:
+    - uid: Mewdeko.Common.Attributes
+      name: Attributes
+      items:
+      - uid: Mewdeko.Common.Attributes.InteractionCommands
+        name: InteractionCommands
+        items:
+        - uid: Mewdeko.Common.Attributes.InteractionCommands.CheckPermissions
+          name: CheckPermissions
+        - uid: Mewdeko.Common.Attributes.InteractionCommands.InteractionRatelimitAttribute
+          name: InteractionRatelimitAttribute
+        - uid: Mewdeko.Common.Attributes.InteractionCommands.PermRoleCheck
+          name: PermRoleCheck
+        - uid: Mewdeko.Common.Attributes.InteractionCommands.RequireDragonAttribute
+          name: RequireDragonAttribute
+        - uid: Mewdeko.Common.Attributes.InteractionCommands.SlashOwnerOnlyAttribute
+          name: SlashOwnerOnlyAttribute
+        - uid: Mewdeko.Common.Attributes.InteractionCommands.SlashUserPermAttribute
+          name: SlashUserPermAttribute
+      - uid: Mewdeko.Common.Attributes.TextCommands
+        name: TextCommands
+        items:
+        - uid: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+          name: AliasesAttribute
+        - uid: Mewdeko.Common.Attributes.TextCommands.BotPermAttribute
+          name: BotPermAttribute
+        - uid: Mewdeko.Common.Attributes.TextCommands.Cmd
+          name: Cmd
+        - uid: Mewdeko.Common.Attributes.TextCommands.CommandNameLoadHelper
+          name: CommandNameLoadHelper
+        - uid: Mewdeko.Common.Attributes.TextCommands.HelpDisabled
+          name: HelpDisabled
+        - uid: Mewdeko.Common.Attributes.TextCommands.MewdekoOptionsAttribute
+          name: MewdekoOptionsAttribute
+        - uid: Mewdeko.Common.Attributes.TextCommands.OwnerOnlyAttribute
+          name: OwnerOnlyAttribute
+        - uid: Mewdeko.Common.Attributes.TextCommands.RatelimitAttribute
+          name: RatelimitAttribute
+        - uid: Mewdeko.Common.Attributes.TextCommands.RequireDragonAttribute
+          name: RequireDragonAttribute
+        - uid: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+          name: UserPermAttribute
+    - uid: Mewdeko.Common.Autocompleters
+      name: Autocompleters
+      items:
+      - uid: Mewdeko.Common.Autocompleters.ChatTriggerAutocompleter
+        name: ChatTriggerAutocompleter
+      - uid: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter
+        name: GenericCommandAutocompleter
+      - uid: Mewdeko.Common.Autocompleters.HighlightAutocompleter
+        name: HighlightAutocompleter
+      - uid: Mewdeko.Common.Autocompleters.ModuleAutoCompleter
+        name: ModuleAutoCompleter
+      - uid: Mewdeko.Common.Autocompleters.PermissionAutoCompleter
+        name: PermissionAutoCompleter
+      - uid: Mewdeko.Common.Autocompleters.SettingsServiceNameAutoCompleter
+        name: SettingsServiceNameAutoCompleter
+      - uid: Mewdeko.Common.Autocompleters.SettingsServicePropAutoCompleter
+        name: SettingsServicePropAutoCompleter
+      - uid: Mewdeko.Common.Autocompleters.StatusRoleAutocompleter
+        name: StatusRoleAutocompleter
+      - uid: Mewdeko.Common.Autocompleters.SuggestionAutocompleter
+        name: SuggestionAutocompleter
+      - uid: Mewdeko.Common.Autocompleters.TimeZoneAutocompleter
+        name: TimeZoneAutocompleter
+      - uid: Mewdeko.Common.Autocompleters.ToneTagAutocompleter
+        name: ToneTagAutocompleter
+    - uid: Mewdeko.Common.Collections
+      name: Collections
+      items:
+      - uid: Mewdeko.Common.Collections.ConcurrentHashSet`1
+        name: ConcurrentHashSet<T>
+    - uid: Mewdeko.Common.Configs
+      name: Configs
+      items:
+      - uid: Mewdeko.Common.Configs.BlockedConfig
+        name: BlockedConfig
+      - uid: Mewdeko.Common.Configs.BotConfig
+        name: BotConfig
+      - uid: Mewdeko.Common.Configs.ColorConfig
+        name: ColorConfig
+      - uid: Mewdeko.Common.Configs.ConsoleOutputType
+        name: ConsoleOutputType
+      - uid: Mewdeko.Common.Configs.IConfigSeria
+        name: IConfigSeria
+      - uid: Mewdeko.Common.Configs.UpdateCheckType
+        name: UpdateCheckType
+    - uid: Mewdeko.Common.DiscordImplementations
+      name: DiscordImplementations
+      items:
+      - uid: Mewdeko.Common.DiscordImplementations.MewdekoUserMessage
+        name: MewdekoUserMessage
+    - uid: Mewdeko.Common.JsonConverters
+      name: JsonConverters
+      items:
+      - uid: Mewdeko.Common.JsonConverters.CultureInfoConverter
+        name: CultureInfoConverter
+      - uid: Mewdeko.Common.JsonConverters.SkColorConverter
+        name: SkColorConverter
+      - uid: Mewdeko.Common.JsonConverters.StringToIntConverter
+        name: StringToIntConverter
+    - uid: Mewdeko.Common.JsonSettings
+      name: JsonSettings
+      items:
+      - uid: Mewdeko.Common.JsonSettings.LowercaseContractResolver
+        name: LowercaseContractResolver
+      - uid: Mewdeko.Common.JsonSettings.OrderedResolver
+        name: OrderedResolver
+    - uid: Mewdeko.Common.Modals
+      name: Modals
+      items:
+      - uid: Mewdeko.Common.Modals.AuthHandshakeStepTwoModal
+        name: AuthHandshakeStepTwoModal
+      - uid: Mewdeko.Common.Modals.ChatTriggerModal
+        name: ChatTriggerModal
+      - uid: Mewdeko.Common.Modals.CommandModal
+        name: CommandModal
+      - uid: Mewdeko.Common.Modals.DmUserModal
+        name: DmUserModal
+      - uid: Mewdeko.Common.Modals.EvalModal
+        name: EvalModal
+      - uid: Mewdeko.Common.Modals.PronounsFcbModal
+        name: PronounsFcbModal
+      - uid: Mewdeko.Common.Modals.PronounsModal
+        name: PronounsModal
+      - uid: Mewdeko.Common.Modals.RecoveryKeyModal
+        name: RecoveryKeyModal
+      - uid: Mewdeko.Common.Modals.ReminderModal
+        name: ReminderModal
+      - uid: Mewdeko.Common.Modals.SayModal
+        name: SayModal
+      - uid: Mewdeko.Common.Modals.SuggestStateModal
+        name: SuggestStateModal
+      - uid: Mewdeko.Common.Modals.SuggestionModal
+        name: SuggestionModal
+      - uid: Mewdeko.Common.Modals.TwoFactorModal
+        name: TwoFactorModal
+      - uid: Mewdeko.Common.Modals.VotePasswordModal
+        name: VotePasswordModal
+    - uid: Mewdeko.Common.ModuleBehaviors
+      name: ModuleBehaviors
+      items:
+      - uid: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior
+        name: IEarlyBehavior
+      - uid: Mewdeko.Common.ModuleBehaviors.IInputTransformer
+        name: IInputTransformer
+      - uid: Mewdeko.Common.ModuleBehaviors.ILateBlocker
+        name: ILateBlocker
+      - uid: Mewdeko.Common.ModuleBehaviors.ILateExecutor
+        name: ILateExecutor
+      - uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+        name: IReadyExecutor
+      - uid: Mewdeko.Common.ModuleBehaviors.ModuleBehaviorType
+        name: ModuleBehaviorType
+    - uid: Mewdeko.Common.PubSub
+      name: PubSub
+      items:
+      - uid: Mewdeko.Common.PubSub.EventPubSub
+        name: EventPubSub
+      - uid: Mewdeko.Common.PubSub.IPubSub
+        name: IPubSub
+      - uid: Mewdeko.Common.PubSub.ISeria
+        name: ISeria
+      - uid: Mewdeko.Common.PubSub.JsonSeria
+        name: JsonSeria
+      - uid: Mewdeko.Common.PubSub.RedisPubSub
+        name: RedisPubSub
+      - uid: Mewdeko.Common.PubSub.TypedKey`1
+        name: TypedKey<TData>
+      - uid: Mewdeko.Common.PubSub.YamlSeria
+        name: YamlSeria
+    - uid: Mewdeko.Common.Replacements
+      name: Replacements
+      items:
+      - uid: Mewdeko.Common.Replacements.ReplacementBuilder
+        name: ReplacementBuilder
+      - uid: Mewdeko.Common.Replacements.Replacer
+        name: Replacer
+    - uid: Mewdeko.Common.TypeReaders
+      name: TypeReaders
+      items:
+      - uid: Mewdeko.Common.TypeReaders.Interactions
+        name: Interactions
+        items:
+        - uid: Mewdeko.Common.TypeReaders.Interactions.EmoteArrayTypeConverter
+          name: EmoteArrayTypeConverter
+        - uid: Mewdeko.Common.TypeReaders.Interactions.MewdekoTypeReader`1
+          name: MewdekoTypeReader<T>
+        - uid: Mewdeko.Common.TypeReaders.Interactions.RoleArrayConverter
+          name: RoleArrayConverter
+        - uid: Mewdeko.Common.TypeReaders.Interactions.StatusRolesTypeConverter
+          name: StatusRolesTypeConverter
+        - uid: Mewdeko.Common.TypeReaders.Interactions.UserArrayConverter
+          name: UserArrayConverter
+      - uid: Mewdeko.Common.TypeReaders.Models
+        name: Models
+        items:
+        - uid: Mewdeko.Common.TypeReaders.Models.PermValue
+          name: PermValue
+        - uid: Mewdeko.Common.TypeReaders.Models.PermissionAction
+          name: PermissionAction
+        - uid: Mewdeko.Common.TypeReaders.Models.StoopidTime
+          name: StoopidTime
+      - uid: Mewdeko.Common.TypeReaders.AddRemove
+        name: AddRemove
+      - uid: Mewdeko.Common.TypeReaders.CommandOrCrInfo
+        name: CommandOrCrInfo
+      - uid: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type
+        name: CommandOrCrInfo.Type
+      - uid: Mewdeko.Common.TypeReaders.CommandOrCrTypeReader
+        name: CommandOrCrTypeReader
+      - uid: Mewdeko.Common.TypeReaders.CommandTypeReader
+        name: CommandTypeReader
+      - uid: Mewdeko.Common.TypeReaders.EnumTryParseTypeReader`1
+        name: EnumTryParseTypeReader<T>
+      - uid: Mewdeko.Common.TypeReaders.GuildDateTime
+        name: GuildDateTime
+      - uid: Mewdeko.Common.TypeReaders.GuildDateTimeTypeReader
+        name: GuildDateTimeTypeReader
+      - uid: Mewdeko.Common.TypeReaders.GuildTypeReader
+        name: GuildTypeReader
+      - uid: Mewdeko.Common.TypeReaders.MewdekoTypeReader`1
+        name: MewdekoTypeReader<T>
+      - uid: Mewdeko.Common.TypeReaders.ModuleOrCrInfo
+        name: ModuleOrCrInfo
+      - uid: Mewdeko.Common.TypeReaders.ModuleOrCrTypeReader
+        name: ModuleOrCrTypeReader
+      - uid: Mewdeko.Common.TypeReaders.ModuleTypeReader
+        name: ModuleTypeReader
+      - uid: Mewdeko.Common.TypeReaders.PermValue
+        name: PermValue
+      - uid: Mewdeko.Common.TypeReaders.PermissionActionTypeReader
+        name: PermissionActionTypeReader
+      - uid: Mewdeko.Common.TypeReaders.SkColorTypeReader
+        name: SkColorTypeReader
+      - uid: Mewdeko.Common.TypeReaders.StoopidTimeTypeReader
+        name: StoopidTimeTypeReader
+      - uid: Mewdeko.Common.TypeReaders.TimeSpanConverter
+        name: TimeSpanConverter
+      - uid: Mewdeko.Common.TypeReaders.TryParseTypeReader`1
+        name: TryParseTypeReader<T>
+      - uid: Mewdeko.Common.TypeReaders.TryParseTypeReader`1.TryParseDelegate`1
+        name: TryParseTypeReader<T>.TryParseDelegate<TA>
+      - uid: Mewdeko.Common.TypeReaders.TypeReaderCollection
+        name: TypeReaderCollection
+      - uid: Mewdeko.Common.TypeReaders.UlongArrayTypeReader
+        name: UlongArrayTypeReader
+    - uid: Mewdeko.Common.Yml
+      name: Yml
+      items:
+      - uid: Mewdeko.Common.Yml.CommentAttribute
+        name: CommentAttribute
+      - uid: Mewdeko.Common.Yml.CommentGatheringTypeInspector
+        name: CommentGatheringTypeInspector
+      - uid: Mewdeko.Common.Yml.CommentsObjectDescriptor
+        name: CommentsObjectDescriptor
+      - uid: Mewdeko.Common.Yml.CommentsObjectGraphVisitor
+        name: CommentsObjectGraphVisitor
+      - uid: Mewdeko.Common.Yml.CultureInfoConverter
+        name: CultureInfoConverter
+      - uid: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter
+        name: MultilineScalarFlowStyleEmitter
+      - uid: Mewdeko.Common.Yml.SkColorConverter
+        name: SkColorConverter
+      - uid: Mewdeko.Common.Yml.UriConverter
+        name: UriConverter
+      - uid: Mewdeko.Common.Yml.Yaml
+        name: Yaml
+      - uid: Mewdeko.Common.Yml.YamlHelper
+        name: YamlHelper
+    - uid: Mewdeko.Common.AsyncLazy`1
+      name: AsyncLazy<T>
+    - uid: Mewdeko.Common.Author
+      name: Author
+    - uid: Mewdeko.Common.CommandData
+      name: CommandData
+    - uid: Mewdeko.Common.Die
+      name: Die
+    - uid: Mewdeko.Common.DownloadTracker
+      name: DownloadTracker
+    - uid: Mewdeko.Common.Embed
+      name: Embed
+    - uid: Mewdeko.Common.Field
+      name: Field
+    - uid: Mewdeko.Common.Footer
+      name: Footer
+    - uid: Mewdeko.Common.Helpers
+      name: Helpers
+    - uid: Mewdeko.Common.IMewdekoCommandOptions
+      name: IMewdekoCommandOptions
+    - uid: Mewdeko.Common.IPlaceholderProvider
+      name: IPlaceholderProvider
+    - uid: Mewdeko.Common.Image
+      name: Image
+    - uid: Mewdeko.Common.ImageUrls
+      name: ImageUrls
+    - uid: Mewdeko.Common.ImageUrls.CoinData
+      name: ImageUrls.CoinData
+    - uid: Mewdeko.Common.ImageUrls.RipData
+      name: ImageUrls.RipData
+    - uid: Mewdeko.Common.ImageUrls.SlotData
+      name: ImageUrls.SlotData
+    - uid: Mewdeko.Common.ImageUrls.XpData
+      name: ImageUrls.XpData
+    - uid: Mewdeko.Common.LbOpts
+      name: LbOpts
+    - uid: Mewdeko.Common.LoginErrorHandler
+      name: LoginErrorHandler
+    - uid: Mewdeko.Common.MewdekoModule
+      name: MewdekoModule
+    - uid: Mewdeko.Common.MewdekoModuleBase`1
+      name: MewdekoModuleBase<TService>
+    - uid: Mewdeko.Common.MewdekoRandom
+      name: MewdekoRandom
+    - uid: Mewdeko.Common.MewdekoSlashCommandModule
+      name: MewdekoSlashCommandModule
+    - uid: Mewdeko.Common.MewdekoSlashModuleBase`1
+      name: MewdekoSlashModuleBase<TService>
+    - uid: Mewdeko.Common.MewdekoSlashSubmodule
+      name: MewdekoSlashSubmodule
+    - uid: Mewdeko.Common.MewdekoSlashSubmodule`1
+      name: MewdekoSlashSubmodule<TService>
+    - uid: Mewdeko.Common.MewdekoSubmodule
+      name: MewdekoSubmodule
+    - uid: Mewdeko.Common.MewdekoSubmodule`1
+      name: MewdekoSubmodule<TService>
+    - uid: Mewdeko.Common.NewEmbed
+      name: NewEmbed
+    - uid: Mewdeko.Common.NewEmbed.NewEmbedComponent
+      name: NewEmbed.NewEmbedComponent
+    - uid: Mewdeko.Common.NewEmbed.NewEmbedSelectOption
+      name: NewEmbed.NewEmbedSelectOption
+    - uid: Mewdeko.Common.OptionsParser
+      name: OptionsParser
+    - uid: Mewdeko.Common.OsuMapData
+      name: OsuMapData
+    - uid: Mewdeko.Common.OsuUserBests
+      name: OsuUserBests
+    - uid: Mewdeko.Common.RollResult
+      name: RollResult
+    - uid: Mewdeko.Common.ShmartNumber
+      name: ShmartNumber
+    - uid: Mewdeko.Common.SmartEmbed
+      name: SmartEmbed
+    - uid: Mewdeko.Common.Thumbnail
+      name: Thumbnail
+    - uid: Mewdeko.Common.ToneTag
+      name: ToneTag
+    - uid: Mewdeko.Common.ToneTagSource
+      name: ToneTagSource
+  - uid: Mewdeko.Coordinator
+    name: Coordinator
+    items:
+    - uid: Mewdeko.Coordinator.Services
+      name: Services
+      items:
+      - uid: Mewdeko.Coordinator.Services.CoordinatorRunner
+        name: CoordinatorRunner
+      - uid: Mewdeko.Coordinator.Services.CoordinatorService
+        name: CoordinatorService
+    - uid: Mewdeko.Coordinator.Shared
+      name: Shared
+      items:
+      - uid: Mewdeko.Coordinator.Shared.Config
+        name: Config
+      - uid: Mewdeko.Coordinator.Shared.CoordState
+        name: CoordState
+      - uid: Mewdeko.Coordinator.Shared.JsonStatusObject
+        name: JsonStatusObject
+      - uid: Mewdeko.Coordinator.Shared.ShardStatus
+        name: ShardStatus
+    - uid: Mewdeko.Coordinator.ConnState
+      name: ConnState
+    - uid: Mewdeko.Coordinator.CoordStartup
+      name: CoordStartup
+    - uid: Mewdeko.Coordinator.Coordinator
+      name: Coordinator
+    - uid: Mewdeko.Coordinator.Coordinator.CoordinatorBase
+      name: Coordinator.CoordinatorBase
+    - uid: Mewdeko.Coordinator.Coordinator.CoordinatorClient
+      name: Coordinator.CoordinatorClient
+    - uid: Mewdeko.Coordinator.CoordinatorReflection
+      name: CoordinatorReflection
+    - uid: Mewdeko.Coordinator.DieReply
+      name: DieReply
+    - uid: Mewdeko.Coordinator.DieRequest
+      name: DieRequest
+    - uid: Mewdeko.Coordinator.GetAllStatusesReply
+      name: GetAllStatusesReply
+    - uid: Mewdeko.Coordinator.GetAllStatusesRequest
+      name: GetAllStatusesRequest
+    - uid: Mewdeko.Coordinator.GetConfigTextReply
+      name: GetConfigTextReply
+    - uid: Mewdeko.Coordinator.GetConfigTextRequest
+      name: GetConfigTextRequest
+    - uid: Mewdeko.Coordinator.GetStatusReply
+      name: GetStatusReply
+    - uid: Mewdeko.Coordinator.GetStatusRequest
+      name: GetStatusRequest
+    - uid: Mewdeko.Coordinator.HeartbeatReply
+      name: HeartbeatReply
+    - uid: Mewdeko.Coordinator.HeartbeatRequest
+      name: HeartbeatRequest
+    - uid: Mewdeko.Coordinator.LogSetup
+      name: LogSetup
+    - uid: Mewdeko.Coordinator.ReloadReply
+      name: ReloadReply
+    - uid: Mewdeko.Coordinator.ReloadRequest
+      name: ReloadRequest
+    - uid: Mewdeko.Coordinator.ReshardReply
+      name: ReshardReply
+    - uid: Mewdeko.Coordinator.ReshardRequest
+      name: ReshardRequest
+    - uid: Mewdeko.Coordinator.RestartAllReply
+      name: RestartAllReply
+    - uid: Mewdeko.Coordinator.RestartAllRequest
+      name: RestartAllRequest
+    - uid: Mewdeko.Coordinator.RestartShardReply
+      name: RestartShardReply
+    - uid: Mewdeko.Coordinator.RestartShardRequest
+      name: RestartShardRequest
+    - uid: Mewdeko.Coordinator.SetConfigTextReply
+      name: SetConfigTextReply
+    - uid: Mewdeko.Coordinator.SetConfigTextRequest
+      name: SetConfigTextRequest
+  - uid: Mewdeko.Database
+    name: Database
+    items:
+    - uid: Mewdeko.Database.Common
+      name: Common
+      items:
+      - uid: Mewdeko.Database.Common.IPostMigrationHandler
+        name: IPostMigrationHandler
+      - uid: Mewdeko.Database.Common.IndexedCollection`1
+        name: IndexedCollection<T>
+      - uid: Mewdeko.Database.Common.StreamDataKey
+        name: StreamDataKey
+    - uid: Mewdeko.Database.Extensions
+      name: Extensions
+      items:
+      - uid: Mewdeko.Database.Extensions.AfkExtensions
+        name: AfkExtensions
+      - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions
+        name: ChatTriggersExtensions
+      - uid: Mewdeko.Database.Extensions.ClubExtensions
+        name: ClubExtensions
+      - uid: Mewdeko.Database.Extensions.ConfessionExtensions
+        name: ConfessionExtensions
+      - uid: Mewdeko.Database.Extensions.DbExtensions
+        name: DbExtensions
+      - uid: Mewdeko.Database.Extensions.DiscordUserExtensions
+        name: DiscordUserExtensions
+      - uid: Mewdeko.Database.Extensions.Extensions
+        name: Extensions
+      - uid: Mewdeko.Database.Extensions.GiveawayExtensions
+        name: GiveawayExtensions
+      - uid: Mewdeko.Database.Extensions.GuildConfigExtensions
+        name: GuildConfigExtensions
+      - uid: Mewdeko.Database.Extensions.GuildConfigExtensions.GeneratingChannel
+        name: GuildConfigExtensions.GeneratingChannel
+      - uid: Mewdeko.Database.Extensions.HighlightExtensions
+        name: HighlightExtensions
+      - uid: Mewdeko.Database.Extensions.MiniWarningExtensions
+        name: MiniWarningExtensions
+      - uid: Mewdeko.Database.Extensions.MultiGreetExtensions
+        name: MultiGreetExtensions
+      - uid: Mewdeko.Database.Extensions.MusicExtensions
+        name: MusicExtensions
+      - uid: Mewdeko.Database.Extensions.MusicPlayerSettingsExtensions
+        name: MusicPlayerSettingsExtensions
+      - uid: Mewdeko.Database.Extensions.NicknameExtensions
+        name: NicknameExtensions
+      - uid: Mewdeko.Database.Extensions.PollExtensions
+        name: PollExtensions
+      - uid: Mewdeko.Database.Extensions.QuoteExtensions
+        name: QuoteExtensions
+      - uid: Mewdeko.Database.Extensions.RemindExtensions
+        name: RemindExtensions
+      - uid: Mewdeko.Database.Extensions.RoleGreetExtensions
+        name: RoleGreetExtensions
+      - uid: Mewdeko.Database.Extensions.SelfAssignedRolesExtensions
+        name: SelfAssignedRolesExtensions
+      - uid: Mewdeko.Database.Extensions.StarboardExtensions
+        name: StarboardExtensions
+      - uid: Mewdeko.Database.Extensions.SuggestionsExtensions
+        name: SuggestionsExtensions
+      - uid: Mewdeko.Database.Extensions.UsernameExtensions
+        name: UsernameExtensions
+      - uid: Mewdeko.Database.Extensions.WaifuExtensions
+        name: WaifuExtensions
+      - uid: Mewdeko.Database.Extensions.WaifuInfoStats
+        name: WaifuInfoStats
+      - uid: Mewdeko.Database.Extensions.WarningExtensions
+        name: WarningExtensions
+      - uid: Mewdeko.Database.Extensions.XpExtensions
+        name: XpExtensions
+    - uid: Mewdeko.Database.Migrations
+      name: Migrations
+      items:
+      - uid: Mewdeko.Database.Migrations.PostgreSQL
+        name: PostgreSQL
+        items:
+        - uid: Mewdeko.Database.Migrations.PostgreSQL.BetterGiveaways
+          name: BetterGiveaways
+      - uid: Mewdeko.Database.Migrations.PostgreSql
+        name: PostgreSql
+        items:
+        - uid: Mewdeko.Database.Migrations.PostgreSql.AddAutoBanRole
+          name: AddAutoBanRole
+        - uid: Mewdeko.Database.Migrations.PostgreSql.AddAutoPublish
+          name: AddAutoPublish
+        - uid: Mewdeko.Database.Migrations.PostgreSql.AddTemplates
+          name: AddTemplates
+        - uid: Mewdeko.Database.Migrations.PostgreSql.AddXpImage
+          name: AddXpImage
+        - uid: Mewdeko.Database.Migrations.PostgreSql.MoreCurrencyShit
+          name: MoreCurrencyShit
+        - uid: Mewdeko.Database.Migrations.PostgreSql.MoreCurrencyStuff
+          name: MoreCurrencyStuff
+        - uid: Mewdeko.Database.Migrations.PostgreSql.NewGenCurrency
+          name: NewGenCurrency
+      - uid: Mewdeko.Database.Migrations.SQLite
+        name: SQLite
+        items:
+        - uid: Mewdeko.Database.Migrations.SQLite.AddAutoBanRole
+          name: AddAutoBanRole
+        - uid: Mewdeko.Database.Migrations.SQLite.AddAutoPublish
+          name: AddAutoPublish
+        - uid: Mewdeko.Database.Migrations.SQLite.AddCommandLogChannels
+          name: AddCommandLogChannels
+        - uid: Mewdeko.Database.Migrations.SQLite.AddCommandStats
+          name: AddCommandStats
+        - uid: Mewdeko.Database.Migrations.SQLite.AddCustomGraphColors
+          name: AddCustomGraphColors
+        - uid: Mewdeko.Database.Migrations.SQLite.AddDefaultPlaylist
+          name: AddDefaultPlaylist
+        - uid: Mewdeko.Database.Migrations.SQLite.AddFeedMessages
+          name: AddFeedMessages
+        - uid: Mewdeko.Database.Migrations.SQLite.AddGEmoteToGiveaways
+          name: AddGEmoteToGiveaways
+        - uid: Mewdeko.Database.Migrations.SQLite.AddMultiGreets
+          name: AddMultiGreets
+        - uid: Mewdeko.Database.Migrations.SQLite.AddOwnerOnlyTable
+          name: AddOwnerOnlyTable
+        - uid: Mewdeko.Database.Migrations.SQLite.AddProperNicknameLogging
+          name: AddProperNicknameLogging
+        - uid: Mewdeko.Database.Migrations.SQLite.AddProperUsernameLogging
+          name: AddProperUsernameLogging
+        - uid: Mewdeko.Database.Migrations.SQLite.AddRoleGreets
+          name: AddRoleGreets
+        - uid: Mewdeko.Database.Migrations.SQLite.AddServerRecoveryStore
+          name: AddServerRecoveryStore
+        - uid: Mewdeko.Database.Migrations.SQLite.AddSuggestButtonColor
+          name: AddSuggestButtonColor
+        - uid: Mewdeko.Database.Migrations.SQLite.AddTemplates
+          name: AddTemplates
+        - uid: Mewdeko.Database.Migrations.SQLite.AddUserProfileColumns
+          name: AddUserProfileColumns
+        - uid: Mewdeko.Database.Migrations.SQLite.AddUserRoleStatesAndRoleStateSettings
+          name: AddUserRoleStatesAndRoleStateSettings
+        - uid: Mewdeko.Database.Migrations.SQLite.AddVoteLogging
+          name: AddVoteLogging
+        - uid: Mewdeko.Database.Migrations.SQLite.AddWarnMessage
+          name: AddWarnMessage
+        - uid: Mewdeko.Database.Migrations.SQLite.AddWinnersToGiveawayTable
+          name: AddWinnersToGiveawayTable
+        - uid: Mewdeko.Database.Migrations.SQLite.AddXpBanner
+          name: AddXpBanner
+        - uid: Mewdeko.Database.Migrations.SQLite.AutoDisconnectAdd
+          name: AutoDisconnectAdd
+        - uid: Mewdeko.Database.Migrations.SQLite.BetterGiveaways
+          name: BetterGiveaways
+        - uid: Mewdeko.Database.Migrations.SQLite.BlacklistReason
+          name: BlacklistReason
+        - uid: Mewdeko.Database.Migrations.SQLite.Boostmessages
+          name: Boostmessages
+        - uid: Mewdeko.Database.Migrations.SQLite.ChatTriggerRoleGrantType
+          name: ChatTriggerRoleGrantType
+        - uid: Mewdeko.Database.Migrations.SQLite.ChatTriggerRoles
+          name: ChatTriggerRoles
+        - uid: Mewdeko.Database.Migrations.SQLite.CleanAndRemakePolls
+          name: CleanAndRemakePolls
+        - uid: Mewdeko.Database.Migrations.SQLite.Confessions
+          name: Confessions
+        - uid: Mewdeko.Database.Migrations.SQLite.CreateJoinLeaveLogsSystemThingie
+          name: CreateJoinLeaveLogsSystemThingie
+        - uid: Mewdeko.Database.Migrations.SQLite.CtPrefixes
+          name: CtPrefixes
+        - uid: Mewdeko.Database.Migrations.SQLite.CustomReactionNoRespond
+          name: CustomReactionNoRespond
+        - uid: Mewdeko.Database.Migrations.SQLite.FixStatusRoles
+          name: FixStatusRoles
+        - uid: Mewdeko.Database.Migrations.SQLite.FixTimedAfk
+          name: FixTimedAfk
+        - uid: Mewdeko.Database.Migrations.SQLite.GameMasterRole
+          name: GameMasterRole
+        - uid: Mewdeko.Database.Migrations.SQLite.Giveawayemotes
+          name: Giveawayemotes
+        - uid: Mewdeko.Database.Migrations.SQLite.GlobalBan
+          name: GlobalBan
+        - uid: Mewdeko.Database.Migrations.SQLite.HereThereBeDragons
+          name: HereThereBeDragons
+        - uid: Mewdeko.Database.Migrations.SQLite.Highlights
+          name: Highlights
+        - uid: Mewdeko.Database.Migrations.SQLite.LeaveHook
+          name: LeaveHook
+        - uid: Mewdeko.Database.Migrations.SQLite.LogImprovements
+          name: LogImprovements
+        - uid: Mewdeko.Database.Migrations.SQLite.MinMaxSuggestionLength
+          name: MinMaxSuggestionLength
+        - uid: Mewdeko.Database.Migrations.SQLite.MoreCurrencyShit
+          name: MoreCurrencyShit
+        - uid: Mewdeko.Database.Migrations.SQLite.MoreCurrencyStuff
+          name: MoreCurrencyStuff
+        - uid: Mewdeko.Database.Migrations.SQLite.MoreStarboardUpgrades
+          name: MoreStarboardUpgrades
+        - uid: Mewdeko.Database.Migrations.SQLite.MoreSuggestionUpgrades
+          name: MoreSuggestionUpgrades
+        - uid: Mewdeko.Database.Migrations.SQLite.NewGenCurrency
+          name: NewGenCurrency
+        - uid: Mewdeko.Database.Migrations.SQLite.ReactToTrigger
+          name: ReactToTrigger
+        - uid: Mewdeko.Database.Migrations.SQLite.RemoveReputation
+          name: RemoveReputation
+        - uid: Mewdeko.Database.Migrations.SQLite.RemoveSnipesFromDb
+          name: RemoveSnipesFromDb
+        - uid: Mewdeko.Database.Migrations.SQLite.RenameToChatTriggers
+          name: RenameToChatTriggers
+        - uid: Mewdeko.Database.Migrations.SQLite.RewriteTables
+          name: RewriteTables
+        - uid: Mewdeko.Database.Migrations.SQLite.RoleConnectionAuth
+          name: RoleConnectionAuth
+        - uid: Mewdeko.Database.Migrations.SQLite.SlashChatTriggers
+          name: SlashChatTriggers
+        - uid: Mewdeko.Database.Migrations.SQLite.SplitFilterChannelId
+          name: SplitFilterChannelId
+        - uid: Mewdeko.Database.Migrations.SQLite.StarboardFix
+          name: StarboardFix
+        - uid: Mewdeko.Database.Migrations.SQLite.StarboardUpgrade
+          name: StarboardUpgrade
+        - uid: Mewdeko.Database.Migrations.SQLite.SuggestStateIds
+          name: SuggestStateIds
+        - uid: Mewdeko.Database.Migrations.SQLite.SuggestionUpgrades
+          name: SuggestionUpgrades
+        - uid: Mewdeko.Database.Migrations.SQLite.SwitchFcInProfile
+          name: SwitchFcInProfile
+        - uid: Mewdeko.Database.Migrations.SQLite.TriggerCrossposting
+          name: TriggerCrossposting
+        - uid: Mewdeko.Database.Migrations.SQLite.UpdateSuggestionsYetAgain
+          name: UpdateSuggestionsYetAgain
+        - uid: Mewdeko.Database.Migrations.SQLite.UpgradeMultiGreets
+          name: UpgradeMultiGreets
+        - uid: Mewdeko.Database.Migrations.SQLite.UserPronounOverride
+          name: UserPronounOverride
+        - uid: Mewdeko.Database.Migrations.SQLite.ValidTriggerTypes
+          name: ValidTriggerTypes
+    - uid: Mewdeko.Database.Models
+      name: Models
+      items:
+      - uid: Mewdeko.Database.Models.Afk
+        name: Afk
+      - uid: Mewdeko.Database.Models.AntiAltSetting
+        name: AntiAltSetting
+      - uid: Mewdeko.Database.Models.AntiMassMentionSetting
+        name: AntiMassMentionSetting
+      - uid: Mewdeko.Database.Models.AntiRaidSetting
+        name: AntiRaidSetting
+      - uid: Mewdeko.Database.Models.AntiSpamIgnore
+        name: AntiSpamIgnore
+      - uid: Mewdeko.Database.Models.AntiSpamSetting
+        name: AntiSpamSetting
+      - uid: Mewdeko.Database.Models.AutoBanEntry
+        name: AutoBanEntry
+      - uid: Mewdeko.Database.Models.AutoBanRoles
+        name: AutoBanRoles
+      - uid: Mewdeko.Database.Models.AutoCommand
+        name: AutoCommand
+      - uid: Mewdeko.Database.Models.AutoDisconnect
+        name: AutoDisconnect
+      - uid: Mewdeko.Database.Models.AutoPublish
+        name: AutoPublish
+      - uid: Mewdeko.Database.Models.AwardedUser
+        name: AwardedUser
+      - uid: Mewdeko.Database.Models.BanTemplate
+        name: BanTemplate
+      - uid: Mewdeko.Database.Models.BlacklistEntry
+        name: BlacklistEntry
+      - uid: Mewdeko.Database.Models.BlacklistType
+        name: BlacklistType
+      - uid: Mewdeko.Database.Models.ChannelRestrictions
+        name: ChannelRestrictions
+      - uid: Mewdeko.Database.Models.ChannelRestrictions.AllowedImageTypesEnum
+        name: ChannelRestrictions.AllowedImageTypesEnum
+      - uid: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
+        name: ChannelRestrictions.ChannelActionEnum
+      - uid: Mewdeko.Database.Models.ChatTriggerType
+        name: ChatTriggerType
+      - uid: Mewdeko.Database.Models.ChatTriggers
+        name: ChatTriggers
+      - uid: Mewdeko.Database.Models.ClubApplicants
+        name: ClubApplicants
+      - uid: Mewdeko.Database.Models.ClubBans
+        name: ClubBans
+      - uid: Mewdeko.Database.Models.ClubInfo
+        name: ClubInfo
+      - uid: Mewdeko.Database.Models.CommandAlias
+        name: CommandAlias
+      - uid: Mewdeko.Database.Models.CommandCooldown
+        name: CommandCooldown
+      - uid: Mewdeko.Database.Models.CommandStats
+        name: CommandStats
+      - uid: Mewdeko.Database.Models.Confessions
+        name: Confessions
+      - uid: Mewdeko.Database.Models.CtApplicationCommandType
+        name: CtApplicationCommandType
+      - uid: Mewdeko.Database.Models.CtRoleGrantType
+        name: CtRoleGrantType
+      - uid: Mewdeko.Database.Models.CurrencyEvent
+        name: CurrencyEvent
+      - uid: Mewdeko.Database.Models.CurrencyEvent.Type
+        name: CurrencyEvent.Type
+      - uid: Mewdeko.Database.Models.DbEntity
+        name: DbEntity
+      - uid: Mewdeko.Database.Models.DelMsgOnCmdChannel
+        name: DelMsgOnCmdChannel
+      - uid: Mewdeko.Database.Models.DiscordPermOverride
+        name: DiscordPermOverride
+      - uid: Mewdeko.Database.Models.DiscordUser
+        name: DiscordUser
+      - uid: Mewdeko.Database.Models.DiscordUser.BirthdayDisplayModeEnum
+        name: DiscordUser.BirthdayDisplayModeEnum
+      - uid: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
+        name: DiscordUser.ProfilePrivacyEnum
+      - uid: Mewdeko.Database.Models.ExcludedItem
+        name: ExcludedItem
+      - uid: Mewdeko.Database.Models.ExcludedItemType
+        name: ExcludedItemType
+      - uid: Mewdeko.Database.Models.FeedSub
+        name: FeedSub
+      - uid: Mewdeko.Database.Models.FilterInvitesChannelIds
+        name: FilterInvitesChannelIds
+      - uid: Mewdeko.Database.Models.FilterLinksChannelId
+        name: FilterLinksChannelId
+      - uid: Mewdeko.Database.Models.FilterWordsChannelIds
+        name: FilterWordsChannelIds
+      - uid: Mewdeko.Database.Models.FilteredWord
+        name: FilteredWord
+      - uid: Mewdeko.Database.Models.FollowedStream
+        name: FollowedStream
+      - uid: Mewdeko.Database.Models.FollowedStream.FType
+        name: FollowedStream.FType
+      - uid: Mewdeko.Database.Models.GCChannelId
+        name: GCChannelId
+      - uid: Mewdeko.Database.Models.GbActionType
+        name: GbActionType
+      - uid: Mewdeko.Database.Models.Giveaways
+        name: Giveaways
+      - uid: Mewdeko.Database.Models.GlobalBanConfig
+        name: GlobalBanConfig
+      - uid: Mewdeko.Database.Models.GlobalUserBalance
+        name: GlobalUserBalance
+      - uid: Mewdeko.Database.Models.GroupName
+        name: GroupName
+      - uid: Mewdeko.Database.Models.GuildConfig
+        name: GuildConfig
+      - uid: Mewdeko.Database.Models.GuildUserBalance
+        name: GuildUserBalance
+      - uid: Mewdeko.Database.Models.HighlightSettings
+        name: HighlightSettings
+      - uid: Mewdeko.Database.Models.Highlights
+        name: Highlights
+      - uid: Mewdeko.Database.Models.IIndexed
+        name: IIndexed
+      - uid: Mewdeko.Database.Models.IgnoredLogChannel
+        name: IgnoredLogChannel
+      - uid: Mewdeko.Database.Models.IgnoredVoicePresenceChannel
+        name: IgnoredVoicePresenceChannel
+      - uid: Mewdeko.Database.Models.JoinLeaveLogs
+        name: JoinLeaveLogs
+      - uid: Mewdeko.Database.Models.KarutaCriteria
+        name: KarutaCriteria
+      - uid: Mewdeko.Database.Models.LogSetting
+        name: LogSetting
+      - uid: Mewdeko.Database.Models.ModLogs
+        name: ModLogs
+      - uid: Mewdeko.Database.Models.MultiGreet
+        name: MultiGreet
+      - uid: Mewdeko.Database.Models.MultiStarboard
+        name: MultiStarboard
+      - uid: Mewdeko.Database.Models.MusicPlayerSettings
+        name: MusicPlayerSettings
+      - uid: Mewdeko.Database.Models.MusicPlaylist
+        name: MusicPlaylist
+      - uid: Mewdeko.Database.Models.MutedUserId
+        name: MutedUserId
+      - uid: Mewdeko.Database.Models.Nicknames
+        name: Nicknames
+      - uid: Mewdeko.Database.Models.NsfwBlacklitedTag
+        name: NsfwBlacklitedTag
+      - uid: Mewdeko.Database.Models.OrderType
+        name: OrderType
+      - uid: Mewdeko.Database.Models.OwnerOnly
+        name: OwnerOnly
+      - uid: Mewdeko.Database.Models.Permission
+        name: Permission
+      - uid: Mewdeko.Database.Models.Permissionv2
+        name: Permissionv2
+      - uid: Mewdeko.Database.Models.PlantedCurrency
+        name: PlantedCurrency
+      - uid: Mewdeko.Database.Models.Platform
+        name: Platform
+      - uid: Mewdeko.Database.Models.PlayerRepeatType
+        name: PlayerRepeatType
+      - uid: Mewdeko.Database.Models.PlaylistSong
+        name: PlaylistSong
+      - uid: Mewdeko.Database.Models.Poll
+        name: Poll
+      - uid: Mewdeko.Database.Models.PollAnswer
+        name: PollAnswer
+      - uid: Mewdeko.Database.Models.PollType
+        name: PollType
+      - uid: Mewdeko.Database.Models.PollVote
+        name: PollVote
+      - uid: Mewdeko.Database.Models.PrimaryPermissionType
+        name: PrimaryPermissionType
+      - uid: Mewdeko.Database.Models.PublishUserBlacklist
+        name: PublishUserBlacklist
+      - uid: Mewdeko.Database.Models.PublishWordBlacklist
+        name: PublishWordBlacklist
+      - uid: Mewdeko.Database.Models.PunishmentAction
+        name: PunishmentAction
+      - uid: Mewdeko.Database.Models.Quote
+        name: Quote
+      - uid: Mewdeko.Database.Models.ReactionResponse
+        name: ReactionResponse
+      - uid: Mewdeko.Database.Models.ReactionRole
+        name: ReactionRole
+      - uid: Mewdeko.Database.Models.ReactionRoleMessage
+        name: ReactionRoleMessage
+      - uid: Mewdeko.Database.Models.Reminder
+        name: Reminder
+      - uid: Mewdeko.Database.Models.Repeater
+        name: Repeater
+      - uid: Mewdeko.Database.Models.RequirePrefixType
+        name: RequirePrefixType
+      - uid: Mewdeko.Database.Models.RoleConnectionAuthStorage
+        name: RoleConnectionAuthStorage
+      - uid: Mewdeko.Database.Models.RoleGreet
+        name: RoleGreet
+      - uid: Mewdeko.Database.Models.RoleStateSettings
+        name: RoleStateSettings
+      - uid: Mewdeko.Database.Models.RoleWatch
+        name: RoleWatch
+      - uid: Mewdeko.Database.Models.RotatingPlayingStatus
+        name: RotatingPlayingStatus
+      - uid: Mewdeko.Database.Models.SecondaryPermissionType
+        name: SecondaryPermissionType
+      - uid: Mewdeko.Database.Models.SelfAssignedRole
+        name: SelfAssignedRole
+      - uid: Mewdeko.Database.Models.ServerRecoveryStore
+        name: ServerRecoveryStore
+      - uid: Mewdeko.Database.Models.ShopEntry
+        name: ShopEntry
+      - uid: Mewdeko.Database.Models.ShopEntryItem
+        name: ShopEntryItem
+      - uid: Mewdeko.Database.Models.ShopEntryType
+        name: ShopEntryType
+      - uid: Mewdeko.Database.Models.Stake
+        name: Stake
+      - uid: Mewdeko.Database.Models.StarboardPosts
+        name: StarboardPosts
+      - uid: Mewdeko.Database.Models.Starboards
+        name: Starboards
+      - uid: Mewdeko.Database.Models.StatusRolesTable
+        name: StatusRolesTable
+      - uid: Mewdeko.Database.Models.StickyRoles
+        name: StickyRoles
+      - uid: Mewdeko.Database.Models.StreamRoleBlacklistedUser
+        name: StreamRoleBlacklistedUser
+      - uid: Mewdeko.Database.Models.StreamRoleSettings
+        name: StreamRoleSettings
+      - uid: Mewdeko.Database.Models.StreamRoleWhitelistedUser
+        name: StreamRoleWhitelistedUser
+      - uid: Mewdeko.Database.Models.SuggestThreads
+        name: SuggestThreads
+      - uid: Mewdeko.Database.Models.SuggestVotes
+        name: SuggestVotes
+      - uid: Mewdeko.Database.Models.SuggestionsModel
+        name: SuggestionsModel
+      - uid: Mewdeko.Database.Models.Template
+        name: Template
+      - uid: Mewdeko.Database.Models.TemplateBar
+        name: TemplateBar
+      - uid: Mewdeko.Database.Models.TemplateClub
+        name: TemplateClub
+      - uid: Mewdeko.Database.Models.TemplateGuild
+        name: TemplateGuild
+      - uid: Mewdeko.Database.Models.TemplateUser
+        name: TemplateUser
+      - uid: Mewdeko.Database.Models.Ticket
+        name: Ticket
+      - uid: Mewdeko.Database.Models.TransactionHistory
+        name: TransactionHistory
+      - uid: Mewdeko.Database.Models.UnbanTimer
+        name: UnbanTimer
+      - uid: Mewdeko.Database.Models.UnmuteTimer
+        name: UnmuteTimer
+      - uid: Mewdeko.Database.Models.UnroleTimer
+        name: UnroleTimer
+      - uid: Mewdeko.Database.Models.UserRoleStates
+        name: UserRoleStates
+      - uid: Mewdeko.Database.Models.UserXpStats
+        name: UserXpStats
+      - uid: Mewdeko.Database.Models.Usernames
+        name: Usernames
+      - uid: Mewdeko.Database.Models.VcRoleInfo
+        name: VcRoleInfo
+      - uid: Mewdeko.Database.Models.VoteRoles
+        name: VoteRoles
+      - uid: Mewdeko.Database.Models.Votes
+        name: Votes
+      - uid: Mewdeko.Database.Models.WaifuInfo
+        name: WaifuInfo
+      - uid: Mewdeko.Database.Models.WaifuItem
+        name: WaifuItem
+      - uid: Mewdeko.Database.Models.WaifuLbResult
+        name: WaifuLbResult
+      - uid: Mewdeko.Database.Models.WaifuUpdate
+        name: WaifuUpdate
+      - uid: Mewdeko.Database.Models.WaifuUpdateType
+        name: WaifuUpdateType
+      - uid: Mewdeko.Database.Models.WarnExpireAction
+        name: WarnExpireAction
+      - uid: Mewdeko.Database.Models.Warning
+        name: Warning
+      - uid: Mewdeko.Database.Models.Warning2
+        name: Warning2
+      - uid: Mewdeko.Database.Models.WarningPunishment
+        name: WarningPunishment
+      - uid: Mewdeko.Database.Models.WarningPunishment2
+        name: WarningPunishment2
+      - uid: Mewdeko.Database.Models.XpCurrencyReward
+        name: XpCurrencyReward
+      - uid: Mewdeko.Database.Models.XpNotificationLocation
+        name: XpNotificationLocation
+      - uid: Mewdeko.Database.Models.XpRoleReward
+        name: XpRoleReward
+      - uid: Mewdeko.Database.Models.XpSettings
+        name: XpSettings
+      - uid: Mewdeko.Database.Models.XpTemplateDirection
+        name: XpTemplateDirection
+      - uid: Mewdeko.Database.Models.YtFollowedChannel
+        name: YtFollowedChannel
+    - uid: Mewdeko.Database.DbService
+      name: DbService
+    - uid: Mewdeko.Database.MewdekoContext
+      name: MewdekoContext
+    - uid: Mewdeko.Database.MewdekoPostgresContext
+      name: MewdekoPostgresContext
+    - uid: Mewdeko.Database.MewdekoSqLiteContext
+      name: MewdekoSqLiteContext
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    items:
+    - uid: Mewdeko.Extensions.ArrayExtensions
+      name: ArrayExtensions
+    - uid: Mewdeko.Extensions.EnumerableExtensions
+      name: EnumerableExtensions
+    - uid: Mewdeko.Extensions.Extensions
+      name: Extensions
+    - uid: Mewdeko.Extensions.MessageChannelExtensions
+      name: MessageChannelExtensions
+    - uid: Mewdeko.Extensions.MessageExtensions
+      name: MessageExtensions
+    - uid: Mewdeko.Extensions.ModalBuilderExtensions
+      name: ModalBuilderExtensions
+    - uid: Mewdeko.Extensions.MoeResponse
+      name: MoeResponse
+    - uid: Mewdeko.Extensions.NumberExtensions
+      name: NumberExtensions
+    - uid: Mewdeko.Extensions.RedisDictionary`2
+      name: RedisDictionary<TKey, TValue>
+    - uid: Mewdeko.Extensions.Result
+      name: Result
+    - uid: Mewdeko.Extensions.RoleExtensions
+      name: RoleExtensions
+    - uid: Mewdeko.Extensions.ServiceCollectionExtensions
+      name: ServiceCollectionExtensions
+    - uid: Mewdeko.Extensions.StringExtensions
+      name: StringExtensions
+    - uid: Mewdeko.Extensions.UserExtensions
+      name: UserExtensions
+  - uid: Mewdeko.Modules
+    name: Modules
+    items:
+    - uid: Mewdeko.Modules.Administration
+      name: Administration
+      items:
+      - uid: Mewdeko.Modules.Administration.Common
+        name: Common
+        items:
+        - uid: Mewdeko.Modules.Administration.Common.AntiAltStats
+          name: AntiAltStats
+        - uid: Mewdeko.Modules.Administration.Common.AntiRaidStats
+          name: AntiRaidStats
+        - uid: Mewdeko.Modules.Administration.Common.AntiSpamStats
+          name: AntiSpamStats
+        - uid: Mewdeko.Modules.Administration.Common.ProtectionType
+          name: ProtectionType
+        - uid: Mewdeko.Modules.Administration.Common.PunishQueueItem
+          name: PunishQueueItem
+        - uid: Mewdeko.Modules.Administration.Common.UserSpamStats
+          name: UserSpamStats
+      - uid: Mewdeko.Modules.Administration.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.Administration.Services.AdministrationService
+          name: AdministrationService
+        - uid: Mewdeko.Modules.Administration.Services.AutoAssignRoleService
+          name: AutoAssignRoleService
+        - uid: Mewdeko.Modules.Administration.Services.AutoBanRoleService
+          name: AutoBanRoleService
+        - uid: Mewdeko.Modules.Administration.Services.DiscordPermOverrideService
+          name: DiscordPermOverrideService
+        - uid: Mewdeko.Modules.Administration.Services.GameVoiceChannelService
+          name: GameVoiceChannelService
+        - uid: Mewdeko.Modules.Administration.Services.GuildConfigExtensions
+          name: GuildConfigExtensions
+        - uid: Mewdeko.Modules.Administration.Services.GuildTimezoneService
+          name: GuildTimezoneService
+        - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService
+          name: NewLogCommandService
+        - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
+          name: NewLogCommandService.LogCategoryTypes
+        - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType
+          name: NewLogCommandService.LogType
+        - uid: Mewdeko.Modules.Administration.Services.ProtectionService
+          name: ProtectionService
+        - uid: Mewdeko.Modules.Administration.Services.RoleCommandsService
+          name: RoleCommandsService
+        - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+          name: SelfAssignedRolesService
+        - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult
+          name: SelfAssignedRolesService.AssignResult
+        - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult
+          name: SelfAssignedRolesService.RemoveResult
+        - uid: Mewdeko.Modules.Administration.Services.ServerRecoveryService
+          name: ServerRecoveryService
+        - uid: Mewdeko.Modules.Administration.Services.VcRoleService
+          name: VcRoleService
+      - uid: Mewdeko.Modules.Administration.Administration
+        name: Administration
+      - uid: Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands
+        name: Administration.AutoAssignRoleCommands
+      - uid: Mewdeko.Modules.Administration.Administration.Channel
+        name: Administration.Channel
+      - uid: Mewdeko.Modules.Administration.Administration.DiscordPermOverrideCommands
+        name: Administration.DiscordPermOverrideCommands
+      - uid: Mewdeko.Modules.Administration.Administration.GameChannelCommands
+        name: Administration.GameChannelCommands
+      - uid: Mewdeko.Modules.Administration.Administration.List
+        name: Administration.List
+      - uid: Mewdeko.Modules.Administration.Administration.LocalizationCommands
+        name: Administration.LocalizationCommands
+      - uid: Mewdeko.Modules.Administration.Administration.LogCommands
+        name: Administration.LogCommands
+      - uid: Mewdeko.Modules.Administration.Administration.PrefixCommands
+        name: Administration.PrefixCommands
+      - uid: Mewdeko.Modules.Administration.Administration.PrefixCommands.Set
+        name: Administration.PrefixCommands.Set
+      - uid: Mewdeko.Modules.Administration.Administration.ProtectionCommands
+        name: Administration.ProtectionCommands
+      - uid: Mewdeko.Modules.Administration.Administration.RoleCommands
+        name: Administration.RoleCommands
+      - uid: Mewdeko.Modules.Administration.Administration.RoleCommands.Exclude
+        name: Administration.RoleCommands.Exclude
+      - uid: Mewdeko.Modules.Administration.Administration.SelfAssignedRolesCommands
+        name: Administration.SelfAssignedRolesCommands
+      - uid: Mewdeko.Modules.Administration.Administration.Server
+        name: Administration.Server
+      - uid: Mewdeko.Modules.Administration.Administration.ServerGreetCommands
+        name: Administration.ServerGreetCommands
+      - uid: Mewdeko.Modules.Administration.Administration.State
+        name: Administration.State
+      - uid: Mewdeko.Modules.Administration.Administration.TimeZoneCommands
+        name: Administration.TimeZoneCommands
+      - uid: Mewdeko.Modules.Administration.Administration.VcRoleCommands
+        name: Administration.VcRoleCommands
+      - uid: Mewdeko.Modules.Administration.AutoBanRole
+        name: AutoBanRole
+      - uid: Mewdeko.Modules.Administration.SlashAdministration
+        name: SlashAdministration
+      - uid: Mewdeko.Modules.Administration.SlashAdministration.SlashAutoBanRole
+        name: SlashAdministration.SlashAutoBanRole
+      - uid: Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery
+        name: SlashAdministration.SlashServerRecovery
+    - uid: Mewdeko.Modules.Afk
+      name: Afk
+      items:
+      - uid: Mewdeko.Modules.Afk.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.Afk.Services.AfkService
+          name: AfkService
+      - uid: Mewdeko.Modules.Afk.Afk
+        name: Afk
+      - uid: Mewdeko.Modules.Afk.Afk.AfkTypeEnum
+        name: Afk.AfkTypeEnum
+      - uid: Mewdeko.Modules.Afk.SlashAfk
+        name: SlashAfk
+    - uid: Mewdeko.Modules.Chat_Triggers
+      name: Chat_Triggers
+      items:
+      - uid: Mewdeko.Modules.Chat_Triggers.Common
+        name: Common
+        items:
+        - uid: Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError
+          name: ChatTriggersInteractionError
+        - uid: Mewdeko.Modules.Chat_Triggers.Common.ExportedTriggers
+          name: ExportedTriggers
+      - uid: Mewdeko.Modules.Chat_Triggers.Extensions
+        name: Extensions
+        items:
+        - uid: Mewdeko.Modules.Chat_Triggers.Extensions.Extensions
+          name: Extensions
+        - uid: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition
+          name: WordPosition
+      - uid: Mewdeko.Modules.Chat_Triggers.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+          name: ChatTriggersService
+        - uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+          name: ChatTriggersService.CtField
+      - uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+        name: ChatTriggers
+      - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers
+        name: SlashChatTriggers
+      - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Crossposting
+        name: SlashChatTriggers.Crossposting
+      - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Interactions
+        name: SlashChatTriggers.Interactions
+      - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Roles
+        name: SlashChatTriggers.Roles
+    - uid: Mewdeko.Modules.Confessions
+      name: Confessions
+      items:
+      - uid: Mewdeko.Modules.Confessions.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.Confessions.Services.ConfessionExtensions
+          name: ConfessionExtensions
+        - uid: Mewdeko.Modules.Confessions.Services.ConfessionService
+          name: ConfessionService
+      - uid: Mewdeko.Modules.Confessions.Confessions
+        name: Confessions
+      - uid: Mewdeko.Modules.Confessions.SlashConfessions
+        name: SlashConfessions
+    - uid: Mewdeko.Modules.Currency
+      name: Currency
+      items:
+      - uid: Mewdeko.Modules.Currency.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.Currency.Services.Impl
+          name: Impl
+          items:
+          - uid: Mewdeko.Modules.Currency.Services.Impl.GlobalCurrencyService
+            name: GlobalCurrencyService
+          - uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+            name: GuildCurrencyService
+          - uid: Mewdeko.Modules.Currency.Services.Impl.LbCurrency
+            name: LbCurrency
+        - uid: Mewdeko.Modules.Currency.Services.ICurrencyService
+          name: ICurrencyService
+      - uid: Mewdeko.Modules.Currency.Currency
+        name: Currency
+    - uid: Mewdeko.Modules.Games
+      name: Games
+      items:
+      - uid: Mewdeko.Modules.Games.Common
+        name: Common
+        items:
+        - uid: Mewdeko.Modules.Games.Common.Acrophobia
+          name: Acrophobia
+          items:
+          - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+            name: AcrophobiaGame
+          - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options
+            name: AcrophobiaGame.Options
+          - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase
+            name: AcrophobiaGame.Phase
+          - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaUser
+            name: AcrophobiaUser
+        - uid: Mewdeko.Modules.Games.Common.ChatterBot
+          name: ChatterBot
+          items:
+          - uid: Mewdeko.Modules.Games.Common.ChatterBot.ChatterBotResponse
+            name: ChatterBotResponse
+          - uid: Mewdeko.Modules.Games.Common.ChatterBot.ChatterBotSession
+            name: ChatterBotSession
+          - uid: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoAskResponse
+            name: CleverbotIoAskResponse
+          - uid: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoCreateResponse
+            name: CleverbotIoCreateResponse
+          - uid: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoSession
+            name: CleverbotIoSession
+          - uid: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotResponse
+            name: CleverbotResponse
+          - uid: Mewdeko.Modules.Games.Common.ChatterBot.IChatterBotSession
+            name: IChatterBotSession
+          - uid: Mewdeko.Modules.Games.Common.ChatterBot.OfficialCleverbotSession
+            name: OfficialCleverbotSession
+        - uid: Mewdeko.Modules.Games.Common.Hangman
+          name: Hangman
+          items:
+          - uid: Mewdeko.Modules.Games.Common.Hangman.Exceptions
+            name: Exceptions
+            items:
+            - uid: Mewdeko.Modules.Games.Common.Hangman.Exceptions.TermNotFoundException
+              name: TermNotFoundException
+          - uid: Mewdeko.Modules.Games.Common.Hangman.Hangman
+            name: Hangman
+          - uid: Mewdeko.Modules.Games.Common.Hangman.HangmanObject
+            name: HangmanObject
+          - uid: Mewdeko.Modules.Games.Common.Hangman.Phase
+            name: Phase
+          - uid: Mewdeko.Modules.Games.Common.Hangman.TermPool
+            name: TermPool
+          - uid: Mewdeko.Modules.Games.Common.Hangman.TermTypes
+            name: TermTypes
+        - uid: Mewdeko.Modules.Games.Common.Nunchi
+          name: Nunchi
+          items:
+          - uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame
+            name: NunchiGame
+          - uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+            name: NunchiGame.Phase
+        - uid: Mewdeko.Modules.Games.Common.Trivia
+          name: Trivia
+          items:
+          - uid: Mewdeko.Modules.Games.Common.Trivia.TriviaGame
+            name: TriviaGame
+          - uid: Mewdeko.Modules.Games.Common.Trivia.TriviaOptions
+            name: TriviaOptions
+          - uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion
+            name: TriviaQuestion
+          - uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool
+            name: TriviaQuestionPool
+        - uid: Mewdeko.Modules.Games.Common.GamesConfig
+          name: GamesConfig
+        - uid: Mewdeko.Modules.Games.Common.PollRunner
+          name: PollRunner
+        - uid: Mewdeko.Modules.Games.Common.RaceAnimal
+          name: RaceAnimal
+        - uid: Mewdeko.Modules.Games.Common.TicTacToe
+          name: TicTacToe
+        - uid: Mewdeko.Modules.Games.Common.TicTacToe.Options
+          name: TicTacToe.Options
+        - uid: Mewdeko.Modules.Games.Common.TriviaConfig
+          name: TriviaConfig
+        - uid: Mewdeko.Modules.Games.Common.TypingArticle
+          name: TypingArticle
+        - uid: Mewdeko.Modules.Games.Common.TypingGame
+          name: TypingGame
+        - uid: Mewdeko.Modules.Games.Common.TypingGame.Options
+          name: TypingGame.Options
+      - uid: Mewdeko.Modules.Games.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.Games.Services.ActivityService
+          name: ActivityService
+        - uid: Mewdeko.Modules.Games.Services.ChatterBotService
+          name: ChatterBotService
+        - uid: Mewdeko.Modules.Games.Services.GamesConfigService
+          name: GamesConfigService
+        - uid: Mewdeko.Modules.Games.Services.GamesService
+          name: GamesService
+        - uid: Mewdeko.Modules.Games.Services.PollButtons
+          name: PollButtons
+        - uid: Mewdeko.Modules.Games.Services.PollService
+          name: PollService
+      - uid: Mewdeko.Modules.Games.ActivitySlashCommand
+        name: ActivitySlashCommand
+      - uid: Mewdeko.Modules.Games.Games
+        name: Games
+      - uid: Mewdeko.Modules.Games.Games.AcropobiaCommands
+        name: Games.AcropobiaCommands
+      - uid: Mewdeko.Modules.Games.Games.ChatterBotCommands
+        name: Games.ChatterBotCommands
+      - uid: Mewdeko.Modules.Games.Games.HangmanCommands
+        name: Games.HangmanCommands
+      - uid: Mewdeko.Modules.Games.Games.NunchiCommands
+        name: Games.NunchiCommands
+      - uid: Mewdeko.Modules.Games.Games.PollCommands
+        name: Games.PollCommands
+      - uid: Mewdeko.Modules.Games.Games.SpeedTypingCommands
+        name: Games.SpeedTypingCommands
+      - uid: Mewdeko.Modules.Games.Games.TicTacToeCommands
+        name: Games.TicTacToeCommands
+      - uid: Mewdeko.Modules.Games.Games.TriviaCommands
+        name: Games.TriviaCommands
+    - uid: Mewdeko.Modules.Giveaways
+      name: Giveaways
+      items:
+      - uid: Mewdeko.Modules.Giveaways.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.Giveaways.Services.GiveawayService
+          name: GiveawayService
+      - uid: Mewdeko.Modules.Giveaways.Giveaways
+        name: Giveaways
+      - uid: Mewdeko.Modules.Giveaways.SlashGiveaways
+        name: SlashGiveaways
+    - uid: Mewdeko.Modules.Help
+      name: Help
+      items:
+      - uid: Mewdeko.Modules.Help.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.Help.Services.HelpService
+          name: HelpService
+      - uid: Mewdeko.Modules.Help.Command
+        name: Command
+      - uid: Mewdeko.Modules.Help.CommandTextEqualityComparer
+        name: CommandTextEqualityComparer
+      - uid: Mewdeko.Modules.Help.Help
+        name: Help
+      - uid: Mewdeko.Modules.Help.HelpSlashCommand
+        name: HelpSlashCommand
+      - uid: Mewdeko.Modules.Help.Module
+        name: Module
+    - uid: Mewdeko.Modules.Highlights
+      name: Highlights
+      items:
+      - uid: Mewdeko.Modules.Highlights.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.Highlights.Services.HighlightsService
+          name: HighlightsService
+      - uid: Mewdeko.Modules.Highlights.Highlights
+        name: Highlights
+      - uid: Mewdeko.Modules.Highlights.Highlights.HighlightActions
+        name: Highlights.HighlightActions
+      - uid: Mewdeko.Modules.Highlights.SlashHighlights
+        name: SlashHighlights
+    - uid: Mewdeko.Modules.Moderation
+      name: Moderation
+      items:
+      - uid: Mewdeko.Modules.Moderation.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.Moderation.Services.MuteService
+          name: MuteService
+        - uid: Mewdeko.Modules.Moderation.Services.MuteService.TimerType
+          name: MuteService.TimerType
+        - uid: Mewdeko.Modules.Moderation.Services.MuteType
+          name: MuteType
+        - uid: Mewdeko.Modules.Moderation.Services.PurgeService
+          name: PurgeService
+        - uid: Mewdeko.Modules.Moderation.Services.RoleMetadataService
+          name: RoleMetadataService
+        - uid: Mewdeko.Modules.Moderation.Services.UserPunishService
+          name: UserPunishService
+        - uid: Mewdeko.Modules.Moderation.Services.UserPunishService.MassNick
+          name: UserPunishService.MassNick
+        - uid: Mewdeko.Modules.Moderation.Services.UserPunishService2
+          name: UserPunishService2
+      - uid: Mewdeko.Modules.Moderation.Moderation
+        name: Moderation
+      - uid: Mewdeko.Modules.Moderation.Moderation.MuteCommands
+        name: Moderation.MuteCommands
+      - uid: Mewdeko.Modules.Moderation.Moderation.PurgeCommands
+        name: Moderation.PurgeCommands
+      - uid: Mewdeko.Modules.Moderation.Moderation.RoleMetadataCommands
+        name: Moderation.RoleMetadataCommands
+      - uid: Mewdeko.Modules.Moderation.Moderation.UserPunishCommands
+        name: Moderation.UserPunishCommands
+      - uid: Mewdeko.Modules.Moderation.Moderation.UserPunishCommands.AddRole
+        name: Moderation.UserPunishCommands.AddRole
+      - uid: Mewdeko.Modules.Moderation.Moderation.UserPunishCommands2
+        name: Moderation.UserPunishCommands2
+      - uid: Mewdeko.Modules.Moderation.Moderation.UserPunishCommands2.AddRole
+        name: Moderation.UserPunishCommands2.AddRole
+      - uid: Mewdeko.Modules.Moderation.SlashPunishCommands
+        name: SlashPunishCommands
+      - uid: Mewdeko.Modules.Moderation.SlashRoleMetadataCommands
+        name: SlashRoleMetadataCommands
+      - uid: Mewdeko.Modules.Moderation.SlashRoleMetadataCommands.AuthResponce
+        name: SlashRoleMetadataCommands.AuthResponce
+    - uid: Mewdeko.Modules.MultiGreets
+      name: MultiGreets
+      items:
+      - uid: Mewdeko.Modules.MultiGreets.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.MultiGreets.Services.MultiGreetService
+          name: MultiGreetService
+      - uid: Mewdeko.Modules.MultiGreets.MultiGreets
+        name: MultiGreets
+      - uid: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+        name: MultiGreets.MultiGreetTypes
+      - uid: Mewdeko.Modules.MultiGreets.SlashMultiGreets
+        name: SlashMultiGreets
+      - uid: Mewdeko.Modules.MultiGreets.SlashMultiGreets.MultiGreetTypes
+        name: SlashMultiGreets.MultiGreetTypes
+    - uid: Mewdeko.Modules.Music
+      name: Music
+      items:
+      - uid: Mewdeko.Modules.Music.Common
+        name: Common
+        items:
+        - uid: Mewdeko.Modules.Music.Common.AdvancedTrackContext
+          name: AdvancedTrackContext
+      - uid: Mewdeko.Modules.Music.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.Music.Services.MusicPlayer
+          name: MusicPlayer
+        - uid: Mewdeko.Modules.Music.Services.MusicService
+          name: MusicService
+      - uid: Mewdeko.Modules.Music.Music
+        name: Music
+      - uid: Mewdeko.Modules.Music.Music.PlaylistAction
+        name: Music.PlaylistAction
+      - uid: Mewdeko.Modules.Music.SlashMusic
+        name: SlashMusic
+      - uid: Mewdeko.Modules.Music.SlashMusic.PlaylistAction
+        name: SlashMusic.PlaylistAction
+    - uid: Mewdeko.Modules.Nsfw
+      name: Nsfw
+      items:
+      - uid: Mewdeko.Modules.Nsfw.Common
+        name: Common
+        items:
+        - uid: Mewdeko.Modules.Nsfw.Common.Downloaders
+          name: Downloaders
+          items:
+          - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.DanbooruImageDownloader
+            name: DanbooruImageDownloader
+          - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.DapiImageDownloader
+            name: DapiImageDownloader
+          - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.DerpibooruImageDownloader
+            name: DerpibooruImageDownloader
+          - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.E621ImageDownloader
+            name: E621ImageDownloader
+          - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.E621Response
+            name: E621Response
+          - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.GelbooruImageDownloader
+            name: GelbooruImageDownloader
+          - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.GelbooruResponse
+            name: GelbooruResponse
+          - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader
+            name: IImageDownloader
+          - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.ImageDownloaderHelper
+            name: ImageDownloaderHelper
+          - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.ImageDownloader`1
+            name: ImageDownloader<T>
+          - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.KonachanImageDownloader
+            name: KonachanImageDownloader
+          - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.RealbooruImageDownloader
+            name: RealbooruImageDownloader
+          - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.Rule34ImageDownloader
+            name: Rule34ImageDownloader
+          - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.SafebooruImageDownloader
+            name: SafebooruImageDownloader
+          - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.SankakuImageDownloader
+            name: SankakuImageDownloader
+          - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.YandereImageDownloader
+            name: YandereImageDownloader
+        - uid: Mewdeko.Modules.Nsfw.Common.Booru
+          name: Booru
+        - uid: Mewdeko.Modules.Nsfw.Common.DapiImageObject
+          name: DapiImageObject
+        - uid: Mewdeko.Modules.Nsfw.Common.DapiTag
+          name: DapiTag
+        - uid: Mewdeko.Modules.Nsfw.Common.DerpiContainer
+          name: DerpiContainer
+        - uid: Mewdeko.Modules.Nsfw.Common.DerpiImageObject
+          name: DerpiImageObject
+        - uid: Mewdeko.Modules.Nsfw.Common.E621Object
+          name: E621Object
+        - uid: Mewdeko.Modules.Nsfw.Common.E621Object.FileData
+          name: E621Object.FileData
+        - uid: Mewdeko.Modules.Nsfw.Common.E621Object.ScoreData
+          name: E621Object.ScoreData
+        - uid: Mewdeko.Modules.Nsfw.Common.E621Object.TagData
+          name: E621Object.TagData
+        - uid: Mewdeko.Modules.Nsfw.Common.IImageData
+          name: IImageData
+        - uid: Mewdeko.Modules.Nsfw.Common.ImageData
+          name: ImageData
+        - uid: Mewdeko.Modules.Nsfw.Common.RealBooruElement
+          name: RealBooruElement
+        - uid: Mewdeko.Modules.Nsfw.Common.Rule34Object
+          name: Rule34Object
+        - uid: Mewdeko.Modules.Nsfw.Common.SafebooruElement
+          name: SafebooruElement
+        - uid: Mewdeko.Modules.Nsfw.Common.SankakuImageObject
+          name: SankakuImageObject
+        - uid: Mewdeko.Modules.Nsfw.Common.SankakuImageObject.Tag
+          name: SankakuImageObject.Tag
+      - uid: Mewdeko.Modules.Nsfw.ISearchImagesService
+        name: ISearchImagesService
+      - uid: Mewdeko.Modules.Nsfw.Nsfw
+        name: Nsfw
+      - uid: Mewdeko.Modules.Nsfw.SearchImageCacher
+        name: SearchImageCacher
+      - uid: Mewdeko.Modules.Nsfw.SearchImagesService
+        name: SearchImagesService
+      - uid: Mewdeko.Modules.Nsfw.UrlReply
+        name: UrlReply
+    - uid: Mewdeko.Modules.OwnerOnly
+      name: OwnerOnly
+      items:
+      - uid: Mewdeko.Modules.OwnerOnly.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+          name: OwnerOnlyService
+      - uid: Mewdeko.Modules.OwnerOnly.EvaluationEnvironment
+        name: EvaluationEnvironment
+      - uid: Mewdeko.Modules.OwnerOnly.InteractionEvaluationEnvironment
+        name: InteractionEvaluationEnvironment
+      - uid: Mewdeko.Modules.OwnerOnly.OwnerOnly
+        name: OwnerOnly
+      - uid: Mewdeko.Modules.OwnerOnly.OwnerOnly.SettableUserStatus
+        name: OwnerOnly.SettableUserStatus
+      - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly
+        name: SlashOwnerOnly
+      - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands
+        name: SlashOwnerOnly.ConfigCommands
+      - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.SettableUserStatus
+        name: SlashOwnerOnly.SettableUserStatus
+      - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.StatusCommands
+        name: SlashOwnerOnly.StatusCommands
+    - uid: Mewdeko.Modules.Permissions
+      name: Permissions
+      items:
+      - uid: Mewdeko.Modules.Permissions.Common
+        name: Common
+        items:
+        - uid: Mewdeko.Modules.Permissions.Common.OldPermissionCache
+          name: OldPermissionCache
+        - uid: Mewdeko.Modules.Permissions.Common.PermissionCache
+          name: PermissionCache
+        - uid: Mewdeko.Modules.Permissions.Common.PermissionExtensions
+          name: PermissionExtensions
+        - uid: Mewdeko.Modules.Permissions.Common.PermissionsCollection`1
+          name: PermissionsCollection<T>
+      - uid: Mewdeko.Modules.Permissions.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.Permissions.Services.ActiveCooldown
+          name: ActiveCooldown
+        - uid: Mewdeko.Modules.Permissions.Services.BlacklistService
+          name: BlacklistService
+        - uid: Mewdeko.Modules.Permissions.Services.CmdCdService
+          name: CmdCdService
+        - uid: Mewdeko.Modules.Permissions.Services.FilterService
+          name: FilterService
+        - uid: Mewdeko.Modules.Permissions.Services.GlobalPermissionService
+          name: GlobalPermissionService
+        - uid: Mewdeko.Modules.Permissions.Services.PermissionService
+          name: PermissionService
+      - uid: Mewdeko.Modules.Permissions.Permissions
+        name: Permissions
+      - uid: Mewdeko.Modules.Permissions.Permissions.BlacklistCommands
+        name: Permissions.BlacklistCommands
+      - uid: Mewdeko.Modules.Permissions.Permissions.CmdCdsCommands
+        name: Permissions.CmdCdsCommands
+      - uid: Mewdeko.Modules.Permissions.Permissions.FilterCommands
+        name: Permissions.FilterCommands
+      - uid: Mewdeko.Modules.Permissions.Permissions.GlobalPermissionCommands
+        name: Permissions.GlobalPermissionCommands
+      - uid: Mewdeko.Modules.Permissions.Permissions.Reset
+        name: Permissions.Reset
+      - uid: Mewdeko.Modules.Permissions.SlashPermissions
+        name: SlashPermissions
+      - uid: Mewdeko.Modules.Permissions.SlashPermissions.PermissionSlash
+        name: SlashPermissions.PermissionSlash
+      - uid: Mewdeko.Modules.Permissions.SlashPermissions.Reset
+        name: SlashPermissions.Reset
+    - uid: Mewdeko.Modules.RoleGreets
+      name: RoleGreets
+      items:
+      - uid: Mewdeko.Modules.RoleGreets.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.RoleGreets.Services.RoleGreetService
+          name: RoleGreetService
+      - uid: Mewdeko.Modules.RoleGreets.RoleGreets
+        name: RoleGreets
+      - uid: Mewdeko.Modules.RoleGreets.SlashRoleGreets
+        name: SlashRoleGreets
+    - uid: Mewdeko.Modules.RoleStates
+      name: RoleStates
+      items:
+      - uid: Mewdeko.Modules.RoleStates.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.RoleStates.Services.RoleStatesService
+          name: RoleStatesService
+      - uid: Mewdeko.Modules.RoleStates.RoleStates
+        name: RoleStates
+      - uid: Mewdeko.Modules.RoleStates.SlashRoleStates
+        name: SlashRoleStates
+    - uid: Mewdeko.Modules.Searches
+      name: Searches
+      items:
+      - uid: Mewdeko.Modules.Searches.Common
+        name: Common
+        items:
+        - uid: Mewdeko.Modules.Searches.Common.Exceptions
+          name: Exceptions
+          items:
+          - uid: Mewdeko.Modules.Searches.Common.Exceptions.StreamNotFoundException
+            name: StreamNotFoundException
+        - uid: Mewdeko.Modules.Searches.Common.StreamNotifications
+          name: StreamNotifications
+          items:
+          - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+            name: Models
+            items:
+            - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.ChatSettings
+              name: ChatSettings
+            - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+              name: DescriptionPanel
+            - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse
+              name: HelixStreamsResponse
+            - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.PaginationData
+              name: HelixStreamsResponse.PaginationData
+            - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.StreamData
+              name: HelixStreamsResponse.StreamData
+            - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse
+              name: HelixUsersResponse
+            - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
+              name: HelixUsersResponse.User
+            - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Language
+              name: Language
+            - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream
+              name: Multistream
+            - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+              name: PicartoChannelResponse
+            - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+              name: StreamData
+            - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Thumbnails
+              name: Thumbnails
+            - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoGetUsersResponse
+              name: TrovoGetUsersResponse
+            - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoRequestData
+              name: TrovoRequestData
+            - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoSocialLink
+              name: TrovoSocialLink
+            - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
+              name: XkcdComic
+          - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
+            name: Providers
+            items:
+            - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.PicartoProvider
+              name: PicartoProvider
+            - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.Provider
+              name: Provider
+            - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.TrovoProvider
+              name: TrovoProvider
+            - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.TwitchHelixProvider
+              name: TwitchHelixProvider
+          - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.NotifChecker
+            name: NotifChecker
+        - uid: Mewdeko.Modules.Searches.Common.AnimeResult
+          name: AnimeResult
+        - uid: Mewdeko.Modules.Searches.Common.Audio
+          name: Audio
+        - uid: Mewdeko.Modules.Searches.Common.BibleVerse
+          name: BibleVerse
+        - uid: Mewdeko.Modules.Searches.Common.BibleVerses
+          name: BibleVerses
+        - uid: Mewdeko.Modules.Searches.Common.Clouds
+          name: Clouds
+        - uid: Mewdeko.Modules.Searches.Common.Coord
+          name: Coord
+        - uid: Mewdeko.Modules.Searches.Common.DapiImageObject
+          name: DapiImageObject
+        - uid: Mewdeko.Modules.Searches.Common.DapiSearchType
+          name: DapiSearchType
+        - uid: Mewdeko.Modules.Searches.Common.DefineModel
+          name: DefineModel
+        - uid: Mewdeko.Modules.Searches.Common.DerpiContainer
+          name: DerpiContainer
+        - uid: Mewdeko.Modules.Searches.Common.DerpiImageObject
+          name: DerpiImageObject
+        - uid: Mewdeko.Modules.Searches.Common.E621Object
+          name: E621Object
+        - uid: Mewdeko.Modules.Searches.Common.E621Object.FileData
+          name: E621Object.FileData
+        - uid: Mewdeko.Modules.Searches.Common.E621Object.ScoreData
+          name: E621Object.ScoreData
+        - uid: Mewdeko.Modules.Searches.Common.E621Object.TagData
+          name: E621Object.TagData
+        - uid: Mewdeko.Modules.Searches.Common.Example
+          name: Example
+        - uid: Mewdeko.Modules.Searches.Common.GatariUserResponse
+          name: GatariUserResponse
+        - uid: Mewdeko.Modules.Searches.Common.GatariUserStatsResponse
+          name: GatariUserStatsResponse
+        - uid: Mewdeko.Modules.Searches.Common.GoogleSearchResult
+          name: GoogleSearchResult
+        - uid: Mewdeko.Modules.Searches.Common.GramaticalInfo
+          name: GramaticalInfo
+        - uid: Mewdeko.Modules.Searches.Common.ImageCacherObject
+          name: ImageCacherObject
+        - uid: Mewdeko.Modules.Searches.Common.LocationIqResponse
+          name: LocationIqResponse
+        - uid: Mewdeko.Modules.Searches.Common.MagicItem
+          name: MagicItem
+        - uid: Mewdeko.Modules.Searches.Common.Main
+          name: Main
+        - uid: Mewdeko.Modules.Searches.Common.MangaResult
+          name: MangaResult
+        - uid: Mewdeko.Modules.Searches.Common.MtgData
+          name: MtgData
+        - uid: Mewdeko.Modules.Searches.Common.MtgResponse
+          name: MtgResponse
+        - uid: Mewdeko.Modules.Searches.Common.MtgResponse.Data
+          name: MtgResponse.Data
+        - uid: Mewdeko.Modules.Searches.Common.NovelResult
+          name: NovelResult
+        - uid: Mewdeko.Modules.Searches.Common.OmdbMovie
+          name: OmdbMovie
+        - uid: Mewdeko.Modules.Searches.Common.OsuUserData
+          name: OsuUserData
+        - uid: Mewdeko.Modules.Searches.Common.Result
+          name: Result
+        - uid: Mewdeko.Modules.Searches.Common.SafebooruElement
+          name: SafebooruElement
+        - uid: Mewdeko.Modules.Searches.Common.SearchImageCacher
+          name: SearchImageCacher
+        - uid: Mewdeko.Modules.Searches.Common.Sens
+          name: Sens
+        - uid: Mewdeko.Modules.Searches.Common.Sys
+          name: Sys
+        - uid: Mewdeko.Modules.Searches.Common.TimeData
+          name: TimeData
+        - uid: Mewdeko.Modules.Searches.Common.TimeZoneResult
+          name: TimeZoneResult
+        - uid: Mewdeko.Modules.Searches.Common.UrbanDef
+          name: UrbanDef
+        - uid: Mewdeko.Modules.Searches.Common.UrbanResponse
+          name: UrbanResponse
+        - uid: Mewdeko.Modules.Searches.Common.UserData
+          name: UserData
+        - uid: Mewdeko.Modules.Searches.Common.UserStats
+          name: UserStats
+        - uid: Mewdeko.Modules.Searches.Common.Weather
+          name: Weather
+        - uid: Mewdeko.Modules.Searches.Common.WeatherData
+          name: WeatherData
+        - uid: Mewdeko.Modules.Searches.Common.WikipediaApiModel
+          name: WikipediaApiModel
+        - uid: Mewdeko.Modules.Searches.Common.WikipediaApiModel.WikipediaQuery
+          name: WikipediaApiModel.WikipediaQuery
+        - uid: Mewdeko.Modules.Searches.Common.WikipediaApiModel.WikipediaQuery.WikipediaPage
+          name: WikipediaApiModel.WikipediaQuery.WikipediaPage
+        - uid: Mewdeko.Modules.Searches.Common.Wind
+          name: Wind
+        - uid: Mewdeko.Modules.Searches.Common.WoWJoke
+          name: WoWJoke
+      - uid: Mewdeko.Modules.Searches.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.Searches.Services.FeedsService
+          name: FeedsService
+        - uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+          name: GoogleSearchResultData
+        - uid: Mewdeko.Modules.Searches.Services.RedditCache
+          name: RedditCache
+        - uid: Mewdeko.Modules.Searches.Services.SearchesService
+          name: SearchesService
+        - uid: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+          name: SearchesService.ImageTag
+        - uid: Mewdeko.Modules.Searches.Services.ShipCache
+          name: ShipCache
+        - uid: Mewdeko.Modules.Searches.Services.SteamGameData
+          name: SteamGameData
+        - uid: Mewdeko.Modules.Searches.Services.SteamGameData.Container
+          name: SteamGameData.Container
+        - uid: Mewdeko.Modules.Searches.Services.SteamGameId
+          name: SteamGameId
+        - uid: Mewdeko.Modules.Searches.Services.StreamNotificationService
+          name: StreamNotificationService
+        - uid: Mewdeko.Modules.Searches.Services.StreamNotificationService.FollowStreamPubData
+          name: StreamNotificationService.FollowStreamPubData
+        - uid: Mewdeko.Modules.Searches.Services.TimeErrors
+          name: TimeErrors
+        - uid: Mewdeko.Modules.Searches.Services.ToneTagService
+          name: ToneTagService
+        - uid: Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult
+          name: ToneTagService.ParseResult
+      - uid: Mewdeko.Modules.Searches.Searches
+        name: Searches
+      - uid: Mewdeko.Modules.Searches.Searches.ActionCommands
+        name: Searches.ActionCommands
+      - uid: Mewdeko.Modules.Searches.Searches.AnimeCommands
+        name: Searches.AnimeCommands
+      - uid: Mewdeko.Modules.Searches.Searches.FeedCommands
+        name: Searches.FeedCommands
+      - uid: Mewdeko.Modules.Searches.Searches.JokeCommands
+        name: Searches.JokeCommands
+      - uid: Mewdeko.Modules.Searches.Searches.MemegenCommands
+        name: Searches.MemegenCommands
+      - uid: Mewdeko.Modules.Searches.Searches.OsuCommands
+        name: Searches.OsuCommands
+      - uid: Mewdeko.Modules.Searches.Searches.PokemonCommands
+        name: Searches.PokemonCommands
+      - uid: Mewdeko.Modules.Searches.Searches.ShortenData
+        name: Searches.ShortenData
+      - uid: Mewdeko.Modules.Searches.Searches.StreamNotificationCommands
+        name: Searches.StreamNotificationCommands
+      - uid: Mewdeko.Modules.Searches.Searches.TranslateCommands
+        name: Searches.TranslateCommands
+      - uid: Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate
+        name: Searches.TranslateCommands.AutoDeleteAutoTranslate
+      - uid: Mewdeko.Modules.Searches.Searches.XkcdCommands
+        name: Searches.XkcdCommands
+      - uid: Mewdeko.Modules.Searches.SlashSearches
+        name: SlashSearches
+      - uid: Mewdeko.Modules.Searches.SlashToneTags
+        name: SlashToneTags
+    - uid: Mewdeko.Modules.Server_Management
+      name: Server_Management
+      items:
+      - uid: Mewdeko.Modules.Server_Management.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.Server_Management.Services.RoleCommandsService
+          name: RoleCommandsService
+        - uid: Mewdeko.Modules.Server_Management.Services.RoleCommandsService.RoleJobs
+          name: RoleCommandsService.RoleJobs
+        - uid: Mewdeko.Modules.Server_Management.Services.ServerManagementService
+          name: ServerManagementService
+      - uid: Mewdeko.Modules.Server_Management.EmoteStealer
+        name: EmoteStealer
+      - uid: Mewdeko.Modules.Server_Management.ServerManagement
+        name: ServerManagement
+      - uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+        name: ServerManagement.ChannelCommands
+      - uid: Mewdeko.Modules.Server_Management.ServerManagement.PermControls
+        name: ServerManagement.PermControls
+      - uid: Mewdeko.Modules.Server_Management.ServerManagement.RoleCommands
+        name: ServerManagement.RoleCommands
+      - uid: Mewdeko.Modules.Server_Management.ServerManagement.RoleCommands.ExportedRoles
+        name: ServerManagement.RoleCommands.ExportedRoles
+    - uid: Mewdeko.Modules.Starboard
+      name: Starboard
+      items:
+      - uid: Mewdeko.Modules.Starboard.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.Starboard.Services.StarboardService
+          name: StarboardService
+      - uid: Mewdeko.Modules.Starboard.Starboard
+        name: Starboard
+      - uid: Mewdeko.Modules.Starboard.Starboard.WhitelistMode
+        name: Starboard.WhitelistMode
+      - uid: Mewdeko.Modules.Starboard.StarboardSlash
+        name: StarboardSlash
+    - uid: Mewdeko.Modules.StatusRoles
+      name: StatusRoles
+      items:
+      - uid: Mewdeko.Modules.StatusRoles.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.StatusRoles.Services.StatusRolesService
+          name: StatusRolesService
+      - uid: Mewdeko.Modules.StatusRoles.SlashStatusRoles
+        name: SlashStatusRoles
+      - uid: Mewdeko.Modules.StatusRoles.StatusRoles
+        name: StatusRoles
+    - uid: Mewdeko.Modules.Suggestions
+      name: Suggestions
+      items:
+      - uid: Mewdeko.Modules.Suggestions.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.Suggestions.Services.SuggestButtonService
+          name: SuggestButtonService
+        - uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService
+          name: SuggestionsService
+        - uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+          name: SuggestionsService.SuggestState
+      - uid: Mewdeko.Modules.Suggestions.SlashSuggestions
+        name: SlashSuggestions
+      - uid: Mewdeko.Modules.Suggestions.SlashSuggestions.SlashSuggestionsCustomization
+        name: SlashSuggestions.SlashSuggestionsCustomization
+      - uid: Mewdeko.Modules.Suggestions.Suggestions
+        name: Suggestions
+      - uid: Mewdeko.Modules.Suggestions.Suggestions.ButtonType
+        name: Suggestions.ButtonType
+      - uid: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold
+        name: Suggestions.RepostThreshold
+      - uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestEmoteModeEnum
+        name: Suggestions.SuggestEmoteModeEnum
+      - uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
+        name: Suggestions.SuggestThreadType
+      - uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestionsCustomization
+        name: Suggestions.SuggestionsCustomization
+    - uid: Mewdeko.Modules.UserProfile
+      name: UserProfile
+      items:
+      - uid: Mewdeko.Modules.UserProfile.Common
+        name: Common
+        items:
+        - uid: Mewdeko.Modules.UserProfile.Common.PronounSearchResult
+          name: PronounSearchResult
+        - uid: Mewdeko.Modules.UserProfile.Common.ZodiacResult
+          name: ZodiacResult
+      - uid: Mewdeko.Modules.UserProfile.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.UserProfile.Services.UserProfileService
+          name: UserProfileService
+      - uid: Mewdeko.Modules.UserProfile.SlashUserProfile
+        name: SlashUserProfile
+      - uid: Mewdeko.Modules.UserProfile.UserProfile
+        name: UserProfile
+    - uid: Mewdeko.Modules.Utility
+      name: Utility
+      items:
+      - uid: Mewdeko.Modules.Utility.Common
+        name: Common
+        items:
+        - uid: Mewdeko.Modules.Utility.Common.Exceptions
+          name: Exceptions
+          items:
+          - uid: Mewdeko.Modules.Utility.Common.Exceptions.StreamRoleNotFoundException
+            name: StreamRoleNotFoundException
+          - uid: Mewdeko.Modules.Utility.Common.Exceptions.StreamRolePermissionException
+            name: StreamRolePermissionException
+        - uid: Mewdeko.Modules.Utility.Common.ConvertUnit
+          name: ConvertUnit
+        - uid: Mewdeko.Modules.Utility.Common.PronounDbResult
+          name: PronounDbResult
+        - uid: Mewdeko.Modules.Utility.Common.RepeatRunner
+          name: RepeatRunner
+        - uid: Mewdeko.Modules.Utility.Common.SnipeStore
+          name: SnipeStore
+        - uid: Mewdeko.Modules.Utility.Common.StreamRoleListType
+          name: StreamRoleListType
+      - uid: Mewdeko.Modules.Utility.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.Utility.Services.AutoPublishService
+          name: AutoPublishService
+        - uid: Mewdeko.Modules.Utility.Services.CommandAliasEqualityComparer
+          name: CommandAliasEqualityComparer
+        - uid: Mewdeko.Modules.Utility.Services.CommandMapService
+          name: CommandMapService
+        - uid: Mewdeko.Modules.Utility.Services.ConverterService
+          name: ConverterService
+        - uid: Mewdeko.Modules.Utility.Services.DllVersionChecker
+          name: DllVersionChecker
+        - uid: Mewdeko.Modules.Utility.Services.InviteService
+          name: InviteService
+        - uid: Mewdeko.Modules.Utility.Services.InviteService.Options
+          name: InviteService.Options
+        - uid: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService
+          name: JoinLeaveLoggerService
+        - uid: Mewdeko.Modules.Utility.Services.MessageRepeaterService
+          name: MessageRepeaterService
+        - uid: Mewdeko.Modules.Utility.Services.OwoServices
+          name: OwoServices
+        - uid: Mewdeko.Modules.Utility.Services.PronounsService
+          name: PronounsService
+        - uid: Mewdeko.Modules.Utility.Services.Rates
+          name: Rates
+        - uid: Mewdeko.Modules.Utility.Services.RemindService
+          name: RemindService
+        - uid: Mewdeko.Modules.Utility.Services.RemindService.RemindObject
+          name: RemindService.RemindObject
+        - uid: Mewdeko.Modules.Utility.Services.RollCommandService
+          name: RollCommandService
+        - uid: Mewdeko.Modules.Utility.Services.StreamRoleService
+          name: StreamRoleService
+        - uid: Mewdeko.Modules.Utility.Services.UtilityService
+          name: UtilityService
+        - uid: Mewdeko.Modules.Utility.Services.VerboseErrorsService
+          name: VerboseErrorsService
+      - uid: Mewdeko.Modules.Utility.LinkCommands
+        name: LinkCommands
+      - uid: Mewdeko.Modules.Utility.SlashAutoPublish
+        name: SlashAutoPublish
+      - uid: Mewdeko.Modules.Utility.SlashRemindCommands
+        name: SlashRemindCommands
+      - uid: Mewdeko.Modules.Utility.SlashUtility
+        name: SlashUtility
+      - uid: Mewdeko.Modules.Utility.Utility
+        name: Utility
+      - uid: Mewdeko.Modules.Utility.Utility.AutoPublish
+        name: Utility.AutoPublish
+      - uid: Mewdeko.Modules.Utility.Utility.CalcCommands
+        name: Utility.CalcCommands
+      - uid: Mewdeko.Modules.Utility.Utility.CommandMapCommands
+        name: Utility.CommandMapCommands
+      - uid: Mewdeko.Modules.Utility.Utility.InfoCommands
+        name: Utility.InfoCommands
+      - uid: Mewdeko.Modules.Utility.Utility.InviteCommands
+        name: Utility.InviteCommands
+      - uid: Mewdeko.Modules.Utility.Utility.JoinLeaveStats
+        name: Utility.JoinLeaveStats
+      - uid: Mewdeko.Modules.Utility.Utility.NetworkUtilities
+        name: Utility.NetworkUtilities
+      - uid: Mewdeko.Modules.Utility.Utility.PermissionType
+        name: Utility.PermissionType
+      - uid: Mewdeko.Modules.Utility.Utility.QuoteCommands
+        name: Utility.QuoteCommands
+      - uid: Mewdeko.Modules.Utility.Utility.RemindCommands
+        name: Utility.RemindCommands
+      - uid: Mewdeko.Modules.Utility.Utility.RemindCommands.MeOrHere
+        name: Utility.RemindCommands.MeOrHere
+      - uid: Mewdeko.Modules.Utility.Utility.RepeatCommands
+        name: Utility.RepeatCommands
+      - uid: Mewdeko.Modules.Utility.Utility.SlashSnipes
+        name: Utility.SlashSnipes
+      - uid: Mewdeko.Modules.Utility.Utility.StreamRoleCommands
+        name: Utility.StreamRoleCommands
+      - uid: Mewdeko.Modules.Utility.Utility.UnitConverterCommands
+        name: Utility.UnitConverterCommands
+      - uid: Mewdeko.Modules.Utility.Utility.VerboseErrorCommands
+        name: Utility.VerboseErrorCommands
+    - uid: Mewdeko.Modules.Votes
+      name: Votes
+      items:
+      - uid: Mewdeko.Modules.Votes.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.Votes.Services.CustomVoteThingy
+          name: CustomVoteThingy
+        - uid: Mewdeko.Modules.Votes.Services.VoteService
+          name: VoteService
+      - uid: Mewdeko.Modules.Votes.Vote
+        name: Vote
+      - uid: Mewdeko.Modules.Votes.VoteSlashCommands
+        name: VoteSlashCommands
+    - uid: Mewdeko.Modules.Xp
+      name: Xp
+      items:
+      - uid: Mewdeko.Modules.Xp.Common
+        name: Common
+        items:
+        - uid: Mewdeko.Modules.Xp.Common.FullUserStats
+          name: FullUserStats
+        - uid: Mewdeko.Modules.Xp.Common.LevelStats
+          name: LevelStats
+        - uid: Mewdeko.Modules.Xp.Common.XpConfig
+          name: XpConfig
+      - uid: Mewdeko.Modules.Xp.Extensions
+        name: Extensions
+        items:
+        - uid: Mewdeko.Modules.Xp.Extensions.Extensions
+          name: Extensions
+      - uid: Mewdeko.Modules.Xp.Services
+        name: Services
+        items:
+        - uid: Mewdeko.Modules.Xp.Services.ClubService
+          name: ClubService
+        - uid: Mewdeko.Modules.Xp.Services.UserCacheItem
+          name: UserCacheItem
+        - uid: Mewdeko.Modules.Xp.Services.XpConfigService
+          name: XpConfigService
+        - uid: Mewdeko.Modules.Xp.Services.XpService
+          name: XpService
+      - uid: Mewdeko.Modules.Xp.Xp
+        name: Xp
+      - uid: Mewdeko.Modules.Xp.Xp.Channel
+        name: Xp.Channel
+      - uid: Mewdeko.Modules.Xp.Xp.Club
+        name: Xp.Club
+      - uid: Mewdeko.Modules.Xp.Xp.NotifyPlace
+        name: Xp.NotifyPlace
+      - uid: Mewdeko.Modules.Xp.Xp.ResetCommands
+        name: Xp.ResetCommands
+      - uid: Mewdeko.Modules.Xp.Xp.Role
+        name: Xp.Role
+      - uid: Mewdeko.Modules.Xp.Xp.Server
+        name: Xp.Server
+  - uid: Mewdeko.Services
+    name: Services
+    items:
+    - uid: Mewdeko.Services.Common
+      name: Common
+      items:
+      - uid: Mewdeko.Services.Common.ImageLoader
+        name: ImageLoader
+      - uid: Mewdeko.Services.Common.RedisImageArray
+        name: RedisImageArray
+    - uid: Mewdeko.Services.Impl
+      name: Impl
+      items:
+      - uid: Mewdeko.Services.Impl.BotCredentials
+        name: BotCredentials
+      - uid: Mewdeko.Services.Impl.EventHandler
+        name: EventHandler
+      - uid: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`1
+        name: EventHandler.AsyncEventHandler<TEventArgs>
+      - uid: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`2
+        name: EventHandler.AsyncEventHandler<TEventArgs, TArgs>
+      - uid: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`3
+        name: EventHandler.AsyncEventHandler<TEventArgs, TArgs, TEvent>
+      - uid: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`4
+        name: EventHandler.AsyncEventHandler<TEventArgs, TArgs, TEvent, TArgs2>
+      - uid: Mewdeko.Services.Impl.FontProvider
+        name: FontProvider
+      - uid: Mewdeko.Services.Impl.GoogleApiService
+        name: GoogleApiService
+      - uid: Mewdeko.Services.Impl.Localization
+        name: Localization
+      - uid: Mewdeko.Services.Impl.RedisCache
+        name: RedisCache
+      - uid: Mewdeko.Services.Impl.RedisImagesCache
+        name: RedisImagesCache
+      - uid: Mewdeko.Services.Impl.RedisImagesCache.ImageKeys
+        name: RedisImagesCache.ImageKeys
+      - uid: Mewdeko.Services.Impl.RedisLocalDataCache
+        name: RedisLocalDataCache
+      - uid: Mewdeko.Services.Impl.RemoteGrpcCoordinator
+        name: RemoteGrpcCoordinator
+      - uid: Mewdeko.Services.Impl.SingleProcessCoordinator
+        name: SingleProcessCoordinator
+      - uid: Mewdeko.Services.Impl.StatsService
+        name: StatsService
+      - uid: Mewdeko.Services.Impl.StatsService.MewdekoPartialGuild
+        name: StatsService.MewdekoPartialGuild
+    - uid: Mewdeko.Services.Settings
+      name: Settings
+      items:
+      - uid: Mewdeko.Services.Settings.BotConfigService
+        name: BotConfigService
+      - uid: Mewdeko.Services.Settings.ConfigParsers
+        name: ConfigParsers
+      - uid: Mewdeko.Services.Settings.ConfigPrinters
+        name: ConfigPrinters
+      - uid: Mewdeko.Services.Settings.ConfigServiceBase`1
+        name: ConfigServiceBase<TSettings>
+      - uid: Mewdeko.Services.Settings.IConfigService
+        name: IConfigService
+      - uid: Mewdeko.Services.Settings.SettingParser`1
+        name: SettingParser<TData>
+    - uid: Mewdeko.Services.Strings.Impl
+      name: Strings.Impl
+      items:
+      - uid: Mewdeko.Services.Strings.Impl.RedisBotStringsProvider
+        name: RedisBotStringsProvider
+    - uid: Mewdeko.Services.strings
+      name: strings
+      items:
+      - uid: Mewdeko.Services.strings.impl
+        name: impl
+        items:
+        - uid: Mewdeko.Services.strings.impl.BotStrings
+          name: BotStrings
+        - uid: Mewdeko.Services.strings.impl.CommandStrings
+          name: CommandStrings
+        - uid: Mewdeko.Services.strings.impl.LocalBotStringsProvider
+          name: LocalBotStringsProvider
+        - uid: Mewdeko.Services.strings.impl.LocalFileStringsSource
+          name: LocalFileStringsSource
+      - uid: Mewdeko.Services.strings.IBotStrings
+        name: IBotStrings
+      - uid: Mewdeko.Services.strings.IBotStringsProvider
+        name: IBotStringsProvider
+      - uid: Mewdeko.Services.strings.IStringsSource
+        name: IStringsSource
+    - uid: Mewdeko.Services.CommandHandler
+      name: CommandHandler
+    - uid: Mewdeko.Services.DbConfig
+      name: DbConfig
+    - uid: Mewdeko.Services.GreetSettings
+      name: GreetSettings
+    - uid: Mewdeko.Services.GreetSettingsService
+      name: GreetSettingsService
+    - uid: Mewdeko.Services.GuildSettingsService
+      name: GuildSettingsService
+    - uid: Mewdeko.Services.IBotCredentials
+      name: IBotCredentials
+    - uid: Mewdeko.Services.ICoordinator
+      name: ICoordinator
+    - uid: Mewdeko.Services.IDataCache
+      name: IDataCache
+    - uid: Mewdeko.Services.IGoogleApiService
+      name: IGoogleApiService
+    - uid: Mewdeko.Services.IImageCache
+      name: IImageCache
+    - uid: Mewdeko.Services.ILocalDataCache
+      name: ILocalDataCache
+    - uid: Mewdeko.Services.ILocalization
+      name: ILocalization
+    - uid: Mewdeko.Services.INService
+      name: INService
+    - uid: Mewdeko.Services.IStatsService
+      name: IStatsService
+    - uid: Mewdeko.Services.IUnloadableService
+      name: IUnloadableService
+    - uid: Mewdeko.Services.LogSetup
+      name: LogSetup
+    - uid: Mewdeko.Services.RestartConfig
+      name: RestartConfig
+    - uid: Mewdeko.Services.ShardStatus
+      name: ShardStatus
+    - uid: Mewdeko.Services.StandardConversions
+      name: StandardConversions
+  - uid: Mewdeko.Tests
+    name: Tests
+    items:
+    - uid: Mewdeko.Tests.CommandStringsTests
+      name: CommandStringsTests
+  - uid: Mewdeko.Votes
+    name: Votes
+    items:
+    - uid: Mewdeko.Votes.Common
+      name: Common
+      items:
+      - uid: Mewdeko.Votes.Common.JsonConverters
+        name: JsonConverters
+        items:
+        - uid: Mewdeko.Votes.Common.JsonConverters.CultureInfoConverter
+          name: CultureInfoConverter
+      - uid: Mewdeko.Votes.Common.PubSub
+        name: PubSub
+        items:
+        - uid: Mewdeko.Votes.Common.PubSub.IPubSub
+          name: IPubSub
+        - uid: Mewdeko.Votes.Common.PubSub.ISeria
+          name: ISeria
+        - uid: Mewdeko.Votes.Common.PubSub.JsonSeria
+          name: JsonSeria
+        - uid: Mewdeko.Votes.Common.PubSub.RedisPubSub
+          name: RedisPubSub
+        - uid: Mewdeko.Votes.Common.PubSub.TypedKey`1
+          name: TypedKey<TData>
+      - uid: Mewdeko.Votes.Common.AuthHandler
+        name: AuthHandler
+      - uid: Mewdeko.Votes.Common.CompoundVoteModal
+        name: CompoundVoteModal
+      - uid: Mewdeko.Votes.Common.ConfKeys
+        name: ConfKeys
+      - uid: Mewdeko.Votes.Common.Policies
+        name: Policies
+      - uid: Mewdeko.Votes.Common.VoteModel
+        name: VoteModel
+    - uid: Mewdeko.Votes.Controllers
+      name: Controllers
+      items:
+      - uid: Mewdeko.Votes.Controllers.WebhookController
+        name: WebhookController
+    - uid: Mewdeko.Votes.Extensions
+      name: Extensions
+      items:
+      - uid: Mewdeko.Votes.Extensions.StringExtensions
+        name: StringExtensions
+    - uid: Mewdeko.Votes.Services
+      name: Services
+      items:
+      - uid: Mewdeko.Votes.Services.BotCredentials
+        name: BotCredentials
+      - uid: Mewdeko.Votes.Services.IBotCredentials
+        name: IBotCredentials
+      - uid: Mewdeko.Votes.Services.LogSetup
+        name: LogSetup
+    - uid: Mewdeko.Votes.Program
+      name: Program
+    - uid: Mewdeko.Votes.Startup
+      name: Startup
+    - uid: Mewdeko.Votes.WebhookEvents
+      name: WebhookEvents
   - uid: Mewdeko.Mewdeko
     name: Mewdeko
-- uid: Mewdeko.Common
-  name: Mewdeko.Common
-  items:
-  - uid: Mewdeko.Common.AsyncLazy`1
-    name: AsyncLazy<T>
-  - uid: Mewdeko.Common.Author
-    name: Author
-  - uid: Mewdeko.Common.CommandData
-    name: CommandData
-  - uid: Mewdeko.Common.Die
-    name: Die
-  - uid: Mewdeko.Common.DownloadTracker
-    name: DownloadTracker
-  - uid: Mewdeko.Common.Embed
-    name: Embed
-  - uid: Mewdeko.Common.Field
-    name: Field
-  - uid: Mewdeko.Common.Footer
-    name: Footer
-  - uid: Mewdeko.Common.Helpers
-    name: Helpers
-  - uid: Mewdeko.Common.IMewdekoCommandOptions
-    name: IMewdekoCommandOptions
-  - uid: Mewdeko.Common.IPlaceholderProvider
-    name: IPlaceholderProvider
-  - uid: Mewdeko.Common.Image
-    name: Image
-  - uid: Mewdeko.Common.ImageUrls
-    name: ImageUrls
-  - uid: Mewdeko.Common.ImageUrls.CoinData
-    name: ImageUrls.CoinData
-  - uid: Mewdeko.Common.ImageUrls.RipData
-    name: ImageUrls.RipData
-  - uid: Mewdeko.Common.ImageUrls.SlotData
-    name: ImageUrls.SlotData
-  - uid: Mewdeko.Common.ImageUrls.XpData
-    name: ImageUrls.XpData
-  - uid: Mewdeko.Common.LbOpts
-    name: LbOpts
-  - uid: Mewdeko.Common.LoginErrorHandler
-    name: LoginErrorHandler
-  - uid: Mewdeko.Common.MewdekoModule
-    name: MewdekoModule
-  - uid: Mewdeko.Common.MewdekoModuleBase`1
-    name: MewdekoModuleBase<TService>
-  - uid: Mewdeko.Common.MewdekoRandom
-    name: MewdekoRandom
-  - uid: Mewdeko.Common.MewdekoSlashCommandModule
-    name: MewdekoSlashCommandModule
-  - uid: Mewdeko.Common.MewdekoSlashModuleBase`1
-    name: MewdekoSlashModuleBase<TService>
-  - uid: Mewdeko.Common.MewdekoSlashSubmodule
-    name: MewdekoSlashSubmodule
-  - uid: Mewdeko.Common.MewdekoSlashSubmodule`1
-    name: MewdekoSlashSubmodule<TService>
-  - uid: Mewdeko.Common.MewdekoSubmodule
-    name: MewdekoSubmodule
-  - uid: Mewdeko.Common.MewdekoSubmodule`1
-    name: MewdekoSubmodule<TService>
-  - uid: Mewdeko.Common.NewEmbed
-    name: NewEmbed
-  - uid: Mewdeko.Common.NewEmbed.NewEmbedComponent
-    name: NewEmbed.NewEmbedComponent
-  - uid: Mewdeko.Common.NewEmbed.NewEmbedSelectOption
-    name: NewEmbed.NewEmbedSelectOption
-  - uid: Mewdeko.Common.OptionsParser
-    name: OptionsParser
-  - uid: Mewdeko.Common.OsuMapData
-    name: OsuMapData
-  - uid: Mewdeko.Common.OsuUserBests
-    name: OsuUserBests
-  - uid: Mewdeko.Common.RollResult
-    name: RollResult
-  - uid: Mewdeko.Common.ShmartNumber
-    name: ShmartNumber
-  - uid: Mewdeko.Common.SmartEmbed
-    name: SmartEmbed
-  - uid: Mewdeko.Common.Thumbnail
-    name: Thumbnail
-  - uid: Mewdeko.Common.ToneTag
-    name: ToneTag
-  - uid: Mewdeko.Common.ToneTagSource
-    name: ToneTagSource
-- uid: Mewdeko.Common.Attributes.InteractionCommands
-  name: Mewdeko.Common.Attributes.InteractionCommands
-  items:
-  - uid: Mewdeko.Common.Attributes.InteractionCommands.CheckPermissions
-    name: CheckPermissions
-  - uid: Mewdeko.Common.Attributes.InteractionCommands.InteractionRatelimitAttribute
-    name: InteractionRatelimitAttribute
-  - uid: Mewdeko.Common.Attributes.InteractionCommands.PermRoleCheck
-    name: PermRoleCheck
-  - uid: Mewdeko.Common.Attributes.InteractionCommands.RequireDragonAttribute
-    name: RequireDragonAttribute
-  - uid: Mewdeko.Common.Attributes.InteractionCommands.SlashOwnerOnlyAttribute
-    name: SlashOwnerOnlyAttribute
-  - uid: Mewdeko.Common.Attributes.InteractionCommands.SlashUserPermAttribute
-    name: SlashUserPermAttribute
-- uid: Mewdeko.Common.Attributes.TextCommands
-  name: Mewdeko.Common.Attributes.TextCommands
-  items:
-  - uid: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
-    name: AliasesAttribute
-  - uid: Mewdeko.Common.Attributes.TextCommands.BotPermAttribute
-    name: BotPermAttribute
-  - uid: Mewdeko.Common.Attributes.TextCommands.Cmd
-    name: Cmd
-  - uid: Mewdeko.Common.Attributes.TextCommands.CommandNameLoadHelper
-    name: CommandNameLoadHelper
-  - uid: Mewdeko.Common.Attributes.TextCommands.HelpDisabled
-    name: HelpDisabled
-  - uid: Mewdeko.Common.Attributes.TextCommands.MewdekoOptionsAttribute
-    name: MewdekoOptionsAttribute
-  - uid: Mewdeko.Common.Attributes.TextCommands.OwnerOnlyAttribute
-    name: OwnerOnlyAttribute
-  - uid: Mewdeko.Common.Attributes.TextCommands.RatelimitAttribute
-    name: RatelimitAttribute
-  - uid: Mewdeko.Common.Attributes.TextCommands.RequireDragonAttribute
-    name: RequireDragonAttribute
-  - uid: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
-    name: UserPermAttribute
-- uid: Mewdeko.Common.Autocompleters
-  name: Mewdeko.Common.Autocompleters
-  items:
-  - uid: Mewdeko.Common.Autocompleters.ChatTriggerAutocompleter
-    name: ChatTriggerAutocompleter
-  - uid: Mewdeko.Common.Autocompleters.GenericCommandAutocompleter
-    name: GenericCommandAutocompleter
-  - uid: Mewdeko.Common.Autocompleters.HighlightAutocompleter
-    name: HighlightAutocompleter
-  - uid: Mewdeko.Common.Autocompleters.ModuleAutoCompleter
-    name: ModuleAutoCompleter
-  - uid: Mewdeko.Common.Autocompleters.PermissionAutoCompleter
-    name: PermissionAutoCompleter
-  - uid: Mewdeko.Common.Autocompleters.SettingsServiceNameAutoCompleter
-    name: SettingsServiceNameAutoCompleter
-  - uid: Mewdeko.Common.Autocompleters.SettingsServicePropAutoCompleter
-    name: SettingsServicePropAutoCompleter
-  - uid: Mewdeko.Common.Autocompleters.StatusRoleAutocompleter
-    name: StatusRoleAutocompleter
-  - uid: Mewdeko.Common.Autocompleters.SuggestionAutocompleter
-    name: SuggestionAutocompleter
-  - uid: Mewdeko.Common.Autocompleters.TimeZoneAutocompleter
-    name: TimeZoneAutocompleter
-  - uid: Mewdeko.Common.Autocompleters.ToneTagAutocompleter
-    name: ToneTagAutocompleter
-- uid: Mewdeko.Common.Collections
-  name: Mewdeko.Common.Collections
-  items:
-  - uid: Mewdeko.Common.Collections.ConcurrentHashSet`1
-    name: ConcurrentHashSet<T>
-- uid: Mewdeko.Common.Configs
-  name: Mewdeko.Common.Configs
-  items:
-  - uid: Mewdeko.Common.Configs.BlockedConfig
-    name: BlockedConfig
-  - uid: Mewdeko.Common.Configs.BotConfig
-    name: BotConfig
-  - uid: Mewdeko.Common.Configs.ColorConfig
-    name: ColorConfig
-  - uid: Mewdeko.Common.Configs.ConsoleOutputType
-    name: ConsoleOutputType
-  - uid: Mewdeko.Common.Configs.IConfigSeria
-    name: IConfigSeria
-  - uid: Mewdeko.Common.Configs.UpdateCheckType
-    name: UpdateCheckType
-- uid: Mewdeko.Common.DiscordImplementations
-  name: Mewdeko.Common.DiscordImplementations
-  items:
-  - uid: Mewdeko.Common.DiscordImplementations.MewdekoUserMessage
-    name: MewdekoUserMessage
-- uid: Mewdeko.Common.JsonConverters
-  name: Mewdeko.Common.JsonConverters
-  items:
-  - uid: Mewdeko.Common.JsonConverters.CultureInfoConverter
-    name: CultureInfoConverter
-  - uid: Mewdeko.Common.JsonConverters.SkColorConverter
-    name: SkColorConverter
-  - uid: Mewdeko.Common.JsonConverters.StringToIntConverter
-    name: StringToIntConverter
-- uid: Mewdeko.Common.JsonSettings
-  name: Mewdeko.Common.JsonSettings
-  items:
-  - uid: Mewdeko.Common.JsonSettings.LowercaseContractResolver
-    name: LowercaseContractResolver
-  - uid: Mewdeko.Common.JsonSettings.OrderedResolver
-    name: OrderedResolver
-- uid: Mewdeko.Common.Modals
-  name: Mewdeko.Common.Modals
-  items:
-  - uid: Mewdeko.Common.Modals.AuthHandshakeStepTwoModal
-    name: AuthHandshakeStepTwoModal
-  - uid: Mewdeko.Common.Modals.ChatTriggerModal
-    name: ChatTriggerModal
-  - uid: Mewdeko.Common.Modals.CommandModal
-    name: CommandModal
-  - uid: Mewdeko.Common.Modals.DmUserModal
-    name: DmUserModal
-  - uid: Mewdeko.Common.Modals.EvalModal
-    name: EvalModal
-  - uid: Mewdeko.Common.Modals.PronounsFcbModal
-    name: PronounsFcbModal
-  - uid: Mewdeko.Common.Modals.PronounsModal
-    name: PronounsModal
-  - uid: Mewdeko.Common.Modals.RecoveryKeyModal
-    name: RecoveryKeyModal
-  - uid: Mewdeko.Common.Modals.ReminderModal
-    name: ReminderModal
-  - uid: Mewdeko.Common.Modals.SayModal
-    name: SayModal
-  - uid: Mewdeko.Common.Modals.SuggestStateModal
-    name: SuggestStateModal
-  - uid: Mewdeko.Common.Modals.SuggestionModal
-    name: SuggestionModal
-  - uid: Mewdeko.Common.Modals.TwoFactorModal
-    name: TwoFactorModal
-  - uid: Mewdeko.Common.Modals.VotePasswordModal
-    name: VotePasswordModal
-- uid: Mewdeko.Common.ModuleBehaviors
-  name: Mewdeko.Common.ModuleBehaviors
-  items:
-  - uid: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior
-    name: IEarlyBehavior
-  - uid: Mewdeko.Common.ModuleBehaviors.IInputTransformer
-    name: IInputTransformer
-  - uid: Mewdeko.Common.ModuleBehaviors.ILateBlocker
-    name: ILateBlocker
-  - uid: Mewdeko.Common.ModuleBehaviors.ILateExecutor
-    name: ILateExecutor
-  - uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
-    name: IReadyExecutor
-  - uid: Mewdeko.Common.ModuleBehaviors.ModuleBehaviorType
-    name: ModuleBehaviorType
-- uid: Mewdeko.Common.PubSub
-  name: Mewdeko.Common.PubSub
-  items:
-  - uid: Mewdeko.Common.PubSub.EventPubSub
-    name: EventPubSub
-  - uid: Mewdeko.Common.PubSub.IPubSub
-    name: IPubSub
-  - uid: Mewdeko.Common.PubSub.ISeria
-    name: ISeria
-  - uid: Mewdeko.Common.PubSub.JsonSeria
-    name: JsonSeria
-  - uid: Mewdeko.Common.PubSub.RedisPubSub
-    name: RedisPubSub
-  - uid: Mewdeko.Common.PubSub.TypedKey`1
-    name: TypedKey<TData>
-  - uid: Mewdeko.Common.PubSub.YamlSeria
-    name: YamlSeria
-- uid: Mewdeko.Common.Replacements
-  name: Mewdeko.Common.Replacements
-  items:
-  - uid: Mewdeko.Common.Replacements.ReplacementBuilder
-    name: ReplacementBuilder
-  - uid: Mewdeko.Common.Replacements.Replacer
-    name: Replacer
-- uid: Mewdeko.Common.TypeReaders
-  name: Mewdeko.Common.TypeReaders
-  items:
-  - uid: Mewdeko.Common.TypeReaders.AddRemove
-    name: AddRemove
-  - uid: Mewdeko.Common.TypeReaders.CommandOrCrInfo
-    name: CommandOrCrInfo
-  - uid: Mewdeko.Common.TypeReaders.CommandOrCrInfo.Type
-    name: CommandOrCrInfo.Type
-  - uid: Mewdeko.Common.TypeReaders.CommandOrCrTypeReader
-    name: CommandOrCrTypeReader
-  - uid: Mewdeko.Common.TypeReaders.CommandTypeReader
-    name: CommandTypeReader
-  - uid: Mewdeko.Common.TypeReaders.EnumTryParseTypeReader`1
-    name: EnumTryParseTypeReader<T>
-  - uid: Mewdeko.Common.TypeReaders.GuildDateTime
-    name: GuildDateTime
-  - uid: Mewdeko.Common.TypeReaders.GuildDateTimeTypeReader
-    name: GuildDateTimeTypeReader
-  - uid: Mewdeko.Common.TypeReaders.GuildTypeReader
-    name: GuildTypeReader
-  - uid: Mewdeko.Common.TypeReaders.MewdekoTypeReader`1
-    name: MewdekoTypeReader<T>
-  - uid: Mewdeko.Common.TypeReaders.ModuleOrCrInfo
-    name: ModuleOrCrInfo
-  - uid: Mewdeko.Common.TypeReaders.ModuleOrCrTypeReader
-    name: ModuleOrCrTypeReader
-  - uid: Mewdeko.Common.TypeReaders.ModuleTypeReader
-    name: ModuleTypeReader
-  - uid: Mewdeko.Common.TypeReaders.PermValue
-    name: PermValue
-  - uid: Mewdeko.Common.TypeReaders.PermissionActionTypeReader
-    name: PermissionActionTypeReader
-  - uid: Mewdeko.Common.TypeReaders.SkColorTypeReader
-    name: SkColorTypeReader
-  - uid: Mewdeko.Common.TypeReaders.StoopidTimeTypeReader
-    name: StoopidTimeTypeReader
-  - uid: Mewdeko.Common.TypeReaders.TimeSpanConverter
-    name: TimeSpanConverter
-  - uid: Mewdeko.Common.TypeReaders.TryParseTypeReader`1
-    name: TryParseTypeReader<T>
-  - uid: Mewdeko.Common.TypeReaders.TryParseTypeReader`1.TryParseDelegate`1
-    name: TryParseTypeReader<T>.TryParseDelegate<TA>
-  - uid: Mewdeko.Common.TypeReaders.TypeReaderCollection
-    name: TypeReaderCollection
-  - uid: Mewdeko.Common.TypeReaders.UlongArrayTypeReader
-    name: UlongArrayTypeReader
-- uid: Mewdeko.Common.TypeReaders.Interactions
-  name: Mewdeko.Common.TypeReaders.Interactions
-  items:
-  - uid: Mewdeko.Common.TypeReaders.Interactions.EmoteArrayTypeConverter
-    name: EmoteArrayTypeConverter
-  - uid: Mewdeko.Common.TypeReaders.Interactions.MewdekoTypeReader`1
-    name: MewdekoTypeReader<T>
-  - uid: Mewdeko.Common.TypeReaders.Interactions.RoleArrayConverter
-    name: RoleArrayConverter
-  - uid: Mewdeko.Common.TypeReaders.Interactions.StatusRolesTypeConverter
-    name: StatusRolesTypeConverter
-  - uid: Mewdeko.Common.TypeReaders.Interactions.UserArrayConverter
-    name: UserArrayConverter
-- uid: Mewdeko.Common.TypeReaders.Models
-  name: Mewdeko.Common.TypeReaders.Models
-  items:
-  - uid: Mewdeko.Common.TypeReaders.Models.PermValue
-    name: PermValue
-  - uid: Mewdeko.Common.TypeReaders.Models.PermissionAction
-    name: PermissionAction
-  - uid: Mewdeko.Common.TypeReaders.Models.StoopidTime
-    name: StoopidTime
-- uid: Mewdeko.Common.Yml
-  name: Mewdeko.Common.Yml
-  items:
-  - uid: Mewdeko.Common.Yml.CommentAttribute
-    name: CommentAttribute
-  - uid: Mewdeko.Common.Yml.CommentGatheringTypeInspector
-    name: CommentGatheringTypeInspector
-  - uid: Mewdeko.Common.Yml.CommentsObjectDescriptor
-    name: CommentsObjectDescriptor
-  - uid: Mewdeko.Common.Yml.CommentsObjectGraphVisitor
-    name: CommentsObjectGraphVisitor
-  - uid: Mewdeko.Common.Yml.CultureInfoConverter
-    name: CultureInfoConverter
-  - uid: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter
-    name: MultilineScalarFlowStyleEmitter
-  - uid: Mewdeko.Common.Yml.SkColorConverter
-    name: SkColorConverter
-  - uid: Mewdeko.Common.Yml.UriConverter
-    name: UriConverter
-  - uid: Mewdeko.Common.Yml.Yaml
-    name: Yaml
-  - uid: Mewdeko.Common.Yml.YamlHelper
-    name: YamlHelper
-- uid: Mewdeko.Coordinator
-  name: Mewdeko.Coordinator
-  items:
-  - uid: Mewdeko.Coordinator.ConnState
-    name: ConnState
-  - uid: Mewdeko.Coordinator.CoordStartup
-    name: CoordStartup
-  - uid: Mewdeko.Coordinator.Coordinator
-    name: Coordinator
-  - uid: Mewdeko.Coordinator.Coordinator.CoordinatorBase
-    name: Coordinator.CoordinatorBase
-  - uid: Mewdeko.Coordinator.Coordinator.CoordinatorClient
-    name: Coordinator.CoordinatorClient
-  - uid: Mewdeko.Coordinator.CoordinatorReflection
-    name: CoordinatorReflection
-  - uid: Mewdeko.Coordinator.DieReply
-    name: DieReply
-  - uid: Mewdeko.Coordinator.DieRequest
-    name: DieRequest
-  - uid: Mewdeko.Coordinator.GetAllStatusesReply
-    name: GetAllStatusesReply
-  - uid: Mewdeko.Coordinator.GetAllStatusesRequest
-    name: GetAllStatusesRequest
-  - uid: Mewdeko.Coordinator.GetConfigTextReply
-    name: GetConfigTextReply
-  - uid: Mewdeko.Coordinator.GetConfigTextRequest
-    name: GetConfigTextRequest
-  - uid: Mewdeko.Coordinator.GetStatusReply
-    name: GetStatusReply
-  - uid: Mewdeko.Coordinator.GetStatusRequest
-    name: GetStatusRequest
-  - uid: Mewdeko.Coordinator.HeartbeatReply
-    name: HeartbeatReply
-  - uid: Mewdeko.Coordinator.HeartbeatRequest
-    name: HeartbeatRequest
-  - uid: Mewdeko.Coordinator.LogSetup
-    name: LogSetup
-  - uid: Mewdeko.Coordinator.ReloadReply
-    name: ReloadReply
-  - uid: Mewdeko.Coordinator.ReloadRequest
-    name: ReloadRequest
-  - uid: Mewdeko.Coordinator.ReshardReply
-    name: ReshardReply
-  - uid: Mewdeko.Coordinator.ReshardRequest
-    name: ReshardRequest
-  - uid: Mewdeko.Coordinator.RestartAllReply
-    name: RestartAllReply
-  - uid: Mewdeko.Coordinator.RestartAllRequest
-    name: RestartAllRequest
-  - uid: Mewdeko.Coordinator.RestartShardReply
-    name: RestartShardReply
-  - uid: Mewdeko.Coordinator.RestartShardRequest
-    name: RestartShardRequest
-  - uid: Mewdeko.Coordinator.SetConfigTextReply
-    name: SetConfigTextReply
-  - uid: Mewdeko.Coordinator.SetConfigTextRequest
-    name: SetConfigTextRequest
-- uid: Mewdeko.Coordinator.Services
-  name: Mewdeko.Coordinator.Services
-  items:
-  - uid: Mewdeko.Coordinator.Services.CoordinatorRunner
-    name: CoordinatorRunner
-  - uid: Mewdeko.Coordinator.Services.CoordinatorService
-    name: CoordinatorService
-- uid: Mewdeko.Coordinator.Shared
-  name: Mewdeko.Coordinator.Shared
-  items:
-  - uid: Mewdeko.Coordinator.Shared.Config
-    name: Config
-  - uid: Mewdeko.Coordinator.Shared.CoordState
-    name: CoordState
-  - uid: Mewdeko.Coordinator.Shared.JsonStatusObject
-    name: JsonStatusObject
-  - uid: Mewdeko.Coordinator.Shared.ShardStatus
-    name: ShardStatus
-- uid: Mewdeko.Database
-  name: Mewdeko.Database
-  items:
-  - uid: Mewdeko.Database.DbService
-    name: DbService
-  - uid: Mewdeko.Database.MewdekoContext
-    name: MewdekoContext
-  - uid: Mewdeko.Database.MewdekoPostgresContext
-    name: MewdekoPostgresContext
-  - uid: Mewdeko.Database.MewdekoSqLiteContext
-    name: MewdekoSqLiteContext
-- uid: Mewdeko.Database.Common
-  name: Mewdeko.Database.Common
-  items:
-  - uid: Mewdeko.Database.Common.IPostMigrationHandler
-    name: IPostMigrationHandler
-  - uid: Mewdeko.Database.Common.IndexedCollection`1
-    name: IndexedCollection<T>
-  - uid: Mewdeko.Database.Common.StreamDataKey
-    name: StreamDataKey
-- uid: Mewdeko.Database.Extensions
-  name: Mewdeko.Database.Extensions
-  items:
-  - uid: Mewdeko.Database.Extensions.AfkExtensions
-    name: AfkExtensions
-  - uid: Mewdeko.Database.Extensions.ChatTriggersExtensions
-    name: ChatTriggersExtensions
-  - uid: Mewdeko.Database.Extensions.ClubExtensions
-    name: ClubExtensions
-  - uid: Mewdeko.Database.Extensions.ConfessionExtensions
-    name: ConfessionExtensions
-  - uid: Mewdeko.Database.Extensions.DbExtensions
-    name: DbExtensions
-  - uid: Mewdeko.Database.Extensions.DiscordUserExtensions
-    name: DiscordUserExtensions
-  - uid: Mewdeko.Database.Extensions.Extensions
-    name: Extensions
-  - uid: Mewdeko.Database.Extensions.GiveawayExtensions
-    name: GiveawayExtensions
-  - uid: Mewdeko.Database.Extensions.GuildConfigExtensions
-    name: GuildConfigExtensions
-  - uid: Mewdeko.Database.Extensions.GuildConfigExtensions.GeneratingChannel
-    name: GuildConfigExtensions.GeneratingChannel
-  - uid: Mewdeko.Database.Extensions.HighlightExtensions
-    name: HighlightExtensions
-  - uid: Mewdeko.Database.Extensions.MiniWarningExtensions
-    name: MiniWarningExtensions
-  - uid: Mewdeko.Database.Extensions.MultiGreetExtensions
-    name: MultiGreetExtensions
-  - uid: Mewdeko.Database.Extensions.MusicExtensions
-    name: MusicExtensions
-  - uid: Mewdeko.Database.Extensions.MusicPlayerSettingsExtensions
-    name: MusicPlayerSettingsExtensions
-  - uid: Mewdeko.Database.Extensions.NicknameExtensions
-    name: NicknameExtensions
-  - uid: Mewdeko.Database.Extensions.PollExtensions
-    name: PollExtensions
-  - uid: Mewdeko.Database.Extensions.QuoteExtensions
-    name: QuoteExtensions
-  - uid: Mewdeko.Database.Extensions.RemindExtensions
-    name: RemindExtensions
-  - uid: Mewdeko.Database.Extensions.RoleGreetExtensions
-    name: RoleGreetExtensions
-  - uid: Mewdeko.Database.Extensions.SelfAssignedRolesExtensions
-    name: SelfAssignedRolesExtensions
-  - uid: Mewdeko.Database.Extensions.StarboardExtensions
-    name: StarboardExtensions
-  - uid: Mewdeko.Database.Extensions.SuggestionsExtensions
-    name: SuggestionsExtensions
-  - uid: Mewdeko.Database.Extensions.UsernameExtensions
-    name: UsernameExtensions
-  - uid: Mewdeko.Database.Extensions.WaifuExtensions
-    name: WaifuExtensions
-  - uid: Mewdeko.Database.Extensions.WaifuInfoStats
-    name: WaifuInfoStats
-  - uid: Mewdeko.Database.Extensions.WarningExtensions
-    name: WarningExtensions
-  - uid: Mewdeko.Database.Extensions.XpExtensions
-    name: XpExtensions
-- uid: Mewdeko.Database.Migrations.PostgreSQL
-  name: Mewdeko.Database.Migrations.PostgreSQL
-  items:
-  - uid: Mewdeko.Database.Migrations.PostgreSQL.BetterGiveaways
-    name: BetterGiveaways
-- uid: Mewdeko.Database.Migrations.PostgreSql
-  name: Mewdeko.Database.Migrations.PostgreSql
-  items:
-  - uid: Mewdeko.Database.Migrations.PostgreSql.AddAutoBanRole
-    name: AddAutoBanRole
-  - uid: Mewdeko.Database.Migrations.PostgreSql.AddAutoPublish
-    name: AddAutoPublish
-  - uid: Mewdeko.Database.Migrations.PostgreSql.AddTemplates
-    name: AddTemplates
-  - uid: Mewdeko.Database.Migrations.PostgreSql.AddXpImage
-    name: AddXpImage
-  - uid: Mewdeko.Database.Migrations.PostgreSql.MoreCurrencyShit
-    name: MoreCurrencyShit
-  - uid: Mewdeko.Database.Migrations.PostgreSql.MoreCurrencyStuff
-    name: MoreCurrencyStuff
-  - uid: Mewdeko.Database.Migrations.PostgreSql.NewGenCurrency
-    name: NewGenCurrency
-- uid: Mewdeko.Database.Migrations.SQLite
-  name: Mewdeko.Database.Migrations.SQLite
-  items:
-  - uid: Mewdeko.Database.Migrations.SQLite.AddAutoBanRole
-    name: AddAutoBanRole
-  - uid: Mewdeko.Database.Migrations.SQLite.AddAutoPublish
-    name: AddAutoPublish
-  - uid: Mewdeko.Database.Migrations.SQLite.AddCommandLogChannels
-    name: AddCommandLogChannels
-  - uid: Mewdeko.Database.Migrations.SQLite.AddCommandStats
-    name: AddCommandStats
-  - uid: Mewdeko.Database.Migrations.SQLite.AddCustomGraphColors
-    name: AddCustomGraphColors
-  - uid: Mewdeko.Database.Migrations.SQLite.AddDefaultPlaylist
-    name: AddDefaultPlaylist
-  - uid: Mewdeko.Database.Migrations.SQLite.AddFeedMessages
-    name: AddFeedMessages
-  - uid: Mewdeko.Database.Migrations.SQLite.AddGEmoteToGiveaways
-    name: AddGEmoteToGiveaways
-  - uid: Mewdeko.Database.Migrations.SQLite.AddMultiGreets
-    name: AddMultiGreets
-  - uid: Mewdeko.Database.Migrations.SQLite.AddOwnerOnlyTable
-    name: AddOwnerOnlyTable
-  - uid: Mewdeko.Database.Migrations.SQLite.AddProperNicknameLogging
-    name: AddProperNicknameLogging
-  - uid: Mewdeko.Database.Migrations.SQLite.AddProperUsernameLogging
-    name: AddProperUsernameLogging
-  - uid: Mewdeko.Database.Migrations.SQLite.AddRoleGreets
-    name: AddRoleGreets
-  - uid: Mewdeko.Database.Migrations.SQLite.AddServerRecoveryStore
-    name: AddServerRecoveryStore
-  - uid: Mewdeko.Database.Migrations.SQLite.AddSuggestButtonColor
-    name: AddSuggestButtonColor
-  - uid: Mewdeko.Database.Migrations.SQLite.AddTemplates
-    name: AddTemplates
-  - uid: Mewdeko.Database.Migrations.SQLite.AddUserProfileColumns
-    name: AddUserProfileColumns
-  - uid: Mewdeko.Database.Migrations.SQLite.AddUserRoleStatesAndRoleStateSettings
-    name: AddUserRoleStatesAndRoleStateSettings
-  - uid: Mewdeko.Database.Migrations.SQLite.AddVoteLogging
-    name: AddVoteLogging
-  - uid: Mewdeko.Database.Migrations.SQLite.AddWarnMessage
-    name: AddWarnMessage
-  - uid: Mewdeko.Database.Migrations.SQLite.AddWinnersToGiveawayTable
-    name: AddWinnersToGiveawayTable
-  - uid: Mewdeko.Database.Migrations.SQLite.AddXpBanner
-    name: AddXpBanner
-  - uid: Mewdeko.Database.Migrations.SQLite.AutoDisconnectAdd
-    name: AutoDisconnectAdd
-  - uid: Mewdeko.Database.Migrations.SQLite.BetterGiveaways
-    name: BetterGiveaways
-  - uid: Mewdeko.Database.Migrations.SQLite.BlacklistReason
-    name: BlacklistReason
-  - uid: Mewdeko.Database.Migrations.SQLite.Boostmessages
-    name: Boostmessages
-  - uid: Mewdeko.Database.Migrations.SQLite.ChatTriggerRoleGrantType
-    name: ChatTriggerRoleGrantType
-  - uid: Mewdeko.Database.Migrations.SQLite.ChatTriggerRoles
-    name: ChatTriggerRoles
-  - uid: Mewdeko.Database.Migrations.SQLite.CleanAndRemakePolls
-    name: CleanAndRemakePolls
-  - uid: Mewdeko.Database.Migrations.SQLite.Confessions
-    name: Confessions
-  - uid: Mewdeko.Database.Migrations.SQLite.CreateJoinLeaveLogsSystemThingie
-    name: CreateJoinLeaveLogsSystemThingie
-  - uid: Mewdeko.Database.Migrations.SQLite.CtPrefixes
-    name: CtPrefixes
-  - uid: Mewdeko.Database.Migrations.SQLite.CustomReactionNoRespond
-    name: CustomReactionNoRespond
-  - uid: Mewdeko.Database.Migrations.SQLite.FixStatusRoles
-    name: FixStatusRoles
-  - uid: Mewdeko.Database.Migrations.SQLite.FixTimedAfk
-    name: FixTimedAfk
-  - uid: Mewdeko.Database.Migrations.SQLite.GameMasterRole
-    name: GameMasterRole
-  - uid: Mewdeko.Database.Migrations.SQLite.Giveawayemotes
-    name: Giveawayemotes
-  - uid: Mewdeko.Database.Migrations.SQLite.GlobalBan
-    name: GlobalBan
-  - uid: Mewdeko.Database.Migrations.SQLite.HereThereBeDragons
-    name: HereThereBeDragons
-  - uid: Mewdeko.Database.Migrations.SQLite.Highlights
-    name: Highlights
-  - uid: Mewdeko.Database.Migrations.SQLite.LeaveHook
-    name: LeaveHook
-  - uid: Mewdeko.Database.Migrations.SQLite.LogImprovements
-    name: LogImprovements
-  - uid: Mewdeko.Database.Migrations.SQLite.MinMaxSuggestionLength
-    name: MinMaxSuggestionLength
-  - uid: Mewdeko.Database.Migrations.SQLite.MoreCurrencyShit
-    name: MoreCurrencyShit
-  - uid: Mewdeko.Database.Migrations.SQLite.MoreCurrencyStuff
-    name: MoreCurrencyStuff
-  - uid: Mewdeko.Database.Migrations.SQLite.MoreStarboardUpgrades
-    name: MoreStarboardUpgrades
-  - uid: Mewdeko.Database.Migrations.SQLite.MoreSuggestionUpgrades
-    name: MoreSuggestionUpgrades
-  - uid: Mewdeko.Database.Migrations.SQLite.NewGenCurrency
-    name: NewGenCurrency
-  - uid: Mewdeko.Database.Migrations.SQLite.ReactToTrigger
-    name: ReactToTrigger
-  - uid: Mewdeko.Database.Migrations.SQLite.RemoveReputation
-    name: RemoveReputation
-  - uid: Mewdeko.Database.Migrations.SQLite.RemoveSnipesFromDb
-    name: RemoveSnipesFromDb
-  - uid: Mewdeko.Database.Migrations.SQLite.RenameToChatTriggers
-    name: RenameToChatTriggers
-  - uid: Mewdeko.Database.Migrations.SQLite.RewriteTables
-    name: RewriteTables
-  - uid: Mewdeko.Database.Migrations.SQLite.RoleConnectionAuth
-    name: RoleConnectionAuth
-  - uid: Mewdeko.Database.Migrations.SQLite.SlashChatTriggers
-    name: SlashChatTriggers
-  - uid: Mewdeko.Database.Migrations.SQLite.SplitFilterChannelId
-    name: SplitFilterChannelId
-  - uid: Mewdeko.Database.Migrations.SQLite.StarboardFix
-    name: StarboardFix
-  - uid: Mewdeko.Database.Migrations.SQLite.StarboardUpgrade
-    name: StarboardUpgrade
-  - uid: Mewdeko.Database.Migrations.SQLite.SuggestStateIds
-    name: SuggestStateIds
-  - uid: Mewdeko.Database.Migrations.SQLite.SuggestionUpgrades
-    name: SuggestionUpgrades
-  - uid: Mewdeko.Database.Migrations.SQLite.SwitchFcInProfile
-    name: SwitchFcInProfile
-  - uid: Mewdeko.Database.Migrations.SQLite.TriggerCrossposting
-    name: TriggerCrossposting
-  - uid: Mewdeko.Database.Migrations.SQLite.UpdateSuggestionsYetAgain
-    name: UpdateSuggestionsYetAgain
-  - uid: Mewdeko.Database.Migrations.SQLite.UpgradeMultiGreets
-    name: UpgradeMultiGreets
-  - uid: Mewdeko.Database.Migrations.SQLite.UserPronounOverride
-    name: UserPronounOverride
-  - uid: Mewdeko.Database.Migrations.SQLite.ValidTriggerTypes
-    name: ValidTriggerTypes
-- uid: Mewdeko.Database.Models
-  name: Mewdeko.Database.Models
-  items:
-  - uid: Mewdeko.Database.Models.Afk
-    name: Afk
-  - uid: Mewdeko.Database.Models.AntiAltSetting
-    name: AntiAltSetting
-  - uid: Mewdeko.Database.Models.AntiMassMentionSetting
-    name: AntiMassMentionSetting
-  - uid: Mewdeko.Database.Models.AntiRaidSetting
-    name: AntiRaidSetting
-  - uid: Mewdeko.Database.Models.AntiSpamIgnore
-    name: AntiSpamIgnore
-  - uid: Mewdeko.Database.Models.AntiSpamSetting
-    name: AntiSpamSetting
-  - uid: Mewdeko.Database.Models.AutoBanEntry
-    name: AutoBanEntry
-  - uid: Mewdeko.Database.Models.AutoBanRoles
-    name: AutoBanRoles
-  - uid: Mewdeko.Database.Models.AutoCommand
-    name: AutoCommand
-  - uid: Mewdeko.Database.Models.AutoDisconnect
-    name: AutoDisconnect
-  - uid: Mewdeko.Database.Models.AutoPublish
-    name: AutoPublish
-  - uid: Mewdeko.Database.Models.AwardedUser
-    name: AwardedUser
-  - uid: Mewdeko.Database.Models.BanTemplate
-    name: BanTemplate
-  - uid: Mewdeko.Database.Models.BlacklistEntry
-    name: BlacklistEntry
-  - uid: Mewdeko.Database.Models.BlacklistType
-    name: BlacklistType
-  - uid: Mewdeko.Database.Models.ChannelRestrictions
-    name: ChannelRestrictions
-  - uid: Mewdeko.Database.Models.ChannelRestrictions.AllowedImageTypesEnum
-    name: ChannelRestrictions.AllowedImageTypesEnum
-  - uid: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
-    name: ChannelRestrictions.ChannelActionEnum
-  - uid: Mewdeko.Database.Models.ChatTriggerType
-    name: ChatTriggerType
-  - uid: Mewdeko.Database.Models.ChatTriggers
-    name: ChatTriggers
-  - uid: Mewdeko.Database.Models.ClubApplicants
-    name: ClubApplicants
-  - uid: Mewdeko.Database.Models.ClubBans
-    name: ClubBans
-  - uid: Mewdeko.Database.Models.ClubInfo
-    name: ClubInfo
-  - uid: Mewdeko.Database.Models.CommandAlias
-    name: CommandAlias
-  - uid: Mewdeko.Database.Models.CommandCooldown
-    name: CommandCooldown
-  - uid: Mewdeko.Database.Models.CommandStats
-    name: CommandStats
-  - uid: Mewdeko.Database.Models.Confessions
-    name: Confessions
-  - uid: Mewdeko.Database.Models.CtApplicationCommandType
-    name: CtApplicationCommandType
-  - uid: Mewdeko.Database.Models.CtRoleGrantType
-    name: CtRoleGrantType
-  - uid: Mewdeko.Database.Models.CurrencyEvent
-    name: CurrencyEvent
-  - uid: Mewdeko.Database.Models.CurrencyEvent.Type
-    name: CurrencyEvent.Type
-  - uid: Mewdeko.Database.Models.DbEntity
-    name: DbEntity
-  - uid: Mewdeko.Database.Models.DelMsgOnCmdChannel
-    name: DelMsgOnCmdChannel
-  - uid: Mewdeko.Database.Models.DiscordPermOverride
-    name: DiscordPermOverride
-  - uid: Mewdeko.Database.Models.DiscordUser
-    name: DiscordUser
-  - uid: Mewdeko.Database.Models.DiscordUser.BirthdayDisplayModeEnum
-    name: DiscordUser.BirthdayDisplayModeEnum
-  - uid: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
-    name: DiscordUser.ProfilePrivacyEnum
-  - uid: Mewdeko.Database.Models.ExcludedItem
-    name: ExcludedItem
-  - uid: Mewdeko.Database.Models.ExcludedItemType
-    name: ExcludedItemType
-  - uid: Mewdeko.Database.Models.FeedSub
-    name: FeedSub
-  - uid: Mewdeko.Database.Models.FilterInvitesChannelIds
-    name: FilterInvitesChannelIds
-  - uid: Mewdeko.Database.Models.FilterLinksChannelId
-    name: FilterLinksChannelId
-  - uid: Mewdeko.Database.Models.FilterWordsChannelIds
-    name: FilterWordsChannelIds
-  - uid: Mewdeko.Database.Models.FilteredWord
-    name: FilteredWord
-  - uid: Mewdeko.Database.Models.FollowedStream
-    name: FollowedStream
-  - uid: Mewdeko.Database.Models.FollowedStream.FType
-    name: FollowedStream.FType
-  - uid: Mewdeko.Database.Models.GCChannelId
-    name: GCChannelId
-  - uid: Mewdeko.Database.Models.GbActionType
-    name: GbActionType
-  - uid: Mewdeko.Database.Models.Giveaways
-    name: Giveaways
-  - uid: Mewdeko.Database.Models.GlobalBanConfig
-    name: GlobalBanConfig
-  - uid: Mewdeko.Database.Models.GlobalUserBalance
-    name: GlobalUserBalance
-  - uid: Mewdeko.Database.Models.GroupName
-    name: GroupName
-  - uid: Mewdeko.Database.Models.GuildConfig
-    name: GuildConfig
-  - uid: Mewdeko.Database.Models.GuildUserBalance
-    name: GuildUserBalance
-  - uid: Mewdeko.Database.Models.HighlightSettings
-    name: HighlightSettings
-  - uid: Mewdeko.Database.Models.Highlights
-    name: Highlights
-  - uid: Mewdeko.Database.Models.IIndexed
-    name: IIndexed
-  - uid: Mewdeko.Database.Models.IgnoredLogChannel
-    name: IgnoredLogChannel
-  - uid: Mewdeko.Database.Models.IgnoredVoicePresenceChannel
-    name: IgnoredVoicePresenceChannel
-  - uid: Mewdeko.Database.Models.JoinLeaveLogs
-    name: JoinLeaveLogs
-  - uid: Mewdeko.Database.Models.KarutaCriteria
-    name: KarutaCriteria
-  - uid: Mewdeko.Database.Models.LogSetting
-    name: LogSetting
-  - uid: Mewdeko.Database.Models.ModLogs
-    name: ModLogs
-  - uid: Mewdeko.Database.Models.MultiGreet
-    name: MultiGreet
-  - uid: Mewdeko.Database.Models.MultiStarboard
-    name: MultiStarboard
-  - uid: Mewdeko.Database.Models.MusicPlayerSettings
-    name: MusicPlayerSettings
-  - uid: Mewdeko.Database.Models.MusicPlaylist
-    name: MusicPlaylist
-  - uid: Mewdeko.Database.Models.MutedUserId
-    name: MutedUserId
-  - uid: Mewdeko.Database.Models.Nicknames
-    name: Nicknames
-  - uid: Mewdeko.Database.Models.NsfwBlacklitedTag
-    name: NsfwBlacklitedTag
-  - uid: Mewdeko.Database.Models.OrderType
-    name: OrderType
-  - uid: Mewdeko.Database.Models.OwnerOnly
-    name: OwnerOnly
-  - uid: Mewdeko.Database.Models.Permission
-    name: Permission
-  - uid: Mewdeko.Database.Models.Permissionv2
-    name: Permissionv2
-  - uid: Mewdeko.Database.Models.PlantedCurrency
-    name: PlantedCurrency
-  - uid: Mewdeko.Database.Models.Platform
-    name: Platform
-  - uid: Mewdeko.Database.Models.PlayerRepeatType
-    name: PlayerRepeatType
-  - uid: Mewdeko.Database.Models.PlaylistSong
-    name: PlaylistSong
-  - uid: Mewdeko.Database.Models.Poll
-    name: Poll
-  - uid: Mewdeko.Database.Models.PollAnswer
-    name: PollAnswer
-  - uid: Mewdeko.Database.Models.PollType
-    name: PollType
-  - uid: Mewdeko.Database.Models.PollVote
-    name: PollVote
-  - uid: Mewdeko.Database.Models.PrimaryPermissionType
-    name: PrimaryPermissionType
-  - uid: Mewdeko.Database.Models.PublishUserBlacklist
-    name: PublishUserBlacklist
-  - uid: Mewdeko.Database.Models.PublishWordBlacklist
-    name: PublishWordBlacklist
-  - uid: Mewdeko.Database.Models.PunishmentAction
-    name: PunishmentAction
-  - uid: Mewdeko.Database.Models.Quote
-    name: Quote
-  - uid: Mewdeko.Database.Models.ReactionResponse
-    name: ReactionResponse
-  - uid: Mewdeko.Database.Models.ReactionRole
-    name: ReactionRole
-  - uid: Mewdeko.Database.Models.ReactionRoleMessage
-    name: ReactionRoleMessage
-  - uid: Mewdeko.Database.Models.Reminder
-    name: Reminder
-  - uid: Mewdeko.Database.Models.Repeater
-    name: Repeater
-  - uid: Mewdeko.Database.Models.RequirePrefixType
-    name: RequirePrefixType
-  - uid: Mewdeko.Database.Models.RoleConnectionAuthStorage
-    name: RoleConnectionAuthStorage
-  - uid: Mewdeko.Database.Models.RoleGreet
-    name: RoleGreet
-  - uid: Mewdeko.Database.Models.RoleStateSettings
-    name: RoleStateSettings
-  - uid: Mewdeko.Database.Models.RoleWatch
-    name: RoleWatch
-  - uid: Mewdeko.Database.Models.RotatingPlayingStatus
-    name: RotatingPlayingStatus
-  - uid: Mewdeko.Database.Models.SecondaryPermissionType
-    name: SecondaryPermissionType
-  - uid: Mewdeko.Database.Models.SelfAssignedRole
-    name: SelfAssignedRole
-  - uid: Mewdeko.Database.Models.ServerRecoveryStore
-    name: ServerRecoveryStore
-  - uid: Mewdeko.Database.Models.ShopEntry
-    name: ShopEntry
-  - uid: Mewdeko.Database.Models.ShopEntryItem
-    name: ShopEntryItem
-  - uid: Mewdeko.Database.Models.ShopEntryType
-    name: ShopEntryType
-  - uid: Mewdeko.Database.Models.Stake
-    name: Stake
-  - uid: Mewdeko.Database.Models.StarboardPosts
-    name: StarboardPosts
-  - uid: Mewdeko.Database.Models.Starboards
-    name: Starboards
-  - uid: Mewdeko.Database.Models.StatusRolesTable
-    name: StatusRolesTable
-  - uid: Mewdeko.Database.Models.StickyRoles
-    name: StickyRoles
-  - uid: Mewdeko.Database.Models.StreamRoleBlacklistedUser
-    name: StreamRoleBlacklistedUser
-  - uid: Mewdeko.Database.Models.StreamRoleSettings
-    name: StreamRoleSettings
-  - uid: Mewdeko.Database.Models.StreamRoleWhitelistedUser
-    name: StreamRoleWhitelistedUser
-  - uid: Mewdeko.Database.Models.SuggestThreads
-    name: SuggestThreads
-  - uid: Mewdeko.Database.Models.SuggestVotes
-    name: SuggestVotes
-  - uid: Mewdeko.Database.Models.SuggestionsModel
-    name: SuggestionsModel
-  - uid: Mewdeko.Database.Models.Template
-    name: Template
-  - uid: Mewdeko.Database.Models.TemplateBar
-    name: TemplateBar
-  - uid: Mewdeko.Database.Models.TemplateClub
-    name: TemplateClub
-  - uid: Mewdeko.Database.Models.TemplateGuild
-    name: TemplateGuild
-  - uid: Mewdeko.Database.Models.TemplateUser
-    name: TemplateUser
-  - uid: Mewdeko.Database.Models.Ticket
-    name: Ticket
-  - uid: Mewdeko.Database.Models.TransactionHistory
-    name: TransactionHistory
-  - uid: Mewdeko.Database.Models.UnbanTimer
-    name: UnbanTimer
-  - uid: Mewdeko.Database.Models.UnmuteTimer
-    name: UnmuteTimer
-  - uid: Mewdeko.Database.Models.UnroleTimer
-    name: UnroleTimer
-  - uid: Mewdeko.Database.Models.UserRoleStates
-    name: UserRoleStates
-  - uid: Mewdeko.Database.Models.UserXpStats
-    name: UserXpStats
-  - uid: Mewdeko.Database.Models.Usernames
-    name: Usernames
-  - uid: Mewdeko.Database.Models.VcRoleInfo
-    name: VcRoleInfo
-  - uid: Mewdeko.Database.Models.VoteRoles
-    name: VoteRoles
-  - uid: Mewdeko.Database.Models.Votes
-    name: Votes
-  - uid: Mewdeko.Database.Models.WaifuInfo
-    name: WaifuInfo
-  - uid: Mewdeko.Database.Models.WaifuItem
-    name: WaifuItem
-  - uid: Mewdeko.Database.Models.WaifuLbResult
-    name: WaifuLbResult
-  - uid: Mewdeko.Database.Models.WaifuUpdate
-    name: WaifuUpdate
-  - uid: Mewdeko.Database.Models.WaifuUpdateType
-    name: WaifuUpdateType
-  - uid: Mewdeko.Database.Models.WarnExpireAction
-    name: WarnExpireAction
-  - uid: Mewdeko.Database.Models.Warning
-    name: Warning
-  - uid: Mewdeko.Database.Models.Warning2
-    name: Warning2
-  - uid: Mewdeko.Database.Models.WarningPunishment
-    name: WarningPunishment
-  - uid: Mewdeko.Database.Models.WarningPunishment2
-    name: WarningPunishment2
-  - uid: Mewdeko.Database.Models.XpCurrencyReward
-    name: XpCurrencyReward
-  - uid: Mewdeko.Database.Models.XpNotificationLocation
-    name: XpNotificationLocation
-  - uid: Mewdeko.Database.Models.XpRoleReward
-    name: XpRoleReward
-  - uid: Mewdeko.Database.Models.XpSettings
-    name: XpSettings
-  - uid: Mewdeko.Database.Models.XpTemplateDirection
-    name: XpTemplateDirection
-  - uid: Mewdeko.Database.Models.YtFollowedChannel
-    name: YtFollowedChannel
-- uid: Mewdeko.Extensions
-  name: Mewdeko.Extensions
-  items:
-  - uid: Mewdeko.Extensions.ArrayExtensions
-    name: ArrayExtensions
-  - uid: Mewdeko.Extensions.EnumerableExtensions
-    name: EnumerableExtensions
-  - uid: Mewdeko.Extensions.Extensions
-    name: Extensions
-  - uid: Mewdeko.Extensions.MessageChannelExtensions
-    name: MessageChannelExtensions
-  - uid: Mewdeko.Extensions.MessageExtensions
-    name: MessageExtensions
-  - uid: Mewdeko.Extensions.ModalBuilderExtensions
-    name: ModalBuilderExtensions
-  - uid: Mewdeko.Extensions.MoeResponse
-    name: MoeResponse
-  - uid: Mewdeko.Extensions.NumberExtensions
-    name: NumberExtensions
-  - uid: Mewdeko.Extensions.RedisDictionary`2
-    name: RedisDictionary<TKey, TValue>
-  - uid: Mewdeko.Extensions.Result
-    name: Result
-  - uid: Mewdeko.Extensions.RoleExtensions
-    name: RoleExtensions
-  - uid: Mewdeko.Extensions.ServiceCollectionExtensions
-    name: ServiceCollectionExtensions
-  - uid: Mewdeko.Extensions.StringExtensions
-    name: StringExtensions
-  - uid: Mewdeko.Extensions.UserExtensions
-    name: UserExtensions
-- uid: Mewdeko.Modules.Administration
-  name: Mewdeko.Modules.Administration
-  items:
-  - uid: Mewdeko.Modules.Administration.Administration
-    name: Administration
-  - uid: Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands
-    name: Administration.AutoAssignRoleCommands
-  - uid: Mewdeko.Modules.Administration.Administration.Channel
-    name: Administration.Channel
-  - uid: Mewdeko.Modules.Administration.Administration.DiscordPermOverrideCommands
-    name: Administration.DiscordPermOverrideCommands
-  - uid: Mewdeko.Modules.Administration.Administration.GameChannelCommands
-    name: Administration.GameChannelCommands
-  - uid: Mewdeko.Modules.Administration.Administration.List
-    name: Administration.List
-  - uid: Mewdeko.Modules.Administration.Administration.LocalizationCommands
-    name: Administration.LocalizationCommands
-  - uid: Mewdeko.Modules.Administration.Administration.LogCommands
-    name: Administration.LogCommands
-  - uid: Mewdeko.Modules.Administration.Administration.PrefixCommands
-    name: Administration.PrefixCommands
-  - uid: Mewdeko.Modules.Administration.Administration.PrefixCommands.Set
-    name: Administration.PrefixCommands.Set
-  - uid: Mewdeko.Modules.Administration.Administration.ProtectionCommands
-    name: Administration.ProtectionCommands
-  - uid: Mewdeko.Modules.Administration.Administration.RoleCommands
-    name: Administration.RoleCommands
-  - uid: Mewdeko.Modules.Administration.Administration.RoleCommands.Exclude
-    name: Administration.RoleCommands.Exclude
-  - uid: Mewdeko.Modules.Administration.Administration.SelfAssignedRolesCommands
-    name: Administration.SelfAssignedRolesCommands
-  - uid: Mewdeko.Modules.Administration.Administration.Server
-    name: Administration.Server
-  - uid: Mewdeko.Modules.Administration.Administration.ServerGreetCommands
-    name: Administration.ServerGreetCommands
-  - uid: Mewdeko.Modules.Administration.Administration.State
-    name: Administration.State
-  - uid: Mewdeko.Modules.Administration.Administration.TimeZoneCommands
-    name: Administration.TimeZoneCommands
-  - uid: Mewdeko.Modules.Administration.Administration.VcRoleCommands
-    name: Administration.VcRoleCommands
-  - uid: Mewdeko.Modules.Administration.AutoBanRole
-    name: AutoBanRole
-  - uid: Mewdeko.Modules.Administration.SlashAdministration
-    name: SlashAdministration
-  - uid: Mewdeko.Modules.Administration.SlashAdministration.SlashAutoBanRole
-    name: SlashAdministration.SlashAutoBanRole
-  - uid: Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery
-    name: SlashAdministration.SlashServerRecovery
-- uid: Mewdeko.Modules.Administration.Common
-  name: Mewdeko.Modules.Administration.Common
-  items:
-  - uid: Mewdeko.Modules.Administration.Common.AntiAltStats
-    name: AntiAltStats
-  - uid: Mewdeko.Modules.Administration.Common.AntiRaidStats
-    name: AntiRaidStats
-  - uid: Mewdeko.Modules.Administration.Common.AntiSpamStats
-    name: AntiSpamStats
-  - uid: Mewdeko.Modules.Administration.Common.ProtectionType
-    name: ProtectionType
-  - uid: Mewdeko.Modules.Administration.Common.PunishQueueItem
-    name: PunishQueueItem
-  - uid: Mewdeko.Modules.Administration.Common.UserSpamStats
-    name: UserSpamStats
-- uid: Mewdeko.Modules.Administration.Services
-  name: Mewdeko.Modules.Administration.Services
-  items:
-  - uid: Mewdeko.Modules.Administration.Services.AdministrationService
-    name: AdministrationService
-  - uid: Mewdeko.Modules.Administration.Services.AutoAssignRoleService
-    name: AutoAssignRoleService
-  - uid: Mewdeko.Modules.Administration.Services.AutoBanRoleService
-    name: AutoBanRoleService
-  - uid: Mewdeko.Modules.Administration.Services.DiscordPermOverrideService
-    name: DiscordPermOverrideService
-  - uid: Mewdeko.Modules.Administration.Services.GameVoiceChannelService
-    name: GameVoiceChannelService
-  - uid: Mewdeko.Modules.Administration.Services.GuildConfigExtensions
-    name: GuildConfigExtensions
-  - uid: Mewdeko.Modules.Administration.Services.GuildTimezoneService
-    name: GuildTimezoneService
-  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService
-    name: NewLogCommandService
-  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
-    name: NewLogCommandService.LogCategoryTypes
-  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType
-    name: NewLogCommandService.LogType
-  - uid: Mewdeko.Modules.Administration.Services.ProtectionService
-    name: ProtectionService
-  - uid: Mewdeko.Modules.Administration.Services.RoleCommandsService
-    name: RoleCommandsService
-  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
-    name: SelfAssignedRolesService
-  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult
-    name: SelfAssignedRolesService.AssignResult
-  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult
-    name: SelfAssignedRolesService.RemoveResult
-  - uid: Mewdeko.Modules.Administration.Services.ServerRecoveryService
-    name: ServerRecoveryService
-  - uid: Mewdeko.Modules.Administration.Services.VcRoleService
-    name: VcRoleService
-- uid: Mewdeko.Modules.Afk
-  name: Mewdeko.Modules.Afk
-  items:
-  - uid: Mewdeko.Modules.Afk.Afk
-    name: Afk
-  - uid: Mewdeko.Modules.Afk.Afk.AfkTypeEnum
-    name: Afk.AfkTypeEnum
-  - uid: Mewdeko.Modules.Afk.SlashAfk
-    name: SlashAfk
-- uid: Mewdeko.Modules.Afk.Services
-  name: Mewdeko.Modules.Afk.Services
-  items:
-  - uid: Mewdeko.Modules.Afk.Services.AfkService
-    name: AfkService
-- uid: Mewdeko.Modules.Chat_Triggers
-  name: Mewdeko.Modules.Chat_Triggers
-  items:
-  - uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers
-    name: ChatTriggers
-  - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers
-    name: SlashChatTriggers
-  - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Crossposting
-    name: SlashChatTriggers.Crossposting
-  - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Interactions
-    name: SlashChatTriggers.Interactions
-  - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Roles
-    name: SlashChatTriggers.Roles
-- uid: Mewdeko.Modules.Chat_Triggers.Common
-  name: Mewdeko.Modules.Chat_Triggers.Common
-  items:
-  - uid: Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError
-    name: ChatTriggersInteractionError
-  - uid: Mewdeko.Modules.Chat_Triggers.Common.ExportedTriggers
-    name: ExportedTriggers
-- uid: Mewdeko.Modules.Chat_Triggers.Extensions
-  name: Mewdeko.Modules.Chat_Triggers.Extensions
-  items:
-  - uid: Mewdeko.Modules.Chat_Triggers.Extensions.Extensions
-    name: Extensions
-  - uid: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition
-    name: WordPosition
-- uid: Mewdeko.Modules.Chat_Triggers.Services
-  name: Mewdeko.Modules.Chat_Triggers.Services
-  items:
-  - uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
-    name: ChatTriggersService
-  - uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
-    name: ChatTriggersService.CtField
-- uid: Mewdeko.Modules.Confessions
-  name: Mewdeko.Modules.Confessions
-  items:
-  - uid: Mewdeko.Modules.Confessions.Confessions
-    name: Confessions
-  - uid: Mewdeko.Modules.Confessions.SlashConfessions
-    name: SlashConfessions
-- uid: Mewdeko.Modules.Confessions.Services
-  name: Mewdeko.Modules.Confessions.Services
-  items:
-  - uid: Mewdeko.Modules.Confessions.Services.ConfessionExtensions
-    name: ConfessionExtensions
-  - uid: Mewdeko.Modules.Confessions.Services.ConfessionService
-    name: ConfessionService
-- uid: Mewdeko.Modules.Currency
-  name: Mewdeko.Modules.Currency
-  items:
-  - uid: Mewdeko.Modules.Currency.Currency
-    name: Currency
-- uid: Mewdeko.Modules.Currency.Services
-  name: Mewdeko.Modules.Currency.Services
-  items:
-  - uid: Mewdeko.Modules.Currency.Services.ICurrencyService
-    name: ICurrencyService
-- uid: Mewdeko.Modules.Currency.Services.Impl
-  name: Mewdeko.Modules.Currency.Services.Impl
-  items:
-  - uid: Mewdeko.Modules.Currency.Services.Impl.GlobalCurrencyService
-    name: GlobalCurrencyService
-  - uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
-    name: GuildCurrencyService
-  - uid: Mewdeko.Modules.Currency.Services.Impl.LbCurrency
-    name: LbCurrency
-- uid: Mewdeko.Modules.Games
-  name: Mewdeko.Modules.Games
-  items:
-  - uid: Mewdeko.Modules.Games.ActivitySlashCommand
-    name: ActivitySlashCommand
-  - uid: Mewdeko.Modules.Games.Games
-    name: Games
-  - uid: Mewdeko.Modules.Games.Games.AcropobiaCommands
-    name: Games.AcropobiaCommands
-  - uid: Mewdeko.Modules.Games.Games.ChatterBotCommands
-    name: Games.ChatterBotCommands
-  - uid: Mewdeko.Modules.Games.Games.HangmanCommands
-    name: Games.HangmanCommands
-  - uid: Mewdeko.Modules.Games.Games.NunchiCommands
-    name: Games.NunchiCommands
-  - uid: Mewdeko.Modules.Games.Games.PollCommands
-    name: Games.PollCommands
-  - uid: Mewdeko.Modules.Games.Games.SpeedTypingCommands
-    name: Games.SpeedTypingCommands
-  - uid: Mewdeko.Modules.Games.Games.TicTacToeCommands
-    name: Games.TicTacToeCommands
-  - uid: Mewdeko.Modules.Games.Games.TriviaCommands
-    name: Games.TriviaCommands
-- uid: Mewdeko.Modules.Games.Common
-  name: Mewdeko.Modules.Games.Common
-  items:
-  - uid: Mewdeko.Modules.Games.Common.GamesConfig
-    name: GamesConfig
-  - uid: Mewdeko.Modules.Games.Common.PollRunner
-    name: PollRunner
-  - uid: Mewdeko.Modules.Games.Common.RaceAnimal
-    name: RaceAnimal
-  - uid: Mewdeko.Modules.Games.Common.TicTacToe
-    name: TicTacToe
-  - uid: Mewdeko.Modules.Games.Common.TicTacToe.Options
-    name: TicTacToe.Options
-  - uid: Mewdeko.Modules.Games.Common.TriviaConfig
-    name: TriviaConfig
-  - uid: Mewdeko.Modules.Games.Common.TypingArticle
-    name: TypingArticle
-  - uid: Mewdeko.Modules.Games.Common.TypingGame
-    name: TypingGame
-  - uid: Mewdeko.Modules.Games.Common.TypingGame.Options
-    name: TypingGame.Options
-- uid: Mewdeko.Modules.Games.Common.Acrophobia
-  name: Mewdeko.Modules.Games.Common.Acrophobia
-  items:
-  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
-    name: AcrophobiaGame
-  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options
-    name: AcrophobiaGame.Options
-  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase
-    name: AcrophobiaGame.Phase
-  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaUser
-    name: AcrophobiaUser
-- uid: Mewdeko.Modules.Games.Common.ChatterBot
-  name: Mewdeko.Modules.Games.Common.ChatterBot
-  items:
-  - uid: Mewdeko.Modules.Games.Common.ChatterBot.ChatterBotResponse
-    name: ChatterBotResponse
-  - uid: Mewdeko.Modules.Games.Common.ChatterBot.ChatterBotSession
-    name: ChatterBotSession
-  - uid: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoAskResponse
-    name: CleverbotIoAskResponse
-  - uid: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoCreateResponse
-    name: CleverbotIoCreateResponse
-  - uid: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoSession
-    name: CleverbotIoSession
-  - uid: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotResponse
-    name: CleverbotResponse
-  - uid: Mewdeko.Modules.Games.Common.ChatterBot.IChatterBotSession
-    name: IChatterBotSession
-  - uid: Mewdeko.Modules.Games.Common.ChatterBot.OfficialCleverbotSession
-    name: OfficialCleverbotSession
-- uid: Mewdeko.Modules.Games.Common.Hangman
-  name: Mewdeko.Modules.Games.Common.Hangman
-  items:
-  - uid: Mewdeko.Modules.Games.Common.Hangman.Hangman
-    name: Hangman
-  - uid: Mewdeko.Modules.Games.Common.Hangman.HangmanObject
-    name: HangmanObject
-  - uid: Mewdeko.Modules.Games.Common.Hangman.Phase
-    name: Phase
-  - uid: Mewdeko.Modules.Games.Common.Hangman.TermPool
-    name: TermPool
-  - uid: Mewdeko.Modules.Games.Common.Hangman.TermTypes
-    name: TermTypes
-- uid: Mewdeko.Modules.Games.Common.Hangman.Exceptions
-  name: Mewdeko.Modules.Games.Common.Hangman.Exceptions
-  items:
-  - uid: Mewdeko.Modules.Games.Common.Hangman.Exceptions.TermNotFoundException
-    name: TermNotFoundException
-- uid: Mewdeko.Modules.Games.Common.Nunchi
-  name: Mewdeko.Modules.Games.Common.Nunchi
-  items:
-  - uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame
-    name: NunchiGame
-  - uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
-    name: NunchiGame.Phase
-- uid: Mewdeko.Modules.Games.Common.Trivia
-  name: Mewdeko.Modules.Games.Common.Trivia
-  items:
-  - uid: Mewdeko.Modules.Games.Common.Trivia.TriviaGame
-    name: TriviaGame
-  - uid: Mewdeko.Modules.Games.Common.Trivia.TriviaOptions
-    name: TriviaOptions
-  - uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion
-    name: TriviaQuestion
-  - uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool
-    name: TriviaQuestionPool
-- uid: Mewdeko.Modules.Games.Services
-  name: Mewdeko.Modules.Games.Services
-  items:
-  - uid: Mewdeko.Modules.Games.Services.ActivityService
-    name: ActivityService
-  - uid: Mewdeko.Modules.Games.Services.ChatterBotService
-    name: ChatterBotService
-  - uid: Mewdeko.Modules.Games.Services.GamesConfigService
-    name: GamesConfigService
-  - uid: Mewdeko.Modules.Games.Services.GamesService
-    name: GamesService
-  - uid: Mewdeko.Modules.Games.Services.PollButtons
-    name: PollButtons
-  - uid: Mewdeko.Modules.Games.Services.PollService
-    name: PollService
-- uid: Mewdeko.Modules.Giveaways
-  name: Mewdeko.Modules.Giveaways
-  items:
-  - uid: Mewdeko.Modules.Giveaways.Giveaways
-    name: Giveaways
-  - uid: Mewdeko.Modules.Giveaways.SlashGiveaways
-    name: SlashGiveaways
-- uid: Mewdeko.Modules.Giveaways.Services
-  name: Mewdeko.Modules.Giveaways.Services
-  items:
-  - uid: Mewdeko.Modules.Giveaways.Services.GiveawayService
-    name: GiveawayService
-- uid: Mewdeko.Modules.Help
-  name: Mewdeko.Modules.Help
-  items:
-  - uid: Mewdeko.Modules.Help.Command
-    name: Command
-  - uid: Mewdeko.Modules.Help.CommandTextEqualityComparer
-    name: CommandTextEqualityComparer
-  - uid: Mewdeko.Modules.Help.Help
-    name: Help
-  - uid: Mewdeko.Modules.Help.HelpSlashCommand
-    name: HelpSlashCommand
-  - uid: Mewdeko.Modules.Help.Module
-    name: Module
-- uid: Mewdeko.Modules.Help.Services
-  name: Mewdeko.Modules.Help.Services
-  items:
-  - uid: Mewdeko.Modules.Help.Services.HelpService
-    name: HelpService
-- uid: Mewdeko.Modules.Highlights
-  name: Mewdeko.Modules.Highlights
-  items:
-  - uid: Mewdeko.Modules.Highlights.Highlights
-    name: Highlights
-  - uid: Mewdeko.Modules.Highlights.Highlights.HighlightActions
-    name: Highlights.HighlightActions
-  - uid: Mewdeko.Modules.Highlights.SlashHighlights
-    name: SlashHighlights
-- uid: Mewdeko.Modules.Highlights.Services
-  name: Mewdeko.Modules.Highlights.Services
-  items:
-  - uid: Mewdeko.Modules.Highlights.Services.HighlightsService
-    name: HighlightsService
-- uid: Mewdeko.Modules.Moderation
-  name: Mewdeko.Modules.Moderation
-  items:
-  - uid: Mewdeko.Modules.Moderation.Moderation
-    name: Moderation
-  - uid: Mewdeko.Modules.Moderation.Moderation.MuteCommands
-    name: Moderation.MuteCommands
-  - uid: Mewdeko.Modules.Moderation.Moderation.PurgeCommands
-    name: Moderation.PurgeCommands
-  - uid: Mewdeko.Modules.Moderation.Moderation.RoleMetadataCommands
-    name: Moderation.RoleMetadataCommands
-  - uid: Mewdeko.Modules.Moderation.Moderation.UserPunishCommands
-    name: Moderation.UserPunishCommands
-  - uid: Mewdeko.Modules.Moderation.Moderation.UserPunishCommands.AddRole
-    name: Moderation.UserPunishCommands.AddRole
-  - uid: Mewdeko.Modules.Moderation.Moderation.UserPunishCommands2
-    name: Moderation.UserPunishCommands2
-  - uid: Mewdeko.Modules.Moderation.Moderation.UserPunishCommands2.AddRole
-    name: Moderation.UserPunishCommands2.AddRole
-  - uid: Mewdeko.Modules.Moderation.SlashPunishCommands
-    name: SlashPunishCommands
-  - uid: Mewdeko.Modules.Moderation.SlashRoleMetadataCommands
-    name: SlashRoleMetadataCommands
-  - uid: Mewdeko.Modules.Moderation.SlashRoleMetadataCommands.AuthResponce
-    name: SlashRoleMetadataCommands.AuthResponce
-- uid: Mewdeko.Modules.Moderation.Services
-  name: Mewdeko.Modules.Moderation.Services
-  items:
-  - uid: Mewdeko.Modules.Moderation.Services.MuteService
-    name: MuteService
-  - uid: Mewdeko.Modules.Moderation.Services.MuteService.TimerType
-    name: MuteService.TimerType
-  - uid: Mewdeko.Modules.Moderation.Services.MuteType
-    name: MuteType
-  - uid: Mewdeko.Modules.Moderation.Services.PurgeService
-    name: PurgeService
-  - uid: Mewdeko.Modules.Moderation.Services.RoleMetadataService
-    name: RoleMetadataService
-  - uid: Mewdeko.Modules.Moderation.Services.UserPunishService
-    name: UserPunishService
-  - uid: Mewdeko.Modules.Moderation.Services.UserPunishService.MassNick
-    name: UserPunishService.MassNick
-  - uid: Mewdeko.Modules.Moderation.Services.UserPunishService2
-    name: UserPunishService2
-- uid: Mewdeko.Modules.MultiGreets
-  name: Mewdeko.Modules.MultiGreets
-  items:
-  - uid: Mewdeko.Modules.MultiGreets.MultiGreets
-    name: MultiGreets
-  - uid: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
-    name: MultiGreets.MultiGreetTypes
-  - uid: Mewdeko.Modules.MultiGreets.SlashMultiGreets
-    name: SlashMultiGreets
-  - uid: Mewdeko.Modules.MultiGreets.SlashMultiGreets.MultiGreetTypes
-    name: SlashMultiGreets.MultiGreetTypes
-- uid: Mewdeko.Modules.MultiGreets.Services
-  name: Mewdeko.Modules.MultiGreets.Services
-  items:
-  - uid: Mewdeko.Modules.MultiGreets.Services.MultiGreetService
-    name: MultiGreetService
-- uid: Mewdeko.Modules.Music
-  name: Mewdeko.Modules.Music
-  items:
-  - uid: Mewdeko.Modules.Music.Music
-    name: Music
-  - uid: Mewdeko.Modules.Music.Music.PlaylistAction
-    name: Music.PlaylistAction
-  - uid: Mewdeko.Modules.Music.SlashMusic
-    name: SlashMusic
-  - uid: Mewdeko.Modules.Music.SlashMusic.PlaylistAction
-    name: SlashMusic.PlaylistAction
-- uid: Mewdeko.Modules.Music.Common
-  name: Mewdeko.Modules.Music.Common
-  items:
-  - uid: Mewdeko.Modules.Music.Common.AdvancedTrackContext
-    name: AdvancedTrackContext
-- uid: Mewdeko.Modules.Music.Services
-  name: Mewdeko.Modules.Music.Services
-  items:
-  - uid: Mewdeko.Modules.Music.Services.MusicPlayer
-    name: MusicPlayer
-  - uid: Mewdeko.Modules.Music.Services.MusicService
-    name: MusicService
-- uid: Mewdeko.Modules.Nsfw
-  name: Mewdeko.Modules.Nsfw
-  items:
-  - uid: Mewdeko.Modules.Nsfw.ISearchImagesService
-    name: ISearchImagesService
-  - uid: Mewdeko.Modules.Nsfw.Nsfw
-    name: Nsfw
-  - uid: Mewdeko.Modules.Nsfw.SearchImageCacher
-    name: SearchImageCacher
-  - uid: Mewdeko.Modules.Nsfw.SearchImagesService
-    name: SearchImagesService
-  - uid: Mewdeko.Modules.Nsfw.UrlReply
-    name: UrlReply
-- uid: Mewdeko.Modules.Nsfw.Common
-  name: Mewdeko.Modules.Nsfw.Common
-  items:
-  - uid: Mewdeko.Modules.Nsfw.Common.Booru
-    name: Booru
-  - uid: Mewdeko.Modules.Nsfw.Common.DapiImageObject
-    name: DapiImageObject
-  - uid: Mewdeko.Modules.Nsfw.Common.DapiTag
-    name: DapiTag
-  - uid: Mewdeko.Modules.Nsfw.Common.DerpiContainer
-    name: DerpiContainer
-  - uid: Mewdeko.Modules.Nsfw.Common.DerpiImageObject
-    name: DerpiImageObject
-  - uid: Mewdeko.Modules.Nsfw.Common.E621Object
-    name: E621Object
-  - uid: Mewdeko.Modules.Nsfw.Common.E621Object.FileData
-    name: E621Object.FileData
-  - uid: Mewdeko.Modules.Nsfw.Common.E621Object.ScoreData
-    name: E621Object.ScoreData
-  - uid: Mewdeko.Modules.Nsfw.Common.E621Object.TagData
-    name: E621Object.TagData
-  - uid: Mewdeko.Modules.Nsfw.Common.IImageData
-    name: IImageData
-  - uid: Mewdeko.Modules.Nsfw.Common.ImageData
-    name: ImageData
-  - uid: Mewdeko.Modules.Nsfw.Common.RealBooruElement
-    name: RealBooruElement
-  - uid: Mewdeko.Modules.Nsfw.Common.Rule34Object
-    name: Rule34Object
-  - uid: Mewdeko.Modules.Nsfw.Common.SafebooruElement
-    name: SafebooruElement
-  - uid: Mewdeko.Modules.Nsfw.Common.SankakuImageObject
-    name: SankakuImageObject
-  - uid: Mewdeko.Modules.Nsfw.Common.SankakuImageObject.Tag
-    name: SankakuImageObject.Tag
-- uid: Mewdeko.Modules.Nsfw.Common.Downloaders
-  name: Mewdeko.Modules.Nsfw.Common.Downloaders
-  items:
-  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.DanbooruImageDownloader
-    name: DanbooruImageDownloader
-  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.DapiImageDownloader
-    name: DapiImageDownloader
-  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.DerpibooruImageDownloader
-    name: DerpibooruImageDownloader
-  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.E621ImageDownloader
-    name: E621ImageDownloader
-  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.E621Response
-    name: E621Response
-  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.GelbooruImageDownloader
-    name: GelbooruImageDownloader
-  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.GelbooruResponse
-    name: GelbooruResponse
-  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader
-    name: IImageDownloader
-  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.ImageDownloaderHelper
-    name: ImageDownloaderHelper
-  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.ImageDownloader`1
-    name: ImageDownloader<T>
-  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.KonachanImageDownloader
-    name: KonachanImageDownloader
-  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.RealbooruImageDownloader
-    name: RealbooruImageDownloader
-  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.Rule34ImageDownloader
-    name: Rule34ImageDownloader
-  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.SafebooruImageDownloader
-    name: SafebooruImageDownloader
-  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.SankakuImageDownloader
-    name: SankakuImageDownloader
-  - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.YandereImageDownloader
-    name: YandereImageDownloader
-- uid: Mewdeko.Modules.OwnerOnly
-  name: Mewdeko.Modules.OwnerOnly
-  items:
-  - uid: Mewdeko.Modules.OwnerOnly.EvaluationEnvironment
-    name: EvaluationEnvironment
-  - uid: Mewdeko.Modules.OwnerOnly.InteractionEvaluationEnvironment
-    name: InteractionEvaluationEnvironment
-  - uid: Mewdeko.Modules.OwnerOnly.OwnerOnly
-    name: OwnerOnly
-  - uid: Mewdeko.Modules.OwnerOnly.OwnerOnly.SettableUserStatus
-    name: OwnerOnly.SettableUserStatus
-  - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly
-    name: SlashOwnerOnly
-  - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands
-    name: SlashOwnerOnly.ConfigCommands
-  - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.SettableUserStatus
-    name: SlashOwnerOnly.SettableUserStatus
-  - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.StatusCommands
-    name: SlashOwnerOnly.StatusCommands
-- uid: Mewdeko.Modules.OwnerOnly.Services
-  name: Mewdeko.Modules.OwnerOnly.Services
-  items:
-  - uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
-    name: OwnerOnlyService
-- uid: Mewdeko.Modules.Permissions
-  name: Mewdeko.Modules.Permissions
-  items:
-  - uid: Mewdeko.Modules.Permissions.Permissions
-    name: Permissions
-  - uid: Mewdeko.Modules.Permissions.Permissions.BlacklistCommands
-    name: Permissions.BlacklistCommands
-  - uid: Mewdeko.Modules.Permissions.Permissions.CmdCdsCommands
-    name: Permissions.CmdCdsCommands
-  - uid: Mewdeko.Modules.Permissions.Permissions.FilterCommands
-    name: Permissions.FilterCommands
-  - uid: Mewdeko.Modules.Permissions.Permissions.GlobalPermissionCommands
-    name: Permissions.GlobalPermissionCommands
-  - uid: Mewdeko.Modules.Permissions.Permissions.Reset
-    name: Permissions.Reset
-  - uid: Mewdeko.Modules.Permissions.SlashPermissions
-    name: SlashPermissions
-  - uid: Mewdeko.Modules.Permissions.SlashPermissions.PermissionSlash
-    name: SlashPermissions.PermissionSlash
-  - uid: Mewdeko.Modules.Permissions.SlashPermissions.Reset
-    name: SlashPermissions.Reset
-- uid: Mewdeko.Modules.Permissions.Common
-  name: Mewdeko.Modules.Permissions.Common
-  items:
-  - uid: Mewdeko.Modules.Permissions.Common.OldPermissionCache
-    name: OldPermissionCache
-  - uid: Mewdeko.Modules.Permissions.Common.PermissionCache
-    name: PermissionCache
-  - uid: Mewdeko.Modules.Permissions.Common.PermissionExtensions
-    name: PermissionExtensions
-  - uid: Mewdeko.Modules.Permissions.Common.PermissionsCollection`1
-    name: PermissionsCollection<T>
-- uid: Mewdeko.Modules.Permissions.Services
-  name: Mewdeko.Modules.Permissions.Services
-  items:
-  - uid: Mewdeko.Modules.Permissions.Services.ActiveCooldown
-    name: ActiveCooldown
-  - uid: Mewdeko.Modules.Permissions.Services.BlacklistService
-    name: BlacklistService
-  - uid: Mewdeko.Modules.Permissions.Services.CmdCdService
-    name: CmdCdService
-  - uid: Mewdeko.Modules.Permissions.Services.FilterService
-    name: FilterService
-  - uid: Mewdeko.Modules.Permissions.Services.GlobalPermissionService
-    name: GlobalPermissionService
-  - uid: Mewdeko.Modules.Permissions.Services.PermissionService
-    name: PermissionService
-- uid: Mewdeko.Modules.RoleGreets
-  name: Mewdeko.Modules.RoleGreets
-  items:
-  - uid: Mewdeko.Modules.RoleGreets.RoleGreets
-    name: RoleGreets
-  - uid: Mewdeko.Modules.RoleGreets.SlashRoleGreets
-    name: SlashRoleGreets
-- uid: Mewdeko.Modules.RoleGreets.Services
-  name: Mewdeko.Modules.RoleGreets.Services
-  items:
-  - uid: Mewdeko.Modules.RoleGreets.Services.RoleGreetService
-    name: RoleGreetService
-- uid: Mewdeko.Modules.RoleStates
-  name: Mewdeko.Modules.RoleStates
-  items:
-  - uid: Mewdeko.Modules.RoleStates.RoleStates
-    name: RoleStates
-  - uid: Mewdeko.Modules.RoleStates.SlashRoleStates
-    name: SlashRoleStates
-- uid: Mewdeko.Modules.RoleStates.Services
-  name: Mewdeko.Modules.RoleStates.Services
-  items:
-  - uid: Mewdeko.Modules.RoleStates.Services.RoleStatesService
-    name: RoleStatesService
-- uid: Mewdeko.Modules.Searches
-  name: Mewdeko.Modules.Searches
-  items:
-  - uid: Mewdeko.Modules.Searches.Searches
-    name: Searches
-  - uid: Mewdeko.Modules.Searches.Searches.ActionCommands
-    name: Searches.ActionCommands
-  - uid: Mewdeko.Modules.Searches.Searches.AnimeCommands
-    name: Searches.AnimeCommands
-  - uid: Mewdeko.Modules.Searches.Searches.FeedCommands
-    name: Searches.FeedCommands
-  - uid: Mewdeko.Modules.Searches.Searches.JokeCommands
-    name: Searches.JokeCommands
-  - uid: Mewdeko.Modules.Searches.Searches.MemegenCommands
-    name: Searches.MemegenCommands
-  - uid: Mewdeko.Modules.Searches.Searches.OsuCommands
-    name: Searches.OsuCommands
-  - uid: Mewdeko.Modules.Searches.Searches.PokemonCommands
-    name: Searches.PokemonCommands
-  - uid: Mewdeko.Modules.Searches.Searches.ShortenData
-    name: Searches.ShortenData
-  - uid: Mewdeko.Modules.Searches.Searches.StreamNotificationCommands
-    name: Searches.StreamNotificationCommands
-  - uid: Mewdeko.Modules.Searches.Searches.TranslateCommands
-    name: Searches.TranslateCommands
-  - uid: Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate
-    name: Searches.TranslateCommands.AutoDeleteAutoTranslate
-  - uid: Mewdeko.Modules.Searches.Searches.XkcdCommands
-    name: Searches.XkcdCommands
-  - uid: Mewdeko.Modules.Searches.SlashSearches
-    name: SlashSearches
-  - uid: Mewdeko.Modules.Searches.SlashToneTags
-    name: SlashToneTags
-- uid: Mewdeko.Modules.Searches.Common
-  name: Mewdeko.Modules.Searches.Common
-  items:
-  - uid: Mewdeko.Modules.Searches.Common.AnimeResult
-    name: AnimeResult
-  - uid: Mewdeko.Modules.Searches.Common.Audio
-    name: Audio
-  - uid: Mewdeko.Modules.Searches.Common.BibleVerse
-    name: BibleVerse
-  - uid: Mewdeko.Modules.Searches.Common.BibleVerses
-    name: BibleVerses
-  - uid: Mewdeko.Modules.Searches.Common.Clouds
-    name: Clouds
-  - uid: Mewdeko.Modules.Searches.Common.Coord
-    name: Coord
-  - uid: Mewdeko.Modules.Searches.Common.DapiImageObject
-    name: DapiImageObject
-  - uid: Mewdeko.Modules.Searches.Common.DapiSearchType
-    name: DapiSearchType
-  - uid: Mewdeko.Modules.Searches.Common.DefineModel
-    name: DefineModel
-  - uid: Mewdeko.Modules.Searches.Common.DerpiContainer
-    name: DerpiContainer
-  - uid: Mewdeko.Modules.Searches.Common.DerpiImageObject
-    name: DerpiImageObject
-  - uid: Mewdeko.Modules.Searches.Common.E621Object
-    name: E621Object
-  - uid: Mewdeko.Modules.Searches.Common.E621Object.FileData
-    name: E621Object.FileData
-  - uid: Mewdeko.Modules.Searches.Common.E621Object.ScoreData
-    name: E621Object.ScoreData
-  - uid: Mewdeko.Modules.Searches.Common.E621Object.TagData
-    name: E621Object.TagData
-  - uid: Mewdeko.Modules.Searches.Common.Example
-    name: Example
-  - uid: Mewdeko.Modules.Searches.Common.GatariUserResponse
-    name: GatariUserResponse
-  - uid: Mewdeko.Modules.Searches.Common.GatariUserStatsResponse
-    name: GatariUserStatsResponse
-  - uid: Mewdeko.Modules.Searches.Common.GoogleSearchResult
-    name: GoogleSearchResult
-  - uid: Mewdeko.Modules.Searches.Common.GramaticalInfo
-    name: GramaticalInfo
-  - uid: Mewdeko.Modules.Searches.Common.ImageCacherObject
-    name: ImageCacherObject
-  - uid: Mewdeko.Modules.Searches.Common.LocationIqResponse
-    name: LocationIqResponse
-  - uid: Mewdeko.Modules.Searches.Common.MagicItem
-    name: MagicItem
-  - uid: Mewdeko.Modules.Searches.Common.Main
-    name: Main
-  - uid: Mewdeko.Modules.Searches.Common.MangaResult
-    name: MangaResult
-  - uid: Mewdeko.Modules.Searches.Common.MtgData
-    name: MtgData
-  - uid: Mewdeko.Modules.Searches.Common.MtgResponse
-    name: MtgResponse
-  - uid: Mewdeko.Modules.Searches.Common.MtgResponse.Data
-    name: MtgResponse.Data
-  - uid: Mewdeko.Modules.Searches.Common.NovelResult
-    name: NovelResult
-  - uid: Mewdeko.Modules.Searches.Common.OmdbMovie
-    name: OmdbMovie
-  - uid: Mewdeko.Modules.Searches.Common.OsuUserData
-    name: OsuUserData
-  - uid: Mewdeko.Modules.Searches.Common.Result
-    name: Result
-  - uid: Mewdeko.Modules.Searches.Common.SafebooruElement
-    name: SafebooruElement
-  - uid: Mewdeko.Modules.Searches.Common.SearchImageCacher
-    name: SearchImageCacher
-  - uid: Mewdeko.Modules.Searches.Common.Sens
-    name: Sens
-  - uid: Mewdeko.Modules.Searches.Common.Sys
-    name: Sys
-  - uid: Mewdeko.Modules.Searches.Common.TimeData
-    name: TimeData
-  - uid: Mewdeko.Modules.Searches.Common.TimeZoneResult
-    name: TimeZoneResult
-  - uid: Mewdeko.Modules.Searches.Common.UrbanDef
-    name: UrbanDef
-  - uid: Mewdeko.Modules.Searches.Common.UrbanResponse
-    name: UrbanResponse
-  - uid: Mewdeko.Modules.Searches.Common.UserData
-    name: UserData
-  - uid: Mewdeko.Modules.Searches.Common.UserStats
-    name: UserStats
-  - uid: Mewdeko.Modules.Searches.Common.Weather
-    name: Weather
-  - uid: Mewdeko.Modules.Searches.Common.WeatherData
-    name: WeatherData
-  - uid: Mewdeko.Modules.Searches.Common.WikipediaApiModel
-    name: WikipediaApiModel
-  - uid: Mewdeko.Modules.Searches.Common.WikipediaApiModel.WikipediaQuery
-    name: WikipediaApiModel.WikipediaQuery
-  - uid: Mewdeko.Modules.Searches.Common.WikipediaApiModel.WikipediaQuery.WikipediaPage
-    name: WikipediaApiModel.WikipediaQuery.WikipediaPage
-  - uid: Mewdeko.Modules.Searches.Common.Wind
-    name: Wind
-  - uid: Mewdeko.Modules.Searches.Common.WoWJoke
-    name: WoWJoke
-- uid: Mewdeko.Modules.Searches.Common.Exceptions
-  name: Mewdeko.Modules.Searches.Common.Exceptions
-  items:
-  - uid: Mewdeko.Modules.Searches.Common.Exceptions.StreamNotFoundException
-    name: StreamNotFoundException
-- uid: Mewdeko.Modules.Searches.Common.StreamNotifications
-  name: Mewdeko.Modules.Searches.Common.StreamNotifications
-  items:
-  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.NotifChecker
-    name: NotifChecker
-- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
-  name: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
-  items:
-  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.ChatSettings
-    name: ChatSettings
-  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
-    name: DescriptionPanel
-  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse
-    name: HelixStreamsResponse
-  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.PaginationData
-    name: HelixStreamsResponse.PaginationData
-  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixStreamsResponse.StreamData
-    name: HelixStreamsResponse.StreamData
-  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse
-    name: HelixUsersResponse
-  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.HelixUsersResponse.User
-    name: HelixUsersResponse.User
-  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Language
-    name: Language
-  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream
-    name: Multistream
-  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
-    name: PicartoChannelResponse
-  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
-    name: StreamData
-  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Thumbnails
-    name: Thumbnails
-  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoGetUsersResponse
-    name: TrovoGetUsersResponse
-  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoRequestData
-    name: TrovoRequestData
-  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.TrovoSocialLink
-    name: TrovoSocialLink
-  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.XkcdComic
-    name: XkcdComic
-- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
-  name: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
-  items:
-  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.PicartoProvider
-    name: PicartoProvider
-  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.Provider
-    name: Provider
-  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.TrovoProvider
-    name: TrovoProvider
-  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.TwitchHelixProvider
-    name: TwitchHelixProvider
-- uid: Mewdeko.Modules.Searches.Services
-  name: Mewdeko.Modules.Searches.Services
-  items:
-  - uid: Mewdeko.Modules.Searches.Services.FeedsService
-    name: FeedsService
-  - uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
-    name: GoogleSearchResultData
-  - uid: Mewdeko.Modules.Searches.Services.RedditCache
-    name: RedditCache
-  - uid: Mewdeko.Modules.Searches.Services.SearchesService
-    name: SearchesService
-  - uid: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
-    name: SearchesService.ImageTag
-  - uid: Mewdeko.Modules.Searches.Services.ShipCache
-    name: ShipCache
-  - uid: Mewdeko.Modules.Searches.Services.SteamGameData
-    name: SteamGameData
-  - uid: Mewdeko.Modules.Searches.Services.SteamGameData.Container
-    name: SteamGameData.Container
-  - uid: Mewdeko.Modules.Searches.Services.SteamGameId
-    name: SteamGameId
-  - uid: Mewdeko.Modules.Searches.Services.StreamNotificationService
-    name: StreamNotificationService
-  - uid: Mewdeko.Modules.Searches.Services.StreamNotificationService.FollowStreamPubData
-    name: StreamNotificationService.FollowStreamPubData
-  - uid: Mewdeko.Modules.Searches.Services.TimeErrors
-    name: TimeErrors
-  - uid: Mewdeko.Modules.Searches.Services.ToneTagService
-    name: ToneTagService
-  - uid: Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult
-    name: ToneTagService.ParseResult
-- uid: Mewdeko.Modules.Server_Management
-  name: Mewdeko.Modules.Server_Management
-  items:
-  - uid: Mewdeko.Modules.Server_Management.EmoteStealer
-    name: EmoteStealer
-  - uid: Mewdeko.Modules.Server_Management.ServerManagement
-    name: ServerManagement
-  - uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
-    name: ServerManagement.ChannelCommands
-  - uid: Mewdeko.Modules.Server_Management.ServerManagement.PermControls
-    name: ServerManagement.PermControls
-  - uid: Mewdeko.Modules.Server_Management.ServerManagement.RoleCommands
-    name: ServerManagement.RoleCommands
-  - uid: Mewdeko.Modules.Server_Management.ServerManagement.RoleCommands.ExportedRoles
-    name: ServerManagement.RoleCommands.ExportedRoles
-- uid: Mewdeko.Modules.Server_Management.Services
-  name: Mewdeko.Modules.Server_Management.Services
-  items:
-  - uid: Mewdeko.Modules.Server_Management.Services.RoleCommandsService
-    name: RoleCommandsService
-  - uid: Mewdeko.Modules.Server_Management.Services.RoleCommandsService.RoleJobs
-    name: RoleCommandsService.RoleJobs
-  - uid: Mewdeko.Modules.Server_Management.Services.ServerManagementService
-    name: ServerManagementService
-- uid: Mewdeko.Modules.Starboard
-  name: Mewdeko.Modules.Starboard
-  items:
-  - uid: Mewdeko.Modules.Starboard.Starboard
-    name: Starboard
-  - uid: Mewdeko.Modules.Starboard.Starboard.WhitelistMode
-    name: Starboard.WhitelistMode
-  - uid: Mewdeko.Modules.Starboard.StarboardSlash
-    name: StarboardSlash
-- uid: Mewdeko.Modules.Starboard.Services
-  name: Mewdeko.Modules.Starboard.Services
-  items:
-  - uid: Mewdeko.Modules.Starboard.Services.StarboardService
-    name: StarboardService
-- uid: Mewdeko.Modules.StatusRoles
-  name: Mewdeko.Modules.StatusRoles
-  items:
-  - uid: Mewdeko.Modules.StatusRoles.SlashStatusRoles
-    name: SlashStatusRoles
-  - uid: Mewdeko.Modules.StatusRoles.StatusRoles
-    name: StatusRoles
-- uid: Mewdeko.Modules.StatusRoles.Services
-  name: Mewdeko.Modules.StatusRoles.Services
-  items:
-  - uid: Mewdeko.Modules.StatusRoles.Services.StatusRolesService
-    name: StatusRolesService
-- uid: Mewdeko.Modules.Suggestions
-  name: Mewdeko.Modules.Suggestions
-  items:
-  - uid: Mewdeko.Modules.Suggestions.SlashSuggestions
-    name: SlashSuggestions
-  - uid: Mewdeko.Modules.Suggestions.SlashSuggestions.SlashSuggestionsCustomization
-    name: SlashSuggestions.SlashSuggestionsCustomization
-  - uid: Mewdeko.Modules.Suggestions.Suggestions
-    name: Suggestions
-  - uid: Mewdeko.Modules.Suggestions.Suggestions.ButtonType
-    name: Suggestions.ButtonType
-  - uid: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold
-    name: Suggestions.RepostThreshold
-  - uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestEmoteModeEnum
-    name: Suggestions.SuggestEmoteModeEnum
-  - uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
-    name: Suggestions.SuggestThreadType
-  - uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestionsCustomization
-    name: Suggestions.SuggestionsCustomization
-- uid: Mewdeko.Modules.Suggestions.Services
-  name: Mewdeko.Modules.Suggestions.Services
-  items:
-  - uid: Mewdeko.Modules.Suggestions.Services.SuggestButtonService
-    name: SuggestButtonService
-  - uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService
-    name: SuggestionsService
-  - uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
-    name: SuggestionsService.SuggestState
-- uid: Mewdeko.Modules.UserProfile
-  name: Mewdeko.Modules.UserProfile
-  items:
-  - uid: Mewdeko.Modules.UserProfile.SlashUserProfile
-    name: SlashUserProfile
-  - uid: Mewdeko.Modules.UserProfile.UserProfile
-    name: UserProfile
-- uid: Mewdeko.Modules.UserProfile.Common
-  name: Mewdeko.Modules.UserProfile.Common
-  items:
-  - uid: Mewdeko.Modules.UserProfile.Common.PronounSearchResult
-    name: PronounSearchResult
-  - uid: Mewdeko.Modules.UserProfile.Common.ZodiacResult
-    name: ZodiacResult
-- uid: Mewdeko.Modules.UserProfile.Services
-  name: Mewdeko.Modules.UserProfile.Services
-  items:
-  - uid: Mewdeko.Modules.UserProfile.Services.UserProfileService
-    name: UserProfileService
-- uid: Mewdeko.Modules.Utility
-  name: Mewdeko.Modules.Utility
-  items:
-  - uid: Mewdeko.Modules.Utility.LinkCommands
-    name: LinkCommands
-  - uid: Mewdeko.Modules.Utility.SlashAutoPublish
-    name: SlashAutoPublish
-  - uid: Mewdeko.Modules.Utility.SlashRemindCommands
-    name: SlashRemindCommands
-  - uid: Mewdeko.Modules.Utility.SlashUtility
-    name: SlashUtility
-  - uid: Mewdeko.Modules.Utility.Utility
-    name: Utility
-  - uid: Mewdeko.Modules.Utility.Utility.AutoPublish
-    name: Utility.AutoPublish
-  - uid: Mewdeko.Modules.Utility.Utility.CalcCommands
-    name: Utility.CalcCommands
-  - uid: Mewdeko.Modules.Utility.Utility.CommandMapCommands
-    name: Utility.CommandMapCommands
-  - uid: Mewdeko.Modules.Utility.Utility.InfoCommands
-    name: Utility.InfoCommands
-  - uid: Mewdeko.Modules.Utility.Utility.InviteCommands
-    name: Utility.InviteCommands
-  - uid: Mewdeko.Modules.Utility.Utility.JoinLeaveStats
-    name: Utility.JoinLeaveStats
-  - uid: Mewdeko.Modules.Utility.Utility.NetworkUtilities
-    name: Utility.NetworkUtilities
-  - uid: Mewdeko.Modules.Utility.Utility.PermissionType
-    name: Utility.PermissionType
-  - uid: Mewdeko.Modules.Utility.Utility.QuoteCommands
-    name: Utility.QuoteCommands
-  - uid: Mewdeko.Modules.Utility.Utility.RemindCommands
-    name: Utility.RemindCommands
-  - uid: Mewdeko.Modules.Utility.Utility.RemindCommands.MeOrHere
-    name: Utility.RemindCommands.MeOrHere
-  - uid: Mewdeko.Modules.Utility.Utility.RepeatCommands
-    name: Utility.RepeatCommands
-  - uid: Mewdeko.Modules.Utility.Utility.SlashSnipes
-    name: Utility.SlashSnipes
-  - uid: Mewdeko.Modules.Utility.Utility.StreamRoleCommands
-    name: Utility.StreamRoleCommands
-  - uid: Mewdeko.Modules.Utility.Utility.UnitConverterCommands
-    name: Utility.UnitConverterCommands
-  - uid: Mewdeko.Modules.Utility.Utility.VerboseErrorCommands
-    name: Utility.VerboseErrorCommands
-- uid: Mewdeko.Modules.Utility.Common
-  name: Mewdeko.Modules.Utility.Common
-  items:
-  - uid: Mewdeko.Modules.Utility.Common.ConvertUnit
-    name: ConvertUnit
-  - uid: Mewdeko.Modules.Utility.Common.PronounDbResult
-    name: PronounDbResult
-  - uid: Mewdeko.Modules.Utility.Common.RepeatRunner
-    name: RepeatRunner
-  - uid: Mewdeko.Modules.Utility.Common.SnipeStore
-    name: SnipeStore
-  - uid: Mewdeko.Modules.Utility.Common.StreamRoleListType
-    name: StreamRoleListType
-- uid: Mewdeko.Modules.Utility.Common.Exceptions
-  name: Mewdeko.Modules.Utility.Common.Exceptions
-  items:
-  - uid: Mewdeko.Modules.Utility.Common.Exceptions.StreamRoleNotFoundException
-    name: StreamRoleNotFoundException
-  - uid: Mewdeko.Modules.Utility.Common.Exceptions.StreamRolePermissionException
-    name: StreamRolePermissionException
-- uid: Mewdeko.Modules.Utility.Services
-  name: Mewdeko.Modules.Utility.Services
-  items:
-  - uid: Mewdeko.Modules.Utility.Services.AutoPublishService
-    name: AutoPublishService
-  - uid: Mewdeko.Modules.Utility.Services.CommandAliasEqualityComparer
-    name: CommandAliasEqualityComparer
-  - uid: Mewdeko.Modules.Utility.Services.CommandMapService
-    name: CommandMapService
-  - uid: Mewdeko.Modules.Utility.Services.ConverterService
-    name: ConverterService
-  - uid: Mewdeko.Modules.Utility.Services.DllVersionChecker
-    name: DllVersionChecker
-  - uid: Mewdeko.Modules.Utility.Services.InviteService
-    name: InviteService
-  - uid: Mewdeko.Modules.Utility.Services.InviteService.Options
-    name: InviteService.Options
-  - uid: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService
-    name: JoinLeaveLoggerService
-  - uid: Mewdeko.Modules.Utility.Services.MessageRepeaterService
-    name: MessageRepeaterService
-  - uid: Mewdeko.Modules.Utility.Services.OwoServices
-    name: OwoServices
-  - uid: Mewdeko.Modules.Utility.Services.PronounsService
-    name: PronounsService
-  - uid: Mewdeko.Modules.Utility.Services.Rates
-    name: Rates
-  - uid: Mewdeko.Modules.Utility.Services.RemindService
-    name: RemindService
-  - uid: Mewdeko.Modules.Utility.Services.RemindService.RemindObject
-    name: RemindService.RemindObject
-  - uid: Mewdeko.Modules.Utility.Services.RollCommandService
-    name: RollCommandService
-  - uid: Mewdeko.Modules.Utility.Services.StreamRoleService
-    name: StreamRoleService
-  - uid: Mewdeko.Modules.Utility.Services.UtilityService
-    name: UtilityService
-  - uid: Mewdeko.Modules.Utility.Services.VerboseErrorsService
-    name: VerboseErrorsService
-- uid: Mewdeko.Modules.Votes
-  name: Mewdeko.Modules.Votes
-  items:
-  - uid: Mewdeko.Modules.Votes.Vote
-    name: Vote
-  - uid: Mewdeko.Modules.Votes.VoteSlashCommands
-    name: VoteSlashCommands
-- uid: Mewdeko.Modules.Votes.Services
-  name: Mewdeko.Modules.Votes.Services
-  items:
-  - uid: Mewdeko.Modules.Votes.Services.CustomVoteThingy
-    name: CustomVoteThingy
-  - uid: Mewdeko.Modules.Votes.Services.VoteService
-    name: VoteService
-- uid: Mewdeko.Modules.Xp
-  name: Mewdeko.Modules.Xp
-  items:
-  - uid: Mewdeko.Modules.Xp.Xp
-    name: Xp
-  - uid: Mewdeko.Modules.Xp.Xp.Channel
-    name: Xp.Channel
-  - uid: Mewdeko.Modules.Xp.Xp.Club
-    name: Xp.Club
-  - uid: Mewdeko.Modules.Xp.Xp.NotifyPlace
-    name: Xp.NotifyPlace
-  - uid: Mewdeko.Modules.Xp.Xp.ResetCommands
-    name: Xp.ResetCommands
-  - uid: Mewdeko.Modules.Xp.Xp.Role
-    name: Xp.Role
-  - uid: Mewdeko.Modules.Xp.Xp.Server
-    name: Xp.Server
-- uid: Mewdeko.Modules.Xp.Common
-  name: Mewdeko.Modules.Xp.Common
-  items:
-  - uid: Mewdeko.Modules.Xp.Common.FullUserStats
-    name: FullUserStats
-  - uid: Mewdeko.Modules.Xp.Common.LevelStats
-    name: LevelStats
-  - uid: Mewdeko.Modules.Xp.Common.XpConfig
-    name: XpConfig
-- uid: Mewdeko.Modules.Xp.Extensions
-  name: Mewdeko.Modules.Xp.Extensions
-  items:
-  - uid: Mewdeko.Modules.Xp.Extensions.Extensions
-    name: Extensions
-- uid: Mewdeko.Modules.Xp.Services
-  name: Mewdeko.Modules.Xp.Services
-  items:
-  - uid: Mewdeko.Modules.Xp.Services.ClubService
-    name: ClubService
-  - uid: Mewdeko.Modules.Xp.Services.UserCacheItem
-    name: UserCacheItem
-  - uid: Mewdeko.Modules.Xp.Services.XpConfigService
-    name: XpConfigService
-  - uid: Mewdeko.Modules.Xp.Services.XpService
-    name: XpService
-- uid: Mewdeko.Services
-  name: Mewdeko.Services
-  items:
-  - uid: Mewdeko.Services.CommandHandler
-    name: CommandHandler
-  - uid: Mewdeko.Services.DbConfig
-    name: DbConfig
-  - uid: Mewdeko.Services.GreetSettings
-    name: GreetSettings
-  - uid: Mewdeko.Services.GreetSettingsService
-    name: GreetSettingsService
-  - uid: Mewdeko.Services.GuildSettingsService
-    name: GuildSettingsService
-  - uid: Mewdeko.Services.IBotCredentials
-    name: IBotCredentials
-  - uid: Mewdeko.Services.ICoordinator
-    name: ICoordinator
-  - uid: Mewdeko.Services.IDataCache
-    name: IDataCache
-  - uid: Mewdeko.Services.IGoogleApiService
-    name: IGoogleApiService
-  - uid: Mewdeko.Services.IImageCache
-    name: IImageCache
-  - uid: Mewdeko.Services.ILocalDataCache
-    name: ILocalDataCache
-  - uid: Mewdeko.Services.ILocalization
-    name: ILocalization
-  - uid: Mewdeko.Services.INService
-    name: INService
-  - uid: Mewdeko.Services.IStatsService
-    name: IStatsService
-  - uid: Mewdeko.Services.IUnloadableService
-    name: IUnloadableService
-  - uid: Mewdeko.Services.LogSetup
-    name: LogSetup
-  - uid: Mewdeko.Services.RestartConfig
-    name: RestartConfig
-  - uid: Mewdeko.Services.ShardStatus
-    name: ShardStatus
-  - uid: Mewdeko.Services.StandardConversions
-    name: StandardConversions
-- uid: Mewdeko.Services.Common
-  name: Mewdeko.Services.Common
-  items:
-  - uid: Mewdeko.Services.Common.ImageLoader
-    name: ImageLoader
-  - uid: Mewdeko.Services.Common.RedisImageArray
-    name: RedisImageArray
-- uid: Mewdeko.Services.Impl
-  name: Mewdeko.Services.Impl
-  items:
-  - uid: Mewdeko.Services.Impl.BotCredentials
-    name: BotCredentials
-  - uid: Mewdeko.Services.Impl.EventHandler
-    name: EventHandler
-  - uid: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`1
-    name: EventHandler.AsyncEventHandler<TEventArgs>
-  - uid: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`2
-    name: EventHandler.AsyncEventHandler<TEventArgs, TArgs>
-  - uid: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`3
-    name: EventHandler.AsyncEventHandler<TEventArgs, TArgs, TEvent>
-  - uid: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`4
-    name: EventHandler.AsyncEventHandler<TEventArgs, TArgs, TEvent, TArgs2>
-  - uid: Mewdeko.Services.Impl.FontProvider
-    name: FontProvider
-  - uid: Mewdeko.Services.Impl.GoogleApiService
-    name: GoogleApiService
-  - uid: Mewdeko.Services.Impl.Localization
-    name: Localization
-  - uid: Mewdeko.Services.Impl.RedisCache
-    name: RedisCache
-  - uid: Mewdeko.Services.Impl.RedisImagesCache
-    name: RedisImagesCache
-  - uid: Mewdeko.Services.Impl.RedisImagesCache.ImageKeys
-    name: RedisImagesCache.ImageKeys
-  - uid: Mewdeko.Services.Impl.RedisLocalDataCache
-    name: RedisLocalDataCache
-  - uid: Mewdeko.Services.Impl.RemoteGrpcCoordinator
-    name: RemoteGrpcCoordinator
-  - uid: Mewdeko.Services.Impl.SingleProcessCoordinator
-    name: SingleProcessCoordinator
-  - uid: Mewdeko.Services.Impl.StatsService
-    name: StatsService
-  - uid: Mewdeko.Services.Impl.StatsService.MewdekoPartialGuild
-    name: StatsService.MewdekoPartialGuild
-- uid: Mewdeko.Services.Settings
-  name: Mewdeko.Services.Settings
-  items:
-  - uid: Mewdeko.Services.Settings.BotConfigService
-    name: BotConfigService
-  - uid: Mewdeko.Services.Settings.ConfigParsers
-    name: ConfigParsers
-  - uid: Mewdeko.Services.Settings.ConfigPrinters
-    name: ConfigPrinters
-  - uid: Mewdeko.Services.Settings.ConfigServiceBase`1
-    name: ConfigServiceBase<TSettings>
-  - uid: Mewdeko.Services.Settings.IConfigService
-    name: IConfigService
-  - uid: Mewdeko.Services.Settings.SettingParser`1
-    name: SettingParser<TData>
-- uid: Mewdeko.Services.Strings.Impl
-  name: Mewdeko.Services.Strings.Impl
-  items:
-  - uid: Mewdeko.Services.Strings.Impl.RedisBotStringsProvider
-    name: RedisBotStringsProvider
-- uid: Mewdeko.Services.strings
-  name: Mewdeko.Services.strings
-  items:
-  - uid: Mewdeko.Services.strings.IBotStrings
-    name: IBotStrings
-  - uid: Mewdeko.Services.strings.IBotStringsProvider
-    name: IBotStringsProvider
-  - uid: Mewdeko.Services.strings.IStringsSource
-    name: IStringsSource
-- uid: Mewdeko.Services.strings.impl
-  name: Mewdeko.Services.strings.impl
-  items:
-  - uid: Mewdeko.Services.strings.impl.BotStrings
-    name: BotStrings
-  - uid: Mewdeko.Services.strings.impl.CommandStrings
-    name: CommandStrings
-  - uid: Mewdeko.Services.strings.impl.LocalBotStringsProvider
-    name: LocalBotStringsProvider
-  - uid: Mewdeko.Services.strings.impl.LocalFileStringsSource
-    name: LocalFileStringsSource
-- uid: Mewdeko.Tests
-  name: Mewdeko.Tests
-  items:
-  - uid: Mewdeko.Tests.CommandStringsTests
-    name: CommandStringsTests
-- uid: Mewdeko.Votes
-  name: Mewdeko.Votes
-  items:
-  - uid: Mewdeko.Votes.Program
-    name: Program
-  - uid: Mewdeko.Votes.Startup
-    name: Startup
-  - uid: Mewdeko.Votes.WebhookEvents
-    name: WebhookEvents
-- uid: Mewdeko.Votes.Common
-  name: Mewdeko.Votes.Common
-  items:
-  - uid: Mewdeko.Votes.Common.AuthHandler
-    name: AuthHandler
-  - uid: Mewdeko.Votes.Common.CompoundVoteModal
-    name: CompoundVoteModal
-  - uid: Mewdeko.Votes.Common.ConfKeys
-    name: ConfKeys
-  - uid: Mewdeko.Votes.Common.Policies
-    name: Policies
-  - uid: Mewdeko.Votes.Common.VoteModel
-    name: VoteModel
-- uid: Mewdeko.Votes.Common.JsonConverters
-  name: Mewdeko.Votes.Common.JsonConverters
-  items:
-  - uid: Mewdeko.Votes.Common.JsonConverters.CultureInfoConverter
-    name: CultureInfoConverter
-- uid: Mewdeko.Votes.Common.PubSub
-  name: Mewdeko.Votes.Common.PubSub
-  items:
-  - uid: Mewdeko.Votes.Common.PubSub.IPubSub
-    name: IPubSub
-  - uid: Mewdeko.Votes.Common.PubSub.ISeria
-    name: ISeria
-  - uid: Mewdeko.Votes.Common.PubSub.JsonSeria
-    name: JsonSeria
-  - uid: Mewdeko.Votes.Common.PubSub.RedisPubSub
-    name: RedisPubSub
-  - uid: Mewdeko.Votes.Common.PubSub.TypedKey`1
-    name: TypedKey<TData>
-- uid: Mewdeko.Votes.Controllers
-  name: Mewdeko.Votes.Controllers
-  items:
-  - uid: Mewdeko.Votes.Controllers.WebhookController
-    name: WebhookController
-- uid: Mewdeko.Votes.Extensions
-  name: Mewdeko.Votes.Extensions
-  items:
-  - uid: Mewdeko.Votes.Extensions.StringExtensions
-    name: StringExtensions
-- uid: Mewdeko.Votes.Services
-  name: Mewdeko.Votes.Services
-  items:
-  - uid: Mewdeko.Votes.Services.BotCredentials
-    name: BotCredentials
-  - uid: Mewdeko.Votes.Services.IBotCredentials
-    name: IBotCredentials
-  - uid: Mewdeko.Votes.Services.LogSetup
-    name: LogSetup
 memberLayout: SamePage

@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Searches.Common.Exceptions
   commentId: N:Mewdeko.Modules.Searches.Common.Exceptions
-  id: Mewdeko.Modules.Searches.Common.Exceptions
+  id: Exceptions
+  parent: Mewdeko.Modules.Searches.Common
   children:
   - Mewdeko.Modules.Searches.Common.Exceptions.StreamNotFoundException
   langs:

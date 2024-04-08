@@ -27,7 +27,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Command
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 351
+    startLine: 350
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help
@@ -66,7 +66,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: IsDragon
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 356
+    startLine: 355
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help
@@ -97,7 +97,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CommandName
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 361
+    startLine: 360
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help
@@ -128,7 +128,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Description
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 366
+    startLine: 365
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help
@@ -159,7 +159,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Example
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 371
+    startLine: 370
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help
@@ -190,7 +190,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GuildUserPermissions
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 376
+    startLine: 375
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help
@@ -221,7 +221,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ChannelUserPermissions
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 381
+    startLine: 380
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help
@@ -252,7 +252,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ChannelBotPermissions
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 386
+    startLine: 385
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help
@@ -283,7 +283,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GuildBotPermissions
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 391
+    startLine: 390
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help

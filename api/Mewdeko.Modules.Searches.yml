@@ -2,8 +2,10 @@
 items:
 - uid: Mewdeko.Modules.Searches
   commentId: N:Mewdeko.Modules.Searches
-  id: Mewdeko.Modules.Searches
+  id: Searches
+  parent: Mewdeko.Modules
   children:
+  - Mewdeko.Modules.Searches.Common
   - Mewdeko.Modules.Searches.Searches
   - Mewdeko.Modules.Searches.Searches.ActionCommands
   - Mewdeko.Modules.Searches.Searches.AnimeCommands
@@ -17,6 +19,7 @@ items:
   - Mewdeko.Modules.Searches.Searches.TranslateCommands
   - Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate
   - Mewdeko.Modules.Searches.Searches.XkcdCommands
+  - Mewdeko.Modules.Searches.Services
   - Mewdeko.Modules.Searches.SlashSearches
   - Mewdeko.Modules.Searches.SlashToneTags
   langs:
@@ -29,6 +32,82 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Modules.Searches.Common
+  commentId: N:Mewdeko.Modules.Searches.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Common
+  nameWithType: Mewdeko.Modules.Searches.Common
+  fullName: Mewdeko.Modules.Searches.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+- uid: Mewdeko.Modules.Searches.Services
+  commentId: N:Mewdeko.Modules.Searches.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Services
+  nameWithType: Mewdeko.Modules.Searches.Services
+  fullName: Mewdeko.Modules.Searches.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services
+    name: Services
+    href: Mewdeko.Modules.Searches.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services
+    name: Services
+    href: Mewdeko.Modules.Searches.Services.html
 - uid: Mewdeko.Modules.Searches.Searches
   commentId: T:Mewdeko.Modules.Searches.Searches
   href: Mewdeko.Modules.Searches.Searches.html

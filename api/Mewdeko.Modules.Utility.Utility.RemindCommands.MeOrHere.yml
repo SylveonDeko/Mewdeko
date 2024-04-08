@@ -76,7 +76,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Here
     path: src/Mewdeko/Modules/Utility/RemindCommands.cs
-    startLine: 28
+    startLine: 29
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility

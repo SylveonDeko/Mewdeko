@@ -2,11 +2,13 @@
 items:
 - uid: Mewdeko.Services.strings
   commentId: N:Mewdeko.Services.strings
-  id: Mewdeko.Services.strings
+  id: strings
+  parent: Mewdeko.Services
   children:
   - Mewdeko.Services.strings.IBotStrings
   - Mewdeko.Services.strings.IBotStringsProvider
   - Mewdeko.Services.strings.IStringsSource
+  - Mewdeko.Services.strings.impl
   langs:
   - csharp
   - vb
@@ -17,6 +19,44 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Services.strings.impl
+  commentId: N:Mewdeko.Services.strings.impl
+  href: Mewdeko.html
+  name: Mewdeko.Services.strings.impl
+  nameWithType: Mewdeko.Services.strings.impl
+  fullName: Mewdeko.Services.strings.impl
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.strings
+    name: strings
+    href: Mewdeko.Services.strings.html
+  - name: .
+  - uid: Mewdeko.Services.strings.impl
+    name: impl
+    href: Mewdeko.Services.strings.impl.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.strings
+    name: strings
+    href: Mewdeko.Services.strings.html
+  - name: .
+  - uid: Mewdeko.Services.strings.impl
+    name: impl
+    href: Mewdeko.Services.strings.impl.html
 - uid: Mewdeko.Services.strings.IBotStrings
   commentId: T:Mewdeko.Services.strings.IBotStrings
   parent: Mewdeko.Services.strings

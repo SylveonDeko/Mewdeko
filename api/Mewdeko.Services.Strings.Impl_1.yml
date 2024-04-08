@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Services.Strings.Impl
   commentId: N:Mewdeko.Services.Strings.Impl
-  id: Mewdeko.Services.Strings.Impl
+  id: Strings.Impl
+  parent: Mewdeko.Services
   children:
   - Mewdeko.Services.Strings.Impl.RedisBotStringsProvider
   langs:

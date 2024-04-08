@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Searches.Services
   commentId: N:Mewdeko.Modules.Searches.Services
-  id: Mewdeko.Modules.Searches.Services
+  id: Services
+  parent: Mewdeko.Modules.Searches
   children:
   - Mewdeko.Modules.Searches.Services.FeedsService
   - Mewdeko.Modules.Searches.Services.GoogleSearchResultData
@@ -34,6 +35,18 @@ references:
   name: FeedsService
   nameWithType: FeedsService
   fullName: Mewdeko.Modules.Searches.Services.FeedsService
+- uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+  commentId: T:Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+  href: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.html
+  name: GoogleSearchResultData
+  nameWithType: GoogleSearchResultData
+  fullName: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+- uid: Mewdeko.Modules.Searches.Services.RedditCache
+  commentId: T:Mewdeko.Modules.Searches.Services.RedditCache
+  href: Mewdeko.Modules.Searches.Services.RedditCache.html
+  name: RedditCache
+  nameWithType: RedditCache
+  fullName: Mewdeko.Modules.Searches.Services.RedditCache
 - uid: Mewdeko.Modules.Searches.Services.SearchesService
   commentId: T:Mewdeko.Modules.Searches.Services.SearchesService
   parent: Mewdeko.Modules.Searches.Services
@@ -64,24 +77,12 @@ references:
   - uid: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
     name: ImageTag
     href: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.html
-- uid: Mewdeko.Modules.Searches.Services.RedditCache
-  commentId: T:Mewdeko.Modules.Searches.Services.RedditCache
-  href: Mewdeko.Modules.Searches.Services.RedditCache.html
-  name: RedditCache
-  nameWithType: RedditCache
-  fullName: Mewdeko.Modules.Searches.Services.RedditCache
-- uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
-  commentId: T:Mewdeko.Modules.Searches.Services.GoogleSearchResultData
-  href: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.html
-  name: GoogleSearchResultData
-  nameWithType: GoogleSearchResultData
-  fullName: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
-- uid: Mewdeko.Modules.Searches.Services.SteamGameId
-  commentId: T:Mewdeko.Modules.Searches.Services.SteamGameId
-  href: Mewdeko.Modules.Searches.Services.SteamGameId.html
-  name: SteamGameId
-  nameWithType: SteamGameId
-  fullName: Mewdeko.Modules.Searches.Services.SteamGameId
+- uid: Mewdeko.Modules.Searches.Services.ShipCache
+  commentId: T:Mewdeko.Modules.Searches.Services.ShipCache
+  href: Mewdeko.Modules.Searches.Services.ShipCache.html
+  name: ShipCache
+  nameWithType: ShipCache
+  fullName: Mewdeko.Modules.Searches.Services.ShipCache
 - uid: Mewdeko.Modules.Searches.Services.SteamGameData
   commentId: T:Mewdeko.Modules.Searches.Services.SteamGameData
   parent: Mewdeko.Modules.Searches.Services
@@ -111,19 +112,12 @@ references:
   - uid: Mewdeko.Modules.Searches.Services.SteamGameData.Container
     name: Container
     href: Mewdeko.Modules.Searches.Services.SteamGameData.Container.html
-- uid: Mewdeko.Modules.Searches.Services.TimeErrors
-  commentId: T:Mewdeko.Modules.Searches.Services.TimeErrors
-  parent: Mewdeko.Modules.Searches.Services
-  href: Mewdeko.Modules.Searches.Services.TimeErrors.html
-  name: TimeErrors
-  nameWithType: TimeErrors
-  fullName: Mewdeko.Modules.Searches.Services.TimeErrors
-- uid: Mewdeko.Modules.Searches.Services.ShipCache
-  commentId: T:Mewdeko.Modules.Searches.Services.ShipCache
-  href: Mewdeko.Modules.Searches.Services.ShipCache.html
-  name: ShipCache
-  nameWithType: ShipCache
-  fullName: Mewdeko.Modules.Searches.Services.ShipCache
+- uid: Mewdeko.Modules.Searches.Services.SteamGameId
+  commentId: T:Mewdeko.Modules.Searches.Services.SteamGameId
+  href: Mewdeko.Modules.Searches.Services.SteamGameId.html
+  name: SteamGameId
+  nameWithType: SteamGameId
+  fullName: Mewdeko.Modules.Searches.Services.SteamGameId
 - uid: Mewdeko.Modules.Searches.Services.StreamNotificationService
   commentId: T:Mewdeko.Modules.Searches.Services.StreamNotificationService
   href: Mewdeko.Modules.Searches.Services.StreamNotificationService.html
@@ -152,6 +146,13 @@ references:
   - uid: Mewdeko.Modules.Searches.Services.StreamNotificationService.FollowStreamPubData
     name: FollowStreamPubData
     href: Mewdeko.Modules.Searches.Services.StreamNotificationService.FollowStreamPubData.html
+- uid: Mewdeko.Modules.Searches.Services.TimeErrors
+  commentId: T:Mewdeko.Modules.Searches.Services.TimeErrors
+  parent: Mewdeko.Modules.Searches.Services
+  href: Mewdeko.Modules.Searches.Services.TimeErrors.html
+  name: TimeErrors
+  nameWithType: TimeErrors
+  fullName: Mewdeko.Modules.Searches.Services.TimeErrors
 - uid: Mewdeko.Modules.Searches.Services.ToneTagService
   commentId: T:Mewdeko.Modules.Searches.Services.ToneTagService
   parent: Mewdeko.Modules.Searches.Services

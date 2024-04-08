@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Votes.Extensions
   commentId: N:Mewdeko.Votes.Extensions
-  id: Mewdeko.Votes.Extensions
+  id: Extensions
+  parent: Mewdeko.Votes
   children:
   - Mewdeko.Votes.Extensions.StringExtensions
   langs:

@@ -2,8 +2,10 @@
 items:
 - uid: Mewdeko.Modules.Suggestions
   commentId: N:Mewdeko.Modules.Suggestions
-  id: Mewdeko.Modules.Suggestions
+  id: Suggestions
+  parent: Mewdeko.Modules
   children:
+  - Mewdeko.Modules.Suggestions.Services
   - Mewdeko.Modules.Suggestions.SlashSuggestions
   - Mewdeko.Modules.Suggestions.SlashSuggestions.SlashSuggestionsCustomization
   - Mewdeko.Modules.Suggestions.Suggestions
@@ -22,6 +24,44 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Modules.Suggestions.Services
+  commentId: N:Mewdeko.Modules.Suggestions.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Suggestions.Services
+  nameWithType: Mewdeko.Modules.Suggestions.Services
+  fullName: Mewdeko.Modules.Suggestions.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions
+    name: Suggestions
+    href: Mewdeko.Modules.Suggestions.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions.Services
+    name: Services
+    href: Mewdeko.Modules.Suggestions.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions
+    name: Suggestions
+    href: Mewdeko.Modules.Suggestions.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions.Services
+    name: Services
+    href: Mewdeko.Modules.Suggestions.Services.html
 - uid: Mewdeko.Modules.Suggestions.SlashSuggestions
   commentId: T:Mewdeko.Modules.Suggestions.SlashSuggestions
   href: Mewdeko.Modules.Suggestions.SlashSuggestions.html
@@ -56,52 +96,6 @@ references:
   name: Suggestions
   nameWithType: Suggestions
   fullName: Mewdeko.Modules.Suggestions.Suggestions
-- uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
-  commentId: T:Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
-  parent: Mewdeko.Modules.Suggestions
-  href: Mewdeko.Modules.Suggestions.Suggestions.html
-  name: Suggestions.SuggestThreadType
-  nameWithType: Suggestions.SuggestThreadType
-  fullName: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
-  spec.csharp:
-  - uid: Mewdeko.Modules.Suggestions.Suggestions
-    name: Suggestions
-    href: Mewdeko.Modules.Suggestions.Suggestions.html
-  - name: .
-  - uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
-    name: SuggestThreadType
-    href: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType.html
-  spec.vb:
-  - uid: Mewdeko.Modules.Suggestions.Suggestions
-    name: Suggestions
-    href: Mewdeko.Modules.Suggestions.Suggestions.html
-  - name: .
-  - uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
-    name: SuggestThreadType
-    href: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType.html
-- uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestEmoteModeEnum
-  commentId: T:Mewdeko.Modules.Suggestions.Suggestions.SuggestEmoteModeEnum
-  parent: Mewdeko.Modules.Suggestions
-  href: Mewdeko.Modules.Suggestions.Suggestions.html
-  name: Suggestions.SuggestEmoteModeEnum
-  nameWithType: Suggestions.SuggestEmoteModeEnum
-  fullName: Mewdeko.Modules.Suggestions.Suggestions.SuggestEmoteModeEnum
-  spec.csharp:
-  - uid: Mewdeko.Modules.Suggestions.Suggestions
-    name: Suggestions
-    href: Mewdeko.Modules.Suggestions.Suggestions.html
-  - name: .
-  - uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestEmoteModeEnum
-    name: SuggestEmoteModeEnum
-    href: Mewdeko.Modules.Suggestions.Suggestions.SuggestEmoteModeEnum.html
-  spec.vb:
-  - uid: Mewdeko.Modules.Suggestions.Suggestions
-    name: Suggestions
-    href: Mewdeko.Modules.Suggestions.Suggestions.html
-  - name: .
-  - uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestEmoteModeEnum
-    name: SuggestEmoteModeEnum
-    href: Mewdeko.Modules.Suggestions.Suggestions.SuggestEmoteModeEnum.html
 - uid: Mewdeko.Modules.Suggestions.Suggestions.ButtonType
   commentId: T:Mewdeko.Modules.Suggestions.Suggestions.ButtonType
   parent: Mewdeko.Modules.Suggestions
@@ -148,6 +142,52 @@ references:
   - uid: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold
     name: RepostThreshold
     href: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold.html
+- uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestEmoteModeEnum
+  commentId: T:Mewdeko.Modules.Suggestions.Suggestions.SuggestEmoteModeEnum
+  parent: Mewdeko.Modules.Suggestions
+  href: Mewdeko.Modules.Suggestions.Suggestions.html
+  name: Suggestions.SuggestEmoteModeEnum
+  nameWithType: Suggestions.SuggestEmoteModeEnum
+  fullName: Mewdeko.Modules.Suggestions.Suggestions.SuggestEmoteModeEnum
+  spec.csharp:
+  - uid: Mewdeko.Modules.Suggestions.Suggestions
+    name: Suggestions
+    href: Mewdeko.Modules.Suggestions.Suggestions.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestEmoteModeEnum
+    name: SuggestEmoteModeEnum
+    href: Mewdeko.Modules.Suggestions.Suggestions.SuggestEmoteModeEnum.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Suggestions.Suggestions
+    name: Suggestions
+    href: Mewdeko.Modules.Suggestions.Suggestions.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestEmoteModeEnum
+    name: SuggestEmoteModeEnum
+    href: Mewdeko.Modules.Suggestions.Suggestions.SuggestEmoteModeEnum.html
+- uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
+  commentId: T:Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
+  parent: Mewdeko.Modules.Suggestions
+  href: Mewdeko.Modules.Suggestions.Suggestions.html
+  name: Suggestions.SuggestThreadType
+  nameWithType: Suggestions.SuggestThreadType
+  fullName: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
+  spec.csharp:
+  - uid: Mewdeko.Modules.Suggestions.Suggestions
+    name: Suggestions
+    href: Mewdeko.Modules.Suggestions.Suggestions.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
+    name: SuggestThreadType
+    href: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Suggestions.Suggestions
+    name: Suggestions
+    href: Mewdeko.Modules.Suggestions.Suggestions.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
+    name: SuggestThreadType
+    href: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType.html
 - uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestionsCustomization
   commentId: T:Mewdeko.Modules.Suggestions.Suggestions.SuggestionsCustomization
   href: Mewdeko.Modules.Suggestions.Suggestions.html

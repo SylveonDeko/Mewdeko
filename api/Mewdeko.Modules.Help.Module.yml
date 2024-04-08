@@ -22,7 +22,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Module
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 335
+    startLine: 334
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help
@@ -61,7 +61,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: .ctor
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 335
+    startLine: 334
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help
@@ -99,7 +99,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Commands
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 340
+    startLine: 339
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help
@@ -130,7 +130,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Name
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 345
+    startLine: 344
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help

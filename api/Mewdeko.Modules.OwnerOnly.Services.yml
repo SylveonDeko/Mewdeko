@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.OwnerOnly.Services
   commentId: N:Mewdeko.Modules.OwnerOnly.Services
-  id: Mewdeko.Modules.OwnerOnly.Services
+  id: Services
+  parent: Mewdeko.Modules.OwnerOnly
   children:
   - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
   langs:

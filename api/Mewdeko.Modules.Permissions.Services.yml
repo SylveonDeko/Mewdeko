@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Permissions.Services
   commentId: N:Mewdeko.Modules.Permissions.Services
-  id: Mewdeko.Modules.Permissions.Services
+  id: Services
+  parent: Mewdeko.Modules.Permissions
   children:
   - Mewdeko.Modules.Permissions.Services.ActiveCooldown
   - Mewdeko.Modules.Permissions.Services.BlacklistService
@@ -20,6 +21,12 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Modules.Permissions.Services.ActiveCooldown
+  commentId: T:Mewdeko.Modules.Permissions.Services.ActiveCooldown
+  href: Mewdeko.Modules.Permissions.Services.ActiveCooldown.html
+  name: ActiveCooldown
+  nameWithType: ActiveCooldown
+  fullName: Mewdeko.Modules.Permissions.Services.ActiveCooldown
 - uid: Mewdeko.Modules.Permissions.Services.BlacklistService
   commentId: T:Mewdeko.Modules.Permissions.Services.BlacklistService
   parent: Mewdeko.Modules.Permissions.Services
@@ -34,12 +41,6 @@ references:
   name: CmdCdService
   nameWithType: CmdCdService
   fullName: Mewdeko.Modules.Permissions.Services.CmdCdService
-- uid: Mewdeko.Modules.Permissions.Services.ActiveCooldown
-  commentId: T:Mewdeko.Modules.Permissions.Services.ActiveCooldown
-  href: Mewdeko.Modules.Permissions.Services.ActiveCooldown.html
-  name: ActiveCooldown
-  nameWithType: ActiveCooldown
-  fullName: Mewdeko.Modules.Permissions.Services.ActiveCooldown
 - uid: Mewdeko.Modules.Permissions.Services.FilterService
   commentId: T:Mewdeko.Modules.Permissions.Services.FilterService
   href: Mewdeko.Modules.Permissions.Services.FilterService.html

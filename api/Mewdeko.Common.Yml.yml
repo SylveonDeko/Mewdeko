@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Common.Yml
   commentId: N:Mewdeko.Common.Yml
-  id: Mewdeko.Common.Yml
+  id: Yml
+  parent: Mewdeko.Common
   children:
   - Mewdeko.Common.Yml.CommentAttribute
   - Mewdeko.Common.Yml.CommentGatheringTypeInspector
@@ -49,6 +50,12 @@ references:
   name: CommentsObjectGraphVisitor
   nameWithType: CommentsObjectGraphVisitor
   fullName: Mewdeko.Common.Yml.CommentsObjectGraphVisitor
+- uid: Mewdeko.Common.Yml.CultureInfoConverter
+  commentId: T:Mewdeko.Common.Yml.CultureInfoConverter
+  href: Mewdeko.Common.Yml.CultureInfoConverter.html
+  name: CultureInfoConverter
+  nameWithType: CultureInfoConverter
+  fullName: Mewdeko.Common.Yml.CultureInfoConverter
 - uid: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter
   commentId: T:Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter
   href: Mewdeko.Common.Yml.MultilineScalarFlowStyleEmitter.html
@@ -61,12 +68,6 @@ references:
   name: SkColorConverter
   nameWithType: SkColorConverter
   fullName: Mewdeko.Common.Yml.SkColorConverter
-- uid: Mewdeko.Common.Yml.CultureInfoConverter
-  commentId: T:Mewdeko.Common.Yml.CultureInfoConverter
-  href: Mewdeko.Common.Yml.CultureInfoConverter.html
-  name: CultureInfoConverter
-  nameWithType: CultureInfoConverter
-  fullName: Mewdeko.Common.Yml.CultureInfoConverter
 - uid: Mewdeko.Common.Yml.UriConverter
   commentId: T:Mewdeko.Common.Yml.UriConverter
   href: Mewdeko.Common.Yml.UriConverter.html

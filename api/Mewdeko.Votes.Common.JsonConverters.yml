@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Votes.Common.JsonConverters
   commentId: N:Mewdeko.Votes.Common.JsonConverters
-  id: Mewdeko.Votes.Common.JsonConverters
+  id: JsonConverters
+  parent: Mewdeko.Votes.Common
   children:
   - Mewdeko.Votes.Common.JsonConverters.CultureInfoConverter
   langs:

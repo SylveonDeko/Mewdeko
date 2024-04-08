@@ -2,9 +2,11 @@
 items:
 - uid: Mewdeko.Modules.Giveaways
   commentId: N:Mewdeko.Modules.Giveaways
-  id: Mewdeko.Modules.Giveaways
+  id: Giveaways
+  parent: Mewdeko.Modules
   children:
   - Mewdeko.Modules.Giveaways.Giveaways
+  - Mewdeko.Modules.Giveaways.Services
   - Mewdeko.Modules.Giveaways.SlashGiveaways
   langs:
   - csharp
@@ -16,6 +18,44 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Modules.Giveaways.Services
+  commentId: N:Mewdeko.Modules.Giveaways.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Giveaways.Services
+  nameWithType: Mewdeko.Modules.Giveaways.Services
+  fullName: Mewdeko.Modules.Giveaways.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Giveaways
+    name: Giveaways
+    href: Mewdeko.Modules.Giveaways.html
+  - name: .
+  - uid: Mewdeko.Modules.Giveaways.Services
+    name: Services
+    href: Mewdeko.Modules.Giveaways.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Giveaways
+    name: Giveaways
+    href: Mewdeko.Modules.Giveaways.html
+  - name: .
+  - uid: Mewdeko.Modules.Giveaways.Services
+    name: Services
+    href: Mewdeko.Modules.Giveaways.Services.html
 - uid: Mewdeko.Modules.Giveaways.Giveaways
   commentId: T:Mewdeko.Modules.Giveaways.Giveaways
   href: Mewdeko.Modules.Giveaways.Giveaways.html

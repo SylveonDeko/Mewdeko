@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Giveaways.Services
   commentId: N:Mewdeko.Modules.Giveaways.Services
-  id: Mewdeko.Modules.Giveaways.Services
+  id: Services
+  parent: Mewdeko.Modules.Giveaways
   children:
   - Mewdeko.Modules.Giveaways.Services.GiveawayService
   langs:

@@ -515,6 +515,7 @@ items:
       description: The days (max of 366) a warn should expire
     - id: action
       type: Mewdeko.Database.Models.WarnExpireAction
+      description: Whether to delete warns instead of clearing them
       attributes:
       - type: Discord.Interactions.SummaryAttribute
         ctor: Discord.Interactions.SummaryAttribute.#ctor(System.String,System.String)

@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Votes.Controllers
   commentId: N:Mewdeko.Votes.Controllers
-  id: Mewdeko.Votes.Controllers
+  id: Controllers
+  parent: Mewdeko.Votes
   children:
   - Mewdeko.Votes.Controllers.WebhookController
   langs:

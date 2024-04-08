@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
   commentId: N:Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
-  id: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
+  id: Providers
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications
   children:
   - Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.PicartoProvider
   - Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.Provider

@@ -67,7 +67,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: .ctor
     path: src/Mewdeko.Coordinator/Services/CoordinatorService.cs
-    startLine: 12
+    startLine: 8
   assemblies:
   - Mewdeko.Coordinator
   namespace: Mewdeko.Coordinator.Services
@@ -99,7 +99,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Heartbeat
     path: src/Mewdeko.Coordinator/Services/CoordinatorService.cs
-    startLine: 14
+    startLine: 10
   assemblies:
   - Mewdeko.Coordinator
   namespace: Mewdeko.Coordinator.Services
@@ -138,7 +138,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Reshard
     path: src/Mewdeko.Coordinator/Services/CoordinatorService.cs
-    startLine: 23
+    startLine: 19
   assemblies:
   - Mewdeko.Coordinator
   namespace: Mewdeko.Coordinator.Services
@@ -177,7 +177,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RestartShard
     path: src/Mewdeko.Coordinator/Services/CoordinatorService.cs
-    startLine: 29
+    startLine: 25
   assemblies:
   - Mewdeko.Coordinator
   namespace: Mewdeko.Coordinator.Services
@@ -216,7 +216,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Reload
     path: src/Mewdeko.Coordinator/Services/CoordinatorService.cs
-    startLine: 35
+    startLine: 31
   assemblies:
   - Mewdeko.Coordinator
   namespace: Mewdeko.Coordinator.Services
@@ -255,7 +255,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetStatus
     path: src/Mewdeko.Coordinator/Services/CoordinatorService.cs
-    startLine: 41
+    startLine: 37
   assemblies:
   - Mewdeko.Coordinator
   namespace: Mewdeko.Coordinator.Services
@@ -294,7 +294,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetAllStatuses
     path: src/Mewdeko.Coordinator/Services/CoordinatorService.cs
-    startLine: 49
+    startLine: 45
   assemblies:
   - Mewdeko.Coordinator
   namespace: Mewdeko.Coordinator.Services
@@ -333,7 +333,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RestartAllShards
     path: src/Mewdeko.Coordinator/Services/CoordinatorService.cs
-    startLine: 88
+    startLine: 84
   assemblies:
   - Mewdeko.Coordinator
   namespace: Mewdeko.Coordinator.Services
@@ -375,7 +375,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Die
     path: src/Mewdeko.Coordinator/Services/CoordinatorService.cs
-    startLine: 94
+    startLine: 90
   assemblies:
   - Mewdeko.Coordinator
   namespace: Mewdeko.Coordinator.Services
@@ -414,7 +414,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetConfigText
     path: src/Mewdeko.Coordinator/Services/CoordinatorService.cs
-    startLine: 112
+    startLine: 108
   assemblies:
   - Mewdeko.Coordinator
   namespace: Mewdeko.Coordinator.Services
@@ -449,7 +449,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetConfigText
     path: src/Mewdeko.Coordinator/Services/CoordinatorService.cs
-    startLine: 134
+    startLine: 130
   assemblies:
   - Mewdeko.Coordinator
   namespace: Mewdeko.Coordinator.Services

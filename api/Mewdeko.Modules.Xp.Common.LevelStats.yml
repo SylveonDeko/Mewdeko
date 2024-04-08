@@ -24,7 +24,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: LevelStats
     path: src/Mewdeko/Modules/Xp/Common/LevelStats.cs
-    startLine: 7
+    startLine: 5
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp.Common
@@ -63,7 +63,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: .ctor
     path: src/Mewdeko/Modules/Xp/Common/LevelStats.cs
-    startLine: 13
+    startLine: 11
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp.Common
@@ -98,7 +98,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Level
     path: src/Mewdeko/Modules/Xp/Common/LevelStats.cs
-    startLine: 21
+    startLine: 19
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp.Common
@@ -129,7 +129,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: LevelXp
     path: src/Mewdeko/Modules/Xp/Common/LevelStats.cs
-    startLine: 26
+    startLine: 24
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp.Common
@@ -160,7 +160,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RequiredXp
     path: src/Mewdeko/Modules/Xp/Common/LevelStats.cs
-    startLine: 31
+    startLine: 29
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp.Common
@@ -191,7 +191,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: TotalXp
     path: src/Mewdeko/Modules/Xp/Common/LevelStats.cs
-    startLine: 36
+    startLine: 34
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp.Common

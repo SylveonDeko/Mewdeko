@@ -4,7 +4,15 @@ items:
   commentId: N:Mewdeko
   id: Mewdeko
   children:
+  - Mewdeko.Common
+  - Mewdeko.Coordinator
+  - Mewdeko.Database
+  - Mewdeko.Extensions
   - Mewdeko.Mewdeko
+  - Mewdeko.Modules
+  - Mewdeko.Services
+  - Mewdeko.Tests
+  - Mewdeko.Votes
   langs:
   - csharp
   - vb
@@ -15,6 +23,162 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Common
+  commentId: N:Mewdeko.Common
+  href: Mewdeko.html
+  name: Mewdeko.Common
+  nameWithType: Mewdeko.Common
+  fullName: Mewdeko.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+- uid: Mewdeko.Coordinator
+  commentId: N:Mewdeko.Coordinator
+  href: Mewdeko.html
+  name: Mewdeko.Coordinator
+  nameWithType: Mewdeko.Coordinator
+  fullName: Mewdeko.Coordinator
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Coordinator
+    name: Coordinator
+    href: Mewdeko.Coordinator.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Coordinator
+    name: Coordinator
+    href: Mewdeko.Coordinator.html
+- uid: Mewdeko.Database
+  commentId: N:Mewdeko.Database
+  href: Mewdeko.html
+  name: Mewdeko.Database
+  nameWithType: Mewdeko.Database
+  fullName: Mewdeko.Database
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules
+  isExternal: true
+- uid: Mewdeko.Services
+  commentId: N:Mewdeko.Services
+  href: Mewdeko.html
+  name: Mewdeko.Services
+  nameWithType: Mewdeko.Services
+  fullName: Mewdeko.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+- uid: Mewdeko.Tests
+  commentId: N:Mewdeko.Tests
+  href: Mewdeko.html
+  name: Mewdeko.Tests
+  nameWithType: Mewdeko.Tests
+  fullName: Mewdeko.Tests
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Tests
+    name: Tests
+    href: Mewdeko.Tests.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Tests
+    name: Tests
+    href: Mewdeko.Tests.html
+- uid: Mewdeko.Votes
+  commentId: N:Mewdeko.Votes
+  href: Mewdeko.html
+  name: Mewdeko.Votes
+  nameWithType: Mewdeko.Votes
+  fullName: Mewdeko.Votes
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
 - uid: Mewdeko.Mewdeko
   commentId: T:Mewdeko.Mewdeko
   parent: Mewdeko

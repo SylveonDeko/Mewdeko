@@ -2,8 +2,10 @@
 items:
 - uid: Mewdeko.Modules.Votes
   commentId: N:Mewdeko.Modules.Votes
-  id: Mewdeko.Modules.Votes
+  id: Votes
+  parent: Mewdeko.Modules
   children:
+  - Mewdeko.Modules.Votes.Services
   - Mewdeko.Modules.Votes.Vote
   - Mewdeko.Modules.Votes.VoteSlashCommands
   langs:
@@ -16,6 +18,44 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Modules.Votes.Services
+  commentId: N:Mewdeko.Modules.Votes.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Votes.Services
+  nameWithType: Mewdeko.Modules.Votes.Services
+  fullName: Mewdeko.Modules.Votes.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Votes
+    name: Votes
+    href: Mewdeko.Modules.Votes.html
+  - name: .
+  - uid: Mewdeko.Modules.Votes.Services
+    name: Services
+    href: Mewdeko.Modules.Votes.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Votes
+    name: Votes
+    href: Mewdeko.Modules.Votes.html
+  - name: .
+  - uid: Mewdeko.Modules.Votes.Services
+    name: Services
+    href: Mewdeko.Modules.Votes.Services.html
 - uid: Mewdeko.Modules.Votes.Vote
   commentId: T:Mewdeko.Modules.Votes.Vote
   href: Mewdeko.Modules.Votes.Vote.html

@@ -2,9 +2,13 @@
 items:
 - uid: Mewdeko.Modules.Chat_Triggers
   commentId: N:Mewdeko.Modules.Chat_Triggers
-  id: Mewdeko.Modules.Chat_Triggers
+  id: Chat_Triggers
+  parent: Mewdeko.Modules
   children:
   - Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  - Mewdeko.Modules.Chat_Triggers.Common
+  - Mewdeko.Modules.Chat_Triggers.Extensions
+  - Mewdeko.Modules.Chat_Triggers.Services
   - Mewdeko.Modules.Chat_Triggers.SlashChatTriggers
   - Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Crossposting
   - Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Interactions
@@ -19,6 +23,120 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Modules.Chat_Triggers.Common
+  commentId: N:Mewdeko.Modules.Chat_Triggers.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Chat_Triggers.Common
+  nameWithType: Mewdeko.Modules.Chat_Triggers.Common
+  fullName: Mewdeko.Modules.Chat_Triggers.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers
+    name: Chat_Triggers
+    href: Mewdeko.Modules.Chat_Triggers.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers.Common
+    name: Common
+    href: Mewdeko.Modules.Chat_Triggers.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers
+    name: Chat_Triggers
+    href: Mewdeko.Modules.Chat_Triggers.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers.Common
+    name: Common
+    href: Mewdeko.Modules.Chat_Triggers.Common.html
+- uid: Mewdeko.Modules.Chat_Triggers.Extensions
+  commentId: N:Mewdeko.Modules.Chat_Triggers.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Chat_Triggers.Extensions
+  nameWithType: Mewdeko.Modules.Chat_Triggers.Extensions
+  fullName: Mewdeko.Modules.Chat_Triggers.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers
+    name: Chat_Triggers
+    href: Mewdeko.Modules.Chat_Triggers.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers.Extensions
+    name: Extensions
+    href: Mewdeko.Modules.Chat_Triggers.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers
+    name: Chat_Triggers
+    href: Mewdeko.Modules.Chat_Triggers.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers.Extensions
+    name: Extensions
+    href: Mewdeko.Modules.Chat_Triggers.Extensions.html
+- uid: Mewdeko.Modules.Chat_Triggers.Services
+  commentId: N:Mewdeko.Modules.Chat_Triggers.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Chat_Triggers.Services
+  nameWithType: Mewdeko.Modules.Chat_Triggers.Services
+  fullName: Mewdeko.Modules.Chat_Triggers.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers
+    name: Chat_Triggers
+    href: Mewdeko.Modules.Chat_Triggers.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers.Services
+    name: Services
+    href: Mewdeko.Modules.Chat_Triggers.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers
+    name: Chat_Triggers
+    href: Mewdeko.Modules.Chat_Triggers.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers.Services
+    name: Services
+    href: Mewdeko.Modules.Chat_Triggers.Services.html
 - uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers
   commentId: T:Mewdeko.Modules.Chat_Triggers.ChatTriggers
   href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html
@@ -53,28 +171,6 @@ references:
   - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Crossposting
     name: Crossposting
     href: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Crossposting.html
-- uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Roles
-  commentId: T:Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Roles
-  href: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.html
-  name: SlashChatTriggers.Roles
-  nameWithType: SlashChatTriggers.Roles
-  fullName: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Roles
-  spec.csharp:
-  - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers
-    name: SlashChatTriggers
-    href: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.html
-  - name: .
-  - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Roles
-    name: Roles
-    href: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Roles.html
-  spec.vb:
-  - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers
-    name: SlashChatTriggers
-    href: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.html
-  - name: .
-  - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Roles
-    name: Roles
-    href: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Roles.html
 - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Interactions
   commentId: T:Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Interactions
   href: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.html
@@ -97,3 +193,25 @@ references:
   - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Interactions
     name: Interactions
     href: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Interactions.html
+- uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Roles
+  commentId: T:Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Roles
+  href: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.html
+  name: SlashChatTriggers.Roles
+  nameWithType: SlashChatTriggers.Roles
+  fullName: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Roles
+  spec.csharp:
+  - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers
+    name: SlashChatTriggers
+    href: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Roles
+    name: Roles
+    href: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Roles.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers
+    name: SlashChatTriggers
+    href: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Roles
+    name: Roles
+    href: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.Roles.html
