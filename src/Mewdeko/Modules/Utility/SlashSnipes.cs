@@ -11,6 +11,9 @@ namespace Mewdeko.Modules.Utility;
 
 public partial class Utility
 {
+    /// <summary>
+    /// Provides sniping functionality to retrieve and display previously deleted or edited messages.
+    /// </summary>
     [Group("snipe", "Snipe edited or delete messages!")]
     public class SlashSnipes(
         DiscordSocketClient client,
@@ -19,6 +22,12 @@ public partial class Utility
         BotConfigService config)
         : MewdekoSlashModuleBase<UtilityService>
     {
+        /// <summary>
+        /// Snipes deleted messages for the current or mentioned channel. This command requires guild context.
+        /// </summary>
+        /// <param name="channel">The channel to snipe messages from. If null, defaults to the current channel.</param>
+        /// <param name="user">The user to filter sniped messages by. If null, messages by all users are considered.</param>
+        /// <returns>A task that represents the asynchronous operation of sniping a deleted message.</returns>
         [SlashCommand("deleted", "Snipes deleted messages for the current or mentioned channel"),
          RequireContext(ContextType.Guild), CheckPermissions]
         public async Task Snipe(IMessageChannel? channel = null, IUser? user = null)
@@ -78,6 +87,12 @@ public partial class Utility
                     : null).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Snipes edited messages for the current or mentioned channel. This command requires guild context.
+        /// </summary>
+        /// <param name="channel">The channel to snipe messages from. If null, defaults to the current channel.</param>
+        /// <param name="user">The user to filter sniped messages by. If null, messages by all users are considered.</param>
+        /// <returns>A task that represents the asynchronous operation of sniping an edited message.</returns>
         [SlashCommand("edited", "Snipes edited messages for the current or mentioned channel"),
          RequireContext(ContextType.Guild), CheckPermissions]
         public async Task EditSnipe(IMessageChannel? channel = null, IUser? user = null)
@@ -139,6 +154,7 @@ public partial class Utility
 
         private async Task SnipeListBase(bool edited, int amount = 5, ITextChannel channel = null, IUser user = null)
         {
+            var channelToList = channel ?? ctx.Channel;
             if (!await Service.GetSnipeSet(ctx.Guild.Id))
             {
                 await ctx.Channel.SendErrorAsync(
@@ -148,15 +164,10 @@ public partial class Utility
             }
 
             var msgs = (await Service.GetSnipes(ctx.Guild.Id).ConfigureAwait(false))
-                .Where(x => x.ChannelId == ctx.Channel.Id && x.Edited == edited);
+                .Where(x => x.ChannelId == channelToList.Id && x.Edited == edited);
             if (user is not null)
             {
                 msgs = msgs.Where(x => x.UserId == user.Id);
-            }
-
-            if (channel is not null)
-            {
-                msgs = msgs.Where(x => x.ChannelId == channel.Id);
             }
 
             var snipeStores = msgs as SnipeStore[] ?? msgs.ToArray();
@@ -198,6 +209,13 @@ public partial class Utility
             }
         }
 
+        /// <summary>
+        /// Lists the last 5 deleted snipes for the current or mentioned channel, unless specified otherwise. This command requires guild context and the appropriate permissions to execute.
+        /// </summary>
+        /// <param name="amount">The number of deleted messages to retrieve, defaults to 5.</param>
+        /// <param name="channel">The specific channel to check for deleted messages. If null, checks the current channel.</param>
+        /// <param name="user">Filters the snipes by the specified user. If null, retrieves messages deleted by any user.</param>
+        /// <returns>A task that represents the asynchronous operation of listing deleted snipes.</returns>
         [SlashCommand("deletedlist", "Lists the last 5 delete snipes unless specified otherwise."),
          RequireContext(ContextType.Guild), CheckPermissions]
         public Task SnipeList(int amount = 5, ITextChannel channel = null, IUser user = null)
@@ -205,6 +223,13 @@ public partial class Utility
             return SnipeListBase(false, amount, channel, user);
         }
 
+        /// <summary>
+        /// Lists the last 5 edited snipes for the current or mentioned channel, unless specified otherwise. This command requires guild context and the appropriate permissions to execute.
+        /// </summary>
+        /// <param name="amount">The number of edited messages to retrieve, defaults to 5.</param>
+        /// <param name="channel">The specific channel to check for edited messages. If null, checks the current channel.</param>
+        /// <param name="user">Filters the snipes by the specified user. If null, retrieves messages edited by any user.</param>
+        /// <returns>A task that represents the asynchronous operation of listing edited snipes.</returns>
         [SlashCommand("editedlist", "Lists the last 5 edit snipes unless specified otherwise."),
          RequireContext(ContextType.Guild), CheckPermissions]
         public Task EditSnipeList(int amount = 5, ITextChannel channel = null, IUser user = null)
@@ -213,12 +238,17 @@ public partial class Utility
         }
 
 
+        /// <summary>
+        /// Enables or disables the sniping functionality for the server. This command requires administrator permissions.
+        /// </summary>
+        /// <param name="enabled">True to enable sniping, false to disable.</param>
+        /// <returns>A task that represents the asynchronous operation of setting the snipe functionality state.</returns>
         [SlashCommand("set", "Enable or Disable sniping"),
          SlashUserPerm(GuildPermission.Administrator),
          CheckPermissions]
         public async Task SnipeSet(bool enabled)
         {
-            await Service.SnipeSetBool(ctx.Guild, enabled).ConfigureAwait(false);
+            await Service.SnipeSet(ctx.Guild, enabled).ConfigureAwait(false);
             var t = await Service.GetSnipeSet(ctx.Guild.Id);
             await ReplyConfirmLocalizedAsync("snipe_set", t ? "Enabled" : "Disabled").ConfigureAwait(false);
         }

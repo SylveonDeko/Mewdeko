@@ -8,11 +8,9 @@ using Microsoft.Extensions.Hosting;
 
 namespace Mewdeko.Coordinator;
 
-public class CoordStartup
+public class CoordStartup(IConfiguration config)
 {
-    public IConfiguration Configuration { get; }
-
-    public CoordStartup(IConfiguration config) => Configuration = config;
+    public IConfiguration Configuration { get; } = config;
 
     public void ConfigureServices(IServiceCollection services)
     {

@@ -7,9 +7,18 @@ namespace Mewdeko.Modules.Utility;
 
 public partial class Utility
 {
+    /// <summary>
+    /// Commands for evaluating mathematical expressions.
+    /// </summary>
+    /// <param name="guildSettings">The guild settings service.</param>
     [Group]
     public class CalcCommands(GuildSettingsService guildSettings) : MewdekoSubmodule
     {
+        /// <summary>
+        /// Evaluates a mathematical expression and returns the result.
+        /// </summary>
+        /// <param name="expression">The expression to evaluate.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
         [Cmd, Aliases]
         public async Task Calculate([Remainder] string expression)
         {
@@ -35,6 +44,10 @@ public partial class Utility
                 _ => args.Result
             };
 
+        /// <summary>
+        /// Lists available mathematical operations that can be used in expressions.
+        /// </summary>
+        /// <returns>A task representing the asynchronous operation.</returns>
         [Cmd, Aliases]
         public async Task CalcOps()
         {

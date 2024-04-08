@@ -9,13 +9,17 @@ using Mewdeko.Modules.Votes.Services;
 
 namespace Mewdeko.Modules.Votes;
 
+/// <summary>
+/// Provides slash commands for configuring and managing vote settings within a Discord server.
+/// </summary>
 [Group("votes", "Configure vote settings for the bot")]
-public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
+public class VoteSlashCommands(InteractiveService interactivity) : MewdekoSlashModuleBase<VoteService>
 {
-    private readonly InteractiveService interactivity;
-
-    public VoteSlashCommands(InteractiveService interactivity) => this.interactivity = interactivity;
-
+    /// <summary>
+    /// Sets a designated channel for vote notifications.
+    /// </summary>
+    /// <param name="channel">The text channel where vote notifications will be sent.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     [SlashCommand("channel", "Set the channel"), SlashUserPerm(GuildPermission.ManageGuild), CheckPermissions,
      RequireContext(ContextType.Guild)]
     public async Task VoteChannel(ITextChannel channel)
@@ -24,6 +28,11 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
         await ctx.Interaction.SendConfirmAsync("Sucessfully set the vote channel!");
     }
 
+    /// <summary>
+    /// Configures a custom message to display when a vote is received. If no message is provided, it previews the current vote message.
+    /// </summary>
+    /// <param name="message">The custom message for votes. Null to preview the current message, "-" to reset to default.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     [SlashCommand("message", "Set the embed/text message when a vote is recieved"),
      SlashUserPerm(GuildPermission.ManageGuild), CheckPermissions, RequireContext(ContextType.Guild)]
     public async Task VoteMessage(string message = null)
@@ -84,6 +93,10 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
         }
     }
 
+    /// <summary>
+    /// Initiates a modal interaction for setting a new vote password.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     [SlashCommand("password", "Sets the password using a modal."), SlashUserPerm(GuildPermission.ManageGuild),
      RequireContext(ContextType.Guild), CheckPermissions]
     public async Task VotePassword()
@@ -99,6 +112,12 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
         }
     }
 
+    /// <summary>
+    /// Adds a Discord role as a vote reward, with an optional duration for the reward to last.
+    /// </summary>
+    /// <param name="role">The role to be added as a vote reward.</param>
+    /// <param name="time">The duration in a human-readable format (e.g., "1d2h") for how long the vote reward lasts.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     [SlashCommand("roleadd", "Add a role as a vote role"), SlashUserPerm(GuildPermission.ManageGuild),
      RequireContext(ContextType.Guild), CheckPermissions]
     public async Task VoteRoleAdd(IRole role, string time = null)
@@ -146,6 +165,12 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
         }
     }
 
+    /// <summary>
+    /// Edits the expiration timer for an existing vote role.
+    /// </summary>
+    /// <param name="role">The role whose timer is to be edited.</param>
+    /// <param name="time">The new duration in a human-readable format (e.g., "1d2h") for the role reward.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     [SlashCommand("roleedit", "Edits a vote roles expire timer."), SlashUserPerm(GuildPermission.ManageGuild),
      RequireContext(ContextType.Guild), CheckPermissions]
     public async Task VoteRoleEdit(IRole role, string time)
@@ -174,11 +199,20 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
         }
     }
 
+    /// <summary>
+    /// A component interaction that prompts a modal for setting the vote password securely.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     [ComponentInteraction("setvotepassword", true), SlashUserPerm(GuildPermission.ManageGuild), CheckPermissions,
      RequireContext(ContextType.Guild)]
     public Task VotePasswordButton()
         => RespondWithModalAsync<VotePasswordModal>("votepassmodal");
 
+    /// <summary>
+    /// Handles the modal interaction for the vote password submission.
+    /// </summary>
+    /// <param name="modal">The modal containing the vote password.</param>
+    /// <returns>A task that represents the asynchronous operation of setting the vote password.</returns>
     [ModalInteraction("votepassmodal", true), SlashUserPerm(GuildPermission.ManageGuild), CheckPermissions,
      RequireContext(ContextType.Guild)]
     public async Task VotePassModal(VotePasswordModal modal)
@@ -187,6 +221,11 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
         await Service.SetVotePassword(ctx.Guild.Id, modal.Password);
     }
 
+    /// <summary>
+    /// Displays the total votes and this month's votes for a specified user or the command invoker.
+    /// </summary>
+    /// <param name="user">The user whose vote count to display. If null, displays for the command invoker.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     [SlashCommand("votes", "Shows your total and this months votes"), RequireContext(ContextType.Guild),
      CheckPermissions]
     public async Task Votes(IUser user = null)
@@ -195,6 +234,11 @@ public class VoteSlashCommands : MewdekoSlashModuleBase<VoteService>
         await ctx.Interaction.RespondAsync(embed: (await Service.GetTotalVotes(curUser, ctx.Guild)).Build());
     }
 
+    /// <summary>
+    /// Shows a leaderboard of votes, optionally filtered by votes cast in the current month.
+    /// </summary>
+    /// <param name="monthly">Whether to filter the leaderboard to only include votes from the current month.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     [SlashCommand("leaderboard", "Shows the current or monthly leaderboard for votes"),
      RequireContext(ContextType.Guild), CheckPermissions]
     public async Task VotesLeaderboard(bool monthly = false)
