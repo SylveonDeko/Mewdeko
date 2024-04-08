@@ -104,7 +104,8 @@ public class SlashMusic(
             var chanUsers = await voiceChannel.GetUsersAsync().FlattenAsync().ConfigureAwait(false);
             if (!chanUsers.Contains(ctx.User as IGuildUser))
             {
-                await ctx.Interaction.SendErrorAsync("You are not in the bots music channel!").ConfigureAwait(false);
+                await ctx.Interaction.SendErrorAsync("You are not in the bots music channel!", Config)
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -115,7 +116,7 @@ public class SlashMusic(
             else
             {
                 await ctx.Interaction
-                    .SendErrorAsync("Seems like that track doesn't exist or you have nothing in queue.")
+                    .SendErrorAsync("Seems like that track doesn't exist or you have nothing in queue.", Config)
                     .ConfigureAwait(false);
             }
         }
@@ -144,7 +145,7 @@ public class SlashMusic(
         var plists = Service.GetPlaylists(ctx.User);
         if (!plists.Any())
         {
-            await ctx.Interaction.SendErrorAsync("You dont have any saved playlists!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("You dont have any saved playlists!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -196,7 +197,8 @@ public class SlashMusic(
                     else
                     {
                         await ctx.Interaction.SendErrorFollowupAsync(
-                                "You have not specified a playlist name and do not have a default playlist set, there's nothing to show!")
+                                "You have not specified a playlist name and do not have a default playlist set, there's nothing to show!",
+                                Config)
                             .ConfigureAwait(false);
                         return;
                     }
@@ -211,13 +213,15 @@ public class SlashMusic(
                 var songcount = 1;
                 if (plist is null)
                 {
-                    await ctx.Interaction.SendErrorFollowupAsync("This is not a valid playlist!").ConfigureAwait(false);
+                    await ctx.Interaction.SendErrorFollowupAsync("This is not a valid playlist!", Config)
+                        .ConfigureAwait(false);
                     return;
                 }
 
                 if (!plist.Songs.Any())
                 {
-                    await ctx.Interaction.SendErrorFollowupAsync("This playlist has no songs!").ConfigureAwait(false);
+                    await ctx.Interaction.SendErrorFollowupAsync("This playlist has no songs!", Config)
+                        .ConfigureAwait(false);
                     return;
                 }
 
@@ -244,7 +248,7 @@ public class SlashMusic(
                 var plist1 = plists.FirstOrDefault(x => x.Name.ToLower() == playlistOrSongName?.ToLower());
                 if (plist1 == null)
                 {
-                    await ctx.Interaction.SendErrorFollowupAsync("Playlist with that name could not be found!")
+                    await ctx.Interaction.SendErrorFollowupAsync("Playlist with that name could not be found!", Config)
                         .ConfigureAwait(false);
                     return;
                 }
@@ -264,14 +268,14 @@ public class SlashMusic(
             case PlaylistAction.Create:
                 if (playlistOrSongName is null)
                 {
-                    await ctx.Interaction.SendErrorFollowupAsync("You need to specify a playlist name!")
+                    await ctx.Interaction.SendErrorFollowupAsync("You need to specify a playlist name!", Config)
                         .ConfigureAwait(false);
                 }
 
                 if (Service.GetPlaylists(ctx.User).Select(x => x.Name.ToLower())
                     .Contains(playlistOrSongName?.ToLower()))
                 {
-                    await ctx.Interaction.SendErrorFollowupAsync("You already have a playlist with this name!")
+                    await ctx.Interaction.SendErrorFollowupAsync("You already have a playlist with this name!", Config)
                         .ConfigureAwait(false);
                 }
                 else
@@ -298,7 +302,7 @@ public class SlashMusic(
                     var vstate = ctx.User as IVoiceState;
                     if (vstate?.VoiceChannel is null)
                     {
-                        await ctx.Interaction.SendErrorFollowupAsync("You must be in a channel to use this!")
+                        await ctx.Interaction.SendErrorFollowupAsync("You must be in a channel to use this!", Config)
                             .ConfigureAwait(false);
                         return;
                     }
@@ -307,7 +311,7 @@ public class SlashMusic(
                     {
                         try
                         {
-                            await lava.JoinAsync(() => new MusicPlayer(client, Service, config), ctx.Guild.Id,
+                            await lava.JoinAsync(() => new MusicPlayer(client, Service, Config), ctx.Guild.Id,
                                 vstate.VoiceChannel.Id).ConfigureAwait(false);
                             if (vstate.VoiceChannel is IStageChannel chan)
                             {
@@ -316,7 +320,8 @@ public class SlashMusic(
                         }
                         catch (Exception)
                         {
-                            await ctx.Interaction.SendErrorFollowupAsync("Seems I may not have permission to join...")
+                            await ctx.Interaction
+                                .SendErrorFollowupAsync("Seems I may not have permission to join...", Config)
                                 .ConfigureAwait(false);
                             return;
                         }
@@ -326,7 +331,7 @@ public class SlashMusic(
                     var musicPlaylists = plist3 as MusicPlaylist?[] ?? plist3.ToArray();
                     if (musicPlaylists.Length == 0)
                     {
-                        await ctx.Interaction.SendErrorFollowupAsync("A playlist with that name wasnt found!")
+                        await ctx.Interaction.SendErrorFollowupAsync("A playlist with that name wasnt found!", Config)
                             .ConfigureAwait(false);
                         return;
                     }
@@ -375,7 +380,7 @@ public class SlashMusic(
                     var vstate = ctx.User as IVoiceState;
                     if (vstate?.VoiceChannel is null)
                     {
-                        await ctx.Interaction.SendErrorFollowupAsync("You must be in a channel to use this!")
+                        await ctx.Interaction.SendErrorFollowupAsync("You must be in a channel to use this!", Config)
                             .ConfigureAwait(false);
                         return;
                     }
@@ -387,7 +392,7 @@ public class SlashMusic(
                     if (!songs2.Any())
                     {
                         await ctx.Interaction.SendErrorFollowupAsync(
-                                "Your default playlist has no songs! Please add songs and try again.")
+                                "Your default playlist has no songs! Please add songs and try again.", Config)
                             .ConfigureAwait(false);
                         return;
                     }
@@ -396,7 +401,7 @@ public class SlashMusic(
                     {
                         try
                         {
-                            await lava.JoinAsync(() => new MusicPlayer(client, Service, config), ctx.Guild.Id,
+                            await lava.JoinAsync(() => new MusicPlayer(client, Service, Config), ctx.Guild.Id,
                                 vstate.VoiceChannel.Id).ConfigureAwait(false);
                             if (vstate.VoiceChannel is IStageChannel chan)
                             {
@@ -405,7 +410,8 @@ public class SlashMusic(
                         }
                         catch (Exception)
                         {
-                            await ctx.Interaction.SendErrorFollowupAsync("Seems I may not have permission to join...")
+                            await ctx.Interaction
+                                .SendErrorFollowupAsync("Seems I may not have permission to join...", Config)
                                 .ConfigureAwait(false);
                             return;
                         }
@@ -438,7 +444,7 @@ public class SlashMusic(
                 if (await Service.GetDefaultPlaylist(ctx.User) is null && string.IsNullOrEmpty(playlistOrSongName))
                 {
                     await ctx.Interaction.SendErrorFollowupAsync(
-                            "You don't have a default playlist set and have not specified a playlist name!")
+                            "You don't have a default playlist set and have not specified a playlist name!", Config)
                         .ConfigureAwait(false);
                 }
 
@@ -448,7 +454,7 @@ public class SlashMusic(
                 var plists5 = Service.GetPlaylists(ctx.User);
                 if (!plists5.Any())
                 {
-                    await ctx.Interaction.SendErrorFollowupAsync("You do not have any playlists!")
+                    await ctx.Interaction.SendErrorFollowupAsync("You do not have any playlists!", Config)
                         .ConfigureAwait(false);
                     return;
                 }
@@ -499,7 +505,7 @@ public class SlashMusic(
                     else
                     {
                         await ctx.Interaction
-                            .SendErrorFollowupAsync("Please make sure you put in the right playlist name.")
+                            .SendErrorFollowupAsync("Please make sure you put in the right playlist name.", Config)
                             .ConfigureAwait(false);
                     }
                 }
@@ -551,7 +557,8 @@ public class SlashMusic(
                             else
                             {
                                 await ctx.Interaction.SendErrorFollowupAsync(
-                                    "Please make sure you put in the right playlist name.").ConfigureAwait(false);
+                                        "Please make sure you put in the right playlist name.", Config)
+                                    .ConfigureAwait(false);
                             }
 
                             break;
@@ -620,7 +627,8 @@ public class SlashMusic(
                             else
                             {
                                 await ctx.Interaction.SendErrorFollowupAsync(
-                                    "Please make sure you put in the right playlist name.").ConfigureAwait(false);
+                                        "Please make sure you put in the right playlist name.", Config)
+                                    .ConfigureAwait(false);
                             }
 
                             break;
@@ -640,7 +648,7 @@ public class SlashMusic(
 
                 if (string.IsNullOrEmpty(playlistOrSongName) && defaultplaylist is null)
                 {
-                    await ctx.Interaction.SendErrorFollowupAsync("You do not have a default playlist set.")
+                    await ctx.Interaction.SendErrorFollowupAsync("You do not have a default playlist set.", Config)
                         .ConfigureAwait(false);
                     return;
                 }
@@ -653,13 +661,14 @@ public class SlashMusic(
                     if (plist4 is null)
                     {
                         await ctx.Interaction.SendErrorFollowupAsync(
-                            "Playlist by that name wasn't found. Please try another name!").ConfigureAwait(false);
+                                "Playlist by that name wasn't found. Please try another name!", Config)
+                            .ConfigureAwait(false);
                         return;
                     }
 
                     if (plist4.Name == defaultplaylist.Name)
                     {
-                        await ctx.Interaction.SendErrorFollowupAsync("This is already your default playlist!")
+                        await ctx.Interaction.SendErrorFollowupAsync("This is already your default playlist!", Config)
                             .ConfigureAwait(false);
                         return;
                     }
@@ -681,7 +690,8 @@ public class SlashMusic(
                     if (plist4 is null)
                     {
                         await ctx.Interaction.SendErrorFollowupAsync(
-                            "Playlist by that name wasn't found. Please try another name!").ConfigureAwait(false);
+                                "Playlist by that name wasn't found. Please try another name!", Config)
+                            .ConfigureAwait(false);
                         return;
                     }
 
@@ -703,14 +713,14 @@ public class SlashMusic(
     {
         if (string.IsNullOrEmpty(creds.GeniusKey))
         {
-            await ctx.Channel.SendErrorAsync("Genius API key is not set up.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("Genius API key is not set up.", Config).ConfigureAwait(false);
             return;
         }
 
         var api = new GeniusClient(creds.GeniusKey);
         if (api is null)
         {
-            await ctx.Channel.SendErrorAsync("Wrong genius key.");
+            await ctx.Channel.SendErrorAsync("Wrong genius key.", Config);
             return;
         }
 
@@ -720,7 +730,7 @@ public class SlashMusic(
             var player = lava.GetPlayer<MusicPlayer>(ctx.Guild.Id);
             if (player is null)
             {
-                await ctx.Channel.SendErrorAsync("Theres nothing playing.").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("Theres nothing playing.", Config).ConfigureAwait(false);
                 return;
             }
 
@@ -728,7 +738,7 @@ public class SlashMusic(
                 .ConfigureAwait(false);
             if (!search.Response.Hits.Any())
             {
-                await ctx.Channel.SendErrorAsync("No lyrics found for this song.").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("No lyrics found for this song.", Config).ConfigureAwait(false);
                 return;
             }
 
@@ -739,7 +749,7 @@ public class SlashMusic(
             var search = await api.SearchClient.Search(name).ConfigureAwait(false);
             if (!search.Response.Hits.Any())
             {
-                await ctx.Channel.SendErrorAsync("No lyrics found for this song.").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("No lyrics found for this song.", Config).ConfigureAwait(false);
                 return;
             }
 
@@ -754,7 +764,7 @@ public class SlashMusic(
             htmlDoc.DocumentNode.SelectSingleNode("//*[contains(@class, 'Lyrics__Container-sc-1ynbvzw-5')]");
         if (lyricsDiv is null)
         {
-            await ctx.Channel.SendErrorAsync("Could not find lyrics for this song.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("Could not find lyrics for this song.", Config).ConfigureAwait(false);
             return;
         }
 
@@ -802,18 +812,20 @@ public class SlashMusic(
         var currentUser = await ctx.Guild.GetUserAsync(Context.Client.CurrentUser.Id).ConfigureAwait(false);
         if (lava.GetPlayer<MusicPlayer>(Context.Guild) != null && currentUser.VoiceChannel != null)
         {
-            await ctx.Interaction.SendErrorAsync("I'm already connected to a voice channel!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("I'm already connected to a voice channel!", Config)
+                .ConfigureAwait(false);
             return;
         }
 
         var voiceState = Context.User as IVoiceState;
         if (voiceState?.VoiceChannel == null)
         {
-            await ctx.Interaction.SendErrorAsync("You must be connected to a voice channel!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("You must be connected to a voice channel!", Config)
+                .ConfigureAwait(false);
             return;
         }
 
-        await lava.JoinAsync(() => new MusicPlayer(client, Service, config), ctx.Guild.Id, voiceState.VoiceChannel.Id)
+        await lava.JoinAsync(() => new MusicPlayer(client, Service, Config), ctx.Guild.Id, voiceState.VoiceChannel.Id)
             .ConfigureAwait(false);
         if (voiceState.VoiceChannel is IStageChannel chan)
         {
@@ -840,14 +852,15 @@ public class SlashMusic(
         var player = lava.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player == null)
         {
-            await ctx.Interaction.SendErrorAsync("I'm not connected to any voice channels!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("I'm not connected to any voice channels!", Config)
+                .ConfigureAwait(false);
             return;
         }
 
         var voiceChannel = (Context.User as IVoiceState)?.VoiceChannel.Id ?? player.VoiceChannelId;
         if (voiceChannel == null)
         {
-            await ctx.Interaction.SendErrorAsync("Not sure which voice channel to disconnect from.")
+            await ctx.Interaction.SendErrorAsync("Not sure which voice channel to disconnect from.", Config)
                 .ConfigureAwait(false);
             return;
         }
@@ -872,7 +885,8 @@ public class SlashMusic(
             var vc = ctx.User as IVoiceState;
             if (vc?.VoiceChannel is null)
             {
-                await ctx.Interaction.SendErrorAsync("Looks like both you and the bot are not in a voice channel.")
+                await ctx.Interaction
+                    .SendErrorAsync("Looks like both you and the bot are not in a voice channel.", Config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -920,14 +934,15 @@ public class SlashMusic(
             var vc = ctx.User as IVoiceState;
             if (vc?.VoiceChannel is null)
             {
-                await ctx.Interaction.SendErrorAsync("Looks like both you and the bot are not in a voice channel.")
+                await ctx.Interaction
+                    .SendErrorAsync("Looks like both you and the bot are not in a voice channel.", Config)
                     .ConfigureAwait(false);
                 return;
             }
 
             try
             {
-                await lava.JoinAsync(() => new MusicPlayer(client, Service, config), ctx.Guild.Id, vc.VoiceChannel.Id)
+                await lava.JoinAsync(() => new MusicPlayer(client, Service, Config), ctx.Guild.Id, vc.VoiceChannel.Id)
                     .ConfigureAwait(false);
                 if (vc.VoiceChannel is SocketStageChannel chan)
                 {
@@ -938,14 +953,15 @@ public class SlashMusic(
                     catch
                     {
                         await ctx.Interaction.SendErrorAsync(
-                                "I tried to join as a speaker but I'm unable to! Please drag me to the channel manually.")
+                                "I tried to join as a speaker but I'm unable to! Please drag me to the channel manually.",
+                                Config)
                             .ConfigureAwait(false);
                     }
                 }
             }
             catch
             {
-                await ctx.Interaction.SendErrorAsync("Seems I'm unable to join the channel! Check permissions!")
+                await ctx.Interaction.SendErrorAsync("Seems I'm unable to join the channel! Check permissions!", Config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -1064,7 +1080,8 @@ public class SlashMusic(
             .ConfigureAwait(false);
         if (!searchResponse2.Any())
         {
-            await ctx.Interaction.SendErrorFollowupAsync("Seems like I can't find that video, please try again.")
+            await ctx.Interaction
+                .SendErrorFollowupAsync("Seems like I can't find that video, please try again.", Config)
                 .ConfigureAwait(false);
             return;
         }
@@ -1208,7 +1225,7 @@ public class SlashMusic(
         var player = lava.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
-            await ctx.Interaction.SendErrorAsync("I'm not connected to a voice channel.").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("I'm not connected to a voice channel.", Config).ConfigureAwait(false);
             return;
         }
 
@@ -1235,19 +1252,19 @@ public class SlashMusic(
         var player = lava.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
-            await ctx.Interaction.SendErrorAsync("I'm not even playing anything.").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("I'm not even playing anything.", Config).ConfigureAwait(false);
             return;
         }
 
         if (Service.GetQueue(ctx.Guild.Id).Count == 0)
         {
-            await ctx.Interaction.SendErrorAsync("There's nothing in queue.").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("There's nothing in queue.", Config).ConfigureAwait(false);
             return;
         }
 
         if (Service.GetQueue(ctx.Guild.Id).Count == 1)
         {
-            await ctx.Interaction.SendErrorAsync("... There's literally only one thing in queue.")
+            await ctx.Interaction.SendErrorAsync("... There's literally only one thing in queue.", Config)
                 .ConfigureAwait(false);
             return;
         }
@@ -1266,7 +1283,7 @@ public class SlashMusic(
         var player = lava.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
-            await ctx.Interaction.SendErrorAsync("I'm not connected to a channel!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("I'm not connected to a channel!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -1285,14 +1302,14 @@ public class SlashMusic(
     {
         if (num < 1)
         {
-            await ctx.Interaction.SendErrorAsync("You can only skip ahead.").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("You can only skip ahead.", Config).ConfigureAwait(false);
             return;
         }
 
         var player = lava.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
-            await ctx.Interaction.SendErrorAsync("I'm not connected to a voice channel.").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("I'm not connected to a voice channel.", Config).ConfigureAwait(false);
             return;
         }
 
@@ -1314,26 +1331,27 @@ public class SlashMusic(
         }
         catch
         {
-            await ctx.Interaction.SendErrorAsync("Invalid time.").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("Invalid time.", Config).ConfigureAwait(false);
             return;
         }
 
         var player = lava.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
-            await ctx.Interaction.SendErrorAsync("I'm not connected to a voice channel.").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("I'm not connected to a voice channel.", Config).ConfigureAwait(false);
             return;
         }
 
         if (player.State != PlayerState.Playing)
         {
-            await ctx.Interaction.SendErrorAsync("Woaaah there, I can't seek when nothing is playing.")
+            await ctx.Interaction.SendErrorAsync("Woaaah there, I can't seek when nothing is playing.", Config)
                 .ConfigureAwait(false);
             return;
         }
 
         if (time.Time > player.CurrentTrack.Duration)
-            await ctx.Channel.SendErrorAsync("That's longer than the song lol, try again.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("That's longer than the song lol, try again.", Config)
+                .ConfigureAwait(false);
         await player.SeekPositionAsync(time.Time).ConfigureAwait(false);
         await ctx.Channel.SendConfirmAsync($"I've seeked `{player.CurrentTrack.Title}` to {time.Time}.")
             .ConfigureAwait(false);
@@ -1349,7 +1367,7 @@ public class SlashMusic(
         var player = lava.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
-            await ctx.Interaction.SendErrorAsync("I'm not connected to a voice channel.").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("I'm not connected to a voice channel.", Config).ConfigureAwait(false);
             return;
         }
 
@@ -1392,7 +1410,8 @@ public class SlashMusic(
                     $"When the last song is reached autoplay will attempt to add `{autoPlayNum}` songs to the queue.");
                 break;
             case > 5:
-                await ctx.Interaction.SendErrorAsync("I can only do so much. Keep it to a maximum of 5 please.");
+                await ctx.Interaction.SendErrorAsync("I can only do so much. Keep it to a maximum of 5 please.",
+                    Config);
                 break;
             case 0:
                 await ctx.Interaction.SendConfirmAsync("Autoplay has been disabled.");
@@ -1425,13 +1444,13 @@ public class SlashMusic(
         var player = lava.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
-            await ctx.Interaction.SendErrorAsync("I'm not connected to a voice channel.").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("I'm not connected to a voice channel.", Config).ConfigureAwait(false);
             return;
         }
 
         if (volume > 100)
         {
-            await ctx.Interaction.SendErrorAsync("Max is 100 m8").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("Max is 100 m8", Config).ConfigureAwait(false);
             return;
         }
 
@@ -1451,13 +1470,14 @@ public class SlashMusic(
         var player = lava.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
-            await ctx.Interaction.SendErrorAsync("I'm not connected to a voice channel.").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("I'm not connected to a voice channel.", Config).ConfigureAwait(false);
             return;
         }
 
         if (player.State != PlayerState.Playing)
         {
-            await ctx.Interaction.SendErrorAsync("Woaaah there, I'm not playing any tracks.").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("Woaaah there, I'm not playing any tracks.", Config)
+                .ConfigureAwait(false);
             return;
         }
 
@@ -1484,7 +1504,8 @@ public class SlashMusic(
         var player = lava.GetPlayer<MusicPlayer>(ctx.Guild.Id);
         if (player is null)
         {
-            await ctx.Interaction.SendErrorAsync("I am not playing anything at the moment!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("I am not playing anything at the moment!", Config)
+                .ConfigureAwait(false);
             return;
         }
 

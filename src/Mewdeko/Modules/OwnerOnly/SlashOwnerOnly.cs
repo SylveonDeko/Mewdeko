@@ -11,6 +11,7 @@ using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Autocompleters;
+using Mewdeko.Common.Configs;
 using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.OwnerOnly.Services;
@@ -45,7 +46,8 @@ public class SlashOwnerOnly(
     DbService db,
     IDataCache cache,
     GuildSettingsService guildSettings,
-    CommandHandler commandHandler)
+    CommandHandler commandHandler,
+    BotConfig botConfigService)
     : MewdekoSlashModuleBase<OwnerOnlyService>
 {
     /// <summary>
@@ -87,7 +89,7 @@ public class SlashOwnerOnly(
         if (await PromptUserConfirmAsync("Are you sure you want to clear the used token count for GPT?", ctx.User.Id))
         {
             await Service.ClearUsedTokens();
-            await ctx.Interaction.SendErrorAsync("Cleared.");
+            await ctx.Interaction.SendErrorAsync("Cleared.", botConfigService);
         }
     }
 
@@ -146,7 +148,7 @@ public class SlashOwnerOnly(
             return;
         await using var uow = db.GetDbContext();
         var affected = await uow.Database.ExecuteSqlRawAsync(sql).ConfigureAwait(false);
-        await ctx.Interaction.SendErrorAsync($"Affected {affected} rows.").ConfigureAwait(false);
+        await ctx.Interaction.SendErrorAsync($"Affected {affected} rows.", botConfigService).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -633,7 +635,7 @@ public class SlashOwnerOnly(
         /// <param name="prop">The property of the config to change.</param>
         /// <param name="value">The new value to set for the property.</param>
         [SlashCommand("botconfig", "Config various bot settings")]
-        public async Task Config([Autocomplete(typeof(SettingsServiceNameAutoCompleter))] string? name = null,
+        public async Task BotConfig([Autocomplete(typeof(SettingsServiceNameAutoCompleter))] string? name = null,
             [Autocomplete(typeof(SettingsServicePropAutoCompleter))]
             string? prop = null, [Remainder] string? value = null)
         {
@@ -742,7 +744,7 @@ public class SlashOwnerOnly(
             {
                 Console.WriteLine(e);
                 await ctx.Interaction.SendErrorFollowupAsync(
-                    "There was an error setting or printing the config, please check the logs.");
+                    "There was an error setting or printing the config, please check the logs.", new BotConfig());
             }
         }
 
@@ -1066,7 +1068,8 @@ public class SlashOwnerOnly(
             var potentialUser = client.GetUser(whereOrTo);
             if (potentialUser is null)
             {
-                await ctx.Interaction.SendErrorAsync("Unable to find that user or guild! Please double check the Id!")
+                await ctx.Interaction.SendErrorAsync("Unable to find that user or guild! Please double check the Id!",
+                        botConfigService)
                     .ConfigureAwait(false);
                 return;
             }
@@ -1088,7 +1091,8 @@ public class SlashOwnerOnly(
 
         if (to == 0)
         {
-            await ctx.Interaction.SendErrorAsync("You need to specify a Channel or User ID after the Server ID!")
+            await ctx.Interaction.SendErrorAsync("You need to specify a Channel or User ID after the Server ID!",
+                    botConfigService)
                 .ConfigureAwait(false);
             return;
         }
@@ -1116,7 +1120,8 @@ public class SlashOwnerOnly(
         if (user is null)
         {
             await ctx.Interaction
-                .SendErrorAsync("Unable to find that channel or user! Please check the ID and try again.")
+                .SendErrorAsync("Unable to find that channel or user! Please check the ID and try again.",
+                    botConfigService)
                 .ConfigureAwait(false);
             return;
         }

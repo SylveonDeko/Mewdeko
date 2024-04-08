@@ -1,8 +1,8 @@
 using Lavalink4NET;
 using Lavalink4NET.Player;
 using Lavalink4NET.Rest;
+using Mewdeko.Common.Configs;
 using Mewdeko.Modules.Music.Common;
-using Mewdeko.Services.Settings;
 using SpotifyAPI.Web;
 
 namespace Mewdeko.Modules.Music.Services;
@@ -19,7 +19,7 @@ public class MusicService : INService
     private readonly IBotCredentials creds;
     private readonly IGoogleApiService googleApi;
     private readonly DiscordSocketClient client;
-    private readonly BotConfigService config;
+    private readonly BotConfig config;
 
     /// <summary>
     /// Initializes a new instance of <see cref="MusicService"/>.
@@ -34,7 +34,7 @@ public class MusicService : INService
     public MusicService(LavalinkNode lavaNode, IBotCredentials creds, DbService db, EventHandler eventHandler,
         IGoogleApiService googleApi,
         DiscordSocketClient client,
-        BotConfigService config)
+        BotConfig config)
     {
         this.lavaNode = lavaNode;
         this.creds = creds;
@@ -166,7 +166,8 @@ public class MusicService : INService
                 if (creds.SpotifyClientId is null or "")
                 {
                     await chan.SendErrorAsync(
-                            "Looks like the owner of this bot hasnt added the spotify Id and CLient Secret to their credentials. Spotify queueing wont work without this.")
+                            "Looks like the owner of this bot hasnt added the spotify Id and CLient Secret to their credentials. Spotify queueing wont work without this.",
+                            config: config)
                         .ConfigureAwait(false);
                     return;
                 }
@@ -182,14 +183,14 @@ public class MusicService : INService
                         .WithDescription($"Trying to queue {items!.Count} tracks from {result.Name}...")
                         .WithThumbnailUrl(result.Images?.FirstOrDefault()?.Url);
                     var msg = await chan!.SendMessageAsync(embed: eb.Build(),
-                        components: config.Data.ShowInviteButton
+                        components: config.ShowInviteButton
                             ? new ComponentBuilder()
-                                .WithButton(style: ButtonStyle.Link,
-                                    url:
-                                    "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                                    label: "Invite Me!",
-                                    emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
-                            : null).ConfigureAwait(false);
+                                .WithButton(label: "Support Server", style: ButtonStyle.Link,
+                                    url: "https://discord.gg/mewdeko")
+                                .WithButton(label: "Support Us!", style: ButtonStyle.Link,
+                                    url: "https://ko-fi.com/mewdeko")
+                                .Build()
+                            : null);
                     var addedcount = 0;
                     foreach (var track in items.Select(i => i.Track as FullTrack))
                     {
@@ -197,7 +198,7 @@ public class MusicService : INService
                             return;
                         var lavaTrack = await lavaNode.GetTrackAsync(
                                 $"{track?.Name} {track?.Artists.FirstOrDefault()?.Name}",
-                                !config.Data.YoutubeSupport ? SearchMode.SoundCloud : SearchMode.YouTube)
+                                !config.YoutubeSupport ? SearchMode.SoundCloud : SearchMode.YouTube)
                             .ConfigureAwait(false);
                         if (lavaTrack is null) continue;
                         await Enqueue(guild.Id, user, lavaTrack, Platform.Spotify).ConfigureAwait(false);
@@ -231,7 +232,8 @@ public class MusicService : INService
                 if (string.IsNullOrEmpty(creds.SpotifyClientId))
                 {
                     await chan.SendErrorAsync(
-                            "Looks like the owner of this bot hasnt added the spotify Id and CLient Secret to their credentials. Spotify queueing wont work without this.")
+                            "Looks like the owner of this bot hasnt added the spotify Id and CLient Secret to their credentials. Spotify queueing wont work without this.",
+                            config)
                         .ConfigureAwait(false);
                     return;
                 }
@@ -247,14 +249,14 @@ public class MusicService : INService
                         .WithDescription($"Trying to queue {items.Count} tracks from {result1.Name}...")
                         .WithThumbnailUrl(result1.Images.FirstOrDefault()?.Url);
                     var msg = await chan!.SendMessageAsync(embed: eb.Build(),
-                        components: config.Data.ShowInviteButton
+                        components: config.ShowInviteButton
                             ? new ComponentBuilder()
-                                .WithButton(style: ButtonStyle.Link,
-                                    url:
-                                    "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                                    label: "Invite Me!",
-                                    emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
-                            : null).ConfigureAwait(false);
+                                .WithButton(label: "Support Server", style: ButtonStyle.Link,
+                                    url: "https://discord.gg/mewdeko")
+                                .WithButton(label: "Support Us!", style: ButtonStyle.Link,
+                                    url: "https://ko-fi.com/mewdeko")
+                                .Build()
+                            : null);
                     var addedcount = 0;
                     foreach (var track in items)
                     {
@@ -262,7 +264,7 @@ public class MusicService : INService
                             return;
                         var lavaTrack = await lavaNode.GetTrackAsync(
                                 $"{track.Name} {track.Artists.FirstOrDefault()?.Name}",
-                                !config.Data.YoutubeSupport ? SearchMode.SoundCloud : SearchMode.YouTube)
+                                !config.YoutubeSupport ? SearchMode.SoundCloud : SearchMode.YouTube)
                             .ConfigureAwait(false);
                         if (lavaTrack is null) continue;
                         await Enqueue(guild.Id, user, lavaTrack, Platform.Spotify).ConfigureAwait(false);
@@ -297,7 +299,8 @@ public class MusicService : INService
                 if (string.IsNullOrEmpty(creds.SpotifyClientId))
                 {
                     await chan.SendErrorAsync(
-                            "Looks like the owner of this bot hasnt added the spotify Id and CLient Secret to their credentials. Spotify queueing wont work without this.")
+                            "Looks like the owner of this bot hasnt added the spotify Id and CLient Secret to their credentials. Spotify queueing wont work without this.",
+                            config)
                         .ConfigureAwait(false);
                     return;
                 }
@@ -307,14 +310,14 @@ public class MusicService : INService
                 if (string.IsNullOrEmpty(result3.Name))
                 {
                     await chan.SendErrorAsync(
-                            "Seems like i can't find or play this. Please try with a different link!")
+                            "Seems like i can't find or play this. Please try with a different link!", config)
                         .ConfigureAwait(false);
                     return;
                 }
 
                 var lavaTrack3 = await lavaNode.GetTrackAsync(
                         $"{result3.Name} {result3.Artists.FirstOrDefault()?.Name}",
-                        !config.Data.YoutubeSupport ? SearchMode.SoundCloud : SearchMode.YouTube)
+                        !config.YoutubeSupport ? SearchMode.SoundCloud : SearchMode.YouTube)
                     .ConfigureAwait(false);
                 if (player.State is PlayerState.Destroyed or PlayerState.NotConnected)
                     return;
@@ -331,7 +334,8 @@ public class MusicService : INService
 
                 break;
             default:
-                await chan.SendErrorAsync("Seems like that isn't supported at the moment!").ConfigureAwait(false);
+                await chan.SendErrorAsync("Seems like that isn't supported at the moment!", config)
+                    .ConfigureAwait(false);
                 break;
         }
     }
@@ -380,7 +384,8 @@ public class MusicService : INService
         if (string.IsNullOrWhiteSpace(creds.GoogleApiKey) && string.IsNullOrWhiteSpace(creds.SpotifyClientId))
         {
             await musicChannel.SendErrorAsync(
-                "Autoplay relies on either the google or spotify api. Please add a google or spotify api key to the credentials file to use autoplay.");
+                "Autoplay relies on either the google or spotify api. Please add a google or spotify api key to the credentials file to use autoplay.",
+                config);
             return;
         }
 
@@ -419,7 +424,8 @@ public class MusicService : INService
         {
             if (musicChannel is null) return;
             await musicChannel.SendErrorAsync(
-                "Unfortunately autoplay could not find any recommendations for your current track. Please queue something else.");
+                "Unfortunately autoplay could not find any recommendations for your current track. Please queue something else.",
+                config);
             return;
         }
 
@@ -504,11 +510,11 @@ public class MusicService : INService
             {
                 if (ctx is not null)
                 {
-                    await ctx.Interaction.SendErrorAsync("This is the last/only track!").ConfigureAwait(false);
+                    await ctx.Interaction.SendErrorAsync("This is the last/only track!", config).ConfigureAwait(false);
                     return;
                 }
 
-                await chan.SendErrorAsync("This is the last/only track!").ConfigureAwait(false);
+                await chan.SendErrorAsync("This is the last/only track!", config).ConfigureAwait(false);
                 return;
             }
 

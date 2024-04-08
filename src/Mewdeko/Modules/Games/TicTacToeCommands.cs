@@ -38,7 +38,7 @@ public partial class Games
                     return;
                 }
 
-                game = new TicTacToe(Strings, client, channel, (IGuildUser)ctx.User, options);
+                game = new TicTacToe(Strings, client, channel, (IGuildUser)ctx.User, options, Config);
                 Service.TicTacToeGames.Add(channel.Id, game);
                 await ReplyConfirmLocalizedAsync("ttt_created").ConfigureAwait(false);
 

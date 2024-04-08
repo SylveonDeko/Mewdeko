@@ -112,7 +112,8 @@ public class Help(
         if (!commandInfos.Any())
         {
             await ctx.Channel.SendErrorAsync(
-                "That command wasn't found! Please retry your search with a different term.").ConfigureAwait(false);
+                    "That command wasn't found! Please retry your search with a different term.", Config)
+                .ConfigureAwait(false);
         }
         else
         {

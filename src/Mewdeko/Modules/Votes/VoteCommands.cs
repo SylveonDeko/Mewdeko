@@ -103,7 +103,7 @@ public class Vote(InteractiveService interactivity) : MewdekoModuleBase<VoteServ
             if (!added.Item1)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Adding vote role failed for the following reason:\n{Format.Code(added.Item2)}");
+                    $"Adding vote role failed for the following reason:\n{Format.Code(added.Item2)}", Config);
             }
             else
             {
@@ -117,7 +117,7 @@ public class Vote(InteractiveService interactivity) : MewdekoModuleBase<VoteServ
             if (!added.Item1)
             {
                 await ctx.Channel.SendErrorAsync(
-                    $"Adding vote role failed for the following reason:\n{Format.Code(added.Item2)}");
+                    $"Adding vote role failed for the following reason:\n{Format.Code(added.Item2)}", Config);
             }
             else
             {
@@ -139,7 +139,7 @@ public class Vote(InteractiveService interactivity) : MewdekoModuleBase<VoteServ
             await ctx.Channel.SendConfirmAsync("Vote role removed.");
         else
             await ctx.Channel.SendErrorAsync(
-                $"Vote role remove failed for the following reason:\n{Format.Code(removed.Item2)}");
+                $"Vote role remove failed for the following reason:\n{Format.Code(removed.Item2)}", Config);
     }
 
     /// <summary>
@@ -152,7 +152,7 @@ public class Vote(InteractiveService interactivity) : MewdekoModuleBase<VoteServ
         var roles = await Service.GetVoteRoles(ctx.Guild.Id);
         if (!roles.Any())
         {
-            await ctx.Channel.SendErrorAsync("There are no vote roles set.");
+            await ctx.Channel.SendErrorAsync("There are no vote roles set.", Config);
         }
         else
         {
@@ -181,7 +181,7 @@ public class Vote(InteractiveService interactivity) : MewdekoModuleBase<VoteServ
                 await ctx.Channel.SendConfirmAsync("Vote roles cleared!");
             else
                 await ctx.Channel.SendErrorAsync(
-                    $"Vote roles not cleared for the following reason:\n{Format.Code(cleared.Item2)}");
+                    $"Vote roles not cleared for the following reason:\n{Format.Code(cleared.Item2)}", Config);
         }
     }
 
@@ -198,7 +198,7 @@ public class Vote(InteractiveService interactivity) : MewdekoModuleBase<VoteServ
         var update = await Service.UpdateTimer(role.Id, (int)time.Time.TotalSeconds);
         if (!update.Item1)
             await ctx.Channel.SendErrorAsync(
-                $"Updating vote role time failed due to the following reason:\n{Format.Code(update.Item2)}");
+                $"Updating vote role time failed due to the following reason:\n{Format.Code(update.Item2)}", Config);
         else
             await ctx.Channel.SendConfirmAsync($"Successfuly updated the vote role time to {time.Time.Humanize()}");
     }
@@ -249,7 +249,7 @@ public class Vote(InteractiveService interactivity) : MewdekoModuleBase<VoteServ
         {
             await ctx.Channel.SendErrorAsync(monthly
                 ? "Not enough monthly votes for a leaderboard."
-                : "Not enough votes for a leaderboard.");
+                : "Not enough votes for a leaderboard.", Config);
             return;
         }
 

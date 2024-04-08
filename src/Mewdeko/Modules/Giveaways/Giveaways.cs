@@ -87,7 +87,7 @@ public partial class Giveaways(
         var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
         if (!Uri.IsWellFormedUriString(banner, UriKind.Absolute))
         {
-            await ctx.Channel.SendErrorAsync("That's not a valid URL!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("That's not a valid URL!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -125,7 +125,7 @@ public partial class Giveaways(
         {
             await ctx.Channel
                 .SendErrorAsync(
-                    "That's not a valid color! Please use proper hex (starts with #) or use html color names!")
+                    "That's not a valid color! Please use proper hex (starts with #) or use html color names!", Config)
                 .ConfigureAwait(false);
         }
     }
@@ -157,7 +157,7 @@ public partial class Giveaways(
         {
             await ctx.Channel
                 .SendErrorAsync(
-                    "That's not a valid color! Please use proper hex (starts with #) or use html color names!")
+                    "That's not a valid color! Please use proper hex (starts with #) or use html color names!", Config)
                 .ConfigureAwait(false);
         }
     }
@@ -190,7 +190,8 @@ public partial class Giveaways(
         catch
         {
             await ctx.Channel.SendErrorAsync(
-                    "I'm unable to use that emote for giveaways! Most likely because I'm not in a server with it.")
+                    "I'm unable to use that emote for giveaways! Most likely because I'm not in a server with it.",
+                    Config)
                 .ConfigureAwait(false);
             return;
         }
@@ -213,14 +214,14 @@ public partial class Giveaways(
             .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
         {
-            await ctx.Channel.SendErrorAsync("No Giveaway with that message ID exists! Please try again!")
+            await ctx.Channel.SendErrorAsync("No Giveaway with that message ID exists! Please try again!", Config)
                 .ConfigureAwait(false);
             return;
         }
 
         if (gway.Ended != 1)
         {
-            await ctx.Channel.SendErrorAsync("This giveaway hasn't ended yet!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("This giveaway hasn't ended yet!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -238,7 +239,8 @@ public partial class Giveaways(
         var gways = db.GetDbContext().Giveaways.GiveawaysForGuild(ctx.Guild.Id);
         if (gways.Count == 0)
         {
-            await ctx.Channel.SendErrorAsync("There have been no giveaways here, so no stats!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("There have been no giveaways here, so no stats!", Config)
+                .ConfigureAwait(false);
         }
         else
         {
@@ -282,7 +284,8 @@ public partial class Giveaways(
         catch
         {
             await ctx.Channel.SendErrorAsync(
-                    "The current giveaway emote is invalid or I can't access it! Please set it again and start a new giveaway.")
+                    "The current giveaway emote is invalid or I can't access it! Please set it again and start a new giveaway.",
+                    Config)
                 .ConfigureAwait(false);
             return;
         }
@@ -291,13 +294,13 @@ public partial class Giveaways(
         var perms = user.GetPermissions(chan);
         if (!perms.Has(ChannelPermission.AddReactions))
         {
-            await ctx.Channel.SendErrorAsync("I cannot add reactions in that channel!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("I cannot add reactions in that channel!", Config).ConfigureAwait(false);
             return;
         }
 
         if (!perms.Has(ChannelPermission.UseExternalEmojis) && !ctx.Guild.Emotes.Contains(emote))
         {
-            await ctx.Channel.SendErrorAsync("I'm unable to use external emotes!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("I'm unable to use external emotes!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -319,7 +322,8 @@ public partial class Giveaways(
         catch
         {
             await ctx.Channel.SendErrorAsync(
-                    "The current giveaway emote is invalid or I can't access it! Please set it again and start a new giveaway.")
+                    "The current giveaway emote is invalid or I can't access it! Please set it again and start a new giveaway.",
+                    Config)
                 .ConfigureAwait(false);
             return;
         }
@@ -360,13 +364,13 @@ public partial class Giveaways(
         var perms = user.GetPermissions(chan);
         if (!perms.Has(ChannelPermission.AddReactions))
         {
-            await ctx.Channel.SendErrorAsync("I cannot add reactions in that channel!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("I cannot add reactions in that channel!", Config).ConfigureAwait(false);
             return;
         }
 
         if (!perms.Has(ChannelPermission.UseExternalEmojis) && !ctx.Guild.Emotes.Contains(emote))
         {
-            await ctx.Channel.SendErrorAsync("I'm unable to use external emotes!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("I'm unable to use external emotes!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -571,7 +575,7 @@ public partial class Giveaways(
         var gways = uow.Giveaways.GiveawaysForGuild(ctx.Guild.Id).Where(x => x.Ended == 0);
         if (!gways.Any())
         {
-            await ctx.Channel.SendErrorAsync("No active giveaways").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("No active giveaways", Config).ConfigureAwait(false);
             return;
         }
 
@@ -617,14 +621,15 @@ public partial class Giveaways(
             .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
         {
-            await ctx.Channel.SendErrorAsync("No Giveaway with that message ID exists! Please try again!")
+            await ctx.Channel.SendErrorAsync("No Giveaway with that message ID exists! Please try again!", Config)
                 .ConfigureAwait(false);
         }
 
         if (gway.Ended == 1)
         {
             await ctx.Channel.SendErrorAsync(
-                    $"This giveaway has already ended! Plase use `{await guildSettings.GetPrefix(ctx.Guild)}greroll {messageid}` to reroll!")
+                    $"This giveaway has already ended! Plase use `{await guildSettings.GetPrefix(ctx.Guild)}greroll {messageid}` to reroll!",
+                    Config)
                 .ConfigureAwait(false);
         }
         else

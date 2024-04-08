@@ -33,7 +33,8 @@ public class SlashRoleGreets(InteractiveService interactivity, HttpClient httpCl
                 break;
             case false:
                 await ctx.Interaction.SendErrorAsync(
-                        "Seems like you have reached your max of 10 RoleGreets! Please remove one to add another one.")
+                        "Seems like you have reached your max of 10 RoleGreets! Please remove one to add another one.",
+                        Config)
                     .ConfigureAwait(false);
                 break;
         }
@@ -51,7 +52,7 @@ public class SlashRoleGreets(InteractiveService interactivity, HttpClient httpCl
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(num - 1);
         if (greet is null)
         {
-            await ctx.Interaction.SendErrorAsync("That RoleGreet does not exist!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("That RoleGreet does not exist!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -70,7 +71,7 @@ public class SlashRoleGreets(InteractiveService interactivity, HttpClient httpCl
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(id - 1);
         if (greet is null)
         {
-            await ctx.Interaction.SendErrorAsync("No greet with that ID found!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("No greet with that ID found!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -90,7 +91,8 @@ public class SlashRoleGreets(InteractiveService interactivity, HttpClient httpCl
         var greet = (await Service.GetGreets(ctx.Guild.Id)).Where(x => x.RoleId == role.Id);
         if (!greet.Any())
         {
-            await ctx.Interaction.SendErrorFollowupAsync("There are no greets for that role!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorFollowupAsync("There are no greets for that role!", Config)
+                .ConfigureAwait(false);
             return;
         }
 
@@ -113,12 +115,13 @@ public class SlashRoleGreets(InteractiveService interactivity, HttpClient httpCl
      SlashUserPerm(GuildPermission.Administrator),
      RequireBotPermission(GuildPermission.ManageMessages), CheckPermissions]
     public async Task RoleGreetDelete(int id,
-        [Summary("Seconds", "After how long in seconds it should delete.")] int howlong)
+        [Summary("Seconds", "After how long in seconds it should delete.")]
+        int howlong)
     {
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(id - 1);
         if (greet is null)
         {
-            await ctx.Interaction.SendErrorAsync("No RoleGreet found for that Id!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("No RoleGreet found for that Id!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -147,7 +150,7 @@ public class SlashRoleGreets(InteractiveService interactivity, HttpClient httpCl
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(num - 1);
         if (greet is null)
         {
-            await ctx.Interaction.SendErrorAsync("That RoleGreet does not exist!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("That RoleGreet does not exist!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -169,7 +172,7 @@ public class SlashRoleGreets(InteractiveService interactivity, HttpClient httpCl
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(id - 1);
         if (greet is null)
         {
-            await ctx.Interaction.SendErrorAsync("No RoleGreet found for that Id!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("No RoleGreet found for that Id!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -186,7 +189,7 @@ public class SlashRoleGreets(InteractiveService interactivity, HttpClient httpCl
             if (!Uri.IsWellFormedUriString(avatar, UriKind.Absolute))
             {
                 await ctx.Interaction.SendErrorAsync(
-                        "The avatar url used is not a direct url or is invalid! Please use a different url.")
+                        "The avatar url used is not a direct url or is invalid! Please use a different url.", Config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -225,7 +228,8 @@ public class SlashRoleGreets(InteractiveService interactivity, HttpClient httpCl
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(id - 1);
         if (greet is null)
         {
-            await ctx.Interaction.SendErrorFollowupAsync("No RoleGreet found for that Id!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorFollowupAsync("No RoleGreet found for that Id!", Config)
+                .ConfigureAwait(false);
             return;
         }
 
@@ -277,7 +281,7 @@ public class SlashRoleGreets(InteractiveService interactivity, HttpClient httpCl
         var greets = await Service.GetGreets(ctx.Guild.Id);
         if (greets.Length == 0)
         {
-            await ctx.Interaction.SendErrorAsync("No RoleGreets setup!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("No RoleGreets setup!", Config).ConfigureAwait(false);
         }
 
         var paginator = new LazyPaginatorBuilder()

@@ -53,7 +53,8 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
                 break;
             case false:
                 await ctx.Channel.SendErrorAsync(
-                        "Seems like you have reached your 5 greets per channel limit or your 30 greets per guild limit! Remove a MultiGreet and try again")
+                        "Seems like you have reached your 5 greets per channel limit or your 30 greets per guild limit! Remove a MultiGreet and try again",
+                        Config)
                     .ConfigureAwait(false);
                 break;
         }
@@ -69,7 +70,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)
         {
-            await ctx.Channel.SendErrorAsync("No greet with that ID found!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("No greet with that ID found!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -87,7 +88,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
         var greet = Service.GetGreets(ctx.Guild.Id).Where(x => x.ChannelId == channel.Id);
         if (!greet.Any())
         {
-            await ctx.Channel.SendErrorAsync("There are no greets in that channel!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("There are no greets in that channel!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -114,7 +115,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)
         {
-            await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -135,7 +136,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)
         {
-            await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -159,7 +160,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
         var greet = Service.GetGreets(ctx.Guild.Id)?.ElementAt(num - 1);
         if (greet is null)
         {
-            await ctx.Channel.SendErrorAsync("That MultiGreet does not exist!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("That MultiGreet does not exist!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -202,7 +203,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(num - 1);
         if (greet is null)
         {
-            await ctx.Channel.SendErrorAsync("That MultiGreet does not exist!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("That MultiGreet does not exist!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -223,7 +224,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)
         {
-            await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -240,7 +241,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
             if (!Uri.IsWellFormedUriString(avatar, UriKind.Absolute))
             {
                 await ctx.Channel.SendErrorAsync(
-                        "The avatar url used is not a direct url or is invalid! Please use a different url.")
+                        "The avatar url used is not a direct url or is invalid! Please use a different url.", Config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -276,7 +277,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
         var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
         if (greet is null)
         {
-            await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -329,7 +330,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
         var greets = Service.GetGreets(ctx.Guild.Id);
         if (!greets.Any())
         {
-            await ctx.Channel.SendErrorAsync("No MultiGreets setup!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("No MultiGreets setup!", Config).ConfigureAwait(false);
         }
 
         var paginator = new LazyPaginatorBuilder()

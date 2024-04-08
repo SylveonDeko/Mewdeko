@@ -21,7 +21,7 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
         user ??= ctx.User;
         var embed = await Service.GetProfileEmbed(user, ctx.User);
         if (embed is null)
-            await ctx.Channel.SendErrorAsync("This user has their profile set to private.");
+            await ctx.Channel.SendErrorAsync("This user has their profile set to private.", Config);
         else
             await ctx.Channel.SendMessageAsync(embed: embed);
     }
@@ -35,7 +35,7 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
     {
         if (bio.Length > 2048)
         {
-            await ctx.Channel.SendErrorAsync("Keep it under 2048 characters please,");
+            await ctx.Channel.SendErrorAsync("Keep it under 2048 characters please,", Config);
             return;
         }
 
@@ -52,7 +52,7 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
     {
         var result = await Service.SetZodiac(ctx.User, zodiac);
         if (!result)
-            await ctx.Channel.SendErrorAsync("That zodiac sign doesn't exist.");
+            await ctx.Channel.SendErrorAsync("That zodiac sign doesn't exist.", Config);
         else
             await ctx.Channel.SendConfirmAsync($"Your Zodiac has been set to:\n`{zodiac}`");
     }
@@ -104,9 +104,9 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
                 "Are you sure you want to delete your command stats? This action is irreversible!", ctx.User.Id))
         {
             if (await Service.DeleteStatsData(ctx.User))
-                await ctx.Channel.SendErrorAsync("Command Stats deleted.");
+                await ctx.Channel.SendErrorAsync("Command Stats deleted.", Config);
             else
-                await ctx.Channel.SendErrorAsync("There was no data to delete.");
+                await ctx.Channel.SendErrorAsync("There was no data to delete.", Config);
         }
     }
 
@@ -132,7 +132,8 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
         if (!url.IsImage())
         {
             await ctx.Channel.SendErrorAsync(
-                "The image url you provided is invalid. Please make sure it ends with `.gif`, `.png` or `.jpg`");
+                "The image url you provided is invalid. Please make sure it ends with `.gif`, `.png` or `.jpg`",
+                Config);
             return;
         }
 
@@ -163,7 +164,8 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
         if (!await Service.SetSwitchFc(ctx.User, switchFc))
         {
             await ctx.Channel.SendErrorAsync(
-                "The Switch Friend Code you provided is invalid. Please make sure it matches the format sw-XXXX-XXXX-XXXX.");
+                "The Switch Friend Code you provided is invalid. Please make sure it matches the format sw-XXXX-XXXX-XXXX.",
+                Config);
             return;
         }
 

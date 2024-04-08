@@ -8,7 +8,6 @@ using MartineApiNet.Enums;
 using MartineApiNet.Models.Images;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Collections;
-using Mewdeko.Services.Settings;
 using Newtonsoft.Json.Linq;
 using NHentaiAPI;
 using Refit;
@@ -19,18 +18,16 @@ namespace Mewdeko.Modules.Nsfw;
 /// <summary>
 /// The most used module in Mewdeko, nsfw.
 /// </summary>
-/// <param name="interactivity"></param>
-/// <param name="martineApi"></param>
-/// <param name="guildSettings"></param>
-/// <param name="client"></param>
-/// <param name="config"></param>
-/// <param name="credentials"></param>
+/// <param name="interactivity">Used for sending paginated messages</param>
+/// <param name="martineApi">The Martine API</param>
+/// <param name="guildSettings">The guild settings service</param>
+/// <param name="client">The http client</param>
+/// <param name="credentials">The bot credentials</param>
 public class Nsfw(
     InteractiveService interactivity,
     MartineApi martineApi,
     GuildSettingsService guildSettings,
     HttpClient client,
-    BotConfigService config,
     IBotCredentials credentials)
     : MewdekoModuleBase<ISearchImagesService>
 {
@@ -52,7 +49,7 @@ public class Nsfw(
     public async Task RedditNsfw(string subreddit)
     {
         var msg = await ctx.Channel.SendConfirmAsync(
-            $"{config.Data.LoadingEmote} Trying to get a post from `{subreddit}`...");
+            $"{Config.LoadingEmote} Trying to get a post from `{subreddit}`...");
         try
         {
             RedditPost image;
@@ -68,7 +65,8 @@ public class Nsfw(
                     "Seems that NSFW Subreddit fetching has failed. Here\'s the error:\\nCode:{ExStatusCode}\\nContent: {ExContent}",
                     ex.StatusCode, (ex.HasContent ? ex.Content : "No Content."));
                 await ctx.Channel.SendErrorAsync(
-                    "Unable to fetch nsfw subreddit. Please check console or report the issue at https://discord.gg/mewdeko.");
+                    "Unable to fetch nsfw subreddit. Please check console or report the issue at https://discord.gg/mewdeko.",
+                    Config);
                 return;
             }
 
@@ -89,26 +87,30 @@ public class Nsfw(
                 var imgStream = imgData.ToStream();
                 await using var _ = imgStream.ConfigureAwait(false);
                 await ctx.Channel.SendFileAsync(imgStream, "boobs.mp4", embed: eb.Build(),
-                    components: config.Data.ShowInviteButton
+                    components: Config.ShowInviteButton
                         ? new ComponentBuilder()
                             .WithButton(style: ButtonStyle.Link,
                                 url:
                                 "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
                                 label: "Invite Me!",
-                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
-                        : null);
+                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote())
+                            .WithButton("Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/Mewdeko")
+                            .Build()
+                        : null).ConfigureAwait(false);
                 await msg.DeleteAsync();
             }
             else
             {
                 await ctx.Channel.SendMessageAsync(embed: eb.Build(),
-                    components: config.Data.ShowInviteButton
+                    components: Config.ShowInviteButton
                         ? new ComponentBuilder()
                             .WithButton(style: ButtonStyle.Link,
                                 url:
                                 "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
                                 label: "Invite Me!",
-                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote())
+                            .WithButton("Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/Mewdeko")
+                            .Build()
                         : null).ConfigureAwait(false);
                 await msg.DeleteAsync();
             }
@@ -117,7 +119,8 @@ public class Nsfw(
         {
             await msg.DeleteAsync();
             await ctx.Channel.SendErrorAsync(
-                    $"Hey guys stop spamming the command! The api can only take so much man. Wait at least a few mins before trying again. If theres an issue join the support sevrer in {await guildSettings.GetPrefix(ctx.Guild)}vote.")
+                    $"Hey guys stop spamming the command! The api can only take so much man. Wait at least a few mins before trying again. If theres an issue join the support server in {await guildSettings.GetPrefix(ctx.Guild)}vote.",
+                    Config)
                 .ConfigureAwait(false);
         }
     }
@@ -150,7 +153,7 @@ public class Nsfw(
         if (tags.Contains("lolicon") || tags.Contains("loli") || tags.Contains("shotacon") || tags.Contains("shota"))
         {
             await ctx.Channel
-                .SendErrorAsync("This manga contains loli/shota content and is not allowed by Discord TOS!")
+                .SendErrorAsync("This manga contains loli/shota content and is not allowed by Discord TOS!", Config)
                 .ConfigureAwait(false);
             return;
         }
@@ -194,7 +197,8 @@ public class Nsfw(
             .GetSearchPageListAsync($"{search} {exclude} -lolicon -loli -shota -shotacon", page).ConfigureAwait(false);
         if (result.Result.Count == 0)
         {
-            await ctx.Channel.SendErrorAsync("The search returned no results. Try again with a different query!")
+            await ctx.Channel
+                .SendErrorAsync("The search returned no results. Try again with a different query!", Config)
                 .ConfigureAwait(false);
             return;
         }
@@ -498,15 +502,15 @@ public class Nsfw(
             }
 
             await ctx.Channel.SendMessageAsync(string.Join("\n", linksEnum.Select(x => x.Url)),
-                    components: config.Data.ShowInviteButton
-                        ? new ComponentBuilder()
-                            .WithButton(style: ButtonStyle.Link,
-                                url:
-                                "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                                label: "Invite Me!",
-                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
-                        : null)
-                .ConfigureAwait(false);
+                components: Config.ShowInviteButton
+                    ? new ComponentBuilder()
+                        .WithButton(style: ButtonStyle.Link,
+                            url:
+                            "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
+                            label: "Invite Me!",
+                            emote: "<a:HaneMeow:968564817784877066>".ToIEmote())
+                        .WithButton("Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/Mewdeko").Build()
+                    : null).ConfigureAwait(false);
         }
         finally
         {
@@ -540,15 +544,15 @@ public class Nsfw(
             }
 
             await ctx.Channel.SendMessageAsync(string.Join("\n", linksEnum.Select(x => x.Url)),
-                    components: config.Data.ShowInviteButton
-                        ? new ComponentBuilder()
-                            .WithButton(style: ButtonStyle.Link,
-                                url:
-                                "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                                label: "Invite Me!",
-                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
-                        : null)
-                .ConfigureAwait(false);
+                components: Config.ShowInviteButton
+                    ? new ComponentBuilder()
+                        .WithButton(style: ButtonStyle.Link,
+                            url:
+                            "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
+                            label: "Invite Me!",
+                            emote: "<a:HaneMeow:968564817784877066>".ToIEmote())
+                        .WithButton("Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/Mewdeko").Build()
+                    : null).ConfigureAwait(false);
         }
         finally
         {
@@ -749,13 +753,14 @@ public class Nsfw(
                     .WithFooter(
                         $"{data.Rating} ({data.Provider}) | {string.Join(" | ", data.Tags.Where(x => !string.IsNullOrWhiteSpace(x)).Take(5))}")
                     .Build(),
-                components: config.Data.ShowInviteButton
+                components: Config.ShowInviteButton
                     ? new ComponentBuilder()
                         .WithButton(style: ButtonStyle.Link,
                             url:
                             "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
                             label: "Invite Me!",
-                            emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                            emote: "<a:HaneMeow:968564817784877066>".ToIEmote())
+                        .WithButton("Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/Mewdeko").Build()
                     : null).ConfigureAwait(false);
         }
         else
@@ -771,13 +776,14 @@ public class Nsfw(
                     .WithFooter(
                         $"{data.Rating} ({data.Provider}) | {string.Join(" | ", data.Tags.Where(x => !string.IsNullOrWhiteSpace(x)).Take(5))}")
                     .Build(),
-                components: config.Data.ShowInviteButton
+                components: Config.ShowInviteButton
                     ? new ComponentBuilder()
                         .WithButton(style: ButtonStyle.Link,
                             url:
                             "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
                             label: "Invite Me!",
-                            emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
+                            emote: "<a:HaneMeow:968564817784877066>".ToIEmote())
+                        .WithButton("Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/Mewdeko").Build()
                     : null).ConfigureAwait(false);
         }
     }

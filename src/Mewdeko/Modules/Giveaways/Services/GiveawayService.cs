@@ -1,4 +1,5 @@
 ﻿using LinqToDB.EntityFrameworkCore;
+using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -17,7 +18,8 @@ public class GiveawayService(
     DiscordSocketClient client,
     DbService db,
     IBotCredentials creds,
-    GuildSettingsService guildSettings)
+    GuildSettingsService guildSettings,
+    BotConfig config)
     : INService, IReadyExecutor
 {
     /// <summary>
@@ -319,7 +321,8 @@ public class GiveawayService(
         if (emote.Name == null)
         {
             await ch.Channel
-                .SendErrorAsync($"[This Giveaway]({ch.GetJumpUrl()}) failed because the emote used for it is invalid!")
+                .SendErrorAsync($"[This Giveaway]({ch.GetJumpUrl()}) failed because the emote used for it is invalid!",
+                    config)
                 .ConfigureAwait(false);
             return;
         }
@@ -333,7 +336,7 @@ public class GiveawayService(
             {
                 await ch.Channel
                     .SendErrorAsync(
-                        $"[This Giveaway]({ch.GetJumpUrl()}) failed because the emote used for it is invalid!")
+                        $"[This Giveaway]({ch.GetJumpUrl()}) failed because the emote used for it is invalid!", config)
                     .ConfigureAwait(false);
                 return;
             }

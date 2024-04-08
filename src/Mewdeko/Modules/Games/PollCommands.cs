@@ -58,7 +58,7 @@ public partial class Games
             // Checks if the number of poll answers exceeds the limit
             if (poll.Answers.Count > 25)
             {
-                await ctx.Channel.SendErrorAsync("You can only have up to 25 options!");
+                await ctx.Channel.SendErrorAsync("You can only have up to 25 options!", Config);
                 return;
             }
 

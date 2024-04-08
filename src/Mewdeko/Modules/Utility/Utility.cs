@@ -128,7 +128,7 @@ public partial class Utility(
 
         if (!rolesWithPerms.Any() && !rolesWithMatchedPerms.Any())
         {
-            await ctx.Channel.SendErrorAsync("No roles with the specified permissions were found.");
+            await ctx.Channel.SendErrorAsync("No roles with the specified permissions were found.", Config);
             return;
         }
 
@@ -227,7 +227,7 @@ public partial class Utility(
         var curTime = DateTime.UtcNow.Subtract(time.Time);
         if (!Directory.Exists(creds.ChatSavePath))
         {
-            await ctx.Channel.SendErrorAsync("Chat save directory does not exist. Please create it.")
+            await ctx.Channel.SendErrorAsync("Chat save directory does not exist. Please create it.", Config)
                 .ConfigureAwait(false);
             return;
         }
@@ -239,14 +239,15 @@ public partial class Utility(
         }
         catch (Exception ex)
         {
-            await ctx.Channel.SendErrorAsync($"Failed to create directory. {ex.Message}").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync($"Failed to create directory. {ex.Message}", Config).ConfigureAwait(false);
             return;
         }
 
         if (time.Time.Days > 3)
         {
             await ctx.Channel
-                .SendErrorAsync("Max time to grab messages is 3 days. This will be increased in the near future.")
+                .SendErrorAsync("Max time to grab messages is 3 days. This will be increased in the near future.",
+                    Config)
                 .ConfigureAwait(false);
             return;
         }
@@ -295,7 +296,7 @@ public partial class Utility(
 
         if (emotes.Length == 0)
         {
-            await ctx.Channel.SendErrorAsync("No emotes found!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("No emotes found!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -377,7 +378,7 @@ public partial class Utility(
             x.ChannelId == ctx.Channel.Id && !x.Edited);
         if (msg is null)
         {
-            await ctx.Channel.SendErrorAsync("There is nothing to snipe here!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("There is nothing to snipe here!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -920,7 +921,7 @@ public partial class Utility(
             .Find(x => x.ChannelId == ctx.Channel.Id && x.UserId == user1.Id && !x.Edited);
         if (msg is null)
         {
-            await ctx.Channel.SendErrorAsync("There is nothing to snipe for this user!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("There is nothing to snipe for this user!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -965,7 +966,7 @@ public partial class Utility(
     {
         if (string.IsNullOrWhiteSpace(url))
         {
-            await ctx.Channel.SendErrorAsync("You didn't specify a url").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("You didn't specify a url", Config).ConfigureAwait(false);
         }
         else
         {
@@ -1054,7 +1055,7 @@ public partial class Utility(
         {
             if (msg == null)
             {
-                await ctx.Channel.SendErrorAsync("There's nothing to snipe for that channel and user!")
+                await ctx.Channel.SendErrorAsync("There's nothing to snipe for that channel and user!", Config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -1112,7 +1113,7 @@ public partial class Utility(
             .LastOrDefault(x => x.ChannelId == ctx.Channel.Id);
         if (msg == null)
         {
-            await ctx.Channel.SendErrorAsync("There's nothing to snipe!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("There's nothing to snipe!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -1642,7 +1643,7 @@ public partial class Utility(
                 }
                 catch (Exception ex)
                 {
-                    await ctx.Channel.SendErrorAsync(GetText("embed_failed"));
+                    await ctx.Channel.SendErrorAsync(GetText("embed_failed"), Config);
                     Log.Error("Error sending message: {Message}", ex.Message);
                 }
             }
@@ -1657,7 +1658,7 @@ public partial class Utility(
                 }
                 catch (Exception ex)
                 {
-                    await ctx.Channel.SendErrorAsync(GetText("embed_failed"));
+                    await ctx.Channel.SendErrorAsync(GetText("embed_failed"), Config);
                     Log.Error("Error sending message: {Message}", ex.Message);
                 }
         }
@@ -1677,7 +1678,7 @@ public partial class Utility(
                 }
                 catch
                 {
-                    await ctx.Channel.SendErrorAsync(GetText("embed_failed"));
+                    await ctx.Channel.SendErrorAsync(GetText("embed_failed"), Config);
                 }
             }
             else
@@ -1689,7 +1690,7 @@ public partial class Utility(
                 }
                 catch (Exception ex)
                 {
-                    await ctx.Channel.SendErrorAsync(GetText("embed_failed"));
+                    await ctx.Channel.SendErrorAsync(GetText("embed_failed"), Config);
                     Log.Error("Error sending message: {Message}", ex.Message);
                 }
         }

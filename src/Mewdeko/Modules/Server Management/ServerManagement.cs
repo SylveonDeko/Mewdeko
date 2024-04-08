@@ -175,7 +175,8 @@ public partial class ServerManagement(IHttpClientFactory factory, BotConfigServi
         catch (Exception)
         {
             await ctx.Channel.SendErrorAsync(
-                    "The emote could not be added because it is either: Too Big(Over 256kb), != a direct link, Or exceeds server emoji limit.")
+                    "The emote could not be added because it is either: Too Big(Over 256kb), is not a direct link, Or exceeds server emoji limit.",
+                    Config)
                 .ConfigureAwait(false);
         }
     }
@@ -198,7 +199,7 @@ public partial class ServerManagement(IHttpClientFactory factory, BotConfigServi
         }
         catch (HttpException)
         {
-            await ctx.Channel.SendErrorAsync("This emote is not from this guild!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("This emote is not from this guild!", Config).ConfigureAwait(false);
         }
     }
 
@@ -213,7 +214,7 @@ public partial class ServerManagement(IHttpClientFactory factory, BotConfigServi
     {
         if (name.StartsWith("<"))
         {
-            await ctx.Channel.SendErrorAsync("You cant use an emote as a name!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("You cant use an emote as a name!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -231,7 +232,7 @@ public partial class ServerManagement(IHttpClientFactory factory, BotConfigServi
         }
         catch (HttpException)
         {
-            await ctx.Channel.SendErrorAsync("This emote != from this guild!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("This emote != from this guild!", Config).ConfigureAwait(false);
         }
     }
 

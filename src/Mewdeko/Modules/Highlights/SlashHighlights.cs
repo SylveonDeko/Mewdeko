@@ -38,13 +38,14 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
         var highlights = uow.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
         if (string.IsNullOrWhiteSpace(words))
         {
-            await ctx.Interaction.SendErrorAsync("You need to specify a phrase to highlight.").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("You need to specify a phrase to highlight.", Config)
+                .ConfigureAwait(false);
             return;
         }
 
         if (highlights.Count > 0 && highlights.Select(x => x.Word.ToLower()).Contains(words.ToLower()))
         {
-            await ctx.Interaction.SendErrorAsync("That's already in your highlights").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("That's already in your highlights", Config).ConfigureAwait(false);
         }
         else
         {
@@ -65,7 +66,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
 
         if (highlightsForUser.Count == 0)
         {
-            await ctx.Interaction.SendErrorAsync("You have no highlights set.").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("You have no highlights set.", Config).ConfigureAwait(false);
             return;
         }
 
@@ -103,7 +104,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
     {
         if (string.IsNullOrWhiteSpace(words))
         {
-            await ctx.Interaction.SendErrorAsync("Cannot delete an empty highlight.").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("Cannot delete an empty highlight.", Config).ConfigureAwait(false);
             return;
         }
 
@@ -112,7 +113,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
 
         if (highlightsForUser.Count == 0)
         {
-            await ctx.Interaction.SendErrorAsync("Cannot delete because you have no highlights set!")
+            await ctx.Interaction.SendErrorAsync("Cannot delete because you have no highlights set!", Config)
                 .ConfigureAwait(false);
             return;
         }
@@ -122,7 +123,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
             var todelete = highlightsForUser.ElementAt(number - 1);
             if (todelete is null)
             {
-                await ctx.Interaction.SendErrorAsync("That Highlight does not exist!").ConfigureAwait(false);
+                await ctx.Interaction.SendErrorAsync("That Highlight does not exist!", Config).ConfigureAwait(false);
                 return;
             }
 
@@ -135,7 +136,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
 
         if (!highlightsForUser.Select(x => x.Word).Contains(words))
         {
-            await ctx.Interaction.SendErrorAsync("This is not in your highlights!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("This is not in your highlights!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -155,7 +156,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
     {
         if (string.IsNullOrWhiteSpace(words))
         {
-            await ctx.Interaction.SendErrorAsync("Cannot match an empty highlight.").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("Cannot match an empty highlight.", Config).ConfigureAwait(false);
             return;
         }
 
@@ -165,7 +166,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
         var matched = highlightsForUser.Where(x => words.ToLower().Contains(x.Word.ToLower()));
         if (!matched.Any())
         {
-            await ctx.Interaction.SendErrorAsync("No matches found.").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("No matches found.", Config).ConfigureAwait(false);
             return;
         }
 
