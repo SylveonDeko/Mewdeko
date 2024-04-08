@@ -186,7 +186,7 @@ public partial class Utility
 
             if (quote is null || quote.GuildId != ctx.Guild.Id)
             {
-                await ctx.Channel.SendErrorAsync(GetText("quotes_notfound")).ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync(GetText("quotes_notfound"), Config).ConfigureAwait(false);
                 return;
             }
 
@@ -272,7 +272,7 @@ public partial class Utility
             if (success)
                 await ctx.Channel.SendConfirmAsync(response).ConfigureAwait(false);
             else
-                await ctx.Channel.SendErrorAsync(response).ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync(response, Config).ConfigureAwait(false);
         }
 
         /// <summary>

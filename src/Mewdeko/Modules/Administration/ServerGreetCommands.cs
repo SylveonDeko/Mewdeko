@@ -82,7 +82,7 @@ public partial class Administration
         {
             if (timer is < 0 or > 600)
             {
-                await ctx.Channel.SendErrorAsync(GetText("maxdeletetime", "600 seconds")).ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync(GetText("maxdeletetime", "600 seconds"), Config).ConfigureAwait(false);
                 return;
             }
 

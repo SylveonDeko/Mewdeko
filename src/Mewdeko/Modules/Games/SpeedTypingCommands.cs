@@ -50,7 +50,7 @@ namespace Mewdeko.Modules.Games
 
                 if (game.IsActive)
                 {
-                    await channel.SendErrorAsync($"Contest already running in {game.Channel.Mention} channel.")
+                    await channel.SendErrorAsync($"Contest already running in {game.Channel.Mention} channel.", Config)
                         .ConfigureAwait(false);
                 }
                 else
@@ -73,7 +73,7 @@ namespace Mewdeko.Modules.Games
                     return;
                 }
 
-                await channel.SendErrorAsync("No contest to stop on this channel.").ConfigureAwait(false);
+                await channel.SendErrorAsync("No contest to stop on this channel.", Config).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -110,7 +110,7 @@ namespace Mewdeko.Modules.Games
 
                 if (articles.Length == 0)
                 {
-                    await channel.SendErrorAsync($"{ctx.User.Mention} `No articles found on that page.`")
+                    await channel.SendErrorAsync($"{ctx.User.Mention} `No articles found on that page.`", Config)
                         .ConfigureAwait(false);
                     return;
                 }

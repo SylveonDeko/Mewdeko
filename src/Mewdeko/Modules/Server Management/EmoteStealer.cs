@@ -37,7 +37,8 @@ public class EmoteStealer(IHttpClientFactory httpFactory, BotConfigService confi
         var tags = message.Tags.Where(x => x.Type == TagType.Emoji).Select(x => (Emote)x.Value).Distinct();
         if (!tags.Any())
         {
-            await ctx.Interaction.SendEphemeralFollowupErrorAsync("No emotes in this message!").ConfigureAwait(false);
+            await ctx.Interaction.SendEphemeralFollowupErrorAsync("No emotes in this message!", Config)
+                .ConfigureAwait(false);
             return;
         }
 
@@ -99,7 +100,8 @@ public class EmoteStealer(IHttpClientFactory httpFactory, BotConfigService confi
         var tags = message.Stickers.Select(x => x as SocketUnknownSticker).Distinct();
         if (!tags.Any())
         {
-            await ctx.Interaction.SendEphemeralFollowupErrorAsync("No stickers in this message!").ConfigureAwait(false);
+            await ctx.Interaction.SendEphemeralFollowupErrorAsync("No stickers in this message!", Config)
+                .ConfigureAwait(false);
             return;
         }
 

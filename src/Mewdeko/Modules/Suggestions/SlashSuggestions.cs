@@ -157,7 +157,8 @@ public partial class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsServic
         if (modal.Suggestion.Length < await Service.GetMinLength(ctx.Guild.Id))
         {
             await ctx.Interaction.SendEphemeralFollowupErrorAsync(
-                    $"Cannot send this suggestion as its under the minimum length (`{await Service.GetMinLength(ctx.Guild.Id)}`) set in this server!")
+                    $"Cannot send this suggestion as its under the minimum length (`{await Service.GetMinLength(ctx.Guild.Id)}`) set in this server!",
+                    Config)
                 .ConfigureAwait(false);
             return;
         }
@@ -180,7 +181,8 @@ public partial class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsServic
         var suggests = Service.Suggestions(ctx.Guild.Id);
         if (suggests.Count == 0)
         {
-            await ctx.Interaction.SendErrorFollowupAsync("There are no suggestions to clear.").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorFollowupAsync("There are no suggestions to clear.", Config)
+                .ConfigureAwait(false);
             return;
         }
 

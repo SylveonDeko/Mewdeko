@@ -147,7 +147,8 @@ public partial class Suggestions
             if (length >= 2048)
             {
                 await ctx.Channel
-                    .SendErrorAsync("Can't set this value because it means users will not be able to suggest anything!")
+                    .SendErrorAsync("Can't set this value because it means users will not be able to suggest anything!",
+                        Config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -220,7 +221,8 @@ public partial class Suggestions
             if (length <= 0)
             {
                 await ctx.Channel
-                    .SendErrorAsync("Cant set this value because it means users will not be able to suggest anything!")
+                    .SendErrorAsync("Cant set this value because it means users will not be able to suggest anything!",
+                        Config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -422,7 +424,8 @@ public partial class Suggestions
         {
             if (toSet.Length > 80)
             {
-                await ctx.Channel.SendErrorAsync("The max length for labels is 80 characters!").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("The max length for labels is 80 characters!", Config)
+                    .ConfigureAwait(false);
                 return;
             }
 
@@ -592,7 +595,8 @@ public partial class Suggestions
         {
             if (_ == null)
             {
-                await ctx.Channel.SendErrorAsync("You need to either provide emojis or say disable for this to work!")
+                await ctx.Channel.SendErrorAsync("You need to either provide emojis or say disable for this to work!",
+                        Config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -607,7 +611,7 @@ public partial class Suggestions
             if (_ != null && !_.Contains("disable") &&
                 ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote)x.Value).Count() > 5)
             {
-                await ctx.Channel.SendErrorAsync("You may only have up to 5 emotes for suggestions!")
+                await ctx.Channel.SendErrorAsync("You may only have up to 5 emotes for suggestions!", Config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -615,7 +619,7 @@ public partial class Suggestions
             if (!_.Contains("disable") &&
                 !ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (IEmote)x.Value).Any())
             {
-                await ctx.Channel.SendErrorAsync("You need to specify up to 5 emotes for this command to work!")
+                await ctx.Channel.SendErrorAsync("You need to specify up to 5 emotes for this command to work!", Config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -631,7 +635,8 @@ public partial class Suggestions
                 {
                     await ctx.Channel
                         .SendErrorAsync(
-                            $"Unable to access the emote {emoji.Name}, please add me to the server it's in or use a different emote.")
+                            $"Unable to access the emote {emoji.Name}, please add me to the server it's in or use a different emote.",
+                            Config)
                         .ConfigureAwait(false);
                     return;
                 }

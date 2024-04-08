@@ -72,7 +72,7 @@ public class Starboard(GuildSettingsService guildSettings) : MewdekoSubmodule<St
     {
         if (num == 0)
         {
-            await ctx.Channel.SendErrorAsync("Reposting has been disabled!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("Reposting has been disabled!", Config).ConfigureAwait(false);
             await Service.SetRepostThreshold(ctx.Guild, 0).ConfigureAwait(false);
             return;
         }
@@ -107,7 +107,7 @@ public class Starboard(GuildSettingsService guildSettings) : MewdekoSubmodule<St
             var maybeEmote = (await Service.GetStar(ctx.Guild.Id)).ToIEmote();
             if (maybeEmote.Name is null)
             {
-                await ctx.Channel.SendErrorAsync("You don't have an emote set!").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("You don't have an emote set!", Config).ConfigureAwait(false);
                 return;
             }
 
@@ -123,7 +123,7 @@ public class Starboard(GuildSettingsService guildSettings) : MewdekoSubmodule<St
         }
         catch
         {
-            await ctx.Channel.SendErrorAsync("I'm unable to use that emote! Please use a different one.")
+            await ctx.Channel.SendErrorAsync("I'm unable to use that emote! Please use a different one.", Config)
                 .ConfigureAwait(false);
             return;
         }

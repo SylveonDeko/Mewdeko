@@ -127,7 +127,8 @@ public partial class Searches(
         catch (ApiException ex)
         {
             await msg.DeleteAsync().ConfigureAwait(false);
-            await ctx.Channel.SendErrorAsync("Seems like that subreddit wasn't found, please try something else!")
+            await ctx.Channel.SendErrorAsync("Seems like that subreddit wasn't found, please try something else!",
+                    Config)
                 .ConfigureAwait(false);
             Log.Error(
                 $"Seems that Meme fetching has failed. Here's the error:\nCode: {ex.StatusCode}\nContent: {(ex.HasContent ? ex.Content : "No Content.")}");
@@ -475,7 +476,8 @@ public partial class Searches(
             search2 = search2.Take(10);
             if (!search2.Any())
             {
-                await ctx.Channel.SendErrorAsync("Unable to find that or the image is nsfw!").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("Unable to find that or the image is nsfw!", Config)
+                    .ConfigureAwait(false);
             }
             else
             {
@@ -679,7 +681,7 @@ public partial class Searches(
             if (data is null)
             {
                 await ctx.Channel.SendErrorAsync(
-                        "Neither google nor duckduckgo returned a result! Please search something else!")
+                        "Neither google nor duckduckgo returned a result! Please search something else!", Config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -1193,7 +1195,7 @@ public partial class Searches(
 
         if (obj.Error != null || !obj.Verses.Any())
         {
-            await ctx.Channel.SendErrorAsync(obj.Error ?? "No verse found.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync(obj.Error ?? "No verse found.", Config).ConfigureAwait(false);
         }
         else
         {
@@ -1272,7 +1274,8 @@ public partial class Searches(
 
         if (imgObj == null)
         {
-            await channel.SendErrorAsync($"{umsg.Author.Mention} {GetText("no_results")}").ConfigureAwait(false);
+            await channel.SendErrorAsync($"{umsg.Author.Mention} {GetText("no_results")}", Config)
+                .ConfigureAwait(false);
         }
         else
         {

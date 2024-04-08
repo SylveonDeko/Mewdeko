@@ -131,7 +131,7 @@ public class VoteSlashCommands(InteractiveService interactivity) : MewdekoSlashM
             }
             catch
             {
-                await ctx.Interaction.SendErrorAsync("Invalid time input. Format is 1d3h2s");
+                await ctx.Interaction.SendErrorAsync("Invalid time input. Format is 1d3h2s", Config);
                 return;
             }
         }
@@ -142,7 +142,7 @@ public class VoteSlashCommands(InteractiveService interactivity) : MewdekoSlashM
             if (!added.Item1)
             {
                 await ctx.Interaction.SendErrorAsync(
-                    $"Adding vote role failed for the following reason: {added.Item2}");
+                    $"Adding vote role failed for the following reason: {added.Item2}", Config);
             }
             else
             {
@@ -156,7 +156,7 @@ public class VoteSlashCommands(InteractiveService interactivity) : MewdekoSlashM
             if (!added.Item1)
             {
                 await ctx.Interaction.SendErrorAsync(
-                    $"Adding vote role failed for the following reason: {added.Item2}");
+                    $"Adding vote role failed for the following reason: {added.Item2}", Config);
             }
             else
             {
@@ -182,7 +182,7 @@ public class VoteSlashCommands(InteractiveService interactivity) : MewdekoSlashM
         }
         catch
         {
-            await ctx.Interaction.SendErrorAsync("Invalid time input. Format is 1d3h2s");
+            await ctx.Interaction.SendErrorAsync("Invalid time input. Format is 1d3h2s", Config);
             return;
         }
 
@@ -190,7 +190,7 @@ public class VoteSlashCommands(InteractiveService interactivity) : MewdekoSlashM
         if (!update.Item1)
         {
             await ctx.Interaction.SendErrorAsync(
-                $"Updating vote role time failed due to the following reason: {update.Item2}");
+                $"Updating vote role time failed due to the following reason: {update.Item2}", Config);
         }
         else
         {
@@ -252,7 +252,7 @@ public class VoteSlashCommands(InteractiveService interactivity) : MewdekoSlashM
         {
             await ctx.Channel.SendErrorAsync(monthly
                 ? "Not enough monthly votes for a leaderboard."
-                : "Not enough votes for a leaderboard.");
+                : "Not enough votes for a leaderboard.", Config);
             return;
         }
 

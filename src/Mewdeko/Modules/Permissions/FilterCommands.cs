@@ -69,7 +69,7 @@ public partial class Permissions
             var words = Service.Blacklist.Where(x => x.GuildId == ctx.Guild.Id);
             if (!words.Any())
             {
-                await ctx.Channel.SendErrorAsync("No AutoBanWords set.").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("No AutoBanWords set.", Config).ConfigureAwait(false);
             }
             else
             {

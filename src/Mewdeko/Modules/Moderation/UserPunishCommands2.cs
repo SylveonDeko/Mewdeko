@@ -44,7 +44,8 @@ public partial class Moderation
             var mWarnlogChannel = await Service.GetMWarnlogChannel(ctx.Guild.Id);
             if (mWarnlogChannel == channel.Id)
             {
-                await ctx.Channel.SendErrorAsync("This is already your mini warnlog channel!").ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync("This is already your mini warnlog channel!", Config)
+                    .ConfigureAwait(false);
                 return;
             }
 

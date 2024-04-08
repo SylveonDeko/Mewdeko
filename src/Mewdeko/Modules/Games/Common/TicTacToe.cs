@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Threading;
 using CommandLine;
+using Mewdeko.Common.Configs;
 using Mewdeko.Services.strings;
 
 namespace Mewdeko.Modules.Games.Common;
@@ -13,6 +14,7 @@ public class TicTacToe
     private readonly ITextChannel channel;
     private readonly DiscordSocketClient client;
     private readonly SemaphoreSlim moveLock;
+    private readonly BotConfig config;
 
     private readonly string[] numbers =
     [
@@ -39,13 +41,15 @@ public class TicTacToe
     /// <param name="channel">Channel trivia will run in</param>
     /// <param name="firstUser">User who started tic tac toe</param>
     /// <param name="options">Options along with the game</param>
+    /// <param name="config">Bot Configuration</param>
     public TicTacToe(IBotStrings strings, DiscordSocketClient client, ITextChannel channel,
-        IGuildUser firstUser, Options options)
+        IGuildUser firstUser, Options options, BotConfig config)
     {
         this.channel = channel;
         this.strings = strings;
         this.client = client;
         this.options = options;
+        this.config = config;
 
         users =
         [
@@ -146,13 +150,13 @@ public class TicTacToe
     {
         if (phase is Phase.Started or Phase.Ended)
         {
-            await channel.SendErrorAsync(user.Mention + GetText("ttt_already_running")).ConfigureAwait(false);
+            await channel.SendErrorAsync(user.Mention + GetText("ttt_already_running"), config).ConfigureAwait(false);
             return;
         }
 
         if (users[0] == user)
         {
-            await channel.SendErrorAsync(user.Mention + GetText("ttt_against_yourself")).ConfigureAwait(false);
+            await channel.SendErrorAsync(user.Mention + GetText("ttt_against_yourself"), config).ConfigureAwait(false);
             return;
         }
 

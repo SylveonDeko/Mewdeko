@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using Discord.Interactions;
+using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
 using Microsoft.EntityFrameworkCore;
 using PreconditionResult = Discord.Commands.PreconditionResult;
@@ -20,14 +21,16 @@ public class DiscordPermOverrideService : INService, ILateBlocker
     private readonly ConcurrentDictionary<(ulong, string), DiscordPermOverride> overrides;
 
     private readonly IServiceProvider services;
+    private readonly BotConfig botConfig;
 
     /// <summary>
     /// Constructs a new instance of the DiscordPermOverrideService.
     /// </summary>
     /// <param name="db">The database service.</param>
     /// <param name="services">The service provider.</param>
-    public DiscordPermOverrideService(DbService db, IServiceProvider services)
+    public DiscordPermOverrideService(DbService db, IServiceProvider services, BotConfig config)
     {
+        this.botConfig = config;
         this.db = db;
         this.services = services;
         using var uow = this.db.GetDbContext();
@@ -73,7 +76,7 @@ public class DiscordPermOverrideService : INService, ILateBlocker
         var result = await new Discord.Interactions.RequireUserPermissionAttribute(perm)
             .CheckRequirementsAsync(context, command, services).ConfigureAwait(false);
         if (!result.IsSuccess)
-            await context.Interaction.SendEphemeralErrorAsync($"You need `{perm}` to use this command.")
+            await context.Interaction.SendEphemeralErrorAsync($"You need `{perm}` to use this command.", botConfig)
                 .ConfigureAwait(false);
         return !result.IsSuccess;
     }

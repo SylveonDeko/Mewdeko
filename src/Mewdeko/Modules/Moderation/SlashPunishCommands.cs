@@ -49,7 +49,7 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
         var warnlogChannel = await Service.GetWarnlogChannel(ctx.Guild.Id);
         if (warnlogChannel == channel.Id)
         {
-            await ctx.Interaction.SendErrorAsync("This is already your warnlog channel!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("This is already your warnlog channel!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -89,7 +89,7 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
         }
         catch
         {
-            await ctx.Interaction.SendErrorAsync("Invalid time specified. Please follow the format `4d3h2m1s`");
+            await ctx.Interaction.SendErrorAsync("Invalid time specified. Please follow the format `4d3h2m1s`", Config);
             return;
         }
 
@@ -255,7 +255,7 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
         if (ctx.User.Id == user.Id || ((IGuildUser)ctx.User).GuildPermissions.BanMembers)
             return InternalWarnlog(user.Id);
         return ctx.Interaction.SendEphemeralErrorAsync(
-            "You are missing the permissions to view another user's warns.");
+            "You are missing the permissions to view another user's warns.", Config);
     }
 
     private async Task InternalWarnlog(ulong userId)
@@ -406,7 +406,8 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
             }
             catch
             {
-                await ctx.Interaction.SendErrorAsync("Invalid time specified. Please follow the format `4d3h2m1s`");
+                await ctx.Interaction.SendErrorAsync("Invalid time specified. Please follow the format `4d3h2m1s`",
+                    Config);
                 return;
             }
         }
@@ -502,7 +503,8 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
             }
             catch
             {
-                await ctx.Interaction.SendErrorAsync("Invalid time specified. Please follow the format `4d3h2m1s`");
+                await ctx.Interaction.SendErrorAsync("Invalid time specified. Please follow the format `4d3h2m1s`",
+                    Config);
                 return;
             }
 
@@ -533,7 +535,8 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
             }
             catch
             {
-                await ctx.Interaction.SendErrorAsync("Invalid time specified. Please follow the format `4d3h2m1s`");
+                await ctx.Interaction.SendErrorAsync("Invalid time specified. Please follow the format `4d3h2m1s`",
+                    Config);
                 return;
             }
 

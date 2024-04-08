@@ -1,4 +1,6 @@
-﻿namespace Mewdeko.Modules.Confessions.Services;
+﻿using Mewdeko.Common.Configs;
+
+namespace Mewdeko.Modules.Confessions.Services;
 
 /// <summary>
 /// Service for managing confessions.
@@ -9,7 +11,8 @@
 public class ConfessionService(
     DbService db,
     DiscordSocketClient client,
-    GuildSettingsService guildSettings)
+    GuildSettingsService guildSettings,
+    BotConfig config)
     : INService
 {
     /// <summary>
@@ -42,13 +45,13 @@ public class ConfessionService(
                 if (ctx?.Interaction is not null)
                 {
                     await ctx.Interaction.SendEphemeralErrorAsync(
-                            "The confession channel is invalid! Please tell the server staff about this!")
+                            "The confession channel is invalid! Please tell the server staff about this!", config)
                         .ConfigureAwait(false);
                     return;
                 }
 
                 await currentChannel.SendErrorAsync(
-                        "The confession channel is invalid! Please tell the server staff about this!")
+                        "The confession channel is invalid! Please tell the server staff about this!", config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -67,13 +70,15 @@ public class ConfessionService(
                 if (ctx?.Interaction is not null)
                 {
                     await ctx.Interaction.SendEphemeralErrorAsync(
-                            "Seems I dont have permission to post in the confession channel! Please tell the server staff.")
+                            "Seems I dont have permission to post in the confession channel! Please tell the server staff.",
+                            config)
                         .ConfigureAwait(false);
                     return;
                 }
 
                 await currentChannel.SendErrorAsync(
-                        "Seems I dont have permission to post in the confession channel! Please tell the server staff.")
+                        "Seems I dont have permission to post in the confession channel! Please tell the server staff.",
+                        config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -127,13 +132,13 @@ public class ConfessionService(
                 if (ctx is not null)
                 {
                     await ctx.Interaction.SendEphemeralErrorAsync(
-                            "The confession channel is invalid! Please tell the server staff about this!")
+                            "The confession channel is invalid! Please tell the server staff about this!", config)
                         .ConfigureAwait(false);
                     return;
                 }
 
                 await currentChannel.SendErrorAsync(
-                        "The confession channel is invalid! Please tell the server staff about this!")
+                        "The confession channel is invalid! Please tell the server staff about this!", config)
                     .ConfigureAwait(false);
                 return;
             }
@@ -152,13 +157,15 @@ public class ConfessionService(
                 if (ctx is not null)
                 {
                     await ctx.Interaction.SendEphemeralErrorAsync(
-                            "Seems I dont have permission to post in the confession channel! Please tell the server staff.")
+                            "Seems I dont have permission to post in the confession channel! Please tell the server staff.",
+                            config)
                         .ConfigureAwait(false);
                     return;
                 }
 
                 await currentChannel.SendErrorAsync(
-                        "Seems I dont have permission to post in the confession channel! Please tell the server staff.")
+                        "Seems I dont have permission to post in the confession channel! Please tell the server staff.",
+                        config)
                     .ConfigureAwait(false);
                 return;
             }

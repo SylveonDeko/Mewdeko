@@ -3,7 +3,7 @@
 using Lavalink4NET.Artwork;
 using Lavalink4NET.Events;
 using Lavalink4NET.Player;
-using Mewdeko.Services.Settings;
+using Mewdeko.Common.Configs;
 
 namespace Mewdeko.Modules.Music.Services;
 
@@ -16,7 +16,7 @@ namespace Mewdeko.Modules.Music.Services;
 public class MusicPlayer(
     DiscordSocketClient client,
     MusicService musicService,
-    BotConfigService config)
+    BotConfig config)
     : LavalinkPlayer
 {
     /// <summary>
@@ -63,14 +63,14 @@ public class MusicPlayer(
                     }
 
                     await channel.SendMessageAsync(embed: eb.Build(),
-                        components: config.Data.ShowInviteButton
+                        components: config.ShowInviteButton
                             ? new ComponentBuilder()
-                                .WithButton(style: ButtonStyle.Link,
-                                    url:
-                                    "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                                    label: "Invite Me!",
-                                    emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
-                            : null).ConfigureAwait(false);
+                                .WithButton(label: "Support Server", style: ButtonStyle.Link,
+                                    url: "https://discord.gg/mewdeko")
+                                .WithButton(label: "Support Us!", style: ButtonStyle.Link,
+                                    url: "https://ko-fi.com/mewdeko")
+                                .Build()
+                            : null);
                 }
             }
         }
@@ -110,14 +110,13 @@ public class MusicPlayer(
                     .WithOkColor()
                     .WithDescription("I have reached the end of the queue!");
                 await channel.SendMessageAsync(embed: eb1.Build(),
-                    components: config.Data.ShowInviteButton
+                    components: config.ShowInviteButton
                         ? new ComponentBuilder()
-                            .WithButton(style: ButtonStyle.Link,
-                                url:
-                                "https://discord.com/oauth2/authorize?client_id=752236274261426212&permissions=8&response_type=code&redirect_uri=https%3A%2F%2Fmewdeko.tech&scope=bot%20applications.commands",
-                                label: "Invite Me!",
-                                emote: "<a:HaneMeow:968564817784877066>".ToIEmote()).Build()
-                        : null).ConfigureAwait(false);
+                            .WithButton(label: "Support Server", style: ButtonStyle.Link,
+                                url: "https://discord.gg/mewdeko")
+                            .WithButton(label: "Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/mewdeko")
+                            .Build()
+                        : null);
                 if ((await musicService.GetSettingsInternalAsync(args.Player.GuildId).ConfigureAwait(false))
                     .AutoDisconnect is
                     AutoDisconnect.Either or AutoDisconnect.Queue)

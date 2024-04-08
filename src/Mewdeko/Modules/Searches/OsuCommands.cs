@@ -156,13 +156,13 @@ public partial class Searches
             var channel = (ITextChannel)ctx.Channel;
             if (string.IsNullOrWhiteSpace(creds.OsuApiKey))
             {
-                await channel.SendErrorAsync("An osu! API key is required.").ConfigureAwait(false);
+                await channel.SendErrorAsync("An osu! API key is required.", Config).ConfigureAwait(false);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(user))
             {
-                await channel.SendErrorAsync("Please provide a username.").ConfigureAwait(false);
+                await channel.SendErrorAsync("Please provide a username.", Config).ConfigureAwait(false);
                 return;
             }
 

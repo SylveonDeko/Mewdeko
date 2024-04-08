@@ -1,4 +1,5 @@
 ﻿using Discord.Commands;
+using Mewdeko.Common.Configs;
 
 namespace Mewdeko.Extensions;
 
@@ -47,22 +48,23 @@ public static class MessageChannelExtensions
     /// </summary>
     /// <param name="ch">The message channel to send the message to.</param>
     /// <param name="error">The error message content.</param>
-    /// <param name="helpButton">A flag indicating whether to include a support server button.</param>
+    /// <param name="config">The bot config</param>
     /// <param name="fields">Optional fields to include in the error message.</param>
     /// <returns>A task representing the asynchronous operation, returning the sent user message.</returns>
     public static Task<IUserMessage> SendErrorAsync(
         this IMessageChannel ch,
         string? error,
-        bool helpButton = true,
+        BotConfig config,
         EmbedFieldBuilder[]? fields = null)
     {
         var eb = new EmbedBuilder().WithErrorColor().WithDescription(error);
         if (fields is not null)
             eb.WithFields(fields);
         return ch.SendMessageAsync(embed: eb.Build(),
-            components: helpButton
-                ? new ComponentBuilder().WithButton(label: "Support Server", style: ButtonStyle.Link,
-                    url: "https://discord.gg/mewdeko").Build()
+            components: config.ShowInviteButton
+                ? new ComponentBuilder()
+                    .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/mewdeko")
+                    .WithButton(label: "Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/Mewdeko").Build()
                 : null);
     }
 

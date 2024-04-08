@@ -203,7 +203,7 @@ public partial class Administration
         {
             if (!Service.Get(ctx.Guild.Id, out var rrs) || rrs.Count == 0)
             {
-                await ctx.Channel.SendErrorAsync(GetText("no_reaction_roles")).ConfigureAwait(false);
+                await ctx.Channel.SendErrorAsync(GetText("no_reaction_roles"), Config).ConfigureAwait(false);
             }
             else
             {

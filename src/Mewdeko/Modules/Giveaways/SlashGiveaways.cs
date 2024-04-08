@@ -28,7 +28,7 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
         var emote = maybeEmote.ToIEmote();
         if (emote.Name == null)
         {
-            await ctx.Interaction.SendErrorFollowupAsync("That emote is invalid!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorFollowupAsync("That emote is invalid!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -40,7 +40,8 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
         catch
         {
             await ctx.Interaction.SendErrorFollowupAsync(
-                    "I'm unable to use that emote for giveaways! Most likely because I'm not in a server with it.")
+                    "I'm unable to use that emote for giveaways! Most likely because I'm not in a server with it.",
+                    Config)
                 .ConfigureAwait(false);
             return;
         }
@@ -61,7 +62,7 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
         var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
         if (!Uri.IsWellFormedUriString(banner, UriKind.Absolute) && banner != "none")
         {
-            await ctx.Interaction.SendErrorAsync("That's not a valid URL!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("That's not a valid URL!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -101,7 +102,7 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
         {
             await ctx.Interaction
                 .SendErrorAsync(
-                    "That's not a valid color! Please use proper hex (starts with #) or use html color names!")
+                    "That's not a valid color! Please use proper hex (starts with #) or use html color names!", Config)
                 .ConfigureAwait(false);
         }
     }
@@ -134,7 +135,7 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
         {
             await ctx.Interaction
                 .SendErrorAsync(
-                    "That's not a valid color! Please use proper hex (starts with #) or use html color names!")
+                    "That's not a valid color! Please use proper hex (starts with #) or use html color names!", Config)
                 .ConfigureAwait(false);
         }
     }
@@ -165,14 +166,14 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
             .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
         {
-            await ctx.Interaction.SendErrorAsync("No Giveaway with that message ID exists! Please try again!")
+            await ctx.Interaction.SendErrorAsync("No Giveaway with that message ID exists! Please try again!", Config)
                 .ConfigureAwait(false);
             return;
         }
 
         if (gway.Ended != 1)
         {
-            await ctx.Interaction.SendErrorAsync("This giveaway hasn't ended yet!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorAsync("This giveaway hasn't ended yet!", Config).ConfigureAwait(false);
             return;
         }
 
@@ -190,7 +191,8 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
         var gways = db.GetDbContext().Giveaways.GiveawaysForGuild(ctx.Guild.Id);
         if (gways.Count == 0)
         {
-            await ctx.Channel.SendErrorAsync("There have been no giveaways here, so no stats!").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("There have been no giveaways here, so no stats!", Config)
+                .ConfigureAwait(false);
         }
         else
         {
@@ -241,7 +243,8 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
         catch
         {
             await ctx.Interaction.SendErrorFollowupAsync(
-                    "I'm unable to use that emote for giveaways! Most likely because I'm not in a server with it.")
+                    "I'm unable to use that emote for giveaways! Most likely because I'm not in a server with it.",
+                    Config)
                 .ConfigureAwait(false);
             return;
         }
@@ -250,14 +253,15 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
         var perms = user.GetPermissions(chan);
         if (!perms.Has(ChannelPermission.AddReactions))
         {
-            await ctx.Interaction.SendErrorFollowupAsync("I cannot add reactions in that channel!")
+            await ctx.Interaction.SendErrorFollowupAsync("I cannot add reactions in that channel!", Config)
                 .ConfigureAwait(false);
             return;
         }
 
         if (!perms.Has(ChannelPermission.UseExternalEmojis) && !ctx.Guild.Emotes.Contains(emote))
         {
-            await ctx.Interaction.SendErrorFollowupAsync("I'm unable to use external emotes!").ConfigureAwait(false);
+            await ctx.Interaction.SendErrorFollowupAsync("I'm unable to use external emotes!", Config)
+                .ConfigureAwait(false);
             return;
         }
 
@@ -275,7 +279,7 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
         var gways = uow.Giveaways.GiveawaysForGuild(ctx.Guild.Id).Where(x => x.Ended == 0);
         if (!gways.Any())
         {
-            await ctx.Channel.SendErrorAsync("No active giveaways").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("No active giveaways", Config).ConfigureAwait(false);
             return;
         }
 
@@ -322,14 +326,15 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
             .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
         {
-            await ctx.Channel.SendErrorAsync("No Giveaway with that message ID exists! Please try again!")
+            await ctx.Channel.SendErrorAsync("No Giveaway with that message ID exists! Please try again!", Config)
                 .ConfigureAwait(false);
         }
 
         if (gway.Ended == 1)
         {
             await ctx.Channel.SendErrorAsync(
-                    $"This giveaway has already ended! Plase use `{await guildSettings.GetPrefix(ctx.Guild)}greroll {messageid}` to reroll!")
+                    $"This giveaway has already ended! Plase use `{await guildSettings.GetPrefix(ctx.Guild)}greroll {messageid}` to reroll!",
+                    Config)
                 .ConfigureAwait(false);
         }
         else

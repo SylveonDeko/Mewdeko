@@ -51,7 +51,7 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         var suggest = (await Service.Suggestions(ctx.Guild.Id, num)).FirstOrDefault();
         if (suggest is null)
         {
-            await ctx.Channel.SendErrorAsync("That suggestion wasn't found! Please double check the number.")
+            await ctx.Channel.SendErrorAsync("That suggestion wasn't found! Please double check the number.", Config)
                 .ConfigureAwait(false);
             return;
         }
@@ -104,7 +104,7 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         var suggests = Service.Suggestions(ctx.Guild.Id);
         if (suggests.Count == 0)
         {
-            await ctx.Channel.SendErrorAsync("There are no suggestions to clear.").ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync("There are no suggestions to clear.", Config).ConfigureAwait(false);
             return;
         }
 
@@ -139,7 +139,8 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         if (suggestion.Length > await Service.GetMaxLength(ctx.Guild.Id))
         {
             var msg = await ctx.Channel.SendErrorAsync(
-                    $"Cannot send this suggestion as its over the max length (`{await Service.GetMaxLength(ctx.Guild.Id)}`) set in this server!")
+                    $"Cannot send this suggestion as its over the max length (`{await Service.GetMaxLength(ctx.Guild.Id)}`) set in this server!",
+                    Config)
                 .ConfigureAwait(false);
             msg.DeleteAfter(5);
             return;
@@ -148,7 +149,8 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
         if (suggestion.Length < await Service.GetMinLength(ctx.Guild.Id))
         {
             var message = await ctx.Channel.SendErrorAsync(
-                    $"Cannot send this suggestion as its under the minimum length (`{await Service.GetMinLength(ctx.Guild.Id)}`) set in this server!")
+                    $"Cannot send this suggestion as its under the minimum length (`{await Service.GetMinLength(ctx.Guild.Id)}`) set in this server!",
+                    Config)
                 .ConfigureAwait(false);
             message.DeleteAfter(5);
             return;
