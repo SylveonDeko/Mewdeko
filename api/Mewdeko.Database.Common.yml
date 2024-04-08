@@ -1,0 +1,88 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Common
+  commentId: N:Mewdeko.Database.Common
+  id: Mewdeko.Database.Common
+  children:
+  - Mewdeko.Database.Common.IPostMigrationHandler
+  - Mewdeko.Database.Common.IndexedCollection`1
+  - Mewdeko.Database.Common.StreamDataKey
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Database.Common
+  nameWithType: Mewdeko.Database.Common
+  fullName: Mewdeko.Database.Common
+  type: Namespace
+  assemblies:
+  - Mewdeko.Database
+references:
+- uid: Mewdeko.Database.Common.IndexedCollection`1
+  commentId: T:Mewdeko.Database.Common.IndexedCollection`1
+  parent: Mewdeko.Database.Common
+  href: Mewdeko.Database.Common.IndexedCollection-1.html
+  name: IndexedCollection<T>
+  nameWithType: IndexedCollection<T>
+  fullName: Mewdeko.Database.Common.IndexedCollection<T>
+  nameWithType.vb: IndexedCollection(Of T)
+  fullName.vb: Mewdeko.Database.Common.IndexedCollection(Of T)
+  name.vb: IndexedCollection(Of T)
+  spec.csharp:
+  - uid: Mewdeko.Database.Common.IndexedCollection`1
+    name: IndexedCollection
+    href: Mewdeko.Database.Common.IndexedCollection-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Database.Common.IndexedCollection`1
+    name: IndexedCollection
+    href: Mewdeko.Database.Common.IndexedCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Database.Common.IPostMigrationHandler
+  commentId: T:Mewdeko.Database.Common.IPostMigrationHandler
+  href: Mewdeko.Database.Common.IPostMigrationHandler.html
+  name: IPostMigrationHandler
+  nameWithType: IPostMigrationHandler
+  fullName: Mewdeko.Database.Common.IPostMigrationHandler
+- uid: Mewdeko.Database.Common.StreamDataKey
+  commentId: T:Mewdeko.Database.Common.StreamDataKey
+  parent: Mewdeko.Database.Common
+  href: Mewdeko.Database.Common.StreamDataKey.html
+  name: StreamDataKey
+  nameWithType: StreamDataKey
+  fullName: Mewdeko.Database.Common.StreamDataKey
+- uid: Mewdeko.Database.Common
+  commentId: N:Mewdeko.Database.Common
+  href: Mewdeko.html
+  name: Mewdeko.Database.Common
+  nameWithType: Mewdeko.Database.Common
+  fullName: Mewdeko.Database.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Common
+    name: Common
+    href: Mewdeko.Database.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Common
+    name: Common
+    href: Mewdeko.Database.Common.html

@@ -1,0 +1,54 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Votes.Extensions
+  commentId: N:Mewdeko.Votes.Extensions
+  id: Mewdeko.Votes.Extensions
+  children:
+  - Mewdeko.Votes.Extensions.StringExtensions
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Votes.Extensions
+  nameWithType: Mewdeko.Votes.Extensions
+  fullName: Mewdeko.Votes.Extensions
+  type: Namespace
+  assemblies:
+  - Mewdeko.Votes
+references:
+- uid: Mewdeko.Votes.Extensions.StringExtensions
+  commentId: T:Mewdeko.Votes.Extensions.StringExtensions
+  parent: Mewdeko.Votes.Extensions
+  href: Mewdeko.Votes.Extensions.StringExtensions.html
+  name: StringExtensions
+  nameWithType: StringExtensions
+  fullName: Mewdeko.Votes.Extensions.StringExtensions
+- uid: Mewdeko.Votes.Extensions
+  commentId: N:Mewdeko.Votes.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Votes.Extensions
+  nameWithType: Mewdeko.Votes.Extensions
+  fullName: Mewdeko.Votes.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
+  - name: .
+  - uid: Mewdeko.Votes.Extensions
+    name: Extensions
+    href: Mewdeko.Votes.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
+  - name: .
+  - uid: Mewdeko.Votes.Extensions
+    name: Extensions
+    href: Mewdeko.Votes.Extensions.html

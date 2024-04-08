@@ -1,0 +1,1064 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+  id: StreamData
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  children:
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.AvatarUrl
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.CreateKey
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Game
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.IsLive
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Name
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Preview
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.StreamType
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.StreamUrl
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Title
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.UniqueName
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Viewers
+  langs:
+  - csharp
+  - vb
+  name: StreamData
+  nameWithType: StreamData
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: StreamData
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+    startLine: 7
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Represents data related to a streamed broadcast from various platforms.
+  example: []
+  syntax:
+    content: 'public record StreamData : IEquatable<StreamData>'
+    content.vb: Public Class StreamData Implements IEquatable(Of StreamData)
+  inheritance:
+  - System.Object
+  implements:
+  - System.IEquatable{Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData}
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.StreamType
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.StreamType
+  id: StreamType
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+  langs:
+  - csharp
+  - vb
+  name: StreamType
+  nameWithType: StreamData.StreamType
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.StreamType
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: StreamType
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Gets or sets the type of the stream based on the platform.
+  example: []
+  syntax:
+    content: public FollowedStream.FType StreamType { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Database.Models.FollowedStream.FType
+    content.vb: Public Property StreamType As FollowedStream.FType
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.StreamType*
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Name
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Name
+  id: Name
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: StreamData.Name
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Name
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Name
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+    startLine: 17
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Gets or sets the display name of the streamer.
+  example: []
+  syntax:
+    content: public string? Name { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Name As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Name*
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.UniqueName
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.UniqueName
+  id: UniqueName
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+  langs:
+  - csharp
+  - vb
+  name: UniqueName
+  nameWithType: StreamData.UniqueName
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.UniqueName
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UniqueName
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+    startLine: 22
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Gets or sets the unique identifier or username of the streamer.
+  example: []
+  syntax:
+    content: public string UniqueName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property UniqueName As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.UniqueName*
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Viewers
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Viewers
+  id: Viewers
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+  langs:
+  - csharp
+  - vb
+  name: Viewers
+  nameWithType: StreamData.Viewers
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Viewers
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Viewers
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+    startLine: 27
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Gets or sets the current viewer count of the stream.
+  example: []
+  syntax:
+    content: public int Viewers { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Viewers As Integer
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Viewers*
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Title
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Title
+  id: Title
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+  langs:
+  - csharp
+  - vb
+  name: Title
+  nameWithType: StreamData.Title
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Title
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Title
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+    startLine: 32
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Gets or sets the title of the stream.
+  example: []
+  syntax:
+    content: public string Title { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Title As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Title*
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Game
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Game
+  id: Game
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+  langs:
+  - csharp
+  - vb
+  name: Game
+  nameWithType: StreamData.Game
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Game
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Game
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+    startLine: 37
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Gets or sets the name of the game or category being broadcast.
+  example: []
+  syntax:
+    content: public string Game { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Game As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Game*
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Preview
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Preview
+  id: Preview
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+  langs:
+  - csharp
+  - vb
+  name: Preview
+  nameWithType: StreamData.Preview
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Preview
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Preview
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+    startLine: 42
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Gets or sets the URL of the stream's preview image.
+  example: []
+  syntax:
+    content: public string Preview { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Preview As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Preview*
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.IsLive
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.IsLive
+  id: IsLive
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+  langs:
+  - csharp
+  - vb
+  name: IsLive
+  nameWithType: StreamData.IsLive
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.IsLive
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IsLive
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+    startLine: 47
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Indicates whether the stream is currently live.
+  example: []
+  syntax:
+    content: public bool IsLive { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IsLive As Boolean
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.IsLive*
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.StreamUrl
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.StreamUrl
+  id: StreamUrl
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+  langs:
+  - csharp
+  - vb
+  name: StreamUrl
+  nameWithType: StreamData.StreamUrl
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.StreamUrl
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: StreamUrl
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+    startLine: 52
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Gets or sets the URL to the stream's page on the platform.
+  example: []
+  syntax:
+    content: public string StreamUrl { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property StreamUrl As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.StreamUrl*
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.AvatarUrl
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.AvatarUrl
+  id: AvatarUrl
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+  langs:
+  - csharp
+  - vb
+  name: AvatarUrl
+  nameWithType: StreamData.AvatarUrl
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.AvatarUrl
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AvatarUrl
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+    startLine: 57
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Gets or sets the URL of the streamer's avatar image.
+  example: []
+  syntax:
+    content: public string AvatarUrl { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property AvatarUrl As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.AvatarUrl*
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.CreateKey
+  commentId: M:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.CreateKey
+  id: CreateKey
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+  langs:
+  - csharp
+  - vb
+  name: CreateKey()
+  nameWithType: StreamData.CreateKey()
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.CreateKey()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CreateKey
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/StreamData.cs
+    startLine: 63
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Generates a key for identifying the stream data uniquely.
+  example: []
+  syntax:
+    content: public StreamDataKey CreateKey()
+    return:
+      type: Mewdeko.Database.Common.StreamDataKey
+      description: A <xref href="Mewdeko.Database.Common.StreamDataKey" data-throw-if-not-resolved="false"></xref> composed of the stream type and lowercased unique name.
+    content.vb: Public Function CreateKey() As StreamDataKey
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.CreateKey*
+references:
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  commentId: N:Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  nameWithType: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications
+    name: StreamNotifications
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+    name: Models
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications
+    name: StreamNotifications
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+    name: Models
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.IEquatable{Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData}
+  commentId: T:System.IEquatable{Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData}
+  parent: System
+  definition: System.IEquatable`1
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  name: IEquatable<StreamData>
+  nameWithType: IEquatable<StreamData>
+  fullName: System.IEquatable<Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData>
+  nameWithType.vb: IEquatable(Of StreamData)
+  fullName.vb: System.IEquatable(Of Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData)
+  name.vb: IEquatable(Of StreamData)
+  spec.csharp:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+    name: StreamData
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.html
+  - name: '>'
+  spec.vb:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+    name: StreamData
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.html
+  - name: )
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<StreamData>(StreamData, string)
+  nameWithType: Extensions.ThrowIfNull<StreamData>(StreamData, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData>(Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of StreamData)(StreamData, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData)(Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData, String)
+  name.vb: ThrowIfNull(Of StreamData)(StreamData, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+    name: StreamData
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+    name: StreamData
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+    name: StreamData
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData
+    name: StreamData
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.IEquatable`1
+  commentId: T:System.IEquatable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  name: IEquatable<T>
+  nameWithType: IEquatable<T>
+  fullName: System.IEquatable<T>
+  nameWithType.vb: IEquatable(Of T)
+  fullName.vb: System.IEquatable(Of T)
+  name.vb: IEquatable(Of T)
+  spec.csharp:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.iequatable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.StreamType*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.StreamType
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_StreamData_StreamType
+  name: StreamType
+  nameWithType: StreamData.StreamType
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.StreamType
+- uid: Mewdeko.Database.Models.FollowedStream.FType
+  commentId: T:Mewdeko.Database.Models.FollowedStream.FType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.FollowedStream.html
+  name: FollowedStream.FType
+  nameWithType: FollowedStream.FType
+  fullName: Mewdeko.Database.Models.FollowedStream.FType
+  spec.csharp:
+  - uid: Mewdeko.Database.Models.FollowedStream
+    name: FollowedStream
+    href: Mewdeko.Database.Models.FollowedStream.html
+  - name: .
+  - uid: Mewdeko.Database.Models.FollowedStream.FType
+    name: FType
+    href: Mewdeko.Database.Models.FollowedStream.FType.html
+  spec.vb:
+  - uid: Mewdeko.Database.Models.FollowedStream
+    name: FollowedStream
+    href: Mewdeko.Database.Models.FollowedStream.html
+  - name: .
+  - uid: Mewdeko.Database.Models.FollowedStream.FType
+    name: FType
+    href: Mewdeko.Database.Models.FollowedStream.FType.html
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Name*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Name
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_StreamData_Name
+  name: Name
+  nameWithType: StreamData.Name
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.UniqueName*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.UniqueName
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_StreamData_UniqueName
+  name: UniqueName
+  nameWithType: StreamData.UniqueName
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.UniqueName
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Viewers*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Viewers
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_StreamData_Viewers
+  name: Viewers
+  nameWithType: StreamData.Viewers
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Viewers
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Title*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Title
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_StreamData_Title
+  name: Title
+  nameWithType: StreamData.Title
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Title
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Game*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Game
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_StreamData_Game
+  name: Game
+  nameWithType: StreamData.Game
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Game
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Preview*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Preview
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_StreamData_Preview
+  name: Preview
+  nameWithType: StreamData.Preview
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.Preview
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.IsLive*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.IsLive
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_StreamData_IsLive
+  name: IsLive
+  nameWithType: StreamData.IsLive
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.IsLive
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.StreamUrl*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.StreamUrl
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_StreamData_StreamUrl
+  name: StreamUrl
+  nameWithType: StreamData.StreamUrl
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.StreamUrl
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.AvatarUrl*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.AvatarUrl
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_StreamData_AvatarUrl
+  name: AvatarUrl
+  nameWithType: StreamData.AvatarUrl
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.AvatarUrl
+- uid: Mewdeko.Database.Common.StreamDataKey
+  commentId: T:Mewdeko.Database.Common.StreamDataKey
+  parent: Mewdeko.Database.Common
+  href: Mewdeko.Database.Common.StreamDataKey.html
+  name: StreamDataKey
+  nameWithType: StreamDataKey
+  fullName: Mewdeko.Database.Common.StreamDataKey
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.CreateKey*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.CreateKey
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_StreamData_CreateKey
+  name: CreateKey
+  nameWithType: StreamData.CreateKey
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.StreamData.CreateKey
+- uid: Mewdeko.Database.Common
+  commentId: N:Mewdeko.Database.Common
+  href: Mewdeko.html
+  name: Mewdeko.Database.Common
+  nameWithType: Mewdeko.Database.Common
+  fullName: Mewdeko.Database.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Common
+    name: Common
+    href: Mewdeko.Database.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Common
+    name: Common
+    href: Mewdeko.Database.Common.html

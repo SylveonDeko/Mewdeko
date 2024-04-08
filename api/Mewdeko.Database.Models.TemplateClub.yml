@@ -1,0 +1,851 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Models.TemplateClub
+  commentId: T:Mewdeko.Database.Models.TemplateClub
+  id: TemplateClub
+  parent: Mewdeko.Database.Models
+  children:
+  - Mewdeko.Database.Models.TemplateClub.ClubIconSizeX
+  - Mewdeko.Database.Models.TemplateClub.ClubIconSizeY
+  - Mewdeko.Database.Models.TemplateClub.ClubIconX
+  - Mewdeko.Database.Models.TemplateClub.ClubIconY
+  - Mewdeko.Database.Models.TemplateClub.ClubNameColor
+  - Mewdeko.Database.Models.TemplateClub.ClubNameFontSize
+  - Mewdeko.Database.Models.TemplateClub.ClubNameX
+  - Mewdeko.Database.Models.TemplateClub.ClubNameY
+  - Mewdeko.Database.Models.TemplateClub.ShowClubIcon
+  - Mewdeko.Database.Models.TemplateClub.ShowClubName
+  langs:
+  - csharp
+  - vb
+  name: TemplateClub
+  nameWithType: TemplateClub
+  fullName: Mewdeko.Database.Models.TemplateClub
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/XpTemplate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TemplateClub
+    path: src/Mewdeko.Database/Models/XpTemplate.cs
+    startLine: 75
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: 'public class TemplateClub : DbEntity'
+    content.vb: Public Class TemplateClub Inherits DbEntity
+  inheritance:
+  - System.Object
+  - Mewdeko.Database.Models.DbEntity
+  inheritedMembers:
+  - Mewdeko.Database.Models.DbEntity.Id
+  - Mewdeko.Database.Models.DbEntity.DateAdded
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Database.Models.TemplateClub.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Database.Models.TemplateClub.ClubIconX
+  commentId: P:Mewdeko.Database.Models.TemplateClub.ClubIconX
+  id: ClubIconX
+  parent: Mewdeko.Database.Models.TemplateClub
+  langs:
+  - csharp
+  - vb
+  name: ClubIconX
+  nameWithType: TemplateClub.ClubIconX
+  fullName: Mewdeko.Database.Models.TemplateClub.ClubIconX
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/XpTemplate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubIconX
+    path: src/Mewdeko.Database/Models/XpTemplate.cs
+    startLine: 78
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public int ClubIconX { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ClubIconX As Integer
+  overload: Mewdeko.Database.Models.TemplateClub.ClubIconX*
+- uid: Mewdeko.Database.Models.TemplateClub.ClubIconY
+  commentId: P:Mewdeko.Database.Models.TemplateClub.ClubIconY
+  id: ClubIconY
+  parent: Mewdeko.Database.Models.TemplateClub
+  langs:
+  - csharp
+  - vb
+  name: ClubIconY
+  nameWithType: TemplateClub.ClubIconY
+  fullName: Mewdeko.Database.Models.TemplateClub.ClubIconY
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/XpTemplate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubIconY
+    path: src/Mewdeko.Database/Models/XpTemplate.cs
+    startLine: 79
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public int ClubIconY { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ClubIconY As Integer
+  overload: Mewdeko.Database.Models.TemplateClub.ClubIconY*
+- uid: Mewdeko.Database.Models.TemplateClub.ClubIconSizeX
+  commentId: P:Mewdeko.Database.Models.TemplateClub.ClubIconSizeX
+  id: ClubIconSizeX
+  parent: Mewdeko.Database.Models.TemplateClub
+  langs:
+  - csharp
+  - vb
+  name: ClubIconSizeX
+  nameWithType: TemplateClub.ClubIconSizeX
+  fullName: Mewdeko.Database.Models.TemplateClub.ClubIconSizeX
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/XpTemplate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubIconSizeX
+    path: src/Mewdeko.Database/Models/XpTemplate.cs
+    startLine: 80
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public int ClubIconSizeX { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ClubIconSizeX As Integer
+  overload: Mewdeko.Database.Models.TemplateClub.ClubIconSizeX*
+- uid: Mewdeko.Database.Models.TemplateClub.ClubIconSizeY
+  commentId: P:Mewdeko.Database.Models.TemplateClub.ClubIconSizeY
+  id: ClubIconSizeY
+  parent: Mewdeko.Database.Models.TemplateClub
+  langs:
+  - csharp
+  - vb
+  name: ClubIconSizeY
+  nameWithType: TemplateClub.ClubIconSizeY
+  fullName: Mewdeko.Database.Models.TemplateClub.ClubIconSizeY
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/XpTemplate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubIconSizeY
+    path: src/Mewdeko.Database/Models/XpTemplate.cs
+    startLine: 81
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public int ClubIconSizeY { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ClubIconSizeY As Integer
+  overload: Mewdeko.Database.Models.TemplateClub.ClubIconSizeY*
+- uid: Mewdeko.Database.Models.TemplateClub.ShowClubIcon
+  commentId: P:Mewdeko.Database.Models.TemplateClub.ShowClubIcon
+  id: ShowClubIcon
+  parent: Mewdeko.Database.Models.TemplateClub
+  langs:
+  - csharp
+  - vb
+  name: ShowClubIcon
+  nameWithType: TemplateClub.ShowClubIcon
+  fullName: Mewdeko.Database.Models.TemplateClub.ShowClubIcon
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/XpTemplate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ShowClubIcon
+    path: src/Mewdeko.Database/Models/XpTemplate.cs
+    startLine: 82
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public bool ShowClubIcon { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowClubIcon As Boolean
+  overload: Mewdeko.Database.Models.TemplateClub.ShowClubIcon*
+- uid: Mewdeko.Database.Models.TemplateClub.ClubNameColor
+  commentId: P:Mewdeko.Database.Models.TemplateClub.ClubNameColor
+  id: ClubNameColor
+  parent: Mewdeko.Database.Models.TemplateClub
+  langs:
+  - csharp
+  - vb
+  name: ClubNameColor
+  nameWithType: TemplateClub.ClubNameColor
+  fullName: Mewdeko.Database.Models.TemplateClub.ClubNameColor
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/XpTemplate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubNameColor
+    path: src/Mewdeko.Database/Models/XpTemplate.cs
+    startLine: 85
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public string ClubNameColor { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ClubNameColor As String
+  overload: Mewdeko.Database.Models.TemplateClub.ClubNameColor*
+- uid: Mewdeko.Database.Models.TemplateClub.ClubNameFontSize
+  commentId: P:Mewdeko.Database.Models.TemplateClub.ClubNameFontSize
+  id: ClubNameFontSize
+  parent: Mewdeko.Database.Models.TemplateClub
+  langs:
+  - csharp
+  - vb
+  name: ClubNameFontSize
+  nameWithType: TemplateClub.ClubNameFontSize
+  fullName: Mewdeko.Database.Models.TemplateClub.ClubNameFontSize
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/XpTemplate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubNameFontSize
+    path: src/Mewdeko.Database/Models/XpTemplate.cs
+    startLine: 86
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public int ClubNameFontSize { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ClubNameFontSize As Integer
+  overload: Mewdeko.Database.Models.TemplateClub.ClubNameFontSize*
+- uid: Mewdeko.Database.Models.TemplateClub.ClubNameX
+  commentId: P:Mewdeko.Database.Models.TemplateClub.ClubNameX
+  id: ClubNameX
+  parent: Mewdeko.Database.Models.TemplateClub
+  langs:
+  - csharp
+  - vb
+  name: ClubNameX
+  nameWithType: TemplateClub.ClubNameX
+  fullName: Mewdeko.Database.Models.TemplateClub.ClubNameX
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/XpTemplate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubNameX
+    path: src/Mewdeko.Database/Models/XpTemplate.cs
+    startLine: 87
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public int ClubNameX { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ClubNameX As Integer
+  overload: Mewdeko.Database.Models.TemplateClub.ClubNameX*
+- uid: Mewdeko.Database.Models.TemplateClub.ClubNameY
+  commentId: P:Mewdeko.Database.Models.TemplateClub.ClubNameY
+  id: ClubNameY
+  parent: Mewdeko.Database.Models.TemplateClub
+  langs:
+  - csharp
+  - vb
+  name: ClubNameY
+  nameWithType: TemplateClub.ClubNameY
+  fullName: Mewdeko.Database.Models.TemplateClub.ClubNameY
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/XpTemplate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClubNameY
+    path: src/Mewdeko.Database/Models/XpTemplate.cs
+    startLine: 88
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public int ClubNameY { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property ClubNameY As Integer
+  overload: Mewdeko.Database.Models.TemplateClub.ClubNameY*
+- uid: Mewdeko.Database.Models.TemplateClub.ShowClubName
+  commentId: P:Mewdeko.Database.Models.TemplateClub.ShowClubName
+  id: ShowClubName
+  parent: Mewdeko.Database.Models.TemplateClub
+  langs:
+  - csharp
+  - vb
+  name: ShowClubName
+  nameWithType: TemplateClub.ShowClubName
+  fullName: Mewdeko.Database.Models.TemplateClub.ShowClubName
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/XpTemplate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ShowClubName
+    path: src/Mewdeko.Database/Models/XpTemplate.cs
+    startLine: 89
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public bool ShowClubName { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property ShowClubName As Boolean
+  overload: Mewdeko.Database.Models.TemplateClub.ShowClubName*
+references:
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Mewdeko.Database.Models.DbEntity
+  commentId: T:Mewdeko.Database.Models.DbEntity
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.DbEntity.html
+  name: DbEntity
+  nameWithType: DbEntity
+  fullName: Mewdeko.Database.Models.DbEntity
+- uid: Mewdeko.Database.Models.DbEntity.Id
+  commentId: P:Mewdeko.Database.Models.DbEntity.Id
+  parent: Mewdeko.Database.Models.DbEntity
+  href: Mewdeko.Database.Models.DbEntity.html#Mewdeko_Database_Models_DbEntity_Id
+  name: Id
+  nameWithType: DbEntity.Id
+  fullName: Mewdeko.Database.Models.DbEntity.Id
+- uid: Mewdeko.Database.Models.DbEntity.DateAdded
+  commentId: P:Mewdeko.Database.Models.DbEntity.DateAdded
+  parent: Mewdeko.Database.Models.DbEntity
+  href: Mewdeko.Database.Models.DbEntity.html#Mewdeko_Database_Models_DbEntity_DateAdded
+  name: DateAdded
+  nameWithType: DbEntity.DateAdded
+  fullName: Mewdeko.Database.Models.DbEntity.DateAdded
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Database.Models.TemplateClub.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<TemplateClub>(TemplateClub, string)
+  nameWithType: Extensions.ThrowIfNull<TemplateClub>(TemplateClub, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Database.Models.TemplateClub>(Mewdeko.Database.Models.TemplateClub, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of TemplateClub)(TemplateClub, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Database.Models.TemplateClub)(Mewdeko.Database.Models.TemplateClub, String)
+  name.vb: ThrowIfNull(Of TemplateClub)(TemplateClub, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Database.Models.TemplateClub,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Database.Models.TemplateClub
+    name: TemplateClub
+    href: Mewdeko.Database.Models.TemplateClub.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Database.Models.TemplateClub
+    name: TemplateClub
+    href: Mewdeko.Database.Models.TemplateClub.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Database.Models.TemplateClub,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Models.TemplateClub
+    name: TemplateClub
+    href: Mewdeko.Database.Models.TemplateClub.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Database.Models.TemplateClub
+    name: TemplateClub
+    href: Mewdeko.Database.Models.TemplateClub.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Database.Models.TemplateClub.ClubIconX*
+  commentId: Overload:Mewdeko.Database.Models.TemplateClub.ClubIconX
+  href: Mewdeko.Database.Models.TemplateClub.html#Mewdeko_Database_Models_TemplateClub_ClubIconX
+  name: ClubIconX
+  nameWithType: TemplateClub.ClubIconX
+  fullName: Mewdeko.Database.Models.TemplateClub.ClubIconX
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Database.Models.TemplateClub.ClubIconY*
+  commentId: Overload:Mewdeko.Database.Models.TemplateClub.ClubIconY
+  href: Mewdeko.Database.Models.TemplateClub.html#Mewdeko_Database_Models_TemplateClub_ClubIconY
+  name: ClubIconY
+  nameWithType: TemplateClub.ClubIconY
+  fullName: Mewdeko.Database.Models.TemplateClub.ClubIconY
+- uid: Mewdeko.Database.Models.TemplateClub.ClubIconSizeX*
+  commentId: Overload:Mewdeko.Database.Models.TemplateClub.ClubIconSizeX
+  href: Mewdeko.Database.Models.TemplateClub.html#Mewdeko_Database_Models_TemplateClub_ClubIconSizeX
+  name: ClubIconSizeX
+  nameWithType: TemplateClub.ClubIconSizeX
+  fullName: Mewdeko.Database.Models.TemplateClub.ClubIconSizeX
+- uid: Mewdeko.Database.Models.TemplateClub.ClubIconSizeY*
+  commentId: Overload:Mewdeko.Database.Models.TemplateClub.ClubIconSizeY
+  href: Mewdeko.Database.Models.TemplateClub.html#Mewdeko_Database_Models_TemplateClub_ClubIconSizeY
+  name: ClubIconSizeY
+  nameWithType: TemplateClub.ClubIconSizeY
+  fullName: Mewdeko.Database.Models.TemplateClub.ClubIconSizeY
+- uid: Mewdeko.Database.Models.TemplateClub.ShowClubIcon*
+  commentId: Overload:Mewdeko.Database.Models.TemplateClub.ShowClubIcon
+  href: Mewdeko.Database.Models.TemplateClub.html#Mewdeko_Database_Models_TemplateClub_ShowClubIcon
+  name: ShowClubIcon
+  nameWithType: TemplateClub.ShowClubIcon
+  fullName: Mewdeko.Database.Models.TemplateClub.ShowClubIcon
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Mewdeko.Database.Models.TemplateClub.ClubNameColor*
+  commentId: Overload:Mewdeko.Database.Models.TemplateClub.ClubNameColor
+  href: Mewdeko.Database.Models.TemplateClub.html#Mewdeko_Database_Models_TemplateClub_ClubNameColor
+  name: ClubNameColor
+  nameWithType: TemplateClub.ClubNameColor
+  fullName: Mewdeko.Database.Models.TemplateClub.ClubNameColor
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Database.Models.TemplateClub.ClubNameFontSize*
+  commentId: Overload:Mewdeko.Database.Models.TemplateClub.ClubNameFontSize
+  href: Mewdeko.Database.Models.TemplateClub.html#Mewdeko_Database_Models_TemplateClub_ClubNameFontSize
+  name: ClubNameFontSize
+  nameWithType: TemplateClub.ClubNameFontSize
+  fullName: Mewdeko.Database.Models.TemplateClub.ClubNameFontSize
+- uid: Mewdeko.Database.Models.TemplateClub.ClubNameX*
+  commentId: Overload:Mewdeko.Database.Models.TemplateClub.ClubNameX
+  href: Mewdeko.Database.Models.TemplateClub.html#Mewdeko_Database_Models_TemplateClub_ClubNameX
+  name: ClubNameX
+  nameWithType: TemplateClub.ClubNameX
+  fullName: Mewdeko.Database.Models.TemplateClub.ClubNameX
+- uid: Mewdeko.Database.Models.TemplateClub.ClubNameY*
+  commentId: Overload:Mewdeko.Database.Models.TemplateClub.ClubNameY
+  href: Mewdeko.Database.Models.TemplateClub.html#Mewdeko_Database_Models_TemplateClub_ClubNameY
+  name: ClubNameY
+  nameWithType: TemplateClub.ClubNameY
+  fullName: Mewdeko.Database.Models.TemplateClub.ClubNameY
+- uid: Mewdeko.Database.Models.TemplateClub.ShowClubName*
+  commentId: Overload:Mewdeko.Database.Models.TemplateClub.ShowClubName
+  href: Mewdeko.Database.Models.TemplateClub.html#Mewdeko_Database_Models_TemplateClub_ShowClubName
+  name: ShowClubName
+  nameWithType: TemplateClub.ShowClubName
+  fullName: Mewdeko.Database.Models.TemplateClub.ShowClubName

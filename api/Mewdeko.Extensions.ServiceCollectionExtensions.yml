@@ -1,0 +1,527 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Extensions.ServiceCollectionExtensions
+  commentId: T:Mewdeko.Extensions.ServiceCollectionExtensions
+  id: ServiceCollectionExtensions
+  parent: Mewdeko.Extensions
+  children:
+  - Mewdeko.Extensions.ServiceCollectionExtensions.AddBotStringsServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Int32)
+  - Mewdeko.Extensions.ServiceCollectionExtensions.AddConfigServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  - Mewdeko.Extensions.ServiceCollectionExtensions.AddSealedSubclassesOf(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Type)
+  langs:
+  - csharp
+  - vb
+  name: ServiceCollectionExtensions
+  nameWithType: ServiceCollectionExtensions
+  fullName: Mewdeko.Extensions.ServiceCollectionExtensions
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/ServiceCollectionExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ServiceCollectionExtensions
+    path: src/Mewdeko/Extensions/ServiceCollectionExtensions.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Extension methods for IServiceCollection to register services related to bot strings and configuration.
+  example: []
+  syntax:
+    content: public static class ServiceCollectionExtensions
+    content.vb: Public Module ServiceCollectionExtensions
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Mewdeko.Extensions.ServiceCollectionExtensions.AddBotStringsServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Int32)
+  commentId: M:Mewdeko.Extensions.ServiceCollectionExtensions.AddBotStringsServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Int32)
+  id: AddBotStringsServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Int32)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.ServiceCollectionExtensions
+  langs:
+  - csharp
+  - vb
+  name: AddBotStringsServices(IServiceCollection, int)
+  nameWithType: ServiceCollectionExtensions.AddBotStringsServices(IServiceCollection, int)
+  fullName: Mewdeko.Extensions.ServiceCollectionExtensions.AddBotStringsServices(Microsoft.Extensions.DependencyInjection.IServiceCollection, int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/ServiceCollectionExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AddBotStringsServices
+    path: src/Mewdeko/Extensions/ServiceCollectionExtensions.cs
+    startLine: 20
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Adds services for bot strings based on the specified number of shards.
+  example: []
+  syntax:
+    content: public static IServiceCollection AddBotStringsServices(this IServiceCollection services, int shardCount)
+    parameters:
+    - id: services
+      type: Microsoft.Extensions.DependencyInjection.IServiceCollection
+      description: The collection of services.
+    - id: shardCount
+      type: System.Int32
+      description: The number of shards.
+    return:
+      type: Microsoft.Extensions.DependencyInjection.IServiceCollection
+      description: The modified collection of services.
+    content.vb: Public Shared Function AddBotStringsServices(services As IServiceCollection, shardCount As Integer) As IServiceCollection
+  overload: Mewdeko.Extensions.ServiceCollectionExtensions.AddBotStringsServices*
+  nameWithType.vb: ServiceCollectionExtensions.AddBotStringsServices(IServiceCollection, Integer)
+  fullName.vb: Mewdeko.Extensions.ServiceCollectionExtensions.AddBotStringsServices(Microsoft.Extensions.DependencyInjection.IServiceCollection, Integer)
+  name.vb: AddBotStringsServices(IServiceCollection, Integer)
+- uid: Mewdeko.Extensions.ServiceCollectionExtensions.AddConfigServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  commentId: M:Mewdeko.Extensions.ServiceCollectionExtensions.AddConfigServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  id: AddConfigServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.ServiceCollectionExtensions
+  langs:
+  - csharp
+  - vb
+  name: AddConfigServices(IServiceCollection)
+  nameWithType: ServiceCollectionExtensions.AddConfigServices(IServiceCollection)
+  fullName: Mewdeko.Extensions.ServiceCollectionExtensions.AddConfigServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/ServiceCollectionExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AddConfigServices
+    path: src/Mewdeko/Extensions/ServiceCollectionExtensions.cs
+    startLine: 39
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Adds configuration services by scanning for sealed subclasses of <xref href="Mewdeko.Services.Settings.ConfigServiceBase%601" data-throw-if-not-resolved="false"></xref> in the calling assembly.
+  example: []
+  syntax:
+    content: public static IServiceCollection AddConfigServices(this IServiceCollection services)
+    parameters:
+    - id: services
+      type: Microsoft.Extensions.DependencyInjection.IServiceCollection
+      description: The collection of services.
+    return:
+      type: Microsoft.Extensions.DependencyInjection.IServiceCollection
+      description: The modified collection of services.
+    content.vb: Public Shared Function AddConfigServices(services As IServiceCollection) As IServiceCollection
+  overload: Mewdeko.Extensions.ServiceCollectionExtensions.AddConfigServices*
+- uid: Mewdeko.Extensions.ServiceCollectionExtensions.AddSealedSubclassesOf(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Type)
+  commentId: M:Mewdeko.Extensions.ServiceCollectionExtensions.AddSealedSubclassesOf(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Type)
+  id: AddSealedSubclassesOf(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Type)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.ServiceCollectionExtensions
+  langs:
+  - csharp
+  - vb
+  name: AddSealedSubclassesOf(IServiceCollection, Type)
+  nameWithType: ServiceCollectionExtensions.AddSealedSubclassesOf(IServiceCollection, Type)
+  fullName: Mewdeko.Extensions.ServiceCollectionExtensions.AddSealedSubclassesOf(Microsoft.Extensions.DependencyInjection.IServiceCollection, System.Type)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/ServiceCollectionExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AddSealedSubclassesOf
+    path: src/Mewdeko/Extensions/ServiceCollectionExtensions.cs
+    startLine: 59
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Adds services of sealed subclasses of the specified base type.
+  example: []
+  syntax:
+    content: public static IServiceCollection AddSealedSubclassesOf(this IServiceCollection services, Type baseType)
+    parameters:
+    - id: services
+      type: Microsoft.Extensions.DependencyInjection.IServiceCollection
+      description: The collection of services.
+    - id: baseType
+      type: System.Type
+      description: The base type whose subclasses are to be registered.
+    return:
+      type: Microsoft.Extensions.DependencyInjection.IServiceCollection
+      description: The modified collection of services.
+    content.vb: Public Shared Function AddSealedSubclassesOf(services As IServiceCollection, baseType As Type) As IServiceCollection
+  overload: Mewdeko.Extensions.ServiceCollectionExtensions.AddSealedSubclassesOf*
+references:
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.ServiceCollectionExtensions.AddBotStringsServices*
+  commentId: Overload:Mewdeko.Extensions.ServiceCollectionExtensions.AddBotStringsServices
+  href: Mewdeko.Extensions.ServiceCollectionExtensions.html#Mewdeko_Extensions_ServiceCollectionExtensions_AddBotStringsServices_Microsoft_Extensions_DependencyInjection_IServiceCollection_System_Int32_
+  name: AddBotStringsServices
+  nameWithType: ServiceCollectionExtensions.AddBotStringsServices
+  fullName: Mewdeko.Extensions.ServiceCollectionExtensions.AddBotStringsServices
+- uid: Microsoft.Extensions.DependencyInjection.IServiceCollection
+  commentId: T:Microsoft.Extensions.DependencyInjection.IServiceCollection
+  parent: Microsoft.Extensions.DependencyInjection
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection.iservicecollection
+  name: IServiceCollection
+  nameWithType: IServiceCollection
+  fullName: Microsoft.Extensions.DependencyInjection.IServiceCollection
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Microsoft.Extensions.DependencyInjection
+  commentId: N:Microsoft.Extensions.DependencyInjection
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft
+  name: Microsoft.Extensions.DependencyInjection
+  nameWithType: Microsoft.Extensions.DependencyInjection
+  fullName: Microsoft.Extensions.DependencyInjection
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.Extensions
+    name: Extensions
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions
+  - name: .
+  - uid: Microsoft.Extensions.DependencyInjection
+    name: DependencyInjection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.Extensions
+    name: Extensions
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions
+  - name: .
+  - uid: Microsoft.Extensions.DependencyInjection
+    name: DependencyInjection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.dependencyinjection
+- uid: Mewdeko.Services.Settings.ConfigServiceBase`1
+  commentId: T:Mewdeko.Services.Settings.ConfigServiceBase`1
+  href: Mewdeko.Services.Settings.ConfigServiceBase-1.html
+  name: ConfigServiceBase<TSettings>
+  nameWithType: ConfigServiceBase<TSettings>
+  fullName: Mewdeko.Services.Settings.ConfigServiceBase<TSettings>
+  nameWithType.vb: ConfigServiceBase(Of TSettings)
+  fullName.vb: Mewdeko.Services.Settings.ConfigServiceBase(Of TSettings)
+  name.vb: ConfigServiceBase(Of TSettings)
+  spec.csharp:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase`1
+    name: ConfigServiceBase
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html
+  - name: <
+  - name: TSettings
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Services.Settings.ConfigServiceBase`1
+    name: ConfigServiceBase
+    href: Mewdeko.Services.Settings.ConfigServiceBase-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TSettings
+  - name: )
+- uid: Mewdeko.Extensions.ServiceCollectionExtensions.AddConfigServices*
+  commentId: Overload:Mewdeko.Extensions.ServiceCollectionExtensions.AddConfigServices
+  href: Mewdeko.Extensions.ServiceCollectionExtensions.html#Mewdeko_Extensions_ServiceCollectionExtensions_AddConfigServices_Microsoft_Extensions_DependencyInjection_IServiceCollection_
+  name: AddConfigServices
+  nameWithType: ServiceCollectionExtensions.AddConfigServices
+  fullName: Mewdeko.Extensions.ServiceCollectionExtensions.AddConfigServices
+- uid: Mewdeko.Extensions.ServiceCollectionExtensions.AddSealedSubclassesOf*
+  commentId: Overload:Mewdeko.Extensions.ServiceCollectionExtensions.AddSealedSubclassesOf
+  href: Mewdeko.Extensions.ServiceCollectionExtensions.html#Mewdeko_Extensions_ServiceCollectionExtensions_AddSealedSubclassesOf_Microsoft_Extensions_DependencyInjection_IServiceCollection_System_Type_
+  name: AddSealedSubclassesOf
+  nameWithType: ServiceCollectionExtensions.AddSealedSubclassesOf
+  fullName: Mewdeko.Extensions.ServiceCollectionExtensions.AddSealedSubclassesOf
+- uid: System.Type
+  commentId: T:System.Type
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.type
+  name: Type
+  nameWithType: Type
+  fullName: System.Type

@@ -1,0 +1,323 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`3
+  commentId: T:Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`3
+  id: EventHandler.AsyncEventHandler`3
+  parent: Mewdeko.Services.Impl
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: EventHandler.AsyncEventHandler<TEventArgs, TArgs, TEvent>
+  nameWithType: EventHandler.AsyncEventHandler<TEventArgs, TArgs, TEvent>
+  fullName: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler<TEventArgs, TArgs, TEvent>
+  type: Delegate
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/EventHandler.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AsyncEventHandler
+    path: src/Mewdeko/Services/Impl/EventHandler.cs
+    startLine: 28
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Represents an asynchronous event handler with three arguments.
+  example: []
+  syntax:
+    content: public delegate Task EventHandler.AsyncEventHandler<in TEventArgs, in TArgs, in TEvent>(TEventArgs args, TArgs args2, TEvent args3)
+    parameters:
+    - id: args
+      type: '{TEventArgs}'
+    - id: args2
+      type: '{TArgs}'
+    - id: args3
+      type: '{TEvent}'
+    typeParameters:
+    - id: TEventArgs
+      description: The type of the event arguments.
+    - id: TArgs
+      description: The type of the second event arguments.
+    - id: TEvent
+      description: The type of the third event arguments.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Delegate Function EventHandler.AsyncEventHandler(Of In TEventArgs, In TArgs, In TEvent)(args As TEventArgs, args2 As TArgs, args3 As TEvent) As Task
+  extensionMethods:
+  - Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`3.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  nameWithType.vb: EventHandler.AsyncEventHandler(Of TEventArgs, TArgs, TEvent)
+  fullName.vb: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler(Of TEventArgs, TArgs, TEvent)
+  name.vb: EventHandler.AsyncEventHandler(Of TEventArgs, TArgs, TEvent)
+references:
+- uid: Mewdeko.Services.Impl
+  commentId: N:Mewdeko.Services.Impl
+  href: Mewdeko.html
+  name: Mewdeko.Services.Impl
+  nameWithType: Mewdeko.Services.Impl
+  fullName: Mewdeko.Services.Impl
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Impl
+    name: Impl
+    href: Mewdeko.Services.Impl.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Impl
+    name: Impl
+    href: Mewdeko.Services.Impl.html
+- uid: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`3.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<AsyncEventHandler<TEventArgs, TArgs, TEvent>>(AsyncEventHandler<TEventArgs, TArgs, TEvent>, string)
+  nameWithType: Extensions.ThrowIfNull<EventHandler.AsyncEventHandler<TEventArgs, TArgs, TEvent>>(EventHandler.AsyncEventHandler<TEventArgs, TArgs, TEvent>, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Services.Impl.EventHandler.AsyncEventHandler<TEventArgs, TArgs, TEvent>>(Mewdeko.Services.Impl.EventHandler.AsyncEventHandler<TEventArgs, TArgs, TEvent>, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of EventHandler.AsyncEventHandler(Of TEventArgs, TArgs, TEvent))(EventHandler.AsyncEventHandler(Of TEventArgs, TArgs, TEvent), String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Services.Impl.EventHandler.AsyncEventHandler(Of TEventArgs, TArgs, TEvent))(Mewdeko.Services.Impl.EventHandler.AsyncEventHandler(Of TEventArgs, TArgs, TEvent), String)
+  name.vb: ThrowIfNull(Of AsyncEventHandler(Of TEventArgs, TArgs, TEvent))(AsyncEventHandler(Of TEventArgs, TArgs, TEvent), String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Services.Impl.EventHandler.AsyncEventHandler{`0,`1,`2},System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`3
+    name: AsyncEventHandler
+    href: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler-3.html
+  - name: <
+  - name: TEventArgs
+  - name: ','
+  - name: " "
+  - name: TArgs
+  - name: ','
+  - name: " "
+  - name: TEvent
+  - name: '>'
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`3
+    name: AsyncEventHandler
+    href: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler-3.html
+  - name: <
+  - name: TEventArgs
+  - name: ','
+  - name: " "
+  - name: TArgs
+  - name: ','
+  - name: " "
+  - name: TEvent
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Services.Impl.EventHandler.AsyncEventHandler{`0,`1,`2},System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`3
+    name: AsyncEventHandler
+    href: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler-3.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TEventArgs
+  - name: ','
+  - name: " "
+  - name: TArgs
+  - name: ','
+  - name: " "
+  - name: TEvent
+  - name: )
+  - name: )
+  - name: (
+  - uid: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler`3
+    name: AsyncEventHandler
+    href: Mewdeko.Services.Impl.EventHandler.AsyncEventHandler-3.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TEventArgs
+  - name: ','
+  - name: " "
+  - name: TArgs
+  - name: ','
+  - name: " "
+  - name: TEvent
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: '{TEventArgs}'
+  commentId: '!:TEventArgs'
+  definition: TEventArgs
+  name: TEventArgs
+  nameWithType: TEventArgs
+  fullName: TEventArgs
+- uid: '{TArgs}'
+  commentId: '!:TArgs'
+  definition: TArgs
+  name: TArgs
+  nameWithType: TArgs
+  fullName: TArgs
+- uid: '{TEvent}'
+  commentId: '!:TEvent'
+  definition: TEvent
+  name: TEvent
+  nameWithType: TEvent
+  fullName: TEvent
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: TEventArgs
+  name: TEventArgs
+  nameWithType: TEventArgs
+  fullName: TEventArgs
+- uid: TArgs
+  name: TArgs
+  nameWithType: TArgs
+  fullName: TArgs
+- uid: TEvent
+  name: TEvent
+  nameWithType: TEvent
+  fullName: TEvent
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html

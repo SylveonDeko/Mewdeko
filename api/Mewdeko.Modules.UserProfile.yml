@@ -1,0 +1,30 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.UserProfile
+  commentId: N:Mewdeko.Modules.UserProfile
+  id: Mewdeko.Modules.UserProfile
+  children:
+  - Mewdeko.Modules.UserProfile.SlashUserProfile
+  - Mewdeko.Modules.UserProfile.UserProfile
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.UserProfile
+  nameWithType: Mewdeko.Modules.UserProfile
+  fullName: Mewdeko.Modules.UserProfile
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.UserProfile.SlashUserProfile
+  commentId: T:Mewdeko.Modules.UserProfile.SlashUserProfile
+  href: Mewdeko.Modules.UserProfile.SlashUserProfile.html
+  name: SlashUserProfile
+  nameWithType: SlashUserProfile
+  fullName: Mewdeko.Modules.UserProfile.SlashUserProfile
+- uid: Mewdeko.Modules.UserProfile.UserProfile
+  commentId: T:Mewdeko.Modules.UserProfile.UserProfile
+  href: Mewdeko.Modules.UserProfile.UserProfile.html
+  name: UserProfile
+  nameWithType: UserProfile
+  fullName: Mewdeko.Modules.UserProfile.UserProfile

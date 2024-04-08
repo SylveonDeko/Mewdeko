@@ -1,0 +1,1454 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Services.Impl.RedisImagesCache
+  commentId: T:Mewdeko.Services.Impl.RedisImagesCache
+  id: RedisImagesCache
+  parent: Mewdeko.Services.Impl
+  children:
+  - Mewdeko.Services.Impl.RedisImagesCache.#ctor(StackExchange.Redis.ConnectionMultiplexer,Mewdeko.Services.IBotCredentials)
+  - Mewdeko.Services.Impl.RedisImagesCache.Currency
+  - Mewdeko.Services.Impl.RedisImagesCache.Dice
+  - Mewdeko.Services.Impl.RedisImagesCache.GetCard(System.String)
+  - Mewdeko.Services.Impl.RedisImagesCache.Heads
+  - Mewdeko.Services.Impl.RedisImagesCache.ImageUrls
+  - Mewdeko.Services.Impl.RedisImagesCache.OnReadyAsync
+  - Mewdeko.Services.Impl.RedisImagesCache.Reload
+  - Mewdeko.Services.Impl.RedisImagesCache.Rip
+  - Mewdeko.Services.Impl.RedisImagesCache.RipOverlay
+  - Mewdeko.Services.Impl.RedisImagesCache.SlotBackground
+  - Mewdeko.Services.Impl.RedisImagesCache.SlotEmojis
+  - Mewdeko.Services.Impl.RedisImagesCache.Tails
+  - Mewdeko.Services.Impl.RedisImagesCache.XpBackground
+  langs:
+  - csharp
+  - vb
+  name: RedisImagesCache
+  nameWithType: RedisImagesCache
+  fullName: Mewdeko.Services.Impl.RedisImagesCache
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/ImagesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RedisImagesCache
+    path: src/Mewdeko/Services/Impl/ImagesService.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Service for caching images in Redis.
+  example: []
+  syntax:
+    content: 'public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService'
+    content.vb: Public NotInheritable Class RedisImagesCache Implements IImageCache, IReadyExecutor, INService
+  inheritance:
+  - System.Object
+  implements:
+  - Mewdeko.Services.IImageCache
+  - Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  - Mewdeko.Services.INService
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Services.Impl.RedisImagesCache.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Services.Impl.RedisImagesCache.#ctor(StackExchange.Redis.ConnectionMultiplexer,Mewdeko.Services.IBotCredentials)
+  commentId: M:Mewdeko.Services.Impl.RedisImagesCache.#ctor(StackExchange.Redis.ConnectionMultiplexer,Mewdeko.Services.IBotCredentials)
+  id: '#ctor(StackExchange.Redis.ConnectionMultiplexer,Mewdeko.Services.IBotCredentials)'
+  parent: Mewdeko.Services.Impl.RedisImagesCache
+  langs:
+  - csharp
+  - vb
+  name: RedisImagesCache(ConnectionMultiplexer, IBotCredentials)
+  nameWithType: RedisImagesCache.RedisImagesCache(ConnectionMultiplexer, IBotCredentials)
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.RedisImagesCache(StackExchange.Redis.ConnectionMultiplexer, Mewdeko.Services.IBotCredentials)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/ImagesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Services/Impl/ImagesService.cs
+    startLine: 29
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Initializes a new instance of the <xref href="Mewdeko.Services.Impl.RedisImagesCache" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public RedisImagesCache(ConnectionMultiplexer con, IBotCredentials creds)
+    parameters:
+    - id: con
+      type: StackExchange.Redis.ConnectionMultiplexer
+      description: The Redis connection multiplexer.
+    - id: creds
+      type: Mewdeko.Services.IBotCredentials
+      description: The bot credentials.
+    content.vb: Public Sub New(con As ConnectionMultiplexer, creds As IBotCredentials)
+  overload: Mewdeko.Services.Impl.RedisImagesCache.#ctor*
+  nameWithType.vb: RedisImagesCache.New(ConnectionMultiplexer, IBotCredentials)
+  fullName.vb: Mewdeko.Services.Impl.RedisImagesCache.New(StackExchange.Redis.ConnectionMultiplexer, Mewdeko.Services.IBotCredentials)
+  name.vb: New(ConnectionMultiplexer, IBotCredentials)
+- uid: Mewdeko.Services.Impl.RedisImagesCache.ImageUrls
+  commentId: P:Mewdeko.Services.Impl.RedisImagesCache.ImageUrls
+  id: ImageUrls
+  parent: Mewdeko.Services.Impl.RedisImagesCache
+  langs:
+  - csharp
+  - vb
+  name: ImageUrls
+  nameWithType: RedisImagesCache.ImageUrls
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.ImageUrls
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/ImagesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ImageUrls
+    path: src/Mewdeko/Services/Impl/ImagesService.cs
+    startLine: 41
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Image URLs.
+  example: []
+  syntax:
+    content: public ImageUrls ImageUrls { get; }
+    parameters: []
+    return:
+      type: Mewdeko.Common.ImageUrls
+    content.vb: Public Property ImageUrls As ImageUrls
+  overload: Mewdeko.Services.Impl.RedisImagesCache.ImageUrls*
+  implements:
+  - Mewdeko.Services.IImageCache.ImageUrls
+- uid: Mewdeko.Services.Impl.RedisImagesCache.Heads
+  commentId: P:Mewdeko.Services.Impl.RedisImagesCache.Heads
+  id: Heads
+  parent: Mewdeko.Services.Impl.RedisImagesCache
+  langs:
+  - csharp
+  - vb
+  name: Heads
+  nameWithType: RedisImagesCache.Heads
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.Heads
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/ImagesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Heads
+    path: src/Mewdeko/Services/Impl/ImagesService.cs
+    startLine: 97
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Retrieves a list of byte arrays representing images of coin heads.
+  example: []
+  syntax:
+    content: public IReadOnlyList<byte[]> Heads { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IReadOnlyList{System.Byte[]}
+    content.vb: Public ReadOnly Property Heads As IReadOnlyList(Of Byte())
+  overload: Mewdeko.Services.Impl.RedisImagesCache.Heads*
+  implements:
+  - Mewdeko.Services.IImageCache.Heads
+- uid: Mewdeko.Services.Impl.RedisImagesCache.Tails
+  commentId: P:Mewdeko.Services.Impl.RedisImagesCache.Tails
+  id: Tails
+  parent: Mewdeko.Services.Impl.RedisImagesCache
+  langs:
+  - csharp
+  - vb
+  name: Tails
+  nameWithType: RedisImagesCache.Tails
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.Tails
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/ImagesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Tails
+    path: src/Mewdeko/Services/Impl/ImagesService.cs
+    startLine: 102
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Retrieves a list of byte arrays representing images of coin tails.
+  example: []
+  syntax:
+    content: public IReadOnlyList<byte[]> Tails { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IReadOnlyList{System.Byte[]}
+    content.vb: Public ReadOnly Property Tails As IReadOnlyList(Of Byte())
+  overload: Mewdeko.Services.Impl.RedisImagesCache.Tails*
+  implements:
+  - Mewdeko.Services.IImageCache.Tails
+- uid: Mewdeko.Services.Impl.RedisImagesCache.Dice
+  commentId: P:Mewdeko.Services.Impl.RedisImagesCache.Dice
+  id: Dice
+  parent: Mewdeko.Services.Impl.RedisImagesCache
+  langs:
+  - csharp
+  - vb
+  name: Dice
+  nameWithType: RedisImagesCache.Dice
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.Dice
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/ImagesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Dice
+    path: src/Mewdeko/Services/Impl/ImagesService.cs
+    startLine: 107
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Retrieves a list of byte arrays representing dice images.
+  example: []
+  syntax:
+    content: public IReadOnlyList<byte[]> Dice { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IReadOnlyList{System.Byte[]}
+    content.vb: Public ReadOnly Property Dice As IReadOnlyList(Of Byte())
+  overload: Mewdeko.Services.Impl.RedisImagesCache.Dice*
+  implements:
+  - Mewdeko.Services.IImageCache.Dice
+- uid: Mewdeko.Services.Impl.RedisImagesCache.SlotEmojis
+  commentId: P:Mewdeko.Services.Impl.RedisImagesCache.SlotEmojis
+  id: SlotEmojis
+  parent: Mewdeko.Services.Impl.RedisImagesCache
+  langs:
+  - csharp
+  - vb
+  name: SlotEmojis
+  nameWithType: RedisImagesCache.SlotEmojis
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.SlotEmojis
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/ImagesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SlotEmojis
+    path: src/Mewdeko/Services/Impl/ImagesService.cs
+    startLine: 112
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Retrieves a list of byte arrays representing slot machine emojis.
+  example: []
+  syntax:
+    content: public IReadOnlyList<byte[]> SlotEmojis { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IReadOnlyList{System.Byte[]}
+    content.vb: Public ReadOnly Property SlotEmojis As IReadOnlyList(Of Byte())
+  overload: Mewdeko.Services.Impl.RedisImagesCache.SlotEmojis*
+  implements:
+  - Mewdeko.Services.IImageCache.SlotEmojis
+- uid: Mewdeko.Services.Impl.RedisImagesCache.Currency
+  commentId: P:Mewdeko.Services.Impl.RedisImagesCache.Currency
+  id: Currency
+  parent: Mewdeko.Services.Impl.RedisImagesCache
+  langs:
+  - csharp
+  - vb
+  name: Currency
+  nameWithType: RedisImagesCache.Currency
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.Currency
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/ImagesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Currency
+    path: src/Mewdeko/Services/Impl/ImagesService.cs
+    startLine: 117
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Retrieves a list of byte arrays representing currency symbols.
+  example: []
+  syntax:
+    content: public IReadOnlyList<byte[]> Currency { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IReadOnlyList{System.Byte[]}
+    content.vb: Public ReadOnly Property Currency As IReadOnlyList(Of Byte())
+  overload: Mewdeko.Services.Impl.RedisImagesCache.Currency*
+  implements:
+  - Mewdeko.Services.IImageCache.Currency
+- uid: Mewdeko.Services.Impl.RedisImagesCache.SlotBackground
+  commentId: P:Mewdeko.Services.Impl.RedisImagesCache.SlotBackground
+  id: SlotBackground
+  parent: Mewdeko.Services.Impl.RedisImagesCache
+  langs:
+  - csharp
+  - vb
+  name: SlotBackground
+  nameWithType: RedisImagesCache.SlotBackground
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.SlotBackground
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/ImagesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SlotBackground
+    path: src/Mewdeko/Services/Impl/ImagesService.cs
+    startLine: 122
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Retrieves a byte array representing the background image for the slot machine.
+  example: []
+  syntax:
+    content: public byte[] SlotBackground { get; }
+    parameters: []
+    return:
+      type: System.Byte[]
+    content.vb: Public ReadOnly Property SlotBackground As Byte()
+  overload: Mewdeko.Services.Impl.RedisImagesCache.SlotBackground*
+  implements:
+  - Mewdeko.Services.IImageCache.SlotBackground
+- uid: Mewdeko.Services.Impl.RedisImagesCache.XpBackground
+  commentId: P:Mewdeko.Services.Impl.RedisImagesCache.XpBackground
+  id: XpBackground
+  parent: Mewdeko.Services.Impl.RedisImagesCache
+  langs:
+  - csharp
+  - vb
+  name: XpBackground
+  nameWithType: RedisImagesCache.XpBackground
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.XpBackground
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/ImagesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: XpBackground
+    path: src/Mewdeko/Services/Impl/ImagesService.cs
+    startLine: 127
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Retrieves a byte array representing the background image for the XP system.
+  example: []
+  syntax:
+    content: public byte[] XpBackground { get; }
+    parameters: []
+    return:
+      type: System.Byte[]
+    content.vb: Public ReadOnly Property XpBackground As Byte()
+  overload: Mewdeko.Services.Impl.RedisImagesCache.XpBackground*
+  implements:
+  - Mewdeko.Services.IImageCache.XpBackground
+- uid: Mewdeko.Services.Impl.RedisImagesCache.Rip
+  commentId: P:Mewdeko.Services.Impl.RedisImagesCache.Rip
+  id: Rip
+  parent: Mewdeko.Services.Impl.RedisImagesCache
+  langs:
+  - csharp
+  - vb
+  name: Rip
+  nameWithType: RedisImagesCache.Rip
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.Rip
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/ImagesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Rip
+    path: src/Mewdeko/Services/Impl/ImagesService.cs
+    startLine: 132
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Retrieves a byte array representing the RIP background image.
+  example: []
+  syntax:
+    content: public byte[] Rip { get; }
+    parameters: []
+    return:
+      type: System.Byte[]
+    content.vb: Public ReadOnly Property Rip As Byte()
+  overload: Mewdeko.Services.Impl.RedisImagesCache.Rip*
+  implements:
+  - Mewdeko.Services.IImageCache.Rip
+- uid: Mewdeko.Services.Impl.RedisImagesCache.RipOverlay
+  commentId: P:Mewdeko.Services.Impl.RedisImagesCache.RipOverlay
+  id: RipOverlay
+  parent: Mewdeko.Services.Impl.RedisImagesCache
+  langs:
+  - csharp
+  - vb
+  name: RipOverlay
+  nameWithType: RedisImagesCache.RipOverlay
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.RipOverlay
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/ImagesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RipOverlay
+    path: src/Mewdeko/Services/Impl/ImagesService.cs
+    startLine: 137
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Retrieves a byte array representing the RIP overlay image.
+  example: []
+  syntax:
+    content: public byte[] RipOverlay { get; }
+    parameters: []
+    return:
+      type: System.Byte[]
+    content.vb: Public ReadOnly Property RipOverlay As Byte()
+  overload: Mewdeko.Services.Impl.RedisImagesCache.RipOverlay*
+  implements:
+  - Mewdeko.Services.IImageCache.RipOverlay
+- uid: Mewdeko.Services.Impl.RedisImagesCache.GetCard(System.String)
+  commentId: M:Mewdeko.Services.Impl.RedisImagesCache.GetCard(System.String)
+  id: GetCard(System.String)
+  parent: Mewdeko.Services.Impl.RedisImagesCache
+  langs:
+  - csharp
+  - vb
+  name: GetCard(string)
+  nameWithType: RedisImagesCache.GetCard(string)
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.GetCard(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/ImagesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetCard
+    path: src/Mewdeko/Services/Impl/ImagesService.cs
+    startLine: 144
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Retrieves a card image byte array based on the provided key.
+  example: []
+  syntax:
+    content: public byte[] GetCard(string key)
+    parameters:
+    - id: key
+      type: System.String
+      description: The key of the card image.
+    return:
+      type: System.Byte[]
+      description: The byte array representing the card image.
+    content.vb: Public Function GetCard(key As String) As Byte()
+  overload: Mewdeko.Services.Impl.RedisImagesCache.GetCard*
+  implements:
+  - Mewdeko.Services.IImageCache.GetCard(System.String)
+  nameWithType.vb: RedisImagesCache.GetCard(String)
+  fullName.vb: Mewdeko.Services.Impl.RedisImagesCache.GetCard(String)
+  name.vb: GetCard(String)
+- uid: Mewdeko.Services.Impl.RedisImagesCache.OnReadyAsync
+  commentId: M:Mewdeko.Services.Impl.RedisImagesCache.OnReadyAsync
+  id: OnReadyAsync
+  parent: Mewdeko.Services.Impl.RedisImagesCache
+  langs:
+  - csharp
+  - vb
+  name: OnReadyAsync()
+  nameWithType: RedisImagesCache.OnReadyAsync()
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.OnReadyAsync()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/ImagesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OnReadyAsync
+    path: src/Mewdeko/Services/Impl/ImagesService.cs
+    startLine: 151
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Called when the bot is ready. Checks if all required keys exist in the cache and reloads them if necessary.
+  example: []
+  syntax:
+    content: public Task OnReadyAsync()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function OnReadyAsync() As Task
+  overload: Mewdeko.Services.Impl.RedisImagesCache.OnReadyAsync*
+  implements:
+  - Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+- uid: Mewdeko.Services.Impl.RedisImagesCache.Reload
+  commentId: M:Mewdeko.Services.Impl.RedisImagesCache.Reload
+  id: Reload
+  parent: Mewdeko.Services.Impl.RedisImagesCache
+  langs:
+  - csharp
+  - vb
+  name: Reload()
+  nameWithType: RedisImagesCache.Reload()
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.Reload()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/Impl/ImagesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Reload
+    path: src/Mewdeko/Services/Impl/ImagesService.cs
+    startLine: 162
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Impl
+  summary: Reloads all image data from the specified sources.
+  example: []
+  syntax:
+    content: public Task Reload()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function Reload() As Task
+  overload: Mewdeko.Services.Impl.RedisImagesCache.Reload*
+  implements:
+  - Mewdeko.Services.IImageCache.Reload
+references:
+- uid: Mewdeko.Services.Impl
+  commentId: N:Mewdeko.Services.Impl
+  href: Mewdeko.html
+  name: Mewdeko.Services.Impl
+  nameWithType: Mewdeko.Services.Impl
+  fullName: Mewdeko.Services.Impl
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Impl
+    name: Impl
+    href: Mewdeko.Services.Impl.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Impl
+    name: Impl
+    href: Mewdeko.Services.Impl.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Mewdeko.Services.IImageCache
+  commentId: T:Mewdeko.Services.IImageCache
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.IImageCache.html
+  name: IImageCache
+  nameWithType: IImageCache
+  fullName: Mewdeko.Services.IImageCache
+- uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  commentId: T:Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  parent: Mewdeko.Common.ModuleBehaviors
+  href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html
+  name: IReadyExecutor
+  nameWithType: IReadyExecutor
+  fullName: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+- uid: Mewdeko.Services.INService
+  commentId: T:Mewdeko.Services.INService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.INService.html
+  name: INService
+  nameWithType: INService
+  fullName: Mewdeko.Services.INService
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Services.Impl.RedisImagesCache.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<RedisImagesCache>(RedisImagesCache, string)
+  nameWithType: Extensions.ThrowIfNull<RedisImagesCache>(RedisImagesCache, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Services.Impl.RedisImagesCache>(Mewdeko.Services.Impl.RedisImagesCache, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of RedisImagesCache)(RedisImagesCache, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Services.Impl.RedisImagesCache)(Mewdeko.Services.Impl.RedisImagesCache, String)
+  name.vb: ThrowIfNull(Of RedisImagesCache)(RedisImagesCache, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Services.Impl.RedisImagesCache,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Services.Impl.RedisImagesCache
+    name: RedisImagesCache
+    href: Mewdeko.Services.Impl.RedisImagesCache.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Services.Impl.RedisImagesCache
+    name: RedisImagesCache
+    href: Mewdeko.Services.Impl.RedisImagesCache.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Services.Impl.RedisImagesCache,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Services.Impl.RedisImagesCache
+    name: RedisImagesCache
+    href: Mewdeko.Services.Impl.RedisImagesCache.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Services.Impl.RedisImagesCache
+    name: RedisImagesCache
+    href: Mewdeko.Services.Impl.RedisImagesCache.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Services
+  commentId: N:Mewdeko.Services
+  href: Mewdeko.html
+  name: Mewdeko.Services
+  nameWithType: Mewdeko.Services
+  fullName: Mewdeko.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+- uid: Mewdeko.Common.ModuleBehaviors
+  commentId: N:Mewdeko.Common.ModuleBehaviors
+  href: Mewdeko.html
+  name: Mewdeko.Common.ModuleBehaviors
+  nameWithType: Mewdeko.Common.ModuleBehaviors
+  fullName: Mewdeko.Common.ModuleBehaviors
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.ModuleBehaviors
+    name: ModuleBehaviors
+    href: Mewdeko.Common.ModuleBehaviors.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.ModuleBehaviors
+    name: ModuleBehaviors
+    href: Mewdeko.Common.ModuleBehaviors.html
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Services.Impl.RedisImagesCache
+  commentId: T:Mewdeko.Services.Impl.RedisImagesCache
+  href: Mewdeko.Services.Impl.RedisImagesCache.html
+  name: RedisImagesCache
+  nameWithType: RedisImagesCache
+  fullName: Mewdeko.Services.Impl.RedisImagesCache
+- uid: Mewdeko.Services.Impl.RedisImagesCache.#ctor*
+  commentId: Overload:Mewdeko.Services.Impl.RedisImagesCache.#ctor
+  href: Mewdeko.Services.Impl.RedisImagesCache.html#Mewdeko_Services_Impl_RedisImagesCache__ctor_StackExchange_Redis_ConnectionMultiplexer_Mewdeko_Services_IBotCredentials_
+  name: RedisImagesCache
+  nameWithType: RedisImagesCache.RedisImagesCache
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.RedisImagesCache
+  nameWithType.vb: RedisImagesCache.New
+  fullName.vb: Mewdeko.Services.Impl.RedisImagesCache.New
+  name.vb: New
+- uid: StackExchange.Redis.ConnectionMultiplexer
+  commentId: T:StackExchange.Redis.ConnectionMultiplexer
+  parent: StackExchange.Redis
+  isExternal: true
+  name: ConnectionMultiplexer
+  nameWithType: ConnectionMultiplexer
+  fullName: StackExchange.Redis.ConnectionMultiplexer
+- uid: Mewdeko.Services.IBotCredentials
+  commentId: T:Mewdeko.Services.IBotCredentials
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.IBotCredentials.html
+  name: IBotCredentials
+  nameWithType: IBotCredentials
+  fullName: Mewdeko.Services.IBotCredentials
+- uid: StackExchange.Redis
+  commentId: N:StackExchange.Redis
+  isExternal: true
+  name: StackExchange.Redis
+  nameWithType: StackExchange.Redis
+  fullName: StackExchange.Redis
+  spec.csharp:
+  - uid: StackExchange
+    name: StackExchange
+    isExternal: true
+  - name: .
+  - uid: StackExchange.Redis
+    name: Redis
+    isExternal: true
+  spec.vb:
+  - uid: StackExchange
+    name: StackExchange
+    isExternal: true
+  - name: .
+  - uid: StackExchange.Redis
+    name: Redis
+    isExternal: true
+- uid: Mewdeko.Services.Impl.RedisImagesCache.ImageUrls*
+  commentId: Overload:Mewdeko.Services.Impl.RedisImagesCache.ImageUrls
+  href: Mewdeko.Services.Impl.RedisImagesCache.html#Mewdeko_Services_Impl_RedisImagesCache_ImageUrls
+  name: ImageUrls
+  nameWithType: RedisImagesCache.ImageUrls
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.ImageUrls
+- uid: Mewdeko.Services.IImageCache.ImageUrls
+  commentId: P:Mewdeko.Services.IImageCache.ImageUrls
+  parent: Mewdeko.Services.IImageCache
+  href: Mewdeko.Services.IImageCache.html#Mewdeko_Services_IImageCache_ImageUrls
+  name: ImageUrls
+  nameWithType: IImageCache.ImageUrls
+  fullName: Mewdeko.Services.IImageCache.ImageUrls
+- uid: Mewdeko.Common.ImageUrls
+  commentId: T:Mewdeko.Common.ImageUrls
+  parent: Mewdeko.Common
+  href: Mewdeko.Common.ImageUrls.html
+  name: ImageUrls
+  nameWithType: ImageUrls
+  fullName: Mewdeko.Common.ImageUrls
+- uid: Mewdeko.Common
+  commentId: N:Mewdeko.Common
+  href: Mewdeko.html
+  name: Mewdeko.Common
+  nameWithType: Mewdeko.Common
+  fullName: Mewdeko.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+- uid: Mewdeko.Services.Impl.RedisImagesCache.Heads*
+  commentId: Overload:Mewdeko.Services.Impl.RedisImagesCache.Heads
+  href: Mewdeko.Services.Impl.RedisImagesCache.html#Mewdeko_Services_Impl_RedisImagesCache_Heads
+  name: Heads
+  nameWithType: RedisImagesCache.Heads
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.Heads
+- uid: Mewdeko.Services.IImageCache.Heads
+  commentId: P:Mewdeko.Services.IImageCache.Heads
+  parent: Mewdeko.Services.IImageCache
+  href: Mewdeko.Services.IImageCache.html#Mewdeko_Services_IImageCache_Heads
+  name: Heads
+  nameWithType: IImageCache.Heads
+  fullName: Mewdeko.Services.IImageCache.Heads
+- uid: System.Collections.Generic.IReadOnlyList{System.Byte[]}
+  commentId: T:System.Collections.Generic.IReadOnlyList{System.Byte[]}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IReadOnlyList`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  name: IReadOnlyList<byte[]>
+  nameWithType: IReadOnlyList<byte[]>
+  fullName: System.Collections.Generic.IReadOnlyList<byte[]>
+  nameWithType.vb: IReadOnlyList(Of Byte())
+  fullName.vb: System.Collections.Generic.IReadOnlyList(Of Byte())
+  name.vb: IReadOnlyList(Of Byte())
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.IReadOnlyList`1
+  commentId: T:System.Collections.Generic.IReadOnlyList`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  name: IReadOnlyList<T>
+  nameWithType: IReadOnlyList<T>
+  fullName: System.Collections.Generic.IReadOnlyList<T>
+  nameWithType.vb: IReadOnlyList(Of T)
+  fullName.vb: System.Collections.Generic.IReadOnlyList(Of T)
+  name.vb: IReadOnlyList(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Mewdeko.Services.Impl.RedisImagesCache.Tails*
+  commentId: Overload:Mewdeko.Services.Impl.RedisImagesCache.Tails
+  href: Mewdeko.Services.Impl.RedisImagesCache.html#Mewdeko_Services_Impl_RedisImagesCache_Tails
+  name: Tails
+  nameWithType: RedisImagesCache.Tails
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.Tails
+- uid: Mewdeko.Services.IImageCache.Tails
+  commentId: P:Mewdeko.Services.IImageCache.Tails
+  parent: Mewdeko.Services.IImageCache
+  href: Mewdeko.Services.IImageCache.html#Mewdeko_Services_IImageCache_Tails
+  name: Tails
+  nameWithType: IImageCache.Tails
+  fullName: Mewdeko.Services.IImageCache.Tails
+- uid: Mewdeko.Services.Impl.RedisImagesCache.Dice*
+  commentId: Overload:Mewdeko.Services.Impl.RedisImagesCache.Dice
+  href: Mewdeko.Services.Impl.RedisImagesCache.html#Mewdeko_Services_Impl_RedisImagesCache_Dice
+  name: Dice
+  nameWithType: RedisImagesCache.Dice
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.Dice
+- uid: Mewdeko.Services.IImageCache.Dice
+  commentId: P:Mewdeko.Services.IImageCache.Dice
+  parent: Mewdeko.Services.IImageCache
+  href: Mewdeko.Services.IImageCache.html#Mewdeko_Services_IImageCache_Dice
+  name: Dice
+  nameWithType: IImageCache.Dice
+  fullName: Mewdeko.Services.IImageCache.Dice
+- uid: Mewdeko.Services.Impl.RedisImagesCache.SlotEmojis*
+  commentId: Overload:Mewdeko.Services.Impl.RedisImagesCache.SlotEmojis
+  href: Mewdeko.Services.Impl.RedisImagesCache.html#Mewdeko_Services_Impl_RedisImagesCache_SlotEmojis
+  name: SlotEmojis
+  nameWithType: RedisImagesCache.SlotEmojis
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.SlotEmojis
+- uid: Mewdeko.Services.IImageCache.SlotEmojis
+  commentId: P:Mewdeko.Services.IImageCache.SlotEmojis
+  parent: Mewdeko.Services.IImageCache
+  href: Mewdeko.Services.IImageCache.html#Mewdeko_Services_IImageCache_SlotEmojis
+  name: SlotEmojis
+  nameWithType: IImageCache.SlotEmojis
+  fullName: Mewdeko.Services.IImageCache.SlotEmojis
+- uid: Mewdeko.Services.Impl.RedisImagesCache.Currency*
+  commentId: Overload:Mewdeko.Services.Impl.RedisImagesCache.Currency
+  href: Mewdeko.Services.Impl.RedisImagesCache.html#Mewdeko_Services_Impl_RedisImagesCache_Currency
+  name: Currency
+  nameWithType: RedisImagesCache.Currency
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.Currency
+- uid: Mewdeko.Services.IImageCache.Currency
+  commentId: P:Mewdeko.Services.IImageCache.Currency
+  parent: Mewdeko.Services.IImageCache
+  href: Mewdeko.Services.IImageCache.html#Mewdeko_Services_IImageCache_Currency
+  name: Currency
+  nameWithType: IImageCache.Currency
+  fullName: Mewdeko.Services.IImageCache.Currency
+- uid: Mewdeko.Services.Impl.RedisImagesCache.SlotBackground*
+  commentId: Overload:Mewdeko.Services.Impl.RedisImagesCache.SlotBackground
+  href: Mewdeko.Services.Impl.RedisImagesCache.html#Mewdeko_Services_Impl_RedisImagesCache_SlotBackground
+  name: SlotBackground
+  nameWithType: RedisImagesCache.SlotBackground
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.SlotBackground
+- uid: Mewdeko.Services.IImageCache.SlotBackground
+  commentId: P:Mewdeko.Services.IImageCache.SlotBackground
+  parent: Mewdeko.Services.IImageCache
+  href: Mewdeko.Services.IImageCache.html#Mewdeko_Services_IImageCache_SlotBackground
+  name: SlotBackground
+  nameWithType: IImageCache.SlotBackground
+  fullName: Mewdeko.Services.IImageCache.SlotBackground
+- uid: System.Byte[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.byte
+  name: byte[]
+  nameWithType: byte[]
+  fullName: byte[]
+  nameWithType.vb: Byte()
+  fullName.vb: Byte()
+  name.vb: Byte()
+  spec.csharp:
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+- uid: Mewdeko.Services.Impl.RedisImagesCache.XpBackground*
+  commentId: Overload:Mewdeko.Services.Impl.RedisImagesCache.XpBackground
+  href: Mewdeko.Services.Impl.RedisImagesCache.html#Mewdeko_Services_Impl_RedisImagesCache_XpBackground
+  name: XpBackground
+  nameWithType: RedisImagesCache.XpBackground
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.XpBackground
+- uid: Mewdeko.Services.IImageCache.XpBackground
+  commentId: P:Mewdeko.Services.IImageCache.XpBackground
+  parent: Mewdeko.Services.IImageCache
+  href: Mewdeko.Services.IImageCache.html#Mewdeko_Services_IImageCache_XpBackground
+  name: XpBackground
+  nameWithType: IImageCache.XpBackground
+  fullName: Mewdeko.Services.IImageCache.XpBackground
+- uid: Mewdeko.Services.Impl.RedisImagesCache.Rip*
+  commentId: Overload:Mewdeko.Services.Impl.RedisImagesCache.Rip
+  href: Mewdeko.Services.Impl.RedisImagesCache.html#Mewdeko_Services_Impl_RedisImagesCache_Rip
+  name: Rip
+  nameWithType: RedisImagesCache.Rip
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.Rip
+- uid: Mewdeko.Services.IImageCache.Rip
+  commentId: P:Mewdeko.Services.IImageCache.Rip
+  parent: Mewdeko.Services.IImageCache
+  href: Mewdeko.Services.IImageCache.html#Mewdeko_Services_IImageCache_Rip
+  name: Rip
+  nameWithType: IImageCache.Rip
+  fullName: Mewdeko.Services.IImageCache.Rip
+- uid: Mewdeko.Services.Impl.RedisImagesCache.RipOverlay*
+  commentId: Overload:Mewdeko.Services.Impl.RedisImagesCache.RipOverlay
+  href: Mewdeko.Services.Impl.RedisImagesCache.html#Mewdeko_Services_Impl_RedisImagesCache_RipOverlay
+  name: RipOverlay
+  nameWithType: RedisImagesCache.RipOverlay
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.RipOverlay
+- uid: Mewdeko.Services.IImageCache.RipOverlay
+  commentId: P:Mewdeko.Services.IImageCache.RipOverlay
+  parent: Mewdeko.Services.IImageCache
+  href: Mewdeko.Services.IImageCache.html#Mewdeko_Services_IImageCache_RipOverlay
+  name: RipOverlay
+  nameWithType: IImageCache.RipOverlay
+  fullName: Mewdeko.Services.IImageCache.RipOverlay
+- uid: Mewdeko.Services.Impl.RedisImagesCache.GetCard*
+  commentId: Overload:Mewdeko.Services.Impl.RedisImagesCache.GetCard
+  href: Mewdeko.Services.Impl.RedisImagesCache.html#Mewdeko_Services_Impl_RedisImagesCache_GetCard_System_String_
+  name: GetCard
+  nameWithType: RedisImagesCache.GetCard
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.GetCard
+- uid: Mewdeko.Services.IImageCache.GetCard(System.String)
+  commentId: M:Mewdeko.Services.IImageCache.GetCard(System.String)
+  parent: Mewdeko.Services.IImageCache
+  isExternal: true
+  href: Mewdeko.Services.IImageCache.html#Mewdeko_Services_IImageCache_GetCard_System_String_
+  name: GetCard(string)
+  nameWithType: IImageCache.GetCard(string)
+  fullName: Mewdeko.Services.IImageCache.GetCard(string)
+  nameWithType.vb: IImageCache.GetCard(String)
+  fullName.vb: Mewdeko.Services.IImageCache.GetCard(String)
+  name.vb: GetCard(String)
+  spec.csharp:
+  - uid: Mewdeko.Services.IImageCache.GetCard(System.String)
+    name: GetCard
+    href: Mewdeko.Services.IImageCache.html#Mewdeko_Services_IImageCache_GetCard_System_String_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Services.IImageCache.GetCard(System.String)
+    name: GetCard
+    href: Mewdeko.Services.IImageCache.html#Mewdeko_Services_IImageCache_GetCard_System_String_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Services.Impl.RedisImagesCache.OnReadyAsync*
+  commentId: Overload:Mewdeko.Services.Impl.RedisImagesCache.OnReadyAsync
+  href: Mewdeko.Services.Impl.RedisImagesCache.html#Mewdeko_Services_Impl_RedisImagesCache_OnReadyAsync
+  name: OnReadyAsync
+  nameWithType: RedisImagesCache.OnReadyAsync
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.OnReadyAsync
+- uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+  commentId: M:Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+  parent: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html#Mewdeko_Common_ModuleBehaviors_IReadyExecutor_OnReadyAsync
+  name: OnReadyAsync()
+  nameWithType: IReadyExecutor.OnReadyAsync()
+  fullName: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync()
+  spec.csharp:
+  - uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+    name: OnReadyAsync
+    href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html#Mewdeko_Common_ModuleBehaviors_IReadyExecutor_OnReadyAsync
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+    name: OnReadyAsync
+    href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html#Mewdeko_Common_ModuleBehaviors_IReadyExecutor_OnReadyAsync
+  - name: (
+  - name: )
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Services.Impl.RedisImagesCache.Reload*
+  commentId: Overload:Mewdeko.Services.Impl.RedisImagesCache.Reload
+  href: Mewdeko.Services.Impl.RedisImagesCache.html#Mewdeko_Services_Impl_RedisImagesCache_Reload
+  name: Reload
+  nameWithType: RedisImagesCache.Reload
+  fullName: Mewdeko.Services.Impl.RedisImagesCache.Reload
+- uid: Mewdeko.Services.IImageCache.Reload
+  commentId: M:Mewdeko.Services.IImageCache.Reload
+  parent: Mewdeko.Services.IImageCache
+  href: Mewdeko.Services.IImageCache.html#Mewdeko_Services_IImageCache_Reload
+  name: Reload()
+  nameWithType: IImageCache.Reload()
+  fullName: Mewdeko.Services.IImageCache.Reload()
+  spec.csharp:
+  - uid: Mewdeko.Services.IImageCache.Reload
+    name: Reload
+    href: Mewdeko.Services.IImageCache.html#Mewdeko_Services_IImageCache_Reload
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Services.IImageCache.Reload
+    name: Reload
+    href: Mewdeko.Services.IImageCache.html#Mewdeko_Services_IImageCache_Reload
+  - name: (
+  - name: )

@@ -1,0 +1,228 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Models.Platform
+  commentId: T:Mewdeko.Database.Models.Platform
+  id: Platform
+  parent: Mewdeko.Database.Models
+  children:
+  - Mewdeko.Database.Models.Platform.File
+  - Mewdeko.Database.Models.Platform.Soundcloud
+  - Mewdeko.Database.Models.Platform.Spotify
+  - Mewdeko.Database.Models.Platform.Twitch
+  - Mewdeko.Database.Models.Platform.Url
+  - Mewdeko.Database.Models.Platform.Youtube
+  langs:
+  - csharp
+  - vb
+  name: Platform
+  nameWithType: Platform
+  fullName: Mewdeko.Database.Models.Platform
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/PlaylistSong.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Platform
+    path: src/Mewdeko.Database/Models/PlaylistSong.cs
+    startLine: 16
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public enum Platform
+    content.vb: Public Enum Platform
+- uid: Mewdeko.Database.Models.Platform.Youtube
+  commentId: F:Mewdeko.Database.Models.Platform.Youtube
+  id: Youtube
+  parent: Mewdeko.Database.Models.Platform
+  langs:
+  - csharp
+  - vb
+  name: Youtube
+  nameWithType: Platform.Youtube
+  fullName: Mewdeko.Database.Models.Platform.Youtube
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/PlaylistSong.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Youtube
+    path: src/Mewdeko.Database/Models/PlaylistSong.cs
+    startLine: 18
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Youtube = 0
+    return:
+      type: Mewdeko.Database.Models.Platform
+- uid: Mewdeko.Database.Models.Platform.Spotify
+  commentId: F:Mewdeko.Database.Models.Platform.Spotify
+  id: Spotify
+  parent: Mewdeko.Database.Models.Platform
+  langs:
+  - csharp
+  - vb
+  name: Spotify
+  nameWithType: Platform.Spotify
+  fullName: Mewdeko.Database.Models.Platform.Spotify
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/PlaylistSong.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Spotify
+    path: src/Mewdeko.Database/Models/PlaylistSong.cs
+    startLine: 19
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Spotify = 1
+    return:
+      type: Mewdeko.Database.Models.Platform
+- uid: Mewdeko.Database.Models.Platform.Soundcloud
+  commentId: F:Mewdeko.Database.Models.Platform.Soundcloud
+  id: Soundcloud
+  parent: Mewdeko.Database.Models.Platform
+  langs:
+  - csharp
+  - vb
+  name: Soundcloud
+  nameWithType: Platform.Soundcloud
+  fullName: Mewdeko.Database.Models.Platform.Soundcloud
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/PlaylistSong.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Soundcloud
+    path: src/Mewdeko.Database/Models/PlaylistSong.cs
+    startLine: 20
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Soundcloud = 2
+    return:
+      type: Mewdeko.Database.Models.Platform
+- uid: Mewdeko.Database.Models.Platform.Url
+  commentId: F:Mewdeko.Database.Models.Platform.Url
+  id: Url
+  parent: Mewdeko.Database.Models.Platform
+  langs:
+  - csharp
+  - vb
+  name: Url
+  nameWithType: Platform.Url
+  fullName: Mewdeko.Database.Models.Platform.Url
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/PlaylistSong.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Url
+    path: src/Mewdeko.Database/Models/PlaylistSong.cs
+    startLine: 21
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Url = 3
+    return:
+      type: Mewdeko.Database.Models.Platform
+- uid: Mewdeko.Database.Models.Platform.File
+  commentId: F:Mewdeko.Database.Models.Platform.File
+  id: File
+  parent: Mewdeko.Database.Models.Platform
+  langs:
+  - csharp
+  - vb
+  name: File
+  nameWithType: Platform.File
+  fullName: Mewdeko.Database.Models.Platform.File
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/PlaylistSong.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: File
+    path: src/Mewdeko.Database/Models/PlaylistSong.cs
+    startLine: 22
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: File = 4
+    return:
+      type: Mewdeko.Database.Models.Platform
+- uid: Mewdeko.Database.Models.Platform.Twitch
+  commentId: F:Mewdeko.Database.Models.Platform.Twitch
+  id: Twitch
+  parent: Mewdeko.Database.Models.Platform
+  langs:
+  - csharp
+  - vb
+  name: Twitch
+  nameWithType: Platform.Twitch
+  fullName: Mewdeko.Database.Models.Platform.Twitch
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/PlaylistSong.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Twitch
+    path: src/Mewdeko.Database/Models/PlaylistSong.cs
+    startLine: 23
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Twitch = 5
+    return:
+      type: Mewdeko.Database.Models.Platform
+references:
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: Mewdeko.Database.Models.Platform
+  commentId: T:Mewdeko.Database.Models.Platform
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.Platform.html
+  name: Platform
+  nameWithType: Platform
+  fullName: Mewdeko.Database.Models.Platform

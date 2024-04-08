@@ -1,0 +1,2362 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Services.Common.RedisImageArray
+  commentId: T:Mewdeko.Services.Common.RedisImageArray
+  id: RedisImageArray
+  parent: Mewdeko.Services.Common
+  children:
+  - Mewdeko.Services.Common.RedisImageArray.#ctor(System.String,StackExchange.Redis.ConnectionMultiplexer)
+  - Mewdeko.Services.Common.RedisImageArray.Count
+  - Mewdeko.Services.Common.RedisImageArray.GetEnumerator
+  - Mewdeko.Services.Common.RedisImageArray.Item(System.Int32)
+  langs:
+  - csharp
+  - vb
+  name: RedisImageArray
+  nameWithType: RedisImageArray
+  fullName: Mewdeko.Services.Common.RedisImageArray
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Services/Common/RedisImageArray.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RedisImageArray
+    path: src/Mewdeko/Services/Common/RedisImageArray.cs
+    startLine: 7
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Common
+  summary: Represents a read-only list of byte arrays stored in Redis.
+  example: []
+  syntax:
+    content: 'public sealed class RedisImageArray : IReadOnlyList<byte[]>, IReadOnlyCollection<byte[]>, IEnumerable<byte[]>, IEnumerable'
+    content.vb: Public NotInheritable Class RedisImageArray Implements IReadOnlyList(Of Byte()), IReadOnlyCollection(Of Byte()), IEnumerable(Of Byte()), IEnumerable
+  inheritance:
+  - System.Object
+  implements:
+  - System.Collections.Generic.IReadOnlyList{System.Byte[]}
+  - System.Collections.Generic.IReadOnlyCollection{System.Byte[]}
+  - System.Collections.Generic.IEnumerable{System.Byte[]}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Services.Common.RedisImageArray.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  - System.Collections.Generic.IEnumerable{System.Byte[]}.Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Func{System.Byte[],{TU}})
+  - System.Collections.Generic.IEnumerable{System.Byte[]}.Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Action{System.Byte[]})
+  - System.Collections.Generic.IEnumerable{System.Byte[]}.Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1
+  - System.Collections.Generic.IEnumerable{System.Byte[]}.Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Char,System.Func{System.Byte[],System.String})
+  - System.Collections.Generic.IEnumerable{System.Byte[]}.Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.String,System.Func{System.Byte[],System.String})
+  - System.Collections.Generic.IEnumerable{System.Byte[]}.Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Char,System.Func{System.Byte[],System.String})
+  - System.Collections.Generic.IEnumerable{System.Byte[]}.Mewdeko.Extensions.EnumerableExtensions.Shuffle``1
+- uid: Mewdeko.Services.Common.RedisImageArray.#ctor(System.String,StackExchange.Redis.ConnectionMultiplexer)
+  commentId: M:Mewdeko.Services.Common.RedisImageArray.#ctor(System.String,StackExchange.Redis.ConnectionMultiplexer)
+  id: '#ctor(System.String,StackExchange.Redis.ConnectionMultiplexer)'
+  parent: Mewdeko.Services.Common.RedisImageArray
+  langs:
+  - csharp
+  - vb
+  name: RedisImageArray(string, ConnectionMultiplexer)
+  nameWithType: RedisImageArray.RedisImageArray(string, ConnectionMultiplexer)
+  fullName: Mewdeko.Services.Common.RedisImageArray.RedisImageArray(string, StackExchange.Redis.ConnectionMultiplexer)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Services/Common/RedisImageArray.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Services/Common/RedisImageArray.cs
+    startLine: 18
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Common
+  summary: Initializes a new instance of the <xref href="Mewdeko.Services.Common.RedisImageArray" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public RedisImageArray(string key, ConnectionMultiplexer con)
+    parameters:
+    - id: key
+      type: System.String
+      description: The Redis key.
+    - id: con
+      type: StackExchange.Redis.ConnectionMultiplexer
+      description: The Redis connection multiplexer.
+    content.vb: Public Sub New(key As String, con As ConnectionMultiplexer)
+  overload: Mewdeko.Services.Common.RedisImageArray.#ctor*
+  nameWithType.vb: RedisImageArray.New(String, ConnectionMultiplexer)
+  fullName.vb: Mewdeko.Services.Common.RedisImageArray.New(String, StackExchange.Redis.ConnectionMultiplexer)
+  name.vb: New(String, ConnectionMultiplexer)
+- uid: Mewdeko.Services.Common.RedisImageArray.Item(System.Int32)
+  commentId: P:Mewdeko.Services.Common.RedisImageArray.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: Mewdeko.Services.Common.RedisImageArray
+  langs:
+  - csharp
+  - vb
+  name: this[int]
+  nameWithType: RedisImageArray.this[int]
+  fullName: Mewdeko.Services.Common.RedisImageArray.this[int]
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Services/Common/RedisImageArray.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: this[]
+    path: src/Mewdeko/Services/Common/RedisImageArray.cs
+    startLine: 31
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Common
+  summary: Gets the byte array at the specified index.
+  example: []
+  syntax:
+    content: public byte[] this[int index] { get; }
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The zero-based index of the byte array to get.
+    return:
+      type: System.Byte[]
+      description: The byte array at the specified index.
+    content.vb: Public ReadOnly Default Property this[](index As Integer) As Byte()
+  overload: Mewdeko.Services.Common.RedisImageArray.Item*
+  implements:
+  - System.Collections.Generic.IReadOnlyList{System.Byte[]}.Item(System.Int32)
+  nameWithType.vb: RedisImageArray.this[](Integer)
+  fullName.vb: Mewdeko.Services.Common.RedisImageArray.this[](Integer)
+  name.vb: this[](Integer)
+- uid: Mewdeko.Services.Common.RedisImageArray.Count
+  commentId: P:Mewdeko.Services.Common.RedisImageArray.Count
+  id: Count
+  parent: Mewdeko.Services.Common.RedisImageArray
+  langs:
+  - csharp
+  - vb
+  name: Count
+  nameWithType: RedisImageArray.Count
+  fullName: Mewdeko.Services.Common.RedisImageArray.Count
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Services/Common/RedisImageArray.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Count
+    path: src/Mewdeko/Services/Common/RedisImageArray.cs
+    startLine: 45
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Common
+  summary: Gets the number of byte arrays contained in the Redis list.
+  example: []
+  syntax:
+    content: public int Count { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Count As Integer
+  overload: Mewdeko.Services.Common.RedisImageArray.Count*
+  implements:
+  - System.Collections.Generic.IReadOnlyCollection{System.Byte[]}.Count
+- uid: Mewdeko.Services.Common.RedisImageArray.GetEnumerator
+  commentId: M:Mewdeko.Services.Common.RedisImageArray.GetEnumerator
+  id: GetEnumerator
+  parent: Mewdeko.Services.Common.RedisImageArray
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: RedisImageArray.GetEnumerator()
+  fullName: Mewdeko.Services.Common.RedisImageArray.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/Common/RedisImageArray.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetEnumerator
+    path: src/Mewdeko/Services/Common/RedisImageArray.cs
+    startLine: 48
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Common
+  summary: Returns an enumerator that iterates through the collection.
+  example: []
+  syntax:
+    content: public IEnumerator<byte[]> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{System.Byte[]}
+      description: An enumerator that can be used to iterate through the collection.
+    content.vb: Public Function GetEnumerator() As IEnumerator(Of Byte())
+  overload: Mewdeko.Services.Common.RedisImageArray.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{System.Byte[]}.GetEnumerator
+references:
+- uid: Mewdeko.Services.Common
+  commentId: N:Mewdeko.Services.Common
+  href: Mewdeko.html
+  name: Mewdeko.Services.Common
+  nameWithType: Mewdeko.Services.Common
+  fullName: Mewdeko.Services.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Common
+    name: Common
+    href: Mewdeko.Services.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Common
+    name: Common
+    href: Mewdeko.Services.Common.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Collections.Generic.IReadOnlyList{System.Byte[]}
+  commentId: T:System.Collections.Generic.IReadOnlyList{System.Byte[]}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IReadOnlyList`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  name: IReadOnlyList<byte[]>
+  nameWithType: IReadOnlyList<byte[]>
+  fullName: System.Collections.Generic.IReadOnlyList<byte[]>
+  nameWithType.vb: IReadOnlyList(Of Byte())
+  fullName.vb: System.Collections.Generic.IReadOnlyList(Of Byte())
+  name.vb: IReadOnlyList(Of Byte())
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.IReadOnlyCollection{System.Byte[]}
+  commentId: T:System.Collections.Generic.IReadOnlyCollection{System.Byte[]}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IReadOnlyCollection`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1
+  name: IReadOnlyCollection<byte[]>
+  nameWithType: IReadOnlyCollection<byte[]>
+  fullName: System.Collections.Generic.IReadOnlyCollection<byte[]>
+  nameWithType.vb: IReadOnlyCollection(Of Byte())
+  fullName.vb: System.Collections.Generic.IReadOnlyCollection(Of Byte())
+  name.vb: IReadOnlyCollection(Of Byte())
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyCollection`1
+    name: IReadOnlyCollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyCollection`1
+    name: IReadOnlyCollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.IEnumerable{System.Byte[]}
+  commentId: T:System.Collections.Generic.IEnumerable{System.Byte[]}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<byte[]>
+  nameWithType: IEnumerable<byte[]>
+  fullName: System.Collections.Generic.IEnumerable<byte[]>
+  nameWithType.vb: IEnumerable(Of Byte())
+  fullName.vb: System.Collections.Generic.IEnumerable(Of Byte())
+  name.vb: IEnumerable(Of Byte())
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.ienumerable
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Services.Common.RedisImageArray.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<RedisImageArray>(RedisImageArray, string)
+  nameWithType: Extensions.ThrowIfNull<RedisImageArray>(RedisImageArray, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Services.Common.RedisImageArray>(Mewdeko.Services.Common.RedisImageArray, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of RedisImageArray)(RedisImageArray, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Services.Common.RedisImageArray)(Mewdeko.Services.Common.RedisImageArray, String)
+  name.vb: ThrowIfNull(Of RedisImageArray)(RedisImageArray, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Services.Common.RedisImageArray,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Services.Common.RedisImageArray
+    name: RedisImageArray
+    href: Mewdeko.Services.Common.RedisImageArray.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Services.Common.RedisImageArray
+    name: RedisImageArray
+    href: Mewdeko.Services.Common.RedisImageArray.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Services.Common.RedisImageArray,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Services.Common.RedisImageArray
+    name: RedisImageArray
+    href: Mewdeko.Services.Common.RedisImageArray.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Services.Common.RedisImageArray
+    name: RedisImageArray
+    href: Mewdeko.Services.Common.RedisImageArray.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Collections.Generic.IEnumerable{System.Byte[]}.Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Func{System.Byte[],{TU}})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  definition: Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Distinct__2_System_Collections_Generic_IEnumerable___0__System_Func___0___1__
+  name: Distinct<byte[], TU>(IEnumerable<byte[]>, Func<byte[], TU>)
+  nameWithType: EnumerableExtensions.Distinct<byte[], TU>(IEnumerable<byte[]>, Func<byte[], TU>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.Distinct<byte[], TU>(System.Collections.Generic.IEnumerable<byte[]>, System.Func<byte[], TU>)
+  nameWithType.vb: EnumerableExtensions.Distinct(Of Byte(), TU)(IEnumerable(Of Byte()), Func(Of Byte(), TU))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.Distinct(Of Byte(), TU)(System.Collections.Generic.IEnumerable(Of Byte()), System.Func(Of Byte(), TU))
+  name.vb: Distinct(Of Byte(), TU)(IEnumerable(Of Byte()), Func(Of Byte(), TU))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Collections.Generic.IEnumerable{System.Byte[]},System.Func{System.Byte[],``1})
+    name: Distinct
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Distinct__2_System_Collections_Generic_IEnumerable___0__System_Func___0___1__
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - name: TU
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - name: TU
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Collections.Generic.IEnumerable{System.Byte[]},System.Func{System.Byte[],``1})
+    name: Distinct
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Distinct__2_System_Collections_Generic_IEnumerable___0__System_Func___0___1__
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - name: TU
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - name: TU
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.IEnumerable{System.Byte[]}.Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Action{System.Byte[]})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  definition: Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0__
+  name: ForEach<byte[]>(IEnumerable<byte[]>, Action<byte[]>)
+  nameWithType: EnumerableExtensions.ForEach<byte[]>(IEnumerable<byte[]>, Action<byte[]>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.ForEach<byte[]>(System.Collections.Generic.IEnumerable<byte[]>, System.Action<byte[]>)
+  nameWithType.vb: EnumerableExtensions.ForEach(Of Byte())(IEnumerable(Of Byte()), Action(Of Byte()))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.ForEach(Of Byte())(System.Collections.Generic.IEnumerable(Of Byte()), System.Action(Of Byte()))
+  name.vb: ForEach(Of Byte())(IEnumerable(Of Byte()), Action(Of Byte()))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{System.Byte[]},System.Action{System.Byte[]})
+    name: ForEach
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0__
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{System.Byte[]},System.Action{System.Byte[]})
+    name: ForEach
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0__
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.IEnumerable{System.Byte[]}.Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0})
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  definition: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0})
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_GetRandomElement__1_System_Collections_Generic_IEnumerable___0__
+  name: GetRandomElement<byte[]>(IEnumerable<byte[]>)
+  nameWithType: EnumerableExtensions.GetRandomElement<byte[]>(IEnumerable<byte[]>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement<byte[]>(System.Collections.Generic.IEnumerable<byte[]>)
+  nameWithType.vb: EnumerableExtensions.GetRandomElement(Of Byte())(IEnumerable(Of Byte()))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement(Of Byte())(System.Collections.Generic.IEnumerable(Of Byte()))
+  name.vb: GetRandomElement(Of Byte())(IEnumerable(Of Byte()))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1(System.Collections.Generic.IEnumerable{System.Byte[]})
+    name: GetRandomElement
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_GetRandomElement__1_System_Collections_Generic_IEnumerable___0__
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1(System.Collections.Generic.IEnumerable{System.Byte[]})
+    name: GetRandomElement
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_GetRandomElement__1_System_Collections_Generic_IEnumerable___0__
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.IEnumerable{System.Byte[]}.Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Char,System.Func{System.Byte[],System.String})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  definition: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  name: JoinWith<byte[]>(IEnumerable<byte[]>, char, Func<byte[], string>)
+  nameWithType: EnumerableExtensions.JoinWith<byte[]>(IEnumerable<byte[]>, char, Func<byte[], string>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.JoinWith<byte[]>(System.Collections.Generic.IEnumerable<byte[]>, char, System.Func<byte[], string>)
+  nameWithType.vb: EnumerableExtensions.JoinWith(Of Byte())(IEnumerable(Of Byte()), Char, Func(Of Byte(), String))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.JoinWith(Of Byte())(System.Collections.Generic.IEnumerable(Of Byte()), Char, System.Func(Of Byte(), String))
+  name.vb: JoinWith(Of Byte())(IEnumerable(Of Byte()), Char, Func(Of Byte(), String))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{System.Byte[]},System.Char,System.Func{System.Byte[],System.String})
+    name: JoinWith
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Char
+    name: char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{System.Byte[]},System.Char,System.Func{System.Byte[],System.String})
+    name: JoinWith
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Char
+    name: Char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.IEnumerable{System.Byte[]}.Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.String,System.Func{System.Byte[],System.String})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Func{``0,System.String})
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  definition: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Func{``0,System.String})
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_String_System_Func___0_System_String__
+  name: JoinWith<byte[]>(IEnumerable<byte[]>, string, Func<byte[], string>)
+  nameWithType: EnumerableExtensions.JoinWith<byte[]>(IEnumerable<byte[]>, string, Func<byte[], string>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.JoinWith<byte[]>(System.Collections.Generic.IEnumerable<byte[]>, string, System.Func<byte[], string>)
+  nameWithType.vb: EnumerableExtensions.JoinWith(Of Byte())(IEnumerable(Of Byte()), String, Func(Of Byte(), String))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.JoinWith(Of Byte())(System.Collections.Generic.IEnumerable(Of Byte()), String, System.Func(Of Byte(), String))
+  name.vb: JoinWith(Of Byte())(IEnumerable(Of Byte()), String, Func(Of Byte(), String))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{System.Byte[]},System.String,System.Func{System.Byte[],System.String})
+    name: JoinWith
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_String_System_Func___0_System_String__
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{System.Byte[]},System.String,System.Func{System.Byte[],System.String})
+    name: JoinWith
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_String_System_Func___0_System_String__
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.IEnumerable{System.Byte[]}.Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Char,System.Func{System.Byte[],System.String})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  definition: Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Join__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  name: Join<byte[]>(IEnumerable<byte[]>, char, Func<byte[], string>)
+  nameWithType: EnumerableExtensions.Join<byte[]>(IEnumerable<byte[]>, char, Func<byte[], string>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.Join<byte[]>(System.Collections.Generic.IEnumerable<byte[]>, char, System.Func<byte[], string>)
+  nameWithType.vb: EnumerableExtensions.Join(Of Byte())(IEnumerable(Of Byte()), Char, Func(Of Byte(), String))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.Join(Of Byte())(System.Collections.Generic.IEnumerable(Of Byte()), Char, System.Func(Of Byte(), String))
+  name.vb: Join(Of Byte())(IEnumerable(Of Byte()), Char, Func(Of Byte(), String))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{System.Byte[]},System.Char,System.Func{System.Byte[],System.String})
+    name: Join
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Join__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Char
+    name: char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{System.Byte[]},System.Char,System.Func{System.Byte[],System.String})
+    name: Join
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Join__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Char
+    name: Char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.IEnumerable{System.Byte[]}.Mewdeko.Extensions.EnumerableExtensions.Shuffle``1
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.Shuffle``1(System.Collections.Generic.IEnumerable{``0})
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  definition: Mewdeko.Extensions.EnumerableExtensions.Shuffle``1(System.Collections.Generic.IEnumerable{``0})
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Shuffle__1_System_Collections_Generic_IEnumerable___0__
+  name: Shuffle<byte[]>(IEnumerable<byte[]>)
+  nameWithType: EnumerableExtensions.Shuffle<byte[]>(IEnumerable<byte[]>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.Shuffle<byte[]>(System.Collections.Generic.IEnumerable<byte[]>)
+  nameWithType.vb: EnumerableExtensions.Shuffle(Of Byte())(IEnumerable(Of Byte()))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.Shuffle(Of Byte())(System.Collections.Generic.IEnumerable(Of Byte()))
+  name.vb: Shuffle(Of Byte())(IEnumerable(Of Byte()))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Shuffle``1(System.Collections.Generic.IEnumerable{System.Byte[]})
+    name: Shuffle
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Shuffle__1_System_Collections_Generic_IEnumerable___0__
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Shuffle``1(System.Collections.Generic.IEnumerable{System.Byte[]})
+    name: Shuffle
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Shuffle__1_System_Collections_Generic_IEnumerable___0__
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: )
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IReadOnlyList`1
+  commentId: T:System.Collections.Generic.IReadOnlyList`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  name: IReadOnlyList<T>
+  nameWithType: IReadOnlyList<T>
+  fullName: System.Collections.Generic.IReadOnlyList<T>
+  nameWithType.vb: IReadOnlyList(Of T)
+  fullName.vb: System.Collections.Generic.IReadOnlyList(Of T)
+  name.vb: IReadOnlyList(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: System.Collections.Generic.IReadOnlyCollection`1
+  commentId: T:System.Collections.Generic.IReadOnlyCollection`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1
+  name: IReadOnlyCollection<T>
+  nameWithType: IReadOnlyCollection<T>
+  fullName: System.Collections.Generic.IReadOnlyCollection<T>
+  nameWithType.vb: IReadOnlyCollection(Of T)
+  fullName.vb: System.Collections.Generic.IReadOnlyCollection(Of T)
+  name.vb: IReadOnlyCollection(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyCollection`1
+    name: IReadOnlyCollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyCollection`1
+    name: IReadOnlyCollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})
+  isExternal: true
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Distinct__2_System_Collections_Generic_IEnumerable___0__System_Func___0___1__
+  name: Distinct<T, TU>(IEnumerable<T>, Func<T, TU>)
+  nameWithType: EnumerableExtensions.Distinct<T, TU>(IEnumerable<T>, Func<T, TU>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.Distinct<T, TU>(System.Collections.Generic.IEnumerable<T>, System.Func<T, TU>)
+  nameWithType.vb: EnumerableExtensions.Distinct(Of T, TU)(IEnumerable(Of T), Func(Of T, TU))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.Distinct(Of T, TU)(System.Collections.Generic.IEnumerable(Of T), System.Func(Of T, TU))
+  name.vb: Distinct(Of T, TU)(IEnumerable(Of T), Func(Of T, TU))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})
+    name: Distinct
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Distinct__2_System_Collections_Generic_IEnumerable___0__System_Func___0___1__
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TU
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TU
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})
+    name: Distinct
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Distinct__2_System_Collections_Generic_IEnumerable___0__System_Func___0___1__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TU
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TU
+  - name: )
+  - name: )
+- uid: Mewdeko.Extensions.EnumerableExtensions
+  commentId: T:Mewdeko.Extensions.EnumerableExtensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.EnumerableExtensions.html
+  name: EnumerableExtensions
+  nameWithType: EnumerableExtensions
+  fullName: Mewdeko.Extensions.EnumerableExtensions
+- uid: Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})
+  isExternal: true
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0__
+  name: ForEach<T>(IEnumerable<T>, Action<T>)
+  nameWithType: EnumerableExtensions.ForEach<T>(IEnumerable<T>, Action<T>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.ForEach<T>(System.Collections.Generic.IEnumerable<T>, System.Action<T>)
+  nameWithType.vb: EnumerableExtensions.ForEach(Of T)(IEnumerable(Of T), Action(Of T))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.ForEach(Of T)(System.Collections.Generic.IEnumerable(Of T), System.Action(Of T))
+  name.vb: ForEach(Of T)(IEnumerable(Of T), Action(Of T))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})
+    name: ForEach
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0__
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})
+    name: ForEach
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0})
+  isExternal: true
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_GetRandomElement__1_System_Collections_Generic_IEnumerable___0__
+  name: GetRandomElement<T>(IEnumerable<T>)
+  nameWithType: EnumerableExtensions.GetRandomElement<T>(IEnumerable<T>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement<T>(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: EnumerableExtensions.GetRandomElement(Of T)(IEnumerable(Of T))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement(Of T)(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: GetRandomElement(Of T)(IEnumerable(Of T))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0})
+    name: GetRandomElement
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_GetRandomElement__1_System_Collections_Generic_IEnumerable___0__
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0})
+    name: GetRandomElement
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_GetRandomElement__1_System_Collections_Generic_IEnumerable___0__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  isExternal: true
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  name: JoinWith<T>(IEnumerable<T>, char, Func<T, string>)
+  nameWithType: EnumerableExtensions.JoinWith<T>(IEnumerable<T>, char, Func<T, string>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.JoinWith<T>(System.Collections.Generic.IEnumerable<T>, char, System.Func<T, string>)
+  nameWithType.vb: EnumerableExtensions.JoinWith(Of T)(IEnumerable(Of T), Char, Func(Of T, String))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.JoinWith(Of T)(System.Collections.Generic.IEnumerable(Of T), Char, System.Func(Of T, String))
+  name.vb: JoinWith(Of T)(IEnumerable(Of T), Char, Func(Of T, String))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+    name: JoinWith
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Char
+    name: char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+    name: JoinWith
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Char
+    name: Char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: )
+- uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Func{``0,System.String})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Func{``0,System.String})
+  isExternal: true
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_String_System_Func___0_System_String__
+  name: JoinWith<T>(IEnumerable<T>, string, Func<T, string>)
+  nameWithType: EnumerableExtensions.JoinWith<T>(IEnumerable<T>, string, Func<T, string>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.JoinWith<T>(System.Collections.Generic.IEnumerable<T>, string, System.Func<T, string>)
+  nameWithType.vb: EnumerableExtensions.JoinWith(Of T)(IEnumerable(Of T), String, Func(Of T, String))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.JoinWith(Of T)(System.Collections.Generic.IEnumerable(Of T), String, System.Func(Of T, String))
+  name.vb: JoinWith(Of T)(IEnumerable(Of T), String, Func(Of T, String))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Func{``0,System.String})
+    name: JoinWith
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_String_System_Func___0_System_String__
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Func{``0,System.String})
+    name: JoinWith
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_String_System_Func___0_System_String__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: )
+- uid: Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  isExternal: true
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Join__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  name: Join<T>(IEnumerable<T>, char, Func<T, string>)
+  nameWithType: EnumerableExtensions.Join<T>(IEnumerable<T>, char, Func<T, string>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.Join<T>(System.Collections.Generic.IEnumerable<T>, char, System.Func<T, string>)
+  nameWithType.vb: EnumerableExtensions.Join(Of T)(IEnumerable(Of T), Char, Func(Of T, String))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.Join(Of T)(System.Collections.Generic.IEnumerable(Of T), Char, System.Func(Of T, String))
+  name.vb: Join(Of T)(IEnumerable(Of T), Char, Func(Of T, String))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+    name: Join
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Join__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Char
+    name: char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+    name: Join
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Join__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Char
+    name: Char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: )
+- uid: Mewdeko.Extensions.EnumerableExtensions.Shuffle``1(System.Collections.Generic.IEnumerable{``0})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.Shuffle``1(System.Collections.Generic.IEnumerable{``0})
+  isExternal: true
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Shuffle__1_System_Collections_Generic_IEnumerable___0__
+  name: Shuffle<T>(IEnumerable<T>)
+  nameWithType: EnumerableExtensions.Shuffle<T>(IEnumerable<T>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.Shuffle<T>(System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: EnumerableExtensions.Shuffle(Of T)(IEnumerable(Of T))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.Shuffle(Of T)(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: Shuffle(Of T)(IEnumerable(Of T))
+  spec.csharp:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Shuffle``1(System.Collections.Generic.IEnumerable{``0})
+    name: Shuffle
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Shuffle__1_System_Collections_Generic_IEnumerable___0__
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.EnumerableExtensions.Shuffle``1(System.Collections.Generic.IEnumerable{``0})
+    name: Shuffle
+    href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Shuffle__1_System_Collections_Generic_IEnumerable___0__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Services.Common.RedisImageArray
+  commentId: T:Mewdeko.Services.Common.RedisImageArray
+  href: Mewdeko.Services.Common.RedisImageArray.html
+  name: RedisImageArray
+  nameWithType: RedisImageArray
+  fullName: Mewdeko.Services.Common.RedisImageArray
+- uid: Mewdeko.Services.Common.RedisImageArray.#ctor*
+  commentId: Overload:Mewdeko.Services.Common.RedisImageArray.#ctor
+  href: Mewdeko.Services.Common.RedisImageArray.html#Mewdeko_Services_Common_RedisImageArray__ctor_System_String_StackExchange_Redis_ConnectionMultiplexer_
+  name: RedisImageArray
+  nameWithType: RedisImageArray.RedisImageArray
+  fullName: Mewdeko.Services.Common.RedisImageArray.RedisImageArray
+  nameWithType.vb: RedisImageArray.New
+  fullName.vb: Mewdeko.Services.Common.RedisImageArray.New
+  name.vb: New
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: StackExchange.Redis.ConnectionMultiplexer
+  commentId: T:StackExchange.Redis.ConnectionMultiplexer
+  parent: StackExchange.Redis
+  isExternal: true
+  name: ConnectionMultiplexer
+  nameWithType: ConnectionMultiplexer
+  fullName: StackExchange.Redis.ConnectionMultiplexer
+- uid: StackExchange.Redis
+  commentId: N:StackExchange.Redis
+  isExternal: true
+  name: StackExchange.Redis
+  nameWithType: StackExchange.Redis
+  fullName: StackExchange.Redis
+  spec.csharp:
+  - uid: StackExchange
+    name: StackExchange
+    isExternal: true
+  - name: .
+  - uid: StackExchange.Redis
+    name: Redis
+    isExternal: true
+  spec.vb:
+  - uid: StackExchange
+    name: StackExchange
+    isExternal: true
+  - name: .
+  - uid: StackExchange.Redis
+    name: Redis
+    isExternal: true
+- uid: Mewdeko.Services.Common.RedisImageArray.Item*
+  commentId: Overload:Mewdeko.Services.Common.RedisImageArray.Item
+  href: Mewdeko.Services.Common.RedisImageArray.html#Mewdeko_Services_Common_RedisImageArray_Item_System_Int32_
+  name: this
+  nameWithType: RedisImageArray.this
+  fullName: Mewdeko.Services.Common.RedisImageArray.this
+  nameWithType.vb: RedisImageArray.this[]
+  fullName.vb: Mewdeko.Services.Common.RedisImageArray.this[]
+  name.vb: this[]
+- uid: System.Collections.Generic.IReadOnlyList{System.Byte[]}.Item(System.Int32)
+  commentId: P:System.Collections.Generic.IReadOnlyList{System.Byte[]}.Item(System.Int32)
+  parent: System.Collections.Generic.IReadOnlyList{System.Byte[]}
+  definition: System.Collections.Generic.IReadOnlyList`1.Item(System.Int32)
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: this[int]
+  nameWithType: IReadOnlyList<byte[]>.this[int]
+  fullName: System.Collections.Generic.IReadOnlyList<byte[]>.this[int]
+  nameWithType.vb: IReadOnlyList(Of Byte()).this[](Integer)
+  fullName.vb: System.Collections.Generic.IReadOnlyList(Of Byte()).this[](Integer)
+  name.vb: this[](Integer)
+  spec.csharp:
+  - name: this
+  - name: '['
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ']'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyList{System.Byte[]}.Item(System.Int32)
+    name: this[]
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1.item
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.Byte[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.byte
+  name: byte[]
+  nameWithType: byte[]
+  fullName: byte[]
+  nameWithType.vb: Byte()
+  fullName.vb: Byte()
+  name.vb: Byte()
+  spec.csharp:
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.IReadOnlyList`1.Item(System.Int32)
+  commentId: P:System.Collections.Generic.IReadOnlyList`1.Item(System.Int32)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: this[int]
+  nameWithType: IReadOnlyList<T>.this[int]
+  fullName: System.Collections.Generic.IReadOnlyList<T>.this[int]
+  nameWithType.vb: IReadOnlyList(Of T).this[](Integer)
+  fullName.vb: System.Collections.Generic.IReadOnlyList(Of T).this[](Integer)
+  name.vb: this[](Integer)
+  spec.csharp:
+  - name: this
+  - name: '['
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ']'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyList`1.Item(System.Int32)
+    name: this[]
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1.item
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: Mewdeko.Services.Common.RedisImageArray.Count*
+  commentId: Overload:Mewdeko.Services.Common.RedisImageArray.Count
+  href: Mewdeko.Services.Common.RedisImageArray.html#Mewdeko_Services_Common_RedisImageArray_Count
+  name: Count
+  nameWithType: RedisImageArray.Count
+  fullName: Mewdeko.Services.Common.RedisImageArray.Count
+- uid: System.Collections.Generic.IReadOnlyCollection{System.Byte[]}.Count
+  commentId: P:System.Collections.Generic.IReadOnlyCollection{System.Byte[]}.Count
+  parent: System.Collections.Generic.IReadOnlyCollection{System.Byte[]}
+  definition: System.Collections.Generic.IReadOnlyCollection`1.Count
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1.count
+  name: Count
+  nameWithType: IReadOnlyCollection<byte[]>.Count
+  fullName: System.Collections.Generic.IReadOnlyCollection<byte[]>.Count
+  nameWithType.vb: IReadOnlyCollection(Of Byte()).Count
+  fullName.vb: System.Collections.Generic.IReadOnlyCollection(Of Byte()).Count
+- uid: System.Collections.Generic.IReadOnlyCollection`1.Count
+  commentId: P:System.Collections.Generic.IReadOnlyCollection`1.Count
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1.count
+  name: Count
+  nameWithType: IReadOnlyCollection<T>.Count
+  fullName: System.Collections.Generic.IReadOnlyCollection<T>.Count
+  nameWithType.vb: IReadOnlyCollection(Of T).Count
+  fullName.vb: System.Collections.Generic.IReadOnlyCollection(Of T).Count
+- uid: Mewdeko.Services.Common.RedisImageArray.GetEnumerator*
+  commentId: Overload:Mewdeko.Services.Common.RedisImageArray.GetEnumerator
+  href: Mewdeko.Services.Common.RedisImageArray.html#Mewdeko_Services_Common_RedisImageArray_GetEnumerator
+  name: GetEnumerator
+  nameWithType: RedisImageArray.GetEnumerator
+  fullName: Mewdeko.Services.Common.RedisImageArray.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{System.Byte[]}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{System.Byte[]}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{System.Byte[]}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<byte[]>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<byte[]>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of Byte()).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of Byte()).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable{System.Byte[]}.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable{System.Byte[]}.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.IEnumerator{System.Byte[]}
+  commentId: T:System.Collections.Generic.IEnumerator{System.Byte[]}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  name: IEnumerator<byte[]>
+  nameWithType: IEnumerator<byte[]>
+  fullName: System.Collections.Generic.IEnumerator<byte[]>
+  nameWithType.vb: IEnumerator(Of Byte())
+  fullName.vb: System.Collections.Generic.IEnumerator(Of Byte())
+  name.vb: IEnumerator(Of Byte())
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: <
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1.getenumerator
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerator-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )

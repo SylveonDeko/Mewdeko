@@ -1,0 +1,136 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Models.CurrencyEvent.Type
+  commentId: T:Mewdeko.Database.Models.CurrencyEvent.Type
+  id: CurrencyEvent.Type
+  parent: Mewdeko.Database.Models
+  children:
+  - Mewdeko.Database.Models.CurrencyEvent.Type.GameStatus
+  - Mewdeko.Database.Models.CurrencyEvent.Type.Reaction
+  langs:
+  - csharp
+  - vb
+  name: CurrencyEvent.Type
+  nameWithType: CurrencyEvent.Type
+  fullName: Mewdeko.Database.Models.CurrencyEvent.Type
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Event.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Type
+    path: src/Mewdeko.Database/Models/Event.cs
+    startLine: 4
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public enum CurrencyEvent.Type
+    content.vb: Public Enum CurrencyEvent.Type
+- uid: Mewdeko.Database.Models.CurrencyEvent.Type.Reaction
+  commentId: F:Mewdeko.Database.Models.CurrencyEvent.Type.Reaction
+  id: Reaction
+  parent: Mewdeko.Database.Models.CurrencyEvent.Type
+  langs:
+  - csharp
+  - vb
+  name: Reaction
+  nameWithType: CurrencyEvent.Type.Reaction
+  fullName: Mewdeko.Database.Models.CurrencyEvent.Type.Reaction
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Event.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Reaction
+    path: src/Mewdeko.Database/Models/Event.cs
+    startLine: 6
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Reaction = 0
+    return:
+      type: Mewdeko.Database.Models.CurrencyEvent.Type
+- uid: Mewdeko.Database.Models.CurrencyEvent.Type.GameStatus
+  commentId: F:Mewdeko.Database.Models.CurrencyEvent.Type.GameStatus
+  id: GameStatus
+  parent: Mewdeko.Database.Models.CurrencyEvent.Type
+  langs:
+  - csharp
+  - vb
+  name: GameStatus
+  nameWithType: CurrencyEvent.Type.GameStatus
+  fullName: Mewdeko.Database.Models.CurrencyEvent.Type.GameStatus
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Event.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GameStatus
+    path: src/Mewdeko.Database/Models/Event.cs
+    startLine: 8
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: GameStatus = 1
+    return:
+      type: Mewdeko.Database.Models.CurrencyEvent.Type
+references:
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: Mewdeko.Database.Models.CurrencyEvent.Type
+  commentId: T:Mewdeko.Database.Models.CurrencyEvent.Type
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.CurrencyEvent.html
+  name: CurrencyEvent.Type
+  nameWithType: CurrencyEvent.Type
+  fullName: Mewdeko.Database.Models.CurrencyEvent.Type
+  spec.csharp:
+  - uid: Mewdeko.Database.Models.CurrencyEvent
+    name: CurrencyEvent
+    href: Mewdeko.Database.Models.CurrencyEvent.html
+  - name: .
+  - uid: Mewdeko.Database.Models.CurrencyEvent.Type
+    name: Type
+    href: Mewdeko.Database.Models.CurrencyEvent.Type.html
+  spec.vb:
+  - uid: Mewdeko.Database.Models.CurrencyEvent
+    name: CurrencyEvent
+    href: Mewdeko.Database.Models.CurrencyEvent.html
+  - name: .
+  - uid: Mewdeko.Database.Models.CurrencyEvent.Type
+    name: Type
+    href: Mewdeko.Database.Models.CurrencyEvent.Type.html

@@ -1,0 +1,200 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Administration.Administration.Channel
+  commentId: T:Mewdeko.Modules.Administration.Administration.Channel
+  id: Administration.Channel
+  parent: Mewdeko.Modules.Administration
+  children:
+  - Mewdeko.Modules.Administration.Administration.Channel.Ch
+  - Mewdeko.Modules.Administration.Administration.Channel.Chan
+  - Mewdeko.Modules.Administration.Administration.Channel.Channel
+  - Mewdeko.Modules.Administration.Administration.Channel.Chnl
+  langs:
+  - csharp
+  - vb
+  name: Administration.Channel
+  nameWithType: Administration.Channel
+  fullName: Mewdeko.Modules.Administration.Administration.Channel
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Administration.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Channel
+    path: src/Mewdeko/Modules/Administration/Administration.cs
+    startLine: 24
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration
+  summary: Enumerates different variations of the term "channel".
+  example: []
+  syntax:
+    content: public enum Administration.Channel
+    content.vb: Public Enum Administration.Channel
+- uid: Mewdeko.Modules.Administration.Administration.Channel.Channel
+  commentId: F:Mewdeko.Modules.Administration.Administration.Channel.Channel
+  id: Channel
+  parent: Mewdeko.Modules.Administration.Administration.Channel
+  langs:
+  - csharp
+  - vb
+  name: Channel
+  nameWithType: Administration.Channel.Channel
+  fullName: Mewdeko.Modules.Administration.Administration.Channel.Channel
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Administration.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Channel
+    path: src/Mewdeko/Modules/Administration/Administration.cs
+    startLine: 29
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration
+  summary: Represents the term "channel".
+  example: []
+  syntax:
+    content: Channel = 0
+    return:
+      type: Mewdeko.Modules.Administration.Administration.Channel
+- uid: Mewdeko.Modules.Administration.Administration.Channel.Ch
+  commentId: F:Mewdeko.Modules.Administration.Administration.Channel.Ch
+  id: Ch
+  parent: Mewdeko.Modules.Administration.Administration.Channel
+  langs:
+  - csharp
+  - vb
+  name: Ch
+  nameWithType: Administration.Channel.Ch
+  fullName: Mewdeko.Modules.Administration.Administration.Channel.Ch
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Administration.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Ch
+    path: src/Mewdeko/Modules/Administration/Administration.cs
+    startLine: 34
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration
+  summary: Represents the abbreviation "ch" for "channel".
+  example: []
+  syntax:
+    content: Ch = 1
+    return:
+      type: Mewdeko.Modules.Administration.Administration.Channel
+- uid: Mewdeko.Modules.Administration.Administration.Channel.Chnl
+  commentId: F:Mewdeko.Modules.Administration.Administration.Channel.Chnl
+  id: Chnl
+  parent: Mewdeko.Modules.Administration.Administration.Channel
+  langs:
+  - csharp
+  - vb
+  name: Chnl
+  nameWithType: Administration.Channel.Chnl
+  fullName: Mewdeko.Modules.Administration.Administration.Channel.Chnl
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Administration.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Chnl
+    path: src/Mewdeko/Modules/Administration/Administration.cs
+    startLine: 39
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration
+  summary: Represents the abbreviation "chnl" for "channel".
+  example: []
+  syntax:
+    content: Chnl = 2
+    return:
+      type: Mewdeko.Modules.Administration.Administration.Channel
+- uid: Mewdeko.Modules.Administration.Administration.Channel.Chan
+  commentId: F:Mewdeko.Modules.Administration.Administration.Channel.Chan
+  id: Chan
+  parent: Mewdeko.Modules.Administration.Administration.Channel
+  langs:
+  - csharp
+  - vb
+  name: Chan
+  nameWithType: Administration.Channel.Chan
+  fullName: Mewdeko.Modules.Administration.Administration.Channel.Chan
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Administration.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Chan
+    path: src/Mewdeko/Modules/Administration/Administration.cs
+    startLine: 44
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration
+  summary: Represents the abbreviation "chan" for "channel".
+  example: []
+  syntax:
+    content: Chan = 3
+    return:
+      type: Mewdeko.Modules.Administration.Administration.Channel
+references:
+- uid: Mewdeko.Modules.Administration
+  commentId: N:Mewdeko.Modules.Administration
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Administration
+  nameWithType: Mewdeko.Modules.Administration
+  fullName: Mewdeko.Modules.Administration
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+- uid: Mewdeko.Modules.Administration.Administration.Channel
+  commentId: T:Mewdeko.Modules.Administration.Administration.Channel
+  parent: Mewdeko.Modules.Administration
+  href: Mewdeko.Modules.Administration.Administration.html
+  name: Administration.Channel
+  nameWithType: Administration.Channel
+  fullName: Mewdeko.Modules.Administration.Administration.Channel
+  spec.csharp:
+  - uid: Mewdeko.Modules.Administration.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Administration.Channel
+    name: Channel
+    href: Mewdeko.Modules.Administration.Administration.Channel.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Administration.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Administration.Channel
+    name: Channel
+    href: Mewdeko.Modules.Administration.Administration.Channel.html

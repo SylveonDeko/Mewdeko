@@ -1,0 +1,200 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold
+  commentId: T:Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold
+  id: Suggestions.RepostThreshold
+  parent: Mewdeko.Modules.Suggestions
+  children:
+  - Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold.Disabled
+  - Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold.Fifteen
+  - Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold.Five
+  - Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold.Ten
+  langs:
+  - csharp
+  - vb
+  name: Suggestions.RepostThreshold
+  nameWithType: Suggestions.RepostThreshold
+  fullName: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RepostThreshold
+    path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
+    startLine: 84
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Suggestions
+  summary: Sets the threshold for reposting suggestions.
+  example: []
+  syntax:
+    content: public enum Suggestions.RepostThreshold
+    content.vb: Public Enum Suggestions.RepostThreshold
+- uid: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold.Disabled
+  commentId: F:Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold.Disabled
+  id: Disabled
+  parent: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold
+  langs:
+  - csharp
+  - vb
+  name: Disabled
+  nameWithType: Suggestions.RepostThreshold.Disabled
+  fullName: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold.Disabled
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Disabled
+    path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
+    startLine: 89
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Suggestions
+  summary: Reposting suggestions is disabled.
+  example: []
+  syntax:
+    content: Disabled = 0
+    return:
+      type: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold
+- uid: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold.Five
+  commentId: F:Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold.Five
+  id: Five
+  parent: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold
+  langs:
+  - csharp
+  - vb
+  name: Five
+  nameWithType: Suggestions.RepostThreshold.Five
+  fullName: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold.Five
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Five
+    path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
+    startLine: 94
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Suggestions
+  summary: Suggestions can be reposted after five denials.
+  example: []
+  syntax:
+    content: Five = 5
+    return:
+      type: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold
+- uid: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold.Ten
+  commentId: F:Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold.Ten
+  id: Ten
+  parent: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold
+  langs:
+  - csharp
+  - vb
+  name: Ten
+  nameWithType: Suggestions.RepostThreshold.Ten
+  fullName: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold.Ten
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Ten
+    path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
+    startLine: 99
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Suggestions
+  summary: Suggestions can be reposted after ten denials.
+  example: []
+  syntax:
+    content: Ten = 10
+    return:
+      type: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold
+- uid: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold.Fifteen
+  commentId: F:Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold.Fifteen
+  id: Fifteen
+  parent: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold
+  langs:
+  - csharp
+  - vb
+  name: Fifteen
+  nameWithType: Suggestions.RepostThreshold.Fifteen
+  fullName: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold.Fifteen
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Fifteen
+    path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
+    startLine: 104
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Suggestions
+  summary: Suggestions can be reposted after fifteen denials.
+  example: []
+  syntax:
+    content: Fifteen = 15
+    return:
+      type: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold
+references:
+- uid: Mewdeko.Modules.Suggestions
+  commentId: N:Mewdeko.Modules.Suggestions
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Suggestions
+  nameWithType: Mewdeko.Modules.Suggestions
+  fullName: Mewdeko.Modules.Suggestions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions
+    name: Suggestions
+    href: Mewdeko.Modules.Suggestions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions
+    name: Suggestions
+    href: Mewdeko.Modules.Suggestions.html
+- uid: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold
+  commentId: T:Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold
+  parent: Mewdeko.Modules.Suggestions
+  href: Mewdeko.Modules.Suggestions.Suggestions.html
+  name: Suggestions.RepostThreshold
+  nameWithType: Suggestions.RepostThreshold
+  fullName: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold
+  spec.csharp:
+  - uid: Mewdeko.Modules.Suggestions.Suggestions
+    name: Suggestions
+    href: Mewdeko.Modules.Suggestions.Suggestions.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold
+    name: RepostThreshold
+    href: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Suggestions.Suggestions
+    name: Suggestions
+    href: Mewdeko.Modules.Suggestions.Suggestions.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold
+    name: RepostThreshold
+    href: Mewdeko.Modules.Suggestions.Suggestions.RepostThreshold.html

@@ -1,0 +1,113 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Permissions.SlashPermissions.Reset
+  commentId: T:Mewdeko.Modules.Permissions.SlashPermissions.Reset
+  id: SlashPermissions.Reset
+  parent: Mewdeko.Modules.Permissions
+  children:
+  - Mewdeko.Modules.Permissions.SlashPermissions.Reset.Reset
+  langs:
+  - csharp
+  - vb
+  name: SlashPermissions.Reset
+  nameWithType: SlashPermissions.Reset
+  fullName: Mewdeko.Modules.Permissions.SlashPermissions.Reset
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/SlashPermissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Reset
+    path: src/Mewdeko/Modules/Permissions/SlashPermissions.cs
+    startLine: 43
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Enum for indicating a reset operation.
+  example: []
+  syntax:
+    content: public enum SlashPermissions.Reset
+    content.vb: Public Enum SlashPermissions.Reset
+- uid: Mewdeko.Modules.Permissions.SlashPermissions.Reset.Reset
+  commentId: F:Mewdeko.Modules.Permissions.SlashPermissions.Reset.Reset
+  id: Reset
+  parent: Mewdeko.Modules.Permissions.SlashPermissions.Reset
+  langs:
+  - csharp
+  - vb
+  name: Reset
+  nameWithType: SlashPermissions.Reset.Reset
+  fullName: Mewdeko.Modules.Permissions.SlashPermissions.Reset.Reset
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Permissions/SlashPermissions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Reset
+    path: src/Mewdeko/Modules/Permissions/SlashPermissions.cs
+    startLine: 48
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Permissions
+  summary: Specifies a reset.
+  example: []
+  syntax:
+    content: Reset = 0
+    return:
+      type: Mewdeko.Modules.Permissions.SlashPermissions.Reset
+references:
+- uid: Mewdeko.Modules.Permissions
+  commentId: N:Mewdeko.Modules.Permissions
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Permissions
+  nameWithType: Mewdeko.Modules.Permissions
+  fullName: Mewdeko.Modules.Permissions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.html
+- uid: Mewdeko.Modules.Permissions.SlashPermissions.Reset
+  commentId: T:Mewdeko.Modules.Permissions.SlashPermissions.Reset
+  parent: Mewdeko.Modules.Permissions
+  href: Mewdeko.Modules.Permissions.SlashPermissions.html
+  name: SlashPermissions.Reset
+  nameWithType: SlashPermissions.Reset
+  fullName: Mewdeko.Modules.Permissions.SlashPermissions.Reset
+  spec.csharp:
+  - uid: Mewdeko.Modules.Permissions.SlashPermissions
+    name: SlashPermissions
+    href: Mewdeko.Modules.Permissions.SlashPermissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.SlashPermissions.Reset
+    name: Reset
+    href: Mewdeko.Modules.Permissions.SlashPermissions.Reset.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Permissions.SlashPermissions
+    name: SlashPermissions
+    href: Mewdeko.Modules.Permissions.SlashPermissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.SlashPermissions.Reset
+    name: Reset
+    href: Mewdeko.Modules.Permissions.SlashPermissions.Reset.html

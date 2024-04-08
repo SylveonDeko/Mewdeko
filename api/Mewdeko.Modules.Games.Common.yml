@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Games.Common
+  commentId: N:Mewdeko.Modules.Games.Common
+  id: Mewdeko.Modules.Games.Common
+  children:
+  - Mewdeko.Modules.Games.Common.GamesConfig
+  - Mewdeko.Modules.Games.Common.PollRunner
+  - Mewdeko.Modules.Games.Common.RaceAnimal
+  - Mewdeko.Modules.Games.Common.TicTacToe
+  - Mewdeko.Modules.Games.Common.TicTacToe.Options
+  - Mewdeko.Modules.Games.Common.TriviaConfig
+  - Mewdeko.Modules.Games.Common.TypingArticle
+  - Mewdeko.Modules.Games.Common.TypingGame
+  - Mewdeko.Modules.Games.Common.TypingGame.Options
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Games.Common
+  nameWithType: Mewdeko.Modules.Games.Common
+  fullName: Mewdeko.Modules.Games.Common
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Games.Common.GamesConfig
+  commentId: T:Mewdeko.Modules.Games.Common.GamesConfig
+  href: Mewdeko.Modules.Games.Common.GamesConfig.html
+  name: GamesConfig
+  nameWithType: GamesConfig
+  fullName: Mewdeko.Modules.Games.Common.GamesConfig
+- uid: Mewdeko.Modules.Games.Common.TriviaConfig
+  commentId: T:Mewdeko.Modules.Games.Common.TriviaConfig
+  parent: Mewdeko.Modules.Games.Common
+  href: Mewdeko.Modules.Games.Common.TriviaConfig.html
+  name: TriviaConfig
+  nameWithType: TriviaConfig
+  fullName: Mewdeko.Modules.Games.Common.TriviaConfig
+- uid: Mewdeko.Modules.Games.Common.RaceAnimal
+  commentId: T:Mewdeko.Modules.Games.Common.RaceAnimal
+  href: Mewdeko.Modules.Games.Common.RaceAnimal.html
+  name: RaceAnimal
+  nameWithType: RaceAnimal
+  fullName: Mewdeko.Modules.Games.Common.RaceAnimal
+- uid: Mewdeko.Modules.Games.Common.PollRunner
+  commentId: T:Mewdeko.Modules.Games.Common.PollRunner
+  href: Mewdeko.Modules.Games.Common.PollRunner.html
+  name: PollRunner
+  nameWithType: PollRunner
+  fullName: Mewdeko.Modules.Games.Common.PollRunner
+- uid: Mewdeko.Modules.Games.Common.TicTacToe
+  commentId: T:Mewdeko.Modules.Games.Common.TicTacToe
+  href: Mewdeko.Modules.Games.Common.TicTacToe.html
+  name: TicTacToe
+  nameWithType: TicTacToe
+  fullName: Mewdeko.Modules.Games.Common.TicTacToe
+- uid: Mewdeko.Modules.Games.Common.TicTacToe.Options
+  commentId: T:Mewdeko.Modules.Games.Common.TicTacToe.Options
+  parent: Mewdeko.Modules.Games.Common
+  href: Mewdeko.Modules.Games.Common.TicTacToe.html
+  name: TicTacToe.Options
+  nameWithType: TicTacToe.Options
+  fullName: Mewdeko.Modules.Games.Common.TicTacToe.Options
+  spec.csharp:
+  - uid: Mewdeko.Modules.Games.Common.TicTacToe
+    name: TicTacToe
+    href: Mewdeko.Modules.Games.Common.TicTacToe.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.TicTacToe.Options
+    name: Options
+    href: Mewdeko.Modules.Games.Common.TicTacToe.Options.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Games.Common.TicTacToe
+    name: TicTacToe
+    href: Mewdeko.Modules.Games.Common.TicTacToe.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.TicTacToe.Options
+    name: Options
+    href: Mewdeko.Modules.Games.Common.TicTacToe.Options.html
+- uid: Mewdeko.Modules.Games.Common.TypingArticle
+  commentId: T:Mewdeko.Modules.Games.Common.TypingArticle
+  parent: Mewdeko.Modules.Games.Common
+  href: Mewdeko.Modules.Games.Common.TypingArticle.html
+  name: TypingArticle
+  nameWithType: TypingArticle
+  fullName: Mewdeko.Modules.Games.Common.TypingArticle
+- uid: Mewdeko.Modules.Games.Common.TypingGame
+  commentId: T:Mewdeko.Modules.Games.Common.TypingGame
+  href: Mewdeko.Modules.Games.Common.TypingGame.html
+  name: TypingGame
+  nameWithType: TypingGame
+  fullName: Mewdeko.Modules.Games.Common.TypingGame
+- uid: Mewdeko.Modules.Games.Common.TypingGame.Options
+  commentId: T:Mewdeko.Modules.Games.Common.TypingGame.Options
+  parent: Mewdeko.Modules.Games.Common
+  href: Mewdeko.Modules.Games.Common.TypingGame.html
+  name: TypingGame.Options
+  nameWithType: TypingGame.Options
+  fullName: Mewdeko.Modules.Games.Common.TypingGame.Options
+  spec.csharp:
+  - uid: Mewdeko.Modules.Games.Common.TypingGame
+    name: TypingGame
+    href: Mewdeko.Modules.Games.Common.TypingGame.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.TypingGame.Options
+    name: Options
+    href: Mewdeko.Modules.Games.Common.TypingGame.Options.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Games.Common.TypingGame
+    name: TypingGame
+    href: Mewdeko.Modules.Games.Common.TypingGame.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.TypingGame.Options
+    name: Options
+    href: Mewdeko.Modules.Games.Common.TypingGame.Options.html
+- uid: Mewdeko.Modules.Games.Common
+  commentId: N:Mewdeko.Modules.Games.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Games.Common
+  nameWithType: Mewdeko.Modules.Games.Common
+  fullName: Mewdeko.Modules.Games.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html

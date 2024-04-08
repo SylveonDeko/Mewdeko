@@ -1,0 +1,155 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.Configs.UpdateCheckType
+  commentId: T:Mewdeko.Common.Configs.UpdateCheckType
+  id: UpdateCheckType
+  parent: Mewdeko.Common.Configs
+  children:
+  - Mewdeko.Common.Configs.UpdateCheckType.Commit
+  - Mewdeko.Common.Configs.UpdateCheckType.None
+  - Mewdeko.Common.Configs.UpdateCheckType.Release
+  langs:
+  - csharp
+  - vb
+  name: UpdateCheckType
+  nameWithType: UpdateCheckType
+  fullName: Mewdeko.Common.Configs.UpdateCheckType
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Common/Configs/BotConfig.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UpdateCheckType
+    path: src/Mewdeko/Common/Configs/BotConfig.cs
+    startLine: 339
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Configs
+  summary: Type of update check to perform.
+  example: []
+  syntax:
+    content: public enum UpdateCheckType
+    content.vb: Public Enum UpdateCheckType
+- uid: Mewdeko.Common.Configs.UpdateCheckType.Release
+  commentId: F:Mewdeko.Common.Configs.UpdateCheckType.Release
+  id: Release
+  parent: Mewdeko.Common.Configs.UpdateCheckType
+  langs:
+  - csharp
+  - vb
+  name: Release
+  nameWithType: UpdateCheckType.Release
+  fullName: Mewdeko.Common.Configs.UpdateCheckType.Release
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Common/Configs/BotConfig.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Release
+    path: src/Mewdeko/Common/Configs/BotConfig.cs
+    startLine: 344
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Configs
+  summary: Check for release updates.
+  example: []
+  syntax:
+    content: Release = 0
+    return:
+      type: Mewdeko.Common.Configs.UpdateCheckType
+- uid: Mewdeko.Common.Configs.UpdateCheckType.Commit
+  commentId: F:Mewdeko.Common.Configs.UpdateCheckType.Commit
+  id: Commit
+  parent: Mewdeko.Common.Configs.UpdateCheckType
+  langs:
+  - csharp
+  - vb
+  name: Commit
+  nameWithType: UpdateCheckType.Commit
+  fullName: Mewdeko.Common.Configs.UpdateCheckType.Commit
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Common/Configs/BotConfig.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Commit
+    path: src/Mewdeko/Common/Configs/BotConfig.cs
+    startLine: 349
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Configs
+  summary: Check for commit updates.
+  example: []
+  syntax:
+    content: Commit = 1
+    return:
+      type: Mewdeko.Common.Configs.UpdateCheckType
+- uid: Mewdeko.Common.Configs.UpdateCheckType.None
+  commentId: F:Mewdeko.Common.Configs.UpdateCheckType.None
+  id: None
+  parent: Mewdeko.Common.Configs.UpdateCheckType
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: UpdateCheckType.None
+  fullName: Mewdeko.Common.Configs.UpdateCheckType.None
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Common/Configs/BotConfig.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: None
+    path: src/Mewdeko/Common/Configs/BotConfig.cs
+    startLine: 354
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Configs
+  summary: Do not check for updates.
+  example: []
+  syntax:
+    content: None = 2
+    return:
+      type: Mewdeko.Common.Configs.UpdateCheckType
+references:
+- uid: Mewdeko.Common.Configs
+  commentId: N:Mewdeko.Common.Configs
+  href: Mewdeko.html
+  name: Mewdeko.Common.Configs
+  nameWithType: Mewdeko.Common.Configs
+  fullName: Mewdeko.Common.Configs
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+- uid: Mewdeko.Common.Configs.UpdateCheckType
+  commentId: T:Mewdeko.Common.Configs.UpdateCheckType
+  parent: Mewdeko.Common.Configs
+  href: Mewdeko.Common.Configs.UpdateCheckType.html
+  name: UpdateCheckType
+  nameWithType: UpdateCheckType
+  fullName: Mewdeko.Common.Configs.UpdateCheckType

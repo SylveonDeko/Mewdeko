@@ -1,0 +1,147 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Models.SecondaryPermissionType
+  commentId: T:Mewdeko.Database.Models.SecondaryPermissionType
+  id: SecondaryPermissionType
+  parent: Mewdeko.Database.Models
+  children:
+  - Mewdeko.Database.Models.SecondaryPermissionType.AllModules
+  - Mewdeko.Database.Models.SecondaryPermissionType.Command
+  - Mewdeko.Database.Models.SecondaryPermissionType.Module
+  langs:
+  - csharp
+  - vb
+  name: SecondaryPermissionType
+  nameWithType: SecondaryPermissionType
+  fullName: Mewdeko.Database.Models.SecondaryPermissionType
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Permission.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SecondaryPermissionType
+    path: src/Mewdeko.Database/Models/Permission.cs
+    startLine: 68
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public enum SecondaryPermissionType
+    content.vb: Public Enum SecondaryPermissionType
+- uid: Mewdeko.Database.Models.SecondaryPermissionType.Module
+  commentId: F:Mewdeko.Database.Models.SecondaryPermissionType.Module
+  id: Module
+  parent: Mewdeko.Database.Models.SecondaryPermissionType
+  langs:
+  - csharp
+  - vb
+  name: Module
+  nameWithType: SecondaryPermissionType.Module
+  fullName: Mewdeko.Database.Models.SecondaryPermissionType.Module
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Permission.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Module
+    path: src/Mewdeko.Database/Models/Permission.cs
+    startLine: 70
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Module = 0
+    return:
+      type: Mewdeko.Database.Models.SecondaryPermissionType
+- uid: Mewdeko.Database.Models.SecondaryPermissionType.Command
+  commentId: F:Mewdeko.Database.Models.SecondaryPermissionType.Command
+  id: Command
+  parent: Mewdeko.Database.Models.SecondaryPermissionType
+  langs:
+  - csharp
+  - vb
+  name: Command
+  nameWithType: SecondaryPermissionType.Command
+  fullName: Mewdeko.Database.Models.SecondaryPermissionType.Command
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Permission.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Command
+    path: src/Mewdeko.Database/Models/Permission.cs
+    startLine: 71
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Command = 1
+    return:
+      type: Mewdeko.Database.Models.SecondaryPermissionType
+- uid: Mewdeko.Database.Models.SecondaryPermissionType.AllModules
+  commentId: F:Mewdeko.Database.Models.SecondaryPermissionType.AllModules
+  id: AllModules
+  parent: Mewdeko.Database.Models.SecondaryPermissionType
+  langs:
+  - csharp
+  - vb
+  name: AllModules
+  nameWithType: SecondaryPermissionType.AllModules
+  fullName: Mewdeko.Database.Models.SecondaryPermissionType.AllModules
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Permission.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AllModules
+    path: src/Mewdeko.Database/Models/Permission.cs
+    startLine: 72
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: AllModules = 2
+    return:
+      type: Mewdeko.Database.Models.SecondaryPermissionType
+references:
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: Mewdeko.Database.Models.SecondaryPermissionType
+  commentId: T:Mewdeko.Database.Models.SecondaryPermissionType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.SecondaryPermissionType.html
+  name: SecondaryPermissionType
+  nameWithType: SecondaryPermissionType
+  fullName: Mewdeko.Database.Models.SecondaryPermissionType

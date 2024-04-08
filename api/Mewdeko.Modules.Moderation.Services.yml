@@ -1,0 +1,147 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Moderation.Services
+  commentId: N:Mewdeko.Modules.Moderation.Services
+  id: Mewdeko.Modules.Moderation.Services
+  children:
+  - Mewdeko.Modules.Moderation.Services.MuteService
+  - Mewdeko.Modules.Moderation.Services.MuteService.TimerType
+  - Mewdeko.Modules.Moderation.Services.MuteType
+  - Mewdeko.Modules.Moderation.Services.PurgeService
+  - Mewdeko.Modules.Moderation.Services.RoleMetadataService
+  - Mewdeko.Modules.Moderation.Services.UserPunishService
+  - Mewdeko.Modules.Moderation.Services.UserPunishService.MassNick
+  - Mewdeko.Modules.Moderation.Services.UserPunishService2
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Moderation.Services
+  nameWithType: Mewdeko.Modules.Moderation.Services
+  fullName: Mewdeko.Modules.Moderation.Services
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Moderation.Services.MuteType
+  commentId: T:Mewdeko.Modules.Moderation.Services.MuteType
+  parent: Mewdeko.Modules.Moderation.Services
+  href: Mewdeko.Modules.Moderation.Services.MuteType.html
+  name: MuteType
+  nameWithType: MuteType
+  fullName: Mewdeko.Modules.Moderation.Services.MuteType
+- uid: Mewdeko.Modules.Moderation.Services.MuteService
+  commentId: T:Mewdeko.Modules.Moderation.Services.MuteService
+  parent: Mewdeko.Modules.Moderation.Services
+  href: Mewdeko.Modules.Moderation.Services.MuteService.html
+  name: MuteService
+  nameWithType: MuteService
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService
+- uid: Mewdeko.Modules.Moderation.Services.MuteService.TimerType
+  commentId: T:Mewdeko.Modules.Moderation.Services.MuteService.TimerType
+  parent: Mewdeko.Modules.Moderation.Services
+  href: Mewdeko.Modules.Moderation.Services.MuteService.html
+  name: MuteService.TimerType
+  nameWithType: MuteService.TimerType
+  fullName: Mewdeko.Modules.Moderation.Services.MuteService.TimerType
+  spec.csharp:
+  - uid: Mewdeko.Modules.Moderation.Services.MuteService
+    name: MuteService
+    href: Mewdeko.Modules.Moderation.Services.MuteService.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation.Services.MuteService.TimerType
+    name: TimerType
+    href: Mewdeko.Modules.Moderation.Services.MuteService.TimerType.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Moderation.Services.MuteService
+    name: MuteService
+    href: Mewdeko.Modules.Moderation.Services.MuteService.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation.Services.MuteService.TimerType
+    name: TimerType
+    href: Mewdeko.Modules.Moderation.Services.MuteService.TimerType.html
+- uid: Mewdeko.Modules.Moderation.Services.PurgeService
+  commentId: T:Mewdeko.Modules.Moderation.Services.PurgeService
+  href: Mewdeko.Modules.Moderation.Services.PurgeService.html
+  name: PurgeService
+  nameWithType: PurgeService
+  fullName: Mewdeko.Modules.Moderation.Services.PurgeService
+- uid: Mewdeko.Modules.Moderation.Services.RoleMetadataService
+  commentId: T:Mewdeko.Modules.Moderation.Services.RoleMetadataService
+  href: Mewdeko.Modules.Moderation.Services.RoleMetadataService.html
+  name: RoleMetadataService
+  nameWithType: RoleMetadataService
+  fullName: Mewdeko.Modules.Moderation.Services.RoleMetadataService
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService
+  commentId: T:Mewdeko.Modules.Moderation.Services.UserPunishService
+  parent: Mewdeko.Modules.Moderation.Services
+  href: Mewdeko.Modules.Moderation.Services.UserPunishService.html
+  name: UserPunishService
+  nameWithType: UserPunishService
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService.MassNick
+  commentId: T:Mewdeko.Modules.Moderation.Services.UserPunishService.MassNick
+  parent: Mewdeko.Modules.Moderation.Services
+  href: Mewdeko.Modules.Moderation.Services.UserPunishService.html
+  name: UserPunishService.MassNick
+  nameWithType: UserPunishService.MassNick
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService.MassNick
+  spec.csharp:
+  - uid: Mewdeko.Modules.Moderation.Services.UserPunishService
+    name: UserPunishService
+    href: Mewdeko.Modules.Moderation.Services.UserPunishService.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation.Services.UserPunishService.MassNick
+    name: MassNick
+    href: Mewdeko.Modules.Moderation.Services.UserPunishService.MassNick.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Moderation.Services.UserPunishService
+    name: UserPunishService
+    href: Mewdeko.Modules.Moderation.Services.UserPunishService.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation.Services.UserPunishService.MassNick
+    name: MassNick
+    href: Mewdeko.Modules.Moderation.Services.UserPunishService.MassNick.html
+- uid: Mewdeko.Modules.Moderation.Services.UserPunishService2
+  commentId: T:Mewdeko.Modules.Moderation.Services.UserPunishService2
+  href: Mewdeko.Modules.Moderation.Services.UserPunishService2.html
+  name: UserPunishService2
+  nameWithType: UserPunishService2
+  fullName: Mewdeko.Modules.Moderation.Services.UserPunishService2
+- uid: Mewdeko.Modules.Moderation.Services
+  commentId: N:Mewdeko.Modules.Moderation.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Moderation.Services
+  nameWithType: Mewdeko.Modules.Moderation.Services
+  fullName: Mewdeko.Modules.Moderation.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation
+    name: Moderation
+    href: Mewdeko.Modules.Moderation.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation.Services
+    name: Services
+    href: Mewdeko.Modules.Moderation.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation
+    name: Moderation
+    href: Mewdeko.Modules.Moderation.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation.Services
+    name: Services
+    href: Mewdeko.Modules.Moderation.Services.html

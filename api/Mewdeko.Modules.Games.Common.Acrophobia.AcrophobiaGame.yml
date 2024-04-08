@@ -1,0 +1,1406 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+  commentId: T:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+  id: AcrophobiaGame
+  parent: Mewdeko.Modules.Games.Common.Acrophobia
+  children:
+  - Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.#ctor(Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options)
+  - Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.CurrentPhase
+  - Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Dispose
+  - Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.OnEnded
+  - Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.OnStarted
+  - Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.OnUserVoted
+  - Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.OnVotingStarted
+  - Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Opts
+  - Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Run
+  - Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.StartingLetters
+  - Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.UserInput(System.UInt64,System.String,System.String)
+  langs:
+  - csharp
+  - vb
+  name: AcrophobiaGame
+  nameWithType: AcrophobiaGame
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AcrophobiaGame
+    path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+    startLine: 9
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Acrophobia
+  summary: Represents an Acrophobia game.
+  example: []
+  syntax:
+    content: 'public sealed class AcrophobiaGame : IDisposable'
+    content.vb: Public NotInheritable Class AcrophobiaGame Implements IDisposable
+  inheritance:
+  - System.Object
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.#ctor(Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options)
+  commentId: M:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.#ctor(Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options)
+  id: '#ctor(Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options)'
+  parent: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+  langs:
+  - csharp
+  - vb
+  name: AcrophobiaGame(Options)
+  nameWithType: AcrophobiaGame.AcrophobiaGame(AcrophobiaGame.Options)
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.AcrophobiaGame(Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+    startLine: 44
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Acrophobia
+  summary: Initializes a new instance of the <xref href="Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public AcrophobiaGame(AcrophobiaGame.Options options)
+    parameters:
+    - id: options
+      type: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options
+      description: Represents the options in a acro game
+    content.vb: Public Sub New(options As AcrophobiaGame.Options)
+  overload: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.#ctor*
+  nameWithType.vb: AcrophobiaGame.New(AcrophobiaGame.Options)
+  fullName.vb: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.New(Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options)
+  name.vb: New(Options)
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.CurrentPhase
+  commentId: P:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.CurrentPhase
+  id: CurrentPhase
+  parent: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+  langs:
+  - csharp
+  - vb
+  name: CurrentPhase
+  nameWithType: AcrophobiaGame.CurrentPhase
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.CurrentPhase
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CurrentPhase
+    path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+    startLine: 54
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Acrophobia
+  summary: Represents the current phase of the game.
+  example: []
+  syntax:
+    content: public AcrophobiaGame.Phase CurrentPhase { get; }
+    parameters: []
+    return:
+      type: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase
+    content.vb: Public Property CurrentPhase As AcrophobiaGame.Phase
+  overload: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.CurrentPhase*
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.StartingLetters
+  commentId: P:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.StartingLetters
+  id: StartingLetters
+  parent: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+  langs:
+  - csharp
+  - vb
+  name: StartingLetters
+  nameWithType: AcrophobiaGame.StartingLetters
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.StartingLetters
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: StartingLetters
+    path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+    startLine: 59
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Acrophobia
+  summary: Represents the starting letters for the game.
+  example: []
+  syntax:
+    content: public ImmutableArray<char> StartingLetters { get; }
+    parameters: []
+    return:
+      type: System.Collections.Immutable.ImmutableArray{System.Char}
+    content.vb: Public Property StartingLetters As ImmutableArray(Of Char)
+  overload: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.StartingLetters*
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Opts
+  commentId: P:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Opts
+  id: Opts
+  parent: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+  langs:
+  - csharp
+  - vb
+  name: Opts
+  nameWithType: AcrophobiaGame.Opts
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Opts
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Opts
+    path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+    startLine: 64
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Acrophobia
+  summary: Gets the options for the game.
+  example: []
+  syntax:
+    content: public AcrophobiaGame.Options Opts { get; }
+    parameters: []
+    return:
+      type: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options
+    content.vb: Public ReadOnly Property Opts As AcrophobiaGame.Options
+  overload: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Opts*
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Dispose
+  commentId: M:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Dispose
+  id: Dispose
+  parent: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: AcrophobiaGame.Dispose()
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Dispose
+    path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+    startLine: 69
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Acrophobia
+  summary: Disposes resources used by the game.
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose()
+  overload: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.OnStarted
+  commentId: E:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.OnStarted
+  id: OnStarted
+  parent: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+  langs:
+  - csharp
+  - vb
+  name: OnStarted
+  nameWithType: AcrophobiaGame.OnStarted
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.OnStarted
+  type: Event
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OnStarted
+    path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+    startLine: 84
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Acrophobia
+  summary: Event triggered when the game starts.
+  example: []
+  syntax:
+    content: public event Func<AcrophobiaGame, Task> OnStarted
+    return:
+      type: System.Func{Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame,System.Threading.Tasks.Task}
+    content.vb: Public Event OnStarted As Func(Of AcrophobiaGame, Task)
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.OnVotingStarted
+  commentId: E:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.OnVotingStarted
+  id: OnVotingStarted
+  parent: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+  langs:
+  - csharp
+  - vb
+  name: OnVotingStarted
+  nameWithType: AcrophobiaGame.OnVotingStarted
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.OnVotingStarted
+  type: Event
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OnVotingStarted
+    path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+    startLine: 89
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Acrophobia
+  summary: Event triggered when the voting phase of the game starts.
+  example: []
+  syntax:
+    content: public event Func<AcrophobiaGame, ImmutableArray<KeyValuePair<AcrophobiaUser, int>>, Task> OnVotingStarted
+    return:
+      type: System.Func{Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame,System.Collections.Immutable.ImmutableArray{System.Collections.Generic.KeyValuePair{Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaUser,System.Int32}},System.Threading.Tasks.Task}
+    content.vb: Public Event OnVotingStarted As Func(Of AcrophobiaGame, ImmutableArray(Of KeyValuePair(Of AcrophobiaUser, Integer)), Task)
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.OnUserVoted
+  commentId: E:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.OnUserVoted
+  id: OnUserVoted
+  parent: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+  langs:
+  - csharp
+  - vb
+  name: OnUserVoted
+  nameWithType: AcrophobiaGame.OnUserVoted
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.OnUserVoted
+  type: Event
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OnUserVoted
+    path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+    startLine: 95
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Acrophobia
+  summary: Event triggered when a user votes.
+  example: []
+  syntax:
+    content: public event Func<string, Task> OnUserVoted
+    return:
+      type: System.Func{System.String,System.Threading.Tasks.Task}
+    content.vb: Public Event OnUserVoted As Func(Of String, Task)
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.OnEnded
+  commentId: E:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.OnEnded
+  id: OnEnded
+  parent: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+  langs:
+  - csharp
+  - vb
+  name: OnEnded
+  nameWithType: AcrophobiaGame.OnEnded
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.OnEnded
+  type: Event
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OnEnded
+    path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+    startLine: 100
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Acrophobia
+  summary: Event triggered when the game ends.
+  example: []
+  syntax:
+    content: public event Func<AcrophobiaGame, ImmutableArray<KeyValuePair<AcrophobiaUser, int>>, Task> OnEnded
+    return:
+      type: System.Func{Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame,System.Collections.Immutable.ImmutableArray{System.Collections.Generic.KeyValuePair{Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaUser,System.Int32}},System.Threading.Tasks.Task}
+    content.vb: Public Event OnEnded As Func(Of AcrophobiaGame, ImmutableArray(Of KeyValuePair(Of AcrophobiaUser, Integer)), Task)
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Run
+  commentId: M:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Run
+  id: Run
+  parent: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+  langs:
+  - csharp
+  - vb
+  name: Run()
+  nameWithType: AcrophobiaGame.Run()
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Run()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Run
+    path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+    startLine: 108
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Acrophobia
+  summary: Runs the game.
+  example: []
+  syntax:
+    content: public Task Run()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function Run() As Task
+  overload: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Run*
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.UserInput(System.UInt64,System.String,System.String)
+  commentId: M:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.UserInput(System.UInt64,System.String,System.String)
+  id: UserInput(System.UInt64,System.String,System.String)
+  parent: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+  langs:
+  - csharp
+  - vb
+  name: UserInput(ulong, string, string)
+  nameWithType: AcrophobiaGame.UserInput(ulong, string, string)
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.UserInput(ulong, string, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserInput
+    path: src/Mewdeko/Modules/Games/Common/Acrophobia/Acrophobia.cs
+    startLine: 174
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Acrophobia
+  summary: Handles user input for the game.
+  example: []
+  syntax:
+    content: public Task<bool> UserInput(ulong userId, string userName, string input)
+    parameters:
+    - id: userId
+      type: System.UInt64
+      description: The ID of the user.
+    - id: userName
+      type: System.String
+      description: The name of the user.
+    - id: input
+      type: System.String
+      description: The input provided by the user.
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+      description: True if the input was processed successfully; otherwise, false.
+    content.vb: Public Function UserInput(userId As ULong, userName As String, input As String) As Task(Of Boolean)
+  overload: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.UserInput*
+  nameWithType.vb: AcrophobiaGame.UserInput(ULong, String, String)
+  fullName.vb: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.UserInput(ULong, String, String)
+  name.vb: UserInput(ULong, String, String)
+references:
+- uid: Mewdeko.Modules.Games.Common.Acrophobia
+  commentId: N:Mewdeko.Modules.Games.Common.Acrophobia
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Games.Common.Acrophobia
+  nameWithType: Mewdeko.Modules.Games.Common.Acrophobia
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia
+    name: Acrophobia
+    href: Mewdeko.Modules.Games.Common.Acrophobia.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia
+    name: Acrophobia
+    href: Mewdeko.Modules.Games.Common.Acrophobia.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<AcrophobiaGame>(AcrophobiaGame, string)
+  nameWithType: Extensions.ThrowIfNull<AcrophobiaGame>(AcrophobiaGame, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame>(Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of AcrophobiaGame)(AcrophobiaGame, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame)(Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame, String)
+  name.vb: ThrowIfNull(Of AcrophobiaGame)(AcrophobiaGame, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+    name: AcrophobiaGame
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+    name: AcrophobiaGame
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+    name: AcrophobiaGame
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+    name: AcrophobiaGame
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+  commentId: T:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+  href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
+  name: AcrophobiaGame
+  nameWithType: AcrophobiaGame
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.#ctor*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.#ctor
+  href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html#Mewdeko_Modules_Games_Common_Acrophobia_AcrophobiaGame__ctor_Mewdeko_Modules_Games_Common_Acrophobia_AcrophobiaGame_Options_
+  name: AcrophobiaGame
+  nameWithType: AcrophobiaGame.AcrophobiaGame
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.AcrophobiaGame
+  nameWithType.vb: AcrophobiaGame.New
+  fullName.vb: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.New
+  name.vb: New
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options
+  commentId: T:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options
+  parent: Mewdeko.Modules.Games.Common.Acrophobia
+  href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
+  name: AcrophobiaGame.Options
+  nameWithType: AcrophobiaGame.Options
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options
+  spec.csharp:
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+    name: AcrophobiaGame
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options
+    name: Options
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+    name: AcrophobiaGame
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options
+    name: Options
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Options.html
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.CurrentPhase*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.CurrentPhase
+  href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html#Mewdeko_Modules_Games_Common_Acrophobia_AcrophobiaGame_CurrentPhase
+  name: CurrentPhase
+  nameWithType: AcrophobiaGame.CurrentPhase
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.CurrentPhase
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase
+  commentId: T:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase
+  parent: Mewdeko.Modules.Games.Common.Acrophobia
+  href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
+  name: AcrophobiaGame.Phase
+  nameWithType: AcrophobiaGame.Phase
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase
+  spec.csharp:
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+    name: AcrophobiaGame
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase
+    name: Phase
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+    name: AcrophobiaGame
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase
+    name: Phase
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Phase.html
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.StartingLetters*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.StartingLetters
+  href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html#Mewdeko_Modules_Games_Common_Acrophobia_AcrophobiaGame_StartingLetters
+  name: StartingLetters
+  nameWithType: AcrophobiaGame.StartingLetters
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.StartingLetters
+- uid: System.Collections.Immutable.ImmutableArray{System.Char}
+  commentId: T:System.Collections.Immutable.ImmutableArray{System.Char}
+  parent: System.Collections.Immutable
+  definition: System.Collections.Immutable.ImmutableArray`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.immutable.immutablearray-1
+  name: ImmutableArray<char>
+  nameWithType: ImmutableArray<char>
+  fullName: System.Collections.Immutable.ImmutableArray<char>
+  nameWithType.vb: ImmutableArray(Of Char)
+  fullName.vb: System.Collections.Immutable.ImmutableArray(Of Char)
+  name.vb: ImmutableArray(Of Char)
+  spec.csharp:
+  - uid: System.Collections.Immutable.ImmutableArray`1
+    name: ImmutableArray
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.immutable.immutablearray-1
+  - name: <
+  - uid: System.Char
+    name: char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Immutable.ImmutableArray`1
+    name: ImmutableArray
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.immutable.immutablearray-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Char
+    name: Char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: )
+- uid: System.Collections.Immutable.ImmutableArray`1
+  commentId: T:System.Collections.Immutable.ImmutableArray`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.immutable.immutablearray-1
+  name: ImmutableArray<T>
+  nameWithType: ImmutableArray<T>
+  fullName: System.Collections.Immutable.ImmutableArray<T>
+  nameWithType.vb: ImmutableArray(Of T)
+  fullName.vb: System.Collections.Immutable.ImmutableArray(Of T)
+  name.vb: ImmutableArray(Of T)
+  spec.csharp:
+  - uid: System.Collections.Immutable.ImmutableArray`1
+    name: ImmutableArray
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.immutable.immutablearray-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Immutable.ImmutableArray`1
+    name: ImmutableArray
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.immutable.immutablearray-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Immutable
+  commentId: N:System.Collections.Immutable
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Immutable
+  nameWithType: System.Collections.Immutable
+  fullName: System.Collections.Immutable
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Immutable
+    name: Immutable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.immutable
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Immutable
+    name: Immutable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.immutable
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Opts*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Opts
+  href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html#Mewdeko_Modules_Games_Common_Acrophobia_AcrophobiaGame_Opts
+  name: Opts
+  nameWithType: AcrophobiaGame.Opts
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Opts
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Dispose*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Dispose
+  href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html#Mewdeko_Modules_Games_Common_Acrophobia_AcrophobiaGame_Dispose
+  name: Dispose
+  nameWithType: AcrophobiaGame.Dispose
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+- uid: System.Func{Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame,System.Threading.Tasks.Task}
+  commentId: T:System.Func{Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame,System.Threading.Tasks.Task}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<AcrophobiaGame, Task>
+  nameWithType: Func<AcrophobiaGame, Task>
+  fullName: System.Func<Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame, System.Threading.Tasks.Task>
+  nameWithType.vb: Func(Of AcrophobiaGame, Task)
+  fullName.vb: System.Func(Of Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame, System.Threading.Tasks.Task)
+  name.vb: Func(Of AcrophobiaGame, Task)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+    name: AcrophobiaGame
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+    name: AcrophobiaGame
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: )
+- uid: System.Func`2
+  commentId: T:System.Func`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func{Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame,System.Collections.Immutable.ImmutableArray{System.Collections.Generic.KeyValuePair{Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaUser,System.Int32}},System.Threading.Tasks.Task}
+  commentId: T:System.Func{Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame,System.Collections.Immutable.ImmutableArray{System.Collections.Generic.KeyValuePair{Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaUser,System.Int32}},System.Threading.Tasks.Task}
+  parent: System
+  definition: System.Func`3
+  href: https://learn.microsoft.com/dotnet/api/system.func-3
+  name: Func<AcrophobiaGame, ImmutableArray<KeyValuePair<AcrophobiaUser, int>>, Task>
+  nameWithType: Func<AcrophobiaGame, ImmutableArray<KeyValuePair<AcrophobiaUser, int>>, Task>
+  fullName: System.Func<Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame, System.Collections.Immutable.ImmutableArray<System.Collections.Generic.KeyValuePair<Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaUser, int>>, System.Threading.Tasks.Task>
+  nameWithType.vb: Func(Of AcrophobiaGame, ImmutableArray(Of KeyValuePair(Of AcrophobiaUser, Integer)), Task)
+  fullName.vb: System.Func(Of Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame, System.Collections.Immutable.ImmutableArray(Of System.Collections.Generic.KeyValuePair(Of Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaUser, Integer)), System.Threading.Tasks.Task)
+  name.vb: Func(Of AcrophobiaGame, ImmutableArray(Of KeyValuePair(Of AcrophobiaUser, Integer)), Task)
+  spec.csharp:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: <
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+    name: AcrophobiaGame
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Immutable.ImmutableArray`1
+    name: ImmutableArray
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.immutable.immutablearray-1
+  - name: <
+  - uid: System.Collections.Generic.KeyValuePair`2
+    name: KeyValuePair
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2
+  - name: <
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaUser
+    name: AcrophobiaUser
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaUser.html
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '>'
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame
+    name: AcrophobiaGame
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Immutable.ImmutableArray`1
+    name: ImmutableArray
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.immutable.immutablearray-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.KeyValuePair`2
+    name: KeyValuePair
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaUser
+    name: AcrophobiaUser
+    href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaUser.html
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: )
+- uid: System.Func`3
+  commentId: T:System.Func`3
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-3
+  name: Func<T1, T2, TResult>
+  nameWithType: Func<T1, T2, TResult>
+  fullName: System.Func<T1, T2, TResult>
+  nameWithType.vb: Func(Of T1, T2, TResult)
+  fullName.vb: System.Func(Of T1, T2, TResult)
+  name.vb: Func(Of T1, T2, TResult)
+  spec.csharp:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func{System.String,System.Threading.Tasks.Task}
+  commentId: T:System.Func{System.String,System.Threading.Tasks.Task}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<string, Task>
+  nameWithType: Func<string, Task>
+  fullName: System.Func<string, System.Threading.Tasks.Task>
+  nameWithType.vb: Func(Of String, Task)
+  fullName.vb: System.Func(Of String, System.Threading.Tasks.Task)
+  name.vb: Func(Of String, Task)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: )
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Run*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Run
+  href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html#Mewdeko_Modules_Games_Common_Acrophobia_AcrophobiaGame_Run
+  name: Run
+  nameWithType: AcrophobiaGame.Run
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.Run
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.UserInput*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.UserInput
+  href: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.html#Mewdeko_Modules_Games_Common_Acrophobia_AcrophobiaGame_UserInput_System_UInt64_System_String_System_String_
+  name: UserInput
+  nameWithType: AcrophobiaGame.UserInput
+  fullName: Mewdeko.Modules.Games.Common.Acrophobia.AcrophobiaGame.UserInput
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong
+  nameWithType: ulong
+  fullName: ulong
+  nameWithType.vb: ULong
+  fullName.vb: ULong
+  name.vb: ULong
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Threading.Tasks.Task{System.Boolean}
+  commentId: T:System.Threading.Tasks.Task{System.Boolean}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<bool>
+  nameWithType: Task<bool>
+  fullName: System.Threading.Tasks.Task<bool>
+  nameWithType.vb: Task(Of Boolean)
+  fullName.vb: System.Threading.Tasks.Task(Of Boolean)
+  name.vb: Task(Of Boolean)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )

@@ -1,0 +1,51 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Help
+  commentId: N:Mewdeko.Modules.Help
+  id: Mewdeko.Modules.Help
+  children:
+  - Mewdeko.Modules.Help.Command
+  - Mewdeko.Modules.Help.CommandTextEqualityComparer
+  - Mewdeko.Modules.Help.Help
+  - Mewdeko.Modules.Help.HelpSlashCommand
+  - Mewdeko.Modules.Help.Module
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Help
+  nameWithType: Mewdeko.Modules.Help
+  fullName: Mewdeko.Modules.Help
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Help.Help
+  commentId: T:Mewdeko.Modules.Help.Help
+  href: Mewdeko.Modules.Help.Help.html
+  name: Help
+  nameWithType: Help
+  fullName: Mewdeko.Modules.Help.Help
+- uid: Mewdeko.Modules.Help.CommandTextEqualityComparer
+  commentId: T:Mewdeko.Modules.Help.CommandTextEqualityComparer
+  href: Mewdeko.Modules.Help.CommandTextEqualityComparer.html
+  name: CommandTextEqualityComparer
+  nameWithType: CommandTextEqualityComparer
+  fullName: Mewdeko.Modules.Help.CommandTextEqualityComparer
+- uid: Mewdeko.Modules.Help.Module
+  commentId: T:Mewdeko.Modules.Help.Module
+  href: Mewdeko.Modules.Help.Module.html
+  name: Module
+  nameWithType: Module
+  fullName: Mewdeko.Modules.Help.Module
+- uid: Mewdeko.Modules.Help.Command
+  commentId: T:Mewdeko.Modules.Help.Command
+  href: Mewdeko.Modules.Help.Command.html
+  name: Command
+  nameWithType: Command
+  fullName: Mewdeko.Modules.Help.Command
+- uid: Mewdeko.Modules.Help.HelpSlashCommand
+  commentId: T:Mewdeko.Modules.Help.HelpSlashCommand
+  href: Mewdeko.Modules.Help.HelpSlashCommand.html
+  name: HelpSlashCommand
+  nameWithType: HelpSlashCommand
+  fullName: Mewdeko.Modules.Help.HelpSlashCommand

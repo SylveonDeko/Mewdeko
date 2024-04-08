@@ -1,0 +1,263 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Extensions
+  commentId: N:Mewdeko.Database.Extensions
+  id: Mewdeko.Database.Extensions
+  children:
+  - Mewdeko.Database.Extensions.AfkExtensions
+  - Mewdeko.Database.Extensions.ChatTriggersExtensions
+  - Mewdeko.Database.Extensions.ClubExtensions
+  - Mewdeko.Database.Extensions.ConfessionExtensions
+  - Mewdeko.Database.Extensions.DbExtensions
+  - Mewdeko.Database.Extensions.DiscordUserExtensions
+  - Mewdeko.Database.Extensions.Extensions
+  - Mewdeko.Database.Extensions.GiveawayExtensions
+  - Mewdeko.Database.Extensions.GuildConfigExtensions
+  - Mewdeko.Database.Extensions.GuildConfigExtensions.GeneratingChannel
+  - Mewdeko.Database.Extensions.HighlightExtensions
+  - Mewdeko.Database.Extensions.MiniWarningExtensions
+  - Mewdeko.Database.Extensions.MultiGreetExtensions
+  - Mewdeko.Database.Extensions.MusicExtensions
+  - Mewdeko.Database.Extensions.MusicPlayerSettingsExtensions
+  - Mewdeko.Database.Extensions.NicknameExtensions
+  - Mewdeko.Database.Extensions.PollExtensions
+  - Mewdeko.Database.Extensions.QuoteExtensions
+  - Mewdeko.Database.Extensions.RemindExtensions
+  - Mewdeko.Database.Extensions.RoleGreetExtensions
+  - Mewdeko.Database.Extensions.SelfAssignedRolesExtensions
+  - Mewdeko.Database.Extensions.StarboardExtensions
+  - Mewdeko.Database.Extensions.SuggestionsExtensions
+  - Mewdeko.Database.Extensions.UsernameExtensions
+  - Mewdeko.Database.Extensions.WaifuExtensions
+  - Mewdeko.Database.Extensions.WaifuInfoStats
+  - Mewdeko.Database.Extensions.WarningExtensions
+  - Mewdeko.Database.Extensions.XpExtensions
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Database.Extensions
+  nameWithType: Mewdeko.Database.Extensions
+  fullName: Mewdeko.Database.Extensions
+  type: Namespace
+  assemblies:
+  - Mewdeko.Database
+references:
+- uid: Mewdeko.Database.Extensions.AfkExtensions
+  commentId: T:Mewdeko.Database.Extensions.AfkExtensions
+  href: Mewdeko.Database.Extensions.AfkExtensions.html
+  name: AfkExtensions
+  nameWithType: AfkExtensions
+  fullName: Mewdeko.Database.Extensions.AfkExtensions
+- uid: Mewdeko.Database.Extensions.ChatTriggersExtensions
+  commentId: T:Mewdeko.Database.Extensions.ChatTriggersExtensions
+  parent: Mewdeko.Database.Extensions
+  href: Mewdeko.Database.Extensions.ChatTriggersExtensions.html
+  name: ChatTriggersExtensions
+  nameWithType: ChatTriggersExtensions
+  fullName: Mewdeko.Database.Extensions.ChatTriggersExtensions
+- uid: Mewdeko.Database.Extensions.ClubExtensions
+  commentId: T:Mewdeko.Database.Extensions.ClubExtensions
+  href: Mewdeko.Database.Extensions.ClubExtensions.html
+  name: ClubExtensions
+  nameWithType: ClubExtensions
+  fullName: Mewdeko.Database.Extensions.ClubExtensions
+- uid: Mewdeko.Database.Extensions.ConfessionExtensions
+  commentId: T:Mewdeko.Database.Extensions.ConfessionExtensions
+  href: Mewdeko.Database.Extensions.ConfessionExtensions.html
+  name: ConfessionExtensions
+  nameWithType: ConfessionExtensions
+  fullName: Mewdeko.Database.Extensions.ConfessionExtensions
+- uid: Mewdeko.Database.Extensions.DbExtensions
+  commentId: T:Mewdeko.Database.Extensions.DbExtensions
+  href: Mewdeko.Database.Extensions.DbExtensions.html
+  name: DbExtensions
+  nameWithType: DbExtensions
+  fullName: Mewdeko.Database.Extensions.DbExtensions
+- uid: Mewdeko.Database.Extensions.DiscordUserExtensions
+  commentId: T:Mewdeko.Database.Extensions.DiscordUserExtensions
+  parent: Mewdeko.Database.Extensions
+  href: Mewdeko.Database.Extensions.DiscordUserExtensions.html
+  name: DiscordUserExtensions
+  nameWithType: DiscordUserExtensions
+  fullName: Mewdeko.Database.Extensions.DiscordUserExtensions
+- uid: Mewdeko.Database.Extensions.Extensions
+  commentId: T:Mewdeko.Database.Extensions.Extensions
+  href: Mewdeko.Database.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Database.Extensions.Extensions
+- uid: Mewdeko.Database.Extensions.GiveawayExtensions
+  commentId: T:Mewdeko.Database.Extensions.GiveawayExtensions
+  href: Mewdeko.Database.Extensions.GiveawayExtensions.html
+  name: GiveawayExtensions
+  nameWithType: GiveawayExtensions
+  fullName: Mewdeko.Database.Extensions.GiveawayExtensions
+- uid: Mewdeko.Database.Extensions.GuildConfigExtensions
+  commentId: T:Mewdeko.Database.Extensions.GuildConfigExtensions
+  parent: Mewdeko.Database.Extensions
+  href: Mewdeko.Database.Extensions.GuildConfigExtensions.html
+  name: GuildConfigExtensions
+  nameWithType: GuildConfigExtensions
+  fullName: Mewdeko.Database.Extensions.GuildConfigExtensions
+- uid: Mewdeko.Database.Extensions.GuildConfigExtensions.GeneratingChannel
+  commentId: T:Mewdeko.Database.Extensions.GuildConfigExtensions.GeneratingChannel
+  href: Mewdeko.Database.Extensions.GuildConfigExtensions.html
+  name: GuildConfigExtensions.GeneratingChannel
+  nameWithType: GuildConfigExtensions.GeneratingChannel
+  fullName: Mewdeko.Database.Extensions.GuildConfigExtensions.GeneratingChannel
+  spec.csharp:
+  - uid: Mewdeko.Database.Extensions.GuildConfigExtensions
+    name: GuildConfigExtensions
+    href: Mewdeko.Database.Extensions.GuildConfigExtensions.html
+  - name: .
+  - uid: Mewdeko.Database.Extensions.GuildConfigExtensions.GeneratingChannel
+    name: GeneratingChannel
+    href: Mewdeko.Database.Extensions.GuildConfigExtensions.GeneratingChannel.html
+  spec.vb:
+  - uid: Mewdeko.Database.Extensions.GuildConfigExtensions
+    name: GuildConfigExtensions
+    href: Mewdeko.Database.Extensions.GuildConfigExtensions.html
+  - name: .
+  - uid: Mewdeko.Database.Extensions.GuildConfigExtensions.GeneratingChannel
+    name: GeneratingChannel
+    href: Mewdeko.Database.Extensions.GuildConfigExtensions.GeneratingChannel.html
+- uid: Mewdeko.Database.Extensions.HighlightExtensions
+  commentId: T:Mewdeko.Database.Extensions.HighlightExtensions
+  href: Mewdeko.Database.Extensions.HighlightExtensions.html
+  name: HighlightExtensions
+  nameWithType: HighlightExtensions
+  fullName: Mewdeko.Database.Extensions.HighlightExtensions
+- uid: Mewdeko.Database.Extensions.MiniWarningExtensions
+  commentId: T:Mewdeko.Database.Extensions.MiniWarningExtensions
+  href: Mewdeko.Database.Extensions.MiniWarningExtensions.html
+  name: MiniWarningExtensions
+  nameWithType: MiniWarningExtensions
+  fullName: Mewdeko.Database.Extensions.MiniWarningExtensions
+- uid: Mewdeko.Database.Extensions.MultiGreetExtensions
+  commentId: T:Mewdeko.Database.Extensions.MultiGreetExtensions
+  href: Mewdeko.Database.Extensions.MultiGreetExtensions.html
+  name: MultiGreetExtensions
+  nameWithType: MultiGreetExtensions
+  fullName: Mewdeko.Database.Extensions.MultiGreetExtensions
+- uid: Mewdeko.Database.Extensions.MusicExtensions
+  commentId: T:Mewdeko.Database.Extensions.MusicExtensions
+  href: Mewdeko.Database.Extensions.MusicExtensions.html
+  name: MusicExtensions
+  nameWithType: MusicExtensions
+  fullName: Mewdeko.Database.Extensions.MusicExtensions
+- uid: Mewdeko.Database.Extensions.MusicPlayerSettingsExtensions
+  commentId: T:Mewdeko.Database.Extensions.MusicPlayerSettingsExtensions
+  href: Mewdeko.Database.Extensions.MusicPlayerSettingsExtensions.html
+  name: MusicPlayerSettingsExtensions
+  nameWithType: MusicPlayerSettingsExtensions
+  fullName: Mewdeko.Database.Extensions.MusicPlayerSettingsExtensions
+- uid: Mewdeko.Database.Extensions.NicknameExtensions
+  commentId: T:Mewdeko.Database.Extensions.NicknameExtensions
+  href: Mewdeko.Database.Extensions.NicknameExtensions.html
+  name: NicknameExtensions
+  nameWithType: NicknameExtensions
+  fullName: Mewdeko.Database.Extensions.NicknameExtensions
+- uid: Mewdeko.Database.Extensions.PollExtensions
+  commentId: T:Mewdeko.Database.Extensions.PollExtensions
+  parent: Mewdeko.Database.Extensions
+  href: Mewdeko.Database.Extensions.PollExtensions.html
+  name: PollExtensions
+  nameWithType: PollExtensions
+  fullName: Mewdeko.Database.Extensions.PollExtensions
+- uid: Mewdeko.Database.Extensions.QuoteExtensions
+  commentId: T:Mewdeko.Database.Extensions.QuoteExtensions
+  href: Mewdeko.Database.Extensions.QuoteExtensions.html
+  name: QuoteExtensions
+  nameWithType: QuoteExtensions
+  fullName: Mewdeko.Database.Extensions.QuoteExtensions
+- uid: Mewdeko.Database.Extensions.RemindExtensions
+  commentId: T:Mewdeko.Database.Extensions.RemindExtensions
+  href: Mewdeko.Database.Extensions.RemindExtensions.html
+  name: RemindExtensions
+  nameWithType: RemindExtensions
+  fullName: Mewdeko.Database.Extensions.RemindExtensions
+- uid: Mewdeko.Database.Extensions.RoleGreetExtensions
+  commentId: T:Mewdeko.Database.Extensions.RoleGreetExtensions
+  href: Mewdeko.Database.Extensions.RoleGreetExtensions.html
+  name: RoleGreetExtensions
+  nameWithType: RoleGreetExtensions
+  fullName: Mewdeko.Database.Extensions.RoleGreetExtensions
+- uid: Mewdeko.Database.Extensions.SelfAssignedRolesExtensions
+  commentId: T:Mewdeko.Database.Extensions.SelfAssignedRolesExtensions
+  href: Mewdeko.Database.Extensions.SelfAssignedRolesExtensions.html
+  name: SelfAssignedRolesExtensions
+  nameWithType: SelfAssignedRolesExtensions
+  fullName: Mewdeko.Database.Extensions.SelfAssignedRolesExtensions
+- uid: Mewdeko.Database.Extensions.StarboardExtensions
+  commentId: T:Mewdeko.Database.Extensions.StarboardExtensions
+  href: Mewdeko.Database.Extensions.StarboardExtensions.html
+  name: StarboardExtensions
+  nameWithType: StarboardExtensions
+  fullName: Mewdeko.Database.Extensions.StarboardExtensions
+- uid: Mewdeko.Database.Extensions.SuggestionsExtensions
+  commentId: T:Mewdeko.Database.Extensions.SuggestionsExtensions
+  href: Mewdeko.Database.Extensions.SuggestionsExtensions.html
+  name: SuggestionsExtensions
+  nameWithType: SuggestionsExtensions
+  fullName: Mewdeko.Database.Extensions.SuggestionsExtensions
+- uid: Mewdeko.Database.Extensions.UsernameExtensions
+  commentId: T:Mewdeko.Database.Extensions.UsernameExtensions
+  href: Mewdeko.Database.Extensions.UsernameExtensions.html
+  name: UsernameExtensions
+  nameWithType: UsernameExtensions
+  fullName: Mewdeko.Database.Extensions.UsernameExtensions
+- uid: Mewdeko.Database.Extensions.WaifuInfoStats
+  commentId: T:Mewdeko.Database.Extensions.WaifuInfoStats
+  href: Mewdeko.Database.Extensions.WaifuInfoStats.html
+  name: WaifuInfoStats
+  nameWithType: WaifuInfoStats
+  fullName: Mewdeko.Database.Extensions.WaifuInfoStats
+- uid: Mewdeko.Database.Extensions.WaifuExtensions
+  commentId: T:Mewdeko.Database.Extensions.WaifuExtensions
+  parent: Mewdeko.Database.Extensions
+  href: Mewdeko.Database.Extensions.WaifuExtensions.html
+  name: WaifuExtensions
+  nameWithType: WaifuExtensions
+  fullName: Mewdeko.Database.Extensions.WaifuExtensions
+- uid: Mewdeko.Database.Extensions.WarningExtensions
+  commentId: T:Mewdeko.Database.Extensions.WarningExtensions
+  href: Mewdeko.Database.Extensions.WarningExtensions.html
+  name: WarningExtensions
+  nameWithType: WarningExtensions
+  fullName: Mewdeko.Database.Extensions.WarningExtensions
+- uid: Mewdeko.Database.Extensions.XpExtensions
+  commentId: T:Mewdeko.Database.Extensions.XpExtensions
+  href: Mewdeko.Database.Extensions.XpExtensions.html
+  name: XpExtensions
+  nameWithType: XpExtensions
+  fullName: Mewdeko.Database.Extensions.XpExtensions
+- uid: Mewdeko.Database.Extensions
+  commentId: N:Mewdeko.Database.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Database.Extensions
+  nameWithType: Mewdeko.Database.Extensions
+  fullName: Mewdeko.Database.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Extensions
+    name: Extensions
+    href: Mewdeko.Database.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Extensions
+    name: Extensions
+    href: Mewdeko.Database.Extensions.html

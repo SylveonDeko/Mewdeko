@@ -1,0 +1,3660 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  commentId: T:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  id: ServerManagement.ChannelCommands
+  parent: Mewdeko.Modules.Server_Management
+  children:
+  - Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.#ctor(Mewdeko.Services.Settings.BotConfigService,System.Net.Http.HttpClient)
+  - Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatAndTxtChannels(System.String,System.String[])
+  - Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatAndVcChannels(System.String,System.String[])
+  - Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatTxtChans(Discord.ICategoryChannel,System.String[])
+  - Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatVcChans(Discord.ICategoryChannel,System.String[])
+  - Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateWebhook(Discord.ITextChannel,System.String,System.String)
+  - Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Grab(Discord.IGuildUser)
+  - Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Lock(Discord.WebSocket.SocketTextChannel)
+  - Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.LockCheck
+  - Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.LockDown
+  - Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.MoveTo(Discord.IVoiceChannel)
+  - Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.MoveUserTo(Discord.IGuildUser,Discord.IVoiceChannel)
+  - Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Nuke(Discord.ITextChannel)
+  - Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode
+  - Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode(Discord.ITextChannel)
+  - Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode(Mewdeko.Common.TypeReaders.Models.StoopidTime)
+  - Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode(Mewdeko.Common.TypeReaders.Models.StoopidTime,Discord.ITextChannel)
+  - Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Unlock(Discord.WebSocket.SocketTextChannel)
+  - Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Unlockdown
+  langs:
+  - csharp
+  - vb
+  name: ServerManagement.ChannelCommands
+  nameWithType: ServerManagement.ChannelCommands
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChannelCommands
+    path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+    startLine: 16
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Server_Management
+  summary: Manages channel-specific operations such as locking, unlocking, and modifying slowmode settings.
+  example: []
+  syntax:
+    content: >-
+      [Group]
+
+      public class ServerManagement.ChannelCommands : MewdekoSubmodule<ServerManagementService>, IModuleBase
+    content.vb: >-
+      <Group>
+
+      Public Class ServerManagement.ChannelCommands Inherits MewdekoSubmodule(Of ServerManagementService) Implements IModuleBase
+  inheritance:
+  - System.Object
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  - Discord.Commands.ModuleBase
+  - Mewdeko.Common.MewdekoModule
+  - Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Server_Management.Services.ServerManagementService}
+  - Mewdeko.Common.MewdekoSubmodule{Mewdeko.Modules.Server_Management.Services.ServerManagementService}
+  implements:
+  - Discord.Commands.IModuleBase
+  inheritedMembers:
+  - Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Server_Management.Services.ServerManagementService}.Service
+  - Mewdeko.Common.MewdekoModule.CultureInfo
+  - Mewdeko.Common.MewdekoModule.Strings
+  - Mewdeko.Common.MewdekoModule.Localization
+  - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  - Mewdeko.Common.MewdekoModule.GetText(System.String)
+  - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  - Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  attributes:
+  - type: Discord.Commands.GroupAttribute
+    ctor: Discord.Commands.GroupAttribute.#ctor
+    arguments: []
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.#ctor(Mewdeko.Services.Settings.BotConfigService,System.Net.Http.HttpClient)
+  commentId: M:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.#ctor(Mewdeko.Services.Settings.BotConfigService,System.Net.Http.HttpClient)
+  id: '#ctor(Mewdeko.Services.Settings.BotConfigService,System.Net.Http.HttpClient)'
+  parent: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  langs:
+  - csharp
+  - vb
+  name: ChannelCommands(BotConfigService, HttpClient)
+  nameWithType: ServerManagement.ChannelCommands.ChannelCommands(BotConfigService, HttpClient)
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.ChannelCommands(Mewdeko.Services.Settings.BotConfigService, System.Net.Http.HttpClient)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+    startLine: 16
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Server_Management
+  summary: Manages channel-specific operations such as locking, unlocking, and modifying slowmode settings.
+  example: []
+  syntax:
+    content: public ChannelCommands(BotConfigService config, HttpClient http)
+    parameters:
+    - id: config
+      type: Mewdeko.Services.Settings.BotConfigService
+    - id: http
+      type: System.Net.Http.HttpClient
+    content.vb: Public Sub New(config As BotConfigService, http As HttpClient)
+  overload: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.#ctor*
+  nameWithType.vb: ServerManagement.ChannelCommands.New(BotConfigService, HttpClient)
+  fullName.vb: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.New(Mewdeko.Services.Settings.BotConfigService, System.Net.Http.HttpClient)
+  name.vb: New(BotConfigService, HttpClient)
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.LockCheck
+  commentId: M:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.LockCheck
+  id: LockCheck
+  parent: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  langs:
+  - csharp
+  - vb
+  name: LockCheck()
+  nameWithType: ServerManagement.ChannelCommands.LockCheck()
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.LockCheck()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: LockCheck
+    path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+    startLine: 22
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Server_Management
+  summary: Checks roles for SendMessages permission and modifies them as necessary before a lockdown.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("LockCheck")]
+
+      [Aliases("LockCheck")]
+
+      [RequireContext(ContextType.Guild)]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task LockCheck()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("LockCheck")>
+
+      <Aliases("LockCheck")>
+
+      <RequireContext(ContextType.Guild)>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function LockCheck() As Task
+  overload: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.LockCheck*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: LockCheck
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: LockCheck
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.LockDown
+  commentId: M:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.LockDown
+  id: LockDown
+  parent: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  langs:
+  - csharp
+  - vb
+  name: LockDown()
+  nameWithType: ServerManagement.ChannelCommands.LockDown()
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.LockDown()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: LockDown
+    path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+    startLine: 56
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Server_Management
+  summary: Locks down the server by setting SendMessages permission for @everyone to false.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("LockDown")]
+
+      [Aliases("LockDown")]
+
+      [RequireContext(ContextType.Guild)]
+
+      [UserPerm(GuildPermission.ManageChannels)]
+
+      public Task LockDown()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("LockDown")>
+
+      <Aliases("LockDown")>
+
+      <RequireContext(ContextType.Guild)>
+
+      <UserPerm(GuildPermission.ManageChannels)>
+
+      Public Function LockDown() As Task
+  overload: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.LockDown*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: LockDown
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: LockDown
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "16"
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.MoveTo(Discord.IVoiceChannel)
+  commentId: M:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.MoveTo(Discord.IVoiceChannel)
+  id: MoveTo(Discord.IVoiceChannel)
+  parent: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  langs:
+  - csharp
+  - vb
+  name: MoveTo(IVoiceChannel)
+  nameWithType: ServerManagement.ChannelCommands.MoveTo(IVoiceChannel)
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.MoveTo(Discord.IVoiceChannel)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MoveTo
+    path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+    startLine: 89
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Server_Management
+  summary: Moves the command issuer to a specified voice channel.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("MoveTo")]
+
+      [Aliases("MoveTo")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task MoveTo(IVoiceChannel channel)
+    parameters:
+    - id: channel
+      type: Discord.IVoiceChannel
+      description: The target voice channel to move the user to.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("MoveTo")>
+
+      <Aliases("MoveTo")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function MoveTo(channel As IVoiceChannel) As Task
+  overload: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.MoveTo*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: MoveTo
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: MoveTo
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.MoveUserTo(Discord.IGuildUser,Discord.IVoiceChannel)
+  commentId: M:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.MoveUserTo(Discord.IGuildUser,Discord.IVoiceChannel)
+  id: MoveUserTo(Discord.IGuildUser,Discord.IVoiceChannel)
+  parent: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  langs:
+  - csharp
+  - vb
+  name: MoveUserTo(IGuildUser, IVoiceChannel)
+  nameWithType: ServerManagement.ChannelCommands.MoveUserTo(IGuildUser, IVoiceChannel)
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.MoveUserTo(Discord.IGuildUser, Discord.IVoiceChannel)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MoveUserTo
+    path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+    startLine: 110
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Server_Management
+  summary: Moves a specified user to a given voice channel.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("MoveUserTo")]
+
+      [Aliases("MoveUserTo")]
+
+      [RequireContext(ContextType.Guild)]
+
+      [UserPerm(GuildPermission.ManageChannels)]
+
+      public Task MoveUserTo(IGuildUser user, IVoiceChannel channel)
+    parameters:
+    - id: user
+      type: Discord.IGuildUser
+      description: The user to be moved.
+    - id: channel
+      type: Discord.IVoiceChannel
+      description: The target voice channel to move the user to.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("MoveUserTo")>
+
+      <Aliases("MoveUserTo")>
+
+      <RequireContext(ContextType.Guild)>
+
+      <UserPerm(GuildPermission.ManageChannels)>
+
+      Public Function MoveUserTo(user As IGuildUser, channel As IVoiceChannel) As Task
+  overload: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.MoveUserTo*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: MoveUserTo
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: MoveUserTo
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "16"
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Grab(Discord.IGuildUser)
+  commentId: M:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Grab(Discord.IGuildUser)
+  id: Grab(Discord.IGuildUser)
+  parent: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  langs:
+  - csharp
+  - vb
+  name: Grab(IGuildUser)
+  nameWithType: ServerManagement.ChannelCommands.Grab(IGuildUser)
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Grab(Discord.IGuildUser)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Grab
+    path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+    startLine: 129
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Server_Management
+  summary: Brings a user to the command issuer's current voice channel.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Grab")]
+
+      [Aliases("Grab")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task Grab(IGuildUser user)
+    parameters:
+    - id: user
+      type: Discord.IGuildUser
+      description: The user to grab and move.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Grab")>
+
+      <Aliases("Grab")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function Grab(user As IGuildUser) As Task
+  overload: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Grab*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Grab
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Grab
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Unlockdown
+  commentId: M:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Unlockdown
+  id: Unlockdown
+  parent: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  langs:
+  - csharp
+  - vb
+  name: Unlockdown()
+  nameWithType: ServerManagement.ChannelCommands.Unlockdown()
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Unlockdown()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Unlockdown
+    path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+    startLine: 155
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Server_Management
+  summary: Unlocks the server by allowing @everyone to send messages again.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Unlockdown")]
+
+      [Aliases("Unlockdown")]
+
+      [RequireContext(ContextType.Guild)]
+
+      [UserPerm(GuildPermission.ManageChannels)]
+
+      public Task Unlockdown()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Unlockdown")>
+
+      <Aliases("Unlockdown")>
+
+      <RequireContext(ContextType.Guild)>
+
+      <UserPerm(GuildPermission.ManageChannels)>
+
+      Public Function Unlockdown() As Task
+  overload: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Unlockdown*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Unlockdown
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Unlockdown
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "16"
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Nuke(Discord.ITextChannel)
+  commentId: M:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Nuke(Discord.ITextChannel)
+  id: Nuke(Discord.ITextChannel)
+  parent: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  langs:
+  - csharp
+  - vb
+  name: Nuke(ITextChannel?)
+  nameWithType: ServerManagement.ChannelCommands.Nuke(ITextChannel?)
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Nuke(Discord.ITextChannel?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Nuke
+    path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+    startLine: 176
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Server_Management
+  summary: Deletes and recreates a text channel, effectively "nuking" it.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Nuke")]
+
+      [Aliases("Nuke")]
+
+      [RequireContext(ContextType.Guild)]
+
+      [UserPerm(GuildPermission.ManageChannels)]
+
+      public Task Nuke(ITextChannel? chan3 = null)
+    parameters:
+    - id: chan3
+      type: Discord.ITextChannel
+      description: Optional parameter to specify a channel to nuke.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Nuke")>
+
+      <Aliases("Nuke")>
+
+      <RequireContext(ContextType.Guild)>
+
+      <UserPerm(GuildPermission.ManageChannels)>
+
+      Public Function Nuke(chan3 As ITextChannel = Nothing) As Task
+  overload: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Nuke*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Nuke
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Nuke
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "16"
+  nameWithType.vb: ServerManagement.ChannelCommands.Nuke(ITextChannel)
+  fullName.vb: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Nuke(Discord.ITextChannel)
+  name.vb: Nuke(ITextChannel)
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Lock(Discord.WebSocket.SocketTextChannel)
+  commentId: M:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Lock(Discord.WebSocket.SocketTextChannel)
+  id: Lock(Discord.WebSocket.SocketTextChannel)
+  parent: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  langs:
+  - csharp
+  - vb
+  name: Lock(SocketTextChannel?)
+  nameWithType: ServerManagement.ChannelCommands.Lock(SocketTextChannel?)
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Lock(Discord.WebSocket.SocketTextChannel?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Lock
+    path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+    startLine: 226
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Server_Management
+  summary: Enables or disables slowmode in a channel, with customizable duration.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Lock")]
+
+      [Aliases("Lock")]
+
+      [RequireContext(ContextType.Guild)]
+
+      [UserPerm(GuildPermission.ManageMessages)]
+
+      [BotPerm(GuildPermission.ManageMessages)]
+
+      public Task Lock(SocketTextChannel? channel = null)
+    parameters:
+    - id: channel
+      type: Discord.WebSocket.SocketTextChannel
+      description: Optional parameter to specify a channel to apply slowmode.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Lock")>
+
+      <Aliases("Lock")>
+
+      <RequireContext(ContextType.Guild)>
+
+      <UserPerm(GuildPermission.ManageMessages)>
+
+      <BotPerm(GuildPermission.ManageMessages)>
+
+      Public Function Lock(channel As SocketTextChannel = Nothing) As Task
+  overload: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Lock*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Lock
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Lock
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8192"
+  - type: Mewdeko.Common.Attributes.TextCommands.BotPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.BotPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8192"
+  nameWithType.vb: ServerManagement.ChannelCommands.Lock(SocketTextChannel)
+  fullName.vb: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Lock(Discord.WebSocket.SocketTextChannel)
+  name.vb: Lock(SocketTextChannel)
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatAndTxtChannels(System.String,System.String[])
+  commentId: M:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatAndTxtChannels(System.String,System.String[])
+  id: CreateCatAndTxtChannels(System.String,System.String[])
+  parent: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  langs:
+  - csharp
+  - vb
+  name: CreateCatAndTxtChannels(string, params string[])
+  nameWithType: ServerManagement.ChannelCommands.CreateCatAndTxtChannels(string, params string[])
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatAndTxtChannels(string, params string[])
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CreateCatAndTxtChannels
+    path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+    startLine: 257
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Server_Management
+  summary: Creates a webhook in a specified text channel.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("CreateCatAndTxtChannels")]
+
+      [Aliases("CreateCatAndTxtChannels")]
+
+      [UserPerm(GuildPermission.ManageChannels)]
+
+      public Task CreateCatAndTxtChannels(string catName, params string[] channels)
+    parameters:
+    - id: catName
+      type: System.String
+    - id: channels
+      type: System.String[]
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CreateCatAndTxtChannels")>
+
+      <Aliases("CreateCatAndTxtChannels")>
+
+      <UserPerm(GuildPermission.ManageChannels)>
+
+      Public Function CreateCatAndTxtChannels(catName As String, ParamArray channels As String()) As Task
+  overload: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatAndTxtChannels*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CreateCatAndTxtChannels
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CreateCatAndTxtChannels
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "16"
+  nameWithType.vb: ServerManagement.ChannelCommands.CreateCatAndTxtChannels(String, ParamArray String())
+  fullName.vb: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatAndTxtChannels(String, ParamArray String())
+  name.vb: CreateCatAndTxtChannels(String, ParamArray String())
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatAndVcChannels(System.String,System.String[])
+  commentId: M:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatAndVcChannels(System.String,System.String[])
+  id: CreateCatAndVcChannels(System.String,System.String[])
+  parent: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  langs:
+  - csharp
+  - vb
+  name: CreateCatAndVcChannels(string, params string[])
+  nameWithType: ServerManagement.ChannelCommands.CreateCatAndVcChannels(string, params string[])
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatAndVcChannels(string, params string[])
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CreateCatAndVcChannels
+    path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+    startLine: 281
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Server_Management
+  summary: Creates a category with multiple voice channels in it.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("CreateCatAndVcChannels")]
+
+      [Aliases("CreateCatAndVcChannels")]
+
+      [UserPerm(GuildPermission.ManageChannels)]
+
+      public Task CreateCatAndVcChannels(string catName, params string[] channels)
+    parameters:
+    - id: catName
+      type: System.String
+      description: The name of the category to be created.
+    - id: channels
+      type: System.String[]
+      description: The names of the voice channels to be created within the category.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CreateCatAndVcChannels")>
+
+      <Aliases("CreateCatAndVcChannels")>
+
+      <UserPerm(GuildPermission.ManageChannels)>
+
+      Public Function CreateCatAndVcChannels(catName As String, ParamArray channels As String()) As Task
+  overload: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatAndVcChannels*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CreateCatAndVcChannels
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CreateCatAndVcChannels
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "16"
+  nameWithType.vb: ServerManagement.ChannelCommands.CreateCatAndVcChannels(String, ParamArray String())
+  fullName.vb: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatAndVcChannels(String, ParamArray String())
+  name.vb: CreateCatAndVcChannels(String, ParamArray String())
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatVcChans(Discord.ICategoryChannel,System.String[])
+  commentId: M:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatVcChans(Discord.ICategoryChannel,System.String[])
+  id: CreateCatVcChans(Discord.ICategoryChannel,System.String[])
+  parent: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  langs:
+  - csharp
+  - vb
+  name: CreateCatVcChans(ICategoryChannel, params string[])
+  nameWithType: ServerManagement.ChannelCommands.CreateCatVcChans(ICategoryChannel, params string[])
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatVcChans(Discord.ICategoryChannel, params string[])
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CreateCatVcChans
+    path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+    startLine: 304
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Server_Management
+  summary: Adds multiple voice channels to an existing category.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("CreateCatVcChans")]
+
+      [Aliases("CreateCatVcChans")]
+
+      [UserPerm(GuildPermission.ManageChannels)]
+
+      public Task CreateCatVcChans(ICategoryChannel chan, params string[] channels)
+    parameters:
+    - id: chan
+      type: Discord.ICategoryChannel
+      description: The target category channel.
+    - id: channels
+      type: System.String[]
+      description: The names of the voice channels to be added.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CreateCatVcChans")>
+
+      <Aliases("CreateCatVcChans")>
+
+      <UserPerm(GuildPermission.ManageChannels)>
+
+      Public Function CreateCatVcChans(chan As ICategoryChannel, ParamArray channels As String()) As Task
+  overload: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatVcChans*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CreateCatVcChans
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CreateCatVcChans
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "16"
+  nameWithType.vb: ServerManagement.ChannelCommands.CreateCatVcChans(ICategoryChannel, ParamArray String())
+  fullName.vb: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatVcChans(Discord.ICategoryChannel, ParamArray String())
+  name.vb: CreateCatVcChans(ICategoryChannel, ParamArray String())
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatTxtChans(Discord.ICategoryChannel,System.String[])
+  commentId: M:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatTxtChans(Discord.ICategoryChannel,System.String[])
+  id: CreateCatTxtChans(Discord.ICategoryChannel,System.String[])
+  parent: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  langs:
+  - csharp
+  - vb
+  name: CreateCatTxtChans(ICategoryChannel, params string[])
+  nameWithType: ServerManagement.ChannelCommands.CreateCatTxtChans(ICategoryChannel, params string[])
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatTxtChans(Discord.ICategoryChannel, params string[])
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CreateCatTxtChans
+    path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+    startLine: 326
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Server_Management
+  summary: Adds multiple text channels to an existing category.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("CreateCatTxtChans")]
+
+      [Aliases("CreateCatTxtChans")]
+
+      [UserPerm(GuildPermission.ManageChannels)]
+
+      public Task CreateCatTxtChans(ICategoryChannel chan, params string[] channels)
+    parameters:
+    - id: chan
+      type: Discord.ICategoryChannel
+      description: The target category channel.
+    - id: channels
+      type: System.String[]
+      description: The names of the text channels to be added.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CreateCatTxtChans")>
+
+      <Aliases("CreateCatTxtChans")>
+
+      <UserPerm(GuildPermission.ManageChannels)>
+
+      Public Function CreateCatTxtChans(chan As ICategoryChannel, ParamArray channels As String()) As Task
+  overload: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatTxtChans*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CreateCatTxtChans
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CreateCatTxtChans
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "16"
+  nameWithType.vb: ServerManagement.ChannelCommands.CreateCatTxtChans(ICategoryChannel, ParamArray String())
+  fullName.vb: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatTxtChans(Discord.ICategoryChannel, ParamArray String())
+  name.vb: CreateCatTxtChans(ICategoryChannel, ParamArray String())
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Unlock(Discord.WebSocket.SocketTextChannel)
+  commentId: M:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Unlock(Discord.WebSocket.SocketTextChannel)
+  id: Unlock(Discord.WebSocket.SocketTextChannel)
+  parent: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  langs:
+  - csharp
+  - vb
+  name: Unlock(SocketTextChannel?)
+  nameWithType: ServerManagement.ChannelCommands.Unlock(SocketTextChannel?)
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Unlock(Discord.WebSocket.SocketTextChannel?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Unlock
+    path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+    startLine: 347
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Server_Management
+  summary: Unlocks a specific channel, allowing everyone to send messages again.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Unlock")]
+
+      [Aliases("Unlock")]
+
+      [RequireContext(ContextType.Guild)]
+
+      [UserPerm(GuildPermission.ManageMessages)]
+
+      [BotPerm(GuildPermission.ManageMessages)]
+
+      public Task Unlock(SocketTextChannel? channel = null)
+    parameters:
+    - id: channel
+      type: Discord.WebSocket.SocketTextChannel
+      description: The channel to be unlocked. If null, unlocks the current channel.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Unlock")>
+
+      <Aliases("Unlock")>
+
+      <RequireContext(ContextType.Guild)>
+
+      <UserPerm(GuildPermission.ManageMessages)>
+
+      <BotPerm(GuildPermission.ManageMessages)>
+
+      Public Function Unlock(channel As SocketTextChannel = Nothing) As Task
+  overload: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Unlock*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Unlock
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Unlock
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8192"
+  - type: Mewdeko.Common.Attributes.TextCommands.BotPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.BotPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8192"
+  nameWithType.vb: ServerManagement.ChannelCommands.Unlock(SocketTextChannel)
+  fullName.vb: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Unlock(Discord.WebSocket.SocketTextChannel)
+  name.vb: Unlock(SocketTextChannel)
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode(Mewdeko.Common.TypeReaders.Models.StoopidTime,Discord.ITextChannel)
+  commentId: M:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode(Mewdeko.Common.TypeReaders.Models.StoopidTime,Discord.ITextChannel)
+  id: Slowmode(Mewdeko.Common.TypeReaders.Models.StoopidTime,Discord.ITextChannel)
+  parent: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  langs:
+  - csharp
+  - vb
+  name: Slowmode(StoopidTime, ITextChannel)
+  nameWithType: ServerManagement.ChannelCommands.Slowmode(StoopidTime, ITextChannel)
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode(Mewdeko.Common.TypeReaders.Models.StoopidTime, Discord.ITextChannel)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Slowmode
+    path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+    startLine: 380
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Server_Management
+  summary: Applies or removes slowmode settings in a channel.
+  remarks: This command allows for detailed control over a channel's slowmode settings, including enabling, disabling, or adjusting the duration.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Slowmode")]
+
+      [Aliases("Slowmode")]
+
+      [RequireContext(ContextType.Guild)]
+
+      [UserPerm(GuildPermission.ManageChannels)]
+
+      public static Task Slowmode(StoopidTime time, ITextChannel channel)
+    parameters:
+    - id: time
+      type: Mewdeko.Common.TypeReaders.Models.StoopidTime
+      description: The duration for slowmode. Use 0 or omit to toggle or remove slowmode.
+    - id: channel
+      type: Discord.ITextChannel
+      description: The channel to apply slowmode to. If omitted, applies to the current channel.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Slowmode")>
+
+      <Aliases("Slowmode")>
+
+      <RequireContext(ContextType.Guild)>
+
+      <UserPerm(GuildPermission.ManageChannels)>
+
+      Public Shared Function Slowmode(time As StoopidTime, channel As ITextChannel) As Task
+  overload: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Slowmode
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Slowmode
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "16"
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode(Mewdeko.Common.TypeReaders.Models.StoopidTime)
+  commentId: M:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode(Mewdeko.Common.TypeReaders.Models.StoopidTime)
+  id: Slowmode(Mewdeko.Common.TypeReaders.Models.StoopidTime)
+  parent: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  langs:
+  - csharp
+  - vb
+  name: Slowmode(StoopidTime)
+  nameWithType: ServerManagement.ChannelCommands.Slowmode(StoopidTime)
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode(Mewdeko.Common.TypeReaders.Models.StoopidTime)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Slowmode
+    path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+    startLine: 394
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Server_Management
+  summary: Sets the slowmode interval for the current text channel.
+  remarks: >-
+    This command sets a specific slowmode interval for the channel from which the command is invoked.
+
+    It requires the user to have the "Manage Channels" permission.
+
+    The slowmode interval specifies how long each user must wait before sending another message in the channel.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Slowmode")]
+
+      [Aliases("Slowmode")]
+
+      [RequireContext(ContextType.Guild)]
+
+      [UserPerm(GuildPermission.ManageChannels)]
+
+      public Task Slowmode(StoopidTime time)
+    parameters:
+    - id: time
+      type: Mewdeko.Common.TypeReaders.Models.StoopidTime
+      description: The duration for slowmode, specified in various time formats (e.g., "1m", "30s").
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Slowmode")>
+
+      <Aliases("Slowmode")>
+
+      <RequireContext(ContextType.Guild)>
+
+      <UserPerm(GuildPermission.ManageChannels)>
+
+      Public Function Slowmode(time As StoopidTime) As Task
+  overload: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Slowmode
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Slowmode
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "16"
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode(Discord.ITextChannel)
+  commentId: M:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode(Discord.ITextChannel)
+  id: Slowmode(Discord.ITextChannel)
+  parent: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  langs:
+  - csharp
+  - vb
+  name: Slowmode(ITextChannel)
+  nameWithType: ServerManagement.ChannelCommands.Slowmode(ITextChannel)
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode(Discord.ITextChannel)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Slowmode
+    path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+    startLine: 407
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Server_Management
+  summary: Sets or removes the slowmode interval for a specified text channel.
+  remarks: >-
+    This variant of the slowmode command allows specifying a particular text channel by mentioning it or using its ID.
+
+    If the slowmode interval is not specified, this command will remove the slowmode setting from the channel.
+
+    It requires the user to have the "Manage Channels" permission.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Slowmode")]
+
+      [Aliases("Slowmode")]
+
+      [RequireContext(ContextType.Guild)]
+
+      [UserPerm(GuildPermission.ManageChannels)]
+
+      public static Task Slowmode(ITextChannel channel)
+    parameters:
+    - id: channel
+      type: Discord.ITextChannel
+      description: The text channel to apply the slowmode settings to.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Slowmode")>
+
+      <Aliases("Slowmode")>
+
+      <RequireContext(ContextType.Guild)>
+
+      <UserPerm(GuildPermission.ManageChannels)>
+
+      Public Shared Function Slowmode(channel As ITextChannel) As Task
+  overload: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Slowmode
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Slowmode
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "16"
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode
+  commentId: M:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode
+  id: Slowmode
+  parent: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  langs:
+  - csharp
+  - vb
+  name: Slowmode()
+  nameWithType: ServerManagement.ChannelCommands.Slowmode()
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Slowmode
+    path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+    startLine: 420
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Server_Management
+  summary: Toggles the slowmode interval for the current text channel between off and a default interval.
+  remarks: >-
+    If the current text channel has slowmode disabled, this command will enable it with a default interval.
+
+    If slowmode is already enabled, it will be disabled.
+
+    This command provides a quick way to toggle slowmode on and off without specifying a duration.
+
+    It requires the user to have the "Manage Channels" permission.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Slowmode")]
+
+      [Aliases("Slowmode")]
+
+      [RequireContext(ContextType.Guild)]
+
+      [UserPerm(GuildPermission.ManageChannels)]
+
+      public Task Slowmode()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Slowmode")>
+
+      <Aliases("Slowmode")>
+
+      <RequireContext(ContextType.Guild)>
+
+      <UserPerm(GuildPermission.ManageChannels)>
+
+      Public Function Slowmode() As Task
+  overload: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Slowmode
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Slowmode
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "16"
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateWebhook(Discord.ITextChannel,System.String,System.String)
+  commentId: M:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateWebhook(Discord.ITextChannel,System.String,System.String)
+  id: CreateWebhook(Discord.ITextChannel,System.String,System.String)
+  parent: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+  langs:
+  - csharp
+  - vb
+  name: CreateWebhook(ITextChannel, string, string)
+  nameWithType: ServerManagement.ChannelCommands.CreateWebhook(ITextChannel, string, string)
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateWebhook(Discord.ITextChannel, string, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CreateWebhook
+    path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
+    startLine: 464
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Server_Management
+  summary: Creates a webhook in a text channel with an optional custom avatar.
+  remarks: >-
+    The webhook name and avatar can be customized. If the avatar is omitted, the default avatar is used.
+
+    If an image is attached to the command message, it will be used as the webhook's avatar.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("CreateWebhook")]
+
+      [Aliases("CreateWebhook")]
+
+      [RequireContext(ContextType.Guild)]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task CreateWebhook(ITextChannel channel, string name, string avatar = null)
+    parameters:
+    - id: channel
+      type: Discord.ITextChannel
+    - id: name
+      type: System.String
+    - id: avatar
+      type: System.String
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CreateWebhook")>
+
+      <Aliases("CreateWebhook")>
+
+      <RequireContext(ContextType.Guild)>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function CreateWebhook(channel As ITextChannel, name As String, avatar As String = Nothing) As Task
+  overload: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateWebhook*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CreateWebhook
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CreateWebhook
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ServerManagement.ChannelCommands.CreateWebhook(ITextChannel, String, String)
+  fullName.vb: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateWebhook(Discord.ITextChannel, String, String)
+  name.vb: CreateWebhook(ITextChannel, String, String)
+references:
+- uid: Mewdeko.Modules.Server_Management
+  commentId: N:Mewdeko.Modules.Server_Management
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Server_Management
+  nameWithType: Mewdeko.Modules.Server_Management
+  fullName: Mewdeko.Modules.Server_Management
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Server_Management
+    name: Server_Management
+    href: Mewdeko.Modules.Server_Management.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Server_Management
+    name: Server_Management
+    href: Mewdeko.Modules.Server_Management.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  commentId: T:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  parent: Discord.Commands
+  definition: Discord.Commands.ModuleBase`1
+  name: ModuleBase<ICommandContext>
+  nameWithType: ModuleBase<ICommandContext>
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>
+  nameWithType.vb: ModuleBase(Of ICommandContext)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext)
+  name.vb: ModuleBase(Of ICommandContext)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: <
+  - uid: Discord.Commands.ICommandContext
+    name: ICommandContext
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Discord.Commands.ICommandContext
+    name: ICommandContext
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase
+  commentId: T:Discord.Commands.ModuleBase
+  parent: Discord.Commands
+  isExternal: true
+  name: ModuleBase
+  nameWithType: ModuleBase
+  fullName: Discord.Commands.ModuleBase
+- uid: Mewdeko.Common.MewdekoModule
+  commentId: T:Mewdeko.Common.MewdekoModule
+  parent: Mewdeko.Common
+  href: Mewdeko.Common.MewdekoModule.html
+  name: MewdekoModule
+  nameWithType: MewdekoModule
+  fullName: Mewdeko.Common.MewdekoModule
+- uid: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Server_Management.Services.ServerManagementService}
+  commentId: T:Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Server_Management.Services.ServerManagementService}
+  parent: Mewdeko.Common
+  definition: Mewdeko.Common.MewdekoModuleBase`1
+  href: Mewdeko.Common.MewdekoModuleBase-1.html
+  name: MewdekoModuleBase<ServerManagementService>
+  nameWithType: MewdekoModuleBase<ServerManagementService>
+  fullName: Mewdeko.Common.MewdekoModuleBase<Mewdeko.Modules.Server_Management.Services.ServerManagementService>
+  nameWithType.vb: MewdekoModuleBase(Of ServerManagementService)
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of Mewdeko.Modules.Server_Management.Services.ServerManagementService)
+  name.vb: MewdekoModuleBase(Of ServerManagementService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: <
+  - uid: Mewdeko.Modules.Server_Management.Services.ServerManagementService
+    name: ServerManagementService
+    href: Mewdeko.Modules.Server_Management.Services.ServerManagementService.html
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Server_Management.Services.ServerManagementService
+    name: ServerManagementService
+    href: Mewdeko.Modules.Server_Management.Services.ServerManagementService.html
+  - name: )
+- uid: Mewdeko.Common.MewdekoSubmodule{Mewdeko.Modules.Server_Management.Services.ServerManagementService}
+  commentId: T:Mewdeko.Common.MewdekoSubmodule{Mewdeko.Modules.Server_Management.Services.ServerManagementService}
+  parent: Mewdeko.Common
+  definition: Mewdeko.Common.MewdekoSubmodule`1
+  href: Mewdeko.Common.MewdekoSubmodule-1.html
+  name: MewdekoSubmodule<ServerManagementService>
+  nameWithType: MewdekoSubmodule<ServerManagementService>
+  fullName: Mewdeko.Common.MewdekoSubmodule<Mewdeko.Modules.Server_Management.Services.ServerManagementService>
+  nameWithType.vb: MewdekoSubmodule(Of ServerManagementService)
+  fullName.vb: Mewdeko.Common.MewdekoSubmodule(Of Mewdeko.Modules.Server_Management.Services.ServerManagementService)
+  name.vb: MewdekoSubmodule(Of ServerManagementService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoSubmodule`1
+    name: MewdekoSubmodule
+    href: Mewdeko.Common.MewdekoSubmodule-1.html
+  - name: <
+  - uid: Mewdeko.Modules.Server_Management.Services.ServerManagementService
+    name: ServerManagementService
+    href: Mewdeko.Modules.Server_Management.Services.ServerManagementService.html
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoSubmodule`1
+    name: MewdekoSubmodule
+    href: Mewdeko.Common.MewdekoSubmodule-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Server_Management.Services.ServerManagementService
+    name: ServerManagementService
+    href: Mewdeko.Modules.Server_Management.Services.ServerManagementService.html
+  - name: )
+- uid: Discord.Commands.IModuleBase
+  commentId: T:Discord.Commands.IModuleBase
+  parent: Discord.Commands
+  isExternal: true
+  name: IModuleBase
+  nameWithType: IModuleBase
+  fullName: Discord.Commands.IModuleBase
+- uid: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Server_Management.Services.ServerManagementService}.Service
+  commentId: P:Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Server_Management.Services.ServerManagementService}.Service
+  parent: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Server_Management.Services.ServerManagementService}
+  definition: Mewdeko.Common.MewdekoModuleBase`1.Service
+  href: Mewdeko.Common.MewdekoModuleBase-1.html#Mewdeko_Common_MewdekoModuleBase_1_Service
+  name: Service
+  nameWithType: MewdekoModuleBase<ServerManagementService>.Service
+  fullName: Mewdeko.Common.MewdekoModuleBase<Mewdeko.Modules.Server_Management.Services.ServerManagementService>.Service
+  nameWithType.vb: MewdekoModuleBase(Of ServerManagementService).Service
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of Mewdeko.Modules.Server_Management.Services.ServerManagementService).Service
+- uid: Mewdeko.Common.MewdekoModule.CultureInfo
+  commentId: P:Mewdeko.Common.MewdekoModule.CultureInfo
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CultureInfo
+  name: CultureInfo
+  nameWithType: MewdekoModule.CultureInfo
+  fullName: Mewdeko.Common.MewdekoModule.CultureInfo
+- uid: Mewdeko.Common.MewdekoModule.Strings
+  commentId: P:Mewdeko.Common.MewdekoModule.Strings
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Strings
+  name: Strings
+  nameWithType: MewdekoModule.Strings
+  fullName: Mewdeko.Common.MewdekoModule.Strings
+- uid: Mewdeko.Common.MewdekoModule.Localization
+  commentId: P:Mewdeko.Common.MewdekoModule.Localization
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Localization
+  name: Localization
+  nameWithType: MewdekoModule.Localization
+  fullName: Mewdeko.Common.MewdekoModule.Localization
+- uid: Mewdeko.Common.MewdekoModule.ctx
+  commentId: P:Mewdeko.Common.MewdekoModule.ctx
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ctx
+  name: ctx
+  nameWithType: MewdekoModule.ctx
+  fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  name: BeforeExecute(CommandInfo)
+  nameWithType: MewdekoModule.BeforeExecute(CommandInfo)
+  fullName: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+    name: BeforeExecute
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+    name: BeforeExecute
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+  commentId: M:Mewdeko.Common.MewdekoModule.GetText(System.String)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  name: GetText(string)
+  nameWithType: MewdekoModule.GetText(string)
+  fullName: Mewdeko.Common.MewdekoModule.GetText(string)
+  nameWithType.vb: MewdekoModule.GetText(String)
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetText(String)
+  name.vb: GetText(String)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  name: GetText(string, params object[])
+  nameWithType: MewdekoModule.GetText(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.GetText(string, params object[])
+  nameWithType.vb: MewdekoModule.GetText(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetText(String, ParamArray Object())
+  name.vb: GetText(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  name: ErrorLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ErrorLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ErrorLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(String, ParamArray Object())
+  name.vb: ErrorLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+    name: ErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+    name: ErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  name: ReplyErrorLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ReplyErrorLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ReplyErrorLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(String, ParamArray Object())
+  name.vb: ReplyErrorLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+    name: ReplyErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+    name: ReplyErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  name: ConfirmLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ConfirmLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ConfirmLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(String, ParamArray Object())
+  name.vb: ConfirmLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+    name: ConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+    name: ConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  name: ReplyConfirmLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ReplyConfirmLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  name.vb: ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+    name: ReplyConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+    name: ReplyConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  name: PromptUserConfirmAsync(string, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(string, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(string, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(String, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(String, ULong)
+  name.vb: PromptUserConfirmAsync(String, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  name: PromptUserConfirmAsync(EmbedBuilder, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(EmbedBuilder, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(EmbedBuilder, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder, ULong)
+  name.vb: PromptUserConfirmAsync(EmbedBuilder, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  commentId: M:Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  name: CheckRoleHierarchy(IGuildUser, bool)
+  nameWithType: MewdekoModule.CheckRoleHierarchy(IGuildUser, bool)
+  fullName: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser, bool)
+  nameWithType.vb: MewdekoModule.CheckRoleHierarchy(IGuildUser, Boolean)
+  fullName.vb: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser, Boolean)
+  name.vb: CheckRoleHierarchy(IGuildUser, Boolean)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+    name: CheckRoleHierarchy
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  - name: (
+  - uid: Discord.IGuildUser
+    name: IGuildUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+    name: CheckRoleHierarchy
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  - name: (
+  - uid: Discord.IGuildUser
+    name: IGuildUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  name: PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage, Discord.EmbedBuilder, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage, Discord.EmbedBuilder, ULong)
+  name.vb: PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  commentId: M:Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  name: GetButtonInputAsync(ulong, ulong, ulong, bool)
+  nameWithType: MewdekoModule.GetButtonInputAsync(ulong, ulong, ulong, bool)
+  fullName: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(ulong, ulong, ulong, bool)
+  nameWithType.vb: MewdekoModule.GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  name.vb: GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+    name: GetButtonInputAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+    name: GetButtonInputAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  name: NextMessageAsync(ulong, ulong)
+  nameWithType: MewdekoModule.NextMessageAsync(ulong, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.NextMessageAsync(ulong, ulong)
+  nameWithType.vb: MewdekoModule.NextMessageAsync(ULong, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.NextMessageAsync(ULong, ULong)
+  name.vb: NextMessageAsync(ULong, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+    name: NextMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+    name: NextMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  name: NextFullMessageAsync(ulong, ulong)
+  nameWithType: MewdekoModule.NextFullMessageAsync(ulong, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(ulong, ulong)
+  nameWithType.vb: MewdekoModule.NextFullMessageAsync(ULong, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(ULong, ULong)
+  name.vb: NextFullMessageAsync(ULong, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+    name: NextFullMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+    name: NextFullMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  nameWithType: ModuleBase<ICommandContext>.ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.ReplyAsync(string, bool, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker[], Discord.Embed[], Discord.MessageFlags)
+  nameWithType.vb: ModuleBase(Of ICommandContext).ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).ReplyAsync(String, Boolean, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker(), Discord.Embed(), Discord.MessageFlags)
+  name.vb: ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  name: BeforeExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.BeforeExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).BeforeExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  name: AfterExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.AfterExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).AfterExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).AfterExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  name: AfterExecute(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.AfterExecute(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.AfterExecute(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).AfterExecute(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).AfterExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  name: OnModuleBuilding(CommandService, ModuleBuilder)
+  nameWithType: ModuleBase<ICommandContext>.OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  nameWithType.vb: ModuleBase(Of ICommandContext).OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  commentId: P:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.Context
+  name: Context
+  nameWithType: ModuleBase<ICommandContext>.Context
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.Context
+  nameWithType.vb: ModuleBase(Of ICommandContext).Context
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).Context
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<ChannelCommands>(ChannelCommands, string)
+  nameWithType: Extensions.ThrowIfNull<ServerManagement.ChannelCommands>(ServerManagement.ChannelCommands, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands>(Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of ServerManagement.ChannelCommands)(ServerManagement.ChannelCommands, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands)(Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands, String)
+  name.vb: ThrowIfNull(Of ChannelCommands)(ChannelCommands, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+    name: ChannelCommands
+    href: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+    name: ChannelCommands
+    href: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+    name: ChannelCommands
+    href: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
+    name: ChannelCommands
+    href: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Discord.Commands.ModuleBase`1
+  commentId: T:Discord.Commands.ModuleBase`1
+  isExternal: true
+  name: ModuleBase<T>
+  nameWithType: ModuleBase<T>
+  fullName: Discord.Commands.ModuleBase<T>
+  nameWithType.vb: ModuleBase(Of T)
+  fullName.vb: Discord.Commands.ModuleBase(Of T)
+  name.vb: ModuleBase(Of T)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Discord.Commands
+  commentId: N:Discord.Commands
+  isExternal: true
+  name: Discord.Commands
+  nameWithType: Discord.Commands
+  fullName: Discord.Commands
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+- uid: Mewdeko.Common
+  commentId: N:Mewdeko.Common
+  href: Mewdeko.html
+  name: Mewdeko.Common
+  nameWithType: Mewdeko.Common
+  fullName: Mewdeko.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+- uid: Mewdeko.Common.MewdekoModuleBase`1
+  commentId: T:Mewdeko.Common.MewdekoModuleBase`1
+  href: Mewdeko.Common.MewdekoModuleBase-1.html
+  name: MewdekoModuleBase<TService>
+  nameWithType: MewdekoModuleBase<TService>
+  fullName: Mewdeko.Common.MewdekoModuleBase<TService>
+  nameWithType.vb: MewdekoModuleBase(Of TService)
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of TService)
+  name.vb: MewdekoModuleBase(Of TService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: <
+  - name: TService
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TService
+  - name: )
+- uid: Mewdeko.Common.MewdekoSubmodule`1
+  commentId: T:Mewdeko.Common.MewdekoSubmodule`1
+  href: Mewdeko.Common.MewdekoSubmodule-1.html
+  name: MewdekoSubmodule<TService>
+  nameWithType: MewdekoSubmodule<TService>
+  fullName: Mewdeko.Common.MewdekoSubmodule<TService>
+  nameWithType.vb: MewdekoSubmodule(Of TService)
+  fullName.vb: Mewdeko.Common.MewdekoSubmodule(Of TService)
+  name.vb: MewdekoSubmodule(Of TService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoSubmodule`1
+    name: MewdekoSubmodule
+    href: Mewdeko.Common.MewdekoSubmodule-1.html
+  - name: <
+  - name: TService
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoSubmodule`1
+    name: MewdekoSubmodule
+    href: Mewdeko.Common.MewdekoSubmodule-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TService
+  - name: )
+- uid: Mewdeko.Common.MewdekoModuleBase`1.Service
+  commentId: P:Mewdeko.Common.MewdekoModuleBase`1.Service
+  href: Mewdeko.Common.MewdekoModuleBase-1.html#Mewdeko_Common_MewdekoModuleBase_1_Service
+  name: Service
+  nameWithType: MewdekoModuleBase<TService>.Service
+  fullName: Mewdeko.Common.MewdekoModuleBase<TService>.Service
+  nameWithType.vb: MewdekoModuleBase(Of TService).Service
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of TService).Service
+- uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  commentId: M:Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  nameWithType: ModuleBase<T>.ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  fullName: Discord.Commands.ModuleBase<T>.ReplyAsync(string, bool, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker[], Discord.Embed[], Discord.MessageFlags)
+  nameWithType.vb: ModuleBase(Of T).ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).ReplyAsync(String, Boolean, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker(), Discord.Embed(), Discord.MessageFlags)
+  name.vb: ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: BeforeExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<T>.BeforeExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).BeforeExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: AfterExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<T>.AfterExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).AfterExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).AfterExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: AfterExecute(CommandInfo)
+  nameWithType: ModuleBase<T>.AfterExecute(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.AfterExecute(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).AfterExecute(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).AfterExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  commentId: M:Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  isExternal: true
+  name: OnModuleBuilding(CommandService, ModuleBuilder)
+  nameWithType: ModuleBase<T>.OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName: Discord.Commands.ModuleBase<T>.OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  nameWithType.vb: ModuleBase(Of T).OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.Context
+  commentId: P:Discord.Commands.ModuleBase`1.Context
+  isExternal: true
+  name: Context
+  nameWithType: ModuleBase<T>.Context
+  fullName: Discord.Commands.ModuleBase<T>.Context
+  nameWithType.vb: ModuleBase(Of T).Context
+  fullName.vb: Discord.Commands.ModuleBase(Of T).Context
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.#ctor*
+  commentId: Overload:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.#ctor
+  href: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.html#Mewdeko_Modules_Server_Management_ServerManagement_ChannelCommands__ctor_Mewdeko_Services_Settings_BotConfigService_System_Net_Http_HttpClient_
+  name: ChannelCommands
+  nameWithType: ServerManagement.ChannelCommands.ChannelCommands
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.ChannelCommands
+  nameWithType.vb: ServerManagement.ChannelCommands.New
+  fullName.vb: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.New
+  name.vb: New
+- uid: Mewdeko.Services.Settings.BotConfigService
+  commentId: T:Mewdeko.Services.Settings.BotConfigService
+  parent: Mewdeko.Services.Settings
+  href: Mewdeko.Services.Settings.BotConfigService.html
+  name: BotConfigService
+  nameWithType: BotConfigService
+  fullName: Mewdeko.Services.Settings.BotConfigService
+- uid: System.Net.Http.HttpClient
+  commentId: T:System.Net.Http.HttpClient
+  parent: System.Net.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.net.http.httpclient
+  name: HttpClient
+  nameWithType: HttpClient
+  fullName: System.Net.Http.HttpClient
+- uid: Mewdeko.Services.Settings
+  commentId: N:Mewdeko.Services.Settings
+  href: Mewdeko.html
+  name: Mewdeko.Services.Settings
+  nameWithType: Mewdeko.Services.Settings
+  fullName: Mewdeko.Services.Settings
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+- uid: System.Net.Http
+  commentId: N:System.Net.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Net.Http
+  nameWithType: System.Net.Http
+  fullName: System.Net.Http
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.LockCheck*
+  commentId: Overload:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.LockCheck
+  href: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.html#Mewdeko_Modules_Server_Management_ServerManagement_ChannelCommands_LockCheck
+  name: LockCheck
+  nameWithType: ServerManagement.ChannelCommands.LockCheck
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.LockCheck
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.LockDown*
+  commentId: Overload:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.LockDown
+  href: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.html#Mewdeko_Modules_Server_Management_ServerManagement_ChannelCommands_LockDown
+  name: LockDown
+  nameWithType: ServerManagement.ChannelCommands.LockDown
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.LockDown
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.MoveTo*
+  commentId: Overload:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.MoveTo
+  href: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.html#Mewdeko_Modules_Server_Management_ServerManagement_ChannelCommands_MoveTo_Discord_IVoiceChannel_
+  name: MoveTo
+  nameWithType: ServerManagement.ChannelCommands.MoveTo
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.MoveTo
+- uid: Discord.IVoiceChannel
+  commentId: T:Discord.IVoiceChannel
+  parent: Discord
+  isExternal: true
+  name: IVoiceChannel
+  nameWithType: IVoiceChannel
+  fullName: Discord.IVoiceChannel
+- uid: Discord
+  commentId: N:Discord
+  isExternal: true
+  name: Discord
+  nameWithType: Discord
+  fullName: Discord
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.MoveUserTo*
+  commentId: Overload:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.MoveUserTo
+  href: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.html#Mewdeko_Modules_Server_Management_ServerManagement_ChannelCommands_MoveUserTo_Discord_IGuildUser_Discord_IVoiceChannel_
+  name: MoveUserTo
+  nameWithType: ServerManagement.ChannelCommands.MoveUserTo
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.MoveUserTo
+- uid: Discord.IGuildUser
+  commentId: T:Discord.IGuildUser
+  parent: Discord
+  isExternal: true
+  name: IGuildUser
+  nameWithType: IGuildUser
+  fullName: Discord.IGuildUser
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Grab*
+  commentId: Overload:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Grab
+  href: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.html#Mewdeko_Modules_Server_Management_ServerManagement_ChannelCommands_Grab_Discord_IGuildUser_
+  name: Grab
+  nameWithType: ServerManagement.ChannelCommands.Grab
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Grab
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Unlockdown*
+  commentId: Overload:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Unlockdown
+  href: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.html#Mewdeko_Modules_Server_Management_ServerManagement_ChannelCommands_Unlockdown
+  name: Unlockdown
+  nameWithType: ServerManagement.ChannelCommands.Unlockdown
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Unlockdown
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Nuke*
+  commentId: Overload:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Nuke
+  href: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.html#Mewdeko_Modules_Server_Management_ServerManagement_ChannelCommands_Nuke_Discord_ITextChannel_
+  name: Nuke
+  nameWithType: ServerManagement.ChannelCommands.Nuke
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Nuke
+- uid: Discord.ITextChannel
+  commentId: T:Discord.ITextChannel
+  parent: Discord
+  isExternal: true
+  name: ITextChannel
+  nameWithType: ITextChannel
+  fullName: Discord.ITextChannel
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Lock*
+  commentId: Overload:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Lock
+  href: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.html#Mewdeko_Modules_Server_Management_ServerManagement_ChannelCommands_Lock_Discord_WebSocket_SocketTextChannel_
+  name: Lock
+  nameWithType: ServerManagement.ChannelCommands.Lock
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Lock
+- uid: Discord.WebSocket.SocketTextChannel
+  commentId: T:Discord.WebSocket.SocketTextChannel
+  parent: Discord.WebSocket
+  isExternal: true
+  name: SocketTextChannel
+  nameWithType: SocketTextChannel
+  fullName: Discord.WebSocket.SocketTextChannel
+- uid: Discord.WebSocket
+  commentId: N:Discord.WebSocket
+  isExternal: true
+  name: Discord.WebSocket
+  nameWithType: Discord.WebSocket
+  fullName: Discord.WebSocket
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.WebSocket
+    name: WebSocket
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.WebSocket
+    name: WebSocket
+    isExternal: true
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatAndTxtChannels*
+  commentId: Overload:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatAndTxtChannels
+  href: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.html#Mewdeko_Modules_Server_Management_ServerManagement_ChannelCommands_CreateCatAndTxtChannels_System_String_System_String___
+  name: CreateCatAndTxtChannels
+  nameWithType: ServerManagement.ChannelCommands.CreateCatAndTxtChannels
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatAndTxtChannels
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.String[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string[]
+  nameWithType: string[]
+  fullName: string[]
+  nameWithType.vb: String()
+  fullName.vb: String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatAndVcChannels*
+  commentId: Overload:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatAndVcChannels
+  href: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.html#Mewdeko_Modules_Server_Management_ServerManagement_ChannelCommands_CreateCatAndVcChannels_System_String_System_String___
+  name: CreateCatAndVcChannels
+  nameWithType: ServerManagement.ChannelCommands.CreateCatAndVcChannels
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatAndVcChannels
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatVcChans*
+  commentId: Overload:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatVcChans
+  href: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.html#Mewdeko_Modules_Server_Management_ServerManagement_ChannelCommands_CreateCatVcChans_Discord_ICategoryChannel_System_String___
+  name: CreateCatVcChans
+  nameWithType: ServerManagement.ChannelCommands.CreateCatVcChans
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatVcChans
+- uid: Discord.ICategoryChannel
+  commentId: T:Discord.ICategoryChannel
+  parent: Discord
+  isExternal: true
+  name: ICategoryChannel
+  nameWithType: ICategoryChannel
+  fullName: Discord.ICategoryChannel
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatTxtChans*
+  commentId: Overload:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatTxtChans
+  href: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.html#Mewdeko_Modules_Server_Management_ServerManagement_ChannelCommands_CreateCatTxtChans_Discord_ICategoryChannel_System_String___
+  name: CreateCatTxtChans
+  nameWithType: ServerManagement.ChannelCommands.CreateCatTxtChans
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateCatTxtChans
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Unlock*
+  commentId: Overload:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Unlock
+  href: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.html#Mewdeko_Modules_Server_Management_ServerManagement_ChannelCommands_Unlock_Discord_WebSocket_SocketTextChannel_
+  name: Unlock
+  nameWithType: ServerManagement.ChannelCommands.Unlock
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Unlock
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode*
+  commentId: Overload:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode
+  href: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.html#Mewdeko_Modules_Server_Management_ServerManagement_ChannelCommands_Slowmode_Mewdeko_Common_TypeReaders_Models_StoopidTime_Discord_ITextChannel_
+  name: Slowmode
+  nameWithType: ServerManagement.ChannelCommands.Slowmode
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode
+- uid: Mewdeko.Common.TypeReaders.Models.StoopidTime
+  commentId: T:Mewdeko.Common.TypeReaders.Models.StoopidTime
+  parent: Mewdeko.Common.TypeReaders.Models
+  href: Mewdeko.Common.TypeReaders.Models.StoopidTime.html
+  name: StoopidTime
+  nameWithType: StoopidTime
+  fullName: Mewdeko.Common.TypeReaders.Models.StoopidTime
+- uid: Mewdeko.Common.TypeReaders.Models
+  commentId: N:Mewdeko.Common.TypeReaders.Models
+  href: Mewdeko.html
+  name: Mewdeko.Common.TypeReaders.Models
+  nameWithType: Mewdeko.Common.TypeReaders.Models
+  fullName: Mewdeko.Common.TypeReaders.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders
+    name: TypeReaders
+    href: Mewdeko.Common.TypeReaders.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders.Models
+    name: Models
+    href: Mewdeko.Common.TypeReaders.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders
+    name: TypeReaders
+    href: Mewdeko.Common.TypeReaders.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders.Models
+    name: Models
+    href: Mewdeko.Common.TypeReaders.Models.html
+- uid: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateWebhook*
+  commentId: Overload:Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateWebhook
+  href: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.html#Mewdeko_Modules_Server_Management_ServerManagement_ChannelCommands_CreateWebhook_Discord_ITextChannel_System_String_System_String_
+  name: CreateWebhook
+  nameWithType: ServerManagement.ChannelCommands.CreateWebhook
+  fullName: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.CreateWebhook

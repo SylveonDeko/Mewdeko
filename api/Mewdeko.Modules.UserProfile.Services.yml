@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.UserProfile.Services
+  commentId: N:Mewdeko.Modules.UserProfile.Services
+  id: Mewdeko.Modules.UserProfile.Services
+  children:
+  - Mewdeko.Modules.UserProfile.Services.UserProfileService
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.UserProfile.Services
+  nameWithType: Mewdeko.Modules.UserProfile.Services
+  fullName: Mewdeko.Modules.UserProfile.Services
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.UserProfile.Services.UserProfileService
+  commentId: T:Mewdeko.Modules.UserProfile.Services.UserProfileService
+  href: Mewdeko.Modules.UserProfile.Services.UserProfileService.html
+  name: UserProfileService
+  nameWithType: UserProfileService
+  fullName: Mewdeko.Modules.UserProfile.Services.UserProfileService

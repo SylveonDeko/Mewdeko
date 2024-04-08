@@ -1,0 +1,147 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Models.XpNotificationLocation
+  commentId: T:Mewdeko.Database.Models.XpNotificationLocation
+  id: XpNotificationLocation
+  parent: Mewdeko.Database.Models
+  children:
+  - Mewdeko.Database.Models.XpNotificationLocation.Channel
+  - Mewdeko.Database.Models.XpNotificationLocation.Dm
+  - Mewdeko.Database.Models.XpNotificationLocation.None
+  langs:
+  - csharp
+  - vb
+  name: XpNotificationLocation
+  nameWithType: XpNotificationLocation
+  fullName: Mewdeko.Database.Models.XpNotificationLocation
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/UserXpStats.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: XpNotificationLocation
+    path: src/Mewdeko.Database/Models/UserXpStats.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public enum XpNotificationLocation
+    content.vb: Public Enum XpNotificationLocation
+- uid: Mewdeko.Database.Models.XpNotificationLocation.None
+  commentId: F:Mewdeko.Database.Models.XpNotificationLocation.None
+  id: None
+  parent: Mewdeko.Database.Models.XpNotificationLocation
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: XpNotificationLocation.None
+  fullName: Mewdeko.Database.Models.XpNotificationLocation.None
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/UserXpStats.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: None
+    path: src/Mewdeko.Database/Models/UserXpStats.cs
+    startLine: 14
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: None = 0
+    return:
+      type: Mewdeko.Database.Models.XpNotificationLocation
+- uid: Mewdeko.Database.Models.XpNotificationLocation.Dm
+  commentId: F:Mewdeko.Database.Models.XpNotificationLocation.Dm
+  id: Dm
+  parent: Mewdeko.Database.Models.XpNotificationLocation
+  langs:
+  - csharp
+  - vb
+  name: Dm
+  nameWithType: XpNotificationLocation.Dm
+  fullName: Mewdeko.Database.Models.XpNotificationLocation.Dm
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/UserXpStats.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Dm
+    path: src/Mewdeko.Database/Models/UserXpStats.cs
+    startLine: 15
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Dm = 1
+    return:
+      type: Mewdeko.Database.Models.XpNotificationLocation
+- uid: Mewdeko.Database.Models.XpNotificationLocation.Channel
+  commentId: F:Mewdeko.Database.Models.XpNotificationLocation.Channel
+  id: Channel
+  parent: Mewdeko.Database.Models.XpNotificationLocation
+  langs:
+  - csharp
+  - vb
+  name: Channel
+  nameWithType: XpNotificationLocation.Channel
+  fullName: Mewdeko.Database.Models.XpNotificationLocation.Channel
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/UserXpStats.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Channel
+    path: src/Mewdeko.Database/Models/UserXpStats.cs
+    startLine: 16
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Channel = 2
+    return:
+      type: Mewdeko.Database.Models.XpNotificationLocation
+references:
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: Mewdeko.Database.Models.XpNotificationLocation
+  commentId: T:Mewdeko.Database.Models.XpNotificationLocation
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.XpNotificationLocation.html
+  name: XpNotificationLocation
+  nameWithType: XpNotificationLocation
+  fullName: Mewdeko.Database.Models.XpNotificationLocation

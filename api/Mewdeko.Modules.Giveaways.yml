@@ -1,0 +1,30 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Giveaways
+  commentId: N:Mewdeko.Modules.Giveaways
+  id: Mewdeko.Modules.Giveaways
+  children:
+  - Mewdeko.Modules.Giveaways.Giveaways
+  - Mewdeko.Modules.Giveaways.SlashGiveaways
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Giveaways
+  nameWithType: Mewdeko.Modules.Giveaways
+  fullName: Mewdeko.Modules.Giveaways
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Giveaways.Giveaways
+  commentId: T:Mewdeko.Modules.Giveaways.Giveaways
+  href: Mewdeko.Modules.Giveaways.Giveaways.html
+  name: Giveaways
+  nameWithType: Giveaways
+  fullName: Mewdeko.Modules.Giveaways.Giveaways
+- uid: Mewdeko.Modules.Giveaways.SlashGiveaways
+  commentId: T:Mewdeko.Modules.Giveaways.SlashGiveaways
+  href: Mewdeko.Modules.Giveaways.SlashGiveaways.html
+  name: SlashGiveaways
+  nameWithType: SlashGiveaways
+  fullName: Mewdeko.Modules.Giveaways.SlashGiveaways

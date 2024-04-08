@@ -1,0 +1,208 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+  commentId: T:Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+  id: SearchesService.ImageTag
+  parent: Mewdeko.Modules.Searches.Services
+  children:
+  - Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.Birds
+  - Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.Cats
+  - Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.Dogs
+  - Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.Food
+  langs:
+  - csharp
+  - vb
+  name: SearchesService.ImageTag
+  nameWithType: SearchesService.ImageTag
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ImageTag
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 26
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Represents the type of Image search.
+  example: []
+  syntax:
+    content: public enum SearchesService.ImageTag
+    content.vb: Public Enum SearchesService.ImageTag
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.Food
+  commentId: F:Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.Food
+  id: Food
+  parent: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+  langs:
+  - csharp
+  - vb
+  name: Food
+  nameWithType: SearchesService.ImageTag.Food
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.Food
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Food
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 31
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Represents a search for food images.
+  example: []
+  syntax:
+    content: Food = 0
+    return:
+      type: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.Dogs
+  commentId: F:Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.Dogs
+  id: Dogs
+  parent: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+  langs:
+  - csharp
+  - vb
+  name: Dogs
+  nameWithType: SearchesService.ImageTag.Dogs
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.Dogs
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Dogs
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 36
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Represents a search for dog images.
+  example: []
+  syntax:
+    content: Dogs = 1
+    return:
+      type: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.Cats
+  commentId: F:Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.Cats
+  id: Cats
+  parent: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+  langs:
+  - csharp
+  - vb
+  name: Cats
+  nameWithType: SearchesService.ImageTag.Cats
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.Cats
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Cats
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 41
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Represents a search for cat images.
+  example: []
+  syntax:
+    content: Cats = 2
+    return:
+      type: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.Birds
+  commentId: F:Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.Birds
+  id: Birds
+  parent: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+  langs:
+  - csharp
+  - vb
+  name: Birds
+  nameWithType: SearchesService.ImageTag.Birds
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.Birds
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Birds
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 46
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Represents a search for bird images.
+  example: []
+  syntax:
+    content: Birds = 3
+    return:
+      type: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+references:
+- uid: Mewdeko.Modules.Searches.Services
+  commentId: N:Mewdeko.Modules.Searches.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Services
+  nameWithType: Mewdeko.Modules.Searches.Services
+  fullName: Mewdeko.Modules.Searches.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services
+    name: Services
+    href: Mewdeko.Modules.Searches.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services
+    name: Services
+    href: Mewdeko.Modules.Searches.Services.html
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+  commentId: T:Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+  parent: Mewdeko.Modules.Searches.Services
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html
+  name: SearchesService.ImageTag
+  nameWithType: SearchesService.ImageTag
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+  spec.csharp:
+  - uid: Mewdeko.Modules.Searches.Services.SearchesService
+    name: SearchesService
+    href: Mewdeko.Modules.Searches.Services.SearchesService.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+    name: ImageTag
+    href: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Searches.Services.SearchesService
+    name: SearchesService
+    href: Mewdeko.Modules.Searches.Services.SearchesService.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+    name: ImageTag
+    href: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.html

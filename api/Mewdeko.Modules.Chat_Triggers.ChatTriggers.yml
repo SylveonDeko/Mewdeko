@@ -1,0 +1,4541 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  commentId: T:Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  id: ChatTriggers
+  parent: Mewdeko.Modules.Chat_Triggers
+  children:
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.#ctor(System.Net.Http.IHttpClientFactory,Fergun.Interactive.InteractiveService)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.AddChatTrigger(System.String,System.String)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.AddChatTriggerRegex(System.String,System.String)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.ChatTriggerRoleGrantType(System.Int32,Mewdeko.Database.Models.CtRoleGrantType)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.ChatTriggerValidType(System.Int32,Mewdeko.Database.Models.ChatTriggerType,System.Boolean)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtAd(System.Int32)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtAt(System.Int32)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCa(System.Int32)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCpSetChannel(System.Int32,Discord.ITextChannel)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCpSetWebhook(System.Int32,System.String)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtDm(System.Int32)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtInterEphemeral(System.Int32,System.Boolean)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtInterErrors
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtNr(System.Int32)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtPrefix(System.Int32,System.String)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtPrefixType(System.Int32,Mewdeko.Database.Models.RequirePrefixType)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtReact(System.Int32,System.String[])
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtrGrantToggle(System.Int32,Discord.IRole)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtrRemoveToggle(System.Int32,Discord.IRole)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsClear
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsExport
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsImport(System.String)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsReload
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.DeleteChatTrigger(System.Int32)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.EditChatTrigger(System.Int32,System.String)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.FollowupWithTriggerStatus
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.ListChatTriggers
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.ListChatTriggersGroup
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.Rtt(System.Int32)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterDesc(System.Int32,System.String)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterName(System.Int32,System.String)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterType(System.Int32,Mewdeko.Database.Models.CtApplicationCommandType)
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.ShowChatTrigger(System.Int32)
+  langs:
+  - csharp
+  - vb
+  name: ChatTriggers
+  nameWithType: ChatTriggers
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChatTriggers
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 14
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Module for chat triggers.
+  example: []
+  syntax:
+    content: 'public class ChatTriggers : MewdekoModuleBase<ChatTriggersService>, IModuleBase'
+    content.vb: Public Class ChatTriggers Inherits MewdekoModuleBase(Of ChatTriggersService) Implements IModuleBase
+  inheritance:
+  - System.Object
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  - Discord.Commands.ModuleBase
+  - Mewdeko.Common.MewdekoModule
+  - Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService}
+  implements:
+  - Discord.Commands.IModuleBase
+  inheritedMembers:
+  - Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService}.Service
+  - Mewdeko.Common.MewdekoModule.CultureInfo
+  - Mewdeko.Common.MewdekoModule.Strings
+  - Mewdeko.Common.MewdekoModule.Localization
+  - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  - Mewdeko.Common.MewdekoModule.GetText(System.String)
+  - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  - Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Chat_Triggers.ChatTriggers.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.#ctor(System.Net.Http.IHttpClientFactory,Fergun.Interactive.InteractiveService)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.#ctor(System.Net.Http.IHttpClientFactory,Fergun.Interactive.InteractiveService)
+  id: '#ctor(System.Net.Http.IHttpClientFactory,Fergun.Interactive.InteractiveService)'
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: ChatTriggers(IHttpClientFactory, InteractiveService)
+  nameWithType: ChatTriggers.ChatTriggers(IHttpClientFactory, InteractiveService)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ChatTriggers(System.Net.Http.IHttpClientFactory, Fergun.Interactive.InteractiveService)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 14
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Module for chat triggers.
+  example: []
+  syntax:
+    content: public ChatTriggers(IHttpClientFactory clientFactory, InteractiveService serv)
+    parameters:
+    - id: clientFactory
+      type: System.Net.Http.IHttpClientFactory
+      description: ''
+    - id: serv
+      type: Fergun.Interactive.InteractiveService
+      description: ''
+    content.vb: Public Sub New(clientFactory As IHttpClientFactory, serv As InteractiveService)
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.#ctor*
+  nameWithType.vb: ChatTriggers.New(IHttpClientFactory, InteractiveService)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.New(System.Net.Http.IHttpClientFactory, Fergun.Interactive.InteractiveService)
+  name.vb: New(IHttpClientFactory, InteractiveService)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsExport
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsExport
+  id: CtsExport
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: CtsExport()
+  nameWithType: ChatTriggers.CtsExport()
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsExport()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CtsExport
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 21
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Exports chat trigger settings for the current guild.
+  example:
+  - .ctsexport
+  syntax:
+    content: >-
+      [Cmd("CtsExport")]
+
+      [Aliases("CtsExport")]
+
+      [RequireContext(ContextType.Guild)]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task CtsExport()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CtsExport")>
+
+      <Aliases("CtsExport")>
+
+      <RequireContext(ContextType.Guild)>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function CtsExport() As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsExport*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtsExport
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtsExport
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsImport(System.String)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsImport(System.String)
+  id: CtsImport(System.String)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: CtsImport(string?)
+  nameWithType: ChatTriggers.CtsImport(string?)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsImport(string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CtsImport
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 38
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Imports chat trigger settings for the current guild.
+  example:
+  - .ctsimport url
+  - .ctsimport attachment
+  syntax:
+    content: >-
+      [Cmd("CtsImport")]
+
+      [Aliases("CtsImport")]
+
+      [RequireContext(ContextType.Guild)]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task CtsImport(string? input = null)
+    parameters:
+    - id: input
+      type: System.String
+      description: The input containing the custom reaction settings.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CtsImport")>
+
+      <Aliases("CtsImport")>
+
+      <RequireContext(ContextType.Guild)>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function CtsImport(input As String = Nothing) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsImport*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtsImport
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtsImport
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.CtsImport(String)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsImport(String)
+  name.vb: CtsImport(String)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.AddChatTrigger(System.String,System.String)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.AddChatTrigger(System.String,System.String)
+  id: AddChatTrigger(System.String,System.String)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: AddChatTrigger(string, string?)
+  nameWithType: ChatTriggers.AddChatTrigger(string, string?)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.AddChatTrigger(string, string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AddChatTrigger
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 87
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Adds a new chat trigger.
+  example:
+  - .act trigger response
+  syntax:
+    content: >-
+      [Cmd("AddChatTrigger")]
+
+      [Aliases("AddChatTrigger")]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task AddChatTrigger(string key, string? message)
+    parameters:
+    - id: key
+      type: System.String
+      description: The key for the chat trigger.
+    - id: message
+      type: System.String
+      description: The message associated with the chat trigger.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("AddChatTrigger")>
+
+      <Aliases("AddChatTrigger")>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function AddChatTrigger(key As String, message As String) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.AddChatTrigger*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: AddChatTrigger
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: AddChatTrigger
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.AddChatTrigger(String, String)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.AddChatTrigger(String, String)
+  name.vb: AddChatTrigger(String, String)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.AddChatTriggerRegex(System.String,System.String)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.AddChatTriggerRegex(System.String,System.String)
+  id: AddChatTriggerRegex(System.String,System.String)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: AddChatTriggerRegex(string, string?)
+  nameWithType: ChatTriggers.AddChatTriggerRegex(string, string?)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.AddChatTriggerRegex(string, string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AddChatTriggerRegex
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 105
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Adds a new chat trigger with regex support.
+  example:
+  - .actr trigger* response
+  syntax:
+    content: >-
+      [Cmd("AddChatTriggerRegex")]
+
+      [Aliases("AddChatTriggerRegex")]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task AddChatTriggerRegex(string key, string? message)
+    parameters:
+    - id: key
+      type: System.String
+      description: The key for the chat trigger.
+    - id: message
+      type: System.String
+      description: The message associated with the chat trigger.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("AddChatTriggerRegex")>
+
+      <Aliases("AddChatTriggerRegex")>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function AddChatTriggerRegex(key As String, message As String) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.AddChatTriggerRegex*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: AddChatTriggerRegex
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: AddChatTriggerRegex
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.AddChatTriggerRegex(String, String)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.AddChatTriggerRegex(String, String)
+  name.vb: AddChatTriggerRegex(String, String)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.EditChatTrigger(System.Int32,System.String)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.EditChatTrigger(System.Int32,System.String)
+  id: EditChatTrigger(System.Int32,System.String)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: EditChatTrigger(int, string?)
+  nameWithType: ChatTriggers.EditChatTrigger(int, string?)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.EditChatTrigger(int, string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: EditChatTrigger
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 123
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Edits an existing chat trigger.
+  example:
+  - .ect 9987 Response
+  syntax:
+    content: >-
+      [Cmd("EditChatTrigger")]
+
+      [Aliases("EditChatTrigger")]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task EditChatTrigger(int id, string? message)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger to edit.
+    - id: message
+      type: System.String
+      description: The new message for the chat trigger.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("EditChatTrigger")>
+
+      <Aliases("EditChatTrigger")>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function EditChatTrigger(id As Integer, message As String) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.EditChatTrigger*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: EditChatTrigger
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: EditChatTrigger
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.EditChatTrigger(Integer, String)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.EditChatTrigger(Integer, String)
+  name.vb: EditChatTrigger(Integer, String)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ListChatTriggers
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.ListChatTriggers
+  id: ListChatTriggers
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: ListChatTriggers()
+  nameWithType: ChatTriggers.ListChatTriggers()
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ListChatTriggers()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ListChatTriggers
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 142
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Lists all chat triggers.
+  example:
+  - .lct
+  syntax:
+    content: >-
+      [Cmd("ListChatTriggers")]
+
+      [Aliases("ListChatTriggers")]
+
+      [Priority(1)]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task ListChatTriggers()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("ListChatTriggers")>
+
+      <Aliases("ListChatTriggers")>
+
+      <Priority(1)>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function ListChatTriggers() As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ListChatTriggers*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ListChatTriggers
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ListChatTriggers
+  - type: Discord.Commands.PriorityAttribute
+    ctor: Discord.Commands.PriorityAttribute.#ctor(System.Int32)
+    arguments:
+    - type: System.Int32
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ListChatTriggersGroup
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.ListChatTriggersGroup
+  id: ListChatTriggersGroup
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: ListChatTriggersGroup()
+  nameWithType: ChatTriggers.ListChatTriggersGroup()
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ListChatTriggersGroup()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ListChatTriggersGroup
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 181
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Lists all chat triggers grouped by trigger.
+  example:
+  - .lctg
+  syntax:
+    content: >-
+      [Cmd("ListChatTriggersGroup")]
+
+      [Aliases("ListChatTriggersGroup")]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task ListChatTriggersGroup()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("ListChatTriggersGroup")>
+
+      <Aliases("ListChatTriggersGroup")>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function ListChatTriggersGroup() As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ListChatTriggersGroup*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ListChatTriggersGroup
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ListChatTriggersGroup
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ShowChatTrigger(System.Int32)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.ShowChatTrigger(System.Int32)
+  id: ShowChatTrigger(System.Int32)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: ShowChatTrigger(int)
+  nameWithType: ChatTriggers.ShowChatTrigger(int)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ShowChatTrigger(int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ShowChatTrigger
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 218
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Shows details of a specific chat trigger.
+  example:
+  - .sct 9987
+  syntax:
+    content: >-
+      [Cmd("ShowChatTrigger")]
+
+      [Aliases("ShowChatTrigger")]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task ShowChatTrigger(int id)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("ShowChatTrigger")>
+
+      <Aliases("ShowChatTrigger")>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function ShowChatTrigger(id As Integer) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ShowChatTrigger*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ShowChatTrigger
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ShowChatTrigger
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.ShowChatTrigger(Integer)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ShowChatTrigger(Integer)
+  name.vb: ShowChatTrigger(Integer)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.DeleteChatTrigger(System.Int32)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.DeleteChatTrigger(System.Int32)
+  id: DeleteChatTrigger(System.Int32)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: DeleteChatTrigger(int)
+  nameWithType: ChatTriggers.DeleteChatTrigger(int)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.DeleteChatTrigger(int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: DeleteChatTrigger
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 235
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Deletes a chat trigger by its ID.
+  example:
+  - .dct 9987
+  syntax:
+    content: >-
+      [Cmd("DeleteChatTrigger")]
+
+      [Aliases("DeleteChatTrigger")]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task DeleteChatTrigger(int id)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger to delete.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("DeleteChatTrigger")>
+
+      <Aliases("DeleteChatTrigger")>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function DeleteChatTrigger(id As Integer) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.DeleteChatTrigger*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: DeleteChatTrigger
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: DeleteChatTrigger
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.DeleteChatTrigger(Integer)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.DeleteChatTrigger(Integer)
+  name.vb: DeleteChatTrigger(Integer)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtReact(System.Int32,System.String[])
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtReact(System.Int32,System.String[])
+  id: CtReact(System.Int32,System.String[])
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: CtReact(int, params string[])
+  nameWithType: ChatTriggers.CtReact(int, params string[])
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtReact(int, params string[])
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CtReact
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 252
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Sets reactions for a chat trigger.
+  example:
+  - '.ctr 9987 :sylvhappy: :sylvissadthathehastomakedocs:'
+  syntax:
+    content: >-
+      [Cmd("CtReact")]
+
+      [Aliases("CtReact")]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task CtReact(int id, params string[] emojiStrs)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger.
+    - id: emojiStrs
+      type: System.String[]
+      description: The emoji strings to set as reactions.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CtReact")>
+
+      <Aliases("CtReact")>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function CtReact(id As Integer, ParamArray emojiStrs As String()) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtReact*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtReact
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtReact
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.CtReact(Integer, ParamArray String())
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtReact(Integer, ParamArray String())
+  name.vb: CtReact(Integer, ParamArray String())
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCa(System.Int32)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCa(System.Int32)
+  id: CtCa(System.Int32)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: CtCa(int)
+  nameWithType: ChatTriggers.CtCa(int)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCa(int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CtCa
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 308
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Sets a chat trigger to contain anywhere in the message.
+  example:
+  - .ctca 9987
+  syntax:
+    content: >-
+      [Cmd("CtCa")]
+
+      [Aliases("CtCa")]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task CtCa(int id)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger to edit.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CtCa")>
+
+      <Aliases("CtCa")>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function CtCa(id As Integer) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCa*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtCa
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtCa
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.CtCa(Integer)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCa(Integer)
+  name.vb: CtCa(Integer)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.Rtt(System.Int32)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.Rtt(System.Int32)
+  id: Rtt(System.Int32)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: Rtt(int)
+  nameWithType: ChatTriggers.Rtt(int)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.Rtt(int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Rtt
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 316
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Sets a chat trigger to react to the trigger.
+  example:
+  - .rtt 9987
+  syntax:
+    content: >-
+      [Cmd("Rtt")]
+
+      [Aliases("Rtt")]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task Rtt(int id)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger to edit.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Rtt")>
+
+      <Aliases("Rtt")>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function Rtt(id As Integer) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.Rtt*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Rtt
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Rtt
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.Rtt(Integer)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.Rtt(Integer)
+  name.vb: Rtt(Integer)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtDm(System.Int32)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtDm(System.Int32)
+  id: CtDm(System.Int32)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: CtDm(int)
+  nameWithType: ChatTriggers.CtDm(int)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtDm(int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CtDm
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 324
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Sets a chat trigger to send a direct message in response.
+  example:
+  - .ctdm 9987
+  syntax:
+    content: >-
+      [Cmd("CtDm")]
+
+      [Aliases("CtDm")]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task CtDm(int id)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger to edit.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CtDm")>
+
+      <Aliases("CtDm")>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function CtDm(id As Integer) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtDm*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtDm
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtDm
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.CtDm(Integer)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtDm(Integer)
+  name.vb: CtDm(Integer)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtAd(System.Int32)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtAd(System.Int32)
+  id: CtAd(System.Int32)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: CtAd(int)
+  nameWithType: ChatTriggers.CtAd(int)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtAd(int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CtAd
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 332
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Sets a chat trigger to auto-delete after triggering.
+  example:
+  - .ctad 9987
+  syntax:
+    content: >-
+      [Cmd("CtAd")]
+
+      [Aliases("CtAd")]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task CtAd(int id)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger to edit.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CtAd")>
+
+      <Aliases("CtAd")>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function CtAd(id As Integer) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtAd*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtAd
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtAd
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.CtAd(Integer)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtAd(Integer)
+  name.vb: CtAd(Integer)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtAt(System.Int32)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtAt(System.Int32)
+  id: CtAt(System.Int32)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: CtAt(int)
+  nameWithType: ChatTriggers.CtAt(int)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtAt(int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CtAt
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 340
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Sets a chat trigger to allow targeting.
+  example:
+  - .ctat 9987
+  syntax:
+    content: >-
+      [Cmd("CtAt")]
+
+      [Aliases("CtAt")]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task CtAt(int id)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger to edit.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CtAt")>
+
+      <Aliases("CtAt")>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function CtAt(id As Integer) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtAt*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtAt
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtAt
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.CtAt(Integer)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtAt(Integer)
+  name.vb: CtAt(Integer)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtNr(System.Int32)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtNr(System.Int32)
+  id: CtNr(System.Int32)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: CtNr(int)
+  nameWithType: ChatTriggers.CtNr(int)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtNr(int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CtNr
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 348
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Sets a chat trigger to not respond.
+  example:
+  - .ctnr 9987
+  syntax:
+    content: >-
+      [Cmd("CtNr")]
+
+      [Aliases("CtNr")]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task CtNr(int id)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger to edit.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CtNr")>
+
+      <Aliases("CtNr")>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function CtNr(id As Integer) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtNr*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtNr
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtNr
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.CtNr(Integer)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtNr(Integer)
+  name.vb: CtNr(Integer)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ChatTriggerRoleGrantType(System.Int32,Mewdeko.Database.Models.CtRoleGrantType)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.ChatTriggerRoleGrantType(System.Int32,Mewdeko.Database.Models.CtRoleGrantType)
+  id: ChatTriggerRoleGrantType(System.Int32,Mewdeko.Database.Models.CtRoleGrantType)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: ChatTriggerRoleGrantType(int, CtRoleGrantType)
+  nameWithType: ChatTriggers.ChatTriggerRoleGrantType(int, CtRoleGrantType)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ChatTriggerRoleGrantType(int, Mewdeko.Database.Models.CtRoleGrantType)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChatTriggerRoleGrantType
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 358
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Sets the role grant type for a chat trigger.
+  example:
+  - .ctrgt 9987
+  syntax:
+    content: >-
+      [Cmd("ChatTriggerRoleGrantType")]
+
+      [Aliases("ChatTriggerRoleGrantType")]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task ChatTriggerRoleGrantType(int id, CtRoleGrantType type)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger.
+    - id: type
+      type: Mewdeko.Database.Models.CtRoleGrantType
+      description: The role grant type to set. <xref href="Mewdeko.Database.Models.CtRoleGrantType" data-throw-if-not-resolved="false"></xref>
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("ChatTriggerRoleGrantType")>
+
+      <Aliases("ChatTriggerRoleGrantType")>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function ChatTriggerRoleGrantType(id As Integer, type As CtRoleGrantType) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ChatTriggerRoleGrantType*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ChatTriggerRoleGrantType
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ChatTriggerRoleGrantType
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.ChatTriggerRoleGrantType(Integer, CtRoleGrantType)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ChatTriggerRoleGrantType(Integer, Mewdeko.Database.Models.CtRoleGrantType)
+  name.vb: ChatTriggerRoleGrantType(Integer, CtRoleGrantType)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsReload
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsReload
+  id: CtsReload
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: CtsReload()
+  nameWithType: ChatTriggers.CtsReload()
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsReload()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CtsReload
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 378
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Reloads chat triggers.
+  example:
+  - .ctsreload
+  syntax:
+    content: >-
+      [Cmd("CtsReload")]
+
+      [Aliases("CtsReload")]
+
+      [OwnerOnly]
+
+      public Task CtsReload()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CtsReload")>
+
+      <Aliases("CtsReload")>
+
+      <OwnerOnly>
+
+      Public Function CtsReload() As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsReload*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtsReload
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtsReload
+  - type: Mewdeko.Common.Attributes.TextCommands.OwnerOnlyAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.OwnerOnlyAttribute.#ctor
+    arguments: []
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsClear
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsClear
+  id: CtsClear
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: CtsClear()
+  nameWithType: ChatTriggers.CtsClear()
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsClear()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CtsClear
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 424
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Clears all chat triggers.
+  example:
+  - .ctsclear
+  syntax:
+    content: >-
+      [Cmd("CtsClear")]
+
+      [Aliases("CtsClear")]
+
+      [RequireContext(ContextType.Guild)]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task CtsClear()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CtsClear")>
+
+      <Aliases("CtsClear")>
+
+      <RequireContext(ContextType.Guild)>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function CtsClear() As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsClear*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtsClear
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtsClear
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtrGrantToggle(System.Int32,Discord.IRole)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtrGrantToggle(System.Int32,Discord.IRole)
+  id: CtrGrantToggle(System.Int32,Discord.IRole)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: CtrGrantToggle(int, IRole)
+  nameWithType: ChatTriggers.CtrGrantToggle(int, IRole)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtrGrantToggle(int, Discord.IRole)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CtrGrantToggle
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 444
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Toggles role grant for a chat trigger.
+  example:
+  - .ctgt 9987 @role
+  syntax:
+    content: >-
+      [Cmd("CtrGrantToggle")]
+
+      [Aliases("CtrGrantToggle")]
+
+      [RequireContext(ContextType.Guild)]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task CtrGrantToggle(int id, IRole role)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger.
+    - id: role
+      type: Discord.IRole
+      description: The role to toggle.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CtrGrantToggle")>
+
+      <Aliases("CtrGrantToggle")>
+
+      <RequireContext(ContextType.Guild)>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function CtrGrantToggle(id As Integer, role As IRole) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtrGrantToggle*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtrGrantToggle
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtrGrantToggle
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.CtrGrantToggle(Integer, IRole)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtrGrantToggle(Integer, Discord.IRole)
+  name.vb: CtrGrantToggle(Integer, IRole)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtrRemoveToggle(System.Int32,Discord.IRole)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtrRemoveToggle(System.Int32,Discord.IRole)
+  id: CtrRemoveToggle(System.Int32,Discord.IRole)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: CtrRemoveToggle(int, IRole)
+  nameWithType: ChatTriggers.CtrRemoveToggle(int, IRole)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtrRemoveToggle(int, Discord.IRole)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CtrRemoveToggle
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 480
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Toggles role removal for a chat trigger.
+  example:
+  - .ctrt 9987 @role
+  syntax:
+    content: >-
+      [Cmd("CtrRemoveToggle")]
+
+      [Aliases("CtrRemoveToggle")]
+
+      [RequireContext(ContextType.Guild)]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task CtrRemoveToggle(int id, IRole role)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger.
+    - id: role
+      type: Discord.IRole
+      description: The role to toggle.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CtrRemoveToggle")>
+
+      <Aliases("CtrRemoveToggle")>
+
+      <RequireContext(ContextType.Guild)>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function CtrRemoveToggle(id As Integer, role As IRole) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtrRemoveToggle*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtrRemoveToggle
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtrRemoveToggle
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.CtrRemoveToggle(Integer, IRole)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtrRemoveToggle(Integer, Discord.IRole)
+  name.vb: CtrRemoveToggle(Integer, IRole)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ChatTriggerValidType(System.Int32,Mewdeko.Database.Models.ChatTriggerType,System.Boolean)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.ChatTriggerValidType(System.Int32,Mewdeko.Database.Models.ChatTriggerType,System.Boolean)
+  id: ChatTriggerValidType(System.Int32,Mewdeko.Database.Models.ChatTriggerType,System.Boolean)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: ChatTriggerValidType(int, ChatTriggerType, bool)
+  nameWithType: ChatTriggers.ChatTriggerValidType(int, ChatTriggerType, bool)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ChatTriggerValidType(int, Mewdeko.Database.Models.ChatTriggerType, bool)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChatTriggerValidType
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 516
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Sets whether a chat trigger is valid for a specific trigger type.
+  example:
+  - .chattriggervalidtype 9987 Slash true
+  syntax:
+    content: >-
+      [Cmd("ChatTriggerValidType")]
+
+      [Alias(new string[] { })]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task ChatTriggerValidType(int id, ChatTriggerType type, bool enabled)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger.
+    - id: type
+      type: Mewdeko.Database.Models.ChatTriggerType
+      description: The trigger type to set validity for. <xref href="Mewdeko.Database.Models.ChatTriggerType" data-throw-if-not-resolved="false"></xref>
+    - id: enabled
+      type: System.Boolean
+      description: Whether the trigger type should be enabled or disabled.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("ChatTriggerValidType")>
+
+      <Alias(New String() { })>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function ChatTriggerValidType(id As Integer, type As ChatTriggerType, enabled As Boolean) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ChatTriggerValidType*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ChatTriggerValidType
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.ChatTriggerValidType(Integer, ChatTriggerType, Boolean)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ChatTriggerValidType(Integer, Mewdeko.Database.Models.ChatTriggerType, Boolean)
+  name.vb: ChatTriggerValidType(Integer, ChatTriggerType, Boolean)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCpSetWebhook(System.Int32,System.String)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCpSetWebhook(System.Int32,System.String)
+  id: CtCpSetWebhook(System.Int32,System.String)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: CtCpSetWebhook(int, string)
+  nameWithType: ChatTriggers.CtCpSetWebhook(int, string)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCpSetWebhook(int, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CtCpSetWebhook
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 541
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Sets the webhook URL for crossposting a chat trigger.
+  example:
+  - .chattriggerscrosspostwebhook 9987 webhookurl
+  syntax:
+    content: >-
+      [Cmd("CtCpSetWebhook")]
+
+      [Alias(new string[] { })]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task CtCpSetWebhook(int id, string webhookUrl)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger.
+    - id: webhookUrl
+      type: System.String
+      description: The webhook URL to set.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CtCpSetWebhook")>
+
+      <Alias(New String() { })>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function CtCpSetWebhook(id As Integer, webhookUrl As String) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCpSetWebhook*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtCpSetWebhook
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.CtCpSetWebhook(Integer, String)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCpSetWebhook(Integer, String)
+  name.vb: CtCpSetWebhook(Integer, String)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCpSetChannel(System.Int32,Discord.ITextChannel)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCpSetChannel(System.Int32,Discord.ITextChannel)
+  id: CtCpSetChannel(System.Int32,Discord.ITextChannel)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: CtCpSetChannel(int, ITextChannel)
+  nameWithType: ChatTriggers.CtCpSetChannel(int, ITextChannel)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCpSetChannel(int, Discord.ITextChannel)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CtCpSetChannel
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 569
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Sets the crossposting channel for a chat trigger.
+  example:
+  - '.chattriggerscrosspostchannel 9987 #channel'
+  syntax:
+    content: >-
+      [Cmd("CtCpSetChannel")]
+
+      [Alias(new string[] { })]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task CtCpSetChannel(int id, ITextChannel channel)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger.
+    - id: channel
+      type: Discord.ITextChannel
+      description: The channel to set for crossposting.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CtCpSetChannel")>
+
+      <Alias(New String() { })>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function CtCpSetChannel(id As Integer, channel As ITextChannel) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCpSetChannel*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtCpSetChannel
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.CtCpSetChannel(Integer, ITextChannel)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCpSetChannel(Integer, Discord.ITextChannel)
+  name.vb: CtCpSetChannel(Integer, ITextChannel)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterType(System.Int32,Mewdeko.Database.Models.CtApplicationCommandType)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterType(System.Int32,Mewdeko.Database.Models.CtApplicationCommandType)
+  id: SetCtInterType(System.Int32,Mewdeko.Database.Models.CtApplicationCommandType)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: SetCtInterType(int, CtApplicationCommandType)
+  nameWithType: ChatTriggers.SetCtInterType(int, CtApplicationCommandType)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterType(int, Mewdeko.Database.Models.CtApplicationCommandType)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetCtInterType
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 592
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Sets the interaction type for a chat trigger.
+  example:
+  - .setctintertype 9987 Slash
+  syntax:
+    content: >-
+      [Cmd("SetCtInterType")]
+
+      [Alias(new string[] { })]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task SetCtInterType(int id, CtApplicationCommandType type)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger.
+    - id: type
+      type: Mewdeko.Database.Models.CtApplicationCommandType
+      description: The interaction type to set. <xref href="Mewdeko.Database.Models.CtApplicationCommandType" data-throw-if-not-resolved="false"></xref>
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("SetCtInterType")>
+
+      <Alias(New String() { })>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function SetCtInterType(id As Integer, type As CtApplicationCommandType) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterType*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: SetCtInterType
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.SetCtInterType(Integer, CtApplicationCommandType)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterType(Integer, Mewdeko.Database.Models.CtApplicationCommandType)
+  name.vb: SetCtInterType(Integer, CtApplicationCommandType)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterName(System.Int32,System.String)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterName(System.Int32,System.String)
+  id: SetCtInterName(System.Int32,System.String)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: SetCtInterName(int, string)
+  nameWithType: ChatTriggers.SetCtInterName(int, string)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterName(int, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetCtInterName
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 632
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Sets the interaction name for a chat trigger.
+  example:
+  - .setctintername 9987 ihatedocumentation
+  syntax:
+    content: >-
+      [Cmd("SetCtInterName")]
+
+      [Alias(new string[] { })]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task SetCtInterName(int id, string name)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger.
+    - id: name
+      type: System.String
+      description: The name to set for the interaction.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("SetCtInterName")>
+
+      <Alias(New String() { })>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function SetCtInterName(id As Integer, name As String) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterName*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: SetCtInterName
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.SetCtInterName(Integer, String)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterName(Integer, String)
+  name.vb: SetCtInterName(Integer, String)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterDesc(System.Int32,System.String)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterDesc(System.Int32,System.String)
+  id: SetCtInterDesc(System.Int32,System.String)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: SetCtInterDesc(int, string)
+  nameWithType: ChatTriggers.SetCtInterDesc(int, string)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterDesc(int, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetCtInterDesc
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 656
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Sets the interaction description for a chat trigger.
+  example:
+  - .setctinterdesc 9987 3591 things to continue documenting....
+  syntax:
+    content: >-
+      [Cmd("SetCtInterDesc")]
+
+      [Alias(new string[] { })]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task SetCtInterDesc(int id, string description)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger.
+    - id: description
+      type: System.String
+      description: The description to set for the interaction.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("SetCtInterDesc")>
+
+      <Alias(New String() { })>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function SetCtInterDesc(id As Integer, description As String) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterDesc*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: SetCtInterDesc
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.SetCtInterDesc(Integer, String)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterDesc(Integer, String)
+  name.vb: SetCtInterDesc(Integer, String)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtInterEphemeral(System.Int32,System.Boolean)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtInterEphemeral(System.Int32,System.Boolean)
+  id: CtInterEphemeral(System.Int32,System.Boolean)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: CtInterEphemeral(int, bool)
+  nameWithType: ChatTriggers.CtInterEphemeral(int, bool)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtInterEphemeral(int, bool)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CtInterEphemeral
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 681
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Sets whether the interaction response should be ephemeral for a chat trigger. To not show others my suffering with docs!
+  example:
+  - .ctca 9987 true/false
+  syntax:
+    content: >-
+      [Cmd("CtInterEphemeral")]
+
+      [Alias(new string[] { })]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task CtInterEphemeral(int id, bool ephemeral)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger.
+    - id: ephemeral
+      type: System.Boolean
+      description: True if the response should be ephemeral, false otherwise.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CtInterEphemeral")>
+
+      <Alias(New String() { })>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function CtInterEphemeral(id As Integer, ephemeral As Boolean) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtInterEphemeral*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtInterEphemeral
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.CtInterEphemeral(Integer, Boolean)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtInterEphemeral(Integer, Boolean)
+  name.vb: CtInterEphemeral(Integer, Boolean)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtInterErrors
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtInterErrors
+  id: CtInterErrors
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: CtInterErrors()
+  nameWithType: ChatTriggers.CtInterErrors()
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtInterErrors()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CtInterErrors
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 703
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Displays the interaction errors for chat triggers.
+  example:
+  - .ctintererrors
+  syntax:
+    content: >-
+      [Cmd("CtInterErrors")]
+
+      [Alias(new string[] { })]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task CtInterErrors()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CtInterErrors")>
+
+      <Alias(New String() { })>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function CtInterErrors() As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtInterErrors*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtInterErrors
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtPrefixType(System.Int32,Mewdeko.Database.Models.RequirePrefixType)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtPrefixType(System.Int32,Mewdeko.Database.Models.RequirePrefixType)
+  id: CtPrefixType(System.Int32,Mewdeko.Database.Models.RequirePrefixType)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: CtPrefixType(int, RequirePrefixType)
+  nameWithType: ChatTriggers.CtPrefixType(int, RequirePrefixType)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtPrefixType(int, Mewdeko.Database.Models.RequirePrefixType)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CtPrefixType
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 734
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Sets the prefix type for a chat trigger.
+  example:
+  - .ctprefixtype 9987 Guild
+  syntax:
+    content: >-
+      [Cmd("CtPrefixType")]
+
+      [Aliases("CtPrefixType")]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task CtPrefixType(int id, RequirePrefixType type)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger.
+    - id: type
+      type: Mewdeko.Database.Models.RequirePrefixType
+      description: The type of prefix to set. <xref href="Mewdeko.Database.Models.RequirePrefixType" data-throw-if-not-resolved="false"></xref>
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CtPrefixType")>
+
+      <Aliases("CtPrefixType")>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function CtPrefixType(id As Integer, type As RequirePrefixType) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtPrefixType*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtPrefixType
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtPrefixType
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.CtPrefixType(Integer, RequirePrefixType)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtPrefixType(Integer, Mewdeko.Database.Models.RequirePrefixType)
+  name.vb: CtPrefixType(Integer, RequirePrefixType)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtPrefix(System.Int32,System.String)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtPrefix(System.Int32,System.String)
+  id: CtPrefix(System.Int32,System.String)
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: CtPrefix(int, string)
+  nameWithType: ChatTriggers.CtPrefix(int, string)
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtPrefix(int, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CtPrefix
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 758
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Sets the prefix for a chat trigger.
+  example:
+  - .ctprefix 123 !
+  syntax:
+    content: >-
+      [Cmd("CtPrefix")]
+
+      [Aliases("CtPrefix")]
+
+      [UserPerm(GuildPermission.Administrator)]
+
+      public Task CtPrefix(int id, string prefix)
+    parameters:
+    - id: id
+      type: System.Int32
+      description: The ID of the chat trigger.
+    - id: prefix
+      type: System.String
+      description: The new prefix to set.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("CtPrefix")>
+
+      <Aliases("CtPrefix")>
+
+      <UserPerm(GuildPermission.Administrator)>
+
+      Public Function CtPrefix(id As Integer, prefix As String) As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtPrefix*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtPrefix
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: CtPrefix
+  - type: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.UserPermAttribute.#ctor(Discord.GuildPermission)
+    arguments:
+    - type: Discord.GuildPermission
+      value: "8"
+  nameWithType.vb: ChatTriggers.CtPrefix(Integer, String)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtPrefix(Integer, String)
+  name.vb: CtPrefix(Integer, String)
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.FollowupWithTriggerStatus
+  commentId: M:Mewdeko.Modules.Chat_Triggers.ChatTriggers.FollowupWithTriggerStatus
+  id: FollowupWithTriggerStatus
+  parent: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+  langs:
+  - csharp
+  - vb
+  name: FollowupWithTriggerStatus()
+  nameWithType: ChatTriggers.FollowupWithTriggerStatus()
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.FollowupWithTriggerStatus()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: FollowupWithTriggerStatus
+    path: src/Mewdeko/Modules/Chat Triggers/ChatTriggers.cs
+    startLine: 777
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers
+  summary: Checks for any interaction errors related to chat triggers and sends a follow-up message with their status.
+  example: []
+  syntax:
+    content: public Task FollowupWithTriggerStatus()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function FollowupWithTriggerStatus() As Task
+  overload: Mewdeko.Modules.Chat_Triggers.ChatTriggers.FollowupWithTriggerStatus*
+references:
+- uid: Mewdeko.Modules.Chat_Triggers
+  commentId: N:Mewdeko.Modules.Chat_Triggers
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Chat_Triggers
+  nameWithType: Mewdeko.Modules.Chat_Triggers
+  fullName: Mewdeko.Modules.Chat_Triggers
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers
+    name: Chat_Triggers
+    href: Mewdeko.Modules.Chat_Triggers.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers
+    name: Chat_Triggers
+    href: Mewdeko.Modules.Chat_Triggers.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  commentId: T:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  parent: Discord.Commands
+  definition: Discord.Commands.ModuleBase`1
+  name: ModuleBase<ICommandContext>
+  nameWithType: ModuleBase<ICommandContext>
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>
+  nameWithType.vb: ModuleBase(Of ICommandContext)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext)
+  name.vb: ModuleBase(Of ICommandContext)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: <
+  - uid: Discord.Commands.ICommandContext
+    name: ICommandContext
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Discord.Commands.ICommandContext
+    name: ICommandContext
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase
+  commentId: T:Discord.Commands.ModuleBase
+  parent: Discord.Commands
+  isExternal: true
+  name: ModuleBase
+  nameWithType: ModuleBase
+  fullName: Discord.Commands.ModuleBase
+- uid: Mewdeko.Common.MewdekoModule
+  commentId: T:Mewdeko.Common.MewdekoModule
+  parent: Mewdeko.Common
+  href: Mewdeko.Common.MewdekoModule.html
+  name: MewdekoModule
+  nameWithType: MewdekoModule
+  fullName: Mewdeko.Common.MewdekoModule
+- uid: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService}
+  commentId: T:Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService}
+  parent: Mewdeko.Common
+  definition: Mewdeko.Common.MewdekoModuleBase`1
+  href: Mewdeko.Common.MewdekoModuleBase-1.html
+  name: MewdekoModuleBase<ChatTriggersService>
+  nameWithType: MewdekoModuleBase<ChatTriggersService>
+  fullName: Mewdeko.Common.MewdekoModuleBase<Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService>
+  nameWithType.vb: MewdekoModuleBase(Of ChatTriggersService)
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService)
+  name.vb: MewdekoModuleBase(Of ChatTriggersService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: <
+  - uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+    name: ChatTriggersService
+    href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+    name: ChatTriggersService
+    href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html
+  - name: )
+- uid: Discord.Commands.IModuleBase
+  commentId: T:Discord.Commands.IModuleBase
+  parent: Discord.Commands
+  isExternal: true
+  name: IModuleBase
+  nameWithType: IModuleBase
+  fullName: Discord.Commands.IModuleBase
+- uid: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService}.Service
+  commentId: P:Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService}.Service
+  parent: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService}
+  definition: Mewdeko.Common.MewdekoModuleBase`1.Service
+  href: Mewdeko.Common.MewdekoModuleBase-1.html#Mewdeko_Common_MewdekoModuleBase_1_Service
+  name: Service
+  nameWithType: MewdekoModuleBase<ChatTriggersService>.Service
+  fullName: Mewdeko.Common.MewdekoModuleBase<Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService>.Service
+  nameWithType.vb: MewdekoModuleBase(Of ChatTriggersService).Service
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService).Service
+- uid: Mewdeko.Common.MewdekoModule.CultureInfo
+  commentId: P:Mewdeko.Common.MewdekoModule.CultureInfo
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CultureInfo
+  name: CultureInfo
+  nameWithType: MewdekoModule.CultureInfo
+  fullName: Mewdeko.Common.MewdekoModule.CultureInfo
+- uid: Mewdeko.Common.MewdekoModule.Strings
+  commentId: P:Mewdeko.Common.MewdekoModule.Strings
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Strings
+  name: Strings
+  nameWithType: MewdekoModule.Strings
+  fullName: Mewdeko.Common.MewdekoModule.Strings
+- uid: Mewdeko.Common.MewdekoModule.Localization
+  commentId: P:Mewdeko.Common.MewdekoModule.Localization
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Localization
+  name: Localization
+  nameWithType: MewdekoModule.Localization
+  fullName: Mewdeko.Common.MewdekoModule.Localization
+- uid: Mewdeko.Common.MewdekoModule.ctx
+  commentId: P:Mewdeko.Common.MewdekoModule.ctx
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ctx
+  name: ctx
+  nameWithType: MewdekoModule.ctx
+  fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  name: BeforeExecute(CommandInfo)
+  nameWithType: MewdekoModule.BeforeExecute(CommandInfo)
+  fullName: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+    name: BeforeExecute
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+    name: BeforeExecute
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+  commentId: M:Mewdeko.Common.MewdekoModule.GetText(System.String)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  name: GetText(string)
+  nameWithType: MewdekoModule.GetText(string)
+  fullName: Mewdeko.Common.MewdekoModule.GetText(string)
+  nameWithType.vb: MewdekoModule.GetText(String)
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetText(String)
+  name.vb: GetText(String)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  name: GetText(string, params object[])
+  nameWithType: MewdekoModule.GetText(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.GetText(string, params object[])
+  nameWithType.vb: MewdekoModule.GetText(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetText(String, ParamArray Object())
+  name.vb: GetText(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  name: ErrorLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ErrorLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ErrorLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(String, ParamArray Object())
+  name.vb: ErrorLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+    name: ErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+    name: ErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  name: ReplyErrorLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ReplyErrorLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ReplyErrorLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(String, ParamArray Object())
+  name.vb: ReplyErrorLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+    name: ReplyErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+    name: ReplyErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  name: ConfirmLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ConfirmLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ConfirmLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(String, ParamArray Object())
+  name.vb: ConfirmLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+    name: ConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+    name: ConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  name: ReplyConfirmLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ReplyConfirmLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  name.vb: ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+    name: ReplyConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+    name: ReplyConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  name: PromptUserConfirmAsync(string, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(string, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(string, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(String, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(String, ULong)
+  name.vb: PromptUserConfirmAsync(String, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  name: PromptUserConfirmAsync(EmbedBuilder, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(EmbedBuilder, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(EmbedBuilder, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder, ULong)
+  name.vb: PromptUserConfirmAsync(EmbedBuilder, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  commentId: M:Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  name: CheckRoleHierarchy(IGuildUser, bool)
+  nameWithType: MewdekoModule.CheckRoleHierarchy(IGuildUser, bool)
+  fullName: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser, bool)
+  nameWithType.vb: MewdekoModule.CheckRoleHierarchy(IGuildUser, Boolean)
+  fullName.vb: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser, Boolean)
+  name.vb: CheckRoleHierarchy(IGuildUser, Boolean)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+    name: CheckRoleHierarchy
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  - name: (
+  - uid: Discord.IGuildUser
+    name: IGuildUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+    name: CheckRoleHierarchy
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  - name: (
+  - uid: Discord.IGuildUser
+    name: IGuildUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  name: PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage, Discord.EmbedBuilder, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage, Discord.EmbedBuilder, ULong)
+  name.vb: PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  commentId: M:Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  name: GetButtonInputAsync(ulong, ulong, ulong, bool)
+  nameWithType: MewdekoModule.GetButtonInputAsync(ulong, ulong, ulong, bool)
+  fullName: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(ulong, ulong, ulong, bool)
+  nameWithType.vb: MewdekoModule.GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  name.vb: GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+    name: GetButtonInputAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+    name: GetButtonInputAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  name: NextMessageAsync(ulong, ulong)
+  nameWithType: MewdekoModule.NextMessageAsync(ulong, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.NextMessageAsync(ulong, ulong)
+  nameWithType.vb: MewdekoModule.NextMessageAsync(ULong, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.NextMessageAsync(ULong, ULong)
+  name.vb: NextMessageAsync(ULong, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+    name: NextMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+    name: NextMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  name: NextFullMessageAsync(ulong, ulong)
+  nameWithType: MewdekoModule.NextFullMessageAsync(ulong, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(ulong, ulong)
+  nameWithType.vb: MewdekoModule.NextFullMessageAsync(ULong, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(ULong, ULong)
+  name.vb: NextFullMessageAsync(ULong, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+    name: NextFullMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+    name: NextFullMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  nameWithType: ModuleBase<ICommandContext>.ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.ReplyAsync(string, bool, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker[], Discord.Embed[], Discord.MessageFlags)
+  nameWithType.vb: ModuleBase(Of ICommandContext).ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).ReplyAsync(String, Boolean, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker(), Discord.Embed(), Discord.MessageFlags)
+  name.vb: ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  name: BeforeExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.BeforeExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).BeforeExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  name: AfterExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.AfterExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).AfterExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).AfterExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  name: AfterExecute(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.AfterExecute(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.AfterExecute(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).AfterExecute(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).AfterExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  name: OnModuleBuilding(CommandService, ModuleBuilder)
+  nameWithType: ModuleBase<ICommandContext>.OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  nameWithType.vb: ModuleBase(Of ICommandContext).OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  commentId: P:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.Context
+  name: Context
+  nameWithType: ModuleBase<ICommandContext>.Context
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.Context
+  nameWithType.vb: ModuleBase(Of ICommandContext).Context
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).Context
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<ChatTriggers>(ChatTriggers, string)
+  nameWithType: Extensions.ThrowIfNull<ChatTriggers>(ChatTriggers, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Chat_Triggers.ChatTriggers>(Mewdeko.Modules.Chat_Triggers.ChatTriggers, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of ChatTriggers)(ChatTriggers, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Chat_Triggers.ChatTriggers)(Mewdeko.Modules.Chat_Triggers.ChatTriggers, String)
+  name.vb: ThrowIfNull(Of ChatTriggers)(ChatTriggers, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Chat_Triggers.ChatTriggers,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Chat_Triggers.ChatTriggers,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers
+    name: ChatTriggers
+    href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Discord.Commands.ModuleBase`1
+  commentId: T:Discord.Commands.ModuleBase`1
+  isExternal: true
+  name: ModuleBase<T>
+  nameWithType: ModuleBase<T>
+  fullName: Discord.Commands.ModuleBase<T>
+  nameWithType.vb: ModuleBase(Of T)
+  fullName.vb: Discord.Commands.ModuleBase(Of T)
+  name.vb: ModuleBase(Of T)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Discord.Commands
+  commentId: N:Discord.Commands
+  isExternal: true
+  name: Discord.Commands
+  nameWithType: Discord.Commands
+  fullName: Discord.Commands
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+- uid: Mewdeko.Common
+  commentId: N:Mewdeko.Common
+  href: Mewdeko.html
+  name: Mewdeko.Common
+  nameWithType: Mewdeko.Common
+  fullName: Mewdeko.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+- uid: Mewdeko.Common.MewdekoModuleBase`1
+  commentId: T:Mewdeko.Common.MewdekoModuleBase`1
+  href: Mewdeko.Common.MewdekoModuleBase-1.html
+  name: MewdekoModuleBase<TService>
+  nameWithType: MewdekoModuleBase<TService>
+  fullName: Mewdeko.Common.MewdekoModuleBase<TService>
+  nameWithType.vb: MewdekoModuleBase(Of TService)
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of TService)
+  name.vb: MewdekoModuleBase(Of TService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: <
+  - name: TService
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TService
+  - name: )
+- uid: Mewdeko.Common.MewdekoModuleBase`1.Service
+  commentId: P:Mewdeko.Common.MewdekoModuleBase`1.Service
+  href: Mewdeko.Common.MewdekoModuleBase-1.html#Mewdeko_Common_MewdekoModuleBase_1_Service
+  name: Service
+  nameWithType: MewdekoModuleBase<TService>.Service
+  fullName: Mewdeko.Common.MewdekoModuleBase<TService>.Service
+  nameWithType.vb: MewdekoModuleBase(Of TService).Service
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of TService).Service
+- uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  commentId: M:Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  nameWithType: ModuleBase<T>.ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  fullName: Discord.Commands.ModuleBase<T>.ReplyAsync(string, bool, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker[], Discord.Embed[], Discord.MessageFlags)
+  nameWithType.vb: ModuleBase(Of T).ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).ReplyAsync(String, Boolean, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker(), Discord.Embed(), Discord.MessageFlags)
+  name.vb: ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: BeforeExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<T>.BeforeExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).BeforeExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: AfterExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<T>.AfterExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).AfterExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).AfterExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: AfterExecute(CommandInfo)
+  nameWithType: ModuleBase<T>.AfterExecute(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.AfterExecute(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).AfterExecute(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).AfterExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  commentId: M:Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  isExternal: true
+  name: OnModuleBuilding(CommandService, ModuleBuilder)
+  nameWithType: ModuleBase<T>.OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName: Discord.Commands.ModuleBase<T>.OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  nameWithType.vb: ModuleBase(Of T).OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.Context
+  commentId: P:Discord.Commands.ModuleBase`1.Context
+  isExternal: true
+  name: Context
+  nameWithType: ModuleBase<T>.Context
+  fullName: Discord.Commands.ModuleBase<T>.Context
+  nameWithType.vb: ModuleBase(Of T).Context
+  fullName.vb: Discord.Commands.ModuleBase(Of T).Context
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.#ctor*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.#ctor
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers__ctor_System_Net_Http_IHttpClientFactory_Fergun_Interactive_InteractiveService_
+  name: ChatTriggers
+  nameWithType: ChatTriggers.ChatTriggers
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ChatTriggers
+  nameWithType.vb: ChatTriggers.New
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.ChatTriggers.New
+  name.vb: New
+- uid: System.Net.Http.IHttpClientFactory
+  commentId: T:System.Net.Http.IHttpClientFactory
+  parent: System.Net.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.net.http.ihttpclientfactory
+  name: IHttpClientFactory
+  nameWithType: IHttpClientFactory
+  fullName: System.Net.Http.IHttpClientFactory
+- uid: Fergun.Interactive.InteractiveService
+  commentId: T:Fergun.Interactive.InteractiveService
+  parent: Fergun.Interactive
+  isExternal: true
+  name: InteractiveService
+  nameWithType: InteractiveService
+  fullName: Fergun.Interactive.InteractiveService
+- uid: System.Net.Http
+  commentId: N:System.Net.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Net.Http
+  nameWithType: System.Net.Http
+  fullName: System.Net.Http
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http
+- uid: Fergun.Interactive
+  commentId: N:Fergun.Interactive
+  isExternal: true
+  name: Fergun.Interactive
+  nameWithType: Fergun.Interactive
+  fullName: Fergun.Interactive
+  spec.csharp:
+  - uid: Fergun
+    name: Fergun
+    isExternal: true
+  - name: .
+  - uid: Fergun.Interactive
+    name: Interactive
+    isExternal: true
+  spec.vb:
+  - uid: Fergun
+    name: Fergun
+    isExternal: true
+  - name: .
+  - uid: Fergun.Interactive
+    name: Interactive
+    isExternal: true
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsExport*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsExport
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_CtsExport
+  name: CtsExport
+  nameWithType: ChatTriggers.CtsExport
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsExport
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsImport*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsImport
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_CtsImport_System_String_
+  name: CtsImport
+  nameWithType: ChatTriggers.CtsImport
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsImport
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.AddChatTrigger*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.AddChatTrigger
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_AddChatTrigger_System_String_System_String_
+  name: AddChatTrigger
+  nameWithType: ChatTriggers.AddChatTrigger
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.AddChatTrigger
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.AddChatTriggerRegex*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.AddChatTriggerRegex
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_AddChatTriggerRegex_System_String_System_String_
+  name: AddChatTriggerRegex
+  nameWithType: ChatTriggers.AddChatTriggerRegex
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.AddChatTriggerRegex
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.EditChatTrigger*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.EditChatTrigger
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_EditChatTrigger_System_Int32_System_String_
+  name: EditChatTrigger
+  nameWithType: ChatTriggers.EditChatTrigger
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.EditChatTrigger
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ListChatTriggers*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.ListChatTriggers
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_ListChatTriggers
+  name: ListChatTriggers
+  nameWithType: ChatTriggers.ListChatTriggers
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ListChatTriggers
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ListChatTriggersGroup*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.ListChatTriggersGroup
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_ListChatTriggersGroup
+  name: ListChatTriggersGroup
+  nameWithType: ChatTriggers.ListChatTriggersGroup
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ListChatTriggersGroup
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ShowChatTrigger*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.ShowChatTrigger
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_ShowChatTrigger_System_Int32_
+  name: ShowChatTrigger
+  nameWithType: ChatTriggers.ShowChatTrigger
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ShowChatTrigger
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.DeleteChatTrigger*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.DeleteChatTrigger
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_DeleteChatTrigger_System_Int32_
+  name: DeleteChatTrigger
+  nameWithType: ChatTriggers.DeleteChatTrigger
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.DeleteChatTrigger
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtReact*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtReact
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_CtReact_System_Int32_System_String___
+  name: CtReact
+  nameWithType: ChatTriggers.CtReact
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtReact
+- uid: System.String[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string[]
+  nameWithType: string[]
+  fullName: string[]
+  nameWithType.vb: String()
+  fullName.vb: String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCa*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCa
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_CtCa_System_Int32_
+  name: CtCa
+  nameWithType: ChatTriggers.CtCa
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCa
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.Rtt*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.Rtt
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_Rtt_System_Int32_
+  name: Rtt
+  nameWithType: ChatTriggers.Rtt
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.Rtt
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtDm*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtDm
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_CtDm_System_Int32_
+  name: CtDm
+  nameWithType: ChatTriggers.CtDm
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtDm
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtAd*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtAd
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_CtAd_System_Int32_
+  name: CtAd
+  nameWithType: ChatTriggers.CtAd
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtAd
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtAt*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtAt
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_CtAt_System_Int32_
+  name: CtAt
+  nameWithType: ChatTriggers.CtAt
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtAt
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtNr*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtNr
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_CtNr_System_Int32_
+  name: CtNr
+  nameWithType: ChatTriggers.CtNr
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtNr
+- uid: Mewdeko.Database.Models.CtRoleGrantType
+  commentId: T:Mewdeko.Database.Models.CtRoleGrantType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.CtRoleGrantType.html
+  name: CtRoleGrantType
+  nameWithType: CtRoleGrantType
+  fullName: Mewdeko.Database.Models.CtRoleGrantType
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ChatTriggerRoleGrantType*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.ChatTriggerRoleGrantType
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_ChatTriggerRoleGrantType_System_Int32_Mewdeko_Database_Models_CtRoleGrantType_
+  name: ChatTriggerRoleGrantType
+  nameWithType: ChatTriggers.ChatTriggerRoleGrantType
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ChatTriggerRoleGrantType
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsReload*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsReload
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_CtsReload
+  name: CtsReload
+  nameWithType: ChatTriggers.CtsReload
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsReload
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsClear*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsClear
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_CtsClear
+  name: CtsClear
+  nameWithType: ChatTriggers.CtsClear
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtsClear
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtrGrantToggle*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtrGrantToggle
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_CtrGrantToggle_System_Int32_Discord_IRole_
+  name: CtrGrantToggle
+  nameWithType: ChatTriggers.CtrGrantToggle
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtrGrantToggle
+- uid: Discord.IRole
+  commentId: T:Discord.IRole
+  parent: Discord
+  isExternal: true
+  name: IRole
+  nameWithType: IRole
+  fullName: Discord.IRole
+- uid: Discord
+  commentId: N:Discord
+  isExternal: true
+  name: Discord
+  nameWithType: Discord
+  fullName: Discord
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtrRemoveToggle*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtrRemoveToggle
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_CtrRemoveToggle_System_Int32_Discord_IRole_
+  name: CtrRemoveToggle
+  nameWithType: ChatTriggers.CtrRemoveToggle
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtrRemoveToggle
+- uid: Mewdeko.Database.Models.ChatTriggerType
+  commentId: T:Mewdeko.Database.Models.ChatTriggerType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.ChatTriggerType.html
+  name: ChatTriggerType
+  nameWithType: ChatTriggerType
+  fullName: Mewdeko.Database.Models.ChatTriggerType
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ChatTriggerValidType*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.ChatTriggerValidType
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_ChatTriggerValidType_System_Int32_Mewdeko_Database_Models_ChatTriggerType_System_Boolean_
+  name: ChatTriggerValidType
+  nameWithType: ChatTriggers.ChatTriggerValidType
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.ChatTriggerValidType
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCpSetWebhook*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCpSetWebhook
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_CtCpSetWebhook_System_Int32_System_String_
+  name: CtCpSetWebhook
+  nameWithType: ChatTriggers.CtCpSetWebhook
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCpSetWebhook
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCpSetChannel*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCpSetChannel
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_CtCpSetChannel_System_Int32_Discord_ITextChannel_
+  name: CtCpSetChannel
+  nameWithType: ChatTriggers.CtCpSetChannel
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtCpSetChannel
+- uid: Discord.ITextChannel
+  commentId: T:Discord.ITextChannel
+  parent: Discord
+  isExternal: true
+  name: ITextChannel
+  nameWithType: ITextChannel
+  fullName: Discord.ITextChannel
+- uid: Mewdeko.Database.Models.CtApplicationCommandType
+  commentId: T:Mewdeko.Database.Models.CtApplicationCommandType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.CtApplicationCommandType.html
+  name: CtApplicationCommandType
+  nameWithType: CtApplicationCommandType
+  fullName: Mewdeko.Database.Models.CtApplicationCommandType
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterType*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterType
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_SetCtInterType_System_Int32_Mewdeko_Database_Models_CtApplicationCommandType_
+  name: SetCtInterType
+  nameWithType: ChatTriggers.SetCtInterType
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterType
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterName*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterName
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_SetCtInterName_System_Int32_System_String_
+  name: SetCtInterName
+  nameWithType: ChatTriggers.SetCtInterName
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterName
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterDesc*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterDesc
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_SetCtInterDesc_System_Int32_System_String_
+  name: SetCtInterDesc
+  nameWithType: ChatTriggers.SetCtInterDesc
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.SetCtInterDesc
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtInterEphemeral*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtInterEphemeral
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_CtInterEphemeral_System_Int32_System_Boolean_
+  name: CtInterEphemeral
+  nameWithType: ChatTriggers.CtInterEphemeral
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtInterEphemeral
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtInterErrors*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtInterErrors
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_CtInterErrors
+  name: CtInterErrors
+  nameWithType: ChatTriggers.CtInterErrors
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtInterErrors
+- uid: Mewdeko.Database.Models.RequirePrefixType
+  commentId: T:Mewdeko.Database.Models.RequirePrefixType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.RequirePrefixType.html
+  name: RequirePrefixType
+  nameWithType: RequirePrefixType
+  fullName: Mewdeko.Database.Models.RequirePrefixType
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtPrefixType*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtPrefixType
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_CtPrefixType_System_Int32_Mewdeko_Database_Models_RequirePrefixType_
+  name: CtPrefixType
+  nameWithType: ChatTriggers.CtPrefixType
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtPrefixType
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtPrefix*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtPrefix
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_CtPrefix_System_Int32_System_String_
+  name: CtPrefix
+  nameWithType: ChatTriggers.CtPrefix
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.CtPrefix
+- uid: Mewdeko.Modules.Chat_Triggers.ChatTriggers.FollowupWithTriggerStatus*
+  commentId: Overload:Mewdeko.Modules.Chat_Triggers.ChatTriggers.FollowupWithTriggerStatus
+  href: Mewdeko.Modules.Chat_Triggers.ChatTriggers.html#Mewdeko_Modules_Chat_Triggers_ChatTriggers_FollowupWithTriggerStatus
+  name: FollowupWithTriggerStatus
+  nameWithType: ChatTriggers.FollowupWithTriggerStatus
+  fullName: Mewdeko.Modules.Chat_Triggers.ChatTriggers.FollowupWithTriggerStatus

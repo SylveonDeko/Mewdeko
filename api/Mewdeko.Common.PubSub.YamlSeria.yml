@@ -1,0 +1,736 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.PubSub.YamlSeria
+  commentId: T:Mewdeko.Common.PubSub.YamlSeria
+  id: YamlSeria
+  parent: Mewdeko.Common.PubSub
+  children:
+  - Mewdeko.Common.PubSub.YamlSeria.#ctor
+  - Mewdeko.Common.PubSub.YamlSeria.Deserialize``1(System.String)
+  - Mewdeko.Common.PubSub.YamlSeria.Serialize``1(``0)
+  langs:
+  - csharp
+  - vb
+  name: YamlSeria
+  nameWithType: YamlSeria
+  fullName: Mewdeko.Common.PubSub.YamlSeria
+  type: Class
+  source:
+    id: YamlSeria
+    path: System.Text.RegularExpressions.Generator\System.Text.RegularExpressions.Generator.RegexGenerator\RegexGenerator.g.cs
+    startLine: 8
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.PubSub
+  summary: Class that implements the IConfigSeria interface for YAML serialization and deserialization.
+  example: []
+  syntax:
+    content: 'public class YamlSeria : IConfigSeria'
+    content.vb: Public Class YamlSeria Implements IConfigSeria
+  inheritance:
+  - System.Object
+  implements:
+  - Mewdeko.Common.Configs.IConfigSeria
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Common.PubSub.YamlSeria.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Common.PubSub.YamlSeria.#ctor
+  commentId: M:Mewdeko.Common.PubSub.YamlSeria.#ctor
+  id: '#ctor'
+  parent: Mewdeko.Common.PubSub.YamlSeria
+  langs:
+  - csharp
+  - vb
+  name: YamlSeria()
+  nameWithType: YamlSeria.YamlSeria()
+  fullName: Mewdeko.Common.PubSub.YamlSeria.YamlSeria()
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Common/PubSub/YamlSeria.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Common/PubSub/YamlSeria.cs
+    startLine: 31
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.PubSub
+  summary: Initializes a new instance of the YamlSeria class.
+  example: []
+  syntax:
+    content: public YamlSeria()
+    content.vb: Public Sub New()
+  overload: Mewdeko.Common.PubSub.YamlSeria.#ctor*
+  nameWithType.vb: YamlSeria.New()
+  fullName.vb: Mewdeko.Common.PubSub.YamlSeria.New()
+  name.vb: New()
+- uid: Mewdeko.Common.PubSub.YamlSeria.Serialize``1(``0)
+  commentId: M:Mewdeko.Common.PubSub.YamlSeria.Serialize``1(``0)
+  id: Serialize``1(``0)
+  parent: Mewdeko.Common.PubSub.YamlSeria
+  langs:
+  - csharp
+  - vb
+  name: Serialize<T>(T?)
+  nameWithType: YamlSeria.Serialize<T>(T?)
+  fullName: Mewdeko.Common.PubSub.YamlSeria.Serialize<T>(T?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/PubSub/YamlSeria.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Serialize
+    path: src/Mewdeko/Common/PubSub/YamlSeria.cs
+    startLine: 43
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.PubSub
+  summary: Serializes the given object into a YAML string.
+  example: []
+  syntax:
+    content: public string Serialize<T>(T? obj)
+    parameters:
+    - id: obj
+      type: '{T}'
+      description: The object to serialize.
+    typeParameters:
+    - id: T
+      description: The type of object to serialize.
+    return:
+      type: System.String
+      description: A YAML string representing the serialized object.
+    content.vb: Public Function Serialize(Of T)(obj As T) As String
+  overload: Mewdeko.Common.PubSub.YamlSeria.Serialize*
+  implements:
+  - Mewdeko.Common.Configs.IConfigSeria.Serialize``1({T})
+  nameWithType.vb: YamlSeria.Serialize(Of T)(T)
+  fullName.vb: Mewdeko.Common.PubSub.YamlSeria.Serialize(Of T)(T)
+  name.vb: Serialize(Of T)(T)
+- uid: Mewdeko.Common.PubSub.YamlSeria.Deserialize``1(System.String)
+  commentId: M:Mewdeko.Common.PubSub.YamlSeria.Deserialize``1(System.String)
+  id: Deserialize``1(System.String)
+  parent: Mewdeko.Common.PubSub.YamlSeria
+  langs:
+  - csharp
+  - vb
+  name: Deserialize<T>(string)
+  nameWithType: YamlSeria.Deserialize<T>(string)
+  fullName: Mewdeko.Common.PubSub.YamlSeria.Deserialize<T>(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/PubSub/YamlSeria.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Deserialize
+    path: src/Mewdeko/Common/PubSub/YamlSeria.cs
+    startLine: 68
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.PubSub
+  summary: Deserializes the given YAML string into an object of type T.
+  example: []
+  syntax:
+    content: public T Deserialize<T>(string data)
+    parameters:
+    - id: data
+      type: System.String
+      description: The YAML string to deserialize.
+    typeParameters:
+    - id: T
+      description: The type of object to deserialize into.
+    return:
+      type: '{T}'
+      description: An object of type T representing the deserialized data.
+    content.vb: Public Function Deserialize(Of T)(data As String) As T
+  overload: Mewdeko.Common.PubSub.YamlSeria.Deserialize*
+  implements:
+  - Mewdeko.Common.Configs.IConfigSeria.Deserialize``1(System.String)
+  nameWithType.vb: YamlSeria.Deserialize(Of T)(String)
+  fullName.vb: Mewdeko.Common.PubSub.YamlSeria.Deserialize(Of T)(String)
+  name.vb: Deserialize(Of T)(String)
+references:
+- uid: Mewdeko.Common.PubSub
+  commentId: N:Mewdeko.Common.PubSub
+  href: Mewdeko.html
+  name: Mewdeko.Common.PubSub
+  nameWithType: Mewdeko.Common.PubSub
+  fullName: Mewdeko.Common.PubSub
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.PubSub
+    name: PubSub
+    href: Mewdeko.Common.PubSub.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.PubSub
+    name: PubSub
+    href: Mewdeko.Common.PubSub.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Mewdeko.Common.Configs.IConfigSeria
+  commentId: T:Mewdeko.Common.Configs.IConfigSeria
+  parent: Mewdeko.Common.Configs
+  href: Mewdeko.Common.Configs.IConfigSeria.html
+  name: IConfigSeria
+  nameWithType: IConfigSeria
+  fullName: Mewdeko.Common.Configs.IConfigSeria
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Common.PubSub.YamlSeria.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<YamlSeria>(YamlSeria, string)
+  nameWithType: Extensions.ThrowIfNull<YamlSeria>(YamlSeria, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Common.PubSub.YamlSeria>(Mewdeko.Common.PubSub.YamlSeria, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of YamlSeria)(YamlSeria, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Common.PubSub.YamlSeria)(Mewdeko.Common.PubSub.YamlSeria, String)
+  name.vb: ThrowIfNull(Of YamlSeria)(YamlSeria, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.PubSub.YamlSeria,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Common.PubSub.YamlSeria
+    name: YamlSeria
+    href: Mewdeko.Common.PubSub.YamlSeria.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Common.PubSub.YamlSeria
+    name: YamlSeria
+    href: Mewdeko.Common.PubSub.YamlSeria.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.PubSub.YamlSeria,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Common.PubSub.YamlSeria
+    name: YamlSeria
+    href: Mewdeko.Common.PubSub.YamlSeria.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Common.PubSub.YamlSeria
+    name: YamlSeria
+    href: Mewdeko.Common.PubSub.YamlSeria.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Common.Configs
+  commentId: N:Mewdeko.Common.Configs
+  href: Mewdeko.html
+  name: Mewdeko.Common.Configs
+  nameWithType: Mewdeko.Common.Configs
+  fullName: Mewdeko.Common.Configs
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Common.PubSub.YamlSeria.#ctor*
+  commentId: Overload:Mewdeko.Common.PubSub.YamlSeria.#ctor
+  href: Mewdeko.Common.PubSub.YamlSeria.html#Mewdeko_Common_PubSub_YamlSeria__ctor
+  name: YamlSeria
+  nameWithType: YamlSeria.YamlSeria
+  fullName: Mewdeko.Common.PubSub.YamlSeria.YamlSeria
+  nameWithType.vb: YamlSeria.New
+  fullName.vb: Mewdeko.Common.PubSub.YamlSeria.New
+  name.vb: New
+- uid: Mewdeko.Common.PubSub.YamlSeria.Serialize*
+  commentId: Overload:Mewdeko.Common.PubSub.YamlSeria.Serialize
+  href: Mewdeko.Common.PubSub.YamlSeria.html#Mewdeko_Common_PubSub_YamlSeria_Serialize__1___0_
+  name: Serialize
+  nameWithType: YamlSeria.Serialize
+  fullName: Mewdeko.Common.PubSub.YamlSeria.Serialize
+- uid: Mewdeko.Common.Configs.IConfigSeria.Serialize``1({T})
+  commentId: M:Mewdeko.Common.Configs.IConfigSeria.Serialize``1(``0)
+  parent: Mewdeko.Common.Configs.IConfigSeria
+  definition: Mewdeko.Common.Configs.IConfigSeria.Serialize``1(``0)
+  href: Mewdeko.Common.Configs.IConfigSeria.html#Mewdeko_Common_Configs_IConfigSeria_Serialize__1___0_
+  name: Serialize<T>(T)
+  nameWithType: IConfigSeria.Serialize<T>(T)
+  fullName: Mewdeko.Common.Configs.IConfigSeria.Serialize<T>(T)
+  nameWithType.vb: IConfigSeria.Serialize(Of T)(T)
+  fullName.vb: Mewdeko.Common.Configs.IConfigSeria.Serialize(Of T)(T)
+  name.vb: Serialize(Of T)(T)
+  spec.csharp:
+  - uid: Mewdeko.Common.Configs.IConfigSeria.Serialize``1(``0)
+    name: Serialize
+    href: Mewdeko.Common.Configs.IConfigSeria.html#Mewdeko_Common_Configs_IConfigSeria_Serialize__1___0_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.Configs.IConfigSeria.Serialize``1(``0)
+    name: Serialize
+    href: Mewdeko.Common.Configs.IConfigSeria.html#Mewdeko_Common_Configs_IConfigSeria_Serialize__1___0_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: )
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Common.Configs.IConfigSeria.Serialize``1(``0)
+  commentId: M:Mewdeko.Common.Configs.IConfigSeria.Serialize``1(``0)
+  href: Mewdeko.Common.Configs.IConfigSeria.html#Mewdeko_Common_Configs_IConfigSeria_Serialize__1___0_
+  name: Serialize<T>(T)
+  nameWithType: IConfigSeria.Serialize<T>(T)
+  fullName: Mewdeko.Common.Configs.IConfigSeria.Serialize<T>(T)
+  nameWithType.vb: IConfigSeria.Serialize(Of T)(T)
+  fullName.vb: Mewdeko.Common.Configs.IConfigSeria.Serialize(Of T)(T)
+  name.vb: Serialize(Of T)(T)
+  spec.csharp:
+  - uid: Mewdeko.Common.Configs.IConfigSeria.Serialize``1(``0)
+    name: Serialize
+    href: Mewdeko.Common.Configs.IConfigSeria.html#Mewdeko_Common_Configs_IConfigSeria_Serialize__1___0_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.Configs.IConfigSeria.Serialize``1(``0)
+    name: Serialize
+    href: Mewdeko.Common.Configs.IConfigSeria.html#Mewdeko_Common_Configs_IConfigSeria_Serialize__1___0_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: )
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: Mewdeko.Common.PubSub.YamlSeria.Deserialize*
+  commentId: Overload:Mewdeko.Common.PubSub.YamlSeria.Deserialize
+  href: Mewdeko.Common.PubSub.YamlSeria.html#Mewdeko_Common_PubSub_YamlSeria_Deserialize__1_System_String_
+  name: Deserialize
+  nameWithType: YamlSeria.Deserialize
+  fullName: Mewdeko.Common.PubSub.YamlSeria.Deserialize
+- uid: Mewdeko.Common.Configs.IConfigSeria.Deserialize``1(System.String)
+  commentId: M:Mewdeko.Common.Configs.IConfigSeria.Deserialize``1(System.String)
+  parent: Mewdeko.Common.Configs.IConfigSeria
+  isExternal: true
+  href: Mewdeko.Common.Configs.IConfigSeria.html#Mewdeko_Common_Configs_IConfigSeria_Deserialize__1_System_String_
+  name: Deserialize<T>(string)
+  nameWithType: IConfigSeria.Deserialize<T>(string)
+  fullName: Mewdeko.Common.Configs.IConfigSeria.Deserialize<T>(string)
+  nameWithType.vb: IConfigSeria.Deserialize(Of T)(String)
+  fullName.vb: Mewdeko.Common.Configs.IConfigSeria.Deserialize(Of T)(String)
+  name.vb: Deserialize(Of T)(String)
+  spec.csharp:
+  - uid: Mewdeko.Common.Configs.IConfigSeria.Deserialize``1(System.String)
+    name: Deserialize
+    href: Mewdeko.Common.Configs.IConfigSeria.html#Mewdeko_Common_Configs_IConfigSeria_Deserialize__1_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.Configs.IConfigSeria.Deserialize``1(System.String)
+    name: Deserialize
+    href: Mewdeko.Common.Configs.IConfigSeria.html#Mewdeko_Common_Configs_IConfigSeria_Deserialize__1_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )

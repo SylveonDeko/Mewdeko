@@ -1,0 +1,30 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Votes
+  commentId: N:Mewdeko.Modules.Votes
+  id: Mewdeko.Modules.Votes
+  children:
+  - Mewdeko.Modules.Votes.Vote
+  - Mewdeko.Modules.Votes.VoteSlashCommands
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Votes
+  nameWithType: Mewdeko.Modules.Votes
+  fullName: Mewdeko.Modules.Votes
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Votes.Vote
+  commentId: T:Mewdeko.Modules.Votes.Vote
+  href: Mewdeko.Modules.Votes.Vote.html
+  name: Vote
+  nameWithType: Vote
+  fullName: Mewdeko.Modules.Votes.Vote
+- uid: Mewdeko.Modules.Votes.VoteSlashCommands
+  commentId: T:Mewdeko.Modules.Votes.VoteSlashCommands
+  href: Mewdeko.Modules.Votes.VoteSlashCommands.html
+  name: VoteSlashCommands
+  nameWithType: VoteSlashCommands
+  fullName: Mewdeko.Modules.Votes.VoteSlashCommands

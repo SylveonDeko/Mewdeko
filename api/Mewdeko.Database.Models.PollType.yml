@@ -1,0 +1,174 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Models.PollType
+  commentId: T:Mewdeko.Database.Models.PollType
+  id: PollType
+  parent: Mewdeko.Database.Models
+  children:
+  - Mewdeko.Database.Models.PollType.AllowChange
+  - Mewdeko.Database.Models.PollType.MultiAnswer
+  - Mewdeko.Database.Models.PollType.PollEnded
+  - Mewdeko.Database.Models.PollType.SingleAnswer
+  langs:
+  - csharp
+  - vb
+  name: PollType
+  nameWithType: PollType
+  fullName: Mewdeko.Database.Models.PollType
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Poll.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: PollType
+    path: src/Mewdeko.Database/Models/Poll.cs
+    startLine: 20
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public enum PollType
+    content.vb: Public Enum PollType
+- uid: Mewdeko.Database.Models.PollType.SingleAnswer
+  commentId: F:Mewdeko.Database.Models.PollType.SingleAnswer
+  id: SingleAnswer
+  parent: Mewdeko.Database.Models.PollType
+  langs:
+  - csharp
+  - vb
+  name: SingleAnswer
+  nameWithType: PollType.SingleAnswer
+  fullName: Mewdeko.Database.Models.PollType.SingleAnswer
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Poll.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SingleAnswer
+    path: src/Mewdeko.Database/Models/Poll.cs
+    startLine: 22
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: SingleAnswer = 0
+    return:
+      type: Mewdeko.Database.Models.PollType
+- uid: Mewdeko.Database.Models.PollType.AllowChange
+  commentId: F:Mewdeko.Database.Models.PollType.AllowChange
+  id: AllowChange
+  parent: Mewdeko.Database.Models.PollType
+  langs:
+  - csharp
+  - vb
+  name: AllowChange
+  nameWithType: PollType.AllowChange
+  fullName: Mewdeko.Database.Models.PollType.AllowChange
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Poll.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AllowChange
+    path: src/Mewdeko.Database/Models/Poll.cs
+    startLine: 23
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: AllowChange = 1
+    return:
+      type: Mewdeko.Database.Models.PollType
+- uid: Mewdeko.Database.Models.PollType.MultiAnswer
+  commentId: F:Mewdeko.Database.Models.PollType.MultiAnswer
+  id: MultiAnswer
+  parent: Mewdeko.Database.Models.PollType
+  langs:
+  - csharp
+  - vb
+  name: MultiAnswer
+  nameWithType: PollType.MultiAnswer
+  fullName: Mewdeko.Database.Models.PollType.MultiAnswer
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Poll.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MultiAnswer
+    path: src/Mewdeko.Database/Models/Poll.cs
+    startLine: 24
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: MultiAnswer = 2
+    return:
+      type: Mewdeko.Database.Models.PollType
+- uid: Mewdeko.Database.Models.PollType.PollEnded
+  commentId: F:Mewdeko.Database.Models.PollType.PollEnded
+  id: PollEnded
+  parent: Mewdeko.Database.Models.PollType
+  langs:
+  - csharp
+  - vb
+  name: PollEnded
+  nameWithType: PollType.PollEnded
+  fullName: Mewdeko.Database.Models.PollType.PollEnded
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Poll.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: PollEnded
+    path: src/Mewdeko.Database/Models/Poll.cs
+    startLine: 25
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: PollEnded = 3
+    return:
+      type: Mewdeko.Database.Models.PollType
+references:
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: Mewdeko.Database.Models.PollType
+  commentId: T:Mewdeko.Database.Models.PollType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.PollType.html
+  name: PollType
+  nameWithType: PollType
+  fullName: Mewdeko.Database.Models.PollType

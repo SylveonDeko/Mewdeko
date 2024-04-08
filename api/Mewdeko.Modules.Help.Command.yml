@@ -1,0 +1,862 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Help.Command
+  commentId: T:Mewdeko.Modules.Help.Command
+  id: Command
+  parent: Mewdeko.Modules.Help
+  children:
+  - Mewdeko.Modules.Help.Command.ChannelBotPermissions
+  - Mewdeko.Modules.Help.Command.ChannelUserPermissions
+  - Mewdeko.Modules.Help.Command.CommandName
+  - Mewdeko.Modules.Help.Command.Description
+  - Mewdeko.Modules.Help.Command.Example
+  - Mewdeko.Modules.Help.Command.GuildBotPermissions
+  - Mewdeko.Modules.Help.Command.GuildUserPermissions
+  - Mewdeko.Modules.Help.Command.IsDragon
+  langs:
+  - csharp
+  - vb
+  name: Command
+  nameWithType: Command
+  fullName: Mewdeko.Modules.Help.Command
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Help/Help.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Command
+    path: src/Mewdeko/Modules/Help/Help.cs
+    startLine: 351
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Help
+  summary: Represents a command. Used only for exporting commands to a json file.
+  example: []
+  syntax:
+    content: public class Command
+    content.vb: Public Class Command
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Help.Command.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Help.Command.IsDragon
+  commentId: P:Mewdeko.Modules.Help.Command.IsDragon
+  id: IsDragon
+  parent: Mewdeko.Modules.Help.Command
+  langs:
+  - csharp
+  - vb
+  name: IsDragon
+  nameWithType: Command.IsDragon
+  fullName: Mewdeko.Modules.Help.Command.IsDragon
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Help/Help.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IsDragon
+    path: src/Mewdeko/Modules/Help/Help.cs
+    startLine: 356
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Help
+  summary: Gets or sets a value indicating whether the command is a dragon command. Used to indicate if a command is beta only.
+  example: []
+  syntax:
+    content: public bool IsDragon { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IsDragon As Boolean
+  overload: Mewdeko.Modules.Help.Command.IsDragon*
+- uid: Mewdeko.Modules.Help.Command.CommandName
+  commentId: P:Mewdeko.Modules.Help.Command.CommandName
+  id: CommandName
+  parent: Mewdeko.Modules.Help.Command
+  langs:
+  - csharp
+  - vb
+  name: CommandName
+  nameWithType: Command.CommandName
+  fullName: Mewdeko.Modules.Help.Command.CommandName
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Help/Help.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CommandName
+    path: src/Mewdeko/Modules/Help/Help.cs
+    startLine: 361
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Help
+  summary: The name of a command.
+  example: []
+  syntax:
+    content: public string CommandName { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property CommandName As String
+  overload: Mewdeko.Modules.Help.Command.CommandName*
+- uid: Mewdeko.Modules.Help.Command.Description
+  commentId: P:Mewdeko.Modules.Help.Command.Description
+  id: Description
+  parent: Mewdeko.Modules.Help.Command
+  langs:
+  - csharp
+  - vb
+  name: Description
+  nameWithType: Command.Description
+  fullName: Mewdeko.Modules.Help.Command.Description
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Help/Help.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Description
+    path: src/Mewdeko/Modules/Help/Help.cs
+    startLine: 366
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Help
+  summary: The description of a command.
+  example: []
+  syntax:
+    content: public string Description { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Description As String
+  overload: Mewdeko.Modules.Help.Command.Description*
+- uid: Mewdeko.Modules.Help.Command.Example
+  commentId: P:Mewdeko.Modules.Help.Command.Example
+  id: Example
+  parent: Mewdeko.Modules.Help.Command
+  langs:
+  - csharp
+  - vb
+  name: Example
+  nameWithType: Command.Example
+  fullName: Mewdeko.Modules.Help.Command.Example
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Help/Help.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Example
+    path: src/Mewdeko/Modules/Help/Help.cs
+    startLine: 371
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Help
+  summary: Example(s) of how to use the command.
+  example: []
+  syntax:
+    content: public List<string> Example { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{System.String}
+    content.vb: Public Property Example As List(Of String)
+  overload: Mewdeko.Modules.Help.Command.Example*
+- uid: Mewdeko.Modules.Help.Command.GuildUserPermissions
+  commentId: P:Mewdeko.Modules.Help.Command.GuildUserPermissions
+  id: GuildUserPermissions
+  parent: Mewdeko.Modules.Help.Command
+  langs:
+  - csharp
+  - vb
+  name: GuildUserPermissions
+  nameWithType: Command.GuildUserPermissions
+  fullName: Mewdeko.Modules.Help.Command.GuildUserPermissions
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Help/Help.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GuildUserPermissions
+    path: src/Mewdeko/Modules/Help/Help.cs
+    startLine: 376
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Help
+  summary: The guild permissions required by the user to use the command.
+  example: []
+  syntax:
+    content: public string GuildUserPermissions { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property GuildUserPermissions As String
+  overload: Mewdeko.Modules.Help.Command.GuildUserPermissions*
+- uid: Mewdeko.Modules.Help.Command.ChannelUserPermissions
+  commentId: P:Mewdeko.Modules.Help.Command.ChannelUserPermissions
+  id: ChannelUserPermissions
+  parent: Mewdeko.Modules.Help.Command
+  langs:
+  - csharp
+  - vb
+  name: ChannelUserPermissions
+  nameWithType: Command.ChannelUserPermissions
+  fullName: Mewdeko.Modules.Help.Command.ChannelUserPermissions
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Help/Help.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChannelUserPermissions
+    path: src/Mewdeko/Modules/Help/Help.cs
+    startLine: 381
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Help
+  summary: The channel permissions required by the user to use the command.
+  example: []
+  syntax:
+    content: public string ChannelUserPermissions { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ChannelUserPermissions As String
+  overload: Mewdeko.Modules.Help.Command.ChannelUserPermissions*
+- uid: Mewdeko.Modules.Help.Command.ChannelBotPermissions
+  commentId: P:Mewdeko.Modules.Help.Command.ChannelBotPermissions
+  id: ChannelBotPermissions
+  parent: Mewdeko.Modules.Help.Command
+  langs:
+  - csharp
+  - vb
+  name: ChannelBotPermissions
+  nameWithType: Command.ChannelBotPermissions
+  fullName: Mewdeko.Modules.Help.Command.ChannelBotPermissions
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Help/Help.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChannelBotPermissions
+    path: src/Mewdeko/Modules/Help/Help.cs
+    startLine: 386
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Help
+  summary: The channel permissions required by the bot to use the command.
+  example: []
+  syntax:
+    content: public string ChannelBotPermissions { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ChannelBotPermissions As String
+  overload: Mewdeko.Modules.Help.Command.ChannelBotPermissions*
+- uid: Mewdeko.Modules.Help.Command.GuildBotPermissions
+  commentId: P:Mewdeko.Modules.Help.Command.GuildBotPermissions
+  id: GuildBotPermissions
+  parent: Mewdeko.Modules.Help.Command
+  langs:
+  - csharp
+  - vb
+  name: GuildBotPermissions
+  nameWithType: Command.GuildBotPermissions
+  fullName: Mewdeko.Modules.Help.Command.GuildBotPermissions
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Help/Help.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GuildBotPermissions
+    path: src/Mewdeko/Modules/Help/Help.cs
+    startLine: 391
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Help
+  summary: The guild permissions required by the bot to use the command.
+  example: []
+  syntax:
+    content: public string GuildBotPermissions { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property GuildBotPermissions As String
+  overload: Mewdeko.Modules.Help.Command.GuildBotPermissions*
+references:
+- uid: Mewdeko.Modules.Help
+  commentId: N:Mewdeko.Modules.Help
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Help
+  nameWithType: Mewdeko.Modules.Help
+  fullName: Mewdeko.Modules.Help
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Help
+    name: Help
+    href: Mewdeko.Modules.Help.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Help
+    name: Help
+    href: Mewdeko.Modules.Help.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Help.Command.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<Command>(Command, string)
+  nameWithType: Extensions.ThrowIfNull<Command>(Command, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Help.Command>(Mewdeko.Modules.Help.Command, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of Command)(Command, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Help.Command)(Mewdeko.Modules.Help.Command, String)
+  name.vb: ThrowIfNull(Of Command)(Command, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Help.Command,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Help.Command
+    name: Command
+    href: Mewdeko.Modules.Help.Command.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Help.Command
+    name: Command
+    href: Mewdeko.Modules.Help.Command.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Help.Command,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Help.Command
+    name: Command
+    href: Mewdeko.Modules.Help.Command.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Help.Command
+    name: Command
+    href: Mewdeko.Modules.Help.Command.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Help.Command.IsDragon*
+  commentId: Overload:Mewdeko.Modules.Help.Command.IsDragon
+  href: Mewdeko.Modules.Help.Command.html#Mewdeko_Modules_Help_Command_IsDragon
+  name: IsDragon
+  nameWithType: Command.IsDragon
+  fullName: Mewdeko.Modules.Help.Command.IsDragon
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Mewdeko.Modules.Help.Command.CommandName*
+  commentId: Overload:Mewdeko.Modules.Help.Command.CommandName
+  href: Mewdeko.Modules.Help.Command.html#Mewdeko_Modules_Help_Command_CommandName
+  name: CommandName
+  nameWithType: Command.CommandName
+  fullName: Mewdeko.Modules.Help.Command.CommandName
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Modules.Help.Command.Description*
+  commentId: Overload:Mewdeko.Modules.Help.Command.Description
+  href: Mewdeko.Modules.Help.Command.html#Mewdeko_Modules_Help_Command_Description
+  name: Description
+  nameWithType: Command.Description
+  fullName: Mewdeko.Modules.Help.Command.Description
+- uid: Mewdeko.Modules.Help.Command.Example*
+  commentId: Overload:Mewdeko.Modules.Help.Command.Example
+  href: Mewdeko.Modules.Help.Command.html#Mewdeko_Modules_Help_Command_Example
+  name: Example
+  nameWithType: Command.Example
+  fullName: Mewdeko.Modules.Help.Command.Example
+- uid: System.Collections.Generic.List{System.String}
+  commentId: T:System.Collections.Generic.List{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<string>
+  nameWithType: List<string>
+  fullName: System.Collections.Generic.List<string>
+  nameWithType.vb: List(Of String)
+  fullName.vb: System.Collections.Generic.List(Of String)
+  name.vb: List(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Mewdeko.Modules.Help.Command.GuildUserPermissions*
+  commentId: Overload:Mewdeko.Modules.Help.Command.GuildUserPermissions
+  href: Mewdeko.Modules.Help.Command.html#Mewdeko_Modules_Help_Command_GuildUserPermissions
+  name: GuildUserPermissions
+  nameWithType: Command.GuildUserPermissions
+  fullName: Mewdeko.Modules.Help.Command.GuildUserPermissions
+- uid: Mewdeko.Modules.Help.Command.ChannelUserPermissions*
+  commentId: Overload:Mewdeko.Modules.Help.Command.ChannelUserPermissions
+  href: Mewdeko.Modules.Help.Command.html#Mewdeko_Modules_Help_Command_ChannelUserPermissions
+  name: ChannelUserPermissions
+  nameWithType: Command.ChannelUserPermissions
+  fullName: Mewdeko.Modules.Help.Command.ChannelUserPermissions
+- uid: Mewdeko.Modules.Help.Command.ChannelBotPermissions*
+  commentId: Overload:Mewdeko.Modules.Help.Command.ChannelBotPermissions
+  href: Mewdeko.Modules.Help.Command.html#Mewdeko_Modules_Help_Command_ChannelBotPermissions
+  name: ChannelBotPermissions
+  nameWithType: Command.ChannelBotPermissions
+  fullName: Mewdeko.Modules.Help.Command.ChannelBotPermissions
+- uid: Mewdeko.Modules.Help.Command.GuildBotPermissions*
+  commentId: Overload:Mewdeko.Modules.Help.Command.GuildBotPermissions
+  href: Mewdeko.Modules.Help.Command.html#Mewdeko_Modules_Help_Command_GuildBotPermissions
+  name: GuildBotPermissions
+  nameWithType: Command.GuildBotPermissions
+  fullName: Mewdeko.Modules.Help.Command.GuildBotPermissions

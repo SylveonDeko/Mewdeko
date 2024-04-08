@@ -1,0 +1,155 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.Configs.ConsoleOutputType
+  commentId: T:Mewdeko.Common.Configs.ConsoleOutputType
+  id: ConsoleOutputType
+  parent: Mewdeko.Common.Configs
+  children:
+  - Mewdeko.Common.Configs.ConsoleOutputType.None
+  - Mewdeko.Common.Configs.ConsoleOutputType.Normal
+  - Mewdeko.Common.Configs.ConsoleOutputType.Simple
+  langs:
+  - csharp
+  - vb
+  name: ConsoleOutputType
+  nameWithType: ConsoleOutputType
+  fullName: Mewdeko.Common.Configs.ConsoleOutputType
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Common/Configs/BotConfig.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ConsoleOutputType
+    path: src/Mewdeko/Common/Configs/BotConfig.cs
+    startLine: 318
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Configs
+  summary: Configuration for the bot's console output.
+  example: []
+  syntax:
+    content: public enum ConsoleOutputType
+    content.vb: Public Enum ConsoleOutputType
+- uid: Mewdeko.Common.Configs.ConsoleOutputType.Normal
+  commentId: F:Mewdeko.Common.Configs.ConsoleOutputType.Normal
+  id: Normal
+  parent: Mewdeko.Common.Configs.ConsoleOutputType
+  langs:
+  - csharp
+  - vb
+  name: Normal
+  nameWithType: ConsoleOutputType.Normal
+  fullName: Mewdeko.Common.Configs.ConsoleOutputType.Normal
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Common/Configs/BotConfig.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Normal
+    path: src/Mewdeko/Common/Configs/BotConfig.cs
+    startLine: 323
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Configs
+  summary: Normal console output.
+  example: []
+  syntax:
+    content: Normal = 0
+    return:
+      type: Mewdeko.Common.Configs.ConsoleOutputType
+- uid: Mewdeko.Common.Configs.ConsoleOutputType.Simple
+  commentId: F:Mewdeko.Common.Configs.ConsoleOutputType.Simple
+  id: Simple
+  parent: Mewdeko.Common.Configs.ConsoleOutputType
+  langs:
+  - csharp
+  - vb
+  name: Simple
+  nameWithType: ConsoleOutputType.Simple
+  fullName: Mewdeko.Common.Configs.ConsoleOutputType.Simple
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Common/Configs/BotConfig.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Simple
+    path: src/Mewdeko/Common/Configs/BotConfig.cs
+    startLine: 328
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Configs
+  summary: Simple console output.
+  example: []
+  syntax:
+    content: Simple = 1
+    return:
+      type: Mewdeko.Common.Configs.ConsoleOutputType
+- uid: Mewdeko.Common.Configs.ConsoleOutputType.None
+  commentId: F:Mewdeko.Common.Configs.ConsoleOutputType.None
+  id: None
+  parent: Mewdeko.Common.Configs.ConsoleOutputType
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: ConsoleOutputType.None
+  fullName: Mewdeko.Common.Configs.ConsoleOutputType.None
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Common/Configs/BotConfig.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: None
+    path: src/Mewdeko/Common/Configs/BotConfig.cs
+    startLine: 333
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Configs
+  summary: No console output.
+  example: []
+  syntax:
+    content: None = 2
+    return:
+      type: Mewdeko.Common.Configs.ConsoleOutputType
+references:
+- uid: Mewdeko.Common.Configs
+  commentId: N:Mewdeko.Common.Configs
+  href: Mewdeko.html
+  name: Mewdeko.Common.Configs
+  nameWithType: Mewdeko.Common.Configs
+  fullName: Mewdeko.Common.Configs
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+- uid: Mewdeko.Common.Configs.ConsoleOutputType
+  commentId: T:Mewdeko.Common.Configs.ConsoleOutputType
+  parent: Mewdeko.Common.Configs
+  href: Mewdeko.Common.Configs.ConsoleOutputType.html
+  name: ConsoleOutputType
+  nameWithType: ConsoleOutputType
+  fullName: Mewdeko.Common.Configs.ConsoleOutputType

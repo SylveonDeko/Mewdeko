@@ -1,0 +1,224 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Permissions
+  commentId: N:Mewdeko.Modules.Permissions
+  id: Mewdeko.Modules.Permissions
+  children:
+  - Mewdeko.Modules.Permissions.Permissions
+  - Mewdeko.Modules.Permissions.Permissions.BlacklistCommands
+  - Mewdeko.Modules.Permissions.Permissions.CmdCdsCommands
+  - Mewdeko.Modules.Permissions.Permissions.FilterCommands
+  - Mewdeko.Modules.Permissions.Permissions.GlobalPermissionCommands
+  - Mewdeko.Modules.Permissions.Permissions.Reset
+  - Mewdeko.Modules.Permissions.SlashPermissions
+  - Mewdeko.Modules.Permissions.SlashPermissions.PermissionSlash
+  - Mewdeko.Modules.Permissions.SlashPermissions.Reset
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Permissions
+  nameWithType: Mewdeko.Modules.Permissions
+  fullName: Mewdeko.Modules.Permissions
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Permissions.Permissions
+  commentId: T:Mewdeko.Modules.Permissions.Permissions
+  href: Mewdeko.Modules.Permissions.Permissions.html
+  name: Permissions
+  nameWithType: Permissions
+  fullName: Mewdeko.Modules.Permissions.Permissions
+- uid: Mewdeko.Modules.Permissions.Permissions.BlacklistCommands
+  commentId: T:Mewdeko.Modules.Permissions.Permissions.BlacklistCommands
+  href: Mewdeko.Modules.Permissions.Permissions.html
+  name: Permissions.BlacklistCommands
+  nameWithType: Permissions.BlacklistCommands
+  fullName: Mewdeko.Modules.Permissions.Permissions.BlacklistCommands
+  spec.csharp:
+  - uid: Mewdeko.Modules.Permissions.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.Permissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.Permissions.BlacklistCommands
+    name: BlacklistCommands
+    href: Mewdeko.Modules.Permissions.Permissions.BlacklistCommands.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Permissions.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.Permissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.Permissions.BlacklistCommands
+    name: BlacklistCommands
+    href: Mewdeko.Modules.Permissions.Permissions.BlacklistCommands.html
+- uid: Mewdeko.Modules.Permissions.Permissions.CmdCdsCommands
+  commentId: T:Mewdeko.Modules.Permissions.Permissions.CmdCdsCommands
+  href: Mewdeko.Modules.Permissions.Permissions.html
+  name: Permissions.CmdCdsCommands
+  nameWithType: Permissions.CmdCdsCommands
+  fullName: Mewdeko.Modules.Permissions.Permissions.CmdCdsCommands
+  spec.csharp:
+  - uid: Mewdeko.Modules.Permissions.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.Permissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.Permissions.CmdCdsCommands
+    name: CmdCdsCommands
+    href: Mewdeko.Modules.Permissions.Permissions.CmdCdsCommands.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Permissions.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.Permissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.Permissions.CmdCdsCommands
+    name: CmdCdsCommands
+    href: Mewdeko.Modules.Permissions.Permissions.CmdCdsCommands.html
+- uid: Mewdeko.Modules.Permissions.Permissions.FilterCommands
+  commentId: T:Mewdeko.Modules.Permissions.Permissions.FilterCommands
+  href: Mewdeko.Modules.Permissions.Permissions.html
+  name: Permissions.FilterCommands
+  nameWithType: Permissions.FilterCommands
+  fullName: Mewdeko.Modules.Permissions.Permissions.FilterCommands
+  spec.csharp:
+  - uid: Mewdeko.Modules.Permissions.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.Permissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.Permissions.FilterCommands
+    name: FilterCommands
+    href: Mewdeko.Modules.Permissions.Permissions.FilterCommands.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Permissions.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.Permissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.Permissions.FilterCommands
+    name: FilterCommands
+    href: Mewdeko.Modules.Permissions.Permissions.FilterCommands.html
+- uid: Mewdeko.Modules.Permissions.Permissions.GlobalPermissionCommands
+  commentId: T:Mewdeko.Modules.Permissions.Permissions.GlobalPermissionCommands
+  href: Mewdeko.Modules.Permissions.Permissions.html
+  name: Permissions.GlobalPermissionCommands
+  nameWithType: Permissions.GlobalPermissionCommands
+  fullName: Mewdeko.Modules.Permissions.Permissions.GlobalPermissionCommands
+  spec.csharp:
+  - uid: Mewdeko.Modules.Permissions.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.Permissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.Permissions.GlobalPermissionCommands
+    name: GlobalPermissionCommands
+    href: Mewdeko.Modules.Permissions.Permissions.GlobalPermissionCommands.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Permissions.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.Permissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.Permissions.GlobalPermissionCommands
+    name: GlobalPermissionCommands
+    href: Mewdeko.Modules.Permissions.Permissions.GlobalPermissionCommands.html
+- uid: Mewdeko.Modules.Permissions.Permissions.Reset
+  commentId: T:Mewdeko.Modules.Permissions.Permissions.Reset
+  parent: Mewdeko.Modules.Permissions
+  href: Mewdeko.Modules.Permissions.Permissions.html
+  name: Permissions.Reset
+  nameWithType: Permissions.Reset
+  fullName: Mewdeko.Modules.Permissions.Permissions.Reset
+  spec.csharp:
+  - uid: Mewdeko.Modules.Permissions.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.Permissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.Permissions.Reset
+    name: Reset
+    href: Mewdeko.Modules.Permissions.Permissions.Reset.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Permissions.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.Permissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.Permissions.Reset
+    name: Reset
+    href: Mewdeko.Modules.Permissions.Permissions.Reset.html
+- uid: Mewdeko.Modules.Permissions.SlashPermissions
+  commentId: T:Mewdeko.Modules.Permissions.SlashPermissions
+  href: Mewdeko.Modules.Permissions.SlashPermissions.html
+  name: SlashPermissions
+  nameWithType: SlashPermissions
+  fullName: Mewdeko.Modules.Permissions.SlashPermissions
+- uid: Mewdeko.Modules.Permissions.SlashPermissions.PermissionSlash
+  commentId: T:Mewdeko.Modules.Permissions.SlashPermissions.PermissionSlash
+  parent: Mewdeko.Modules.Permissions
+  href: Mewdeko.Modules.Permissions.SlashPermissions.html
+  name: SlashPermissions.PermissionSlash
+  nameWithType: SlashPermissions.PermissionSlash
+  fullName: Mewdeko.Modules.Permissions.SlashPermissions.PermissionSlash
+  spec.csharp:
+  - uid: Mewdeko.Modules.Permissions.SlashPermissions
+    name: SlashPermissions
+    href: Mewdeko.Modules.Permissions.SlashPermissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.SlashPermissions.PermissionSlash
+    name: PermissionSlash
+    href: Mewdeko.Modules.Permissions.SlashPermissions.PermissionSlash.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Permissions.SlashPermissions
+    name: SlashPermissions
+    href: Mewdeko.Modules.Permissions.SlashPermissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.SlashPermissions.PermissionSlash
+    name: PermissionSlash
+    href: Mewdeko.Modules.Permissions.SlashPermissions.PermissionSlash.html
+- uid: Mewdeko.Modules.Permissions.SlashPermissions.Reset
+  commentId: T:Mewdeko.Modules.Permissions.SlashPermissions.Reset
+  parent: Mewdeko.Modules.Permissions
+  href: Mewdeko.Modules.Permissions.SlashPermissions.html
+  name: SlashPermissions.Reset
+  nameWithType: SlashPermissions.Reset
+  fullName: Mewdeko.Modules.Permissions.SlashPermissions.Reset
+  spec.csharp:
+  - uid: Mewdeko.Modules.Permissions.SlashPermissions
+    name: SlashPermissions
+    href: Mewdeko.Modules.Permissions.SlashPermissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.SlashPermissions.Reset
+    name: Reset
+    href: Mewdeko.Modules.Permissions.SlashPermissions.Reset.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Permissions.SlashPermissions
+    name: SlashPermissions
+    href: Mewdeko.Modules.Permissions.SlashPermissions.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions.SlashPermissions.Reset
+    name: Reset
+    href: Mewdeko.Modules.Permissions.SlashPermissions.Reset.html
+- uid: Mewdeko.Modules.Permissions
+  commentId: N:Mewdeko.Modules.Permissions
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Permissions
+  nameWithType: Mewdeko.Modules.Permissions
+  fullName: Mewdeko.Modules.Permissions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Permissions
+    name: Permissions
+    href: Mewdeko.Modules.Permissions.html

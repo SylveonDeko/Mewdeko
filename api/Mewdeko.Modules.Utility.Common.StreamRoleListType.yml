@@ -1,0 +1,134 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Utility.Common.StreamRoleListType
+  commentId: T:Mewdeko.Modules.Utility.Common.StreamRoleListType
+  id: StreamRoleListType
+  parent: Mewdeko.Modules.Utility.Common
+  children:
+  - Mewdeko.Modules.Utility.Common.StreamRoleListType.Blacklist
+  - Mewdeko.Modules.Utility.Common.StreamRoleListType.Whitelist
+  langs:
+  - csharp
+  - vb
+  name: StreamRoleListType
+  nameWithType: StreamRoleListType
+  fullName: Mewdeko.Modules.Utility.Common.StreamRoleListType
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Utility/Common/StreamRoleListType.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: StreamRoleListType
+    path: src/Mewdeko/Modules/Utility/Common/StreamRoleListType.cs
+    startLine: 5
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Utility.Common
+  summary: Defines the types of lists that can be applied to stream roles, such as whitelists or blacklists.
+  example: []
+  syntax:
+    content: public enum StreamRoleListType
+    content.vb: Public Enum StreamRoleListType
+- uid: Mewdeko.Modules.Utility.Common.StreamRoleListType.Whitelist
+  commentId: F:Mewdeko.Modules.Utility.Common.StreamRoleListType.Whitelist
+  id: Whitelist
+  parent: Mewdeko.Modules.Utility.Common.StreamRoleListType
+  langs:
+  - csharp
+  - vb
+  name: Whitelist
+  nameWithType: StreamRoleListType.Whitelist
+  fullName: Mewdeko.Modules.Utility.Common.StreamRoleListType.Whitelist
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Utility/Common/StreamRoleListType.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Whitelist
+    path: src/Mewdeko/Modules/Utility/Common/StreamRoleListType.cs
+    startLine: 10
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Utility.Common
+  summary: A whitelist specifies allowed entities.
+  example: []
+  syntax:
+    content: Whitelist = 0
+    return:
+      type: Mewdeko.Modules.Utility.Common.StreamRoleListType
+- uid: Mewdeko.Modules.Utility.Common.StreamRoleListType.Blacklist
+  commentId: F:Mewdeko.Modules.Utility.Common.StreamRoleListType.Blacklist
+  id: Blacklist
+  parent: Mewdeko.Modules.Utility.Common.StreamRoleListType
+  langs:
+  - csharp
+  - vb
+  name: Blacklist
+  nameWithType: StreamRoleListType.Blacklist
+  fullName: Mewdeko.Modules.Utility.Common.StreamRoleListType.Blacklist
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Utility/Common/StreamRoleListType.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Blacklist
+    path: src/Mewdeko/Modules/Utility/Common/StreamRoleListType.cs
+    startLine: 15
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Utility.Common
+  summary: A blacklist specifies disallowed entities.
+  example: []
+  syntax:
+    content: Blacklist = 1
+    return:
+      type: Mewdeko.Modules.Utility.Common.StreamRoleListType
+references:
+- uid: Mewdeko.Modules.Utility.Common
+  commentId: N:Mewdeko.Modules.Utility.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Utility.Common
+  nameWithType: Mewdeko.Modules.Utility.Common
+  fullName: Mewdeko.Modules.Utility.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility
+    name: Utility
+    href: Mewdeko.Modules.Utility.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility.Common
+    name: Common
+    href: Mewdeko.Modules.Utility.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility
+    name: Utility
+    href: Mewdeko.Modules.Utility.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility.Common
+    name: Common
+    href: Mewdeko.Modules.Utility.Common.html
+- uid: Mewdeko.Modules.Utility.Common.StreamRoleListType
+  commentId: T:Mewdeko.Modules.Utility.Common.StreamRoleListType
+  parent: Mewdeko.Modules.Utility.Common
+  href: Mewdeko.Modules.Utility.Common.StreamRoleListType.html
+  name: StreamRoleListType
+  nameWithType: StreamRoleListType
+  fullName: Mewdeko.Modules.Utility.Common.StreamRoleListType

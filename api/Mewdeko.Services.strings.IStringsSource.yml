@@ -1,0 +1,480 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Services.strings.IStringsSource
+  commentId: T:Mewdeko.Services.strings.IStringsSource
+  id: IStringsSource
+  parent: Mewdeko.Services.strings
+  children:
+  - Mewdeko.Services.strings.IStringsSource.GetCommandStrings
+  - Mewdeko.Services.strings.IStringsSource.GetResponseStrings
+  langs:
+  - csharp
+  - vb
+  name: IStringsSource
+  nameWithType: IStringsSource
+  fullName: Mewdeko.Services.strings.IStringsSource
+  type: Interface
+  source:
+    remote:
+      path: src/Mewdeko/Services/strings/IStringsSource.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IStringsSource
+    path: src/Mewdeko/Services/strings/IStringsSource.cs
+    startLine: 7
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.strings
+  summary: Basic interface used for classes implementing strings loading mechanism.
+  example: []
+  syntax:
+    content: public interface IStringsSource
+    content.vb: Public Interface IStringsSource
+  extensionMethods:
+  - Mewdeko.Services.strings.IStringsSource.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Services.strings.IStringsSource.GetResponseStrings
+  commentId: M:Mewdeko.Services.strings.IStringsSource.GetResponseStrings
+  id: GetResponseStrings
+  parent: Mewdeko.Services.strings.IStringsSource
+  langs:
+  - csharp
+  - vb
+  name: GetResponseStrings()
+  nameWithType: IStringsSource.GetResponseStrings()
+  fullName: Mewdeko.Services.strings.IStringsSource.GetResponseStrings()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/strings/IStringsSource.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetResponseStrings
+    path: src/Mewdeko/Services/strings/IStringsSource.cs
+    startLine: 13
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.strings
+  summary: Gets all response strings.
+  example: []
+  syntax:
+    content: Dictionary<string, Dictionary<string, string>> GetResponseStrings()
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.Dictionary{System.String,System.String}}
+      description: A dictionary containing response strings indexed by locale name and then by key.
+    content.vb: Function GetResponseStrings() As Dictionary(Of String, Dictionary(Of String, String))
+  overload: Mewdeko.Services.strings.IStringsSource.GetResponseStrings*
+- uid: Mewdeko.Services.strings.IStringsSource.GetCommandStrings
+  commentId: M:Mewdeko.Services.strings.IStringsSource.GetCommandStrings
+  id: GetCommandStrings
+  parent: Mewdeko.Services.strings.IStringsSource
+  langs:
+  - csharp
+  - vb
+  name: GetCommandStrings()
+  nameWithType: IStringsSource.GetCommandStrings()
+  fullName: Mewdeko.Services.strings.IStringsSource.GetCommandStrings()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/strings/IStringsSource.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetCommandStrings
+    path: src/Mewdeko/Services/strings/IStringsSource.cs
+    startLine: 19
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.strings
+  summary: Gets all command strings.
+  example: []
+  syntax:
+    content: Dictionary<string, Dictionary<string, CommandStrings>> GetCommandStrings()
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.Dictionary{System.String,Mewdeko.Services.strings.impl.CommandStrings}}
+      description: A dictionary containing command strings indexed by locale name and then by command name.
+    content.vb: Function GetCommandStrings() As Dictionary(Of String, Dictionary(Of String, CommandStrings))
+  overload: Mewdeko.Services.strings.IStringsSource.GetCommandStrings*
+references:
+- uid: Mewdeko.Services.strings
+  commentId: N:Mewdeko.Services.strings
+  href: Mewdeko.html
+  name: Mewdeko.Services.strings
+  nameWithType: Mewdeko.Services.strings
+  fullName: Mewdeko.Services.strings
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.strings
+    name: strings
+    href: Mewdeko.Services.strings.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.strings
+    name: strings
+    href: Mewdeko.Services.strings.html
+- uid: Mewdeko.Services.strings.IStringsSource.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<IStringsSource>(IStringsSource, string)
+  nameWithType: Extensions.ThrowIfNull<IStringsSource>(IStringsSource, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Services.strings.IStringsSource>(Mewdeko.Services.strings.IStringsSource, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of IStringsSource)(IStringsSource, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Services.strings.IStringsSource)(Mewdeko.Services.strings.IStringsSource, String)
+  name.vb: ThrowIfNull(Of IStringsSource)(IStringsSource, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Services.strings.IStringsSource,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Services.strings.IStringsSource
+    name: IStringsSource
+    href: Mewdeko.Services.strings.IStringsSource.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Services.strings.IStringsSource
+    name: IStringsSource
+    href: Mewdeko.Services.strings.IStringsSource.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Services.strings.IStringsSource,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Services.strings.IStringsSource
+    name: IStringsSource
+    href: Mewdeko.Services.strings.IStringsSource.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Services.strings.IStringsSource
+    name: IStringsSource
+    href: Mewdeko.Services.strings.IStringsSource.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Services.strings.IStringsSource.GetResponseStrings*
+  commentId: Overload:Mewdeko.Services.strings.IStringsSource.GetResponseStrings
+  href: Mewdeko.Services.strings.IStringsSource.html#Mewdeko_Services_strings_IStringsSource_GetResponseStrings
+  name: GetResponseStrings
+  nameWithType: IStringsSource.GetResponseStrings
+  fullName: Mewdeko.Services.strings.IStringsSource.GetResponseStrings
+- uid: System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.Dictionary{System.String,System.String}}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.Dictionary{System.String,System.String}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<string, Dictionary<string, string>>
+  nameWithType: Dictionary<string, Dictionary<string, string>>
+  fullName: System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>>
+  nameWithType.vb: Dictionary(Of String, Dictionary(Of String, String))
+  fullName.vb: System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, String))
+  name.vb: Dictionary(Of String, Dictionary(Of String, String))
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Mewdeko.Services.strings.IStringsSource.GetCommandStrings*
+  commentId: Overload:Mewdeko.Services.strings.IStringsSource.GetCommandStrings
+  href: Mewdeko.Services.strings.IStringsSource.html#Mewdeko_Services_strings_IStringsSource_GetCommandStrings
+  name: GetCommandStrings
+  nameWithType: IStringsSource.GetCommandStrings
+  fullName: Mewdeko.Services.strings.IStringsSource.GetCommandStrings
+- uid: System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.Dictionary{System.String,Mewdeko.Services.strings.impl.CommandStrings}}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.Dictionary{System.String,Mewdeko.Services.strings.impl.CommandStrings}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<string, Dictionary<string, CommandStrings>>
+  nameWithType: Dictionary<string, Dictionary<string, CommandStrings>>
+  fullName: System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, Mewdeko.Services.strings.impl.CommandStrings>>
+  nameWithType.vb: Dictionary(Of String, Dictionary(Of String, CommandStrings))
+  fullName.vb: System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.Dictionary(Of String, Mewdeko.Services.strings.impl.CommandStrings))
+  name.vb: Dictionary(Of String, Dictionary(Of String, CommandStrings))
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Services.strings.impl.CommandStrings
+    name: CommandStrings
+    href: Mewdeko.Services.strings.impl.CommandStrings.html
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Services.strings.impl.CommandStrings
+    name: CommandStrings
+    href: Mewdeko.Services.strings.impl.CommandStrings.html
+  - name: )
+  - name: )

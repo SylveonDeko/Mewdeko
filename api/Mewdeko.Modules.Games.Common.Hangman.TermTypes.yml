@@ -1,0 +1,239 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Games.Common.Hangman.TermTypes
+  commentId: T:Mewdeko.Modules.Games.Common.Hangman.TermTypes
+  id: TermTypes
+  parent: Mewdeko.Modules.Games.Common.Hangman
+  children:
+  - Mewdeko.Modules.Games.Common.Hangman.TermTypes.Animals
+  - Mewdeko.Modules.Games.Common.Hangman.TermTypes.Countries
+  - Mewdeko.Modules.Games.Common.Hangman.TermTypes.Movies
+  - Mewdeko.Modules.Games.Common.Hangman.TermTypes.Random
+  - Mewdeko.Modules.Games.Common.Hangman.TermTypes.Things
+  langs:
+  - csharp
+  - vb
+  name: TermTypes
+  nameWithType: TermTypes
+  fullName: Mewdeko.Modules.Games.Common.Hangman.TermTypes
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/TermType.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TermTypes
+    path: src/Mewdeko/Modules/Games/Common/Hangman/TermType.cs
+    startLine: 5
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Represents the types of terms available for the Hangman game.
+  example: []
+  syntax:
+    content: >-
+      [Flags]
+
+      public enum TermTypes
+    content.vb: >-
+      <Flags>
+
+      Public Enum TermTypes
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
+- uid: Mewdeko.Modules.Games.Common.Hangman.TermTypes.Countries
+  commentId: F:Mewdeko.Modules.Games.Common.Hangman.TermTypes.Countries
+  id: Countries
+  parent: Mewdeko.Modules.Games.Common.Hangman.TermTypes
+  langs:
+  - csharp
+  - vb
+  name: Countries
+  nameWithType: TermTypes.Countries
+  fullName: Mewdeko.Modules.Games.Common.Hangman.TermTypes.Countries
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/TermType.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Countries
+    path: src/Mewdeko/Modules/Games/Common/Hangman/TermType.cs
+    startLine: 11
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Indicates countries as a type of term.
+  example: []
+  syntax:
+    content: Countries = 0
+    return:
+      type: Mewdeko.Modules.Games.Common.Hangman.TermTypes
+- uid: Mewdeko.Modules.Games.Common.Hangman.TermTypes.Movies
+  commentId: F:Mewdeko.Modules.Games.Common.Hangman.TermTypes.Movies
+  id: Movies
+  parent: Mewdeko.Modules.Games.Common.Hangman.TermTypes
+  langs:
+  - csharp
+  - vb
+  name: Movies
+  nameWithType: TermTypes.Movies
+  fullName: Mewdeko.Modules.Games.Common.Hangman.TermTypes.Movies
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/TermType.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Movies
+    path: src/Mewdeko/Modules/Games/Common/Hangman/TermType.cs
+    startLine: 16
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Indicates movies as a type of term.
+  example: []
+  syntax:
+    content: Movies = 1
+    return:
+      type: Mewdeko.Modules.Games.Common.Hangman.TermTypes
+- uid: Mewdeko.Modules.Games.Common.Hangman.TermTypes.Animals
+  commentId: F:Mewdeko.Modules.Games.Common.Hangman.TermTypes.Animals
+  id: Animals
+  parent: Mewdeko.Modules.Games.Common.Hangman.TermTypes
+  langs:
+  - csharp
+  - vb
+  name: Animals
+  nameWithType: TermTypes.Animals
+  fullName: Mewdeko.Modules.Games.Common.Hangman.TermTypes.Animals
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/TermType.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Animals
+    path: src/Mewdeko/Modules/Games/Common/Hangman/TermType.cs
+    startLine: 21
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Indicates animals as a type of term.
+  example: []
+  syntax:
+    content: Animals = 2
+    return:
+      type: Mewdeko.Modules.Games.Common.Hangman.TermTypes
+- uid: Mewdeko.Modules.Games.Common.Hangman.TermTypes.Things
+  commentId: F:Mewdeko.Modules.Games.Common.Hangman.TermTypes.Things
+  id: Things
+  parent: Mewdeko.Modules.Games.Common.Hangman.TermTypes
+  langs:
+  - csharp
+  - vb
+  name: Things
+  nameWithType: TermTypes.Things
+  fullName: Mewdeko.Modules.Games.Common.Hangman.TermTypes.Things
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/TermType.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Things
+    path: src/Mewdeko/Modules/Games/Common/Hangman/TermType.cs
+    startLine: 26
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Indicates things as a type of term.
+  example: []
+  syntax:
+    content: Things = 4
+    return:
+      type: Mewdeko.Modules.Games.Common.Hangman.TermTypes
+- uid: Mewdeko.Modules.Games.Common.Hangman.TermTypes.Random
+  commentId: F:Mewdeko.Modules.Games.Common.Hangman.TermTypes.Random
+  id: Random
+  parent: Mewdeko.Modules.Games.Common.Hangman.TermTypes
+  langs:
+  - csharp
+  - vb
+  name: Random
+  nameWithType: TermTypes.Random
+  fullName: Mewdeko.Modules.Games.Common.Hangman.TermTypes.Random
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/TermType.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Random
+    path: src/Mewdeko/Modules/Games/Common/Hangman/TermType.cs
+    startLine: 31
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Indicates that a random type of term will be selected.
+  example: []
+  syntax:
+    content: Random = 8
+    return:
+      type: Mewdeko.Modules.Games.Common.Hangman.TermTypes
+references:
+- uid: Mewdeko.Modules.Games.Common.Hangman
+  commentId: N:Mewdeko.Modules.Games.Common.Hangman
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Games.Common.Hangman
+  nameWithType: Mewdeko.Modules.Games.Common.Hangman
+  fullName: Mewdeko.Modules.Games.Common.Hangman
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Hangman
+    name: Hangman
+    href: Mewdeko.Modules.Games.Common.Hangman.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Hangman
+    name: Hangman
+    href: Mewdeko.Modules.Games.Common.Hangman.html
+- uid: Mewdeko.Modules.Games.Common.Hangman.TermTypes
+  commentId: T:Mewdeko.Modules.Games.Common.Hangman.TermTypes
+  parent: Mewdeko.Modules.Games.Common.Hangman
+  href: Mewdeko.Modules.Games.Common.Hangman.TermTypes.html
+  name: TermTypes
+  nameWithType: TermTypes
+  fullName: Mewdeko.Modules.Games.Common.Hangman.TermTypes

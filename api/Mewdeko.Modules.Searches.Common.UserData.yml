@@ -1,0 +1,1066 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Searches.Common.UserData
+  commentId: T:Mewdeko.Modules.Searches.Common.UserData
+  id: UserData
+  parent: Mewdeko.Modules.Searches.Common
+  children:
+  - Mewdeko.Modules.Searches.Common.UserData.Abbr
+  - Mewdeko.Modules.Searches.Common.UserData.Clanid
+  - Mewdeko.Modules.Searches.Common.UserData.Country
+  - Mewdeko.Modules.Searches.Common.UserData.FavouriteMode
+  - Mewdeko.Modules.Searches.Common.UserData.FollowersCount
+  - Mewdeko.Modules.Searches.Common.UserData.Id
+  - Mewdeko.Modules.Searches.Common.UserData.LatestActivity
+  - Mewdeko.Modules.Searches.Common.UserData.PlayStyle
+  - Mewdeko.Modules.Searches.Common.UserData.Privileges
+  - Mewdeko.Modules.Searches.Common.UserData.RegisteredOn
+  - Mewdeko.Modules.Searches.Common.UserData.Username
+  - Mewdeko.Modules.Searches.Common.UserData.UsernameAka
+  langs:
+  - csharp
+  - vb
+  name: UserData
+  nameWithType: UserData
+  fullName: Mewdeko.Modules.Searches.Common.UserData
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserData
+    path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+    startLine: 7
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Represents user data from a Gatari API response.
+  example: []
+  syntax:
+    content: public class UserData
+    content.vb: Public Class UserData
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Searches.Common.UserData.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Searches.Common.UserData.Abbr
+  commentId: P:Mewdeko.Modules.Searches.Common.UserData.Abbr
+  id: Abbr
+  parent: Mewdeko.Modules.Searches.Common.UserData
+  langs:
+  - csharp
+  - vb
+  name: Abbr
+  nameWithType: UserData.Abbr
+  fullName: Mewdeko.Modules.Searches.Common.UserData.Abbr
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Abbr
+    path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the abbreviation for the user.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("abbr")]
+
+      public object Abbr { get; set; }
+    parameters: []
+    return:
+      type: System.Object
+    content.vb: >-
+      <JsonProperty("abbr")>
+
+      Public Property Abbr As Object
+  overload: Mewdeko.Modules.Searches.Common.UserData.Abbr*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: abbr
+- uid: Mewdeko.Modules.Searches.Common.UserData.Clanid
+  commentId: P:Mewdeko.Modules.Searches.Common.UserData.Clanid
+  id: Clanid
+  parent: Mewdeko.Modules.Searches.Common.UserData
+  langs:
+  - csharp
+  - vb
+  name: Clanid
+  nameWithType: UserData.Clanid
+  fullName: Mewdeko.Modules.Searches.Common.UserData.Clanid
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Clanid
+    path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+    startLine: 18
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the clan ID for the user.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("clanid")]
+
+      public object Clanid { get; set; }
+    parameters: []
+    return:
+      type: System.Object
+    content.vb: >-
+      <JsonProperty("clanid")>
+
+      Public Property Clanid As Object
+  overload: Mewdeko.Modules.Searches.Common.UserData.Clanid*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: clanid
+- uid: Mewdeko.Modules.Searches.Common.UserData.Country
+  commentId: P:Mewdeko.Modules.Searches.Common.UserData.Country
+  id: Country
+  parent: Mewdeko.Modules.Searches.Common.UserData
+  langs:
+  - csharp
+  - vb
+  name: Country
+  nameWithType: UserData.Country
+  fullName: Mewdeko.Modules.Searches.Common.UserData.Country
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Country
+    path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+    startLine: 24
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the country of the user.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("country")]
+
+      public string Country { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("country")>
+
+      Public Property Country As String
+  overload: Mewdeko.Modules.Searches.Common.UserData.Country*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: country
+- uid: Mewdeko.Modules.Searches.Common.UserData.FavouriteMode
+  commentId: P:Mewdeko.Modules.Searches.Common.UserData.FavouriteMode
+  id: FavouriteMode
+  parent: Mewdeko.Modules.Searches.Common.UserData
+  langs:
+  - csharp
+  - vb
+  name: FavouriteMode
+  nameWithType: UserData.FavouriteMode
+  fullName: Mewdeko.Modules.Searches.Common.UserData.FavouriteMode
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: FavouriteMode
+    path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+    startLine: 30
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the favorite game mode of the user.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("favourite_mode")]
+
+      public int FavouriteMode { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <JsonProperty("favourite_mode")>
+
+      Public Property FavouriteMode As Integer
+  overload: Mewdeko.Modules.Searches.Common.UserData.FavouriteMode*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: favourite_mode
+- uid: Mewdeko.Modules.Searches.Common.UserData.FollowersCount
+  commentId: P:Mewdeko.Modules.Searches.Common.UserData.FollowersCount
+  id: FollowersCount
+  parent: Mewdeko.Modules.Searches.Common.UserData
+  langs:
+  - csharp
+  - vb
+  name: FollowersCount
+  nameWithType: UserData.FollowersCount
+  fullName: Mewdeko.Modules.Searches.Common.UserData.FollowersCount
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: FollowersCount
+    path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+    startLine: 36
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the number of followers of the user.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("followers_count")]
+
+      public int FollowersCount { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <JsonProperty("followers_count")>
+
+      Public Property FollowersCount As Integer
+  overload: Mewdeko.Modules.Searches.Common.UserData.FollowersCount*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: followers_count
+- uid: Mewdeko.Modules.Searches.Common.UserData.Id
+  commentId: P:Mewdeko.Modules.Searches.Common.UserData.Id
+  id: Id
+  parent: Mewdeko.Modules.Searches.Common.UserData
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: UserData.Id
+  fullName: Mewdeko.Modules.Searches.Common.UserData.Id
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Id
+    path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+    startLine: 42
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the unique ID of the user.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("id")]
+
+      public int Id { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <JsonProperty("id")>
+
+      Public Property Id As Integer
+  overload: Mewdeko.Modules.Searches.Common.UserData.Id*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: id
+- uid: Mewdeko.Modules.Searches.Common.UserData.LatestActivity
+  commentId: P:Mewdeko.Modules.Searches.Common.UserData.LatestActivity
+  id: LatestActivity
+  parent: Mewdeko.Modules.Searches.Common.UserData
+  langs:
+  - csharp
+  - vb
+  name: LatestActivity
+  nameWithType: UserData.LatestActivity
+  fullName: Mewdeko.Modules.Searches.Common.UserData.LatestActivity
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: LatestActivity
+    path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+    startLine: 48
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the latest activity timestamp of the user.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("latest_activity")]
+
+      public int LatestActivity { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <JsonProperty("latest_activity")>
+
+      Public Property LatestActivity As Integer
+  overload: Mewdeko.Modules.Searches.Common.UserData.LatestActivity*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: latest_activity
+- uid: Mewdeko.Modules.Searches.Common.UserData.PlayStyle
+  commentId: P:Mewdeko.Modules.Searches.Common.UserData.PlayStyle
+  id: PlayStyle
+  parent: Mewdeko.Modules.Searches.Common.UserData
+  langs:
+  - csharp
+  - vb
+  name: PlayStyle
+  nameWithType: UserData.PlayStyle
+  fullName: Mewdeko.Modules.Searches.Common.UserData.PlayStyle
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: PlayStyle
+    path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+    startLine: 54
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the play style of the user.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("play_style")]
+
+      public int PlayStyle { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <JsonProperty("play_style")>
+
+      Public Property PlayStyle As Integer
+  overload: Mewdeko.Modules.Searches.Common.UserData.PlayStyle*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: play_style
+- uid: Mewdeko.Modules.Searches.Common.UserData.Privileges
+  commentId: P:Mewdeko.Modules.Searches.Common.UserData.Privileges
+  id: Privileges
+  parent: Mewdeko.Modules.Searches.Common.UserData
+  langs:
+  - csharp
+  - vb
+  name: Privileges
+  nameWithType: UserData.Privileges
+  fullName: Mewdeko.Modules.Searches.Common.UserData.Privileges
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Privileges
+    path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+    startLine: 60
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the privileges of the user.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("privileges")]
+
+      public int Privileges { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <JsonProperty("privileges")>
+
+      Public Property Privileges As Integer
+  overload: Mewdeko.Modules.Searches.Common.UserData.Privileges*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: privileges
+- uid: Mewdeko.Modules.Searches.Common.UserData.RegisteredOn
+  commentId: P:Mewdeko.Modules.Searches.Common.UserData.RegisteredOn
+  id: RegisteredOn
+  parent: Mewdeko.Modules.Searches.Common.UserData
+  langs:
+  - csharp
+  - vb
+  name: RegisteredOn
+  nameWithType: UserData.RegisteredOn
+  fullName: Mewdeko.Modules.Searches.Common.UserData.RegisteredOn
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RegisteredOn
+    path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+    startLine: 66
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the registration timestamp of the user.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("registered_on")]
+
+      public int RegisteredOn { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <JsonProperty("registered_on")>
+
+      Public Property RegisteredOn As Integer
+  overload: Mewdeko.Modules.Searches.Common.UserData.RegisteredOn*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: registered_on
+- uid: Mewdeko.Modules.Searches.Common.UserData.Username
+  commentId: P:Mewdeko.Modules.Searches.Common.UserData.Username
+  id: Username
+  parent: Mewdeko.Modules.Searches.Common.UserData
+  langs:
+  - csharp
+  - vb
+  name: Username
+  nameWithType: UserData.Username
+  fullName: Mewdeko.Modules.Searches.Common.UserData.Username
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Username
+    path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+    startLine: 72
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the username of the user.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("username")]
+
+      public string Username { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("username")>
+
+      Public Property Username As String
+  overload: Mewdeko.Modules.Searches.Common.UserData.Username*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: username
+- uid: Mewdeko.Modules.Searches.Common.UserData.UsernameAka
+  commentId: P:Mewdeko.Modules.Searches.Common.UserData.UsernameAka
+  id: UsernameAka
+  parent: Mewdeko.Modules.Searches.Common.UserData
+  langs:
+  - csharp
+  - vb
+  name: UsernameAka
+  nameWithType: UserData.UsernameAka
+  fullName: Mewdeko.Modules.Searches.Common.UserData.UsernameAka
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UsernameAka
+    path: src/Mewdeko/Modules/Searches/Common/GatariUserResponse.cs
+    startLine: 78
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the alternative known as (aka) username of the user.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("username_aka")]
+
+      public string UsernameAka { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("username_aka")>
+
+      Public Property UsernameAka As String
+  overload: Mewdeko.Modules.Searches.Common.UserData.UsernameAka*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: username_aka
+references:
+- uid: Mewdeko.Modules.Searches.Common
+  commentId: N:Mewdeko.Modules.Searches.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Common
+  nameWithType: Mewdeko.Modules.Searches.Common
+  fullName: Mewdeko.Modules.Searches.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Searches.Common.UserData.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<UserData>(UserData, string)
+  nameWithType: Extensions.ThrowIfNull<UserData>(UserData, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Searches.Common.UserData>(Mewdeko.Modules.Searches.Common.UserData, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of UserData)(UserData, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Searches.Common.UserData)(Mewdeko.Modules.Searches.Common.UserData, String)
+  name.vb: ThrowIfNull(Of UserData)(UserData, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Common.UserData,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.UserData
+    name: UserData
+    href: Mewdeko.Modules.Searches.Common.UserData.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Common.UserData
+    name: UserData
+    href: Mewdeko.Modules.Searches.Common.UserData.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Common.UserData,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.UserData
+    name: UserData
+    href: Mewdeko.Modules.Searches.Common.UserData.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Common.UserData
+    name: UserData
+    href: Mewdeko.Modules.Searches.Common.UserData.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Searches.Common.UserData.Abbr*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.UserData.Abbr
+  href: Mewdeko.Modules.Searches.Common.UserData.html#Mewdeko_Modules_Searches_Common_UserData_Abbr
+  name: Abbr
+  nameWithType: UserData.Abbr
+  fullName: Mewdeko.Modules.Searches.Common.UserData.Abbr
+- uid: Mewdeko.Modules.Searches.Common.UserData.Clanid*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.UserData.Clanid
+  href: Mewdeko.Modules.Searches.Common.UserData.html#Mewdeko_Modules_Searches_Common_UserData_Clanid
+  name: Clanid
+  nameWithType: UserData.Clanid
+  fullName: Mewdeko.Modules.Searches.Common.UserData.Clanid
+- uid: Mewdeko.Modules.Searches.Common.UserData.Country*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.UserData.Country
+  href: Mewdeko.Modules.Searches.Common.UserData.html#Mewdeko_Modules_Searches_Common_UserData_Country
+  name: Country
+  nameWithType: UserData.Country
+  fullName: Mewdeko.Modules.Searches.Common.UserData.Country
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Modules.Searches.Common.UserData.FavouriteMode*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.UserData.FavouriteMode
+  href: Mewdeko.Modules.Searches.Common.UserData.html#Mewdeko_Modules_Searches_Common_UserData_FavouriteMode
+  name: FavouriteMode
+  nameWithType: UserData.FavouriteMode
+  fullName: Mewdeko.Modules.Searches.Common.UserData.FavouriteMode
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Modules.Searches.Common.UserData.FollowersCount*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.UserData.FollowersCount
+  href: Mewdeko.Modules.Searches.Common.UserData.html#Mewdeko_Modules_Searches_Common_UserData_FollowersCount
+  name: FollowersCount
+  nameWithType: UserData.FollowersCount
+  fullName: Mewdeko.Modules.Searches.Common.UserData.FollowersCount
+- uid: Mewdeko.Modules.Searches.Common.UserData.Id*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.UserData.Id
+  href: Mewdeko.Modules.Searches.Common.UserData.html#Mewdeko_Modules_Searches_Common_UserData_Id
+  name: Id
+  nameWithType: UserData.Id
+  fullName: Mewdeko.Modules.Searches.Common.UserData.Id
+- uid: Mewdeko.Modules.Searches.Common.UserData.LatestActivity*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.UserData.LatestActivity
+  href: Mewdeko.Modules.Searches.Common.UserData.html#Mewdeko_Modules_Searches_Common_UserData_LatestActivity
+  name: LatestActivity
+  nameWithType: UserData.LatestActivity
+  fullName: Mewdeko.Modules.Searches.Common.UserData.LatestActivity
+- uid: Mewdeko.Modules.Searches.Common.UserData.PlayStyle*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.UserData.PlayStyle
+  href: Mewdeko.Modules.Searches.Common.UserData.html#Mewdeko_Modules_Searches_Common_UserData_PlayStyle
+  name: PlayStyle
+  nameWithType: UserData.PlayStyle
+  fullName: Mewdeko.Modules.Searches.Common.UserData.PlayStyle
+- uid: Mewdeko.Modules.Searches.Common.UserData.Privileges*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.UserData.Privileges
+  href: Mewdeko.Modules.Searches.Common.UserData.html#Mewdeko_Modules_Searches_Common_UserData_Privileges
+  name: Privileges
+  nameWithType: UserData.Privileges
+  fullName: Mewdeko.Modules.Searches.Common.UserData.Privileges
+- uid: Mewdeko.Modules.Searches.Common.UserData.RegisteredOn*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.UserData.RegisteredOn
+  href: Mewdeko.Modules.Searches.Common.UserData.html#Mewdeko_Modules_Searches_Common_UserData_RegisteredOn
+  name: RegisteredOn
+  nameWithType: UserData.RegisteredOn
+  fullName: Mewdeko.Modules.Searches.Common.UserData.RegisteredOn
+- uid: Mewdeko.Modules.Searches.Common.UserData.Username*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.UserData.Username
+  href: Mewdeko.Modules.Searches.Common.UserData.html#Mewdeko_Modules_Searches_Common_UserData_Username
+  name: Username
+  nameWithType: UserData.Username
+  fullName: Mewdeko.Modules.Searches.Common.UserData.Username
+- uid: Mewdeko.Modules.Searches.Common.UserData.UsernameAka*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.UserData.UsernameAka
+  href: Mewdeko.Modules.Searches.Common.UserData.html#Mewdeko_Modules_Searches_Common_UserData_UsernameAka
+  name: UsernameAka
+  nameWithType: UserData.UsernameAka
+  fullName: Mewdeko.Modules.Searches.Common.UserData.UsernameAka

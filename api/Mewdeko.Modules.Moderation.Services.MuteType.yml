@@ -1,0 +1,163 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Moderation.Services.MuteType
+  commentId: T:Mewdeko.Modules.Moderation.Services.MuteType
+  id: MuteType
+  parent: Mewdeko.Modules.Moderation.Services
+  children:
+  - Mewdeko.Modules.Moderation.Services.MuteType.All
+  - Mewdeko.Modules.Moderation.Services.MuteType.Chat
+  - Mewdeko.Modules.Moderation.Services.MuteType.Voice
+  langs:
+  - csharp
+  - vb
+  name: MuteType
+  nameWithType: MuteType
+  fullName: Mewdeko.Modules.Moderation.Services.MuteType
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MuteType
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 10
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Represents the type of mute.
+  example: []
+  syntax:
+    content: public enum MuteType
+    content.vb: Public Enum MuteType
+- uid: Mewdeko.Modules.Moderation.Services.MuteType.Voice
+  commentId: F:Mewdeko.Modules.Moderation.Services.MuteType.Voice
+  id: Voice
+  parent: Mewdeko.Modules.Moderation.Services.MuteType
+  langs:
+  - csharp
+  - vb
+  name: Voice
+  nameWithType: MuteType.Voice
+  fullName: Mewdeko.Modules.Moderation.Services.MuteType.Voice
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Voice
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 15
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Voice mute.
+  example: []
+  syntax:
+    content: Voice = 0
+    return:
+      type: Mewdeko.Modules.Moderation.Services.MuteType
+- uid: Mewdeko.Modules.Moderation.Services.MuteType.Chat
+  commentId: F:Mewdeko.Modules.Moderation.Services.MuteType.Chat
+  id: Chat
+  parent: Mewdeko.Modules.Moderation.Services.MuteType
+  langs:
+  - csharp
+  - vb
+  name: Chat
+  nameWithType: MuteType.Chat
+  fullName: Mewdeko.Modules.Moderation.Services.MuteType.Chat
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Chat
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 20
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Chat mute.
+  example: []
+  syntax:
+    content: Chat = 1
+    return:
+      type: Mewdeko.Modules.Moderation.Services.MuteType
+- uid: Mewdeko.Modules.Moderation.Services.MuteType.All
+  commentId: F:Mewdeko.Modules.Moderation.Services.MuteType.All
+  id: All
+  parent: Mewdeko.Modules.Moderation.Services.MuteType
+  langs:
+  - csharp
+  - vb
+  name: All
+  nameWithType: MuteType.All
+  fullName: Mewdeko.Modules.Moderation.Services.MuteType.All
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: All
+    path: src/Mewdeko/Modules/Moderation/Services/MuteService.cs
+    startLine: 25
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Moderation.Services
+  summary: Mute in both voice and chat.
+  example: []
+  syntax:
+    content: All = 2
+    return:
+      type: Mewdeko.Modules.Moderation.Services.MuteType
+references:
+- uid: Mewdeko.Modules.Moderation.Services
+  commentId: N:Mewdeko.Modules.Moderation.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Moderation.Services
+  nameWithType: Mewdeko.Modules.Moderation.Services
+  fullName: Mewdeko.Modules.Moderation.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation
+    name: Moderation
+    href: Mewdeko.Modules.Moderation.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation.Services
+    name: Services
+    href: Mewdeko.Modules.Moderation.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation
+    name: Moderation
+    href: Mewdeko.Modules.Moderation.html
+  - name: .
+  - uid: Mewdeko.Modules.Moderation.Services
+    name: Services
+    href: Mewdeko.Modules.Moderation.Services.html
+- uid: Mewdeko.Modules.Moderation.Services.MuteType
+  commentId: T:Mewdeko.Modules.Moderation.Services.MuteType
+  parent: Mewdeko.Modules.Moderation.Services
+  href: Mewdeko.Modules.Moderation.Services.MuteType.html
+  name: MuteType
+  nameWithType: MuteType
+  fullName: Mewdeko.Modules.Moderation.Services.MuteType
