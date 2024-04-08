@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Common.JsonConverters
   commentId: N:Mewdeko.Common.JsonConverters
-  id: Mewdeko.Common.JsonConverters
+  id: JsonConverters
+  parent: Mewdeko.Common
   children:
   - Mewdeko.Common.JsonConverters.CultureInfoConverter
   - Mewdeko.Common.JsonConverters.SkColorConverter
@@ -17,18 +18,18 @@ items:
   assemblies:
   - Mewdeko
 references:
-- uid: Mewdeko.Common.JsonConverters.SkColorConverter
-  commentId: T:Mewdeko.Common.JsonConverters.SkColorConverter
-  href: Mewdeko.Common.JsonConverters.SkColorConverter.html
-  name: SkColorConverter
-  nameWithType: SkColorConverter
-  fullName: Mewdeko.Common.JsonConverters.SkColorConverter
 - uid: Mewdeko.Common.JsonConverters.CultureInfoConverter
   commentId: T:Mewdeko.Common.JsonConverters.CultureInfoConverter
   href: Mewdeko.Common.JsonConverters.CultureInfoConverter.html
   name: CultureInfoConverter
   nameWithType: CultureInfoConverter
   fullName: Mewdeko.Common.JsonConverters.CultureInfoConverter
+- uid: Mewdeko.Common.JsonConverters.SkColorConverter
+  commentId: T:Mewdeko.Common.JsonConverters.SkColorConverter
+  href: Mewdeko.Common.JsonConverters.SkColorConverter.html
+  name: SkColorConverter
+  nameWithType: SkColorConverter
+  fullName: Mewdeko.Common.JsonConverters.SkColorConverter
 - uid: Mewdeko.Common.JsonConverters.StringToIntConverter
   commentId: T:Mewdeko.Common.JsonConverters.StringToIntConverter
   parent: Mewdeko.Common.JsonConverters

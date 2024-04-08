@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Suggestions.Services
   commentId: N:Mewdeko.Modules.Suggestions.Services
-  id: Mewdeko.Modules.Suggestions.Services
+  id: Services
+  parent: Mewdeko.Modules.Suggestions
   children:
   - Mewdeko.Modules.Suggestions.Services.SuggestButtonService
   - Mewdeko.Modules.Suggestions.Services.SuggestionsService

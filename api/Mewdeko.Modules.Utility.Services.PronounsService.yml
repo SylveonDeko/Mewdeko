@@ -98,7 +98,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetPronounsOrUnspecifiedAsync
     path: src/Mewdeko/Modules/Utility/Services/PronounsService.cs
-    startLine: 19
+    startLine: 18
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility.Services

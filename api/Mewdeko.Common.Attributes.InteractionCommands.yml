@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Common.Attributes.InteractionCommands
   commentId: N:Mewdeko.Common.Attributes.InteractionCommands
-  id: Mewdeko.Common.Attributes.InteractionCommands
+  id: InteractionCommands
+  parent: Mewdeko.Common.Attributes
   children:
   - Mewdeko.Common.Attributes.InteractionCommands.CheckPermissions
   - Mewdeko.Common.Attributes.InteractionCommands.InteractionRatelimitAttribute

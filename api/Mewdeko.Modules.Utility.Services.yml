@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Utility.Services
   commentId: N:Mewdeko.Modules.Utility.Services
-  id: Mewdeko.Modules.Utility.Services
+  id: Services
+  parent: Mewdeko.Modules.Utility
   children:
   - Mewdeko.Modules.Utility.Services.AutoPublishService
   - Mewdeko.Modules.Utility.Services.CommandAliasEqualityComparer
@@ -38,30 +39,24 @@ references:
   name: AutoPublishService
   nameWithType: AutoPublishService
   fullName: Mewdeko.Modules.Utility.Services.AutoPublishService
-- uid: Mewdeko.Modules.Utility.Services.CommandMapService
-  commentId: T:Mewdeko.Modules.Utility.Services.CommandMapService
-  href: Mewdeko.Modules.Utility.Services.CommandMapService.html
-  name: CommandMapService
-  nameWithType: CommandMapService
-  fullName: Mewdeko.Modules.Utility.Services.CommandMapService
 - uid: Mewdeko.Modules.Utility.Services.CommandAliasEqualityComparer
   commentId: T:Mewdeko.Modules.Utility.Services.CommandAliasEqualityComparer
   href: Mewdeko.Modules.Utility.Services.CommandAliasEqualityComparer.html
   name: CommandAliasEqualityComparer
   nameWithType: CommandAliasEqualityComparer
   fullName: Mewdeko.Modules.Utility.Services.CommandAliasEqualityComparer
+- uid: Mewdeko.Modules.Utility.Services.CommandMapService
+  commentId: T:Mewdeko.Modules.Utility.Services.CommandMapService
+  href: Mewdeko.Modules.Utility.Services.CommandMapService.html
+  name: CommandMapService
+  nameWithType: CommandMapService
+  fullName: Mewdeko.Modules.Utility.Services.CommandMapService
 - uid: Mewdeko.Modules.Utility.Services.ConverterService
   commentId: T:Mewdeko.Modules.Utility.Services.ConverterService
   href: Mewdeko.Modules.Utility.Services.ConverterService.html
   name: ConverterService
   nameWithType: ConverterService
   fullName: Mewdeko.Modules.Utility.Services.ConverterService
-- uid: Mewdeko.Modules.Utility.Services.Rates
-  commentId: T:Mewdeko.Modules.Utility.Services.Rates
-  href: Mewdeko.Modules.Utility.Services.Rates.html
-  name: Rates
-  nameWithType: Rates
-  fullName: Mewdeko.Modules.Utility.Services.Rates
 - uid: Mewdeko.Modules.Utility.Services.DllVersionChecker
   commentId: T:Mewdeko.Modules.Utility.Services.DllVersionChecker
   href: Mewdeko.Modules.Utility.Services.DllVersionChecker.html
@@ -122,6 +117,12 @@ references:
   name: PronounsService
   nameWithType: PronounsService
   fullName: Mewdeko.Modules.Utility.Services.PronounsService
+- uid: Mewdeko.Modules.Utility.Services.Rates
+  commentId: T:Mewdeko.Modules.Utility.Services.Rates
+  href: Mewdeko.Modules.Utility.Services.Rates.html
+  name: Rates
+  nameWithType: Rates
+  fullName: Mewdeko.Modules.Utility.Services.Rates
 - uid: Mewdeko.Modules.Utility.Services.RemindService
   commentId: T:Mewdeko.Modules.Utility.Services.RemindService
   href: Mewdeko.Modules.Utility.Services.RemindService.html

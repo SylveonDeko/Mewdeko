@@ -2,8 +2,10 @@
 items:
 - uid: Mewdeko.Modules.Nsfw
   commentId: N:Mewdeko.Modules.Nsfw
-  id: Mewdeko.Modules.Nsfw
+  id: Nsfw
+  parent: Mewdeko.Modules
   children:
+  - Mewdeko.Modules.Nsfw.Common
   - Mewdeko.Modules.Nsfw.ISearchImagesService
   - Mewdeko.Modules.Nsfw.Nsfw
   - Mewdeko.Modules.Nsfw.SearchImageCacher
@@ -19,6 +21,44 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Modules.Nsfw.Common
+  commentId: N:Mewdeko.Modules.Nsfw.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Nsfw.Common
+  nameWithType: Mewdeko.Modules.Nsfw.Common
+  fullName: Mewdeko.Modules.Nsfw.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Nsfw
+    name: Nsfw
+    href: Mewdeko.Modules.Nsfw.html
+  - name: .
+  - uid: Mewdeko.Modules.Nsfw.Common
+    name: Common
+    href: Mewdeko.Modules.Nsfw.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Nsfw
+    name: Nsfw
+    href: Mewdeko.Modules.Nsfw.html
+  - name: .
+  - uid: Mewdeko.Modules.Nsfw.Common
+    name: Common
+    href: Mewdeko.Modules.Nsfw.Common.html
 - uid: Mewdeko.Modules.Nsfw.ISearchImagesService
   commentId: T:Mewdeko.Modules.Nsfw.ISearchImagesService
   parent: Mewdeko.Modules.Nsfw
@@ -39,18 +79,18 @@ references:
   name: SearchImageCacher
   nameWithType: SearchImageCacher
   fullName: Mewdeko.Modules.Nsfw.SearchImageCacher
-- uid: Mewdeko.Modules.Nsfw.UrlReply
-  commentId: T:Mewdeko.Modules.Nsfw.UrlReply
-  href: Mewdeko.Modules.Nsfw.UrlReply.html
-  name: UrlReply
-  nameWithType: UrlReply
-  fullName: Mewdeko.Modules.Nsfw.UrlReply
 - uid: Mewdeko.Modules.Nsfw.SearchImagesService
   commentId: T:Mewdeko.Modules.Nsfw.SearchImagesService
   href: Mewdeko.Modules.Nsfw.SearchImagesService.html
   name: SearchImagesService
   nameWithType: SearchImagesService
   fullName: Mewdeko.Modules.Nsfw.SearchImagesService
+- uid: Mewdeko.Modules.Nsfw.UrlReply
+  commentId: T:Mewdeko.Modules.Nsfw.UrlReply
+  href: Mewdeko.Modules.Nsfw.UrlReply.html
+  name: UrlReply
+  nameWithType: UrlReply
+  fullName: Mewdeko.Modules.Nsfw.UrlReply
 - uid: Mewdeko.Modules.Nsfw
   commentId: N:Mewdeko.Modules.Nsfw
   href: Mewdeko.html

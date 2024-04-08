@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Database.Models
   commentId: N:Mewdeko.Database.Models
-  id: Mewdeko.Database.Models
+  id: Models
+  parent: Mewdeko.Database
   children:
   - Mewdeko.Database.Models.Afk
   - Mewdeko.Database.Models.AntiAltSetting
@@ -168,26 +169,6 @@ references:
   name: Afk
   nameWithType: Afk
   fullName: Mewdeko.Database.Models.Afk
-- uid: Mewdeko.Database.Models.AntiRaidSetting
-  commentId: T:Mewdeko.Database.Models.AntiRaidSetting
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.AntiRaidSetting.html
-  name: AntiRaidSetting
-  nameWithType: AntiRaidSetting
-  fullName: Mewdeko.Database.Models.AntiRaidSetting
-- uid: Mewdeko.Database.Models.AntiSpamSetting
-  commentId: T:Mewdeko.Database.Models.AntiSpamSetting
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.AntiSpamSetting.html
-  name: AntiSpamSetting
-  nameWithType: AntiSpamSetting
-  fullName: Mewdeko.Database.Models.AntiSpamSetting
-- uid: Mewdeko.Database.Models.AntiMassMentionSetting
-  commentId: T:Mewdeko.Database.Models.AntiMassMentionSetting
-  href: Mewdeko.Database.Models.AntiMassMentionSetting.html
-  name: AntiMassMentionSetting
-  nameWithType: AntiMassMentionSetting
-  fullName: Mewdeko.Database.Models.AntiMassMentionSetting
 - uid: Mewdeko.Database.Models.AntiAltSetting
   commentId: T:Mewdeko.Database.Models.AntiAltSetting
   parent: Mewdeko.Database.Models
@@ -195,31 +176,44 @@ references:
   name: AntiAltSetting
   nameWithType: AntiAltSetting
   fullName: Mewdeko.Database.Models.AntiAltSetting
-- uid: Mewdeko.Database.Models.PunishmentAction
-  commentId: T:Mewdeko.Database.Models.PunishmentAction
+- uid: Mewdeko.Database.Models.AntiMassMentionSetting
+  commentId: T:Mewdeko.Database.Models.AntiMassMentionSetting
+  href: Mewdeko.Database.Models.AntiMassMentionSetting.html
+  name: AntiMassMentionSetting
+  nameWithType: AntiMassMentionSetting
+  fullName: Mewdeko.Database.Models.AntiMassMentionSetting
+- uid: Mewdeko.Database.Models.AntiRaidSetting
+  commentId: T:Mewdeko.Database.Models.AntiRaidSetting
   parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.PunishmentAction.html
-  name: PunishmentAction
-  nameWithType: PunishmentAction
-  fullName: Mewdeko.Database.Models.PunishmentAction
+  href: Mewdeko.Database.Models.AntiRaidSetting.html
+  name: AntiRaidSetting
+  nameWithType: AntiRaidSetting
+  fullName: Mewdeko.Database.Models.AntiRaidSetting
 - uid: Mewdeko.Database.Models.AntiSpamIgnore
   commentId: T:Mewdeko.Database.Models.AntiSpamIgnore
   href: Mewdeko.Database.Models.AntiSpamIgnore.html
   name: AntiSpamIgnore
   nameWithType: AntiSpamIgnore
   fullName: Mewdeko.Database.Models.AntiSpamIgnore
-- uid: Mewdeko.Database.Models.AutoBanRoles
-  commentId: T:Mewdeko.Database.Models.AutoBanRoles
-  href: Mewdeko.Database.Models.AutoBanRoles.html
-  name: AutoBanRoles
-  nameWithType: AutoBanRoles
-  fullName: Mewdeko.Database.Models.AutoBanRoles
+- uid: Mewdeko.Database.Models.AntiSpamSetting
+  commentId: T:Mewdeko.Database.Models.AntiSpamSetting
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.AntiSpamSetting.html
+  name: AntiSpamSetting
+  nameWithType: AntiSpamSetting
+  fullName: Mewdeko.Database.Models.AntiSpamSetting
 - uid: Mewdeko.Database.Models.AutoBanEntry
   commentId: T:Mewdeko.Database.Models.AutoBanEntry
   href: Mewdeko.Database.Models.AutoBanEntry.html
   name: AutoBanEntry
   nameWithType: AutoBanEntry
   fullName: Mewdeko.Database.Models.AutoBanEntry
+- uid: Mewdeko.Database.Models.AutoBanRoles
+  commentId: T:Mewdeko.Database.Models.AutoBanRoles
+  href: Mewdeko.Database.Models.AutoBanRoles.html
+  name: AutoBanRoles
+  nameWithType: AutoBanRoles
+  fullName: Mewdeko.Database.Models.AutoBanRoles
 - uid: Mewdeko.Database.Models.AutoCommand
   commentId: T:Mewdeko.Database.Models.AutoCommand
   parent: Mewdeko.Database.Models
@@ -227,12 +221,25 @@ references:
   name: AutoCommand
   nameWithType: AutoCommand
   fullName: Mewdeko.Database.Models.AutoCommand
+- uid: Mewdeko.Database.Models.AutoDisconnect
+  commentId: T:Mewdeko.Database.Models.AutoDisconnect
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.AutoDisconnect.html
+  name: AutoDisconnect
+  nameWithType: AutoDisconnect
+  fullName: Mewdeko.Database.Models.AutoDisconnect
 - uid: Mewdeko.Database.Models.AutoPublish
   commentId: T:Mewdeko.Database.Models.AutoPublish
   href: Mewdeko.Database.Models.AutoPublish.html
   name: AutoPublish
   nameWithType: AutoPublish
   fullName: Mewdeko.Database.Models.AutoPublish
+- uid: Mewdeko.Database.Models.AwardedUser
+  commentId: T:Mewdeko.Database.Models.AwardedUser
+  href: Mewdeko.Database.Models.AwardedUser.html
+  name: AwardedUser
+  nameWithType: AwardedUser
+  fullName: Mewdeko.Database.Models.AwardedUser
 - uid: Mewdeko.Database.Models.BanTemplate
   commentId: T:Mewdeko.Database.Models.BanTemplate
   href: Mewdeko.Database.Models.BanTemplate.html
@@ -252,33 +259,58 @@ references:
   name: BlacklistType
   nameWithType: BlacklistType
   fullName: Mewdeko.Database.Models.BlacklistType
-- uid: Mewdeko.Database.Models.ChatTriggers
-  commentId: T:Mewdeko.Database.Models.ChatTriggers
+- uid: Mewdeko.Database.Models.ChannelRestrictions
+  commentId: T:Mewdeko.Database.Models.ChannelRestrictions
+  href: Mewdeko.Database.Models.ChannelRestrictions.html
+  name: ChannelRestrictions
+  nameWithType: ChannelRestrictions
+  fullName: Mewdeko.Database.Models.ChannelRestrictions
+- uid: Mewdeko.Database.Models.ChannelRestrictions.AllowedImageTypesEnum
+  commentId: T:Mewdeko.Database.Models.ChannelRestrictions.AllowedImageTypesEnum
   parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.ChatTriggers.html
-  name: ChatTriggers
-  nameWithType: ChatTriggers
-  fullName: Mewdeko.Database.Models.ChatTriggers
-- uid: Mewdeko.Database.Models.ReactionResponse
-  commentId: T:Mewdeko.Database.Models.ReactionResponse
-  href: Mewdeko.Database.Models.ReactionResponse.html
-  name: ReactionResponse
-  nameWithType: ReactionResponse
-  fullName: Mewdeko.Database.Models.ReactionResponse
-- uid: Mewdeko.Database.Models.CtRoleGrantType
-  commentId: T:Mewdeko.Database.Models.CtRoleGrantType
+  href: Mewdeko.Database.Models.ChannelRestrictions.html
+  name: ChannelRestrictions.AllowedImageTypesEnum
+  nameWithType: ChannelRestrictions.AllowedImageTypesEnum
+  fullName: Mewdeko.Database.Models.ChannelRestrictions.AllowedImageTypesEnum
+  spec.csharp:
+  - uid: Mewdeko.Database.Models.ChannelRestrictions
+    name: ChannelRestrictions
+    href: Mewdeko.Database.Models.ChannelRestrictions.html
+  - name: .
+  - uid: Mewdeko.Database.Models.ChannelRestrictions.AllowedImageTypesEnum
+    name: AllowedImageTypesEnum
+    href: Mewdeko.Database.Models.ChannelRestrictions.AllowedImageTypesEnum.html
+  spec.vb:
+  - uid: Mewdeko.Database.Models.ChannelRestrictions
+    name: ChannelRestrictions
+    href: Mewdeko.Database.Models.ChannelRestrictions.html
+  - name: .
+  - uid: Mewdeko.Database.Models.ChannelRestrictions.AllowedImageTypesEnum
+    name: AllowedImageTypesEnum
+    href: Mewdeko.Database.Models.ChannelRestrictions.AllowedImageTypesEnum.html
+- uid: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
+  commentId: T:Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
   parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.CtRoleGrantType.html
-  name: CtRoleGrantType
-  nameWithType: CtRoleGrantType
-  fullName: Mewdeko.Database.Models.CtRoleGrantType
-- uid: Mewdeko.Database.Models.CtApplicationCommandType
-  commentId: T:Mewdeko.Database.Models.CtApplicationCommandType
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.CtApplicationCommandType.html
-  name: CtApplicationCommandType
-  nameWithType: CtApplicationCommandType
-  fullName: Mewdeko.Database.Models.CtApplicationCommandType
+  href: Mewdeko.Database.Models.ChannelRestrictions.html
+  name: ChannelRestrictions.ChannelActionEnum
+  nameWithType: ChannelRestrictions.ChannelActionEnum
+  fullName: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
+  spec.csharp:
+  - uid: Mewdeko.Database.Models.ChannelRestrictions
+    name: ChannelRestrictions
+    href: Mewdeko.Database.Models.ChannelRestrictions.html
+  - name: .
+  - uid: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
+    name: ChannelActionEnum
+    href: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.html
+  spec.vb:
+  - uid: Mewdeko.Database.Models.ChannelRestrictions
+    name: ChannelRestrictions
+    href: Mewdeko.Database.Models.ChannelRestrictions.html
+  - name: .
+  - uid: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
+    name: ChannelActionEnum
+    href: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.html
 - uid: Mewdeko.Database.Models.ChatTriggerType
   commentId: T:Mewdeko.Database.Models.ChatTriggerType
   parent: Mewdeko.Database.Models
@@ -286,20 +318,13 @@ references:
   name: ChatTriggerType
   nameWithType: ChatTriggerType
   fullName: Mewdeko.Database.Models.ChatTriggerType
-- uid: Mewdeko.Database.Models.RequirePrefixType
-  commentId: T:Mewdeko.Database.Models.RequirePrefixType
+- uid: Mewdeko.Database.Models.ChatTriggers
+  commentId: T:Mewdeko.Database.Models.ChatTriggers
   parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.RequirePrefixType.html
-  name: RequirePrefixType
-  nameWithType: RequirePrefixType
-  fullName: Mewdeko.Database.Models.RequirePrefixType
-- uid: Mewdeko.Database.Models.ClubInfo
-  commentId: T:Mewdeko.Database.Models.ClubInfo
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.ClubInfo.html
-  name: ClubInfo
-  nameWithType: ClubInfo
-  fullName: Mewdeko.Database.Models.ClubInfo
+  href: Mewdeko.Database.Models.ChatTriggers.html
+  name: ChatTriggers
+  nameWithType: ChatTriggers
+  fullName: Mewdeko.Database.Models.ChatTriggers
 - uid: Mewdeko.Database.Models.ClubApplicants
   commentId: T:Mewdeko.Database.Models.ClubApplicants
   href: Mewdeko.Database.Models.ClubApplicants.html
@@ -312,6 +337,13 @@ references:
   name: ClubBans
   nameWithType: ClubBans
   fullName: Mewdeko.Database.Models.ClubBans
+- uid: Mewdeko.Database.Models.ClubInfo
+  commentId: T:Mewdeko.Database.Models.ClubInfo
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.ClubInfo.html
+  name: ClubInfo
+  nameWithType: ClubInfo
+  fullName: Mewdeko.Database.Models.ClubInfo
 - uid: Mewdeko.Database.Models.CommandAlias
   commentId: T:Mewdeko.Database.Models.CommandAlias
   parent: Mewdeko.Database.Models
@@ -337,78 +369,20 @@ references:
   name: Confessions
   nameWithType: Confessions
   fullName: Mewdeko.Database.Models.Confessions
-- uid: Mewdeko.Database.Models.DbEntity
-  commentId: T:Mewdeko.Database.Models.DbEntity
+- uid: Mewdeko.Database.Models.CtApplicationCommandType
+  commentId: T:Mewdeko.Database.Models.CtApplicationCommandType
   parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.DbEntity.html
-  name: DbEntity
-  nameWithType: DbEntity
-  fullName: Mewdeko.Database.Models.DbEntity
-- uid: Mewdeko.Database.Models.DelMsgOnCmdChannel
-  commentId: T:Mewdeko.Database.Models.DelMsgOnCmdChannel
-  href: Mewdeko.Database.Models.DelMsgOnCmdChannel.html
-  name: DelMsgOnCmdChannel
-  nameWithType: DelMsgOnCmdChannel
-  fullName: Mewdeko.Database.Models.DelMsgOnCmdChannel
-- uid: Mewdeko.Database.Models.DiscordPermOverride
-  commentId: T:Mewdeko.Database.Models.DiscordPermOverride
-  href: Mewdeko.Database.Models.DiscordPermOverride.html
-  name: DiscordPermOverride
-  nameWithType: DiscordPermOverride
-  fullName: Mewdeko.Database.Models.DiscordPermOverride
-- uid: Mewdeko.Database.Models.DiscordUser
-  commentId: T:Mewdeko.Database.Models.DiscordUser
+  href: Mewdeko.Database.Models.CtApplicationCommandType.html
+  name: CtApplicationCommandType
+  nameWithType: CtApplicationCommandType
+  fullName: Mewdeko.Database.Models.CtApplicationCommandType
+- uid: Mewdeko.Database.Models.CtRoleGrantType
+  commentId: T:Mewdeko.Database.Models.CtRoleGrantType
   parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.DiscordUser.html
-  name: DiscordUser
-  nameWithType: DiscordUser
-  fullName: Mewdeko.Database.Models.DiscordUser
-- uid: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
-  commentId: T:Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.DiscordUser.html
-  name: DiscordUser.ProfilePrivacyEnum
-  nameWithType: DiscordUser.ProfilePrivacyEnum
-  fullName: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
-  spec.csharp:
-  - uid: Mewdeko.Database.Models.DiscordUser
-    name: DiscordUser
-    href: Mewdeko.Database.Models.DiscordUser.html
-  - name: .
-  - uid: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
-    name: ProfilePrivacyEnum
-    href: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum.html
-  spec.vb:
-  - uid: Mewdeko.Database.Models.DiscordUser
-    name: DiscordUser
-    href: Mewdeko.Database.Models.DiscordUser.html
-  - name: .
-  - uid: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
-    name: ProfilePrivacyEnum
-    href: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum.html
-- uid: Mewdeko.Database.Models.DiscordUser.BirthdayDisplayModeEnum
-  commentId: T:Mewdeko.Database.Models.DiscordUser.BirthdayDisplayModeEnum
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.DiscordUser.html
-  name: DiscordUser.BirthdayDisplayModeEnum
-  nameWithType: DiscordUser.BirthdayDisplayModeEnum
-  fullName: Mewdeko.Database.Models.DiscordUser.BirthdayDisplayModeEnum
-  spec.csharp:
-  - uid: Mewdeko.Database.Models.DiscordUser
-    name: DiscordUser
-    href: Mewdeko.Database.Models.DiscordUser.html
-  - name: .
-  - uid: Mewdeko.Database.Models.DiscordUser.BirthdayDisplayModeEnum
-    name: BirthdayDisplayModeEnum
-    href: Mewdeko.Database.Models.DiscordUser.BirthdayDisplayModeEnum.html
-  spec.vb:
-  - uid: Mewdeko.Database.Models.DiscordUser
-    name: DiscordUser
-    href: Mewdeko.Database.Models.DiscordUser.html
-  - name: .
-  - uid: Mewdeko.Database.Models.DiscordUser.BirthdayDisplayModeEnum
-    name: BirthdayDisplayModeEnum
-    href: Mewdeko.Database.Models.DiscordUser.BirthdayDisplayModeEnum.html
+  href: Mewdeko.Database.Models.CtRoleGrantType.html
+  name: CtRoleGrantType
+  nameWithType: CtRoleGrantType
+  fullName: Mewdeko.Database.Models.CtRoleGrantType
 - uid: Mewdeko.Database.Models.CurrencyEvent
   commentId: T:Mewdeko.Database.Models.CurrencyEvent
   href: Mewdeko.Database.Models.CurrencyEvent.html
@@ -438,12 +412,91 @@ references:
   - uid: Mewdeko.Database.Models.CurrencyEvent.Type
     name: Type
     href: Mewdeko.Database.Models.CurrencyEvent.Type.html
-- uid: Mewdeko.Database.Models.AwardedUser
-  commentId: T:Mewdeko.Database.Models.AwardedUser
-  href: Mewdeko.Database.Models.AwardedUser.html
-  name: AwardedUser
-  nameWithType: AwardedUser
-  fullName: Mewdeko.Database.Models.AwardedUser
+- uid: Mewdeko.Database.Models.DbEntity
+  commentId: T:Mewdeko.Database.Models.DbEntity
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.DbEntity.html
+  name: DbEntity
+  nameWithType: DbEntity
+  fullName: Mewdeko.Database.Models.DbEntity
+- uid: Mewdeko.Database.Models.DelMsgOnCmdChannel
+  commentId: T:Mewdeko.Database.Models.DelMsgOnCmdChannel
+  href: Mewdeko.Database.Models.DelMsgOnCmdChannel.html
+  name: DelMsgOnCmdChannel
+  nameWithType: DelMsgOnCmdChannel
+  fullName: Mewdeko.Database.Models.DelMsgOnCmdChannel
+- uid: Mewdeko.Database.Models.DiscordPermOverride
+  commentId: T:Mewdeko.Database.Models.DiscordPermOverride
+  href: Mewdeko.Database.Models.DiscordPermOverride.html
+  name: DiscordPermOverride
+  nameWithType: DiscordPermOverride
+  fullName: Mewdeko.Database.Models.DiscordPermOverride
+- uid: Mewdeko.Database.Models.DiscordUser
+  commentId: T:Mewdeko.Database.Models.DiscordUser
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.DiscordUser.html
+  name: DiscordUser
+  nameWithType: DiscordUser
+  fullName: Mewdeko.Database.Models.DiscordUser
+- uid: Mewdeko.Database.Models.DiscordUser.BirthdayDisplayModeEnum
+  commentId: T:Mewdeko.Database.Models.DiscordUser.BirthdayDisplayModeEnum
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.DiscordUser.html
+  name: DiscordUser.BirthdayDisplayModeEnum
+  nameWithType: DiscordUser.BirthdayDisplayModeEnum
+  fullName: Mewdeko.Database.Models.DiscordUser.BirthdayDisplayModeEnum
+  spec.csharp:
+  - uid: Mewdeko.Database.Models.DiscordUser
+    name: DiscordUser
+    href: Mewdeko.Database.Models.DiscordUser.html
+  - name: .
+  - uid: Mewdeko.Database.Models.DiscordUser.BirthdayDisplayModeEnum
+    name: BirthdayDisplayModeEnum
+    href: Mewdeko.Database.Models.DiscordUser.BirthdayDisplayModeEnum.html
+  spec.vb:
+  - uid: Mewdeko.Database.Models.DiscordUser
+    name: DiscordUser
+    href: Mewdeko.Database.Models.DiscordUser.html
+  - name: .
+  - uid: Mewdeko.Database.Models.DiscordUser.BirthdayDisplayModeEnum
+    name: BirthdayDisplayModeEnum
+    href: Mewdeko.Database.Models.DiscordUser.BirthdayDisplayModeEnum.html
+- uid: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
+  commentId: T:Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.DiscordUser.html
+  name: DiscordUser.ProfilePrivacyEnum
+  nameWithType: DiscordUser.ProfilePrivacyEnum
+  fullName: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
+  spec.csharp:
+  - uid: Mewdeko.Database.Models.DiscordUser
+    name: DiscordUser
+    href: Mewdeko.Database.Models.DiscordUser.html
+  - name: .
+  - uid: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
+    name: ProfilePrivacyEnum
+    href: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum.html
+  spec.vb:
+  - uid: Mewdeko.Database.Models.DiscordUser
+    name: DiscordUser
+    href: Mewdeko.Database.Models.DiscordUser.html
+  - name: .
+  - uid: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum
+    name: ProfilePrivacyEnum
+    href: Mewdeko.Database.Models.DiscordUser.ProfilePrivacyEnum.html
+- uid: Mewdeko.Database.Models.ExcludedItem
+  commentId: T:Mewdeko.Database.Models.ExcludedItem
+  href: Mewdeko.Database.Models.ExcludedItem.html
+  name: ExcludedItem
+  nameWithType: ExcludedItem
+  fullName: Mewdeko.Database.Models.ExcludedItem
+- uid: Mewdeko.Database.Models.ExcludedItemType
+  commentId: T:Mewdeko.Database.Models.ExcludedItemType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.ExcludedItemType.html
+  name: ExcludedItemType
+  nameWithType: ExcludedItemType
+  fullName: Mewdeko.Database.Models.ExcludedItemType
 - uid: Mewdeko.Database.Models.FeedSub
   commentId: T:Mewdeko.Database.Models.FeedSub
   parent: Mewdeko.Database.Models
@@ -457,6 +510,12 @@ references:
   name: FilterInvitesChannelIds
   nameWithType: FilterInvitesChannelIds
   fullName: Mewdeko.Database.Models.FilterInvitesChannelIds
+- uid: Mewdeko.Database.Models.FilterLinksChannelId
+  commentId: T:Mewdeko.Database.Models.FilterLinksChannelId
+  href: Mewdeko.Database.Models.FilterLinksChannelId.html
+  name: FilterLinksChannelId
+  nameWithType: FilterLinksChannelId
+  fullName: Mewdeko.Database.Models.FilterLinksChannelId
 - uid: Mewdeko.Database.Models.FilterWordsChannelIds
   commentId: T:Mewdeko.Database.Models.FilterWordsChannelIds
   href: Mewdeko.Database.Models.FilterWordsChannelIds.html
@@ -469,12 +528,6 @@ references:
   name: FilteredWord
   nameWithType: FilteredWord
   fullName: Mewdeko.Database.Models.FilteredWord
-- uid: Mewdeko.Database.Models.FilterLinksChannelId
-  commentId: T:Mewdeko.Database.Models.FilterLinksChannelId
-  href: Mewdeko.Database.Models.FilterLinksChannelId.html
-  name: FilterLinksChannelId
-  nameWithType: FilterLinksChannelId
-  fullName: Mewdeko.Database.Models.FilterLinksChannelId
 - uid: Mewdeko.Database.Models.FollowedStream
   commentId: T:Mewdeko.Database.Models.FollowedStream
   parent: Mewdeko.Database.Models
@@ -511,6 +564,13 @@ references:
   name: GCChannelId
   nameWithType: GCChannelId
   fullName: Mewdeko.Database.Models.GCChannelId
+- uid: Mewdeko.Database.Models.GbActionType
+  commentId: T:Mewdeko.Database.Models.GbActionType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.GbActionType.html
+  name: GbActionType
+  nameWithType: GbActionType
+  fullName: Mewdeko.Database.Models.GbActionType
 - uid: Mewdeko.Database.Models.Giveaways
   commentId: T:Mewdeko.Database.Models.Giveaways
   parent: Mewdeko.Database.Models
@@ -524,13 +584,12 @@ references:
   name: GlobalBanConfig
   nameWithType: GlobalBanConfig
   fullName: Mewdeko.Database.Models.GlobalBanConfig
-- uid: Mewdeko.Database.Models.GbActionType
-  commentId: T:Mewdeko.Database.Models.GbActionType
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.GbActionType.html
-  name: GbActionType
-  nameWithType: GbActionType
-  fullName: Mewdeko.Database.Models.GbActionType
+- uid: Mewdeko.Database.Models.GlobalUserBalance
+  commentId: T:Mewdeko.Database.Models.GlobalUserBalance
+  href: Mewdeko.Database.Models.GlobalUserBalance.html
+  name: GlobalUserBalance
+  nameWithType: GlobalUserBalance
+  fullName: Mewdeko.Database.Models.GlobalUserBalance
 - uid: Mewdeko.Database.Models.GroupName
   commentId: T:Mewdeko.Database.Models.GroupName
   href: Mewdeko.Database.Models.GroupName.html
@@ -544,6 +603,18 @@ references:
   name: GuildConfig
   nameWithType: GuildConfig
   fullName: Mewdeko.Database.Models.GuildConfig
+- uid: Mewdeko.Database.Models.GuildUserBalance
+  commentId: T:Mewdeko.Database.Models.GuildUserBalance
+  href: Mewdeko.Database.Models.GuildUserBalance.html
+  name: GuildUserBalance
+  nameWithType: GuildUserBalance
+  fullName: Mewdeko.Database.Models.GuildUserBalance
+- uid: Mewdeko.Database.Models.HighlightSettings
+  commentId: T:Mewdeko.Database.Models.HighlightSettings
+  href: Mewdeko.Database.Models.HighlightSettings.html
+  name: HighlightSettings
+  nameWithType: HighlightSettings
+  fullName: Mewdeko.Database.Models.HighlightSettings
 - uid: Mewdeko.Database.Models.Highlights
   commentId: T:Mewdeko.Database.Models.Highlights
   parent: Mewdeko.Database.Models
@@ -551,12 +622,13 @@ references:
   name: Highlights
   nameWithType: Highlights
   fullName: Mewdeko.Database.Models.Highlights
-- uid: Mewdeko.Database.Models.HighlightSettings
-  commentId: T:Mewdeko.Database.Models.HighlightSettings
-  href: Mewdeko.Database.Models.HighlightSettings.html
-  name: HighlightSettings
-  nameWithType: HighlightSettings
-  fullName: Mewdeko.Database.Models.HighlightSettings
+- uid: Mewdeko.Database.Models.IIndexed
+  commentId: T:Mewdeko.Database.Models.IIndexed
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.IIndexed.html
+  name: IIndexed
+  nameWithType: IIndexed
+  fullName: Mewdeko.Database.Models.IIndexed
 - uid: Mewdeko.Database.Models.IgnoredLogChannel
   commentId: T:Mewdeko.Database.Models.IgnoredLogChannel
   href: Mewdeko.Database.Models.IgnoredLogChannel.html
@@ -569,58 +641,6 @@ references:
   name: IgnoredVoicePresenceChannel
   nameWithType: IgnoredVoicePresenceChannel
   fullName: Mewdeko.Database.Models.IgnoredVoicePresenceChannel
-- uid: Mewdeko.Database.Models.ChannelRestrictions
-  commentId: T:Mewdeko.Database.Models.ChannelRestrictions
-  href: Mewdeko.Database.Models.ChannelRestrictions.html
-  name: ChannelRestrictions
-  nameWithType: ChannelRestrictions
-  fullName: Mewdeko.Database.Models.ChannelRestrictions
-- uid: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
-  commentId: T:Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.ChannelRestrictions.html
-  name: ChannelRestrictions.ChannelActionEnum
-  nameWithType: ChannelRestrictions.ChannelActionEnum
-  fullName: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
-  spec.csharp:
-  - uid: Mewdeko.Database.Models.ChannelRestrictions
-    name: ChannelRestrictions
-    href: Mewdeko.Database.Models.ChannelRestrictions.html
-  - name: .
-  - uid: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
-    name: ChannelActionEnum
-    href: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.html
-  spec.vb:
-  - uid: Mewdeko.Database.Models.ChannelRestrictions
-    name: ChannelRestrictions
-    href: Mewdeko.Database.Models.ChannelRestrictions.html
-  - name: .
-  - uid: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
-    name: ChannelActionEnum
-    href: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.html
-- uid: Mewdeko.Database.Models.ChannelRestrictions.AllowedImageTypesEnum
-  commentId: T:Mewdeko.Database.Models.ChannelRestrictions.AllowedImageTypesEnum
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.ChannelRestrictions.html
-  name: ChannelRestrictions.AllowedImageTypesEnum
-  nameWithType: ChannelRestrictions.AllowedImageTypesEnum
-  fullName: Mewdeko.Database.Models.ChannelRestrictions.AllowedImageTypesEnum
-  spec.csharp:
-  - uid: Mewdeko.Database.Models.ChannelRestrictions
-    name: ChannelRestrictions
-    href: Mewdeko.Database.Models.ChannelRestrictions.html
-  - name: .
-  - uid: Mewdeko.Database.Models.ChannelRestrictions.AllowedImageTypesEnum
-    name: AllowedImageTypesEnum
-    href: Mewdeko.Database.Models.ChannelRestrictions.AllowedImageTypesEnum.html
-  spec.vb:
-  - uid: Mewdeko.Database.Models.ChannelRestrictions
-    name: ChannelRestrictions
-    href: Mewdeko.Database.Models.ChannelRestrictions.html
-  - name: .
-  - uid: Mewdeko.Database.Models.ChannelRestrictions.AllowedImageTypesEnum
-    name: AllowedImageTypesEnum
-    href: Mewdeko.Database.Models.ChannelRestrictions.AllowedImageTypesEnum.html
 - uid: Mewdeko.Database.Models.JoinLeaveLogs
   commentId: T:Mewdeko.Database.Models.JoinLeaveLogs
   href: Mewdeko.Database.Models.JoinLeaveLogs.html
@@ -659,6 +679,12 @@ references:
   name: MultiStarboard
   nameWithType: MultiStarboard
   fullName: Mewdeko.Database.Models.MultiStarboard
+- uid: Mewdeko.Database.Models.MusicPlayerSettings
+  commentId: T:Mewdeko.Database.Models.MusicPlayerSettings
+  href: Mewdeko.Database.Models.MusicPlayerSettings.html
+  name: MusicPlayerSettings
+  nameWithType: MusicPlayerSettings
+  fullName: Mewdeko.Database.Models.MusicPlayerSettings
 - uid: Mewdeko.Database.Models.MusicPlaylist
   commentId: T:Mewdeko.Database.Models.MusicPlaylist
   parent: Mewdeko.Database.Models
@@ -666,50 +692,12 @@ references:
   name: MusicPlaylist
   nameWithType: MusicPlaylist
   fullName: Mewdeko.Database.Models.MusicPlaylist
-- uid: Mewdeko.Database.Models.MusicPlayerSettings
-  commentId: T:Mewdeko.Database.Models.MusicPlayerSettings
-  href: Mewdeko.Database.Models.MusicPlayerSettings.html
-  name: MusicPlayerSettings
-  nameWithType: MusicPlayerSettings
-  fullName: Mewdeko.Database.Models.MusicPlayerSettings
-- uid: Mewdeko.Database.Models.AutoDisconnect
-  commentId: T:Mewdeko.Database.Models.AutoDisconnect
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.AutoDisconnect.html
-  name: AutoDisconnect
-  nameWithType: AutoDisconnect
-  fullName: Mewdeko.Database.Models.AutoDisconnect
-- uid: Mewdeko.Database.Models.PlayerRepeatType
-  commentId: T:Mewdeko.Database.Models.PlayerRepeatType
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.PlayerRepeatType.html
-  name: PlayerRepeatType
-  nameWithType: PlayerRepeatType
-  fullName: Mewdeko.Database.Models.PlayerRepeatType
 - uid: Mewdeko.Database.Models.MutedUserId
   commentId: T:Mewdeko.Database.Models.MutedUserId
   href: Mewdeko.Database.Models.MutedUserId.html
   name: MutedUserId
   nameWithType: MutedUserId
   fullName: Mewdeko.Database.Models.MutedUserId
-- uid: Mewdeko.Database.Models.GlobalUserBalance
-  commentId: T:Mewdeko.Database.Models.GlobalUserBalance
-  href: Mewdeko.Database.Models.GlobalUserBalance.html
-  name: GlobalUserBalance
-  nameWithType: GlobalUserBalance
-  fullName: Mewdeko.Database.Models.GlobalUserBalance
-- uid: Mewdeko.Database.Models.GuildUserBalance
-  commentId: T:Mewdeko.Database.Models.GuildUserBalance
-  href: Mewdeko.Database.Models.GuildUserBalance.html
-  name: GuildUserBalance
-  nameWithType: GuildUserBalance
-  fullName: Mewdeko.Database.Models.GuildUserBalance
-- uid: Mewdeko.Database.Models.TransactionHistory
-  commentId: T:Mewdeko.Database.Models.TransactionHistory
-  href: Mewdeko.Database.Models.TransactionHistory.html
-  name: TransactionHistory
-  nameWithType: TransactionHistory
-  fullName: Mewdeko.Database.Models.TransactionHistory
 - uid: Mewdeko.Database.Models.Nicknames
   commentId: T:Mewdeko.Database.Models.Nicknames
   href: Mewdeko.Database.Models.Nicknames.html
@@ -722,6 +710,13 @@ references:
   name: NsfwBlacklitedTag
   nameWithType: NsfwBlacklitedTag
   fullName: Mewdeko.Database.Models.NsfwBlacklitedTag
+- uid: Mewdeko.Database.Models.OrderType
+  commentId: T:Mewdeko.Database.Models.OrderType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.OrderType.html
+  name: OrderType
+  nameWithType: OrderType
+  fullName: Mewdeko.Database.Models.OrderType
 - uid: Mewdeko.Database.Models.OwnerOnly
   commentId: T:Mewdeko.Database.Models.OwnerOnly
   href: Mewdeko.Database.Models.OwnerOnly.html
@@ -735,13 +730,6 @@ references:
   name: Permission
   nameWithType: Permission
   fullName: Mewdeko.Database.Models.Permission
-- uid: Mewdeko.Database.Models.IIndexed
-  commentId: T:Mewdeko.Database.Models.IIndexed
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.IIndexed.html
-  name: IIndexed
-  nameWithType: IIndexed
-  fullName: Mewdeko.Database.Models.IIndexed
 - uid: Mewdeko.Database.Models.Permissionv2
   commentId: T:Mewdeko.Database.Models.Permissionv2
   parent: Mewdeko.Database.Models
@@ -749,32 +737,12 @@ references:
   name: Permissionv2
   nameWithType: Permissionv2
   fullName: Mewdeko.Database.Models.Permissionv2
-- uid: Mewdeko.Database.Models.PrimaryPermissionType
-  commentId: T:Mewdeko.Database.Models.PrimaryPermissionType
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.PrimaryPermissionType.html
-  name: PrimaryPermissionType
-  nameWithType: PrimaryPermissionType
-  fullName: Mewdeko.Database.Models.PrimaryPermissionType
-- uid: Mewdeko.Database.Models.SecondaryPermissionType
-  commentId: T:Mewdeko.Database.Models.SecondaryPermissionType
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.SecondaryPermissionType.html
-  name: SecondaryPermissionType
-  nameWithType: SecondaryPermissionType
-  fullName: Mewdeko.Database.Models.SecondaryPermissionType
 - uid: Mewdeko.Database.Models.PlantedCurrency
   commentId: T:Mewdeko.Database.Models.PlantedCurrency
   href: Mewdeko.Database.Models.PlantedCurrency.html
   name: PlantedCurrency
   nameWithType: PlantedCurrency
   fullName: Mewdeko.Database.Models.PlantedCurrency
-- uid: Mewdeko.Database.Models.PlaylistSong
-  commentId: T:Mewdeko.Database.Models.PlaylistSong
-  href: Mewdeko.Database.Models.PlaylistSong.html
-  name: PlaylistSong
-  nameWithType: PlaylistSong
-  fullName: Mewdeko.Database.Models.PlaylistSong
 - uid: Mewdeko.Database.Models.Platform
   commentId: T:Mewdeko.Database.Models.Platform
   parent: Mewdeko.Database.Models
@@ -782,6 +750,19 @@ references:
   name: Platform
   nameWithType: Platform
   fullName: Mewdeko.Database.Models.Platform
+- uid: Mewdeko.Database.Models.PlayerRepeatType
+  commentId: T:Mewdeko.Database.Models.PlayerRepeatType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.PlayerRepeatType.html
+  name: PlayerRepeatType
+  nameWithType: PlayerRepeatType
+  fullName: Mewdeko.Database.Models.PlayerRepeatType
+- uid: Mewdeko.Database.Models.PlaylistSong
+  commentId: T:Mewdeko.Database.Models.PlaylistSong
+  href: Mewdeko.Database.Models.PlaylistSong.html
+  name: PlaylistSong
+  nameWithType: PlaylistSong
+  fullName: Mewdeko.Database.Models.PlaylistSong
 - uid: Mewdeko.Database.Models.Poll
   commentId: T:Mewdeko.Database.Models.Poll
   parent: Mewdeko.Database.Models
@@ -808,6 +789,13 @@ references:
   name: PollVote
   nameWithType: PollVote
   fullName: Mewdeko.Database.Models.PollVote
+- uid: Mewdeko.Database.Models.PrimaryPermissionType
+  commentId: T:Mewdeko.Database.Models.PrimaryPermissionType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.PrimaryPermissionType.html
+  name: PrimaryPermissionType
+  nameWithType: PrimaryPermissionType
+  fullName: Mewdeko.Database.Models.PrimaryPermissionType
 - uid: Mewdeko.Database.Models.PublishUserBlacklist
   commentId: T:Mewdeko.Database.Models.PublishUserBlacklist
   href: Mewdeko.Database.Models.PublishUserBlacklist.html
@@ -820,19 +808,31 @@ references:
   name: PublishWordBlacklist
   nameWithType: PublishWordBlacklist
   fullName: Mewdeko.Database.Models.PublishWordBlacklist
+- uid: Mewdeko.Database.Models.PunishmentAction
+  commentId: T:Mewdeko.Database.Models.PunishmentAction
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.PunishmentAction.html
+  name: PunishmentAction
+  nameWithType: PunishmentAction
+  fullName: Mewdeko.Database.Models.PunishmentAction
 - uid: Mewdeko.Database.Models.Quote
   commentId: T:Mewdeko.Database.Models.Quote
   href: Mewdeko.Database.Models.Quote.html
   name: Quote
   nameWithType: Quote
   fullName: Mewdeko.Database.Models.Quote
-- uid: Mewdeko.Database.Models.OrderType
-  commentId: T:Mewdeko.Database.Models.OrderType
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.OrderType.html
-  name: OrderType
-  nameWithType: OrderType
-  fullName: Mewdeko.Database.Models.OrderType
+- uid: Mewdeko.Database.Models.ReactionResponse
+  commentId: T:Mewdeko.Database.Models.ReactionResponse
+  href: Mewdeko.Database.Models.ReactionResponse.html
+  name: ReactionResponse
+  nameWithType: ReactionResponse
+  fullName: Mewdeko.Database.Models.ReactionResponse
+- uid: Mewdeko.Database.Models.ReactionRole
+  commentId: T:Mewdeko.Database.Models.ReactionRole
+  href: Mewdeko.Database.Models.ReactionRole.html
+  name: ReactionRole
+  nameWithType: ReactionRole
+  fullName: Mewdeko.Database.Models.ReactionRole
 - uid: Mewdeko.Database.Models.ReactionRoleMessage
   commentId: T:Mewdeko.Database.Models.ReactionRoleMessage
   parent: Mewdeko.Database.Models
@@ -840,12 +840,6 @@ references:
   name: ReactionRoleMessage
   nameWithType: ReactionRoleMessage
   fullName: Mewdeko.Database.Models.ReactionRoleMessage
-- uid: Mewdeko.Database.Models.ReactionRole
-  commentId: T:Mewdeko.Database.Models.ReactionRole
-  href: Mewdeko.Database.Models.ReactionRole.html
-  name: ReactionRole
-  nameWithType: ReactionRole
-  fullName: Mewdeko.Database.Models.ReactionRole
 - uid: Mewdeko.Database.Models.Reminder
   commentId: T:Mewdeko.Database.Models.Reminder
   href: Mewdeko.Database.Models.Reminder.html
@@ -859,6 +853,13 @@ references:
   name: Repeater
   nameWithType: Repeater
   fullName: Mewdeko.Database.Models.Repeater
+- uid: Mewdeko.Database.Models.RequirePrefixType
+  commentId: T:Mewdeko.Database.Models.RequirePrefixType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.RequirePrefixType.html
+  name: RequirePrefixType
+  nameWithType: RequirePrefixType
+  fullName: Mewdeko.Database.Models.RequirePrefixType
 - uid: Mewdeko.Database.Models.RoleConnectionAuthStorage
   commentId: T:Mewdeko.Database.Models.RoleConnectionAuthStorage
   href: Mewdeko.Database.Models.RoleConnectionAuthStorage.html
@@ -891,6 +892,13 @@ references:
   name: RotatingPlayingStatus
   nameWithType: RotatingPlayingStatus
   fullName: Mewdeko.Database.Models.RotatingPlayingStatus
+- uid: Mewdeko.Database.Models.SecondaryPermissionType
+  commentId: T:Mewdeko.Database.Models.SecondaryPermissionType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.SecondaryPermissionType.html
+  name: SecondaryPermissionType
+  nameWithType: SecondaryPermissionType
+  fullName: Mewdeko.Database.Models.SecondaryPermissionType
 - uid: Mewdeko.Database.Models.SelfAssignedRole
   commentId: T:Mewdeko.Database.Models.SelfAssignedRole
   href: Mewdeko.Database.Models.SelfAssignedRole.html
@@ -904,13 +912,6 @@ references:
   name: ServerRecoveryStore
   nameWithType: ServerRecoveryStore
   fullName: Mewdeko.Database.Models.ServerRecoveryStore
-- uid: Mewdeko.Database.Models.ShopEntryType
-  commentId: T:Mewdeko.Database.Models.ShopEntryType
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.ShopEntryType.html
-  name: ShopEntryType
-  nameWithType: ShopEntryType
-  fullName: Mewdeko.Database.Models.ShopEntryType
 - uid: Mewdeko.Database.Models.ShopEntry
   commentId: T:Mewdeko.Database.Models.ShopEntry
   href: Mewdeko.Database.Models.ShopEntry.html
@@ -923,6 +924,13 @@ references:
   name: ShopEntryItem
   nameWithType: ShopEntryItem
   fullName: Mewdeko.Database.Models.ShopEntryItem
+- uid: Mewdeko.Database.Models.ShopEntryType
+  commentId: T:Mewdeko.Database.Models.ShopEntryType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.ShopEntryType.html
+  name: ShopEntryType
+  nameWithType: ShopEntryType
+  fullName: Mewdeko.Database.Models.ShopEntryType
 - uid: Mewdeko.Database.Models.Stake
   commentId: T:Mewdeko.Database.Models.Stake
   href: Mewdeko.Database.Models.Stake.html
@@ -954,6 +962,12 @@ references:
   name: StickyRoles
   nameWithType: StickyRoles
   fullName: Mewdeko.Database.Models.StickyRoles
+- uid: Mewdeko.Database.Models.StreamRoleBlacklistedUser
+  commentId: T:Mewdeko.Database.Models.StreamRoleBlacklistedUser
+  href: Mewdeko.Database.Models.StreamRoleBlacklistedUser.html
+  name: StreamRoleBlacklistedUser
+  nameWithType: StreamRoleBlacklistedUser
+  fullName: Mewdeko.Database.Models.StreamRoleBlacklistedUser
 - uid: Mewdeko.Database.Models.StreamRoleSettings
   commentId: T:Mewdeko.Database.Models.StreamRoleSettings
   parent: Mewdeko.Database.Models
@@ -961,25 +975,12 @@ references:
   name: StreamRoleSettings
   nameWithType: StreamRoleSettings
   fullName: Mewdeko.Database.Models.StreamRoleSettings
-- uid: Mewdeko.Database.Models.StreamRoleBlacklistedUser
-  commentId: T:Mewdeko.Database.Models.StreamRoleBlacklistedUser
-  href: Mewdeko.Database.Models.StreamRoleBlacklistedUser.html
-  name: StreamRoleBlacklistedUser
-  nameWithType: StreamRoleBlacklistedUser
-  fullName: Mewdeko.Database.Models.StreamRoleBlacklistedUser
 - uid: Mewdeko.Database.Models.StreamRoleWhitelistedUser
   commentId: T:Mewdeko.Database.Models.StreamRoleWhitelistedUser
   href: Mewdeko.Database.Models.StreamRoleWhitelistedUser.html
   name: StreamRoleWhitelistedUser
   nameWithType: StreamRoleWhitelistedUser
   fullName: Mewdeko.Database.Models.StreamRoleWhitelistedUser
-- uid: Mewdeko.Database.Models.SuggestionsModel
-  commentId: T:Mewdeko.Database.Models.SuggestionsModel
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.SuggestionsModel.html
-  name: SuggestionsModel
-  nameWithType: SuggestionsModel
-  fullName: Mewdeko.Database.Models.SuggestionsModel
 - uid: Mewdeko.Database.Models.SuggestThreads
   commentId: T:Mewdeko.Database.Models.SuggestThreads
   href: Mewdeko.Database.Models.SuggestThreads.html
@@ -992,12 +993,59 @@ references:
   name: SuggestVotes
   nameWithType: SuggestVotes
   fullName: Mewdeko.Database.Models.SuggestVotes
+- uid: Mewdeko.Database.Models.SuggestionsModel
+  commentId: T:Mewdeko.Database.Models.SuggestionsModel
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.SuggestionsModel.html
+  name: SuggestionsModel
+  nameWithType: SuggestionsModel
+  fullName: Mewdeko.Database.Models.SuggestionsModel
+- uid: Mewdeko.Database.Models.Template
+  commentId: T:Mewdeko.Database.Models.Template
+  href: Mewdeko.Database.Models.Template.html
+  name: Template
+  nameWithType: Template
+  fullName: Mewdeko.Database.Models.Template
+- uid: Mewdeko.Database.Models.TemplateBar
+  commentId: T:Mewdeko.Database.Models.TemplateBar
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.TemplateBar.html
+  name: TemplateBar
+  nameWithType: TemplateBar
+  fullName: Mewdeko.Database.Models.TemplateBar
+- uid: Mewdeko.Database.Models.TemplateClub
+  commentId: T:Mewdeko.Database.Models.TemplateClub
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.TemplateClub.html
+  name: TemplateClub
+  nameWithType: TemplateClub
+  fullName: Mewdeko.Database.Models.TemplateClub
+- uid: Mewdeko.Database.Models.TemplateGuild
+  commentId: T:Mewdeko.Database.Models.TemplateGuild
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.TemplateGuild.html
+  name: TemplateGuild
+  nameWithType: TemplateGuild
+  fullName: Mewdeko.Database.Models.TemplateGuild
+- uid: Mewdeko.Database.Models.TemplateUser
+  commentId: T:Mewdeko.Database.Models.TemplateUser
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.TemplateUser.html
+  name: TemplateUser
+  nameWithType: TemplateUser
+  fullName: Mewdeko.Database.Models.TemplateUser
 - uid: Mewdeko.Database.Models.Ticket
   commentId: T:Mewdeko.Database.Models.Ticket
   href: Mewdeko.Database.Models.Ticket.html
   name: Ticket
   nameWithType: Ticket
   fullName: Mewdeko.Database.Models.Ticket
+- uid: Mewdeko.Database.Models.TransactionHistory
+  commentId: T:Mewdeko.Database.Models.TransactionHistory
+  href: Mewdeko.Database.Models.TransactionHistory.html
+  name: TransactionHistory
+  nameWithType: TransactionHistory
+  fullName: Mewdeko.Database.Models.TransactionHistory
 - uid: Mewdeko.Database.Models.UnbanTimer
   commentId: T:Mewdeko.Database.Models.UnbanTimer
   href: Mewdeko.Database.Models.UnbanTimer.html
@@ -1016,12 +1064,6 @@ references:
   name: UnroleTimer
   nameWithType: UnroleTimer
   fullName: Mewdeko.Database.Models.UnroleTimer
-- uid: Mewdeko.Database.Models.Usernames
-  commentId: T:Mewdeko.Database.Models.Usernames
-  href: Mewdeko.Database.Models.Usernames.html
-  name: Usernames
-  nameWithType: Usernames
-  fullName: Mewdeko.Database.Models.Usernames
 - uid: Mewdeko.Database.Models.UserRoleStates
   commentId: T:Mewdeko.Database.Models.UserRoleStates
   href: Mewdeko.Database.Models.UserRoleStates.html
@@ -1035,13 +1077,12 @@ references:
   name: UserXpStats
   nameWithType: UserXpStats
   fullName: Mewdeko.Database.Models.UserXpStats
-- uid: Mewdeko.Database.Models.XpNotificationLocation
-  commentId: T:Mewdeko.Database.Models.XpNotificationLocation
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.XpNotificationLocation.html
-  name: XpNotificationLocation
-  nameWithType: XpNotificationLocation
-  fullName: Mewdeko.Database.Models.XpNotificationLocation
+- uid: Mewdeko.Database.Models.Usernames
+  commentId: T:Mewdeko.Database.Models.Usernames
+  href: Mewdeko.Database.Models.Usernames.html
+  name: Usernames
+  nameWithType: Usernames
+  fullName: Mewdeko.Database.Models.Usernames
 - uid: Mewdeko.Database.Models.VcRoleInfo
   commentId: T:Mewdeko.Database.Models.VcRoleInfo
   href: Mewdeko.Database.Models.VcRoleInfo.html
@@ -1066,18 +1107,18 @@ references:
   name: WaifuInfo
   nameWithType: WaifuInfo
   fullName: Mewdeko.Database.Models.WaifuInfo
-- uid: Mewdeko.Database.Models.WaifuLbResult
-  commentId: T:Mewdeko.Database.Models.WaifuLbResult
-  href: Mewdeko.Database.Models.WaifuLbResult.html
-  name: WaifuLbResult
-  nameWithType: WaifuLbResult
-  fullName: Mewdeko.Database.Models.WaifuLbResult
 - uid: Mewdeko.Database.Models.WaifuItem
   commentId: T:Mewdeko.Database.Models.WaifuItem
   href: Mewdeko.Database.Models.WaifuItem.html
   name: WaifuItem
   nameWithType: WaifuItem
   fullName: Mewdeko.Database.Models.WaifuItem
+- uid: Mewdeko.Database.Models.WaifuLbResult
+  commentId: T:Mewdeko.Database.Models.WaifuLbResult
+  href: Mewdeko.Database.Models.WaifuLbResult.html
+  name: WaifuLbResult
+  nameWithType: WaifuLbResult
+  fullName: Mewdeko.Database.Models.WaifuLbResult
 - uid: Mewdeko.Database.Models.WaifuUpdate
   commentId: T:Mewdeko.Database.Models.WaifuUpdate
   href: Mewdeko.Database.Models.WaifuUpdate.html
@@ -1122,6 +1163,25 @@ references:
   name: WarningPunishment2
   nameWithType: WarningPunishment2
   fullName: Mewdeko.Database.Models.WarningPunishment2
+- uid: Mewdeko.Database.Models.XpCurrencyReward
+  commentId: T:Mewdeko.Database.Models.XpCurrencyReward
+  href: Mewdeko.Database.Models.XpCurrencyReward.html
+  name: XpCurrencyReward
+  nameWithType: XpCurrencyReward
+  fullName: Mewdeko.Database.Models.XpCurrencyReward
+- uid: Mewdeko.Database.Models.XpNotificationLocation
+  commentId: T:Mewdeko.Database.Models.XpNotificationLocation
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.XpNotificationLocation.html
+  name: XpNotificationLocation
+  nameWithType: XpNotificationLocation
+  fullName: Mewdeko.Database.Models.XpNotificationLocation
+- uid: Mewdeko.Database.Models.XpRoleReward
+  commentId: T:Mewdeko.Database.Models.XpRoleReward
+  href: Mewdeko.Database.Models.XpRoleReward.html
+  name: XpRoleReward
+  nameWithType: XpRoleReward
+  fullName: Mewdeko.Database.Models.XpRoleReward
 - uid: Mewdeko.Database.Models.XpSettings
   commentId: T:Mewdeko.Database.Models.XpSettings
   parent: Mewdeko.Database.Models
@@ -1129,65 +1189,6 @@ references:
   name: XpSettings
   nameWithType: XpSettings
   fullName: Mewdeko.Database.Models.XpSettings
-- uid: Mewdeko.Database.Models.ExcludedItemType
-  commentId: T:Mewdeko.Database.Models.ExcludedItemType
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.ExcludedItemType.html
-  name: ExcludedItemType
-  nameWithType: ExcludedItemType
-  fullName: Mewdeko.Database.Models.ExcludedItemType
-- uid: Mewdeko.Database.Models.XpRoleReward
-  commentId: T:Mewdeko.Database.Models.XpRoleReward
-  href: Mewdeko.Database.Models.XpRoleReward.html
-  name: XpRoleReward
-  nameWithType: XpRoleReward
-  fullName: Mewdeko.Database.Models.XpRoleReward
-- uid: Mewdeko.Database.Models.XpCurrencyReward
-  commentId: T:Mewdeko.Database.Models.XpCurrencyReward
-  href: Mewdeko.Database.Models.XpCurrencyReward.html
-  name: XpCurrencyReward
-  nameWithType: XpCurrencyReward
-  fullName: Mewdeko.Database.Models.XpCurrencyReward
-- uid: Mewdeko.Database.Models.ExcludedItem
-  commentId: T:Mewdeko.Database.Models.ExcludedItem
-  href: Mewdeko.Database.Models.ExcludedItem.html
-  name: ExcludedItem
-  nameWithType: ExcludedItem
-  fullName: Mewdeko.Database.Models.ExcludedItem
-- uid: Mewdeko.Database.Models.Template
-  commentId: T:Mewdeko.Database.Models.Template
-  href: Mewdeko.Database.Models.Template.html
-  name: Template
-  nameWithType: Template
-  fullName: Mewdeko.Database.Models.Template
-- uid: Mewdeko.Database.Models.TemplateUser
-  commentId: T:Mewdeko.Database.Models.TemplateUser
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.TemplateUser.html
-  name: TemplateUser
-  nameWithType: TemplateUser
-  fullName: Mewdeko.Database.Models.TemplateUser
-- uid: Mewdeko.Database.Models.TemplateGuild
-  commentId: T:Mewdeko.Database.Models.TemplateGuild
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.TemplateGuild.html
-  name: TemplateGuild
-  nameWithType: TemplateGuild
-  fullName: Mewdeko.Database.Models.TemplateGuild
-- uid: Mewdeko.Database.Models.TemplateClub
-  commentId: T:Mewdeko.Database.Models.TemplateClub
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.TemplateClub.html
-  name: TemplateClub
-  nameWithType: TemplateClub
-  fullName: Mewdeko.Database.Models.TemplateClub
-- uid: Mewdeko.Database.Models.TemplateBar
-  commentId: T:Mewdeko.Database.Models.TemplateBar
-  parent: Mewdeko.Database.Models
-  href: Mewdeko.Database.Models.TemplateBar.html
-  name: TemplateBar
-  nameWithType: TemplateBar
-  fullName: Mewdeko.Database.Models.TemplateBar
 - uid: Mewdeko.Database.Models.XpTemplateDirection
   commentId: T:Mewdeko.Database.Models.XpTemplateDirection
   parent: Mewdeko.Database.Models

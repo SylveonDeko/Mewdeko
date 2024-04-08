@@ -2,12 +2,18 @@
 items:
 - uid: Mewdeko.Common
   commentId: N:Mewdeko.Common
-  id: Mewdeko.Common
+  id: Common
+  parent: Mewdeko
   children:
   - Mewdeko.Common.AsyncLazy`1
+  - Mewdeko.Common.Attributes
   - Mewdeko.Common.Author
+  - Mewdeko.Common.Autocompleters
+  - Mewdeko.Common.Collections
   - Mewdeko.Common.CommandData
+  - Mewdeko.Common.Configs
   - Mewdeko.Common.Die
+  - Mewdeko.Common.DiscordImplementations
   - Mewdeko.Common.DownloadTracker
   - Mewdeko.Common.Embed
   - Mewdeko.Common.Field
@@ -21,6 +27,8 @@ items:
   - Mewdeko.Common.ImageUrls.RipData
   - Mewdeko.Common.ImageUrls.SlotData
   - Mewdeko.Common.ImageUrls.XpData
+  - Mewdeko.Common.JsonConverters
+  - Mewdeko.Common.JsonSettings
   - Mewdeko.Common.LbOpts
   - Mewdeko.Common.LoginErrorHandler
   - Mewdeko.Common.MewdekoModule
@@ -32,18 +40,24 @@ items:
   - Mewdeko.Common.MewdekoSlashSubmodule`1
   - Mewdeko.Common.MewdekoSubmodule
   - Mewdeko.Common.MewdekoSubmodule`1
+  - Mewdeko.Common.Modals
+  - Mewdeko.Common.ModuleBehaviors
   - Mewdeko.Common.NewEmbed
   - Mewdeko.Common.NewEmbed.NewEmbedComponent
   - Mewdeko.Common.NewEmbed.NewEmbedSelectOption
   - Mewdeko.Common.OptionsParser
   - Mewdeko.Common.OsuMapData
   - Mewdeko.Common.OsuUserBests
+  - Mewdeko.Common.PubSub
+  - Mewdeko.Common.Replacements
   - Mewdeko.Common.RollResult
   - Mewdeko.Common.ShmartNumber
   - Mewdeko.Common.SmartEmbed
   - Mewdeko.Common.Thumbnail
   - Mewdeko.Common.ToneTag
   - Mewdeko.Common.ToneTagSource
+  - Mewdeko.Common.TypeReaders
+  - Mewdeko.Common.Yml
   langs:
   - csharp
   - vb
@@ -54,6 +68,368 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Common.Attributes
+  isExternal: true
+- uid: Mewdeko.Common.Autocompleters
+  commentId: N:Mewdeko.Common.Autocompleters
+  href: Mewdeko.html
+  name: Mewdeko.Common.Autocompleters
+  nameWithType: Mewdeko.Common.Autocompleters
+  fullName: Mewdeko.Common.Autocompleters
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Autocompleters
+    name: Autocompleters
+    href: Mewdeko.Common.Autocompleters.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Autocompleters
+    name: Autocompleters
+    href: Mewdeko.Common.Autocompleters.html
+- uid: Mewdeko.Common.Collections
+  commentId: N:Mewdeko.Common.Collections
+  href: Mewdeko.html
+  name: Mewdeko.Common.Collections
+  nameWithType: Mewdeko.Common.Collections
+  fullName: Mewdeko.Common.Collections
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Collections
+    name: Collections
+    href: Mewdeko.Common.Collections.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Collections
+    name: Collections
+    href: Mewdeko.Common.Collections.html
+- uid: Mewdeko.Common.Configs
+  commentId: N:Mewdeko.Common.Configs
+  href: Mewdeko.html
+  name: Mewdeko.Common.Configs
+  nameWithType: Mewdeko.Common.Configs
+  fullName: Mewdeko.Common.Configs
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+- uid: Mewdeko.Common.DiscordImplementations
+  commentId: N:Mewdeko.Common.DiscordImplementations
+  href: Mewdeko.html
+  name: Mewdeko.Common.DiscordImplementations
+  nameWithType: Mewdeko.Common.DiscordImplementations
+  fullName: Mewdeko.Common.DiscordImplementations
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.DiscordImplementations
+    name: DiscordImplementations
+    href: Mewdeko.Common.DiscordImplementations.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.DiscordImplementations
+    name: DiscordImplementations
+    href: Mewdeko.Common.DiscordImplementations.html
+- uid: Mewdeko.Common.JsonConverters
+  commentId: N:Mewdeko.Common.JsonConverters
+  href: Mewdeko.html
+  name: Mewdeko.Common.JsonConverters
+  nameWithType: Mewdeko.Common.JsonConverters
+  fullName: Mewdeko.Common.JsonConverters
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.JsonConverters
+    name: JsonConverters
+    href: Mewdeko.Common.JsonConverters.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.JsonConverters
+    name: JsonConverters
+    href: Mewdeko.Common.JsonConverters.html
+- uid: Mewdeko.Common.JsonSettings
+  commentId: N:Mewdeko.Common.JsonSettings
+  href: Mewdeko.html
+  name: Mewdeko.Common.JsonSettings
+  nameWithType: Mewdeko.Common.JsonSettings
+  fullName: Mewdeko.Common.JsonSettings
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.JsonSettings
+    name: JsonSettings
+    href: Mewdeko.Common.JsonSettings.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.JsonSettings
+    name: JsonSettings
+    href: Mewdeko.Common.JsonSettings.html
+- uid: Mewdeko.Common.Modals
+  commentId: N:Mewdeko.Common.Modals
+  href: Mewdeko.html
+  name: Mewdeko.Common.Modals
+  nameWithType: Mewdeko.Common.Modals
+  fullName: Mewdeko.Common.Modals
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Modals
+    name: Modals
+    href: Mewdeko.Common.Modals.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Modals
+    name: Modals
+    href: Mewdeko.Common.Modals.html
+- uid: Mewdeko.Common.ModuleBehaviors
+  commentId: N:Mewdeko.Common.ModuleBehaviors
+  href: Mewdeko.html
+  name: Mewdeko.Common.ModuleBehaviors
+  nameWithType: Mewdeko.Common.ModuleBehaviors
+  fullName: Mewdeko.Common.ModuleBehaviors
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.ModuleBehaviors
+    name: ModuleBehaviors
+    href: Mewdeko.Common.ModuleBehaviors.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.ModuleBehaviors
+    name: ModuleBehaviors
+    href: Mewdeko.Common.ModuleBehaviors.html
+- uid: Mewdeko.Common.PubSub
+  commentId: N:Mewdeko.Common.PubSub
+  href: Mewdeko.html
+  name: Mewdeko.Common.PubSub
+  nameWithType: Mewdeko.Common.PubSub
+  fullName: Mewdeko.Common.PubSub
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.PubSub
+    name: PubSub
+    href: Mewdeko.Common.PubSub.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.PubSub
+    name: PubSub
+    href: Mewdeko.Common.PubSub.html
+- uid: Mewdeko.Common.Replacements
+  commentId: N:Mewdeko.Common.Replacements
+  href: Mewdeko.html
+  name: Mewdeko.Common.Replacements
+  nameWithType: Mewdeko.Common.Replacements
+  fullName: Mewdeko.Common.Replacements
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Replacements
+    name: Replacements
+    href: Mewdeko.Common.Replacements.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Replacements
+    name: Replacements
+    href: Mewdeko.Common.Replacements.html
+- uid: Mewdeko.Common.TypeReaders
+  commentId: N:Mewdeko.Common.TypeReaders
+  href: Mewdeko.html
+  name: Mewdeko.Common.TypeReaders
+  nameWithType: Mewdeko.Common.TypeReaders
+  fullName: Mewdeko.Common.TypeReaders
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders
+    name: TypeReaders
+    href: Mewdeko.Common.TypeReaders.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders
+    name: TypeReaders
+    href: Mewdeko.Common.TypeReaders.html
+- uid: Mewdeko.Common.Yml
+  commentId: N:Mewdeko.Common.Yml
+  href: Mewdeko.html
+  name: Mewdeko.Common.Yml
+  nameWithType: Mewdeko.Common.Yml
+  fullName: Mewdeko.Common.Yml
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Yml
+    name: Yml
+    href: Mewdeko.Common.Yml.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Yml
+    name: Yml
+    href: Mewdeko.Common.Yml.html
 - uid: Mewdeko.Common.AsyncLazy`1
   commentId: T:Mewdeko.Common.AsyncLazy`1
   href: Mewdeko.Common.AsyncLazy-1.html
@@ -79,6 +455,13 @@ references:
   - name: " "
   - name: T
   - name: )
+- uid: Mewdeko.Common.Author
+  commentId: T:Mewdeko.Common.Author
+  parent: Mewdeko.Common
+  href: Mewdeko.Common.Author.html
+  name: Author
+  nameWithType: Author
+  fullName: Mewdeko.Common.Author
 - uid: Mewdeko.Common.CommandData
   commentId: T:Mewdeko.Common.CommandData
   href: Mewdeko.Common.CommandData.html
@@ -98,12 +481,52 @@ references:
   name: DownloadTracker
   nameWithType: DownloadTracker
   fullName: Mewdeko.Common.DownloadTracker
+- uid: Mewdeko.Common.Embed
+  commentId: T:Mewdeko.Common.Embed
+  parent: Mewdeko.Common
+  href: Mewdeko.Common.Embed.html
+  name: Embed
+  nameWithType: Embed
+  fullName: Mewdeko.Common.Embed
+- uid: Mewdeko.Common.Field
+  commentId: T:Mewdeko.Common.Field
+  href: Mewdeko.Common.Field.html
+  name: Field
+  nameWithType: Field
+  fullName: Mewdeko.Common.Field
+- uid: Mewdeko.Common.Footer
+  commentId: T:Mewdeko.Common.Footer
+  parent: Mewdeko.Common
+  href: Mewdeko.Common.Footer.html
+  name: Footer
+  nameWithType: Footer
+  fullName: Mewdeko.Common.Footer
 - uid: Mewdeko.Common.Helpers
   commentId: T:Mewdeko.Common.Helpers
   href: Mewdeko.Common.Helpers.html
   name: Helpers
   nameWithType: Helpers
   fullName: Mewdeko.Common.Helpers
+- uid: Mewdeko.Common.IMewdekoCommandOptions
+  commentId: T:Mewdeko.Common.IMewdekoCommandOptions
+  parent: Mewdeko.Common
+  href: Mewdeko.Common.IMewdekoCommandOptions.html
+  name: IMewdekoCommandOptions
+  nameWithType: IMewdekoCommandOptions
+  fullName: Mewdeko.Common.IMewdekoCommandOptions
+- uid: Mewdeko.Common.IPlaceholderProvider
+  commentId: T:Mewdeko.Common.IPlaceholderProvider
+  href: Mewdeko.Common.IPlaceholderProvider.html
+  name: IPlaceholderProvider
+  nameWithType: IPlaceholderProvider
+  fullName: Mewdeko.Common.IPlaceholderProvider
+- uid: Mewdeko.Common.Image
+  commentId: T:Mewdeko.Common.Image
+  parent: Mewdeko.Common
+  href: Mewdeko.Common.Image.html
+  name: Image
+  nameWithType: Image
+  fullName: Mewdeko.Common.Image
 - uid: Mewdeko.Common.ImageUrls
   commentId: T:Mewdeko.Common.ImageUrls
   parent: Mewdeko.Common
@@ -134,29 +557,6 @@ references:
   - uid: Mewdeko.Common.ImageUrls.CoinData
     name: CoinData
     href: Mewdeko.Common.ImageUrls.CoinData.html
-- uid: Mewdeko.Common.ImageUrls.XpData
-  commentId: T:Mewdeko.Common.ImageUrls.XpData
-  parent: Mewdeko.Common
-  href: Mewdeko.Common.ImageUrls.html
-  name: ImageUrls.XpData
-  nameWithType: ImageUrls.XpData
-  fullName: Mewdeko.Common.ImageUrls.XpData
-  spec.csharp:
-  - uid: Mewdeko.Common.ImageUrls
-    name: ImageUrls
-    href: Mewdeko.Common.ImageUrls.html
-  - name: .
-  - uid: Mewdeko.Common.ImageUrls.XpData
-    name: XpData
-    href: Mewdeko.Common.ImageUrls.XpData.html
-  spec.vb:
-  - uid: Mewdeko.Common.ImageUrls
-    name: ImageUrls
-    href: Mewdeko.Common.ImageUrls.html
-  - name: .
-  - uid: Mewdeko.Common.ImageUrls.XpData
-    name: XpData
-    href: Mewdeko.Common.ImageUrls.XpData.html
 - uid: Mewdeko.Common.ImageUrls.RipData
   commentId: T:Mewdeko.Common.ImageUrls.RipData
   parent: Mewdeko.Common
@@ -203,19 +603,29 @@ references:
   - uid: Mewdeko.Common.ImageUrls.SlotData
     name: SlotData
     href: Mewdeko.Common.ImageUrls.SlotData.html
-- uid: Mewdeko.Common.IMewdekoCommandOptions
-  commentId: T:Mewdeko.Common.IMewdekoCommandOptions
+- uid: Mewdeko.Common.ImageUrls.XpData
+  commentId: T:Mewdeko.Common.ImageUrls.XpData
   parent: Mewdeko.Common
-  href: Mewdeko.Common.IMewdekoCommandOptions.html
-  name: IMewdekoCommandOptions
-  nameWithType: IMewdekoCommandOptions
-  fullName: Mewdeko.Common.IMewdekoCommandOptions
-- uid: Mewdeko.Common.IPlaceholderProvider
-  commentId: T:Mewdeko.Common.IPlaceholderProvider
-  href: Mewdeko.Common.IPlaceholderProvider.html
-  name: IPlaceholderProvider
-  nameWithType: IPlaceholderProvider
-  fullName: Mewdeko.Common.IPlaceholderProvider
+  href: Mewdeko.Common.ImageUrls.html
+  name: ImageUrls.XpData
+  nameWithType: ImageUrls.XpData
+  fullName: Mewdeko.Common.ImageUrls.XpData
+  spec.csharp:
+  - uid: Mewdeko.Common.ImageUrls
+    name: ImageUrls
+    href: Mewdeko.Common.ImageUrls.html
+  - name: .
+  - uid: Mewdeko.Common.ImageUrls.XpData
+    name: XpData
+    href: Mewdeko.Common.ImageUrls.XpData.html
+  spec.vb:
+  - uid: Mewdeko.Common.ImageUrls
+    name: ImageUrls
+    href: Mewdeko.Common.ImageUrls.html
+  - name: .
+  - uid: Mewdeko.Common.ImageUrls.XpData
+    name: XpData
+    href: Mewdeko.Common.ImageUrls.XpData.html
 - uid: Mewdeko.Common.LbOpts
   commentId: T:Mewdeko.Common.LbOpts
   parent: Mewdeko.Common
@@ -256,38 +666,6 @@ references:
   - uid: Mewdeko.Common.MewdekoModuleBase`1
     name: MewdekoModuleBase
     href: Mewdeko.Common.MewdekoModuleBase-1.html
-  - name: (
-  - name: Of
-  - name: " "
-  - name: TService
-  - name: )
-- uid: Mewdeko.Common.MewdekoSubmodule
-  commentId: T:Mewdeko.Common.MewdekoSubmodule
-  parent: Mewdeko.Common
-  href: Mewdeko.Common.MewdekoSubmodule.html
-  name: MewdekoSubmodule
-  nameWithType: MewdekoSubmodule
-  fullName: Mewdeko.Common.MewdekoSubmodule
-- uid: Mewdeko.Common.MewdekoSubmodule`1
-  commentId: T:Mewdeko.Common.MewdekoSubmodule`1
-  href: Mewdeko.Common.MewdekoSubmodule-1.html
-  name: MewdekoSubmodule<TService>
-  nameWithType: MewdekoSubmodule<TService>
-  fullName: Mewdeko.Common.MewdekoSubmodule<TService>
-  nameWithType.vb: MewdekoSubmodule(Of TService)
-  fullName.vb: Mewdeko.Common.MewdekoSubmodule(Of TService)
-  name.vb: MewdekoSubmodule(Of TService)
-  spec.csharp:
-  - uid: Mewdeko.Common.MewdekoSubmodule`1
-    name: MewdekoSubmodule
-    href: Mewdeko.Common.MewdekoSubmodule-1.html
-  - name: <
-  - name: TService
-  - name: '>'
-  spec.vb:
-  - uid: Mewdeko.Common.MewdekoSubmodule`1
-    name: MewdekoSubmodule
-    href: Mewdeko.Common.MewdekoSubmodule-1.html
   - name: (
   - name: Of
   - name: " "
@@ -363,47 +741,38 @@ references:
   - name: " "
   - name: TService
   - name: )
-- uid: Mewdeko.Common.Author
-  commentId: T:Mewdeko.Common.Author
+- uid: Mewdeko.Common.MewdekoSubmodule
+  commentId: T:Mewdeko.Common.MewdekoSubmodule
   parent: Mewdeko.Common
-  href: Mewdeko.Common.Author.html
-  name: Author
-  nameWithType: Author
-  fullName: Mewdeko.Common.Author
-- uid: Mewdeko.Common.Thumbnail
-  commentId: T:Mewdeko.Common.Thumbnail
-  parent: Mewdeko.Common
-  href: Mewdeko.Common.Thumbnail.html
-  name: Thumbnail
-  nameWithType: Thumbnail
-  fullName: Mewdeko.Common.Thumbnail
-- uid: Mewdeko.Common.Image
-  commentId: T:Mewdeko.Common.Image
-  parent: Mewdeko.Common
-  href: Mewdeko.Common.Image.html
-  name: Image
-  nameWithType: Image
-  fullName: Mewdeko.Common.Image
-- uid: Mewdeko.Common.Footer
-  commentId: T:Mewdeko.Common.Footer
-  parent: Mewdeko.Common
-  href: Mewdeko.Common.Footer.html
-  name: Footer
-  nameWithType: Footer
-  fullName: Mewdeko.Common.Footer
-- uid: Mewdeko.Common.Field
-  commentId: T:Mewdeko.Common.Field
-  href: Mewdeko.Common.Field.html
-  name: Field
-  nameWithType: Field
-  fullName: Mewdeko.Common.Field
-- uid: Mewdeko.Common.Embed
-  commentId: T:Mewdeko.Common.Embed
-  parent: Mewdeko.Common
-  href: Mewdeko.Common.Embed.html
-  name: Embed
-  nameWithType: Embed
-  fullName: Mewdeko.Common.Embed
+  href: Mewdeko.Common.MewdekoSubmodule.html
+  name: MewdekoSubmodule
+  nameWithType: MewdekoSubmodule
+  fullName: Mewdeko.Common.MewdekoSubmodule
+- uid: Mewdeko.Common.MewdekoSubmodule`1
+  commentId: T:Mewdeko.Common.MewdekoSubmodule`1
+  href: Mewdeko.Common.MewdekoSubmodule-1.html
+  name: MewdekoSubmodule<TService>
+  nameWithType: MewdekoSubmodule<TService>
+  fullName: Mewdeko.Common.MewdekoSubmodule<TService>
+  nameWithType.vb: MewdekoSubmodule(Of TService)
+  fullName.vb: Mewdeko.Common.MewdekoSubmodule(Of TService)
+  name.vb: MewdekoSubmodule(Of TService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoSubmodule`1
+    name: MewdekoSubmodule
+    href: Mewdeko.Common.MewdekoSubmodule-1.html
+  - name: <
+  - name: TService
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoSubmodule`1
+    name: MewdekoSubmodule
+    href: Mewdeko.Common.MewdekoSubmodule-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TService
+  - name: )
 - uid: Mewdeko.Common.NewEmbed
   commentId: T:Mewdeko.Common.NewEmbed
   parent: Mewdeko.Common
@@ -493,6 +862,13 @@ references:
   name: SmartEmbed
   nameWithType: SmartEmbed
   fullName: Mewdeko.Common.SmartEmbed
+- uid: Mewdeko.Common.Thumbnail
+  commentId: T:Mewdeko.Common.Thumbnail
+  parent: Mewdeko.Common
+  href: Mewdeko.Common.Thumbnail.html
+  name: Thumbnail
+  nameWithType: Thumbnail
+  fullName: Mewdeko.Common.Thumbnail
 - uid: Mewdeko.Common.ToneTag
   commentId: T:Mewdeko.Common.ToneTag
   href: Mewdeko.Common.ToneTag.html

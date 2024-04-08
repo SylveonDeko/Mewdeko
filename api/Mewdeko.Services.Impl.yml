@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Services.Impl
   commentId: N:Mewdeko.Services.Impl
-  id: Mewdeko.Services.Impl
+  id: Impl
+  parent: Mewdeko.Services
   children:
   - Mewdeko.Services.Impl.BotCredentials
   - Mewdeko.Services.Impl.EventHandler
@@ -226,6 +227,18 @@ references:
   name: GoogleApiService
   nameWithType: GoogleApiService
   fullName: Mewdeko.Services.Impl.GoogleApiService
+- uid: Mewdeko.Services.Impl.Localization
+  commentId: T:Mewdeko.Services.Impl.Localization
+  href: Mewdeko.Services.Impl.Localization.html
+  name: Localization
+  nameWithType: Localization
+  fullName: Mewdeko.Services.Impl.Localization
+- uid: Mewdeko.Services.Impl.RedisCache
+  commentId: T:Mewdeko.Services.Impl.RedisCache
+  href: Mewdeko.Services.Impl.RedisCache.html
+  name: RedisCache
+  nameWithType: RedisCache
+  fullName: Mewdeko.Services.Impl.RedisCache
 - uid: Mewdeko.Services.Impl.RedisImagesCache
   commentId: T:Mewdeko.Services.Impl.RedisImagesCache
   href: Mewdeko.Services.Impl.RedisImagesCache.html
@@ -255,18 +268,6 @@ references:
   - uid: Mewdeko.Services.Impl.RedisImagesCache.ImageKeys
     name: ImageKeys
     href: Mewdeko.Services.Impl.RedisImagesCache.ImageKeys.html
-- uid: Mewdeko.Services.Impl.Localization
-  commentId: T:Mewdeko.Services.Impl.Localization
-  href: Mewdeko.Services.Impl.Localization.html
-  name: Localization
-  nameWithType: Localization
-  fullName: Mewdeko.Services.Impl.Localization
-- uid: Mewdeko.Services.Impl.RedisCache
-  commentId: T:Mewdeko.Services.Impl.RedisCache
-  href: Mewdeko.Services.Impl.RedisCache.html
-  name: RedisCache
-  nameWithType: RedisCache
-  fullName: Mewdeko.Services.Impl.RedisCache
 - uid: Mewdeko.Services.Impl.RedisLocalDataCache
   commentId: T:Mewdeko.Services.Impl.RedisLocalDataCache
   href: Mewdeko.Services.Impl.RedisLocalDataCache.html

@@ -83,11 +83,11 @@ items:
   type: Method
   source:
     remote:
-      path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+      path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
       branch: psqldeko
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: BindService
-    path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+    path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
     startLine: 291
   assemblies:
   - Mewdeko.Coordinator
@@ -117,11 +117,11 @@ items:
   type: Method
   source:
     remote:
-      path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+      path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
       branch: psqldeko
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: BindService
-    path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+    path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
     startLine: 311
   assemblies:
   - Mewdeko.Coordinator

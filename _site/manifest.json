@@ -254,6 +254,16 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Mewdeko.Common.Attributes.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Mewdeko.Common.Attributes.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Mewdeko.Common.Author.yml",
       "output": {
         ".html": {
@@ -3218,6 +3228,16 @@
       "output": {
         ".html": {
           "relative_path": "api/Mewdeko.Database.Migrations.SQLite.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Mewdeko.Database.Migrations.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Mewdeko.Database.Migrations.html"
         }
       },
       "version": ""
@@ -9938,6 +9958,16 @@
       "output": {
         ".html": {
           "relative_path": "api/Mewdeko.Modules.Xp.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/Mewdeko.Modules.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Mewdeko.Modules.html"
         }
       },
       "version": ""

@@ -2,12 +2,15 @@
 items:
 - uid: Mewdeko.Votes.Common
   commentId: N:Mewdeko.Votes.Common
-  id: Mewdeko.Votes.Common
+  id: Common
+  parent: Mewdeko.Votes
   children:
   - Mewdeko.Votes.Common.AuthHandler
   - Mewdeko.Votes.Common.CompoundVoteModal
   - Mewdeko.Votes.Common.ConfKeys
+  - Mewdeko.Votes.Common.JsonConverters
   - Mewdeko.Votes.Common.Policies
+  - Mewdeko.Votes.Common.PubSub
   - Mewdeko.Votes.Common.VoteModel
   langs:
   - csharp
@@ -19,6 +22,82 @@ items:
   assemblies:
   - Mewdeko.Votes
 references:
+- uid: Mewdeko.Votes.Common.JsonConverters
+  commentId: N:Mewdeko.Votes.Common.JsonConverters
+  href: Mewdeko.html
+  name: Mewdeko.Votes.Common.JsonConverters
+  nameWithType: Mewdeko.Votes.Common.JsonConverters
+  fullName: Mewdeko.Votes.Common.JsonConverters
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
+  - name: .
+  - uid: Mewdeko.Votes.Common
+    name: Common
+    href: Mewdeko.Votes.Common.html
+  - name: .
+  - uid: Mewdeko.Votes.Common.JsonConverters
+    name: JsonConverters
+    href: Mewdeko.Votes.Common.JsonConverters.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
+  - name: .
+  - uid: Mewdeko.Votes.Common
+    name: Common
+    href: Mewdeko.Votes.Common.html
+  - name: .
+  - uid: Mewdeko.Votes.Common.JsonConverters
+    name: JsonConverters
+    href: Mewdeko.Votes.Common.JsonConverters.html
+- uid: Mewdeko.Votes.Common.PubSub
+  commentId: N:Mewdeko.Votes.Common.PubSub
+  href: Mewdeko.html
+  name: Mewdeko.Votes.Common.PubSub
+  nameWithType: Mewdeko.Votes.Common.PubSub
+  fullName: Mewdeko.Votes.Common.PubSub
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
+  - name: .
+  - uid: Mewdeko.Votes.Common
+    name: Common
+    href: Mewdeko.Votes.Common.html
+  - name: .
+  - uid: Mewdeko.Votes.Common.PubSub
+    name: PubSub
+    href: Mewdeko.Votes.Common.PubSub.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
+  - name: .
+  - uid: Mewdeko.Votes.Common
+    name: Common
+    href: Mewdeko.Votes.Common.html
+  - name: .
+  - uid: Mewdeko.Votes.Common.PubSub
+    name: PubSub
+    href: Mewdeko.Votes.Common.PubSub.html
 - uid: Mewdeko.Votes.Common.AuthHandler
   commentId: T:Mewdeko.Votes.Common.AuthHandler
   href: Mewdeko.Votes.Common.AuthHandler.html

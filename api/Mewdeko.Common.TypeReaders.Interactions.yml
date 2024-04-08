@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Common.TypeReaders.Interactions
   commentId: N:Mewdeko.Common.TypeReaders.Interactions
-  id: Mewdeko.Common.TypeReaders.Interactions
+  id: Interactions
+  parent: Mewdeko.Common.TypeReaders
   children:
   - Mewdeko.Common.TypeReaders.Interactions.EmoteArrayTypeConverter
   - Mewdeko.Common.TypeReaders.Interactions.MewdekoTypeReader`1

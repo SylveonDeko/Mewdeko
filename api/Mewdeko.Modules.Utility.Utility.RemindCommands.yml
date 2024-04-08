@@ -141,7 +141,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Remind
     path: src/Mewdeko/Modules/Utility/RemindCommands.cs
-    startLine: 37
+    startLine: 38
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -216,7 +216,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Remind
     path: src/Mewdeko/Modules/Utility/RemindCommands.cs
-    startLine: 61
+    startLine: 62
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -309,7 +309,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RemindList
     path: src/Mewdeko/Modules/Utility/RemindCommands.cs
-    startLine: 90
+    startLine: 91
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -368,7 +368,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RemindDelete
     path: src/Mewdeko/Modules/Utility/RemindCommands.cs
-    startLine: 136
+    startLine: 137
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility

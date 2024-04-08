@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Games.Common.Nunchi
   commentId: N:Mewdeko.Modules.Games.Common.Nunchi
-  id: Mewdeko.Modules.Games.Common.Nunchi
+  id: Nunchi
+  parent: Mewdeko.Modules.Games.Common
   children:
   - Mewdeko.Modules.Games.Common.Nunchi.NunchiGame
   - Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase

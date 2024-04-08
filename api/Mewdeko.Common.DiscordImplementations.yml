@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Common.DiscordImplementations
   commentId: N:Mewdeko.Common.DiscordImplementations
-  id: Mewdeko.Common.DiscordImplementations
+  id: DiscordImplementations
+  parent: Mewdeko.Common
   children:
   - Mewdeko.Common.DiscordImplementations.MewdekoUserMessage
   langs:

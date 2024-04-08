@@ -146,6 +146,7 @@ items:
   - Microsoft.AspNetCore.Mvc.ControllerBase.ValidationProblem(Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary)
   - Microsoft.AspNetCore.Mvc.ControllerBase.ValidationProblem
   - Microsoft.AspNetCore.Mvc.ControllerBase.ValidationProblem(System.String,System.String,System.Nullable{System.Int32},System.String,System.String,Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateDictionary)
+  - Microsoft.AspNetCore.Mvc.ControllerBase.Created
   - Microsoft.AspNetCore.Mvc.ControllerBase.Created(System.String,System.Object)
   - Microsoft.AspNetCore.Mvc.ControllerBase.Created(System.Uri,System.Object)
   - Microsoft.AspNetCore.Mvc.ControllerBase.CreatedAtAction(System.String,System.Object)
@@ -5882,6 +5883,28 @@ references:
     name: ModelStateDictionary
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.mvc.modelbinding.modelstatedictionary
+  - name: )
+- uid: Microsoft.AspNetCore.Mvc.ControllerBase.Created
+  commentId: M:Microsoft.AspNetCore.Mvc.ControllerBase.Created
+  parent: Microsoft.AspNetCore.Mvc.ControllerBase
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.mvc.controllerbase.created#microsoft-aspnetcore-mvc-controllerbase-created
+  name: Created()
+  nameWithType: ControllerBase.Created()
+  fullName: Microsoft.AspNetCore.Mvc.ControllerBase.Created()
+  spec.csharp:
+  - uid: Microsoft.AspNetCore.Mvc.ControllerBase.Created
+    name: Created
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.mvc.controllerbase.created#microsoft-aspnetcore-mvc-controllerbase-created
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Microsoft.AspNetCore.Mvc.ControllerBase.Created
+    name: Created
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.mvc.controllerbase.created#microsoft-aspnetcore-mvc-controllerbase-created
+  - name: (
   - name: )
 - uid: Microsoft.AspNetCore.Mvc.ControllerBase.Created(System.String,System.Object)
   commentId: M:Microsoft.AspNetCore.Mvc.ControllerBase.Created(System.String,System.Object)

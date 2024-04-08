@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Tests
   commentId: N:Mewdeko.Tests
-  id: Mewdeko.Tests
+  id: Tests
+  parent: Mewdeko
   children:
   - Mewdeko.Tests.CommandStringsTests
   langs:

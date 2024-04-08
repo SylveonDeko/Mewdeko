@@ -21,7 +21,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CustomVoteThingy
     path: src/Mewdeko/Modules/Votes/Services/VoteService.cs
-    startLine: 333
+    startLine: 338
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Votes.Services
@@ -60,7 +60,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: User
     path: src/Mewdeko/Modules/Votes/Services/VoteService.cs
-    startLine: 338
+    startLine: 343
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Votes.Services
@@ -91,7 +91,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: VoteCount
     path: src/Mewdeko/Modules/Votes/Services/VoteService.cs
-    startLine: 343
+    startLine: 348
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Votes.Services

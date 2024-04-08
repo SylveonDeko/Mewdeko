@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Services.strings.impl
   commentId: N:Mewdeko.Services.strings.impl
-  id: Mewdeko.Services.strings.impl
+  id: impl
+  parent: Mewdeko.Services.strings
   children:
   - Mewdeko.Services.strings.impl.BotStrings
   - Mewdeko.Services.strings.impl.CommandStrings

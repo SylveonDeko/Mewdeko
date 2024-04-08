@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Games.Common.ChatterBot
   commentId: N:Mewdeko.Modules.Games.Common.ChatterBot
-  id: Mewdeko.Modules.Games.Common.ChatterBot
+  id: ChatterBot
+  parent: Mewdeko.Modules.Games.Common
   children:
   - Mewdeko.Modules.Games.Common.ChatterBot.ChatterBotResponse
   - Mewdeko.Modules.Games.Common.ChatterBot.ChatterBotSession
@@ -34,24 +35,30 @@ references:
   name: ChatterBotSession
   nameWithType: ChatterBotSession
   fullName: Mewdeko.Modules.Games.Common.ChatterBot.ChatterBotSession
-- uid: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotResponse
-  commentId: T:Mewdeko.Modules.Games.Common.ChatterBot.CleverbotResponse
-  href: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotResponse.html
-  name: CleverbotResponse
-  nameWithType: CleverbotResponse
-  fullName: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotResponse
-- uid: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoCreateResponse
-  commentId: T:Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoCreateResponse
-  href: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoCreateResponse.html
-  name: CleverbotIoCreateResponse
-  nameWithType: CleverbotIoCreateResponse
-  fullName: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoCreateResponse
 - uid: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoAskResponse
   commentId: T:Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoAskResponse
   href: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoAskResponse.html
   name: CleverbotIoAskResponse
   nameWithType: CleverbotIoAskResponse
   fullName: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoAskResponse
+- uid: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoCreateResponse
+  commentId: T:Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoCreateResponse
+  href: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoCreateResponse.html
+  name: CleverbotIoCreateResponse
+  nameWithType: CleverbotIoCreateResponse
+  fullName: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoCreateResponse
+- uid: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoSession
+  commentId: T:Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoSession
+  href: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoSession.html
+  name: CleverbotIoSession
+  nameWithType: CleverbotIoSession
+  fullName: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoSession
+- uid: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotResponse
+  commentId: T:Mewdeko.Modules.Games.Common.ChatterBot.CleverbotResponse
+  href: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotResponse.html
+  name: CleverbotResponse
+  nameWithType: CleverbotResponse
+  fullName: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotResponse
 - uid: Mewdeko.Modules.Games.Common.ChatterBot.IChatterBotSession
   commentId: T:Mewdeko.Modules.Games.Common.ChatterBot.IChatterBotSession
   parent: Mewdeko.Modules.Games.Common.ChatterBot
@@ -65,12 +72,6 @@ references:
   name: OfficialCleverbotSession
   nameWithType: OfficialCleverbotSession
   fullName: Mewdeko.Modules.Games.Common.ChatterBot.OfficialCleverbotSession
-- uid: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoSession
-  commentId: T:Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoSession
-  href: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoSession.html
-  name: CleverbotIoSession
-  nameWithType: CleverbotIoSession
-  fullName: Mewdeko.Modules.Games.Common.ChatterBot.CleverbotIoSession
 - uid: Mewdeko.Modules.Games.Common.ChatterBot
   commentId: N:Mewdeko.Modules.Games.Common.ChatterBot
   href: Mewdeko.html

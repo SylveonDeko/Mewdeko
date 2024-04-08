@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Common.Attributes.TextCommands
   commentId: N:Mewdeko.Common.Attributes.TextCommands
-  id: Mewdeko.Common.Attributes.TextCommands
+  id: TextCommands
+  parent: Mewdeko.Common.Attributes
   children:
   - Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
   - Mewdeko.Common.Attributes.TextCommands.BotPermAttribute
@@ -38,6 +39,13 @@ references:
   name: BotPermAttribute
   nameWithType: BotPermAttribute
   fullName: Mewdeko.Common.Attributes.TextCommands.BotPermAttribute
+- uid: Mewdeko.Common.Attributes.TextCommands.Cmd
+  commentId: T:Mewdeko.Common.Attributes.TextCommands.Cmd
+  parent: Mewdeko.Common.Attributes.TextCommands
+  href: Mewdeko.Common.Attributes.TextCommands.Cmd.html
+  name: Cmd
+  nameWithType: Cmd
+  fullName: Mewdeko.Common.Attributes.TextCommands.Cmd
 - uid: Mewdeko.Common.Attributes.TextCommands.CommandNameLoadHelper
   commentId: T:Mewdeko.Common.Attributes.TextCommands.CommandNameLoadHelper
   href: Mewdeko.Common.Attributes.TextCommands.CommandNameLoadHelper.html
@@ -50,13 +58,6 @@ references:
   name: HelpDisabled
   nameWithType: HelpDisabled
   fullName: Mewdeko.Common.Attributes.TextCommands.HelpDisabled
-- uid: Mewdeko.Common.Attributes.TextCommands.Cmd
-  commentId: T:Mewdeko.Common.Attributes.TextCommands.Cmd
-  parent: Mewdeko.Common.Attributes.TextCommands
-  href: Mewdeko.Common.Attributes.TextCommands.Cmd.html
-  name: Cmd
-  nameWithType: Cmd
-  fullName: Mewdeko.Common.Attributes.TextCommands.Cmd
 - uid: Mewdeko.Common.Attributes.TextCommands.MewdekoOptionsAttribute
   commentId: T:Mewdeko.Common.Attributes.TextCommands.MewdekoOptionsAttribute
   parent: Mewdeko.Common.Attributes.TextCommands

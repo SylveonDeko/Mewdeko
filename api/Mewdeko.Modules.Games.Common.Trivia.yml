@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Games.Common.Trivia
   commentId: N:Mewdeko.Modules.Games.Common.Trivia
-  id: Mewdeko.Modules.Games.Common.Trivia
+  id: Trivia
+  parent: Mewdeko.Modules.Games.Common
   children:
   - Mewdeko.Modules.Games.Common.Trivia.TriviaGame
   - Mewdeko.Modules.Games.Common.Trivia.TriviaOptions

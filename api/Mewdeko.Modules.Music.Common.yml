@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Music.Common
   commentId: N:Mewdeko.Modules.Music.Common
-  id: Mewdeko.Modules.Music.Common
+  id: Common
+  parent: Mewdeko.Modules.Music
   children:
   - Mewdeko.Modules.Music.Common.AdvancedTrackContext
   langs:

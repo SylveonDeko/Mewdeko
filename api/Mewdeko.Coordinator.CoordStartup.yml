@@ -42,6 +42,38 @@ items:
   - System.Object.ToString
   extensionMethods:
   - Mewdeko.Coordinator.CoordStartup.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Coordinator.CoordStartup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)
+  commentId: M:Mewdeko.Coordinator.CoordStartup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)
+  id: '#ctor(Microsoft.Extensions.Configuration.IConfiguration)'
+  parent: Mewdeko.Coordinator.CoordStartup
+  langs:
+  - csharp
+  - vb
+  name: CoordStartup(IConfiguration)
+  nameWithType: CoordStartup.CoordStartup(IConfiguration)
+  fullName: Mewdeko.Coordinator.CoordStartup.CoordStartup(Microsoft.Extensions.Configuration.IConfiguration)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko.Coordinator/CoordStartup.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko.Coordinator/CoordStartup.cs
+    startLine: 10
+  assemblies:
+  - Mewdeko.Coordinator
+  namespace: Mewdeko.Coordinator
+  syntax:
+    content: public CoordStartup(IConfiguration config)
+    parameters:
+    - id: config
+      type: Microsoft.Extensions.Configuration.IConfiguration
+    content.vb: Public Sub New(config As IConfiguration)
+  overload: Mewdeko.Coordinator.CoordStartup.#ctor*
+  nameWithType.vb: CoordStartup.New(IConfiguration)
+  fullName.vb: Mewdeko.Coordinator.CoordStartup.New(Microsoft.Extensions.Configuration.IConfiguration)
+  name.vb: New(IConfiguration)
 - uid: Mewdeko.Coordinator.CoordStartup.Configuration
   commentId: P:Mewdeko.Coordinator.CoordStartup.Configuration
   id: Configuration
@@ -71,38 +103,6 @@ items:
       type: Microsoft.Extensions.Configuration.IConfiguration
     content.vb: Public ReadOnly Property Configuration As IConfiguration
   overload: Mewdeko.Coordinator.CoordStartup.Configuration*
-- uid: Mewdeko.Coordinator.CoordStartup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)
-  commentId: M:Mewdeko.Coordinator.CoordStartup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)
-  id: '#ctor(Microsoft.Extensions.Configuration.IConfiguration)'
-  parent: Mewdeko.Coordinator.CoordStartup
-  langs:
-  - csharp
-  - vb
-  name: CoordStartup(IConfiguration)
-  nameWithType: CoordStartup.CoordStartup(IConfiguration)
-  fullName: Mewdeko.Coordinator.CoordStartup.CoordStartup(Microsoft.Extensions.Configuration.IConfiguration)
-  type: Constructor
-  source:
-    remote:
-      path: src/Mewdeko.Coordinator/CoordStartup.cs
-      branch: psqldeko
-      repo: https://github.com/Sylveon76/Mewdeko.git
-    id: .ctor
-    path: src/Mewdeko.Coordinator/CoordStartup.cs
-    startLine: 14
-  assemblies:
-  - Mewdeko.Coordinator
-  namespace: Mewdeko.Coordinator
-  syntax:
-    content: public CoordStartup(IConfiguration config)
-    parameters:
-    - id: config
-      type: Microsoft.Extensions.Configuration.IConfiguration
-    content.vb: Public Sub New(config As IConfiguration)
-  overload: Mewdeko.Coordinator.CoordStartup.#ctor*
-  nameWithType.vb: CoordStartup.New(IConfiguration)
-  fullName.vb: Mewdeko.Coordinator.CoordStartup.New(Microsoft.Extensions.Configuration.IConfiguration)
-  name.vb: New(IConfiguration)
 - uid: Mewdeko.Coordinator.CoordStartup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
   commentId: M:Mewdeko.Coordinator.CoordStartup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
   id: ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)
@@ -121,7 +121,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ConfigureServices
     path: src/Mewdeko.Coordinator/CoordStartup.cs
-    startLine: 16
+    startLine: 14
   assemblies:
   - Mewdeko.Coordinator
   namespace: Mewdeko.Coordinator
@@ -150,7 +150,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Configure
     path: src/Mewdeko.Coordinator/CoordStartup.cs
-    startLine: 24
+    startLine: 22
   assemblies:
   - Mewdeko.Coordinator
   namespace: Mewdeko.Coordinator
@@ -549,12 +549,15 @@ references:
   - uid: Mewdeko.Extensions
     name: Extensions
     href: Mewdeko.Extensions.html
-- uid: Mewdeko.Coordinator.CoordStartup.Configuration*
-  commentId: Overload:Mewdeko.Coordinator.CoordStartup.Configuration
-  href: Mewdeko.Coordinator.CoordStartup.html#Mewdeko_Coordinator_CoordStartup_Configuration
-  name: Configuration
-  nameWithType: CoordStartup.Configuration
-  fullName: Mewdeko.Coordinator.CoordStartup.Configuration
+- uid: Mewdeko.Coordinator.CoordStartup.#ctor*
+  commentId: Overload:Mewdeko.Coordinator.CoordStartup.#ctor
+  href: Mewdeko.Coordinator.CoordStartup.html#Mewdeko_Coordinator_CoordStartup__ctor_Microsoft_Extensions_Configuration_IConfiguration_
+  name: CoordStartup
+  nameWithType: CoordStartup.CoordStartup
+  fullName: Mewdeko.Coordinator.CoordStartup.CoordStartup
+  nameWithType.vb: CoordStartup.New
+  fullName.vb: Mewdeko.Coordinator.CoordStartup.New
+  name.vb: New
 - uid: Microsoft.Extensions.Configuration.IConfiguration
   commentId: T:Microsoft.Extensions.Configuration.IConfiguration
   parent: Microsoft.Extensions.Configuration
@@ -600,15 +603,12 @@ references:
     name: Configuration
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.configuration
-- uid: Mewdeko.Coordinator.CoordStartup.#ctor*
-  commentId: Overload:Mewdeko.Coordinator.CoordStartup.#ctor
-  href: Mewdeko.Coordinator.CoordStartup.html#Mewdeko_Coordinator_CoordStartup__ctor_Microsoft_Extensions_Configuration_IConfiguration_
-  name: CoordStartup
-  nameWithType: CoordStartup.CoordStartup
-  fullName: Mewdeko.Coordinator.CoordStartup.CoordStartup
-  nameWithType.vb: CoordStartup.New
-  fullName.vb: Mewdeko.Coordinator.CoordStartup.New
-  name.vb: New
+- uid: Mewdeko.Coordinator.CoordStartup.Configuration*
+  commentId: Overload:Mewdeko.Coordinator.CoordStartup.Configuration
+  href: Mewdeko.Coordinator.CoordStartup.html#Mewdeko_Coordinator_CoordStartup_Configuration
+  name: Configuration
+  nameWithType: CoordStartup.Configuration
+  fullName: Mewdeko.Coordinator.CoordStartup.Configuration
 - uid: Mewdeko.Coordinator.CoordStartup.ConfigureServices*
   commentId: Overload:Mewdeko.Coordinator.CoordStartup.ConfigureServices
   href: Mewdeko.Coordinator.CoordStartup.html#Mewdeko_Coordinator_CoordStartup_ConfigureServices_Microsoft_Extensions_DependencyInjection_IServiceCollection_

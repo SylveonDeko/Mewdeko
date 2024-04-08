@@ -2,9 +2,11 @@
 items:
 - uid: Mewdeko.Modules.RoleStates
   commentId: N:Mewdeko.Modules.RoleStates
-  id: Mewdeko.Modules.RoleStates
+  id: RoleStates
+  parent: Mewdeko.Modules
   children:
   - Mewdeko.Modules.RoleStates.RoleStates
+  - Mewdeko.Modules.RoleStates.Services
   - Mewdeko.Modules.RoleStates.SlashRoleStates
   langs:
   - csharp
@@ -16,6 +18,44 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Modules.RoleStates.Services
+  commentId: N:Mewdeko.Modules.RoleStates.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.RoleStates.Services
+  nameWithType: Mewdeko.Modules.RoleStates.Services
+  fullName: Mewdeko.Modules.RoleStates.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.RoleStates
+    name: RoleStates
+    href: Mewdeko.Modules.RoleStates.html
+  - name: .
+  - uid: Mewdeko.Modules.RoleStates.Services
+    name: Services
+    href: Mewdeko.Modules.RoleStates.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.RoleStates
+    name: RoleStates
+    href: Mewdeko.Modules.RoleStates.html
+  - name: .
+  - uid: Mewdeko.Modules.RoleStates.Services
+    name: Services
+    href: Mewdeko.Modules.RoleStates.Services.html
 - uid: Mewdeko.Modules.RoleStates.RoleStates
   commentId: T:Mewdeko.Modules.RoleStates.RoleStates
   href: Mewdeko.Modules.RoleStates.RoleStates.html

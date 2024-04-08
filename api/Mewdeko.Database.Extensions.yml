@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Database.Extensions
   commentId: N:Mewdeko.Database.Extensions
-  id: Mewdeko.Database.Extensions
+  id: Extensions
+  parent: Mewdeko.Database
   children:
   - Mewdeko.Database.Extensions.AfkExtensions
   - Mewdeko.Database.Extensions.ChatTriggersExtensions
@@ -206,12 +207,6 @@ references:
   name: UsernameExtensions
   nameWithType: UsernameExtensions
   fullName: Mewdeko.Database.Extensions.UsernameExtensions
-- uid: Mewdeko.Database.Extensions.WaifuInfoStats
-  commentId: T:Mewdeko.Database.Extensions.WaifuInfoStats
-  href: Mewdeko.Database.Extensions.WaifuInfoStats.html
-  name: WaifuInfoStats
-  nameWithType: WaifuInfoStats
-  fullName: Mewdeko.Database.Extensions.WaifuInfoStats
 - uid: Mewdeko.Database.Extensions.WaifuExtensions
   commentId: T:Mewdeko.Database.Extensions.WaifuExtensions
   parent: Mewdeko.Database.Extensions
@@ -219,6 +214,12 @@ references:
   name: WaifuExtensions
   nameWithType: WaifuExtensions
   fullName: Mewdeko.Database.Extensions.WaifuExtensions
+- uid: Mewdeko.Database.Extensions.WaifuInfoStats
+  commentId: T:Mewdeko.Database.Extensions.WaifuInfoStats
+  href: Mewdeko.Database.Extensions.WaifuInfoStats.html
+  name: WaifuInfoStats
+  nameWithType: WaifuInfoStats
+  fullName: Mewdeko.Database.Extensions.WaifuInfoStats
 - uid: Mewdeko.Database.Extensions.WarningExtensions
   commentId: T:Mewdeko.Database.Extensions.WarningExtensions
   href: Mewdeko.Database.Extensions.WarningExtensions.html

@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Database.Migrations.SQLite
   commentId: N:Mewdeko.Database.Migrations.SQLite
-  id: Mewdeko.Database.Migrations.SQLite
+  id: SQLite
+  parent: Mewdeko.Database.Migrations
   children:
   - Mewdeko.Database.Migrations.SQLite.AddAutoBanRole
   - Mewdeko.Database.Migrations.SQLite.AddAutoPublish
@@ -158,12 +159,24 @@ references:
   name: AddRoleGreets
   nameWithType: AddRoleGreets
   fullName: Mewdeko.Database.Migrations.SQLite.AddRoleGreets
+- uid: Mewdeko.Database.Migrations.SQLite.AddServerRecoveryStore
+  commentId: T:Mewdeko.Database.Migrations.SQLite.AddServerRecoveryStore
+  href: Mewdeko.Database.Migrations.SQLite.AddServerRecoveryStore.html
+  name: AddServerRecoveryStore
+  nameWithType: AddServerRecoveryStore
+  fullName: Mewdeko.Database.Migrations.SQLite.AddServerRecoveryStore
 - uid: Mewdeko.Database.Migrations.SQLite.AddSuggestButtonColor
   commentId: T:Mewdeko.Database.Migrations.SQLite.AddSuggestButtonColor
   href: Mewdeko.Database.Migrations.SQLite.AddSuggestButtonColor.html
   name: AddSuggestButtonColor
   nameWithType: AddSuggestButtonColor
   fullName: Mewdeko.Database.Migrations.SQLite.AddSuggestButtonColor
+- uid: Mewdeko.Database.Migrations.SQLite.AddTemplates
+  commentId: T:Mewdeko.Database.Migrations.SQLite.AddTemplates
+  href: Mewdeko.Database.Migrations.SQLite.AddTemplates.html
+  name: AddTemplates
+  nameWithType: AddTemplates
+  fullName: Mewdeko.Database.Migrations.SQLite.AddTemplates
 - uid: Mewdeko.Database.Migrations.SQLite.AddUserProfileColumns
   commentId: T:Mewdeko.Database.Migrations.SQLite.AddUserProfileColumns
   href: Mewdeko.Database.Migrations.SQLite.AddUserProfileColumns.html
@@ -200,12 +213,6 @@ references:
   name: AddXpBanner
   nameWithType: AddXpBanner
   fullName: Mewdeko.Database.Migrations.SQLite.AddXpBanner
-- uid: Mewdeko.Database.Migrations.SQLite.AddTemplates
-  commentId: T:Mewdeko.Database.Migrations.SQLite.AddTemplates
-  href: Mewdeko.Database.Migrations.SQLite.AddTemplates.html
-  name: AddTemplates
-  nameWithType: AddTemplates
-  fullName: Mewdeko.Database.Migrations.SQLite.AddTemplates
 - uid: Mewdeko.Database.Migrations.SQLite.AutoDisconnectAdd
   commentId: T:Mewdeko.Database.Migrations.SQLite.AutoDisconnectAdd
   href: Mewdeko.Database.Migrations.SQLite.AutoDisconnectAdd.html
@@ -254,6 +261,12 @@ references:
   name: Confessions
   nameWithType: Confessions
   fullName: Mewdeko.Database.Migrations.SQLite.Confessions
+- uid: Mewdeko.Database.Migrations.SQLite.CreateJoinLeaveLogsSystemThingie
+  commentId: T:Mewdeko.Database.Migrations.SQLite.CreateJoinLeaveLogsSystemThingie
+  href: Mewdeko.Database.Migrations.SQLite.CreateJoinLeaveLogsSystemThingie.html
+  name: CreateJoinLeaveLogsSystemThingie
+  nameWithType: CreateJoinLeaveLogsSystemThingie
+  fullName: Mewdeko.Database.Migrations.SQLite.CreateJoinLeaveLogsSystemThingie
 - uid: Mewdeko.Database.Migrations.SQLite.CtPrefixes
   commentId: T:Mewdeko.Database.Migrations.SQLite.CtPrefixes
   href: Mewdeko.Database.Migrations.SQLite.CtPrefixes.html
@@ -314,12 +327,6 @@ references:
   name: LeaveHook
   nameWithType: LeaveHook
   fullName: Mewdeko.Database.Migrations.SQLite.LeaveHook
-- uid: Mewdeko.Database.Migrations.SQLite.CreateJoinLeaveLogsSystemThingie
-  commentId: T:Mewdeko.Database.Migrations.SQLite.CreateJoinLeaveLogsSystemThingie
-  href: Mewdeko.Database.Migrations.SQLite.CreateJoinLeaveLogsSystemThingie.html
-  name: CreateJoinLeaveLogsSystemThingie
-  nameWithType: CreateJoinLeaveLogsSystemThingie
-  fullName: Mewdeko.Database.Migrations.SQLite.CreateJoinLeaveLogsSystemThingie
 - uid: Mewdeko.Database.Migrations.SQLite.LogImprovements
   commentId: T:Mewdeko.Database.Migrations.SQLite.LogImprovements
   href: Mewdeko.Database.Migrations.SQLite.LogImprovements.html
@@ -398,12 +405,6 @@ references:
   name: RoleConnectionAuth
   nameWithType: RoleConnectionAuth
   fullName: Mewdeko.Database.Migrations.SQLite.RoleConnectionAuth
-- uid: Mewdeko.Database.Migrations.SQLite.AddServerRecoveryStore
-  commentId: T:Mewdeko.Database.Migrations.SQLite.AddServerRecoveryStore
-  href: Mewdeko.Database.Migrations.SQLite.AddServerRecoveryStore.html
-  name: AddServerRecoveryStore
-  nameWithType: AddServerRecoveryStore
-  fullName: Mewdeko.Database.Migrations.SQLite.AddServerRecoveryStore
 - uid: Mewdeko.Database.Migrations.SQLite.SlashChatTriggers
   commentId: T:Mewdeko.Database.Migrations.SQLite.SlashChatTriggers
   href: Mewdeko.Database.Migrations.SQLite.SlashChatTriggers.html
@@ -428,18 +429,18 @@ references:
   name: StarboardUpgrade
   nameWithType: StarboardUpgrade
   fullName: Mewdeko.Database.Migrations.SQLite.StarboardUpgrade
-- uid: Mewdeko.Database.Migrations.SQLite.SuggestionUpgrades
-  commentId: T:Mewdeko.Database.Migrations.SQLite.SuggestionUpgrades
-  href: Mewdeko.Database.Migrations.SQLite.SuggestionUpgrades.html
-  name: SuggestionUpgrades
-  nameWithType: SuggestionUpgrades
-  fullName: Mewdeko.Database.Migrations.SQLite.SuggestionUpgrades
 - uid: Mewdeko.Database.Migrations.SQLite.SuggestStateIds
   commentId: T:Mewdeko.Database.Migrations.SQLite.SuggestStateIds
   href: Mewdeko.Database.Migrations.SQLite.SuggestStateIds.html
   name: SuggestStateIds
   nameWithType: SuggestStateIds
   fullName: Mewdeko.Database.Migrations.SQLite.SuggestStateIds
+- uid: Mewdeko.Database.Migrations.SQLite.SuggestionUpgrades
+  commentId: T:Mewdeko.Database.Migrations.SQLite.SuggestionUpgrades
+  href: Mewdeko.Database.Migrations.SQLite.SuggestionUpgrades.html
+  name: SuggestionUpgrades
+  nameWithType: SuggestionUpgrades
+  fullName: Mewdeko.Database.Migrations.SQLite.SuggestionUpgrades
 - uid: Mewdeko.Database.Migrations.SQLite.SwitchFcInProfile
   commentId: T:Mewdeko.Database.Migrations.SQLite.SwitchFcInProfile
   href: Mewdeko.Database.Migrations.SQLite.SwitchFcInProfile.html

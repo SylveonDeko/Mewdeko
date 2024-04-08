@@ -2,9 +2,12 @@
 items:
 - uid: Mewdeko.Modules.Utility
   commentId: N:Mewdeko.Modules.Utility
-  id: Mewdeko.Modules.Utility
+  id: Utility
+  parent: Mewdeko.Modules
   children:
+  - Mewdeko.Modules.Utility.Common
   - Mewdeko.Modules.Utility.LinkCommands
+  - Mewdeko.Modules.Utility.Services
   - Mewdeko.Modules.Utility.SlashAutoPublish
   - Mewdeko.Modules.Utility.SlashRemindCommands
   - Mewdeko.Modules.Utility.SlashUtility
@@ -35,6 +38,106 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Modules.Utility.Common
+  commentId: N:Mewdeko.Modules.Utility.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Utility.Common
+  nameWithType: Mewdeko.Modules.Utility.Common
+  fullName: Mewdeko.Modules.Utility.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility
+    name: Utility
+    href: Mewdeko.Modules.Utility.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility.Common
+    name: Common
+    href: Mewdeko.Modules.Utility.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility
+    name: Utility
+    href: Mewdeko.Modules.Utility.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility.Common
+    name: Common
+    href: Mewdeko.Modules.Utility.Common.html
+- uid: Mewdeko.Modules.Utility.Services
+  commentId: N:Mewdeko.Modules.Utility.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Utility.Services
+  nameWithType: Mewdeko.Modules.Utility.Services
+  fullName: Mewdeko.Modules.Utility.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility
+    name: Utility
+    href: Mewdeko.Modules.Utility.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility.Services
+    name: Services
+    href: Mewdeko.Modules.Utility.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility
+    name: Utility
+    href: Mewdeko.Modules.Utility.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility.Services
+    name: Services
+    href: Mewdeko.Modules.Utility.Services.html
+- uid: Mewdeko.Modules.Utility.LinkCommands
+  commentId: T:Mewdeko.Modules.Utility.LinkCommands
+  href: Mewdeko.Modules.Utility.LinkCommands.html
+  name: LinkCommands
+  nameWithType: LinkCommands
+  fullName: Mewdeko.Modules.Utility.LinkCommands
+- uid: Mewdeko.Modules.Utility.SlashAutoPublish
+  commentId: T:Mewdeko.Modules.Utility.SlashAutoPublish
+  href: Mewdeko.Modules.Utility.SlashAutoPublish.html
+  name: SlashAutoPublish
+  nameWithType: SlashAutoPublish
+  fullName: Mewdeko.Modules.Utility.SlashAutoPublish
+- uid: Mewdeko.Modules.Utility.SlashRemindCommands
+  commentId: T:Mewdeko.Modules.Utility.SlashRemindCommands
+  href: Mewdeko.Modules.Utility.SlashRemindCommands.html
+  name: SlashRemindCommands
+  nameWithType: SlashRemindCommands
+  fullName: Mewdeko.Modules.Utility.SlashRemindCommands
+- uid: Mewdeko.Modules.Utility.SlashUtility
+  commentId: T:Mewdeko.Modules.Utility.SlashUtility
+  href: Mewdeko.Modules.Utility.SlashUtility.html
+  name: SlashUtility
+  nameWithType: SlashUtility
+  fullName: Mewdeko.Modules.Utility.SlashUtility
 - uid: Mewdeko.Modules.Utility.Utility
   commentId: T:Mewdeko.Modules.Utility.Utility
   href: Mewdeko.Modules.Utility.Utility.html
@@ -195,6 +298,29 @@ references:
   - uid: Mewdeko.Modules.Utility.Utility.NetworkUtilities
     name: NetworkUtilities
     href: Mewdeko.Modules.Utility.Utility.NetworkUtilities.html
+- uid: Mewdeko.Modules.Utility.Utility.PermissionType
+  commentId: T:Mewdeko.Modules.Utility.Utility.PermissionType
+  parent: Mewdeko.Modules.Utility
+  href: Mewdeko.Modules.Utility.Utility.html
+  name: Utility.PermissionType
+  nameWithType: Utility.PermissionType
+  fullName: Mewdeko.Modules.Utility.Utility.PermissionType
+  spec.csharp:
+  - uid: Mewdeko.Modules.Utility.Utility
+    name: Utility
+    href: Mewdeko.Modules.Utility.Utility.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility.Utility.PermissionType
+    name: PermissionType
+    href: Mewdeko.Modules.Utility.Utility.PermissionType.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Utility.Utility
+    name: Utility
+    href: Mewdeko.Modules.Utility.Utility.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility.Utility.PermissionType
+    name: PermissionType
+    href: Mewdeko.Modules.Utility.Utility.PermissionType.html
 - uid: Mewdeko.Modules.Utility.Utility.QuoteCommands
   commentId: T:Mewdeko.Modules.Utility.Utility.QuoteCommands
   href: Mewdeko.Modules.Utility.Utility.html
@@ -358,29 +484,6 @@ references:
   - uid: Mewdeko.Modules.Utility.Utility.UnitConverterCommands
     name: UnitConverterCommands
     href: Mewdeko.Modules.Utility.Utility.UnitConverterCommands.html
-- uid: Mewdeko.Modules.Utility.Utility.PermissionType
-  commentId: T:Mewdeko.Modules.Utility.Utility.PermissionType
-  parent: Mewdeko.Modules.Utility
-  href: Mewdeko.Modules.Utility.Utility.html
-  name: Utility.PermissionType
-  nameWithType: Utility.PermissionType
-  fullName: Mewdeko.Modules.Utility.Utility.PermissionType
-  spec.csharp:
-  - uid: Mewdeko.Modules.Utility.Utility
-    name: Utility
-    href: Mewdeko.Modules.Utility.Utility.html
-  - name: .
-  - uid: Mewdeko.Modules.Utility.Utility.PermissionType
-    name: PermissionType
-    href: Mewdeko.Modules.Utility.Utility.PermissionType.html
-  spec.vb:
-  - uid: Mewdeko.Modules.Utility.Utility
-    name: Utility
-    href: Mewdeko.Modules.Utility.Utility.html
-  - name: .
-  - uid: Mewdeko.Modules.Utility.Utility.PermissionType
-    name: PermissionType
-    href: Mewdeko.Modules.Utility.Utility.PermissionType.html
 - uid: Mewdeko.Modules.Utility.Utility.VerboseErrorCommands
   commentId: T:Mewdeko.Modules.Utility.Utility.VerboseErrorCommands
   href: Mewdeko.Modules.Utility.Utility.html
@@ -403,30 +506,6 @@ references:
   - uid: Mewdeko.Modules.Utility.Utility.VerboseErrorCommands
     name: VerboseErrorCommands
     href: Mewdeko.Modules.Utility.Utility.VerboseErrorCommands.html
-- uid: Mewdeko.Modules.Utility.LinkCommands
-  commentId: T:Mewdeko.Modules.Utility.LinkCommands
-  href: Mewdeko.Modules.Utility.LinkCommands.html
-  name: LinkCommands
-  nameWithType: LinkCommands
-  fullName: Mewdeko.Modules.Utility.LinkCommands
-- uid: Mewdeko.Modules.Utility.SlashAutoPublish
-  commentId: T:Mewdeko.Modules.Utility.SlashAutoPublish
-  href: Mewdeko.Modules.Utility.SlashAutoPublish.html
-  name: SlashAutoPublish
-  nameWithType: SlashAutoPublish
-  fullName: Mewdeko.Modules.Utility.SlashAutoPublish
-- uid: Mewdeko.Modules.Utility.SlashRemindCommands
-  commentId: T:Mewdeko.Modules.Utility.SlashRemindCommands
-  href: Mewdeko.Modules.Utility.SlashRemindCommands.html
-  name: SlashRemindCommands
-  nameWithType: SlashRemindCommands
-  fullName: Mewdeko.Modules.Utility.SlashRemindCommands
-- uid: Mewdeko.Modules.Utility.SlashUtility
-  commentId: T:Mewdeko.Modules.Utility.SlashUtility
-  href: Mewdeko.Modules.Utility.SlashUtility.html
-  name: SlashUtility
-  nameWithType: SlashUtility
-  fullName: Mewdeko.Modules.Utility.SlashUtility
 - uid: Mewdeko.Modules.Utility
   commentId: N:Mewdeko.Modules.Utility
   href: Mewdeko.html

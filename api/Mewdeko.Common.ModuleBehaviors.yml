@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Common.ModuleBehaviors
   commentId: N:Mewdeko.Common.ModuleBehaviors
-  id: Mewdeko.Common.ModuleBehaviors
+  id: ModuleBehaviors
+  parent: Mewdeko.Common
   children:
   - Mewdeko.Common.ModuleBehaviors.IEarlyBehavior
   - Mewdeko.Common.ModuleBehaviors.IInputTransformer
@@ -27,13 +28,6 @@ references:
   name: IEarlyBehavior
   nameWithType: IEarlyBehavior
   fullName: Mewdeko.Common.ModuleBehaviors.IEarlyBehavior
-- uid: Mewdeko.Common.ModuleBehaviors.ModuleBehaviorType
-  commentId: T:Mewdeko.Common.ModuleBehaviors.ModuleBehaviorType
-  parent: Mewdeko.Common.ModuleBehaviors
-  href: Mewdeko.Common.ModuleBehaviors.ModuleBehaviorType.html
-  name: ModuleBehaviorType
-  nameWithType: ModuleBehaviorType
-  fullName: Mewdeko.Common.ModuleBehaviors.ModuleBehaviorType
 - uid: Mewdeko.Common.ModuleBehaviors.IInputTransformer
   commentId: T:Mewdeko.Common.ModuleBehaviors.IInputTransformer
   parent: Mewdeko.Common.ModuleBehaviors
@@ -62,6 +56,13 @@ references:
   name: IReadyExecutor
   nameWithType: IReadyExecutor
   fullName: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+- uid: Mewdeko.Common.ModuleBehaviors.ModuleBehaviorType
+  commentId: T:Mewdeko.Common.ModuleBehaviors.ModuleBehaviorType
+  parent: Mewdeko.Common.ModuleBehaviors
+  href: Mewdeko.Common.ModuleBehaviors.ModuleBehaviorType.html
+  name: ModuleBehaviorType
+  nameWithType: ModuleBehaviorType
+  fullName: Mewdeko.Common.ModuleBehaviors.ModuleBehaviorType
 - uid: Mewdeko.Common.ModuleBehaviors
   commentId: N:Mewdeko.Common.ModuleBehaviors
   href: Mewdeko.html

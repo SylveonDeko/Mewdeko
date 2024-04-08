@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Coordinator.Shared
   commentId: N:Mewdeko.Coordinator.Shared
-  id: Mewdeko.Coordinator.Shared
+  id: Shared
+  parent: Mewdeko.Coordinator
   children:
   - Mewdeko.Coordinator.Shared.Config
   - Mewdeko.Coordinator.Shared.CoordState

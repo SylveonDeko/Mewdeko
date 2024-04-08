@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Searches.Common
   commentId: N:Mewdeko.Modules.Searches.Common
-  id: Mewdeko.Modules.Searches.Common
+  id: Common
+  parent: Mewdeko.Modules.Searches
   children:
   - Mewdeko.Modules.Searches.Common.AnimeResult
   - Mewdeko.Modules.Searches.Common.Audio
@@ -20,6 +21,7 @@ items:
   - Mewdeko.Modules.Searches.Common.E621Object.ScoreData
   - Mewdeko.Modules.Searches.Common.E621Object.TagData
   - Mewdeko.Modules.Searches.Common.Example
+  - Mewdeko.Modules.Searches.Common.Exceptions
   - Mewdeko.Modules.Searches.Common.GatariUserResponse
   - Mewdeko.Modules.Searches.Common.GatariUserStatsResponse
   - Mewdeko.Modules.Searches.Common.GoogleSearchResult
@@ -39,6 +41,7 @@ items:
   - Mewdeko.Modules.Searches.Common.SafebooruElement
   - Mewdeko.Modules.Searches.Common.SearchImageCacher
   - Mewdeko.Modules.Searches.Common.Sens
+  - Mewdeko.Modules.Searches.Common.StreamNotifications
   - Mewdeko.Modules.Searches.Common.Sys
   - Mewdeko.Modules.Searches.Common.TimeData
   - Mewdeko.Modules.Searches.Common.TimeZoneResult
@@ -63,61 +66,168 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Modules.Searches.Common.Exceptions
+  commentId: N:Mewdeko.Modules.Searches.Common.Exceptions
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Common.Exceptions
+  nameWithType: Mewdeko.Modules.Searches.Common.Exceptions
+  fullName: Mewdeko.Modules.Searches.Common.Exceptions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.Exceptions
+    name: Exceptions
+    href: Mewdeko.Modules.Searches.Common.Exceptions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.Exceptions
+    name: Exceptions
+    href: Mewdeko.Modules.Searches.Common.Exceptions.html
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications
+  commentId: N:Mewdeko.Modules.Searches.Common.StreamNotifications
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Common.StreamNotifications
+  nameWithType: Mewdeko.Modules.Searches.Common.StreamNotifications
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications
+    name: StreamNotifications
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications
+    name: StreamNotifications
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.html
 - uid: Mewdeko.Modules.Searches.Common.AnimeResult
   commentId: T:Mewdeko.Modules.Searches.Common.AnimeResult
   href: Mewdeko.Modules.Searches.Common.AnimeResult.html
   name: AnimeResult
   nameWithType: AnimeResult
   fullName: Mewdeko.Modules.Searches.Common.AnimeResult
-- uid: Mewdeko.Modules.Searches.Common.BibleVerses
-  commentId: T:Mewdeko.Modules.Searches.Common.BibleVerses
-  href: Mewdeko.Modules.Searches.Common.BibleVerses.html
-  name: BibleVerses
-  nameWithType: BibleVerses
-  fullName: Mewdeko.Modules.Searches.Common.BibleVerses
-- uid: Mewdeko.Modules.Searches.Common.BibleVerse
-  commentId: T:Mewdeko.Modules.Searches.Common.BibleVerse
-  href: Mewdeko.Modules.Searches.Common.BibleVerse.html
-  name: BibleVerse
-  nameWithType: BibleVerse
-  fullName: Mewdeko.Modules.Searches.Common.BibleVerse
 - uid: Mewdeko.Modules.Searches.Common.Audio
   commentId: T:Mewdeko.Modules.Searches.Common.Audio
   href: Mewdeko.Modules.Searches.Common.Audio.html
   name: Audio
   nameWithType: Audio
   fullName: Mewdeko.Modules.Searches.Common.Audio
-- uid: Mewdeko.Modules.Searches.Common.Example
-  commentId: T:Mewdeko.Modules.Searches.Common.Example
-  href: Mewdeko.Modules.Searches.Common.Example.html
-  name: Example
-  nameWithType: Example
-  fullName: Mewdeko.Modules.Searches.Common.Example
-- uid: Mewdeko.Modules.Searches.Common.GramaticalInfo
-  commentId: T:Mewdeko.Modules.Searches.Common.GramaticalInfo
+- uid: Mewdeko.Modules.Searches.Common.BibleVerse
+  commentId: T:Mewdeko.Modules.Searches.Common.BibleVerse
+  href: Mewdeko.Modules.Searches.Common.BibleVerse.html
+  name: BibleVerse
+  nameWithType: BibleVerse
+  fullName: Mewdeko.Modules.Searches.Common.BibleVerse
+- uid: Mewdeko.Modules.Searches.Common.BibleVerses
+  commentId: T:Mewdeko.Modules.Searches.Common.BibleVerses
+  href: Mewdeko.Modules.Searches.Common.BibleVerses.html
+  name: BibleVerses
+  nameWithType: BibleVerses
+  fullName: Mewdeko.Modules.Searches.Common.BibleVerses
+- uid: Mewdeko.Modules.Searches.Common.Clouds
+  commentId: T:Mewdeko.Modules.Searches.Common.Clouds
   parent: Mewdeko.Modules.Searches.Common
-  href: Mewdeko.Modules.Searches.Common.GramaticalInfo.html
-  name: GramaticalInfo
-  nameWithType: GramaticalInfo
-  fullName: Mewdeko.Modules.Searches.Common.GramaticalInfo
-- uid: Mewdeko.Modules.Searches.Common.Sens
-  commentId: T:Mewdeko.Modules.Searches.Common.Sens
-  href: Mewdeko.Modules.Searches.Common.Sens.html
-  name: Sens
-  nameWithType: Sens
-  fullName: Mewdeko.Modules.Searches.Common.Sens
-- uid: Mewdeko.Modules.Searches.Common.Result
-  commentId: T:Mewdeko.Modules.Searches.Common.Result
-  href: Mewdeko.Modules.Searches.Common.Result.html
-  name: Result
-  nameWithType: Result
-  fullName: Mewdeko.Modules.Searches.Common.Result
+  href: Mewdeko.Modules.Searches.Common.Clouds.html
+  name: Clouds
+  nameWithType: Clouds
+  fullName: Mewdeko.Modules.Searches.Common.Clouds
+- uid: Mewdeko.Modules.Searches.Common.Coord
+  commentId: T:Mewdeko.Modules.Searches.Common.Coord
+  parent: Mewdeko.Modules.Searches.Common
+  href: Mewdeko.Modules.Searches.Common.Coord.html
+  name: Coord
+  nameWithType: Coord
+  fullName: Mewdeko.Modules.Searches.Common.Coord
+- uid: Mewdeko.Modules.Searches.Common.DapiImageObject
+  commentId: T:Mewdeko.Modules.Searches.Common.DapiImageObject
+  parent: Mewdeko.Modules.Searches.Common
+  href: Mewdeko.Modules.Searches.Common.DapiImageObject.html
+  name: DapiImageObject
+  nameWithType: DapiImageObject
+  fullName: Mewdeko.Modules.Searches.Common.DapiImageObject
+- uid: Mewdeko.Modules.Searches.Common.DapiSearchType
+  commentId: T:Mewdeko.Modules.Searches.Common.DapiSearchType
+  parent: Mewdeko.Modules.Searches.Common
+  href: Mewdeko.Modules.Searches.Common.DapiSearchType.html
+  name: DapiSearchType
+  nameWithType: DapiSearchType
+  fullName: Mewdeko.Modules.Searches.Common.DapiSearchType
 - uid: Mewdeko.Modules.Searches.Common.DefineModel
   commentId: T:Mewdeko.Modules.Searches.Common.DefineModel
   href: Mewdeko.Modules.Searches.Common.DefineModel.html
   name: DefineModel
   nameWithType: DefineModel
   fullName: Mewdeko.Modules.Searches.Common.DefineModel
+- uid: Mewdeko.Modules.Searches.Common.DerpiContainer
+  commentId: T:Mewdeko.Modules.Searches.Common.DerpiContainer
+  href: Mewdeko.Modules.Searches.Common.DerpiContainer.html
+  name: DerpiContainer
+  nameWithType: DerpiContainer
+  fullName: Mewdeko.Modules.Searches.Common.DerpiContainer
+- uid: Mewdeko.Modules.Searches.Common.DerpiImageObject
+  commentId: T:Mewdeko.Modules.Searches.Common.DerpiImageObject
+  href: Mewdeko.Modules.Searches.Common.DerpiImageObject.html
+  name: DerpiImageObject
+  nameWithType: DerpiImageObject
+  fullName: Mewdeko.Modules.Searches.Common.DerpiImageObject
 - uid: Mewdeko.Modules.Searches.Common.E621Object
   commentId: T:Mewdeko.Modules.Searches.Common.E621Object
   href: Mewdeko.Modules.Searches.Common.E621Object.html
@@ -147,29 +257,6 @@ references:
   - uid: Mewdeko.Modules.Searches.Common.E621Object.FileData
     name: FileData
     href: Mewdeko.Modules.Searches.Common.E621Object.FileData.html
-- uid: Mewdeko.Modules.Searches.Common.E621Object.TagData
-  commentId: T:Mewdeko.Modules.Searches.Common.E621Object.TagData
-  parent: Mewdeko.Modules.Searches.Common
-  href: Mewdeko.Modules.Searches.Common.E621Object.html
-  name: E621Object.TagData
-  nameWithType: E621Object.TagData
-  fullName: Mewdeko.Modules.Searches.Common.E621Object.TagData
-  spec.csharp:
-  - uid: Mewdeko.Modules.Searches.Common.E621Object
-    name: E621Object
-    href: Mewdeko.Modules.Searches.Common.E621Object.html
-  - name: .
-  - uid: Mewdeko.Modules.Searches.Common.E621Object.TagData
-    name: TagData
-    href: Mewdeko.Modules.Searches.Common.E621Object.TagData.html
-  spec.vb:
-  - uid: Mewdeko.Modules.Searches.Common.E621Object
-    name: E621Object
-    href: Mewdeko.Modules.Searches.Common.E621Object.html
-  - name: .
-  - uid: Mewdeko.Modules.Searches.Common.E621Object.TagData
-    name: TagData
-    href: Mewdeko.Modules.Searches.Common.E621Object.TagData.html
 - uid: Mewdeko.Modules.Searches.Common.E621Object.ScoreData
   commentId: T:Mewdeko.Modules.Searches.Common.E621Object.ScoreData
   parent: Mewdeko.Modules.Searches.Common
@@ -193,25 +280,41 @@ references:
   - uid: Mewdeko.Modules.Searches.Common.E621Object.ScoreData
     name: ScoreData
     href: Mewdeko.Modules.Searches.Common.E621Object.ScoreData.html
-- uid: Mewdeko.Modules.Searches.Common.UserData
-  commentId: T:Mewdeko.Modules.Searches.Common.UserData
-  href: Mewdeko.Modules.Searches.Common.UserData.html
-  name: UserData
-  nameWithType: UserData
-  fullName: Mewdeko.Modules.Searches.Common.UserData
+- uid: Mewdeko.Modules.Searches.Common.E621Object.TagData
+  commentId: T:Mewdeko.Modules.Searches.Common.E621Object.TagData
+  parent: Mewdeko.Modules.Searches.Common
+  href: Mewdeko.Modules.Searches.Common.E621Object.html
+  name: E621Object.TagData
+  nameWithType: E621Object.TagData
+  fullName: Mewdeko.Modules.Searches.Common.E621Object.TagData
+  spec.csharp:
+  - uid: Mewdeko.Modules.Searches.Common.E621Object
+    name: E621Object
+    href: Mewdeko.Modules.Searches.Common.E621Object.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.E621Object.TagData
+    name: TagData
+    href: Mewdeko.Modules.Searches.Common.E621Object.TagData.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Searches.Common.E621Object
+    name: E621Object
+    href: Mewdeko.Modules.Searches.Common.E621Object.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.E621Object.TagData
+    name: TagData
+    href: Mewdeko.Modules.Searches.Common.E621Object.TagData.html
+- uid: Mewdeko.Modules.Searches.Common.Example
+  commentId: T:Mewdeko.Modules.Searches.Common.Example
+  href: Mewdeko.Modules.Searches.Common.Example.html
+  name: Example
+  nameWithType: Example
+  fullName: Mewdeko.Modules.Searches.Common.Example
 - uid: Mewdeko.Modules.Searches.Common.GatariUserResponse
   commentId: T:Mewdeko.Modules.Searches.Common.GatariUserResponse
   href: Mewdeko.Modules.Searches.Common.GatariUserResponse.html
   name: GatariUserResponse
   nameWithType: GatariUserResponse
   fullName: Mewdeko.Modules.Searches.Common.GatariUserResponse
-- uid: Mewdeko.Modules.Searches.Common.UserStats
-  commentId: T:Mewdeko.Modules.Searches.Common.UserStats
-  parent: Mewdeko.Modules.Searches.Common
-  href: Mewdeko.Modules.Searches.Common.UserStats.html
-  name: UserStats
-  nameWithType: UserStats
-  fullName: Mewdeko.Modules.Searches.Common.UserStats
 - uid: Mewdeko.Modules.Searches.Common.GatariUserStatsResponse
   commentId: T:Mewdeko.Modules.Searches.Common.GatariUserStatsResponse
   href: Mewdeko.Modules.Searches.Common.GatariUserStatsResponse.html
@@ -224,6 +327,13 @@ references:
   name: GoogleSearchResult
   nameWithType: GoogleSearchResult
   fullName: Mewdeko.Modules.Searches.Common.GoogleSearchResult
+- uid: Mewdeko.Modules.Searches.Common.GramaticalInfo
+  commentId: T:Mewdeko.Modules.Searches.Common.GramaticalInfo
+  parent: Mewdeko.Modules.Searches.Common
+  href: Mewdeko.Modules.Searches.Common.GramaticalInfo.html
+  name: GramaticalInfo
+  nameWithType: GramaticalInfo
+  fullName: Mewdeko.Modules.Searches.Common.GramaticalInfo
 - uid: Mewdeko.Modules.Searches.Common.ImageCacherObject
   commentId: T:Mewdeko.Modules.Searches.Common.ImageCacherObject
   parent: Mewdeko.Modules.Searches.Common
@@ -231,12 +341,25 @@ references:
   name: ImageCacherObject
   nameWithType: ImageCacherObject
   fullName: Mewdeko.Modules.Searches.Common.ImageCacherObject
+- uid: Mewdeko.Modules.Searches.Common.LocationIqResponse
+  commentId: T:Mewdeko.Modules.Searches.Common.LocationIqResponse
+  href: Mewdeko.Modules.Searches.Common.LocationIqResponse.html
+  name: LocationIqResponse
+  nameWithType: LocationIqResponse
+  fullName: Mewdeko.Modules.Searches.Common.LocationIqResponse
 - uid: Mewdeko.Modules.Searches.Common.MagicItem
   commentId: T:Mewdeko.Modules.Searches.Common.MagicItem
   href: Mewdeko.Modules.Searches.Common.MagicItem.html
   name: MagicItem
   nameWithType: MagicItem
   fullName: Mewdeko.Modules.Searches.Common.MagicItem
+- uid: Mewdeko.Modules.Searches.Common.Main
+  commentId: T:Mewdeko.Modules.Searches.Common.Main
+  parent: Mewdeko.Modules.Searches.Common
+  href: Mewdeko.Modules.Searches.Common.Main.html
+  name: Main
+  nameWithType: Main
+  fullName: Mewdeko.Modules.Searches.Common.Main
 - uid: Mewdeko.Modules.Searches.Common.MangaResult
   commentId: T:Mewdeko.Modules.Searches.Common.MangaResult
   href: Mewdeko.Modules.Searches.Common.MangaResult.html
@@ -295,44 +418,37 @@ references:
   name: OsuUserData
   nameWithType: OsuUserData
   fullName: Mewdeko.Modules.Searches.Common.OsuUserData
-- uid: Mewdeko.Modules.Searches.Common.SearchImageCacher
-  commentId: T:Mewdeko.Modules.Searches.Common.SearchImageCacher
-  href: Mewdeko.Modules.Searches.Common.SearchImageCacher.html
-  name: SearchImageCacher
-  nameWithType: SearchImageCacher
-  fullName: Mewdeko.Modules.Searches.Common.SearchImageCacher
-- uid: Mewdeko.Modules.Searches.Common.DapiImageObject
-  commentId: T:Mewdeko.Modules.Searches.Common.DapiImageObject
-  parent: Mewdeko.Modules.Searches.Common
-  href: Mewdeko.Modules.Searches.Common.DapiImageObject.html
-  name: DapiImageObject
-  nameWithType: DapiImageObject
-  fullName: Mewdeko.Modules.Searches.Common.DapiImageObject
-- uid: Mewdeko.Modules.Searches.Common.DerpiContainer
-  commentId: T:Mewdeko.Modules.Searches.Common.DerpiContainer
-  href: Mewdeko.Modules.Searches.Common.DerpiContainer.html
-  name: DerpiContainer
-  nameWithType: DerpiContainer
-  fullName: Mewdeko.Modules.Searches.Common.DerpiContainer
-- uid: Mewdeko.Modules.Searches.Common.DerpiImageObject
-  commentId: T:Mewdeko.Modules.Searches.Common.DerpiImageObject
-  href: Mewdeko.Modules.Searches.Common.DerpiImageObject.html
-  name: DerpiImageObject
-  nameWithType: DerpiImageObject
-  fullName: Mewdeko.Modules.Searches.Common.DerpiImageObject
-- uid: Mewdeko.Modules.Searches.Common.DapiSearchType
-  commentId: T:Mewdeko.Modules.Searches.Common.DapiSearchType
-  parent: Mewdeko.Modules.Searches.Common
-  href: Mewdeko.Modules.Searches.Common.DapiSearchType.html
-  name: DapiSearchType
-  nameWithType: DapiSearchType
-  fullName: Mewdeko.Modules.Searches.Common.DapiSearchType
+- uid: Mewdeko.Modules.Searches.Common.Result
+  commentId: T:Mewdeko.Modules.Searches.Common.Result
+  href: Mewdeko.Modules.Searches.Common.Result.html
+  name: Result
+  nameWithType: Result
+  fullName: Mewdeko.Modules.Searches.Common.Result
 - uid: Mewdeko.Modules.Searches.Common.SafebooruElement
   commentId: T:Mewdeko.Modules.Searches.Common.SafebooruElement
   href: Mewdeko.Modules.Searches.Common.SafebooruElement.html
   name: SafebooruElement
   nameWithType: SafebooruElement
   fullName: Mewdeko.Modules.Searches.Common.SafebooruElement
+- uid: Mewdeko.Modules.Searches.Common.SearchImageCacher
+  commentId: T:Mewdeko.Modules.Searches.Common.SearchImageCacher
+  href: Mewdeko.Modules.Searches.Common.SearchImageCacher.html
+  name: SearchImageCacher
+  nameWithType: SearchImageCacher
+  fullName: Mewdeko.Modules.Searches.Common.SearchImageCacher
+- uid: Mewdeko.Modules.Searches.Common.Sens
+  commentId: T:Mewdeko.Modules.Searches.Common.Sens
+  href: Mewdeko.Modules.Searches.Common.Sens.html
+  name: Sens
+  nameWithType: Sens
+  fullName: Mewdeko.Modules.Searches.Common.Sens
+- uid: Mewdeko.Modules.Searches.Common.Sys
+  commentId: T:Mewdeko.Modules.Searches.Common.Sys
+  parent: Mewdeko.Modules.Searches.Common
+  href: Mewdeko.Modules.Searches.Common.Sys.html
+  name: Sys
+  nameWithType: Sys
+  fullName: Mewdeko.Modules.Searches.Common.Sys
 - uid: Mewdeko.Modules.Searches.Common.TimeData
   commentId: T:Mewdeko.Modules.Searches.Common.TimeData
   href: Mewdeko.Modules.Searches.Common.TimeData.html
@@ -345,65 +461,37 @@ references:
   name: TimeZoneResult
   nameWithType: TimeZoneResult
   fullName: Mewdeko.Modules.Searches.Common.TimeZoneResult
-- uid: Mewdeko.Modules.Searches.Common.LocationIqResponse
-  commentId: T:Mewdeko.Modules.Searches.Common.LocationIqResponse
-  href: Mewdeko.Modules.Searches.Common.LocationIqResponse.html
-  name: LocationIqResponse
-  nameWithType: LocationIqResponse
-  fullName: Mewdeko.Modules.Searches.Common.LocationIqResponse
-- uid: Mewdeko.Modules.Searches.Common.UrbanResponse
-  commentId: T:Mewdeko.Modules.Searches.Common.UrbanResponse
-  href: Mewdeko.Modules.Searches.Common.UrbanResponse.html
-  name: UrbanResponse
-  nameWithType: UrbanResponse
-  fullName: Mewdeko.Modules.Searches.Common.UrbanResponse
 - uid: Mewdeko.Modules.Searches.Common.UrbanDef
   commentId: T:Mewdeko.Modules.Searches.Common.UrbanDef
   href: Mewdeko.Modules.Searches.Common.UrbanDef.html
   name: UrbanDef
   nameWithType: UrbanDef
   fullName: Mewdeko.Modules.Searches.Common.UrbanDef
-- uid: Mewdeko.Modules.Searches.Common.Coord
-  commentId: T:Mewdeko.Modules.Searches.Common.Coord
+- uid: Mewdeko.Modules.Searches.Common.UrbanResponse
+  commentId: T:Mewdeko.Modules.Searches.Common.UrbanResponse
+  href: Mewdeko.Modules.Searches.Common.UrbanResponse.html
+  name: UrbanResponse
+  nameWithType: UrbanResponse
+  fullName: Mewdeko.Modules.Searches.Common.UrbanResponse
+- uid: Mewdeko.Modules.Searches.Common.UserData
+  commentId: T:Mewdeko.Modules.Searches.Common.UserData
+  href: Mewdeko.Modules.Searches.Common.UserData.html
+  name: UserData
+  nameWithType: UserData
+  fullName: Mewdeko.Modules.Searches.Common.UserData
+- uid: Mewdeko.Modules.Searches.Common.UserStats
+  commentId: T:Mewdeko.Modules.Searches.Common.UserStats
   parent: Mewdeko.Modules.Searches.Common
-  href: Mewdeko.Modules.Searches.Common.Coord.html
-  name: Coord
-  nameWithType: Coord
-  fullName: Mewdeko.Modules.Searches.Common.Coord
+  href: Mewdeko.Modules.Searches.Common.UserStats.html
+  name: UserStats
+  nameWithType: UserStats
+  fullName: Mewdeko.Modules.Searches.Common.UserStats
 - uid: Mewdeko.Modules.Searches.Common.Weather
   commentId: T:Mewdeko.Modules.Searches.Common.Weather
   href: Mewdeko.Modules.Searches.Common.Weather.html
   name: Weather
   nameWithType: Weather
   fullName: Mewdeko.Modules.Searches.Common.Weather
-- uid: Mewdeko.Modules.Searches.Common.Main
-  commentId: T:Mewdeko.Modules.Searches.Common.Main
-  parent: Mewdeko.Modules.Searches.Common
-  href: Mewdeko.Modules.Searches.Common.Main.html
-  name: Main
-  nameWithType: Main
-  fullName: Mewdeko.Modules.Searches.Common.Main
-- uid: Mewdeko.Modules.Searches.Common.Wind
-  commentId: T:Mewdeko.Modules.Searches.Common.Wind
-  parent: Mewdeko.Modules.Searches.Common
-  href: Mewdeko.Modules.Searches.Common.Wind.html
-  name: Wind
-  nameWithType: Wind
-  fullName: Mewdeko.Modules.Searches.Common.Wind
-- uid: Mewdeko.Modules.Searches.Common.Clouds
-  commentId: T:Mewdeko.Modules.Searches.Common.Clouds
-  parent: Mewdeko.Modules.Searches.Common
-  href: Mewdeko.Modules.Searches.Common.Clouds.html
-  name: Clouds
-  nameWithType: Clouds
-  fullName: Mewdeko.Modules.Searches.Common.Clouds
-- uid: Mewdeko.Modules.Searches.Common.Sys
-  commentId: T:Mewdeko.Modules.Searches.Common.Sys
-  parent: Mewdeko.Modules.Searches.Common
-  href: Mewdeko.Modules.Searches.Common.Sys.html
-  name: Sys
-  nameWithType: Sys
-  fullName: Mewdeko.Modules.Searches.Common.Sys
 - uid: Mewdeko.Modules.Searches.Common.WeatherData
   commentId: T:Mewdeko.Modules.Searches.Common.WeatherData
   href: Mewdeko.Modules.Searches.Common.WeatherData.html
@@ -469,6 +557,13 @@ references:
   - uid: Mewdeko.Modules.Searches.Common.WikipediaApiModel.WikipediaQuery.WikipediaPage
     name: WikipediaPage
     href: Mewdeko.Modules.Searches.Common.WikipediaApiModel.WikipediaQuery.WikipediaPage.html
+- uid: Mewdeko.Modules.Searches.Common.Wind
+  commentId: T:Mewdeko.Modules.Searches.Common.Wind
+  parent: Mewdeko.Modules.Searches.Common
+  href: Mewdeko.Modules.Searches.Common.Wind.html
+  name: Wind
+  nameWithType: Wind
+  fullName: Mewdeko.Modules.Searches.Common.Wind
 - uid: Mewdeko.Modules.Searches.Common.WoWJoke
   commentId: T:Mewdeko.Modules.Searches.Common.WoWJoke
   href: Mewdeko.Modules.Searches.Common.WoWJoke.html

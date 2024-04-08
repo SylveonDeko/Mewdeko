@@ -117,7 +117,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddVoteRole
     path: src/Mewdeko/Modules/Votes/Services/VoteService.cs
-    startLine: 140
+    startLine: 143
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Votes.Services
@@ -161,7 +161,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RemoveVoteRole
     path: src/Mewdeko/Modules/Votes/Services/VoteService.cs
-    startLine: 167
+    startLine: 170
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Votes.Services
@@ -202,7 +202,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UpdateTimer
     path: src/Mewdeko/Modules/Votes/Services/VoteService.cs
-    startLine: 189
+    startLine: 192
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Votes.Services
@@ -243,7 +243,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetVoteRoles
     path: src/Mewdeko/Modules/Votes/Services/VoteService.cs
-    startLine: 208
+    startLine: 211
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Votes.Services
@@ -281,7 +281,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetVoteMessage
     path: src/Mewdeko/Modules/Votes/Services/VoteService.cs
-    startLine: 219
+    startLine: 222
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Votes.Services
@@ -319,7 +319,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ClearVoteRoles
     path: src/Mewdeko/Modules/Votes/Services/VoteService.cs
-    startLine: 231
+    startLine: 234
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Votes.Services
@@ -357,7 +357,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetVoteMessage
     path: src/Mewdeko/Modules/Votes/Services/VoteService.cs
-    startLine: 248
+    startLine: 251
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Votes.Services
@@ -398,7 +398,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetVotePassword
     path: src/Mewdeko/Modules/Votes/Services/VoteService.cs
-    startLine: 262
+    startLine: 265
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Votes.Services
@@ -439,7 +439,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetVoteChannel
     path: src/Mewdeko/Modules/Votes/Services/VoteService.cs
-    startLine: 276
+    startLine: 279
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Votes.Services
@@ -480,7 +480,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetVotes
     path: src/Mewdeko/Modules/Votes/Services/VoteService.cs
-    startLine: 290
+    startLine: 293
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Votes.Services
@@ -521,7 +521,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetVotes
     path: src/Mewdeko/Modules/Votes/Services/VoteService.cs
-    startLine: 301
+    startLine: 304
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Votes.Services
@@ -559,7 +559,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetTotalVotes
     path: src/Mewdeko/Modules/Votes/Services/VoteService.cs
-    startLine: 313
+    startLine: 316
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Votes.Services

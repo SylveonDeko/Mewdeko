@@ -2,10 +2,12 @@
 items:
 - uid: Mewdeko.Modules.MultiGreets
   commentId: N:Mewdeko.Modules.MultiGreets
-  id: Mewdeko.Modules.MultiGreets
+  id: MultiGreets
+  parent: Mewdeko.Modules
   children:
   - Mewdeko.Modules.MultiGreets.MultiGreets
   - Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+  - Mewdeko.Modules.MultiGreets.Services
   - Mewdeko.Modules.MultiGreets.SlashMultiGreets
   - Mewdeko.Modules.MultiGreets.SlashMultiGreets.MultiGreetTypes
   langs:
@@ -18,6 +20,44 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Modules.MultiGreets.Services
+  commentId: N:Mewdeko.Modules.MultiGreets.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.MultiGreets.Services
+  nameWithType: Mewdeko.Modules.MultiGreets.Services
+  fullName: Mewdeko.Modules.MultiGreets.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.MultiGreets
+    name: MultiGreets
+    href: Mewdeko.Modules.MultiGreets.html
+  - name: .
+  - uid: Mewdeko.Modules.MultiGreets.Services
+    name: Services
+    href: Mewdeko.Modules.MultiGreets.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.MultiGreets
+    name: MultiGreets
+    href: Mewdeko.Modules.MultiGreets.html
+  - name: .
+  - uid: Mewdeko.Modules.MultiGreets.Services
+    name: Services
+    href: Mewdeko.Modules.MultiGreets.Services.html
 - uid: Mewdeko.Modules.MultiGreets.MultiGreets
   commentId: T:Mewdeko.Modules.MultiGreets.MultiGreets
   href: Mewdeko.Modules.MultiGreets.MultiGreets.html

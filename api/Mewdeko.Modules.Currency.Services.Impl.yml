@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Currency.Services.Impl
   commentId: N:Mewdeko.Modules.Currency.Services.Impl
-  id: Mewdeko.Modules.Currency.Services.Impl
+  id: Impl
+  parent: Mewdeko.Modules.Currency.Services
   children:
   - Mewdeko.Modules.Currency.Services.Impl.GlobalCurrencyService
   - Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService

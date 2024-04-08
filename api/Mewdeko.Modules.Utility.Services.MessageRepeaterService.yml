@@ -105,7 +105,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Repeaters
     path: src/Mewdeko/Modules/Utility/Services/MessageRepeaterService.cs
-    startLine: 16
+    startLine: 15
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility.Services
@@ -136,7 +136,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RepeaterReady
     path: src/Mewdeko/Modules/Utility/Services/MessageRepeaterService.cs
-    startLine: 21
+    startLine: 20
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility.Services
@@ -167,7 +167,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: OnReadyAsync
     path: src/Mewdeko/Modules/Utility/Services/MessageRepeaterService.cs
-    startLine: 25
+    startLine: 24
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility.Services
@@ -200,7 +200,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RemoveRepeater
     path: src/Mewdeko/Modules/Utility/Services/MessageRepeaterService.cs
-    startLine: 66
+    startLine: 65
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility.Services
@@ -234,7 +234,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetRepeaterLastMessage
     path: src/Mewdeko/Modules/Utility/Services/MessageRepeaterService.cs
-    startLine: 81
+    startLine: 80
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility.Services

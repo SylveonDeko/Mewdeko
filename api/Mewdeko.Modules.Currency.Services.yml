@@ -2,9 +2,11 @@
 items:
 - uid: Mewdeko.Modules.Currency.Services
   commentId: N:Mewdeko.Modules.Currency.Services
-  id: Mewdeko.Modules.Currency.Services
+  id: Services
+  parent: Mewdeko.Modules.Currency
   children:
   - Mewdeko.Modules.Currency.Services.ICurrencyService
+  - Mewdeko.Modules.Currency.Services.Impl
   langs:
   - csharp
   - vb
@@ -15,6 +17,52 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Modules.Currency.Services.Impl
+  commentId: N:Mewdeko.Modules.Currency.Services.Impl
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Currency.Services.Impl
+  nameWithType: Mewdeko.Modules.Currency.Services.Impl
+  fullName: Mewdeko.Modules.Currency.Services.Impl
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Currency
+    name: Currency
+    href: Mewdeko.Modules.Currency.html
+  - name: .
+  - uid: Mewdeko.Modules.Currency.Services
+    name: Services
+    href: Mewdeko.Modules.Currency.Services.html
+  - name: .
+  - uid: Mewdeko.Modules.Currency.Services.Impl
+    name: Impl
+    href: Mewdeko.Modules.Currency.Services.Impl.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Currency
+    name: Currency
+    href: Mewdeko.Modules.Currency.html
+  - name: .
+  - uid: Mewdeko.Modules.Currency.Services
+    name: Services
+    href: Mewdeko.Modules.Currency.Services.html
+  - name: .
+  - uid: Mewdeko.Modules.Currency.Services.Impl
+    name: Impl
+    href: Mewdeko.Modules.Currency.Services.Impl.html
 - uid: Mewdeko.Modules.Currency.Services.ICurrencyService
   commentId: T:Mewdeko.Modules.Currency.Services.ICurrencyService
   parent: Mewdeko.Modules.Currency.Services

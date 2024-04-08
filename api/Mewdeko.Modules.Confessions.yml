@@ -2,9 +2,11 @@
 items:
 - uid: Mewdeko.Modules.Confessions
   commentId: N:Mewdeko.Modules.Confessions
-  id: Mewdeko.Modules.Confessions
+  id: Confessions
+  parent: Mewdeko.Modules
   children:
   - Mewdeko.Modules.Confessions.Confessions
+  - Mewdeko.Modules.Confessions.Services
   - Mewdeko.Modules.Confessions.SlashConfessions
   langs:
   - csharp
@@ -16,6 +18,44 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Modules.Confessions.Services
+  commentId: N:Mewdeko.Modules.Confessions.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Confessions.Services
+  nameWithType: Mewdeko.Modules.Confessions.Services
+  fullName: Mewdeko.Modules.Confessions.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Confessions
+    name: Confessions
+    href: Mewdeko.Modules.Confessions.html
+  - name: .
+  - uid: Mewdeko.Modules.Confessions.Services
+    name: Services
+    href: Mewdeko.Modules.Confessions.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Confessions
+    name: Confessions
+    href: Mewdeko.Modules.Confessions.html
+  - name: .
+  - uid: Mewdeko.Modules.Confessions.Services
+    name: Services
+    href: Mewdeko.Modules.Confessions.Services.html
 - uid: Mewdeko.Modules.Confessions.Confessions
   commentId: T:Mewdeko.Modules.Confessions.Confessions
   href: Mewdeko.Modules.Confessions.Confessions.html

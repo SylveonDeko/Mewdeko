@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Music.Services
   commentId: N:Mewdeko.Modules.Music.Services
-  id: Mewdeko.Modules.Music.Services
+  id: Services
+  parent: Mewdeko.Modules.Music
   children:
   - Mewdeko.Modules.Music.Services.MusicPlayer
   - Mewdeko.Modules.Music.Services.MusicService
