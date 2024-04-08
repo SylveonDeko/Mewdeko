@@ -1,0 +1,1767 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+  commentId: T:Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+  id: GuildCurrencyService
+  parent: Mewdeko.Modules.Currency.Services.Impl
+  children:
+  - Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.#ctor(Mewdeko.Database.DbService,Mewdeko.Services.GuildSettingsService)
+  - Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.AddTransactionAsync(System.UInt64,System.Int64,System.String,System.Nullable{System.UInt64})
+  - Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.AddUserBalanceAsync(System.UInt64,System.Int64,System.Nullable{System.UInt64})
+  - Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetAllUserBalancesAsync(System.Nullable{System.UInt64})
+  - Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetCurrencyEmote(System.Nullable{System.UInt64})
+  - Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetReward(System.Nullable{System.UInt64})
+  - Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetTransactionsAsync(System.UInt64,System.Nullable{System.UInt64})
+  - Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetUserBalanceAsync(System.UInt64,System.Nullable{System.UInt64})
+  - Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.SetReward(System.Int32,System.Int32,System.Nullable{System.UInt64})
+  langs:
+  - csharp
+  - vb
+  name: GuildCurrencyService
+  nameWithType: GuildCurrencyService
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Currency/Services/Impl/GuildCurrencyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GuildCurrencyService
+    path: src/Mewdeko/Modules/Currency/Services/Impl/GuildCurrencyService.cs
+    startLine: 7
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Currency.Services.Impl
+  summary: Implementation of the currency service for managing user balances and transactions within a specific guild.
+  example: []
+  syntax:
+    content: 'public class GuildCurrencyService : ICurrencyService'
+    content.vb: Public Class GuildCurrencyService Implements ICurrencyService
+  inheritance:
+  - System.Object
+  implements:
+  - Mewdeko.Modules.Currency.Services.ICurrencyService
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.#ctor(Mewdeko.Database.DbService,Mewdeko.Services.GuildSettingsService)
+  commentId: M:Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.#ctor(Mewdeko.Database.DbService,Mewdeko.Services.GuildSettingsService)
+  id: '#ctor(Mewdeko.Database.DbService,Mewdeko.Services.GuildSettingsService)'
+  parent: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+  langs:
+  - csharp
+  - vb
+  name: GuildCurrencyService(DbService, GuildSettingsService)
+  nameWithType: GuildCurrencyService.GuildCurrencyService(DbService, GuildSettingsService)
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GuildCurrencyService(Mewdeko.Database.DbService, Mewdeko.Services.GuildSettingsService)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Currency/Services/Impl/GuildCurrencyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Currency/Services/Impl/GuildCurrencyService.cs
+    startLine: 17
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Currency.Services.Impl
+  summary: Initializes a new instance of the <xref href="Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public GuildCurrencyService(DbService dbService, GuildSettingsService guildSettingsService)
+    parameters:
+    - id: dbService
+      type: Mewdeko.Database.DbService
+      description: The database service.
+    - id: guildSettingsService
+      type: Mewdeko.Services.GuildSettingsService
+      description: The guild settings service.
+    content.vb: Public Sub New(dbService As DbService, guildSettingsService As GuildSettingsService)
+  overload: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.#ctor*
+  nameWithType.vb: GuildCurrencyService.New(DbService, GuildSettingsService)
+  fullName.vb: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.New(Mewdeko.Database.DbService, Mewdeko.Services.GuildSettingsService)
+  name.vb: New(DbService, GuildSettingsService)
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.AddUserBalanceAsync(System.UInt64,System.Int64,System.Nullable{System.UInt64})
+  commentId: M:Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.AddUserBalanceAsync(System.UInt64,System.Int64,System.Nullable{System.UInt64})
+  id: AddUserBalanceAsync(System.UInt64,System.Int64,System.Nullable{System.UInt64})
+  parent: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+  langs:
+  - csharp
+  - vb
+  name: AddUserBalanceAsync(ulong, long, ulong?)
+  nameWithType: GuildCurrencyService.AddUserBalanceAsync(ulong, long, ulong?)
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.AddUserBalanceAsync(ulong, long, ulong?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Currency/Services/Impl/GuildCurrencyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AddUserBalanceAsync
+    path: src/Mewdeko/Modules/Currency/Services/Impl/GuildCurrencyService.cs
+    startLine: 24
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Currency.Services.Impl
+  summary: Adds the specified amount to the balance of the user.
+  example: []
+  syntax:
+    content: public Task AddUserBalanceAsync(ulong userId, long amount, ulong? guildId)
+    parameters:
+    - id: userId
+      type: System.UInt64
+      description: The ID of the user.
+    - id: amount
+      type: System.Int64
+      description: The amount to add to the balance.
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild (optional).
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task representing the asynchronous operation.
+    content.vb: Public Function AddUserBalanceAsync(userId As ULong, amount As Long, guildId As ULong?) As Task
+  overload: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.AddUserBalanceAsync*
+  implements:
+  - Mewdeko.Modules.Currency.Services.ICurrencyService.AddUserBalanceAsync(System.UInt64,System.Int64,System.Nullable{System.UInt64})
+  nameWithType.vb: GuildCurrencyService.AddUserBalanceAsync(ULong, Long, ULong?)
+  fullName.vb: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.AddUserBalanceAsync(ULong, Long, ULong?)
+  name.vb: AddUserBalanceAsync(ULong, Long, ULong?)
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetUserBalanceAsync(System.UInt64,System.Nullable{System.UInt64})
+  commentId: M:Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetUserBalanceAsync(System.UInt64,System.Nullable{System.UInt64})
+  id: GetUserBalanceAsync(System.UInt64,System.Nullable{System.UInt64})
+  parent: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+  langs:
+  - csharp
+  - vb
+  name: GetUserBalanceAsync(ulong, ulong?)
+  nameWithType: GuildCurrencyService.GetUserBalanceAsync(ulong, ulong?)
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetUserBalanceAsync(ulong, ulong?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Currency/Services/Impl/GuildCurrencyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetUserBalanceAsync
+    path: src/Mewdeko/Modules/Currency/Services/Impl/GuildCurrencyService.cs
+    startLine: 54
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Currency.Services.Impl
+  summary: Gets the balance of the user.
+  example: []
+  syntax:
+    content: public Task<long> GetUserBalanceAsync(ulong userId, ulong? guildId)
+    parameters:
+    - id: userId
+      type: System.UInt64
+      description: The ID of the user.
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild (optional).
+    return:
+      type: System.Threading.Tasks.Task{System.Int64}
+      description: The balance of the user.
+    content.vb: Public Function GetUserBalanceAsync(userId As ULong, guildId As ULong?) As Task(Of Long)
+  overload: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetUserBalanceAsync*
+  implements:
+  - Mewdeko.Modules.Currency.Services.ICurrencyService.GetUserBalanceAsync(System.UInt64,System.Nullable{System.UInt64})
+  nameWithType.vb: GuildCurrencyService.GetUserBalanceAsync(ULong, ULong?)
+  fullName.vb: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetUserBalanceAsync(ULong, ULong?)
+  name.vb: GetUserBalanceAsync(ULong, ULong?)
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.AddTransactionAsync(System.UInt64,System.Int64,System.String,System.Nullable{System.UInt64})
+  commentId: M:Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.AddTransactionAsync(System.UInt64,System.Int64,System.String,System.Nullable{System.UInt64})
+  id: AddTransactionAsync(System.UInt64,System.Int64,System.String,System.Nullable{System.UInt64})
+  parent: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+  langs:
+  - csharp
+  - vb
+  name: AddTransactionAsync(ulong, long, string, ulong?)
+  nameWithType: GuildCurrencyService.AddTransactionAsync(ulong, long, string, ulong?)
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.AddTransactionAsync(ulong, long, string, ulong?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Currency/Services/Impl/GuildCurrencyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AddTransactionAsync
+    path: src/Mewdeko/Modules/Currency/Services/Impl/GuildCurrencyService.cs
+    startLine: 66
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Currency.Services.Impl
+  summary: Adds a transaction for the user.
+  example: []
+  syntax:
+    content: public Task AddTransactionAsync(ulong userId, long amount, string description, ulong? guildId)
+    parameters:
+    - id: userId
+      type: System.UInt64
+      description: The ID of the user.
+    - id: amount
+      type: System.Int64
+      description: The transaction amount.
+    - id: description
+      type: System.String
+      description: The description of the transaction.
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild (optional).
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task representing the asynchronous operation.
+    content.vb: Public Function AddTransactionAsync(userId As ULong, amount As Long, description As String, guildId As ULong?) As Task
+  overload: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.AddTransactionAsync*
+  implements:
+  - Mewdeko.Modules.Currency.Services.ICurrencyService.AddTransactionAsync(System.UInt64,System.Int64,System.String,System.Nullable{System.UInt64})
+  nameWithType.vb: GuildCurrencyService.AddTransactionAsync(ULong, Long, String, ULong?)
+  fullName.vb: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.AddTransactionAsync(ULong, Long, String, ULong?)
+  name.vb: AddTransactionAsync(ULong, Long, String, ULong?)
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetTransactionsAsync(System.UInt64,System.Nullable{System.UInt64})
+  commentId: M:Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetTransactionsAsync(System.UInt64,System.Nullable{System.UInt64})
+  id: GetTransactionsAsync(System.UInt64,System.Nullable{System.UInt64})
+  parent: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+  langs:
+  - csharp
+  - vb
+  name: GetTransactionsAsync(ulong, ulong?)
+  nameWithType: GuildCurrencyService.GetTransactionsAsync(ulong, ulong?)
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetTransactionsAsync(ulong, ulong?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Currency/Services/Impl/GuildCurrencyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetTransactionsAsync
+    path: src/Mewdeko/Modules/Currency/Services/Impl/GuildCurrencyService.cs
+    startLine: 81
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Currency.Services.Impl
+  summary: Gets the transaction history of the user.
+  example: []
+  syntax:
+    content: public Task<IEnumerable<TransactionHistory>?> GetTransactionsAsync(ulong userId, ulong? guildId)
+    parameters:
+    - id: userId
+      type: System.UInt64
+      description: The ID of the user.
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild (optional).
+    return:
+      type: System.Threading.Tasks.Task{System.Collections.Generic.IEnumerable{Mewdeko.Database.Models.TransactionHistory}}
+      description: The transaction history of the user.
+    content.vb: Public Function GetTransactionsAsync(userId As ULong, guildId As ULong?) As Task(Of IEnumerable(Of TransactionHistory))
+  overload: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetTransactionsAsync*
+  implements:
+  - Mewdeko.Modules.Currency.Services.ICurrencyService.GetTransactionsAsync(System.UInt64,System.Nullable{System.UInt64})
+  nameWithType.vb: GuildCurrencyService.GetTransactionsAsync(ULong, ULong?)
+  fullName.vb: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetTransactionsAsync(ULong, ULong?)
+  name.vb: GetTransactionsAsync(ULong, ULong?)
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetCurrencyEmote(System.Nullable{System.UInt64})
+  commentId: M:Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetCurrencyEmote(System.Nullable{System.UInt64})
+  id: GetCurrencyEmote(System.Nullable{System.UInt64})
+  parent: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+  langs:
+  - csharp
+  - vb
+  name: GetCurrencyEmote(ulong?)
+  nameWithType: GuildCurrencyService.GetCurrencyEmote(ulong?)
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetCurrencyEmote(ulong?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Currency/Services/Impl/GuildCurrencyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetCurrencyEmote
+    path: src/Mewdeko/Modules/Currency/Services/Impl/GuildCurrencyService.cs
+    startLine: 92
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Currency.Services.Impl
+  summary: Gets the currency emote of the guild.
+  example: []
+  syntax:
+    content: public Task<string> GetCurrencyEmote(ulong? guildId)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild (optional).
+    return:
+      type: System.Threading.Tasks.Task{System.String}
+      description: The currency emote of the guild.
+    content.vb: Public Function GetCurrencyEmote(guildId As ULong?) As Task(Of String)
+  overload: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetCurrencyEmote*
+  implements:
+  - Mewdeko.Modules.Currency.Services.ICurrencyService.GetCurrencyEmote(System.Nullable{System.UInt64})
+  nameWithType.vb: GuildCurrencyService.GetCurrencyEmote(ULong?)
+  fullName.vb: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetCurrencyEmote(ULong?)
+  name.vb: GetCurrencyEmote(ULong?)
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetAllUserBalancesAsync(System.Nullable{System.UInt64})
+  commentId: M:Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetAllUserBalancesAsync(System.Nullable{System.UInt64})
+  id: GetAllUserBalancesAsync(System.Nullable{System.UInt64})
+  parent: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+  langs:
+  - csharp
+  - vb
+  name: GetAllUserBalancesAsync(ulong?)
+  nameWithType: GuildCurrencyService.GetAllUserBalancesAsync(ulong?)
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetAllUserBalancesAsync(ulong?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Currency/Services/Impl/GuildCurrencyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetAllUserBalancesAsync
+    path: src/Mewdeko/Modules/Currency/Services/Impl/GuildCurrencyService.cs
+    startLine: 104
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Currency.Services.Impl
+  summary: Gets the balances of all users in the guild.
+  example: []
+  syntax:
+    content: public Task<IEnumerable<LbCurrency>> GetAllUserBalancesAsync(ulong? guildId)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild (optional).
+    return:
+      type: System.Threading.Tasks.Task{System.Collections.Generic.IEnumerable{Mewdeko.Modules.Currency.Services.Impl.LbCurrency}}
+      description: The balances of all users in the guild.
+    content.vb: Public Function GetAllUserBalancesAsync(guildId As ULong?) As Task(Of IEnumerable(Of LbCurrency))
+  overload: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetAllUserBalancesAsync*
+  implements:
+  - Mewdeko.Modules.Currency.Services.ICurrencyService.GetAllUserBalancesAsync(System.Nullable{System.UInt64})
+  nameWithType.vb: GuildCurrencyService.GetAllUserBalancesAsync(ULong?)
+  fullName.vb: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetAllUserBalancesAsync(ULong?)
+  name.vb: GetAllUserBalancesAsync(ULong?)
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.SetReward(System.Int32,System.Int32,System.Nullable{System.UInt64})
+  commentId: M:Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.SetReward(System.Int32,System.Int32,System.Nullable{System.UInt64})
+  id: SetReward(System.Int32,System.Int32,System.Nullable{System.UInt64})
+  parent: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+  langs:
+  - csharp
+  - vb
+  name: SetReward(int, int, ulong?)
+  nameWithType: GuildCurrencyService.SetReward(int, int, ulong?)
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.SetReward(int, int, ulong?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Currency/Services/Impl/GuildCurrencyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetReward
+    path: src/Mewdeko/Modules/Currency/Services/Impl/GuildCurrencyService.cs
+    startLine: 120
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Currency.Services.Impl
+  summary: Sets the reward for currency gain.
+  example: []
+  syntax:
+    content: public Task SetReward(int amount, int seconds, ulong? guildId)
+    parameters:
+    - id: amount
+      type: System.Int32
+      description: The amount of currency to reward.
+    - id: seconds
+      type: System.Int32
+      description: The cooldown duration for the reward.
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild (optional).
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task representing the asynchronous operation.
+    content.vb: Public Function SetReward(amount As Integer, seconds As Integer, guildId As ULong?) As Task
+  overload: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.SetReward*
+  implements:
+  - Mewdeko.Modules.Currency.Services.ICurrencyService.SetReward(System.Int32,System.Int32,System.Nullable{System.UInt64})
+  nameWithType.vb: GuildCurrencyService.SetReward(Integer, Integer, ULong?)
+  fullName.vb: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.SetReward(Integer, Integer, ULong?)
+  name.vb: SetReward(Integer, Integer, ULong?)
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetReward(System.Nullable{System.UInt64})
+  commentId: M:Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetReward(System.Nullable{System.UInt64})
+  id: GetReward(System.Nullable{System.UInt64})
+  parent: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+  langs:
+  - csharp
+  - vb
+  name: GetReward(ulong?)
+  nameWithType: GuildCurrencyService.GetReward(ulong?)
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetReward(ulong?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Currency/Services/Impl/GuildCurrencyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetReward
+    path: src/Mewdeko/Modules/Currency/Services/Impl/GuildCurrencyService.cs
+    startLine: 130
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Currency.Services.Impl
+  summary: Gets the reward for currency gain.
+  example: []
+  syntax:
+    content: public Task<(int, int)> GetReward(ulong? guildId)
+    parameters:
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild (optional).
+    return:
+      type: System.Threading.Tasks.Task{System.ValueTuple{System.Int32,System.Int32}}
+      description: The reward amount and cooldown duration.
+    content.vb: Public Function GetReward(guildId As ULong?) As Task(Of (Integer, Integer))
+  overload: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetReward*
+  implements:
+  - Mewdeko.Modules.Currency.Services.ICurrencyService.GetReward(System.Nullable{System.UInt64})
+  nameWithType.vb: GuildCurrencyService.GetReward(ULong?)
+  fullName.vb: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetReward(ULong?)
+  name.vb: GetReward(ULong?)
+references:
+- uid: Mewdeko.Modules.Currency.Services.Impl
+  commentId: N:Mewdeko.Modules.Currency.Services.Impl
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Currency.Services.Impl
+  nameWithType: Mewdeko.Modules.Currency.Services.Impl
+  fullName: Mewdeko.Modules.Currency.Services.Impl
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Currency
+    name: Currency
+    href: Mewdeko.Modules.Currency.html
+  - name: .
+  - uid: Mewdeko.Modules.Currency.Services
+    name: Services
+    href: Mewdeko.Modules.Currency.Services.html
+  - name: .
+  - uid: Mewdeko.Modules.Currency.Services.Impl
+    name: Impl
+    href: Mewdeko.Modules.Currency.Services.Impl.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Currency
+    name: Currency
+    href: Mewdeko.Modules.Currency.html
+  - name: .
+  - uid: Mewdeko.Modules.Currency.Services
+    name: Services
+    href: Mewdeko.Modules.Currency.Services.html
+  - name: .
+  - uid: Mewdeko.Modules.Currency.Services.Impl
+    name: Impl
+    href: Mewdeko.Modules.Currency.Services.Impl.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Mewdeko.Modules.Currency.Services.ICurrencyService
+  commentId: T:Mewdeko.Modules.Currency.Services.ICurrencyService
+  parent: Mewdeko.Modules.Currency.Services
+  href: Mewdeko.Modules.Currency.Services.ICurrencyService.html
+  name: ICurrencyService
+  nameWithType: ICurrencyService
+  fullName: Mewdeko.Modules.Currency.Services.ICurrencyService
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<GuildCurrencyService>(GuildCurrencyService, string)
+  nameWithType: Extensions.ThrowIfNull<GuildCurrencyService>(GuildCurrencyService, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService>(Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of GuildCurrencyService)(GuildCurrencyService, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService)(Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService, String)
+  name.vb: ThrowIfNull(Of GuildCurrencyService)(GuildCurrencyService, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+    name: GuildCurrencyService
+    href: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+    name: GuildCurrencyService
+    href: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+    name: GuildCurrencyService
+    href: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+    name: GuildCurrencyService
+    href: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Modules.Currency.Services
+  commentId: N:Mewdeko.Modules.Currency.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Currency.Services
+  nameWithType: Mewdeko.Modules.Currency.Services
+  fullName: Mewdeko.Modules.Currency.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Currency
+    name: Currency
+    href: Mewdeko.Modules.Currency.html
+  - name: .
+  - uid: Mewdeko.Modules.Currency.Services
+    name: Services
+    href: Mewdeko.Modules.Currency.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Currency
+    name: Currency
+    href: Mewdeko.Modules.Currency.html
+  - name: .
+  - uid: Mewdeko.Modules.Currency.Services
+    name: Services
+    href: Mewdeko.Modules.Currency.Services.html
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+  commentId: T:Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+  href: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.html
+  name: GuildCurrencyService
+  nameWithType: GuildCurrencyService
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.#ctor*
+  commentId: Overload:Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.#ctor
+  href: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.html#Mewdeko_Modules_Currency_Services_Impl_GuildCurrencyService__ctor_Mewdeko_Database_DbService_Mewdeko_Services_GuildSettingsService_
+  name: GuildCurrencyService
+  nameWithType: GuildCurrencyService.GuildCurrencyService
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GuildCurrencyService
+  nameWithType.vb: GuildCurrencyService.New
+  fullName.vb: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.New
+  name.vb: New
+- uid: Mewdeko.Database.DbService
+  commentId: T:Mewdeko.Database.DbService
+  parent: Mewdeko.Database
+  href: Mewdeko.Database.DbService.html
+  name: DbService
+  nameWithType: DbService
+  fullName: Mewdeko.Database.DbService
+- uid: Mewdeko.Services.GuildSettingsService
+  commentId: T:Mewdeko.Services.GuildSettingsService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.GuildSettingsService.html
+  name: GuildSettingsService
+  nameWithType: GuildSettingsService
+  fullName: Mewdeko.Services.GuildSettingsService
+- uid: Mewdeko.Database
+  commentId: N:Mewdeko.Database
+  href: Mewdeko.html
+  name: Mewdeko.Database
+  nameWithType: Mewdeko.Database
+  fullName: Mewdeko.Database
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+- uid: Mewdeko.Services
+  commentId: N:Mewdeko.Services
+  href: Mewdeko.html
+  name: Mewdeko.Services
+  nameWithType: Mewdeko.Services
+  fullName: Mewdeko.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.AddUserBalanceAsync*
+  commentId: Overload:Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.AddUserBalanceAsync
+  href: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.html#Mewdeko_Modules_Currency_Services_Impl_GuildCurrencyService_AddUserBalanceAsync_System_UInt64_System_Int64_System_Nullable_System_UInt64__
+  name: AddUserBalanceAsync
+  nameWithType: GuildCurrencyService.AddUserBalanceAsync
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.AddUserBalanceAsync
+- uid: Mewdeko.Modules.Currency.Services.ICurrencyService.AddUserBalanceAsync(System.UInt64,System.Int64,System.Nullable{System.UInt64})
+  commentId: M:Mewdeko.Modules.Currency.Services.ICurrencyService.AddUserBalanceAsync(System.UInt64,System.Int64,System.Nullable{System.UInt64})
+  parent: Mewdeko.Modules.Currency.Services.ICurrencyService
+  isExternal: true
+  href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_AddUserBalanceAsync_System_UInt64_System_Int64_System_Nullable_System_UInt64__
+  name: AddUserBalanceAsync(ulong, long, ulong?)
+  nameWithType: ICurrencyService.AddUserBalanceAsync(ulong, long, ulong?)
+  fullName: Mewdeko.Modules.Currency.Services.ICurrencyService.AddUserBalanceAsync(ulong, long, ulong?)
+  nameWithType.vb: ICurrencyService.AddUserBalanceAsync(ULong, Long, ULong?)
+  fullName.vb: Mewdeko.Modules.Currency.Services.ICurrencyService.AddUserBalanceAsync(ULong, Long, ULong?)
+  name.vb: AddUserBalanceAsync(ULong, Long, ULong?)
+  spec.csharp:
+  - uid: Mewdeko.Modules.Currency.Services.ICurrencyService.AddUserBalanceAsync(System.UInt64,System.Int64,System.Nullable{System.UInt64})
+    name: AddUserBalanceAsync
+    href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_AddUserBalanceAsync_System_UInt64_System_Int64_System_Nullable_System_UInt64__
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Int64
+    name: long
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Modules.Currency.Services.ICurrencyService.AddUserBalanceAsync(System.UInt64,System.Int64,System.Nullable{System.UInt64})
+    name: AddUserBalanceAsync
+    href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_AddUserBalanceAsync_System_UInt64_System_Int64_System_Nullable_System_UInt64__
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Int64
+    name: Long
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  - name: )
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong
+  nameWithType: ulong
+  fullName: ulong
+  nameWithType.vb: ULong
+  fullName.vb: ULong
+  name.vb: ULong
+- uid: System.Int64
+  commentId: T:System.Int64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int64
+  name: long
+  nameWithType: long
+  fullName: long
+  nameWithType.vb: Long
+  fullName.vb: Long
+  name.vb: Long
+- uid: System.Nullable{System.UInt64}
+  commentId: T:System.Nullable{System.UInt64}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong?
+  nameWithType: ulong?
+  fullName: ulong?
+  nameWithType.vb: ULong?
+  fullName.vb: ULong?
+  name.vb: ULong?
+  spec.csharp:
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  spec.vb:
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetUserBalanceAsync*
+  commentId: Overload:Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetUserBalanceAsync
+  href: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.html#Mewdeko_Modules_Currency_Services_Impl_GuildCurrencyService_GetUserBalanceAsync_System_UInt64_System_Nullable_System_UInt64__
+  name: GetUserBalanceAsync
+  nameWithType: GuildCurrencyService.GetUserBalanceAsync
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetUserBalanceAsync
+- uid: Mewdeko.Modules.Currency.Services.ICurrencyService.GetUserBalanceAsync(System.UInt64,System.Nullable{System.UInt64})
+  commentId: M:Mewdeko.Modules.Currency.Services.ICurrencyService.GetUserBalanceAsync(System.UInt64,System.Nullable{System.UInt64})
+  parent: Mewdeko.Modules.Currency.Services.ICurrencyService
+  isExternal: true
+  href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_GetUserBalanceAsync_System_UInt64_System_Nullable_System_UInt64__
+  name: GetUserBalanceAsync(ulong, ulong?)
+  nameWithType: ICurrencyService.GetUserBalanceAsync(ulong, ulong?)
+  fullName: Mewdeko.Modules.Currency.Services.ICurrencyService.GetUserBalanceAsync(ulong, ulong?)
+  nameWithType.vb: ICurrencyService.GetUserBalanceAsync(ULong, ULong?)
+  fullName.vb: Mewdeko.Modules.Currency.Services.ICurrencyService.GetUserBalanceAsync(ULong, ULong?)
+  name.vb: GetUserBalanceAsync(ULong, ULong?)
+  spec.csharp:
+  - uid: Mewdeko.Modules.Currency.Services.ICurrencyService.GetUserBalanceAsync(System.UInt64,System.Nullable{System.UInt64})
+    name: GetUserBalanceAsync
+    href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_GetUserBalanceAsync_System_UInt64_System_Nullable_System_UInt64__
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Modules.Currency.Services.ICurrencyService.GetUserBalanceAsync(System.UInt64,System.Nullable{System.UInt64})
+    name: GetUserBalanceAsync
+    href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_GetUserBalanceAsync_System_UInt64_System_Nullable_System_UInt64__
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  - name: )
+- uid: System.Threading.Tasks.Task{System.Int64}
+  commentId: T:System.Threading.Tasks.Task{System.Int64}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<long>
+  nameWithType: Task<long>
+  fullName: System.Threading.Tasks.Task<long>
+  nameWithType.vb: Task(Of Long)
+  fullName.vb: System.Threading.Tasks.Task(Of Long)
+  name.vb: Task(Of Long)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Int64
+    name: long
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int64
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Int64
+    name: Long
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int64
+  - name: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.AddTransactionAsync*
+  commentId: Overload:Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.AddTransactionAsync
+  href: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.html#Mewdeko_Modules_Currency_Services_Impl_GuildCurrencyService_AddTransactionAsync_System_UInt64_System_Int64_System_String_System_Nullable_System_UInt64__
+  name: AddTransactionAsync
+  nameWithType: GuildCurrencyService.AddTransactionAsync
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.AddTransactionAsync
+- uid: Mewdeko.Modules.Currency.Services.ICurrencyService.AddTransactionAsync(System.UInt64,System.Int64,System.String,System.Nullable{System.UInt64})
+  commentId: M:Mewdeko.Modules.Currency.Services.ICurrencyService.AddTransactionAsync(System.UInt64,System.Int64,System.String,System.Nullable{System.UInt64})
+  parent: Mewdeko.Modules.Currency.Services.ICurrencyService
+  isExternal: true
+  href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_AddTransactionAsync_System_UInt64_System_Int64_System_String_System_Nullable_System_UInt64__
+  name: AddTransactionAsync(ulong, long, string, ulong?)
+  nameWithType: ICurrencyService.AddTransactionAsync(ulong, long, string, ulong?)
+  fullName: Mewdeko.Modules.Currency.Services.ICurrencyService.AddTransactionAsync(ulong, long, string, ulong?)
+  nameWithType.vb: ICurrencyService.AddTransactionAsync(ULong, Long, String, ULong?)
+  fullName.vb: Mewdeko.Modules.Currency.Services.ICurrencyService.AddTransactionAsync(ULong, Long, String, ULong?)
+  name.vb: AddTransactionAsync(ULong, Long, String, ULong?)
+  spec.csharp:
+  - uid: Mewdeko.Modules.Currency.Services.ICurrencyService.AddTransactionAsync(System.UInt64,System.Int64,System.String,System.Nullable{System.UInt64})
+    name: AddTransactionAsync
+    href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_AddTransactionAsync_System_UInt64_System_Int64_System_String_System_Nullable_System_UInt64__
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Int64
+    name: long
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int64
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Modules.Currency.Services.ICurrencyService.AddTransactionAsync(System.UInt64,System.Int64,System.String,System.Nullable{System.UInt64})
+    name: AddTransactionAsync
+    href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_AddTransactionAsync_System_UInt64_System_Int64_System_String_System_Nullable_System_UInt64__
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Int64
+    name: Long
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int64
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  - name: )
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetTransactionsAsync*
+  commentId: Overload:Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetTransactionsAsync
+  href: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.html#Mewdeko_Modules_Currency_Services_Impl_GuildCurrencyService_GetTransactionsAsync_System_UInt64_System_Nullable_System_UInt64__
+  name: GetTransactionsAsync
+  nameWithType: GuildCurrencyService.GetTransactionsAsync
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetTransactionsAsync
+- uid: Mewdeko.Modules.Currency.Services.ICurrencyService.GetTransactionsAsync(System.UInt64,System.Nullable{System.UInt64})
+  commentId: M:Mewdeko.Modules.Currency.Services.ICurrencyService.GetTransactionsAsync(System.UInt64,System.Nullable{System.UInt64})
+  parent: Mewdeko.Modules.Currency.Services.ICurrencyService
+  isExternal: true
+  href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_GetTransactionsAsync_System_UInt64_System_Nullable_System_UInt64__
+  name: GetTransactionsAsync(ulong, ulong?)
+  nameWithType: ICurrencyService.GetTransactionsAsync(ulong, ulong?)
+  fullName: Mewdeko.Modules.Currency.Services.ICurrencyService.GetTransactionsAsync(ulong, ulong?)
+  nameWithType.vb: ICurrencyService.GetTransactionsAsync(ULong, ULong?)
+  fullName.vb: Mewdeko.Modules.Currency.Services.ICurrencyService.GetTransactionsAsync(ULong, ULong?)
+  name.vb: GetTransactionsAsync(ULong, ULong?)
+  spec.csharp:
+  - uid: Mewdeko.Modules.Currency.Services.ICurrencyService.GetTransactionsAsync(System.UInt64,System.Nullable{System.UInt64})
+    name: GetTransactionsAsync
+    href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_GetTransactionsAsync_System_UInt64_System_Nullable_System_UInt64__
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Modules.Currency.Services.ICurrencyService.GetTransactionsAsync(System.UInt64,System.Nullable{System.UInt64})
+    name: GetTransactionsAsync
+    href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_GetTransactionsAsync_System_UInt64_System_Nullable_System_UInt64__
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  - name: )
+- uid: System.Threading.Tasks.Task{System.Collections.Generic.IEnumerable{Mewdeko.Database.Models.TransactionHistory}}
+  commentId: T:System.Threading.Tasks.Task{System.Collections.Generic.IEnumerable{Mewdeko.Database.Models.TransactionHistory}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<IEnumerable<TransactionHistory>>
+  nameWithType: Task<IEnumerable<TransactionHistory>>
+  fullName: System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Mewdeko.Database.Models.TransactionHistory>>
+  nameWithType.vb: Task(Of IEnumerable(Of TransactionHistory))
+  fullName.vb: System.Threading.Tasks.Task(Of System.Collections.Generic.IEnumerable(Of Mewdeko.Database.Models.TransactionHistory))
+  name.vb: Task(Of IEnumerable(Of TransactionHistory))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: Mewdeko.Database.Models.TransactionHistory
+    name: TransactionHistory
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Models.TransactionHistory
+    name: TransactionHistory
+  - name: )
+  - name: )
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetCurrencyEmote*
+  commentId: Overload:Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetCurrencyEmote
+  href: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.html#Mewdeko_Modules_Currency_Services_Impl_GuildCurrencyService_GetCurrencyEmote_System_Nullable_System_UInt64__
+  name: GetCurrencyEmote
+  nameWithType: GuildCurrencyService.GetCurrencyEmote
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetCurrencyEmote
+- uid: Mewdeko.Modules.Currency.Services.ICurrencyService.GetCurrencyEmote(System.Nullable{System.UInt64})
+  commentId: M:Mewdeko.Modules.Currency.Services.ICurrencyService.GetCurrencyEmote(System.Nullable{System.UInt64})
+  parent: Mewdeko.Modules.Currency.Services.ICurrencyService
+  isExternal: true
+  href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_GetCurrencyEmote_System_Nullable_System_UInt64__
+  name: GetCurrencyEmote(ulong?)
+  nameWithType: ICurrencyService.GetCurrencyEmote(ulong?)
+  fullName: Mewdeko.Modules.Currency.Services.ICurrencyService.GetCurrencyEmote(ulong?)
+  nameWithType.vb: ICurrencyService.GetCurrencyEmote(ULong?)
+  fullName.vb: Mewdeko.Modules.Currency.Services.ICurrencyService.GetCurrencyEmote(ULong?)
+  name.vb: GetCurrencyEmote(ULong?)
+  spec.csharp:
+  - uid: Mewdeko.Modules.Currency.Services.ICurrencyService.GetCurrencyEmote(System.Nullable{System.UInt64})
+    name: GetCurrencyEmote
+    href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_GetCurrencyEmote_System_Nullable_System_UInt64__
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Modules.Currency.Services.ICurrencyService.GetCurrencyEmote(System.Nullable{System.UInt64})
+    name: GetCurrencyEmote
+    href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_GetCurrencyEmote_System_Nullable_System_UInt64__
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  - name: )
+- uid: System.Threading.Tasks.Task{System.String}
+  commentId: T:System.Threading.Tasks.Task{System.String}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<string>
+  nameWithType: Task<string>
+  fullName: System.Threading.Tasks.Task<string>
+  nameWithType.vb: Task(Of String)
+  fullName.vb: System.Threading.Tasks.Task(Of String)
+  name.vb: Task(Of String)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetAllUserBalancesAsync*
+  commentId: Overload:Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetAllUserBalancesAsync
+  href: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.html#Mewdeko_Modules_Currency_Services_Impl_GuildCurrencyService_GetAllUserBalancesAsync_System_Nullable_System_UInt64__
+  name: GetAllUserBalancesAsync
+  nameWithType: GuildCurrencyService.GetAllUserBalancesAsync
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetAllUserBalancesAsync
+- uid: Mewdeko.Modules.Currency.Services.ICurrencyService.GetAllUserBalancesAsync(System.Nullable{System.UInt64})
+  commentId: M:Mewdeko.Modules.Currency.Services.ICurrencyService.GetAllUserBalancesAsync(System.Nullable{System.UInt64})
+  parent: Mewdeko.Modules.Currency.Services.ICurrencyService
+  isExternal: true
+  href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_GetAllUserBalancesAsync_System_Nullable_System_UInt64__
+  name: GetAllUserBalancesAsync(ulong?)
+  nameWithType: ICurrencyService.GetAllUserBalancesAsync(ulong?)
+  fullName: Mewdeko.Modules.Currency.Services.ICurrencyService.GetAllUserBalancesAsync(ulong?)
+  nameWithType.vb: ICurrencyService.GetAllUserBalancesAsync(ULong?)
+  fullName.vb: Mewdeko.Modules.Currency.Services.ICurrencyService.GetAllUserBalancesAsync(ULong?)
+  name.vb: GetAllUserBalancesAsync(ULong?)
+  spec.csharp:
+  - uid: Mewdeko.Modules.Currency.Services.ICurrencyService.GetAllUserBalancesAsync(System.Nullable{System.UInt64})
+    name: GetAllUserBalancesAsync
+    href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_GetAllUserBalancesAsync_System_Nullable_System_UInt64__
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Modules.Currency.Services.ICurrencyService.GetAllUserBalancesAsync(System.Nullable{System.UInt64})
+    name: GetAllUserBalancesAsync
+    href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_GetAllUserBalancesAsync_System_Nullable_System_UInt64__
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  - name: )
+- uid: System.Threading.Tasks.Task{System.Collections.Generic.IEnumerable{Mewdeko.Modules.Currency.Services.Impl.LbCurrency}}
+  commentId: T:System.Threading.Tasks.Task{System.Collections.Generic.IEnumerable{Mewdeko.Modules.Currency.Services.Impl.LbCurrency}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<IEnumerable<LbCurrency>>
+  nameWithType: Task<IEnumerable<LbCurrency>>
+  fullName: System.Threading.Tasks.Task<System.Collections.Generic.IEnumerable<Mewdeko.Modules.Currency.Services.Impl.LbCurrency>>
+  nameWithType.vb: Task(Of IEnumerable(Of LbCurrency))
+  fullName.vb: System.Threading.Tasks.Task(Of System.Collections.Generic.IEnumerable(Of Mewdeko.Modules.Currency.Services.Impl.LbCurrency))
+  name.vb: Task(Of IEnumerable(Of LbCurrency))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: Mewdeko.Modules.Currency.Services.Impl.LbCurrency
+    name: LbCurrency
+    href: Mewdeko.Modules.Currency.Services.Impl.LbCurrency.html
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Currency.Services.Impl.LbCurrency
+    name: LbCurrency
+    href: Mewdeko.Modules.Currency.Services.Impl.LbCurrency.html
+  - name: )
+  - name: )
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.SetReward*
+  commentId: Overload:Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.SetReward
+  href: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.html#Mewdeko_Modules_Currency_Services_Impl_GuildCurrencyService_SetReward_System_Int32_System_Int32_System_Nullable_System_UInt64__
+  name: SetReward
+  nameWithType: GuildCurrencyService.SetReward
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.SetReward
+- uid: Mewdeko.Modules.Currency.Services.ICurrencyService.SetReward(System.Int32,System.Int32,System.Nullable{System.UInt64})
+  commentId: M:Mewdeko.Modules.Currency.Services.ICurrencyService.SetReward(System.Int32,System.Int32,System.Nullable{System.UInt64})
+  parent: Mewdeko.Modules.Currency.Services.ICurrencyService
+  isExternal: true
+  href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_SetReward_System_Int32_System_Int32_System_Nullable_System_UInt64__
+  name: SetReward(int, int, ulong?)
+  nameWithType: ICurrencyService.SetReward(int, int, ulong?)
+  fullName: Mewdeko.Modules.Currency.Services.ICurrencyService.SetReward(int, int, ulong?)
+  nameWithType.vb: ICurrencyService.SetReward(Integer, Integer, ULong?)
+  fullName.vb: Mewdeko.Modules.Currency.Services.ICurrencyService.SetReward(Integer, Integer, ULong?)
+  name.vb: SetReward(Integer, Integer, ULong?)
+  spec.csharp:
+  - uid: Mewdeko.Modules.Currency.Services.ICurrencyService.SetReward(System.Int32,System.Int32,System.Nullable{System.UInt64})
+    name: SetReward
+    href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_SetReward_System_Int32_System_Int32_System_Nullable_System_UInt64__
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Modules.Currency.Services.ICurrencyService.SetReward(System.Int32,System.Int32,System.Nullable{System.UInt64})
+    name: SetReward
+    href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_SetReward_System_Int32_System_Int32_System_Nullable_System_UInt64__
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  - name: )
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetReward*
+  commentId: Overload:Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetReward
+  href: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.html#Mewdeko_Modules_Currency_Services_Impl_GuildCurrencyService_GetReward_System_Nullable_System_UInt64__
+  name: GetReward
+  nameWithType: GuildCurrencyService.GetReward
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.GetReward
+- uid: Mewdeko.Modules.Currency.Services.ICurrencyService.GetReward(System.Nullable{System.UInt64})
+  commentId: M:Mewdeko.Modules.Currency.Services.ICurrencyService.GetReward(System.Nullable{System.UInt64})
+  parent: Mewdeko.Modules.Currency.Services.ICurrencyService
+  isExternal: true
+  href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_GetReward_System_Nullable_System_UInt64__
+  name: GetReward(ulong?)
+  nameWithType: ICurrencyService.GetReward(ulong?)
+  fullName: Mewdeko.Modules.Currency.Services.ICurrencyService.GetReward(ulong?)
+  nameWithType.vb: ICurrencyService.GetReward(ULong?)
+  fullName.vb: Mewdeko.Modules.Currency.Services.ICurrencyService.GetReward(ULong?)
+  name.vb: GetReward(ULong?)
+  spec.csharp:
+  - uid: Mewdeko.Modules.Currency.Services.ICurrencyService.GetReward(System.Nullable{System.UInt64})
+    name: GetReward
+    href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_GetReward_System_Nullable_System_UInt64__
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Modules.Currency.Services.ICurrencyService.GetReward(System.Nullable{System.UInt64})
+    name: GetReward
+    href: Mewdeko.Modules.Currency.Services.ICurrencyService.html#Mewdeko_Modules_Currency_Services_ICurrencyService_GetReward_System_Nullable_System_UInt64__
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  - name: )
+- uid: System.Threading.Tasks.Task{System.ValueTuple{System.Int32,System.Int32}}
+  commentId: T:System.Threading.Tasks.Task{System.ValueTuple{System.Int32,System.Int32}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<(int, int)>
+  nameWithType: Task<(int, int)>
+  fullName: System.Threading.Tasks.Task<(int, int)>
+  nameWithType.vb: Task(Of (Integer, Integer))
+  fullName.vb: System.Threading.Tasks.Task(Of (Integer, Integer))
+  name.vb: Task(Of (Integer, Integer))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  - name: )

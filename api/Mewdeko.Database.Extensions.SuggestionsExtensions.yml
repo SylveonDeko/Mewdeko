@@ -1,0 +1,599 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Extensions.SuggestionsExtensions
+  commentId: T:Mewdeko.Database.Extensions.SuggestionsExtensions
+  id: SuggestionsExtensions
+  parent: Mewdeko.Database.Extensions
+  children:
+  - Mewdeko.Database.Extensions.SuggestionsExtensions.ForId(Microsoft.EntityFrameworkCore.DbSet{Mewdeko.Database.Models.SuggestionsModel},System.UInt64,System.UInt64)
+  - Mewdeko.Database.Extensions.SuggestionsExtensions.ForUser(Microsoft.EntityFrameworkCore.DbSet{Mewdeko.Database.Models.SuggestionsModel},System.UInt64,System.UInt64)
+  langs:
+  - csharp
+  - vb
+  name: SuggestionsExtensions
+  nameWithType: SuggestionsExtensions
+  fullName: Mewdeko.Database.Extensions.SuggestionsExtensions
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko.Database/Extensions/SuggestionsExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SuggestionsExtensions
+    path: src/Mewdeko.Database/Extensions/SuggestionsExtensions.cs
+    startLine: 6
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Extensions
+  syntax:
+    content: public static class SuggestionsExtensions
+    content.vb: Public Module SuggestionsExtensions
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Mewdeko.Database.Extensions.SuggestionsExtensions.ForId(Microsoft.EntityFrameworkCore.DbSet{Mewdeko.Database.Models.SuggestionsModel},System.UInt64,System.UInt64)
+  commentId: M:Mewdeko.Database.Extensions.SuggestionsExtensions.ForId(Microsoft.EntityFrameworkCore.DbSet{Mewdeko.Database.Models.SuggestionsModel},System.UInt64,System.UInt64)
+  id: ForId(Microsoft.EntityFrameworkCore.DbSet{Mewdeko.Database.Models.SuggestionsModel},System.UInt64,System.UInt64)
+  isExtensionMethod: true
+  parent: Mewdeko.Database.Extensions.SuggestionsExtensions
+  langs:
+  - csharp
+  - vb
+  name: ForId(DbSet<SuggestionsModel>, ulong, ulong)
+  nameWithType: SuggestionsExtensions.ForId(DbSet<SuggestionsModel>, ulong, ulong)
+  fullName: Mewdeko.Database.Extensions.SuggestionsExtensions.ForId(Microsoft.EntityFrameworkCore.DbSet<Mewdeko.Database.Models.SuggestionsModel>, ulong, ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko.Database/Extensions/SuggestionsExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ForId
+    path: src/Mewdeko.Database/Extensions/SuggestionsExtensions.cs
+    startLine: 8
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Extensions
+  syntax:
+    content: public static Task<SuggestionsModel[]> ForId(this DbSet<SuggestionsModel> set, ulong guildId, ulong sugid)
+    parameters:
+    - id: set
+      type: Microsoft.EntityFrameworkCore.DbSet{Mewdeko.Database.Models.SuggestionsModel}
+    - id: guildId
+      type: System.UInt64
+    - id: sugid
+      type: System.UInt64
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Database.Models.SuggestionsModel[]}
+    content.vb: Public Shared Function ForId([set] As DbSet(Of SuggestionsModel), guildId As ULong, sugid As ULong) As Task(Of SuggestionsModel())
+  overload: Mewdeko.Database.Extensions.SuggestionsExtensions.ForId*
+  nameWithType.vb: SuggestionsExtensions.ForId(DbSet(Of SuggestionsModel), ULong, ULong)
+  fullName.vb: Mewdeko.Database.Extensions.SuggestionsExtensions.ForId(Microsoft.EntityFrameworkCore.DbSet(Of Mewdeko.Database.Models.SuggestionsModel), ULong, ULong)
+  name.vb: ForId(DbSet(Of SuggestionsModel), ULong, ULong)
+- uid: Mewdeko.Database.Extensions.SuggestionsExtensions.ForUser(Microsoft.EntityFrameworkCore.DbSet{Mewdeko.Database.Models.SuggestionsModel},System.UInt64,System.UInt64)
+  commentId: M:Mewdeko.Database.Extensions.SuggestionsExtensions.ForUser(Microsoft.EntityFrameworkCore.DbSet{Mewdeko.Database.Models.SuggestionsModel},System.UInt64,System.UInt64)
+  id: ForUser(Microsoft.EntityFrameworkCore.DbSet{Mewdeko.Database.Models.SuggestionsModel},System.UInt64,System.UInt64)
+  isExtensionMethod: true
+  parent: Mewdeko.Database.Extensions.SuggestionsExtensions
+  langs:
+  - csharp
+  - vb
+  name: ForUser(DbSet<SuggestionsModel>, ulong, ulong)
+  nameWithType: SuggestionsExtensions.ForUser(DbSet<SuggestionsModel>, ulong, ulong)
+  fullName: Mewdeko.Database.Extensions.SuggestionsExtensions.ForUser(Microsoft.EntityFrameworkCore.DbSet<Mewdeko.Database.Models.SuggestionsModel>, ulong, ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko.Database/Extensions/SuggestionsExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ForUser
+    path: src/Mewdeko.Database/Extensions/SuggestionsExtensions.cs
+    startLine: 11
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Extensions
+  syntax:
+    content: public static Task<SuggestionsModel[]> ForUser(this DbSet<SuggestionsModel> set, ulong guildId, ulong userId)
+    parameters:
+    - id: set
+      type: Microsoft.EntityFrameworkCore.DbSet{Mewdeko.Database.Models.SuggestionsModel}
+    - id: guildId
+      type: System.UInt64
+    - id: userId
+      type: System.UInt64
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Database.Models.SuggestionsModel[]}
+    content.vb: Public Shared Function ForUser([set] As DbSet(Of SuggestionsModel), guildId As ULong, userId As ULong) As Task(Of SuggestionsModel())
+  overload: Mewdeko.Database.Extensions.SuggestionsExtensions.ForUser*
+  nameWithType.vb: SuggestionsExtensions.ForUser(DbSet(Of SuggestionsModel), ULong, ULong)
+  fullName.vb: Mewdeko.Database.Extensions.SuggestionsExtensions.ForUser(Microsoft.EntityFrameworkCore.DbSet(Of Mewdeko.Database.Models.SuggestionsModel), ULong, ULong)
+  name.vb: ForUser(DbSet(Of SuggestionsModel), ULong, ULong)
+references:
+- uid: Mewdeko.Database.Extensions
+  commentId: N:Mewdeko.Database.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Database.Extensions
+  nameWithType: Mewdeko.Database.Extensions
+  fullName: Mewdeko.Database.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Extensions
+    name: Extensions
+    href: Mewdeko.Database.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Extensions
+    name: Extensions
+    href: Mewdeko.Database.Extensions.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Database.Extensions.SuggestionsExtensions.ForId*
+  commentId: Overload:Mewdeko.Database.Extensions.SuggestionsExtensions.ForId
+  href: Mewdeko.Database.Extensions.SuggestionsExtensions.html#Mewdeko_Database_Extensions_SuggestionsExtensions_ForId_Microsoft_EntityFrameworkCore_DbSet_Mewdeko_Database_Models_SuggestionsModel__System_UInt64_System_UInt64_
+  name: ForId
+  nameWithType: SuggestionsExtensions.ForId
+  fullName: Mewdeko.Database.Extensions.SuggestionsExtensions.ForId
+- uid: Microsoft.EntityFrameworkCore.DbSet{Mewdeko.Database.Models.SuggestionsModel}
+  commentId: T:Microsoft.EntityFrameworkCore.DbSet{Mewdeko.Database.Models.SuggestionsModel}
+  parent: Microsoft.EntityFrameworkCore
+  definition: Microsoft.EntityFrameworkCore.DbSet`1
+  href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.dbset-1
+  name: DbSet<SuggestionsModel>
+  nameWithType: DbSet<SuggestionsModel>
+  fullName: Microsoft.EntityFrameworkCore.DbSet<Mewdeko.Database.Models.SuggestionsModel>
+  nameWithType.vb: DbSet(Of SuggestionsModel)
+  fullName.vb: Microsoft.EntityFrameworkCore.DbSet(Of Mewdeko.Database.Models.SuggestionsModel)
+  name.vb: DbSet(Of SuggestionsModel)
+  spec.csharp:
+  - uid: Microsoft.EntityFrameworkCore.DbSet`1
+    name: DbSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.dbset-1
+  - name: <
+  - uid: Mewdeko.Database.Models.SuggestionsModel
+    name: SuggestionsModel
+    href: Mewdeko.Database.Models.SuggestionsModel.html
+  - name: '>'
+  spec.vb:
+  - uid: Microsoft.EntityFrameworkCore.DbSet`1
+    name: DbSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.dbset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Models.SuggestionsModel
+    name: SuggestionsModel
+    href: Mewdeko.Database.Models.SuggestionsModel.html
+  - name: )
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong
+  nameWithType: ulong
+  fullName: ulong
+  nameWithType.vb: ULong
+  fullName.vb: ULong
+  name.vb: ULong
+- uid: System.Threading.Tasks.Task{Mewdeko.Database.Models.SuggestionsModel[]}
+  commentId: T:System.Threading.Tasks.Task{Mewdeko.Database.Models.SuggestionsModel[]}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<SuggestionsModel[]>
+  nameWithType: Task<SuggestionsModel[]>
+  fullName: System.Threading.Tasks.Task<Mewdeko.Database.Models.SuggestionsModel[]>
+  nameWithType.vb: Task(Of SuggestionsModel())
+  fullName.vb: System.Threading.Tasks.Task(Of Mewdeko.Database.Models.SuggestionsModel())
+  name.vb: Task(Of SuggestionsModel())
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Mewdeko.Database.Models.SuggestionsModel
+    name: SuggestionsModel
+    href: Mewdeko.Database.Models.SuggestionsModel.html
+  - name: '['
+  - name: ']'
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Models.SuggestionsModel
+    name: SuggestionsModel
+    href: Mewdeko.Database.Models.SuggestionsModel.html
+  - name: (
+  - name: )
+  - name: )
+- uid: Microsoft.EntityFrameworkCore.DbSet`1
+  commentId: T:Microsoft.EntityFrameworkCore.DbSet`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.dbset-1
+  name: DbSet<TEntity>
+  nameWithType: DbSet<TEntity>
+  fullName: Microsoft.EntityFrameworkCore.DbSet<TEntity>
+  nameWithType.vb: DbSet(Of TEntity)
+  fullName.vb: Microsoft.EntityFrameworkCore.DbSet(Of TEntity)
+  name.vb: DbSet(Of TEntity)
+  spec.csharp:
+  - uid: Microsoft.EntityFrameworkCore.DbSet`1
+    name: DbSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.dbset-1
+  - name: <
+  - name: TEntity
+  - name: '>'
+  spec.vb:
+  - uid: Microsoft.EntityFrameworkCore.DbSet`1
+    name: DbSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.dbset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TEntity
+  - name: )
+- uid: Microsoft.EntityFrameworkCore
+  commentId: N:Microsoft.EntityFrameworkCore
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft
+  name: Microsoft.EntityFrameworkCore
+  nameWithType: Microsoft.EntityFrameworkCore
+  fullName: Microsoft.EntityFrameworkCore
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.EntityFrameworkCore
+    name: EntityFrameworkCore
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.EntityFrameworkCore
+    name: EntityFrameworkCore
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Database.Extensions.SuggestionsExtensions.ForUser*
+  commentId: Overload:Mewdeko.Database.Extensions.SuggestionsExtensions.ForUser
+  href: Mewdeko.Database.Extensions.SuggestionsExtensions.html#Mewdeko_Database_Extensions_SuggestionsExtensions_ForUser_Microsoft_EntityFrameworkCore_DbSet_Mewdeko_Database_Models_SuggestionsModel__System_UInt64_System_UInt64_
+  name: ForUser
+  nameWithType: SuggestionsExtensions.ForUser
+  fullName: Mewdeko.Database.Extensions.SuggestionsExtensions.ForUser

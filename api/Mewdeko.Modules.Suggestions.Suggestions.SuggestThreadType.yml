@@ -1,0 +1,171 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
+  commentId: T:Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
+  id: Suggestions.SuggestThreadType
+  parent: Mewdeko.Modules.Suggestions
+  children:
+  - Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType.None
+  - Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType.Private
+  - Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType.Public
+  langs:
+  - csharp
+  - vb
+  name: Suggestions.SuggestThreadType
+  nameWithType: Suggestions.SuggestThreadType
+  fullName: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SuggestThreadType
+    path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
+    startLine: 11
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Suggestions
+  summary: Defines the type of threads used for suggestions.
+  example: []
+  syntax:
+    content: public enum Suggestions.SuggestThreadType
+    content.vb: Public Enum Suggestions.SuggestThreadType
+- uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType.None
+  commentId: F:Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType.None
+  id: None
+  parent: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: Suggestions.SuggestThreadType.None
+  fullName: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType.None
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: None
+    path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
+    startLine: 16
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Suggestions
+  summary: No thread is used for suggestions.
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
+- uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType.Public
+  commentId: F:Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType.Public
+  id: Public
+  parent: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
+  langs:
+  - csharp
+  - vb
+  name: Public
+  nameWithType: Suggestions.SuggestThreadType.Public
+  fullName: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType.Public
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Public
+    path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
+    startLine: 21
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Suggestions
+  summary: Public threads are used for suggestions.
+  example: []
+  syntax:
+    content: Public = 1
+    return:
+      type: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
+- uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType.Private
+  commentId: F:Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType.Private
+  id: Private
+  parent: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
+  langs:
+  - csharp
+  - vb
+  name: Private
+  nameWithType: Suggestions.SuggestThreadType.Private
+  fullName: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType.Private
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Private
+    path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
+    startLine: 26
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Suggestions
+  summary: Private threads are used for suggestions.
+  example: []
+  syntax:
+    content: Private = 2
+    return:
+      type: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
+references:
+- uid: Mewdeko.Modules.Suggestions
+  commentId: N:Mewdeko.Modules.Suggestions
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Suggestions
+  nameWithType: Mewdeko.Modules.Suggestions
+  fullName: Mewdeko.Modules.Suggestions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions
+    name: Suggestions
+    href: Mewdeko.Modules.Suggestions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions
+    name: Suggestions
+    href: Mewdeko.Modules.Suggestions.html
+- uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
+  commentId: T:Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
+  parent: Mewdeko.Modules.Suggestions
+  href: Mewdeko.Modules.Suggestions.Suggestions.html
+  name: Suggestions.SuggestThreadType
+  nameWithType: Suggestions.SuggestThreadType
+  fullName: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
+  spec.csharp:
+  - uid: Mewdeko.Modules.Suggestions.Suggestions
+    name: Suggestions
+    href: Mewdeko.Modules.Suggestions.Suggestions.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
+    name: SuggestThreadType
+    href: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Suggestions.Suggestions
+    name: Suggestions
+    href: Mewdeko.Modules.Suggestions.Suggestions.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType
+    name: SuggestThreadType
+    href: Mewdeko.Modules.Suggestions.Suggestions.SuggestThreadType.html

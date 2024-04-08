@@ -1,0 +1,1551 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  commentId: T:Mewdeko.Modules.Games.Common.Hangman.Hangman
+  id: Hangman
+  parent: Mewdeko.Modules.Games.Common.Hangman
+  children:
+  - Mewdeko.Modules.Games.Common.Hangman.Hangman.#ctor(System.String,Mewdeko.Modules.Games.Common.Hangman.TermPool)
+  - Mewdeko.Modules.Games.Common.Hangman.Hangman.CurrentPhase
+  - Mewdeko.Modules.Games.Common.Hangman.Hangman.Dispose
+  - Mewdeko.Modules.Games.Common.Hangman.Hangman.EndedTask
+  - Mewdeko.Modules.Games.Common.Hangman.Hangman.Errors
+  - Mewdeko.Modules.Games.Common.Hangman.Hangman.GetHangman
+  - Mewdeko.Modules.Games.Common.Hangman.Hangman.Input(System.UInt64,System.String,System.String)
+  - Mewdeko.Modules.Games.Common.Hangman.Hangman.MaxErrors
+  - Mewdeko.Modules.Games.Common.Hangman.Hangman.OnGameEnded
+  - Mewdeko.Modules.Games.Common.Hangman.Hangman.OnGuessFailed
+  - Mewdeko.Modules.Games.Common.Hangman.Hangman.OnGuessSucceeded
+  - Mewdeko.Modules.Games.Common.Hangman.Hangman.OnLetterAlreadyUsed
+  - Mewdeko.Modules.Games.Common.Hangman.Hangman.PreviousGuesses
+  - Mewdeko.Modules.Games.Common.Hangman.Hangman.ScrambledWord
+  - Mewdeko.Modules.Games.Common.Hangman.Hangman.Stop
+  - Mewdeko.Modules.Games.Common.Hangman.Hangman.Term
+  - Mewdeko.Modules.Games.Common.Hangman.Hangman.TermPool
+  - Mewdeko.Modules.Games.Common.Hangman.Hangman.TermType
+  langs:
+  - csharp
+  - vb
+  name: Hangman
+  nameWithType: Hangman
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Hangman
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+    startLine: 8
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Represents a Hangman game.
+  example: []
+  syntax:
+    content: 'public sealed class Hangman : IDisposable'
+    content.vb: Public NotInheritable Class Hangman Implements IDisposable
+  inheritance:
+  - System.Object
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Games.Common.Hangman.Hangman.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.#ctor(System.String,Mewdeko.Modules.Games.Common.Hangman.TermPool)
+  commentId: M:Mewdeko.Modules.Games.Common.Hangman.Hangman.#ctor(System.String,Mewdeko.Modules.Games.Common.Hangman.TermPool)
+  id: '#ctor(System.String,Mewdeko.Modules.Games.Common.Hangman.TermPool)'
+  parent: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  langs:
+  - csharp
+  - vb
+  name: Hangman(string, TermPool?)
+  nameWithType: Hangman.Hangman(string, TermPool?)
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.Hangman(string, Mewdeko.Modules.Games.Common.Hangman.TermPool?)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+    startLine: 25
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Initializes a new instance of the <xref href="Mewdeko.Modules.Games.Common.Hangman.Hangman" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public Hangman(string type, TermPool? tp = null)
+    parameters:
+    - id: type
+      type: System.String
+      description: Type of game
+    - id: tp
+      type: Mewdeko.Modules.Games.Common.Hangman.TermPool
+      description: The terms this game will use
+    content.vb: Public Sub New(type As String, tp As TermPool = Nothing)
+  overload: Mewdeko.Modules.Games.Common.Hangman.Hangman.#ctor*
+  nameWithType.vb: Hangman.New(String, TermPool)
+  fullName.vb: Mewdeko.Modules.Games.Common.Hangman.Hangman.New(String, Mewdeko.Modules.Games.Common.Hangman.TermPool)
+  name.vb: New(String, TermPool)
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.TermType
+  commentId: P:Mewdeko.Modules.Games.Common.Hangman.Hangman.TermType
+  id: TermType
+  parent: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  langs:
+  - csharp
+  - vb
+  name: TermType
+  nameWithType: Hangman.TermType
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.TermType
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TermType
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+    startLine: 35
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Gets the type of the term used in the Hangman game.
+  example: []
+  syntax:
+    content: public string TermType { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property TermType As String
+  overload: Mewdeko.Modules.Games.Common.Hangman.Hangman.TermType*
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.TermPool
+  commentId: P:Mewdeko.Modules.Games.Common.Hangman.Hangman.TermPool
+  id: TermPool
+  parent: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  langs:
+  - csharp
+  - vb
+  name: TermPool
+  nameWithType: Hangman.TermPool
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.TermPool
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TermPool
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+    startLine: 40
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Gets the term pool used in the Hangman game.
+  example: []
+  syntax:
+    content: public TermPool TermPool { get; }
+    parameters: []
+    return:
+      type: Mewdeko.Modules.Games.Common.Hangman.TermPool
+    content.vb: Public ReadOnly Property TermPool As TermPool
+  overload: Mewdeko.Modules.Games.Common.Hangman.Hangman.TermPool*
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.Term
+  commentId: P:Mewdeko.Modules.Games.Common.Hangman.Hangman.Term
+  id: Term
+  parent: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  langs:
+  - csharp
+  - vb
+  name: Term
+  nameWithType: Hangman.Term
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.Term
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Term
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+    startLine: 45
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Gets the Hangman object representing the term.
+  example: []
+  syntax:
+    content: public HangmanObject Term { get; }
+    parameters: []
+    return:
+      type: Mewdeko.Modules.Games.Common.Hangman.HangmanObject
+    content.vb: Public ReadOnly Property Term As HangmanObject
+  overload: Mewdeko.Modules.Games.Common.Hangman.Hangman.Term*
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.ScrambledWord
+  commentId: P:Mewdeko.Modules.Games.Common.Hangman.Hangman.ScrambledWord
+  id: ScrambledWord
+  parent: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  langs:
+  - csharp
+  - vb
+  name: ScrambledWord
+  nameWithType: Hangman.ScrambledWord
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.ScrambledWord
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ScrambledWord
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+    startLine: 53
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Gets the scrambled word for display during the game.
+  remarks: The scrambled word replaces unguessed characters with a placeholder.
+  example: []
+  syntax:
+    content: public string ScrambledWord { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property ScrambledWord As String
+  overload: Mewdeko.Modules.Games.Common.Hangman.Hangman.ScrambledWord*
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.CurrentPhase
+  commentId: P:Mewdeko.Modules.Games.Common.Hangman.Hangman.CurrentPhase
+  id: CurrentPhase
+  parent: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  langs:
+  - csharp
+  - vb
+  name: CurrentPhase
+  nameWithType: Hangman.CurrentPhase
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.CurrentPhase
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CurrentPhase
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+    startLine: 59
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Gets or sets the current phase of the Hangman game.
+  example: []
+  syntax:
+    content: public Phase CurrentPhase { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Modules.Games.Common.Hangman.Phase
+    content.vb: Public Property CurrentPhase As Phase
+  overload: Mewdeko.Modules.Games.Common.Hangman.Hangman.CurrentPhase*
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.Errors
+  commentId: P:Mewdeko.Modules.Games.Common.Hangman.Hangman.Errors
+  id: Errors
+  parent: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  langs:
+  - csharp
+  - vb
+  name: Errors
+  nameWithType: Hangman.Errors
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.Errors
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Errors
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+    startLine: 74
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Gets the number of errors made during the game.
+  example: []
+  syntax:
+    content: public uint Errors { get; }
+    parameters: []
+    return:
+      type: System.UInt32
+    content.vb: Public Property Errors As UInteger
+  overload: Mewdeko.Modules.Games.Common.Hangman.Hangman.Errors*
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.MaxErrors
+  commentId: P:Mewdeko.Modules.Games.Common.Hangman.Hangman.MaxErrors
+  id: MaxErrors
+  parent: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  langs:
+  - csharp
+  - vb
+  name: MaxErrors
+  nameWithType: Hangman.MaxErrors
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.MaxErrors
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MaxErrors
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+    startLine: 79
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Gets the maximum number of errors allowed during the game.
+  example: []
+  syntax:
+    content: public uint MaxErrors { get; }
+    parameters: []
+    return:
+      type: System.UInt32
+    content.vb: Public ReadOnly Property MaxErrors As UInteger
+  overload: Mewdeko.Modules.Games.Common.Hangman.Hangman.MaxErrors*
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.PreviousGuesses
+  commentId: P:Mewdeko.Modules.Games.Common.Hangman.Hangman.PreviousGuesses
+  id: PreviousGuesses
+  parent: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  langs:
+  - csharp
+  - vb
+  name: PreviousGuesses
+  nameWithType: Hangman.PreviousGuesses
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.PreviousGuesses
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: PreviousGuesses
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+    startLine: 84
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Gets the previous guesses made during the game.
+  example: []
+  syntax:
+    content: public ImmutableArray<char> PreviousGuesses { get; }
+    parameters: []
+    return:
+      type: System.Collections.Immutable.ImmutableArray{System.Char}
+    content.vb: Public ReadOnly Property PreviousGuesses As ImmutableArray(Of Char)
+  overload: Mewdeko.Modules.Games.Common.Hangman.Hangman.PreviousGuesses*
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.EndedTask
+  commentId: P:Mewdeko.Modules.Games.Common.Hangman.Hangman.EndedTask
+  id: EndedTask
+  parent: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  langs:
+  - csharp
+  - vb
+  name: EndedTask
+  nameWithType: Hangman.EndedTask
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.EndedTask
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: EndedTask
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+    startLine: 89
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Gets the task representing the end of the Hangman game.
+  example: []
+  syntax:
+    content: public Task EndedTask { get; }
+    parameters: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public ReadOnly Property EndedTask As Task
+  overload: Mewdeko.Modules.Games.Common.Hangman.Hangman.EndedTask*
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.Dispose
+  commentId: M:Mewdeko.Modules.Games.Common.Hangman.Hangman.Dispose
+  id: Dispose
+  parent: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  langs:
+  - csharp
+  - vb
+  name: Dispose()
+  nameWithType: Hangman.Dispose()
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Dispose
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+    startLine: 94
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Disposes of the Hangman instance.
+  example: []
+  syntax:
+    content: public void Dispose()
+    content.vb: Public Sub Dispose()
+  overload: Mewdeko.Modules.Games.Common.Hangman.Hangman.Dispose*
+  implements:
+  - System.IDisposable.Dispose
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.OnGameEnded
+  commentId: E:Mewdeko.Modules.Games.Common.Hangman.Hangman.OnGameEnded
+  id: OnGameEnded
+  parent: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  langs:
+  - csharp
+  - vb
+  name: OnGameEnded
+  nameWithType: Hangman.OnGameEnded
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.OnGameEnded
+  type: Event
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OnGameEnded
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+    startLine: 108
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Event triggered when the Hangman game ends.
+  example: []
+  syntax:
+    content: public event Func<Hangman, string, Task> OnGameEnded
+    return:
+      type: System.Func{Mewdeko.Modules.Games.Common.Hangman.Hangman,System.String,System.Threading.Tasks.Task}
+    content.vb: Public Event OnGameEnded As Func(Of Hangman, String, Task)
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.OnLetterAlreadyUsed
+  commentId: E:Mewdeko.Modules.Games.Common.Hangman.Hangman.OnLetterAlreadyUsed
+  id: OnLetterAlreadyUsed
+  parent: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  langs:
+  - csharp
+  - vb
+  name: OnLetterAlreadyUsed
+  nameWithType: Hangman.OnLetterAlreadyUsed
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.OnLetterAlreadyUsed
+  type: Event
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OnLetterAlreadyUsed
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+    startLine: 113
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Event triggered when a letter is guessed but it has already been used.
+  example: []
+  syntax:
+    content: public event Func<Hangman, string, char, Task> OnLetterAlreadyUsed
+    return:
+      type: System.Func{Mewdeko.Modules.Games.Common.Hangman.Hangman,System.String,System.Char,System.Threading.Tasks.Task}
+    content.vb: Public Event OnLetterAlreadyUsed As Func(Of Hangman, String, Char, Task)
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.OnGuessFailed
+  commentId: E:Mewdeko.Modules.Games.Common.Hangman.Hangman.OnGuessFailed
+  id: OnGuessFailed
+  parent: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  langs:
+  - csharp
+  - vb
+  name: OnGuessFailed
+  nameWithType: Hangman.OnGuessFailed
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.OnGuessFailed
+  type: Event
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OnGuessFailed
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+    startLine: 118
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Event triggered when a guess fails.
+  example: []
+  syntax:
+    content: public event Func<Hangman, string, char, Task> OnGuessFailed
+    return:
+      type: System.Func{Mewdeko.Modules.Games.Common.Hangman.Hangman,System.String,System.Char,System.Threading.Tasks.Task}
+    content.vb: Public Event OnGuessFailed As Func(Of Hangman, String, Char, Task)
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.OnGuessSucceeded
+  commentId: E:Mewdeko.Modules.Games.Common.Hangman.Hangman.OnGuessSucceeded
+  id: OnGuessSucceeded
+  parent: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  langs:
+  - csharp
+  - vb
+  name: OnGuessSucceeded
+  nameWithType: Hangman.OnGuessSucceeded
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.OnGuessSucceeded
+  type: Event
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OnGuessSucceeded
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+    startLine: 123
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Event triggered when a guess succeeds.
+  example: []
+  syntax:
+    content: public event Func<Hangman, string, char, Task> OnGuessSucceeded
+    return:
+      type: System.Func{Mewdeko.Modules.Games.Common.Hangman.Hangman,System.String,System.Char,System.Threading.Tasks.Task}
+    content.vb: Public Event OnGuessSucceeded As Func(Of Hangman, String, Char, Task)
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.GetHangman
+  commentId: M:Mewdeko.Modules.Games.Common.Hangman.Hangman.GetHangman
+  id: GetHangman
+  parent: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  langs:
+  - csharp
+  - vb
+  name: GetHangman()
+  nameWithType: Hangman.GetHangman()
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.GetHangman()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetHangman
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+    startLine: 138
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Generates the ASCII art representation of the hangman based on the current errors.
+  example: []
+  syntax:
+    content: public string GetHangman()
+    return:
+      type: System.String
+      description: The ASCII art representation of the hangman.
+    content.vb: Public Function GetHangman() As String
+  overload: Mewdeko.Modules.Games.Common.Hangman.Hangman.GetHangman*
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.Input(System.UInt64,System.String,System.String)
+  commentId: M:Mewdeko.Modules.Games.Common.Hangman.Hangman.Input(System.UInt64,System.String,System.String)
+  id: Input(System.UInt64,System.String,System.String)
+  parent: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  langs:
+  - csharp
+  - vb
+  name: Input(ulong, string, string)
+  nameWithType: Hangman.Input(ulong, string, string)
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.Input(ulong, string, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Input
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+    startLine: 154
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Handles user input during the game.
+  example: []
+  syntax:
+    content: public Task Input(ulong userId, string userName, string input)
+    parameters:
+    - id: userId
+      type: System.UInt64
+      description: The ID of the user.
+    - id: userName
+      type: System.String
+      description: The name of the user.
+    - id: input
+      type: System.String
+      description: The user's input.
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task representing the asynchronous operation.
+    content.vb: Public Function Input(userId As ULong, userName As String, input As String) As Task
+  overload: Mewdeko.Modules.Games.Common.Hangman.Hangman.Input*
+  nameWithType.vb: Hangman.Input(ULong, String, String)
+  fullName.vb: Mewdeko.Modules.Games.Common.Hangman.Hangman.Input(ULong, String, String)
+  name.vb: Input(ULong, String, String)
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.Stop
+  commentId: M:Mewdeko.Modules.Games.Common.Hangman.Hangman.Stop
+  id: Stop
+  parent: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  langs:
+  - csharp
+  - vb
+  name: Stop()
+  nameWithType: Hangman.Stop()
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.Stop()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Stop
+    path: src/Mewdeko/Modules/Games/Common/Hangman/Hangman.cs
+    startLine: 226
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Hangman
+  summary: Stops the game.
+  example: []
+  syntax:
+    content: public Task Stop()
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task representing the asynchronous operation.
+    content.vb: Public Function [Stop]() As Task
+  overload: Mewdeko.Modules.Games.Common.Hangman.Hangman.Stop*
+references:
+- uid: Mewdeko.Modules.Games.Common.Hangman
+  commentId: N:Mewdeko.Modules.Games.Common.Hangman
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Games.Common.Hangman
+  nameWithType: Mewdeko.Modules.Games.Common.Hangman
+  fullName: Mewdeko.Modules.Games.Common.Hangman
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Hangman
+    name: Hangman
+    href: Mewdeko.Modules.Games.Common.Hangman.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Hangman
+    name: Hangman
+    href: Mewdeko.Modules.Games.Common.Hangman.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.IDisposable
+  commentId: T:System.IDisposable
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable
+  name: IDisposable
+  nameWithType: IDisposable
+  fullName: System.IDisposable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<Hangman>(Hangman, string)
+  nameWithType: Extensions.ThrowIfNull<Hangman>(Hangman, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Games.Common.Hangman.Hangman>(Mewdeko.Modules.Games.Common.Hangman.Hangman, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of Hangman)(Hangman, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Games.Common.Hangman.Hangman)(Mewdeko.Modules.Games.Common.Hangman.Hangman, String)
+  name.vb: ThrowIfNull(Of Hangman)(Hangman, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Games.Common.Hangman.Hangman,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Games.Common.Hangman.Hangman
+    name: Hangman
+    href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Games.Common.Hangman.Hangman
+    name: Hangman
+    href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Games.Common.Hangman.Hangman,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.Hangman.Hangman
+    name: Hangman
+    href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Games.Common.Hangman.Hangman
+    name: Hangman
+    href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  commentId: T:Mewdeko.Modules.Games.Common.Hangman.Hangman
+  href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html
+  name: Hangman
+  nameWithType: Hangman
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.#ctor*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Hangman.Hangman.#ctor
+  href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html#Mewdeko_Modules_Games_Common_Hangman_Hangman__ctor_System_String_Mewdeko_Modules_Games_Common_Hangman_TermPool_
+  name: Hangman
+  nameWithType: Hangman.Hangman
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.Hangman
+  nameWithType.vb: Hangman.New
+  fullName.vb: Mewdeko.Modules.Games.Common.Hangman.Hangman.New
+  name.vb: New
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Modules.Games.Common.Hangman.TermPool
+  commentId: T:Mewdeko.Modules.Games.Common.Hangman.TermPool
+  parent: Mewdeko.Modules.Games.Common.Hangman
+  href: Mewdeko.Modules.Games.Common.Hangman.TermPool.html
+  name: TermPool
+  nameWithType: TermPool
+  fullName: Mewdeko.Modules.Games.Common.Hangman.TermPool
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.TermType*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Hangman.Hangman.TermType
+  href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html#Mewdeko_Modules_Games_Common_Hangman_Hangman_TermType
+  name: TermType
+  nameWithType: Hangman.TermType
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.TermType
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.TermPool*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Hangman.Hangman.TermPool
+  href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html#Mewdeko_Modules_Games_Common_Hangman_Hangman_TermPool
+  name: TermPool
+  nameWithType: Hangman.TermPool
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.TermPool
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.Term*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Hangman.Hangman.Term
+  href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html#Mewdeko_Modules_Games_Common_Hangman_Hangman_Term
+  name: Term
+  nameWithType: Hangman.Term
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.Term
+- uid: Mewdeko.Modules.Games.Common.Hangman.HangmanObject
+  commentId: T:Mewdeko.Modules.Games.Common.Hangman.HangmanObject
+  parent: Mewdeko.Modules.Games.Common.Hangman
+  href: Mewdeko.Modules.Games.Common.Hangman.HangmanObject.html
+  name: HangmanObject
+  nameWithType: HangmanObject
+  fullName: Mewdeko.Modules.Games.Common.Hangman.HangmanObject
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.ScrambledWord*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Hangman.Hangman.ScrambledWord
+  href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html#Mewdeko_Modules_Games_Common_Hangman_Hangman_ScrambledWord
+  name: ScrambledWord
+  nameWithType: Hangman.ScrambledWord
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.ScrambledWord
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.CurrentPhase*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Hangman.Hangman.CurrentPhase
+  href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html#Mewdeko_Modules_Games_Common_Hangman_Hangman_CurrentPhase
+  name: CurrentPhase
+  nameWithType: Hangman.CurrentPhase
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.CurrentPhase
+- uid: Mewdeko.Modules.Games.Common.Hangman.Phase
+  commentId: T:Mewdeko.Modules.Games.Common.Hangman.Phase
+  parent: Mewdeko.Modules.Games.Common.Hangman
+  href: Mewdeko.Modules.Games.Common.Hangman.Phase.html
+  name: Phase
+  nameWithType: Phase
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Phase
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.Errors*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Hangman.Hangman.Errors
+  href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html#Mewdeko_Modules_Games_Common_Hangman_Hangman_Errors
+  name: Errors
+  nameWithType: Hangman.Errors
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.Errors
+- uid: System.UInt32
+  commentId: T:System.UInt32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint32
+  name: uint
+  nameWithType: uint
+  fullName: uint
+  nameWithType.vb: UInteger
+  fullName.vb: UInteger
+  name.vb: UInteger
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.MaxErrors*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Hangman.Hangman.MaxErrors
+  href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html#Mewdeko_Modules_Games_Common_Hangman_Hangman_MaxErrors
+  name: MaxErrors
+  nameWithType: Hangman.MaxErrors
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.MaxErrors
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.PreviousGuesses*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Hangman.Hangman.PreviousGuesses
+  href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html#Mewdeko_Modules_Games_Common_Hangman_Hangman_PreviousGuesses
+  name: PreviousGuesses
+  nameWithType: Hangman.PreviousGuesses
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.PreviousGuesses
+- uid: System.Collections.Immutable.ImmutableArray{System.Char}
+  commentId: T:System.Collections.Immutable.ImmutableArray{System.Char}
+  parent: System.Collections.Immutable
+  definition: System.Collections.Immutable.ImmutableArray`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.immutable.immutablearray-1
+  name: ImmutableArray<char>
+  nameWithType: ImmutableArray<char>
+  fullName: System.Collections.Immutable.ImmutableArray<char>
+  nameWithType.vb: ImmutableArray(Of Char)
+  fullName.vb: System.Collections.Immutable.ImmutableArray(Of Char)
+  name.vb: ImmutableArray(Of Char)
+  spec.csharp:
+  - uid: System.Collections.Immutable.ImmutableArray`1
+    name: ImmutableArray
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.immutable.immutablearray-1
+  - name: <
+  - uid: System.Char
+    name: char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Immutable.ImmutableArray`1
+    name: ImmutableArray
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.immutable.immutablearray-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Char
+    name: Char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: )
+- uid: System.Collections.Immutable.ImmutableArray`1
+  commentId: T:System.Collections.Immutable.ImmutableArray`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.immutable.immutablearray-1
+  name: ImmutableArray<T>
+  nameWithType: ImmutableArray<T>
+  fullName: System.Collections.Immutable.ImmutableArray<T>
+  nameWithType.vb: ImmutableArray(Of T)
+  fullName.vb: System.Collections.Immutable.ImmutableArray(Of T)
+  name.vb: ImmutableArray(Of T)
+  spec.csharp:
+  - uid: System.Collections.Immutable.ImmutableArray`1
+    name: ImmutableArray
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.immutable.immutablearray-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Immutable.ImmutableArray`1
+    name: ImmutableArray
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.immutable.immutablearray-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Immutable
+  commentId: N:System.Collections.Immutable
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Immutable
+  nameWithType: System.Collections.Immutable
+  fullName: System.Collections.Immutable
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Immutable
+    name: Immutable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.immutable
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Immutable
+    name: Immutable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.immutable
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.EndedTask*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Hangman.Hangman.EndedTask
+  href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html#Mewdeko_Modules_Games_Common_Hangman_Hangman_EndedTask
+  name: EndedTask
+  nameWithType: Hangman.EndedTask
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.EndedTask
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.Dispose*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Hangman.Hangman.Dispose
+  href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html#Mewdeko_Modules_Games_Common_Hangman_Hangman_Dispose
+  name: Dispose
+  nameWithType: Hangman.Dispose
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.Dispose
+- uid: System.IDisposable.Dispose
+  commentId: M:System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  name: Dispose()
+  nameWithType: IDisposable.Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.idisposable.dispose
+  - name: (
+  - name: )
+- uid: System.Func{Mewdeko.Modules.Games.Common.Hangman.Hangman,System.String,System.Threading.Tasks.Task}
+  commentId: T:System.Func{Mewdeko.Modules.Games.Common.Hangman.Hangman,System.String,System.Threading.Tasks.Task}
+  parent: System
+  definition: System.Func`3
+  href: https://learn.microsoft.com/dotnet/api/system.func-3
+  name: Func<Hangman, string, Task>
+  nameWithType: Func<Hangman, string, Task>
+  fullName: System.Func<Mewdeko.Modules.Games.Common.Hangman.Hangman, string, System.Threading.Tasks.Task>
+  nameWithType.vb: Func(Of Hangman, String, Task)
+  fullName.vb: System.Func(Of Mewdeko.Modules.Games.Common.Hangman.Hangman, String, System.Threading.Tasks.Task)
+  name.vb: Func(Of Hangman, String, Task)
+  spec.csharp:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: <
+  - uid: Mewdeko.Modules.Games.Common.Hangman.Hangman
+    name: Hangman
+    href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.Hangman.Hangman
+    name: Hangman
+    href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: )
+- uid: System.Func`3
+  commentId: T:System.Func`3
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-3
+  name: Func<T1, T2, TResult>
+  nameWithType: Func<T1, T2, TResult>
+  fullName: System.Func<T1, T2, TResult>
+  nameWithType.vb: Func(Of T1, T2, TResult)
+  fullName.vb: System.Func(Of T1, T2, TResult)
+  name.vb: Func(Of T1, T2, TResult)
+  spec.csharp:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Func{Mewdeko.Modules.Games.Common.Hangman.Hangman,System.String,System.Char,System.Threading.Tasks.Task}
+  commentId: T:System.Func{Mewdeko.Modules.Games.Common.Hangman.Hangman,System.String,System.Char,System.Threading.Tasks.Task}
+  parent: System
+  definition: System.Func`4
+  href: https://learn.microsoft.com/dotnet/api/system.func-4
+  name: Func<Hangman, string, char, Task>
+  nameWithType: Func<Hangman, string, char, Task>
+  fullName: System.Func<Mewdeko.Modules.Games.Common.Hangman.Hangman, string, char, System.Threading.Tasks.Task>
+  nameWithType.vb: Func(Of Hangman, String, Char, Task)
+  fullName.vb: System.Func(Of Mewdeko.Modules.Games.Common.Hangman.Hangman, String, Char, System.Threading.Tasks.Task)
+  name.vb: Func(Of Hangman, String, Char, Task)
+  spec.csharp:
+  - uid: System.Func`4
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-4
+  - name: <
+  - uid: Mewdeko.Modules.Games.Common.Hangman.Hangman
+    name: Hangman
+    href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Char
+    name: char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`4
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-4
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Games.Common.Hangman.Hangman
+    name: Hangman
+    href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Char
+    name: Char
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.char
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: )
+- uid: System.Func`4
+  commentId: T:System.Func`4
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-4
+  name: Func<T1, T2, T3, TResult>
+  nameWithType: Func<T1, T2, T3, TResult>
+  fullName: System.Func<T1, T2, T3, TResult>
+  nameWithType.vb: Func(Of T1, T2, T3, TResult)
+  fullName.vb: System.Func(Of T1, T2, T3, TResult)
+  name.vb: Func(Of T1, T2, T3, TResult)
+  spec.csharp:
+  - uid: System.Func`4
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-4
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`4
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-4
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.GetHangman*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Hangman.Hangman.GetHangman
+  href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html#Mewdeko_Modules_Games_Common_Hangman_Hangman_GetHangman
+  name: GetHangman
+  nameWithType: Hangman.GetHangman
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.GetHangman
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.Input*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Hangman.Hangman.Input
+  href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html#Mewdeko_Modules_Games_Common_Hangman_Hangman_Input_System_UInt64_System_String_System_String_
+  name: Input
+  nameWithType: Hangman.Input
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.Input
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong
+  nameWithType: ulong
+  fullName: ulong
+  nameWithType.vb: ULong
+  fullName.vb: ULong
+  name.vb: ULong
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman.Stop*
+  commentId: Overload:Mewdeko.Modules.Games.Common.Hangman.Hangman.Stop
+  href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html#Mewdeko_Modules_Games_Common_Hangman_Hangman_Stop
+  name: Stop
+  nameWithType: Hangman.Stop
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman.Stop

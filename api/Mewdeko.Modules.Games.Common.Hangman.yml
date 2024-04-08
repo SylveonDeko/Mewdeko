@@ -1,0 +1,101 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Games.Common.Hangman
+  commentId: N:Mewdeko.Modules.Games.Common.Hangman
+  id: Mewdeko.Modules.Games.Common.Hangman
+  children:
+  - Mewdeko.Modules.Games.Common.Hangman.Hangman
+  - Mewdeko.Modules.Games.Common.Hangman.HangmanObject
+  - Mewdeko.Modules.Games.Common.Hangman.Phase
+  - Mewdeko.Modules.Games.Common.Hangman.TermPool
+  - Mewdeko.Modules.Games.Common.Hangman.TermTypes
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Games.Common.Hangman
+  nameWithType: Mewdeko.Modules.Games.Common.Hangman
+  fullName: Mewdeko.Modules.Games.Common.Hangman
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Games.Common.Hangman.Hangman
+  commentId: T:Mewdeko.Modules.Games.Common.Hangman.Hangman
+  href: Mewdeko.Modules.Games.Common.Hangman.Hangman.html
+  name: Hangman
+  nameWithType: Hangman
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Hangman
+- uid: Mewdeko.Modules.Games.Common.Hangman.HangmanObject
+  commentId: T:Mewdeko.Modules.Games.Common.Hangman.HangmanObject
+  parent: Mewdeko.Modules.Games.Common.Hangman
+  href: Mewdeko.Modules.Games.Common.Hangman.HangmanObject.html
+  name: HangmanObject
+  nameWithType: HangmanObject
+  fullName: Mewdeko.Modules.Games.Common.Hangman.HangmanObject
+- uid: Mewdeko.Modules.Games.Common.Hangman.Phase
+  commentId: T:Mewdeko.Modules.Games.Common.Hangman.Phase
+  parent: Mewdeko.Modules.Games.Common.Hangman
+  href: Mewdeko.Modules.Games.Common.Hangman.Phase.html
+  name: Phase
+  nameWithType: Phase
+  fullName: Mewdeko.Modules.Games.Common.Hangman.Phase
+- uid: Mewdeko.Modules.Games.Common.Hangman.TermPool
+  commentId: T:Mewdeko.Modules.Games.Common.Hangman.TermPool
+  parent: Mewdeko.Modules.Games.Common.Hangman
+  href: Mewdeko.Modules.Games.Common.Hangman.TermPool.html
+  name: TermPool
+  nameWithType: TermPool
+  fullName: Mewdeko.Modules.Games.Common.Hangman.TermPool
+- uid: Mewdeko.Modules.Games.Common.Hangman.TermTypes
+  commentId: T:Mewdeko.Modules.Games.Common.Hangman.TermTypes
+  parent: Mewdeko.Modules.Games.Common.Hangman
+  href: Mewdeko.Modules.Games.Common.Hangman.TermTypes.html
+  name: TermTypes
+  nameWithType: TermTypes
+  fullName: Mewdeko.Modules.Games.Common.Hangman.TermTypes
+- uid: Mewdeko.Modules.Games.Common.Hangman
+  commentId: N:Mewdeko.Modules.Games.Common.Hangman
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Games.Common.Hangman
+  nameWithType: Mewdeko.Modules.Games.Common.Hangman
+  fullName: Mewdeko.Modules.Games.Common.Hangman
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Hangman
+    name: Hangman
+    href: Mewdeko.Modules.Games.Common.Hangman.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Hangman
+    name: Hangman
+    href: Mewdeko.Modules.Games.Common.Hangman.html

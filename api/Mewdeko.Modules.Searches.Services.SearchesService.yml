@@ -1,0 +1,2977 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Searches.Services.SearchesService
+  commentId: T:Mewdeko.Modules.Searches.Services.SearchesService
+  id: SearchesService
+  parent: Mewdeko.Modules.Searches.Services
+  children:
+  - Mewdeko.Modules.Searches.Services.SearchesService.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.IGoogleApiService,Mewdeko.Database.DbService,Mewdeko.Services.IDataCache,System.Net.Http.IHttpClientFactory,Mewdeko.Services.Impl.FontProvider,Mewdeko.Services.IBotCredentials,Mewdeko.Mewdeko)
+  - Mewdeko.Modules.Searches.Services.SearchesService.AutoBoobTimers
+  - Mewdeko.Modules.Searches.Services.SearchesService.AutoButtTimers
+  - Mewdeko.Modules.Searches.Services.SearchesService.AutoHentaiTimers
+  - Mewdeko.Modules.Searches.Services.SearchesService.DapiSearch(System.String,Mewdeko.Modules.Searches.Common.DapiSearchType,System.Nullable{System.UInt64},System.Boolean)
+  - Mewdeko.Modules.Searches.Services.SearchesService.DuckDuckGoSearchAsync(System.String)
+  - Mewdeko.Modules.Searches.Services.SearchesService.GetChuckNorrisJoke
+  - Mewdeko.Modules.Searches.Services.SearchesService.GetHearthstoneCardDataAsync(System.String)
+  - Mewdeko.Modules.Searches.Services.SearchesService.GetMovieDataAsync(System.String)
+  - Mewdeko.Modules.Searches.Services.SearchesService.GetMtgCardAsync(System.String)
+  - Mewdeko.Modules.Searches.Services.SearchesService.GetRandomImageUrl(Mewdeko.Modules.Searches.Services.SearchesService.ImageTag)
+  - Mewdeko.Modules.Searches.Services.SearchesService.GetRandomJoke
+  - Mewdeko.Modules.Searches.Services.SearchesService.GetRipPictureAsync(System.String,System.Uri)
+  - Mewdeko.Modules.Searches.Services.SearchesService.GetShip(System.UInt64,System.UInt64)
+  - Mewdeko.Modules.Searches.Services.SearchesService.GetSteamAppIdByName(System.String)
+  - Mewdeko.Modules.Searches.Services.SearchesService.GetTimeDataAsync(System.String)
+  - Mewdeko.Modules.Searches.Services.SearchesService.GetWeatherDataAsync(System.String)
+  - Mewdeko.Modules.Searches.Services.SearchesService.GetYomamaJoke
+  - Mewdeko.Modules.Searches.Services.SearchesService.GoogleSearchAsync(System.String)
+  - Mewdeko.Modules.Searches.Services.SearchesService.MagicItems
+  - Mewdeko.Modules.Searches.Services.SearchesService.NsfwCheck(System.String)
+  - Mewdeko.Modules.Searches.Services.SearchesService.SetShip(System.UInt64,System.UInt64,System.Int32)
+  - Mewdeko.Modules.Searches.Services.SearchesService.Translate(System.String,System.String)
+  - Mewdeko.Modules.Searches.Services.SearchesService.TranslatedChannels
+  - Mewdeko.Modules.Searches.Services.SearchesService.Unload
+  - Mewdeko.Modules.Searches.Services.SearchesService.UserLanguages
+  - Mewdeko.Modules.Searches.Services.SearchesService.WowJokes
+  langs:
+  - csharp
+  - vb
+  name: SearchesService
+  nameWithType: SearchesService
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SearchesService
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 21
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Service for handling search-related commands.
+  example: []
+  syntax:
+    content: 'public class SearchesService : INService, IUnloadableService'
+    content.vb: Public Class SearchesService Implements INService, IUnloadableService
+  inheritance:
+  - System.Object
+  implements:
+  - Mewdeko.Services.INService
+  - Mewdeko.Services.IUnloadableService
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Searches.Services.SearchesService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.IGoogleApiService,Mewdeko.Database.DbService,Mewdeko.Services.IDataCache,System.Net.Http.IHttpClientFactory,Mewdeko.Services.Impl.FontProvider,Mewdeko.Services.IBotCredentials,Mewdeko.Mewdeko)
+  commentId: M:Mewdeko.Modules.Searches.Services.SearchesService.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.IGoogleApiService,Mewdeko.Database.DbService,Mewdeko.Services.IDataCache,System.Net.Http.IHttpClientFactory,Mewdeko.Services.Impl.FontProvider,Mewdeko.Services.IBotCredentials,Mewdeko.Mewdeko)
+  id: '#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.IGoogleApiService,Mewdeko.Database.DbService,Mewdeko.Services.IDataCache,System.Net.Http.IHttpClientFactory,Mewdeko.Services.Impl.FontProvider,Mewdeko.Services.IBotCredentials,Mewdeko.Mewdeko)'
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: SearchesService(DiscordSocketClient, IGoogleApiService, DbService, IDataCache, IHttpClientFactory, FontProvider, IBotCredentials, Mewdeko)
+  nameWithType: SearchesService.SearchesService(DiscordSocketClient, IGoogleApiService, DbService, IDataCache, IHttpClientFactory, FontProvider, IBotCredentials, Mewdeko)
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.SearchesService(Discord.WebSocket.DiscordSocketClient, Mewdeko.Services.IGoogleApiService, Mewdeko.Database.DbService, Mewdeko.Services.IDataCache, System.Net.Http.IHttpClientFactory, Mewdeko.Services.Impl.FontProvider, Mewdeko.Services.IBotCredentials, Mewdeko.Mewdeko)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 85
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Initializes a new instance of the <xref href="Mewdeko.Modules.Searches.Services.SearchesService" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public SearchesService(DiscordSocketClient client, IGoogleApiService google, DbService db, IDataCache cache, IHttpClientFactory factory, FontProvider fonts, IBotCredentials creds, Mewdeko bot)
+    parameters:
+    - id: client
+      type: Discord.WebSocket.DiscordSocketClient
+      description: The Discord client.
+    - id: google
+      type: Mewdeko.Services.IGoogleApiService
+      description: The Google API service.
+    - id: db
+      type: Mewdeko.Database.DbService
+      description: The database service.
+    - id: cache
+      type: Mewdeko.Services.IDataCache
+      description: The data cache.
+    - id: factory
+      type: System.Net.Http.IHttpClientFactory
+      description: The HTTP client factory.
+    - id: fonts
+      type: Mewdeko.Services.Impl.FontProvider
+      description: The font provider.
+    - id: creds
+      type: Mewdeko.Services.IBotCredentials
+      description: The bot credentials.
+    - id: bot
+      type: Mewdeko.Mewdeko
+      description: The bot instance.
+    content.vb: Public Sub New(client As DiscordSocketClient, google As IGoogleApiService, db As DbService, cache As IDataCache, factory As IHttpClientFactory, fonts As FontProvider, creds As IBotCredentials, bot As Mewdeko)
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.#ctor*
+  nameWithType.vb: SearchesService.New(DiscordSocketClient, IGoogleApiService, DbService, IDataCache, IHttpClientFactory, FontProvider, IBotCredentials, Mewdeko)
+  fullName.vb: Mewdeko.Modules.Searches.Services.SearchesService.New(Discord.WebSocket.DiscordSocketClient, Mewdeko.Services.IGoogleApiService, Mewdeko.Database.DbService, Mewdeko.Services.IDataCache, System.Net.Http.IHttpClientFactory, Mewdeko.Services.Impl.FontProvider, Mewdeko.Services.IBotCredentials, Mewdeko.Mewdeko)
+  name.vb: New(DiscordSocketClient, IGoogleApiService, DbService, IDataCache, IHttpClientFactory, FontProvider, IBotCredentials, Mewdeko)
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.TranslatedChannels
+  commentId: P:Mewdeko.Modules.Searches.Services.SearchesService.TranslatedChannels
+  id: TranslatedChannels
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: TranslatedChannels
+  nameWithType: SearchesService.TranslatedChannels
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.TranslatedChannels
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TranslatedChannels
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 185
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Gets the collection of channels where auto translation is enabled.
+  example: []
+  syntax:
+    content: public ConcurrentDictionary<ulong, bool> TranslatedChannels { get; }
+    parameters: []
+    return:
+      type: NonBlocking.ConcurrentDictionary{System.UInt64,System.Boolean}
+    content.vb: Public ReadOnly Property TranslatedChannels As ConcurrentDictionary(Of ULong, Boolean)
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.TranslatedChannels*
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.UserLanguages
+  commentId: P:Mewdeko.Modules.Searches.Services.SearchesService.UserLanguages
+  id: UserLanguages
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: UserLanguages
+  nameWithType: SearchesService.UserLanguages
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.UserLanguages
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserLanguages
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 191
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Gets the collection of user languages.
+  example: []
+  syntax:
+    content: public ConcurrentDictionary<(ulong UserId, ulong ChannelId), string> UserLanguages { get; }
+    parameters: []
+    return:
+      type: NonBlocking.ConcurrentDictionary{System.ValueTuple{System.UInt64,System.UInt64},System.String}
+    content.vb: Public ReadOnly Property UserLanguages As ConcurrentDictionary(Of (UserId As ULong, ChannelId As ULong), String)
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.UserLanguages*
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.WowJokes
+  commentId: P:Mewdeko.Modules.Searches.Services.SearchesService.WowJokes
+  id: WowJokes
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: WowJokes
+  nameWithType: SearchesService.WowJokes
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.WowJokes
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: WowJokes
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 196
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Gets the collection of WOW jokes.
+  example: []
+  syntax:
+    content: public List<WoWJoke> WowJokes { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{Mewdeko.Modules.Searches.Common.WoWJoke}
+    content.vb: Public ReadOnly Property WowJokes As List(Of WoWJoke)
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.WowJokes*
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.MagicItems
+  commentId: P:Mewdeko.Modules.Searches.Services.SearchesService.MagicItems
+  id: MagicItems
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: MagicItems
+  nameWithType: SearchesService.MagicItems
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.MagicItems
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MagicItems
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 201
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Gets the collection of magic items.
+  example: []
+  syntax:
+    content: public List<MagicItem> MagicItems { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{Mewdeko.Modules.Searches.Common.MagicItem}
+    content.vb: Public ReadOnly Property MagicItems As List(Of MagicItem)
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.MagicItems*
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.AutoHentaiTimers
+  commentId: P:Mewdeko.Modules.Searches.Services.SearchesService.AutoHentaiTimers
+  id: AutoHentaiTimers
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: AutoHentaiTimers
+  nameWithType: SearchesService.AutoHentaiTimers
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.AutoHentaiTimers
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AutoHentaiTimers
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 206
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Gets the collection of auto hentai timers.
+  example: []
+  syntax:
+    content: public ConcurrentDictionary<ulong, Timer> AutoHentaiTimers { get; }
+    parameters: []
+    return:
+      type: NonBlocking.ConcurrentDictionary{System.UInt64,System.Threading.Timer}
+    content.vb: Public ReadOnly Property AutoHentaiTimers As ConcurrentDictionary(Of ULong, Timer)
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.AutoHentaiTimers*
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.AutoBoobTimers
+  commentId: P:Mewdeko.Modules.Searches.Services.SearchesService.AutoBoobTimers
+  id: AutoBoobTimers
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: AutoBoobTimers
+  nameWithType: SearchesService.AutoBoobTimers
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.AutoBoobTimers
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AutoBoobTimers
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 211
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Gets the collection of auto boob timers.
+  example: []
+  syntax:
+    content: public ConcurrentDictionary<ulong, Timer> AutoBoobTimers { get; }
+    parameters: []
+    return:
+      type: NonBlocking.ConcurrentDictionary{System.UInt64,System.Threading.Timer}
+    content.vb: Public ReadOnly Property AutoBoobTimers As ConcurrentDictionary(Of ULong, Timer)
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.AutoBoobTimers*
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.AutoButtTimers
+  commentId: P:Mewdeko.Modules.Searches.Services.SearchesService.AutoButtTimers
+  id: AutoButtTimers
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: AutoButtTimers
+  nameWithType: SearchesService.AutoButtTimers
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.AutoButtTimers
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AutoButtTimers
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 216
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Gets the collection of auto butt timers.
+  example: []
+  syntax:
+    content: public ConcurrentDictionary<ulong, Timer> AutoButtTimers { get; }
+    parameters: []
+    return:
+      type: NonBlocking.ConcurrentDictionary{System.UInt64,System.Threading.Timer}
+    content.vb: Public ReadOnly Property AutoButtTimers As ConcurrentDictionary(Of ULong, Timer)
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.AutoButtTimers*
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.Unload
+  commentId: M:Mewdeko.Modules.Searches.Services.SearchesService.Unload
+  id: Unload
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: Unload()
+  nameWithType: SearchesService.Unload()
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.Unload()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Unload
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 225
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Unloads the service, clearing timers and caches.
+  remarks: This method should be called when the service is being unloaded to clean up resources.
+  example: []
+  syntax:
+    content: public Task Unload()
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task representing the asynchronous operation.
+    content.vb: Public Function Unload() As Task
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.Unload*
+  implements:
+  - Mewdeko.Services.IUnloadableService.Unload
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.SetShip(System.UInt64,System.UInt64,System.Int32)
+  commentId: M:Mewdeko.Modules.Searches.Services.SearchesService.SetShip(System.UInt64,System.UInt64,System.Int32)
+  id: SetShip(System.UInt64,System.UInt64,System.Int32)
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: SetShip(ulong, ulong, int)
+  nameWithType: SearchesService.SetShip(ulong, ulong, int)
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.SetShip(ulong, ulong, int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetShip
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 248
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Sets the relationship score between two users.
+  remarks: This method sets the relationship score between two users, typically used in a dating context.
+  example: []
+  syntax:
+    content: public Task SetShip(ulong user1, ulong user2, int score)
+    parameters:
+    - id: user1
+      type: System.UInt64
+      description: The ID of the first user.
+    - id: user2
+      type: System.UInt64
+      description: The ID of the second user.
+    - id: score
+      type: System.Int32
+      description: The score indicating the relationship strength.
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task representing the asynchronous operation.
+    content.vb: Public Function SetShip(user1 As ULong, user2 As ULong, score As Integer) As Task
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.SetShip*
+  nameWithType.vb: SearchesService.SetShip(ULong, ULong, Integer)
+  fullName.vb: Mewdeko.Modules.Searches.Services.SearchesService.SetShip(ULong, ULong, Integer)
+  name.vb: SetShip(ULong, ULong, Integer)
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetShip(System.UInt64,System.UInt64)
+  commentId: M:Mewdeko.Modules.Searches.Services.SearchesService.GetShip(System.UInt64,System.UInt64)
+  id: GetShip(System.UInt64,System.UInt64)
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: GetShip(ulong, ulong)
+  nameWithType: SearchesService.GetShip(ulong, ulong)
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetShip(ulong, ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetShip
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 260
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Retrieves the relationship score between two users.
+  remarks: This method retrieves the relationship score between two users, typically used in a dating context.
+  example: []
+  syntax:
+    content: public Task<ShipCache?> GetShip(ulong user1, ulong user2)
+    parameters:
+    - id: user1
+      type: System.UInt64
+      description: The ID of the first user.
+    - id: user2
+      type: System.UInt64
+      description: The ID of the second user.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Modules.Searches.Services.ShipCache}
+      description: A task representing the asynchronous operation, returning the relationship score.
+    content.vb: Public Function GetShip(user1 As ULong, user2 As ULong) As Task(Of ShipCache)
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.GetShip*
+  nameWithType.vb: SearchesService.GetShip(ULong, ULong)
+  fullName.vb: Mewdeko.Modules.Searches.Services.SearchesService.GetShip(ULong, ULong)
+  name.vb: GetShip(ULong, ULong)
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetRipPictureAsync(System.String,System.Uri)
+  commentId: M:Mewdeko.Modules.Searches.Services.SearchesService.GetRipPictureAsync(System.String,System.Uri)
+  id: GetRipPictureAsync(System.String,System.Uri)
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: GetRipPictureAsync(string, Uri)
+  nameWithType: SearchesService.GetRipPictureAsync(string, Uri)
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetRipPictureAsync(string, System.Uri)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetRipPictureAsync
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 272
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Generates a "rest in peace" image with the provided text and avatar URL.
+  remarks: This method generates an image with the provided text and an avatar image, typically used in memorial contexts.
+  example: []
+  syntax:
+    content: public Task<Stream> GetRipPictureAsync(string text, Uri imgUrl)
+    parameters:
+    - id: text
+      type: System.String
+      description: The text to display on the image.
+    - id: imgUrl
+      type: System.Uri
+      description: The URL of the avatar image.
+    return:
+      type: System.Threading.Tasks.Task{System.IO.Stream}
+      description: A stream containing the generated image.
+    content.vb: Public Function GetRipPictureAsync(text As String, imgUrl As Uri) As Task(Of Stream)
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.GetRipPictureAsync*
+  nameWithType.vb: SearchesService.GetRipPictureAsync(String, Uri)
+  fullName.vb: Mewdeko.Modules.Searches.Services.SearchesService.GetRipPictureAsync(String, System.Uri)
+  name.vb: GetRipPictureAsync(String, Uri)
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetWeatherDataAsync(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Services.SearchesService.GetWeatherDataAsync(System.String)
+  id: GetWeatherDataAsync(System.String)
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: GetWeatherDataAsync(string)
+  nameWithType: SearchesService.GetWeatherDataAsync(string)
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetWeatherDataAsync(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetWeatherDataAsync
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 376
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Fetches weather data for the specified location.
+  remarks: This method fetches weather data for the specified location using the OpenWeatherMap API.
+  example: []
+  syntax:
+    content: public Task<WeatherData?> GetWeatherDataAsync(string query)
+    parameters:
+    - id: query
+      type: System.String
+      description: The location for which to fetch weather data.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Modules.Searches.Common.WeatherData}
+      description: A task representing the asynchronous operation, returning the weather data for the specified location.
+    content.vb: Public Function GetWeatherDataAsync(query As String) As Task(Of WeatherData)
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.GetWeatherDataAsync*
+  nameWithType.vb: SearchesService.GetWeatherDataAsync(String)
+  fullName.vb: Mewdeko.Modules.Searches.Services.SearchesService.GetWeatherDataAsync(String)
+  name.vb: GetWeatherDataAsync(String)
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetTimeDataAsync(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Services.SearchesService.GetTimeDataAsync(System.String)
+  id: GetTimeDataAsync(System.String)
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: GetTimeDataAsync(string)
+  nameWithType: SearchesService.GetTimeDataAsync(string)
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetTimeDataAsync(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetTimeDataAsync
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 416
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Retrieves time data for the specified location.
+  remarks: >-
+    This method retrieves time data for the specified location by geocoding the query and
+
+    querying the timezone database API.
+  example: []
+  syntax:
+    content: public Task<((string Address, DateTime Time, string TimeZoneName), TimeErrors?)> GetTimeDataAsync(string arg)
+    parameters:
+    - id: arg
+      type: System.String
+      description: The query string specifying the location.
+    return:
+      type: System.Threading.Tasks.Task{System.ValueTuple{System.ValueTuple{System.String,System.DateTime,System.String},System.Nullable{Mewdeko.Modules.Searches.Services.TimeErrors}}}
+      description: >-
+        A tuple containing the address, time, and timezone name for the specified location,
+
+        along with any errors encountered during the operation.
+    content.vb: Public Function GetTimeDataAsync(arg As String) As Task(Of ((Address As String, Time As Date, TimeZoneName As String), TimeErrors?))
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.GetTimeDataAsync*
+  nameWithType.vb: SearchesService.GetTimeDataAsync(String)
+  fullName.vb: Mewdeko.Modules.Searches.Services.SearchesService.GetTimeDataAsync(String)
+  name.vb: GetTimeDataAsync(String)
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetRandomImageUrl(Mewdeko.Modules.Searches.Services.SearchesService.ImageTag)
+  commentId: M:Mewdeko.Modules.Searches.Services.SearchesService.GetRandomImageUrl(Mewdeko.Modules.Searches.Services.SearchesService.ImageTag)
+  id: GetRandomImageUrl(Mewdeko.Modules.Searches.Services.SearchesService.ImageTag)
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: GetRandomImageUrl(ImageTag)
+  nameWithType: SearchesService.GetRandomImageUrl(SearchesService.ImageTag)
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetRandomImageUrl(Mewdeko.Modules.Searches.Services.SearchesService.ImageTag)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetRandomImageUrl
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 482
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Generates a random image URL based on the provided tag.
+  remarks: This method generates a random image URL based on the provided tag, typically used for displaying images in various contexts.
+  example: []
+  syntax:
+    content: public Uri GetRandomImageUrl(SearchesService.ImageTag tag)
+    parameters:
+    - id: tag
+      type: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+      description: The tag specifying the category of images.
+    return:
+      type: System.Uri
+      description: A URI representing a randomly selected image.
+    content.vb: Public Function GetRandomImageUrl(tag As SearchesService.ImageTag) As Uri
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.GetRandomImageUrl*
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.Translate(System.String,System.String)
+  commentId: M:Mewdeko.Modules.Searches.Services.SearchesService.Translate(System.String,System.String)
+  id: Translate(System.String,System.String)
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: Translate(string, string?)
+  nameWithType: SearchesService.Translate(string, string?)
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.Translate(string, string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Translate
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 520
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Translates the input text to the specified languages.
+  example: []
+  syntax:
+    content: public static Task<string> Translate(string langs, string? text = null)
+    parameters:
+    - id: langs
+      type: System.String
+      description: A string representing the target languages separated by comma (e.g., "en,fr,de").
+    - id: text
+      type: System.String
+      description: The text to translate. If not provided, the method translates the language of the provided text.
+    return:
+      type: System.Threading.Tasks.Task{System.String}
+      description: A task representing the asynchronous operation, returning the translated string.
+    content.vb: Public Shared Function Translate(langs As String, text As String = Nothing) As Task(Of String)
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.Translate*
+  nameWithType.vb: SearchesService.Translate(String, String)
+  fullName.vb: Mewdeko.Modules.Searches.Services.SearchesService.Translate(String, String)
+  name.vb: Translate(String, String)
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.DapiSearch(System.String,Mewdeko.Modules.Searches.Common.DapiSearchType,System.Nullable{System.UInt64},System.Boolean)
+  commentId: M:Mewdeko.Modules.Searches.Services.SearchesService.DapiSearch(System.String,Mewdeko.Modules.Searches.Common.DapiSearchType,System.Nullable{System.UInt64},System.Boolean)
+  id: DapiSearch(System.String,Mewdeko.Modules.Searches.Common.DapiSearchType,System.Nullable{System.UInt64},System.Boolean)
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: DapiSearch(string?, DapiSearchType, ulong?, bool)
+  nameWithType: SearchesService.DapiSearch(string?, DapiSearchType, ulong?, bool)
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.DapiSearch(string?, Mewdeko.Modules.Searches.Common.DapiSearchType, ulong?, bool)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: DapiSearch
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 537
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Performs a search using the DAPI (Danbooru) API.
+  example: []
+  syntax:
+    content: public Task<ImageCacherObject?> DapiSearch(string? tag, DapiSearchType type, ulong? guild, bool isExplicit = false)
+    parameters:
+    - id: tag
+      type: System.String
+      description: The tag to search for.
+    - id: type
+      type: Mewdeko.Modules.Searches.Common.DapiSearchType
+      description: The type of search (e.g., Safe, Explicit).
+    - id: guild
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild where the search is performed.
+    - id: isExplicit
+      type: System.Boolean
+      description: A boolean indicating whether the search is explicit or not.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Modules.Searches.Common.ImageCacherObject}
+      description: A task representing the asynchronous operation, returning the search result.
+    content.vb: Public Function DapiSearch(tag As String, type As DapiSearchType, guild As ULong?, isExplicit As Boolean = False) As Task(Of ImageCacherObject)
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.DapiSearch*
+  nameWithType.vb: SearchesService.DapiSearch(String, DapiSearchType, ULong?, Boolean)
+  fullName.vb: Mewdeko.Modules.Searches.Services.SearchesService.DapiSearch(String, Mewdeko.Modules.Searches.Common.DapiSearchType, ULong?, Boolean)
+  name.vb: DapiSearch(String, DapiSearchType, ULong?, Boolean)
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.NsfwCheck(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Services.SearchesService.NsfwCheck(System.String)
+  id: NsfwCheck(System.String)
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: NsfwCheck(string)
+  nameWithType: SearchesService.NsfwCheck(string)
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.NsfwCheck(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: NsfwCheck
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 583
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Checks if a given Reddit is marked as NSFW.
+  example: []
+  syntax:
+    content: public bool NsfwCheck(string reddit)
+    parameters:
+    - id: reddit
+      type: System.String
+      description: The Reddit to check.
+    return:
+      type: System.Boolean
+      description: True if the Reddit is marked as NSFW, otherwise false.
+    content.vb: Public Function NsfwCheck(reddit As String) As Boolean
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.NsfwCheck*
+  nameWithType.vb: SearchesService.NsfwCheck(String)
+  fullName.vb: Mewdeko.Modules.Searches.Services.SearchesService.NsfwCheck(String)
+  name.vb: NsfwCheck(String)
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetYomamaJoke
+  commentId: M:Mewdeko.Modules.Searches.Services.SearchesService.GetYomamaJoke
+  id: GetYomamaJoke
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: GetYomamaJoke()
+  nameWithType: SearchesService.GetYomamaJoke()
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetYomamaJoke()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetYomamaJoke
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 589
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Retrieves a "Yo Mama" joke.
+  example: []
+  syntax:
+    content: public Task<string?> GetYomamaJoke()
+    return:
+      type: System.Threading.Tasks.Task{System.String}
+      description: A task representing the asynchronous operation, returning the "Yo Mama" joke.
+    content.vb: Public Function GetYomamaJoke() As Task(Of String)
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.GetYomamaJoke*
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetRandomJoke
+  commentId: M:Mewdeko.Modules.Searches.Services.SearchesService.GetRandomJoke
+  id: GetRandomJoke
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: GetRandomJoke()
+  nameWithType: SearchesService.GetRandomJoke()
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetRandomJoke()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetRandomJoke
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 618
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Retrieves a random joke.
+  example: []
+  syntax:
+    content: public Task<(string? Setup, string Punchline)> GetRandomJoke()
+    return:
+      type: System.Threading.Tasks.Task{System.ValueTuple{System.String,System.String}}
+      description: A task representing the asynchronous operation, returning a tuple containing the setup and punchline of the joke.
+    content.vb: Public Function GetRandomJoke() As Task(Of (Setup As String, Punchline As String))
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.GetRandomJoke*
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetChuckNorrisJoke
+  commentId: M:Mewdeko.Modules.Searches.Services.SearchesService.GetChuckNorrisJoke
+  id: GetChuckNorrisJoke
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: GetChuckNorrisJoke()
+  nameWithType: SearchesService.GetChuckNorrisJoke()
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetChuckNorrisJoke()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetChuckNorrisJoke
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 633
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Retrieves a Chuck Norris joke.
+  example: []
+  syntax:
+    content: public Task<string?> GetChuckNorrisJoke()
+    return:
+      type: System.Threading.Tasks.Task{System.String}
+      description: A task representing the asynchronous operation, returning the Chuck Norris joke.
+    content.vb: Public Function GetChuckNorrisJoke() As Task(Of String)
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.GetChuckNorrisJoke*
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetMtgCardAsync(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Services.SearchesService.GetMtgCardAsync(System.String)
+  id: GetMtgCardAsync(System.String)
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: GetMtgCardAsync(string)
+  nameWithType: SearchesService.GetMtgCardAsync(string)
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetMtgCardAsync(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetMtgCardAsync
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 646
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: 'Retrieves Magic: The Gathering card data asynchronously.'
+  example: []
+  syntax:
+    content: public Task<MtgData?> GetMtgCardAsync(string search)
+    parameters:
+    - id: search
+      type: System.String
+      description: The search query for the card.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Modules.Searches.Common.MtgData}
+      description: 'A task representing the asynchronous operation, returning the Magic: The Gathering card data.'
+    content.vb: Public Function GetMtgCardAsync(search As String) As Task(Of MtgData)
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.GetMtgCardAsync*
+  nameWithType.vb: SearchesService.GetMtgCardAsync(String)
+  fullName.vb: Mewdeko.Modules.Searches.Services.SearchesService.GetMtgCardAsync(String)
+  name.vb: GetMtgCardAsync(String)
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetHearthstoneCardDataAsync(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Services.SearchesService.GetHearthstoneCardDataAsync(System.String)
+  id: GetHearthstoneCardDataAsync(System.String)
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: GetHearthstoneCardDataAsync(string)
+  nameWithType: SearchesService.GetHearthstoneCardDataAsync(string)
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetHearthstoneCardDataAsync(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetHearthstoneCardDataAsync
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 709
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Retrieves Hearthstone card data asynchronously.
+  example: []
+  syntax:
+    content: public Task<HearthstoneCardData?> GetHearthstoneCardDataAsync(string name)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the Hearthstone card.
+    return:
+      type: System.Threading.Tasks.Task{HearthstoneCardData}
+      description: A task representing the asynchronous operation, returning the Hearthstone card data.
+    content.vb: Public Function GetHearthstoneCardDataAsync(name As String) As Task(Of HearthstoneCardData)
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.GetHearthstoneCardDataAsync*
+  nameWithType.vb: SearchesService.GetHearthstoneCardDataAsync(String)
+  fullName.vb: Mewdeko.Modules.Searches.Services.SearchesService.GetHearthstoneCardDataAsync(String)
+  name.vb: GetHearthstoneCardDataAsync(String)
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetMovieDataAsync(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Services.SearchesService.GetMovieDataAsync(System.String)
+  id: GetMovieDataAsync(System.String)
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: GetMovieDataAsync(string)
+  nameWithType: SearchesService.GetMovieDataAsync(string)
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetMovieDataAsync(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetMovieDataAsync
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 758
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Retrieves movie data asynchronously from the OMDB API.
+  example: []
+  syntax:
+    content: public Task<OmdbMovie?> GetMovieDataAsync(string name)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the movie.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Modules.Searches.Common.OmdbMovie}
+      description: A task representing the asynchronous operation, returning the movie data.
+    content.vb: Public Function GetMovieDataAsync(name As String) As Task(Of OmdbMovie)
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.GetMovieDataAsync*
+  nameWithType.vb: SearchesService.GetMovieDataAsync(String)
+  fullName.vb: Mewdeko.Modules.Searches.Services.SearchesService.GetMovieDataAsync(String)
+  name.vb: GetMovieDataAsync(String)
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetSteamAppIdByName(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Services.SearchesService.GetSteamAppIdByName(System.String)
+  id: GetSteamAppIdByName(System.String)
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: GetSteamAppIdByName(string)
+  nameWithType: SearchesService.GetSteamAppIdByName(string)
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetSteamAppIdByName(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetSteamAppIdByName
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 785
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Retrieves the Steam App ID for the specified game name asynchronously.
+  example: []
+  syntax:
+    content: public Task<int> GetSteamAppIdByName(string query)
+    parameters:
+    - id: query
+      type: System.String
+      description: The name of the game to search for.
+    return:
+      type: System.Threading.Tasks.Task{System.Int32}
+      description: A task representing the asynchronous operation, returning the Steam App ID of the game.
+    content.vb: Public Function GetSteamAppIdByName(query As String) As Task(Of Integer)
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.GetSteamAppIdByName*
+  nameWithType.vb: SearchesService.GetSteamAppIdByName(String)
+  fullName.vb: Mewdeko.Modules.Searches.Services.SearchesService.GetSteamAppIdByName(String)
+  name.vb: GetSteamAppIdByName(String)
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GoogleSearchAsync(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Services.SearchesService.GoogleSearchAsync(System.String)
+  id: GoogleSearchAsync(System.String)
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: GoogleSearchAsync(string)
+  nameWithType: SearchesService.GoogleSearchAsync(string)
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GoogleSearchAsync(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GoogleSearchAsync
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 838
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Performs a Google search asynchronously.
+  example: []
+  syntax:
+    content: public Task<GoogleSearchResultData?> GoogleSearchAsync(string query)
+    parameters:
+    - id: query
+      type: System.String
+      description: The search query.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Modules.Searches.Services.GoogleSearchResultData}
+      description: A task representing the asynchronous operation, returning the Google search results.
+    content.vb: Public Function GoogleSearchAsync(query As String) As Task(Of GoogleSearchResultData)
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.GoogleSearchAsync*
+  nameWithType.vb: SearchesService.GoogleSearchAsync(String)
+  fullName.vb: Mewdeko.Modules.Searches.Services.SearchesService.GoogleSearchAsync(String)
+  name.vb: GoogleSearchAsync(String)
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.DuckDuckGoSearchAsync(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Services.SearchesService.DuckDuckGoSearchAsync(System.String)
+  id: DuckDuckGoSearchAsync(System.String)
+  parent: Mewdeko.Modules.Searches.Services.SearchesService
+  langs:
+  - csharp
+  - vb
+  name: DuckDuckGoSearchAsync(string)
+  nameWithType: SearchesService.DuckDuckGoSearchAsync(string)
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.DuckDuckGoSearchAsync(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: DuckDuckGoSearchAsync
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 900
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Performs a DuckDuckGo search asynchronously.
+  example: []
+  syntax:
+    content: public Task<GoogleSearchResultData?> DuckDuckGoSearchAsync(string query)
+    parameters:
+    - id: query
+      type: System.String
+      description: The search query.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Modules.Searches.Services.GoogleSearchResultData}
+      description: A task representing the asynchronous operation, returning the DuckDuckGo search results.
+    content.vb: Public Function DuckDuckGoSearchAsync(query As String) As Task(Of GoogleSearchResultData)
+  overload: Mewdeko.Modules.Searches.Services.SearchesService.DuckDuckGoSearchAsync*
+  nameWithType.vb: SearchesService.DuckDuckGoSearchAsync(String)
+  fullName.vb: Mewdeko.Modules.Searches.Services.SearchesService.DuckDuckGoSearchAsync(String)
+  name.vb: DuckDuckGoSearchAsync(String)
+references:
+- uid: Mewdeko.Modules.Searches.Services
+  commentId: N:Mewdeko.Modules.Searches.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Services
+  nameWithType: Mewdeko.Modules.Searches.Services
+  fullName: Mewdeko.Modules.Searches.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services
+    name: Services
+    href: Mewdeko.Modules.Searches.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services
+    name: Services
+    href: Mewdeko.Modules.Searches.Services.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Mewdeko.Services.INService
+  commentId: T:Mewdeko.Services.INService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.INService.html
+  name: INService
+  nameWithType: INService
+  fullName: Mewdeko.Services.INService
+- uid: Mewdeko.Services.IUnloadableService
+  commentId: T:Mewdeko.Services.IUnloadableService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.IUnloadableService.html
+  name: IUnloadableService
+  nameWithType: IUnloadableService
+  fullName: Mewdeko.Services.IUnloadableService
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<SearchesService>(SearchesService, string)
+  nameWithType: Extensions.ThrowIfNull<SearchesService>(SearchesService, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Searches.Services.SearchesService>(Mewdeko.Modules.Searches.Services.SearchesService, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of SearchesService)(SearchesService, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Searches.Services.SearchesService)(Mewdeko.Modules.Searches.Services.SearchesService, String)
+  name.vb: ThrowIfNull(Of SearchesService)(SearchesService, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Services.SearchesService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Services.SearchesService
+    name: SearchesService
+    href: Mewdeko.Modules.Searches.Services.SearchesService.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Services.SearchesService
+    name: SearchesService
+    href: Mewdeko.Modules.Searches.Services.SearchesService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Services.SearchesService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Services.SearchesService
+    name: SearchesService
+    href: Mewdeko.Modules.Searches.Services.SearchesService.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Services.SearchesService
+    name: SearchesService
+    href: Mewdeko.Modules.Searches.Services.SearchesService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Services
+  commentId: N:Mewdeko.Services
+  href: Mewdeko.html
+  name: Mewdeko.Services
+  nameWithType: Mewdeko.Services
+  fullName: Mewdeko.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Searches.Services.SearchesService
+  commentId: T:Mewdeko.Modules.Searches.Services.SearchesService
+  parent: Mewdeko.Modules.Searches.Services
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html
+  name: SearchesService
+  nameWithType: SearchesService
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.#ctor*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.#ctor
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService__ctor_Discord_WebSocket_DiscordSocketClient_Mewdeko_Services_IGoogleApiService_Mewdeko_Database_DbService_Mewdeko_Services_IDataCache_System_Net_Http_IHttpClientFactory_Mewdeko_Services_Impl_FontProvider_Mewdeko_Services_IBotCredentials_Mewdeko_Mewdeko_
+  name: SearchesService
+  nameWithType: SearchesService.SearchesService
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.SearchesService
+  nameWithType.vb: SearchesService.New
+  fullName.vb: Mewdeko.Modules.Searches.Services.SearchesService.New
+  name.vb: New
+- uid: Discord.WebSocket.DiscordSocketClient
+  commentId: T:Discord.WebSocket.DiscordSocketClient
+  parent: Discord.WebSocket
+  isExternal: true
+  name: DiscordSocketClient
+  nameWithType: DiscordSocketClient
+  fullName: Discord.WebSocket.DiscordSocketClient
+- uid: Mewdeko.Services.IGoogleApiService
+  commentId: T:Mewdeko.Services.IGoogleApiService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.IGoogleApiService.html
+  name: IGoogleApiService
+  nameWithType: IGoogleApiService
+  fullName: Mewdeko.Services.IGoogleApiService
+- uid: Mewdeko.Database.DbService
+  commentId: T:Mewdeko.Database.DbService
+  parent: Mewdeko.Database
+  href: Mewdeko.Database.DbService.html
+  name: DbService
+  nameWithType: DbService
+  fullName: Mewdeko.Database.DbService
+- uid: Mewdeko.Services.IDataCache
+  commentId: T:Mewdeko.Services.IDataCache
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.IDataCache.html
+  name: IDataCache
+  nameWithType: IDataCache
+  fullName: Mewdeko.Services.IDataCache
+- uid: System.Net.Http.IHttpClientFactory
+  commentId: T:System.Net.Http.IHttpClientFactory
+  parent: System.Net.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.net.http.ihttpclientfactory
+  name: IHttpClientFactory
+  nameWithType: IHttpClientFactory
+  fullName: System.Net.Http.IHttpClientFactory
+- uid: Mewdeko.Services.Impl.FontProvider
+  commentId: T:Mewdeko.Services.Impl.FontProvider
+  parent: Mewdeko.Services.Impl
+  href: Mewdeko.Services.Impl.FontProvider.html
+  name: FontProvider
+  nameWithType: FontProvider
+  fullName: Mewdeko.Services.Impl.FontProvider
+- uid: Mewdeko.Services.IBotCredentials
+  commentId: T:Mewdeko.Services.IBotCredentials
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.IBotCredentials.html
+  name: IBotCredentials
+  nameWithType: IBotCredentials
+  fullName: Mewdeko.Services.IBotCredentials
+- uid: Mewdeko.Mewdeko
+  commentId: T:Mewdeko.Mewdeko
+  parent: Mewdeko
+  href: Mewdeko.Mewdeko.html
+  name: Mewdeko
+  nameWithType: Mewdeko
+  fullName: Mewdeko.Mewdeko
+- uid: Discord.WebSocket
+  commentId: N:Discord.WebSocket
+  isExternal: true
+  name: Discord.WebSocket
+  nameWithType: Discord.WebSocket
+  fullName: Discord.WebSocket
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.WebSocket
+    name: WebSocket
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.WebSocket
+    name: WebSocket
+    isExternal: true
+- uid: Mewdeko.Database
+  commentId: N:Mewdeko.Database
+  href: Mewdeko.html
+  name: Mewdeko.Database
+  nameWithType: Mewdeko.Database
+  fullName: Mewdeko.Database
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+- uid: System.Net.Http
+  commentId: N:System.Net.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Net.Http
+  nameWithType: System.Net.Http
+  fullName: System.Net.Http
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http
+- uid: Mewdeko.Services.Impl
+  commentId: N:Mewdeko.Services.Impl
+  href: Mewdeko.html
+  name: Mewdeko.Services.Impl
+  nameWithType: Mewdeko.Services.Impl
+  fullName: Mewdeko.Services.Impl
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Impl
+    name: Impl
+    href: Mewdeko.Services.Impl.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Impl
+    name: Impl
+    href: Mewdeko.Services.Impl.html
+- uid: Mewdeko
+  commentId: N:Mewdeko
+  href: Mewdeko.html
+  name: Mewdeko
+  nameWithType: Mewdeko
+  fullName: Mewdeko
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.TranslatedChannels*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.TranslatedChannels
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_TranslatedChannels
+  name: TranslatedChannels
+  nameWithType: SearchesService.TranslatedChannels
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.TranslatedChannels
+- uid: NonBlocking.ConcurrentDictionary{System.UInt64,System.Boolean}
+  commentId: T:NonBlocking.ConcurrentDictionary{System.UInt64,System.Boolean}
+  parent: NonBlocking
+  definition: NonBlocking.ConcurrentDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ConcurrentDictionary<ulong, bool>
+  nameWithType: ConcurrentDictionary<ulong, bool>
+  fullName: NonBlocking.ConcurrentDictionary<ulong, bool>
+  nameWithType.vb: ConcurrentDictionary(Of ULong, Boolean)
+  fullName.vb: NonBlocking.ConcurrentDictionary(Of ULong, Boolean)
+  name.vb: ConcurrentDictionary(Of ULong, Boolean)
+  spec.csharp:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: <
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  spec.vb:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: NonBlocking.ConcurrentDictionary`2
+  commentId: T:NonBlocking.ConcurrentDictionary`2
+  isExternal: true
+  name: ConcurrentDictionary<TKey, TValue>
+  nameWithType: ConcurrentDictionary<TKey, TValue>
+  fullName: NonBlocking.ConcurrentDictionary<TKey, TValue>
+  nameWithType.vb: ConcurrentDictionary(Of TKey, TValue)
+  fullName.vb: NonBlocking.ConcurrentDictionary(Of TKey, TValue)
+  name.vb: ConcurrentDictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: NonBlocking
+  commentId: N:NonBlocking
+  isExternal: true
+  name: NonBlocking
+  nameWithType: NonBlocking
+  fullName: NonBlocking
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.UserLanguages*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.UserLanguages
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_UserLanguages
+  name: UserLanguages
+  nameWithType: SearchesService.UserLanguages
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.UserLanguages
+- uid: NonBlocking.ConcurrentDictionary{System.ValueTuple{System.UInt64,System.UInt64},System.String}
+  commentId: T:NonBlocking.ConcurrentDictionary{System.ValueTuple{System.UInt64,System.UInt64},System.String}
+  parent: NonBlocking
+  definition: NonBlocking.ConcurrentDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ConcurrentDictionary<(ulong UserId, ulong ChannelId), string>
+  nameWithType: ConcurrentDictionary<(ulong UserId, ulong ChannelId), string>
+  fullName: NonBlocking.ConcurrentDictionary<(ulong UserId, ulong ChannelId), string>
+  nameWithType.vb: ConcurrentDictionary(Of (UserId As ULong, ChannelId As ULong), String)
+  fullName.vb: NonBlocking.ConcurrentDictionary(Of (UserId As ULong, ChannelId As ULong), String)
+  name.vb: ConcurrentDictionary(Of (UserId As ULong, ChannelId As ULong), String)
+  spec.csharp:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: <
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: " "
+  - uid: System.ValueTuple{System.UInt64,System.UInt64}.UserId
+    name: UserId
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.uint64,system.uint64-.userid
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: " "
+  - uid: System.ValueTuple{System.UInt64,System.UInt64}.ChannelId
+    name: ChannelId
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.uint64,system.uint64-.channelid
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{System.UInt64,System.UInt64}.UserId
+    name: UserId
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.uint64,system.uint64-.userid
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.UInt64,System.UInt64}.ChannelId
+    name: ChannelId
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.uint64,system.uint64-.channelid
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.WowJokes*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.WowJokes
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_WowJokes
+  name: WowJokes
+  nameWithType: SearchesService.WowJokes
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.WowJokes
+- uid: System.Collections.Generic.List{Mewdeko.Modules.Searches.Common.WoWJoke}
+  commentId: T:System.Collections.Generic.List{Mewdeko.Modules.Searches.Common.WoWJoke}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<WoWJoke>
+  nameWithType: List<WoWJoke>
+  fullName: System.Collections.Generic.List<Mewdeko.Modules.Searches.Common.WoWJoke>
+  nameWithType.vb: List(Of WoWJoke)
+  fullName.vb: System.Collections.Generic.List(Of Mewdeko.Modules.Searches.Common.WoWJoke)
+  name.vb: List(Of WoWJoke)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.WoWJoke
+    name: WoWJoke
+    href: Mewdeko.Modules.Searches.Common.WoWJoke.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.WoWJoke
+    name: WoWJoke
+    href: Mewdeko.Modules.Searches.Common.WoWJoke.html
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.MagicItems*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.MagicItems
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_MagicItems
+  name: MagicItems
+  nameWithType: SearchesService.MagicItems
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.MagicItems
+- uid: System.Collections.Generic.List{Mewdeko.Modules.Searches.Common.MagicItem}
+  commentId: T:System.Collections.Generic.List{Mewdeko.Modules.Searches.Common.MagicItem}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<MagicItem>
+  nameWithType: List<MagicItem>
+  fullName: System.Collections.Generic.List<Mewdeko.Modules.Searches.Common.MagicItem>
+  nameWithType.vb: List(Of MagicItem)
+  fullName.vb: System.Collections.Generic.List(Of Mewdeko.Modules.Searches.Common.MagicItem)
+  name.vb: List(Of MagicItem)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.MagicItem
+    name: MagicItem
+    href: Mewdeko.Modules.Searches.Common.MagicItem.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.MagicItem
+    name: MagicItem
+    href: Mewdeko.Modules.Searches.Common.MagicItem.html
+  - name: )
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.AutoHentaiTimers*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.AutoHentaiTimers
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_AutoHentaiTimers
+  name: AutoHentaiTimers
+  nameWithType: SearchesService.AutoHentaiTimers
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.AutoHentaiTimers
+- uid: NonBlocking.ConcurrentDictionary{System.UInt64,System.Threading.Timer}
+  commentId: T:NonBlocking.ConcurrentDictionary{System.UInt64,System.Threading.Timer}
+  parent: NonBlocking
+  definition: NonBlocking.ConcurrentDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ConcurrentDictionary<ulong, Timer>
+  nameWithType: ConcurrentDictionary<ulong, Timer>
+  fullName: NonBlocking.ConcurrentDictionary<ulong, System.Threading.Timer>
+  nameWithType.vb: ConcurrentDictionary(Of ULong, Timer)
+  fullName.vb: NonBlocking.ConcurrentDictionary(Of ULong, System.Threading.Timer)
+  name.vb: ConcurrentDictionary(Of ULong, Timer)
+  spec.csharp:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: <
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Timer
+    name: Timer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.timer
+  - name: '>'
+  spec.vb:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Threading.Timer
+    name: Timer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.timer
+  - name: )
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.AutoBoobTimers*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.AutoBoobTimers
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_AutoBoobTimers
+  name: AutoBoobTimers
+  nameWithType: SearchesService.AutoBoobTimers
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.AutoBoobTimers
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.AutoButtTimers*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.AutoButtTimers
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_AutoButtTimers
+  name: AutoButtTimers
+  nameWithType: SearchesService.AutoButtTimers
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.AutoButtTimers
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.Unload*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.Unload
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_Unload
+  name: Unload
+  nameWithType: SearchesService.Unload
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.Unload
+- uid: Mewdeko.Services.IUnloadableService.Unload
+  commentId: M:Mewdeko.Services.IUnloadableService.Unload
+  parent: Mewdeko.Services.IUnloadableService
+  href: Mewdeko.Services.IUnloadableService.html#Mewdeko_Services_IUnloadableService_Unload
+  name: Unload()
+  nameWithType: IUnloadableService.Unload()
+  fullName: Mewdeko.Services.IUnloadableService.Unload()
+  spec.csharp:
+  - uid: Mewdeko.Services.IUnloadableService.Unload
+    name: Unload
+    href: Mewdeko.Services.IUnloadableService.html#Mewdeko_Services_IUnloadableService_Unload
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Services.IUnloadableService.Unload
+    name: Unload
+    href: Mewdeko.Services.IUnloadableService.html#Mewdeko_Services_IUnloadableService_Unload
+  - name: (
+  - name: )
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.SetShip*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.SetShip
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_SetShip_System_UInt64_System_UInt64_System_Int32_
+  name: SetShip
+  nameWithType: SearchesService.SetShip
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.SetShip
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong
+  nameWithType: ulong
+  fullName: ulong
+  nameWithType.vb: ULong
+  fullName.vb: ULong
+  name.vb: ULong
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetShip*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.GetShip
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_GetShip_System_UInt64_System_UInt64_
+  name: GetShip
+  nameWithType: SearchesService.GetShip
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetShip
+- uid: System.Threading.Tasks.Task{Mewdeko.Modules.Searches.Services.ShipCache}
+  commentId: T:System.Threading.Tasks.Task{Mewdeko.Modules.Searches.Services.ShipCache}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<ShipCache>
+  nameWithType: Task<ShipCache>
+  fullName: System.Threading.Tasks.Task<Mewdeko.Modules.Searches.Services.ShipCache>
+  nameWithType.vb: Task(Of ShipCache)
+  fullName.vb: System.Threading.Tasks.Task(Of Mewdeko.Modules.Searches.Services.ShipCache)
+  name.vb: Task(Of ShipCache)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Services.ShipCache
+    name: ShipCache
+    href: Mewdeko.Modules.Searches.Services.ShipCache.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Services.ShipCache
+    name: ShipCache
+    href: Mewdeko.Modules.Searches.Services.ShipCache.html
+  - name: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetRipPictureAsync*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.GetRipPictureAsync
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_GetRipPictureAsync_System_String_System_Uri_
+  name: GetRipPictureAsync
+  nameWithType: SearchesService.GetRipPictureAsync
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetRipPictureAsync
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Uri
+  commentId: T:System.Uri
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uri
+  name: Uri
+  nameWithType: Uri
+  fullName: System.Uri
+- uid: System.Threading.Tasks.Task{System.IO.Stream}
+  commentId: T:System.Threading.Tasks.Task{System.IO.Stream}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<Stream>
+  nameWithType: Task<Stream>
+  fullName: System.Threading.Tasks.Task<System.IO.Stream>
+  nameWithType.vb: Task(Of Stream)
+  fullName.vb: System.Threading.Tasks.Task(Of System.IO.Stream)
+  name.vb: Task(Of Stream)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.IO.Stream
+    name: Stream
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.io.stream
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.IO.Stream
+    name: Stream
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.io.stream
+  - name: )
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetWeatherDataAsync*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.GetWeatherDataAsync
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_GetWeatherDataAsync_System_String_
+  name: GetWeatherDataAsync
+  nameWithType: SearchesService.GetWeatherDataAsync
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetWeatherDataAsync
+- uid: System.Threading.Tasks.Task{Mewdeko.Modules.Searches.Common.WeatherData}
+  commentId: T:System.Threading.Tasks.Task{Mewdeko.Modules.Searches.Common.WeatherData}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<WeatherData>
+  nameWithType: Task<WeatherData>
+  fullName: System.Threading.Tasks.Task<Mewdeko.Modules.Searches.Common.WeatherData>
+  nameWithType.vb: Task(Of WeatherData)
+  fullName.vb: System.Threading.Tasks.Task(Of Mewdeko.Modules.Searches.Common.WeatherData)
+  name.vb: Task(Of WeatherData)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.WeatherData
+    name: WeatherData
+    href: Mewdeko.Modules.Searches.Common.WeatherData.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.WeatherData
+    name: WeatherData
+    href: Mewdeko.Modules.Searches.Common.WeatherData.html
+  - name: )
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetTimeDataAsync*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.GetTimeDataAsync
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_GetTimeDataAsync_System_String_
+  name: GetTimeDataAsync
+  nameWithType: SearchesService.GetTimeDataAsync
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetTimeDataAsync
+- uid: System.Threading.Tasks.Task{System.ValueTuple{System.ValueTuple{System.String,System.DateTime,System.String},System.Nullable{Mewdeko.Modules.Searches.Services.TimeErrors}}}
+  commentId: T:System.Threading.Tasks.Task{System.ValueTuple{System.ValueTuple{System.String,System.DateTime,System.String},System.Nullable{Mewdeko.Modules.Searches.Services.TimeErrors}}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<((string Address, DateTime Time, string TimeZoneName), TimeErrors?)>
+  nameWithType: Task<((string Address, DateTime Time, string TimeZoneName), TimeErrors?)>
+  fullName: System.Threading.Tasks.Task<((string Address, System.DateTime Time, string TimeZoneName), Mewdeko.Modules.Searches.Services.TimeErrors?)>
+  nameWithType.vb: Task(Of ((Address As String, Time As Date, TimeZoneName As String), TimeErrors?))
+  fullName.vb: System.Threading.Tasks.Task(Of ((Address As String, Time As Date, TimeZoneName As String), Mewdeko.Modules.Searches.Services.TimeErrors?))
+  name.vb: Task(Of ((Address As String, Time As Date, TimeZoneName As String), TimeErrors?))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: (
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.DateTime,System.String}.Address
+    name: Address
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.datetime,system.string-.address
+  - name: ','
+  - name: " "
+  - uid: System.DateTime
+    name: DateTime
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.datetime
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.DateTime,System.String}.Time
+    name: Time
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.datetime,system.string-.time
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.DateTime,System.String}.TimeZoneName
+    name: TimeZoneName
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.datetime,system.string-.timezonename
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Services.TimeErrors
+    name: TimeErrors
+    href: Mewdeko.Modules.Searches.Services.TimeErrors.html
+  - name: '?'
+  - name: )
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - name: (
+  - uid: System.ValueTuple{System.String,System.DateTime,System.String}.Address
+    name: Address
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.datetime,system.string-.address
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.DateTime,System.String}.Time
+    name: Time
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.datetime,system.string-.time
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.DateTime
+    name: Date
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.datetime
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.DateTime,System.String}.TimeZoneName
+    name: TimeZoneName
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.datetime,system.string-.timezonename
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Services.TimeErrors
+    name: TimeErrors
+    href: Mewdeko.Modules.Searches.Services.TimeErrors.html
+  - name: '?'
+  - name: )
+  - name: )
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetRandomImageUrl*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.GetRandomImageUrl
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_GetRandomImageUrl_Mewdeko_Modules_Searches_Services_SearchesService_ImageTag_
+  name: GetRandomImageUrl
+  nameWithType: SearchesService.GetRandomImageUrl
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetRandomImageUrl
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+  commentId: T:Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+  parent: Mewdeko.Modules.Searches.Services
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html
+  name: SearchesService.ImageTag
+  nameWithType: SearchesService.ImageTag
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+  spec.csharp:
+  - uid: Mewdeko.Modules.Searches.Services.SearchesService
+    name: SearchesService
+    href: Mewdeko.Modules.Searches.Services.SearchesService.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+    name: ImageTag
+    href: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Searches.Services.SearchesService
+    name: SearchesService
+    href: Mewdeko.Modules.Searches.Services.SearchesService.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+    name: ImageTag
+    href: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.html
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.Translate*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.Translate
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_Translate_System_String_System_String_
+  name: Translate
+  nameWithType: SearchesService.Translate
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.Translate
+- uid: System.Threading.Tasks.Task{System.String}
+  commentId: T:System.Threading.Tasks.Task{System.String}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<string>
+  nameWithType: Task<string>
+  fullName: System.Threading.Tasks.Task<string>
+  nameWithType.vb: Task(Of String)
+  fullName.vb: System.Threading.Tasks.Task(Of String)
+  name.vb: Task(Of String)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.DapiSearch*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.DapiSearch
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_DapiSearch_System_String_Mewdeko_Modules_Searches_Common_DapiSearchType_System_Nullable_System_UInt64__System_Boolean_
+  name: DapiSearch
+  nameWithType: SearchesService.DapiSearch
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.DapiSearch
+- uid: Mewdeko.Modules.Searches.Common.DapiSearchType
+  commentId: T:Mewdeko.Modules.Searches.Common.DapiSearchType
+  parent: Mewdeko.Modules.Searches.Common
+  href: Mewdeko.Modules.Searches.Common.DapiSearchType.html
+  name: DapiSearchType
+  nameWithType: DapiSearchType
+  fullName: Mewdeko.Modules.Searches.Common.DapiSearchType
+- uid: System.Nullable{System.UInt64}
+  commentId: T:System.Nullable{System.UInt64}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong?
+  nameWithType: ulong?
+  fullName: ulong?
+  nameWithType.vb: ULong?
+  fullName.vb: ULong?
+  name.vb: ULong?
+  spec.csharp:
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  spec.vb:
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: System.Threading.Tasks.Task{Mewdeko.Modules.Searches.Common.ImageCacherObject}
+  commentId: T:System.Threading.Tasks.Task{Mewdeko.Modules.Searches.Common.ImageCacherObject}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<ImageCacherObject>
+  nameWithType: Task<ImageCacherObject>
+  fullName: System.Threading.Tasks.Task<Mewdeko.Modules.Searches.Common.ImageCacherObject>
+  nameWithType.vb: Task(Of ImageCacherObject)
+  fullName.vb: System.Threading.Tasks.Task(Of Mewdeko.Modules.Searches.Common.ImageCacherObject)
+  name.vb: Task(Of ImageCacherObject)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.ImageCacherObject
+    name: ImageCacherObject
+    href: Mewdeko.Modules.Searches.Common.ImageCacherObject.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.ImageCacherObject
+    name: ImageCacherObject
+    href: Mewdeko.Modules.Searches.Common.ImageCacherObject.html
+  - name: )
+- uid: Mewdeko.Modules.Searches.Common
+  commentId: N:Mewdeko.Modules.Searches.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Common
+  nameWithType: Mewdeko.Modules.Searches.Common
+  fullName: Mewdeko.Modules.Searches.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.NsfwCheck*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.NsfwCheck
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_NsfwCheck_System_String_
+  name: NsfwCheck
+  nameWithType: SearchesService.NsfwCheck
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.NsfwCheck
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetYomamaJoke*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.GetYomamaJoke
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_GetYomamaJoke
+  name: GetYomamaJoke
+  nameWithType: SearchesService.GetYomamaJoke
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetYomamaJoke
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetRandomJoke*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.GetRandomJoke
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_GetRandomJoke
+  name: GetRandomJoke
+  nameWithType: SearchesService.GetRandomJoke
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetRandomJoke
+- uid: System.Threading.Tasks.Task{System.ValueTuple{System.String,System.String}}
+  commentId: T:System.Threading.Tasks.Task{System.ValueTuple{System.String,System.String}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<(string Setup, string Punchline)>
+  nameWithType: Task<(string Setup, string Punchline)>
+  fullName: System.Threading.Tasks.Task<(string Setup, string Punchline)>
+  nameWithType.vb: Task(Of (Setup As String, Punchline As String))
+  fullName.vb: System.Threading.Tasks.Task(Of (Setup As String, Punchline As String))
+  name.vb: Task(Of (Setup As String, Punchline As String))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.String}.Setup
+    name: Setup
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.string-.setup
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.String}.Punchline
+    name: Punchline
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.string-.punchline
+  - name: )
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{System.String,System.String}.Setup
+    name: Setup
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.string-.setup
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.String}.Punchline
+    name: Punchline
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.string-.punchline
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: )
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetChuckNorrisJoke*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.GetChuckNorrisJoke
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_GetChuckNorrisJoke
+  name: GetChuckNorrisJoke
+  nameWithType: SearchesService.GetChuckNorrisJoke
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetChuckNorrisJoke
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetMtgCardAsync*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.GetMtgCardAsync
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_GetMtgCardAsync_System_String_
+  name: GetMtgCardAsync
+  nameWithType: SearchesService.GetMtgCardAsync
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetMtgCardAsync
+- uid: System.Threading.Tasks.Task{Mewdeko.Modules.Searches.Common.MtgData}
+  commentId: T:System.Threading.Tasks.Task{Mewdeko.Modules.Searches.Common.MtgData}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<MtgData>
+  nameWithType: Task<MtgData>
+  fullName: System.Threading.Tasks.Task<Mewdeko.Modules.Searches.Common.MtgData>
+  nameWithType.vb: Task(Of MtgData)
+  fullName.vb: System.Threading.Tasks.Task(Of Mewdeko.Modules.Searches.Common.MtgData)
+  name.vb: Task(Of MtgData)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.MtgData
+    name: MtgData
+    href: Mewdeko.Modules.Searches.Common.MtgData.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.MtgData
+    name: MtgData
+    href: Mewdeko.Modules.Searches.Common.MtgData.html
+  - name: )
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetHearthstoneCardDataAsync*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.GetHearthstoneCardDataAsync
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_GetHearthstoneCardDataAsync_System_String_
+  name: GetHearthstoneCardDataAsync
+  nameWithType: SearchesService.GetHearthstoneCardDataAsync
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetHearthstoneCardDataAsync
+- uid: System.Threading.Tasks.Task{HearthstoneCardData}
+  commentId: T:System.Threading.Tasks.Task{HearthstoneCardData}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<HearthstoneCardData>
+  nameWithType: Task<HearthstoneCardData>
+  fullName: System.Threading.Tasks.Task<HearthstoneCardData>
+  nameWithType.vb: Task(Of HearthstoneCardData)
+  fullName.vb: System.Threading.Tasks.Task(Of HearthstoneCardData)
+  name.vb: Task(Of HearthstoneCardData)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: HearthstoneCardData
+    name: HearthstoneCardData
+    href: HearthstoneCardData.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: HearthstoneCardData
+    name: HearthstoneCardData
+    href: HearthstoneCardData.html
+  - name: )
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetMovieDataAsync*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.GetMovieDataAsync
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_GetMovieDataAsync_System_String_
+  name: GetMovieDataAsync
+  nameWithType: SearchesService.GetMovieDataAsync
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetMovieDataAsync
+- uid: System.Threading.Tasks.Task{Mewdeko.Modules.Searches.Common.OmdbMovie}
+  commentId: T:System.Threading.Tasks.Task{Mewdeko.Modules.Searches.Common.OmdbMovie}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<OmdbMovie>
+  nameWithType: Task<OmdbMovie>
+  fullName: System.Threading.Tasks.Task<Mewdeko.Modules.Searches.Common.OmdbMovie>
+  nameWithType.vb: Task(Of OmdbMovie)
+  fullName.vb: System.Threading.Tasks.Task(Of Mewdeko.Modules.Searches.Common.OmdbMovie)
+  name.vb: Task(Of OmdbMovie)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.OmdbMovie
+    name: OmdbMovie
+    href: Mewdeko.Modules.Searches.Common.OmdbMovie.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.OmdbMovie
+    name: OmdbMovie
+    href: Mewdeko.Modules.Searches.Common.OmdbMovie.html
+  - name: )
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GetSteamAppIdByName*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.GetSteamAppIdByName
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_GetSteamAppIdByName_System_String_
+  name: GetSteamAppIdByName
+  nameWithType: SearchesService.GetSteamAppIdByName
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GetSteamAppIdByName
+- uid: System.Threading.Tasks.Task{System.Int32}
+  commentId: T:System.Threading.Tasks.Task{System.Int32}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<int>
+  nameWithType: Task<int>
+  fullName: System.Threading.Tasks.Task<int>
+  nameWithType.vb: Task(Of Integer)
+  fullName.vb: System.Threading.Tasks.Task(Of Integer)
+  name.vb: Task(Of Integer)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.GoogleSearchAsync*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.GoogleSearchAsync
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_GoogleSearchAsync_System_String_
+  name: GoogleSearchAsync
+  nameWithType: SearchesService.GoogleSearchAsync
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.GoogleSearchAsync
+- uid: System.Threading.Tasks.Task{Mewdeko.Modules.Searches.Services.GoogleSearchResultData}
+  commentId: T:System.Threading.Tasks.Task{Mewdeko.Modules.Searches.Services.GoogleSearchResultData}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<GoogleSearchResultData>
+  nameWithType: Task<GoogleSearchResultData>
+  fullName: System.Threading.Tasks.Task<Mewdeko.Modules.Searches.Services.GoogleSearchResultData>
+  nameWithType.vb: Task(Of GoogleSearchResultData)
+  fullName.vb: System.Threading.Tasks.Task(Of Mewdeko.Modules.Searches.Services.GoogleSearchResultData)
+  name.vb: Task(Of GoogleSearchResultData)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+    name: GoogleSearchResultData
+    href: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+    name: GoogleSearchResultData
+    href: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.html
+  - name: )
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.DuckDuckGoSearchAsync*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.SearchesService.DuckDuckGoSearchAsync
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html#Mewdeko_Modules_Searches_Services_SearchesService_DuckDuckGoSearchAsync_System_String_
+  name: DuckDuckGoSearchAsync
+  nameWithType: SearchesService.DuckDuckGoSearchAsync
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.DuckDuckGoSearchAsync

@@ -1,0 +1,4619 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Searches.Searches
+  commentId: T:Mewdeko.Modules.Searches.Searches
+  id: Searches
+  parent: Mewdeko.Modules.Searches
+  children:
+  - Mewdeko.Modules.Searches.Searches.#ctor(Mewdeko.Services.IBotCredentials,Mewdeko.Services.IGoogleApiService,System.Net.Http.IHttpClientFactory,Microsoft.Extensions.Caching.Memory.IMemoryCache,Mewdeko.Modules.Administration.Services.GuildTimezoneService,Fergun.Interactive.InteractiveService,MartineApiNet.MartineApi,Mewdeko.Modules.Searches.Services.ToneTagService,Mewdeko.Services.Settings.BotConfigService,NsfwSpyNS.INsfwSpy)
+  - Mewdeko.Modules.Searches.Searches.Bible(System.String,System.String)
+  - Mewdeko.Modules.Searches.Searches.Catfact
+  - Mewdeko.Modules.Searches.Searches.Color(SkiaSharp.SKColor[])
+  - Mewdeko.Modules.Searches.Searches.Define(System.String)
+  - Mewdeko.Modules.Searches.Searches.Google(System.String)
+  - Mewdeko.Modules.Searches.Searches.Hearthstone(System.String)
+  - Mewdeko.Modules.Searches.Searches.Image(System.String)
+  - Mewdeko.Modules.Searches.Searches.Lmgtfy(System.String)
+  - Mewdeko.Modules.Searches.Searches.MagicTheGathering(System.String)
+  - Mewdeko.Modules.Searches.Searches.Meme
+  - Mewdeko.Modules.Searches.Searches.Movie(System.String)
+  - Mewdeko.Modules.Searches.Searches.RandomBird
+  - Mewdeko.Modules.Searches.Searches.RandomCat
+  - Mewdeko.Modules.Searches.Searches.RandomDog
+  - Mewdeko.Modules.Searches.Searches.RandomFood
+  - Mewdeko.Modules.Searches.Searches.RandomReddit(System.String)
+  - Mewdeko.Modules.Searches.Searches.ResolveToneTags(System.String)
+  - Mewdeko.Modules.Searches.Searches.Revav(Discord.IGuildUser)
+  - Mewdeko.Modules.Searches.Searches.Revimg(System.String)
+  - Mewdeko.Modules.Searches.Searches.Rip(Discord.IGuildUser)
+  - Mewdeko.Modules.Searches.Searches.Safebooru(System.String)
+  - Mewdeko.Modules.Searches.Searches.Shorten(System.String)
+  - Mewdeko.Modules.Searches.Searches.Steam(System.String)
+  - Mewdeko.Modules.Searches.Searches.TestLocalize(System.String)
+  - Mewdeko.Modules.Searches.Searches.Time(System.String)
+  - Mewdeko.Modules.Searches.Searches.UrbanDict(System.String)
+  - Mewdeko.Modules.Searches.Searches.ValidateQuery(Discord.IMessageChannel,System.String)
+  - Mewdeko.Modules.Searches.Searches.Weather(System.String)
+  - Mewdeko.Modules.Searches.Searches.Wiki(System.String)
+  - Mewdeko.Modules.Searches.Searches.Wikia(System.String,System.String)
+  - Mewdeko.Modules.Searches.Searches.Youtube(System.String)
+  langs:
+  - csharp
+  - vb
+  name: Searches
+  nameWithType: Searches
+  fullName: Mewdeko.Modules.Searches.Searches
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/XkcdCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Searches
+    path: src/Mewdeko/Modules/Searches/XkcdCommands.cs
+    startLine: 8
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Base class for Discord command modules with a specified service type and support for localization and string resources.
+  example: []
+  syntax:
+    content: 'public class Searches : MewdekoModuleBase<SearchesService>, IModuleBase'
+    content.vb: Public Class Searches Inherits MewdekoModuleBase(Of SearchesService) Implements IModuleBase
+  inheritance:
+  - System.Object
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  - Discord.Commands.ModuleBase
+  - Mewdeko.Common.MewdekoModule
+  - Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Searches.Services.SearchesService}
+  implements:
+  - Discord.Commands.IModuleBase
+  inheritedMembers:
+  - Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Searches.Services.SearchesService}.Service
+  - Mewdeko.Common.MewdekoModule.CultureInfo
+  - Mewdeko.Common.MewdekoModule.Strings
+  - Mewdeko.Common.MewdekoModule.Localization
+  - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  - Mewdeko.Common.MewdekoModule.GetText(System.String)
+  - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  - Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Searches.Searches.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Searches.Searches.#ctor(Mewdeko.Services.IBotCredentials,Mewdeko.Services.IGoogleApiService,System.Net.Http.IHttpClientFactory,Microsoft.Extensions.Caching.Memory.IMemoryCache,Mewdeko.Modules.Administration.Services.GuildTimezoneService,Fergun.Interactive.InteractiveService,MartineApiNet.MartineApi,Mewdeko.Modules.Searches.Services.ToneTagService,Mewdeko.Services.Settings.BotConfigService,NsfwSpyNS.INsfwSpy)
+  commentId: M:Mewdeko.Modules.Searches.Searches.#ctor(Mewdeko.Services.IBotCredentials,Mewdeko.Services.IGoogleApiService,System.Net.Http.IHttpClientFactory,Microsoft.Extensions.Caching.Memory.IMemoryCache,Mewdeko.Modules.Administration.Services.GuildTimezoneService,Fergun.Interactive.InteractiveService,MartineApiNet.MartineApi,Mewdeko.Modules.Searches.Services.ToneTagService,Mewdeko.Services.Settings.BotConfigService,NsfwSpyNS.INsfwSpy)
+  id: '#ctor(Mewdeko.Services.IBotCredentials,Mewdeko.Services.IGoogleApiService,System.Net.Http.IHttpClientFactory,Microsoft.Extensions.Caching.Memory.IMemoryCache,Mewdeko.Modules.Administration.Services.GuildTimezoneService,Fergun.Interactive.InteractiveService,MartineApiNet.MartineApi,Mewdeko.Modules.Searches.Services.ToneTagService,Mewdeko.Services.Settings.BotConfigService,NsfwSpyNS.INsfwSpy)'
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Searches(IBotCredentials, IGoogleApiService, IHttpClientFactory, IMemoryCache, GuildTimezoneService, InteractiveService, MartineApi, ToneTagService, BotConfigService, INsfwSpy)
+  nameWithType: Searches.Searches(IBotCredentials, IGoogleApiService, IHttpClientFactory, IMemoryCache, GuildTimezoneService, InteractiveService, MartineApi, ToneTagService, BotConfigService, INsfwSpy)
+  fullName: Mewdeko.Modules.Searches.Searches.Searches(Mewdeko.Services.IBotCredentials, Mewdeko.Services.IGoogleApiService, System.Net.Http.IHttpClientFactory, Microsoft.Extensions.Caching.Memory.IMemoryCache, Mewdeko.Modules.Administration.Services.GuildTimezoneService, Fergun.Interactive.InteractiveService, MartineApiNet.MartineApi, Mewdeko.Modules.Searches.Services.ToneTagService, Mewdeko.Services.Settings.BotConfigService, NsfwSpyNS.INsfwSpy)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 40
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: The Searches module provides commands for searching and retrieving various types of information. It includes commands for searching memes, Reddit posts, weather, and more.
+  example: []
+  syntax:
+    content: public Searches(IBotCredentials creds, IGoogleApiService google, IHttpClientFactory factory, IMemoryCache cache, GuildTimezoneService tzSvc, InteractiveService serv, MartineApi martineApi, ToneTagService toneTagService, BotConfigService config, INsfwSpy nsfwSpy)
+    parameters:
+    - id: creds
+      type: Mewdeko.Services.IBotCredentials
+      description: The bot credentials.
+    - id: google
+      type: Mewdeko.Services.IGoogleApiService
+      description: The Google API service.
+    - id: factory
+      type: System.Net.Http.IHttpClientFactory
+      description: The HTTP client factory.
+    - id: cache
+      type: Microsoft.Extensions.Caching.Memory.IMemoryCache
+      description: The memory cache service.
+    - id: tzSvc
+      type: Mewdeko.Modules.Administration.Services.GuildTimezoneService
+      description: The guild timezone service.
+    - id: serv
+      type: Fergun.Interactive.InteractiveService
+      description: The interactive service.
+    - id: martineApi
+      type: MartineApiNet.MartineApi
+      description: The Martine API service.
+    - id: toneTagService
+      type: Mewdeko.Modules.Searches.Services.ToneTagService
+      description: The ToneTag service.
+    - id: config
+      type: Mewdeko.Services.Settings.BotConfigService
+      description: The bot configuration service.
+    - id: nsfwSpy
+      type: NsfwSpyNS.INsfwSpy
+      description: The NSFW spy service.
+    content.vb: Public Sub New(creds As IBotCredentials, google As IGoogleApiService, factory As IHttpClientFactory, cache As IMemoryCache, tzSvc As GuildTimezoneService, serv As InteractiveService, martineApi As MartineApi, toneTagService As ToneTagService, config As BotConfigService, nsfwSpy As INsfwSpy)
+  overload: Mewdeko.Modules.Searches.Searches.#ctor*
+  nameWithType.vb: Searches.New(IBotCredentials, IGoogleApiService, IHttpClientFactory, IMemoryCache, GuildTimezoneService, InteractiveService, MartineApi, ToneTagService, BotConfigService, INsfwSpy)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.New(Mewdeko.Services.IBotCredentials, Mewdeko.Services.IGoogleApiService, System.Net.Http.IHttpClientFactory, Microsoft.Extensions.Caching.Memory.IMemoryCache, Mewdeko.Modules.Administration.Services.GuildTimezoneService, Fergun.Interactive.InteractiveService, MartineApiNet.MartineApi, Mewdeko.Modules.Searches.Services.ToneTagService, Mewdeko.Services.Settings.BotConfigService, NsfwSpyNS.INsfwSpy)
+  name.vb: New(IBotCredentials, IGoogleApiService, IHttpClientFactory, IMemoryCache, GuildTimezoneService, InteractiveService, MartineApi, ToneTagService, BotConfigService, INsfwSpy)
+- uid: Mewdeko.Modules.Searches.Searches.Meme
+  commentId: M:Mewdeko.Modules.Searches.Searches.Meme
+  id: Meme
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Meme()
+  nameWithType: Searches.Meme()
+  fullName: Mewdeko.Modules.Searches.Searches.Meme()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Meme
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 65
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Fetches and displays a random meme from Reddit.
+  remarks: >-
+    This command uses the MartineApi to retrieve a random meme from a predefined list of subreddits.
+
+    It displays the meme in an embed format, including the title, author, subreddit, and a link to the original post.
+  example:
+  - <pre><code class="lang-csharp">.meme</code></pre>
+  syntax:
+    content: >-
+      [Cmd("Meme")]
+
+      [Aliases("Meme")]
+
+      public Task Meme()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Meme")>
+
+      <Aliases("Meme")>
+
+      Public Function Meme() As Task
+  overload: Mewdeko.Modules.Searches.Searches.Meme*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Meme
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Meme
+- uid: Mewdeko.Modules.Searches.Searches.RandomReddit(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.RandomReddit(System.String)
+  id: RandomReddit(System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: RandomReddit(string)
+  nameWithType: Searches.RandomReddit(string)
+  fullName: Mewdeko.Modules.Searches.Searches.RandomReddit(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RandomReddit
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 106
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Fetches and displays a random post from a specified subreddit.
+  remarks: >-
+    This command checks if the specified subreddit is marked as NSFW. If it is not, it fetches a random post.
+
+    It displays the post in an embed format, including the title, author, subreddit, and a link to the original post.
+  example:
+  - <pre><code class="lang-csharp">.randomreddit sylveon</code></pre>
+  syntax:
+    content: >-
+      [Cmd("RandomReddit")]
+
+      [Aliases("RandomReddit")]
+
+      public Task RandomReddit(string subreddit)
+    parameters:
+    - id: subreddit
+      type: System.String
+      description: The subreddit from which to fetch a random post.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("RandomReddit")>
+
+      <Aliases("RandomReddit")>
+
+      Public Function RandomReddit(subreddit As String) As Task
+  overload: Mewdeko.Modules.Searches.Searches.RandomReddit*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RandomReddit
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RandomReddit
+  nameWithType.vb: Searches.RandomReddit(String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.RandomReddit(String)
+  name.vb: RandomReddit(String)
+- uid: Mewdeko.Modules.Searches.Searches.Rip(Discord.IGuildUser)
+  commentId: M:Mewdeko.Modules.Searches.Searches.Rip(Discord.IGuildUser)
+  id: Rip(Discord.IGuildUser)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Rip(IGuildUser)
+  nameWithType: Searches.Rip(IGuildUser)
+  fullName: Mewdeko.Modules.Searches.Searches.Rip(Discord.IGuildUser)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Rip
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 168
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Displays a RIP image with the user's name and avatar.
+  remarks: >-
+    This command generates a "Rest In Peace" image featuring the specified user's name and avatar.
+
+    It then sends this image in the channel where the command was used.
+  example:
+  - <pre><code class="lang-csharp">.rip @username</code></pre>
+  syntax:
+    content: >-
+      [Cmd("Rip")]
+
+      [Aliases("Rip")]
+
+      public Task Rip(IGuildUser usr)
+    parameters:
+    - id: usr
+      type: Discord.IGuildUser
+      description: The user for whom to generate the RIP image.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Rip")>
+
+      <Aliases("Rip")>
+
+      Public Function Rip(usr As IGuildUser) As Task
+  overload: Mewdeko.Modules.Searches.Searches.Rip*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Rip
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Rip
+- uid: Mewdeko.Modules.Searches.Searches.Weather(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.Weather(System.String)
+  id: Weather(System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Weather(string)
+  nameWithType: Searches.Weather(string)
+  fullName: Mewdeko.Modules.Searches.Searches.Weather(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Weather
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 192
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Fetches and displays weather information for a given location query.
+  remarks: >-
+    This command searches for current weather conditions based on the provided location query.
+
+    It displays the weather information in an embed format, including temperature, humidity, wind speed, and more.
+  example:
+  - <pre><code class="lang-csharp">.weather New York</code></pre>
+  syntax:
+    content: >-
+      [Cmd("Weather")]
+
+      [Aliases("Weather")]
+
+      public Task Weather(string query)
+    parameters:
+    - id: query
+      type: System.String
+      description: The location query to search for weather information.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Weather")>
+
+      <Aliases("Weather")>
+
+      Public Function Weather(query As String) As Task
+  overload: Mewdeko.Modules.Searches.Searches.Weather*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Weather
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Weather
+  nameWithType.vb: Searches.Weather(String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.Weather(String)
+  name.vb: Weather(String)
+- uid: Mewdeko.Modules.Searches.Searches.Time(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.Time(System.String)
+  id: Time(System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Time(string)
+  nameWithType: Searches.Time(string)
+  fullName: Mewdeko.Modules.Searches.Searches.Time(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Time
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 270
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Displays the current time in a specified location.
+  remarks: >-
+    This command searches for the current time based on the provided location query.
+
+    It displays the time and timezone information in the channel where the command was used.
+  example:
+  - <pre><code class="lang-csharp">.time Tokyo</code></pre>
+  syntax:
+    content: >-
+      [Cmd("Time")]
+
+      [Aliases("Time")]
+
+      public Task Time(string query)
+    parameters:
+    - id: query
+      type: System.String
+      description: The location query to search for the current time.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Time")>
+
+      <Aliases("Time")>
+
+      Public Function Time(query As String) As Task
+  overload: Mewdeko.Modules.Searches.Searches.Time*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Time
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Time
+  nameWithType.vb: Searches.Time(String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.Time(String)
+  name.vb: Time(String)
+- uid: Mewdeko.Modules.Searches.Searches.Youtube(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.Youtube(System.String)
+  id: Youtube(System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Youtube(string)
+  nameWithType: Searches.Youtube(string)
+  fullName: Mewdeko.Modules.Searches.Searches.Youtube(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Youtube
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 320
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Searches for YouTube videos based on a provided query and displays the results.
+  remarks: >-
+    This command utilizes the Google API to search for YouTube videos matching the provided query.
+
+    It presents the search results in a paginated format, allowing users to browse through video titles and links.
+  example:
+  - <pre><code class="lang-csharp">.youtube query</code></pre>
+  syntax:
+    content: >-
+      [Cmd("Youtube")]
+
+      [Aliases("Youtube")]
+
+      public Task Youtube(string query)
+    parameters:
+    - id: query
+      type: System.String
+      description: The search query to find YouTube videos.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Youtube")>
+
+      <Aliases("Youtube")>
+
+      Public Function Youtube(query As String) As Task
+  overload: Mewdeko.Modules.Searches.Searches.Youtube*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Youtube
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Youtube
+  nameWithType.vb: Searches.Youtube(String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.Youtube(String)
+  name.vb: Youtube(String)
+- uid: Mewdeko.Modules.Searches.Searches.Movie(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.Movie(System.String)
+  id: Movie(System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Movie(string?)
+  nameWithType: Searches.Movie(string?)
+  fullName: Mewdeko.Modules.Searches.Searches.Movie(string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Movie
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 367
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Fetches and displays information about a movie from IMDb based on the provided query.
+  remarks: >-
+    This command searches IMDb for a movie matching the provided query and displays detailed information,
+
+    including the plot, rating, genre, and year of release. The response is shown in an embed format with a link to the IMDb page.
+  example:
+  - <pre><code class="lang-csharp">.movie "The Matrix"</code></pre>
+  syntax:
+    content: >-
+      [Cmd("Movie")]
+
+      [Aliases("Movie")]
+
+      public Task Movie(string? query = null)
+    parameters:
+    - id: query
+      type: System.String
+      description: The movie title to search for on IMDb.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Movie")>
+
+      <Aliases("Movie")>
+
+      Public Function Movie(query As String = Nothing) As Task
+  overload: Mewdeko.Modules.Searches.Searches.Movie*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Movie
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Movie
+  nameWithType.vb: Searches.Movie(String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.Movie(String)
+  name.vb: Movie(String)
+- uid: Mewdeko.Modules.Searches.Searches.RandomCat
+  commentId: M:Mewdeko.Modules.Searches.Searches.RandomCat
+  id: RandomCat
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: RandomCat()
+  nameWithType: Searches.RandomCat()
+  fullName: Mewdeko.Modules.Searches.Searches.RandomCat()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RandomCat
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 402
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Displays a random cat image.
+  remarks: >-
+    This command fetches a random cat image from an online source and posts it in the channel.
+
+    It's a fun command intended to provide users with a random cute cat picture to lighten the mood.
+  example:
+  - <pre><code class="lang-csharp">.randomcat</code></pre>
+  syntax:
+    content: >-
+      [Cmd("RandomCat")]
+
+      [Aliases("RandomCat")]
+
+      public Task RandomCat()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("RandomCat")>
+
+      <Aliases("RandomCat")>
+
+      Public Function RandomCat() As Task
+  overload: Mewdeko.Modules.Searches.Searches.RandomCat*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RandomCat
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RandomCat
+- uid: Mewdeko.Modules.Searches.Searches.RandomDog
+  commentId: M:Mewdeko.Modules.Searches.Searches.RandomDog
+  id: RandomDog
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: RandomDog()
+  nameWithType: Searches.RandomDog()
+  fullName: Mewdeko.Modules.Searches.Searches.RandomDog()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RandomDog
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 415
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Displays a random dog image.
+  remarks: >-
+    Similar to the RandomCat command, this fetches and displays a random dog image.
+
+    It aims to delight users with a surprise dog picture, contributing to a positive and engaging community atmosphere.
+  example:
+  - <pre><code class="lang-csharp">.randomdog</code></pre>
+  syntax:
+    content: >-
+      [Cmd("RandomDog")]
+
+      [Aliases("RandomDog")]
+
+      public Task RandomDog()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("RandomDog")>
+
+      <Aliases("RandomDog")>
+
+      Public Function RandomDog() As Task
+  overload: Mewdeko.Modules.Searches.Searches.RandomDog*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RandomDog
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RandomDog
+- uid: Mewdeko.Modules.Searches.Searches.RandomFood
+  commentId: M:Mewdeko.Modules.Searches.Searches.RandomFood
+  id: RandomFood
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: RandomFood()
+  nameWithType: Searches.RandomFood()
+  fullName: Mewdeko.Modules.Searches.Searches.RandomFood()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RandomFood
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 428
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Displays a random food image.
+  remarks: >-
+    Similar to the RandomCat command, this fetches and displays a random food image.
+
+    It aims to delight users with a surprise food picture, contributing to a positive and engaging community atmosphere. Maybe even leaving some salivating. Maybe disgusted. Idk.
+  example:
+  - <pre><code class="lang-csharp">.randomfood</code></pre>
+  syntax:
+    content: >-
+      [Cmd("RandomFood")]
+
+      [Aliases("RandomFood")]
+
+      public Task RandomFood()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("RandomFood")>
+
+      <Aliases("RandomFood")>
+
+      Public Function RandomFood() As Task
+  overload: Mewdeko.Modules.Searches.Searches.RandomFood*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RandomFood
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RandomFood
+- uid: Mewdeko.Modules.Searches.Searches.RandomBird
+  commentId: M:Mewdeko.Modules.Searches.Searches.RandomBird
+  id: RandomBird
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: RandomBird()
+  nameWithType: Searches.RandomBird()
+  fullName: Mewdeko.Modules.Searches.Searches.RandomBird()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RandomBird
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 441
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Displays birb.
+  remarks: >-
+    Similar to the RandomCat command, this fetches and displays a random birb.
+
+    It aims to delight users with a surprise birb picture, contributing to a positive and engaging community atmosphere.
+  example:
+  - <pre><code class="lang-csharp">.randombird</code></pre>
+  syntax:
+    content: >-
+      [Cmd("RandomBird")]
+
+      [Aliases("RandomBird")]
+
+      public Task RandomBird()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("RandomBird")>
+
+      <Aliases("RandomBird")>
+
+      Public Function RandomBird() As Task
+  overload: Mewdeko.Modules.Searches.Searches.RandomBird*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RandomBird
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: RandomBird
+- uid: Mewdeko.Modules.Searches.Searches.Image(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.Image(System.String)
+  id: Image(System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Image(string)
+  nameWithType: Searches.Image(string)
+  fullName: Mewdeko.Modules.Searches.Searches.Image(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Image
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 464
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Performs an image search using Google and DuckDuckGo, then filters out NSFW results.
+  remarks: >-
+    This command uses both Google and DuckDuckGo to perform an image search based on the provided query.
+
+    It then filters out NSFW results using NsfwSpy and presents the safe images in a paginated embed format.
+  example:
+  - <pre><code class="lang-csharp">.image query</code></pre>
+  syntax:
+    content: >-
+      [Cmd("Image")]
+
+      [Aliases("Image")]
+
+      [Ratelimit(20)]
+
+      public Task Image(string query)
+    parameters:
+    - id: query
+      type: System.String
+      description: The search query for the image.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Image")>
+
+      <Aliases("Image")>
+
+      <Ratelimit(20)>
+
+      Public Function Image(query As String) As Task
+  overload: Mewdeko.Modules.Searches.Searches.Image*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Image
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Image
+  - type: Mewdeko.Common.Attributes.TextCommands.RatelimitAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.RatelimitAttribute.#ctor(System.Int32)
+    arguments:
+    - type: System.Int32
+      value: 20
+  nameWithType.vb: Searches.Image(String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.Image(String)
+  name.vb: Image(String)
+- uid: Mewdeko.Modules.Searches.Searches.Lmgtfy(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.Lmgtfy(System.String)
+  id: Lmgtfy(System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Lmgtfy(string?)
+  nameWithType: Searches.Lmgtfy(string?)
+  fullName: Mewdeko.Modules.Searches.Searches.Lmgtfy(string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Lmgtfy
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 585
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Generates a Let Me Google That For You (LMGTFY) link for the provided query.
+  remarks: >-
+    This command takes a search query as input and generates a LMGTFY link.
+
+    The LMGTFY link is then shortened using the google.ShortenUrl method and sent to the channel.
+
+    If the provided query is null or whitespace, the command will return without sending a message.
+  example:
+  - <pre><code class="lang-csharp">.lmgtfy query</code></pre>
+  syntax:
+    content: >-
+      [Cmd("Lmgtfy")]
+
+      [Aliases("Lmgtfy")]
+
+      public Task Lmgtfy(string? ffs = null)
+    parameters:
+    - id: ffs
+      type: System.String
+      description: The search query to be used in the LMGTFY link.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Lmgtfy")>
+
+      <Aliases("Lmgtfy")>
+
+      Public Function Lmgtfy(ffs As String = Nothing) As Task
+  overload: Mewdeko.Modules.Searches.Searches.Lmgtfy*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Lmgtfy
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Lmgtfy
+  nameWithType.vb: Searches.Lmgtfy(String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.Lmgtfy(String)
+  name.vb: Lmgtfy(String)
+- uid: Mewdeko.Modules.Searches.Searches.Shorten(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.Shorten(System.String)
+  id: Shorten(System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Shorten(string)
+  nameWithType: Searches.Shorten(string)
+  fullName: Mewdeko.Modules.Searches.Searches.Shorten(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Shorten
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 607
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Shortens a provided URL using the goolnk.com API.
+  remarks: >-
+    This command submits the specified URL to the goolnk.com API to generate a shortened version.
+
+    The shortened URL is then returned and displayed in the channel. This is useful for sharing long URLs in a more concise format.
+  example:
+  - <pre><code class="lang-csharp">.shorten https://example.com/very/long/url</code></pre>
+  syntax:
+    content: >-
+      [Cmd("Shorten")]
+
+      [Aliases("Shorten")]
+
+      public Task Shorten(string query)
+    parameters:
+    - id: query
+      type: System.String
+      description: The URL to be shortened.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Shorten")>
+
+      <Aliases("Shorten")>
+
+      Public Function Shorten(query As String) As Task
+  overload: Mewdeko.Modules.Searches.Searches.Shorten*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Shorten
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Shorten
+  nameWithType.vb: Searches.Shorten(String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.Shorten(String)
+  name.vb: Shorten(String)
+- uid: Mewdeko.Modules.Searches.Searches.Google(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.Google(System.String)
+  id: Google(System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Google(string?)
+  nameWithType: Searches.Google(string?)
+  fullName: Mewdeko.Modules.Searches.Searches.Google(string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Google
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 665
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Performs a general search using the Google or DuckDuckGo search engines and displays the results.
+  remarks: >-
+    This command conducts a web search using the specified query. If Google does not return results, DuckDuckGo is used as a fallback.
+
+    Results are displayed in an embed format, providing users with a title, snippet, and link for each result.
+  example:
+  - <pre><code class="lang-csharp">.google search_terms</code></pre>
+  syntax:
+    content: >-
+      [Cmd("Google")]
+
+      [Aliases("Google")]
+
+      public Task Google(string? query = null)
+    parameters:
+    - id: query
+      type: System.String
+      description: The search query.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Google")>
+
+      <Aliases("Google")>
+
+      Public Function Google(query As String = Nothing) As Task
+  overload: Mewdeko.Modules.Searches.Searches.Google*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Google
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Google
+  nameWithType.vb: Searches.Google(String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.Google(String)
+  name.vb: Google(String)
+- uid: Mewdeko.Modules.Searches.Searches.MagicTheGathering(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.MagicTheGathering(System.String)
+  id: MagicTheGathering(System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: MagicTheGathering(string)
+  nameWithType: Searches.MagicTheGathering(string)
+  fullName: Mewdeko.Modules.Searches.Searches.MagicTheGathering(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MagicTheGathering
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 717
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: 'Fetches and displays information about a Magic: The Gathering card.'
+  remarks: >-
+    Utilizing an external API, this command retrieves details about a specified Magic: The Gathering card,
+
+    including its name, description, mana cost, types, and an image if available.
+
+    The information is presented in an embed format.
+  example:
+  - <pre><code class="lang-csharp">.magicthegathering "Black Lotus"</code></pre>
+  syntax:
+    content: >-
+      [Cmd("MagicTheGathering")]
+
+      [Aliases("MagicTheGathering")]
+
+      public Task MagicTheGathering(string search)
+    parameters:
+    - id: search
+      type: System.String
+      description: 'The name or identifier of the Magic: The Gathering card to search for.'
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("MagicTheGathering")>
+
+      <Aliases("MagicTheGathering")>
+
+      Public Function MagicTheGathering(search As String) As Task
+  overload: Mewdeko.Modules.Searches.Searches.MagicTheGathering*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: MagicTheGathering
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: MagicTheGathering
+  nameWithType.vb: Searches.MagicTheGathering(String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.MagicTheGathering(String)
+  name.vb: MagicTheGathering(String)
+- uid: Mewdeko.Modules.Searches.Searches.Hearthstone(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.Hearthstone(System.String)
+  id: Hearthstone(System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Hearthstone(string)
+  nameWithType: Searches.Hearthstone(string)
+  fullName: Mewdeko.Modules.Searches.Searches.Hearthstone(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Hearthstone
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 754
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Searches for and displays information about a Hearthstone card.
+  remarks: >-
+    This command searches for a Hearthstone card by name and displays its image and flavor text, if available.
+
+    It requires a valid Mashape API key set in the bot's configuration to access the Hearthstone API.
+  example:
+  - <pre><code class="lang-csharp">.hearthstone "Leeroy Jenkins"</code></pre>
+  syntax:
+    content: >-
+      [Cmd("Hearthstone")]
+
+      [Aliases("Hearthstone")]
+
+      public Task Hearthstone(string name)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the Hearthstone card to search for.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Hearthstone")>
+
+      <Aliases("Hearthstone")>
+
+      Public Function Hearthstone(name As String) As Task
+  overload: Mewdeko.Modules.Searches.Searches.Hearthstone*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Hearthstone
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Hearthstone
+  nameWithType.vb: Searches.Hearthstone(String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.Hearthstone(String)
+  name.vb: Hearthstone(String)
+- uid: Mewdeko.Modules.Searches.Searches.UrbanDict(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.UrbanDict(System.String)
+  id: UrbanDict(System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: UrbanDict(string?)
+  nameWithType: Searches.UrbanDict(string?)
+  fullName: Mewdeko.Modules.Searches.Searches.UrbanDict(string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UrbanDict
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 795
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Searches the Urban Dictionary and displays definitions for a given term.
+  remarks: >-
+    This command fetches definitions from Urban Dictionary for the specified term.
+
+    Results are presented in a paginated embed format, allowing users to browse through multiple definitions.
+  example:
+  - <pre><code class="lang-csharp">.urbandict "vaporeon copypasta"</code></pre>
+  syntax:
+    content: >-
+      [Cmd("UrbanDict")]
+
+      [Aliases("UrbanDict")]
+
+      public Task UrbanDict(string? query = null)
+    parameters:
+    - id: query
+      type: System.String
+      description: The term to search for on Urban Dictionary.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("UrbanDict")>
+
+      <Aliases("UrbanDict")>
+
+      Public Function UrbanDict(query As String = Nothing) As Task
+  overload: Mewdeko.Modules.Searches.Searches.UrbanDict*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: UrbanDict
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: UrbanDict
+  nameWithType.vb: Searches.UrbanDict(String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.UrbanDict(String)
+  name.vb: UrbanDict(String)
+- uid: Mewdeko.Modules.Searches.Searches.Define(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.Define(System.String)
+  id: Define(System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Define(string)
+  nameWithType: Searches.Define(string)
+  fullName: Mewdeko.Modules.Searches.Searches.Define(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Define
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 856
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Retrieves and displays a definition from the Pearson dictionary.
+  remarks: >-
+    This command looks up a given word in the Pearson dictionary and displays its definition, part of speech,
+
+    and an example sentence if available. Results are presented in a paginated format to navigate through multiple definitions.
+  example:
+  - <pre><code class="lang-csharp">.define "ubiquitous"</code></pre>
+  syntax:
+    content: >-
+      [Cmd("Define")]
+
+      [Aliases("Define")]
+
+      public Task Define(string word)
+    parameters:
+    - id: word
+      type: System.String
+      description: The word to define.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Define")>
+
+      <Aliases("Define")>
+
+      Public Function Define(word As String) As Task
+  overload: Mewdeko.Modules.Searches.Searches.Define*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Define
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Define
+  nameWithType.vb: Searches.Define(String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.Define(String)
+  name.vb: Define(String)
+- uid: Mewdeko.Modules.Searches.Searches.Catfact
+  commentId: M:Mewdeko.Modules.Searches.Searches.Catfact
+  id: Catfact
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Catfact()
+  nameWithType: Searches.Catfact()
+  fullName: Mewdeko.Modules.Searches.Searches.Catfact()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Catfact
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 942
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Fetches and shares a random cat fact.
+  remarks: >-
+    This command accesses a cat fact API to retrieve a random fact about cats.
+
+    It's designed to provide fun and interesting information to cat enthusiasts.
+  example:
+  - <pre><code class="lang-csharp">.catfact</code></pre>
+  syntax:
+    content: >-
+      [Cmd("Catfact")]
+
+      [Aliases("Catfact")]
+
+      public Task Catfact()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Catfact")>
+
+      <Aliases("Catfact")>
+
+      Public Function Catfact() As Task
+  overload: Mewdeko.Modules.Searches.Searches.Catfact*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Catfact
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Catfact
+- uid: Mewdeko.Modules.Searches.Searches.Revav(Discord.IGuildUser)
+  commentId: M:Mewdeko.Modules.Searches.Searches.Revav(Discord.IGuildUser)
+  id: Revav(Discord.IGuildUser)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Revav(IGuildUser?)
+  nameWithType: Searches.Revav(IGuildUser?)
+  fullName: Mewdeko.Modules.Searches.Searches.Revav(Discord.IGuildUser?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Revav
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 965
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Performs a reverse image search using an avatar link.
+  remarks: >-
+    This command utilizes Google, TinEye, and Yandex reverse image search engines to find similar images or the source of the given image.
+
+    It provides links to the search results on each platform, offering users multiple avenues to explore related or source images.
+  example:
+  - <pre><code class="lang-csharp">.revimg @user</code></pre>
+  syntax:
+    content: >-
+      [Cmd("Revav")]
+
+      [Aliases("Revav")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task Revav(IGuildUser? usr = null)
+    parameters:
+    - id: usr
+      type: Discord.IGuildUser
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Revav")>
+
+      <Aliases("Revav")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function Revav(usr As IGuildUser = Nothing) As Task
+  overload: Mewdeko.Modules.Searches.Searches.Revav*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Revav
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Revav
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  nameWithType.vb: Searches.Revav(IGuildUser)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.Revav(Discord.IGuildUser)
+  name.vb: Revav(IGuildUser)
+- uid: Mewdeko.Modules.Searches.Searches.Revimg(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.Revimg(System.String)
+  id: Revimg(System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Revimg(string?)
+  nameWithType: Searches.Revimg(string?)
+  fullName: Mewdeko.Modules.Searches.Searches.Revimg(string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Revimg
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 987
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Performs a reverse image search using the provided image link.
+  remarks: >-
+    This command utilizes Google, TinEye, and Yandex reverse image search engines to find similar images or the source of the given image.
+
+    It provides links to the search results on each platform, offering users multiple avenues to explore related or source images.
+  example:
+  - <pre><code class="lang-csharp">.revimg "http://example.com/image.jpg"</code></pre>
+  syntax:
+    content: >-
+      [Cmd("Revimg")]
+
+      [Aliases("Revimg")]
+
+      public Task Revimg(string? imageLink = null)
+    parameters:
+    - id: imageLink
+      type: System.String
+      description: The direct URL of the image to search for.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Revimg")>
+
+      <Aliases("Revimg")>
+
+      Public Function Revimg(imageLink As String = Nothing) As Task
+  overload: Mewdeko.Modules.Searches.Searches.Revimg*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Revimg
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Revimg
+  nameWithType.vb: Searches.Revimg(String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.Revimg(String)
+  name.vb: Revimg(String)
+- uid: Mewdeko.Modules.Searches.Searches.Safebooru(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.Safebooru(System.String)
+  id: Safebooru(System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Safebooru(string?)
+  nameWithType: Searches.Safebooru(string?)
+  fullName: Mewdeko.Modules.Searches.Searches.Safebooru(string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Safebooru
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 1039
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Searches for and displays an image based on the provided tag from Safebooru.
+  remarks: >-
+    This command uses the Safebooru API to fetch an image related to the specified tag.
+
+    It is designed to provide safe-for-work images from a variety of anime and manga sources.
+
+    The resulting image is posted in the channel where the command was used.
+  example:
+  - <pre><code class="lang-csharp">.safebooru tag_name</code></pre>
+  syntax:
+    content: >-
+      [Cmd("Safebooru")]
+
+      [Aliases("Safebooru")]
+
+      public Task Safebooru(string? tag = null)
+    parameters:
+    - id: tag
+      type: System.String
+      description: The tag to search for on Safebooru.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Safebooru")>
+
+      <Aliases("Safebooru")>
+
+      Public Function Safebooru(tag As String = Nothing) As Task
+  overload: Mewdeko.Modules.Searches.Searches.Safebooru*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Safebooru
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Safebooru
+  nameWithType.vb: Searches.Safebooru(String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.Safebooru(String)
+  name.vb: Safebooru(String)
+- uid: Mewdeko.Modules.Searches.Searches.Wiki(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.Wiki(System.String)
+  id: Wiki(System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Wiki(string?)
+  nameWithType: Searches.Wiki(string?)
+  fullName: Mewdeko.Modules.Searches.Searches.Wiki(string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Wiki
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 1054
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Searches for and displays Wikipedia information based on the provided query.
+  remarks: >-
+    This command searches Wikipedia for the specified query and returns the first matching page.
+
+    If a page is found, it displays the page title and a link to the full article.
+  example:
+  - <pre><code class="lang-csharp">.wiki "Quantum mechanics" (nobody will ever actually search for this on discord)</code></pre>
+  syntax:
+    content: >-
+      [Cmd("Wiki")]
+
+      [Aliases("Wiki")]
+
+      public Task Wiki(string? query = null)
+    parameters:
+    - id: query
+      type: System.String
+      description: The search term for Wikipedia.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Wiki")>
+
+      <Aliases("Wiki")>
+
+      Public Function Wiki(query As String = Nothing) As Task
+  overload: Mewdeko.Modules.Searches.Searches.Wiki*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Wiki
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Wiki
+  nameWithType.vb: Searches.Wiki(String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.Wiki(String)
+  name.vb: Wiki(String)
+- uid: Mewdeko.Modules.Searches.Searches.Color(SkiaSharp.SKColor[])
+  commentId: M:Mewdeko.Modules.Searches.Searches.Color(SkiaSharp.SKColor[])
+  id: Color(SkiaSharp.SKColor[])
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Color(params SKColor[])
+  nameWithType: Searches.Color(params SKColor[])
+  fullName: Mewdeko.Modules.Searches.Searches.Color(params SkiaSharp.SKColor[])
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Color
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 1085
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Displays a color swatch based on the provided hexadecimal color codes.
+  remarks: >-
+    This command creates an image consisting of color swatches for each provided color code.
+
+    It's useful for visualizing colors or sharing color schemes with others.
+  example:
+  - '<pre><code class="lang-csharp">.color #FFFFFF #FF0000 #0000FF</code></pre>'
+  syntax:
+    content: >-
+      [Cmd("Color")]
+
+      [Aliases("Color")]
+
+      public Task Color(params SKColor[] colors)
+    parameters:
+    - id: colors
+      type: SkiaSharp.SKColor[]
+      description: An array of SKColor objects representing the colors to display.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Color")>
+
+      <Aliases("Color")>
+
+      Public Function Color(ParamArray colors As SKColor()) As Task
+  overload: Mewdeko.Modules.Searches.Searches.Color*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Color
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Color
+  nameWithType.vb: Searches.Color(ParamArray SKColor())
+  fullName.vb: Mewdeko.Modules.Searches.Searches.Color(ParamArray SkiaSharp.SKColor())
+  name.vb: Color(ParamArray SKColor())
+- uid: Mewdeko.Modules.Searches.Searches.Wikia(System.String,System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.Wikia(System.String,System.String)
+  id: Wikia(System.String,System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Wikia(string, string)
+  nameWithType: Searches.Wikia(string, string)
+  fullName: Mewdeko.Modules.Searches.Searches.Wikia(string, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Wikia
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 1127
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Fetches and displays detailed information about a specific topic from a wikia.
+  remarks: >-
+    This command searches the specified wikia for information related to the query.
+
+    It returns the first relevant result, including the title and a link to the detailed page.
+  example:
+  - <pre><code class="lang-csharp">.wikia "starwars" "Darth Vader"</code></pre>
+  syntax:
+    content: >-
+      [Cmd("Wikia")]
+
+      [Aliases("Wikia")]
+
+      public Task Wikia(string target, string query)
+    parameters:
+    - id: target
+      type: System.String
+      description: The target wikia site.
+    - id: query
+      type: System.String
+      description: The search term for the wikia.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Wikia")>
+
+      <Aliases("Wikia")>
+
+      Public Function Wikia(target As String, query As String) As Task
+  overload: Mewdeko.Modules.Searches.Searches.Wikia*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Wikia
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Wikia
+  nameWithType.vb: Searches.Wikia(String, String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.Wikia(String, String)
+  name.vb: Wikia(String, String)
+- uid: Mewdeko.Modules.Searches.Searches.Bible(System.String,System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.Bible(System.String,System.String)
+  id: Bible(System.String,System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Bible(string, string)
+  nameWithType: Searches.Bible(string, string)
+  fullName: Mewdeko.Modules.Searches.Searches.Bible(string, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Bible
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 1176
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Searches for and displays Bible verses based on the book, chapter, and verse provided.
+  remarks: >-
+    This command retrieves and displays a specific Bible verse or set of verses.
+
+    The response includes the text of the verses along with their book, chapter, and verse reference.
+  example:
+  - <pre><code class="lang-csharp">.bible "John" "3:16"</code></pre>
+  syntax:
+    content: >-
+      [Cmd("Bible")]
+
+      [Aliases("Bible")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task Bible(string book, string chapterAndVerse)
+    parameters:
+    - id: book
+      type: System.String
+      description: The book of the Bible.
+    - id: chapterAndVerse
+      type: System.String
+      description: The chapter and verse in the format "Chapter:Verse".
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Bible")>
+
+      <Aliases("Bible")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function Bible(book As String, chapterAndVerse As String) As Task
+  overload: Mewdeko.Modules.Searches.Searches.Bible*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Bible
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Bible
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  nameWithType.vb: Searches.Bible(String, String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.Bible(String, String)
+  name.vb: Bible(String, String)
+- uid: Mewdeko.Modules.Searches.Searches.Steam(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.Steam(System.String)
+  id: Steam(System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: Steam(string)
+  nameWithType: Searches.Steam(string)
+  fullName: Mewdeko.Modules.Searches.Searches.Steam(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Steam
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 1218
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Searches for a game on Steam by name and provides a link to its Steam Store page.
+  remarks: >-
+    This command searches for a game on Steam using the provided query. If the game is found, it returns a direct link to the game's page on the Steam Store.
+
+    It's useful for quickly sharing Steam Store pages of games within the Discord channel.
+  example:
+  - <pre><code class="lang-csharp">.steam "Half-Life 3"</code></pre>
+  syntax:
+    content: >-
+      [Cmd("Steam")]
+
+      [Aliases("Steam")]
+
+      public Task Steam(string query)
+    parameters:
+    - id: query
+      type: System.String
+      description: The name of the game to search for on Steam.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Steam")>
+
+      <Aliases("Steam")>
+
+      Public Function Steam(query As String) As Task
+  overload: Mewdeko.Modules.Searches.Searches.Steam*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Steam
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Steam
+  nameWithType.vb: Searches.Steam(String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.Steam(String)
+  name.vb: Steam(String)
+- uid: Mewdeko.Modules.Searches.Searches.ResolveToneTags(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.ResolveToneTags(System.String)
+  id: ResolveToneTags(System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: ResolveToneTags(string)
+  nameWithType: Searches.ResolveToneTags(string)
+  fullName: Mewdeko.Modules.Searches.Searches.ResolveToneTags(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ResolveToneTags
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 1257
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Resolves tone tags in a message and provides explanations for each identified tag.
+  remarks: >-
+    Tone tags are short codes used to express the tone of a message. This command parses the message for known tone tags and returns their meanings to help clarify the intended tone of the message.
+
+    This is particularly useful in text-based communication where conveying tone can be challenging.
+  example:
+  - <pre><code class="lang-csharp">.resolvetonetags "I'm happy to help! /s"</code></pre>
+  syntax:
+    content: >-
+      [Cmd("ResolveToneTags")]
+
+      [Aliases("ResolveToneTags")]
+
+      public Task ResolveToneTags(string tag)
+    parameters:
+    - id: tag
+      type: System.String
+      description: The message containing tone tags to be resolved.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("ResolveToneTags")>
+
+      <Aliases("ResolveToneTags")>
+
+      Public Function ResolveToneTags(tag As String) As Task
+  overload: Mewdeko.Modules.Searches.Searches.ResolveToneTags*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ResolveToneTags
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ResolveToneTags
+  nameWithType.vb: Searches.ResolveToneTags(String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.ResolveToneTags(String)
+  name.vb: ResolveToneTags(String)
+- uid: Mewdeko.Modules.Searches.Searches.ValidateQuery(Discord.IMessageChannel,System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.ValidateQuery(Discord.IMessageChannel,System.String)
+  id: ValidateQuery(Discord.IMessageChannel,System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: ValidateQuery(IMessageChannel, string)
+  nameWithType: Searches.ValidateQuery(IMessageChannel, string)
+  fullName: Mewdeko.Modules.Searches.Searches.ValidateQuery(Discord.IMessageChannel, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ValidateQuery
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 1297
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Validates if the given query string is not null or whitespace.
+  remarks: This utility method checks if a query string provided in a command is valid. It ensures that commands requiring input do not proceed with empty or whitespace-only queries.
+  example:
+  - This method is called internally by commands requiring input validation and does not have a direct command example.
+  syntax:
+    content: public Task<bool> ValidateQuery(IMessageChannel ch, string query)
+    parameters:
+    - id: ch
+      type: Discord.IMessageChannel
+      description: The channel from which the command was invoked.
+    - id: query
+      type: System.String
+      description: The query string to validate.
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+      description: True if the query is valid, otherwise false.
+    content.vb: Public Function ValidateQuery(ch As IMessageChannel, query As String) As Task(Of Boolean)
+  overload: Mewdeko.Modules.Searches.Searches.ValidateQuery*
+  nameWithType.vb: Searches.ValidateQuery(IMessageChannel, String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.ValidateQuery(Discord.IMessageChannel, String)
+  name.vb: ValidateQuery(IMessageChannel, String)
+- uid: Mewdeko.Modules.Searches.Searches.TestLocalize(System.String)
+  commentId: M:Mewdeko.Modules.Searches.Searches.TestLocalize(System.String)
+  id: TestLocalize(System.String)
+  parent: Mewdeko.Modules.Searches.Searches
+  langs:
+  - csharp
+  - vb
+  name: TestLocalize(string)
+  nameWithType: Searches.TestLocalize(string)
+  fullName: Mewdeko.Modules.Searches.Searches.TestLocalize(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Searches.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TestLocalize
+    path: src/Mewdeko/Modules/Searches/Searches.cs
+    startLine: 1337
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Demonstrates localized string responses in commands for testing purposes.
+  remarks: >-
+    This command is designed for developers to test and demonstrate the localization of strings within the bot.
+
+    It accepts an input string and optional arguments to format the localized message.
+  example:
+  - <pre><code class="lang-csharp">.testlocalize "greeting|world"</code></pre>
+  syntax:
+    content: >-
+      [Cmd("TestLocalize")]
+
+      [Aliases("TestLocalize")]
+
+      public Task TestLocalize(string input)
+    parameters:
+    - id: input
+      type: System.String
+      description: The input string to localize, followed by optional arguments separated by "|".
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("TestLocalize")>
+
+      <Aliases("TestLocalize")>
+
+      Public Function TestLocalize(input As String) As Task
+  overload: Mewdeko.Modules.Searches.Searches.TestLocalize*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: TestLocalize
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: TestLocalize
+  nameWithType.vb: Searches.TestLocalize(String)
+  fullName.vb: Mewdeko.Modules.Searches.Searches.TestLocalize(String)
+  name.vb: TestLocalize(String)
+references:
+- uid: Mewdeko.Modules.Searches
+  commentId: N:Mewdeko.Modules.Searches
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches
+  nameWithType: Mewdeko.Modules.Searches
+  fullName: Mewdeko.Modules.Searches
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  commentId: T:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  parent: Discord.Commands
+  definition: Discord.Commands.ModuleBase`1
+  name: ModuleBase<ICommandContext>
+  nameWithType: ModuleBase<ICommandContext>
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>
+  nameWithType.vb: ModuleBase(Of ICommandContext)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext)
+  name.vb: ModuleBase(Of ICommandContext)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: <
+  - uid: Discord.Commands.ICommandContext
+    name: ICommandContext
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Discord.Commands.ICommandContext
+    name: ICommandContext
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase
+  commentId: T:Discord.Commands.ModuleBase
+  parent: Discord.Commands
+  isExternal: true
+  name: ModuleBase
+  nameWithType: ModuleBase
+  fullName: Discord.Commands.ModuleBase
+- uid: Mewdeko.Common.MewdekoModule
+  commentId: T:Mewdeko.Common.MewdekoModule
+  parent: Mewdeko.Common
+  href: Mewdeko.Common.MewdekoModule.html
+  name: MewdekoModule
+  nameWithType: MewdekoModule
+  fullName: Mewdeko.Common.MewdekoModule
+- uid: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Searches.Services.SearchesService}
+  commentId: T:Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Searches.Services.SearchesService}
+  parent: Mewdeko.Common
+  definition: Mewdeko.Common.MewdekoModuleBase`1
+  href: Mewdeko.Common.MewdekoModuleBase-1.html
+  name: MewdekoModuleBase<SearchesService>
+  nameWithType: MewdekoModuleBase<SearchesService>
+  fullName: Mewdeko.Common.MewdekoModuleBase<Mewdeko.Modules.Searches.Services.SearchesService>
+  nameWithType.vb: MewdekoModuleBase(Of SearchesService)
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of Mewdeko.Modules.Searches.Services.SearchesService)
+  name.vb: MewdekoModuleBase(Of SearchesService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Services.SearchesService
+    name: SearchesService
+    href: Mewdeko.Modules.Searches.Services.SearchesService.html
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Services.SearchesService
+    name: SearchesService
+    href: Mewdeko.Modules.Searches.Services.SearchesService.html
+  - name: )
+- uid: Discord.Commands.IModuleBase
+  commentId: T:Discord.Commands.IModuleBase
+  parent: Discord.Commands
+  isExternal: true
+  name: IModuleBase
+  nameWithType: IModuleBase
+  fullName: Discord.Commands.IModuleBase
+- uid: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Searches.Services.SearchesService}.Service
+  commentId: P:Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Searches.Services.SearchesService}.Service
+  parent: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Searches.Services.SearchesService}
+  definition: Mewdeko.Common.MewdekoModuleBase`1.Service
+  href: Mewdeko.Common.MewdekoModuleBase-1.html#Mewdeko_Common_MewdekoModuleBase_1_Service
+  name: Service
+  nameWithType: MewdekoModuleBase<SearchesService>.Service
+  fullName: Mewdeko.Common.MewdekoModuleBase<Mewdeko.Modules.Searches.Services.SearchesService>.Service
+  nameWithType.vb: MewdekoModuleBase(Of SearchesService).Service
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of Mewdeko.Modules.Searches.Services.SearchesService).Service
+- uid: Mewdeko.Common.MewdekoModule.CultureInfo
+  commentId: P:Mewdeko.Common.MewdekoModule.CultureInfo
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CultureInfo
+  name: CultureInfo
+  nameWithType: MewdekoModule.CultureInfo
+  fullName: Mewdeko.Common.MewdekoModule.CultureInfo
+- uid: Mewdeko.Common.MewdekoModule.Strings
+  commentId: P:Mewdeko.Common.MewdekoModule.Strings
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Strings
+  name: Strings
+  nameWithType: MewdekoModule.Strings
+  fullName: Mewdeko.Common.MewdekoModule.Strings
+- uid: Mewdeko.Common.MewdekoModule.Localization
+  commentId: P:Mewdeko.Common.MewdekoModule.Localization
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Localization
+  name: Localization
+  nameWithType: MewdekoModule.Localization
+  fullName: Mewdeko.Common.MewdekoModule.Localization
+- uid: Mewdeko.Common.MewdekoModule.ctx
+  commentId: P:Mewdeko.Common.MewdekoModule.ctx
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ctx
+  name: ctx
+  nameWithType: MewdekoModule.ctx
+  fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  name: BeforeExecute(CommandInfo)
+  nameWithType: MewdekoModule.BeforeExecute(CommandInfo)
+  fullName: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+    name: BeforeExecute
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+    name: BeforeExecute
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+  commentId: M:Mewdeko.Common.MewdekoModule.GetText(System.String)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  name: GetText(string)
+  nameWithType: MewdekoModule.GetText(string)
+  fullName: Mewdeko.Common.MewdekoModule.GetText(string)
+  nameWithType.vb: MewdekoModule.GetText(String)
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetText(String)
+  name.vb: GetText(String)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  name: GetText(string, params object[])
+  nameWithType: MewdekoModule.GetText(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.GetText(string, params object[])
+  nameWithType.vb: MewdekoModule.GetText(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetText(String, ParamArray Object())
+  name.vb: GetText(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  name: ErrorLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ErrorLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ErrorLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(String, ParamArray Object())
+  name.vb: ErrorLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+    name: ErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+    name: ErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  name: ReplyErrorLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ReplyErrorLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ReplyErrorLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(String, ParamArray Object())
+  name.vb: ReplyErrorLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+    name: ReplyErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+    name: ReplyErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  name: ConfirmLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ConfirmLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ConfirmLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(String, ParamArray Object())
+  name.vb: ConfirmLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+    name: ConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+    name: ConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  name: ReplyConfirmLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ReplyConfirmLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  name.vb: ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+    name: ReplyConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+    name: ReplyConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  name: PromptUserConfirmAsync(string, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(string, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(string, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(String, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(String, ULong)
+  name.vb: PromptUserConfirmAsync(String, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  name: PromptUserConfirmAsync(EmbedBuilder, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(EmbedBuilder, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(EmbedBuilder, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder, ULong)
+  name.vb: PromptUserConfirmAsync(EmbedBuilder, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  commentId: M:Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  name: CheckRoleHierarchy(IGuildUser, bool)
+  nameWithType: MewdekoModule.CheckRoleHierarchy(IGuildUser, bool)
+  fullName: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser, bool)
+  nameWithType.vb: MewdekoModule.CheckRoleHierarchy(IGuildUser, Boolean)
+  fullName.vb: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser, Boolean)
+  name.vb: CheckRoleHierarchy(IGuildUser, Boolean)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+    name: CheckRoleHierarchy
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  - name: (
+  - uid: Discord.IGuildUser
+    name: IGuildUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+    name: CheckRoleHierarchy
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  - name: (
+  - uid: Discord.IGuildUser
+    name: IGuildUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  name: PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage, Discord.EmbedBuilder, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage, Discord.EmbedBuilder, ULong)
+  name.vb: PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  commentId: M:Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  name: GetButtonInputAsync(ulong, ulong, ulong, bool)
+  nameWithType: MewdekoModule.GetButtonInputAsync(ulong, ulong, ulong, bool)
+  fullName: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(ulong, ulong, ulong, bool)
+  nameWithType.vb: MewdekoModule.GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  name.vb: GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+    name: GetButtonInputAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+    name: GetButtonInputAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  name: NextMessageAsync(ulong, ulong)
+  nameWithType: MewdekoModule.NextMessageAsync(ulong, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.NextMessageAsync(ulong, ulong)
+  nameWithType.vb: MewdekoModule.NextMessageAsync(ULong, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.NextMessageAsync(ULong, ULong)
+  name.vb: NextMessageAsync(ULong, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+    name: NextMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+    name: NextMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  name: NextFullMessageAsync(ulong, ulong)
+  nameWithType: MewdekoModule.NextFullMessageAsync(ulong, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(ulong, ulong)
+  nameWithType.vb: MewdekoModule.NextFullMessageAsync(ULong, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(ULong, ULong)
+  name.vb: NextFullMessageAsync(ULong, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+    name: NextFullMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+    name: NextFullMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  nameWithType: ModuleBase<ICommandContext>.ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.ReplyAsync(string, bool, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker[], Discord.Embed[], Discord.MessageFlags)
+  nameWithType.vb: ModuleBase(Of ICommandContext).ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).ReplyAsync(String, Boolean, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker(), Discord.Embed(), Discord.MessageFlags)
+  name.vb: ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  name: BeforeExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.BeforeExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).BeforeExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  name: AfterExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.AfterExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).AfterExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).AfterExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  name: AfterExecute(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.AfterExecute(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.AfterExecute(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).AfterExecute(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).AfterExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  name: OnModuleBuilding(CommandService, ModuleBuilder)
+  nameWithType: ModuleBase<ICommandContext>.OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  nameWithType.vb: ModuleBase(Of ICommandContext).OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  commentId: P:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.Context
+  name: Context
+  nameWithType: ModuleBase<ICommandContext>.Context
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.Context
+  nameWithType.vb: ModuleBase(Of ICommandContext).Context
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).Context
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Searches.Searches.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<Searches>(Searches, string)
+  nameWithType: Extensions.ThrowIfNull<Searches>(Searches, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Searches.Searches>(Mewdeko.Modules.Searches.Searches, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of Searches)(Searches, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Searches.Searches)(Mewdeko.Modules.Searches.Searches, String)
+  name.vb: ThrowIfNull(Of Searches)(Searches, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Searches,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.Searches.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.Searches.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Searches,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.Searches.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.Searches.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Discord.Commands.ModuleBase`1
+  commentId: T:Discord.Commands.ModuleBase`1
+  isExternal: true
+  name: ModuleBase<T>
+  nameWithType: ModuleBase<T>
+  fullName: Discord.Commands.ModuleBase<T>
+  nameWithType.vb: ModuleBase(Of T)
+  fullName.vb: Discord.Commands.ModuleBase(Of T)
+  name.vb: ModuleBase(Of T)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Discord.Commands
+  commentId: N:Discord.Commands
+  isExternal: true
+  name: Discord.Commands
+  nameWithType: Discord.Commands
+  fullName: Discord.Commands
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+- uid: Mewdeko.Common
+  commentId: N:Mewdeko.Common
+  href: Mewdeko.html
+  name: Mewdeko.Common
+  nameWithType: Mewdeko.Common
+  fullName: Mewdeko.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+- uid: Mewdeko.Common.MewdekoModuleBase`1
+  commentId: T:Mewdeko.Common.MewdekoModuleBase`1
+  href: Mewdeko.Common.MewdekoModuleBase-1.html
+  name: MewdekoModuleBase<TService>
+  nameWithType: MewdekoModuleBase<TService>
+  fullName: Mewdeko.Common.MewdekoModuleBase<TService>
+  nameWithType.vb: MewdekoModuleBase(Of TService)
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of TService)
+  name.vb: MewdekoModuleBase(Of TService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: <
+  - name: TService
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TService
+  - name: )
+- uid: Mewdeko.Common.MewdekoModuleBase`1.Service
+  commentId: P:Mewdeko.Common.MewdekoModuleBase`1.Service
+  href: Mewdeko.Common.MewdekoModuleBase-1.html#Mewdeko_Common_MewdekoModuleBase_1_Service
+  name: Service
+  nameWithType: MewdekoModuleBase<TService>.Service
+  fullName: Mewdeko.Common.MewdekoModuleBase<TService>.Service
+  nameWithType.vb: MewdekoModuleBase(Of TService).Service
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of TService).Service
+- uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  commentId: M:Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  nameWithType: ModuleBase<T>.ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  fullName: Discord.Commands.ModuleBase<T>.ReplyAsync(string, bool, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker[], Discord.Embed[], Discord.MessageFlags)
+  nameWithType.vb: ModuleBase(Of T).ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).ReplyAsync(String, Boolean, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker(), Discord.Embed(), Discord.MessageFlags)
+  name.vb: ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: BeforeExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<T>.BeforeExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).BeforeExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: AfterExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<T>.AfterExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).AfterExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).AfterExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: AfterExecute(CommandInfo)
+  nameWithType: ModuleBase<T>.AfterExecute(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.AfterExecute(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).AfterExecute(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).AfterExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  commentId: M:Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  isExternal: true
+  name: OnModuleBuilding(CommandService, ModuleBuilder)
+  nameWithType: ModuleBase<T>.OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName: Discord.Commands.ModuleBase<T>.OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  nameWithType.vb: ModuleBase(Of T).OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.Context
+  commentId: P:Discord.Commands.ModuleBase`1.Context
+  isExternal: true
+  name: Context
+  nameWithType: ModuleBase<T>.Context
+  fullName: Discord.Commands.ModuleBase<T>.Context
+  nameWithType.vb: ModuleBase(Of T).Context
+  fullName.vb: Discord.Commands.ModuleBase(Of T).Context
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Searches.Searches.#ctor*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.#ctor
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches__ctor_Mewdeko_Services_IBotCredentials_Mewdeko_Services_IGoogleApiService_System_Net_Http_IHttpClientFactory_Microsoft_Extensions_Caching_Memory_IMemoryCache_Mewdeko_Modules_Administration_Services_GuildTimezoneService_Fergun_Interactive_InteractiveService_MartineApiNet_MartineApi_Mewdeko_Modules_Searches_Services_ToneTagService_Mewdeko_Services_Settings_BotConfigService_NsfwSpyNS_INsfwSpy_
+  name: Searches
+  nameWithType: Searches.Searches
+  fullName: Mewdeko.Modules.Searches.Searches.Searches
+  nameWithType.vb: Searches.New
+  fullName.vb: Mewdeko.Modules.Searches.Searches.New
+  name.vb: New
+- uid: Mewdeko.Services.IBotCredentials
+  commentId: T:Mewdeko.Services.IBotCredentials
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.IBotCredentials.html
+  name: IBotCredentials
+  nameWithType: IBotCredentials
+  fullName: Mewdeko.Services.IBotCredentials
+- uid: Mewdeko.Services.IGoogleApiService
+  commentId: T:Mewdeko.Services.IGoogleApiService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.IGoogleApiService.html
+  name: IGoogleApiService
+  nameWithType: IGoogleApiService
+  fullName: Mewdeko.Services.IGoogleApiService
+- uid: System.Net.Http.IHttpClientFactory
+  commentId: T:System.Net.Http.IHttpClientFactory
+  parent: System.Net.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.net.http.ihttpclientfactory
+  name: IHttpClientFactory
+  nameWithType: IHttpClientFactory
+  fullName: System.Net.Http.IHttpClientFactory
+- uid: Microsoft.Extensions.Caching.Memory.IMemoryCache
+  commentId: T:Microsoft.Extensions.Caching.Memory.IMemoryCache
+  parent: Microsoft.Extensions.Caching.Memory
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.caching.memory.imemorycache
+  name: IMemoryCache
+  nameWithType: IMemoryCache
+  fullName: Microsoft.Extensions.Caching.Memory.IMemoryCache
+- uid: Mewdeko.Modules.Administration.Services.GuildTimezoneService
+  commentId: T:Mewdeko.Modules.Administration.Services.GuildTimezoneService
+  parent: Mewdeko.Modules.Administration.Services
+  href: Mewdeko.Modules.Administration.Services.GuildTimezoneService.html
+  name: GuildTimezoneService
+  nameWithType: GuildTimezoneService
+  fullName: Mewdeko.Modules.Administration.Services.GuildTimezoneService
+- uid: Fergun.Interactive.InteractiveService
+  commentId: T:Fergun.Interactive.InteractiveService
+  parent: Fergun.Interactive
+  isExternal: true
+  name: InteractiveService
+  nameWithType: InteractiveService
+  fullName: Fergun.Interactive.InteractiveService
+- uid: MartineApiNet.MartineApi
+  commentId: T:MartineApiNet.MartineApi
+  parent: MartineApiNet
+  isExternal: true
+  name: MartineApi
+  nameWithType: MartineApi
+  fullName: MartineApiNet.MartineApi
+- uid: Mewdeko.Modules.Searches.Services.ToneTagService
+  commentId: T:Mewdeko.Modules.Searches.Services.ToneTagService
+  parent: Mewdeko.Modules.Searches.Services
+  href: Mewdeko.Modules.Searches.Services.ToneTagService.html
+  name: ToneTagService
+  nameWithType: ToneTagService
+  fullName: Mewdeko.Modules.Searches.Services.ToneTagService
+- uid: Mewdeko.Services.Settings.BotConfigService
+  commentId: T:Mewdeko.Services.Settings.BotConfigService
+  parent: Mewdeko.Services.Settings
+  href: Mewdeko.Services.Settings.BotConfigService.html
+  name: BotConfigService
+  nameWithType: BotConfigService
+  fullName: Mewdeko.Services.Settings.BotConfigService
+- uid: NsfwSpyNS.INsfwSpy
+  commentId: T:NsfwSpyNS.INsfwSpy
+  parent: NsfwSpyNS
+  isExternal: true
+  name: INsfwSpy
+  nameWithType: INsfwSpy
+  fullName: NsfwSpyNS.INsfwSpy
+- uid: Mewdeko.Services
+  commentId: N:Mewdeko.Services
+  href: Mewdeko.html
+  name: Mewdeko.Services
+  nameWithType: Mewdeko.Services
+  fullName: Mewdeko.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+- uid: System.Net.Http
+  commentId: N:System.Net.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Net.Http
+  nameWithType: System.Net.Http
+  fullName: System.Net.Http
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http
+- uid: Microsoft.Extensions.Caching.Memory
+  commentId: N:Microsoft.Extensions.Caching.Memory
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft
+  name: Microsoft.Extensions.Caching.Memory
+  nameWithType: Microsoft.Extensions.Caching.Memory
+  fullName: Microsoft.Extensions.Caching.Memory
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.Extensions
+    name: Extensions
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions
+  - name: .
+  - uid: Microsoft.Extensions.Caching
+    name: Caching
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.caching
+  - name: .
+  - uid: Microsoft.Extensions.Caching.Memory
+    name: Memory
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.caching.memory
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.Extensions
+    name: Extensions
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions
+  - name: .
+  - uid: Microsoft.Extensions.Caching
+    name: Caching
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.caching
+  - name: .
+  - uid: Microsoft.Extensions.Caching.Memory
+    name: Memory
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.caching.memory
+- uid: Mewdeko.Modules.Administration.Services
+  commentId: N:Mewdeko.Modules.Administration.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Administration.Services
+  nameWithType: Mewdeko.Modules.Administration.Services
+  fullName: Mewdeko.Modules.Administration.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services
+    name: Services
+    href: Mewdeko.Modules.Administration.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services
+    name: Services
+    href: Mewdeko.Modules.Administration.Services.html
+- uid: Fergun.Interactive
+  commentId: N:Fergun.Interactive
+  isExternal: true
+  name: Fergun.Interactive
+  nameWithType: Fergun.Interactive
+  fullName: Fergun.Interactive
+  spec.csharp:
+  - uid: Fergun
+    name: Fergun
+    isExternal: true
+  - name: .
+  - uid: Fergun.Interactive
+    name: Interactive
+    isExternal: true
+  spec.vb:
+  - uid: Fergun
+    name: Fergun
+    isExternal: true
+  - name: .
+  - uid: Fergun.Interactive
+    name: Interactive
+    isExternal: true
+- uid: MartineApiNet
+  commentId: N:MartineApiNet
+  isExternal: true
+  name: MartineApiNet
+  nameWithType: MartineApiNet
+  fullName: MartineApiNet
+- uid: Mewdeko.Modules.Searches.Services
+  commentId: N:Mewdeko.Modules.Searches.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Services
+  nameWithType: Mewdeko.Modules.Searches.Services
+  fullName: Mewdeko.Modules.Searches.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services
+    name: Services
+    href: Mewdeko.Modules.Searches.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services
+    name: Services
+    href: Mewdeko.Modules.Searches.Services.html
+- uid: Mewdeko.Services.Settings
+  commentId: N:Mewdeko.Services.Settings
+  href: Mewdeko.html
+  name: Mewdeko.Services.Settings
+  nameWithType: Mewdeko.Services.Settings
+  fullName: Mewdeko.Services.Settings
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+- uid: NsfwSpyNS
+  commentId: N:NsfwSpyNS
+  isExternal: true
+  name: NsfwSpyNS
+  nameWithType: NsfwSpyNS
+  fullName: NsfwSpyNS
+- uid: Mewdeko.Modules.Searches.Searches.Meme*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.Meme
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_Meme
+  name: Meme
+  nameWithType: Searches.Meme
+  fullName: Mewdeko.Modules.Searches.Searches.Meme
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Modules.Searches.Searches.RandomReddit*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.RandomReddit
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_RandomReddit_System_String_
+  name: RandomReddit
+  nameWithType: Searches.RandomReddit
+  fullName: Mewdeko.Modules.Searches.Searches.RandomReddit
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Modules.Searches.Searches.Rip*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.Rip
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_Rip_Discord_IGuildUser_
+  name: Rip
+  nameWithType: Searches.Rip
+  fullName: Mewdeko.Modules.Searches.Searches.Rip
+- uid: Discord.IGuildUser
+  commentId: T:Discord.IGuildUser
+  parent: Discord
+  isExternal: true
+  name: IGuildUser
+  nameWithType: IGuildUser
+  fullName: Discord.IGuildUser
+- uid: Discord
+  commentId: N:Discord
+  isExternal: true
+  name: Discord
+  nameWithType: Discord
+  fullName: Discord
+- uid: Mewdeko.Modules.Searches.Searches.Weather*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.Weather
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_Weather_System_String_
+  name: Weather
+  nameWithType: Searches.Weather
+  fullName: Mewdeko.Modules.Searches.Searches.Weather
+- uid: Mewdeko.Modules.Searches.Searches.Time*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.Time
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_Time_System_String_
+  name: Time
+  nameWithType: Searches.Time
+  fullName: Mewdeko.Modules.Searches.Searches.Time
+- uid: Mewdeko.Modules.Searches.Searches.Youtube*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.Youtube
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_Youtube_System_String_
+  name: Youtube
+  nameWithType: Searches.Youtube
+  fullName: Mewdeko.Modules.Searches.Searches.Youtube
+- uid: Mewdeko.Modules.Searches.Searches.Movie*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.Movie
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_Movie_System_String_
+  name: Movie
+  nameWithType: Searches.Movie
+  fullName: Mewdeko.Modules.Searches.Searches.Movie
+- uid: Mewdeko.Modules.Searches.Searches.RandomCat*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.RandomCat
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_RandomCat
+  name: RandomCat
+  nameWithType: Searches.RandomCat
+  fullName: Mewdeko.Modules.Searches.Searches.RandomCat
+- uid: Mewdeko.Modules.Searches.Searches.RandomDog*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.RandomDog
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_RandomDog
+  name: RandomDog
+  nameWithType: Searches.RandomDog
+  fullName: Mewdeko.Modules.Searches.Searches.RandomDog
+- uid: Mewdeko.Modules.Searches.Searches.RandomFood*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.RandomFood
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_RandomFood
+  name: RandomFood
+  nameWithType: Searches.RandomFood
+  fullName: Mewdeko.Modules.Searches.Searches.RandomFood
+- uid: Mewdeko.Modules.Searches.Searches.RandomBird*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.RandomBird
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_RandomBird
+  name: RandomBird
+  nameWithType: Searches.RandomBird
+  fullName: Mewdeko.Modules.Searches.Searches.RandomBird
+- uid: Mewdeko.Modules.Searches.Searches.Image*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.Image
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_Image_System_String_
+  name: Image
+  nameWithType: Searches.Image
+  fullName: Mewdeko.Modules.Searches.Searches.Image
+- uid: Mewdeko.Modules.Searches.Searches.Lmgtfy*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.Lmgtfy
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_Lmgtfy_System_String_
+  name: Lmgtfy
+  nameWithType: Searches.Lmgtfy
+  fullName: Mewdeko.Modules.Searches.Searches.Lmgtfy
+- uid: Mewdeko.Modules.Searches.Searches.Shorten*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.Shorten
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_Shorten_System_String_
+  name: Shorten
+  nameWithType: Searches.Shorten
+  fullName: Mewdeko.Modules.Searches.Searches.Shorten
+- uid: Mewdeko.Modules.Searches.Searches.Google*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.Google
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_Google_System_String_
+  name: Google
+  nameWithType: Searches.Google
+  fullName: Mewdeko.Modules.Searches.Searches.Google
+- uid: Mewdeko.Modules.Searches.Searches.MagicTheGathering*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.MagicTheGathering
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_MagicTheGathering_System_String_
+  name: MagicTheGathering
+  nameWithType: Searches.MagicTheGathering
+  fullName: Mewdeko.Modules.Searches.Searches.MagicTheGathering
+- uid: Mewdeko.Modules.Searches.Searches.Hearthstone*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.Hearthstone
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_Hearthstone_System_String_
+  name: Hearthstone
+  nameWithType: Searches.Hearthstone
+  fullName: Mewdeko.Modules.Searches.Searches.Hearthstone
+- uid: Mewdeko.Modules.Searches.Searches.UrbanDict*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.UrbanDict
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_UrbanDict_System_String_
+  name: UrbanDict
+  nameWithType: Searches.UrbanDict
+  fullName: Mewdeko.Modules.Searches.Searches.UrbanDict
+- uid: Mewdeko.Modules.Searches.Searches.Define*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.Define
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_Define_System_String_
+  name: Define
+  nameWithType: Searches.Define
+  fullName: Mewdeko.Modules.Searches.Searches.Define
+- uid: Mewdeko.Modules.Searches.Searches.Catfact*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.Catfact
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_Catfact
+  name: Catfact
+  nameWithType: Searches.Catfact
+  fullName: Mewdeko.Modules.Searches.Searches.Catfact
+- uid: Mewdeko.Modules.Searches.Searches.Revav*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.Revav
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_Revav_Discord_IGuildUser_
+  name: Revav
+  nameWithType: Searches.Revav
+  fullName: Mewdeko.Modules.Searches.Searches.Revav
+- uid: Mewdeko.Modules.Searches.Searches.Revimg*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.Revimg
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_Revimg_System_String_
+  name: Revimg
+  nameWithType: Searches.Revimg
+  fullName: Mewdeko.Modules.Searches.Searches.Revimg
+- uid: Mewdeko.Modules.Searches.Searches.Safebooru*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.Safebooru
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_Safebooru_System_String_
+  name: Safebooru
+  nameWithType: Searches.Safebooru
+  fullName: Mewdeko.Modules.Searches.Searches.Safebooru
+- uid: Mewdeko.Modules.Searches.Searches.Wiki*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.Wiki
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_Wiki_System_String_
+  name: Wiki
+  nameWithType: Searches.Wiki
+  fullName: Mewdeko.Modules.Searches.Searches.Wiki
+- uid: Mewdeko.Modules.Searches.Searches.Color*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.Color
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_Color_SkiaSharp_SKColor___
+  name: Color
+  nameWithType: Searches.Color
+  fullName: Mewdeko.Modules.Searches.Searches.Color
+- uid: SkiaSharp.SKColor[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/skiasharp.skcolor
+  name: SKColor[]
+  nameWithType: SKColor[]
+  fullName: SkiaSharp.SKColor[]
+  nameWithType.vb: SKColor()
+  fullName.vb: SkiaSharp.SKColor()
+  name.vb: SKColor()
+  spec.csharp:
+  - uid: SkiaSharp.SKColor
+    name: SKColor
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/skiasharp.skcolor
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: SkiaSharp.SKColor
+    name: SKColor
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/skiasharp.skcolor
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Searches.Searches.Wikia*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.Wikia
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_Wikia_System_String_System_String_
+  name: Wikia
+  nameWithType: Searches.Wikia
+  fullName: Mewdeko.Modules.Searches.Searches.Wikia
+- uid: Mewdeko.Modules.Searches.Searches.Bible*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.Bible
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_Bible_System_String_System_String_
+  name: Bible
+  nameWithType: Searches.Bible
+  fullName: Mewdeko.Modules.Searches.Searches.Bible
+- uid: Mewdeko.Modules.Searches.Searches.Steam*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.Steam
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_Steam_System_String_
+  name: Steam
+  nameWithType: Searches.Steam
+  fullName: Mewdeko.Modules.Searches.Searches.Steam
+- uid: Mewdeko.Modules.Searches.Searches.ResolveToneTags*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.ResolveToneTags
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_ResolveToneTags_System_String_
+  name: ResolveToneTags
+  nameWithType: Searches.ResolveToneTags
+  fullName: Mewdeko.Modules.Searches.Searches.ResolveToneTags
+- uid: Mewdeko.Modules.Searches.Searches.ValidateQuery*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.ValidateQuery
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_ValidateQuery_Discord_IMessageChannel_System_String_
+  name: ValidateQuery
+  nameWithType: Searches.ValidateQuery
+  fullName: Mewdeko.Modules.Searches.Searches.ValidateQuery
+- uid: Discord.IMessageChannel
+  commentId: T:Discord.IMessageChannel
+  parent: Discord
+  isExternal: true
+  name: IMessageChannel
+  nameWithType: IMessageChannel
+  fullName: Discord.IMessageChannel
+- uid: System.Threading.Tasks.Task{System.Boolean}
+  commentId: T:System.Threading.Tasks.Task{System.Boolean}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<bool>
+  nameWithType: Task<bool>
+  fullName: System.Threading.Tasks.Task<bool>
+  nameWithType.vb: Task(Of Boolean)
+  fullName.vb: System.Threading.Tasks.Task(Of Boolean)
+  name.vb: Task(Of Boolean)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Mewdeko.Modules.Searches.Searches.TestLocalize*
+  commentId: Overload:Mewdeko.Modules.Searches.Searches.TestLocalize
+  href: Mewdeko.Modules.Searches.Searches.html#Mewdeko_Modules_Searches_Searches_TestLocalize_System_String_
+  name: TestLocalize
+  nameWithType: Searches.TestLocalize
+  fullName: Mewdeko.Modules.Searches.Searches.TestLocalize

@@ -1,0 +1,201 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Models.PrimaryPermissionType
+  commentId: T:Mewdeko.Database.Models.PrimaryPermissionType
+  id: PrimaryPermissionType
+  parent: Mewdeko.Database.Models
+  children:
+  - Mewdeko.Database.Models.PrimaryPermissionType.Category
+  - Mewdeko.Database.Models.PrimaryPermissionType.Channel
+  - Mewdeko.Database.Models.PrimaryPermissionType.Role
+  - Mewdeko.Database.Models.PrimaryPermissionType.Server
+  - Mewdeko.Database.Models.PrimaryPermissionType.User
+  langs:
+  - csharp
+  - vb
+  name: PrimaryPermissionType
+  nameWithType: PrimaryPermissionType
+  fullName: Mewdeko.Database.Models.PrimaryPermissionType
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Permission.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: PrimaryPermissionType
+    path: src/Mewdeko.Database/Models/Permission.cs
+    startLine: 59
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public enum PrimaryPermissionType
+    content.vb: Public Enum PrimaryPermissionType
+- uid: Mewdeko.Database.Models.PrimaryPermissionType.User
+  commentId: F:Mewdeko.Database.Models.PrimaryPermissionType.User
+  id: User
+  parent: Mewdeko.Database.Models.PrimaryPermissionType
+  langs:
+  - csharp
+  - vb
+  name: User
+  nameWithType: PrimaryPermissionType.User
+  fullName: Mewdeko.Database.Models.PrimaryPermissionType.User
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Permission.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: User
+    path: src/Mewdeko.Database/Models/Permission.cs
+    startLine: 61
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: User = 0
+    return:
+      type: Mewdeko.Database.Models.PrimaryPermissionType
+- uid: Mewdeko.Database.Models.PrimaryPermissionType.Channel
+  commentId: F:Mewdeko.Database.Models.PrimaryPermissionType.Channel
+  id: Channel
+  parent: Mewdeko.Database.Models.PrimaryPermissionType
+  langs:
+  - csharp
+  - vb
+  name: Channel
+  nameWithType: PrimaryPermissionType.Channel
+  fullName: Mewdeko.Database.Models.PrimaryPermissionType.Channel
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Permission.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Channel
+    path: src/Mewdeko.Database/Models/Permission.cs
+    startLine: 62
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Channel = 1
+    return:
+      type: Mewdeko.Database.Models.PrimaryPermissionType
+- uid: Mewdeko.Database.Models.PrimaryPermissionType.Role
+  commentId: F:Mewdeko.Database.Models.PrimaryPermissionType.Role
+  id: Role
+  parent: Mewdeko.Database.Models.PrimaryPermissionType
+  langs:
+  - csharp
+  - vb
+  name: Role
+  nameWithType: PrimaryPermissionType.Role
+  fullName: Mewdeko.Database.Models.PrimaryPermissionType.Role
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Permission.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Role
+    path: src/Mewdeko.Database/Models/Permission.cs
+    startLine: 63
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Role = 2
+    return:
+      type: Mewdeko.Database.Models.PrimaryPermissionType
+- uid: Mewdeko.Database.Models.PrimaryPermissionType.Server
+  commentId: F:Mewdeko.Database.Models.PrimaryPermissionType.Server
+  id: Server
+  parent: Mewdeko.Database.Models.PrimaryPermissionType
+  langs:
+  - csharp
+  - vb
+  name: Server
+  nameWithType: PrimaryPermissionType.Server
+  fullName: Mewdeko.Database.Models.PrimaryPermissionType.Server
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Permission.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Server
+    path: src/Mewdeko.Database/Models/Permission.cs
+    startLine: 64
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Server = 3
+    return:
+      type: Mewdeko.Database.Models.PrimaryPermissionType
+- uid: Mewdeko.Database.Models.PrimaryPermissionType.Category
+  commentId: F:Mewdeko.Database.Models.PrimaryPermissionType.Category
+  id: Category
+  parent: Mewdeko.Database.Models.PrimaryPermissionType
+  langs:
+  - csharp
+  - vb
+  name: Category
+  nameWithType: PrimaryPermissionType.Category
+  fullName: Mewdeko.Database.Models.PrimaryPermissionType.Category
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Permission.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Category
+    path: src/Mewdeko.Database/Models/Permission.cs
+    startLine: 65
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Category = 4
+    return:
+      type: Mewdeko.Database.Models.PrimaryPermissionType
+references:
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: Mewdeko.Database.Models.PrimaryPermissionType
+  commentId: T:Mewdeko.Database.Models.PrimaryPermissionType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.PrimaryPermissionType.html
+  name: PrimaryPermissionType
+  nameWithType: PrimaryPermissionType
+  fullName: Mewdeko.Database.Models.PrimaryPermissionType

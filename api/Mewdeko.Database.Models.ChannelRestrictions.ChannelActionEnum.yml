@@ -1,0 +1,190 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
+  commentId: T:Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
+  id: ChannelRestrictions.ChannelActionEnum
+  parent: Mewdeko.Database.Models
+  children:
+  - Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.Ban
+  - Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.Delete
+  - Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.Timeout
+  - Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.Warn
+  langs:
+  - csharp
+  - vb
+  name: ChannelRestrictions.ChannelActionEnum
+  nameWithType: ChannelRestrictions.ChannelActionEnum
+  fullName: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ImageOnlyChannels.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChannelActionEnum
+    path: src/Mewdeko.Database/Models/ImageOnlyChannels.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public enum ChannelRestrictions.ChannelActionEnum
+    content.vb: Public Enum ChannelRestrictions.ChannelActionEnum
+- uid: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.Delete
+  commentId: F:Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.Delete
+  id: Delete
+  parent: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
+  langs:
+  - csharp
+  - vb
+  name: Delete
+  nameWithType: ChannelRestrictions.ChannelActionEnum.Delete
+  fullName: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.Delete
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ImageOnlyChannels.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Delete
+    path: src/Mewdeko.Database/Models/ImageOnlyChannels.cs
+    startLine: 14
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Delete = 0
+    return:
+      type: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
+- uid: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.Warn
+  commentId: F:Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.Warn
+  id: Warn
+  parent: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
+  langs:
+  - csharp
+  - vb
+  name: Warn
+  nameWithType: ChannelRestrictions.ChannelActionEnum.Warn
+  fullName: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.Warn
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ImageOnlyChannels.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Warn
+    path: src/Mewdeko.Database/Models/ImageOnlyChannels.cs
+    startLine: 15
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Warn = 1
+    return:
+      type: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
+- uid: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.Timeout
+  commentId: F:Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.Timeout
+  id: Timeout
+  parent: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
+  langs:
+  - csharp
+  - vb
+  name: Timeout
+  nameWithType: ChannelRestrictions.ChannelActionEnum.Timeout
+  fullName: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.Timeout
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ImageOnlyChannels.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Timeout
+    path: src/Mewdeko.Database/Models/ImageOnlyChannels.cs
+    startLine: 16
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Timeout = 2
+    return:
+      type: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
+- uid: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.Ban
+  commentId: F:Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.Ban
+  id: Ban
+  parent: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
+  langs:
+  - csharp
+  - vb
+  name: Ban
+  nameWithType: ChannelRestrictions.ChannelActionEnum.Ban
+  fullName: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.Ban
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/ImageOnlyChannels.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Ban
+    path: src/Mewdeko.Database/Models/ImageOnlyChannels.cs
+    startLine: 17
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Ban = 3
+    return:
+      type: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
+references:
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
+  commentId: T:Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.ChannelRestrictions.html
+  name: ChannelRestrictions.ChannelActionEnum
+  nameWithType: ChannelRestrictions.ChannelActionEnum
+  fullName: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
+  spec.csharp:
+  - uid: Mewdeko.Database.Models.ChannelRestrictions
+    name: ChannelRestrictions
+    href: Mewdeko.Database.Models.ChannelRestrictions.html
+  - name: .
+  - uid: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
+    name: ChannelActionEnum
+    href: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.html
+  spec.vb:
+  - uid: Mewdeko.Database.Models.ChannelRestrictions
+    name: ChannelRestrictions
+    href: Mewdeko.Database.Models.ChannelRestrictions.html
+  - name: .
+  - uid: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum
+    name: ChannelActionEnum
+    href: Mewdeko.Database.Models.ChannelRestrictions.ChannelActionEnum.html

@@ -1,0 +1,582 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Services.strings.IBotStrings
+  commentId: T:Mewdeko.Services.strings.IBotStrings
+  id: IBotStrings
+  parent: Mewdeko.Services.strings
+  children:
+  - Mewdeko.Services.strings.IBotStrings.GetCommandStrings(System.String,System.Globalization.CultureInfo)
+  - Mewdeko.Services.strings.IBotStrings.GetCommandStrings(System.String,System.Nullable{System.UInt64})
+  - Mewdeko.Services.strings.IBotStrings.GetText(System.String,System.Globalization.CultureInfo,System.Object[])
+  - Mewdeko.Services.strings.IBotStrings.GetText(System.String,System.Nullable{System.UInt64},System.Object[])
+  - Mewdeko.Services.strings.IBotStrings.Reload
+  langs:
+  - csharp
+  - vb
+  name: IBotStrings
+  nameWithType: IBotStrings
+  fullName: Mewdeko.Services.strings.IBotStrings
+  type: Interface
+  source:
+    remote:
+      path: src/Mewdeko/Services/strings/IBotStrings.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IBotStrings
+    path: src/Mewdeko/Services/strings/IBotStrings.cs
+    startLine: 8
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.strings
+  summary: Defines methods to retrieve and reload bot strings.
+  example: []
+  syntax:
+    content: public interface IBotStrings
+    content.vb: Public Interface IBotStrings
+  extensionMethods:
+  - Mewdeko.Services.strings.IBotStrings.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Services.strings.IBotStrings.GetText(System.String,System.Nullable{System.UInt64},System.Object[])
+  commentId: M:Mewdeko.Services.strings.IBotStrings.GetText(System.String,System.Nullable{System.UInt64},System.Object[])
+  id: GetText(System.String,System.Nullable{System.UInt64},System.Object[])
+  parent: Mewdeko.Services.strings.IBotStrings
+  langs:
+  - csharp
+  - vb
+  name: GetText(string?, ulong?, params object?[])
+  nameWithType: IBotStrings.GetText(string?, ulong?, params object?[])
+  fullName: Mewdeko.Services.strings.IBotStrings.GetText(string?, ulong?, params object?[])
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/strings/IBotStrings.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetText
+    path: src/Mewdeko/Services/strings/IBotStrings.cs
+    startLine: 17
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.strings
+  summary: Gets the text associated with the specified key.
+  example: []
+  syntax:
+    content: string? GetText(string? key, ulong? guildId = null, params object?[] data)
+    parameters:
+    - id: key
+      type: System.String
+      description: The key of the text to retrieve.
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild (server) if the text is specific to a guild. Default is null.
+    - id: data
+      type: System.Object[]
+      description: Additional data to format the text.
+    return:
+      type: System.String
+      description: The retrieved text.
+    content.vb: Function GetText(key As String, guildId As ULong? = Nothing, ParamArray data As Object()) As String
+  overload: Mewdeko.Services.strings.IBotStrings.GetText*
+  nameWithType.vb: IBotStrings.GetText(String, ULong?, ParamArray Object())
+  fullName.vb: Mewdeko.Services.strings.IBotStrings.GetText(String, ULong?, ParamArray Object())
+  name.vb: GetText(String, ULong?, ParamArray Object())
+- uid: Mewdeko.Services.strings.IBotStrings.GetText(System.String,System.Globalization.CultureInfo,System.Object[])
+  commentId: M:Mewdeko.Services.strings.IBotStrings.GetText(System.String,System.Globalization.CultureInfo,System.Object[])
+  id: GetText(System.String,System.Globalization.CultureInfo,System.Object[])
+  parent: Mewdeko.Services.strings.IBotStrings
+  langs:
+  - csharp
+  - vb
+  name: GetText(string?, CultureInfo?, params object?[])
+  nameWithType: IBotStrings.GetText(string?, CultureInfo?, params object?[])
+  fullName: Mewdeko.Services.strings.IBotStrings.GetText(string?, System.Globalization.CultureInfo?, params object?[])
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/strings/IBotStrings.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetText
+    path: src/Mewdeko/Services/strings/IBotStrings.cs
+    startLine: 26
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.strings
+  summary: Gets the text associated with the specified key and culture.
+  example: []
+  syntax:
+    content: string? GetText(string? key, CultureInfo? locale, params object?[] data)
+    parameters:
+    - id: key
+      type: System.String
+      description: The key of the text to retrieve.
+    - id: locale
+      type: System.Globalization.CultureInfo
+      description: The culture info specifying the locale of the text. Default is null.
+    - id: data
+      type: System.Object[]
+      description: Additional data to format the text.
+    return:
+      type: System.String
+      description: The retrieved text.
+    content.vb: Function GetText(key As String, locale As CultureInfo, ParamArray data As Object()) As String
+  overload: Mewdeko.Services.strings.IBotStrings.GetText*
+  nameWithType.vb: IBotStrings.GetText(String, CultureInfo, ParamArray Object())
+  fullName.vb: Mewdeko.Services.strings.IBotStrings.GetText(String, System.Globalization.CultureInfo, ParamArray Object())
+  name.vb: GetText(String, CultureInfo, ParamArray Object())
+- uid: Mewdeko.Services.strings.IBotStrings.Reload
+  commentId: M:Mewdeko.Services.strings.IBotStrings.Reload
+  id: Reload
+  parent: Mewdeko.Services.strings.IBotStrings
+  langs:
+  - csharp
+  - vb
+  name: Reload()
+  nameWithType: IBotStrings.Reload()
+  fullName: Mewdeko.Services.strings.IBotStrings.Reload()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/strings/IBotStrings.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Reload
+    path: src/Mewdeko/Services/strings/IBotStrings.cs
+    startLine: 31
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.strings
+  summary: Reloads the bot strings.
+  example: []
+  syntax:
+    content: void Reload()
+    content.vb: Sub Reload()
+  overload: Mewdeko.Services.strings.IBotStrings.Reload*
+- uid: Mewdeko.Services.strings.IBotStrings.GetCommandStrings(System.String,System.Nullable{System.UInt64})
+  commentId: M:Mewdeko.Services.strings.IBotStrings.GetCommandStrings(System.String,System.Nullable{System.UInt64})
+  id: GetCommandStrings(System.String,System.Nullable{System.UInt64})
+  parent: Mewdeko.Services.strings.IBotStrings
+  langs:
+  - csharp
+  - vb
+  name: GetCommandStrings(string, ulong?)
+  nameWithType: IBotStrings.GetCommandStrings(string, ulong?)
+  fullName: Mewdeko.Services.strings.IBotStrings.GetCommandStrings(string, ulong?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/strings/IBotStrings.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetCommandStrings
+    path: src/Mewdeko/Services/strings/IBotStrings.cs
+    startLine: 39
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.strings
+  summary: Gets the command strings associated with the specified command name.
+  example: []
+  syntax:
+    content: CommandStrings GetCommandStrings(string commandName, ulong? guildId = null)
+    parameters:
+    - id: commandName
+      type: System.String
+      description: The name of the command.
+    - id: guildId
+      type: System.Nullable{System.UInt64}
+      description: The ID of the guild (server) if the command strings are specific to a guild. Default is null.
+    return:
+      type: Mewdeko.Services.strings.impl.CommandStrings
+      description: The command strings.
+    content.vb: Function GetCommandStrings(commandName As String, guildId As ULong? = Nothing) As CommandStrings
+  overload: Mewdeko.Services.strings.IBotStrings.GetCommandStrings*
+  nameWithType.vb: IBotStrings.GetCommandStrings(String, ULong?)
+  fullName.vb: Mewdeko.Services.strings.IBotStrings.GetCommandStrings(String, ULong?)
+  name.vb: GetCommandStrings(String, ULong?)
+- uid: Mewdeko.Services.strings.IBotStrings.GetCommandStrings(System.String,System.Globalization.CultureInfo)
+  commentId: M:Mewdeko.Services.strings.IBotStrings.GetCommandStrings(System.String,System.Globalization.CultureInfo)
+  id: GetCommandStrings(System.String,System.Globalization.CultureInfo)
+  parent: Mewdeko.Services.strings.IBotStrings
+  langs:
+  - csharp
+  - vb
+  name: GetCommandStrings(string, CultureInfo?)
+  nameWithType: IBotStrings.GetCommandStrings(string, CultureInfo?)
+  fullName: Mewdeko.Services.strings.IBotStrings.GetCommandStrings(string, System.Globalization.CultureInfo?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/strings/IBotStrings.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetCommandStrings
+    path: src/Mewdeko/Services/strings/IBotStrings.cs
+    startLine: 47
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.strings
+  summary: Gets the command strings associated with the specified command name and culture.
+  example: []
+  syntax:
+    content: CommandStrings GetCommandStrings(string commandName, CultureInfo? cultureInfo)
+    parameters:
+    - id: commandName
+      type: System.String
+      description: The name of the command.
+    - id: cultureInfo
+      type: System.Globalization.CultureInfo
+      description: The culture info specifying the locale of the command strings. Default is null.
+    return:
+      type: Mewdeko.Services.strings.impl.CommandStrings
+      description: The command strings.
+    content.vb: Function GetCommandStrings(commandName As String, cultureInfo As CultureInfo) As CommandStrings
+  overload: Mewdeko.Services.strings.IBotStrings.GetCommandStrings*
+  nameWithType.vb: IBotStrings.GetCommandStrings(String, CultureInfo)
+  fullName.vb: Mewdeko.Services.strings.IBotStrings.GetCommandStrings(String, System.Globalization.CultureInfo)
+  name.vb: GetCommandStrings(String, CultureInfo)
+references:
+- uid: Mewdeko.Services.strings
+  commentId: N:Mewdeko.Services.strings
+  href: Mewdeko.html
+  name: Mewdeko.Services.strings
+  nameWithType: Mewdeko.Services.strings
+  fullName: Mewdeko.Services.strings
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.strings
+    name: strings
+    href: Mewdeko.Services.strings.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.strings
+    name: strings
+    href: Mewdeko.Services.strings.html
+- uid: Mewdeko.Services.strings.IBotStrings.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<IBotStrings>(IBotStrings, string)
+  nameWithType: Extensions.ThrowIfNull<IBotStrings>(IBotStrings, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Services.strings.IBotStrings>(Mewdeko.Services.strings.IBotStrings, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of IBotStrings)(IBotStrings, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Services.strings.IBotStrings)(Mewdeko.Services.strings.IBotStrings, String)
+  name.vb: ThrowIfNull(Of IBotStrings)(IBotStrings, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Services.strings.IBotStrings,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Services.strings.IBotStrings
+    name: IBotStrings
+    href: Mewdeko.Services.strings.IBotStrings.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Services.strings.IBotStrings
+    name: IBotStrings
+    href: Mewdeko.Services.strings.IBotStrings.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Services.strings.IBotStrings,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Services.strings.IBotStrings
+    name: IBotStrings
+    href: Mewdeko.Services.strings.IBotStrings.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Services.strings.IBotStrings
+    name: IBotStrings
+    href: Mewdeko.Services.strings.IBotStrings.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Services.strings.IBotStrings.GetText*
+  commentId: Overload:Mewdeko.Services.strings.IBotStrings.GetText
+  href: Mewdeko.Services.strings.IBotStrings.html#Mewdeko_Services_strings_IBotStrings_GetText_System_String_System_Nullable_System_UInt64__System_Object___
+  name: GetText
+  nameWithType: IBotStrings.GetText
+  fullName: Mewdeko.Services.strings.IBotStrings.GetText
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Nullable{System.UInt64}
+  commentId: T:System.Nullable{System.UInt64}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong?
+  nameWithType: ulong?
+  fullName: ulong?
+  nameWithType.vb: ULong?
+  fullName.vb: ULong?
+  name.vb: ULong?
+  spec.csharp:
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+  spec.vb:
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '?'
+- uid: System.Object[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object[]
+  nameWithType: object[]
+  fullName: object[]
+  nameWithType.vb: Object()
+  fullName.vb: Object()
+  name.vb: Object()
+  spec.csharp:
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Globalization.CultureInfo
+  commentId: T:System.Globalization.CultureInfo
+  parent: System.Globalization
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.globalization.cultureinfo
+  name: CultureInfo
+  nameWithType: CultureInfo
+  fullName: System.Globalization.CultureInfo
+- uid: System.Globalization
+  commentId: N:System.Globalization
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Globalization
+  nameWithType: System.Globalization
+  fullName: System.Globalization
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Globalization
+    name: Globalization
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.globalization
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Globalization
+    name: Globalization
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.globalization
+- uid: Mewdeko.Services.strings.IBotStrings.Reload*
+  commentId: Overload:Mewdeko.Services.strings.IBotStrings.Reload
+  href: Mewdeko.Services.strings.IBotStrings.html#Mewdeko_Services_strings_IBotStrings_Reload
+  name: Reload
+  nameWithType: IBotStrings.Reload
+  fullName: Mewdeko.Services.strings.IBotStrings.Reload
+- uid: Mewdeko.Services.strings.IBotStrings.GetCommandStrings*
+  commentId: Overload:Mewdeko.Services.strings.IBotStrings.GetCommandStrings
+  href: Mewdeko.Services.strings.IBotStrings.html#Mewdeko_Services_strings_IBotStrings_GetCommandStrings_System_String_System_Nullable_System_UInt64__
+  name: GetCommandStrings
+  nameWithType: IBotStrings.GetCommandStrings
+  fullName: Mewdeko.Services.strings.IBotStrings.GetCommandStrings
+- uid: Mewdeko.Services.strings.impl.CommandStrings
+  commentId: T:Mewdeko.Services.strings.impl.CommandStrings
+  parent: Mewdeko.Services.strings.impl
+  href: Mewdeko.Services.strings.impl.CommandStrings.html
+  name: CommandStrings
+  nameWithType: CommandStrings
+  fullName: Mewdeko.Services.strings.impl.CommandStrings
+- uid: Mewdeko.Services.strings.impl
+  commentId: N:Mewdeko.Services.strings.impl
+  href: Mewdeko.html
+  name: Mewdeko.Services.strings.impl
+  nameWithType: Mewdeko.Services.strings.impl
+  fullName: Mewdeko.Services.strings.impl
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.strings
+    name: strings
+    href: Mewdeko.Services.strings.html
+  - name: .
+  - uid: Mewdeko.Services.strings.impl
+    name: impl
+    href: Mewdeko.Services.strings.impl.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.strings
+    name: strings
+    href: Mewdeko.Services.strings.html
+  - name: .
+  - uid: Mewdeko.Services.strings.impl
+    name: impl
+    href: Mewdeko.Services.strings.impl.html

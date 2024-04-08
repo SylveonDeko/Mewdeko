@@ -1,0 +1,567 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Services.Settings.IConfigService
+  commentId: T:Mewdeko.Services.Settings.IConfigService
+  id: IConfigService
+  parent: Mewdeko.Services.Settings
+  children:
+  - Mewdeko.Services.Settings.IConfigService.GetComment(System.String)
+  - Mewdeko.Services.Settings.IConfigService.GetSettableProps
+  - Mewdeko.Services.Settings.IConfigService.GetSetting(System.String)
+  - Mewdeko.Services.Settings.IConfigService.Name
+  - Mewdeko.Services.Settings.IConfigService.Reload
+  - Mewdeko.Services.Settings.IConfigService.SetSetting(System.String,System.String)
+  langs:
+  - csharp
+  - vb
+  name: IConfigService
+  nameWithType: IConfigService
+  fullName: Mewdeko.Services.Settings.IConfigService
+  type: Interface
+  source:
+    remote:
+      path: src/Mewdeko/Services/Settings/IConfigService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IConfigService
+    path: src/Mewdeko/Services/Settings/IConfigService.cs
+    startLine: 5
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Settings
+  summary: Interface that all services which deal with configs should implement
+  example: []
+  syntax:
+    content: public interface IConfigService
+    content.vb: Public Interface IConfigService
+  extensionMethods:
+  - Mewdeko.Services.Settings.IConfigService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Services.Settings.IConfigService.Name
+  commentId: P:Mewdeko.Services.Settings.IConfigService.Name
+  id: Name
+  parent: Mewdeko.Services.Settings.IConfigService
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: IConfigService.Name
+  fullName: Mewdeko.Services.Settings.IConfigService.Name
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Services/Settings/IConfigService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Name
+    path: src/Mewdeko/Services/Settings/IConfigService.cs
+    startLine: 10
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Settings
+  summary: Name of the config
+  example: []
+  syntax:
+    content: string Name { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: ReadOnly Property Name As String
+  overload: Mewdeko.Services.Settings.IConfigService.Name*
+- uid: Mewdeko.Services.Settings.IConfigService.Reload
+  commentId: M:Mewdeko.Services.Settings.IConfigService.Reload
+  id: Reload
+  parent: Mewdeko.Services.Settings.IConfigService
+  langs:
+  - csharp
+  - vb
+  name: Reload()
+  nameWithType: IConfigService.Reload()
+  fullName: Mewdeko.Services.Settings.IConfigService.Reload()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/Settings/IConfigService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Reload
+    path: src/Mewdeko/Services/Settings/IConfigService.cs
+    startLine: 15
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Settings
+  summary: Loads new data and publishes the new state
+  example: []
+  syntax:
+    content: void Reload()
+    content.vb: Sub Reload()
+  overload: Mewdeko.Services.Settings.IConfigService.Reload*
+- uid: Mewdeko.Services.Settings.IConfigService.GetSettableProps
+  commentId: M:Mewdeko.Services.Settings.IConfigService.GetSettableProps
+  id: GetSettableProps
+  parent: Mewdeko.Services.Settings.IConfigService
+  langs:
+  - csharp
+  - vb
+  name: GetSettableProps()
+  nameWithType: IConfigService.GetSettableProps()
+  fullName: Mewdeko.Services.Settings.IConfigService.GetSettableProps()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/Settings/IConfigService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetSettableProps
+    path: src/Mewdeko/Services/Settings/IConfigService.cs
+    startLine: 21
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Settings
+  summary: Gets the list of props you can set
+  example: []
+  syntax:
+    content: IReadOnlyList<string> GetSettableProps()
+    return:
+      type: System.Collections.Generic.IReadOnlyList{System.String}
+      description: List of props
+    content.vb: Function GetSettableProps() As IReadOnlyList(Of String)
+  overload: Mewdeko.Services.Settings.IConfigService.GetSettableProps*
+- uid: Mewdeko.Services.Settings.IConfigService.GetSetting(System.String)
+  commentId: M:Mewdeko.Services.Settings.IConfigService.GetSetting(System.String)
+  id: GetSetting(System.String)
+  parent: Mewdeko.Services.Settings.IConfigService
+  langs:
+  - csharp
+  - vb
+  name: GetSetting(string)
+  nameWithType: IConfigService.GetSetting(string)
+  fullName: Mewdeko.Services.Settings.IConfigService.GetSetting(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/Settings/IConfigService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetSetting
+    path: src/Mewdeko/Services/Settings/IConfigService.cs
+    startLine: 28
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Settings
+  summary: Gets the value of the specified property
+  example: []
+  syntax:
+    content: string? GetSetting(string prop)
+    parameters:
+    - id: prop
+      type: System.String
+      description: Prop name
+    return:
+      type: System.String
+      description: Value of the prop
+    content.vb: Function GetSetting(prop As String) As String
+  overload: Mewdeko.Services.Settings.IConfigService.GetSetting*
+  nameWithType.vb: IConfigService.GetSetting(String)
+  fullName.vb: Mewdeko.Services.Settings.IConfigService.GetSetting(String)
+  name.vb: GetSetting(String)
+- uid: Mewdeko.Services.Settings.IConfigService.GetComment(System.String)
+  commentId: M:Mewdeko.Services.Settings.IConfigService.GetComment(System.String)
+  id: GetComment(System.String)
+  parent: Mewdeko.Services.Settings.IConfigService
+  langs:
+  - csharp
+  - vb
+  name: GetComment(string)
+  nameWithType: IConfigService.GetComment(string)
+  fullName: Mewdeko.Services.Settings.IConfigService.GetComment(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/Settings/IConfigService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetComment
+    path: src/Mewdeko/Services/Settings/IConfigService.cs
+    startLine: 35
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Settings
+  summary: Gets the value of the specified property
+  example: []
+  syntax:
+    content: string? GetComment(string prop)
+    parameters:
+    - id: prop
+      type: System.String
+      description: Prop name
+    return:
+      type: System.String
+      description: Value of the prop
+    content.vb: Function GetComment(prop As String) As String
+  overload: Mewdeko.Services.Settings.IConfigService.GetComment*
+  nameWithType.vb: IConfigService.GetComment(String)
+  fullName.vb: Mewdeko.Services.Settings.IConfigService.GetComment(String)
+  name.vb: GetComment(String)
+- uid: Mewdeko.Services.Settings.IConfigService.SetSetting(System.String,System.String)
+  commentId: M:Mewdeko.Services.Settings.IConfigService.SetSetting(System.String,System.String)
+  id: SetSetting(System.String,System.String)
+  parent: Mewdeko.Services.Settings.IConfigService
+  langs:
+  - csharp
+  - vb
+  name: SetSetting(string, string)
+  nameWithType: IConfigService.SetSetting(string, string)
+  fullName: Mewdeko.Services.Settings.IConfigService.SetSetting(string, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Services/Settings/IConfigService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetSetting
+    path: src/Mewdeko/Services/Settings/IConfigService.cs
+    startLine: 43
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Settings
+  summary: Sets the value of the specified property
+  example: []
+  syntax:
+    content: bool SetSetting(string prop, string newValue)
+    parameters:
+    - id: prop
+      type: System.String
+      description: Property to set
+    - id: newValue
+      type: System.String
+      description: Value to set the property to
+    return:
+      type: System.Boolean
+      description: Success
+    content.vb: Function SetSetting(prop As String, newValue As String) As Boolean
+  overload: Mewdeko.Services.Settings.IConfigService.SetSetting*
+  nameWithType.vb: IConfigService.SetSetting(String, String)
+  fullName.vb: Mewdeko.Services.Settings.IConfigService.SetSetting(String, String)
+  name.vb: SetSetting(String, String)
+references:
+- uid: Mewdeko.Services.Settings
+  commentId: N:Mewdeko.Services.Settings
+  href: Mewdeko.html
+  name: Mewdeko.Services.Settings
+  nameWithType: Mewdeko.Services.Settings
+  fullName: Mewdeko.Services.Settings
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+- uid: Mewdeko.Services.Settings.IConfigService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<IConfigService>(IConfigService, string)
+  nameWithType: Extensions.ThrowIfNull<IConfigService>(IConfigService, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Services.Settings.IConfigService>(Mewdeko.Services.Settings.IConfigService, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of IConfigService)(IConfigService, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Services.Settings.IConfigService)(Mewdeko.Services.Settings.IConfigService, String)
+  name.vb: ThrowIfNull(Of IConfigService)(IConfigService, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Services.Settings.IConfigService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Services.Settings.IConfigService
+    name: IConfigService
+    href: Mewdeko.Services.Settings.IConfigService.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Services.Settings.IConfigService
+    name: IConfigService
+    href: Mewdeko.Services.Settings.IConfigService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Services.Settings.IConfigService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Services.Settings.IConfigService
+    name: IConfigService
+    href: Mewdeko.Services.Settings.IConfigService.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Services.Settings.IConfigService
+    name: IConfigService
+    href: Mewdeko.Services.Settings.IConfigService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Services.Settings.IConfigService.Name*
+  commentId: Overload:Mewdeko.Services.Settings.IConfigService.Name
+  href: Mewdeko.Services.Settings.IConfigService.html#Mewdeko_Services_Settings_IConfigService_Name
+  name: Name
+  nameWithType: IConfigService.Name
+  fullName: Mewdeko.Services.Settings.IConfigService.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Services.Settings.IConfigService.Reload*
+  commentId: Overload:Mewdeko.Services.Settings.IConfigService.Reload
+  href: Mewdeko.Services.Settings.IConfigService.html#Mewdeko_Services_Settings_IConfigService_Reload
+  name: Reload
+  nameWithType: IConfigService.Reload
+  fullName: Mewdeko.Services.Settings.IConfigService.Reload
+- uid: Mewdeko.Services.Settings.IConfigService.GetSettableProps*
+  commentId: Overload:Mewdeko.Services.Settings.IConfigService.GetSettableProps
+  href: Mewdeko.Services.Settings.IConfigService.html#Mewdeko_Services_Settings_IConfigService_GetSettableProps
+  name: GetSettableProps
+  nameWithType: IConfigService.GetSettableProps
+  fullName: Mewdeko.Services.Settings.IConfigService.GetSettableProps
+- uid: System.Collections.Generic.IReadOnlyList{System.String}
+  commentId: T:System.Collections.Generic.IReadOnlyList{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IReadOnlyList`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  name: IReadOnlyList<string>
+  nameWithType: IReadOnlyList<string>
+  fullName: System.Collections.Generic.IReadOnlyList<string>
+  nameWithType.vb: IReadOnlyList(Of String)
+  fullName.vb: System.Collections.Generic.IReadOnlyList(Of String)
+  name.vb: IReadOnlyList(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Collections.Generic.IReadOnlyList`1
+  commentId: T:System.Collections.Generic.IReadOnlyList`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  name: IReadOnlyList<T>
+  nameWithType: IReadOnlyList<T>
+  fullName: System.Collections.Generic.IReadOnlyList<T>
+  nameWithType.vb: IReadOnlyList(Of T)
+  fullName.vb: System.Collections.Generic.IReadOnlyList(Of T)
+  name.vb: IReadOnlyList(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Mewdeko.Services.Settings.IConfigService.GetSetting*
+  commentId: Overload:Mewdeko.Services.Settings.IConfigService.GetSetting
+  href: Mewdeko.Services.Settings.IConfigService.html#Mewdeko_Services_Settings_IConfigService_GetSetting_System_String_
+  name: GetSetting
+  nameWithType: IConfigService.GetSetting
+  fullName: Mewdeko.Services.Settings.IConfigService.GetSetting
+- uid: Mewdeko.Services.Settings.IConfigService.GetComment*
+  commentId: Overload:Mewdeko.Services.Settings.IConfigService.GetComment
+  href: Mewdeko.Services.Settings.IConfigService.html#Mewdeko_Services_Settings_IConfigService_GetComment_System_String_
+  name: GetComment
+  nameWithType: IConfigService.GetComment
+  fullName: Mewdeko.Services.Settings.IConfigService.GetComment
+- uid: Mewdeko.Services.Settings.IConfigService.SetSetting*
+  commentId: Overload:Mewdeko.Services.Settings.IConfigService.SetSetting
+  href: Mewdeko.Services.Settings.IConfigService.html#Mewdeko_Services_Settings_IConfigService_SetSetting_System_String_System_String_
+  name: SetSetting
+  nameWithType: IConfigService.SetSetting
+  fullName: Mewdeko.Services.Settings.IConfigService.SetSetting
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean

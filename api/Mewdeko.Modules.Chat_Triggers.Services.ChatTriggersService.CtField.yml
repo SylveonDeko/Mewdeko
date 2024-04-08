@@ -1,0 +1,353 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+  commentId: T:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+  id: ChatTriggersService.CtField
+  parent: Mewdeko.Modules.Chat_Triggers.Services
+  children:
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.AllowTarget
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.AutoDelete
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.ChannelsEnabledByDefault
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.ContainsAnywhere
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.DmResponse
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.Message
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.NoRespond
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.PermsEnabledByDefault
+  - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.ReactToTrigger
+  langs:
+  - csharp
+  - vb
+  name: ChatTriggersService.CtField
+  nameWithType: ChatTriggersService.CtField
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CtField
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 30
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Enumerates the fields of a chat trigger.
+  example: []
+  syntax:
+    content: public enum ChatTriggersService.CtField
+    content.vb: Public Enum ChatTriggersService.CtField
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.AutoDelete
+  commentId: F:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.AutoDelete
+  id: AutoDelete
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+  langs:
+  - csharp
+  - vb
+  name: AutoDelete
+  nameWithType: ChatTriggersService.CtField.AutoDelete
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.AutoDelete
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AutoDelete
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 35
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Auto delete trigger field.
+  example: []
+  syntax:
+    content: AutoDelete = 0
+    return:
+      type: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.DmResponse
+  commentId: F:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.DmResponse
+  id: DmResponse
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+  langs:
+  - csharp
+  - vb
+  name: DmResponse
+  nameWithType: ChatTriggersService.CtField.DmResponse
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.DmResponse
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: DmResponse
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 40
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Direct message response field.
+  example: []
+  syntax:
+    content: DmResponse = 1
+    return:
+      type: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.AllowTarget
+  commentId: F:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.AllowTarget
+  id: AllowTarget
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+  langs:
+  - csharp
+  - vb
+  name: AllowTarget
+  nameWithType: ChatTriggersService.CtField.AllowTarget
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.AllowTarget
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AllowTarget
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 45
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Allow targeting field.
+  example: []
+  syntax:
+    content: AllowTarget = 2
+    return:
+      type: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.ContainsAnywhere
+  commentId: F:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.ContainsAnywhere
+  id: ContainsAnywhere
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+  langs:
+  - csharp
+  - vb
+  name: ContainsAnywhere
+  nameWithType: ChatTriggersService.CtField.ContainsAnywhere
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.ContainsAnywhere
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ContainsAnywhere
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 50
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Contains anywhere field.
+  example: []
+  syntax:
+    content: ContainsAnywhere = 3
+    return:
+      type: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.Message
+  commentId: F:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.Message
+  id: Message
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+  langs:
+  - csharp
+  - vb
+  name: Message
+  nameWithType: ChatTriggersService.CtField.Message
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.Message
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Message
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 55
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Message field.
+  example: []
+  syntax:
+    content: Message = 4
+    return:
+      type: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.ReactToTrigger
+  commentId: F:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.ReactToTrigger
+  id: ReactToTrigger
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+  langs:
+  - csharp
+  - vb
+  name: ReactToTrigger
+  nameWithType: ChatTriggersService.CtField.ReactToTrigger
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.ReactToTrigger
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ReactToTrigger
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 60
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: React to trigger field.
+  example: []
+  syntax:
+    content: ReactToTrigger = 5
+    return:
+      type: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.NoRespond
+  commentId: F:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.NoRespond
+  id: NoRespond
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+  langs:
+  - csharp
+  - vb
+  name: NoRespond
+  nameWithType: ChatTriggersService.CtField.NoRespond
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.NoRespond
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: NoRespond
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 65
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: No respond field.
+  example: []
+  syntax:
+    content: NoRespond = 6
+    return:
+      type: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.PermsEnabledByDefault
+  commentId: F:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.PermsEnabledByDefault
+  id: PermsEnabledByDefault
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+  langs:
+  - csharp
+  - vb
+  name: PermsEnabledByDefault
+  nameWithType: ChatTriggersService.CtField.PermsEnabledByDefault
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.PermsEnabledByDefault
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: PermsEnabledByDefault
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 70
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Permissions enabled by default field.
+  example: []
+  syntax:
+    content: PermsEnabledByDefault = 7
+    return:
+      type: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.ChannelsEnabledByDefault
+  commentId: F:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.ChannelsEnabledByDefault
+  id: ChannelsEnabledByDefault
+  parent: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+  langs:
+  - csharp
+  - vb
+  name: ChannelsEnabledByDefault
+  nameWithType: ChatTriggersService.CtField.ChannelsEnabledByDefault
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.ChannelsEnabledByDefault
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChannelsEnabledByDefault
+    path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
+    startLine: 75
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Services
+  summary: Channels enabled by default field.
+  example: []
+  syntax:
+    content: ChannelsEnabledByDefault = 8
+    return:
+      type: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+references:
+- uid: Mewdeko.Modules.Chat_Triggers.Services
+  commentId: N:Mewdeko.Modules.Chat_Triggers.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Chat_Triggers.Services
+  nameWithType: Mewdeko.Modules.Chat_Triggers.Services
+  fullName: Mewdeko.Modules.Chat_Triggers.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers
+    name: Chat_Triggers
+    href: Mewdeko.Modules.Chat_Triggers.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers.Services
+    name: Services
+    href: Mewdeko.Modules.Chat_Triggers.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers
+    name: Chat_Triggers
+    href: Mewdeko.Modules.Chat_Triggers.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers.Services
+    name: Services
+    href: Mewdeko.Modules.Chat_Triggers.Services.html
+- uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+  commentId: T:Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+  parent: Mewdeko.Modules.Chat_Triggers.Services
+  href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html
+  name: ChatTriggersService.CtField
+  nameWithType: ChatTriggersService.CtField
+  fullName: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+  spec.csharp:
+  - uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+    name: ChatTriggersService
+    href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+    name: CtField
+    href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
+    name: ChatTriggersService
+    href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField
+    name: CtField
+    href: Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField.html

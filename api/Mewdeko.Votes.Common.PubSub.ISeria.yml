@@ -1,0 +1,314 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Votes.Common.PubSub.ISeria
+  commentId: T:Mewdeko.Votes.Common.PubSub.ISeria
+  id: ISeria
+  parent: Mewdeko.Votes.Common.PubSub
+  children:
+  - Mewdeko.Votes.Common.PubSub.ISeria.Deserialize``1(System.Byte[])
+  - Mewdeko.Votes.Common.PubSub.ISeria.Serialize``1(``0)
+  langs:
+  - csharp
+  - vb
+  name: ISeria
+  nameWithType: ISeria
+  fullName: Mewdeko.Votes.Common.PubSub.ISeria
+  type: Interface
+  source:
+    remote:
+      path: src/Mewdeko.Votes/Common/PubSub/ISeria.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ISeria
+    path: src/Mewdeko.Votes/Common/PubSub/ISeria.cs
+    startLine: 2
+  assemblies:
+  - Mewdeko.Votes
+  namespace: Mewdeko.Votes.Common.PubSub
+  syntax:
+    content: public interface ISeria
+    content.vb: Public Interface ISeria
+  extensionMethods:
+  - Mewdeko.Votes.Common.PubSub.ISeria.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Votes.Common.PubSub.ISeria.Serialize``1(``0)
+  commentId: M:Mewdeko.Votes.Common.PubSub.ISeria.Serialize``1(``0)
+  id: Serialize``1(``0)
+  parent: Mewdeko.Votes.Common.PubSub.ISeria
+  langs:
+  - csharp
+  - vb
+  name: Serialize<T>(T)
+  nameWithType: ISeria.Serialize<T>(T)
+  fullName: Mewdeko.Votes.Common.PubSub.ISeria.Serialize<T>(T)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko.Votes/Common/PubSub/ISeria.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Serialize
+    path: src/Mewdeko.Votes/Common/PubSub/ISeria.cs
+    startLine: 4
+  assemblies:
+  - Mewdeko.Votes
+  namespace: Mewdeko.Votes.Common.PubSub
+  syntax:
+    content: byte[] Serialize<T>(T data)
+    parameters:
+    - id: data
+      type: '{T}'
+    typeParameters:
+    - id: T
+    return:
+      type: System.Byte[]
+    content.vb: Function Serialize(Of T)(data As T) As Byte()
+  overload: Mewdeko.Votes.Common.PubSub.ISeria.Serialize*
+  nameWithType.vb: ISeria.Serialize(Of T)(T)
+  fullName.vb: Mewdeko.Votes.Common.PubSub.ISeria.Serialize(Of T)(T)
+  name.vb: Serialize(Of T)(T)
+- uid: Mewdeko.Votes.Common.PubSub.ISeria.Deserialize``1(System.Byte[])
+  commentId: M:Mewdeko.Votes.Common.PubSub.ISeria.Deserialize``1(System.Byte[])
+  id: Deserialize``1(System.Byte[])
+  parent: Mewdeko.Votes.Common.PubSub.ISeria
+  langs:
+  - csharp
+  - vb
+  name: Deserialize<T>(byte[])
+  nameWithType: ISeria.Deserialize<T>(byte[])
+  fullName: Mewdeko.Votes.Common.PubSub.ISeria.Deserialize<T>(byte[])
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko.Votes/Common/PubSub/ISeria.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Deserialize
+    path: src/Mewdeko.Votes/Common/PubSub/ISeria.cs
+    startLine: 5
+  assemblies:
+  - Mewdeko.Votes
+  namespace: Mewdeko.Votes.Common.PubSub
+  syntax:
+    content: T Deserialize<T>(byte[] data)
+    parameters:
+    - id: data
+      type: System.Byte[]
+    typeParameters:
+    - id: T
+    return:
+      type: '{T}'
+    content.vb: Function Deserialize(Of T)(data As Byte()) As T
+  overload: Mewdeko.Votes.Common.PubSub.ISeria.Deserialize*
+  nameWithType.vb: ISeria.Deserialize(Of T)(Byte())
+  fullName.vb: Mewdeko.Votes.Common.PubSub.ISeria.Deserialize(Of T)(Byte())
+  name.vb: Deserialize(Of T)(Byte())
+references:
+- uid: Mewdeko.Votes.Common.PubSub
+  commentId: N:Mewdeko.Votes.Common.PubSub
+  href: Mewdeko.html
+  name: Mewdeko.Votes.Common.PubSub
+  nameWithType: Mewdeko.Votes.Common.PubSub
+  fullName: Mewdeko.Votes.Common.PubSub
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
+  - name: .
+  - uid: Mewdeko.Votes.Common
+    name: Common
+    href: Mewdeko.Votes.Common.html
+  - name: .
+  - uid: Mewdeko.Votes.Common.PubSub
+    name: PubSub
+    href: Mewdeko.Votes.Common.PubSub.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Votes
+    name: Votes
+    href: Mewdeko.Votes.html
+  - name: .
+  - uid: Mewdeko.Votes.Common
+    name: Common
+    href: Mewdeko.Votes.Common.html
+  - name: .
+  - uid: Mewdeko.Votes.Common.PubSub
+    name: PubSub
+    href: Mewdeko.Votes.Common.PubSub.html
+- uid: Mewdeko.Votes.Common.PubSub.ISeria.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<ISeria>(ISeria, string)
+  nameWithType: Extensions.ThrowIfNull<ISeria>(ISeria, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Votes.Common.PubSub.ISeria>(Mewdeko.Votes.Common.PubSub.ISeria, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of ISeria)(ISeria, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Votes.Common.PubSub.ISeria)(Mewdeko.Votes.Common.PubSub.ISeria, String)
+  name.vb: ThrowIfNull(Of ISeria)(ISeria, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Votes.Common.PubSub.ISeria,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Votes.Common.PubSub.ISeria
+    name: ISeria
+    href: Mewdeko.Votes.Common.PubSub.ISeria.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Votes.Common.PubSub.ISeria
+    name: ISeria
+    href: Mewdeko.Votes.Common.PubSub.ISeria.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Votes.Common.PubSub.ISeria,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Votes.Common.PubSub.ISeria
+    name: ISeria
+    href: Mewdeko.Votes.Common.PubSub.ISeria.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Votes.Common.PubSub.ISeria
+    name: ISeria
+    href: Mewdeko.Votes.Common.PubSub.ISeria.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Votes.Common.PubSub.ISeria.Serialize*
+  commentId: Overload:Mewdeko.Votes.Common.PubSub.ISeria.Serialize
+  href: Mewdeko.Votes.Common.PubSub.ISeria.html#Mewdeko_Votes_Common_PubSub_ISeria_Serialize__1___0_
+  name: Serialize
+  nameWithType: ISeria.Serialize
+  fullName: Mewdeko.Votes.Common.PubSub.ISeria.Serialize
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: System.Byte[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.byte
+  name: byte[]
+  nameWithType: byte[]
+  fullName: byte[]
+  nameWithType.vb: Byte()
+  fullName.vb: Byte()
+  name.vb: Byte()
+  spec.csharp:
+  - uid: System.Byte
+    name: byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.byte
+  - name: (
+  - name: )
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: Mewdeko.Votes.Common.PubSub.ISeria.Deserialize*
+  commentId: Overload:Mewdeko.Votes.Common.PubSub.ISeria.Deserialize
+  href: Mewdeko.Votes.Common.PubSub.ISeria.html#Mewdeko_Votes_Common_PubSub_ISeria_Deserialize__1_System_Byte___
+  name: Deserialize
+  nameWithType: ISeria.Deserialize
+  fullName: Mewdeko.Votes.Common.PubSub.ISeria.Deserialize

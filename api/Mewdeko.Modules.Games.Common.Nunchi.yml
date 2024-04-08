@@ -1,0 +1,93 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Games.Common.Nunchi
+  commentId: N:Mewdeko.Modules.Games.Common.Nunchi
+  id: Mewdeko.Modules.Games.Common.Nunchi
+  children:
+  - Mewdeko.Modules.Games.Common.Nunchi.NunchiGame
+  - Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Games.Common.Nunchi
+  nameWithType: Mewdeko.Modules.Games.Common.Nunchi
+  fullName: Mewdeko.Modules.Games.Common.Nunchi
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame
+  commentId: T:Mewdeko.Modules.Games.Common.Nunchi.NunchiGame
+  href: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.html
+  name: NunchiGame
+  nameWithType: NunchiGame
+  fullName: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame
+- uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+  commentId: T:Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+  parent: Mewdeko.Modules.Games.Common.Nunchi
+  href: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.html
+  name: NunchiGame.Phase
+  nameWithType: NunchiGame.Phase
+  fullName: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+  spec.csharp:
+  - uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame
+    name: NunchiGame
+    href: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+    name: Phase
+    href: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame
+    name: NunchiGame
+    href: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+    name: Phase
+    href: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase.html
+- uid: Mewdeko.Modules.Games.Common.Nunchi
+  commentId: N:Mewdeko.Modules.Games.Common.Nunchi
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Games.Common.Nunchi
+  nameWithType: Mewdeko.Modules.Games.Common.Nunchi
+  fullName: Mewdeko.Modules.Games.Common.Nunchi
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Nunchi
+    name: Nunchi
+    href: Mewdeko.Modules.Games.Common.Nunchi.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Nunchi
+    name: Nunchi
+    href: Mewdeko.Modules.Games.Common.Nunchi.html

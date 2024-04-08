@@ -1,0 +1,174 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Models.XpTemplateDirection
+  commentId: T:Mewdeko.Database.Models.XpTemplateDirection
+  id: XpTemplateDirection
+  parent: Mewdeko.Database.Models
+  children:
+  - Mewdeko.Database.Models.XpTemplateDirection.Down
+  - Mewdeko.Database.Models.XpTemplateDirection.Left
+  - Mewdeko.Database.Models.XpTemplateDirection.Right
+  - Mewdeko.Database.Models.XpTemplateDirection.Up
+  langs:
+  - csharp
+  - vb
+  name: XpTemplateDirection
+  nameWithType: XpTemplateDirection
+  fullName: Mewdeko.Database.Models.XpTemplateDirection
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/XpTemplate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: XpTemplateDirection
+    path: src/Mewdeko.Database/Models/XpTemplate.cs
+    startLine: 105
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public enum XpTemplateDirection
+    content.vb: Public Enum XpTemplateDirection
+- uid: Mewdeko.Database.Models.XpTemplateDirection.Up
+  commentId: F:Mewdeko.Database.Models.XpTemplateDirection.Up
+  id: Up
+  parent: Mewdeko.Database.Models.XpTemplateDirection
+  langs:
+  - csharp
+  - vb
+  name: Up
+  nameWithType: XpTemplateDirection.Up
+  fullName: Mewdeko.Database.Models.XpTemplateDirection.Up
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/XpTemplate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Up
+    path: src/Mewdeko.Database/Models/XpTemplate.cs
+    startLine: 107
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Up = 0
+    return:
+      type: Mewdeko.Database.Models.XpTemplateDirection
+- uid: Mewdeko.Database.Models.XpTemplateDirection.Down
+  commentId: F:Mewdeko.Database.Models.XpTemplateDirection.Down
+  id: Down
+  parent: Mewdeko.Database.Models.XpTemplateDirection
+  langs:
+  - csharp
+  - vb
+  name: Down
+  nameWithType: XpTemplateDirection.Down
+  fullName: Mewdeko.Database.Models.XpTemplateDirection.Down
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/XpTemplate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Down
+    path: src/Mewdeko.Database/Models/XpTemplate.cs
+    startLine: 108
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Down = 1
+    return:
+      type: Mewdeko.Database.Models.XpTemplateDirection
+- uid: Mewdeko.Database.Models.XpTemplateDirection.Left
+  commentId: F:Mewdeko.Database.Models.XpTemplateDirection.Left
+  id: Left
+  parent: Mewdeko.Database.Models.XpTemplateDirection
+  langs:
+  - csharp
+  - vb
+  name: Left
+  nameWithType: XpTemplateDirection.Left
+  fullName: Mewdeko.Database.Models.XpTemplateDirection.Left
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/XpTemplate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Left
+    path: src/Mewdeko.Database/Models/XpTemplate.cs
+    startLine: 109
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Left = 2
+    return:
+      type: Mewdeko.Database.Models.XpTemplateDirection
+- uid: Mewdeko.Database.Models.XpTemplateDirection.Right
+  commentId: F:Mewdeko.Database.Models.XpTemplateDirection.Right
+  id: Right
+  parent: Mewdeko.Database.Models.XpTemplateDirection
+  langs:
+  - csharp
+  - vb
+  name: Right
+  nameWithType: XpTemplateDirection.Right
+  fullName: Mewdeko.Database.Models.XpTemplateDirection.Right
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/XpTemplate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Right
+    path: src/Mewdeko.Database/Models/XpTemplate.cs
+    startLine: 110
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Right = 3
+    return:
+      type: Mewdeko.Database.Models.XpTemplateDirection
+references:
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: Mewdeko.Database.Models.XpTemplateDirection
+  commentId: T:Mewdeko.Database.Models.XpTemplateDirection
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.XpTemplateDirection.html
+  name: XpTemplateDirection
+  nameWithType: XpTemplateDirection
+  fullName: Mewdeko.Database.Models.XpTemplateDirection

@@ -1,0 +1,1006 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService
+  commentId: T:Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService
+  id: JoinLeaveLoggerService
+  parent: Mewdeko.Modules.Utility.Services
+  children:
+  - Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.#ctor(Mewdeko.Services.Impl.EventHandler,Mewdeko.Services.IDataCache,Mewdeko.Database.DbService,Mewdeko.Services.IBotCredentials)
+  - Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.CalculateAverageJoinsPerGuild(System.UInt64)
+  - Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.GenerateJoinGraphAsync(System.UInt64)
+  - Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.GenerateLeaveGraphAsync(System.UInt64)
+  - Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.SetJoinColor(System.UInt32,System.UInt64)
+  - Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.SetLeaveColor(System.UInt32,System.UInt64)
+  langs:
+  - csharp
+  - vb
+  name: JoinLeaveLoggerService
+  nameWithType: JoinLeaveLoggerService
+  fullName: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Utility/Services/JoinLeaveLoggerService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: JoinLeaveLoggerService
+    path: src/Mewdeko/Modules/Utility/Services/JoinLeaveLoggerService.cs
+    startLine: 15
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Utility.Services
+  summary: >-
+    Service for logging user join and leave events.
+
+    Implements the INService interface.
+  example: []
+  syntax:
+    content: 'public class JoinLeaveLoggerService : INService'
+    content.vb: Public Class JoinLeaveLoggerService Implements INService
+  inheritance:
+  - System.Object
+  implements:
+  - Mewdeko.Services.INService
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.#ctor(Mewdeko.Services.Impl.EventHandler,Mewdeko.Services.IDataCache,Mewdeko.Database.DbService,Mewdeko.Services.IBotCredentials)
+  commentId: M:Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.#ctor(Mewdeko.Services.Impl.EventHandler,Mewdeko.Services.IDataCache,Mewdeko.Database.DbService,Mewdeko.Services.IBotCredentials)
+  id: '#ctor(Mewdeko.Services.Impl.EventHandler,Mewdeko.Services.IDataCache,Mewdeko.Database.DbService,Mewdeko.Services.IBotCredentials)'
+  parent: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService
+  langs:
+  - csharp
+  - vb
+  name: JoinLeaveLoggerService(EventHandler, IDataCache, DbService, IBotCredentials)
+  nameWithType: JoinLeaveLoggerService.JoinLeaveLoggerService(EventHandler, IDataCache, DbService, IBotCredentials)
+  fullName: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.JoinLeaveLoggerService(Mewdeko.Services.Impl.EventHandler, Mewdeko.Services.IDataCache, Mewdeko.Database.DbService, Mewdeko.Services.IBotCredentials)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Utility/Services/JoinLeaveLoggerService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Utility/Services/JoinLeaveLoggerService.cs
+    startLine: 29
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Utility.Services
+  summary: Constructor for the JoinLeaveLoggerService.
+  example: []
+  syntax:
+    content: public JoinLeaveLoggerService(EventHandler eventHandler, IDataCache cache, DbService db, IBotCredentials credentials)
+    parameters:
+    - id: eventHandler
+      type: Mewdeko.Services.Impl.EventHandler
+      description: Event handler for user join and leave events.
+    - id: cache
+      type: Mewdeko.Services.IDataCache
+      description: Data cache for storing join and leave logs.
+    - id: db
+      type: Mewdeko.Database.DbService
+      description: Database service for storing join and leave logs.
+    - id: credentials
+      type: Mewdeko.Services.IBotCredentials
+      description: Bot credentials for accessing the Redis database.
+    content.vb: Public Sub New(eventHandler As EventHandler, cache As IDataCache, db As DbService, credentials As IBotCredentials)
+  overload: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.#ctor*
+  nameWithType.vb: JoinLeaveLoggerService.New(EventHandler, IDataCache, DbService, IBotCredentials)
+  fullName.vb: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.New(Mewdeko.Services.Impl.EventHandler, Mewdeko.Services.IDataCache, Mewdeko.Database.DbService, Mewdeko.Services.IBotCredentials)
+  name.vb: New(EventHandler, IDataCache, DbService, IBotCredentials)
+- uid: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.CalculateAverageJoinsPerGuild(System.UInt64)
+  commentId: M:Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.CalculateAverageJoinsPerGuild(System.UInt64)
+  id: CalculateAverageJoinsPerGuild(System.UInt64)
+  parent: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService
+  langs:
+  - csharp
+  - vb
+  name: CalculateAverageJoinsPerGuild(ulong)
+  nameWithType: JoinLeaveLoggerService.CalculateAverageJoinsPerGuild(ulong)
+  fullName: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.CalculateAverageJoinsPerGuild(ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Utility/Services/JoinLeaveLoggerService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: CalculateAverageJoinsPerGuild
+    path: src/Mewdeko/Modules/Utility/Services/JoinLeaveLoggerService.cs
+    startLine: 92
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Utility.Services
+  summary: Calculates the average number of joins per guild.
+  example: []
+  syntax:
+    content: public double CalculateAverageJoinsPerGuild(ulong guildId)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The ID of the guild.
+    return:
+      type: System.Double
+      description: The average number of joins per guild.
+    content.vb: Public Function CalculateAverageJoinsPerGuild(guildId As ULong) As Double
+  overload: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.CalculateAverageJoinsPerGuild*
+  nameWithType.vb: JoinLeaveLoggerService.CalculateAverageJoinsPerGuild(ULong)
+  fullName.vb: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.CalculateAverageJoinsPerGuild(ULong)
+  name.vb: CalculateAverageJoinsPerGuild(ULong)
+- uid: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.GenerateJoinGraphAsync(System.UInt64)
+  commentId: M:Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.GenerateJoinGraphAsync(System.UInt64)
+  id: GenerateJoinGraphAsync(System.UInt64)
+  parent: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService
+  langs:
+  - csharp
+  - vb
+  name: GenerateJoinGraphAsync(ulong)
+  nameWithType: JoinLeaveLoggerService.GenerateJoinGraphAsync(ulong)
+  fullName: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.GenerateJoinGraphAsync(ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Utility/Services/JoinLeaveLoggerService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GenerateJoinGraphAsync
+    path: src/Mewdeko/Modules/Utility/Services/JoinLeaveLoggerService.cs
+    startLine: 117
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Utility.Services
+  summary: Generates a graph of join events for a guild.
+  example: []
+  syntax:
+    content: public Task<Tuple<Stream, Embed>> GenerateJoinGraphAsync(ulong guildId)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The ID of the guild.
+    return:
+      type: System.Threading.Tasks.Task{System.Tuple{System.IO.Stream,Discord.Embed}}
+      description: A stream containing the graph image and an embed for the graph.
+    content.vb: Public Function GenerateJoinGraphAsync(guildId As ULong) As Task(Of Tuple(Of Stream, Embed))
+  overload: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.GenerateJoinGraphAsync*
+  nameWithType.vb: JoinLeaveLoggerService.GenerateJoinGraphAsync(ULong)
+  fullName.vb: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.GenerateJoinGraphAsync(ULong)
+  name.vb: GenerateJoinGraphAsync(ULong)
+- uid: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.GenerateLeaveGraphAsync(System.UInt64)
+  commentId: M:Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.GenerateLeaveGraphAsync(System.UInt64)
+  id: GenerateLeaveGraphAsync(System.UInt64)
+  parent: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService
+  langs:
+  - csharp
+  - vb
+  name: GenerateLeaveGraphAsync(ulong)
+  nameWithType: JoinLeaveLoggerService.GenerateLeaveGraphAsync(ulong)
+  fullName: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.GenerateLeaveGraphAsync(ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Utility/Services/JoinLeaveLoggerService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GenerateLeaveGraphAsync
+    path: src/Mewdeko/Modules/Utility/Services/JoinLeaveLoggerService.cs
+    startLine: 268
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Utility.Services
+  summary: Generates a graph of leave events for a guild.
+  example: []
+  syntax:
+    content: public Task<Tuple<Stream, Embed>> GenerateLeaveGraphAsync(ulong guildId)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The ID of the guild.
+    return:
+      type: System.Threading.Tasks.Task{System.Tuple{System.IO.Stream,Discord.Embed}}
+      description: A stream containing the graph image and an embed for the graph.
+    content.vb: Public Function GenerateLeaveGraphAsync(guildId As ULong) As Task(Of Tuple(Of Stream, Embed))
+  overload: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.GenerateLeaveGraphAsync*
+  nameWithType.vb: JoinLeaveLoggerService.GenerateLeaveGraphAsync(ULong)
+  fullName.vb: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.GenerateLeaveGraphAsync(ULong)
+  name.vb: GenerateLeaveGraphAsync(ULong)
+- uid: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.SetJoinColor(System.UInt32,System.UInt64)
+  commentId: M:Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.SetJoinColor(System.UInt32,System.UInt64)
+  id: SetJoinColor(System.UInt32,System.UInt64)
+  parent: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService
+  langs:
+  - csharp
+  - vb
+  name: SetJoinColor(uint, ulong)
+  nameWithType: JoinLeaveLoggerService.SetJoinColor(uint, ulong)
+  fullName: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.SetJoinColor(uint, ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Utility/Services/JoinLeaveLoggerService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetJoinColor
+    path: src/Mewdeko/Modules/Utility/Services/JoinLeaveLoggerService.cs
+    startLine: 468
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Utility.Services
+  summary: Sets the color for the join graph.
+  example: []
+  syntax:
+    content: public Task SetJoinColor(uint color, ulong guildId)
+    parameters:
+    - id: color
+      type: System.UInt32
+      description: The color for the join graph.
+    - id: guildId
+      type: System.UInt64
+      description: The ID of the guild.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function SetJoinColor(color As UInteger, guildId As ULong) As Task
+  overload: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.SetJoinColor*
+  nameWithType.vb: JoinLeaveLoggerService.SetJoinColor(UInteger, ULong)
+  fullName.vb: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.SetJoinColor(UInteger, ULong)
+  name.vb: SetJoinColor(UInteger, ULong)
+- uid: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.SetLeaveColor(System.UInt32,System.UInt64)
+  commentId: M:Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.SetLeaveColor(System.UInt32,System.UInt64)
+  id: SetLeaveColor(System.UInt32,System.UInt64)
+  parent: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService
+  langs:
+  - csharp
+  - vb
+  name: SetLeaveColor(uint, ulong)
+  nameWithType: JoinLeaveLoggerService.SetLeaveColor(uint, ulong)
+  fullName: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.SetLeaveColor(uint, ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Utility/Services/JoinLeaveLoggerService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetLeaveColor
+    path: src/Mewdeko/Modules/Utility/Services/JoinLeaveLoggerService.cs
+    startLine: 482
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Utility.Services
+  summary: Sets the color for the leave graph.
+  example: []
+  syntax:
+    content: public Task SetLeaveColor(uint color, ulong guildId)
+    parameters:
+    - id: color
+      type: System.UInt32
+      description: The color for the leave graph.
+    - id: guildId
+      type: System.UInt64
+      description: The ID of the guild.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function SetLeaveColor(color As UInteger, guildId As ULong) As Task
+  overload: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.SetLeaveColor*
+  nameWithType.vb: JoinLeaveLoggerService.SetLeaveColor(UInteger, ULong)
+  fullName.vb: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.SetLeaveColor(UInteger, ULong)
+  name.vb: SetLeaveColor(UInteger, ULong)
+references:
+- uid: Mewdeko.Modules.Utility.Services
+  commentId: N:Mewdeko.Modules.Utility.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Utility.Services
+  nameWithType: Mewdeko.Modules.Utility.Services
+  fullName: Mewdeko.Modules.Utility.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility
+    name: Utility
+    href: Mewdeko.Modules.Utility.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility.Services
+    name: Services
+    href: Mewdeko.Modules.Utility.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility
+    name: Utility
+    href: Mewdeko.Modules.Utility.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility.Services
+    name: Services
+    href: Mewdeko.Modules.Utility.Services.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Mewdeko.Services.INService
+  commentId: T:Mewdeko.Services.INService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.INService.html
+  name: INService
+  nameWithType: INService
+  fullName: Mewdeko.Services.INService
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<JoinLeaveLoggerService>(JoinLeaveLoggerService, string)
+  nameWithType: Extensions.ThrowIfNull<JoinLeaveLoggerService>(JoinLeaveLoggerService, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService>(Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of JoinLeaveLoggerService)(JoinLeaveLoggerService, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService)(Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService, String)
+  name.vb: ThrowIfNull(Of JoinLeaveLoggerService)(JoinLeaveLoggerService, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService
+    name: JoinLeaveLoggerService
+    href: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService
+    name: JoinLeaveLoggerService
+    href: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService
+    name: JoinLeaveLoggerService
+    href: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService
+    name: JoinLeaveLoggerService
+    href: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Services
+  commentId: N:Mewdeko.Services
+  href: Mewdeko.html
+  name: Mewdeko.Services
+  nameWithType: Mewdeko.Services
+  fullName: Mewdeko.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.#ctor*
+  commentId: Overload:Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.#ctor
+  href: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.html#Mewdeko_Modules_Utility_Services_JoinLeaveLoggerService__ctor_Mewdeko_Services_Impl_EventHandler_Mewdeko_Services_IDataCache_Mewdeko_Database_DbService_Mewdeko_Services_IBotCredentials_
+  name: JoinLeaveLoggerService
+  nameWithType: JoinLeaveLoggerService.JoinLeaveLoggerService
+  fullName: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.JoinLeaveLoggerService
+  nameWithType.vb: JoinLeaveLoggerService.New
+  fullName.vb: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.New
+  name.vb: New
+- uid: Mewdeko.Services.Impl.EventHandler
+  commentId: T:Mewdeko.Services.Impl.EventHandler
+  parent: Mewdeko.Services.Impl
+  href: Mewdeko.Services.Impl.EventHandler.html
+  name: EventHandler
+  nameWithType: EventHandler
+  fullName: Mewdeko.Services.Impl.EventHandler
+- uid: Mewdeko.Services.IDataCache
+  commentId: T:Mewdeko.Services.IDataCache
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.IDataCache.html
+  name: IDataCache
+  nameWithType: IDataCache
+  fullName: Mewdeko.Services.IDataCache
+- uid: Mewdeko.Database.DbService
+  commentId: T:Mewdeko.Database.DbService
+  parent: Mewdeko.Database
+  href: Mewdeko.Database.DbService.html
+  name: DbService
+  nameWithType: DbService
+  fullName: Mewdeko.Database.DbService
+- uid: Mewdeko.Services.IBotCredentials
+  commentId: T:Mewdeko.Services.IBotCredentials
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.IBotCredentials.html
+  name: IBotCredentials
+  nameWithType: IBotCredentials
+  fullName: Mewdeko.Services.IBotCredentials
+- uid: Mewdeko.Services.Impl
+  commentId: N:Mewdeko.Services.Impl
+  href: Mewdeko.html
+  name: Mewdeko.Services.Impl
+  nameWithType: Mewdeko.Services.Impl
+  fullName: Mewdeko.Services.Impl
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Impl
+    name: Impl
+    href: Mewdeko.Services.Impl.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Impl
+    name: Impl
+    href: Mewdeko.Services.Impl.html
+- uid: Mewdeko.Database
+  commentId: N:Mewdeko.Database
+  href: Mewdeko.html
+  name: Mewdeko.Database
+  nameWithType: Mewdeko.Database
+  fullName: Mewdeko.Database
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+- uid: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.CalculateAverageJoinsPerGuild*
+  commentId: Overload:Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.CalculateAverageJoinsPerGuild
+  href: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.html#Mewdeko_Modules_Utility_Services_JoinLeaveLoggerService_CalculateAverageJoinsPerGuild_System_UInt64_
+  name: CalculateAverageJoinsPerGuild
+  nameWithType: JoinLeaveLoggerService.CalculateAverageJoinsPerGuild
+  fullName: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.CalculateAverageJoinsPerGuild
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong
+  nameWithType: ulong
+  fullName: ulong
+  nameWithType.vb: ULong
+  fullName.vb: ULong
+  name.vb: ULong
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
+- uid: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.GenerateJoinGraphAsync*
+  commentId: Overload:Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.GenerateJoinGraphAsync
+  href: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.html#Mewdeko_Modules_Utility_Services_JoinLeaveLoggerService_GenerateJoinGraphAsync_System_UInt64_
+  name: GenerateJoinGraphAsync
+  nameWithType: JoinLeaveLoggerService.GenerateJoinGraphAsync
+  fullName: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.GenerateJoinGraphAsync
+- uid: System.Threading.Tasks.Task{System.Tuple{System.IO.Stream,Discord.Embed}}
+  commentId: T:System.Threading.Tasks.Task{System.Tuple{System.IO.Stream,Discord.Embed}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<Tuple<Stream, Embed>>
+  nameWithType: Task<Tuple<Stream, Embed>>
+  fullName: System.Threading.Tasks.Task<System.Tuple<System.IO.Stream, Discord.Embed>>
+  nameWithType.vb: Task(Of Tuple(Of Stream, Embed))
+  fullName.vb: System.Threading.Tasks.Task(Of System.Tuple(Of System.IO.Stream, Discord.Embed))
+  name.vb: Task(Of Tuple(Of Stream, Embed))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Tuple`2
+    name: Tuple
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.tuple-2
+  - name: <
+  - uid: System.IO.Stream
+    name: Stream
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.io.stream
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Tuple`2
+    name: Tuple
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.tuple-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.IO.Stream
+    name: Stream
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.io.stream
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: )
+  - name: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.GenerateLeaveGraphAsync*
+  commentId: Overload:Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.GenerateLeaveGraphAsync
+  href: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.html#Mewdeko_Modules_Utility_Services_JoinLeaveLoggerService_GenerateLeaveGraphAsync_System_UInt64_
+  name: GenerateLeaveGraphAsync
+  nameWithType: JoinLeaveLoggerService.GenerateLeaveGraphAsync
+  fullName: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.GenerateLeaveGraphAsync
+- uid: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.SetJoinColor*
+  commentId: Overload:Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.SetJoinColor
+  href: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.html#Mewdeko_Modules_Utility_Services_JoinLeaveLoggerService_SetJoinColor_System_UInt32_System_UInt64_
+  name: SetJoinColor
+  nameWithType: JoinLeaveLoggerService.SetJoinColor
+  fullName: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.SetJoinColor
+- uid: System.UInt32
+  commentId: T:System.UInt32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint32
+  name: uint
+  nameWithType: uint
+  fullName: uint
+  nameWithType.vb: UInteger
+  fullName.vb: UInteger
+  name.vb: UInteger
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.SetLeaveColor*
+  commentId: Overload:Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.SetLeaveColor
+  href: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.html#Mewdeko_Modules_Utility_Services_JoinLeaveLoggerService_SetLeaveColor_System_UInt32_System_UInt64_
+  name: SetLeaveColor
+  nameWithType: JoinLeaveLoggerService.SetLeaveColor
+  fullName: Mewdeko.Modules.Utility.Services.JoinLeaveLoggerService.SetLeaveColor

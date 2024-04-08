@@ -1,0 +1,155 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.TypeReaders.AddRemove
+  commentId: T:Mewdeko.Common.TypeReaders.AddRemove
+  id: AddRemove
+  parent: Mewdeko.Common.TypeReaders
+  children:
+  - Mewdeko.Common.TypeReaders.AddRemove.Add
+  - Mewdeko.Common.TypeReaders.AddRemove.Rem
+  - Mewdeko.Common.TypeReaders.AddRemove.Rm
+  langs:
+  - csharp
+  - vb
+  name: AddRemove
+  nameWithType: AddRemove
+  fullName: Mewdeko.Common.TypeReaders.AddRemove
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Common/TypeReaders/AddRemove.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AddRemove
+    path: src/Mewdeko/Common/TypeReaders/AddRemove.cs
+    startLine: 5
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.TypeReaders
+  summary: Specifies whether to add or remove something.
+  example: []
+  syntax:
+    content: public enum AddRemove
+    content.vb: Public Enum AddRemove
+- uid: Mewdeko.Common.TypeReaders.AddRemove.Add
+  commentId: F:Mewdeko.Common.TypeReaders.AddRemove.Add
+  id: Add
+  parent: Mewdeko.Common.TypeReaders.AddRemove
+  langs:
+  - csharp
+  - vb
+  name: Add
+  nameWithType: AddRemove.Add
+  fullName: Mewdeko.Common.TypeReaders.AddRemove.Add
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Common/TypeReaders/AddRemove.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Add
+    path: src/Mewdeko/Common/TypeReaders/AddRemove.cs
+    startLine: 10
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.TypeReaders
+  summary: Indicates adding something.
+  example: []
+  syntax:
+    content: Add = 0
+    return:
+      type: Mewdeko.Common.TypeReaders.AddRemove
+- uid: Mewdeko.Common.TypeReaders.AddRemove.Rem
+  commentId: F:Mewdeko.Common.TypeReaders.AddRemove.Rem
+  id: Rem
+  parent: Mewdeko.Common.TypeReaders.AddRemove
+  langs:
+  - csharp
+  - vb
+  name: Rem
+  nameWithType: AddRemove.Rem
+  fullName: Mewdeko.Common.TypeReaders.AddRemove.Rem
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Common/TypeReaders/AddRemove.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Rem
+    path: src/Mewdeko/Common/TypeReaders/AddRemove.cs
+    startLine: 15
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.TypeReaders
+  summary: Indicates removing something.
+  example: []
+  syntax:
+    content: Rem = 1
+    return:
+      type: Mewdeko.Common.TypeReaders.AddRemove
+- uid: Mewdeko.Common.TypeReaders.AddRemove.Rm
+  commentId: F:Mewdeko.Common.TypeReaders.AddRemove.Rm
+  id: Rm
+  parent: Mewdeko.Common.TypeReaders.AddRemove
+  langs:
+  - csharp
+  - vb
+  name: Rm
+  nameWithType: AddRemove.Rm
+  fullName: Mewdeko.Common.TypeReaders.AddRemove.Rm
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Common/TypeReaders/AddRemove.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Rm
+    path: src/Mewdeko/Common/TypeReaders/AddRemove.cs
+    startLine: 20
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.TypeReaders
+  summary: Alternate abbreviation for removing something.
+  example: []
+  syntax:
+    content: Rm = 1
+    return:
+      type: Mewdeko.Common.TypeReaders.AddRemove
+references:
+- uid: Mewdeko.Common.TypeReaders
+  commentId: N:Mewdeko.Common.TypeReaders
+  href: Mewdeko.html
+  name: Mewdeko.Common.TypeReaders
+  nameWithType: Mewdeko.Common.TypeReaders
+  fullName: Mewdeko.Common.TypeReaders
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders
+    name: TypeReaders
+    href: Mewdeko.Common.TypeReaders.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.TypeReaders
+    name: TypeReaders
+    href: Mewdeko.Common.TypeReaders.html
+- uid: Mewdeko.Common.TypeReaders.AddRemove
+  commentId: T:Mewdeko.Common.TypeReaders.AddRemove
+  parent: Mewdeko.Common.TypeReaders
+  href: Mewdeko.Common.TypeReaders.AddRemove.html
+  name: AddRemove
+  nameWithType: AddRemove
+  fullName: Mewdeko.Common.TypeReaders.AddRemove

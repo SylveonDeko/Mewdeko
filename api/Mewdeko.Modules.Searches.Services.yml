@@ -1,0 +1,222 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Searches.Services
+  commentId: N:Mewdeko.Modules.Searches.Services
+  id: Mewdeko.Modules.Searches.Services
+  children:
+  - Mewdeko.Modules.Searches.Services.FeedsService
+  - Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+  - Mewdeko.Modules.Searches.Services.RedditCache
+  - Mewdeko.Modules.Searches.Services.SearchesService
+  - Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+  - Mewdeko.Modules.Searches.Services.ShipCache
+  - Mewdeko.Modules.Searches.Services.SteamGameData
+  - Mewdeko.Modules.Searches.Services.SteamGameData.Container
+  - Mewdeko.Modules.Searches.Services.SteamGameId
+  - Mewdeko.Modules.Searches.Services.StreamNotificationService
+  - Mewdeko.Modules.Searches.Services.StreamNotificationService.FollowStreamPubData
+  - Mewdeko.Modules.Searches.Services.TimeErrors
+  - Mewdeko.Modules.Searches.Services.ToneTagService
+  - Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Searches.Services
+  nameWithType: Mewdeko.Modules.Searches.Services
+  fullName: Mewdeko.Modules.Searches.Services
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Searches.Services.FeedsService
+  commentId: T:Mewdeko.Modules.Searches.Services.FeedsService
+  href: Mewdeko.Modules.Searches.Services.FeedsService.html
+  name: FeedsService
+  nameWithType: FeedsService
+  fullName: Mewdeko.Modules.Searches.Services.FeedsService
+- uid: Mewdeko.Modules.Searches.Services.SearchesService
+  commentId: T:Mewdeko.Modules.Searches.Services.SearchesService
+  parent: Mewdeko.Modules.Searches.Services
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html
+  name: SearchesService
+  nameWithType: SearchesService
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService
+- uid: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+  commentId: T:Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+  parent: Mewdeko.Modules.Searches.Services
+  href: Mewdeko.Modules.Searches.Services.SearchesService.html
+  name: SearchesService.ImageTag
+  nameWithType: SearchesService.ImageTag
+  fullName: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+  spec.csharp:
+  - uid: Mewdeko.Modules.Searches.Services.SearchesService
+    name: SearchesService
+    href: Mewdeko.Modules.Searches.Services.SearchesService.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+    name: ImageTag
+    href: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Searches.Services.SearchesService
+    name: SearchesService
+    href: Mewdeko.Modules.Searches.Services.SearchesService.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag
+    name: ImageTag
+    href: Mewdeko.Modules.Searches.Services.SearchesService.ImageTag.html
+- uid: Mewdeko.Modules.Searches.Services.RedditCache
+  commentId: T:Mewdeko.Modules.Searches.Services.RedditCache
+  href: Mewdeko.Modules.Searches.Services.RedditCache.html
+  name: RedditCache
+  nameWithType: RedditCache
+  fullName: Mewdeko.Modules.Searches.Services.RedditCache
+- uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+  commentId: T:Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+  href: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.html
+  name: GoogleSearchResultData
+  nameWithType: GoogleSearchResultData
+  fullName: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+- uid: Mewdeko.Modules.Searches.Services.SteamGameId
+  commentId: T:Mewdeko.Modules.Searches.Services.SteamGameId
+  href: Mewdeko.Modules.Searches.Services.SteamGameId.html
+  name: SteamGameId
+  nameWithType: SteamGameId
+  fullName: Mewdeko.Modules.Searches.Services.SteamGameId
+- uid: Mewdeko.Modules.Searches.Services.SteamGameData
+  commentId: T:Mewdeko.Modules.Searches.Services.SteamGameData
+  parent: Mewdeko.Modules.Searches.Services
+  href: Mewdeko.Modules.Searches.Services.SteamGameData.html
+  name: SteamGameData
+  nameWithType: SteamGameData
+  fullName: Mewdeko.Modules.Searches.Services.SteamGameData
+- uid: Mewdeko.Modules.Searches.Services.SteamGameData.Container
+  commentId: T:Mewdeko.Modules.Searches.Services.SteamGameData.Container
+  href: Mewdeko.Modules.Searches.Services.SteamGameData.html
+  name: SteamGameData.Container
+  nameWithType: SteamGameData.Container
+  fullName: Mewdeko.Modules.Searches.Services.SteamGameData.Container
+  spec.csharp:
+  - uid: Mewdeko.Modules.Searches.Services.SteamGameData
+    name: SteamGameData
+    href: Mewdeko.Modules.Searches.Services.SteamGameData.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services.SteamGameData.Container
+    name: Container
+    href: Mewdeko.Modules.Searches.Services.SteamGameData.Container.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Searches.Services.SteamGameData
+    name: SteamGameData
+    href: Mewdeko.Modules.Searches.Services.SteamGameData.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services.SteamGameData.Container
+    name: Container
+    href: Mewdeko.Modules.Searches.Services.SteamGameData.Container.html
+- uid: Mewdeko.Modules.Searches.Services.TimeErrors
+  commentId: T:Mewdeko.Modules.Searches.Services.TimeErrors
+  parent: Mewdeko.Modules.Searches.Services
+  href: Mewdeko.Modules.Searches.Services.TimeErrors.html
+  name: TimeErrors
+  nameWithType: TimeErrors
+  fullName: Mewdeko.Modules.Searches.Services.TimeErrors
+- uid: Mewdeko.Modules.Searches.Services.ShipCache
+  commentId: T:Mewdeko.Modules.Searches.Services.ShipCache
+  href: Mewdeko.Modules.Searches.Services.ShipCache.html
+  name: ShipCache
+  nameWithType: ShipCache
+  fullName: Mewdeko.Modules.Searches.Services.ShipCache
+- uid: Mewdeko.Modules.Searches.Services.StreamNotificationService
+  commentId: T:Mewdeko.Modules.Searches.Services.StreamNotificationService
+  href: Mewdeko.Modules.Searches.Services.StreamNotificationService.html
+  name: StreamNotificationService
+  nameWithType: StreamNotificationService
+  fullName: Mewdeko.Modules.Searches.Services.StreamNotificationService
+- uid: Mewdeko.Modules.Searches.Services.StreamNotificationService.FollowStreamPubData
+  commentId: T:Mewdeko.Modules.Searches.Services.StreamNotificationService.FollowStreamPubData
+  href: Mewdeko.Modules.Searches.Services.StreamNotificationService.html
+  name: StreamNotificationService.FollowStreamPubData
+  nameWithType: StreamNotificationService.FollowStreamPubData
+  fullName: Mewdeko.Modules.Searches.Services.StreamNotificationService.FollowStreamPubData
+  spec.csharp:
+  - uid: Mewdeko.Modules.Searches.Services.StreamNotificationService
+    name: StreamNotificationService
+    href: Mewdeko.Modules.Searches.Services.StreamNotificationService.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services.StreamNotificationService.FollowStreamPubData
+    name: FollowStreamPubData
+    href: Mewdeko.Modules.Searches.Services.StreamNotificationService.FollowStreamPubData.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Searches.Services.StreamNotificationService
+    name: StreamNotificationService
+    href: Mewdeko.Modules.Searches.Services.StreamNotificationService.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services.StreamNotificationService.FollowStreamPubData
+    name: FollowStreamPubData
+    href: Mewdeko.Modules.Searches.Services.StreamNotificationService.FollowStreamPubData.html
+- uid: Mewdeko.Modules.Searches.Services.ToneTagService
+  commentId: T:Mewdeko.Modules.Searches.Services.ToneTagService
+  parent: Mewdeko.Modules.Searches.Services
+  href: Mewdeko.Modules.Searches.Services.ToneTagService.html
+  name: ToneTagService
+  nameWithType: ToneTagService
+  fullName: Mewdeko.Modules.Searches.Services.ToneTagService
+- uid: Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult
+  commentId: T:Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult
+  parent: Mewdeko.Modules.Searches.Services
+  href: Mewdeko.Modules.Searches.Services.ToneTagService.html
+  name: ToneTagService.ParseResult
+  nameWithType: ToneTagService.ParseResult
+  fullName: Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult
+  spec.csharp:
+  - uid: Mewdeko.Modules.Searches.Services.ToneTagService
+    name: ToneTagService
+    href: Mewdeko.Modules.Searches.Services.ToneTagService.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult
+    name: ParseResult
+    href: Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Searches.Services.ToneTagService
+    name: ToneTagService
+    href: Mewdeko.Modules.Searches.Services.ToneTagService.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult
+    name: ParseResult
+    href: Mewdeko.Modules.Searches.Services.ToneTagService.ParseResult.html
+- uid: Mewdeko.Modules.Searches.Services
+  commentId: N:Mewdeko.Modules.Searches.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Services
+  nameWithType: Mewdeko.Modules.Searches.Services
+  fullName: Mewdeko.Modules.Searches.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services
+    name: Services
+    href: Mewdeko.Modules.Searches.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services
+    name: Services
+    href: Mewdeko.Modules.Searches.Services.html

@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications
+  commentId: N:Mewdeko.Modules.Searches.Common.StreamNotifications
+  id: Mewdeko.Modules.Searches.Common.StreamNotifications
+  children:
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.NotifChecker
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Searches.Common.StreamNotifications
+  nameWithType: Mewdeko.Modules.Searches.Common.StreamNotifications
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.NotifChecker
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.NotifChecker
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.NotifChecker.html
+  name: NotifChecker
+  nameWithType: NotifChecker
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.NotifChecker

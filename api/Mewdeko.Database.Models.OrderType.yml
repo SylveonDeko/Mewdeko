@@ -1,0 +1,120 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Models.OrderType
+  commentId: T:Mewdeko.Database.Models.OrderType
+  id: OrderType
+  parent: Mewdeko.Database.Models
+  children:
+  - Mewdeko.Database.Models.OrderType.Id
+  - Mewdeko.Database.Models.OrderType.Keyword
+  langs:
+  - csharp
+  - vb
+  name: OrderType
+  nameWithType: OrderType
+  fullName: Mewdeko.Database.Models.OrderType
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Quote.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OrderType
+    path: src/Mewdeko.Database/Models/Quote.cs
+    startLine: 22
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public enum OrderType
+    content.vb: Public Enum OrderType
+- uid: Mewdeko.Database.Models.OrderType.Id
+  commentId: F:Mewdeko.Database.Models.OrderType.Id
+  id: Id
+  parent: Mewdeko.Database.Models.OrderType
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: OrderType.Id
+  fullName: Mewdeko.Database.Models.OrderType.Id
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Quote.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Id
+    path: src/Mewdeko.Database/Models/Quote.cs
+    startLine: 24
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Id = -1
+    return:
+      type: Mewdeko.Database.Models.OrderType
+- uid: Mewdeko.Database.Models.OrderType.Keyword
+  commentId: F:Mewdeko.Database.Models.OrderType.Keyword
+  id: Keyword
+  parent: Mewdeko.Database.Models.OrderType
+  langs:
+  - csharp
+  - vb
+  name: Keyword
+  nameWithType: OrderType.Keyword
+  fullName: Mewdeko.Database.Models.OrderType.Keyword
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/Quote.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Keyword
+    path: src/Mewdeko.Database/Models/Quote.cs
+    startLine: 25
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Keyword = -2
+    return:
+      type: Mewdeko.Database.Models.OrderType
+references:
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: Mewdeko.Database.Models.OrderType
+  commentId: T:Mewdeko.Database.Models.OrderType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.OrderType.html
+  name: OrderType
+  nameWithType: OrderType
+  fullName: Mewdeko.Database.Models.OrderType

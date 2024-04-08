@@ -1,0 +1,258 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Starboard.Starboard.WhitelistMode
+  commentId: T:Mewdeko.Modules.Starboard.Starboard.WhitelistMode
+  id: Starboard.WhitelistMode
+  parent: Mewdeko.Modules.Starboard
+  children:
+  - Mewdeko.Modules.Starboard.Starboard.WhitelistMode.Bl
+  - Mewdeko.Modules.Starboard.Starboard.WhitelistMode.Black
+  - Mewdeko.Modules.Starboard.Starboard.WhitelistMode.Blacklist
+  - Mewdeko.Modules.Starboard.Starboard.WhitelistMode.White
+  - Mewdeko.Modules.Starboard.Starboard.WhitelistMode.Whitelist
+  - Mewdeko.Modules.Starboard.Starboard.WhitelistMode.Wl
+  langs:
+  - csharp
+  - vb
+  name: Starboard.WhitelistMode
+  nameWithType: Starboard.WhitelistMode
+  fullName: Mewdeko.Modules.Starboard.Starboard.WhitelistMode
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Starboard/Starboard.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: WhitelistMode
+    path: src/Mewdeko/Modules/Starboard/Starboard.cs
+    startLine: 14
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Starboard
+  summary: Enum representing the mode for whitelisting or blacklisting channels for starboard.
+  example: []
+  syntax:
+    content: public enum Starboard.WhitelistMode
+    content.vb: Public Enum Starboard.WhitelistMode
+- uid: Mewdeko.Modules.Starboard.Starboard.WhitelistMode.Whitelist
+  commentId: F:Mewdeko.Modules.Starboard.Starboard.WhitelistMode.Whitelist
+  id: Whitelist
+  parent: Mewdeko.Modules.Starboard.Starboard.WhitelistMode
+  langs:
+  - csharp
+  - vb
+  name: Whitelist
+  nameWithType: Starboard.WhitelistMode.Whitelist
+  fullName: Mewdeko.Modules.Starboard.Starboard.WhitelistMode.Whitelist
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Starboard/Starboard.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Whitelist
+    path: src/Mewdeko/Modules/Starboard/Starboard.cs
+    startLine: 19
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Starboard
+  summary: Whitelist mode. Only whitelisted channels are checked for starboard posts.
+  example: []
+  syntax:
+    content: Whitelist = 0
+    return:
+      type: Mewdeko.Modules.Starboard.Starboard.WhitelistMode
+- uid: Mewdeko.Modules.Starboard.Starboard.WhitelistMode.Wl
+  commentId: F:Mewdeko.Modules.Starboard.Starboard.WhitelistMode.Wl
+  id: Wl
+  parent: Mewdeko.Modules.Starboard.Starboard.WhitelistMode
+  langs:
+  - csharp
+  - vb
+  name: Wl
+  nameWithType: Starboard.WhitelistMode.Wl
+  fullName: Mewdeko.Modules.Starboard.Starboard.WhitelistMode.Wl
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Starboard/Starboard.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Wl
+    path: src/Mewdeko/Modules/Starboard/Starboard.cs
+    startLine: 24
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Starboard
+  summary: Alias for Whitelist mode.
+  example: []
+  syntax:
+    content: Wl = 0
+    return:
+      type: Mewdeko.Modules.Starboard.Starboard.WhitelistMode
+- uid: Mewdeko.Modules.Starboard.Starboard.WhitelistMode.White
+  commentId: F:Mewdeko.Modules.Starboard.Starboard.WhitelistMode.White
+  id: White
+  parent: Mewdeko.Modules.Starboard.Starboard.WhitelistMode
+  langs:
+  - csharp
+  - vb
+  name: White
+  nameWithType: Starboard.WhitelistMode.White
+  fullName: Mewdeko.Modules.Starboard.Starboard.WhitelistMode.White
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Starboard/Starboard.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: White
+    path: src/Mewdeko/Modules/Starboard/Starboard.cs
+    startLine: 29
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Starboard
+  summary: Alias for Whitelist mode.
+  example: []
+  syntax:
+    content: White = 0
+    return:
+      type: Mewdeko.Modules.Starboard.Starboard.WhitelistMode
+- uid: Mewdeko.Modules.Starboard.Starboard.WhitelistMode.Blacklist
+  commentId: F:Mewdeko.Modules.Starboard.Starboard.WhitelistMode.Blacklist
+  id: Blacklist
+  parent: Mewdeko.Modules.Starboard.Starboard.WhitelistMode
+  langs:
+  - csharp
+  - vb
+  name: Blacklist
+  nameWithType: Starboard.WhitelistMode.Blacklist
+  fullName: Mewdeko.Modules.Starboard.Starboard.WhitelistMode.Blacklist
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Starboard/Starboard.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Blacklist
+    path: src/Mewdeko/Modules/Starboard/Starboard.cs
+    startLine: 34
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Starboard
+  summary: Blacklist mode. Blacklisted channels are not checked for starboard posts.
+  example: []
+  syntax:
+    content: Blacklist = 1
+    return:
+      type: Mewdeko.Modules.Starboard.Starboard.WhitelistMode
+- uid: Mewdeko.Modules.Starboard.Starboard.WhitelistMode.Bl
+  commentId: F:Mewdeko.Modules.Starboard.Starboard.WhitelistMode.Bl
+  id: Bl
+  parent: Mewdeko.Modules.Starboard.Starboard.WhitelistMode
+  langs:
+  - csharp
+  - vb
+  name: Bl
+  nameWithType: Starboard.WhitelistMode.Bl
+  fullName: Mewdeko.Modules.Starboard.Starboard.WhitelistMode.Bl
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Starboard/Starboard.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Bl
+    path: src/Mewdeko/Modules/Starboard/Starboard.cs
+    startLine: 39
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Starboard
+  summary: Alias for Blacklist mode.
+  example: []
+  syntax:
+    content: Bl = 1
+    return:
+      type: Mewdeko.Modules.Starboard.Starboard.WhitelistMode
+- uid: Mewdeko.Modules.Starboard.Starboard.WhitelistMode.Black
+  commentId: F:Mewdeko.Modules.Starboard.Starboard.WhitelistMode.Black
+  id: Black
+  parent: Mewdeko.Modules.Starboard.Starboard.WhitelistMode
+  langs:
+  - csharp
+  - vb
+  name: Black
+  nameWithType: Starboard.WhitelistMode.Black
+  fullName: Mewdeko.Modules.Starboard.Starboard.WhitelistMode.Black
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Starboard/Starboard.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Black
+    path: src/Mewdeko/Modules/Starboard/Starboard.cs
+    startLine: 44
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Starboard
+  summary: Alias for Blacklist mode.
+  example: []
+  syntax:
+    content: Black = 1
+    return:
+      type: Mewdeko.Modules.Starboard.Starboard.WhitelistMode
+references:
+- uid: Mewdeko.Modules.Starboard
+  commentId: N:Mewdeko.Modules.Starboard
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Starboard
+  nameWithType: Mewdeko.Modules.Starboard
+  fullName: Mewdeko.Modules.Starboard
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Starboard
+    name: Starboard
+    href: Mewdeko.Modules.Starboard.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Starboard
+    name: Starboard
+    href: Mewdeko.Modules.Starboard.html
+- uid: Mewdeko.Modules.Starboard.Starboard.WhitelistMode
+  commentId: T:Mewdeko.Modules.Starboard.Starboard.WhitelistMode
+  parent: Mewdeko.Modules.Starboard
+  href: Mewdeko.Modules.Starboard.Starboard.html
+  name: Starboard.WhitelistMode
+  nameWithType: Starboard.WhitelistMode
+  fullName: Mewdeko.Modules.Starboard.Starboard.WhitelistMode
+  spec.csharp:
+  - uid: Mewdeko.Modules.Starboard.Starboard
+    name: Starboard
+    href: Mewdeko.Modules.Starboard.Starboard.html
+  - name: .
+  - uid: Mewdeko.Modules.Starboard.Starboard.WhitelistMode
+    name: WhitelistMode
+    href: Mewdeko.Modules.Starboard.Starboard.WhitelistMode.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Starboard.Starboard
+    name: Starboard
+    href: Mewdeko.Modules.Starboard.Starboard.html
+  - name: .
+  - uid: Mewdeko.Modules.Starboard.Starboard.WhitelistMode
+    name: WhitelistMode
+    href: Mewdeko.Modules.Starboard.Starboard.WhitelistMode.html

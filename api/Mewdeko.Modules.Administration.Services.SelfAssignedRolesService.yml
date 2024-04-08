@@ -1,0 +1,1615 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+  commentId: T:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+  id: SelfAssignedRolesService
+  parent: Mewdeko.Modules.Administration.Services
+  children:
+  - Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.#ctor(Mewdeko.Database.DbService)
+  - Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AddNew(System.UInt64,Discord.IRole,System.Int32)
+  - Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.Assign(Discord.IGuildUser,Discord.IRole)
+  - Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.GetAdAndRoles(System.UInt64)
+  - Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.GetRoles(Discord.IGuild)
+  - Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.Remove(Discord.IGuildUser,Discord.IRole)
+  - Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveSar(System.UInt64,System.UInt64)
+  - Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.SetLevelReq(System.UInt64,Discord.IRole,System.Int32)
+  - Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.SetNameAsync(System.UInt64,System.Int32,System.String)
+  - Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.ToggleAdSarm(System.UInt64)
+  - Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.ToggleEsar(System.UInt64)
+  langs:
+  - csharp
+  - vb
+  name: SelfAssignedRolesService
+  nameWithType: SelfAssignedRolesService
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SelfAssignedRolesService
+    path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+    startLine: 8
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: The service for managing self-assigned roles.
+  example: []
+  syntax:
+    content: 'public class SelfAssignedRolesService : INService'
+    content.vb: Public Class SelfAssignedRolesService Implements INService
+  inheritance:
+  - System.Object
+  implements:
+  - Mewdeko.Services.INService
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.#ctor(Mewdeko.Database.DbService)
+  commentId: M:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.#ctor(Mewdeko.Database.DbService)
+  id: '#ctor(Mewdeko.Database.DbService)'
+  parent: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+  langs:
+  - csharp
+  - vb
+  name: SelfAssignedRolesService(DbService)
+  nameWithType: SelfAssignedRolesService.SelfAssignedRolesService(DbService)
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.SelfAssignedRolesService(Mewdeko.Database.DbService)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+    startLine: 76
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: Initializes a new instance of the <xref href="Mewdeko.Modules.Administration.Services.SelfAssignedRolesService" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public SelfAssignedRolesService(DbService db)
+    parameters:
+    - id: db
+      type: Mewdeko.Database.DbService
+      description: The database service.
+    content.vb: Public Sub New(db As DbService)
+  overload: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.#ctor*
+  nameWithType.vb: SelfAssignedRolesService.New(DbService)
+  fullName.vb: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.New(Mewdeko.Database.DbService)
+  name.vb: New(DbService)
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AddNew(System.UInt64,Discord.IRole,System.Int32)
+  commentId: M:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AddNew(System.UInt64,Discord.IRole,System.Int32)
+  id: AddNew(System.UInt64,Discord.IRole,System.Int32)
+  parent: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+  langs:
+  - csharp
+  - vb
+  name: AddNew(ulong, IRole, int)
+  nameWithType: SelfAssignedRolesService.AddNew(ulong, IRole, int)
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AddNew(ulong, Discord.IRole, int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AddNew
+    path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+    startLine: 85
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: Adds a new self-assignable role to a guild.
+  example: []
+  syntax:
+    content: public Task<bool> AddNew(ulong guildId, IRole role, int group)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The ID of the guild to add the role to.
+    - id: role
+      type: Discord.IRole
+      description: The role to add.
+    - id: group
+      type: System.Int32
+      description: The group number for the role.
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+      description: A task that represents the asynchronous operation and contains a boolean indicating whether the operation was successful.
+    content.vb: Public Function AddNew(guildId As ULong, role As IRole, group As Integer) As Task(Of Boolean)
+  overload: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AddNew*
+  nameWithType.vb: SelfAssignedRolesService.AddNew(ULong, IRole, Integer)
+  fullName.vb: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AddNew(ULong, Discord.IRole, Integer)
+  name.vb: AddNew(ULong, IRole, Integer)
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.ToggleAdSarm(System.UInt64)
+  commentId: M:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.ToggleAdSarm(System.UInt64)
+  id: ToggleAdSarm(System.UInt64)
+  parent: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+  langs:
+  - csharp
+  - vb
+  name: ToggleAdSarm(ulong)
+  nameWithType: SelfAssignedRolesService.ToggleAdSarm(ulong)
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.ToggleAdSarm(ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ToggleAdSarm
+    path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+    startLine: 105
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: Toggles the auto-deletion of self-assigned role messages for a guild.
+  example: []
+  syntax:
+    content: public Task<bool> ToggleAdSarm(ulong guildId)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The ID of the guild to toggle the setting for.
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+      description: A task that represents the asynchronous operation and contains a boolean indicating the new value of the setting.
+    content.vb: Public Function ToggleAdSarm(guildId As ULong) As Task(Of Boolean)
+  overload: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.ToggleAdSarm*
+  nameWithType.vb: SelfAssignedRolesService.ToggleAdSarm(ULong)
+  fullName.vb: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.ToggleAdSarm(ULong)
+  name.vb: ToggleAdSarm(ULong)
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.Assign(Discord.IGuildUser,Discord.IRole)
+  commentId: M:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.Assign(Discord.IGuildUser,Discord.IRole)
+  id: Assign(Discord.IGuildUser,Discord.IRole)
+  parent: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+  langs:
+  - csharp
+  - vb
+  name: Assign(IGuildUser, IRole)
+  nameWithType: SelfAssignedRolesService.Assign(IGuildUser, IRole)
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.Assign(Discord.IGuildUser, Discord.IRole)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Assign
+    path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+    startLine: 128
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: Assigns a self-assignable role to a guild user.
+  example: []
+  syntax:
+    content: public Task<(SelfAssignedRolesService.AssignResult Result, bool AutoDelete, object extra)> Assign(IGuildUser guildUser, IRole role)
+    parameters:
+    - id: guildUser
+      type: Discord.IGuildUser
+      description: The guild user to assign the role to.
+    - id: role
+      type: Discord.IRole
+      description: The role to assign.
+    return:
+      type: System.Threading.Tasks.Task{System.ValueTuple{Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult,System.Boolean,System.Object}}
+      description: A task that represents the asynchronous operation and contains the result of the operation, a boolean indicating whether auto-deletion is enabled, and an extra object containing additional information about the operation.
+    content.vb: Public Function Assign(guildUser As IGuildUser, role As IRole) As Task(Of (Result As SelfAssignedRolesService.AssignResult, AutoDelete As Boolean, extra As Object))
+  overload: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.Assign*
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.SetNameAsync(System.UInt64,System.Int32,System.String)
+  commentId: M:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.SetNameAsync(System.UInt64,System.Int32,System.String)
+  id: SetNameAsync(System.UInt64,System.Int32,System.String)
+  parent: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+  langs:
+  - csharp
+  - vb
+  name: SetNameAsync(ulong, int, string)
+  nameWithType: SelfAssignedRolesService.SetNameAsync(ulong, int, string)
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.SetNameAsync(ulong, int, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetNameAsync
+    path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+    startLine: 191
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: Sets the name of a self-assignable role group in a guild.
+  example: []
+  syntax:
+    content: public Task<bool> SetNameAsync(ulong guildId, int group, string name)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The ID of the guild to set the name for.
+    - id: group
+      type: System.Int32
+      description: The group number to set the name for.
+    - id: name
+      type: System.String
+      description: The new name for the group.
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+      description: A task that represents the asynchronous operation and contains a boolean indicating whether the operation was successful.
+    content.vb: Public Function SetNameAsync(guildId As ULong, group As Integer, name As String) As Task(Of Boolean)
+  overload: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.SetNameAsync*
+  nameWithType.vb: SelfAssignedRolesService.SetNameAsync(ULong, Integer, String)
+  fullName.vb: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.SetNameAsync(ULong, Integer, String)
+  name.vb: SetNameAsync(ULong, Integer, String)
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.Remove(Discord.IGuildUser,Discord.IRole)
+  commentId: M:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.Remove(Discord.IGuildUser,Discord.IRole)
+  id: Remove(Discord.IGuildUser,Discord.IRole)
+  parent: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+  langs:
+  - csharp
+  - vb
+  name: Remove(IGuildUser, IRole)
+  nameWithType: SelfAssignedRolesService.Remove(IGuildUser, IRole)
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.Remove(Discord.IGuildUser, Discord.IRole)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Remove
+    path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+    startLine: 228
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: Removes a self-assignable role from a guild user.
+  example: []
+  syntax:
+    content: public Task<(SelfAssignedRolesService.RemoveResult Result, bool AutoDelete)> Remove(IGuildUser guildUser, IRole role)
+    parameters:
+    - id: guildUser
+      type: Discord.IGuildUser
+      description: The guild user to remove the role from.
+    - id: role
+      type: Discord.IRole
+      description: The role to remove.
+    return:
+      type: System.Threading.Tasks.Task{System.ValueTuple{Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult,System.Boolean}}
+      description: A task that represents the asynchronous operation and contains the result of the operation and a boolean indicating whether auto-deletion is enabled.
+    content.vb: Public Function Remove(guildUser As IGuildUser, role As IRole) As Task(Of (Result As SelfAssignedRolesService.RemoveResult, AutoDelete As Boolean))
+  overload: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.Remove*
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveSar(System.UInt64,System.UInt64)
+  commentId: M:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveSar(System.UInt64,System.UInt64)
+  id: RemoveSar(System.UInt64,System.UInt64)
+  parent: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+  langs:
+  - csharp
+  - vb
+  name: RemoveSar(ulong, ulong)
+  nameWithType: SelfAssignedRolesService.RemoveSar(ulong, ulong)
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveSar(ulong, ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RemoveSar
+    path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+    startLine: 253
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: Removes a self-assignable role from a guild.
+  example: []
+  syntax:
+    content: public Task<bool> RemoveSar(ulong guildId, ulong roleId)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The ID of the guild to remove the role from.
+    - id: roleId
+      type: System.UInt64
+      description: The ID of the role to remove.
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+      description: A task that represents the asynchronous operation and contains a boolean indicating whether the operation was successful.
+    content.vb: Public Function RemoveSar(guildId As ULong, roleId As ULong) As Task(Of Boolean)
+  overload: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveSar*
+  nameWithType.vb: SelfAssignedRolesService.RemoveSar(ULong, ULong)
+  fullName.vb: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveSar(ULong, ULong)
+  name.vb: RemoveSar(ULong, ULong)
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.GetAdAndRoles(System.UInt64)
+  commentId: M:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.GetAdAndRoles(System.UInt64)
+  id: GetAdAndRoles(System.UInt64)
+  parent: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+  langs:
+  - csharp
+  - vb
+  name: GetAdAndRoles(ulong)
+  nameWithType: SelfAssignedRolesService.GetAdAndRoles(ulong)
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.GetAdAndRoles(ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetAdAndRoles
+    path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+    startLine: 267
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: Retrieves the auto-delete, exclusive, and self-assignable roles for a guild.
+  example: []
+  syntax:
+    content: public Task<(bool AutoDelete, bool Exclusive, IEnumerable<SelfAssignedRole>)> GetAdAndRoles(ulong guildId)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The ID of the guild to retrieve the information for.
+    return:
+      type: System.Threading.Tasks.Task{System.ValueTuple{System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{Mewdeko.Database.Models.SelfAssignedRole}}}
+      description: A task that represents the asynchronous operation and contains a tuple with a boolean indicating whether auto-deletion is enabled, a boolean indicating whether exclusive self-assignable roles are enabled, and a collection of self-assignable roles.
+    content.vb: Public Function GetAdAndRoles(guildId As ULong) As Task(Of (AutoDelete As Boolean, Exclusive As Boolean, IEnumerable(Of SelfAssignedRole)))
+  overload: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.GetAdAndRoles*
+  nameWithType.vb: SelfAssignedRolesService.GetAdAndRoles(ULong)
+  fullName.vb: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.GetAdAndRoles(ULong)
+  name.vb: GetAdAndRoles(ULong)
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.SetLevelReq(System.UInt64,Discord.IRole,System.Int32)
+  commentId: M:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.SetLevelReq(System.UInt64,Discord.IRole,System.Int32)
+  id: SetLevelReq(System.UInt64,Discord.IRole,System.Int32)
+  parent: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+  langs:
+  - csharp
+  - vb
+  name: SetLevelReq(ulong, IRole, int)
+  nameWithType: SelfAssignedRolesService.SetLevelReq(ulong, IRole, int)
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.SetLevelReq(ulong, Discord.IRole, int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetLevelReq
+    path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+    startLine: 285
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: Sets the level requirement for a self-assignable role in a guild.
+  example: []
+  syntax:
+    content: public Task<bool> SetLevelReq(ulong guildId, IRole role, int level)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The ID of the guild to set the level requirement in.
+    - id: role
+      type: Discord.IRole
+      description: The role to set the level requirement for.
+    - id: level
+      type: System.Int32
+      description: The new level requirement.
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+      description: A task that represents the asynchronous operation and contains a boolean indicating whether the operation was successful.
+    content.vb: Public Function SetLevelReq(guildId As ULong, role As IRole, level As Integer) As Task(Of Boolean)
+  overload: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.SetLevelReq*
+  nameWithType.vb: SelfAssignedRolesService.SetLevelReq(ULong, IRole, Integer)
+  fullName.vb: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.SetLevelReq(ULong, Discord.IRole, Integer)
+  name.vb: SetLevelReq(ULong, IRole, Integer)
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.ToggleEsar(System.UInt64)
+  commentId: M:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.ToggleEsar(System.UInt64)
+  id: ToggleEsar(System.UInt64)
+  parent: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+  langs:
+  - csharp
+  - vb
+  name: ToggleEsar(ulong)
+  nameWithType: SelfAssignedRolesService.ToggleEsar(ulong)
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.ToggleEsar(ulong)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ToggleEsar
+    path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+    startLine: 308
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: Toggles the exclusive self-assignable roles setting for a guild.
+  example: []
+  syntax:
+    content: public Task<bool> ToggleEsar(ulong guildId)
+    parameters:
+    - id: guildId
+      type: System.UInt64
+      description: The ID of the guild to toggle the setting for.
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+      description: A task that represents the asynchronous operation and contains a boolean indicating the new value of the setting.
+    content.vb: Public Function ToggleEsar(guildId As ULong) As Task(Of Boolean)
+  overload: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.ToggleEsar*
+  nameWithType.vb: SelfAssignedRolesService.ToggleEsar(ULong)
+  fullName.vb: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.ToggleEsar(ULong)
+  name.vb: ToggleEsar(ULong)
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.GetRoles(Discord.IGuild)
+  commentId: M:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.GetRoles(Discord.IGuild)
+  id: GetRoles(Discord.IGuild)
+  parent: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+  langs:
+  - csharp
+  - vb
+  name: GetRoles(IGuild)
+  nameWithType: SelfAssignedRolesService.GetRoles(IGuild)
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.GetRoles(Discord.IGuild)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetRoles
+    path: src/Mewdeko/Modules/Administration/Services/SelfAssignedRolesService.cs
+    startLine: 327
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Administration.Services
+  summary: Retrieves the exclusive setting, self-assignable roles, and group names for a guild.
+  example: []
+  syntax:
+    content: public Task<(bool Exclusive, IEnumerable<(SelfAssignedRole Model, IRole Role)> Roles, IDictionary<int, string> GroupNames)> GetRoles(IGuild guild)
+    parameters:
+    - id: guild
+      type: Discord.IGuild
+      description: The guild to retrieve the information for.
+    return:
+      type: System.Threading.Tasks.Task{System.ValueTuple{System.Boolean,System.Collections.Generic.IEnumerable{System.ValueTuple{Mewdeko.Database.Models.SelfAssignedRole,Discord.IRole}},System.Collections.Generic.IDictionary{System.Int32,System.String}}}
+      description: A task that represents the asynchronous operation and contains a tuple with a boolean indicating whether exclusive self-assignable roles are enabled, a collection of tuples containing self-assignable role models and their corresponding roles, and a dictionary mapping group numbers to their names.
+    content.vb: Public Function GetRoles(guild As IGuild) As Task(Of (Exclusive As Boolean, Roles As IEnumerable(Of (Model As SelfAssignedRole, Role As IRole)), GroupNames As IDictionary(Of Integer, String)))
+  overload: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.GetRoles*
+references:
+- uid: Mewdeko.Modules.Administration.Services
+  commentId: N:Mewdeko.Modules.Administration.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Administration.Services
+  nameWithType: Mewdeko.Modules.Administration.Services
+  fullName: Mewdeko.Modules.Administration.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services
+    name: Services
+    href: Mewdeko.Modules.Administration.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services
+    name: Services
+    href: Mewdeko.Modules.Administration.Services.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Mewdeko.Services.INService
+  commentId: T:Mewdeko.Services.INService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.INService.html
+  name: INService
+  nameWithType: INService
+  fullName: Mewdeko.Services.INService
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<SelfAssignedRolesService>(SelfAssignedRolesService, string)
+  nameWithType: Extensions.ThrowIfNull<SelfAssignedRolesService>(SelfAssignedRolesService, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Administration.Services.SelfAssignedRolesService>(Mewdeko.Modules.Administration.Services.SelfAssignedRolesService, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of SelfAssignedRolesService)(SelfAssignedRolesService, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Administration.Services.SelfAssignedRolesService)(Mewdeko.Modules.Administration.Services.SelfAssignedRolesService, String)
+  name.vb: ThrowIfNull(Of SelfAssignedRolesService)(SelfAssignedRolesService, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Administration.Services.SelfAssignedRolesService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+    name: SelfAssignedRolesService
+    href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+    name: SelfAssignedRolesService
+    href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Administration.Services.SelfAssignedRolesService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+    name: SelfAssignedRolesService
+    href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+    name: SelfAssignedRolesService
+    href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Services
+  commentId: N:Mewdeko.Services
+  href: Mewdeko.html
+  name: Mewdeko.Services
+  nameWithType: Mewdeko.Services
+  fullName: Mewdeko.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+  commentId: T:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+  href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html
+  name: SelfAssignedRolesService
+  nameWithType: SelfAssignedRolesService
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.#ctor*
+  commentId: Overload:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.#ctor
+  href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html#Mewdeko_Modules_Administration_Services_SelfAssignedRolesService__ctor_Mewdeko_Database_DbService_
+  name: SelfAssignedRolesService
+  nameWithType: SelfAssignedRolesService.SelfAssignedRolesService
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.SelfAssignedRolesService
+  nameWithType.vb: SelfAssignedRolesService.New
+  fullName.vb: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.New
+  name.vb: New
+- uid: Mewdeko.Database.DbService
+  commentId: T:Mewdeko.Database.DbService
+  parent: Mewdeko.Database
+  href: Mewdeko.Database.DbService.html
+  name: DbService
+  nameWithType: DbService
+  fullName: Mewdeko.Database.DbService
+- uid: Mewdeko.Database
+  commentId: N:Mewdeko.Database
+  href: Mewdeko.html
+  name: Mewdeko.Database
+  nameWithType: Mewdeko.Database
+  fullName: Mewdeko.Database
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AddNew*
+  commentId: Overload:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AddNew
+  href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html#Mewdeko_Modules_Administration_Services_SelfAssignedRolesService_AddNew_System_UInt64_Discord_IRole_System_Int32_
+  name: AddNew
+  nameWithType: SelfAssignedRolesService.AddNew
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AddNew
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong
+  nameWithType: ulong
+  fullName: ulong
+  nameWithType.vb: ULong
+  fullName.vb: ULong
+  name.vb: ULong
+- uid: Discord.IRole
+  commentId: T:Discord.IRole
+  parent: Discord
+  isExternal: true
+  name: IRole
+  nameWithType: IRole
+  fullName: Discord.IRole
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.Threading.Tasks.Task{System.Boolean}
+  commentId: T:System.Threading.Tasks.Task{System.Boolean}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<bool>
+  nameWithType: Task<bool>
+  fullName: System.Threading.Tasks.Task<bool>
+  nameWithType.vb: Task(Of Boolean)
+  fullName.vb: System.Threading.Tasks.Task(Of Boolean)
+  name.vb: Task(Of Boolean)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Discord
+  commentId: N:Discord
+  isExternal: true
+  name: Discord
+  nameWithType: Discord
+  fullName: Discord
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.ToggleAdSarm*
+  commentId: Overload:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.ToggleAdSarm
+  href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html#Mewdeko_Modules_Administration_Services_SelfAssignedRolesService_ToggleAdSarm_System_UInt64_
+  name: ToggleAdSarm
+  nameWithType: SelfAssignedRolesService.ToggleAdSarm
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.ToggleAdSarm
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.Assign*
+  commentId: Overload:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.Assign
+  href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html#Mewdeko_Modules_Administration_Services_SelfAssignedRolesService_Assign_Discord_IGuildUser_Discord_IRole_
+  name: Assign
+  nameWithType: SelfAssignedRolesService.Assign
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.Assign
+- uid: Discord.IGuildUser
+  commentId: T:Discord.IGuildUser
+  parent: Discord
+  isExternal: true
+  name: IGuildUser
+  nameWithType: IGuildUser
+  fullName: Discord.IGuildUser
+- uid: System.Threading.Tasks.Task{System.ValueTuple{Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult,System.Boolean,System.Object}}
+  commentId: T:System.Threading.Tasks.Task{System.ValueTuple{Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult,System.Boolean,System.Object}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<(SelfAssignedRolesService.AssignResult Result, bool AutoDelete, object extra)>
+  nameWithType: Task<(SelfAssignedRolesService.AssignResult Result, bool AutoDelete, object extra)>
+  fullName: System.Threading.Tasks.Task<(Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult Result, bool AutoDelete, object extra)>
+  nameWithType.vb: Task(Of (Result As SelfAssignedRolesService.AssignResult, AutoDelete As Boolean, extra As Object))
+  fullName.vb: System.Threading.Tasks.Task(Of (Result As Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult, AutoDelete As Boolean, extra As Object))
+  name.vb: Task(Of (Result As SelfAssignedRolesService.AssignResult, AutoDelete As Boolean, extra As Object))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: (
+  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+    name: SelfAssignedRolesService
+    href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult
+    name: AssignResult
+    href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult.html
+  - name: " "
+  - uid: System.ValueTuple{Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult,System.Boolean,System.Object}.Result
+    name: Result
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mewdeko.modules.administration.services.selfassignedrolesservice.assignresult,system.boolean,system.object-.result
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: " "
+  - uid: System.ValueTuple{Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult,System.Boolean,System.Object}.AutoDelete
+    name: AutoDelete
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mewdeko.modules.administration.services.selfassignedrolesservice.assignresult,system.boolean,system.object-.autodelete
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: " "
+  - uid: System.ValueTuple{Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult,System.Boolean,System.Object}.extra
+    name: extra
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mewdeko.modules.administration.services.selfassignedrolesservice.assignresult,system.boolean,system.object-.extra
+  - name: )
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult,System.Boolean,System.Object}.Result
+    name: Result
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mewdeko.modules.administration.services.selfassignedrolesservice.assignresult,system.boolean,system.object-.result
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+    name: SelfAssignedRolesService
+    href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult
+    name: AssignResult
+    href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult.html
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult,System.Boolean,System.Object}.AutoDelete
+    name: AutoDelete
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mewdeko.modules.administration.services.selfassignedrolesservice.assignresult,system.boolean,system.object-.autodelete
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.AssignResult,System.Boolean,System.Object}.extra
+    name: extra
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mewdeko.modules.administration.services.selfassignedrolesservice.assignresult,system.boolean,system.object-.extra
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  - name: )
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.SetNameAsync*
+  commentId: Overload:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.SetNameAsync
+  href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html#Mewdeko_Modules_Administration_Services_SelfAssignedRolesService_SetNameAsync_System_UInt64_System_Int32_System_String_
+  name: SetNameAsync
+  nameWithType: SelfAssignedRolesService.SetNameAsync
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.SetNameAsync
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.Remove*
+  commentId: Overload:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.Remove
+  href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html#Mewdeko_Modules_Administration_Services_SelfAssignedRolesService_Remove_Discord_IGuildUser_Discord_IRole_
+  name: Remove
+  nameWithType: SelfAssignedRolesService.Remove
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.Remove
+- uid: System.Threading.Tasks.Task{System.ValueTuple{Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult,System.Boolean}}
+  commentId: T:System.Threading.Tasks.Task{System.ValueTuple{Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult,System.Boolean}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<(SelfAssignedRolesService.RemoveResult Result, bool AutoDelete)>
+  nameWithType: Task<(SelfAssignedRolesService.RemoveResult Result, bool AutoDelete)>
+  fullName: System.Threading.Tasks.Task<(Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult Result, bool AutoDelete)>
+  nameWithType.vb: Task(Of (Result As SelfAssignedRolesService.RemoveResult, AutoDelete As Boolean))
+  fullName.vb: System.Threading.Tasks.Task(Of (Result As Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult, AutoDelete As Boolean))
+  name.vb: Task(Of (Result As SelfAssignedRolesService.RemoveResult, AutoDelete As Boolean))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: (
+  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+    name: SelfAssignedRolesService
+    href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult
+    name: RemoveResult
+    href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult.html
+  - name: " "
+  - uid: System.ValueTuple{Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult,System.Boolean}.Result
+    name: Result
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mewdeko.modules.administration.services.selfassignedrolesservice.removeresult,system.boolean-.result
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: " "
+  - uid: System.ValueTuple{Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult,System.Boolean}.AutoDelete
+    name: AutoDelete
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mewdeko.modules.administration.services.selfassignedrolesservice.removeresult,system.boolean-.autodelete
+  - name: )
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult,System.Boolean}.Result
+    name: Result
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mewdeko.modules.administration.services.selfassignedrolesservice.removeresult,system.boolean-.result
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService
+    name: SelfAssignedRolesService
+    href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult
+    name: RemoveResult
+    href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult.html
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveResult,System.Boolean}.AutoDelete
+    name: AutoDelete
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mewdeko.modules.administration.services.selfassignedrolesservice.removeresult,system.boolean-.autodelete
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  - name: )
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveSar*
+  commentId: Overload:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveSar
+  href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html#Mewdeko_Modules_Administration_Services_SelfAssignedRolesService_RemoveSar_System_UInt64_System_UInt64_
+  name: RemoveSar
+  nameWithType: SelfAssignedRolesService.RemoveSar
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.RemoveSar
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.GetAdAndRoles*
+  commentId: Overload:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.GetAdAndRoles
+  href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html#Mewdeko_Modules_Administration_Services_SelfAssignedRolesService_GetAdAndRoles_System_UInt64_
+  name: GetAdAndRoles
+  nameWithType: SelfAssignedRolesService.GetAdAndRoles
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.GetAdAndRoles
+- uid: System.Threading.Tasks.Task{System.ValueTuple{System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{Mewdeko.Database.Models.SelfAssignedRole}}}
+  commentId: T:System.Threading.Tasks.Task{System.ValueTuple{System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{Mewdeko.Database.Models.SelfAssignedRole}}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<(bool AutoDelete, bool Exclusive, IEnumerable<SelfAssignedRole>)>
+  nameWithType: Task<(bool AutoDelete, bool Exclusive, IEnumerable<SelfAssignedRole>)>
+  fullName: System.Threading.Tasks.Task<(bool AutoDelete, bool Exclusive, System.Collections.Generic.IEnumerable<Mewdeko.Database.Models.SelfAssignedRole>)>
+  nameWithType.vb: Task(Of (AutoDelete As Boolean, Exclusive As Boolean, IEnumerable(Of SelfAssignedRole)))
+  fullName.vb: System.Threading.Tasks.Task(Of (AutoDelete As Boolean, Exclusive As Boolean, System.Collections.Generic.IEnumerable(Of Mewdeko.Database.Models.SelfAssignedRole)))
+  name.vb: Task(Of (AutoDelete As Boolean, Exclusive As Boolean, IEnumerable(Of SelfAssignedRole)))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: (
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: " "
+  - uid: System.ValueTuple{System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{Mewdeko.Database.Models.SelfAssignedRole}}.AutoDelete
+    name: AutoDelete
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.boolean,system.boolean,system.collections.generic.ienumerable-mewdeko.database.models.selfassignedrole--.autodelete
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: " "
+  - uid: System.ValueTuple{System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{Mewdeko.Database.Models.SelfAssignedRole}}.Exclusive
+    name: Exclusive
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.boolean,system.boolean,system.collections.generic.ienumerable-mewdeko.database.models.selfassignedrole--.exclusive
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: Mewdeko.Database.Models.SelfAssignedRole
+    name: SelfAssignedRole
+  - name: '>'
+  - name: )
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{Mewdeko.Database.Models.SelfAssignedRole}}.AutoDelete
+    name: AutoDelete
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.boolean,system.boolean,system.collections.generic.ienumerable-mewdeko.database.models.selfassignedrole--.autodelete
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.Boolean,System.Boolean,System.Collections.Generic.IEnumerable{Mewdeko.Database.Models.SelfAssignedRole}}.Exclusive
+    name: Exclusive
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.boolean,system.boolean,system.collections.generic.ienumerable-mewdeko.database.models.selfassignedrole--.exclusive
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Models.SelfAssignedRole
+    name: SelfAssignedRole
+  - name: )
+  - name: )
+  - name: )
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.SetLevelReq*
+  commentId: Overload:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.SetLevelReq
+  href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html#Mewdeko_Modules_Administration_Services_SelfAssignedRolesService_SetLevelReq_System_UInt64_Discord_IRole_System_Int32_
+  name: SetLevelReq
+  nameWithType: SelfAssignedRolesService.SetLevelReq
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.SetLevelReq
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.ToggleEsar*
+  commentId: Overload:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.ToggleEsar
+  href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html#Mewdeko_Modules_Administration_Services_SelfAssignedRolesService_ToggleEsar_System_UInt64_
+  name: ToggleEsar
+  nameWithType: SelfAssignedRolesService.ToggleEsar
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.ToggleEsar
+- uid: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.GetRoles*
+  commentId: Overload:Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.GetRoles
+  href: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.html#Mewdeko_Modules_Administration_Services_SelfAssignedRolesService_GetRoles_Discord_IGuild_
+  name: GetRoles
+  nameWithType: SelfAssignedRolesService.GetRoles
+  fullName: Mewdeko.Modules.Administration.Services.SelfAssignedRolesService.GetRoles
+- uid: Discord.IGuild
+  commentId: T:Discord.IGuild
+  parent: Discord
+  isExternal: true
+  name: IGuild
+  nameWithType: IGuild
+  fullName: Discord.IGuild
+- uid: System.Threading.Tasks.Task{System.ValueTuple{System.Boolean,System.Collections.Generic.IEnumerable{System.ValueTuple{Mewdeko.Database.Models.SelfAssignedRole,Discord.IRole}},System.Collections.Generic.IDictionary{System.Int32,System.String}}}
+  commentId: T:System.Threading.Tasks.Task{System.ValueTuple{System.Boolean,System.Collections.Generic.IEnumerable{System.ValueTuple{Mewdeko.Database.Models.SelfAssignedRole,Discord.IRole}},System.Collections.Generic.IDictionary{System.Int32,System.String}}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<(bool Exclusive, IEnumerable<(SelfAssignedRole Model, IRole Role)> Roles, IDictionary<int, string> GroupNames)>
+  nameWithType: Task<(bool Exclusive, IEnumerable<(SelfAssignedRole Model, IRole Role)> Roles, IDictionary<int, string> GroupNames)>
+  fullName: System.Threading.Tasks.Task<(bool Exclusive, System.Collections.Generic.IEnumerable<(Mewdeko.Database.Models.SelfAssignedRole Model, Discord.IRole Role)> Roles, System.Collections.Generic.IDictionary<int, string> GroupNames)>
+  nameWithType.vb: Task(Of (Exclusive As Boolean, Roles As IEnumerable(Of (Model As SelfAssignedRole, Role As IRole)), GroupNames As IDictionary(Of Integer, String)))
+  fullName.vb: System.Threading.Tasks.Task(Of (Exclusive As Boolean, Roles As System.Collections.Generic.IEnumerable(Of (Model As Mewdeko.Database.Models.SelfAssignedRole, Role As Discord.IRole)), GroupNames As System.Collections.Generic.IDictionary(Of Integer, String)))
+  name.vb: Task(Of (Exclusive As Boolean, Roles As IEnumerable(Of (Model As SelfAssignedRole, Role As IRole)), GroupNames As IDictionary(Of Integer, String)))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: (
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: " "
+  - uid: System.ValueTuple{System.Boolean,System.Collections.Generic.IEnumerable{System.ValueTuple{Mewdeko.Database.Models.SelfAssignedRole,Discord.IRole}},System.Collections.Generic.IDictionary{System.Int32,System.String}}.Exclusive
+    name: Exclusive
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.boolean,system.collections.generic.ienumerable-system.valuetuple-mewdeko.database.models.selfassignedrole,discord.irole--,system.collections.generic.idictionary-system.int32,system.string--.exclusive
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: (
+  - uid: Mewdeko.Database.Models.SelfAssignedRole
+    name: SelfAssignedRole
+  - name: " "
+  - uid: System.ValueTuple{Mewdeko.Database.Models.SelfAssignedRole,Discord.IRole}.Model
+    name: Model
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mewdeko.database.models.selfassignedrole,discord.irole-.model
+  - name: ','
+  - name: " "
+  - uid: Discord.IRole
+    name: IRole
+    isExternal: true
+  - name: " "
+  - uid: System.ValueTuple{Mewdeko.Database.Models.SelfAssignedRole,Discord.IRole}.Role
+    name: Role
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mewdeko.database.models.selfassignedrole,discord.irole-.role
+  - name: )
+  - name: '>'
+  - name: " "
+  - uid: System.ValueTuple{System.Boolean,System.Collections.Generic.IEnumerable{System.ValueTuple{Mewdeko.Database.Models.SelfAssignedRole,Discord.IRole}},System.Collections.Generic.IDictionary{System.Int32,System.String}}.Roles
+    name: Roles
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.boolean,system.collections.generic.ienumerable-system.valuetuple-mewdeko.database.models.selfassignedrole,discord.irole--,system.collections.generic.idictionary-system.int32,system.string--.roles
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: <
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  - name: " "
+  - uid: System.ValueTuple{System.Boolean,System.Collections.Generic.IEnumerable{System.ValueTuple{Mewdeko.Database.Models.SelfAssignedRole,Discord.IRole}},System.Collections.Generic.IDictionary{System.Int32,System.String}}.GroupNames
+    name: GroupNames
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.boolean,system.collections.generic.ienumerable-system.valuetuple-mewdeko.database.models.selfassignedrole,discord.irole--,system.collections.generic.idictionary-system.int32,system.string--.groupnames
+  - name: )
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{System.Boolean,System.Collections.Generic.IEnumerable{System.ValueTuple{Mewdeko.Database.Models.SelfAssignedRole,Discord.IRole}},System.Collections.Generic.IDictionary{System.Int32,System.String}}.Exclusive
+    name: Exclusive
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.boolean,system.collections.generic.ienumerable-system.valuetuple-mewdeko.database.models.selfassignedrole,discord.irole--,system.collections.generic.idictionary-system.int32,system.string--.exclusive
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.Boolean,System.Collections.Generic.IEnumerable{System.ValueTuple{Mewdeko.Database.Models.SelfAssignedRole,Discord.IRole}},System.Collections.Generic.IDictionary{System.Int32,System.String}}.Roles
+    name: Roles
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.boolean,system.collections.generic.ienumerable-system.valuetuple-mewdeko.database.models.selfassignedrole,discord.irole--,system.collections.generic.idictionary-system.int32,system.string--.roles
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{Mewdeko.Database.Models.SelfAssignedRole,Discord.IRole}.Model
+    name: Model
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mewdeko.database.models.selfassignedrole,discord.irole-.model
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: Mewdeko.Database.Models.SelfAssignedRole
+    name: SelfAssignedRole
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{Mewdeko.Database.Models.SelfAssignedRole,Discord.IRole}.Role
+    name: Role
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mewdeko.database.models.selfassignedrole,discord.irole-.role
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: Discord.IRole
+    name: IRole
+    isExternal: true
+  - name: )
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.Boolean,System.Collections.Generic.IEnumerable{System.ValueTuple{Mewdeko.Database.Models.SelfAssignedRole,Discord.IRole}},System.Collections.Generic.IDictionary{System.Int32,System.String}}.GroupNames
+    name: GroupNames
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.boolean,system.collections.generic.ienumerable-system.valuetuple-mewdeko.database.models.selfassignedrole,discord.irole--,system.collections.generic.idictionary-system.int32,system.string--.groupnames
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: )
+  - name: )

@@ -1,0 +1,1125 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.Embed
+  commentId: T:Mewdeko.Common.Embed
+  id: Embed
+  parent: Mewdeko.Common
+  children:
+  - Mewdeko.Common.Embed.Author
+  - Mewdeko.Common.Embed.Color
+  - Mewdeko.Common.Embed.Description
+  - Mewdeko.Common.Embed.Fields
+  - Mewdeko.Common.Embed.Footer
+  - Mewdeko.Common.Embed.Image
+  - Mewdeko.Common.Embed.Thumbnail
+  - Mewdeko.Common.Embed.Timestamp
+  - Mewdeko.Common.Embed.Title
+  - Mewdeko.Common.Embed.Url
+  langs:
+  - csharp
+  - vb
+  name: Embed
+  nameWithType: Embed
+  fullName: Mewdeko.Common.Embed
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Common/NewEmbed.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Embed
+    path: src/Mewdeko/Common/NewEmbed.cs
+    startLine: 98
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common
+  summary: Represents an embed message.
+  example: []
+  syntax:
+    content: public class Embed
+    content.vb: Public Class Embed
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Common.Embed.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Common.Embed.Title
+  commentId: P:Mewdeko.Common.Embed.Title
+  id: Title
+  parent: Mewdeko.Common.Embed
+  langs:
+  - csharp
+  - vb
+  name: Title
+  nameWithType: Embed.Title
+  fullName: Mewdeko.Common.Embed.Title
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/NewEmbed.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Title
+    path: src/Mewdeko/Common/NewEmbed.cs
+    startLine: 103
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common
+  summary: Gets or sets the title of the embed.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("title")]
+
+      public string? Title { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("title")>
+
+      Public Property Title As String
+  overload: Mewdeko.Common.Embed.Title*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: title
+- uid: Mewdeko.Common.Embed.Description
+  commentId: P:Mewdeko.Common.Embed.Description
+  id: Description
+  parent: Mewdeko.Common.Embed
+  langs:
+  - csharp
+  - vb
+  name: Description
+  nameWithType: Embed.Description
+  fullName: Mewdeko.Common.Embed.Description
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/NewEmbed.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Description
+    path: src/Mewdeko/Common/NewEmbed.cs
+    startLine: 109
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common
+  summary: Gets or sets the description of the embed.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("description")]
+
+      public string? Description { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("description")>
+
+      Public Property Description As String
+  overload: Mewdeko.Common.Embed.Description*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: description
+- uid: Mewdeko.Common.Embed.Color
+  commentId: P:Mewdeko.Common.Embed.Color
+  id: Color
+  parent: Mewdeko.Common.Embed
+  langs:
+  - csharp
+  - vb
+  name: Color
+  nameWithType: Embed.Color
+  fullName: Mewdeko.Common.Embed.Color
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/NewEmbed.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Color
+    path: src/Mewdeko/Common/NewEmbed.cs
+    startLine: 115
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common
+  summary: Gets or sets the color of the embed.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("color")]
+
+      [JsonConverter(typeof(StringToIntConverter))]
+
+      public string Color { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("color")>
+
+      <JsonConverter(GetType(StringToIntConverter))>
+
+      Public Property Color As String
+  overload: Mewdeko.Common.Embed.Color*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: color
+  - type: Newtonsoft.Json.JsonConverterAttribute
+    ctor: Newtonsoft.Json.JsonConverterAttribute.#ctor(System.Type)
+    arguments:
+    - type: System.Type
+      value: Mewdeko.Common.JsonConverters.StringToIntConverter
+- uid: Mewdeko.Common.Embed.Timestamp
+  commentId: P:Mewdeko.Common.Embed.Timestamp
+  id: Timestamp
+  parent: Mewdeko.Common.Embed
+  langs:
+  - csharp
+  - vb
+  name: Timestamp
+  nameWithType: Embed.Timestamp
+  fullName: Mewdeko.Common.Embed.Timestamp
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/NewEmbed.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Timestamp
+    path: src/Mewdeko/Common/NewEmbed.cs
+    startLine: 122
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common
+  summary: Gets or sets the timestamp of the embed.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("timestamp")]
+
+      public DateTime? Timestamp { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.DateTime}
+    content.vb: >-
+      <JsonProperty("timestamp")>
+
+      Public Property Timestamp As Date?
+  overload: Mewdeko.Common.Embed.Timestamp*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: timestamp
+- uid: Mewdeko.Common.Embed.Url
+  commentId: P:Mewdeko.Common.Embed.Url
+  id: Url
+  parent: Mewdeko.Common.Embed
+  langs:
+  - csharp
+  - vb
+  name: Url
+  nameWithType: Embed.Url
+  fullName: Mewdeko.Common.Embed.Url
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/NewEmbed.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Url
+    path: src/Mewdeko/Common/NewEmbed.cs
+    startLine: 128
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common
+  summary: Gets or sets the URL of the embed.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("url")]
+
+      public string? Url { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("url")>
+
+      Public Property Url As String
+  overload: Mewdeko.Common.Embed.Url*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: url
+- uid: Mewdeko.Common.Embed.Author
+  commentId: P:Mewdeko.Common.Embed.Author
+  id: Author
+  parent: Mewdeko.Common.Embed
+  langs:
+  - csharp
+  - vb
+  name: Author
+  nameWithType: Embed.Author
+  fullName: Mewdeko.Common.Embed.Author
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/NewEmbed.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Author
+    path: src/Mewdeko/Common/NewEmbed.cs
+    startLine: 134
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common
+  summary: Gets or sets the author of the embed.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("author")]
+
+      public Author? Author { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Common.Author
+    content.vb: >-
+      <JsonProperty("author")>
+
+      Public Property Author As Author
+  overload: Mewdeko.Common.Embed.Author*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: author
+- uid: Mewdeko.Common.Embed.Thumbnail
+  commentId: P:Mewdeko.Common.Embed.Thumbnail
+  id: Thumbnail
+  parent: Mewdeko.Common.Embed
+  langs:
+  - csharp
+  - vb
+  name: Thumbnail
+  nameWithType: Embed.Thumbnail
+  fullName: Mewdeko.Common.Embed.Thumbnail
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/NewEmbed.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Thumbnail
+    path: src/Mewdeko/Common/NewEmbed.cs
+    startLine: 140
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common
+  summary: Gets or sets the thumbnail image of the embed.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("thumbnail")]
+
+      public Thumbnail? Thumbnail { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Common.Thumbnail
+    content.vb: >-
+      <JsonProperty("thumbnail")>
+
+      Public Property Thumbnail As Thumbnail
+  overload: Mewdeko.Common.Embed.Thumbnail*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: thumbnail
+- uid: Mewdeko.Common.Embed.Image
+  commentId: P:Mewdeko.Common.Embed.Image
+  id: Image
+  parent: Mewdeko.Common.Embed
+  langs:
+  - csharp
+  - vb
+  name: Image
+  nameWithType: Embed.Image
+  fullName: Mewdeko.Common.Embed.Image
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/NewEmbed.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Image
+    path: src/Mewdeko/Common/NewEmbed.cs
+    startLine: 146
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common
+  summary: Gets or sets the image of the embed.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("image")]
+
+      public Image? Image { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Common.Image
+    content.vb: >-
+      <JsonProperty("image")>
+
+      Public Property Image As Image
+  overload: Mewdeko.Common.Embed.Image*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: image
+- uid: Mewdeko.Common.Embed.Footer
+  commentId: P:Mewdeko.Common.Embed.Footer
+  id: Footer
+  parent: Mewdeko.Common.Embed
+  langs:
+  - csharp
+  - vb
+  name: Footer
+  nameWithType: Embed.Footer
+  fullName: Mewdeko.Common.Embed.Footer
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/NewEmbed.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Footer
+    path: src/Mewdeko/Common/NewEmbed.cs
+    startLine: 152
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common
+  summary: Gets or sets the footer of the embed.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("footer")]
+
+      public Footer? Footer { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Common.Footer
+    content.vb: >-
+      <JsonProperty("footer")>
+
+      Public Property Footer As Footer
+  overload: Mewdeko.Common.Embed.Footer*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: footer
+- uid: Mewdeko.Common.Embed.Fields
+  commentId: P:Mewdeko.Common.Embed.Fields
+  id: Fields
+  parent: Mewdeko.Common.Embed
+  langs:
+  - csharp
+  - vb
+  name: Fields
+  nameWithType: Embed.Fields
+  fullName: Mewdeko.Common.Embed.Fields
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/NewEmbed.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Fields
+    path: src/Mewdeko/Common/NewEmbed.cs
+    startLine: 158
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common
+  summary: Gets or sets the fields of the embed.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("fields")]
+
+      public List<Field>? Fields { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{Mewdeko.Common.Field}
+    content.vb: >-
+      <JsonProperty("fields")>
+
+      Public Property Fields As List(Of Field)
+  overload: Mewdeko.Common.Embed.Fields*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: fields
+references:
+- uid: Mewdeko.Common
+  commentId: N:Mewdeko.Common
+  href: Mewdeko.html
+  name: Mewdeko.Common
+  nameWithType: Mewdeko.Common
+  fullName: Mewdeko.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Common.Embed.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<Embed>(Embed, string)
+  nameWithType: Extensions.ThrowIfNull<Embed>(Embed, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Common.Embed>(Mewdeko.Common.Embed, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of Embed)(Embed, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Common.Embed)(Mewdeko.Common.Embed, String)
+  name.vb: ThrowIfNull(Of Embed)(Embed, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.Embed,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Common.Embed
+    name: Embed
+    href: Mewdeko.Common.Embed.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Common.Embed
+    name: Embed
+    href: Mewdeko.Common.Embed.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.Embed,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Common.Embed
+    name: Embed
+    href: Mewdeko.Common.Embed.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Common.Embed
+    name: Embed
+    href: Mewdeko.Common.Embed.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Common.Embed.Title*
+  commentId: Overload:Mewdeko.Common.Embed.Title
+  href: Mewdeko.Common.Embed.html#Mewdeko_Common_Embed_Title
+  name: Title
+  nameWithType: Embed.Title
+  fullName: Mewdeko.Common.Embed.Title
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Common.Embed.Description*
+  commentId: Overload:Mewdeko.Common.Embed.Description
+  href: Mewdeko.Common.Embed.html#Mewdeko_Common_Embed_Description
+  name: Description
+  nameWithType: Embed.Description
+  fullName: Mewdeko.Common.Embed.Description
+- uid: Mewdeko.Common.Embed.Color*
+  commentId: Overload:Mewdeko.Common.Embed.Color
+  href: Mewdeko.Common.Embed.html#Mewdeko_Common_Embed_Color
+  name: Color
+  nameWithType: Embed.Color
+  fullName: Mewdeko.Common.Embed.Color
+- uid: Mewdeko.Common.Embed.Timestamp*
+  commentId: Overload:Mewdeko.Common.Embed.Timestamp
+  href: Mewdeko.Common.Embed.html#Mewdeko_Common_Embed_Timestamp
+  name: Timestamp
+  nameWithType: Embed.Timestamp
+  fullName: Mewdeko.Common.Embed.Timestamp
+- uid: System.Nullable{System.DateTime}
+  commentId: T:System.Nullable{System.DateTime}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.datetime
+  name: DateTime?
+  nameWithType: DateTime?
+  fullName: System.DateTime?
+  nameWithType.vb: Date?
+  fullName.vb: Date?
+  name.vb: Date?
+  spec.csharp:
+  - uid: System.DateTime
+    name: DateTime
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.datetime
+  - name: '?'
+  spec.vb:
+  - uid: System.DateTime
+    name: Date
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.datetime
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Common.Embed.Url*
+  commentId: Overload:Mewdeko.Common.Embed.Url
+  href: Mewdeko.Common.Embed.html#Mewdeko_Common_Embed_Url
+  name: Url
+  nameWithType: Embed.Url
+  fullName: Mewdeko.Common.Embed.Url
+- uid: Mewdeko.Common.Embed.Author*
+  commentId: Overload:Mewdeko.Common.Embed.Author
+  href: Mewdeko.Common.Embed.html#Mewdeko_Common_Embed_Author
+  name: Author
+  nameWithType: Embed.Author
+  fullName: Mewdeko.Common.Embed.Author
+- uid: Mewdeko.Common.Author
+  commentId: T:Mewdeko.Common.Author
+  parent: Mewdeko.Common
+  href: Mewdeko.Common.Author.html
+  name: Author
+  nameWithType: Author
+  fullName: Mewdeko.Common.Author
+- uid: Mewdeko.Common.Embed.Thumbnail*
+  commentId: Overload:Mewdeko.Common.Embed.Thumbnail
+  href: Mewdeko.Common.Embed.html#Mewdeko_Common_Embed_Thumbnail
+  name: Thumbnail
+  nameWithType: Embed.Thumbnail
+  fullName: Mewdeko.Common.Embed.Thumbnail
+- uid: Mewdeko.Common.Thumbnail
+  commentId: T:Mewdeko.Common.Thumbnail
+  parent: Mewdeko.Common
+  href: Mewdeko.Common.Thumbnail.html
+  name: Thumbnail
+  nameWithType: Thumbnail
+  fullName: Mewdeko.Common.Thumbnail
+- uid: Mewdeko.Common.Embed.Image*
+  commentId: Overload:Mewdeko.Common.Embed.Image
+  href: Mewdeko.Common.Embed.html#Mewdeko_Common_Embed_Image
+  name: Image
+  nameWithType: Embed.Image
+  fullName: Mewdeko.Common.Embed.Image
+- uid: Mewdeko.Common.Image
+  commentId: T:Mewdeko.Common.Image
+  parent: Mewdeko.Common
+  href: Mewdeko.Common.Image.html
+  name: Image
+  nameWithType: Image
+  fullName: Mewdeko.Common.Image
+- uid: Mewdeko.Common.Embed.Footer*
+  commentId: Overload:Mewdeko.Common.Embed.Footer
+  href: Mewdeko.Common.Embed.html#Mewdeko_Common_Embed_Footer
+  name: Footer
+  nameWithType: Embed.Footer
+  fullName: Mewdeko.Common.Embed.Footer
+- uid: Mewdeko.Common.Footer
+  commentId: T:Mewdeko.Common.Footer
+  parent: Mewdeko.Common
+  href: Mewdeko.Common.Footer.html
+  name: Footer
+  nameWithType: Footer
+  fullName: Mewdeko.Common.Footer
+- uid: Mewdeko.Common.Embed.Fields*
+  commentId: Overload:Mewdeko.Common.Embed.Fields
+  href: Mewdeko.Common.Embed.html#Mewdeko_Common_Embed_Fields
+  name: Fields
+  nameWithType: Embed.Fields
+  fullName: Mewdeko.Common.Embed.Fields
+- uid: System.Collections.Generic.List{Mewdeko.Common.Field}
+  commentId: T:System.Collections.Generic.List{Mewdeko.Common.Field}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<Field>
+  nameWithType: List<Field>
+  fullName: System.Collections.Generic.List<Mewdeko.Common.Field>
+  nameWithType.vb: List(Of Field)
+  fullName.vb: System.Collections.Generic.List(Of Mewdeko.Common.Field)
+  name.vb: List(Of Field)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: Mewdeko.Common.Field
+    name: Field
+    href: Mewdeko.Common.Field.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Common.Field
+    name: Field
+    href: Mewdeko.Common.Field.html
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic

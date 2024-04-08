@@ -1,0 +1,832 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+  id: DescriptionPanel
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  children:
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Body
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ButtonLink
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ButtonText
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Image
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ImageLink
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Position
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Title
+  langs:
+  - csharp
+  - vb
+  name: DescriptionPanel
+  nameWithType: DescriptionPanel
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: DescriptionPanel
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 193
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Represents a description panel within a Picarto channel's page.
+  example: []
+  syntax:
+    content: public class DescriptionPanel
+    content.vb: Public Class DescriptionPanel
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Title
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Title
+  id: Title
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+  langs:
+  - csharp
+  - vb
+  name: Title
+  nameWithType: DescriptionPanel.Title
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Title
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Title
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 198
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Title of the description panel.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("title")]
+
+      public string Title { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("title")>
+
+      Public Property Title As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Title*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: title
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Body
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Body
+  id: Body
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+  langs:
+  - csharp
+  - vb
+  name: Body
+  nameWithType: DescriptionPanel.Body
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Body
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Body
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 204
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Body text of the description panel.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("body")]
+
+      public string Body { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("body")>
+
+      Public Property Body As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Body*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: body
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Image
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Image
+  id: Image
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+  langs:
+  - csharp
+  - vb
+  name: Image
+  nameWithType: DescriptionPanel.Image
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Image
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Image
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 210
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: URL of an image associated with the description panel.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("image")]
+
+      public string Image { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("image")>
+
+      Public Property Image As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Image*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: image
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ImageLink
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ImageLink
+  id: ImageLink
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+  langs:
+  - csharp
+  - vb
+  name: ImageLink
+  nameWithType: DescriptionPanel.ImageLink
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ImageLink
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ImageLink
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 216
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: URL that the image links to, if any.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("image_link")]
+
+      public string ImageLink { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("image_link")>
+
+      Public Property ImageLink As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ImageLink*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: image_link
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ButtonText
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ButtonText
+  id: ButtonText
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+  langs:
+  - csharp
+  - vb
+  name: ButtonText
+  nameWithType: DescriptionPanel.ButtonText
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ButtonText
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ButtonText
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 222
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Text of the button within the panel, if any.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("button_text")]
+
+      public string ButtonText { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("button_text")>
+
+      Public Property ButtonText As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ButtonText*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: button_text
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ButtonLink
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ButtonLink
+  id: ButtonLink
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+  langs:
+  - csharp
+  - vb
+  name: ButtonLink
+  nameWithType: DescriptionPanel.ButtonLink
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ButtonLink
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ButtonLink
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 228
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: URL that the button links to, if any.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("button_link")]
+
+      public string ButtonLink { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("button_link")>
+
+      Public Property ButtonLink As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ButtonLink*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: button_link
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Position
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Position
+  id: Position
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+  langs:
+  - csharp
+  - vb
+  name: Position
+  nameWithType: DescriptionPanel.Position
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Position
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Position
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 234
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Position of the panel among other panels.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("position")]
+
+      public int Position { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <JsonProperty("position")>
+
+      Public Property Position As Integer
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Position*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: position
+references:
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  commentId: N:Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  nameWithType: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications
+    name: StreamNotifications
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+    name: Models
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications
+    name: StreamNotifications
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+    name: Models
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<DescriptionPanel>(DescriptionPanel, string)
+  nameWithType: Extensions.ThrowIfNull<DescriptionPanel>(DescriptionPanel, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel>(Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of DescriptionPanel)(DescriptionPanel, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel)(Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel, String)
+  name.vb: ThrowIfNull(Of DescriptionPanel)(DescriptionPanel, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+    name: DescriptionPanel
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+    name: DescriptionPanel
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+    name: DescriptionPanel
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+    name: DescriptionPanel
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Title*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Title
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_DescriptionPanel_Title
+  name: Title
+  nameWithType: DescriptionPanel.Title
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Title
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Body*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Body
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_DescriptionPanel_Body
+  name: Body
+  nameWithType: DescriptionPanel.Body
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Body
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Image*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Image
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_DescriptionPanel_Image
+  name: Image
+  nameWithType: DescriptionPanel.Image
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Image
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ImageLink*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ImageLink
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_DescriptionPanel_ImageLink
+  name: ImageLink
+  nameWithType: DescriptionPanel.ImageLink
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ImageLink
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ButtonText*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ButtonText
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_DescriptionPanel_ButtonText
+  name: ButtonText
+  nameWithType: DescriptionPanel.ButtonText
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ButtonText
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ButtonLink*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ButtonLink
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_DescriptionPanel_ButtonLink
+  name: ButtonLink
+  nameWithType: DescriptionPanel.ButtonLink
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.ButtonLink
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Position*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Position
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_DescriptionPanel_Position
+  name: Position
+  nameWithType: DescriptionPanel.Position
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.Position
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer

@@ -1,0 +1,2341 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  commentId: T:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  id: OwnerOnlyService
+  parent: Mewdeko.Modules.OwnerOnly.Services
+  children:
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.CommandHandler,Mewdeko.Database.DbService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Services.IBotCredentials,Mewdeko.Services.IDataCache,System.Net.Http.IHttpClientFactory,Mewdeko.Services.Settings.BotConfigService,System.Collections.Generic.IEnumerable{Mewdeko.Common.IPlaceholderProvider},Mewdeko.Mewdeko,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler)
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.AddNewAutoCommand(Mewdeko.Database.Models.AutoCommand)
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.AddPlaying(Discord.ActivityType,System.String)
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ClearStartupCommands
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ClearUsedTokens
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.Die
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ForwardMessages
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ForwardToAll
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetAutoCommands
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetRotatingStatuses
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetStartupCommands
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.LateExecute(Discord.WebSocket.DiscordSocketClient,Discord.IGuild,Discord.IUserMessage)
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.LeaveGuild(System.String)
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.OnReadyAsync
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ReloadImages
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemoveAutoCommand(System.Int32,Mewdeko.Database.Models.AutoCommand@)
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemovePlayingAsync(System.Int32)
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemoveStartupCommand(System.Int32,Mewdeko.Database.Models.AutoCommand@)
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.Restart
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RestartBot
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RestartShard(System.Int32)
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.SetAvatar(System.String)
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.SetDefaultPrefix(System.String)
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ToggleRotatePlaying
+  langs:
+  - csharp
+  - vb
+  name: OwnerOnlyService
+  nameWithType: OwnerOnlyService
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OwnerOnlyService
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 25
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Service for owner-only commands.
+  example: []
+  syntax:
+    content: 'public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService'
+    content.vb: Public Class OwnerOnlyService Implements ILateExecutor, IReadyExecutor, INService
+  inheritance:
+  - System.Object
+  implements:
+  - Mewdeko.Common.ModuleBehaviors.ILateExecutor
+  - Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  - Mewdeko.Services.INService
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.CommandHandler,Mewdeko.Database.DbService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Services.IBotCredentials,Mewdeko.Services.IDataCache,System.Net.Http.IHttpClientFactory,Mewdeko.Services.Settings.BotConfigService,System.Collections.Generic.IEnumerable{Mewdeko.Common.IPlaceholderProvider},Mewdeko.Mewdeko,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler)
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.CommandHandler,Mewdeko.Database.DbService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Services.IBotCredentials,Mewdeko.Services.IDataCache,System.Net.Http.IHttpClientFactory,Mewdeko.Services.Settings.BotConfigService,System.Collections.Generic.IEnumerable{Mewdeko.Common.IPlaceholderProvider},Mewdeko.Mewdeko,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler)
+  id: '#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.CommandHandler,Mewdeko.Database.DbService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Services.IBotCredentials,Mewdeko.Services.IDataCache,System.Net.Http.IHttpClientFactory,Mewdeko.Services.Settings.BotConfigService,System.Collections.Generic.IEnumerable{Mewdeko.Common.IPlaceholderProvider},Mewdeko.Mewdeko,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler)'
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: OwnerOnlyService(DiscordSocketClient, CommandHandler, DbService, IBotStrings, IBotCredentials, IDataCache, IHttpClientFactory, BotConfigService, IEnumerable<IPlaceholderProvider>, Mewdeko, GuildSettingsService, EventHandler)
+  nameWithType: OwnerOnlyService.OwnerOnlyService(DiscordSocketClient, CommandHandler, DbService, IBotStrings, IBotCredentials, IDataCache, IHttpClientFactory, BotConfigService, IEnumerable<IPlaceholderProvider>, Mewdeko, GuildSettingsService, EventHandler)
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.OwnerOnlyService(Discord.WebSocket.DiscordSocketClient, Mewdeko.Services.CommandHandler, Mewdeko.Database.DbService, Mewdeko.Services.strings.IBotStrings, Mewdeko.Services.IBotCredentials, Mewdeko.Services.IDataCache, System.Net.Http.IHttpClientFactory, Mewdeko.Services.Settings.BotConfigService, System.Collections.Generic.IEnumerable<Mewdeko.Common.IPlaceholderProvider>, Mewdeko.Mewdeko, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Impl.EventHandler)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 70
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: >-
+    Initializes a new instance of the <xref href="Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService" data-throw-if-not-resolved="false"></xref> class.
+
+    This service handles owner-only commands and functionalities for the bot.
+  remarks: >-
+    The constructor subscribes to message received events and sets up periodic tasks for rotating statuses
+
+    and checking for updates. It also listens for commands to leave guilds or reload images via Redis subscriptions.
+  example: []
+  syntax:
+    content: public OwnerOnlyService(DiscordSocketClient client, CommandHandler cmdHandler, DbService db, IBotStrings strings, IBotCredentials creds, IDataCache cache, IHttpClientFactory factory, BotConfigService bss, IEnumerable<IPlaceholderProvider> phProviders, Mewdeko bot, GuildSettingsService guildSettings, EventHandler handler)
+    parameters:
+    - id: client
+      type: Discord.WebSocket.DiscordSocketClient
+      description: The Discord client used for interacting with the Discord API.
+    - id: cmdHandler
+      type: Mewdeko.Services.CommandHandler
+      description: Handles command processing and execution.
+    - id: db
+      type: Mewdeko.Database.DbService
+      description: Provides access to the database for data persistence.
+    - id: strings
+      type: Mewdeko.Services.strings.IBotStrings
+      description: Provides access to localized bot strings.
+    - id: creds
+      type: Mewdeko.Services.IBotCredentials
+      description: Contains the bot's credentials and configuration.
+    - id: cache
+      type: Mewdeko.Services.IDataCache
+      description: Provides caching functionalities.
+    - id: factory
+      type: System.Net.Http.IHttpClientFactory
+      description: Factory for creating instances of <xref href="System.Net.Http.HttpClient" data-throw-if-not-resolved="false"></xref>.
+    - id: bss
+      type: Mewdeko.Services.Settings.BotConfigService
+      description: Service for accessing bot configuration settings.
+    - id: phProviders
+      type: System.Collections.Generic.IEnumerable{Mewdeko.Common.IPlaceholderProvider}
+      description: A collection of providers for placeholder values.
+    - id: bot
+      type: Mewdeko.Mewdeko
+      description: Reference to the main bot instance.
+    - id: guildSettings
+      type: Mewdeko.Services.GuildSettingsService
+      description: Service for accessing guild-specific settings.
+    - id: handler
+      type: Mewdeko.Services.Impl.EventHandler
+      description: Event handler for subscribing to bot events.
+    content.vb: Public Sub New(client As DiscordSocketClient, cmdHandler As CommandHandler, db As DbService, strings As IBotStrings, creds As IBotCredentials, cache As IDataCache, factory As IHttpClientFactory, bss As BotConfigService, phProviders As IEnumerable(Of IPlaceholderProvider), bot As Mewdeko, guildSettings As GuildSettingsService, handler As EventHandler)
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.#ctor*
+  nameWithType.vb: OwnerOnlyService.New(DiscordSocketClient, CommandHandler, DbService, IBotStrings, IBotCredentials, IDataCache, IHttpClientFactory, BotConfigService, IEnumerable(Of IPlaceholderProvider), Mewdeko, GuildSettingsService, EventHandler)
+  fullName.vb: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.New(Discord.WebSocket.DiscordSocketClient, Mewdeko.Services.CommandHandler, Mewdeko.Database.DbService, Mewdeko.Services.strings.IBotStrings, Mewdeko.Services.IBotCredentials, Mewdeko.Services.IDataCache, System.Net.Http.IHttpClientFactory, Mewdeko.Services.Settings.BotConfigService, System.Collections.Generic.IEnumerable(Of Mewdeko.Common.IPlaceholderProvider), Mewdeko.Mewdeko, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Impl.EventHandler)
+  name.vb: New(DiscordSocketClient, CommandHandler, DbService, IBotStrings, IBotCredentials, IDataCache, IHttpClientFactory, BotConfigService, IEnumerable(Of IPlaceholderProvider), Mewdeko, GuildSettingsService, EventHandler)
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ClearUsedTokens
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ClearUsedTokens
+  id: ClearUsedTokens
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: ClearUsedTokens()
+  nameWithType: OwnerOnlyService.ClearUsedTokens()
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ClearUsedTokens()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClearUsedTokens
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 441
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Resets the count of used GPT tokens to zero in the database. This is typically called to clear the token usage count at the start of a new billing period or when manually resetting the token count.
+  example: []
+  syntax:
+    content: public Task ClearUsedTokens()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function ClearUsedTokens() As Task
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ClearUsedTokens*
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.LateExecute(Discord.WebSocket.DiscordSocketClient,Discord.IGuild,Discord.IUserMessage)
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.LateExecute(Discord.WebSocket.DiscordSocketClient,Discord.IGuild,Discord.IUserMessage)
+  id: LateExecute(Discord.WebSocket.DiscordSocketClient,Discord.IGuild,Discord.IUserMessage)
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: LateExecute(DiscordSocketClient, IGuild, IUserMessage)
+  nameWithType: OwnerOnlyService.LateExecute(DiscordSocketClient, IGuild, IUserMessage)
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.LateExecute(Discord.WebSocket.DiscordSocketClient, Discord.IGuild, Discord.IUserMessage)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: LateExecute
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 462
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Forwards direct messages (DMs) received by the bot to the owners' DMs. This allows bot owners to monitor and respond to user messages directly.
+  remarks: >-
+    The method checks if the message was sent in a DM channel and forwards it to all owners if the setting is enabled.
+
+    Attachments are also forwarded. Errors in sending messages to any owner are logged but not thrown.
+  example: []
+  syntax:
+    content: public Task LateExecute(DiscordSocketClient discordSocketClient, IGuild guild, IUserMessage msg)
+    parameters:
+    - id: discordSocketClient
+      type: Discord.WebSocket.DiscordSocketClient
+      description: The Discord client through which the message was received.
+    - id: guild
+      type: Discord.IGuild
+      description: The guild associated with the message, if any.
+    - id: msg
+      type: Discord.IUserMessage
+      description: The message that was received and is to be forwarded.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function LateExecute(discordSocketClient As DiscordSocketClient, guild As IGuild, msg As IUserMessage) As Task
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.LateExecute*
+  implements:
+  - Mewdeko.Common.ModuleBehaviors.ILateExecutor.LateExecute(Discord.WebSocket.DiscordSocketClient,Discord.IGuild,Discord.IUserMessage)
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.OnReadyAsync
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.OnReadyAsync
+  id: OnReadyAsync
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: OnReadyAsync()
+  nameWithType: OwnerOnlyService.OnReadyAsync()
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.OnReadyAsync()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OnReadyAsync
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 519
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Initializes required services and loads configurations when the bot is ready. This includes setting up automatic commands based on their configured intervals and creating direct message channels for the bot owners.
+  remarks: This method is typically called once when the bot starts and is ready to receive and process messages. It prepares the bot for operation by loading necessary configurations and establishing connections.
+  example: []
+  syntax:
+    content: public Task OnReadyAsync()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: Public Function OnReadyAsync() As Task
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.OnReadyAsync*
+  implements:
+  - Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemovePlayingAsync(System.Int32)
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemovePlayingAsync(System.Int32)
+  id: RemovePlayingAsync(System.Int32)
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: RemovePlayingAsync(int)
+  nameWithType: OwnerOnlyService.RemovePlayingAsync(int)
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemovePlayingAsync(int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RemovePlayingAsync
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 610
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Removes a playing status from the rotating statuses list based on its index.
+  example: []
+  syntax:
+    content: public Task<string?> RemovePlayingAsync(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The zero-based index of the status to remove.
+    return:
+      type: System.Threading.Tasks.Task{System.String}
+      description: The status that was removed, or null if the index was out of bounds.
+    content.vb: Public Function RemovePlayingAsync(index As Integer) As Task(Of String)
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemovePlayingAsync*
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: Thrown if the <code class="paramref">index</code> is less than 0.
+  nameWithType.vb: OwnerOnlyService.RemovePlayingAsync(Integer)
+  fullName.vb: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemovePlayingAsync(Integer)
+  name.vb: RemovePlayingAsync(Integer)
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.AddPlaying(Discord.ActivityType,System.String)
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.AddPlaying(Discord.ActivityType,System.String)
+  id: AddPlaying(Discord.ActivityType,System.String)
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: AddPlaying(ActivityType, string)
+  nameWithType: OwnerOnlyService.AddPlaying(ActivityType, string)
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.AddPlaying(Discord.ActivityType, string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AddPlaying
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 636
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Adds a new playing status to the list of rotating statuses.
+  example: []
+  syntax:
+    content: public Task AddPlaying(ActivityType t, string status)
+    parameters:
+    - id: t
+      type: Discord.ActivityType
+      description: The type of activity for the status (e.g., playing, streaming).
+    - id: status
+      type: System.String
+      description: The text of the status to display.
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous add operation.
+    content.vb: Public Function AddPlaying(t As ActivityType, status As String) As Task
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.AddPlaying*
+  nameWithType.vb: OwnerOnlyService.AddPlaying(ActivityType, String)
+  fullName.vb: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.AddPlaying(Discord.ActivityType, String)
+  name.vb: AddPlaying(ActivityType, String)
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ToggleRotatePlaying
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ToggleRotatePlaying
+  id: ToggleRotatePlaying
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: ToggleRotatePlaying()
+  nameWithType: OwnerOnlyService.ToggleRotatePlaying()
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ToggleRotatePlaying()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ToggleRotatePlaying
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 651
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Toggles the rotation of playing statuses on or off.
+  example: []
+  syntax:
+    content: public bool ToggleRotatePlaying()
+    return:
+      type: System.Boolean
+      description: True if rotation is enabled after the toggle, false otherwise.
+    content.vb: Public Function ToggleRotatePlaying() As Boolean
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ToggleRotatePlaying*
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetRotatingStatuses
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetRotatingStatuses
+  id: GetRotatingStatuses
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: GetRotatingStatuses()
+  nameWithType: OwnerOnlyService.GetRotatingStatuses()
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetRotatingStatuses()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetRotatingStatuses
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 662
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Retrieves the current list of rotating playing statuses.
+  example: []
+  syntax:
+    content: public IReadOnlyList<RotatingPlayingStatus> GetRotatingStatuses()
+    return:
+      type: System.Collections.Generic.IReadOnlyList{Mewdeko.Database.Models.RotatingPlayingStatus}
+      description: A read-only list of <xref href="Mewdeko.Database.Models.RotatingPlayingStatus" data-throw-if-not-resolved="false"></xref> representing the current rotating statuses.
+    content.vb: Public Function GetRotatingStatuses() As IReadOnlyList(Of RotatingPlayingStatus)
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetRotatingStatuses*
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.AddNewAutoCommand(Mewdeko.Database.Models.AutoCommand)
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.AddNewAutoCommand(Mewdeko.Database.Models.AutoCommand)
+  id: AddNewAutoCommand(Mewdeko.Database.Models.AutoCommand)
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: AddNewAutoCommand(AutoCommand)
+  nameWithType: OwnerOnlyService.AddNewAutoCommand(AutoCommand)
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.AddNewAutoCommand(Mewdeko.Database.Models.AutoCommand)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AddNewAutoCommand
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 702
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Adds a new auto command to the database and schedules it if necessary.
+  remarks: If the command's interval is 5 seconds or more, it's also scheduled to be executed periodically according to its interval.
+  example: []
+  syntax:
+    content: public void AddNewAutoCommand(AutoCommand cmd)
+    parameters:
+    - id: cmd
+      type: Mewdeko.Database.Models.AutoCommand
+      description: The auto command to be added.
+    content.vb: Public Sub AddNewAutoCommand(cmd As AutoCommand)
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.AddNewAutoCommand*
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.SetDefaultPrefix(System.String)
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.SetDefaultPrefix(System.String)
+  id: SetDefaultPrefix(System.String)
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: SetDefaultPrefix(string)
+  nameWithType: OwnerOnlyService.SetDefaultPrefix(string)
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.SetDefaultPrefix(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetDefaultPrefix
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 727
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Sets the default prefix for bot commands.
+  example: []
+  syntax:
+    content: public string SetDefaultPrefix(string prefix)
+    parameters:
+    - id: prefix
+      type: System.String
+      description: The new prefix to be set.
+    return:
+      type: System.String
+      description: The newly set prefix.
+    content.vb: Public Function SetDefaultPrefix(prefix As String) As String
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.SetDefaultPrefix*
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: Thrown if <code class="paramref">prefix</code> is null or whitespace.
+  nameWithType.vb: OwnerOnlyService.SetDefaultPrefix(String)
+  fullName.vb: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.SetDefaultPrefix(String)
+  name.vb: SetDefaultPrefix(String)
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetStartupCommands
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetStartupCommands
+  id: GetStartupCommands
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: GetStartupCommands()
+  nameWithType: OwnerOnlyService.GetStartupCommands()
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetStartupCommands()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetStartupCommands
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 741
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Retrieves a list of auto commands set to execute at bot startup (interval of 0).
+  example: []
+  syntax:
+    content: public IEnumerable<AutoCommand> GetStartupCommands()
+    return:
+      type: System.Collections.Generic.IEnumerable{Mewdeko.Database.Models.AutoCommand}
+      description: A list of startup auto commands.
+    content.vb: Public Function GetStartupCommands() As IEnumerable(Of AutoCommand)
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetStartupCommands*
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetAutoCommands
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetAutoCommands
+  id: GetAutoCommands
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: GetAutoCommands()
+  nameWithType: OwnerOnlyService.GetAutoCommands()
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetAutoCommands()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetAutoCommands
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 756
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Retrieves a list of auto commands with an interval of 5 seconds or more.
+  example: []
+  syntax:
+    content: public IEnumerable<AutoCommand> GetAutoCommands()
+    return:
+      type: System.Collections.Generic.IEnumerable{Mewdeko.Database.Models.AutoCommand}
+      description: A list of auto commands set to execute periodically.
+    content.vb: Public Function GetAutoCommands() As IEnumerable(Of AutoCommand)
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetAutoCommands*
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.LeaveGuild(System.String)
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.LeaveGuild(System.String)
+  id: LeaveGuild(System.String)
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: LeaveGuild(string)
+  nameWithType: OwnerOnlyService.LeaveGuild(string)
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.LeaveGuild(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: LeaveGuild
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 772
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Instructs the bot to leave a guild based on the guild's identifier or name.
+  example: []
+  syntax:
+    content: public Task LeaveGuild(string guildStr)
+    parameters:
+    - id: guildStr
+      type: System.String
+      description: The guild identifier or name.
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task representing the asynchronous operation.
+    content.vb: Public Function LeaveGuild(guildStr As String) As Task
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.LeaveGuild*
+  nameWithType.vb: OwnerOnlyService.LeaveGuild(String)
+  fullName.vb: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.LeaveGuild(String)
+  name.vb: LeaveGuild(String)
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RestartBot
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RestartBot
+  id: RestartBot
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: RestartBot()
+  nameWithType: OwnerOnlyService.RestartBot()
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RestartBot()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RestartBot
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 782
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Attempts to restart the bot using the configured restart command.
+  example: []
+  syntax:
+    content: public bool RestartBot()
+    return:
+      type: System.Boolean
+      description: True if the command to restart the bot is not null or whitespace and the bot is restarted; otherwise, false.
+    content.vb: Public Function RestartBot() As Boolean
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RestartBot*
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemoveStartupCommand(System.Int32,Mewdeko.Database.Models.AutoCommand@)
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemoveStartupCommand(System.Int32,Mewdeko.Database.Models.AutoCommand@)
+  id: RemoveStartupCommand(System.Int32,Mewdeko.Database.Models.AutoCommand@)
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: RemoveStartupCommand(int, out AutoCommand)
+  nameWithType: OwnerOnlyService.RemoveStartupCommand(int, out AutoCommand)
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemoveStartupCommand(int, out Mewdeko.Database.Models.AutoCommand)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RemoveStartupCommand
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 797
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Removes a startup command (a command with an interval of 0) at the specified index.
+  example: []
+  syntax:
+    content: public bool RemoveStartupCommand(int index, out AutoCommand cmd)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The zero-based index of the startup command to remove.
+    - id: cmd
+      type: Mewdeko.Database.Models.AutoCommand
+      description: Out parameter that returns the removed auto command if the operation succeeds.
+    return:
+      type: System.Boolean
+      description: True if a command was found and removed; otherwise, false.
+    content.vb: Public Function RemoveStartupCommand(index As Integer, cmd As AutoCommand) As Boolean
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemoveStartupCommand*
+  nameWithType.vb: OwnerOnlyService.RemoveStartupCommand(Integer, AutoCommand)
+  fullName.vb: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemoveStartupCommand(Integer, Mewdeko.Database.Models.AutoCommand)
+  name.vb: RemoveStartupCommand(Integer, AutoCommand)
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemoveAutoCommand(System.Int32,Mewdeko.Database.Models.AutoCommand@)
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemoveAutoCommand(System.Int32,Mewdeko.Database.Models.AutoCommand@)
+  id: RemoveAutoCommand(System.Int32,Mewdeko.Database.Models.AutoCommand@)
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: RemoveAutoCommand(int, out AutoCommand)
+  nameWithType: OwnerOnlyService.RemoveAutoCommand(int, out AutoCommand)
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemoveAutoCommand(int, out Mewdeko.Database.Models.AutoCommand)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RemoveAutoCommand
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 822
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Removes an auto command based on its index in the collection of commands with an interval of 5 seconds or more.
+  example: []
+  syntax:
+    content: public bool RemoveAutoCommand(int index, out AutoCommand cmd)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The zero-based index of the command to remove.
+    - id: cmd
+      type: Mewdeko.Database.Models.AutoCommand
+      description: Outputs the removed <xref href="Mewdeko.Database.Models.AutoCommand" data-throw-if-not-resolved="false"></xref> if the method returns true.
+    return:
+      type: System.Boolean
+      description: True if a command was successfully found and removed; otherwise, false.
+    content.vb: Public Function RemoveAutoCommand(index As Integer, cmd As AutoCommand) As Boolean
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemoveAutoCommand*
+  nameWithType.vb: OwnerOnlyService.RemoveAutoCommand(Integer, AutoCommand)
+  fullName.vb: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemoveAutoCommand(Integer, Mewdeko.Database.Models.AutoCommand)
+  name.vb: RemoveAutoCommand(Integer, AutoCommand)
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.SetAvatar(System.String)
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.SetAvatar(System.String)
+  id: SetAvatar(System.String)
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: SetAvatar(string)
+  nameWithType: OwnerOnlyService.SetAvatar(string)
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.SetAvatar(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetAvatar
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 848
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Sets a new avatar for the bot by downloading an image from a specified URL.
+  example: []
+  syntax:
+    content: public Task<bool> SetAvatar(string img)
+    parameters:
+    - id: img
+      type: System.String
+      description: The URL of the image to set as the new avatar.
+    return:
+      type: System.Threading.Tasks.Task{System.Boolean}
+      description: True if the avatar was successfully updated; otherwise, false.
+    content.vb: Public Function SetAvatar(img As String) As Task(Of Boolean)
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.SetAvatar*
+  nameWithType.vb: OwnerOnlyService.SetAvatar(String)
+  fullName.vb: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.SetAvatar(String)
+  name.vb: SetAvatar(String)
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ClearStartupCommands
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ClearStartupCommands
+  id: ClearStartupCommands
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: ClearStartupCommands()
+  nameWithType: OwnerOnlyService.ClearStartupCommands()
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ClearStartupCommands()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClearStartupCommands
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 874
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Clears all startup commands from the database.
+  example: []
+  syntax:
+    content: public void ClearStartupCommands()
+    content.vb: Public Sub ClearStartupCommands()
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ClearStartupCommands*
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ReloadImages
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ReloadImages
+  id: ReloadImages
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: ReloadImages()
+  nameWithType: OwnerOnlyService.ReloadImages()
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ReloadImages()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ReloadImages
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 888
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Reloads images from a source, typically used for refreshing local or cached resources.
+  example: []
+  syntax:
+    content: public void ReloadImages()
+    content.vb: Public Sub ReloadImages()
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ReloadImages*
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.Die
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.Die
+  id: Die
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: Die()
+  nameWithType: OwnerOnlyService.Die()
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.Die()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Die
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 897
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Instructs the bot to shut down.
+  example: []
+  syntax:
+    content: public void Die()
+    content.vb: Public Sub Die()
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.Die*
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.Restart
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.Restart
+  id: Restart
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: Restart()
+  nameWithType: OwnerOnlyService.Restart()
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.Restart()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Restart
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 906
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Restarts the bot by invoking a system command.
+  example: []
+  syntax:
+    content: public void Restart()
+    content.vb: Public Sub Restart()
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.Restart*
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RestartShard(System.Int32)
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RestartShard(System.Int32)
+  id: RestartShard(System.Int32)
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: RestartShard(int)
+  nameWithType: OwnerOnlyService.RestartShard(int)
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RestartShard(int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RestartShard
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 918
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Restarts a specific bot shard.
+  example: []
+  syntax:
+    content: public bool RestartShard(int shardId)
+    parameters:
+    - id: shardId
+      type: System.Int32
+      description: The ID of the shard to restart.
+    return:
+      type: System.Boolean
+      description: True if the shard ID is valid and the shard is restarted; otherwise, false.
+    content.vb: Public Function RestartShard(shardId As Integer) As Boolean
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RestartShard*
+  nameWithType.vb: OwnerOnlyService.RestartShard(Integer)
+  fullName.vb: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RestartShard(Integer)
+  name.vb: RestartShard(Integer)
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ForwardMessages
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ForwardMessages
+  id: ForwardMessages
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: ForwardMessages()
+  nameWithType: OwnerOnlyService.ForwardMessages()
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ForwardMessages()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ForwardMessages
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 935
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Toggles the bot's message forwarding feature.
+  example: []
+  syntax:
+    content: public bool ForwardMessages()
+    return:
+      type: System.Boolean
+      description: True if message forwarding is enabled after the toggle; otherwise, false.
+    content.vb: Public Function ForwardMessages() As Boolean
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ForwardMessages*
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ForwardToAll
+  commentId: M:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ForwardToAll
+  id: ForwardToAll
+  parent: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  langs:
+  - csharp
+  - vb
+  name: ForwardToAll()
+  nameWithType: OwnerOnlyService.ForwardToAll()
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ForwardToAll()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ForwardToAll
+    path: src/Mewdeko/Modules/OwnerOnly/Services/OwnerOnlyService.cs
+    startLine: 947
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.OwnerOnly.Services
+  summary: Toggles whether the bot forwards messages to all owners or just the primary owner.
+  example: []
+  syntax:
+    content: public bool ForwardToAll()
+    return:
+      type: System.Boolean
+      description: True if forwarding to all owners is enabled after the toggle; otherwise, false.
+    content.vb: Public Function ForwardToAll() As Boolean
+  overload: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ForwardToAll*
+references:
+- uid: Mewdeko.Modules.OwnerOnly.Services
+  commentId: N:Mewdeko.Modules.OwnerOnly.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.OwnerOnly.Services
+  nameWithType: Mewdeko.Modules.OwnerOnly.Services
+  fullName: Mewdeko.Modules.OwnerOnly.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.OwnerOnly
+    name: OwnerOnly
+    href: Mewdeko.Modules.OwnerOnly.html
+  - name: .
+  - uid: Mewdeko.Modules.OwnerOnly.Services
+    name: Services
+    href: Mewdeko.Modules.OwnerOnly.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.OwnerOnly
+    name: OwnerOnly
+    href: Mewdeko.Modules.OwnerOnly.html
+  - name: .
+  - uid: Mewdeko.Modules.OwnerOnly.Services
+    name: Services
+    href: Mewdeko.Modules.OwnerOnly.Services.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Mewdeko.Common.ModuleBehaviors.ILateExecutor
+  commentId: T:Mewdeko.Common.ModuleBehaviors.ILateExecutor
+  parent: Mewdeko.Common.ModuleBehaviors
+  href: Mewdeko.Common.ModuleBehaviors.ILateExecutor.html
+  name: ILateExecutor
+  nameWithType: ILateExecutor
+  fullName: Mewdeko.Common.ModuleBehaviors.ILateExecutor
+- uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  commentId: T:Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  parent: Mewdeko.Common.ModuleBehaviors
+  href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html
+  name: IReadyExecutor
+  nameWithType: IReadyExecutor
+  fullName: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+- uid: Mewdeko.Services.INService
+  commentId: T:Mewdeko.Services.INService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.INService.html
+  name: INService
+  nameWithType: INService
+  fullName: Mewdeko.Services.INService
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<OwnerOnlyService>(OwnerOnlyService, string)
+  nameWithType: Extensions.ThrowIfNull<OwnerOnlyService>(OwnerOnlyService, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService>(Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of OwnerOnlyService)(OwnerOnlyService, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService)(Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService, String)
+  name.vb: ThrowIfNull(Of OwnerOnlyService)(OwnerOnlyService, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+    name: OwnerOnlyService
+    href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+    name: OwnerOnlyService
+    href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+    name: OwnerOnlyService
+    href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+    name: OwnerOnlyService
+    href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Common.ModuleBehaviors
+  commentId: N:Mewdeko.Common.ModuleBehaviors
+  href: Mewdeko.html
+  name: Mewdeko.Common.ModuleBehaviors
+  nameWithType: Mewdeko.Common.ModuleBehaviors
+  fullName: Mewdeko.Common.ModuleBehaviors
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.ModuleBehaviors
+    name: ModuleBehaviors
+    href: Mewdeko.Common.ModuleBehaviors.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.ModuleBehaviors
+    name: ModuleBehaviors
+    href: Mewdeko.Common.ModuleBehaviors.html
+- uid: Mewdeko.Services
+  commentId: N:Mewdeko.Services
+  href: Mewdeko.html
+  name: Mewdeko.Services
+  nameWithType: Mewdeko.Services
+  fullName: Mewdeko.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  commentId: T:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html
+  name: OwnerOnlyService
+  nameWithType: OwnerOnlyService
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService
+- uid: System.Net.Http.HttpClient
+  commentId: T:System.Net.Http.HttpClient
+  parent: System.Net.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.net.http.httpclient
+  name: HttpClient
+  nameWithType: HttpClient
+  fullName: System.Net.Http.HttpClient
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.#ctor*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.#ctor
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService__ctor_Discord_WebSocket_DiscordSocketClient_Mewdeko_Services_CommandHandler_Mewdeko_Database_DbService_Mewdeko_Services_strings_IBotStrings_Mewdeko_Services_IBotCredentials_Mewdeko_Services_IDataCache_System_Net_Http_IHttpClientFactory_Mewdeko_Services_Settings_BotConfigService_System_Collections_Generic_IEnumerable_Mewdeko_Common_IPlaceholderProvider__Mewdeko_Mewdeko_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_Impl_EventHandler_
+  name: OwnerOnlyService
+  nameWithType: OwnerOnlyService.OwnerOnlyService
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.OwnerOnlyService
+  nameWithType.vb: OwnerOnlyService.New
+  fullName.vb: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.New
+  name.vb: New
+- uid: Discord.WebSocket.DiscordSocketClient
+  commentId: T:Discord.WebSocket.DiscordSocketClient
+  parent: Discord.WebSocket
+  isExternal: true
+  name: DiscordSocketClient
+  nameWithType: DiscordSocketClient
+  fullName: Discord.WebSocket.DiscordSocketClient
+- uid: Mewdeko.Services.CommandHandler
+  commentId: T:Mewdeko.Services.CommandHandler
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.CommandHandler.html
+  name: CommandHandler
+  nameWithType: CommandHandler
+  fullName: Mewdeko.Services.CommandHandler
+- uid: Mewdeko.Database.DbService
+  commentId: T:Mewdeko.Database.DbService
+  parent: Mewdeko.Database
+  href: Mewdeko.Database.DbService.html
+  name: DbService
+  nameWithType: DbService
+  fullName: Mewdeko.Database.DbService
+- uid: Mewdeko.Services.strings.IBotStrings
+  commentId: T:Mewdeko.Services.strings.IBotStrings
+  parent: Mewdeko.Services.strings
+  href: Mewdeko.Services.strings.IBotStrings.html
+  name: IBotStrings
+  nameWithType: IBotStrings
+  fullName: Mewdeko.Services.strings.IBotStrings
+- uid: Mewdeko.Services.IBotCredentials
+  commentId: T:Mewdeko.Services.IBotCredentials
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.IBotCredentials.html
+  name: IBotCredentials
+  nameWithType: IBotCredentials
+  fullName: Mewdeko.Services.IBotCredentials
+- uid: Mewdeko.Services.IDataCache
+  commentId: T:Mewdeko.Services.IDataCache
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.IDataCache.html
+  name: IDataCache
+  nameWithType: IDataCache
+  fullName: Mewdeko.Services.IDataCache
+- uid: System.Net.Http.IHttpClientFactory
+  commentId: T:System.Net.Http.IHttpClientFactory
+  parent: System.Net.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.net.http.ihttpclientfactory
+  name: IHttpClientFactory
+  nameWithType: IHttpClientFactory
+  fullName: System.Net.Http.IHttpClientFactory
+- uid: Mewdeko.Services.Settings.BotConfigService
+  commentId: T:Mewdeko.Services.Settings.BotConfigService
+  parent: Mewdeko.Services.Settings
+  href: Mewdeko.Services.Settings.BotConfigService.html
+  name: BotConfigService
+  nameWithType: BotConfigService
+  fullName: Mewdeko.Services.Settings.BotConfigService
+- uid: System.Collections.Generic.IEnumerable{Mewdeko.Common.IPlaceholderProvider}
+  commentId: T:System.Collections.Generic.IEnumerable{Mewdeko.Common.IPlaceholderProvider}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<IPlaceholderProvider>
+  nameWithType: IEnumerable<IPlaceholderProvider>
+  fullName: System.Collections.Generic.IEnumerable<Mewdeko.Common.IPlaceholderProvider>
+  nameWithType.vb: IEnumerable(Of IPlaceholderProvider)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of Mewdeko.Common.IPlaceholderProvider)
+  name.vb: IEnumerable(Of IPlaceholderProvider)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: Mewdeko.Common.IPlaceholderProvider
+    name: IPlaceholderProvider
+    href: Mewdeko.Common.IPlaceholderProvider.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Common.IPlaceholderProvider
+    name: IPlaceholderProvider
+    href: Mewdeko.Common.IPlaceholderProvider.html
+  - name: )
+- uid: Mewdeko.Mewdeko
+  commentId: T:Mewdeko.Mewdeko
+  parent: Mewdeko
+  href: Mewdeko.Mewdeko.html
+  name: Mewdeko
+  nameWithType: Mewdeko
+  fullName: Mewdeko.Mewdeko
+- uid: Mewdeko.Services.GuildSettingsService
+  commentId: T:Mewdeko.Services.GuildSettingsService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.GuildSettingsService.html
+  name: GuildSettingsService
+  nameWithType: GuildSettingsService
+  fullName: Mewdeko.Services.GuildSettingsService
+- uid: Mewdeko.Services.Impl.EventHandler
+  commentId: T:Mewdeko.Services.Impl.EventHandler
+  parent: Mewdeko.Services.Impl
+  href: Mewdeko.Services.Impl.EventHandler.html
+  name: EventHandler
+  nameWithType: EventHandler
+  fullName: Mewdeko.Services.Impl.EventHandler
+- uid: System.Net.Http
+  commentId: N:System.Net.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Net.Http
+  nameWithType: System.Net.Http
+  fullName: System.Net.Http
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http
+- uid: Discord.WebSocket
+  commentId: N:Discord.WebSocket
+  isExternal: true
+  name: Discord.WebSocket
+  nameWithType: Discord.WebSocket
+  fullName: Discord.WebSocket
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.WebSocket
+    name: WebSocket
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.WebSocket
+    name: WebSocket
+    isExternal: true
+- uid: Mewdeko.Database
+  commentId: N:Mewdeko.Database
+  href: Mewdeko.html
+  name: Mewdeko.Database
+  nameWithType: Mewdeko.Database
+  fullName: Mewdeko.Database
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+- uid: Mewdeko.Services.strings
+  commentId: N:Mewdeko.Services.strings
+  href: Mewdeko.html
+  name: Mewdeko.Services.strings
+  nameWithType: Mewdeko.Services.strings
+  fullName: Mewdeko.Services.strings
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.strings
+    name: strings
+    href: Mewdeko.Services.strings.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.strings
+    name: strings
+    href: Mewdeko.Services.strings.html
+- uid: Mewdeko.Services.Settings
+  commentId: N:Mewdeko.Services.Settings
+  href: Mewdeko.html
+  name: Mewdeko.Services.Settings
+  nameWithType: Mewdeko.Services.Settings
+  fullName: Mewdeko.Services.Settings
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Mewdeko
+  commentId: N:Mewdeko
+  href: Mewdeko.html
+  name: Mewdeko
+  nameWithType: Mewdeko
+  fullName: Mewdeko
+- uid: Mewdeko.Services.Impl
+  commentId: N:Mewdeko.Services.Impl
+  href: Mewdeko.html
+  name: Mewdeko.Services.Impl
+  nameWithType: Mewdeko.Services.Impl
+  fullName: Mewdeko.Services.Impl
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Impl
+    name: Impl
+    href: Mewdeko.Services.Impl.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Impl
+    name: Impl
+    href: Mewdeko.Services.Impl.html
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ClearUsedTokens*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ClearUsedTokens
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_ClearUsedTokens
+  name: ClearUsedTokens
+  nameWithType: OwnerOnlyService.ClearUsedTokens
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ClearUsedTokens
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.LateExecute*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.LateExecute
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_LateExecute_Discord_WebSocket_DiscordSocketClient_Discord_IGuild_Discord_IUserMessage_
+  name: LateExecute
+  nameWithType: OwnerOnlyService.LateExecute
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.LateExecute
+- uid: Mewdeko.Common.ModuleBehaviors.ILateExecutor.LateExecute(Discord.WebSocket.DiscordSocketClient,Discord.IGuild,Discord.IUserMessage)
+  commentId: M:Mewdeko.Common.ModuleBehaviors.ILateExecutor.LateExecute(Discord.WebSocket.DiscordSocketClient,Discord.IGuild,Discord.IUserMessage)
+  parent: Mewdeko.Common.ModuleBehaviors.ILateExecutor
+  isExternal: true
+  href: Mewdeko.Common.ModuleBehaviors.ILateExecutor.html#Mewdeko_Common_ModuleBehaviors_ILateExecutor_LateExecute_Discord_WebSocket_DiscordSocketClient_Discord_IGuild_Discord_IUserMessage_
+  name: LateExecute(DiscordSocketClient, IGuild, IUserMessage)
+  nameWithType: ILateExecutor.LateExecute(DiscordSocketClient, IGuild, IUserMessage)
+  fullName: Mewdeko.Common.ModuleBehaviors.ILateExecutor.LateExecute(Discord.WebSocket.DiscordSocketClient, Discord.IGuild, Discord.IUserMessage)
+  spec.csharp:
+  - uid: Mewdeko.Common.ModuleBehaviors.ILateExecutor.LateExecute(Discord.WebSocket.DiscordSocketClient,Discord.IGuild,Discord.IUserMessage)
+    name: LateExecute
+    href: Mewdeko.Common.ModuleBehaviors.ILateExecutor.html#Mewdeko_Common_ModuleBehaviors_ILateExecutor_LateExecute_Discord_WebSocket_DiscordSocketClient_Discord_IGuild_Discord_IUserMessage_
+  - name: (
+  - uid: Discord.WebSocket.DiscordSocketClient
+    name: DiscordSocketClient
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.IGuild
+    name: IGuild
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.ModuleBehaviors.ILateExecutor.LateExecute(Discord.WebSocket.DiscordSocketClient,Discord.IGuild,Discord.IUserMessage)
+    name: LateExecute
+    href: Mewdeko.Common.ModuleBehaviors.ILateExecutor.html#Mewdeko_Common_ModuleBehaviors_ILateExecutor_LateExecute_Discord_WebSocket_DiscordSocketClient_Discord_IGuild_Discord_IUserMessage_
+  - name: (
+  - uid: Discord.WebSocket.DiscordSocketClient
+    name: DiscordSocketClient
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.IGuild
+    name: IGuild
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: )
+- uid: Discord.IGuild
+  commentId: T:Discord.IGuild
+  parent: Discord
+  isExternal: true
+  name: IGuild
+  nameWithType: IGuild
+  fullName: Discord.IGuild
+- uid: Discord.IUserMessage
+  commentId: T:Discord.IUserMessage
+  parent: Discord
+  isExternal: true
+  name: IUserMessage
+  nameWithType: IUserMessage
+  fullName: Discord.IUserMessage
+- uid: Discord
+  commentId: N:Discord
+  isExternal: true
+  name: Discord
+  nameWithType: Discord
+  fullName: Discord
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.OnReadyAsync*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.OnReadyAsync
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_OnReadyAsync
+  name: OnReadyAsync
+  nameWithType: OwnerOnlyService.OnReadyAsync
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.OnReadyAsync
+- uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+  commentId: M:Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+  parent: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html#Mewdeko_Common_ModuleBehaviors_IReadyExecutor_OnReadyAsync
+  name: OnReadyAsync()
+  nameWithType: IReadyExecutor.OnReadyAsync()
+  fullName: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync()
+  spec.csharp:
+  - uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+    name: OnReadyAsync
+    href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html#Mewdeko_Common_ModuleBehaviors_IReadyExecutor_OnReadyAsync
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+    name: OnReadyAsync
+    href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html#Mewdeko_Common_ModuleBehaviors_IReadyExecutor_OnReadyAsync
+  - name: (
+  - name: )
+- uid: System.ArgumentOutOfRangeException
+  commentId: T:System.ArgumentOutOfRangeException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception
+  name: ArgumentOutOfRangeException
+  nameWithType: ArgumentOutOfRangeException
+  fullName: System.ArgumentOutOfRangeException
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemovePlayingAsync*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemovePlayingAsync
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_RemovePlayingAsync_System_Int32_
+  name: RemovePlayingAsync
+  nameWithType: OwnerOnlyService.RemovePlayingAsync
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemovePlayingAsync
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.Threading.Tasks.Task{System.String}
+  commentId: T:System.Threading.Tasks.Task{System.String}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<string>
+  nameWithType: Task<string>
+  fullName: System.Threading.Tasks.Task<string>
+  nameWithType.vb: Task(Of String)
+  fullName.vb: System.Threading.Tasks.Task(Of String)
+  name.vb: Task(Of String)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.AddPlaying*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.AddPlaying
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_AddPlaying_Discord_ActivityType_System_String_
+  name: AddPlaying
+  nameWithType: OwnerOnlyService.AddPlaying
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.AddPlaying
+- uid: Discord.ActivityType
+  commentId: T:Discord.ActivityType
+  parent: Discord
+  isExternal: true
+  name: ActivityType
+  nameWithType: ActivityType
+  fullName: Discord.ActivityType
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ToggleRotatePlaying*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ToggleRotatePlaying
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_ToggleRotatePlaying
+  name: ToggleRotatePlaying
+  nameWithType: OwnerOnlyService.ToggleRotatePlaying
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ToggleRotatePlaying
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Mewdeko.Database.Models.RotatingPlayingStatus
+  commentId: T:Mewdeko.Database.Models.RotatingPlayingStatus
+  href: Mewdeko.Database.Models.RotatingPlayingStatus.html
+  name: RotatingPlayingStatus
+  nameWithType: RotatingPlayingStatus
+  fullName: Mewdeko.Database.Models.RotatingPlayingStatus
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetRotatingStatuses*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetRotatingStatuses
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_GetRotatingStatuses
+  name: GetRotatingStatuses
+  nameWithType: OwnerOnlyService.GetRotatingStatuses
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetRotatingStatuses
+- uid: System.Collections.Generic.IReadOnlyList{Mewdeko.Database.Models.RotatingPlayingStatus}
+  commentId: T:System.Collections.Generic.IReadOnlyList{Mewdeko.Database.Models.RotatingPlayingStatus}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IReadOnlyList`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  name: IReadOnlyList<RotatingPlayingStatus>
+  nameWithType: IReadOnlyList<RotatingPlayingStatus>
+  fullName: System.Collections.Generic.IReadOnlyList<Mewdeko.Database.Models.RotatingPlayingStatus>
+  nameWithType.vb: IReadOnlyList(Of RotatingPlayingStatus)
+  fullName.vb: System.Collections.Generic.IReadOnlyList(Of Mewdeko.Database.Models.RotatingPlayingStatus)
+  name.vb: IReadOnlyList(Of RotatingPlayingStatus)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: <
+  - uid: Mewdeko.Database.Models.RotatingPlayingStatus
+    name: RotatingPlayingStatus
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Models.RotatingPlayingStatus
+    name: RotatingPlayingStatus
+  - name: )
+- uid: System.Collections.Generic.IReadOnlyList`1
+  commentId: T:System.Collections.Generic.IReadOnlyList`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  name: IReadOnlyList<T>
+  nameWithType: IReadOnlyList<T>
+  fullName: System.Collections.Generic.IReadOnlyList<T>
+  nameWithType.vb: IReadOnlyList(Of T)
+  fullName.vb: System.Collections.Generic.IReadOnlyList(Of T)
+  name.vb: IReadOnlyList(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.AddNewAutoCommand*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.AddNewAutoCommand
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_AddNewAutoCommand_Mewdeko_Database_Models_AutoCommand_
+  name: AddNewAutoCommand
+  nameWithType: OwnerOnlyService.AddNewAutoCommand
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.AddNewAutoCommand
+- uid: Mewdeko.Database.Models.AutoCommand
+  commentId: T:Mewdeko.Database.Models.AutoCommand
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.AutoCommand.html
+  name: AutoCommand
+  nameWithType: AutoCommand
+  fullName: Mewdeko.Database.Models.AutoCommand
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: System.ArgumentNullException
+  commentId: T:System.ArgumentNullException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.argumentnullexception
+  name: ArgumentNullException
+  nameWithType: ArgumentNullException
+  fullName: System.ArgumentNullException
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.SetDefaultPrefix*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.SetDefaultPrefix
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_SetDefaultPrefix_System_String_
+  name: SetDefaultPrefix
+  nameWithType: OwnerOnlyService.SetDefaultPrefix
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.SetDefaultPrefix
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetStartupCommands*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetStartupCommands
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_GetStartupCommands
+  name: GetStartupCommands
+  nameWithType: OwnerOnlyService.GetStartupCommands
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetStartupCommands
+- uid: System.Collections.Generic.IEnumerable{Mewdeko.Database.Models.AutoCommand}
+  commentId: T:System.Collections.Generic.IEnumerable{Mewdeko.Database.Models.AutoCommand}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<AutoCommand>
+  nameWithType: IEnumerable<AutoCommand>
+  fullName: System.Collections.Generic.IEnumerable<Mewdeko.Database.Models.AutoCommand>
+  nameWithType.vb: IEnumerable(Of AutoCommand)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of Mewdeko.Database.Models.AutoCommand)
+  name.vb: IEnumerable(Of AutoCommand)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: Mewdeko.Database.Models.AutoCommand
+    name: AutoCommand
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Models.AutoCommand
+    name: AutoCommand
+  - name: )
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetAutoCommands*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetAutoCommands
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_GetAutoCommands
+  name: GetAutoCommands
+  nameWithType: OwnerOnlyService.GetAutoCommands
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.GetAutoCommands
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.LeaveGuild*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.LeaveGuild
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_LeaveGuild_System_String_
+  name: LeaveGuild
+  nameWithType: OwnerOnlyService.LeaveGuild
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.LeaveGuild
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RestartBot*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RestartBot
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_RestartBot
+  name: RestartBot
+  nameWithType: OwnerOnlyService.RestartBot
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RestartBot
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemoveStartupCommand*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemoveStartupCommand
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_RemoveStartupCommand_System_Int32_Mewdeko_Database_Models_AutoCommand__
+  name: RemoveStartupCommand
+  nameWithType: OwnerOnlyService.RemoveStartupCommand
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemoveStartupCommand
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemoveAutoCommand*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemoveAutoCommand
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_RemoveAutoCommand_System_Int32_Mewdeko_Database_Models_AutoCommand__
+  name: RemoveAutoCommand
+  nameWithType: OwnerOnlyService.RemoveAutoCommand
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RemoveAutoCommand
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.SetAvatar*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.SetAvatar
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_SetAvatar_System_String_
+  name: SetAvatar
+  nameWithType: OwnerOnlyService.SetAvatar
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.SetAvatar
+- uid: System.Threading.Tasks.Task{System.Boolean}
+  commentId: T:System.Threading.Tasks.Task{System.Boolean}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<bool>
+  nameWithType: Task<bool>
+  fullName: System.Threading.Tasks.Task<bool>
+  nameWithType.vb: Task(Of Boolean)
+  fullName.vb: System.Threading.Tasks.Task(Of Boolean)
+  name.vb: Task(Of Boolean)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ClearStartupCommands*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ClearStartupCommands
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_ClearStartupCommands
+  name: ClearStartupCommands
+  nameWithType: OwnerOnlyService.ClearStartupCommands
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ClearStartupCommands
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ReloadImages*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ReloadImages
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_ReloadImages
+  name: ReloadImages
+  nameWithType: OwnerOnlyService.ReloadImages
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ReloadImages
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.Die*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.Die
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_Die
+  name: Die
+  nameWithType: OwnerOnlyService.Die
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.Die
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.Restart*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.Restart
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_Restart
+  name: Restart
+  nameWithType: OwnerOnlyService.Restart
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.Restart
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RestartShard*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RestartShard
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_RestartShard_System_Int32_
+  name: RestartShard
+  nameWithType: OwnerOnlyService.RestartShard
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.RestartShard
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ForwardMessages*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ForwardMessages
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_ForwardMessages
+  name: ForwardMessages
+  nameWithType: OwnerOnlyService.ForwardMessages
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ForwardMessages
+- uid: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ForwardToAll*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ForwardToAll
+  href: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.html#Mewdeko_Modules_OwnerOnly_Services_OwnerOnlyService_ForwardToAll
+  name: ForwardToAll
+  nameWithType: OwnerOnlyService.ForwardToAll
+  fullName: Mewdeko.Modules.OwnerOnly.Services.OwnerOnlyService.ForwardToAll

@@ -1,0 +1,70 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database
+  commentId: N:Mewdeko.Database
+  id: Mewdeko.Database
+  children:
+  - Mewdeko.Database.DbService
+  - Mewdeko.Database.MewdekoContext
+  - Mewdeko.Database.MewdekoPostgresContext
+  - Mewdeko.Database.MewdekoSqLiteContext
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Database
+  nameWithType: Mewdeko.Database
+  fullName: Mewdeko.Database
+  type: Namespace
+  assemblies:
+  - Mewdeko.Database
+references:
+- uid: Mewdeko.Database.DbService
+  commentId: T:Mewdeko.Database.DbService
+  parent: Mewdeko.Database
+  href: Mewdeko.Database.DbService.html
+  name: DbService
+  nameWithType: DbService
+  fullName: Mewdeko.Database.DbService
+- uid: Mewdeko.Database.MewdekoContext
+  commentId: T:Mewdeko.Database.MewdekoContext
+  parent: Mewdeko.Database
+  href: Mewdeko.Database.MewdekoContext.html
+  name: MewdekoContext
+  nameWithType: MewdekoContext
+  fullName: Mewdeko.Database.MewdekoContext
+- uid: Mewdeko.Database.MewdekoPostgresContext
+  commentId: T:Mewdeko.Database.MewdekoPostgresContext
+  parent: Mewdeko.Database
+  href: Mewdeko.Database.MewdekoPostgresContext.html
+  name: MewdekoPostgresContext
+  nameWithType: MewdekoPostgresContext
+  fullName: Mewdeko.Database.MewdekoPostgresContext
+- uid: Mewdeko.Database.MewdekoSqLiteContext
+  commentId: T:Mewdeko.Database.MewdekoSqLiteContext
+  parent: Mewdeko.Database
+  href: Mewdeko.Database.MewdekoSqLiteContext.html
+  name: MewdekoSqLiteContext
+  nameWithType: MewdekoSqLiteContext
+  fullName: Mewdeko.Database.MewdekoSqLiteContext
+- uid: Mewdeko.Database
+  commentId: N:Mewdeko.Database
+  href: Mewdeko.html
+  name: Mewdeko.Database
+  nameWithType: Mewdeko.Database
+  fullName: Mewdeko.Database
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html

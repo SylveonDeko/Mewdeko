@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.StatusRoles.Services
+  commentId: N:Mewdeko.Modules.StatusRoles.Services
+  id: Mewdeko.Modules.StatusRoles.Services
+  children:
+  - Mewdeko.Modules.StatusRoles.Services.StatusRolesService
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.StatusRoles.Services
+  nameWithType: Mewdeko.Modules.StatusRoles.Services
+  fullName: Mewdeko.Modules.StatusRoles.Services
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.StatusRoles.Services.StatusRolesService
+  commentId: T:Mewdeko.Modules.StatusRoles.Services.StatusRolesService
+  href: Mewdeko.Modules.StatusRoles.Services.StatusRolesService.html
+  name: StatusRolesService
+  nameWithType: StatusRolesService
+  fullName: Mewdeko.Modules.StatusRoles.Services.StatusRolesService

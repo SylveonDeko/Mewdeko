@@ -1,0 +1,99 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
+  commentId: N:Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
+  id: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
+  children:
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.PicartoProvider
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.Provider
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.TrovoProvider
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.TwitchHelixProvider
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
+  nameWithType: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.PicartoProvider
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.PicartoProvider
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.PicartoProvider.html
+  name: PicartoProvider
+  nameWithType: PicartoProvider
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.PicartoProvider
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.Provider
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.Provider
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.Provider.html
+  name: Provider
+  nameWithType: Provider
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.Provider
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.TrovoProvider
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.TrovoProvider
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.TrovoProvider.html
+  name: TrovoProvider
+  nameWithType: TrovoProvider
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.TrovoProvider
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.TwitchHelixProvider
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.TwitchHelixProvider
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.TwitchHelixProvider.html
+  name: TwitchHelixProvider
+  nameWithType: TwitchHelixProvider
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.TwitchHelixProvider
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
+  commentId: N:Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
+  nameWithType: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications
+    name: StreamNotifications
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
+    name: Providers
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications
+    name: StreamNotifications
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers
+    name: Providers
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Providers.html

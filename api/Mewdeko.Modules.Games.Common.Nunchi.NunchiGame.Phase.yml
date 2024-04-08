@@ -1,0 +1,216 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+  commentId: T:Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+  id: NunchiGame.Phase
+  parent: Mewdeko.Modules.Games.Common.Nunchi
+  children:
+  - Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase.Ended
+  - Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase.Joining
+  - Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase.Playing
+  - Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase.WaitingForNextRound
+  langs:
+  - csharp
+  - vb
+  name: NunchiGame.Phase
+  nameWithType: NunchiGame.Phase
+  fullName: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Nunchi/Nunchi.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Phase
+    path: src/Mewdeko/Modules/Games/Common/Nunchi/Nunchi.cs
+    startLine: 13
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Nunchi
+  summary: Represents the phase of a Nunchi game.
+  example: []
+  syntax:
+    content: public enum NunchiGame.Phase
+    content.vb: Public Enum NunchiGame.Phase
+- uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase.Joining
+  commentId: F:Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase.Joining
+  id: Joining
+  parent: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+  langs:
+  - csharp
+  - vb
+  name: Joining
+  nameWithType: NunchiGame.Phase.Joining
+  fullName: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase.Joining
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Nunchi/Nunchi.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Joining
+    path: src/Mewdeko/Modules/Games/Common/Nunchi/Nunchi.cs
+    startLine: 18
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Nunchi
+  summary: Indicates the phase where players are joining the game.
+  example: []
+  syntax:
+    content: Joining = 0
+    return:
+      type: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+- uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase.Playing
+  commentId: F:Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase.Playing
+  id: Playing
+  parent: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+  langs:
+  - csharp
+  - vb
+  name: Playing
+  nameWithType: NunchiGame.Phase.Playing
+  fullName: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase.Playing
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Nunchi/Nunchi.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Playing
+    path: src/Mewdeko/Modules/Games/Common/Nunchi/Nunchi.cs
+    startLine: 23
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Nunchi
+  summary: Indicates the phase where the game is actively being played.
+  example: []
+  syntax:
+    content: Playing = 1
+    return:
+      type: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+- uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase.WaitingForNextRound
+  commentId: F:Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase.WaitingForNextRound
+  id: WaitingForNextRound
+  parent: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+  langs:
+  - csharp
+  - vb
+  name: WaitingForNextRound
+  nameWithType: NunchiGame.Phase.WaitingForNextRound
+  fullName: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase.WaitingForNextRound
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Nunchi/Nunchi.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: WaitingForNextRound
+    path: src/Mewdeko/Modules/Games/Common/Nunchi/Nunchi.cs
+    startLine: 28
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Nunchi
+  summary: Indicates the phase where the game is waiting for the next round to start.
+  example: []
+  syntax:
+    content: WaitingForNextRound = 2
+    return:
+      type: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+- uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase.Ended
+  commentId: F:Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase.Ended
+  id: Ended
+  parent: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+  langs:
+  - csharp
+  - vb
+  name: Ended
+  nameWithType: NunchiGame.Phase.Ended
+  fullName: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase.Ended
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Games/Common/Nunchi/Nunchi.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Ended
+    path: src/Mewdeko/Modules/Games/Common/Nunchi/Nunchi.cs
+    startLine: 33
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Games.Common.Nunchi
+  summary: Indicates the phase where the game has ended.
+  example: []
+  syntax:
+    content: Ended = 3
+    return:
+      type: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+references:
+- uid: Mewdeko.Modules.Games.Common.Nunchi
+  commentId: N:Mewdeko.Modules.Games.Common.Nunchi
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Games.Common.Nunchi
+  nameWithType: Mewdeko.Modules.Games.Common.Nunchi
+  fullName: Mewdeko.Modules.Games.Common.Nunchi
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Nunchi
+    name: Nunchi
+    href: Mewdeko.Modules.Games.Common.Nunchi.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Nunchi
+    name: Nunchi
+    href: Mewdeko.Modules.Games.Common.Nunchi.html
+- uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+  commentId: T:Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+  parent: Mewdeko.Modules.Games.Common.Nunchi
+  href: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.html
+  name: NunchiGame.Phase
+  nameWithType: NunchiGame.Phase
+  fullName: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+  spec.csharp:
+  - uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame
+    name: NunchiGame
+    href: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+    name: Phase
+    href: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame
+    name: NunchiGame
+    href: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase
+    name: Phase
+    href: Mewdeko.Modules.Games.Common.Nunchi.NunchiGame.Phase.html

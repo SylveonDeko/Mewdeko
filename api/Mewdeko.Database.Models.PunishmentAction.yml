@@ -1,0 +1,390 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Models.PunishmentAction
+  commentId: T:Mewdeko.Database.Models.PunishmentAction
+  id: PunishmentAction
+  parent: Mewdeko.Database.Models
+  children:
+  - Mewdeko.Database.Models.PunishmentAction.AddRole
+  - Mewdeko.Database.Models.PunishmentAction.Ban
+  - Mewdeko.Database.Models.PunishmentAction.ChatMute
+  - Mewdeko.Database.Models.PunishmentAction.Delete
+  - Mewdeko.Database.Models.PunishmentAction.Kick
+  - Mewdeko.Database.Models.PunishmentAction.Mute
+  - Mewdeko.Database.Models.PunishmentAction.None
+  - Mewdeko.Database.Models.PunishmentAction.RemoveRoles
+  - Mewdeko.Database.Models.PunishmentAction.Softban
+  - Mewdeko.Database.Models.PunishmentAction.Timeout
+  - Mewdeko.Database.Models.PunishmentAction.VoiceMute
+  - Mewdeko.Database.Models.PunishmentAction.Warn
+  langs:
+  - csharp
+  - vb
+  name: PunishmentAction
+  nameWithType: PunishmentAction
+  fullName: Mewdeko.Database.Models.PunishmentAction
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/AntiProtection.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: PunishmentAction
+    path: src/Mewdeko.Database/Models/AntiProtection.cs
+    startLine: 63
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public enum PunishmentAction
+    content.vb: Public Enum PunishmentAction
+- uid: Mewdeko.Database.Models.PunishmentAction.Mute
+  commentId: F:Mewdeko.Database.Models.PunishmentAction.Mute
+  id: Mute
+  parent: Mewdeko.Database.Models.PunishmentAction
+  langs:
+  - csharp
+  - vb
+  name: Mute
+  nameWithType: PunishmentAction.Mute
+  fullName: Mewdeko.Database.Models.PunishmentAction.Mute
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/AntiProtection.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Mute
+    path: src/Mewdeko.Database/Models/AntiProtection.cs
+    startLine: 65
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Mute = 0
+    return:
+      type: Mewdeko.Database.Models.PunishmentAction
+- uid: Mewdeko.Database.Models.PunishmentAction.Kick
+  commentId: F:Mewdeko.Database.Models.PunishmentAction.Kick
+  id: Kick
+  parent: Mewdeko.Database.Models.PunishmentAction
+  langs:
+  - csharp
+  - vb
+  name: Kick
+  nameWithType: PunishmentAction.Kick
+  fullName: Mewdeko.Database.Models.PunishmentAction.Kick
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/AntiProtection.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Kick
+    path: src/Mewdeko.Database/Models/AntiProtection.cs
+    startLine: 66
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Kick = 1
+    return:
+      type: Mewdeko.Database.Models.PunishmentAction
+- uid: Mewdeko.Database.Models.PunishmentAction.Ban
+  commentId: F:Mewdeko.Database.Models.PunishmentAction.Ban
+  id: Ban
+  parent: Mewdeko.Database.Models.PunishmentAction
+  langs:
+  - csharp
+  - vb
+  name: Ban
+  nameWithType: PunishmentAction.Ban
+  fullName: Mewdeko.Database.Models.PunishmentAction.Ban
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/AntiProtection.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Ban
+    path: src/Mewdeko.Database/Models/AntiProtection.cs
+    startLine: 67
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Ban = 2
+    return:
+      type: Mewdeko.Database.Models.PunishmentAction
+- uid: Mewdeko.Database.Models.PunishmentAction.Softban
+  commentId: F:Mewdeko.Database.Models.PunishmentAction.Softban
+  id: Softban
+  parent: Mewdeko.Database.Models.PunishmentAction
+  langs:
+  - csharp
+  - vb
+  name: Softban
+  nameWithType: PunishmentAction.Softban
+  fullName: Mewdeko.Database.Models.PunishmentAction.Softban
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/AntiProtection.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Softban
+    path: src/Mewdeko.Database/Models/AntiProtection.cs
+    startLine: 68
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Softban = 3
+    return:
+      type: Mewdeko.Database.Models.PunishmentAction
+- uid: Mewdeko.Database.Models.PunishmentAction.RemoveRoles
+  commentId: F:Mewdeko.Database.Models.PunishmentAction.RemoveRoles
+  id: RemoveRoles
+  parent: Mewdeko.Database.Models.PunishmentAction
+  langs:
+  - csharp
+  - vb
+  name: RemoveRoles
+  nameWithType: PunishmentAction.RemoveRoles
+  fullName: Mewdeko.Database.Models.PunishmentAction.RemoveRoles
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/AntiProtection.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RemoveRoles
+    path: src/Mewdeko.Database/Models/AntiProtection.cs
+    startLine: 69
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: RemoveRoles = 4
+    return:
+      type: Mewdeko.Database.Models.PunishmentAction
+- uid: Mewdeko.Database.Models.PunishmentAction.ChatMute
+  commentId: F:Mewdeko.Database.Models.PunishmentAction.ChatMute
+  id: ChatMute
+  parent: Mewdeko.Database.Models.PunishmentAction
+  langs:
+  - csharp
+  - vb
+  name: ChatMute
+  nameWithType: PunishmentAction.ChatMute
+  fullName: Mewdeko.Database.Models.PunishmentAction.ChatMute
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/AntiProtection.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChatMute
+    path: src/Mewdeko.Database/Models/AntiProtection.cs
+    startLine: 70
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: ChatMute = 5
+    return:
+      type: Mewdeko.Database.Models.PunishmentAction
+- uid: Mewdeko.Database.Models.PunishmentAction.VoiceMute
+  commentId: F:Mewdeko.Database.Models.PunishmentAction.VoiceMute
+  id: VoiceMute
+  parent: Mewdeko.Database.Models.PunishmentAction
+  langs:
+  - csharp
+  - vb
+  name: VoiceMute
+  nameWithType: PunishmentAction.VoiceMute
+  fullName: Mewdeko.Database.Models.PunishmentAction.VoiceMute
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/AntiProtection.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: VoiceMute
+    path: src/Mewdeko.Database/Models/AntiProtection.cs
+    startLine: 71
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: VoiceMute = 6
+    return:
+      type: Mewdeko.Database.Models.PunishmentAction
+- uid: Mewdeko.Database.Models.PunishmentAction.AddRole
+  commentId: F:Mewdeko.Database.Models.PunishmentAction.AddRole
+  id: AddRole
+  parent: Mewdeko.Database.Models.PunishmentAction
+  langs:
+  - csharp
+  - vb
+  name: AddRole
+  nameWithType: PunishmentAction.AddRole
+  fullName: Mewdeko.Database.Models.PunishmentAction.AddRole
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/AntiProtection.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AddRole
+    path: src/Mewdeko.Database/Models/AntiProtection.cs
+    startLine: 72
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: AddRole = 7
+    return:
+      type: Mewdeko.Database.Models.PunishmentAction
+- uid: Mewdeko.Database.Models.PunishmentAction.Delete
+  commentId: F:Mewdeko.Database.Models.PunishmentAction.Delete
+  id: Delete
+  parent: Mewdeko.Database.Models.PunishmentAction
+  langs:
+  - csharp
+  - vb
+  name: Delete
+  nameWithType: PunishmentAction.Delete
+  fullName: Mewdeko.Database.Models.PunishmentAction.Delete
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/AntiProtection.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Delete
+    path: src/Mewdeko.Database/Models/AntiProtection.cs
+    startLine: 73
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Delete = 8
+    return:
+      type: Mewdeko.Database.Models.PunishmentAction
+- uid: Mewdeko.Database.Models.PunishmentAction.Warn
+  commentId: F:Mewdeko.Database.Models.PunishmentAction.Warn
+  id: Warn
+  parent: Mewdeko.Database.Models.PunishmentAction
+  langs:
+  - csharp
+  - vb
+  name: Warn
+  nameWithType: PunishmentAction.Warn
+  fullName: Mewdeko.Database.Models.PunishmentAction.Warn
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/AntiProtection.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Warn
+    path: src/Mewdeko.Database/Models/AntiProtection.cs
+    startLine: 74
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Warn = 9
+    return:
+      type: Mewdeko.Database.Models.PunishmentAction
+- uid: Mewdeko.Database.Models.PunishmentAction.Timeout
+  commentId: F:Mewdeko.Database.Models.PunishmentAction.Timeout
+  id: Timeout
+  parent: Mewdeko.Database.Models.PunishmentAction
+  langs:
+  - csharp
+  - vb
+  name: Timeout
+  nameWithType: PunishmentAction.Timeout
+  fullName: Mewdeko.Database.Models.PunishmentAction.Timeout
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/AntiProtection.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Timeout
+    path: src/Mewdeko.Database/Models/AntiProtection.cs
+    startLine: 75
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Timeout = 10
+    return:
+      type: Mewdeko.Database.Models.PunishmentAction
+- uid: Mewdeko.Database.Models.PunishmentAction.None
+  commentId: F:Mewdeko.Database.Models.PunishmentAction.None
+  id: None
+  parent: Mewdeko.Database.Models.PunishmentAction
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: PunishmentAction.None
+  fullName: Mewdeko.Database.Models.PunishmentAction.None
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/AntiProtection.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: None
+    path: src/Mewdeko.Database/Models/AntiProtection.cs
+    startLine: 76
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: None = 11
+    return:
+      type: Mewdeko.Database.Models.PunishmentAction
+references:
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: Mewdeko.Database.Models.PunishmentAction
+  commentId: T:Mewdeko.Database.Models.PunishmentAction
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.PunishmentAction.html
+  name: PunishmentAction
+  nameWithType: PunishmentAction
+  fullName: Mewdeko.Database.Models.PunishmentAction

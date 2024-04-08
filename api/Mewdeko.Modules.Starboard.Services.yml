@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Starboard.Services
+  commentId: N:Mewdeko.Modules.Starboard.Services
+  id: Mewdeko.Modules.Starboard.Services
+  children:
+  - Mewdeko.Modules.Starboard.Services.StarboardService
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Starboard.Services
+  nameWithType: Mewdeko.Modules.Starboard.Services
+  fullName: Mewdeko.Modules.Starboard.Services
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Starboard.Services.StarboardService
+  commentId: T:Mewdeko.Modules.Starboard.Services.StarboardService
+  href: Mewdeko.Modules.Starboard.Services.StarboardService.html
+  name: StarboardService
+  nameWithType: StarboardService
+  fullName: Mewdeko.Modules.Starboard.Services.StarboardService

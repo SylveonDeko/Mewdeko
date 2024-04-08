@@ -1,0 +1,832 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Migrations.SQLite.NewGenCurrency
+  commentId: T:Mewdeko.Database.Migrations.SQLite.NewGenCurrency
+  id: NewGenCurrency
+  parent: Mewdeko.Database.Migrations.SQLite
+  children:
+  - Mewdeko.Database.Migrations.SQLite.NewGenCurrency.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+  - Mewdeko.Database.Migrations.SQLite.NewGenCurrency.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  - Mewdeko.Database.Migrations.SQLite.NewGenCurrency.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  langs:
+  - csharp
+  - vb
+  name: NewGenCurrency
+  nameWithType: NewGenCurrency
+  fullName: Mewdeko.Database.Migrations.SQLite.NewGenCurrency
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko.Database/Migrations/SQLite/NewGenCurrency.Designer.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: NewGenCurrency
+    path: src/Mewdeko.Database/Migrations/SQLite/NewGenCurrency.Designer.cs
+    startLine: 8
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Migrations.SQLite
+  syntax:
+    content: >-
+      [DbContext(typeof(MewdekoSqLiteContext))]
+
+      [Migration("NewGenCurrency")]
+
+      public class NewGenCurrency : Migration
+    content.vb: >-
+      <DbContext(GetType(MewdekoSqLiteContext))>
+
+      <Migration("NewGenCurrency")>
+
+      Public Class NewGenCurrency Inherits Migration
+  inheritance:
+  - System.Object
+  - Microsoft.EntityFrameworkCore.Migrations.Migration
+  inheritedMembers:
+  - Microsoft.EntityFrameworkCore.Migrations.Migration.InitialDatabase
+  - Microsoft.EntityFrameworkCore.Migrations.Migration.TargetModel
+  - Microsoft.EntityFrameworkCore.Migrations.Migration.UpOperations
+  - Microsoft.EntityFrameworkCore.Migrations.Migration.DownOperations
+  - Microsoft.EntityFrameworkCore.Migrations.Migration.ActiveProvider
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Database.Migrations.SQLite.NewGenCurrency.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  attributes:
+  - type: Microsoft.EntityFrameworkCore.Infrastructure.DbContextAttribute
+    ctor: Microsoft.EntityFrameworkCore.Infrastructure.DbContextAttribute.#ctor(System.Type)
+    arguments:
+    - type: System.Type
+      value: Mewdeko.Database.MewdekoSqLiteContext
+  - type: Microsoft.EntityFrameworkCore.Migrations.MigrationAttribute
+    ctor: Microsoft.EntityFrameworkCore.Migrations.MigrationAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: NewGenCurrency
+- uid: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  commentId: M:Mewdeko.Database.Migrations.SQLite.NewGenCurrency.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  id: Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  parent: Mewdeko.Database.Migrations.SQLite.NewGenCurrency
+  langs:
+  - csharp
+  - vb
+  name: Up(MigrationBuilder)
+  nameWithType: NewGenCurrency.Up(MigrationBuilder)
+  fullName: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko.Database/Migrations/SQLite/NewgenCurrency.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Up
+    path: src/Mewdeko.Database/Migrations/SQLite/NewgenCurrency.cs
+    startLine: 6
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Migrations.SQLite
+  summary: Builds the operations that will migrate the database 'up'.
+  remarks: >-
+    <p>
+                    That is, builds the operations that will take the database from the state left in by the
+                    previous migration so that it is up-to-date with regard to this migration.
+                </p>
+    <p>
+                    This method must be overridden in each class that inherits from <xref href="Microsoft.EntityFrameworkCore.Migrations.Migration" data-throw-if-not-resolved="false"></xref>.
+                </p>
+    <p>
+                    See <a href="https://aka.ms/efcore-docs-migrations">Database migrations</a> for more information and examples.
+                </p>
+  example: []
+  syntax:
+    content: protected override void Up(MigrationBuilder migrationBuilder)
+    parameters:
+    - id: migrationBuilder
+      type: Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder
+      description: The <xref href="Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder" data-throw-if-not-resolved="false"></xref> that will build the operations.
+    content.vb: Protected Overrides Sub Up(migrationBuilder As MigrationBuilder)
+  overridden: Microsoft.EntityFrameworkCore.Migrations.Migration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  overload: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.Up*
+- uid: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  commentId: M:Mewdeko.Database.Migrations.SQLite.NewGenCurrency.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  id: Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  parent: Mewdeko.Database.Migrations.SQLite.NewGenCurrency
+  langs:
+  - csharp
+  - vb
+  name: Down(MigrationBuilder)
+  nameWithType: NewGenCurrency.Down(MigrationBuilder)
+  fullName: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko.Database/Migrations/SQLite/NewgenCurrency.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Down
+    path: src/Mewdeko.Database/Migrations/SQLite/NewgenCurrency.cs
+    startLine: 73
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Migrations.SQLite
+  summary: Builds the operations that will migrate the database 'down'.
+  remarks: >-
+    <p>
+                    That is, builds the operations that will take the database from the state left in by
+                    this migration so that it returns to the state that it was in before this migration was applied.
+                </p>
+    <p>
+                    This method must be overridden in each class that inherits from <xref href="Microsoft.EntityFrameworkCore.Migrations.Migration" data-throw-if-not-resolved="false"></xref> if
+                    both 'up' and 'down' migrations are to be supported. If it is not overridden, then calling it
+                    will throw and it will not be possible to migrate in the 'down' direction.
+                </p>
+    <p>
+                    See <a href="https://aka.ms/efcore-docs-migrations">Database migrations</a> for more information and examples.
+                </p>
+  example: []
+  syntax:
+    content: protected override void Down(MigrationBuilder migrationBuilder)
+    parameters:
+    - id: migrationBuilder
+      type: Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder
+      description: The <xref href="Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder" data-throw-if-not-resolved="false"></xref> that will build the operations.
+    content.vb: Protected Overrides Sub Down(migrationBuilder As MigrationBuilder)
+  overridden: Microsoft.EntityFrameworkCore.Migrations.Migration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  overload: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.Down*
+- uid: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+  commentId: M:Mewdeko.Database.Migrations.SQLite.NewGenCurrency.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+  id: BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+  parent: Mewdeko.Database.Migrations.SQLite.NewGenCurrency
+  langs:
+  - csharp
+  - vb
+  name: BuildTargetModel(ModelBuilder)
+  nameWithType: NewGenCurrency.BuildTargetModel(ModelBuilder)
+  fullName: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko.Database/Migrations/SQLite/NewGenCurrency.Designer.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: BuildTargetModel
+    path: src/Mewdeko.Database/Migrations/SQLite/NewGenCurrency.Designer.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Migrations.SQLite
+  summary: Implemented to build the <xref href="Microsoft.EntityFrameworkCore.Migrations.Migration.TargetModel" data-throw-if-not-resolved="false"></xref>.
+  remarks: See <a href="https://aka.ms/efcore-docs-migrations">Database migrations</a> for more information and examples.
+  example: []
+  syntax:
+    content: protected override void BuildTargetModel(ModelBuilder modelBuilder)
+    parameters:
+    - id: modelBuilder
+      type: Microsoft.EntityFrameworkCore.ModelBuilder
+      description: The <xref href="Microsoft.EntityFrameworkCore.ModelBuilder" data-throw-if-not-resolved="false"></xref> to use to build the model.
+    content.vb: Protected Overrides Sub BuildTargetModel(modelBuilder As ModelBuilder)
+  overridden: Microsoft.EntityFrameworkCore.Migrations.Migration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+  overload: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.BuildTargetModel*
+references:
+- uid: Mewdeko.Database.Migrations.SQLite
+  commentId: N:Mewdeko.Database.Migrations.SQLite
+  href: Mewdeko.html
+  name: Mewdeko.Database.Migrations.SQLite
+  nameWithType: Mewdeko.Database.Migrations.SQLite
+  fullName: Mewdeko.Database.Migrations.SQLite
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Migrations
+    name: Migrations
+    href: Mewdeko.Database.Migrations.html
+  - name: .
+  - uid: Mewdeko.Database.Migrations.SQLite
+    name: SQLite
+    href: Mewdeko.Database.Migrations.SQLite.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Migrations
+    name: Migrations
+    href: Mewdeko.Database.Migrations.html
+  - name: .
+  - uid: Mewdeko.Database.Migrations.SQLite
+    name: SQLite
+    href: Mewdeko.Database.Migrations.SQLite.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Microsoft.EntityFrameworkCore.Migrations.Migration
+  commentId: T:Microsoft.EntityFrameworkCore.Migrations.Migration
+  parent: Microsoft.EntityFrameworkCore.Migrations
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations.migration
+  name: Migration
+  nameWithType: Migration
+  fullName: Microsoft.EntityFrameworkCore.Migrations.Migration
+- uid: Microsoft.EntityFrameworkCore.Migrations.Migration.InitialDatabase
+  commentId: F:Microsoft.EntityFrameworkCore.Migrations.Migration.InitialDatabase
+  parent: Microsoft.EntityFrameworkCore.Migrations.Migration
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations.migration.initialdatabase
+  name: InitialDatabase
+  nameWithType: Migration.InitialDatabase
+  fullName: Microsoft.EntityFrameworkCore.Migrations.Migration.InitialDatabase
+- uid: Microsoft.EntityFrameworkCore.Migrations.Migration.TargetModel
+  commentId: P:Microsoft.EntityFrameworkCore.Migrations.Migration.TargetModel
+  parent: Microsoft.EntityFrameworkCore.Migrations.Migration
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations.migration.targetmodel
+  name: TargetModel
+  nameWithType: Migration.TargetModel
+  fullName: Microsoft.EntityFrameworkCore.Migrations.Migration.TargetModel
+- uid: Microsoft.EntityFrameworkCore.Migrations.Migration.UpOperations
+  commentId: P:Microsoft.EntityFrameworkCore.Migrations.Migration.UpOperations
+  parent: Microsoft.EntityFrameworkCore.Migrations.Migration
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations.migration.upoperations
+  name: UpOperations
+  nameWithType: Migration.UpOperations
+  fullName: Microsoft.EntityFrameworkCore.Migrations.Migration.UpOperations
+- uid: Microsoft.EntityFrameworkCore.Migrations.Migration.DownOperations
+  commentId: P:Microsoft.EntityFrameworkCore.Migrations.Migration.DownOperations
+  parent: Microsoft.EntityFrameworkCore.Migrations.Migration
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations.migration.downoperations
+  name: DownOperations
+  nameWithType: Migration.DownOperations
+  fullName: Microsoft.EntityFrameworkCore.Migrations.Migration.DownOperations
+- uid: Microsoft.EntityFrameworkCore.Migrations.Migration.ActiveProvider
+  commentId: P:Microsoft.EntityFrameworkCore.Migrations.Migration.ActiveProvider
+  parent: Microsoft.EntityFrameworkCore.Migrations.Migration
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations.migration.activeprovider
+  name: ActiveProvider
+  nameWithType: Migration.ActiveProvider
+  fullName: Microsoft.EntityFrameworkCore.Migrations.Migration.ActiveProvider
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<NewGenCurrency>(NewGenCurrency, string)
+  nameWithType: Extensions.ThrowIfNull<NewGenCurrency>(NewGenCurrency, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Database.Migrations.SQLite.NewGenCurrency>(Mewdeko.Database.Migrations.SQLite.NewGenCurrency, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of NewGenCurrency)(NewGenCurrency, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Database.Migrations.SQLite.NewGenCurrency)(Mewdeko.Database.Migrations.SQLite.NewGenCurrency, String)
+  name.vb: ThrowIfNull(Of NewGenCurrency)(NewGenCurrency, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Database.Migrations.SQLite.NewGenCurrency,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Database.Migrations.SQLite.NewGenCurrency
+    name: NewGenCurrency
+    href: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Database.Migrations.SQLite.NewGenCurrency
+    name: NewGenCurrency
+    href: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Database.Migrations.SQLite.NewGenCurrency,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Migrations.SQLite.NewGenCurrency
+    name: NewGenCurrency
+    href: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Database.Migrations.SQLite.NewGenCurrency
+    name: NewGenCurrency
+    href: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Microsoft.EntityFrameworkCore.Migrations
+  commentId: N:Microsoft.EntityFrameworkCore.Migrations
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft
+  name: Microsoft.EntityFrameworkCore.Migrations
+  nameWithType: Microsoft.EntityFrameworkCore.Migrations
+  fullName: Microsoft.EntityFrameworkCore.Migrations
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.EntityFrameworkCore
+    name: EntityFrameworkCore
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore
+  - name: .
+  - uid: Microsoft.EntityFrameworkCore.Migrations
+    name: Migrations
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.EntityFrameworkCore
+    name: EntityFrameworkCore
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore
+  - name: .
+  - uid: Microsoft.EntityFrameworkCore.Migrations
+    name: Migrations
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder
+  commentId: T:Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder
+  parent: Microsoft.EntityFrameworkCore.Migrations
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations.migrationbuilder
+  name: MigrationBuilder
+  nameWithType: MigrationBuilder
+  fullName: Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder
+- uid: Microsoft.EntityFrameworkCore.Migrations.Migration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  commentId: M:Microsoft.EntityFrameworkCore.Migrations.Migration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  parent: Microsoft.EntityFrameworkCore.Migrations.Migration
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations.migration.up
+  name: Up(MigrationBuilder)
+  nameWithType: Migration.Up(MigrationBuilder)
+  fullName: Microsoft.EntityFrameworkCore.Migrations.Migration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  spec.csharp:
+  - uid: Microsoft.EntityFrameworkCore.Migrations.Migration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+    name: Up
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations.migration.up
+  - name: (
+  - uid: Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder
+    name: MigrationBuilder
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations.migrationbuilder
+  - name: )
+  spec.vb:
+  - uid: Microsoft.EntityFrameworkCore.Migrations.Migration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+    name: Up
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations.migration.up
+  - name: (
+  - uid: Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder
+    name: MigrationBuilder
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations.migrationbuilder
+  - name: )
+- uid: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.Up*
+  commentId: Overload:Mewdeko.Database.Migrations.SQLite.NewGenCurrency.Up
+  href: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.html#Mewdeko_Database_Migrations_SQLite_NewGenCurrency_Up_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_
+  name: Up
+  nameWithType: NewGenCurrency.Up
+  fullName: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.Up
+- uid: Microsoft.EntityFrameworkCore.Migrations.Migration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  commentId: M:Microsoft.EntityFrameworkCore.Migrations.Migration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  parent: Microsoft.EntityFrameworkCore.Migrations.Migration
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations.migration.down
+  name: Down(MigrationBuilder)
+  nameWithType: Migration.Down(MigrationBuilder)
+  fullName: Microsoft.EntityFrameworkCore.Migrations.Migration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+  spec.csharp:
+  - uid: Microsoft.EntityFrameworkCore.Migrations.Migration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+    name: Down
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations.migration.down
+  - name: (
+  - uid: Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder
+    name: MigrationBuilder
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations.migrationbuilder
+  - name: )
+  spec.vb:
+  - uid: Microsoft.EntityFrameworkCore.Migrations.Migration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)
+    name: Down
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations.migration.down
+  - name: (
+  - uid: Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder
+    name: MigrationBuilder
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations.migrationbuilder
+  - name: )
+- uid: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.Down*
+  commentId: Overload:Mewdeko.Database.Migrations.SQLite.NewGenCurrency.Down
+  href: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.html#Mewdeko_Database_Migrations_SQLite_NewGenCurrency_Down_Microsoft_EntityFrameworkCore_Migrations_MigrationBuilder_
+  name: Down
+  nameWithType: NewGenCurrency.Down
+  fullName: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.Down
+- uid: Microsoft.EntityFrameworkCore.ModelBuilder
+  commentId: T:Microsoft.EntityFrameworkCore.ModelBuilder
+  parent: Microsoft.EntityFrameworkCore
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.modelbuilder
+  name: ModelBuilder
+  nameWithType: ModelBuilder
+  fullName: Microsoft.EntityFrameworkCore.ModelBuilder
+- uid: Microsoft.EntityFrameworkCore.Migrations.Migration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+  commentId: M:Microsoft.EntityFrameworkCore.Migrations.Migration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+  parent: Microsoft.EntityFrameworkCore.Migrations.Migration
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations.migration.buildtargetmodel
+  name: BuildTargetModel(ModelBuilder)
+  nameWithType: Migration.BuildTargetModel(ModelBuilder)
+  fullName: Microsoft.EntityFrameworkCore.Migrations.Migration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+  spec.csharp:
+  - uid: Microsoft.EntityFrameworkCore.Migrations.Migration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+    name: BuildTargetModel
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations.migration.buildtargetmodel
+  - name: (
+  - uid: Microsoft.EntityFrameworkCore.ModelBuilder
+    name: ModelBuilder
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.modelbuilder
+  - name: )
+  spec.vb:
+  - uid: Microsoft.EntityFrameworkCore.Migrations.Migration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)
+    name: BuildTargetModel
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.migrations.migration.buildtargetmodel
+  - name: (
+  - uid: Microsoft.EntityFrameworkCore.ModelBuilder
+    name: ModelBuilder
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore.modelbuilder
+  - name: )
+- uid: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.BuildTargetModel*
+  commentId: Overload:Mewdeko.Database.Migrations.SQLite.NewGenCurrency.BuildTargetModel
+  href: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.html#Mewdeko_Database_Migrations_SQLite_NewGenCurrency_BuildTargetModel_Microsoft_EntityFrameworkCore_ModelBuilder_
+  name: BuildTargetModel
+  nameWithType: NewGenCurrency.BuildTargetModel
+  fullName: Mewdeko.Database.Migrations.SQLite.NewGenCurrency.BuildTargetModel
+- uid: Microsoft.EntityFrameworkCore
+  commentId: N:Microsoft.EntityFrameworkCore
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft
+  name: Microsoft.EntityFrameworkCore
+  nameWithType: Microsoft.EntityFrameworkCore
+  fullName: Microsoft.EntityFrameworkCore
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.EntityFrameworkCore
+    name: EntityFrameworkCore
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.EntityFrameworkCore
+    name: EntityFrameworkCore
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.entityframeworkcore

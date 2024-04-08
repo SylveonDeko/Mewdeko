@@ -1,0 +1,1967 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  id: PicartoChannelResponse
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  children:
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.AccountType
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Adult
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Avatar
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Category
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.ChatSettings
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Commissions
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.DescriptionPanels
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Followers
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Following
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Gaming
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Languages
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.LastLive
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Multistream
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Name
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Online
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Private
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.PrivateMessage
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Recordings
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Subscribers
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Tags
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Thumbnails
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Title
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.UserId
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Viewers
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.ViewersTotal
+  langs:
+  - csharp
+  - vb
+  name: PicartoChannelResponse
+  nameWithType: PicartoChannelResponse
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: PicartoChannelResponse
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 7
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Represents the response data for a channel on Picarto.
+  example: []
+  syntax:
+    content: public class PicartoChannelResponse
+    content.vb: Public Class PicartoChannelResponse
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.UserId
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.UserId
+  id: UserId
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: UserId
+  nameWithType: PicartoChannelResponse.UserId
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.UserId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserId
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The user ID of the channel.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("user_id")]
+
+      public int UserId { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <JsonProperty("user_id")>
+
+      Public Property UserId As Integer
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.UserId*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: user_id
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Name
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Name
+  id: Name
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: PicartoChannelResponse.Name
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Name
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Name
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 18
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The name of the channel.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("name")]
+
+      public string Name { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("name")>
+
+      Public Property Name As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Name*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: name
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Avatar
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Avatar
+  id: Avatar
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: Avatar
+  nameWithType: PicartoChannelResponse.Avatar
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Avatar
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Avatar
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 24
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The URL to the channel's avatar image.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("avatar")]
+
+      public string Avatar { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("avatar")>
+
+      Public Property Avatar As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Avatar*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: avatar
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Online
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Online
+  id: Online
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: Online
+  nameWithType: PicartoChannelResponse.Online
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Online
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Online
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 30
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Indicates whether the channel is currently online.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("online")]
+
+      public bool Online { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: >-
+      <JsonProperty("online")>
+
+      Public Property Online As Boolean
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Online*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: online
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Viewers
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Viewers
+  id: Viewers
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: Viewers
+  nameWithType: PicartoChannelResponse.Viewers
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Viewers
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Viewers
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 36
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The current number of viewers on the channel.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("viewers")]
+
+      public int Viewers { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <JsonProperty("viewers")>
+
+      Public Property Viewers As Integer
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Viewers*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: viewers
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.ViewersTotal
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.ViewersTotal
+  id: ViewersTotal
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: ViewersTotal
+  nameWithType: PicartoChannelResponse.ViewersTotal
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.ViewersTotal
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ViewersTotal
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 42
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The total number of viewers the channel has had.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("viewers_total")]
+
+      public int ViewersTotal { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <JsonProperty("viewers_total")>
+
+      Public Property ViewersTotal As Integer
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.ViewersTotal*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: viewers_total
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Thumbnails
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Thumbnails
+  id: Thumbnails
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: Thumbnails
+  nameWithType: PicartoChannelResponse.Thumbnails
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Thumbnails
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Thumbnails
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 48
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The thumbnails for the channel.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("thumbnails")]
+
+      public Thumbnails Thumbnails { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Thumbnails
+    content.vb: >-
+      <JsonProperty("thumbnails")>
+
+      Public Property Thumbnails As Thumbnails
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Thumbnails*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: thumbnails
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Followers
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Followers
+  id: Followers
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: Followers
+  nameWithType: PicartoChannelResponse.Followers
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Followers
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Followers
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 54
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The number of followers the channel has.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("followers")]
+
+      public int Followers { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <JsonProperty("followers")>
+
+      Public Property Followers As Integer
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Followers*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: followers
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Subscribers
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Subscribers
+  id: Subscribers
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: Subscribers
+  nameWithType: PicartoChannelResponse.Subscribers
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Subscribers
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Subscribers
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 60
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The number of subscribers the channel has.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("subscribers")]
+
+      public int Subscribers { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <JsonProperty("subscribers")>
+
+      Public Property Subscribers As Integer
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Subscribers*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: subscribers
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Adult
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Adult
+  id: Adult
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: Adult
+  nameWithType: PicartoChannelResponse.Adult
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Adult
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Adult
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 66
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Indicates whether the channel is marked as adult.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("adult")]
+
+      public bool Adult { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: >-
+      <JsonProperty("adult")>
+
+      Public Property Adult As Boolean
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Adult*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: adult
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Category
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Category
+  id: Category
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: Category
+  nameWithType: PicartoChannelResponse.Category
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Category
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Category
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 72
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The category of the channel.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("category")]
+
+      public string Category { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("category")>
+
+      Public Property Category As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Category*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: category
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.AccountType
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.AccountType
+  id: AccountType
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: AccountType
+  nameWithType: PicartoChannelResponse.AccountType
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.AccountType
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AccountType
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 78
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The account type of the channel.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("account_type")]
+
+      public string AccountType { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("account_type")>
+
+      Public Property AccountType As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.AccountType*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: account_type
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Commissions
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Commissions
+  id: Commissions
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: Commissions
+  nameWithType: PicartoChannelResponse.Commissions
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Commissions
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Commissions
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 84
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Indicates whether the channel offers commissions.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("commissions")]
+
+      public bool Commissions { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: >-
+      <JsonProperty("commissions")>
+
+      Public Property Commissions As Boolean
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Commissions*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: commissions
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Recordings
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Recordings
+  id: Recordings
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: Recordings
+  nameWithType: PicartoChannelResponse.Recordings
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Recordings
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Recordings
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 90
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Indicates whether the channel has recordings available.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("recordings")]
+
+      public bool Recordings { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: >-
+      <JsonProperty("recordings")>
+
+      Public Property Recordings As Boolean
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Recordings*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: recordings
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Title
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Title
+  id: Title
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: Title
+  nameWithType: PicartoChannelResponse.Title
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Title
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Title
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 96
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The title of the channel.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("title")]
+
+      public string Title { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("title")>
+
+      Public Property Title As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Title*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: title
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.DescriptionPanels
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.DescriptionPanels
+  id: DescriptionPanels
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: DescriptionPanels
+  nameWithType: PicartoChannelResponse.DescriptionPanels
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.DescriptionPanels
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: DescriptionPanels
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 102
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: A list of description panels for the channel.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("description_panels")]
+
+      public List<DescriptionPanel> DescriptionPanels { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel}
+    content.vb: >-
+      <JsonProperty("description_panels")>
+
+      Public Property DescriptionPanels As List(Of DescriptionPanel)
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.DescriptionPanels*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: description_panels
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Private
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Private
+  id: Private
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: Private
+  nameWithType: PicartoChannelResponse.Private
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Private
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Private
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 108
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Indicates whether the channel is private.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("private")]
+
+      public bool Private { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: >-
+      <JsonProperty("private")>
+
+      Public Property [Private] As Boolean
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Private*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: private
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.PrivateMessage
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.PrivateMessage
+  id: PrivateMessage
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: PrivateMessage
+  nameWithType: PicartoChannelResponse.PrivateMessage
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.PrivateMessage
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: PrivateMessage
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 114
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The private message associated with the channel.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("private_message")]
+
+      public string PrivateMessage { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("private_message")>
+
+      Public Property PrivateMessage As String
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.PrivateMessage*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: private_message
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Gaming
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Gaming
+  id: Gaming
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: Gaming
+  nameWithType: PicartoChannelResponse.Gaming
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Gaming
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Gaming
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 120
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Indicates whether the channel is related to gaming.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("gaming")]
+
+      public bool Gaming { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: >-
+      <JsonProperty("gaming")>
+
+      Public Property Gaming As Boolean
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Gaming*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: gaming
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.ChatSettings
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.ChatSettings
+  id: ChatSettings
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: ChatSettings
+  nameWithType: PicartoChannelResponse.ChatSettings
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.ChatSettings
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ChatSettings
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 126
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The chat settings for the channel.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("chat_settings")]
+
+      public ChatSettings ChatSettings { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.ChatSettings
+    content.vb: >-
+      <JsonProperty("chat_settings")>
+
+      Public Property ChatSettings As ChatSettings
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.ChatSettings*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: chat_settings
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.LastLive
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.LastLive
+  id: LastLive
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: LastLive
+  nameWithType: PicartoChannelResponse.LastLive
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.LastLive
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: LastLive
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 132
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: The date and time when the channel was last live.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("last_live")]
+
+      public DateTime LastLive { get; set; }
+    parameters: []
+    return:
+      type: System.DateTime
+    content.vb: >-
+      <JsonProperty("last_live")>
+
+      Public Property LastLive As Date
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.LastLive*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: last_live
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Tags
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Tags
+  id: Tags
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: Tags
+  nameWithType: PicartoChannelResponse.Tags
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Tags
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Tags
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 138
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: A list of tags associated with the channel.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("tags")]
+
+      public List<string> Tags { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{System.String}
+    content.vb: >-
+      <JsonProperty("tags")>
+
+      Public Property Tags As List(Of String)
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Tags*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: tags
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Multistream
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Multistream
+  id: Multistream
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: Multistream
+  nameWithType: PicartoChannelResponse.Multistream
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Multistream
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Multistream
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 144
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: A list of channels this channel is multistreaming with.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("multistream")]
+
+      public List<Multistream> Multistream { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream}
+    content.vb: >-
+      <JsonProperty("multistream")>
+
+      Public Property Multistream As List(Of Multistream)
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Multistream*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: multistream
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Languages
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Languages
+  id: Languages
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: Languages
+  nameWithType: PicartoChannelResponse.Languages
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Languages
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Languages
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 150
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: A list of languages the channel streams in.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("languages")]
+
+      public List<Language> Languages { get; set; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Language}
+    content.vb: >-
+      <JsonProperty("languages")>
+
+      Public Property Languages As List(Of Language)
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Languages*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: languages
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Following
+  commentId: P:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Following
+  id: Following
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+  langs:
+  - csharp
+  - vb
+  name: Following
+  nameWithType: PicartoChannelResponse.Following
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Following
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Following
+    path: src/Mewdeko/Modules/Searches/Common/StreamNotifications/Models/PicartoChannelResponse.cs
+    startLine: 156
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  summary: Indicates whether the current user is following the channel.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("following")]
+
+      public bool Following { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: >-
+      <JsonProperty("following")>
+
+      Public Property Following As Boolean
+  overload: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Following*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: following
+references:
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  commentId: N:Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  nameWithType: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications
+    name: StreamNotifications
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+    name: Models
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications
+    name: StreamNotifications
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+    name: Models
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<PicartoChannelResponse>(PicartoChannelResponse, string)
+  nameWithType: Extensions.ThrowIfNull<PicartoChannelResponse>(PicartoChannelResponse, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse>(Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of PicartoChannelResponse)(PicartoChannelResponse, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse)(Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse, String)
+  name.vb: ThrowIfNull(Of PicartoChannelResponse)(PicartoChannelResponse, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+    name: PicartoChannelResponse
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+    name: PicartoChannelResponse
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+    name: PicartoChannelResponse
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse
+    name: PicartoChannelResponse
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.UserId*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.UserId
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_UserId
+  name: UserId
+  nameWithType: PicartoChannelResponse.UserId
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.UserId
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Name*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Name
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_Name
+  name: Name
+  nameWithType: PicartoChannelResponse.Name
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Avatar*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Avatar
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_Avatar
+  name: Avatar
+  nameWithType: PicartoChannelResponse.Avatar
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Avatar
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Online*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Online
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_Online
+  name: Online
+  nameWithType: PicartoChannelResponse.Online
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Online
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Viewers*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Viewers
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_Viewers
+  name: Viewers
+  nameWithType: PicartoChannelResponse.Viewers
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Viewers
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.ViewersTotal*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.ViewersTotal
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_ViewersTotal
+  name: ViewersTotal
+  nameWithType: PicartoChannelResponse.ViewersTotal
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.ViewersTotal
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Thumbnails*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Thumbnails
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_Thumbnails
+  name: Thumbnails
+  nameWithType: PicartoChannelResponse.Thumbnails
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Thumbnails
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Thumbnails
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Thumbnails
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Thumbnails.html
+  name: Thumbnails
+  nameWithType: Thumbnails
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Thumbnails
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Followers*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Followers
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_Followers
+  name: Followers
+  nameWithType: PicartoChannelResponse.Followers
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Followers
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Subscribers*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Subscribers
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_Subscribers
+  name: Subscribers
+  nameWithType: PicartoChannelResponse.Subscribers
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Subscribers
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Adult*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Adult
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_Adult
+  name: Adult
+  nameWithType: PicartoChannelResponse.Adult
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Adult
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Category*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Category
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_Category
+  name: Category
+  nameWithType: PicartoChannelResponse.Category
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Category
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.AccountType*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.AccountType
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_AccountType
+  name: AccountType
+  nameWithType: PicartoChannelResponse.AccountType
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.AccountType
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Commissions*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Commissions
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_Commissions
+  name: Commissions
+  nameWithType: PicartoChannelResponse.Commissions
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Commissions
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Recordings*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Recordings
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_Recordings
+  name: Recordings
+  nameWithType: PicartoChannelResponse.Recordings
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Recordings
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Title*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Title
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_Title
+  name: Title
+  nameWithType: PicartoChannelResponse.Title
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Title
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.DescriptionPanels*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.DescriptionPanels
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_DescriptionPanels
+  name: DescriptionPanels
+  nameWithType: PicartoChannelResponse.DescriptionPanels
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.DescriptionPanels
+- uid: System.Collections.Generic.List{Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel}
+  commentId: T:System.Collections.Generic.List{Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<DescriptionPanel>
+  nameWithType: List<DescriptionPanel>
+  fullName: System.Collections.Generic.List<Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel>
+  nameWithType.vb: List(Of DescriptionPanel)
+  fullName.vb: System.Collections.Generic.List(Of Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel)
+  name.vb: List(Of DescriptionPanel)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+    name: DescriptionPanel
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel
+    name: DescriptionPanel
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.DescriptionPanel.html
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Private*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Private
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_Private
+  name: Private
+  nameWithType: PicartoChannelResponse.Private
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Private
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.PrivateMessage*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.PrivateMessage
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_PrivateMessage
+  name: PrivateMessage
+  nameWithType: PicartoChannelResponse.PrivateMessage
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.PrivateMessage
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Gaming*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Gaming
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_Gaming
+  name: Gaming
+  nameWithType: PicartoChannelResponse.Gaming
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Gaming
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.ChatSettings*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.ChatSettings
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_ChatSettings
+  name: ChatSettings
+  nameWithType: PicartoChannelResponse.ChatSettings
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.ChatSettings
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.ChatSettings
+  commentId: T:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.ChatSettings
+  parent: Mewdeko.Modules.Searches.Common.StreamNotifications.Models
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.ChatSettings.html
+  name: ChatSettings
+  nameWithType: ChatSettings
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.ChatSettings
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.LastLive*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.LastLive
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_LastLive
+  name: LastLive
+  nameWithType: PicartoChannelResponse.LastLive
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.LastLive
+- uid: System.DateTime
+  commentId: T:System.DateTime
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.datetime
+  name: DateTime
+  nameWithType: DateTime
+  fullName: System.DateTime
+  nameWithType.vb: Date
+  fullName.vb: Date
+  name.vb: Date
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Tags*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Tags
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_Tags
+  name: Tags
+  nameWithType: PicartoChannelResponse.Tags
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Tags
+- uid: System.Collections.Generic.List{System.String}
+  commentId: T:System.Collections.Generic.List{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<string>
+  nameWithType: List<string>
+  fullName: System.Collections.Generic.List<string>
+  nameWithType.vb: List(Of String)
+  fullName.vb: System.Collections.Generic.List(Of String)
+  name.vb: List(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Multistream*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Multistream
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_Multistream
+  name: Multistream
+  nameWithType: PicartoChannelResponse.Multistream
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Multistream
+- uid: System.Collections.Generic.List{Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream}
+  commentId: T:System.Collections.Generic.List{Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<Multistream>
+  nameWithType: List<Multistream>
+  fullName: System.Collections.Generic.List<Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream>
+  nameWithType.vb: List(Of Multistream)
+  fullName.vb: System.Collections.Generic.List(Of Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream)
+  name.vb: List(Of Multistream)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream
+    name: Multistream
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream
+    name: Multistream
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Multistream.html
+  - name: )
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Languages*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Languages
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_Languages
+  name: Languages
+  nameWithType: PicartoChannelResponse.Languages
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Languages
+- uid: System.Collections.Generic.List{Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Language}
+  commentId: T:System.Collections.Generic.List{Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Language}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<Language>
+  nameWithType: List<Language>
+  fullName: System.Collections.Generic.List<Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Language>
+  nameWithType.vb: List(Of Language)
+  fullName.vb: System.Collections.Generic.List(Of Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Language)
+  name.vb: List(Of Language)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Language
+    name: Language
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Language.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Language
+    name: Language
+    href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.Language.html
+  - name: )
+- uid: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Following*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Following
+  href: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.html#Mewdeko_Modules_Searches_Common_StreamNotifications_Models_PicartoChannelResponse_Following
+  name: Following
+  nameWithType: PicartoChannelResponse.Following
+  fullName: Mewdeko.Modules.Searches.Common.StreamNotifications.Models.PicartoChannelResponse.Following

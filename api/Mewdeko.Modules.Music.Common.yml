@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Music.Common
+  commentId: N:Mewdeko.Modules.Music.Common
+  id: Mewdeko.Modules.Music.Common
+  children:
+  - Mewdeko.Modules.Music.Common.AdvancedTrackContext
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Music.Common
+  nameWithType: Mewdeko.Modules.Music.Common
+  fullName: Mewdeko.Modules.Music.Common
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Music.Common.AdvancedTrackContext
+  commentId: T:Mewdeko.Modules.Music.Common.AdvancedTrackContext
+  href: Mewdeko.Modules.Music.Common.AdvancedTrackContext.html
+  name: AdvancedTrackContext
+  nameWithType: AdvancedTrackContext
+  fullName: Mewdeko.Modules.Music.Common.AdvancedTrackContext

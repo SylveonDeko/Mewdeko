@@ -1,0 +1,786 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Models.WaifuUpdate
+  commentId: T:Mewdeko.Database.Models.WaifuUpdate
+  id: WaifuUpdate
+  parent: Mewdeko.Database.Models
+  children:
+  - Mewdeko.Database.Models.WaifuUpdate.New
+  - Mewdeko.Database.Models.WaifuUpdate.NewId
+  - Mewdeko.Database.Models.WaifuUpdate.Old
+  - Mewdeko.Database.Models.WaifuUpdate.OldId
+  - Mewdeko.Database.Models.WaifuUpdate.UpdateType
+  - Mewdeko.Database.Models.WaifuUpdate.User
+  - Mewdeko.Database.Models.WaifuUpdate.UserId
+  langs:
+  - csharp
+  - vb
+  name: WaifuUpdate
+  nameWithType: WaifuUpdate
+  fullName: Mewdeko.Database.Models.WaifuUpdate
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: WaifuUpdate
+    path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+    startLine: 2
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: 'public class WaifuUpdate : DbEntity'
+    content.vb: Public Class WaifuUpdate Inherits DbEntity
+  inheritance:
+  - System.Object
+  - Mewdeko.Database.Models.DbEntity
+  inheritedMembers:
+  - Mewdeko.Database.Models.DbEntity.Id
+  - Mewdeko.Database.Models.DbEntity.DateAdded
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Database.Models.WaifuUpdate.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Database.Models.WaifuUpdate.UserId
+  commentId: P:Mewdeko.Database.Models.WaifuUpdate.UserId
+  id: UserId
+  parent: Mewdeko.Database.Models.WaifuUpdate
+  langs:
+  - csharp
+  - vb
+  name: UserId
+  nameWithType: WaifuUpdate.UserId
+  fullName: Mewdeko.Database.Models.WaifuUpdate.UserId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UserId
+    path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+    startLine: 4
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public int UserId { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property UserId As Integer
+  overload: Mewdeko.Database.Models.WaifuUpdate.UserId*
+- uid: Mewdeko.Database.Models.WaifuUpdate.User
+  commentId: P:Mewdeko.Database.Models.WaifuUpdate.User
+  id: User
+  parent: Mewdeko.Database.Models.WaifuUpdate
+  langs:
+  - csharp
+  - vb
+  name: User
+  nameWithType: WaifuUpdate.User
+  fullName: Mewdeko.Database.Models.WaifuUpdate.User
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: User
+    path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+    startLine: 5
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public DiscordUser User { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Database.Models.DiscordUser
+    content.vb: Public Property User As DiscordUser
+  overload: Mewdeko.Database.Models.WaifuUpdate.User*
+- uid: Mewdeko.Database.Models.WaifuUpdate.UpdateType
+  commentId: P:Mewdeko.Database.Models.WaifuUpdate.UpdateType
+  id: UpdateType
+  parent: Mewdeko.Database.Models.WaifuUpdate
+  langs:
+  - csharp
+  - vb
+  name: UpdateType
+  nameWithType: WaifuUpdate.UpdateType
+  fullName: Mewdeko.Database.Models.WaifuUpdate.UpdateType
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UpdateType
+    path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+    startLine: 6
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public WaifuUpdateType UpdateType { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Database.Models.WaifuUpdateType
+    content.vb: Public Property UpdateType As WaifuUpdateType
+  overload: Mewdeko.Database.Models.WaifuUpdate.UpdateType*
+- uid: Mewdeko.Database.Models.WaifuUpdate.OldId
+  commentId: P:Mewdeko.Database.Models.WaifuUpdate.OldId
+  id: OldId
+  parent: Mewdeko.Database.Models.WaifuUpdate
+  langs:
+  - csharp
+  - vb
+  name: OldId
+  nameWithType: WaifuUpdate.OldId
+  fullName: Mewdeko.Database.Models.WaifuUpdate.OldId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OldId
+    path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+    startLine: 8
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public int? OldId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public Property OldId As Integer?
+  overload: Mewdeko.Database.Models.WaifuUpdate.OldId*
+- uid: Mewdeko.Database.Models.WaifuUpdate.Old
+  commentId: P:Mewdeko.Database.Models.WaifuUpdate.Old
+  id: Old
+  parent: Mewdeko.Database.Models.WaifuUpdate
+  langs:
+  - csharp
+  - vb
+  name: Old
+  nameWithType: WaifuUpdate.Old
+  fullName: Mewdeko.Database.Models.WaifuUpdate.Old
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Old
+    path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+    startLine: 9
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public DiscordUser Old { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Database.Models.DiscordUser
+    content.vb: Public Property Old As DiscordUser
+  overload: Mewdeko.Database.Models.WaifuUpdate.Old*
+- uid: Mewdeko.Database.Models.WaifuUpdate.NewId
+  commentId: P:Mewdeko.Database.Models.WaifuUpdate.NewId
+  id: NewId
+  parent: Mewdeko.Database.Models.WaifuUpdate
+  langs:
+  - csharp
+  - vb
+  name: NewId
+  nameWithType: WaifuUpdate.NewId
+  fullName: Mewdeko.Database.Models.WaifuUpdate.NewId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: NewId
+    path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+    startLine: 11
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public int? NewId { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Int32}
+    content.vb: Public Property NewId As Integer?
+  overload: Mewdeko.Database.Models.WaifuUpdate.NewId*
+- uid: Mewdeko.Database.Models.WaifuUpdate.New
+  commentId: P:Mewdeko.Database.Models.WaifuUpdate.New
+  id: New
+  parent: Mewdeko.Database.Models.WaifuUpdate
+  langs:
+  - csharp
+  - vb
+  name: New
+  nameWithType: WaifuUpdate.New
+  fullName: Mewdeko.Database.Models.WaifuUpdate.New
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: New
+    path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public DiscordUser New { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Database.Models.DiscordUser
+    content.vb: Public Property [New] As DiscordUser
+  overload: Mewdeko.Database.Models.WaifuUpdate.New*
+references:
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Mewdeko.Database.Models.DbEntity
+  commentId: T:Mewdeko.Database.Models.DbEntity
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.DbEntity.html
+  name: DbEntity
+  nameWithType: DbEntity
+  fullName: Mewdeko.Database.Models.DbEntity
+- uid: Mewdeko.Database.Models.DbEntity.Id
+  commentId: P:Mewdeko.Database.Models.DbEntity.Id
+  parent: Mewdeko.Database.Models.DbEntity
+  href: Mewdeko.Database.Models.DbEntity.html#Mewdeko_Database_Models_DbEntity_Id
+  name: Id
+  nameWithType: DbEntity.Id
+  fullName: Mewdeko.Database.Models.DbEntity.Id
+- uid: Mewdeko.Database.Models.DbEntity.DateAdded
+  commentId: P:Mewdeko.Database.Models.DbEntity.DateAdded
+  parent: Mewdeko.Database.Models.DbEntity
+  href: Mewdeko.Database.Models.DbEntity.html#Mewdeko_Database_Models_DbEntity_DateAdded
+  name: DateAdded
+  nameWithType: DbEntity.DateAdded
+  fullName: Mewdeko.Database.Models.DbEntity.DateAdded
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Database.Models.WaifuUpdate.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<WaifuUpdate>(WaifuUpdate, string)
+  nameWithType: Extensions.ThrowIfNull<WaifuUpdate>(WaifuUpdate, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Database.Models.WaifuUpdate>(Mewdeko.Database.Models.WaifuUpdate, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of WaifuUpdate)(WaifuUpdate, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Database.Models.WaifuUpdate)(Mewdeko.Database.Models.WaifuUpdate, String)
+  name.vb: ThrowIfNull(Of WaifuUpdate)(WaifuUpdate, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Database.Models.WaifuUpdate,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Database.Models.WaifuUpdate
+    name: WaifuUpdate
+    href: Mewdeko.Database.Models.WaifuUpdate.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Database.Models.WaifuUpdate
+    name: WaifuUpdate
+    href: Mewdeko.Database.Models.WaifuUpdate.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Database.Models.WaifuUpdate,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Database.Models.WaifuUpdate
+    name: WaifuUpdate
+    href: Mewdeko.Database.Models.WaifuUpdate.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Database.Models.WaifuUpdate
+    name: WaifuUpdate
+    href: Mewdeko.Database.Models.WaifuUpdate.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Database.Models.WaifuUpdate.UserId*
+  commentId: Overload:Mewdeko.Database.Models.WaifuUpdate.UserId
+  href: Mewdeko.Database.Models.WaifuUpdate.html#Mewdeko_Database_Models_WaifuUpdate_UserId
+  name: UserId
+  nameWithType: WaifuUpdate.UserId
+  fullName: Mewdeko.Database.Models.WaifuUpdate.UserId
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Database.Models.WaifuUpdate.User*
+  commentId: Overload:Mewdeko.Database.Models.WaifuUpdate.User
+  href: Mewdeko.Database.Models.WaifuUpdate.html#Mewdeko_Database_Models_WaifuUpdate_User
+  name: User
+  nameWithType: WaifuUpdate.User
+  fullName: Mewdeko.Database.Models.WaifuUpdate.User
+- uid: Mewdeko.Database.Models.DiscordUser
+  commentId: T:Mewdeko.Database.Models.DiscordUser
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.DiscordUser.html
+  name: DiscordUser
+  nameWithType: DiscordUser
+  fullName: Mewdeko.Database.Models.DiscordUser
+- uid: Mewdeko.Database.Models.WaifuUpdate.UpdateType*
+  commentId: Overload:Mewdeko.Database.Models.WaifuUpdate.UpdateType
+  href: Mewdeko.Database.Models.WaifuUpdate.html#Mewdeko_Database_Models_WaifuUpdate_UpdateType
+  name: UpdateType
+  nameWithType: WaifuUpdate.UpdateType
+  fullName: Mewdeko.Database.Models.WaifuUpdate.UpdateType
+- uid: Mewdeko.Database.Models.WaifuUpdateType
+  commentId: T:Mewdeko.Database.Models.WaifuUpdateType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.WaifuUpdateType.html
+  name: WaifuUpdateType
+  nameWithType: WaifuUpdateType
+  fullName: Mewdeko.Database.Models.WaifuUpdateType
+- uid: Mewdeko.Database.Models.WaifuUpdate.OldId*
+  commentId: Overload:Mewdeko.Database.Models.WaifuUpdate.OldId
+  href: Mewdeko.Database.Models.WaifuUpdate.html#Mewdeko_Database_Models_WaifuUpdate_OldId
+  name: OldId
+  nameWithType: WaifuUpdate.OldId
+  fullName: Mewdeko.Database.Models.WaifuUpdate.OldId
+- uid: System.Nullable{System.Int32}
+  commentId: T:System.Nullable{System.Int32}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int?
+  nameWithType: int?
+  fullName: int?
+  nameWithType.vb: Integer?
+  fullName.vb: Integer?
+  name.vb: Integer?
+  spec.csharp:
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '?'
+  spec.vb:
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Database.Models.WaifuUpdate.Old*
+  commentId: Overload:Mewdeko.Database.Models.WaifuUpdate.Old
+  href: Mewdeko.Database.Models.WaifuUpdate.html#Mewdeko_Database_Models_WaifuUpdate_Old
+  name: Old
+  nameWithType: WaifuUpdate.Old
+  fullName: Mewdeko.Database.Models.WaifuUpdate.Old
+- uid: Mewdeko.Database.Models.WaifuUpdate.NewId*
+  commentId: Overload:Mewdeko.Database.Models.WaifuUpdate.NewId
+  href: Mewdeko.Database.Models.WaifuUpdate.html#Mewdeko_Database_Models_WaifuUpdate_NewId
+  name: NewId
+  nameWithType: WaifuUpdate.NewId
+  fullName: Mewdeko.Database.Models.WaifuUpdate.NewId
+- uid: Mewdeko.Database.Models.WaifuUpdate.New*
+  commentId: Overload:Mewdeko.Database.Models.WaifuUpdate.New
+  href: Mewdeko.Database.Models.WaifuUpdate.html#Mewdeko_Database_Models_WaifuUpdate_New
+  name: New
+  nameWithType: WaifuUpdate.New
+  fullName: Mewdeko.Database.Models.WaifuUpdate.New

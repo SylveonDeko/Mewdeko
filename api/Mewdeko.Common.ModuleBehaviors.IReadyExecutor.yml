@@ -1,0 +1,272 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  commentId: T:Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  id: IReadyExecutor
+  parent: Mewdeko.Common.ModuleBehaviors
+  children:
+  - Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+  langs:
+  - csharp
+  - vb
+  name: IReadyExecutor
+  nameWithType: IReadyExecutor
+  fullName: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  type: Interface
+  source:
+    remote:
+      path: src/Mewdeko/Common/ModuleBehaviors/IReadyExecutor.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IReadyExecutor
+    path: src/Mewdeko/Common/ModuleBehaviors/IReadyExecutor.cs
+    startLine: 5
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.ModuleBehaviors
+  summary: Interface to be implemented by services that need to execute something after the bot is ready.
+  example: []
+  syntax:
+    content: public interface IReadyExecutor
+    content.vb: Public Interface IReadyExecutor
+  extensionMethods:
+  - Mewdeko.Common.ModuleBehaviors.IReadyExecutor.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+  commentId: M:Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+  id: OnReadyAsync
+  parent: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+  langs:
+  - csharp
+  - vb
+  name: OnReadyAsync()
+  nameWithType: IReadyExecutor.OnReadyAsync()
+  fullName: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/ModuleBehaviors/IReadyExecutor.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OnReadyAsync
+    path: src/Mewdeko/Common/ModuleBehaviors/IReadyExecutor.cs
+    startLine: 11
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.ModuleBehaviors
+  summary: Method to be executed when the bot is ready.
+  example: []
+  syntax:
+    content: Task OnReadyAsync()
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the asynchronous operation.
+    content.vb: Function OnReadyAsync() As Task
+  overload: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync*
+references:
+- uid: Mewdeko.Common.ModuleBehaviors
+  commentId: N:Mewdeko.Common.ModuleBehaviors
+  href: Mewdeko.html
+  name: Mewdeko.Common.ModuleBehaviors
+  nameWithType: Mewdeko.Common.ModuleBehaviors
+  fullName: Mewdeko.Common.ModuleBehaviors
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.ModuleBehaviors
+    name: ModuleBehaviors
+    href: Mewdeko.Common.ModuleBehaviors.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.ModuleBehaviors
+    name: ModuleBehaviors
+    href: Mewdeko.Common.ModuleBehaviors.html
+- uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<IReadyExecutor>(IReadyExecutor, string)
+  nameWithType: Extensions.ThrowIfNull<IReadyExecutor>(IReadyExecutor, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Common.ModuleBehaviors.IReadyExecutor>(Mewdeko.Common.ModuleBehaviors.IReadyExecutor, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of IReadyExecutor)(IReadyExecutor, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Common.ModuleBehaviors.IReadyExecutor)(Mewdeko.Common.ModuleBehaviors.IReadyExecutor, String)
+  name.vb: ThrowIfNull(Of IReadyExecutor)(IReadyExecutor, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.ModuleBehaviors.IReadyExecutor,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+    name: IReadyExecutor
+    href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+    name: IReadyExecutor
+    href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.ModuleBehaviors.IReadyExecutor,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+    name: IReadyExecutor
+    href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor
+    name: IReadyExecutor
+    href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync*
+  commentId: Overload:Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+  href: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.html#Mewdeko_Common_ModuleBehaviors_IReadyExecutor_OnReadyAsync
+  name: OnReadyAsync
+  nameWithType: IReadyExecutor.OnReadyAsync
+  fullName: Mewdeko.Common.ModuleBehaviors.IReadyExecutor.OnReadyAsync
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks

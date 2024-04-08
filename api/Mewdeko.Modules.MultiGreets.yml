@@ -1,0 +1,108 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.MultiGreets
+  commentId: N:Mewdeko.Modules.MultiGreets
+  id: Mewdeko.Modules.MultiGreets
+  children:
+  - Mewdeko.Modules.MultiGreets.MultiGreets
+  - Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+  - Mewdeko.Modules.MultiGreets.SlashMultiGreets
+  - Mewdeko.Modules.MultiGreets.SlashMultiGreets.MultiGreetTypes
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.MultiGreets
+  nameWithType: Mewdeko.Modules.MultiGreets
+  fullName: Mewdeko.Modules.MultiGreets
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.MultiGreets.MultiGreets
+  commentId: T:Mewdeko.Modules.MultiGreets.MultiGreets
+  href: Mewdeko.Modules.MultiGreets.MultiGreets.html
+  name: MultiGreets
+  nameWithType: MultiGreets
+  fullName: Mewdeko.Modules.MultiGreets.MultiGreets
+- uid: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+  commentId: T:Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+  parent: Mewdeko.Modules.MultiGreets
+  href: Mewdeko.Modules.MultiGreets.MultiGreets.html
+  name: MultiGreets.MultiGreetTypes
+  nameWithType: MultiGreets.MultiGreetTypes
+  fullName: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+  spec.csharp:
+  - uid: Mewdeko.Modules.MultiGreets.MultiGreets
+    name: MultiGreets
+    href: Mewdeko.Modules.MultiGreets.MultiGreets.html
+  - name: .
+  - uid: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+    name: MultiGreetTypes
+    href: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes.html
+  spec.vb:
+  - uid: Mewdeko.Modules.MultiGreets.MultiGreets
+    name: MultiGreets
+    href: Mewdeko.Modules.MultiGreets.MultiGreets.html
+  - name: .
+  - uid: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes
+    name: MultiGreetTypes
+    href: Mewdeko.Modules.MultiGreets.MultiGreets.MultiGreetTypes.html
+- uid: Mewdeko.Modules.MultiGreets.SlashMultiGreets
+  commentId: T:Mewdeko.Modules.MultiGreets.SlashMultiGreets
+  href: Mewdeko.Modules.MultiGreets.SlashMultiGreets.html
+  name: SlashMultiGreets
+  nameWithType: SlashMultiGreets
+  fullName: Mewdeko.Modules.MultiGreets.SlashMultiGreets
+- uid: Mewdeko.Modules.MultiGreets.SlashMultiGreets.MultiGreetTypes
+  commentId: T:Mewdeko.Modules.MultiGreets.SlashMultiGreets.MultiGreetTypes
+  parent: Mewdeko.Modules.MultiGreets
+  href: Mewdeko.Modules.MultiGreets.SlashMultiGreets.html
+  name: SlashMultiGreets.MultiGreetTypes
+  nameWithType: SlashMultiGreets.MultiGreetTypes
+  fullName: Mewdeko.Modules.MultiGreets.SlashMultiGreets.MultiGreetTypes
+  spec.csharp:
+  - uid: Mewdeko.Modules.MultiGreets.SlashMultiGreets
+    name: SlashMultiGreets
+    href: Mewdeko.Modules.MultiGreets.SlashMultiGreets.html
+  - name: .
+  - uid: Mewdeko.Modules.MultiGreets.SlashMultiGreets.MultiGreetTypes
+    name: MultiGreetTypes
+    href: Mewdeko.Modules.MultiGreets.SlashMultiGreets.MultiGreetTypes.html
+  spec.vb:
+  - uid: Mewdeko.Modules.MultiGreets.SlashMultiGreets
+    name: SlashMultiGreets
+    href: Mewdeko.Modules.MultiGreets.SlashMultiGreets.html
+  - name: .
+  - uid: Mewdeko.Modules.MultiGreets.SlashMultiGreets.MultiGreetTypes
+    name: MultiGreetTypes
+    href: Mewdeko.Modules.MultiGreets.SlashMultiGreets.MultiGreetTypes.html
+- uid: Mewdeko.Modules.MultiGreets
+  commentId: N:Mewdeko.Modules.MultiGreets
+  href: Mewdeko.html
+  name: Mewdeko.Modules.MultiGreets
+  nameWithType: Mewdeko.Modules.MultiGreets
+  fullName: Mewdeko.Modules.MultiGreets
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.MultiGreets
+    name: MultiGreets
+    href: Mewdeko.Modules.MultiGreets.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.MultiGreets
+    name: MultiGreets
+    href: Mewdeko.Modules.MultiGreets.html

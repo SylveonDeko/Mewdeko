@@ -1,0 +1,724 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+  commentId: T:Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+  id: GoogleSearchResultData
+  parent: Mewdeko.Modules.Searches.Services
+  children:
+  - Mewdeko.Modules.Searches.Services.GoogleSearchResultData.#ctor(System.Collections.Generic.IReadOnlyList{Mewdeko.Modules.Searches.Common.GoogleSearchResult},System.String,System.String)
+  - Mewdeko.Modules.Searches.Services.GoogleSearchResultData.FullQueryLink
+  - Mewdeko.Modules.Searches.Services.GoogleSearchResultData.Results
+  - Mewdeko.Modules.Searches.Services.GoogleSearchResultData.TotalResults
+  langs:
+  - csharp
+  - vb
+  name: GoogleSearchResultData
+  nameWithType: GoogleSearchResultData
+  fullName: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GoogleSearchResultData
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 972
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Represents the result data of a Google search operation.
+  example: []
+  syntax:
+    content: public class GoogleSearchResultData
+    content.vb: Public Class GoogleSearchResultData
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Searches.Services.GoogleSearchResultData.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.#ctor(System.Collections.Generic.IReadOnlyList{Mewdeko.Modules.Searches.Common.GoogleSearchResult},System.String,System.String)
+  commentId: M:Mewdeko.Modules.Searches.Services.GoogleSearchResultData.#ctor(System.Collections.Generic.IReadOnlyList{Mewdeko.Modules.Searches.Common.GoogleSearchResult},System.String,System.String)
+  id: '#ctor(System.Collections.Generic.IReadOnlyList{Mewdeko.Modules.Searches.Common.GoogleSearchResult},System.String,System.String)'
+  parent: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+  langs:
+  - csharp
+  - vb
+  name: GoogleSearchResultData(IReadOnlyList<GoogleSearchResult>, string, string)
+  nameWithType: GoogleSearchResultData.GoogleSearchResultData(IReadOnlyList<GoogleSearchResult>, string, string)
+  fullName: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.GoogleSearchResultData(System.Collections.Generic.IReadOnlyList<Mewdeko.Modules.Searches.Common.GoogleSearchResult>, string, string)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 980
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Initializes a new instance of the <xref href="Mewdeko.Modules.Searches.Services.GoogleSearchResultData" data-throw-if-not-resolved="false"></xref> class.
+  example: []
+  syntax:
+    content: public GoogleSearchResultData(IReadOnlyList<GoogleSearchResult> results, string fullQueryLink, string totalResults)
+    parameters:
+    - id: results
+      type: System.Collections.Generic.IReadOnlyList{Mewdeko.Modules.Searches.Common.GoogleSearchResult}
+      description: The list of search results.
+    - id: fullQueryLink
+      type: System.String
+      description: The full query link used for the search.
+    - id: totalResults
+      type: System.String
+      description: The total number of search results.
+    content.vb: Public Sub New(results As IReadOnlyList(Of GoogleSearchResult), fullQueryLink As String, totalResults As String)
+  overload: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.#ctor*
+  nameWithType.vb: GoogleSearchResultData.New(IReadOnlyList(Of GoogleSearchResult), String, String)
+  fullName.vb: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.New(System.Collections.Generic.IReadOnlyList(Of Mewdeko.Modules.Searches.Common.GoogleSearchResult), String, String)
+  name.vb: New(IReadOnlyList(Of GoogleSearchResult), String, String)
+- uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.Results
+  commentId: P:Mewdeko.Modules.Searches.Services.GoogleSearchResultData.Results
+  id: Results
+  parent: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+  langs:
+  - csharp
+  - vb
+  name: Results
+  nameWithType: GoogleSearchResultData.Results
+  fullName: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.Results
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Results
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 990
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Gets the list of search results.
+  example: []
+  syntax:
+    content: public IReadOnlyList<GoogleSearchResult> Results { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IReadOnlyList{Mewdeko.Modules.Searches.Common.GoogleSearchResult}
+    content.vb: Public ReadOnly Property Results As IReadOnlyList(Of GoogleSearchResult)
+  overload: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.Results*
+- uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.FullQueryLink
+  commentId: P:Mewdeko.Modules.Searches.Services.GoogleSearchResultData.FullQueryLink
+  id: FullQueryLink
+  parent: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+  langs:
+  - csharp
+  - vb
+  name: FullQueryLink
+  nameWithType: GoogleSearchResultData.FullQueryLink
+  fullName: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.FullQueryLink
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: FullQueryLink
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 995
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Gets the full query link used for the search.
+  example: []
+  syntax:
+    content: public string FullQueryLink { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property FullQueryLink As String
+  overload: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.FullQueryLink*
+- uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.TotalResults
+  commentId: P:Mewdeko.Modules.Searches.Services.GoogleSearchResultData.TotalResults
+  id: TotalResults
+  parent: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+  langs:
+  - csharp
+  - vb
+  name: TotalResults
+  nameWithType: GoogleSearchResultData.TotalResults
+  fullName: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.TotalResults
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TotalResults
+    path: src/Mewdeko/Modules/Searches/Services/SearchesService.cs
+    startLine: 1000
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Services
+  summary: Gets the total number of search results.
+  example: []
+  syntax:
+    content: public string TotalResults { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property TotalResults As String
+  overload: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.TotalResults*
+references:
+- uid: Mewdeko.Modules.Searches.Services
+  commentId: N:Mewdeko.Modules.Searches.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Services
+  nameWithType: Mewdeko.Modules.Searches.Services
+  fullName: Mewdeko.Modules.Searches.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services
+    name: Services
+    href: Mewdeko.Modules.Searches.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Services
+    name: Services
+    href: Mewdeko.Modules.Searches.Services.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<GoogleSearchResultData>(GoogleSearchResultData, string)
+  nameWithType: Extensions.ThrowIfNull<GoogleSearchResultData>(GoogleSearchResultData, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Searches.Services.GoogleSearchResultData>(Mewdeko.Modules.Searches.Services.GoogleSearchResultData, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of GoogleSearchResultData)(GoogleSearchResultData, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Searches.Services.GoogleSearchResultData)(Mewdeko.Modules.Searches.Services.GoogleSearchResultData, String)
+  name.vb: ThrowIfNull(Of GoogleSearchResultData)(GoogleSearchResultData, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Services.GoogleSearchResultData,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+    name: GoogleSearchResultData
+    href: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+    name: GoogleSearchResultData
+    href: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Services.GoogleSearchResultData,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+    name: GoogleSearchResultData
+    href: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+    name: GoogleSearchResultData
+    href: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+  commentId: T:Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+  href: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.html
+  name: GoogleSearchResultData
+  nameWithType: GoogleSearchResultData
+  fullName: Mewdeko.Modules.Searches.Services.GoogleSearchResultData
+- uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.#ctor*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.GoogleSearchResultData.#ctor
+  href: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.html#Mewdeko_Modules_Searches_Services_GoogleSearchResultData__ctor_System_Collections_Generic_IReadOnlyList_Mewdeko_Modules_Searches_Common_GoogleSearchResult__System_String_System_String_
+  name: GoogleSearchResultData
+  nameWithType: GoogleSearchResultData.GoogleSearchResultData
+  fullName: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.GoogleSearchResultData
+  nameWithType.vb: GoogleSearchResultData.New
+  fullName.vb: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.New
+  name.vb: New
+- uid: System.Collections.Generic.IReadOnlyList{Mewdeko.Modules.Searches.Common.GoogleSearchResult}
+  commentId: T:System.Collections.Generic.IReadOnlyList{Mewdeko.Modules.Searches.Common.GoogleSearchResult}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IReadOnlyList`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  name: IReadOnlyList<GoogleSearchResult>
+  nameWithType: IReadOnlyList<GoogleSearchResult>
+  fullName: System.Collections.Generic.IReadOnlyList<Mewdeko.Modules.Searches.Common.GoogleSearchResult>
+  nameWithType.vb: IReadOnlyList(Of GoogleSearchResult)
+  fullName.vb: System.Collections.Generic.IReadOnlyList(Of Mewdeko.Modules.Searches.Common.GoogleSearchResult)
+  name.vb: IReadOnlyList(Of GoogleSearchResult)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.GoogleSearchResult
+    name: GoogleSearchResult
+    href: Mewdeko.Modules.Searches.Common.GoogleSearchResult.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.GoogleSearchResult
+    name: GoogleSearchResult
+    href: Mewdeko.Modules.Searches.Common.GoogleSearchResult.html
+  - name: )
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Collections.Generic.IReadOnlyList`1
+  commentId: T:System.Collections.Generic.IReadOnlyList`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  name: IReadOnlyList<T>
+  nameWithType: IReadOnlyList<T>
+  fullName: System.Collections.Generic.IReadOnlyList<T>
+  nameWithType.vb: IReadOnlyList(Of T)
+  fullName.vb: System.Collections.Generic.IReadOnlyList(Of T)
+  name.vb: IReadOnlyList(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.Results*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.GoogleSearchResultData.Results
+  href: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.html#Mewdeko_Modules_Searches_Services_GoogleSearchResultData_Results
+  name: Results
+  nameWithType: GoogleSearchResultData.Results
+  fullName: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.Results
+- uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.FullQueryLink*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.GoogleSearchResultData.FullQueryLink
+  href: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.html#Mewdeko_Modules_Searches_Services_GoogleSearchResultData_FullQueryLink
+  name: FullQueryLink
+  nameWithType: GoogleSearchResultData.FullQueryLink
+  fullName: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.FullQueryLink
+- uid: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.TotalResults*
+  commentId: Overload:Mewdeko.Modules.Searches.Services.GoogleSearchResultData.TotalResults
+  href: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.html#Mewdeko_Modules_Searches_Services_GoogleSearchResultData_TotalResults
+  name: TotalResults
+  nameWithType: GoogleSearchResultData.TotalResults
+  fullName: Mewdeko.Modules.Searches.Services.GoogleSearchResultData.TotalResults

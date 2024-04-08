@@ -1,0 +1,150 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate
+  commentId: T:Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate
+  id: Searches.TranslateCommands.AutoDeleteAutoTranslate
+  parent: Mewdeko.Modules.Searches
+  children:
+  - Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate.Del
+  - Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate.Nodel
+  langs:
+  - csharp
+  - vb
+  name: Searches.TranslateCommands.AutoDeleteAutoTranslate
+  nameWithType: Searches.TranslateCommands.AutoDeleteAutoTranslate
+  fullName: Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/TranslatorCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AutoDeleteAutoTranslate
+    path: src/Mewdeko/Modules/Searches/TranslatorCommands.cs
+    startLine: 17
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Enumeration for auto-delete options in auto-translate feature.
+  example: []
+  syntax:
+    content: public enum Searches.TranslateCommands.AutoDeleteAutoTranslate
+    content.vb: Public Enum Searches.TranslateCommands.AutoDeleteAutoTranslate
+- uid: Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate.Del
+  commentId: F:Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate.Del
+  id: Del
+  parent: Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate
+  langs:
+  - csharp
+  - vb
+  name: Del
+  nameWithType: Searches.TranslateCommands.AutoDeleteAutoTranslate.Del
+  fullName: Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate.Del
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/TranslatorCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Del
+    path: src/Mewdeko/Modules/Searches/TranslatorCommands.cs
+    startLine: 22
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Deletes the original message after translating it.
+  example: []
+  syntax:
+    content: Del = 0
+    return:
+      type: Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate
+- uid: Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate.Nodel
+  commentId: F:Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate.Nodel
+  id: Nodel
+  parent: Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate
+  langs:
+  - csharp
+  - vb
+  name: Nodel
+  nameWithType: Searches.TranslateCommands.AutoDeleteAutoTranslate.Nodel
+  fullName: Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate.Nodel
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/TranslatorCommands.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Nodel
+    path: src/Mewdeko/Modules/Searches/TranslatorCommands.cs
+    startLine: 27
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches
+  summary: Leaves the original message after translating it.
+  example: []
+  syntax:
+    content: Nodel = 1
+    return:
+      type: Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate
+references:
+- uid: Mewdeko.Modules.Searches
+  commentId: N:Mewdeko.Modules.Searches
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches
+  nameWithType: Mewdeko.Modules.Searches
+  fullName: Mewdeko.Modules.Searches
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+- uid: Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate
+  commentId: T:Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate
+  parent: Mewdeko.Modules.Searches
+  href: Mewdeko.Modules.Searches.Searches.html
+  name: Searches.TranslateCommands.AutoDeleteAutoTranslate
+  nameWithType: Searches.TranslateCommands.AutoDeleteAutoTranslate
+  fullName: Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate
+  spec.csharp:
+  - uid: Mewdeko.Modules.Searches.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Searches.TranslateCommands
+    name: TranslateCommands
+    href: Mewdeko.Modules.Searches.Searches.TranslateCommands.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate
+    name: AutoDeleteAutoTranslate
+    href: Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Searches.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Searches.TranslateCommands
+    name: TranslateCommands
+    href: Mewdeko.Modules.Searches.Searches.TranslateCommands.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate
+    name: AutoDeleteAutoTranslate
+    href: Mewdeko.Modules.Searches.Searches.TranslateCommands.AutoDeleteAutoTranslate.html

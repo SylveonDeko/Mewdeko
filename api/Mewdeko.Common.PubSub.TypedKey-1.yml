@@ -1,0 +1,770 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.PubSub.TypedKey`1
+  commentId: T:Mewdeko.Common.PubSub.TypedKey`1
+  id: TypedKey`1
+  parent: Mewdeko.Common.PubSub
+  children:
+  - Mewdeko.Common.PubSub.TypedKey`1.#ctor(System.String@)
+  - Mewdeko.Common.PubSub.TypedKey`1.Equals(System.Object)
+  - Mewdeko.Common.PubSub.TypedKey`1.GetHashCode
+  - Mewdeko.Common.PubSub.TypedKey`1.Key
+  - Mewdeko.Common.PubSub.TypedKey`1.ToString
+  - Mewdeko.Common.PubSub.TypedKey`1.op_Equality(Mewdeko.Common.PubSub.TypedKey{`0}@,Mewdeko.Common.PubSub.TypedKey{`0}@)
+  - Mewdeko.Common.PubSub.TypedKey`1.op_Implicit(Mewdeko.Common.PubSub.TypedKey{`0}@)~System.String
+  - Mewdeko.Common.PubSub.TypedKey`1.op_Implicit(System.String@)~Mewdeko.Common.PubSub.TypedKey{`0}
+  - Mewdeko.Common.PubSub.TypedKey`1.op_Inequality(Mewdeko.Common.PubSub.TypedKey{`0}@,Mewdeko.Common.PubSub.TypedKey{`0}@)
+  langs:
+  - csharp
+  - vb
+  name: TypedKey<TData>
+  nameWithType: TypedKey<TData>
+  fullName: Mewdeko.Common.PubSub.TypedKey<TData>
+  type: Struct
+  source:
+    remote:
+      path: src/Mewdeko/Common/PubSub/TypedKey.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TypedKey
+    path: src/Mewdeko/Common/PubSub/TypedKey.cs
+    startLine: 6
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.PubSub
+  summary: Represents a typed key for publish-subscribe pattern.
+  example: []
+  syntax:
+    content: public readonly struct TypedKey<TData>
+    typeParameters:
+    - id: TData
+      description: The type of data the key represents.
+    content.vb: Public Structure TypedKey(Of TData)
+  inheritedMembers:
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  nameWithType.vb: TypedKey(Of TData)
+  fullName.vb: Mewdeko.Common.PubSub.TypedKey(Of TData)
+  name.vb: TypedKey(Of TData)
+- uid: Mewdeko.Common.PubSub.TypedKey`1.Key
+  commentId: P:Mewdeko.Common.PubSub.TypedKey`1.Key
+  id: Key
+  parent: Mewdeko.Common.PubSub.TypedKey`1
+  langs:
+  - csharp
+  - vb
+  name: Key
+  nameWithType: TypedKey<TData>.Key
+  fullName: Mewdeko.Common.PubSub.TypedKey<TData>.Key
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/PubSub/TypedKey.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Key
+    path: src/Mewdeko/Common/PubSub/TypedKey.cs
+    startLine: 11
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.PubSub
+  summary: Gets the key.
+  example: []
+  syntax:
+    content: public string Key { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Key As String
+  overload: Mewdeko.Common.PubSub.TypedKey`1.Key*
+  nameWithType.vb: TypedKey(Of TData).Key
+  fullName.vb: Mewdeko.Common.PubSub.TypedKey(Of TData).Key
+- uid: Mewdeko.Common.PubSub.TypedKey`1.#ctor(System.String@)
+  commentId: M:Mewdeko.Common.PubSub.TypedKey`1.#ctor(System.String@)
+  id: '#ctor(System.String@)'
+  parent: Mewdeko.Common.PubSub.TypedKey`1
+  langs:
+  - csharp
+  - vb
+  name: TypedKey(in string)
+  nameWithType: TypedKey<TData>.TypedKey(in string)
+  fullName: Mewdeko.Common.PubSub.TypedKey<TData>.TypedKey(in string)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Common/PubSub/TypedKey.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Common/PubSub/TypedKey.cs
+    startLine: 17
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.PubSub
+  summary: Initializes a new instance of the TypedKey struct.
+  example: []
+  syntax:
+    content: public TypedKey(in string key)
+    parameters:
+    - id: key
+      type: System.String
+      description: The key.
+    content.vb: Public Sub New(key As String)
+  overload: Mewdeko.Common.PubSub.TypedKey`1.#ctor*
+  nameWithType.vb: TypedKey(Of TData).New(String)
+  fullName.vb: Mewdeko.Common.PubSub.TypedKey(Of TData).New(String)
+  name.vb: New(String)
+- uid: Mewdeko.Common.PubSub.TypedKey`1.op_Implicit(System.String@)~Mewdeko.Common.PubSub.TypedKey{`0}
+  commentId: M:Mewdeko.Common.PubSub.TypedKey`1.op_Implicit(System.String@)~Mewdeko.Common.PubSub.TypedKey{`0}
+  id: op_Implicit(System.String@)~Mewdeko.Common.PubSub.TypedKey{`0}
+  parent: Mewdeko.Common.PubSub.TypedKey`1
+  langs:
+  - csharp
+  - vb
+  name: implicit operator TypedKey<TData>(in string)
+  nameWithType: TypedKey<TData>.implicit operator TypedKey<TData>(in string)
+  fullName: Mewdeko.Common.PubSub.TypedKey<TData>.implicit operator Mewdeko.Common.PubSub.TypedKey<TData>(in string)
+  type: Operator
+  source:
+    remote:
+      path: src/Mewdeko/Common/PubSub/TypedKey.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: op_Implicit
+    path: src/Mewdeko/Common/PubSub/TypedKey.cs
+    startLine: 24
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.PubSub
+  summary: Implicit conversion from string to TypedKey.
+  example: []
+  syntax:
+    content: public static implicit operator TypedKey<TData>(in string input)
+    parameters:
+    - id: input
+      type: System.String
+      description: The input string.
+    return:
+      type: Mewdeko.Common.PubSub.TypedKey`1
+    content.vb: Public Shared Widening Operator CType(input As String) As TypedKey(Of TData)
+  overload: Mewdeko.Common.PubSub.TypedKey`1.op_Implicit*
+  nameWithType.vb: TypedKey(Of TData).CType(String)
+  fullName.vb: Mewdeko.Common.PubSub.TypedKey(Of TData).CType(String)
+  name.vb: CType(String)
+- uid: Mewdeko.Common.PubSub.TypedKey`1.op_Implicit(Mewdeko.Common.PubSub.TypedKey{`0}@)~System.String
+  commentId: M:Mewdeko.Common.PubSub.TypedKey`1.op_Implicit(Mewdeko.Common.PubSub.TypedKey{`0}@)~System.String
+  id: op_Implicit(Mewdeko.Common.PubSub.TypedKey{`0}@)~System.String
+  parent: Mewdeko.Common.PubSub.TypedKey`1
+  langs:
+  - csharp
+  - vb
+  name: implicit operator string(in TypedKey<TData>)
+  nameWithType: TypedKey<TData>.implicit operator string(in TypedKey<TData>)
+  fullName: Mewdeko.Common.PubSub.TypedKey<TData>.implicit operator string(in Mewdeko.Common.PubSub.TypedKey<TData>)
+  type: Operator
+  source:
+    remote:
+      path: src/Mewdeko/Common/PubSub/TypedKey.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: op_Implicit
+    path: src/Mewdeko/Common/PubSub/TypedKey.cs
+    startLine: 31
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.PubSub
+  summary: Implicit conversion from TypedKey to string.
+  example: []
+  syntax:
+    content: public static implicit operator string(in TypedKey<TData> input)
+    parameters:
+    - id: input
+      type: Mewdeko.Common.PubSub.TypedKey`1
+      description: The input TypedKey.
+    return:
+      type: System.String
+    content.vb: Public Shared Widening Operator CType(input As TypedKey(Of TData)) As String
+  overload: Mewdeko.Common.PubSub.TypedKey`1.op_Implicit*
+  nameWithType.vb: TypedKey(Of TData).CType(TypedKey(Of TData))
+  fullName.vb: Mewdeko.Common.PubSub.TypedKey(Of TData).CType(Mewdeko.Common.PubSub.TypedKey(Of TData))
+  name.vb: CType(TypedKey(Of TData))
+- uid: Mewdeko.Common.PubSub.TypedKey`1.op_Equality(Mewdeko.Common.PubSub.TypedKey{`0}@,Mewdeko.Common.PubSub.TypedKey{`0}@)
+  commentId: M:Mewdeko.Common.PubSub.TypedKey`1.op_Equality(Mewdeko.Common.PubSub.TypedKey{`0}@,Mewdeko.Common.PubSub.TypedKey{`0}@)
+  id: op_Equality(Mewdeko.Common.PubSub.TypedKey{`0}@,Mewdeko.Common.PubSub.TypedKey{`0}@)
+  parent: Mewdeko.Common.PubSub.TypedKey`1
+  langs:
+  - csharp
+  - vb
+  name: operator ==(in TypedKey<TData>, in TypedKey<TData>)
+  nameWithType: TypedKey<TData>.operator ==(in TypedKey<TData>, in TypedKey<TData>)
+  fullName: Mewdeko.Common.PubSub.TypedKey<TData>.operator ==(in Mewdeko.Common.PubSub.TypedKey<TData>, in Mewdeko.Common.PubSub.TypedKey<TData>)
+  type: Operator
+  source:
+    remote:
+      path: src/Mewdeko/Common/PubSub/TypedKey.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: op_Equality
+    path: src/Mewdeko/Common/PubSub/TypedKey.cs
+    startLine: 40
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.PubSub
+  summary: Equality operator for TypedKey.
+  example: []
+  syntax:
+    content: public static bool operator ==(in TypedKey<TData> left, in TypedKey<TData> right)
+    parameters:
+    - id: left
+      type: Mewdeko.Common.PubSub.TypedKey`1
+      description: The left TypedKey.
+    - id: right
+      type: Mewdeko.Common.PubSub.TypedKey`1
+      description: The right TypedKey.
+    return:
+      type: System.Boolean
+      description: True if the keys are equal, false otherwise.
+    content.vb: Public Shared Operator =(left As TypedKey(Of TData), right As TypedKey(Of TData)) As Boolean
+  overload: Mewdeko.Common.PubSub.TypedKey`1.op_Equality*
+  nameWithType.vb: TypedKey(Of TData).=(TypedKey(Of TData), TypedKey(Of TData))
+  fullName.vb: Mewdeko.Common.PubSub.TypedKey(Of TData).=(Mewdeko.Common.PubSub.TypedKey(Of TData), Mewdeko.Common.PubSub.TypedKey(Of TData))
+  name.vb: =(TypedKey(Of TData), TypedKey(Of TData))
+- uid: Mewdeko.Common.PubSub.TypedKey`1.op_Inequality(Mewdeko.Common.PubSub.TypedKey{`0}@,Mewdeko.Common.PubSub.TypedKey{`0}@)
+  commentId: M:Mewdeko.Common.PubSub.TypedKey`1.op_Inequality(Mewdeko.Common.PubSub.TypedKey{`0}@,Mewdeko.Common.PubSub.TypedKey{`0}@)
+  id: op_Inequality(Mewdeko.Common.PubSub.TypedKey{`0}@,Mewdeko.Common.PubSub.TypedKey{`0}@)
+  parent: Mewdeko.Common.PubSub.TypedKey`1
+  langs:
+  - csharp
+  - vb
+  name: operator !=(in TypedKey<TData>, in TypedKey<TData>)
+  nameWithType: TypedKey<TData>.operator !=(in TypedKey<TData>, in TypedKey<TData>)
+  fullName: Mewdeko.Common.PubSub.TypedKey<TData>.operator !=(in Mewdeko.Common.PubSub.TypedKey<TData>, in Mewdeko.Common.PubSub.TypedKey<TData>)
+  type: Operator
+  source:
+    remote:
+      path: src/Mewdeko/Common/PubSub/TypedKey.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: op_Inequality
+    path: src/Mewdeko/Common/PubSub/TypedKey.cs
+    startLine: 49
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.PubSub
+  summary: Inequality operator for TypedKey.
+  example: []
+  syntax:
+    content: public static bool operator !=(in TypedKey<TData> left, in TypedKey<TData> right)
+    parameters:
+    - id: left
+      type: Mewdeko.Common.PubSub.TypedKey`1
+      description: The left TypedKey.
+    - id: right
+      type: Mewdeko.Common.PubSub.TypedKey`1
+      description: The right TypedKey.
+    return:
+      type: System.Boolean
+      description: True if the keys are not equal, false otherwise.
+    content.vb: Public Shared Operator <>(left As TypedKey(Of TData), right As TypedKey(Of TData)) As Boolean
+  overload: Mewdeko.Common.PubSub.TypedKey`1.op_Inequality*
+  nameWithType.vb: TypedKey(Of TData).<>(TypedKey(Of TData), TypedKey(Of TData))
+  fullName.vb: Mewdeko.Common.PubSub.TypedKey(Of TData).<>(Mewdeko.Common.PubSub.TypedKey(Of TData), Mewdeko.Common.PubSub.TypedKey(Of TData))
+  name.vb: <>(TypedKey(Of TData), TypedKey(Of TData))
+- uid: Mewdeko.Common.PubSub.TypedKey`1.Equals(System.Object)
+  commentId: M:Mewdeko.Common.PubSub.TypedKey`1.Equals(System.Object)
+  id: Equals(System.Object)
+  parent: Mewdeko.Common.PubSub.TypedKey`1
+  langs:
+  - csharp
+  - vb
+  name: Equals(object?)
+  nameWithType: TypedKey<TData>.Equals(object?)
+  fullName: Mewdeko.Common.PubSub.TypedKey<TData>.Equals(object?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/PubSub/TypedKey.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Equals
+    path: src/Mewdeko/Common/PubSub/TypedKey.cs
+    startLine: 57
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.PubSub
+  summary: Determines whether the specified object is equal to the current object.
+  example: []
+  syntax:
+    content: public override bool Equals(object? obj)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: The object to compare with the current object.
+    return:
+      type: System.Boolean
+      description: True if the specified object is equal to the current object; otherwise, false.
+    content.vb: Public Overrides Function Equals(obj As Object) As Boolean
+  overridden: System.ValueType.Equals(System.Object)
+  overload: Mewdeko.Common.PubSub.TypedKey`1.Equals*
+  nameWithType.vb: TypedKey(Of TData).Equals(Object)
+  fullName.vb: Mewdeko.Common.PubSub.TypedKey(Of TData).Equals(Object)
+  name.vb: Equals(Object)
+- uid: Mewdeko.Common.PubSub.TypedKey`1.GetHashCode
+  commentId: M:Mewdeko.Common.PubSub.TypedKey`1.GetHashCode
+  id: GetHashCode
+  parent: Mewdeko.Common.PubSub.TypedKey`1
+  langs:
+  - csharp
+  - vb
+  name: GetHashCode()
+  nameWithType: TypedKey<TData>.GetHashCode()
+  fullName: Mewdeko.Common.PubSub.TypedKey<TData>.GetHashCode()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/PubSub/TypedKey.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetHashCode
+    path: src/Mewdeko/Common/PubSub/TypedKey.cs
+    startLine: 64
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.PubSub
+  summary: Serves as the default hash function.
+  example: []
+  syntax:
+    content: public override int GetHashCode()
+    return:
+      type: System.Int32
+      description: A hash code for the current object.
+    content.vb: Public Overrides Function GetHashCode() As Integer
+  overridden: System.ValueType.GetHashCode
+  overload: Mewdeko.Common.PubSub.TypedKey`1.GetHashCode*
+  nameWithType.vb: TypedKey(Of TData).GetHashCode()
+  fullName.vb: Mewdeko.Common.PubSub.TypedKey(Of TData).GetHashCode()
+- uid: Mewdeko.Common.PubSub.TypedKey`1.ToString
+  commentId: M:Mewdeko.Common.PubSub.TypedKey`1.ToString
+  id: ToString
+  parent: Mewdeko.Common.PubSub.TypedKey`1
+  langs:
+  - csharp
+  - vb
+  name: ToString()
+  nameWithType: TypedKey<TData>.ToString()
+  fullName: Mewdeko.Common.PubSub.TypedKey<TData>.ToString()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/PubSub/TypedKey.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ToString
+    path: src/Mewdeko/Common/PubSub/TypedKey.cs
+    startLine: 71
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.PubSub
+  summary: Returns a string that represents the current object.
+  example: []
+  syntax:
+    content: public override string ToString()
+    return:
+      type: System.String
+      description: A string that represents the current object.
+    content.vb: Public Overrides Function ToString() As String
+  overridden: System.ValueType.ToString
+  overload: Mewdeko.Common.PubSub.TypedKey`1.ToString*
+  nameWithType.vb: TypedKey(Of TData).ToString()
+  fullName.vb: Mewdeko.Common.PubSub.TypedKey(Of TData).ToString()
+references:
+- uid: Mewdeko.Common.PubSub
+  commentId: N:Mewdeko.Common.PubSub
+  href: Mewdeko.html
+  name: Mewdeko.Common.PubSub
+  nameWithType: Mewdeko.Common.PubSub
+  fullName: Mewdeko.Common.PubSub
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.PubSub
+    name: PubSub
+    href: Mewdeko.Common.PubSub.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.PubSub
+    name: PubSub
+    href: Mewdeko.Common.PubSub.html
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Common.PubSub.TypedKey`1.Key*
+  commentId: Overload:Mewdeko.Common.PubSub.TypedKey`1.Key
+  href: Mewdeko.Common.PubSub.TypedKey-1.html#Mewdeko_Common_PubSub_TypedKey_1_Key
+  name: Key
+  nameWithType: TypedKey<TData>.Key
+  fullName: Mewdeko.Common.PubSub.TypedKey<TData>.Key
+  nameWithType.vb: TypedKey(Of TData).Key
+  fullName.vb: Mewdeko.Common.PubSub.TypedKey(Of TData).Key
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Common.PubSub.TypedKey`1.#ctor*
+  commentId: Overload:Mewdeko.Common.PubSub.TypedKey`1.#ctor
+  href: Mewdeko.Common.PubSub.TypedKey-1.html#Mewdeko_Common_PubSub_TypedKey_1__ctor_System_String__
+  name: TypedKey
+  nameWithType: TypedKey<TData>.TypedKey
+  fullName: Mewdeko.Common.PubSub.TypedKey<TData>.TypedKey
+  nameWithType.vb: TypedKey(Of TData).New
+  fullName.vb: Mewdeko.Common.PubSub.TypedKey(Of TData).New
+  name.vb: New
+- uid: Mewdeko.Common.PubSub.TypedKey`1.op_Implicit*
+  commentId: Overload:Mewdeko.Common.PubSub.TypedKey`1.op_Implicit
+  name: implicit operator
+  nameWithType: TypedKey<TData>.implicit operator
+  fullName: Mewdeko.Common.PubSub.TypedKey<TData>.implicit operator
+  nameWithType.vb: TypedKey(Of TData).CType
+  fullName.vb: Mewdeko.Common.PubSub.TypedKey(Of TData).CType
+  name.vb: CType
+  spec.csharp:
+  - name: implicit
+  - name: " "
+  - name: operator
+- uid: Mewdeko.Common.PubSub.TypedKey`1
+  commentId: T:Mewdeko.Common.PubSub.TypedKey`1
+  parent: Mewdeko.Common.PubSub
+  href: Mewdeko.Common.PubSub.TypedKey-1.html
+  name: TypedKey<TData>
+  nameWithType: TypedKey<TData>
+  fullName: Mewdeko.Common.PubSub.TypedKey<TData>
+  nameWithType.vb: TypedKey(Of TData)
+  fullName.vb: Mewdeko.Common.PubSub.TypedKey(Of TData)
+  name.vb: TypedKey(Of TData)
+  spec.csharp:
+  - uid: Mewdeko.Common.PubSub.TypedKey`1
+    name: TypedKey
+    href: Mewdeko.Common.PubSub.TypedKey-1.html
+  - name: <
+  - name: TData
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.PubSub.TypedKey`1
+    name: TypedKey
+    href: Mewdeko.Common.PubSub.TypedKey-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TData
+  - name: )
+- uid: Mewdeko.Common.PubSub.TypedKey`1.op_Equality*
+  commentId: Overload:Mewdeko.Common.PubSub.TypedKey`1.op_Equality
+  href: Mewdeko.Common.PubSub.TypedKey-1.html#Mewdeko_Common_PubSub_TypedKey_1_op_Equality_Mewdeko_Common_PubSub_TypedKey__0___Mewdeko_Common_PubSub_TypedKey__0___
+  name: operator ==
+  nameWithType: TypedKey<TData>.operator ==
+  fullName: Mewdeko.Common.PubSub.TypedKey<TData>.operator ==
+  nameWithType.vb: TypedKey(Of TData).=
+  fullName.vb: Mewdeko.Common.PubSub.TypedKey(Of TData).=
+  name.vb: =
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Mewdeko.Common.PubSub.TypedKey`1.op_Equality*
+    name: ==
+    href: Mewdeko.Common.PubSub.TypedKey-1.html#Mewdeko_Common_PubSub_TypedKey_1_op_Equality_Mewdeko_Common_PubSub_TypedKey__0___Mewdeko_Common_PubSub_TypedKey__0___
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Mewdeko.Common.PubSub.TypedKey`1.op_Inequality*
+  commentId: Overload:Mewdeko.Common.PubSub.TypedKey`1.op_Inequality
+  href: Mewdeko.Common.PubSub.TypedKey-1.html#Mewdeko_Common_PubSub_TypedKey_1_op_Inequality_Mewdeko_Common_PubSub_TypedKey__0___Mewdeko_Common_PubSub_TypedKey__0___
+  name: operator !=
+  nameWithType: TypedKey<TData>.operator !=
+  fullName: Mewdeko.Common.PubSub.TypedKey<TData>.operator !=
+  nameWithType.vb: TypedKey(Of TData).<>
+  fullName.vb: Mewdeko.Common.PubSub.TypedKey(Of TData).<>
+  name.vb: <>
+  spec.csharp:
+  - name: operator
+  - name: " "
+  - uid: Mewdeko.Common.PubSub.TypedKey`1.op_Inequality*
+    name: '!='
+    href: Mewdeko.Common.PubSub.TypedKey-1.html#Mewdeko_Common_PubSub_TypedKey_1_op_Inequality_Mewdeko_Common_PubSub_TypedKey__0___Mewdeko_Common_PubSub_TypedKey__0___
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: Mewdeko.Common.PubSub.TypedKey`1.Equals*
+  commentId: Overload:Mewdeko.Common.PubSub.TypedKey`1.Equals
+  href: Mewdeko.Common.PubSub.TypedKey-1.html#Mewdeko_Common_PubSub_TypedKey_1_Equals_System_Object_
+  name: Equals
+  nameWithType: TypedKey<TData>.Equals
+  fullName: Mewdeko.Common.PubSub.TypedKey<TData>.Equals
+  nameWithType.vb: TypedKey(Of TData).Equals
+  fullName.vb: Mewdeko.Common.PubSub.TypedKey(Of TData).Equals
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: Mewdeko.Common.PubSub.TypedKey`1.GetHashCode*
+  commentId: Overload:Mewdeko.Common.PubSub.TypedKey`1.GetHashCode
+  href: Mewdeko.Common.PubSub.TypedKey-1.html#Mewdeko_Common_PubSub_TypedKey_1_GetHashCode
+  name: GetHashCode
+  nameWithType: TypedKey<TData>.GetHashCode
+  fullName: Mewdeko.Common.PubSub.TypedKey<TData>.GetHashCode
+  nameWithType.vb: TypedKey(Of TData).GetHashCode
+  fullName.vb: Mewdeko.Common.PubSub.TypedKey(Of TData).GetHashCode
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Common.PubSub.TypedKey`1.ToString*
+  commentId: Overload:Mewdeko.Common.PubSub.TypedKey`1.ToString
+  href: Mewdeko.Common.PubSub.TypedKey-1.html#Mewdeko_Common_PubSub_TypedKey_1_ToString
+  name: ToString
+  nameWithType: TypedKey<TData>.ToString
+  fullName: Mewdeko.Common.PubSub.TypedKey<TData>.ToString
+  nameWithType.vb: TypedKey(Of TData).ToString
+  fullName.vb: Mewdeko.Common.PubSub.TypedKey(Of TData).ToString

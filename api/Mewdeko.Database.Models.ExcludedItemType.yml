@@ -1,0 +1,120 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Models.ExcludedItemType
+  commentId: T:Mewdeko.Database.Models.ExcludedItemType
+  id: ExcludedItemType
+  parent: Mewdeko.Database.Models
+  children:
+  - Mewdeko.Database.Models.ExcludedItemType.Channel
+  - Mewdeko.Database.Models.ExcludedItemType.Role
+  langs:
+  - csharp
+  - vb
+  name: ExcludedItemType
+  nameWithType: ExcludedItemType
+  fullName: Mewdeko.Database.Models.ExcludedItemType
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/XpSettings.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ExcludedItemType
+    path: src/Mewdeko.Database/Models/XpSettings.cs
+    startLine: 19
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public enum ExcludedItemType
+    content.vb: Public Enum ExcludedItemType
+- uid: Mewdeko.Database.Models.ExcludedItemType.Channel
+  commentId: F:Mewdeko.Database.Models.ExcludedItemType.Channel
+  id: Channel
+  parent: Mewdeko.Database.Models.ExcludedItemType
+  langs:
+  - csharp
+  - vb
+  name: Channel
+  nameWithType: ExcludedItemType.Channel
+  fullName: Mewdeko.Database.Models.ExcludedItemType.Channel
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/XpSettings.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Channel
+    path: src/Mewdeko.Database/Models/XpSettings.cs
+    startLine: 21
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Channel = 0
+    return:
+      type: Mewdeko.Database.Models.ExcludedItemType
+- uid: Mewdeko.Database.Models.ExcludedItemType.Role
+  commentId: F:Mewdeko.Database.Models.ExcludedItemType.Role
+  id: Role
+  parent: Mewdeko.Database.Models.ExcludedItemType
+  langs:
+  - csharp
+  - vb
+  name: Role
+  nameWithType: ExcludedItemType.Role
+  fullName: Mewdeko.Database.Models.ExcludedItemType.Role
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/XpSettings.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Role
+    path: src/Mewdeko.Database/Models/XpSettings.cs
+    startLine: 22
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Role = 1
+    return:
+      type: Mewdeko.Database.Models.ExcludedItemType
+references:
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: Mewdeko.Database.Models.ExcludedItemType
+  commentId: T:Mewdeko.Database.Models.ExcludedItemType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.ExcludedItemType.html
+  name: ExcludedItemType
+  nameWithType: ExcludedItemType
+  fullName: Mewdeko.Database.Models.ExcludedItemType

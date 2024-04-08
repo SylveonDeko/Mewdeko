@@ -1,0 +1,316 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Music.Music.PlaylistAction
+  commentId: T:Mewdeko.Modules.Music.Music.PlaylistAction
+  id: Music.PlaylistAction
+  parent: Mewdeko.Modules.Music
+  children:
+  - Mewdeko.Modules.Music.Music.PlaylistAction.Add
+  - Mewdeko.Modules.Music.Music.PlaylistAction.Create
+  - Mewdeko.Modules.Music.Music.PlaylistAction.Default
+  - Mewdeko.Modules.Music.Music.PlaylistAction.Delete
+  - Mewdeko.Modules.Music.Music.PlaylistAction.Load
+  - Mewdeko.Modules.Music.Music.PlaylistAction.Remove
+  - Mewdeko.Modules.Music.Music.PlaylistAction.Save
+  - Mewdeko.Modules.Music.Music.PlaylistAction.Show
+  langs:
+  - csharp
+  - vb
+  name: Music.PlaylistAction
+  nameWithType: Music.PlaylistAction
+  fullName: Mewdeko.Modules.Music.Music.PlaylistAction
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: PlaylistAction
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 43
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Represents actions that can be performed on a playlist.
+  example: []
+  syntax:
+    content: public enum Music.PlaylistAction
+    content.vb: Public Enum Music.PlaylistAction
+- uid: Mewdeko.Modules.Music.Music.PlaylistAction.Show
+  commentId: F:Mewdeko.Modules.Music.Music.PlaylistAction.Show
+  id: Show
+  parent: Mewdeko.Modules.Music.Music.PlaylistAction
+  langs:
+  - csharp
+  - vb
+  name: Show
+  nameWithType: Music.PlaylistAction.Show
+  fullName: Mewdeko.Modules.Music.Music.PlaylistAction.Show
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Show
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 48
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Show the playlist.
+  example: []
+  syntax:
+    content: Show = 0
+    return:
+      type: Mewdeko.Modules.Music.Music.PlaylistAction
+- uid: Mewdeko.Modules.Music.Music.PlaylistAction.Delete
+  commentId: F:Mewdeko.Modules.Music.Music.PlaylistAction.Delete
+  id: Delete
+  parent: Mewdeko.Modules.Music.Music.PlaylistAction
+  langs:
+  - csharp
+  - vb
+  name: Delete
+  nameWithType: Music.PlaylistAction.Delete
+  fullName: Mewdeko.Modules.Music.Music.PlaylistAction.Delete
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Delete
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 53
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Delete the playlist.
+  example: []
+  syntax:
+    content: Delete = 1
+    return:
+      type: Mewdeko.Modules.Music.Music.PlaylistAction
+- uid: Mewdeko.Modules.Music.Music.PlaylistAction.Create
+  commentId: F:Mewdeko.Modules.Music.Music.PlaylistAction.Create
+  id: Create
+  parent: Mewdeko.Modules.Music.Music.PlaylistAction
+  langs:
+  - csharp
+  - vb
+  name: Create
+  nameWithType: Music.PlaylistAction.Create
+  fullName: Mewdeko.Modules.Music.Music.PlaylistAction.Create
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Create
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 58
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Create a new playlist.
+  example: []
+  syntax:
+    content: Create = 2
+    return:
+      type: Mewdeko.Modules.Music.Music.PlaylistAction
+- uid: Mewdeko.Modules.Music.Music.PlaylistAction.Remove
+  commentId: F:Mewdeko.Modules.Music.Music.PlaylistAction.Remove
+  id: Remove
+  parent: Mewdeko.Modules.Music.Music.PlaylistAction
+  langs:
+  - csharp
+  - vb
+  name: Remove
+  nameWithType: Music.PlaylistAction.Remove
+  fullName: Mewdeko.Modules.Music.Music.PlaylistAction.Remove
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Remove
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 63
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Remove an item from the playlist.
+  example: []
+  syntax:
+    content: Remove = 3
+    return:
+      type: Mewdeko.Modules.Music.Music.PlaylistAction
+- uid: Mewdeko.Modules.Music.Music.PlaylistAction.Add
+  commentId: F:Mewdeko.Modules.Music.Music.PlaylistAction.Add
+  id: Add
+  parent: Mewdeko.Modules.Music.Music.PlaylistAction
+  langs:
+  - csharp
+  - vb
+  name: Add
+  nameWithType: Music.PlaylistAction.Add
+  fullName: Mewdeko.Modules.Music.Music.PlaylistAction.Add
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Add
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 68
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Add an item to the playlist.
+  example: []
+  syntax:
+    content: Add = 4
+    return:
+      type: Mewdeko.Modules.Music.Music.PlaylistAction
+- uid: Mewdeko.Modules.Music.Music.PlaylistAction.Load
+  commentId: F:Mewdeko.Modules.Music.Music.PlaylistAction.Load
+  id: Load
+  parent: Mewdeko.Modules.Music.Music.PlaylistAction
+  langs:
+  - csharp
+  - vb
+  name: Load
+  nameWithType: Music.PlaylistAction.Load
+  fullName: Mewdeko.Modules.Music.Music.PlaylistAction.Load
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Load
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 73
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Load a playlist.
+  example: []
+  syntax:
+    content: Load = 5
+    return:
+      type: Mewdeko.Modules.Music.Music.PlaylistAction
+- uid: Mewdeko.Modules.Music.Music.PlaylistAction.Save
+  commentId: F:Mewdeko.Modules.Music.Music.PlaylistAction.Save
+  id: Save
+  parent: Mewdeko.Modules.Music.Music.PlaylistAction
+  langs:
+  - csharp
+  - vb
+  name: Save
+  nameWithType: Music.PlaylistAction.Save
+  fullName: Mewdeko.Modules.Music.Music.PlaylistAction.Save
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Save
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 78
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Save the playlist.
+  example: []
+  syntax:
+    content: Save = 6
+    return:
+      type: Mewdeko.Modules.Music.Music.PlaylistAction
+- uid: Mewdeko.Modules.Music.Music.PlaylistAction.Default
+  commentId: F:Mewdeko.Modules.Music.Music.PlaylistAction.Default
+  id: Default
+  parent: Mewdeko.Modules.Music.Music.PlaylistAction
+  langs:
+  - csharp
+  - vb
+  name: Default
+  nameWithType: Music.PlaylistAction.Default
+  fullName: Mewdeko.Modules.Music.Music.PlaylistAction.Default
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Default
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 83
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Default action for the playlist.
+  example: []
+  syntax:
+    content: Default = 7
+    return:
+      type: Mewdeko.Modules.Music.Music.PlaylistAction
+references:
+- uid: Mewdeko.Modules.Music
+  commentId: N:Mewdeko.Modules.Music
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Music
+  nameWithType: Mewdeko.Modules.Music
+  fullName: Mewdeko.Modules.Music
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Music
+    name: Music
+    href: Mewdeko.Modules.Music.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Music
+    name: Music
+    href: Mewdeko.Modules.Music.html
+- uid: Mewdeko.Modules.Music.Music.PlaylistAction
+  commentId: T:Mewdeko.Modules.Music.Music.PlaylistAction
+  parent: Mewdeko.Modules.Music
+  href: Mewdeko.Modules.Music.Music.html
+  name: Music.PlaylistAction
+  nameWithType: Music.PlaylistAction
+  fullName: Mewdeko.Modules.Music.Music.PlaylistAction
+  spec.csharp:
+  - uid: Mewdeko.Modules.Music.Music
+    name: Music
+    href: Mewdeko.Modules.Music.Music.html
+  - name: .
+  - uid: Mewdeko.Modules.Music.Music.PlaylistAction
+    name: PlaylistAction
+    href: Mewdeko.Modules.Music.Music.PlaylistAction.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Music.Music
+    name: Music
+    href: Mewdeko.Modules.Music.Music.html
+  - name: .
+  - uid: Mewdeko.Modules.Music.Music.PlaylistAction
+    name: PlaylistAction
+    href: Mewdeko.Modules.Music.Music.PlaylistAction.html

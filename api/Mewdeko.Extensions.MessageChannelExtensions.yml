@@ -1,0 +1,1556 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Extensions.MessageChannelExtensions
+  commentId: T:Mewdeko.Extensions.MessageChannelExtensions
+  id: MessageChannelExtensions
+  parent: Mewdeko.Extensions
+  children:
+  - Mewdeko.Extensions.MessageChannelExtensions.EmbedAsync(Discord.IMessageChannel,Discord.EmbedBuilder,System.String)
+  - Mewdeko.Extensions.MessageChannelExtensions.ErrorAsync(Discord.Commands.ICommandContext)
+  - Mewdeko.Extensions.MessageChannelExtensions.OkAsync(Discord.Commands.ICommandContext)
+  - Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IDiscordInteraction,System.String,System.String,System.String,System.String)
+  - Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IMessageChannel,System.String)
+  - Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IMessageChannel,System.String,Discord.ComponentBuilder)
+  - Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IMessageChannel,System.String,System.String,System.String,System.String)
+  - Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.ITextChannel,System.String,Discord.ComponentBuilder)
+  - Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.Webhook.DiscordWebhookClient,System.String)
+  - Mewdeko.Extensions.MessageChannelExtensions.SendConfirmReplyAsync(Discord.IUserMessage,System.String)
+  - Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel,System.String,System.Boolean,Discord.EmbedFieldBuilder[])
+  - Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel,System.String,System.String,System.String,System.String)
+  - Mewdeko.Extensions.MessageChannelExtensions.SendErrorReplyAsync(Discord.IUserMessage,System.String)
+  - Mewdeko.Extensions.MessageChannelExtensions.SendTableAsync``1(Discord.IMessageChannel,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.String},System.Int32)
+  - Mewdeko.Extensions.MessageChannelExtensions.SendTableAsync``1(Discord.IMessageChannel,System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.String},System.Int32)
+  - Mewdeko.Extensions.MessageChannelExtensions.WarningAsync(Discord.Commands.ICommandContext)
+  langs:
+  - csharp
+  - vb
+  name: MessageChannelExtensions
+  nameWithType: MessageChannelExtensions
+  fullName: Mewdeko.Extensions.MessageChannelExtensions
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MessageChannelExtensions
+    path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+    startLine: 7
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Extensions for IMessageChannel objects. Used a lot throughout the bot.
+  example: []
+  syntax:
+    content: public static class MessageChannelExtensions
+    content.vb: Public Module MessageChannelExtensions
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Mewdeko.Extensions.MessageChannelExtensions.EmbedAsync(Discord.IMessageChannel,Discord.EmbedBuilder,System.String)
+  commentId: M:Mewdeko.Extensions.MessageChannelExtensions.EmbedAsync(Discord.IMessageChannel,Discord.EmbedBuilder,System.String)
+  id: EmbedAsync(Discord.IMessageChannel,Discord.EmbedBuilder,System.String)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.MessageChannelExtensions
+  langs:
+  - csharp
+  - vb
+  name: EmbedAsync(IMessageChannel, EmbedBuilder, string?)
+  nameWithType: MessageChannelExtensions.EmbedAsync(IMessageChannel, EmbedBuilder, string?)
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.EmbedAsync(Discord.IMessageChannel, Discord.EmbedBuilder, string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: EmbedAsync
+    path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+    startLine: 16
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Sends an embed message to the message channel asynchronously.
+  example: []
+  syntax:
+    content: public static Task<IUserMessage> EmbedAsync(this IMessageChannel ch, EmbedBuilder embed, string? msg = "")
+    parameters:
+    - id: ch
+      type: Discord.IMessageChannel
+      description: The message channel to send the message to.
+    - id: embed
+      type: Discord.EmbedBuilder
+      description: The embed builder containing the embed message.
+    - id: msg
+      type: System.String
+      description: The optional message content to include.
+    return:
+      type: System.Threading.Tasks.Task{Discord.IUserMessage}
+      description: A task representing the asynchronous operation, returning the sent user message.
+    content.vb: Public Shared Function EmbedAsync(ch As IMessageChannel, embed As EmbedBuilder, msg As String = "") As Task(Of IUserMessage)
+  overload: Mewdeko.Extensions.MessageChannelExtensions.EmbedAsync*
+  nameWithType.vb: MessageChannelExtensions.EmbedAsync(IMessageChannel, EmbedBuilder, String)
+  fullName.vb: Mewdeko.Extensions.MessageChannelExtensions.EmbedAsync(Discord.IMessageChannel, Discord.EmbedBuilder, String)
+  name.vb: EmbedAsync(IMessageChannel, EmbedBuilder, String)
+- uid: Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel,System.String,System.String,System.String,System.String)
+  commentId: M:Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel,System.String,System.String,System.String,System.String)
+  id: SendErrorAsync(Discord.IMessageChannel,System.String,System.String,System.String,System.String)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.MessageChannelExtensions
+  langs:
+  - csharp
+  - vb
+  name: SendErrorAsync(IMessageChannel, string?, string?, string?, string?)
+  nameWithType: MessageChannelExtensions.SendErrorAsync(IMessageChannel, string?, string?, string?, string?)
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel, string?, string?, string?, string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SendErrorAsync
+    path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+    startLine: 32
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Sends an error message to the message channel asynchronously.
+  example: []
+  syntax:
+    content: public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string? title, string? error, string? url = null, string? footer = null)
+    parameters:
+    - id: ch
+      type: Discord.IMessageChannel
+      description: The message channel to send the message to.
+    - id: title
+      type: System.String
+      description: The optional title of the error message.
+    - id: error
+      type: System.String
+      description: The error message content.
+    - id: url
+      type: System.String
+      description: The optional URL to include in the error message.
+    - id: footer
+      type: System.String
+      description: The optional footer text for the error message.
+    return:
+      type: System.Threading.Tasks.Task{Discord.IUserMessage}
+      description: A task representing the asynchronous operation, returning the sent user message.
+    content.vb: Public Shared Function SendErrorAsync(ch As IMessageChannel, title As String, [error] As String, url As String = Nothing, footer As String = Nothing) As Task(Of IUserMessage)
+  overload: Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync*
+  nameWithType.vb: MessageChannelExtensions.SendErrorAsync(IMessageChannel, String, String, String, String)
+  fullName.vb: Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel, String, String, String, String)
+  name.vb: SendErrorAsync(IMessageChannel, String, String, String, String)
+- uid: Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel,System.String,System.Boolean,Discord.EmbedFieldBuilder[])
+  commentId: M:Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel,System.String,System.Boolean,Discord.EmbedFieldBuilder[])
+  id: SendErrorAsync(Discord.IMessageChannel,System.String,System.Boolean,Discord.EmbedFieldBuilder[])
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.MessageChannelExtensions
+  langs:
+  - csharp
+  - vb
+  name: SendErrorAsync(IMessageChannel, string?, bool, EmbedFieldBuilder[]?)
+  nameWithType: MessageChannelExtensions.SendErrorAsync(IMessageChannel, string?, bool, EmbedFieldBuilder[]?)
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel, string?, bool, Discord.EmbedFieldBuilder[]?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SendErrorAsync
+    path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+    startLine: 52
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Sends an error message to the message channel asynchronously.
+  example: []
+  syntax:
+    content: public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string? error, bool helpButton = true, EmbedFieldBuilder[]? fields = null)
+    parameters:
+    - id: ch
+      type: Discord.IMessageChannel
+      description: The message channel to send the message to.
+    - id: error
+      type: System.String
+      description: The error message content.
+    - id: helpButton
+      type: System.Boolean
+      description: A flag indicating whether to include a support server button.
+    - id: fields
+      type: Discord.EmbedFieldBuilder[]
+      description: Optional fields to include in the error message.
+    return:
+      type: System.Threading.Tasks.Task{Discord.IUserMessage}
+      description: A task representing the asynchronous operation, returning the sent user message.
+    content.vb: Public Shared Function SendErrorAsync(ch As IMessageChannel, [error] As String, helpButton As Boolean = True, fields As EmbedFieldBuilder() = Nothing) As Task(Of IUserMessage)
+  overload: Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync*
+  nameWithType.vb: MessageChannelExtensions.SendErrorAsync(IMessageChannel, String, Boolean, EmbedFieldBuilder())
+  fullName.vb: Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel, String, Boolean, Discord.EmbedFieldBuilder())
+  name.vb: SendErrorAsync(IMessageChannel, String, Boolean, EmbedFieldBuilder())
+- uid: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IMessageChannel,System.String,System.String,System.String,System.String)
+  commentId: M:Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IMessageChannel,System.String,System.String,System.String,System.String)
+  id: SendConfirmAsync(Discord.IMessageChannel,System.String,System.String,System.String,System.String)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.MessageChannelExtensions
+  langs:
+  - csharp
+  - vb
+  name: SendConfirmAsync(IMessageChannel, string?, string?, string?, string?)
+  nameWithType: MessageChannelExtensions.SendConfirmAsync(IMessageChannel, string?, string?, string?, string?)
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IMessageChannel, string?, string?, string?, string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SendConfirmAsync
+    path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+    startLine: 78
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Sends a confirmation message to the message channel asynchronously.
+  example: []
+  syntax:
+    content: public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string? title, string? text, string? url = null, string? footer = null)
+    parameters:
+    - id: ch
+      type: Discord.IMessageChannel
+      description: The message channel to send the message to.
+    - id: title
+      type: System.String
+      description: The optional title of the confirmation message.
+    - id: text
+      type: System.String
+      description: The text content of the confirmation message.
+    - id: url
+      type: System.String
+      description: The optional URL to include in the confirmation message.
+    - id: footer
+      type: System.String
+      description: The optional footer text for the confirmation message.
+    return:
+      type: System.Threading.Tasks.Task{Discord.IUserMessage}
+      description: A task representing the asynchronous operation, returning the sent user message.
+    content.vb: Public Shared Function SendConfirmAsync(ch As IMessageChannel, title As String, text As String, url As String = Nothing, footer As String = Nothing) As Task(Of IUserMessage)
+  overload: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync*
+  nameWithType.vb: MessageChannelExtensions.SendConfirmAsync(IMessageChannel, String, String, String, String)
+  fullName.vb: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IMessageChannel, String, String, String, String)
+  name.vb: SendConfirmAsync(IMessageChannel, String, String, String, String)
+- uid: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IDiscordInteraction,System.String,System.String,System.String,System.String)
+  commentId: M:Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IDiscordInteraction,System.String,System.String,System.String,System.String)
+  id: SendConfirmAsync(Discord.IDiscordInteraction,System.String,System.String,System.String,System.String)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.MessageChannelExtensions
+  langs:
+  - csharp
+  - vb
+  name: SendConfirmAsync(IDiscordInteraction, string?, string?, string?, string?)
+  nameWithType: MessageChannelExtensions.SendConfirmAsync(IDiscordInteraction, string?, string?, string?, string?)
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IDiscordInteraction, string?, string?, string?, string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SendConfirmAsync
+    path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+    startLine: 99
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Sends a confirmation message to the interaction asynchronously.
+  example: []
+  syntax:
+    content: public static Task<IUserMessage> SendConfirmAsync(this IDiscordInteraction ch, string? title, string? text, string? url = null, string? footer = null)
+    parameters:
+    - id: ch
+      type: Discord.IDiscordInteraction
+      description: The interaction to send the message to.
+    - id: title
+      type: System.String
+      description: The optional title of the confirmation message.
+    - id: text
+      type: System.String
+      description: The text content of the confirmation message.
+    - id: url
+      type: System.String
+      description: The optional URL to include in the confirmation message.
+    - id: footer
+      type: System.String
+      description: The optional footer text for the confirmation message.
+    return:
+      type: System.Threading.Tasks.Task{Discord.IUserMessage}
+      description: A task representing the asynchronous operation, returning the sent user message.
+    content.vb: Public Shared Function SendConfirmAsync(ch As IDiscordInteraction, title As String, text As String, url As String = Nothing, footer As String = Nothing) As Task(Of IUserMessage)
+  overload: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync*
+  nameWithType.vb: MessageChannelExtensions.SendConfirmAsync(IDiscordInteraction, String, String, String, String)
+  fullName.vb: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IDiscordInteraction, String, String, String, String)
+  name.vb: SendConfirmAsync(IDiscordInteraction, String, String, String, String)
+- uid: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IMessageChannel,System.String)
+  commentId: M:Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IMessageChannel,System.String)
+  id: SendConfirmAsync(Discord.IMessageChannel,System.String)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.MessageChannelExtensions
+  langs:
+  - csharp
+  - vb
+  name: SendConfirmAsync(IMessageChannel, string?)
+  nameWithType: MessageChannelExtensions.SendConfirmAsync(IMessageChannel, string?)
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IMessageChannel, string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SendConfirmAsync
+    path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+    startLine: 117
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Sends a confirmation message to the message channel asynchronously.
+  example: []
+  syntax:
+    content: public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string? text)
+    parameters:
+    - id: ch
+      type: Discord.IMessageChannel
+      description: The message channel to send the message to.
+    - id: text
+      type: System.String
+      description: The text content of the confirmation message.
+    return:
+      type: System.Threading.Tasks.Task{Discord.IUserMessage}
+      description: A task representing the asynchronous operation, returning the sent user message.
+    content.vb: Public Shared Function SendConfirmAsync(ch As IMessageChannel, text As String) As Task(Of IUserMessage)
+  overload: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync*
+  nameWithType.vb: MessageChannelExtensions.SendConfirmAsync(IMessageChannel, String)
+  fullName.vb: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IMessageChannel, String)
+  name.vb: SendConfirmAsync(IMessageChannel, String)
+- uid: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmReplyAsync(Discord.IUserMessage,System.String)
+  commentId: M:Mewdeko.Extensions.MessageChannelExtensions.SendConfirmReplyAsync(Discord.IUserMessage,System.String)
+  id: SendConfirmReplyAsync(Discord.IUserMessage,System.String)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.MessageChannelExtensions
+  langs:
+  - csharp
+  - vb
+  name: SendConfirmReplyAsync(IUserMessage, string?)
+  nameWithType: MessageChannelExtensions.SendConfirmReplyAsync(IUserMessage, string?)
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmReplyAsync(Discord.IUserMessage, string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SendConfirmReplyAsync
+    path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+    startLine: 126
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Sends a confirmation reply message to the original message asynchronously.
+  example: []
+  syntax:
+    content: public static Task<IUserMessage> SendConfirmReplyAsync(this IUserMessage msg, string? text)
+    parameters:
+    - id: msg
+      type: Discord.IUserMessage
+      description: The original message to reply to.
+    - id: text
+      type: System.String
+      description: The text content of the confirmation reply message.
+    return:
+      type: System.Threading.Tasks.Task{Discord.IUserMessage}
+      description: A task representing the asynchronous operation, returning the sent user message.
+    content.vb: Public Shared Function SendConfirmReplyAsync(msg As IUserMessage, text As String) As Task(Of IUserMessage)
+  overload: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmReplyAsync*
+  nameWithType.vb: MessageChannelExtensions.SendConfirmReplyAsync(IUserMessage, String)
+  fullName.vb: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmReplyAsync(Discord.IUserMessage, String)
+  name.vb: SendConfirmReplyAsync(IUserMessage, String)
+- uid: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.Webhook.DiscordWebhookClient,System.String)
+  commentId: M:Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.Webhook.DiscordWebhookClient,System.String)
+  id: SendConfirmAsync(Discord.Webhook.DiscordWebhookClient,System.String)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.MessageChannelExtensions
+  langs:
+  - csharp
+  - vb
+  name: SendConfirmAsync(DiscordWebhookClient, string?)
+  nameWithType: MessageChannelExtensions.SendConfirmAsync(DiscordWebhookClient, string?)
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.Webhook.DiscordWebhookClient, string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SendConfirmAsync
+    path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+    startLine: 135
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Sends a confirmation message to the webhook client asynchronously.
+  example: []
+  syntax:
+    content: public static Task<ulong> SendConfirmAsync(this DiscordWebhookClient msg, string? text)
+    parameters:
+    - id: msg
+      type: Discord.Webhook.DiscordWebhookClient
+      description: The webhook client to send the message to.
+    - id: text
+      type: System.String
+      description: The text content of the confirmation message.
+    return:
+      type: System.Threading.Tasks.Task{System.UInt64}
+      description: A task representing the asynchronous operation, returning the ID of the sent message.
+    content.vb: Public Shared Function SendConfirmAsync(msg As DiscordWebhookClient, text As String) As Task(Of ULong)
+  overload: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync*
+  nameWithType.vb: MessageChannelExtensions.SendConfirmAsync(DiscordWebhookClient, String)
+  fullName.vb: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.Webhook.DiscordWebhookClient, String)
+  name.vb: SendConfirmAsync(DiscordWebhookClient, String)
+- uid: Mewdeko.Extensions.MessageChannelExtensions.SendErrorReplyAsync(Discord.IUserMessage,System.String)
+  commentId: M:Mewdeko.Extensions.MessageChannelExtensions.SendErrorReplyAsync(Discord.IUserMessage,System.String)
+  id: SendErrorReplyAsync(Discord.IUserMessage,System.String)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.MessageChannelExtensions
+  langs:
+  - csharp
+  - vb
+  name: SendErrorReplyAsync(IUserMessage, string?)
+  nameWithType: MessageChannelExtensions.SendErrorReplyAsync(IUserMessage, string?)
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.SendErrorReplyAsync(Discord.IUserMessage, string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SendErrorReplyAsync
+    path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+    startLine: 148
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Sends an error reply message to the original message asynchronously.
+  example: []
+  syntax:
+    content: public static Task<IUserMessage> SendErrorReplyAsync(this IUserMessage msg, string? text)
+    parameters:
+    - id: msg
+      type: Discord.IUserMessage
+      description: The original message to reply to.
+    - id: text
+      type: System.String
+      description: The text content of the error reply message.
+    return:
+      type: System.Threading.Tasks.Task{Discord.IUserMessage}
+      description: A task representing the asynchronous operation, returning the sent user message.
+    content.vb: Public Shared Function SendErrorReplyAsync(msg As IUserMessage, text As String) As Task(Of IUserMessage)
+  overload: Mewdeko.Extensions.MessageChannelExtensions.SendErrorReplyAsync*
+  nameWithType.vb: MessageChannelExtensions.SendErrorReplyAsync(IUserMessage, String)
+  fullName.vb: Mewdeko.Extensions.MessageChannelExtensions.SendErrorReplyAsync(Discord.IUserMessage, String)
+  name.vb: SendErrorReplyAsync(IUserMessage, String)
+- uid: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.ITextChannel,System.String,Discord.ComponentBuilder)
+  commentId: M:Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.ITextChannel,System.String,Discord.ComponentBuilder)
+  id: SendConfirmAsync(Discord.ITextChannel,System.String,Discord.ComponentBuilder)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.MessageChannelExtensions
+  langs:
+  - csharp
+  - vb
+  name: SendConfirmAsync(ITextChannel, string?, ComponentBuilder?)
+  nameWithType: MessageChannelExtensions.SendConfirmAsync(ITextChannel, string?, ComponentBuilder?)
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.ITextChannel, string?, Discord.ComponentBuilder?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SendConfirmAsync
+    path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+    startLine: 158
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Sends a confirmation message to the text channel asynchronously.
+  example: []
+  syntax:
+    content: public static Task<IUserMessage> SendConfirmAsync(this ITextChannel ch, string? text, ComponentBuilder? builder = null)
+    parameters:
+    - id: ch
+      type: Discord.ITextChannel
+      description: The text channel to send the message to.
+    - id: text
+      type: System.String
+      description: The text content of the confirmation message.
+    - id: builder
+      type: Discord.ComponentBuilder
+      description: The optional component builder for interactive components.
+    return:
+      type: System.Threading.Tasks.Task{Discord.IUserMessage}
+      description: A task representing the asynchronous operation, returning the sent user message.
+    content.vb: Public Shared Function SendConfirmAsync(ch As ITextChannel, text As String, builder As ComponentBuilder = Nothing) As Task(Of IUserMessage)
+  overload: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync*
+  nameWithType.vb: MessageChannelExtensions.SendConfirmAsync(ITextChannel, String, ComponentBuilder)
+  fullName.vb: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.ITextChannel, String, Discord.ComponentBuilder)
+  name.vb: SendConfirmAsync(ITextChannel, String, ComponentBuilder)
+- uid: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IMessageChannel,System.String,Discord.ComponentBuilder)
+  commentId: M:Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IMessageChannel,System.String,Discord.ComponentBuilder)
+  id: SendConfirmAsync(Discord.IMessageChannel,System.String,Discord.ComponentBuilder)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.MessageChannelExtensions
+  langs:
+  - csharp
+  - vb
+  name: SendConfirmAsync(IMessageChannel, string?, ComponentBuilder?)
+  nameWithType: MessageChannelExtensions.SendConfirmAsync(IMessageChannel, string?, ComponentBuilder?)
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IMessageChannel, string?, Discord.ComponentBuilder?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SendConfirmAsync
+    path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+    startLine: 170
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Sends a confirmation message to the message channel asynchronously.
+  example: []
+  syntax:
+    content: public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string? text, ComponentBuilder? builder = null)
+    parameters:
+    - id: ch
+      type: Discord.IMessageChannel
+      description: The message channel to send the message to.
+    - id: text
+      type: System.String
+      description: The text content of the confirmation message.
+    - id: builder
+      type: Discord.ComponentBuilder
+      description: The optional component builder for interactive components.
+    return:
+      type: System.Threading.Tasks.Task{Discord.IUserMessage}
+      description: A task representing the asynchronous operation, returning the sent user message.
+    content.vb: Public Shared Function SendConfirmAsync(ch As IMessageChannel, text As String, builder As ComponentBuilder = Nothing) As Task(Of IUserMessage)
+  overload: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync*
+  nameWithType.vb: MessageChannelExtensions.SendConfirmAsync(IMessageChannel, String, ComponentBuilder)
+  fullName.vb: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IMessageChannel, String, Discord.ComponentBuilder)
+  name.vb: SendConfirmAsync(IMessageChannel, String, ComponentBuilder)
+- uid: Mewdeko.Extensions.MessageChannelExtensions.SendTableAsync``1(Discord.IMessageChannel,System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.String},System.Int32)
+  commentId: M:Mewdeko.Extensions.MessageChannelExtensions.SendTableAsync``1(Discord.IMessageChannel,System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.String},System.Int32)
+  id: SendTableAsync``1(Discord.IMessageChannel,System.String,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.String},System.Int32)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.MessageChannelExtensions
+  langs:
+  - csharp
+  - vb
+  name: SendTableAsync<T>(IMessageChannel, string, IEnumerable<T>, Func<T, string>, int)
+  nameWithType: MessageChannelExtensions.SendTableAsync<T>(IMessageChannel, string, IEnumerable<T>, Func<T, string>, int)
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.SendTableAsync<T>(Discord.IMessageChannel, string, System.Collections.Generic.IEnumerable<T>, System.Func<T, string>, int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SendTableAsync
+    path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+    startLine: 186
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Sends a table message asynchronously to the message channel.
+  example: []
+  syntax:
+    content: public static Task<IUserMessage> SendTableAsync<T>(this IMessageChannel ch, string seed, IEnumerable<T> items, Func<T, string> howToPrint, int columns = 3)
+    parameters:
+    - id: ch
+      type: Discord.IMessageChannel
+      description: The message channel to send the table message to.
+    - id: seed
+      type: System.String
+      description: The seed text for the table message.
+    - id: items
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The items to display in the table.
+    - id: howToPrint
+      type: System.Func{{T},System.String}
+      description: The function that defines how to print each item.
+    - id: columns
+      type: System.Int32
+      description: The number of columns in the table (default is 3).
+    typeParameters:
+    - id: T
+      description: The type of items in the table.
+    return:
+      type: System.Threading.Tasks.Task{Discord.IUserMessage}
+      description: A task representing the asynchronous operation, returning the sent user message.
+    content.vb: Public Shared Function SendTableAsync(Of T)(ch As IMessageChannel, seed As String, items As IEnumerable(Of T), howToPrint As Func(Of T, String), columns As Integer = 3) As Task(Of IUserMessage)
+  overload: Mewdeko.Extensions.MessageChannelExtensions.SendTableAsync*
+  nameWithType.vb: MessageChannelExtensions.SendTableAsync(Of T)(IMessageChannel, String, IEnumerable(Of T), Func(Of T, String), Integer)
+  fullName.vb: Mewdeko.Extensions.MessageChannelExtensions.SendTableAsync(Of T)(Discord.IMessageChannel, String, System.Collections.Generic.IEnumerable(Of T), System.Func(Of T, String), Integer)
+  name.vb: SendTableAsync(Of T)(IMessageChannel, String, IEnumerable(Of T), Func(Of T, String), Integer)
+- uid: Mewdeko.Extensions.MessageChannelExtensions.SendTableAsync``1(Discord.IMessageChannel,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.String},System.Int32)
+  commentId: M:Mewdeko.Extensions.MessageChannelExtensions.SendTableAsync``1(Discord.IMessageChannel,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.String},System.Int32)
+  id: SendTableAsync``1(Discord.IMessageChannel,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.String},System.Int32)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.MessageChannelExtensions
+  langs:
+  - csharp
+  - vb
+  name: SendTableAsync<T>(IMessageChannel, IEnumerable<T>, Func<T, string>, int)
+  nameWithType: MessageChannelExtensions.SendTableAsync<T>(IMessageChannel, IEnumerable<T>, Func<T, string>, int)
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.SendTableAsync<T>(Discord.IMessageChannel, System.Collections.Generic.IEnumerable<T>, System.Func<T, string>, int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SendTableAsync
+    path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+    startLine: 205
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Sends a table message asynchronously to the message channel.
+  example: []
+  syntax:
+    content: public static Task<IUserMessage> SendTableAsync<T>(this IMessageChannel ch, IEnumerable<T> items, Func<T, string> howToPrint, int columns = 3)
+    parameters:
+    - id: ch
+      type: Discord.IMessageChannel
+      description: The message channel to send the table message to.
+    - id: items
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The items to display in the table.
+    - id: howToPrint
+      type: System.Func{{T},System.String}
+      description: The function that defines how to print each item.
+    - id: columns
+      type: System.Int32
+      description: The number of columns in the table (default is 3).
+    typeParameters:
+    - id: T
+      description: The type of items in the table.
+    return:
+      type: System.Threading.Tasks.Task{Discord.IUserMessage}
+      description: A task representing the asynchronous operation, returning the sent user message.
+    content.vb: Public Shared Function SendTableAsync(Of T)(ch As IMessageChannel, items As IEnumerable(Of T), howToPrint As Func(Of T, String), columns As Integer = 3) As Task(Of IUserMessage)
+  overload: Mewdeko.Extensions.MessageChannelExtensions.SendTableAsync*
+  nameWithType.vb: MessageChannelExtensions.SendTableAsync(Of T)(IMessageChannel, IEnumerable(Of T), Func(Of T, String), Integer)
+  fullName.vb: Mewdeko.Extensions.MessageChannelExtensions.SendTableAsync(Of T)(Discord.IMessageChannel, System.Collections.Generic.IEnumerable(Of T), System.Func(Of T, String), Integer)
+  name.vb: SendTableAsync(Of T)(IMessageChannel, IEnumerable(Of T), Func(Of T, String), Integer)
+- uid: Mewdeko.Extensions.MessageChannelExtensions.OkAsync(Discord.Commands.ICommandContext)
+  commentId: M:Mewdeko.Extensions.MessageChannelExtensions.OkAsync(Discord.Commands.ICommandContext)
+  id: OkAsync(Discord.Commands.ICommandContext)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.MessageChannelExtensions
+  langs:
+  - csharp
+  - vb
+  name: OkAsync(ICommandContext)
+  nameWithType: MessageChannelExtensions.OkAsync(ICommandContext)
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.OkAsync(Discord.Commands.ICommandContext)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: OkAsync
+    path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+    startLine: 214
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Adds a checkmark reaction to the message asynchronously.
+  example: []
+  syntax:
+    content: public static Task OkAsync(this ICommandContext ctx)
+    parameters:
+    - id: ctx
+      type: Discord.Commands.ICommandContext
+      description: The command context.
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task representing the asynchronous operation.
+    content.vb: Public Shared Function OkAsync(ctx As ICommandContext) As Task
+  overload: Mewdeko.Extensions.MessageChannelExtensions.OkAsync*
+- uid: Mewdeko.Extensions.MessageChannelExtensions.ErrorAsync(Discord.Commands.ICommandContext)
+  commentId: M:Mewdeko.Extensions.MessageChannelExtensions.ErrorAsync(Discord.Commands.ICommandContext)
+  id: ErrorAsync(Discord.Commands.ICommandContext)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.MessageChannelExtensions
+  langs:
+  - csharp
+  - vb
+  name: ErrorAsync(ICommandContext)
+  nameWithType: MessageChannelExtensions.ErrorAsync(ICommandContext)
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.ErrorAsync(Discord.Commands.ICommandContext)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ErrorAsync
+    path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+    startLine: 221
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Adds a cross mark reaction to the message asynchronously.
+  example: []
+  syntax:
+    content: public static Task ErrorAsync(this ICommandContext ctx)
+    parameters:
+    - id: ctx
+      type: Discord.Commands.ICommandContext
+      description: The command context.
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task representing the asynchronous operation.
+    content.vb: Public Shared Function ErrorAsync(ctx As ICommandContext) As Task
+  overload: Mewdeko.Extensions.MessageChannelExtensions.ErrorAsync*
+- uid: Mewdeko.Extensions.MessageChannelExtensions.WarningAsync(Discord.Commands.ICommandContext)
+  commentId: M:Mewdeko.Extensions.MessageChannelExtensions.WarningAsync(Discord.Commands.ICommandContext)
+  id: WarningAsync(Discord.Commands.ICommandContext)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.MessageChannelExtensions
+  langs:
+  - csharp
+  - vb
+  name: WarningAsync(ICommandContext)
+  nameWithType: MessageChannelExtensions.WarningAsync(ICommandContext)
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.WarningAsync(Discord.Commands.ICommandContext)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: WarningAsync
+    path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
+    startLine: 228
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Adds a warning sign reaction to the message asynchronously.
+  example: []
+  syntax:
+    content: public static Task WarningAsync(this ICommandContext ctx)
+    parameters:
+    - id: ctx
+      type: Discord.Commands.ICommandContext
+      description: The command context.
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task representing the asynchronous operation.
+    content.vb: Public Shared Function WarningAsync(ctx As ICommandContext) As Task
+  overload: Mewdeko.Extensions.MessageChannelExtensions.WarningAsync*
+references:
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.MessageChannelExtensions.EmbedAsync*
+  commentId: Overload:Mewdeko.Extensions.MessageChannelExtensions.EmbedAsync
+  href: Mewdeko.Extensions.MessageChannelExtensions.html#Mewdeko_Extensions_MessageChannelExtensions_EmbedAsync_Discord_IMessageChannel_Discord_EmbedBuilder_System_String_
+  name: EmbedAsync
+  nameWithType: MessageChannelExtensions.EmbedAsync
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.EmbedAsync
+- uid: Discord.IMessageChannel
+  commentId: T:Discord.IMessageChannel
+  parent: Discord
+  isExternal: true
+  name: IMessageChannel
+  nameWithType: IMessageChannel
+  fullName: Discord.IMessageChannel
+- uid: Discord.EmbedBuilder
+  commentId: T:Discord.EmbedBuilder
+  parent: Discord
+  isExternal: true
+  name: EmbedBuilder
+  nameWithType: EmbedBuilder
+  fullName: Discord.EmbedBuilder
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Threading.Tasks.Task{Discord.IUserMessage}
+  commentId: T:System.Threading.Tasks.Task{Discord.IUserMessage}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<IUserMessage>
+  nameWithType: Task<IUserMessage>
+  fullName: System.Threading.Tasks.Task<Discord.IUserMessage>
+  nameWithType.vb: Task(Of IUserMessage)
+  fullName.vb: System.Threading.Tasks.Task(Of Discord.IUserMessage)
+  name.vb: Task(Of IUserMessage)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: )
+- uid: Discord
+  commentId: N:Discord
+  isExternal: true
+  name: Discord
+  nameWithType: Discord
+  fullName: Discord
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync*
+  commentId: Overload:Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync
+  href: Mewdeko.Extensions.MessageChannelExtensions.html#Mewdeko_Extensions_MessageChannelExtensions_SendErrorAsync_Discord_IMessageChannel_System_String_System_String_System_String_System_String_
+  name: SendErrorAsync
+  nameWithType: MessageChannelExtensions.SendErrorAsync
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Discord.EmbedFieldBuilder[]
+  isExternal: true
+  name: EmbedFieldBuilder[]
+  nameWithType: EmbedFieldBuilder[]
+  fullName: Discord.EmbedFieldBuilder[]
+  nameWithType.vb: EmbedFieldBuilder()
+  fullName.vb: Discord.EmbedFieldBuilder()
+  name.vb: EmbedFieldBuilder()
+  spec.csharp:
+  - uid: Discord.EmbedFieldBuilder
+    name: EmbedFieldBuilder
+    isExternal: true
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: Discord.EmbedFieldBuilder
+    name: EmbedFieldBuilder
+    isExternal: true
+  - name: (
+  - name: )
+- uid: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync*
+  commentId: Overload:Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync
+  href: Mewdeko.Extensions.MessageChannelExtensions.html#Mewdeko_Extensions_MessageChannelExtensions_SendConfirmAsync_Discord_IMessageChannel_System_String_System_String_System_String_System_String_
+  name: SendConfirmAsync
+  nameWithType: MessageChannelExtensions.SendConfirmAsync
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync
+- uid: Discord.IDiscordInteraction
+  commentId: T:Discord.IDiscordInteraction
+  parent: Discord
+  isExternal: true
+  name: IDiscordInteraction
+  nameWithType: IDiscordInteraction
+  fullName: Discord.IDiscordInteraction
+- uid: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmReplyAsync*
+  commentId: Overload:Mewdeko.Extensions.MessageChannelExtensions.SendConfirmReplyAsync
+  href: Mewdeko.Extensions.MessageChannelExtensions.html#Mewdeko_Extensions_MessageChannelExtensions_SendConfirmReplyAsync_Discord_IUserMessage_System_String_
+  name: SendConfirmReplyAsync
+  nameWithType: MessageChannelExtensions.SendConfirmReplyAsync
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmReplyAsync
+- uid: Discord.IUserMessage
+  commentId: T:Discord.IUserMessage
+  parent: Discord
+  isExternal: true
+  name: IUserMessage
+  nameWithType: IUserMessage
+  fullName: Discord.IUserMessage
+- uid: Discord.Webhook.DiscordWebhookClient
+  commentId: T:Discord.Webhook.DiscordWebhookClient
+  parent: Discord.Webhook
+  isExternal: true
+  name: DiscordWebhookClient
+  nameWithType: DiscordWebhookClient
+  fullName: Discord.Webhook.DiscordWebhookClient
+- uid: System.Threading.Tasks.Task{System.UInt64}
+  commentId: T:System.Threading.Tasks.Task{System.UInt64}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<ulong>
+  nameWithType: Task<ulong>
+  fullName: System.Threading.Tasks.Task<ulong>
+  nameWithType.vb: Task(Of ULong)
+  fullName.vb: System.Threading.Tasks.Task(Of ULong)
+  name.vb: Task(Of ULong)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Discord.Webhook
+  commentId: N:Discord.Webhook
+  isExternal: true
+  name: Discord.Webhook
+  nameWithType: Discord.Webhook
+  fullName: Discord.Webhook
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Webhook
+    name: Webhook
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Webhook
+    name: Webhook
+    isExternal: true
+- uid: Mewdeko.Extensions.MessageChannelExtensions.SendErrorReplyAsync*
+  commentId: Overload:Mewdeko.Extensions.MessageChannelExtensions.SendErrorReplyAsync
+  href: Mewdeko.Extensions.MessageChannelExtensions.html#Mewdeko_Extensions_MessageChannelExtensions_SendErrorReplyAsync_Discord_IUserMessage_System_String_
+  name: SendErrorReplyAsync
+  nameWithType: MessageChannelExtensions.SendErrorReplyAsync
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.SendErrorReplyAsync
+- uid: Discord.ITextChannel
+  commentId: T:Discord.ITextChannel
+  parent: Discord
+  isExternal: true
+  name: ITextChannel
+  nameWithType: ITextChannel
+  fullName: Discord.ITextChannel
+- uid: Discord.ComponentBuilder
+  commentId: T:Discord.ComponentBuilder
+  parent: Discord
+  isExternal: true
+  name: ComponentBuilder
+  nameWithType: ComponentBuilder
+  fullName: Discord.ComponentBuilder
+- uid: Mewdeko.Extensions.MessageChannelExtensions.SendTableAsync*
+  commentId: Overload:Mewdeko.Extensions.MessageChannelExtensions.SendTableAsync
+  href: Mewdeko.Extensions.MessageChannelExtensions.html#Mewdeko_Extensions_MessageChannelExtensions_SendTableAsync__1_Discord_IMessageChannel_System_String_System_Collections_Generic_IEnumerable___0__System_Func___0_System_String__System_Int32_
+  name: SendTableAsync
+  nameWithType: MessageChannelExtensions.SendTableAsync
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.SendTableAsync
+- uid: System.Collections.Generic.IEnumerable{{T}}
+  commentId: T:System.Collections.Generic.IEnumerable{`0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Func{{T},System.String}
+  commentId: T:System.Func{``0,System.String}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, string>
+  nameWithType: Func<T, string>
+  fullName: System.Func<T, string>
+  nameWithType.vb: Func(Of T, String)
+  fullName.vb: System.Func(Of T, String)
+  name.vb: Func(Of T, String)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: System.Func`2
+  commentId: T:System.Func`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Mewdeko.Extensions.MessageChannelExtensions.OkAsync*
+  commentId: Overload:Mewdeko.Extensions.MessageChannelExtensions.OkAsync
+  href: Mewdeko.Extensions.MessageChannelExtensions.html#Mewdeko_Extensions_MessageChannelExtensions_OkAsync_Discord_Commands_ICommandContext_
+  name: OkAsync
+  nameWithType: MessageChannelExtensions.OkAsync
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.OkAsync
+- uid: Discord.Commands.ICommandContext
+  commentId: T:Discord.Commands.ICommandContext
+  parent: Discord.Commands
+  isExternal: true
+  name: ICommandContext
+  nameWithType: ICommandContext
+  fullName: Discord.Commands.ICommandContext
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: Discord.Commands
+  commentId: N:Discord.Commands
+  isExternal: true
+  name: Discord.Commands
+  nameWithType: Discord.Commands
+  fullName: Discord.Commands
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+- uid: Mewdeko.Extensions.MessageChannelExtensions.ErrorAsync*
+  commentId: Overload:Mewdeko.Extensions.MessageChannelExtensions.ErrorAsync
+  href: Mewdeko.Extensions.MessageChannelExtensions.html#Mewdeko_Extensions_MessageChannelExtensions_ErrorAsync_Discord_Commands_ICommandContext_
+  name: ErrorAsync
+  nameWithType: MessageChannelExtensions.ErrorAsync
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.ErrorAsync
+- uid: Mewdeko.Extensions.MessageChannelExtensions.WarningAsync*
+  commentId: Overload:Mewdeko.Extensions.MessageChannelExtensions.WarningAsync
+  href: Mewdeko.Extensions.MessageChannelExtensions.html#Mewdeko_Extensions_MessageChannelExtensions_WarningAsync_Discord_Commands_ICommandContext_
+  name: WarningAsync
+  nameWithType: MessageChannelExtensions.WarningAsync
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.WarningAsync

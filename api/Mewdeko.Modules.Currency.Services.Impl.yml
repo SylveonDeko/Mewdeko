@@ -1,0 +1,37 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Currency.Services.Impl
+  commentId: N:Mewdeko.Modules.Currency.Services.Impl
+  id: Mewdeko.Modules.Currency.Services.Impl
+  children:
+  - Mewdeko.Modules.Currency.Services.Impl.GlobalCurrencyService
+  - Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+  - Mewdeko.Modules.Currency.Services.Impl.LbCurrency
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Currency.Services.Impl
+  nameWithType: Mewdeko.Modules.Currency.Services.Impl
+  fullName: Mewdeko.Modules.Currency.Services.Impl
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Currency.Services.Impl.GlobalCurrencyService
+  commentId: T:Mewdeko.Modules.Currency.Services.Impl.GlobalCurrencyService
+  href: Mewdeko.Modules.Currency.Services.Impl.GlobalCurrencyService.html
+  name: GlobalCurrencyService
+  nameWithType: GlobalCurrencyService
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GlobalCurrencyService
+- uid: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+  commentId: T:Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+  href: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService.html
+  name: GuildCurrencyService
+  nameWithType: GuildCurrencyService
+  fullName: Mewdeko.Modules.Currency.Services.Impl.GuildCurrencyService
+- uid: Mewdeko.Modules.Currency.Services.Impl.LbCurrency
+  commentId: T:Mewdeko.Modules.Currency.Services.Impl.LbCurrency
+  href: Mewdeko.Modules.Currency.Services.Impl.LbCurrency.html
+  name: LbCurrency
+  nameWithType: LbCurrency
+  fullName: Mewdeko.Modules.Currency.Services.Impl.LbCurrency

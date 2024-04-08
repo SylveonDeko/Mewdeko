@@ -1,0 +1,75 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Coordinator.Shared
+  commentId: N:Mewdeko.Coordinator.Shared
+  id: Mewdeko.Coordinator.Shared
+  children:
+  - Mewdeko.Coordinator.Shared.Config
+  - Mewdeko.Coordinator.Shared.CoordState
+  - Mewdeko.Coordinator.Shared.JsonStatusObject
+  - Mewdeko.Coordinator.Shared.ShardStatus
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Coordinator.Shared
+  nameWithType: Mewdeko.Coordinator.Shared
+  fullName: Mewdeko.Coordinator.Shared
+  type: Namespace
+  assemblies:
+  - Mewdeko.Coordinator
+references:
+- uid: Mewdeko.Coordinator.Shared.Config
+  commentId: T:Mewdeko.Coordinator.Shared.Config
+  href: Mewdeko.Coordinator.Shared.Config.html
+  name: Config
+  nameWithType: Config
+  fullName: Mewdeko.Coordinator.Shared.Config
+- uid: Mewdeko.Coordinator.Shared.CoordState
+  commentId: T:Mewdeko.Coordinator.Shared.CoordState
+  href: Mewdeko.Coordinator.Shared.CoordState.html
+  name: CoordState
+  nameWithType: CoordState
+  fullName: Mewdeko.Coordinator.Shared.CoordState
+- uid: Mewdeko.Coordinator.Shared.JsonStatusObject
+  commentId: T:Mewdeko.Coordinator.Shared.JsonStatusObject
+  href: Mewdeko.Coordinator.Shared.JsonStatusObject.html
+  name: JsonStatusObject
+  nameWithType: JsonStatusObject
+  fullName: Mewdeko.Coordinator.Shared.JsonStatusObject
+- uid: Mewdeko.Coordinator.Shared.ShardStatus
+  commentId: T:Mewdeko.Coordinator.Shared.ShardStatus
+  parent: Mewdeko.Coordinator.Shared
+  href: Mewdeko.Coordinator.Shared.ShardStatus.html
+  name: ShardStatus
+  nameWithType: ShardStatus
+  fullName: Mewdeko.Coordinator.Shared.ShardStatus
+- uid: Mewdeko.Coordinator.Shared
+  commentId: N:Mewdeko.Coordinator.Shared
+  href: Mewdeko.html
+  name: Mewdeko.Coordinator.Shared
+  nameWithType: Mewdeko.Coordinator.Shared
+  fullName: Mewdeko.Coordinator.Shared
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Coordinator
+    name: Coordinator
+    href: Mewdeko.Coordinator.html
+  - name: .
+  - uid: Mewdeko.Coordinator.Shared
+    name: Shared
+    href: Mewdeko.Coordinator.Shared.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Coordinator
+    name: Coordinator
+    href: Mewdeko.Coordinator.html
+  - name: .
+  - uid: Mewdeko.Coordinator.Shared
+    name: Shared
+    href: Mewdeko.Coordinator.Shared.html

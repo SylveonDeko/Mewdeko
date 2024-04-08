@@ -1,0 +1,192 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition
+  commentId: T:Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition
+  id: WordPosition
+  parent: Mewdeko.Modules.Chat_Triggers.Extensions
+  children:
+  - Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition.End
+  - Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition.Middle
+  - Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition.None
+  - Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition.Start
+  langs:
+  - csharp
+  - vb
+  name: WordPosition
+  nameWithType: WordPosition
+  fullName: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Extensions/Extensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: WordPosition
+    path: src/Mewdeko/Modules/Chat Triggers/Extensions/Extensions.cs
+    startLine: 464
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Extensions
+  summary: Enumerates the positions of a word within a string.
+  example: []
+  syntax:
+    content: public enum WordPosition
+    content.vb: Public Enum WordPosition
+- uid: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition.None
+  commentId: F:Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition.None
+  id: None
+  parent: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: WordPosition.None
+  fullName: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition.None
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Extensions/Extensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: None
+    path: src/Mewdeko/Modules/Chat Triggers/Extensions/Extensions.cs
+    startLine: 469
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Extensions
+  summary: The word is not found or does not have a valid position within the string.
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition
+- uid: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition.Start
+  commentId: F:Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition.Start
+  id: Start
+  parent: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition
+  langs:
+  - csharp
+  - vb
+  name: Start
+  nameWithType: WordPosition.Start
+  fullName: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition.Start
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Extensions/Extensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Start
+    path: src/Mewdeko/Modules/Chat Triggers/Extensions/Extensions.cs
+    startLine: 474
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Extensions
+  summary: The word is found at the start of the string.
+  example: []
+  syntax:
+    content: Start = 1
+    return:
+      type: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition
+- uid: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition.Middle
+  commentId: F:Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition.Middle
+  id: Middle
+  parent: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition
+  langs:
+  - csharp
+  - vb
+  name: Middle
+  nameWithType: WordPosition.Middle
+  fullName: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition.Middle
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Extensions/Extensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Middle
+    path: src/Mewdeko/Modules/Chat Triggers/Extensions/Extensions.cs
+    startLine: 479
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Extensions
+  summary: The word is found in the middle of the string.
+  example: []
+  syntax:
+    content: Middle = 2
+    return:
+      type: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition
+- uid: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition.End
+  commentId: F:Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition.End
+  id: End
+  parent: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition
+  langs:
+  - csharp
+  - vb
+  name: End
+  nameWithType: WordPosition.End
+  fullName: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition.End
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Chat Triggers/Extensions/Extensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: End
+    path: src/Mewdeko/Modules/Chat Triggers/Extensions/Extensions.cs
+    startLine: 484
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Chat_Triggers.Extensions
+  summary: The word is found at the end of the string.
+  example: []
+  syntax:
+    content: End = 3
+    return:
+      type: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition
+references:
+- uid: Mewdeko.Modules.Chat_Triggers.Extensions
+  commentId: N:Mewdeko.Modules.Chat_Triggers.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Chat_Triggers.Extensions
+  nameWithType: Mewdeko.Modules.Chat_Triggers.Extensions
+  fullName: Mewdeko.Modules.Chat_Triggers.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers
+    name: Chat_Triggers
+    href: Mewdeko.Modules.Chat_Triggers.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers.Extensions
+    name: Extensions
+    href: Mewdeko.Modules.Chat_Triggers.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers
+    name: Chat_Triggers
+    href: Mewdeko.Modules.Chat_Triggers.html
+  - name: .
+  - uid: Mewdeko.Modules.Chat_Triggers.Extensions
+    name: Extensions
+    href: Mewdeko.Modules.Chat_Triggers.Extensions.html
+- uid: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition
+  commentId: T:Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition
+  parent: Mewdeko.Modules.Chat_Triggers.Extensions
+  href: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition.html
+  name: WordPosition
+  nameWithType: WordPosition
+  fullName: Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition

@@ -1,0 +1,619 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Common.Yml.YamlHelper
+  commentId: T:Mewdeko.Common.Yml.YamlHelper
+  id: YamlHelper
+  parent: Mewdeko.Common.Yml
+  children:
+  - Mewdeko.Common.Yml.YamlHelper.AsHex(System.Char)
+  - Mewdeko.Common.Yml.YamlHelper.IsHex(System.Char)
+  - Mewdeko.Common.Yml.YamlHelper.UnescapeUnicodeCodePoint(System.String)
+  langs:
+  - csharp
+  - vb
+  name: YamlHelper
+  nameWithType: YamlHelper
+  fullName: Mewdeko.Common.Yml.YamlHelper
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Common/Yml/YamlHelper.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: YamlHelper
+    path: src/Mewdeko/Common/Yml/YamlHelper.cs
+    startLine: 5
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Yml
+  summary: Provides helper methods for YAML-related operations.
+  example: []
+  syntax:
+    content: public class YamlHelper
+    content.vb: Public Class YamlHelper
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Common.Yml.YamlHelper.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Common.Yml.YamlHelper.UnescapeUnicodeCodePoint(System.String)
+  commentId: M:Mewdeko.Common.Yml.YamlHelper.UnescapeUnicodeCodePoint(System.String)
+  id: UnescapeUnicodeCodePoint(System.String)
+  parent: Mewdeko.Common.Yml.YamlHelper
+  langs:
+  - csharp
+  - vb
+  name: UnescapeUnicodeCodePoint(string)
+  nameWithType: YamlHelper.UnescapeUnicodeCodePoint(string)
+  fullName: Mewdeko.Common.Yml.YamlHelper.UnescapeUnicodeCodePoint(string)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Yml/YamlHelper.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UnescapeUnicodeCodePoint
+    path: src/Mewdeko/Common/Yml/YamlHelper.cs
+    startLine: 16
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Yml
+  summary: Unescapes a Unicode code point and returns the corresponding character.
+  remarks: >-
+    This method is a modified version of the code from the YamlDotNet library's Scanner class,
+
+    allowing for the parsing of Unicode code points.
+  example: []
+  syntax:
+    content: public static string UnescapeUnicodeCodePoint(string point)
+    parameters:
+    - id: point
+      type: System.String
+      description: The Unicode code point to unescape.
+    return:
+      type: System.String
+      description: The actual character represented by the Unicode code point.
+    content.vb: Public Shared Function UnescapeUnicodeCodePoint(point As String) As String
+  overload: Mewdeko.Common.Yml.YamlHelper.UnescapeUnicodeCodePoint*
+  nameWithType.vb: YamlHelper.UnescapeUnicodeCodePoint(String)
+  fullName.vb: Mewdeko.Common.Yml.YamlHelper.UnescapeUnicodeCodePoint(String)
+  name.vb: UnescapeUnicodeCodePoint(String)
+- uid: Mewdeko.Common.Yml.YamlHelper.IsHex(System.Char)
+  commentId: M:Mewdeko.Common.Yml.YamlHelper.IsHex(System.Char)
+  id: IsHex(System.Char)
+  parent: Mewdeko.Common.Yml.YamlHelper
+  langs:
+  - csharp
+  - vb
+  name: IsHex(char)
+  nameWithType: YamlHelper.IsHex(char)
+  fullName: Mewdeko.Common.Yml.YamlHelper.IsHex(char)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Yml/YamlHelper.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: IsHex
+    path: src/Mewdeko/Common/Yml/YamlHelper.cs
+    startLine: 40
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Yml
+  summary: Determines whether the specified character is a hexadecimal digit.
+  example: []
+  syntax:
+    content: public static bool IsHex(char c)
+    parameters:
+    - id: c
+      type: System.Char
+      description: The character to check.
+    return:
+      type: System.Boolean
+      description: True if the character is a hexadecimal digit; otherwise, false.
+    content.vb: Public Shared Function IsHex(c As Char) As Boolean
+  overload: Mewdeko.Common.Yml.YamlHelper.IsHex*
+  nameWithType.vb: YamlHelper.IsHex(Char)
+  fullName.vb: Mewdeko.Common.Yml.YamlHelper.IsHex(Char)
+  name.vb: IsHex(Char)
+- uid: Mewdeko.Common.Yml.YamlHelper.AsHex(System.Char)
+  commentId: M:Mewdeko.Common.Yml.YamlHelper.AsHex(System.Char)
+  id: AsHex(System.Char)
+  parent: Mewdeko.Common.Yml.YamlHelper
+  langs:
+  - csharp
+  - vb
+  name: AsHex(char)
+  nameWithType: YamlHelper.AsHex(char)
+  fullName: Mewdeko.Common.Yml.YamlHelper.AsHex(char)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Common/Yml/YamlHelper.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AsHex
+    path: src/Mewdeko/Common/Yml/YamlHelper.cs
+    startLine: 50
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common.Yml
+  summary: Converts the specified character to its hexadecimal value.
+  example: []
+  syntax:
+    content: public static int AsHex(char c)
+    parameters:
+    - id: c
+      type: System.Char
+      description: The character to convert.
+    return:
+      type: System.Int32
+      description: The hexadecimal value of the character.
+    content.vb: Public Shared Function AsHex(c As Char) As Integer
+  overload: Mewdeko.Common.Yml.YamlHelper.AsHex*
+  nameWithType.vb: YamlHelper.AsHex(Char)
+  fullName.vb: Mewdeko.Common.Yml.YamlHelper.AsHex(Char)
+  name.vb: AsHex(Char)
+references:
+- uid: Mewdeko.Common.Yml
+  commentId: N:Mewdeko.Common.Yml
+  href: Mewdeko.html
+  name: Mewdeko.Common.Yml
+  nameWithType: Mewdeko.Common.Yml
+  fullName: Mewdeko.Common.Yml
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Yml
+    name: Yml
+    href: Mewdeko.Common.Yml.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Yml
+    name: Yml
+    href: Mewdeko.Common.Yml.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Common.Yml.YamlHelper.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<YamlHelper>(YamlHelper, string)
+  nameWithType: Extensions.ThrowIfNull<YamlHelper>(YamlHelper, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Common.Yml.YamlHelper>(Mewdeko.Common.Yml.YamlHelper, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of YamlHelper)(YamlHelper, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Common.Yml.YamlHelper)(Mewdeko.Common.Yml.YamlHelper, String)
+  name.vb: ThrowIfNull(Of YamlHelper)(YamlHelper, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.Yml.YamlHelper,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Common.Yml.YamlHelper
+    name: YamlHelper
+    href: Mewdeko.Common.Yml.YamlHelper.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Common.Yml.YamlHelper
+    name: YamlHelper
+    href: Mewdeko.Common.Yml.YamlHelper.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Common.Yml.YamlHelper,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Common.Yml.YamlHelper
+    name: YamlHelper
+    href: Mewdeko.Common.Yml.YamlHelper.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Common.Yml.YamlHelper
+    name: YamlHelper
+    href: Mewdeko.Common.Yml.YamlHelper.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Common.Yml.YamlHelper.UnescapeUnicodeCodePoint*
+  commentId: Overload:Mewdeko.Common.Yml.YamlHelper.UnescapeUnicodeCodePoint
+  href: Mewdeko.Common.Yml.YamlHelper.html#Mewdeko_Common_Yml_YamlHelper_UnescapeUnicodeCodePoint_System_String_
+  name: UnescapeUnicodeCodePoint
+  nameWithType: YamlHelper.UnescapeUnicodeCodePoint
+  fullName: Mewdeko.Common.Yml.YamlHelper.UnescapeUnicodeCodePoint
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Common.Yml.YamlHelper.IsHex*
+  commentId: Overload:Mewdeko.Common.Yml.YamlHelper.IsHex
+  href: Mewdeko.Common.Yml.YamlHelper.html#Mewdeko_Common_Yml_YamlHelper_IsHex_System_Char_
+  name: IsHex
+  nameWithType: YamlHelper.IsHex
+  fullName: Mewdeko.Common.Yml.YamlHelper.IsHex
+- uid: System.Char
+  commentId: T:System.Char
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.char
+  name: char
+  nameWithType: char
+  fullName: char
+  nameWithType.vb: Char
+  fullName.vb: Char
+  name.vb: Char
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Mewdeko.Common.Yml.YamlHelper.AsHex*
+  commentId: Overload:Mewdeko.Common.Yml.YamlHelper.AsHex
+  href: Mewdeko.Common.Yml.YamlHelper.html#Mewdeko_Common_Yml_YamlHelper_AsHex_System_Char_
+  name: AsHex
+  nameWithType: YamlHelper.AsHex
+  fullName: Mewdeko.Common.Yml.YamlHelper.AsHex
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer

@@ -1,0 +1,979 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Searches.Common.MangaResult
+  commentId: T:Mewdeko.Modules.Searches.Common.MangaResult
+  id: MangaResult
+  parent: Mewdeko.Modules.Searches.Common
+  children:
+  - Mewdeko.Modules.Searches.Common.MangaResult.AverageScore
+  - Mewdeko.Modules.Searches.Common.MangaResult.Description
+  - Mewdeko.Modules.Searches.Common.MangaResult.Genres
+  - Mewdeko.Modules.Searches.Common.MangaResult.Id
+  - Mewdeko.Modules.Searches.Common.MangaResult.ImageUrlLge
+  - Mewdeko.Modules.Searches.Common.MangaResult.Link
+  - Mewdeko.Modules.Searches.Common.MangaResult.PublishingStatus
+  - Mewdeko.Modules.Searches.Common.MangaResult.Synopsis
+  - Mewdeko.Modules.Searches.Common.MangaResult.TitleEnglish
+  - Mewdeko.Modules.Searches.Common.MangaResult.TotalChapters
+  - Mewdeko.Modules.Searches.Common.MangaResult.TotalVolumes
+  langs:
+  - csharp
+  - vb
+  name: MangaResult
+  nameWithType: MangaResult
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MangaResult
+    path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+    startLine: 7
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Represents a manga search result, containing various details about a manga.
+  example: []
+  syntax:
+    content: public class MangaResult
+    content.vb: Public Class MangaResult
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Searches.Common.MangaResult.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.Id
+  commentId: P:Mewdeko.Modules.Searches.Common.MangaResult.Id
+  id: Id
+  parent: Mewdeko.Modules.Searches.Common.MangaResult
+  langs:
+  - csharp
+  - vb
+  name: Id
+  nameWithType: MangaResult.Id
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.Id
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Id
+    path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the ID of the manga.
+  example: []
+  syntax:
+    content: public int Id { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property Id As Integer
+  overload: Mewdeko.Modules.Searches.Common.MangaResult.Id*
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.PublishingStatus
+  commentId: P:Mewdeko.Modules.Searches.Common.MangaResult.PublishingStatus
+  id: PublishingStatus
+  parent: Mewdeko.Modules.Searches.Common.MangaResult
+  langs:
+  - csharp
+  - vb
+  name: PublishingStatus
+  nameWithType: MangaResult.PublishingStatus
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.PublishingStatus
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: PublishingStatus
+    path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+    startLine: 17
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the publishing status of the manga.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("publishing_status")]
+
+      public string PublishingStatus { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("publishing_status")>
+
+      Public Property PublishingStatus As String
+  overload: Mewdeko.Modules.Searches.Common.MangaResult.PublishingStatus*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: publishing_status
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.ImageUrlLge
+  commentId: P:Mewdeko.Modules.Searches.Common.MangaResult.ImageUrlLge
+  id: ImageUrlLge
+  parent: Mewdeko.Modules.Searches.Common.MangaResult
+  langs:
+  - csharp
+  - vb
+  name: ImageUrlLge
+  nameWithType: MangaResult.ImageUrlLge
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.ImageUrlLge
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ImageUrlLge
+    path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+    startLine: 23
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the large image URL of the manga.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("image_url_lge")]
+
+      public string ImageUrlLge { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("image_url_lge")>
+
+      Public Property ImageUrlLge As String
+  overload: Mewdeko.Modules.Searches.Common.MangaResult.ImageUrlLge*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: image_url_lge
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.TitleEnglish
+  commentId: P:Mewdeko.Modules.Searches.Common.MangaResult.TitleEnglish
+  id: TitleEnglish
+  parent: Mewdeko.Modules.Searches.Common.MangaResult
+  langs:
+  - csharp
+  - vb
+  name: TitleEnglish
+  nameWithType: MangaResult.TitleEnglish
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.TitleEnglish
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TitleEnglish
+    path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+    startLine: 29
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the English title of the manga.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("title_english")]
+
+      public string TitleEnglish { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("title_english")>
+
+      Public Property TitleEnglish As String
+  overload: Mewdeko.Modules.Searches.Common.MangaResult.TitleEnglish*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: title_english
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.TotalChapters
+  commentId: P:Mewdeko.Modules.Searches.Common.MangaResult.TotalChapters
+  id: TotalChapters
+  parent: Mewdeko.Modules.Searches.Common.MangaResult
+  langs:
+  - csharp
+  - vb
+  name: TotalChapters
+  nameWithType: MangaResult.TotalChapters
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.TotalChapters
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TotalChapters
+    path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+    startLine: 35
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the total number of chapters in the manga.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("total_chapters")]
+
+      public int TotalChapters { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <JsonProperty("total_chapters")>
+
+      Public Property TotalChapters As Integer
+  overload: Mewdeko.Modules.Searches.Common.MangaResult.TotalChapters*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: total_chapters
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.TotalVolumes
+  commentId: P:Mewdeko.Modules.Searches.Common.MangaResult.TotalVolumes
+  id: TotalVolumes
+  parent: Mewdeko.Modules.Searches.Common.MangaResult
+  langs:
+  - csharp
+  - vb
+  name: TotalVolumes
+  nameWithType: MangaResult.TotalVolumes
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.TotalVolumes
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TotalVolumes
+    path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+    startLine: 41
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the total number of volumes in the manga.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("total_volumes")]
+
+      public int TotalVolumes { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <JsonProperty("total_volumes")>
+
+      Public Property TotalVolumes As Integer
+  overload: Mewdeko.Modules.Searches.Common.MangaResult.TotalVolumes*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: total_volumes
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.Description
+  commentId: P:Mewdeko.Modules.Searches.Common.MangaResult.Description
+  id: Description
+  parent: Mewdeko.Modules.Searches.Common.MangaResult
+  langs:
+  - csharp
+  - vb
+  name: Description
+  nameWithType: MangaResult.Description
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.Description
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Description
+    path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+    startLine: 47
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the description of the manga.
+  example: []
+  syntax:
+    content: public string Description { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Description As String
+  overload: Mewdeko.Modules.Searches.Common.MangaResult.Description*
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.Genres
+  commentId: P:Mewdeko.Modules.Searches.Common.MangaResult.Genres
+  id: Genres
+  parent: Mewdeko.Modules.Searches.Common.MangaResult
+  langs:
+  - csharp
+  - vb
+  name: Genres
+  nameWithType: MangaResult.Genres
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.Genres
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Genres
+    path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+    startLine: 52
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the genres associated with the manga.
+  example: []
+  syntax:
+    content: public string[] Genres { get; set; }
+    parameters: []
+    return:
+      type: System.String[]
+    content.vb: Public Property Genres As String()
+  overload: Mewdeko.Modules.Searches.Common.MangaResult.Genres*
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.AverageScore
+  commentId: P:Mewdeko.Modules.Searches.Common.MangaResult.AverageScore
+  id: AverageScore
+  parent: Mewdeko.Modules.Searches.Common.MangaResult
+  langs:
+  - csharp
+  - vb
+  name: AverageScore
+  nameWithType: MangaResult.AverageScore
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.AverageScore
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AverageScore
+    path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+    startLine: 57
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets or sets the average score of the manga.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty("average_score")]
+
+      public string AverageScore { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: >-
+      <JsonProperty("average_score")>
+
+      Public Property AverageScore As String
+  overload: Mewdeko.Modules.Searches.Common.MangaResult.AverageScore*
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: average_score
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.Link
+  commentId: P:Mewdeko.Modules.Searches.Common.MangaResult.Link
+  id: Link
+  parent: Mewdeko.Modules.Searches.Common.MangaResult
+  langs:
+  - csharp
+  - vb
+  name: Link
+  nameWithType: MangaResult.Link
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.Link
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Link
+    path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+    startLine: 63
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets the link to the manga's page on AniList.
+  example: []
+  syntax:
+    content: public string Link { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Link As String
+  overload: Mewdeko.Modules.Searches.Common.MangaResult.Link*
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.Synopsis
+  commentId: P:Mewdeko.Modules.Searches.Common.MangaResult.Synopsis
+  id: Synopsis
+  parent: Mewdeko.Modules.Searches.Common.MangaResult
+  langs:
+  - csharp
+  - vb
+  name: Synopsis
+  nameWithType: MangaResult.Synopsis
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.Synopsis
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Synopsis
+    path: src/Mewdeko/Modules/Searches/Common/MangaResult.cs
+    startLine: 68
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Searches.Common
+  summary: Gets a brief synopsis of the manga, limited to 500 characters if necessary.
+  example: []
+  syntax:
+    content: public string Synopsis { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property Synopsis As String
+  overload: Mewdeko.Modules.Searches.Common.MangaResult.Synopsis*
+references:
+- uid: Mewdeko.Modules.Searches.Common
+  commentId: N:Mewdeko.Modules.Searches.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Searches.Common
+  nameWithType: Mewdeko.Modules.Searches.Common
+  fullName: Mewdeko.Modules.Searches.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches
+    name: Searches
+    href: Mewdeko.Modules.Searches.html
+  - name: .
+  - uid: Mewdeko.Modules.Searches.Common
+    name: Common
+    href: Mewdeko.Modules.Searches.Common.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<MangaResult>(MangaResult, string)
+  nameWithType: Extensions.ThrowIfNull<MangaResult>(MangaResult, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Searches.Common.MangaResult>(Mewdeko.Modules.Searches.Common.MangaResult, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of MangaResult)(MangaResult, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Searches.Common.MangaResult)(Mewdeko.Modules.Searches.Common.MangaResult, String)
+  name.vb: ThrowIfNull(Of MangaResult)(MangaResult, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Common.MangaResult,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Searches.Common.MangaResult
+    name: MangaResult
+    href: Mewdeko.Modules.Searches.Common.MangaResult.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Common.MangaResult
+    name: MangaResult
+    href: Mewdeko.Modules.Searches.Common.MangaResult.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Searches.Common.MangaResult,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Searches.Common.MangaResult
+    name: MangaResult
+    href: Mewdeko.Modules.Searches.Common.MangaResult.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Searches.Common.MangaResult
+    name: MangaResult
+    href: Mewdeko.Modules.Searches.Common.MangaResult.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.Id*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.MangaResult.Id
+  href: Mewdeko.Modules.Searches.Common.MangaResult.html#Mewdeko_Modules_Searches_Common_MangaResult_Id
+  name: Id
+  nameWithType: MangaResult.Id
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.Id
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.PublishingStatus*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.MangaResult.PublishingStatus
+  href: Mewdeko.Modules.Searches.Common.MangaResult.html#Mewdeko_Modules_Searches_Common_MangaResult_PublishingStatus
+  name: PublishingStatus
+  nameWithType: MangaResult.PublishingStatus
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.PublishingStatus
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.ImageUrlLge*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.MangaResult.ImageUrlLge
+  href: Mewdeko.Modules.Searches.Common.MangaResult.html#Mewdeko_Modules_Searches_Common_MangaResult_ImageUrlLge
+  name: ImageUrlLge
+  nameWithType: MangaResult.ImageUrlLge
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.ImageUrlLge
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.TitleEnglish*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.MangaResult.TitleEnglish
+  href: Mewdeko.Modules.Searches.Common.MangaResult.html#Mewdeko_Modules_Searches_Common_MangaResult_TitleEnglish
+  name: TitleEnglish
+  nameWithType: MangaResult.TitleEnglish
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.TitleEnglish
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.TotalChapters*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.MangaResult.TotalChapters
+  href: Mewdeko.Modules.Searches.Common.MangaResult.html#Mewdeko_Modules_Searches_Common_MangaResult_TotalChapters
+  name: TotalChapters
+  nameWithType: MangaResult.TotalChapters
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.TotalChapters
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.TotalVolumes*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.MangaResult.TotalVolumes
+  href: Mewdeko.Modules.Searches.Common.MangaResult.html#Mewdeko_Modules_Searches_Common_MangaResult_TotalVolumes
+  name: TotalVolumes
+  nameWithType: MangaResult.TotalVolumes
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.TotalVolumes
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.Description*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.MangaResult.Description
+  href: Mewdeko.Modules.Searches.Common.MangaResult.html#Mewdeko_Modules_Searches_Common_MangaResult_Description
+  name: Description
+  nameWithType: MangaResult.Description
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.Description
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.Genres*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.MangaResult.Genres
+  href: Mewdeko.Modules.Searches.Common.MangaResult.html#Mewdeko_Modules_Searches_Common_MangaResult_Genres
+  name: Genres
+  nameWithType: MangaResult.Genres
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.Genres
+- uid: System.String[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string[]
+  nameWithType: string[]
+  fullName: string[]
+  nameWithType.vb: String()
+  fullName.vb: String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.AverageScore*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.MangaResult.AverageScore
+  href: Mewdeko.Modules.Searches.Common.MangaResult.html#Mewdeko_Modules_Searches_Common_MangaResult_AverageScore
+  name: AverageScore
+  nameWithType: MangaResult.AverageScore
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.AverageScore
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.Link*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.MangaResult.Link
+  href: Mewdeko.Modules.Searches.Common.MangaResult.html#Mewdeko_Modules_Searches_Common_MangaResult_Link
+  name: Link
+  nameWithType: MangaResult.Link
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.Link
+- uid: Mewdeko.Modules.Searches.Common.MangaResult.Synopsis*
+  commentId: Overload:Mewdeko.Modules.Searches.Common.MangaResult.Synopsis
+  href: Mewdeko.Modules.Searches.Common.MangaResult.html#Mewdeko_Modules_Searches_Common_MangaResult_Synopsis
+  name: Synopsis
+  nameWithType: MangaResult.Synopsis
+  fullName: Mewdeko.Modules.Searches.Common.MangaResult.Synopsis

@@ -1,0 +1,1842 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Extensions.EnumerableExtensions
+  commentId: T:Mewdeko.Extensions.EnumerableExtensions
+  id: EnumerableExtensions
+  parent: Mewdeko.Extensions
+  children:
+  - Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})
+  - Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})
+  - Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0})
+  - Mewdeko.Extensions.EnumerableExtensions.GetResults``1(System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task{``0}})
+  - Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  - Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Func{``0,System.String})
+  - Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  - Mewdeko.Extensions.EnumerableExtensions.Move``1(System.Collections.Generic.List{``0},``0,System.Int32)
+  - Mewdeko.Extensions.EnumerableExtensions.Shuffle``1(System.Collections.Generic.IEnumerable{``0})
+  - Mewdeko.Extensions.EnumerableExtensions.ToConcurrent``2(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{``0,``1}})
+  - Mewdeko.Extensions.EnumerableExtensions.ToIndexed``1(System.Collections.Generic.IEnumerable{``0})
+  - Mewdeko.Extensions.EnumerableExtensions.WhenAll(System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task})
+  - Mewdeko.Extensions.EnumerableExtensions.WhenAll``1(System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task{``0}})
+  langs:
+  - csharp
+  - vb
+  name: EnumerableExtensions
+  nameWithType: EnumerableExtensions
+  fullName: Mewdeko.Extensions.EnumerableExtensions
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: EnumerableExtensions
+    path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+    startLine: 8
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Extensions for IEnumerable objects.
+  example: []
+  syntax:
+    content: public static class EnumerableExtensions
+    content.vb: Public Module EnumerableExtensions
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+- uid: Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.Join``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  id: Join``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  langs:
+  - csharp
+  - vb
+  name: Join<T>(IEnumerable<T>, char, Func<T, string>?)
+  nameWithType: EnumerableExtensions.Join<T>(IEnumerable<T>, char, Func<T, string>?)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.Join<T>(System.Collections.Generic.IEnumerable<T>, char, System.Func<T, string>?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Join
+    path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+    startLine: 20
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Joins the elements of a sequence into a single string using the specified separator and optional mapping function.
+  example: []
+  syntax:
+    content: public static string Join<T>(this IEnumerable<T> data, char separator, Func<T, string>? func = null)
+    parameters:
+    - id: data
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The sequence to join.
+    - id: separator
+      type: System.Char
+      description: The separator to use between elements.
+    - id: func
+      type: System.Func{{T},System.String}
+      description: An optional mapping function to apply to each element before joining.
+    typeParameters:
+    - id: T
+      description: The type of elements in the sequence.
+    return:
+      type: System.String
+      description: The concatenated string.
+    content.vb: Public Shared Function Join(Of T)(data As IEnumerable(Of T), separator As Char, func As Func(Of T, String) = Nothing) As String
+  overload: Mewdeko.Extensions.EnumerableExtensions.Join*
+  nameWithType.vb: EnumerableExtensions.Join(Of T)(IEnumerable(Of T), Char, Func(Of T, String))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.Join(Of T)(System.Collections.Generic.IEnumerable(Of T), Char, System.Func(Of T, String))
+  name.vb: Join(Of T)(IEnumerable(Of T), Char, Func(Of T, String))
+- uid: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.GetRandomElement``1(System.Collections.Generic.IEnumerable{``0})
+  id: GetRandomElement``1(System.Collections.Generic.IEnumerable{``0})
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  langs:
+  - csharp
+  - vb
+  name: GetRandomElement<T>(IEnumerable<T>)
+  nameWithType: EnumerableExtensions.GetRandomElement<T>(IEnumerable<T>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement<T>(System.Collections.Generic.IEnumerable<T>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetRandomElement
+    path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+    startLine: 29
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Returns a random element from the specified sequence.
+  example: []
+  syntax:
+    content: public static T GetRandomElement<T>(this IEnumerable<T> list)
+    parameters:
+    - id: list
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The sequence to select from.
+    typeParameters:
+    - id: T
+      description: The type of elements in the sequence.
+    return:
+      type: '{T}'
+      description: A randomly selected element from the sequence.
+    content.vb: Public Shared Function GetRandomElement(Of T)(list As IEnumerable(Of T)) As T
+  overload: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement*
+  nameWithType.vb: EnumerableExtensions.GetRandomElement(Of T)(IEnumerable(Of T))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement(Of T)(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: GetRandomElement(Of T)(IEnumerable(Of T))
+- uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  id: JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.Char,System.Func{``0,System.String})
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  langs:
+  - csharp
+  - vb
+  name: JoinWith<T>(IEnumerable<T>, char, Func<T, string>?)
+  nameWithType: EnumerableExtensions.JoinWith<T>(IEnumerable<T>, char, Func<T, string>?)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.JoinWith<T>(System.Collections.Generic.IEnumerable<T>, char, System.Func<T, string>?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: JoinWith
+    path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+    startLine: 40
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Joins the elements of a sequence into a single string using the specified separator and optional mapping function.
+  example: []
+  syntax:
+    content: public static string JoinWith<T>(this IEnumerable<T> data, char separator, Func<T, string>? func = null)
+    parameters:
+    - id: data
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The sequence to join.
+    - id: separator
+      type: System.Char
+      description: The separator to use between elements.
+    - id: func
+      type: System.Func{{T},System.String}
+      description: An optional mapping function to apply to each element before joining.
+    typeParameters:
+    - id: T
+      description: The type of elements in the sequence.
+    return:
+      type: System.String
+      description: The concatenated string.
+    content.vb: Public Shared Function JoinWith(Of T)(data As IEnumerable(Of T), separator As Char, func As Func(Of T, String) = Nothing) As String
+  overload: Mewdeko.Extensions.EnumerableExtensions.JoinWith*
+  nameWithType.vb: EnumerableExtensions.JoinWith(Of T)(IEnumerable(Of T), Char, Func(Of T, String))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.JoinWith(Of T)(System.Collections.Generic.IEnumerable(Of T), Char, System.Func(Of T, String))
+  name.vb: JoinWith(Of T)(IEnumerable(Of T), Char, Func(Of T, String))
+- uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Func{``0,System.String})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Func{``0,System.String})
+  id: JoinWith``1(System.Collections.Generic.IEnumerable{``0},System.String,System.Func{``0,System.String})
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  langs:
+  - csharp
+  - vb
+  name: JoinWith<T>(IEnumerable<T>, string, Func<T, string>?)
+  nameWithType: EnumerableExtensions.JoinWith<T>(IEnumerable<T>, string, Func<T, string>?)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.JoinWith<T>(System.Collections.Generic.IEnumerable<T>, string, System.Func<T, string>?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: JoinWith
+    path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+    startLine: 54
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Joins the elements of a sequence into a single string using the specified separator and optional mapping function.
+  example: []
+  syntax:
+    content: public static string JoinWith<T>(this IEnumerable<T> data, string separator, Func<T, string>? func = null)
+    parameters:
+    - id: data
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The sequence to join.
+    - id: separator
+      type: System.String
+      description: The separator to use between elements.
+    - id: func
+      type: System.Func{{T},System.String}
+      description: An optional mapping function to apply to each element before joining.
+    typeParameters:
+    - id: T
+      description: The type of elements in the sequence.
+    return:
+      type: System.String
+      description: The concatenated string.
+    content.vb: Public Shared Function JoinWith(Of T)(data As IEnumerable(Of T), separator As String, func As Func(Of T, String) = Nothing) As String
+  overload: Mewdeko.Extensions.EnumerableExtensions.JoinWith*
+  nameWithType.vb: EnumerableExtensions.JoinWith(Of T)(IEnumerable(Of T), String, Func(Of T, String))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.JoinWith(Of T)(System.Collections.Generic.IEnumerable(Of T), String, System.Func(Of T, String))
+  name.vb: JoinWith(Of T)(IEnumerable(Of T), String, Func(Of T, String))
+- uid: Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.Distinct``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})
+  id: Distinct``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  langs:
+  - csharp
+  - vb
+  name: Distinct<T, TU>(IEnumerable<T>, Func<T, TU>)
+  nameWithType: EnumerableExtensions.Distinct<T, TU>(IEnumerable<T>, Func<T, TU>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.Distinct<T, TU>(System.Collections.Generic.IEnumerable<T>, System.Func<T, TU>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Distinct
+    path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+    startLine: 68
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Returns distinct elements from a sequence by using a specified key selector function.
+  example: []
+  syntax:
+    content: public static IEnumerable<T> Distinct<T, TU>(this IEnumerable<T> data, Func<T, TU> getKey)
+    parameters:
+    - id: data
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The sequence to remove duplicate elements from.
+    - id: getKey
+      type: System.Func{{T},{TU}}
+      description: A function to extract the key for each element.
+    typeParameters:
+    - id: T
+      description: The type of elements in the sequence.
+    - id: TU
+      description: The type of the keys returned by the key selector function.
+    return:
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: An IEnumerable containing distinct elements from the source sequence.
+    content.vb: Public Shared Function Distinct(Of T, TU)(data As IEnumerable(Of T), getKey As Func(Of T, TU)) As IEnumerable(Of T)
+  overload: Mewdeko.Extensions.EnumerableExtensions.Distinct*
+  nameWithType.vb: EnumerableExtensions.Distinct(Of T, TU)(IEnumerable(Of T), Func(Of T, TU))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.Distinct(Of T, TU)(System.Collections.Generic.IEnumerable(Of T), System.Func(Of T, TU))
+  name.vb: Distinct(Of T, TU)(IEnumerable(Of T), Func(Of T, TU))
+- uid: Mewdeko.Extensions.EnumerableExtensions.Move``1(System.Collections.Generic.List{``0},``0,System.Int32)
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.Move``1(System.Collections.Generic.List{``0},``0,System.Int32)
+  id: Move``1(System.Collections.Generic.List{``0},``0,System.Int32)
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  langs:
+  - csharp
+  - vb
+  name: Move<T>(List<T>, T, int)
+  nameWithType: EnumerableExtensions.Move<T>(List<T>, T, int)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.Move<T>(System.Collections.Generic.List<T>, T, int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Move
+    path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+    startLine: 78
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Moves an item within a list to a new index.
+  example: []
+  syntax:
+    content: public static void Move<T>(this List<T> list, T item, int newIndex)
+    parameters:
+    - id: list
+      type: System.Collections.Generic.List{{T}}
+      description: The list containing the item to move.
+    - id: item
+      type: '{T}'
+      description: The item to move.
+    - id: newIndex
+      type: System.Int32
+      description: The index to move the item to.
+    typeParameters:
+    - id: T
+      description: The type of elements in the list.
+    content.vb: Public Shared Sub Move(Of T)(list As List(Of T), item As T, newIndex As Integer)
+  overload: Mewdeko.Extensions.EnumerableExtensions.Move*
+  nameWithType.vb: EnumerableExtensions.Move(Of T)(List(Of T), T, Integer)
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.Move(Of T)(System.Collections.Generic.List(Of T), T, Integer)
+  name.vb: Move(Of T)(List(Of T), T, Integer)
+- uid: Mewdeko.Extensions.EnumerableExtensions.GetResults``1(System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task{``0}})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.GetResults``1(System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task{``0}})
+  id: GetResults``1(System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task{``0}})
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  langs:
+  - csharp
+  - vb
+  name: GetResults<T>(IEnumerable<Task<T>>)
+  nameWithType: EnumerableExtensions.GetResults<T>(IEnumerable<Task<T>>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.GetResults<T>(System.Collections.Generic.IEnumerable<System.Threading.Tasks.Task<T>>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetResults
+    path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+    startLine: 94
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Asynchronously waits for all tasks in the collection to complete and returns their results.
+  example: []
+  syntax:
+    content: public static Task<List<T>> GetResults<T>(this IEnumerable<Task<T>> tasks)
+    parameters:
+    - id: tasks
+      type: System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task{{T}}}
+      description: The collection of tasks to wait for.
+    typeParameters:
+    - id: T
+      description: The type of results returned by the tasks.
+    return:
+      type: System.Threading.Tasks.Task{System.Collections.Generic.List{{T}}}
+      description: A list containing the results of all completed tasks.
+    content.vb: Public Shared Function GetResults(Of T)(tasks As IEnumerable(Of Task(Of T))) As Task(Of List(Of T))
+  overload: Mewdeko.Extensions.EnumerableExtensions.GetResults*
+  nameWithType.vb: EnumerableExtensions.GetResults(Of T)(IEnumerable(Of Task(Of T)))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.GetResults(Of T)(System.Collections.Generic.IEnumerable(Of System.Threading.Tasks.Task(Of T)))
+  name.vb: GetResults(Of T)(IEnumerable(Of Task(Of T)))
+- uid: Mewdeko.Extensions.EnumerableExtensions.Shuffle``1(System.Collections.Generic.IEnumerable{``0})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.Shuffle``1(System.Collections.Generic.IEnumerable{``0})
+  id: Shuffle``1(System.Collections.Generic.IEnumerable{``0})
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  langs:
+  - csharp
+  - vb
+  name: Shuffle<T>(IEnumerable<T>)
+  nameWithType: EnumerableExtensions.Shuffle<T>(IEnumerable<T>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.Shuffle<T>(System.Collections.Generic.IEnumerable<T>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Shuffle
+    path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+    startLine: 111
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Randomizes the order of elements in the sequence by performing the Fisher-Yates shuffle.
+  example: []
+  syntax:
+    content: public static IReadOnlyList<T> Shuffle<T>(this IEnumerable<T> items)
+    parameters:
+    - id: items
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The sequence of items to shuffle.
+    typeParameters:
+    - id: T
+      description: The type of items in the sequence.
+    return:
+      type: System.Collections.Generic.IReadOnlyList{{T}}
+      description: An IReadOnlyList with the elements shuffled.
+    content.vb: Public Shared Function Shuffle(Of T)(items As IEnumerable(Of T)) As IReadOnlyList(Of T)
+  overload: Mewdeko.Extensions.EnumerableExtensions.Shuffle*
+  nameWithType.vb: EnumerableExtensions.Shuffle(Of T)(IEnumerable(Of T))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.Shuffle(Of T)(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: Shuffle(Of T)(IEnumerable(Of T))
+- uid: Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})
+  id: ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  langs:
+  - csharp
+  - vb
+  name: ForEach<T>(IEnumerable<T>, Action<T>)
+  nameWithType: EnumerableExtensions.ForEach<T>(IEnumerable<T>, Action<T>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.ForEach<T>(System.Collections.Generic.IEnumerable<T>, System.Action<T>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ForEach
+    path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+    startLine: 140
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Executes an action on each element in the sequence.
+  example: []
+  syntax:
+    content: public static void ForEach<T>(this IEnumerable<T> elems, Action<T> exec)
+    parameters:
+    - id: elems
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The sequence of elements.
+    - id: exec
+      type: System.Action{{T}}
+      description: The action to execute on each element.
+    typeParameters:
+    - id: T
+      description: The type of elements in the sequence.
+    content.vb: Public Shared Sub ForEach(Of T)(elems As IEnumerable(Of T), exec As Action(Of T))
+  overload: Mewdeko.Extensions.EnumerableExtensions.ForEach*
+  nameWithType.vb: EnumerableExtensions.ForEach(Of T)(IEnumerable(Of T), Action(Of T))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.ForEach(Of T)(System.Collections.Generic.IEnumerable(Of T), System.Action(Of T))
+  name.vb: ForEach(Of T)(IEnumerable(Of T), Action(Of T))
+- uid: Mewdeko.Extensions.EnumerableExtensions.ToConcurrent``2(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{``0,``1}})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.ToConcurrent``2(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{``0,``1}})
+  id: ToConcurrent``2(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{``0,``1}})
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  langs:
+  - csharp
+  - vb
+  name: ToConcurrent<TKey, TValue>(IEnumerable<KeyValuePair<TKey, TValue>>)
+  nameWithType: EnumerableExtensions.ToConcurrent<TKey, TValue>(IEnumerable<KeyValuePair<TKey, TValue>>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.ToConcurrent<TKey, TValue>(System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ToConcurrent
+    path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+    startLine: 153
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Converts a sequence of key-value pairs into a concurrent dictionary.
+  example: []
+  syntax:
+    content: 'public static ConcurrentDictionary<TKey, TValue> ToConcurrent<TKey, TValue>(this IEnumerable<KeyValuePair<TKey, TValue>> dict) where TKey : notnull'
+    parameters:
+    - id: dict
+      type: System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{{TKey},{TValue}}}
+      description: The sequence of key-value pairs to convert.
+    typeParameters:
+    - id: TKey
+      description: The type of keys in the dictionary.
+    - id: TValue
+      description: The type of values in the dictionary.
+    return:
+      type: NonBlocking.ConcurrentDictionary{{TKey},{TValue}}
+      description: A new ConcurrentDictionary containing the key-value pairs from the sequence.
+    content.vb: Public Shared Function ToConcurrent(Of TKey, TValue)(dict As IEnumerable(Of KeyValuePair(Of TKey, TValue))) As ConcurrentDictionary(Of TKey, TValue)
+  overload: Mewdeko.Extensions.EnumerableExtensions.ToConcurrent*
+  nameWithType.vb: EnumerableExtensions.ToConcurrent(Of TKey, TValue)(IEnumerable(Of KeyValuePair(Of TKey, TValue)))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.ToConcurrent(Of TKey, TValue)(System.Collections.Generic.IEnumerable(Of System.Collections.Generic.KeyValuePair(Of TKey, TValue)))
+  name.vb: ToConcurrent(Of TKey, TValue)(IEnumerable(Of KeyValuePair(Of TKey, TValue)))
+- uid: Mewdeko.Extensions.EnumerableExtensions.ToIndexed``1(System.Collections.Generic.IEnumerable{``0})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.ToIndexed``1(System.Collections.Generic.IEnumerable{``0})
+  id: ToIndexed``1(System.Collections.Generic.IEnumerable{``0})
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  langs:
+  - csharp
+  - vb
+  name: ToIndexed<T>(IEnumerable<T>)
+  nameWithType: EnumerableExtensions.ToIndexed<T>(IEnumerable<T>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.ToIndexed<T>(System.Collections.Generic.IEnumerable<T>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ToIndexed
+    path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+    startLine: 163
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: Converts a sequence of items into an indexed collection.
+  example: []
+  syntax:
+    content: 'public static IndexedCollection<T> ToIndexed<T>(this IEnumerable<T> enumerable) where T : class, IIndexed'
+    parameters:
+    - id: enumerable
+      type: System.Collections.Generic.IEnumerable{{T}}
+      description: The sequence of items to convert.
+    typeParameters:
+    - id: T
+      description: The type of items in the sequence.
+    return:
+      type: Mewdeko.Database.Common.IndexedCollection{{T}}
+      description: An IndexedCollection containing the items from the sequence.
+    content.vb: Public Shared Function ToIndexed(Of T As {Class, IIndexed})(enumerable As IEnumerable(Of T)) As IndexedCollection(Of T)
+  overload: Mewdeko.Extensions.EnumerableExtensions.ToIndexed*
+  nameWithType.vb: EnumerableExtensions.ToIndexed(Of T)(IEnumerable(Of T))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.ToIndexed(Of T)(System.Collections.Generic.IEnumerable(Of T))
+  name.vb: ToIndexed(Of T)(IEnumerable(Of T))
+- uid: Mewdeko.Extensions.EnumerableExtensions.WhenAll``1(System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task{``0}})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.WhenAll``1(System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task{``0}})
+  id: WhenAll``1(System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task{``0}})
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  langs:
+  - csharp
+  - vb
+  name: WhenAll<TResult>(IEnumerable<Task<TResult>>)
+  nameWithType: EnumerableExtensions.WhenAll<TResult>(IEnumerable<Task<TResult>>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.WhenAll<TResult>(System.Collections.Generic.IEnumerable<System.Threading.Tasks.Task<TResult>>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: WhenAll
+    path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+    startLine: 174
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: >-
+    Creates a task that will complete when all of the <xref href="System.Threading.Tasks.Task%601" data-throw-if-not-resolved="false"></xref> objects in an enumerable
+
+    collection have completed
+  example: []
+  syntax:
+    content: public static Task<TResult[]> WhenAll<TResult>(this IEnumerable<Task<TResult>> tasks)
+    parameters:
+    - id: tasks
+      type: System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task{{TResult}}}
+      description: The tasks to wait on for completion.
+    typeParameters:
+    - id: TResult
+      description: The type of the completed task.
+    return:
+      type: System.Threading.Tasks.Task{{TResult}[]}
+      description: A task that represents the completion of all of the supplied tasks.
+    content.vb: Public Shared Function WhenAll(Of TResult)(tasks As IEnumerable(Of Task(Of TResult))) As Task(Of TResult())
+  overload: Mewdeko.Extensions.EnumerableExtensions.WhenAll*
+  nameWithType.vb: EnumerableExtensions.WhenAll(Of TResult)(IEnumerable(Of Task(Of TResult)))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.WhenAll(Of TResult)(System.Collections.Generic.IEnumerable(Of System.Threading.Tasks.Task(Of TResult)))
+  name.vb: WhenAll(Of TResult)(IEnumerable(Of Task(Of TResult)))
+- uid: Mewdeko.Extensions.EnumerableExtensions.WhenAll(System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task})
+  commentId: M:Mewdeko.Extensions.EnumerableExtensions.WhenAll(System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task})
+  id: WhenAll(System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task})
+  isExtensionMethod: true
+  parent: Mewdeko.Extensions.EnumerableExtensions
+  langs:
+  - csharp
+  - vb
+  name: WhenAll(IEnumerable<Task>)
+  nameWithType: EnumerableExtensions.WhenAll(IEnumerable<Task>)
+  fullName: Mewdeko.Extensions.EnumerableExtensions.WhenAll(System.Collections.Generic.IEnumerable<System.Threading.Tasks.Task>)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: WhenAll
+    path: src/Mewdeko/Extensions/IEnumerableExtensions.cs
+    startLine: 183
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Extensions
+  summary: >-
+    Creates a task that will complete when all of the <xref href="System.Threading.Tasks.Task" data-throw-if-not-resolved="false"></xref> objects in an enumerable
+
+    collection have completed
+  example: []
+  syntax:
+    content: public static Task WhenAll(this IEnumerable<Task> tasks)
+    parameters:
+    - id: tasks
+      type: System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task}
+      description: The tasks to wait on for completion.
+    return:
+      type: System.Threading.Tasks.Task
+      description: A task that represents the completion of all of the supplied tasks.
+    content.vb: Public Shared Function WhenAll(tasks As IEnumerable(Of Task)) As Task
+  overload: Mewdeko.Extensions.EnumerableExtensions.WhenAll*
+  nameWithType.vb: EnumerableExtensions.WhenAll(IEnumerable(Of Task))
+  fullName.vb: Mewdeko.Extensions.EnumerableExtensions.WhenAll(System.Collections.Generic.IEnumerable(Of System.Threading.Tasks.Task))
+  name.vb: WhenAll(IEnumerable(Of Task))
+references:
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Extensions.EnumerableExtensions.Join*
+  commentId: Overload:Mewdeko.Extensions.EnumerableExtensions.Join
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Join__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  name: Join
+  nameWithType: EnumerableExtensions.Join
+  fullName: Mewdeko.Extensions.EnumerableExtensions.Join
+- uid: System.Collections.Generic.IEnumerable{{T}}
+  commentId: T:System.Collections.Generic.IEnumerable{`0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Char
+  commentId: T:System.Char
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.char
+  name: char
+  nameWithType: char
+  fullName: char
+  nameWithType.vb: Char
+  fullName.vb: Char
+  name.vb: Char
+- uid: System.Func{{T},System.String}
+  commentId: T:System.Func{``0,System.String}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, string>
+  nameWithType: Func<T, string>
+  fullName: System.Func<T, string>
+  nameWithType.vb: Func(Of T, String)
+  fullName.vb: System.Func(Of T, String)
+  name.vb: Func(Of T, String)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: System.Func`2
+  commentId: T:System.Func`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement*
+  commentId: Overload:Mewdeko.Extensions.EnumerableExtensions.GetRandomElement
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_GetRandomElement__1_System_Collections_Generic_IEnumerable___0__
+  name: GetRandomElement
+  nameWithType: EnumerableExtensions.GetRandomElement
+  fullName: Mewdeko.Extensions.EnumerableExtensions.GetRandomElement
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: Mewdeko.Extensions.EnumerableExtensions.JoinWith*
+  commentId: Overload:Mewdeko.Extensions.EnumerableExtensions.JoinWith
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_JoinWith__1_System_Collections_Generic_IEnumerable___0__System_Char_System_Func___0_System_String__
+  name: JoinWith
+  nameWithType: EnumerableExtensions.JoinWith
+  fullName: Mewdeko.Extensions.EnumerableExtensions.JoinWith
+- uid: Mewdeko.Extensions.EnumerableExtensions.Distinct*
+  commentId: Overload:Mewdeko.Extensions.EnumerableExtensions.Distinct
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Distinct__2_System_Collections_Generic_IEnumerable___0__System_Func___0___1__
+  name: Distinct
+  nameWithType: EnumerableExtensions.Distinct
+  fullName: Mewdeko.Extensions.EnumerableExtensions.Distinct
+- uid: System.Func{{T},{TU}}
+  commentId: T:System.Func{``0,``1}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, TU>
+  nameWithType: Func<T, TU>
+  fullName: System.Func<T, TU>
+  nameWithType.vb: Func(Of T, TU)
+  fullName.vb: System.Func(Of T, TU)
+  name.vb: Func(Of T, TU)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TU
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TU
+  - name: )
+- uid: Mewdeko.Extensions.EnumerableExtensions.Move*
+  commentId: Overload:Mewdeko.Extensions.EnumerableExtensions.Move
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Move__1_System_Collections_Generic_List___0____0_System_Int32_
+  name: Move
+  nameWithType: EnumerableExtensions.Move
+  fullName: Mewdeko.Extensions.EnumerableExtensions.Move
+- uid: System.Collections.Generic.List{{T}}
+  commentId: T:System.Collections.Generic.List{``0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Extensions.EnumerableExtensions.GetResults*
+  commentId: Overload:Mewdeko.Extensions.EnumerableExtensions.GetResults
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_GetResults__1_System_Collections_Generic_IEnumerable_System_Threading_Tasks_Task___0___
+  name: GetResults
+  nameWithType: EnumerableExtensions.GetResults
+  fullName: Mewdeko.Extensions.EnumerableExtensions.GetResults
+- uid: System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task{{T}}}
+  commentId: T:System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task{``0}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<Task<T>>
+  nameWithType: IEnumerable<Task<T>>
+  fullName: System.Collections.Generic.IEnumerable<System.Threading.Tasks.Task<T>>
+  nameWithType.vb: IEnumerable(Of Task(Of T))
+  fullName.vb: System.Collections.Generic.IEnumerable(Of System.Threading.Tasks.Task(Of T))
+  name.vb: IEnumerable(Of Task(Of T))
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: System.Threading.Tasks.Task{System.Collections.Generic.List{{T}}}
+  commentId: T:System.Threading.Tasks.Task{System.Collections.Generic.List{``0}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<List<T>>
+  nameWithType: Task<List<T>>
+  fullName: System.Threading.Tasks.Task<System.Collections.Generic.List<T>>
+  nameWithType.vb: Task(Of List(Of T))
+  fullName.vb: System.Threading.Tasks.Task(Of System.Collections.Generic.List(Of T))
+  name.vb: Task(Of List(Of T))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Extensions.EnumerableExtensions.Shuffle*
+  commentId: Overload:Mewdeko.Extensions.EnumerableExtensions.Shuffle
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_Shuffle__1_System_Collections_Generic_IEnumerable___0__
+  name: Shuffle
+  nameWithType: EnumerableExtensions.Shuffle
+  fullName: Mewdeko.Extensions.EnumerableExtensions.Shuffle
+- uid: System.Collections.Generic.IReadOnlyList{{T}}
+  commentId: T:System.Collections.Generic.IReadOnlyList{``0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IReadOnlyList`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  name: IReadOnlyList<T>
+  nameWithType: IReadOnlyList<T>
+  fullName: System.Collections.Generic.IReadOnlyList<T>
+  nameWithType.vb: IReadOnlyList(Of T)
+  fullName.vb: System.Collections.Generic.IReadOnlyList(Of T)
+  name.vb: IReadOnlyList(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic.IReadOnlyList`1
+  commentId: T:System.Collections.Generic.IReadOnlyList`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  name: IReadOnlyList<T>
+  nameWithType: IReadOnlyList<T>
+  fullName: System.Collections.Generic.IReadOnlyList<T>
+  nameWithType.vb: IReadOnlyList(Of T)
+  fullName.vb: System.Collections.Generic.IReadOnlyList(Of T)
+  name.vb: IReadOnlyList(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyList`1
+    name: IReadOnlyList
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlylist-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Extensions.EnumerableExtensions.ForEach*
+  commentId: Overload:Mewdeko.Extensions.EnumerableExtensions.ForEach
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_ForEach__1_System_Collections_Generic_IEnumerable___0__System_Action___0__
+  name: ForEach
+  nameWithType: EnumerableExtensions.ForEach
+  fullName: Mewdeko.Extensions.EnumerableExtensions.ForEach
+- uid: System.Action{{T}}
+  commentId: T:System.Action{``0}
+  parent: System
+  definition: System.Action`1
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Action`1
+  commentId: T:System.Action`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Extensions.EnumerableExtensions.ToConcurrent*
+  commentId: Overload:Mewdeko.Extensions.EnumerableExtensions.ToConcurrent
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_ToConcurrent__2_System_Collections_Generic_IEnumerable_System_Collections_Generic_KeyValuePair___0___1___
+  name: ToConcurrent
+  nameWithType: EnumerableExtensions.ToConcurrent
+  fullName: Mewdeko.Extensions.EnumerableExtensions.ToConcurrent
+- uid: System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{{TKey},{TValue}}}
+  commentId: T:System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{``0,``1}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<KeyValuePair<TKey, TValue>>
+  nameWithType: IEnumerable<KeyValuePair<TKey, TValue>>
+  fullName: System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<TKey, TValue>>
+  nameWithType.vb: IEnumerable(Of KeyValuePair(Of TKey, TValue))
+  fullName.vb: System.Collections.Generic.IEnumerable(Of System.Collections.Generic.KeyValuePair(Of TKey, TValue))
+  name.vb: IEnumerable(Of KeyValuePair(Of TKey, TValue))
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: System.Collections.Generic.KeyValuePair`2
+    name: KeyValuePair
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.KeyValuePair`2
+    name: KeyValuePair
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.keyvaluepair-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+  - name: )
+- uid: NonBlocking.ConcurrentDictionary{{TKey},{TValue}}
+  commentId: T:NonBlocking.ConcurrentDictionary{``0,``1}
+  parent: NonBlocking
+  definition: NonBlocking.ConcurrentDictionary`2
+  name: ConcurrentDictionary<TKey, TValue>
+  nameWithType: ConcurrentDictionary<TKey, TValue>
+  fullName: NonBlocking.ConcurrentDictionary<TKey, TValue>
+  nameWithType.vb: ConcurrentDictionary(Of TKey, TValue)
+  fullName.vb: NonBlocking.ConcurrentDictionary(Of TKey, TValue)
+  name.vb: ConcurrentDictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: NonBlocking.ConcurrentDictionary`2
+  commentId: T:NonBlocking.ConcurrentDictionary`2
+  isExternal: true
+  name: ConcurrentDictionary<TKey, TValue>
+  nameWithType: ConcurrentDictionary<TKey, TValue>
+  fullName: NonBlocking.ConcurrentDictionary<TKey, TValue>
+  nameWithType.vb: ConcurrentDictionary(Of TKey, TValue)
+  fullName.vb: NonBlocking.ConcurrentDictionary(Of TKey, TValue)
+  name.vb: ConcurrentDictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: NonBlocking.ConcurrentDictionary`2
+    name: ConcurrentDictionary
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: NonBlocking
+  commentId: N:NonBlocking
+  isExternal: true
+  name: NonBlocking
+  nameWithType: NonBlocking
+  fullName: NonBlocking
+- uid: Mewdeko.Extensions.EnumerableExtensions.ToIndexed*
+  commentId: Overload:Mewdeko.Extensions.EnumerableExtensions.ToIndexed
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_ToIndexed__1_System_Collections_Generic_IEnumerable___0__
+  name: ToIndexed
+  nameWithType: EnumerableExtensions.ToIndexed
+  fullName: Mewdeko.Extensions.EnumerableExtensions.ToIndexed
+- uid: Mewdeko.Database.Common.IndexedCollection{{T}}
+  commentId: T:Mewdeko.Database.Common.IndexedCollection{``0}
+  parent: Mewdeko.Database.Common
+  definition: Mewdeko.Database.Common.IndexedCollection`1
+  name: IndexedCollection<T>
+  nameWithType: IndexedCollection<T>
+  fullName: Mewdeko.Database.Common.IndexedCollection<T>
+  nameWithType.vb: IndexedCollection(Of T)
+  fullName.vb: Mewdeko.Database.Common.IndexedCollection(Of T)
+  name.vb: IndexedCollection(Of T)
+  spec.csharp:
+  - uid: Mewdeko.Database.Common.IndexedCollection`1
+    name: IndexedCollection
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Database.Common.IndexedCollection`1
+    name: IndexedCollection
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Database.Common.IndexedCollection`1
+  commentId: T:Mewdeko.Database.Common.IndexedCollection`1
+  parent: Mewdeko.Database.Common
+  href: Mewdeko.Database.Common.IndexedCollection-1.html
+  name: IndexedCollection<T>
+  nameWithType: IndexedCollection<T>
+  fullName: Mewdeko.Database.Common.IndexedCollection<T>
+  nameWithType.vb: IndexedCollection(Of T)
+  fullName.vb: Mewdeko.Database.Common.IndexedCollection(Of T)
+  name.vb: IndexedCollection(Of T)
+  spec.csharp:
+  - uid: Mewdeko.Database.Common.IndexedCollection`1
+    name: IndexedCollection
+    href: Mewdeko.Database.Common.IndexedCollection-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Database.Common.IndexedCollection`1
+    name: IndexedCollection
+    href: Mewdeko.Database.Common.IndexedCollection-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Mewdeko.Database.Common
+  commentId: N:Mewdeko.Database.Common
+  href: Mewdeko.html
+  name: Mewdeko.Database.Common
+  nameWithType: Mewdeko.Database.Common
+  fullName: Mewdeko.Database.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Common
+    name: Common
+    href: Mewdeko.Database.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Common
+    name: Common
+    href: Mewdeko.Database.Common.html
+- uid: Mewdeko.Extensions.EnumerableExtensions.WhenAll*
+  commentId: Overload:Mewdeko.Extensions.EnumerableExtensions.WhenAll
+  href: Mewdeko.Extensions.EnumerableExtensions.html#Mewdeko_Extensions_EnumerableExtensions_WhenAll__1_System_Collections_Generic_IEnumerable_System_Threading_Tasks_Task___0___
+  name: WhenAll
+  nameWithType: EnumerableExtensions.WhenAll
+  fullName: Mewdeko.Extensions.EnumerableExtensions.WhenAll
+- uid: System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task{{TResult}}}
+  commentId: T:System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task{``0}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<Task<TResult>>
+  nameWithType: IEnumerable<Task<TResult>>
+  fullName: System.Collections.Generic.IEnumerable<System.Threading.Tasks.Task<TResult>>
+  nameWithType.vb: IEnumerable(Of Task(Of TResult))
+  fullName.vb: System.Collections.Generic.IEnumerable(Of System.Threading.Tasks.Task(Of TResult))
+  name.vb: IEnumerable(Of Task(Of TResult))
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+  - name: )
+- uid: System.Threading.Tasks.Task{{TResult}[]}
+  commentId: T:System.Threading.Tasks.Task{``0[]}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult[]>
+  nameWithType: Task<TResult[]>
+  fullName: System.Threading.Tasks.Task<TResult[]>
+  nameWithType.vb: Task(Of TResult())
+  fullName.vb: System.Threading.Tasks.Task(Of TResult())
+  name.vb: Task(Of TResult())
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '['
+  - name: ']'
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: (
+  - name: )
+  - name: )
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task}
+  commentId: T:System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<Task>
+  nameWithType: IEnumerable<Task>
+  fullName: System.Collections.Generic.IEnumerable<System.Threading.Tasks.Task>
+  nameWithType.vb: IEnumerable(Of Task)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of System.Threading.Tasks.Task)
+  name.vb: IEnumerable(Of Task)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Threading.Tasks.Task
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  - name: )

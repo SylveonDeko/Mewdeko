@@ -1,0 +1,120 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Database.Models.WaifuUpdateType
+  commentId: T:Mewdeko.Database.Models.WaifuUpdateType
+  id: WaifuUpdateType
+  parent: Mewdeko.Database.Models
+  children:
+  - Mewdeko.Database.Models.WaifuUpdateType.AffinityChanged
+  - Mewdeko.Database.Models.WaifuUpdateType.Claimed
+  langs:
+  - csharp
+  - vb
+  name: WaifuUpdateType
+  nameWithType: WaifuUpdateType
+  fullName: Mewdeko.Database.Models.WaifuUpdateType
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: WaifuUpdateType
+    path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+    startLine: 15
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: public enum WaifuUpdateType
+    content.vb: Public Enum WaifuUpdateType
+- uid: Mewdeko.Database.Models.WaifuUpdateType.AffinityChanged
+  commentId: F:Mewdeko.Database.Models.WaifuUpdateType.AffinityChanged
+  id: AffinityChanged
+  parent: Mewdeko.Database.Models.WaifuUpdateType
+  langs:
+  - csharp
+  - vb
+  name: AffinityChanged
+  nameWithType: WaifuUpdateType.AffinityChanged
+  fullName: Mewdeko.Database.Models.WaifuUpdateType.AffinityChanged
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AffinityChanged
+    path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+    startLine: 17
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: AffinityChanged = 0
+    return:
+      type: Mewdeko.Database.Models.WaifuUpdateType
+- uid: Mewdeko.Database.Models.WaifuUpdateType.Claimed
+  commentId: F:Mewdeko.Database.Models.WaifuUpdateType.Claimed
+  id: Claimed
+  parent: Mewdeko.Database.Models.WaifuUpdateType
+  langs:
+  - csharp
+  - vb
+  name: Claimed
+  nameWithType: WaifuUpdateType.Claimed
+  fullName: Mewdeko.Database.Models.WaifuUpdateType.Claimed
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Claimed
+    path: src/Mewdeko.Database/Models/WaifuUpdate.cs
+    startLine: 18
+  assemblies:
+  - Mewdeko.Database
+  namespace: Mewdeko.Database.Models
+  syntax:
+    content: Claimed = 1
+    return:
+      type: Mewdeko.Database.Models.WaifuUpdateType
+references:
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: Mewdeko.Database.Models.WaifuUpdateType
+  commentId: T:Mewdeko.Database.Models.WaifuUpdateType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.WaifuUpdateType.html
+  name: WaifuUpdateType
+  nameWithType: WaifuUpdateType
+  fullName: Mewdeko.Database.Models.WaifuUpdateType

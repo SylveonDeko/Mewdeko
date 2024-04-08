@@ -1,0 +1,237 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+  commentId: T:Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+  id: SuggestionsService.SuggestState
+  parent: Mewdeko.Modules.Suggestions.Services
+  children:
+  - Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.Accepted
+  - Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.Considered
+  - Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.Denied
+  - Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.Implemented
+  - Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.Suggested
+  langs:
+  - csharp
+  - vb
+  name: SuggestionsService.SuggestState
+  nameWithType: SuggestionsService.SuggestState
+  fullName: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+  type: Enum
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SuggestState
+    path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
+    startLine: 55
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Suggestions.Services
+  summary: Used to track the state of a suggestion.
+  example: []
+  syntax:
+    content: public enum SuggestionsService.SuggestState
+    content.vb: Public Enum SuggestionsService.SuggestState
+- uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.Suggested
+  commentId: F:Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.Suggested
+  id: Suggested
+  parent: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+  langs:
+  - csharp
+  - vb
+  name: Suggested
+  nameWithType: SuggestionsService.SuggestState.Suggested
+  fullName: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.Suggested
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Suggested
+    path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
+    startLine: 60
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Suggestions.Services
+  summary: The suggestion is suggested.
+  example: []
+  syntax:
+    content: Suggested = 0
+    return:
+      type: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+- uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.Accepted
+  commentId: F:Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.Accepted
+  id: Accepted
+  parent: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+  langs:
+  - csharp
+  - vb
+  name: Accepted
+  nameWithType: SuggestionsService.SuggestState.Accepted
+  fullName: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.Accepted
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Accepted
+    path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
+    startLine: 65
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Suggestions.Services
+  summary: The suggestion is accepted.
+  example: []
+  syntax:
+    content: Accepted = 1
+    return:
+      type: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+- uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.Denied
+  commentId: F:Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.Denied
+  id: Denied
+  parent: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+  langs:
+  - csharp
+  - vb
+  name: Denied
+  nameWithType: SuggestionsService.SuggestState.Denied
+  fullName: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.Denied
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Denied
+    path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
+    startLine: 70
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Suggestions.Services
+  summary: The suggestion is denied.
+  example: []
+  syntax:
+    content: Denied = 2
+    return:
+      type: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+- uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.Considered
+  commentId: F:Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.Considered
+  id: Considered
+  parent: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+  langs:
+  - csharp
+  - vb
+  name: Considered
+  nameWithType: SuggestionsService.SuggestState.Considered
+  fullName: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.Considered
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Considered
+    path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
+    startLine: 75
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Suggestions.Services
+  summary: The suggestion is considered.
+  example: []
+  syntax:
+    content: Considered = 3
+    return:
+      type: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+- uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.Implemented
+  commentId: F:Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.Implemented
+  id: Implemented
+  parent: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+  langs:
+  - csharp
+  - vb
+  name: Implemented
+  nameWithType: SuggestionsService.SuggestState.Implemented
+  fullName: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.Implemented
+  type: Field
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Implemented
+    path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
+    startLine: 80
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Suggestions.Services
+  summary: The suggestion is implemented.
+  example: []
+  syntax:
+    content: Implemented = 4
+    return:
+      type: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+references:
+- uid: Mewdeko.Modules.Suggestions.Services
+  commentId: N:Mewdeko.Modules.Suggestions.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Suggestions.Services
+  nameWithType: Mewdeko.Modules.Suggestions.Services
+  fullName: Mewdeko.Modules.Suggestions.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions
+    name: Suggestions
+    href: Mewdeko.Modules.Suggestions.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions.Services
+    name: Services
+    href: Mewdeko.Modules.Suggestions.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions
+    name: Suggestions
+    href: Mewdeko.Modules.Suggestions.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions.Services
+    name: Services
+    href: Mewdeko.Modules.Suggestions.Services.html
+- uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+  commentId: T:Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+  parent: Mewdeko.Modules.Suggestions.Services
+  href: Mewdeko.Modules.Suggestions.Services.SuggestionsService.html
+  name: SuggestionsService.SuggestState
+  nameWithType: SuggestionsService.SuggestState
+  fullName: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+  spec.csharp:
+  - uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService
+    name: SuggestionsService
+    href: Mewdeko.Modules.Suggestions.Services.SuggestionsService.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+    name: SuggestState
+    href: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService
+    name: SuggestionsService
+    href: Mewdeko.Modules.Suggestions.Services.SuggestionsService.html
+  - name: .
+  - uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState
+    name: SuggestState
+    href: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestState.html

@@ -1,0 +1,3790 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Music.Music
+  commentId: T:Mewdeko.Modules.Music.Music
+  id: Music
+  parent: Mewdeko.Modules.Music
+  children:
+  - Mewdeko.Modules.Music.Music.#ctor(Lavalink4NET.IAudioService,Fergun.Interactive.InteractiveService,Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Settings.BotConfigService,Mewdeko.Services.IBotCredentials)
+  - Mewdeko.Modules.Music.Music.AutoDisconnect(Mewdeko.Database.Models.AutoDisconnect)
+  - Mewdeko.Modules.Music.Music.AutoPlay(System.Int32)
+  - Mewdeko.Modules.Music.Music.ClearQueue
+  - Mewdeko.Modules.Music.Music.Join
+  - Mewdeko.Modules.Music.Music.Leave
+  - Mewdeko.Modules.Music.Music.Loop(Mewdeko.Database.Models.PlayerRepeatType)
+  - Mewdeko.Modules.Music.Music.Lyrics(System.String)
+  - Mewdeko.Modules.Music.Music.MoveSong(System.Int32,System.Int32)
+  - Mewdeko.Modules.Music.Music.NowPlaying
+  - Mewdeko.Modules.Music.Music.Pause
+  - Mewdeko.Modules.Music.Music.Play(System.Int32)
+  - Mewdeko.Modules.Music.Music.Play(System.String)
+  - Mewdeko.Modules.Music.Music.Playlist(Mewdeko.Modules.Music.Music.PlaylistAction,System.String)
+  - Mewdeko.Modules.Music.Music.Playlists
+  - Mewdeko.Modules.Music.Music.Queue
+  - Mewdeko.Modules.Music.Music.Seek(System.TimeSpan)
+  - Mewdeko.Modules.Music.Music.SetMusicChannel
+  - Mewdeko.Modules.Music.Music.Shuffle
+  - Mewdeko.Modules.Music.Music.Skip(System.Int32)
+  - Mewdeko.Modules.Music.Music.SongRemove(System.Int32)
+  - Mewdeko.Modules.Music.Music.Stop
+  - Mewdeko.Modules.Music.Music.Volume(System.UInt16)
+  langs:
+  - csharp
+  - vb
+  name: Music
+  nameWithType: Music
+  fullName: Mewdeko.Modules.Music.Music
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Music
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 30
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Module for music commands.
+  example: []
+  syntax:
+    content: 'public class Music : MewdekoModuleBase<MusicService>, IModuleBase'
+    content.vb: Public Class Music Inherits MewdekoModuleBase(Of MusicService) Implements IModuleBase
+  inheritance:
+  - System.Object
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  - Discord.Commands.ModuleBase
+  - Mewdeko.Common.MewdekoModule
+  - Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Music.Services.MusicService}
+  implements:
+  - Discord.Commands.IModuleBase
+  inheritedMembers:
+  - Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Music.Services.MusicService}.Service
+  - Mewdeko.Common.MewdekoModule.CultureInfo
+  - Mewdeko.Common.MewdekoModule.Strings
+  - Mewdeko.Common.MewdekoModule.Localization
+  - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  - Mewdeko.Common.MewdekoModule.GetText(System.String)
+  - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  - Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  - Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  - Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  - Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Music.Music.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Music.Music.#ctor(Lavalink4NET.IAudioService,Fergun.Interactive.InteractiveService,Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Settings.BotConfigService,Mewdeko.Services.IBotCredentials)
+  commentId: M:Mewdeko.Modules.Music.Music.#ctor(Lavalink4NET.IAudioService,Fergun.Interactive.InteractiveService,Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Settings.BotConfigService,Mewdeko.Services.IBotCredentials)
+  id: '#ctor(Lavalink4NET.IAudioService,Fergun.Interactive.InteractiveService,Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Settings.BotConfigService,Mewdeko.Services.IBotCredentials)'
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: Music(IAudioService, InteractiveService, DbService, DiscordSocketClient, GuildSettingsService, BotConfigService, IBotCredentials)
+  nameWithType: Music.Music(IAudioService, InteractiveService, DbService, DiscordSocketClient, GuildSettingsService, BotConfigService, IBotCredentials)
+  fullName: Mewdeko.Modules.Music.Music.Music(Lavalink4NET.IAudioService, Fergun.Interactive.InteractiveService, Mewdeko.Database.DbService, Discord.WebSocket.DiscordSocketClient, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Settings.BotConfigService, Mewdeko.Services.IBotCredentials)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 30
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Module for music commands.
+  example: []
+  syntax:
+    content: public Music(IAudioService lava, InteractiveService interactive, DbService dbService, DiscordSocketClient client, GuildSettingsService guildSettings, BotConfigService config, IBotCredentials creds)
+    parameters:
+    - id: lava
+      type: Lavalink4NET.IAudioService
+      description: The Lavalink service
+    - id: interactive
+      type: Fergun.Interactive.InteractiveService
+      description: The service used for embed pagination
+    - id: dbService
+      type: Mewdeko.Database.DbService
+      description: The database service
+    - id: client
+      type: Discord.WebSocket.DiscordSocketClient
+      description: The Discord client
+    - id: guildSettings
+      type: Mewdeko.Services.GuildSettingsService
+      description: The guild settings service
+    - id: config
+      type: Mewdeko.Services.Settings.BotConfigService
+      description: The bot configuration service
+    - id: creds
+      type: Mewdeko.Services.IBotCredentials
+      description: The bot credentials
+    content.vb: Public Sub New(lava As IAudioService, interactive As InteractiveService, dbService As DbService, client As DiscordSocketClient, guildSettings As GuildSettingsService, config As BotConfigService, creds As IBotCredentials)
+  overload: Mewdeko.Modules.Music.Music.#ctor*
+  nameWithType.vb: Music.New(IAudioService, InteractiveService, DbService, DiscordSocketClient, GuildSettingsService, BotConfigService, IBotCredentials)
+  fullName.vb: Mewdeko.Modules.Music.Music.New(Lavalink4NET.IAudioService, Fergun.Interactive.InteractiveService, Mewdeko.Database.DbService, Discord.WebSocket.DiscordSocketClient, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Settings.BotConfigService, Mewdeko.Services.IBotCredentials)
+  name.vb: New(IAudioService, InteractiveService, DbService, DiscordSocketClient, GuildSettingsService, BotConfigService, IBotCredentials)
+- uid: Mewdeko.Modules.Music.Music.SongRemove(System.Int32)
+  commentId: M:Mewdeko.Modules.Music.Music.SongRemove(System.Int32)
+  id: SongRemove(System.Int32)
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: SongRemove(int)
+  nameWithType: Music.SongRemove(int)
+  fullName: Mewdeko.Modules.Music.Music.SongRemove(int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SongRemove
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 90
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Command to remove a song from the playlist.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("SongRemove")]
+
+      [Aliases("SongRemove")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task SongRemove(int songNum)
+    parameters:
+    - id: songNum
+      type: System.Int32
+      description: The number of the song to remove from the playlist.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("SongRemove")>
+
+      <Aliases("SongRemove")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function SongRemove(songNum As Integer) As Task
+  overload: Mewdeko.Modules.Music.Music.SongRemove*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: SongRemove
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: SongRemove
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  nameWithType.vb: Music.SongRemove(Integer)
+  fullName.vb: Mewdeko.Modules.Music.Music.SongRemove(Integer)
+  name.vb: SongRemove(Integer)
+- uid: Mewdeko.Modules.Music.Music.AutoDisconnect(Mewdeko.Database.Models.AutoDisconnect)
+  commentId: M:Mewdeko.Modules.Music.Music.AutoDisconnect(Mewdeko.Database.Models.AutoDisconnect)
+  id: AutoDisconnect(Mewdeko.Database.Models.AutoDisconnect)
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: AutoDisconnect(AutoDisconnect)
+  nameWithType: Music.AutoDisconnect(AutoDisconnect)
+  fullName: Mewdeko.Modules.Music.Music.AutoDisconnect(Mewdeko.Database.Models.AutoDisconnect)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AutoDisconnect
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 120
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Command to set auto-disconnect behavior for the bot.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("AutoDisconnect")]
+
+      [Aliases("AutoDisconnect")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task AutoDisconnect(AutoDisconnect disconnect)
+    parameters:
+    - id: disconnect
+      type: Mewdeko.Database.Models.AutoDisconnect
+      description: The auto-disconnect behavior to set.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("AutoDisconnect")>
+
+      <Aliases("AutoDisconnect")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function AutoDisconnect(disconnect As AutoDisconnect) As Task
+  overload: Mewdeko.Modules.Music.Music.AutoDisconnect*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: AutoDisconnect
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: AutoDisconnect
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Music.Music.MoveSong(System.Int32,System.Int32)
+  commentId: M:Mewdeko.Modules.Music.Music.MoveSong(System.Int32,System.Int32)
+  id: MoveSong(System.Int32,System.Int32)
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: MoveSong(int, int)
+  nameWithType: Music.MoveSong(int, int)
+  fullName: Mewdeko.Modules.Music.Music.MoveSong(int, int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: MoveSong
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 134
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Command to move a song in the playlist to a new position.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("MoveSong")]
+
+      [Aliases("MoveSong")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task MoveSong(int index, int newIndex)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The current index of the song to move.
+    - id: newIndex
+      type: System.Int32
+      description: The new index to move the song to.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("MoveSong")>
+
+      <Aliases("MoveSong")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function MoveSong(index As Integer, newIndex As Integer) As Task
+  overload: Mewdeko.Modules.Music.Music.MoveSong*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: MoveSong
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: MoveSong
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  nameWithType.vb: Music.MoveSong(Integer, Integer)
+  fullName.vb: Mewdeko.Modules.Music.Music.MoveSong(Integer, Integer)
+  name.vb: MoveSong(Integer, Integer)
+- uid: Mewdeko.Modules.Music.Music.Playlists
+  commentId: M:Mewdeko.Modules.Music.Music.Playlists
+  id: Playlists
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: Playlists()
+  nameWithType: Music.Playlists()
+  fullName: Mewdeko.Modules.Music.Music.Playlists()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Playlists
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 151
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Command to display the user's playlists.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Playlists")]
+
+      [Aliases("Playlists")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task Playlists()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Playlists")>
+
+      <Aliases("Playlists")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function Playlists() As Task
+  overload: Mewdeko.Modules.Music.Music.Playlists*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Playlists
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Playlists
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Music.Music.Playlist(Mewdeko.Modules.Music.Music.PlaylistAction,System.String)
+  commentId: M:Mewdeko.Modules.Music.Music.Playlist(Mewdeko.Modules.Music.Music.PlaylistAction,System.String)
+  id: Playlist(Mewdeko.Modules.Music.Music.PlaylistAction,System.String)
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: Playlist(PlaylistAction, string?)
+  nameWithType: Music.Playlist(Music.PlaylistAction, string?)
+  fullName: Mewdeko.Modules.Music.Music.Playlist(Mewdeko.Modules.Music.Music.PlaylistAction, string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Playlist
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 188
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Command to manage playlists.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Playlist")]
+
+      [Aliases("Playlist")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task Playlist(Music.PlaylistAction action, string? playlistOrSongName = null)
+    parameters:
+    - id: action
+      type: Mewdeko.Modules.Music.Music.PlaylistAction
+      description: The action to perform on the playlist.
+    - id: playlistOrSongName
+      type: System.String
+      description: The name of the playlist or song to use.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Playlist")>
+
+      <Aliases("Playlist")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function Playlist(action As Music.PlaylistAction, playlistOrSongName As String = Nothing) As Task
+  overload: Mewdeko.Modules.Music.Music.Playlist*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Playlist
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Playlist
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  nameWithType.vb: Music.Playlist(Music.PlaylistAction, String)
+  fullName.vb: Mewdeko.Modules.Music.Music.Playlist(Mewdeko.Modules.Music.Music.PlaylistAction, String)
+  name.vb: Playlist(PlaylistAction, String)
+- uid: Mewdeko.Modules.Music.Music.Lyrics(System.String)
+  commentId: M:Mewdeko.Modules.Music.Music.Lyrics(System.String)
+  id: Lyrics(System.String)
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: Lyrics(string?)
+  nameWithType: Music.Lyrics(string?)
+  fullName: Mewdeko.Modules.Music.Music.Lyrics(string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Lyrics
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 692
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Gets the lyrics of a song.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Lyrics")]
+
+      [Aliases("Lyrics")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task Lyrics(string? name = null)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the song to get the lyrics of. Leave blank to get the lyrics of the current song
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Lyrics")>
+
+      <Aliases("Lyrics")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function Lyrics(name As String = Nothing) As Task
+  overload: Mewdeko.Modules.Music.Music.Lyrics*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Lyrics
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Lyrics
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  nameWithType.vb: Music.Lyrics(String)
+  fullName.vb: Mewdeko.Modules.Music.Music.Lyrics(String)
+  name.vb: Lyrics(String)
+- uid: Mewdeko.Modules.Music.Music.Join
+  commentId: M:Mewdeko.Modules.Music.Music.Join
+  id: Join
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: Join()
+  nameWithType: Music.Join()
+  fullName: Mewdeko.Modules.Music.Music.Join()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Join
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 789
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Command to make the bot join the user's voice channel.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Join")]
+
+      [Aliases("Join")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task Join()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Join")>
+
+      <Aliases("Join")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function Join() As Task
+  overload: Mewdeko.Modules.Music.Music.Join*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Join
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Join
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Music.Music.Leave
+  commentId: M:Mewdeko.Modules.Music.Music.Leave
+  id: Leave
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: Leave()
+  nameWithType: Music.Leave()
+  fullName: Mewdeko.Modules.Music.Music.Leave()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Leave
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 826
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Command to make the bot leave the voice channel it's currently connected to.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Leave")]
+
+      [Aliases("Leave")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task Leave()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Leave")>
+
+      <Aliases("Leave")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function Leave() As Task
+  overload: Mewdeko.Modules.Music.Music.Leave*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Leave
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Leave
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Music.Music.Play(System.Int32)
+  commentId: M:Mewdeko.Modules.Music.Music.Play(System.Int32)
+  id: Play(System.Int32)
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: Play(int)
+  nameWithType: Music.Play(int)
+  fullName: Mewdeko.Modules.Music.Music.Play(int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Play
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 852
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Command to play a song from the queue.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Play")]
+
+      [Aliases("Play")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task Play(int number)
+    parameters:
+    - id: number
+      type: System.Int32
+      description: The number of the song in the queue to play.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Play")>
+
+      <Aliases("Play")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function Play(number As Integer) As Task
+  overload: Mewdeko.Modules.Music.Music.Play*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Play
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Play
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  nameWithType.vb: Music.Play(Integer)
+  fullName.vb: Mewdeko.Modules.Music.Music.Play(Integer)
+  name.vb: Play(Integer)
+- uid: Mewdeko.Modules.Music.Music.Play(System.String)
+  commentId: M:Mewdeko.Modules.Music.Music.Play(System.String)
+  id: Play(System.String)
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: Play(string?)
+  nameWithType: Music.Play(string?)
+  fullName: Mewdeko.Modules.Music.Music.Play(string?)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Play
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 898
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Play a song using a search query or a URL.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Play")]
+
+      [Aliases("Play")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task Play(string? searchQuery = null)
+    parameters:
+    - id: searchQuery
+      type: System.String
+      description: The search query or URL to play.
+      attributes:
+      - type: Discord.Commands.RemainderAttribute
+        ctor: Discord.Commands.RemainderAttribute.#ctor
+        arguments: []
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Play")>
+
+      <Aliases("Play")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function Play(searchQuery As String = Nothing) As Task
+  overload: Mewdeko.Modules.Music.Music.Play*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Play
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Play
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  nameWithType.vb: Music.Play(String)
+  fullName.vb: Mewdeko.Modules.Music.Music.Play(String)
+  name.vb: Play(String)
+- uid: Mewdeko.Modules.Music.Music.Pause
+  commentId: M:Mewdeko.Modules.Music.Music.Pause
+  id: Pause
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: Pause()
+  nameWithType: Music.Pause()
+  fullName: Mewdeko.Modules.Music.Music.Pause()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Pause
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 1205
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Command to pause the music player.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Pause")]
+
+      [Aliases("Pause")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task Pause()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Pause")>
+
+      <Aliases("Pause")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function Pause() As Task
+  overload: Mewdeko.Modules.Music.Music.Pause*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Pause
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Pause
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Music.Music.Shuffle
+  commentId: M:Mewdeko.Modules.Music.Music.Shuffle
+  id: Shuffle
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: Shuffle()
+  nameWithType: Music.Shuffle()
+  fullName: Mewdeko.Modules.Music.Music.Shuffle()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Shuffle
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 1238
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Command to shuffle the music queue.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Shuffle")]
+
+      [Aliases("Shuffle")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task Shuffle()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Shuffle")>
+
+      <Aliases("Shuffle")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function Shuffle() As Task
+  overload: Mewdeko.Modules.Music.Music.Shuffle*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Shuffle
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Shuffle
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Music.Music.Stop
+  commentId: M:Mewdeko.Modules.Music.Music.Stop
+  id: Stop
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: Stop()
+  nameWithType: Music.Stop()
+  fullName: Mewdeko.Modules.Music.Music.Stop()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Stop
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 1275
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Command to stop the music player and clear the queue.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Stop")]
+
+      [Aliases("Stop")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task Stop()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Stop")>
+
+      <Aliases("Stop")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function [Stop]() As Task
+  overload: Mewdeko.Modules.Music.Music.Stop*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Stop
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Stop
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Music.Music.Skip(System.Int32)
+  commentId: M:Mewdeko.Modules.Music.Music.Skip(System.Int32)
+  id: Skip(System.Int32)
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: Skip(int)
+  nameWithType: Music.Skip(int)
+  fullName: Mewdeko.Modules.Music.Music.Skip(int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Skip
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 1294
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Command to skip a specified number of songs in the queue.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Skip")]
+
+      [Aliases("Skip")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task Skip(int num = 1)
+    parameters:
+    - id: num
+      type: System.Int32
+      description: The number of songs to skip. Default is 1.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Skip")>
+
+      <Aliases("Skip")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function Skip(num As Integer = 1) As Task
+  overload: Mewdeko.Modules.Music.Music.Skip*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Skip
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Skip
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  nameWithType.vb: Music.Skip(Integer)
+  fullName.vb: Mewdeko.Modules.Music.Music.Skip(Integer)
+  name.vb: Skip(Integer)
+- uid: Mewdeko.Modules.Music.Music.Seek(System.TimeSpan)
+  commentId: M:Mewdeko.Modules.Music.Music.Seek(System.TimeSpan)
+  id: Seek(System.TimeSpan)
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: Seek(TimeSpan)
+  nameWithType: Music.Seek(TimeSpan)
+  fullName: Mewdeko.Modules.Music.Music.Seek(System.TimeSpan)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Seek
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 1317
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Command to seek to a specific position in the currently playing track.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Seek")]
+
+      [Aliases("Seek")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task Seek(TimeSpan timeSpan)
+    parameters:
+    - id: timeSpan
+      type: System.TimeSpan
+      description: The position to seek to.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Seek")>
+
+      <Aliases("Seek")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function Seek(timeSpan As TimeSpan) As Task
+  overload: Mewdeko.Modules.Music.Music.Seek*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Seek
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Seek
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Music.Music.ClearQueue
+  commentId: M:Mewdeko.Modules.Music.Music.ClearQueue
+  id: ClearQueue
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: ClearQueue()
+  nameWithType: Music.ClearQueue()
+  fullName: Mewdeko.Modules.Music.Music.ClearQueue()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClearQueue
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 1351
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Command to clear the music queue.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("ClearQueue")]
+
+      [Aliases("ClearQueue")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task ClearQueue()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("ClearQueue")>
+
+      <Aliases("ClearQueue")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function ClearQueue() As Task
+  overload: Mewdeko.Modules.Music.Music.ClearQueue*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClearQueue
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ClearQueue
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Music.Music.Loop(Mewdeko.Database.Models.PlayerRepeatType)
+  commentId: M:Mewdeko.Modules.Music.Music.Loop(Mewdeko.Database.Models.PlayerRepeatType)
+  id: Loop(Mewdeko.Database.Models.PlayerRepeatType)
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: Loop(PlayerRepeatType)
+  nameWithType: Music.Loop(PlayerRepeatType)
+  fullName: Mewdeko.Modules.Music.Music.Loop(Mewdeko.Database.Models.PlayerRepeatType)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Loop
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 1370
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Command to set the loop type for the music player.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Loop")]
+
+      [Aliases("Loop")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task Loop(PlayerRepeatType reptype = PlayerRepeatType.None)
+    parameters:
+    - id: reptype
+      type: Mewdeko.Database.Models.PlayerRepeatType
+      description: The loop type to set. Default is PlayerRepeatType.None.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Loop")>
+
+      <Aliases("Loop")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function [Loop](reptype As PlayerRepeatType = PlayerRepeatType.None) As Task
+  overload: Mewdeko.Modules.Music.Music.Loop*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Loop
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Loop
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Music.Music.Volume(System.UInt16)
+  commentId: M:Mewdeko.Modules.Music.Music.Volume(System.UInt16)
+  id: Volume(System.UInt16)
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: Volume(ushort)
+  nameWithType: Music.Volume(ushort)
+  fullName: Mewdeko.Modules.Music.Music.Volume(ushort)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Volume
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 1382
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Command to set the volume of the music player.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Volume")]
+
+      [Aliases("Volume")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task Volume(ushort volume)
+    parameters:
+    - id: volume
+      type: System.UInt16
+      description: The volume level to set. Should be between 0 and 100.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Volume")>
+
+      <Aliases("Volume")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function Volume(volume As UShort) As Task
+  overload: Mewdeko.Modules.Music.Music.Volume*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Volume
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Volume
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  nameWithType.vb: Music.Volume(UShort)
+  fullName.vb: Mewdeko.Modules.Music.Music.Volume(UShort)
+  name.vb: Volume(UShort)
+- uid: Mewdeko.Modules.Music.Music.SetMusicChannel
+  commentId: M:Mewdeko.Modules.Music.Music.SetMusicChannel
+  id: SetMusicChannel
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: SetMusicChannel()
+  nameWithType: Music.SetMusicChannel()
+  fullName: Mewdeko.Modules.Music.Music.SetMusicChannel()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SetMusicChannel
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 1407
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Command to set the music channel for receiving music events.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("SetMusicChannel")]
+
+      [Aliases("SetMusicChannel")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task SetMusicChannel()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("SetMusicChannel")>
+
+      <Aliases("SetMusicChannel")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function SetMusicChannel() As Task
+  overload: Mewdeko.Modules.Music.Music.SetMusicChannel*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: SetMusicChannel
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: SetMusicChannel
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Music.Music.AutoPlay(System.Int32)
+  commentId: M:Mewdeko.Modules.Music.Music.AutoPlay(System.Int32)
+  id: AutoPlay(System.Int32)
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: AutoPlay(int)
+  nameWithType: Music.AutoPlay(int)
+  fullName: Mewdeko.Modules.Music.Music.AutoPlay(int)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: AutoPlay
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 1423
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Command to set the autoplay behavior for adding songs to the queue.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("AutoPlay")]
+
+      [Aliases("AutoPlay")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task AutoPlay(int autoPlayNum)
+    parameters:
+    - id: autoPlayNum
+      type: System.Int32
+      description: The number of songs to attempt to add to the queue when the last song is reached. Use 0 to disable autoplay.
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("AutoPlay")>
+
+      <Aliases("AutoPlay")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function AutoPlay(autoPlayNum As Integer) As Task
+  overload: Mewdeko.Modules.Music.Music.AutoPlay*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: AutoPlay
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: AutoPlay
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+  nameWithType.vb: Music.AutoPlay(Integer)
+  fullName.vb: Mewdeko.Modules.Music.Music.AutoPlay(Integer)
+  name.vb: AutoPlay(Integer)
+- uid: Mewdeko.Modules.Music.Music.NowPlaying
+  commentId: M:Mewdeko.Modules.Music.Music.NowPlaying
+  id: NowPlaying
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: NowPlaying()
+  nameWithType: Music.NowPlaying()
+  fullName: Mewdeko.Modules.Music.Music.NowPlaying()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: NowPlaying
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 1463
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Command to display information about the currently playing track.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("NowPlaying")]
+
+      [Aliases("NowPlaying")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task NowPlaying()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("NowPlaying")>
+
+      <Aliases("NowPlaying")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function NowPlaying() As Task
+  overload: Mewdeko.Modules.Music.Music.NowPlaying*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: NowPlaying
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: NowPlaying
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+- uid: Mewdeko.Modules.Music.Music.Queue
+  commentId: M:Mewdeko.Modules.Music.Music.Queue
+  id: Queue
+  parent: Mewdeko.Modules.Music.Music
+  langs:
+  - csharp
+  - vb
+  name: Queue()
+  nameWithType: Music.Queue()
+  fullName: Mewdeko.Modules.Music.Music.Queue()
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Music/Music.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Queue
+    path: src/Mewdeko/Modules/Music/Music.cs
+    startLine: 1504
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Music
+  summary: Command to display the current music queue.
+  example: []
+  syntax:
+    content: >-
+      [Cmd("Queue")]
+
+      [Aliases("Queue")]
+
+      [RequireContext(ContextType.Guild)]
+
+      public Task Queue()
+    return:
+      type: System.Threading.Tasks.Task
+    content.vb: >-
+      <Cmd("Queue")>
+
+      <Aliases("Queue")>
+
+      <RequireContext(ContextType.Guild)>
+
+      Public Function Queue() As Task
+  overload: Mewdeko.Modules.Music.Music.Queue*
+  attributes:
+  - type: Mewdeko.Common.Attributes.TextCommands.Cmd
+    ctor: Mewdeko.Common.Attributes.TextCommands.Cmd.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Queue
+  - type: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute
+    ctor: Mewdeko.Common.Attributes.TextCommands.AliasesAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Queue
+  - type: Discord.Commands.RequireContextAttribute
+    ctor: Discord.Commands.RequireContextAttribute.#ctor(Discord.Commands.ContextType)
+    arguments:
+    - type: Discord.Commands.ContextType
+      value: 1
+references:
+- uid: Mewdeko.Modules.Music
+  commentId: N:Mewdeko.Modules.Music
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Music
+  nameWithType: Mewdeko.Modules.Music
+  fullName: Mewdeko.Modules.Music
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Music
+    name: Music
+    href: Mewdeko.Modules.Music.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Music
+    name: Music
+    href: Mewdeko.Modules.Music.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  commentId: T:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  parent: Discord.Commands
+  definition: Discord.Commands.ModuleBase`1
+  name: ModuleBase<ICommandContext>
+  nameWithType: ModuleBase<ICommandContext>
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>
+  nameWithType.vb: ModuleBase(Of ICommandContext)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext)
+  name.vb: ModuleBase(Of ICommandContext)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: <
+  - uid: Discord.Commands.ICommandContext
+    name: ICommandContext
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Discord.Commands.ICommandContext
+    name: ICommandContext
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase
+  commentId: T:Discord.Commands.ModuleBase
+  parent: Discord.Commands
+  isExternal: true
+  name: ModuleBase
+  nameWithType: ModuleBase
+  fullName: Discord.Commands.ModuleBase
+- uid: Mewdeko.Common.MewdekoModule
+  commentId: T:Mewdeko.Common.MewdekoModule
+  parent: Mewdeko.Common
+  href: Mewdeko.Common.MewdekoModule.html
+  name: MewdekoModule
+  nameWithType: MewdekoModule
+  fullName: Mewdeko.Common.MewdekoModule
+- uid: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Music.Services.MusicService}
+  commentId: T:Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Music.Services.MusicService}
+  parent: Mewdeko.Common
+  definition: Mewdeko.Common.MewdekoModuleBase`1
+  href: Mewdeko.Common.MewdekoModuleBase-1.html
+  name: MewdekoModuleBase<MusicService>
+  nameWithType: MewdekoModuleBase<MusicService>
+  fullName: Mewdeko.Common.MewdekoModuleBase<Mewdeko.Modules.Music.Services.MusicService>
+  nameWithType.vb: MewdekoModuleBase(Of MusicService)
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of Mewdeko.Modules.Music.Services.MusicService)
+  name.vb: MewdekoModuleBase(Of MusicService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: <
+  - uid: Mewdeko.Modules.Music.Services.MusicService
+    name: MusicService
+    href: Mewdeko.Modules.Music.Services.MusicService.html
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Music.Services.MusicService
+    name: MusicService
+    href: Mewdeko.Modules.Music.Services.MusicService.html
+  - name: )
+- uid: Discord.Commands.IModuleBase
+  commentId: T:Discord.Commands.IModuleBase
+  parent: Discord.Commands
+  isExternal: true
+  name: IModuleBase
+  nameWithType: IModuleBase
+  fullName: Discord.Commands.IModuleBase
+- uid: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Music.Services.MusicService}.Service
+  commentId: P:Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Music.Services.MusicService}.Service
+  parent: Mewdeko.Common.MewdekoModuleBase{Mewdeko.Modules.Music.Services.MusicService}
+  definition: Mewdeko.Common.MewdekoModuleBase`1.Service
+  href: Mewdeko.Common.MewdekoModuleBase-1.html#Mewdeko_Common_MewdekoModuleBase_1_Service
+  name: Service
+  nameWithType: MewdekoModuleBase<MusicService>.Service
+  fullName: Mewdeko.Common.MewdekoModuleBase<Mewdeko.Modules.Music.Services.MusicService>.Service
+  nameWithType.vb: MewdekoModuleBase(Of MusicService).Service
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of Mewdeko.Modules.Music.Services.MusicService).Service
+- uid: Mewdeko.Common.MewdekoModule.CultureInfo
+  commentId: P:Mewdeko.Common.MewdekoModule.CultureInfo
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CultureInfo
+  name: CultureInfo
+  nameWithType: MewdekoModule.CultureInfo
+  fullName: Mewdeko.Common.MewdekoModule.CultureInfo
+- uid: Mewdeko.Common.MewdekoModule.Strings
+  commentId: P:Mewdeko.Common.MewdekoModule.Strings
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Strings
+  name: Strings
+  nameWithType: MewdekoModule.Strings
+  fullName: Mewdeko.Common.MewdekoModule.Strings
+- uid: Mewdeko.Common.MewdekoModule.Localization
+  commentId: P:Mewdeko.Common.MewdekoModule.Localization
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Localization
+  name: Localization
+  nameWithType: MewdekoModule.Localization
+  fullName: Mewdeko.Common.MewdekoModule.Localization
+- uid: Mewdeko.Common.MewdekoModule.ctx
+  commentId: P:Mewdeko.Common.MewdekoModule.ctx
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ctx
+  name: ctx
+  nameWithType: MewdekoModule.ctx
+  fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  name: BeforeExecute(CommandInfo)
+  nameWithType: MewdekoModule.BeforeExecute(CommandInfo)
+  fullName: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+    name: BeforeExecute
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
+    name: BeforeExecute
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+  commentId: M:Mewdeko.Common.MewdekoModule.GetText(System.String)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  name: GetText(string)
+  nameWithType: MewdekoModule.GetText(string)
+  fullName: Mewdeko.Common.MewdekoModule.GetText(string)
+  nameWithType.vb: MewdekoModule.GetText(String)
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetText(String)
+  name.vb: GetText(String)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String)
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  name: GetText(string, params object[])
+  nameWithType: MewdekoModule.GetText(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.GetText(string, params object[])
+  nameWithType.vb: MewdekoModule.GetText(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetText(String, ParamArray Object())
+  name.vb: GetText(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
+    name: GetText
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetText_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  name: ErrorLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ErrorLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ErrorLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(String, ParamArray Object())
+  name.vb: ErrorLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+    name: ErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ErrorLocalizedAsync(System.String,System.Object[])
+    name: ErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  name: ReplyErrorLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ReplyErrorLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ReplyErrorLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(String, ParamArray Object())
+  name.vb: ReplyErrorLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+    name: ReplyErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyErrorLocalizedAsync(System.String,System.Object[])
+    name: ReplyErrorLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyErrorLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  name: ConfirmLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ConfirmLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ConfirmLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(String, ParamArray Object())
+  name.vb: ConfirmLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+    name: ConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ConfirmLocalizedAsync(System.String,System.Object[])
+    name: ConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  commentId: M:Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  name: ReplyConfirmLocalizedAsync(string, params object[])
+  nameWithType: MewdekoModule.ReplyConfirmLocalizedAsync(string, params object[])
+  fullName: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(string, params object[])
+  nameWithType.vb: MewdekoModule.ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  fullName.vb: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  name.vb: ReplyConfirmLocalizedAsync(String, ParamArray Object())
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+    name: ReplyConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: params
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.ReplyConfirmLocalizedAsync(System.String,System.Object[])
+    name: ReplyConfirmLocalizedAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ReplyConfirmLocalizedAsync_System_String_System_Object___
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: ParamArray
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: (
+  - name: )
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  name: PromptUserConfirmAsync(string, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(string, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(string, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(String, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(String, ULong)
+  name.vb: PromptUserConfirmAsync(String, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(System.String,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_System_String_System_UInt64_
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  name: PromptUserConfirmAsync(EmbedBuilder, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(EmbedBuilder, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(EmbedBuilder, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder, ULong)
+  name.vb: PromptUserConfirmAsync(EmbedBuilder, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  commentId: M:Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  name: CheckRoleHierarchy(IGuildUser, bool)
+  nameWithType: MewdekoModule.CheckRoleHierarchy(IGuildUser, bool)
+  fullName: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser, bool)
+  nameWithType.vb: MewdekoModule.CheckRoleHierarchy(IGuildUser, Boolean)
+  fullName.vb: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser, Boolean)
+  name.vb: CheckRoleHierarchy(IGuildUser, Boolean)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+    name: CheckRoleHierarchy
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  - name: (
+  - uid: Discord.IGuildUser
+    name: IGuildUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
+    name: CheckRoleHierarchy
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_CheckRoleHierarchy_Discord_IGuildUser_System_Boolean_
+  - name: (
+  - uid: Discord.IGuildUser
+    name: IGuildUser
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  name: PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ulong)
+  nameWithType: MewdekoModule.PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage, Discord.EmbedBuilder, ulong)
+  nameWithType.vb: MewdekoModule.PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage, Discord.EmbedBuilder, ULong)
+  name.vb: PromptUserConfirmAsync(IUserMessage, EmbedBuilder, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.PromptUserConfirmAsync(Discord.IUserMessage,Discord.EmbedBuilder,System.UInt64)
+    name: PromptUserConfirmAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_PromptUserConfirmAsync_Discord_IUserMessage_Discord_EmbedBuilder_System_UInt64_
+  - name: (
+  - uid: Discord.IUserMessage
+    name: IUserMessage
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.EmbedBuilder
+    name: EmbedBuilder
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  commentId: M:Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  name: GetButtonInputAsync(ulong, ulong, ulong, bool)
+  nameWithType: MewdekoModule.GetButtonInputAsync(ulong, ulong, ulong, bool)
+  fullName: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(ulong, ulong, ulong, bool)
+  nameWithType.vb: MewdekoModule.GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  fullName.vb: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  name.vb: GetButtonInputAsync(ULong, ULong, ULong, Boolean)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+    name: GetButtonInputAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.GetButtonInputAsync(System.UInt64,System.UInt64,System.UInt64,System.Boolean)
+    name: GetButtonInputAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_GetButtonInputAsync_System_UInt64_System_UInt64_System_UInt64_System_Boolean_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  name: NextMessageAsync(ulong, ulong)
+  nameWithType: MewdekoModule.NextMessageAsync(ulong, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.NextMessageAsync(ulong, ulong)
+  nameWithType.vb: MewdekoModule.NextMessageAsync(ULong, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.NextMessageAsync(ULong, ULong)
+  name.vb: NextMessageAsync(ULong, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+    name: NextMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.NextMessageAsync(System.UInt64,System.UInt64)
+    name: NextMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  commentId: M:Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+  parent: Mewdeko.Common.MewdekoModule
+  isExternal: true
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  name: NextFullMessageAsync(ulong, ulong)
+  nameWithType: MewdekoModule.NextFullMessageAsync(ulong, ulong)
+  fullName: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(ulong, ulong)
+  nameWithType.vb: MewdekoModule.NextFullMessageAsync(ULong, ULong)
+  fullName.vb: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(ULong, ULong)
+  name.vb: NextFullMessageAsync(ULong, ULong)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+    name: NextFullMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ulong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModule.NextFullMessageAsync(System.UInt64,System.UInt64)
+    name: NextFullMessageAsync
+    href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_NextFullMessageAsync_System_UInt64_System_UInt64_
+  - name: (
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: ','
+  - name: " "
+  - uid: System.UInt64
+    name: ULong
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.uint64
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  nameWithType: ModuleBase<ICommandContext>.ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.ReplyAsync(string, bool, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker[], Discord.Embed[], Discord.MessageFlags)
+  nameWithType.vb: ModuleBase(Of ICommandContext).ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).ReplyAsync(String, Boolean, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker(), Discord.Embed(), Discord.MessageFlags)
+  name.vb: ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  name: BeforeExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.BeforeExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).BeforeExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  name: AfterExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.AfterExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).AfterExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).AfterExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  name: AfterExecute(CommandInfo)
+  nameWithType: ModuleBase<ICommandContext>.AfterExecute(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.AfterExecute(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of ICommandContext).AfterExecute(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).AfterExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  commentId: M:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  name: OnModuleBuilding(CommandService, ModuleBuilder)
+  nameWithType: ModuleBase<ICommandContext>.OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  nameWithType.vb: ModuleBase(Of ICommandContext).OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  commentId: P:Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}.Context
+  parent: Discord.Commands.ModuleBase{Discord.Commands.ICommandContext}
+  definition: Discord.Commands.ModuleBase`1.Context
+  name: Context
+  nameWithType: ModuleBase<ICommandContext>.Context
+  fullName: Discord.Commands.ModuleBase<Discord.Commands.ICommandContext>.Context
+  nameWithType.vb: ModuleBase(Of ICommandContext).Context
+  fullName.vb: Discord.Commands.ModuleBase(Of Discord.Commands.ICommandContext).Context
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Music.Music.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<Music>(Music, string)
+  nameWithType: Extensions.ThrowIfNull<Music>(Music, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Music.Music>(Mewdeko.Modules.Music.Music, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of Music)(Music, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Music.Music)(Mewdeko.Modules.Music.Music, String)
+  name.vb: ThrowIfNull(Of Music)(Music, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Music.Music,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Music.Music
+    name: Music
+    href: Mewdeko.Modules.Music.Music.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Music.Music
+    name: Music
+    href: Mewdeko.Modules.Music.Music.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Music.Music,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Music.Music
+    name: Music
+    href: Mewdeko.Modules.Music.Music.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Music.Music
+    name: Music
+    href: Mewdeko.Modules.Music.Music.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Discord.Commands.ModuleBase`1
+  commentId: T:Discord.Commands.ModuleBase`1
+  isExternal: true
+  name: ModuleBase<T>
+  nameWithType: ModuleBase<T>
+  fullName: Discord.Commands.ModuleBase<T>
+  nameWithType.vb: ModuleBase(Of T)
+  fullName.vb: Discord.Commands.ModuleBase(Of T)
+  name.vb: ModuleBase(Of T)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1
+    name: ModuleBase
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: Discord.Commands
+  commentId: N:Discord.Commands
+  isExternal: true
+  name: Discord.Commands
+  nameWithType: Discord.Commands
+  fullName: Discord.Commands
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.Commands
+    name: Commands
+    isExternal: true
+- uid: Mewdeko.Common
+  commentId: N:Mewdeko.Common
+  href: Mewdeko.html
+  name: Mewdeko.Common
+  nameWithType: Mewdeko.Common
+  fullName: Mewdeko.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+- uid: Mewdeko.Common.MewdekoModuleBase`1
+  commentId: T:Mewdeko.Common.MewdekoModuleBase`1
+  href: Mewdeko.Common.MewdekoModuleBase-1.html
+  name: MewdekoModuleBase<TService>
+  nameWithType: MewdekoModuleBase<TService>
+  fullName: Mewdeko.Common.MewdekoModuleBase<TService>
+  nameWithType.vb: MewdekoModuleBase(Of TService)
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of TService)
+  name.vb: MewdekoModuleBase(Of TService)
+  spec.csharp:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: <
+  - name: TService
+  - name: '>'
+  spec.vb:
+  - uid: Mewdeko.Common.MewdekoModuleBase`1
+    name: MewdekoModuleBase
+    href: Mewdeko.Common.MewdekoModuleBase-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TService
+  - name: )
+- uid: Mewdeko.Common.MewdekoModuleBase`1.Service
+  commentId: P:Mewdeko.Common.MewdekoModuleBase`1.Service
+  href: Mewdeko.Common.MewdekoModuleBase-1.html#Mewdeko_Common_MewdekoModuleBase_1_Service
+  name: Service
+  nameWithType: MewdekoModuleBase<TService>.Service
+  fullName: Mewdeko.Common.MewdekoModuleBase<TService>.Service
+  nameWithType.vb: MewdekoModuleBase(Of TService).Service
+  fullName.vb: Mewdeko.Common.MewdekoModuleBase(Of TService).Service
+- uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  commentId: M:Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  nameWithType: ModuleBase<T>.ReplyAsync(string, bool, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker[], Embed[], MessageFlags)
+  fullName: Discord.Commands.ModuleBase<T>.ReplyAsync(string, bool, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker[], Discord.Embed[], Discord.MessageFlags)
+  nameWithType.vb: ModuleBase(Of T).ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).ReplyAsync(String, Boolean, Discord.Embed, Discord.RequestOptions, Discord.AllowedMentions, Discord.MessageReference, Discord.MessageComponent, Discord.ISticker(), Discord.Embed(), Discord.MessageFlags)
+  name.vb: ReplyAsync(String, Boolean, Embed, RequestOptions, AllowedMentions, MessageReference, MessageComponent, ISticker(), Embed(), MessageFlags)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.ReplyAsync(System.String,System.Boolean,Discord.Embed,Discord.RequestOptions,Discord.AllowedMentions,Discord.MessageReference,Discord.MessageComponent,Discord.ISticker[],Discord.Embed[],Discord.MessageFlags)
+    name: ReplyAsync
+    isExternal: true
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.RequestOptions
+    name: RequestOptions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.AllowedMentions
+    name: AllowedMentions
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageReference
+    name: MessageReference
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageComponent
+    name: MessageComponent
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.ISticker
+    name: ISticker
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.Embed
+    name: Embed
+    isExternal: true
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: Discord.MessageFlags
+    name: MessageFlags
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: BeforeExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<T>.BeforeExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).BeforeExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).BeforeExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.BeforeExecuteAsync(Discord.Commands.CommandInfo)
+    name: BeforeExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: AfterExecuteAsync(CommandInfo)
+  nameWithType: ModuleBase<T>.AfterExecuteAsync(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.AfterExecuteAsync(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).AfterExecuteAsync(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).AfterExecuteAsync(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecuteAsync(Discord.Commands.CommandInfo)
+    name: AfterExecuteAsync
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  commentId: M:Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+  isExternal: true
+  name: AfterExecute(CommandInfo)
+  nameWithType: ModuleBase<T>.AfterExecute(CommandInfo)
+  fullName: Discord.Commands.ModuleBase<T>.AfterExecute(Discord.Commands.CommandInfo)
+  nameWithType.vb: ModuleBase(Of T).AfterExecute(CommandInfo)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).AfterExecute(Discord.Commands.CommandInfo)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.AfterExecute(Discord.Commands.CommandInfo)
+    name: AfterExecute
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandInfo
+    name: CommandInfo
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  commentId: M:Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+  isExternal: true
+  name: OnModuleBuilding(CommandService, ModuleBuilder)
+  nameWithType: ModuleBase<T>.OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName: Discord.Commands.ModuleBase<T>.OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  nameWithType.vb: ModuleBase(Of T).OnModuleBuilding(CommandService, ModuleBuilder)
+  fullName.vb: Discord.Commands.ModuleBase(Of T).OnModuleBuilding(Discord.Commands.CommandService, Discord.Commands.Builders.ModuleBuilder)
+  spec.csharp:
+  - uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: Discord.Commands.ModuleBase`1.OnModuleBuilding(Discord.Commands.CommandService,Discord.Commands.Builders.ModuleBuilder)
+    name: OnModuleBuilding
+    isExternal: true
+  - name: (
+  - uid: Discord.Commands.CommandService
+    name: CommandService
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Discord.Commands.Builders.ModuleBuilder
+    name: ModuleBuilder
+    isExternal: true
+  - name: )
+- uid: Discord.Commands.ModuleBase`1.Context
+  commentId: P:Discord.Commands.ModuleBase`1.Context
+  isExternal: true
+  name: Context
+  nameWithType: ModuleBase<T>.Context
+  fullName: Discord.Commands.ModuleBase<T>.Context
+  nameWithType.vb: ModuleBase(Of T).Context
+  fullName.vb: Discord.Commands.ModuleBase(Of T).Context
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Music.Music.#ctor*
+  commentId: Overload:Mewdeko.Modules.Music.Music.#ctor
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music__ctor_Lavalink4NET_IAudioService_Fergun_Interactive_InteractiveService_Mewdeko_Database_DbService_Discord_WebSocket_DiscordSocketClient_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_Settings_BotConfigService_Mewdeko_Services_IBotCredentials_
+  name: Music
+  nameWithType: Music.Music
+  fullName: Mewdeko.Modules.Music.Music.Music
+  nameWithType.vb: Music.New
+  fullName.vb: Mewdeko.Modules.Music.Music.New
+  name.vb: New
+- uid: Lavalink4NET.IAudioService
+  commentId: T:Lavalink4NET.IAudioService
+  parent: Lavalink4NET
+  isExternal: true
+  name: IAudioService
+  nameWithType: IAudioService
+  fullName: Lavalink4NET.IAudioService
+- uid: Fergun.Interactive.InteractiveService
+  commentId: T:Fergun.Interactive.InteractiveService
+  parent: Fergun.Interactive
+  isExternal: true
+  name: InteractiveService
+  nameWithType: InteractiveService
+  fullName: Fergun.Interactive.InteractiveService
+- uid: Mewdeko.Database.DbService
+  commentId: T:Mewdeko.Database.DbService
+  parent: Mewdeko.Database
+  href: Mewdeko.Database.DbService.html
+  name: DbService
+  nameWithType: DbService
+  fullName: Mewdeko.Database.DbService
+- uid: Discord.WebSocket.DiscordSocketClient
+  commentId: T:Discord.WebSocket.DiscordSocketClient
+  parent: Discord.WebSocket
+  isExternal: true
+  name: DiscordSocketClient
+  nameWithType: DiscordSocketClient
+  fullName: Discord.WebSocket.DiscordSocketClient
+- uid: Mewdeko.Services.GuildSettingsService
+  commentId: T:Mewdeko.Services.GuildSettingsService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.GuildSettingsService.html
+  name: GuildSettingsService
+  nameWithType: GuildSettingsService
+  fullName: Mewdeko.Services.GuildSettingsService
+- uid: Mewdeko.Services.Settings.BotConfigService
+  commentId: T:Mewdeko.Services.Settings.BotConfigService
+  parent: Mewdeko.Services.Settings
+  href: Mewdeko.Services.Settings.BotConfigService.html
+  name: BotConfigService
+  nameWithType: BotConfigService
+  fullName: Mewdeko.Services.Settings.BotConfigService
+- uid: Mewdeko.Services.IBotCredentials
+  commentId: T:Mewdeko.Services.IBotCredentials
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.IBotCredentials.html
+  name: IBotCredentials
+  nameWithType: IBotCredentials
+  fullName: Mewdeko.Services.IBotCredentials
+- uid: Lavalink4NET
+  commentId: N:Lavalink4NET
+  isExternal: true
+  name: Lavalink4NET
+  nameWithType: Lavalink4NET
+  fullName: Lavalink4NET
+- uid: Fergun.Interactive
+  commentId: N:Fergun.Interactive
+  isExternal: true
+  name: Fergun.Interactive
+  nameWithType: Fergun.Interactive
+  fullName: Fergun.Interactive
+  spec.csharp:
+  - uid: Fergun
+    name: Fergun
+    isExternal: true
+  - name: .
+  - uid: Fergun.Interactive
+    name: Interactive
+    isExternal: true
+  spec.vb:
+  - uid: Fergun
+    name: Fergun
+    isExternal: true
+  - name: .
+  - uid: Fergun.Interactive
+    name: Interactive
+    isExternal: true
+- uid: Mewdeko.Database
+  commentId: N:Mewdeko.Database
+  href: Mewdeko.html
+  name: Mewdeko.Database
+  nameWithType: Mewdeko.Database
+  fullName: Mewdeko.Database
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+- uid: Discord.WebSocket
+  commentId: N:Discord.WebSocket
+  isExternal: true
+  name: Discord.WebSocket
+  nameWithType: Discord.WebSocket
+  fullName: Discord.WebSocket
+  spec.csharp:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.WebSocket
+    name: WebSocket
+    isExternal: true
+  spec.vb:
+  - uid: Discord
+    name: Discord
+    isExternal: true
+  - name: .
+  - uid: Discord.WebSocket
+    name: WebSocket
+    isExternal: true
+- uid: Mewdeko.Services
+  commentId: N:Mewdeko.Services
+  href: Mewdeko.html
+  name: Mewdeko.Services
+  nameWithType: Mewdeko.Services
+  fullName: Mewdeko.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+- uid: Mewdeko.Services.Settings
+  commentId: N:Mewdeko.Services.Settings
+  href: Mewdeko.html
+  name: Mewdeko.Services.Settings
+  nameWithType: Mewdeko.Services.Settings
+  fullName: Mewdeko.Services.Settings
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+- uid: Mewdeko.Modules.Music.Music.SongRemove*
+  commentId: Overload:Mewdeko.Modules.Music.Music.SongRemove
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_SongRemove_System_Int32_
+  name: SongRemove
+  nameWithType: Music.SongRemove
+  fullName: Mewdeko.Modules.Music.Music.SongRemove
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.Threading.Tasks.Task
+  commentId: T:System.Threading.Tasks.Task
+  parent: System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task
+  name: Task
+  nameWithType: Task
+  fullName: System.Threading.Tasks.Task
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Modules.Music.Music.AutoDisconnect*
+  commentId: Overload:Mewdeko.Modules.Music.Music.AutoDisconnect
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_AutoDisconnect_Mewdeko_Database_Models_AutoDisconnect_
+  name: AutoDisconnect
+  nameWithType: Music.AutoDisconnect
+  fullName: Mewdeko.Modules.Music.Music.AutoDisconnect
+- uid: Mewdeko.Database.Models.AutoDisconnect
+  commentId: T:Mewdeko.Database.Models.AutoDisconnect
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.AutoDisconnect.html
+  name: AutoDisconnect
+  nameWithType: AutoDisconnect
+  fullName: Mewdeko.Database.Models.AutoDisconnect
+- uid: Mewdeko.Database.Models
+  commentId: N:Mewdeko.Database.Models
+  href: Mewdeko.html
+  name: Mewdeko.Database.Models
+  nameWithType: Mewdeko.Database.Models
+  fullName: Mewdeko.Database.Models
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Database
+    name: Database
+    href: Mewdeko.Database.html
+  - name: .
+  - uid: Mewdeko.Database.Models
+    name: Models
+    href: Mewdeko.Database.Models.html
+- uid: Mewdeko.Modules.Music.Music.MoveSong*
+  commentId: Overload:Mewdeko.Modules.Music.Music.MoveSong
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_MoveSong_System_Int32_System_Int32_
+  name: MoveSong
+  nameWithType: Music.MoveSong
+  fullName: Mewdeko.Modules.Music.Music.MoveSong
+- uid: Mewdeko.Modules.Music.Music.Playlists*
+  commentId: Overload:Mewdeko.Modules.Music.Music.Playlists
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_Playlists
+  name: Playlists
+  nameWithType: Music.Playlists
+  fullName: Mewdeko.Modules.Music.Music.Playlists
+- uid: Mewdeko.Modules.Music.Music.Playlist*
+  commentId: Overload:Mewdeko.Modules.Music.Music.Playlist
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_Playlist_Mewdeko_Modules_Music_Music_PlaylistAction_System_String_
+  name: Playlist
+  nameWithType: Music.Playlist
+  fullName: Mewdeko.Modules.Music.Music.Playlist
+- uid: Mewdeko.Modules.Music.Music.PlaylistAction
+  commentId: T:Mewdeko.Modules.Music.Music.PlaylistAction
+  parent: Mewdeko.Modules.Music
+  href: Mewdeko.Modules.Music.Music.html
+  name: Music.PlaylistAction
+  nameWithType: Music.PlaylistAction
+  fullName: Mewdeko.Modules.Music.Music.PlaylistAction
+  spec.csharp:
+  - uid: Mewdeko.Modules.Music.Music
+    name: Music
+    href: Mewdeko.Modules.Music.Music.html
+  - name: .
+  - uid: Mewdeko.Modules.Music.Music.PlaylistAction
+    name: PlaylistAction
+    href: Mewdeko.Modules.Music.Music.PlaylistAction.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Music.Music
+    name: Music
+    href: Mewdeko.Modules.Music.Music.html
+  - name: .
+  - uid: Mewdeko.Modules.Music.Music.PlaylistAction
+    name: PlaylistAction
+    href: Mewdeko.Modules.Music.Music.PlaylistAction.html
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Modules.Music.Music.Lyrics*
+  commentId: Overload:Mewdeko.Modules.Music.Music.Lyrics
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_Lyrics_System_String_
+  name: Lyrics
+  nameWithType: Music.Lyrics
+  fullName: Mewdeko.Modules.Music.Music.Lyrics
+- uid: Mewdeko.Modules.Music.Music.Join*
+  commentId: Overload:Mewdeko.Modules.Music.Music.Join
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_Join
+  name: Join
+  nameWithType: Music.Join
+  fullName: Mewdeko.Modules.Music.Music.Join
+- uid: Mewdeko.Modules.Music.Music.Leave*
+  commentId: Overload:Mewdeko.Modules.Music.Music.Leave
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_Leave
+  name: Leave
+  nameWithType: Music.Leave
+  fullName: Mewdeko.Modules.Music.Music.Leave
+- uid: Mewdeko.Modules.Music.Music.Play*
+  commentId: Overload:Mewdeko.Modules.Music.Music.Play
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_Play_System_Int32_
+  name: Play
+  nameWithType: Music.Play
+  fullName: Mewdeko.Modules.Music.Music.Play
+- uid: Mewdeko.Modules.Music.Music.Pause*
+  commentId: Overload:Mewdeko.Modules.Music.Music.Pause
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_Pause
+  name: Pause
+  nameWithType: Music.Pause
+  fullName: Mewdeko.Modules.Music.Music.Pause
+- uid: Mewdeko.Modules.Music.Music.Shuffle*
+  commentId: Overload:Mewdeko.Modules.Music.Music.Shuffle
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_Shuffle
+  name: Shuffle
+  nameWithType: Music.Shuffle
+  fullName: Mewdeko.Modules.Music.Music.Shuffle
+- uid: Mewdeko.Modules.Music.Music.Stop*
+  commentId: Overload:Mewdeko.Modules.Music.Music.Stop
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_Stop
+  name: Stop
+  nameWithType: Music.Stop
+  fullName: Mewdeko.Modules.Music.Music.Stop
+- uid: Mewdeko.Modules.Music.Music.Skip*
+  commentId: Overload:Mewdeko.Modules.Music.Music.Skip
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_Skip_System_Int32_
+  name: Skip
+  nameWithType: Music.Skip
+  fullName: Mewdeko.Modules.Music.Music.Skip
+- uid: Mewdeko.Modules.Music.Music.Seek*
+  commentId: Overload:Mewdeko.Modules.Music.Music.Seek
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_Seek_System_TimeSpan_
+  name: Seek
+  nameWithType: Music.Seek
+  fullName: Mewdeko.Modules.Music.Music.Seek
+- uid: System.TimeSpan
+  commentId: T:System.TimeSpan
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.timespan
+  name: TimeSpan
+  nameWithType: TimeSpan
+  fullName: System.TimeSpan
+- uid: Mewdeko.Modules.Music.Music.ClearQueue*
+  commentId: Overload:Mewdeko.Modules.Music.Music.ClearQueue
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_ClearQueue
+  name: ClearQueue
+  nameWithType: Music.ClearQueue
+  fullName: Mewdeko.Modules.Music.Music.ClearQueue
+- uid: Mewdeko.Modules.Music.Music.Loop*
+  commentId: Overload:Mewdeko.Modules.Music.Music.Loop
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_Loop_Mewdeko_Database_Models_PlayerRepeatType_
+  name: Loop
+  nameWithType: Music.Loop
+  fullName: Mewdeko.Modules.Music.Music.Loop
+- uid: Mewdeko.Database.Models.PlayerRepeatType
+  commentId: T:Mewdeko.Database.Models.PlayerRepeatType
+  parent: Mewdeko.Database.Models
+  href: Mewdeko.Database.Models.PlayerRepeatType.html
+  name: PlayerRepeatType
+  nameWithType: PlayerRepeatType
+  fullName: Mewdeko.Database.Models.PlayerRepeatType
+- uid: Mewdeko.Modules.Music.Music.Volume*
+  commentId: Overload:Mewdeko.Modules.Music.Music.Volume
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_Volume_System_UInt16_
+  name: Volume
+  nameWithType: Music.Volume
+  fullName: Mewdeko.Modules.Music.Music.Volume
+- uid: System.UInt16
+  commentId: T:System.UInt16
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint16
+  name: ushort
+  nameWithType: ushort
+  fullName: ushort
+  nameWithType.vb: UShort
+  fullName.vb: UShort
+  name.vb: UShort
+- uid: Mewdeko.Modules.Music.Music.SetMusicChannel*
+  commentId: Overload:Mewdeko.Modules.Music.Music.SetMusicChannel
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_SetMusicChannel
+  name: SetMusicChannel
+  nameWithType: Music.SetMusicChannel
+  fullName: Mewdeko.Modules.Music.Music.SetMusicChannel
+- uid: Mewdeko.Modules.Music.Music.AutoPlay*
+  commentId: Overload:Mewdeko.Modules.Music.Music.AutoPlay
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_AutoPlay_System_Int32_
+  name: AutoPlay
+  nameWithType: Music.AutoPlay
+  fullName: Mewdeko.Modules.Music.Music.AutoPlay
+- uid: Mewdeko.Modules.Music.Music.NowPlaying*
+  commentId: Overload:Mewdeko.Modules.Music.Music.NowPlaying
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_NowPlaying
+  name: NowPlaying
+  nameWithType: Music.NowPlaying
+  fullName: Mewdeko.Modules.Music.Music.NowPlaying
+- uid: Mewdeko.Modules.Music.Music.Queue*
+  commentId: Overload:Mewdeko.Modules.Music.Music.Queue
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_Queue
+  name: Queue
+  nameWithType: Music.Queue
+  fullName: Mewdeko.Modules.Music.Music.Queue

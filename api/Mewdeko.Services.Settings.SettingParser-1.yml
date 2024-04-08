@@ -1,0 +1,257 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Services.Settings.SettingParser`1
+  commentId: T:Mewdeko.Services.Settings.SettingParser`1
+  id: SettingParser`1
+  parent: Mewdeko.Services.Settings
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: SettingParser<TData>
+  nameWithType: SettingParser<TData>
+  fullName: Mewdeko.Services.Settings.SettingParser<TData>
+  type: Delegate
+  source:
+    remote:
+      path: src/Mewdeko/Services/Settings/SettingParser.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SettingParser
+    path: src/Mewdeko/Services/Settings/SettingParser.cs
+    startLine: 6
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Services.Settings
+  summary: Delegate which describes a parser which can convert string input into given data type
+  example: []
+  syntax:
+    content: public delegate bool SettingParser<TData>(string input, out TData output)
+    parameters:
+    - id: input
+      type: System.String
+    - id: output
+      type: '{TData}'
+    typeParameters:
+    - id: TData
+      description: Data type to convert string to
+    return:
+      type: System.Boolean
+    content.vb: Public Delegate Function SettingParser(Of TData)(input As String, output As TData) As Boolean
+  extensionMethods:
+  - Mewdeko.Services.Settings.SettingParser`1.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  nameWithType.vb: SettingParser(Of TData)
+  fullName.vb: Mewdeko.Services.Settings.SettingParser(Of TData)
+  name.vb: SettingParser(Of TData)
+references:
+- uid: Mewdeko.Services.Settings
+  commentId: N:Mewdeko.Services.Settings
+  href: Mewdeko.html
+  name: Mewdeko.Services.Settings
+  nameWithType: Mewdeko.Services.Settings
+  fullName: Mewdeko.Services.Settings
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  - name: .
+  - uid: Mewdeko.Services.Settings
+    name: Settings
+    href: Mewdeko.Services.Settings.html
+- uid: Mewdeko.Services.Settings.SettingParser`1.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<SettingParser<TData>>(SettingParser<TData>, string)
+  nameWithType: Extensions.ThrowIfNull<SettingParser<TData>>(SettingParser<TData>, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Services.Settings.SettingParser<TData>>(Mewdeko.Services.Settings.SettingParser<TData>, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of SettingParser(Of TData))(SettingParser(Of TData), String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Services.Settings.SettingParser(Of TData))(Mewdeko.Services.Settings.SettingParser(Of TData), String)
+  name.vb: ThrowIfNull(Of SettingParser(Of TData))(SettingParser(Of TData), String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Services.Settings.SettingParser{`0},System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Services.Settings.SettingParser`1
+    name: SettingParser
+    href: Mewdeko.Services.Settings.SettingParser-1.html
+  - name: <
+  - name: TData
+  - name: '>'
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Services.Settings.SettingParser`1
+    name: SettingParser
+    href: Mewdeko.Services.Settings.SettingParser-1.html
+  - name: <
+  - name: TData
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Services.Settings.SettingParser{`0},System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Services.Settings.SettingParser`1
+    name: SettingParser
+    href: Mewdeko.Services.Settings.SettingParser-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TData
+  - name: )
+  - name: )
+  - name: (
+  - uid: Mewdeko.Services.Settings.SettingParser`1
+    name: SettingParser
+    href: Mewdeko.Services.Settings.SettingParser-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TData
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: '{TData}'
+  commentId: '!:TData'
+  definition: TData
+  name: TData
+  nameWithType: TData
+  fullName: TData
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: TData
+  name: TData
+  nameWithType: TData
+  fullName: TData
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html

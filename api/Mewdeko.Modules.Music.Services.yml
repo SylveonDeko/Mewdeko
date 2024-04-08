@@ -1,0 +1,69 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Music.Services
+  commentId: N:Mewdeko.Modules.Music.Services
+  id: Mewdeko.Modules.Music.Services
+  children:
+  - Mewdeko.Modules.Music.Services.MusicPlayer
+  - Mewdeko.Modules.Music.Services.MusicService
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Music.Services
+  nameWithType: Mewdeko.Modules.Music.Services
+  fullName: Mewdeko.Modules.Music.Services
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Music.Services.MusicPlayer
+  commentId: T:Mewdeko.Modules.Music.Services.MusicPlayer
+  href: Mewdeko.Modules.Music.Services.MusicPlayer.html
+  name: MusicPlayer
+  nameWithType: MusicPlayer
+  fullName: Mewdeko.Modules.Music.Services.MusicPlayer
+- uid: Mewdeko.Modules.Music.Services.MusicService
+  commentId: T:Mewdeko.Modules.Music.Services.MusicService
+  parent: Mewdeko.Modules.Music.Services
+  href: Mewdeko.Modules.Music.Services.MusicService.html
+  name: MusicService
+  nameWithType: MusicService
+  fullName: Mewdeko.Modules.Music.Services.MusicService
+- uid: Mewdeko.Modules.Music.Services
+  commentId: N:Mewdeko.Modules.Music.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Music.Services
+  nameWithType: Mewdeko.Modules.Music.Services
+  fullName: Mewdeko.Modules.Music.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Music
+    name: Music
+    href: Mewdeko.Modules.Music.html
+  - name: .
+  - uid: Mewdeko.Modules.Music.Services
+    name: Services
+    href: Mewdeko.Modules.Music.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Music
+    name: Music
+    href: Mewdeko.Modules.Music.html
+  - name: .
+  - uid: Mewdeko.Modules.Music.Services
+    name: Services
+    href: Mewdeko.Modules.Music.Services.html

@@ -1,0 +1,23 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Searches.Common.Exceptions
+  commentId: N:Mewdeko.Modules.Searches.Common.Exceptions
+  id: Mewdeko.Modules.Searches.Common.Exceptions
+  children:
+  - Mewdeko.Modules.Searches.Common.Exceptions.StreamNotFoundException
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Searches.Common.Exceptions
+  nameWithType: Mewdeko.Modules.Searches.Common.Exceptions
+  fullName: Mewdeko.Modules.Searches.Common.Exceptions
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Searches.Common.Exceptions.StreamNotFoundException
+  commentId: T:Mewdeko.Modules.Searches.Common.Exceptions.StreamNotFoundException
+  href: Mewdeko.Modules.Searches.Common.Exceptions.StreamNotFoundException.html
+  name: StreamNotFoundException
+  nameWithType: StreamNotFoundException
+  fullName: Mewdeko.Modules.Searches.Common.Exceptions.StreamNotFoundException

@@ -1,0 +1,1085 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Nsfw.SearchImageCacher
+  commentId: T:Mewdeko.Modules.Nsfw.SearchImageCacher
+  id: SearchImageCacher
+  parent: Mewdeko.Modules.Nsfw
+  children:
+  - Mewdeko.Modules.Nsfw.SearchImageCacher.#ctor(System.Net.Http.IHttpClientFactory,Microsoft.Extensions.Caching.Memory.IMemoryCache)
+  - Mewdeko.Modules.Nsfw.SearchImageCacher.DownloadImagesAsync(System.String[],System.Boolean,Mewdeko.Modules.Nsfw.Common.Booru,System.Threading.CancellationToken)
+  - Mewdeko.Modules.Nsfw.SearchImageCacher.GetImageNew(System.String[],System.Boolean,Mewdeko.Modules.Nsfw.Common.Booru,System.Collections.Generic.HashSet{System.String},System.Threading.CancellationToken)
+  langs:
+  - csharp
+  - vb
+  name: SearchImageCacher
+  nameWithType: SearchImageCacher
+  fullName: Mewdeko.Modules.Nsfw.SearchImageCacher
+  type: Class
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Nsfw/SearchImageCacher.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: SearchImageCacher
+    path: src/Mewdeko/Modules/Nsfw/SearchImageCacher.cs
+    startLine: 12
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Nsfw
+  summary: Caches images from various boorus.
+  example: []
+  syntax:
+    content: 'public class SearchImageCacher : INService'
+    content.vb: Public Class SearchImageCacher Implements INService
+  inheritance:
+  - System.Object
+  implements:
+  - Mewdeko.Services.INService
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  extensionMethods:
+  - Mewdeko.Modules.Nsfw.SearchImageCacher.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+- uid: Mewdeko.Modules.Nsfw.SearchImageCacher.#ctor(System.Net.Http.IHttpClientFactory,Microsoft.Extensions.Caching.Memory.IMemoryCache)
+  commentId: M:Mewdeko.Modules.Nsfw.SearchImageCacher.#ctor(System.Net.Http.IHttpClientFactory,Microsoft.Extensions.Caching.Memory.IMemoryCache)
+  id: '#ctor(System.Net.Http.IHttpClientFactory,Microsoft.Extensions.Caching.Memory.IMemoryCache)'
+  parent: Mewdeko.Modules.Nsfw.SearchImageCacher
+  langs:
+  - csharp
+  - vb
+  name: SearchImageCacher(IHttpClientFactory, IMemoryCache)
+  nameWithType: SearchImageCacher.SearchImageCacher(IHttpClientFactory, IMemoryCache)
+  fullName: Mewdeko.Modules.Nsfw.SearchImageCacher.SearchImageCacher(System.Net.Http.IHttpClientFactory, Microsoft.Extensions.Caching.Memory.IMemoryCache)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Nsfw/SearchImageCacher.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko/Modules/Nsfw/SearchImageCacher.cs
+    startLine: 35
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Nsfw
+  summary: Initializes a new instance of the SearchImageCacher class.
+  example: []
+  syntax:
+    content: public SearchImageCacher(IHttpClientFactory httpFactory, IMemoryCache cache)
+    parameters:
+    - id: httpFactory
+      type: System.Net.Http.IHttpClientFactory
+      description: The factory to create HttpClient instances.
+    - id: cache
+      type: Microsoft.Extensions.Caching.Memory.IMemoryCache
+      description: The memory cache implementation for caching search results.
+    content.vb: Public Sub New(httpFactory As IHttpClientFactory, cache As IMemoryCache)
+  overload: Mewdeko.Modules.Nsfw.SearchImageCacher.#ctor*
+  nameWithType.vb: SearchImageCacher.New(IHttpClientFactory, IMemoryCache)
+  fullName.vb: Mewdeko.Modules.Nsfw.SearchImageCacher.New(System.Net.Http.IHttpClientFactory, Microsoft.Extensions.Caching.Memory.IMemoryCache)
+  name.vb: New(IHttpClientFactory, IMemoryCache)
+- uid: Mewdeko.Modules.Nsfw.SearchImageCacher.GetImageNew(System.String[],System.Boolean,Mewdeko.Modules.Nsfw.Common.Booru,System.Collections.Generic.HashSet{System.String},System.Threading.CancellationToken)
+  commentId: M:Mewdeko.Modules.Nsfw.SearchImageCacher.GetImageNew(System.String[],System.Boolean,Mewdeko.Modules.Nsfw.Common.Booru,System.Collections.Generic.HashSet{System.String},System.Threading.CancellationToken)
+  id: GetImageNew(System.String[],System.Boolean,Mewdeko.Modules.Nsfw.Common.Booru,System.Collections.Generic.HashSet{System.String},System.Threading.CancellationToken)
+  parent: Mewdeko.Modules.Nsfw.SearchImageCacher
+  langs:
+  - csharp
+  - vb
+  name: GetImageNew(string?[], bool, Booru, HashSet<string>, CancellationToken)
+  nameWithType: SearchImageCacher.GetImageNew(string?[], bool, Booru, HashSet<string>, CancellationToken)
+  fullName: Mewdeko.Modules.Nsfw.SearchImageCacher.GetImageNew(string?[], bool, Mewdeko.Modules.Nsfw.Common.Booru, System.Collections.Generic.HashSet<string>, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Nsfw/SearchImageCacher.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: GetImageNew
+    path: src/Mewdeko/Modules/Nsfw/SearchImageCacher.cs
+    startLine: 216
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Nsfw
+  summary: Asynchronously retrieves a new image based on the provided tags, preferences, and booru type.
+  example: []
+  syntax:
+    content: public Task<ImageData?> GetImageNew(string?[] tags, bool forceExplicit, Booru type, HashSet<string> blacklistedTags, CancellationToken cancel)
+    parameters:
+    - id: tags
+      type: System.String[]
+      description: An array of tags to search for.
+    - id: forceExplicit
+      type: System.Boolean
+      description: A boolean indicating whether to force explicit content.
+    - id: type
+      type: Mewdeko.Modules.Nsfw.Common.Booru
+      description: The type of booru to search in.
+    - id: blacklistedTags
+      type: System.Collections.Generic.HashSet{System.String}
+      description: A set of blacklisted tags.
+    - id: cancel
+      type: System.Threading.CancellationToken
+      description: A cancellation token to cancel the operation.
+    return:
+      type: System.Threading.Tasks.Task{Mewdeko.Modules.Nsfw.Common.ImageData}
+      description: A task representing the asynchronous operation. The task result is either the retrieved image data or null if no image is found.
+    content.vb: Public Function GetImageNew(tags As String(), forceExplicit As Boolean, type As Booru, blacklistedTags As HashSet(Of String), cancel As CancellationToken) As Task(Of ImageData)
+  overload: Mewdeko.Modules.Nsfw.SearchImageCacher.GetImageNew*
+  nameWithType.vb: SearchImageCacher.GetImageNew(String(), Boolean, Booru, HashSet(Of String), CancellationToken)
+  fullName.vb: Mewdeko.Modules.Nsfw.SearchImageCacher.GetImageNew(String(), Boolean, Mewdeko.Modules.Nsfw.Common.Booru, System.Collections.Generic.HashSet(Of String), System.Threading.CancellationToken)
+  name.vb: GetImageNew(String(), Boolean, Booru, HashSet(Of String), CancellationToken)
+- uid: Mewdeko.Modules.Nsfw.SearchImageCacher.DownloadImagesAsync(System.String[],System.Boolean,Mewdeko.Modules.Nsfw.Common.Booru,System.Threading.CancellationToken)
+  commentId: M:Mewdeko.Modules.Nsfw.SearchImageCacher.DownloadImagesAsync(System.String[],System.Boolean,Mewdeko.Modules.Nsfw.Common.Booru,System.Threading.CancellationToken)
+  id: DownloadImagesAsync(System.String[],System.Boolean,Mewdeko.Modules.Nsfw.Common.Booru,System.Threading.CancellationToken)
+  parent: Mewdeko.Modules.Nsfw.SearchImageCacher
+  langs:
+  - csharp
+  - vb
+  name: DownloadImagesAsync(string[], bool, Booru, CancellationToken)
+  nameWithType: SearchImageCacher.DownloadImagesAsync(string[], bool, Booru, CancellationToken)
+  fullName: Mewdeko.Modules.Nsfw.SearchImageCacher.DownloadImagesAsync(string[], bool, Mewdeko.Modules.Nsfw.Common.Booru, System.Threading.CancellationToken)
+  type: Method
+  source:
+    remote:
+      path: src/Mewdeko/Modules/Nsfw/SearchImageCacher.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: DownloadImagesAsync
+    path: src/Mewdeko/Modules/Nsfw/SearchImageCacher.cs
+    startLine: 262
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Modules.Nsfw
+  summary: Asynchronously downloads images based on the provided tags, preferences, and booru type.
+  example: []
+  syntax:
+    content: public Task<List<ImageData?>> DownloadImagesAsync(string[] tags, bool isExplicit, Booru type, CancellationToken cancel)
+    parameters:
+    - id: tags
+      type: System.String[]
+      description: An array of tags to search for.
+    - id: isExplicit
+      type: System.Boolean
+      description: A boolean indicating whether explicit content is allowed.
+    - id: type
+      type: Mewdeko.Modules.Nsfw.Common.Booru
+      description: The type of booru to search in.
+    - id: cancel
+      type: System.Threading.CancellationToken
+      description: A cancellation token to cancel the operation.
+    return:
+      type: System.Threading.Tasks.Task{System.Collections.Generic.List{Mewdeko.Modules.Nsfw.Common.ImageData}}
+      description: A task representing the asynchronous operation. The task result is a list of downloaded image data.
+    content.vb: Public Function DownloadImagesAsync(tags As String(), isExplicit As Boolean, type As Booru, cancel As CancellationToken) As Task(Of List(Of ImageData))
+  overload: Mewdeko.Modules.Nsfw.SearchImageCacher.DownloadImagesAsync*
+  nameWithType.vb: SearchImageCacher.DownloadImagesAsync(String(), Boolean, Booru, CancellationToken)
+  fullName.vb: Mewdeko.Modules.Nsfw.SearchImageCacher.DownloadImagesAsync(String(), Boolean, Mewdeko.Modules.Nsfw.Common.Booru, System.Threading.CancellationToken)
+  name.vb: DownloadImagesAsync(String(), Boolean, Booru, CancellationToken)
+references:
+- uid: Mewdeko.Modules.Nsfw
+  commentId: N:Mewdeko.Modules.Nsfw
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Nsfw
+  nameWithType: Mewdeko.Modules.Nsfw
+  fullName: Mewdeko.Modules.Nsfw
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Nsfw
+    name: Nsfw
+    href: Mewdeko.Modules.Nsfw.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Nsfw
+    name: Nsfw
+    href: Mewdeko.Modules.Nsfw.html
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: Mewdeko.Services.INService
+  commentId: T:Mewdeko.Services.INService
+  parent: Mewdeko.Services
+  href: Mewdeko.Services.INService.html
+  name: INService
+  nameWithType: INService
+  fullName: Mewdeko.Services.INService
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  name: GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
+  - name: (
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  name: MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  name: ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
+  - name: (
+  - name: )
+- uid: Mewdeko.Modules.Nsfw.SearchImageCacher.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  parent: Mewdeko.Extensions.Extensions
+  definition: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<SearchImageCacher>(SearchImageCacher, string)
+  nameWithType: Extensions.ThrowIfNull<SearchImageCacher>(SearchImageCacher, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<Mewdeko.Modules.Nsfw.SearchImageCacher>(Mewdeko.Modules.Nsfw.SearchImageCacher, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of SearchImageCacher)(SearchImageCacher, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of Mewdeko.Modules.Nsfw.SearchImageCacher)(Mewdeko.Modules.Nsfw.SearchImageCacher, String)
+  name.vb: ThrowIfNull(Of SearchImageCacher)(SearchImageCacher, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Nsfw.SearchImageCacher,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - uid: Mewdeko.Modules.Nsfw.SearchImageCacher
+    name: SearchImageCacher
+    href: Mewdeko.Modules.Nsfw.SearchImageCacher.html
+  - name: '>'
+  - name: (
+  - uid: Mewdeko.Modules.Nsfw.SearchImageCacher
+    name: SearchImageCacher
+    href: Mewdeko.Modules.Nsfw.SearchImageCacher.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(Mewdeko.Modules.Nsfw.SearchImageCacher,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Nsfw.SearchImageCacher
+    name: SearchImageCacher
+    href: Mewdeko.Modules.Nsfw.SearchImageCacher.html
+  - name: )
+  - name: (
+  - uid: Mewdeko.Modules.Nsfw.SearchImageCacher
+    name: SearchImageCacher
+    href: Mewdeko.Modules.Nsfw.SearchImageCacher.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Services
+  commentId: N:Mewdeko.Services
+  href: Mewdeko.html
+  name: Mewdeko.Services
+  nameWithType: Mewdeko.Services
+  fullName: Mewdeko.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Services
+    name: Services
+    href: Mewdeko.Services.html
+- uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+  isExternal: true
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  name: ThrowIfNull<T>(T, string)
+  nameWithType: Extensions.ThrowIfNull<T>(T, string)
+  fullName: Mewdeko.Extensions.Extensions.ThrowIfNull<T>(T, string)
+  nameWithType.vb: Extensions.ThrowIfNull(Of T)(T, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.ThrowIfNull(Of T)(T, String)
+  name.vb: ThrowIfNull(Of T)(T, String)
+  spec.csharp:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
+    name: ThrowIfNull
+    href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_ThrowIfNull__1___0_System_String_
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: Mewdeko.Extensions.Extensions
+  commentId: T:Mewdeko.Extensions.Extensions
+  parent: Mewdeko.Extensions
+  href: Mewdeko.Extensions.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: Mewdeko.Extensions.Extensions
+- uid: Mewdeko.Extensions
+  commentId: N:Mewdeko.Extensions
+  href: Mewdeko.html
+  name: Mewdeko.Extensions
+  nameWithType: Mewdeko.Extensions
+  fullName: Mewdeko.Extensions
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Extensions
+    name: Extensions
+    href: Mewdeko.Extensions.html
+- uid: Mewdeko.Modules.Nsfw.SearchImageCacher.#ctor*
+  commentId: Overload:Mewdeko.Modules.Nsfw.SearchImageCacher.#ctor
+  href: Mewdeko.Modules.Nsfw.SearchImageCacher.html#Mewdeko_Modules_Nsfw_SearchImageCacher__ctor_System_Net_Http_IHttpClientFactory_Microsoft_Extensions_Caching_Memory_IMemoryCache_
+  name: SearchImageCacher
+  nameWithType: SearchImageCacher.SearchImageCacher
+  fullName: Mewdeko.Modules.Nsfw.SearchImageCacher.SearchImageCacher
+  nameWithType.vb: SearchImageCacher.New
+  fullName.vb: Mewdeko.Modules.Nsfw.SearchImageCacher.New
+  name.vb: New
+- uid: System.Net.Http.IHttpClientFactory
+  commentId: T:System.Net.Http.IHttpClientFactory
+  parent: System.Net.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.net.http.ihttpclientfactory
+  name: IHttpClientFactory
+  nameWithType: IHttpClientFactory
+  fullName: System.Net.Http.IHttpClientFactory
+- uid: Microsoft.Extensions.Caching.Memory.IMemoryCache
+  commentId: T:Microsoft.Extensions.Caching.Memory.IMemoryCache
+  parent: Microsoft.Extensions.Caching.Memory
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.caching.memory.imemorycache
+  name: IMemoryCache
+  nameWithType: IMemoryCache
+  fullName: Microsoft.Extensions.Caching.Memory.IMemoryCache
+- uid: System.Net.Http
+  commentId: N:System.Net.Http
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Net.Http
+  nameWithType: System.Net.Http
+  fullName: System.Net.Http
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Net
+    name: Net
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net
+  - name: .
+  - uid: System.Net.Http
+    name: Http
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.net.http
+- uid: Microsoft.Extensions.Caching.Memory
+  commentId: N:Microsoft.Extensions.Caching.Memory
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft
+  name: Microsoft.Extensions.Caching.Memory
+  nameWithType: Microsoft.Extensions.Caching.Memory
+  fullName: Microsoft.Extensions.Caching.Memory
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.Extensions
+    name: Extensions
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions
+  - name: .
+  - uid: Microsoft.Extensions.Caching
+    name: Caching
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.caching
+  - name: .
+  - uid: Microsoft.Extensions.Caching.Memory
+    name: Memory
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.caching.memory
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft
+  - name: .
+  - uid: Microsoft.Extensions
+    name: Extensions
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions
+  - name: .
+  - uid: Microsoft.Extensions.Caching
+    name: Caching
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.caching
+  - name: .
+  - uid: Microsoft.Extensions.Caching.Memory
+    name: Memory
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/microsoft.extensions.caching.memory
+- uid: Mewdeko.Modules.Nsfw.SearchImageCacher.GetImageNew*
+  commentId: Overload:Mewdeko.Modules.Nsfw.SearchImageCacher.GetImageNew
+  href: Mewdeko.Modules.Nsfw.SearchImageCacher.html#Mewdeko_Modules_Nsfw_SearchImageCacher_GetImageNew_System_String___System_Boolean_Mewdeko_Modules_Nsfw_Common_Booru_System_Collections_Generic_HashSet_System_String__System_Threading_CancellationToken_
+  name: GetImageNew
+  nameWithType: SearchImageCacher.GetImageNew
+  fullName: Mewdeko.Modules.Nsfw.SearchImageCacher.GetImageNew
+- uid: System.String[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string[]
+  nameWithType: string[]
+  fullName: string[]
+  nameWithType.vb: String()
+  fullName.vb: String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: (
+  - name: )
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: Mewdeko.Modules.Nsfw.Common.Booru
+  commentId: T:Mewdeko.Modules.Nsfw.Common.Booru
+  parent: Mewdeko.Modules.Nsfw.Common
+  href: Mewdeko.Modules.Nsfw.Common.Booru.html
+  name: Booru
+  nameWithType: Booru
+  fullName: Mewdeko.Modules.Nsfw.Common.Booru
+- uid: System.Collections.Generic.HashSet{System.String}
+  commentId: T:System.Collections.Generic.HashSet{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.HashSet`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  name: HashSet<string>
+  nameWithType: HashSet<string>
+  fullName: System.Collections.Generic.HashSet<string>
+  nameWithType.vb: HashSet(Of String)
+  fullName.vb: System.Collections.Generic.HashSet(Of String)
+  name.vb: HashSet(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Threading.CancellationToken
+  commentId: T:System.Threading.CancellationToken
+  parent: System.Threading
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.cancellationtoken
+  name: CancellationToken
+  nameWithType: CancellationToken
+  fullName: System.Threading.CancellationToken
+- uid: System.Threading.Tasks.Task{Mewdeko.Modules.Nsfw.Common.ImageData}
+  commentId: T:System.Threading.Tasks.Task{Mewdeko.Modules.Nsfw.Common.ImageData}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<ImageData>
+  nameWithType: Task<ImageData>
+  fullName: System.Threading.Tasks.Task<Mewdeko.Modules.Nsfw.Common.ImageData>
+  nameWithType.vb: Task(Of ImageData)
+  fullName.vb: System.Threading.Tasks.Task(Of Mewdeko.Modules.Nsfw.Common.ImageData)
+  name.vb: Task(Of ImageData)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: Mewdeko.Modules.Nsfw.Common.ImageData
+    name: ImageData
+    href: Mewdeko.Modules.Nsfw.Common.ImageData.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Nsfw.Common.ImageData
+    name: ImageData
+    href: Mewdeko.Modules.Nsfw.Common.ImageData.html
+  - name: )
+- uid: Mewdeko.Modules.Nsfw.Common
+  commentId: N:Mewdeko.Modules.Nsfw.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Nsfw.Common
+  nameWithType: Mewdeko.Modules.Nsfw.Common
+  fullName: Mewdeko.Modules.Nsfw.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Nsfw
+    name: Nsfw
+    href: Mewdeko.Modules.Nsfw.html
+  - name: .
+  - uid: Mewdeko.Modules.Nsfw.Common
+    name: Common
+    href: Mewdeko.Modules.Nsfw.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Nsfw
+    name: Nsfw
+    href: Mewdeko.Modules.Nsfw.html
+  - name: .
+  - uid: Mewdeko.Modules.Nsfw.Common
+    name: Common
+    href: Mewdeko.Modules.Nsfw.Common.html
+- uid: System.Collections.Generic.HashSet`1
+  commentId: T:System.Collections.Generic.HashSet`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  name: HashSet<T>
+  nameWithType: HashSet<T>
+  fullName: System.Collections.Generic.HashSet<T>
+  nameWithType.vb: HashSet(Of T)
+  fullName.vb: System.Collections.Generic.HashSet(Of T)
+  name.vb: HashSet(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: System.Threading
+  commentId: N:System.Threading
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading
+  nameWithType: System.Threading
+  fullName: System.Threading
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+- uid: System.Threading.Tasks.Task`1
+  commentId: T:System.Threading.Tasks.Task`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<TResult>
+  nameWithType: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  nameWithType.vb: Task(Of TResult)
+  fullName.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.Threading.Tasks
+  commentId: N:System.Threading.Tasks
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Threading.Tasks
+  nameWithType: System.Threading.Tasks
+  fullName: System.Threading.Tasks
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Threading
+    name: Threading
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading
+  - name: .
+  - uid: System.Threading.Tasks
+    name: Tasks
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks
+- uid: Mewdeko.Modules.Nsfw.SearchImageCacher.DownloadImagesAsync*
+  commentId: Overload:Mewdeko.Modules.Nsfw.SearchImageCacher.DownloadImagesAsync
+  href: Mewdeko.Modules.Nsfw.SearchImageCacher.html#Mewdeko_Modules_Nsfw_SearchImageCacher_DownloadImagesAsync_System_String___System_Boolean_Mewdeko_Modules_Nsfw_Common_Booru_System_Threading_CancellationToken_
+  name: DownloadImagesAsync
+  nameWithType: SearchImageCacher.DownloadImagesAsync
+  fullName: Mewdeko.Modules.Nsfw.SearchImageCacher.DownloadImagesAsync
+- uid: System.Threading.Tasks.Task{System.Collections.Generic.List{Mewdeko.Modules.Nsfw.Common.ImageData}}
+  commentId: T:System.Threading.Tasks.Task{System.Collections.Generic.List{Mewdeko.Modules.Nsfw.Common.ImageData}}
+  parent: System.Threading.Tasks
+  definition: System.Threading.Tasks.Task`1
+  href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  name: Task<List<ImageData>>
+  nameWithType: Task<List<ImageData>>
+  fullName: System.Threading.Tasks.Task<System.Collections.Generic.List<Mewdeko.Modules.Nsfw.Common.ImageData>>
+  nameWithType.vb: Task(Of List(Of ImageData))
+  fullName.vb: System.Threading.Tasks.Task(Of System.Collections.Generic.List(Of Mewdeko.Modules.Nsfw.Common.ImageData))
+  name.vb: Task(Of List(Of ImageData))
+  spec.csharp:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: <
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: Mewdeko.Modules.Nsfw.Common.ImageData
+    name: ImageData
+    href: Mewdeko.Modules.Nsfw.Common.ImageData.html
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Threading.Tasks.Task`1
+    name: Task
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.threading.tasks.task-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Mewdeko.Modules.Nsfw.Common.ImageData
+    name: ImageData
+    href: Mewdeko.Modules.Nsfw.Common.ImageData.html
+  - name: )
+  - name: )

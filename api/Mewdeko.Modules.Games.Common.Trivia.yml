@@ -1,0 +1,92 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Modules.Games.Common.Trivia
+  commentId: N:Mewdeko.Modules.Games.Common.Trivia
+  id: Mewdeko.Modules.Games.Common.Trivia
+  children:
+  - Mewdeko.Modules.Games.Common.Trivia.TriviaGame
+  - Mewdeko.Modules.Games.Common.Trivia.TriviaOptions
+  - Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion
+  - Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Modules.Games.Common.Trivia
+  nameWithType: Mewdeko.Modules.Games.Common.Trivia
+  fullName: Mewdeko.Modules.Games.Common.Trivia
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Modules.Games.Common.Trivia.TriviaGame
+  commentId: T:Mewdeko.Modules.Games.Common.Trivia.TriviaGame
+  href: Mewdeko.Modules.Games.Common.Trivia.TriviaGame.html
+  name: TriviaGame
+  nameWithType: TriviaGame
+  fullName: Mewdeko.Modules.Games.Common.Trivia.TriviaGame
+- uid: Mewdeko.Modules.Games.Common.Trivia.TriviaOptions
+  commentId: T:Mewdeko.Modules.Games.Common.Trivia.TriviaOptions
+  parent: Mewdeko.Modules.Games.Common.Trivia
+  href: Mewdeko.Modules.Games.Common.Trivia.TriviaOptions.html
+  name: TriviaOptions
+  nameWithType: TriviaOptions
+  fullName: Mewdeko.Modules.Games.Common.Trivia.TriviaOptions
+- uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion
+  commentId: T:Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion
+  parent: Mewdeko.Modules.Games.Common.Trivia
+  href: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion.html
+  name: TriviaQuestion
+  nameWithType: TriviaQuestion
+  fullName: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestion
+- uid: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool
+  commentId: T:Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool
+  href: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool.html
+  name: TriviaQuestionPool
+  nameWithType: TriviaQuestionPool
+  fullName: Mewdeko.Modules.Games.Common.Trivia.TriviaQuestionPool
+- uid: Mewdeko.Modules.Games.Common.Trivia
+  commentId: N:Mewdeko.Modules.Games.Common.Trivia
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Games.Common.Trivia
+  nameWithType: Mewdeko.Modules.Games.Common.Trivia
+  fullName: Mewdeko.Modules.Games.Common.Trivia
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Trivia
+    name: Trivia
+    href: Mewdeko.Modules.Games.Common.Trivia.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common.Trivia
+    name: Trivia
+    href: Mewdeko.Modules.Games.Common.Trivia.html

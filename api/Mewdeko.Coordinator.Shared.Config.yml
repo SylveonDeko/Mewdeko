@@ -1,0 +1,595 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Coordinator.Shared.Config
+  commentId: T:Mewdeko.Coordinator.Shared.Config
+  id: Config
+  parent: Mewdeko.Coordinator.Shared
+  children:
+  - Mewdeko.Coordinator.Shared.Config.#ctor(System.Int32,System.Int32,System.String,System.String,System.Double,System.UInt64)
+  - Mewdeko.Coordinator.Shared.Config.ClientId
+  - Mewdeko.Coordinator.Shared.Config.RecheckIntervalMs
+  - Mewdeko.Coordinator.Shared.Config.ShardStartArgs
+  - Mewdeko.Coordinator.Shared.Config.ShardStartCommand
+  - Mewdeko.Coordinator.Shared.Config.TotalShards
+  - Mewdeko.Coordinator.Shared.Config.UnresponsiveSec
+  langs:
+  - csharp
+  - vb
+  name: Config
+  nameWithType: Config
+  fullName: Mewdeko.Coordinator.Shared.Config
+  type: Struct
+  source:
+    remote:
+      path: src/Mewdeko.Coordinator/Shared/Config.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Config
+    path: src/Mewdeko.Coordinator/Shared/Config.cs
+    startLine: 2
+  assemblies:
+  - Mewdeko.Coordinator
+  namespace: Mewdeko.Coordinator.Shared
+  syntax:
+    content: public readonly struct Config
+    content.vb: Public Structure Config
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+- uid: Mewdeko.Coordinator.Shared.Config.TotalShards
+  commentId: P:Mewdeko.Coordinator.Shared.Config.TotalShards
+  id: TotalShards
+  parent: Mewdeko.Coordinator.Shared.Config
+  langs:
+  - csharp
+  - vb
+  name: TotalShards
+  nameWithType: Config.TotalShards
+  fullName: Mewdeko.Coordinator.Shared.Config.TotalShards
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Coordinator/Shared/Config.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: TotalShards
+    path: src/Mewdeko.Coordinator/Shared/Config.cs
+    startLine: 4
+  assemblies:
+  - Mewdeko.Coordinator
+  namespace: Mewdeko.Coordinator.Shared
+  syntax:
+    content: public int TotalShards { get; init; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property TotalShards As Integer
+  overload: Mewdeko.Coordinator.Shared.Config.TotalShards*
+- uid: Mewdeko.Coordinator.Shared.Config.RecheckIntervalMs
+  commentId: P:Mewdeko.Coordinator.Shared.Config.RecheckIntervalMs
+  id: RecheckIntervalMs
+  parent: Mewdeko.Coordinator.Shared.Config
+  langs:
+  - csharp
+  - vb
+  name: RecheckIntervalMs
+  nameWithType: Config.RecheckIntervalMs
+  fullName: Mewdeko.Coordinator.Shared.Config.RecheckIntervalMs
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Coordinator/Shared/Config.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: RecheckIntervalMs
+    path: src/Mewdeko.Coordinator/Shared/Config.cs
+    startLine: 5
+  assemblies:
+  - Mewdeko.Coordinator
+  namespace: Mewdeko.Coordinator.Shared
+  syntax:
+    content: public int RecheckIntervalMs { get; init; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property RecheckIntervalMs As Integer
+  overload: Mewdeko.Coordinator.Shared.Config.RecheckIntervalMs*
+- uid: Mewdeko.Coordinator.Shared.Config.ShardStartCommand
+  commentId: P:Mewdeko.Coordinator.Shared.Config.ShardStartCommand
+  id: ShardStartCommand
+  parent: Mewdeko.Coordinator.Shared.Config
+  langs:
+  - csharp
+  - vb
+  name: ShardStartCommand
+  nameWithType: Config.ShardStartCommand
+  fullName: Mewdeko.Coordinator.Shared.Config.ShardStartCommand
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Coordinator/Shared/Config.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ShardStartCommand
+    path: src/Mewdeko.Coordinator/Shared/Config.cs
+    startLine: 6
+  assemblies:
+  - Mewdeko.Coordinator
+  namespace: Mewdeko.Coordinator.Shared
+  syntax:
+    content: public string ShardStartCommand { get; init; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ShardStartCommand As String
+  overload: Mewdeko.Coordinator.Shared.Config.ShardStartCommand*
+- uid: Mewdeko.Coordinator.Shared.Config.ShardStartArgs
+  commentId: P:Mewdeko.Coordinator.Shared.Config.ShardStartArgs
+  id: ShardStartArgs
+  parent: Mewdeko.Coordinator.Shared.Config
+  langs:
+  - csharp
+  - vb
+  name: ShardStartArgs
+  nameWithType: Config.ShardStartArgs
+  fullName: Mewdeko.Coordinator.Shared.Config.ShardStartArgs
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Coordinator/Shared/Config.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ShardStartArgs
+    path: src/Mewdeko.Coordinator/Shared/Config.cs
+    startLine: 7
+  assemblies:
+  - Mewdeko.Coordinator
+  namespace: Mewdeko.Coordinator.Shared
+  syntax:
+    content: public string ShardStartArgs { get; init; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ShardStartArgs As String
+  overload: Mewdeko.Coordinator.Shared.Config.ShardStartArgs*
+- uid: Mewdeko.Coordinator.Shared.Config.UnresponsiveSec
+  commentId: P:Mewdeko.Coordinator.Shared.Config.UnresponsiveSec
+  id: UnresponsiveSec
+  parent: Mewdeko.Coordinator.Shared.Config
+  langs:
+  - csharp
+  - vb
+  name: UnresponsiveSec
+  nameWithType: Config.UnresponsiveSec
+  fullName: Mewdeko.Coordinator.Shared.Config.UnresponsiveSec
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Coordinator/Shared/Config.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: UnresponsiveSec
+    path: src/Mewdeko.Coordinator/Shared/Config.cs
+    startLine: 8
+  assemblies:
+  - Mewdeko.Coordinator
+  namespace: Mewdeko.Coordinator.Shared
+  syntax:
+    content: public double UnresponsiveSec { get; init; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property UnresponsiveSec As Double
+  overload: Mewdeko.Coordinator.Shared.Config.UnresponsiveSec*
+- uid: Mewdeko.Coordinator.Shared.Config.ClientId
+  commentId: P:Mewdeko.Coordinator.Shared.Config.ClientId
+  id: ClientId
+  parent: Mewdeko.Coordinator.Shared.Config
+  langs:
+  - csharp
+  - vb
+  name: ClientId
+  nameWithType: Config.ClientId
+  fullName: Mewdeko.Coordinator.Shared.Config.ClientId
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko.Coordinator/Shared/Config.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: ClientId
+    path: src/Mewdeko.Coordinator/Shared/Config.cs
+    startLine: 9
+  assemblies:
+  - Mewdeko.Coordinator
+  namespace: Mewdeko.Coordinator.Shared
+  syntax:
+    content: public ulong ClientId { get; init; }
+    parameters: []
+    return:
+      type: System.UInt64
+    content.vb: Public Property ClientId As ULong
+  overload: Mewdeko.Coordinator.Shared.Config.ClientId*
+- uid: Mewdeko.Coordinator.Shared.Config.#ctor(System.Int32,System.Int32,System.String,System.String,System.Double,System.UInt64)
+  commentId: M:Mewdeko.Coordinator.Shared.Config.#ctor(System.Int32,System.Int32,System.String,System.String,System.Double,System.UInt64)
+  id: '#ctor(System.Int32,System.Int32,System.String,System.String,System.Double,System.UInt64)'
+  parent: Mewdeko.Coordinator.Shared.Config
+  langs:
+  - csharp
+  - vb
+  name: Config(int, int, string, string, double, ulong)
+  nameWithType: Config.Config(int, int, string, string, double, ulong)
+  fullName: Mewdeko.Coordinator.Shared.Config.Config(int, int, string, string, double, ulong)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko.Coordinator/Shared/Config.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko.Coordinator/Shared/Config.cs
+    startLine: 11
+  assemblies:
+  - Mewdeko.Coordinator
+  namespace: Mewdeko.Coordinator.Shared
+  syntax:
+    content: public Config(int totalShards, int recheckIntervalMs, string shardStartCommand, string shardStartArgs, double unresponsiveSec, ulong clientId)
+    parameters:
+    - id: totalShards
+      type: System.Int32
+    - id: recheckIntervalMs
+      type: System.Int32
+    - id: shardStartCommand
+      type: System.String
+    - id: shardStartArgs
+      type: System.String
+    - id: unresponsiveSec
+      type: System.Double
+    - id: clientId
+      type: System.UInt64
+    content.vb: Public Sub New(totalShards As Integer, recheckIntervalMs As Integer, shardStartCommand As String, shardStartArgs As String, unresponsiveSec As Double, clientId As ULong)
+  overload: Mewdeko.Coordinator.Shared.Config.#ctor*
+  nameWithType.vb: Config.New(Integer, Integer, String, String, Double, ULong)
+  fullName.vb: Mewdeko.Coordinator.Shared.Config.New(Integer, Integer, String, String, Double, ULong)
+  name.vb: New(Integer, Integer, String, String, Double, ULong)
+references:
+- uid: Mewdeko.Coordinator.Shared
+  commentId: N:Mewdeko.Coordinator.Shared
+  href: Mewdeko.html
+  name: Mewdeko.Coordinator.Shared
+  nameWithType: Mewdeko.Coordinator.Shared
+  fullName: Mewdeko.Coordinator.Shared
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Coordinator
+    name: Coordinator
+    href: Mewdeko.Coordinator.html
+  - name: .
+  - uid: Mewdeko.Coordinator.Shared
+    name: Shared
+    href: Mewdeko.Coordinator.Shared.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Coordinator
+    name: Coordinator
+    href: Mewdeko.Coordinator.html
+  - name: .
+  - uid: Mewdeko.Coordinator.Shared
+    name: Shared
+    href: Mewdeko.Coordinator.Shared.html
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  name: Equals(object)
+  nameWithType: ValueType.Equals(object)
+  fullName: System.ValueType.Equals(object)
+  nameWithType.vb: ValueType.Equals(Object)
+  fullName.vb: System.ValueType.Equals(Object)
+  name.vb: Equals(Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.equals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.gethashcode
+  - name: (
+  - name: )
+- uid: System.ValueType.ToString
+  commentId: M:System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  name: ToString()
+  nameWithType: ValueType.ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.valuetype.tostring
+  - name: (
+  - name: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  name: GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
+  - name: (
+  - name: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.valuetype
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: System
+  commentId: N:System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: Mewdeko.Coordinator.Shared.Config.TotalShards*
+  commentId: Overload:Mewdeko.Coordinator.Shared.Config.TotalShards
+  href: Mewdeko.Coordinator.Shared.Config.html#Mewdeko_Coordinator_Shared_Config_TotalShards
+  name: TotalShards
+  nameWithType: Config.TotalShards
+  fullName: Mewdeko.Coordinator.Shared.Config.TotalShards
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: Mewdeko.Coordinator.Shared.Config.RecheckIntervalMs*
+  commentId: Overload:Mewdeko.Coordinator.Shared.Config.RecheckIntervalMs
+  href: Mewdeko.Coordinator.Shared.Config.html#Mewdeko_Coordinator_Shared_Config_RecheckIntervalMs
+  name: RecheckIntervalMs
+  nameWithType: Config.RecheckIntervalMs
+  fullName: Mewdeko.Coordinator.Shared.Config.RecheckIntervalMs
+- uid: Mewdeko.Coordinator.Shared.Config.ShardStartCommand*
+  commentId: Overload:Mewdeko.Coordinator.Shared.Config.ShardStartCommand
+  href: Mewdeko.Coordinator.Shared.Config.html#Mewdeko_Coordinator_Shared_Config_ShardStartCommand
+  name: ShardStartCommand
+  nameWithType: Config.ShardStartCommand
+  fullName: Mewdeko.Coordinator.Shared.Config.ShardStartCommand
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: Mewdeko.Coordinator.Shared.Config.ShardStartArgs*
+  commentId: Overload:Mewdeko.Coordinator.Shared.Config.ShardStartArgs
+  href: Mewdeko.Coordinator.Shared.Config.html#Mewdeko_Coordinator_Shared_Config_ShardStartArgs
+  name: ShardStartArgs
+  nameWithType: Config.ShardStartArgs
+  fullName: Mewdeko.Coordinator.Shared.Config.ShardStartArgs
+- uid: Mewdeko.Coordinator.Shared.Config.UnresponsiveSec*
+  commentId: Overload:Mewdeko.Coordinator.Shared.Config.UnresponsiveSec
+  href: Mewdeko.Coordinator.Shared.Config.html#Mewdeko_Coordinator_Shared_Config_UnresponsiveSec
+  name: UnresponsiveSec
+  nameWithType: Config.UnresponsiveSec
+  fullName: Mewdeko.Coordinator.Shared.Config.UnresponsiveSec
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
+- uid: Mewdeko.Coordinator.Shared.Config.ClientId*
+  commentId: Overload:Mewdeko.Coordinator.Shared.Config.ClientId
+  href: Mewdeko.Coordinator.Shared.Config.html#Mewdeko_Coordinator_Shared_Config_ClientId
+  name: ClientId
+  nameWithType: Config.ClientId
+  fullName: Mewdeko.Coordinator.Shared.Config.ClientId
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong
+  nameWithType: ulong
+  fullName: ulong
+  nameWithType.vb: ULong
+  fullName.vb: ULong
+  name.vb: ULong
+- uid: Mewdeko.Coordinator.Shared.Config.#ctor*
+  commentId: Overload:Mewdeko.Coordinator.Shared.Config.#ctor
+  href: Mewdeko.Coordinator.Shared.Config.html#Mewdeko_Coordinator_Shared_Config__ctor_System_Int32_System_Int32_System_String_System_String_System_Double_System_UInt64_
+  name: Config
+  nameWithType: Config.Config
+  fullName: Mewdeko.Coordinator.Shared.Config.Config
+  nameWithType.vb: Config.New
+  fullName.vb: Mewdeko.Coordinator.Shared.Config.New
+  name.vb: New

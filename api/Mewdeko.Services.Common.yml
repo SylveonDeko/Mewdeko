@@ -1,0 +1,30 @@
+### YamlMime:ManagedReference
+items:
+- uid: Mewdeko.Services.Common
+  commentId: N:Mewdeko.Services.Common
+  id: Mewdeko.Services.Common
+  children:
+  - Mewdeko.Services.Common.ImageLoader
+  - Mewdeko.Services.Common.RedisImageArray
+  langs:
+  - csharp
+  - vb
+  name: Mewdeko.Services.Common
+  nameWithType: Mewdeko.Services.Common
+  fullName: Mewdeko.Services.Common
+  type: Namespace
+  assemblies:
+  - Mewdeko
+references:
+- uid: Mewdeko.Services.Common.ImageLoader
+  commentId: T:Mewdeko.Services.Common.ImageLoader
+  href: Mewdeko.Services.Common.ImageLoader.html
+  name: ImageLoader
+  nameWithType: ImageLoader
+  fullName: Mewdeko.Services.Common.ImageLoader
+- uid: Mewdeko.Services.Common.RedisImageArray
+  commentId: T:Mewdeko.Services.Common.RedisImageArray
+  href: Mewdeko.Services.Common.RedisImageArray.html
+  name: RedisImageArray
+  nameWithType: RedisImageArray
+  fullName: Mewdeko.Services.Common.RedisImageArray
