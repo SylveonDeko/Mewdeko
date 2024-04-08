@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Services.Settings
   commentId: N:Mewdeko.Services.Settings
-  id: Mewdeko.Services.Settings
+  id: Settings
+  parent: Mewdeko.Services
   children:
   - Mewdeko.Services.Settings.BotConfigService
   - Mewdeko.Services.Settings.ConfigParsers

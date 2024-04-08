@@ -296,7 +296,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     /// <summary>
     /// Sets the type of AFK behavior for the guild.
     /// </summary>
-    /// <param name="afkTypeEnum">The type of AFK behavior to set. <see cref="AfkTypeEnum"/></param>
+    /// <param name="afkTypeEnum">The type of AFK behavior to set. <see cref="Afk.AfkTypeEnum"/></param>
     /// <example>.afktype 1</example>
     [SlashCommand("type", "Sets how afk messages are removed. Do @Mewdeko help afktype to see more."),
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]

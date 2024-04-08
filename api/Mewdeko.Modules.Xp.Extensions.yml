@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Xp.Extensions
   commentId: N:Mewdeko.Modules.Xp.Extensions
-  id: Mewdeko.Modules.Xp.Extensions
+  id: Extensions
+  parent: Mewdeko.Modules.Xp
   children:
   - Mewdeko.Modules.Xp.Extensions.Extensions
   langs:

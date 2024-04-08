@@ -2,9 +2,11 @@
 items:
 - uid: Mewdeko.Modules.Games
   commentId: N:Mewdeko.Modules.Games
-  id: Mewdeko.Modules.Games
+  id: Games
+  parent: Mewdeko.Modules
   children:
   - Mewdeko.Modules.Games.ActivitySlashCommand
+  - Mewdeko.Modules.Games.Common
   - Mewdeko.Modules.Games.Games
   - Mewdeko.Modules.Games.Games.AcropobiaCommands
   - Mewdeko.Modules.Games.Games.ChatterBotCommands
@@ -14,6 +16,7 @@ items:
   - Mewdeko.Modules.Games.Games.SpeedTypingCommands
   - Mewdeko.Modules.Games.Games.TicTacToeCommands
   - Mewdeko.Modules.Games.Games.TriviaCommands
+  - Mewdeko.Modules.Games.Services
   langs:
   - csharp
   - vb
@@ -24,6 +27,88 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Modules.Games.Common
+  commentId: N:Mewdeko.Modules.Games.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Games.Common
+  nameWithType: Mewdeko.Modules.Games.Common
+  fullName: Mewdeko.Modules.Games.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Common
+    name: Common
+    href: Mewdeko.Modules.Games.Common.html
+- uid: Mewdeko.Modules.Games.Services
+  commentId: N:Mewdeko.Modules.Games.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Games.Services
+  nameWithType: Mewdeko.Modules.Games.Services
+  fullName: Mewdeko.Modules.Games.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Services
+    name: Services
+    href: Mewdeko.Modules.Games.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Games
+    name: Games
+    href: Mewdeko.Modules.Games.html
+  - name: .
+  - uid: Mewdeko.Modules.Games.Services
+    name: Services
+    href: Mewdeko.Modules.Games.Services.html
+- uid: Mewdeko.Modules.Games.ActivitySlashCommand
+  commentId: T:Mewdeko.Modules.Games.ActivitySlashCommand
+  href: Mewdeko.Modules.Games.ActivitySlashCommand.html
+  name: ActivitySlashCommand
+  nameWithType: ActivitySlashCommand
+  fullName: Mewdeko.Modules.Games.ActivitySlashCommand
 - uid: Mewdeko.Modules.Games.Games
   commentId: T:Mewdeko.Modules.Games.Games
   href: Mewdeko.Modules.Games.Games.html
@@ -206,9 +291,3 @@ references:
   - uid: Mewdeko.Modules.Games.Games.TriviaCommands
     name: TriviaCommands
     href: Mewdeko.Modules.Games.Games.TriviaCommands.html
-- uid: Mewdeko.Modules.Games.ActivitySlashCommand
-  commentId: T:Mewdeko.Modules.Games.ActivitySlashCommand
-  href: Mewdeko.Modules.Games.ActivitySlashCommand.html
-  name: ActivitySlashCommand
-  nameWithType: ActivitySlashCommand
-  fullName: Mewdeko.Modules.Games.ActivitySlashCommand

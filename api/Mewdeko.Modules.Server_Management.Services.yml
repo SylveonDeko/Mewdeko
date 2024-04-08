@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Server_Management.Services
   commentId: N:Mewdeko.Modules.Server_Management.Services
-  id: Mewdeko.Modules.Server_Management.Services
+  id: Services
+  parent: Mewdeko.Modules.Server_Management
   children:
   - Mewdeko.Modules.Server_Management.Services.RoleCommandsService
   - Mewdeko.Modules.Server_Management.Services.RoleCommandsService.RoleJobs

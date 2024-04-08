@@ -5,7 +5,6 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
 using Discord.Commands;
-using Discord.Interactions;
 using Fergun.Interactive;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders;
@@ -332,22 +331,9 @@ public static partial class Extensions
     /// <param name="strings">Bot strings provider.</param>
     /// <param name="guildId">Guild ID.</param>
     /// <param name="prefix">Command prefix.</param>
-    /// <returns>Real remarks array of the command.</returns
+    /// <returns>Real remarks array of the command.</returns>
     public static string[] RealRemarksArr(this CommandInfo cmd, IBotStrings strings, ulong? guildId, string? prefix) =>
         Array.ConvertAll(strings.GetCommandStrings(cmd.MethodName(), guildId).Args,
-            arg => GetFullUsage(cmd.Name, arg, prefix));
-
-    /// <summary>
-    /// Retrieves the real remarks array of a slash command.
-    /// </summary>
-    /// <param name="cmd">Slash command information.</param>
-    /// <param name="strings">Bot strings provider.</param>
-    /// <param name="guildId">Guild ID.</param>
-    /// <param name="prefix">Command prefix.</param>
-    /// <returns>Real remarks array of the slash command.</returns>
-    public static string[] RealRemarksArr(this SlashCommandInfo cmd, IBotStrings strings, ulong? guildId,
-        string? prefix) =>
-        Array.ConvertAll(strings.GetCommandStrings(cmd.Name, guildId).Args,
             arg => GetFullUsage(cmd.Name, arg, prefix));
 
     /// <summary>

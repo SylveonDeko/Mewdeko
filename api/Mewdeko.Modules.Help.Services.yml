@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Help.Services
   commentId: N:Mewdeko.Modules.Help.Services
-  id: Mewdeko.Modules.Help.Services
+  id: Services
+  parent: Mewdeko.Modules.Help
   children:
   - Mewdeko.Modules.Help.Services.HelpService
   langs:

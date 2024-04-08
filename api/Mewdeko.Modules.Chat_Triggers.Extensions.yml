@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Chat_Triggers.Extensions
   commentId: N:Mewdeko.Modules.Chat_Triggers.Extensions
-  id: Mewdeko.Modules.Chat_Triggers.Extensions
+  id: Extensions
+  parent: Mewdeko.Modules.Chat_Triggers
   children:
   - Mewdeko.Modules.Chat_Triggers.Extensions.Extensions
   - Mewdeko.Modules.Chat_Triggers.Extensions.WordPosition

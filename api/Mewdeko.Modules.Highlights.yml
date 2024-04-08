@@ -2,10 +2,12 @@
 items:
 - uid: Mewdeko.Modules.Highlights
   commentId: N:Mewdeko.Modules.Highlights
-  id: Mewdeko.Modules.Highlights
+  id: Highlights
+  parent: Mewdeko.Modules
   children:
   - Mewdeko.Modules.Highlights.Highlights
   - Mewdeko.Modules.Highlights.Highlights.HighlightActions
+  - Mewdeko.Modules.Highlights.Services
   - Mewdeko.Modules.Highlights.SlashHighlights
   langs:
   - csharp
@@ -17,6 +19,44 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Modules.Highlights.Services
+  commentId: N:Mewdeko.Modules.Highlights.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Highlights.Services
+  nameWithType: Mewdeko.Modules.Highlights.Services
+  fullName: Mewdeko.Modules.Highlights.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Highlights
+    name: Highlights
+    href: Mewdeko.Modules.Highlights.html
+  - name: .
+  - uid: Mewdeko.Modules.Highlights.Services
+    name: Services
+    href: Mewdeko.Modules.Highlights.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Highlights
+    name: Highlights
+    href: Mewdeko.Modules.Highlights.html
+  - name: .
+  - uid: Mewdeko.Modules.Highlights.Services
+    name: Services
+    href: Mewdeko.Modules.Highlights.Services.html
 - uid: Mewdeko.Modules.Highlights.Highlights
   commentId: T:Mewdeko.Modules.Highlights.Highlights
   href: Mewdeko.Modules.Highlights.Highlights.html

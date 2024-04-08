@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.UserProfile.Services
   commentId: N:Mewdeko.Modules.UserProfile.Services
-  id: Mewdeko.Modules.UserProfile.Services
+  id: Services
+  parent: Mewdeko.Modules.UserProfile
   children:
   - Mewdeko.Modules.UserProfile.Services.UserProfileService
   langs:

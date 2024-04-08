@@ -59,6 +59,7 @@ items:
   - Microsoft.AspNetCore.Authentication.AuthenticationHandler{Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions}.Logger
   - Microsoft.AspNetCore.Authentication.AuthenticationHandler{Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions}.UrlEncoder
   - Microsoft.AspNetCore.Authentication.AuthenticationHandler{Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions}.Clock
+  - Microsoft.AspNetCore.Authentication.AuthenticationHandler{Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions}.TimeProvider
   - Microsoft.AspNetCore.Authentication.AuthenticationHandler{Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions}.OptionsMonitor
   - Microsoft.AspNetCore.Authentication.AuthenticationHandler{Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions}.Events
   - Microsoft.AspNetCore.Authentication.AuthenticationHandler{Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions}.ClaimsIssuer
@@ -765,6 +766,16 @@ references:
   fullName: Microsoft.AspNetCore.Authentication.AuthenticationHandler<Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions>.Clock
   nameWithType.vb: AuthenticationHandler(Of AuthenticationSchemeOptions).Clock
   fullName.vb: Microsoft.AspNetCore.Authentication.AuthenticationHandler(Of Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions).Clock
+- uid: Microsoft.AspNetCore.Authentication.AuthenticationHandler{Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions}.TimeProvider
+  commentId: P:Microsoft.AspNetCore.Authentication.AuthenticationHandler{Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions}.TimeProvider
+  parent: Microsoft.AspNetCore.Authentication.AuthenticationHandler{Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions}
+  definition: Microsoft.AspNetCore.Authentication.AuthenticationHandler`1.TimeProvider
+  href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.authentication.authenticationhandler-1.timeprovider
+  name: TimeProvider
+  nameWithType: AuthenticationHandler<AuthenticationSchemeOptions>.TimeProvider
+  fullName: Microsoft.AspNetCore.Authentication.AuthenticationHandler<Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions>.TimeProvider
+  nameWithType.vb: AuthenticationHandler(Of AuthenticationSchemeOptions).TimeProvider
+  fullName.vb: Microsoft.AspNetCore.Authentication.AuthenticationHandler(Of Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions).TimeProvider
 - uid: Microsoft.AspNetCore.Authentication.AuthenticationHandler{Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions}.OptionsMonitor
   commentId: P:Microsoft.AspNetCore.Authentication.AuthenticationHandler{Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions}.OptionsMonitor
   parent: Microsoft.AspNetCore.Authentication.AuthenticationHandler{Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions}
@@ -1608,6 +1619,15 @@ references:
   fullName: Microsoft.AspNetCore.Authentication.AuthenticationHandler<TOptions>.Clock
   nameWithType.vb: AuthenticationHandler(Of TOptions).Clock
   fullName.vb: Microsoft.AspNetCore.Authentication.AuthenticationHandler(Of TOptions).Clock
+- uid: Microsoft.AspNetCore.Authentication.AuthenticationHandler`1.TimeProvider
+  commentId: P:Microsoft.AspNetCore.Authentication.AuthenticationHandler`1.TimeProvider
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/microsoft.aspnetcore.authentication.authenticationhandler-1.timeprovider
+  name: TimeProvider
+  nameWithType: AuthenticationHandler<TOptions>.TimeProvider
+  fullName: Microsoft.AspNetCore.Authentication.AuthenticationHandler<TOptions>.TimeProvider
+  nameWithType.vb: AuthenticationHandler(Of TOptions).TimeProvider
+  fullName.vb: Microsoft.AspNetCore.Authentication.AuthenticationHandler(Of TOptions).TimeProvider
 - uid: Microsoft.AspNetCore.Authentication.AuthenticationHandler`1.OptionsMonitor
   commentId: P:Microsoft.AspNetCore.Authentication.AuthenticationHandler`1.OptionsMonitor
   isExternal: true

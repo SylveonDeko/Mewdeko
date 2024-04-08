@@ -37,6 +37,7 @@ items:
   - System.Text.Json.Serialization.JsonConverter{System.Globalization.CultureInfo}.ReadAsPropertyName(System.Text.Json.Utf8JsonReader@,System.Type,System.Text.Json.JsonSerializerOptions)
   - System.Text.Json.Serialization.JsonConverter{System.Globalization.CultureInfo}.WriteAsPropertyName(System.Text.Json.Utf8JsonWriter,System.Globalization.CultureInfo,System.Text.Json.JsonSerializerOptions)
   - System.Text.Json.Serialization.JsonConverter{System.Globalization.CultureInfo}.HandleNull
+  - System.Text.Json.Serialization.JsonConverter{System.Globalization.CultureInfo}.Type
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -380,6 +381,16 @@ references:
   fullName: System.Text.Json.Serialization.JsonConverter<System.Globalization.CultureInfo>.HandleNull
   nameWithType.vb: JsonConverter(Of CultureInfo).HandleNull
   fullName.vb: System.Text.Json.Serialization.JsonConverter(Of System.Globalization.CultureInfo).HandleNull
+- uid: System.Text.Json.Serialization.JsonConverter{System.Globalization.CultureInfo}.Type
+  commentId: P:System.Text.Json.Serialization.JsonConverter{System.Globalization.CultureInfo}.Type
+  parent: System.Text.Json.Serialization.JsonConverter{System.Globalization.CultureInfo}
+  definition: System.Text.Json.Serialization.JsonConverter`1.Type
+  href: https://learn.microsoft.com/dotnet/api/system.text.json.serialization.jsonconverter-1.type
+  name: Type
+  nameWithType: JsonConverter<CultureInfo>.Type
+  fullName: System.Text.Json.Serialization.JsonConverter<System.Globalization.CultureInfo>.Type
+  nameWithType.vb: JsonConverter(Of CultureInfo).Type
+  fullName.vb: System.Text.Json.Serialization.JsonConverter(Of System.Globalization.CultureInfo).Type
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -881,6 +892,15 @@ references:
   fullName: System.Text.Json.Serialization.JsonConverter<T>.HandleNull
   nameWithType.vb: JsonConverter(Of T).HandleNull
   fullName.vb: System.Text.Json.Serialization.JsonConverter(Of T).HandleNull
+- uid: System.Text.Json.Serialization.JsonConverter`1.Type
+  commentId: P:System.Text.Json.Serialization.JsonConverter`1.Type
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.text.json.serialization.jsonconverter-1.type
+  name: Type
+  nameWithType: JsonConverter<T>.Type
+  fullName: System.Text.Json.Serialization.JsonConverter<T>.Type
+  nameWithType.vb: JsonConverter(Of T).Type
+  fullName.vb: System.Text.Json.Serialization.JsonConverter(Of T).Type
 - uid: Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
   commentId: M:Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
   isExternal: true

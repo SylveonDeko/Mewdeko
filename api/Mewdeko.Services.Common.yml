@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Services.Common
   commentId: N:Mewdeko.Services.Common
-  id: Mewdeko.Services.Common
+  id: Common
+  parent: Mewdeko.Services
   children:
   - Mewdeko.Services.Common.ImageLoader
   - Mewdeko.Services.Common.RedisImageArray

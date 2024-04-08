@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Common.Collections
   commentId: N:Mewdeko.Common.Collections
-  id: Mewdeko.Common.Collections
+  id: Collections
+  parent: Mewdeko.Common
   children:
   - Mewdeko.Common.Collections.ConcurrentHashSet`1
   langs:

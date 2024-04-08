@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Games.Common.Hangman.Exceptions
   commentId: N:Mewdeko.Modules.Games.Common.Hangman.Exceptions
-  id: Mewdeko.Modules.Games.Common.Hangman.Exceptions
+  id: Exceptions
+  parent: Mewdeko.Modules.Games.Common.Hangman
   children:
   - Mewdeko.Modules.Games.Common.Hangman.Exceptions.TermNotFoundException
   langs:

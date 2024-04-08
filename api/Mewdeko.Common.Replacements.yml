@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Common.Replacements
   commentId: N:Mewdeko.Common.Replacements
-  id: Mewdeko.Common.Replacements
+  id: Replacements
+  parent: Mewdeko.Common
   children:
   - Mewdeko.Common.Replacements.ReplacementBuilder
   - Mewdeko.Common.Replacements.Replacer

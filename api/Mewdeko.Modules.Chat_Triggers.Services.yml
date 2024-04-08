@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Chat_Triggers.Services
   commentId: N:Mewdeko.Modules.Chat_Triggers.Services
-  id: Mewdeko.Modules.Chat_Triggers.Services
+  id: Services
+  parent: Mewdeko.Modules.Chat_Triggers
   children:
   - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService
   - Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField

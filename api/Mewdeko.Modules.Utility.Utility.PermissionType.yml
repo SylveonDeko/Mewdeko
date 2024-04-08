@@ -76,7 +76,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Or
     path: src/Mewdeko/Modules/Utility/Utility.cs
-    startLine: 61
+    startLine: 62
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility

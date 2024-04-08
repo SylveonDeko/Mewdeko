@@ -114,7 +114,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CreateClub
     path: src/Mewdeko/Modules/Xp/Services/ClubService.cs
-    startLine: 18
+    startLine: 17
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp.Services
@@ -155,7 +155,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: TransferClub
     path: src/Mewdeko/Modules/Xp/Services/ClubService.cs
-    startLine: 57
+    startLine: 56
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp.Services
@@ -193,7 +193,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ToggleAdmin
     path: src/Mewdeko/Modules/Xp/Services/ClubService.cs
-    startLine: 84
+    startLine: 83
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp.Services
@@ -231,7 +231,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetClubByMember
     path: src/Mewdeko/Modules/Xp/Services/ClubService.cs
-    startLine: 110
+    startLine: 109
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp.Services
@@ -266,7 +266,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetClubIcon
     path: src/Mewdeko/Modules/Xp/Services/ClubService.cs
-    startLine: 122
+    startLine: 121
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp.Services
@@ -307,7 +307,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetClubByName
     path: src/Mewdeko/Modules/Xp/Services/ClubService.cs
-    startLine: 151
+    startLine: 150
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp.Services
@@ -348,7 +348,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ApplyToClub
     path: src/Mewdeko/Modules/Xp/Services/ClubService.cs
-    startLine: 180
+    startLine: 179
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp.Services
@@ -386,7 +386,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AcceptApplication
     path: src/Mewdeko/Modules/Xp/Services/ClubService.cs
-    startLine: 214
+    startLine: 213
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp.Services
@@ -427,7 +427,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetClubWithBansAndApplications
     path: src/Mewdeko/Modules/Xp/Services/ClubService.cs
-    startLine: 246
+    startLine: 245
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp.Services
@@ -465,7 +465,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: LeaveClub
     path: src/Mewdeko/Modules/Xp/Services/ClubService.cs
-    startLine: 257
+    startLine: 256
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp.Services
@@ -500,7 +500,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ChangeClubLevelReq
     path: src/Mewdeko/Modules/Xp/Services/ClubService.cs
-    startLine: 277
+    startLine: 276
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp.Services
@@ -541,7 +541,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ChangeClubDescription
     path: src/Mewdeko/Modules/Xp/Services/ClubService.cs
-    startLine: 299
+    startLine: 298
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp.Services
@@ -582,7 +582,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Disband
     path: src/Mewdeko/Modules/Xp/Services/ClubService.cs
-    startLine: 317
+    startLine: 316
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp.Services
@@ -620,7 +620,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Ban
     path: src/Mewdeko/Modules/Xp/Services/ClubService.cs
-    startLine: 336
+    startLine: 335
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp.Services

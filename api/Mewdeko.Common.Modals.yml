@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Common.Modals
   commentId: N:Mewdeko.Common.Modals
-  id: Mewdeko.Common.Modals
+  id: Modals
+  parent: Mewdeko.Common
   children:
   - Mewdeko.Common.Modals.AuthHandshakeStepTwoModal
   - Mewdeko.Common.Modals.ChatTriggerModal
@@ -98,13 +99,6 @@ references:
   name: SayModal
   nameWithType: SayModal
   fullName: Mewdeko.Common.Modals.SayModal
-- uid: Mewdeko.Common.Modals.SuggestionModal
-  commentId: T:Mewdeko.Common.Modals.SuggestionModal
-  parent: Mewdeko.Common.Modals
-  href: Mewdeko.Common.Modals.SuggestionModal.html
-  name: SuggestionModal
-  nameWithType: SuggestionModal
-  fullName: Mewdeko.Common.Modals.SuggestionModal
 - uid: Mewdeko.Common.Modals.SuggestStateModal
   commentId: T:Mewdeko.Common.Modals.SuggestStateModal
   parent: Mewdeko.Common.Modals
@@ -112,6 +106,13 @@ references:
   name: SuggestStateModal
   nameWithType: SuggestStateModal
   fullName: Mewdeko.Common.Modals.SuggestStateModal
+- uid: Mewdeko.Common.Modals.SuggestionModal
+  commentId: T:Mewdeko.Common.Modals.SuggestionModal
+  parent: Mewdeko.Common.Modals
+  href: Mewdeko.Common.Modals.SuggestionModal.html
+  name: SuggestionModal
+  nameWithType: SuggestionModal
+  fullName: Mewdeko.Common.Modals.SuggestionModal
 - uid: Mewdeko.Common.Modals.TwoFactorModal
   commentId: T:Mewdeko.Common.Modals.TwoFactorModal
   parent: Mewdeko.Common.Modals

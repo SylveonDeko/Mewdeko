@@ -27,7 +27,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: InfoCommands
     path: src/Mewdeko/Modules/Utility/InfoCommands.cs
-    startLine: 16
+    startLine: 15
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -108,7 +108,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: .ctor
     path: src/Mewdeko/Modules/Utility/InfoCommands.cs
-    startLine: 16
+    startLine: 15
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -146,7 +146,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RInfo
     path: src/Mewdeko/Modules/Utility/InfoCommands.cs
-    startLine: 24
+    startLine: 23
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -211,7 +211,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: VInfo
     path: src/Mewdeko/Modules/Utility/InfoCommands.cs
-    startLine: 47
+    startLine: 46
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -283,7 +283,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Fetch
     path: src/Mewdeko/Modules/Utility/InfoCommands.cs
-    startLine: 102
+    startLine: 101
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -351,7 +351,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ServerInfo
     path: src/Mewdeko/Modules/Utility/InfoCommands.cs
-    startLine: 129
+    startLine: 128
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -419,7 +419,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ChannelInfo
     path: src/Mewdeko/Modules/Utility/InfoCommands.cs
-    startLine: 184
+    startLine: 183
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -487,7 +487,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UserInfo
     path: src/Mewdeko/Modules/Utility/InfoCommands.cs
-    startLine: 207
+    startLine: 206
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -555,7 +555,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Avatar
     path: src/Mewdeko/Modules/Utility/InfoCommands.cs
-    startLine: 276
+    startLine: 275
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility

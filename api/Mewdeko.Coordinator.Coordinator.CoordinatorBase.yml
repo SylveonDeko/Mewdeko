@@ -24,11 +24,11 @@ items:
   type: Class
   source:
     remote:
-      path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+      path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
       branch: psqldeko
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CoordinatorBase
-    path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+    path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
     startLine: 175
   assemblies:
   - Mewdeko.Coordinator
@@ -79,11 +79,11 @@ items:
   type: Method
   source:
     remote:
-      path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+      path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
       branch: psqldeko
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Heartbeat
-    path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+    path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
     startLine: 184
   assemblies:
   - Mewdeko.Coordinator
@@ -117,11 +117,11 @@ items:
   type: Method
   source:
     remote:
-      path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+      path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
       branch: psqldeko
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RestartShard
-    path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+    path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
     startLine: 196
   assemblies:
   - Mewdeko.Coordinator
@@ -155,11 +155,11 @@ items:
   type: Method
   source:
     remote:
-      path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+      path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
       branch: psqldeko
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Reshard
-    path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+    path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
     startLine: 208
   assemblies:
   - Mewdeko.Coordinator
@@ -193,11 +193,11 @@ items:
   type: Method
   source:
     remote:
-      path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+      path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
       branch: psqldeko
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Reload
-    path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+    path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
     startLine: 220
   assemblies:
   - Mewdeko.Coordinator
@@ -231,11 +231,11 @@ items:
   type: Method
   source:
     remote:
-      path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+      path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
       branch: psqldeko
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetStatus
-    path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+    path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
     startLine: 232
   assemblies:
   - Mewdeko.Coordinator
@@ -269,11 +269,11 @@ items:
   type: Method
   source:
     remote:
-      path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+      path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
       branch: psqldeko
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetAllStatuses
-    path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+    path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
     startLine: 244
   assemblies:
   - Mewdeko.Coordinator
@@ -307,11 +307,11 @@ items:
   type: Method
   source:
     remote:
-      path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+      path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
       branch: psqldeko
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RestartAllShards
-    path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+    path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
     startLine: 257
   assemblies:
   - Mewdeko.Coordinator
@@ -348,11 +348,11 @@ items:
   type: Method
   source:
     remote:
-      path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+      path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
       branch: psqldeko
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Die
-    path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+    path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
     startLine: 269
   assemblies:
   - Mewdeko.Coordinator
@@ -386,11 +386,11 @@ items:
   type: Method
   source:
     remote:
-      path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+      path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
       branch: psqldeko
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetConfigText
-    path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+    path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
     startLine: 275
   assemblies:
   - Mewdeko.Coordinator
@@ -419,11 +419,11 @@ items:
   type: Method
   source:
     remote:
-      path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+      path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
       branch: psqldeko
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetConfigText
-    path: src/Mewdeko.Coordinator/obj/Release/net7.0/Protos/CoordinatorGrpc.cs
+    path: src/Mewdeko.Coordinator/obj/Release/net8.0/Protos/CoordinatorGrpc.cs
     startLine: 281
   assemblies:
   - Mewdeko.Coordinator

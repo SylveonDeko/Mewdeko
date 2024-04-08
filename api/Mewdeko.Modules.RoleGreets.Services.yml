@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.RoleGreets.Services
   commentId: N:Mewdeko.Modules.RoleGreets.Services
-  id: Mewdeko.Modules.RoleGreets.Services
+  id: Services
+  parent: Mewdeko.Modules.RoleGreets
   children:
   - Mewdeko.Modules.RoleGreets.Services.RoleGreetService
   langs:

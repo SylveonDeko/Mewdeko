@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Administration
   commentId: N:Mewdeko.Modules.Administration
-  id: Mewdeko.Modules.Administration
+  id: Administration
+  parent: Mewdeko.Modules
   children:
   - Mewdeko.Modules.Administration.Administration
   - Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands
@@ -24,6 +25,8 @@ items:
   - Mewdeko.Modules.Administration.Administration.TimeZoneCommands
   - Mewdeko.Modules.Administration.Administration.VcRoleCommands
   - Mewdeko.Modules.Administration.AutoBanRole
+  - Mewdeko.Modules.Administration.Common
+  - Mewdeko.Modules.Administration.Services
   - Mewdeko.Modules.Administration.SlashAdministration
   - Mewdeko.Modules.Administration.SlashAdministration.SlashAutoBanRole
   - Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery
@@ -37,12 +40,110 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Modules.Administration.Common
+  commentId: N:Mewdeko.Modules.Administration.Common
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Administration.Common
+  nameWithType: Mewdeko.Modules.Administration.Common
+  fullName: Mewdeko.Modules.Administration.Common
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Common
+    name: Common
+    href: Mewdeko.Modules.Administration.Common.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Common
+    name: Common
+    href: Mewdeko.Modules.Administration.Common.html
+- uid: Mewdeko.Modules.Administration.Services
+  commentId: N:Mewdeko.Modules.Administration.Services
+  href: Mewdeko.html
+  name: Mewdeko.Modules.Administration.Services
+  nameWithType: Mewdeko.Modules.Administration.Services
+  fullName: Mewdeko.Modules.Administration.Services
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services
+    name: Services
+    href: Mewdeko.Modules.Administration.Services.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Modules
+    name: Modules
+    href: Mewdeko.Modules.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services
+    name: Services
+    href: Mewdeko.Modules.Administration.Services.html
 - uid: Mewdeko.Modules.Administration.Administration
   commentId: T:Mewdeko.Modules.Administration.Administration
   href: Mewdeko.Modules.Administration.Administration.html
   name: Administration
   nameWithType: Administration
   fullName: Mewdeko.Modules.Administration.Administration
+- uid: Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands
+  commentId: T:Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands
+  href: Mewdeko.Modules.Administration.Administration.html
+  name: Administration.AutoAssignRoleCommands
+  nameWithType: Administration.AutoAssignRoleCommands
+  fullName: Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands
+  spec.csharp:
+  - uid: Mewdeko.Modules.Administration.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands
+    name: AutoAssignRoleCommands
+    href: Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Administration.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands
+    name: AutoAssignRoleCommands
+    href: Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands.html
 - uid: Mewdeko.Modules.Administration.Administration.Channel
   commentId: T:Mewdeko.Modules.Administration.Administration.Channel
   parent: Mewdeko.Modules.Administration
@@ -66,97 +167,6 @@ references:
   - uid: Mewdeko.Modules.Administration.Administration.Channel
     name: Channel
     href: Mewdeko.Modules.Administration.Administration.Channel.html
-- uid: Mewdeko.Modules.Administration.Administration.List
-  commentId: T:Mewdeko.Modules.Administration.Administration.List
-  parent: Mewdeko.Modules.Administration
-  href: Mewdeko.Modules.Administration.Administration.html
-  name: Administration.List
-  nameWithType: Administration.List
-  fullName: Mewdeko.Modules.Administration.Administration.List
-  spec.csharp:
-  - uid: Mewdeko.Modules.Administration.Administration
-    name: Administration
-    href: Mewdeko.Modules.Administration.Administration.html
-  - name: .
-  - uid: Mewdeko.Modules.Administration.Administration.List
-    name: List
-    href: Mewdeko.Modules.Administration.Administration.List.html
-  spec.vb:
-  - uid: Mewdeko.Modules.Administration.Administration
-    name: Administration
-    href: Mewdeko.Modules.Administration.Administration.html
-  - name: .
-  - uid: Mewdeko.Modules.Administration.Administration.List
-    name: List
-    href: Mewdeko.Modules.Administration.Administration.List.html
-- uid: Mewdeko.Modules.Administration.Administration.Server
-  commentId: T:Mewdeko.Modules.Administration.Administration.Server
-  parent: Mewdeko.Modules.Administration
-  href: Mewdeko.Modules.Administration.Administration.html
-  name: Administration.Server
-  nameWithType: Administration.Server
-  fullName: Mewdeko.Modules.Administration.Administration.Server
-  spec.csharp:
-  - uid: Mewdeko.Modules.Administration.Administration
-    name: Administration
-    href: Mewdeko.Modules.Administration.Administration.html
-  - name: .
-  - uid: Mewdeko.Modules.Administration.Administration.Server
-    name: Server
-    href: Mewdeko.Modules.Administration.Administration.Server.html
-  spec.vb:
-  - uid: Mewdeko.Modules.Administration.Administration
-    name: Administration
-    href: Mewdeko.Modules.Administration.Administration.html
-  - name: .
-  - uid: Mewdeko.Modules.Administration.Administration.Server
-    name: Server
-    href: Mewdeko.Modules.Administration.Administration.Server.html
-- uid: Mewdeko.Modules.Administration.Administration.State
-  commentId: T:Mewdeko.Modules.Administration.Administration.State
-  parent: Mewdeko.Modules.Administration
-  href: Mewdeko.Modules.Administration.Administration.html
-  name: Administration.State
-  nameWithType: Administration.State
-  fullName: Mewdeko.Modules.Administration.Administration.State
-  spec.csharp:
-  - uid: Mewdeko.Modules.Administration.Administration
-    name: Administration
-    href: Mewdeko.Modules.Administration.Administration.html
-  - name: .
-  - uid: Mewdeko.Modules.Administration.Administration.State
-    name: State
-    href: Mewdeko.Modules.Administration.Administration.State.html
-  spec.vb:
-  - uid: Mewdeko.Modules.Administration.Administration
-    name: Administration
-    href: Mewdeko.Modules.Administration.Administration.html
-  - name: .
-  - uid: Mewdeko.Modules.Administration.Administration.State
-    name: State
-    href: Mewdeko.Modules.Administration.Administration.State.html
-- uid: Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands
-  commentId: T:Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands
-  href: Mewdeko.Modules.Administration.Administration.html
-  name: Administration.AutoAssignRoleCommands
-  nameWithType: Administration.AutoAssignRoleCommands
-  fullName: Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands
-  spec.csharp:
-  - uid: Mewdeko.Modules.Administration.Administration
-    name: Administration
-    href: Mewdeko.Modules.Administration.Administration.html
-  - name: .
-  - uid: Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands
-    name: AutoAssignRoleCommands
-    href: Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands.html
-  spec.vb:
-  - uid: Mewdeko.Modules.Administration.Administration
-    name: Administration
-    href: Mewdeko.Modules.Administration.Administration.html
-  - name: .
-  - uid: Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands
-    name: AutoAssignRoleCommands
-    href: Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands.html
 - uid: Mewdeko.Modules.Administration.Administration.DiscordPermOverrideCommands
   commentId: T:Mewdeko.Modules.Administration.Administration.DiscordPermOverrideCommands
   href: Mewdeko.Modules.Administration.Administration.html
@@ -201,6 +211,29 @@ references:
   - uid: Mewdeko.Modules.Administration.Administration.GameChannelCommands
     name: GameChannelCommands
     href: Mewdeko.Modules.Administration.Administration.GameChannelCommands.html
+- uid: Mewdeko.Modules.Administration.Administration.List
+  commentId: T:Mewdeko.Modules.Administration.Administration.List
+  parent: Mewdeko.Modules.Administration
+  href: Mewdeko.Modules.Administration.Administration.html
+  name: Administration.List
+  nameWithType: Administration.List
+  fullName: Mewdeko.Modules.Administration.Administration.List
+  spec.csharp:
+  - uid: Mewdeko.Modules.Administration.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Administration.List
+    name: List
+    href: Mewdeko.Modules.Administration.Administration.List.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Administration.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Administration.List
+    name: List
+    href: Mewdeko.Modules.Administration.Administration.List.html
 - uid: Mewdeko.Modules.Administration.Administration.LocalizationCommands
   commentId: T:Mewdeko.Modules.Administration.Administration.LocalizationCommands
   href: Mewdeko.Modules.Administration.Administration.html
@@ -395,6 +428,29 @@ references:
   - uid: Mewdeko.Modules.Administration.Administration.SelfAssignedRolesCommands
     name: SelfAssignedRolesCommands
     href: Mewdeko.Modules.Administration.Administration.SelfAssignedRolesCommands.html
+- uid: Mewdeko.Modules.Administration.Administration.Server
+  commentId: T:Mewdeko.Modules.Administration.Administration.Server
+  parent: Mewdeko.Modules.Administration
+  href: Mewdeko.Modules.Administration.Administration.html
+  name: Administration.Server
+  nameWithType: Administration.Server
+  fullName: Mewdeko.Modules.Administration.Administration.Server
+  spec.csharp:
+  - uid: Mewdeko.Modules.Administration.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Administration.Server
+    name: Server
+    href: Mewdeko.Modules.Administration.Administration.Server.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Administration.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Administration.Server
+    name: Server
+    href: Mewdeko.Modules.Administration.Administration.Server.html
 - uid: Mewdeko.Modules.Administration.Administration.ServerGreetCommands
   commentId: T:Mewdeko.Modules.Administration.Administration.ServerGreetCommands
   href: Mewdeko.Modules.Administration.Administration.html
@@ -417,6 +473,29 @@ references:
   - uid: Mewdeko.Modules.Administration.Administration.ServerGreetCommands
     name: ServerGreetCommands
     href: Mewdeko.Modules.Administration.Administration.ServerGreetCommands.html
+- uid: Mewdeko.Modules.Administration.Administration.State
+  commentId: T:Mewdeko.Modules.Administration.Administration.State
+  parent: Mewdeko.Modules.Administration
+  href: Mewdeko.Modules.Administration.Administration.html
+  name: Administration.State
+  nameWithType: Administration.State
+  fullName: Mewdeko.Modules.Administration.Administration.State
+  spec.csharp:
+  - uid: Mewdeko.Modules.Administration.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Administration.State
+    name: State
+    href: Mewdeko.Modules.Administration.Administration.State.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Administration.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Administration.State
+    name: State
+    href: Mewdeko.Modules.Administration.Administration.State.html
 - uid: Mewdeko.Modules.Administration.Administration.TimeZoneCommands
   commentId: T:Mewdeko.Modules.Administration.Administration.TimeZoneCommands
   href: Mewdeko.Modules.Administration.Administration.html

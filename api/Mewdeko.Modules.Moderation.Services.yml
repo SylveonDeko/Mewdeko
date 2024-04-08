@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Moderation.Services
   commentId: N:Mewdeko.Modules.Moderation.Services
-  id: Mewdeko.Modules.Moderation.Services
+  id: Services
+  parent: Mewdeko.Modules.Moderation
   children:
   - Mewdeko.Modules.Moderation.Services.MuteService
   - Mewdeko.Modules.Moderation.Services.MuteService.TimerType
@@ -22,13 +23,6 @@ items:
   assemblies:
   - Mewdeko
 references:
-- uid: Mewdeko.Modules.Moderation.Services.MuteType
-  commentId: T:Mewdeko.Modules.Moderation.Services.MuteType
-  parent: Mewdeko.Modules.Moderation.Services
-  href: Mewdeko.Modules.Moderation.Services.MuteType.html
-  name: MuteType
-  nameWithType: MuteType
-  fullName: Mewdeko.Modules.Moderation.Services.MuteType
 - uid: Mewdeko.Modules.Moderation.Services.MuteService
   commentId: T:Mewdeko.Modules.Moderation.Services.MuteService
   parent: Mewdeko.Modules.Moderation.Services
@@ -59,6 +53,13 @@ references:
   - uid: Mewdeko.Modules.Moderation.Services.MuteService.TimerType
     name: TimerType
     href: Mewdeko.Modules.Moderation.Services.MuteService.TimerType.html
+- uid: Mewdeko.Modules.Moderation.Services.MuteType
+  commentId: T:Mewdeko.Modules.Moderation.Services.MuteType
+  parent: Mewdeko.Modules.Moderation.Services
+  href: Mewdeko.Modules.Moderation.Services.MuteType.html
+  name: MuteType
+  nameWithType: MuteType
+  fullName: Mewdeko.Modules.Moderation.Services.MuteType
 - uid: Mewdeko.Modules.Moderation.Services.PurgeService
   commentId: T:Mewdeko.Modules.Moderation.Services.PurgeService
   href: Mewdeko.Modules.Moderation.Services.PurgeService.html

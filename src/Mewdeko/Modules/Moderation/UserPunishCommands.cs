@@ -426,7 +426,7 @@ public partial class Moderation : MewdekoModule
         /// Sets the expiration time for warnings.
         /// </summary>
         /// <param name="days">The number of days until warnings expire</param>
-        /// <param name="args">
+        /// <param name="options">The action to take when a warning expires</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(2)]
         public async Task WarnExpire(int days, WarnExpireAction options)

@@ -212,7 +212,7 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
     /// Sets the amount of days before warns expire
     /// </summary>
     /// <param name="days">The days (max of 366) a warn should expire</param>
-    /// <param name="delete">Whether to delete warns instead of clearing them</param>
+    /// <param name="action">Whether to delete warns instead of clearing them</param>
     [SlashCommand("setwarnexpire", "Set when warns expire in days"), RequireContext(ContextType.Guild),
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task WarnExpire(int days,

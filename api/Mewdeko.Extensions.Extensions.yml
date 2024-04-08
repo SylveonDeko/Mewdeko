@@ -27,7 +27,6 @@ items:
   - Mewdeko.Extensions.Extensions.Map``2(``0[],System.Func{``0,``1})
   - Mewdeko.Extensions.Extensions.MethodName(Discord.Commands.CommandInfo)
   - Mewdeko.Extensions.Extensions.RealRemarksArr(Discord.Commands.CommandInfo,Mewdeko.Services.strings.IBotStrings,System.Nullable{System.UInt64},System.String)
-  - Mewdeko.Extensions.Extensions.RealRemarksArr(Discord.Interactions.SlashCommandInfo,Mewdeko.Services.strings.IBotStrings,System.Nullable{System.UInt64},System.String)
   - Mewdeko.Extensions.Extensions.RealSummary(Discord.Commands.CommandInfo,Mewdeko.Services.strings.IBotStrings,System.Nullable{System.UInt64},System.String)
   - Mewdeko.Extensions.Extensions.RedisKey(Mewdeko.Services.IBotCredentials)
   - Mewdeko.Extensions.Extensions.RemoveRange``1(System.Collections.Generic.IList{``0},System.Collections.Generic.IEnumerable{``0})
@@ -1179,55 +1178,14 @@ items:
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
+  summary: Retrieves the real remarks array of a command.
+  example: []
   syntax:
     content: public static string[] RealRemarksArr(this CommandInfo cmd, IBotStrings strings, ulong? guildId, string? prefix)
     parameters:
     - id: cmd
       type: Discord.Commands.CommandInfo
-    - id: strings
-      type: Mewdeko.Services.strings.IBotStrings
-    - id: guildId
-      type: System.Nullable{System.UInt64}
-    - id: prefix
-      type: System.String
-    return:
-      type: System.String[]
-    content.vb: Public Shared Function RealRemarksArr(cmd As CommandInfo, strings As IBotStrings, guildId As ULong?, prefix As String) As String()
-  overload: Mewdeko.Extensions.Extensions.RealRemarksArr*
-  nameWithType.vb: Extensions.RealRemarksArr(CommandInfo, IBotStrings, ULong?, String)
-  fullName.vb: Mewdeko.Extensions.Extensions.RealRemarksArr(Discord.Commands.CommandInfo, Mewdeko.Services.strings.IBotStrings, ULong?, String)
-  name.vb: RealRemarksArr(CommandInfo, IBotStrings, ULong?, String)
-- uid: Mewdeko.Extensions.Extensions.RealRemarksArr(Discord.Interactions.SlashCommandInfo,Mewdeko.Services.strings.IBotStrings,System.Nullable{System.UInt64},System.String)
-  commentId: M:Mewdeko.Extensions.Extensions.RealRemarksArr(Discord.Interactions.SlashCommandInfo,Mewdeko.Services.strings.IBotStrings,System.Nullable{System.UInt64},System.String)
-  id: RealRemarksArr(Discord.Interactions.SlashCommandInfo,Mewdeko.Services.strings.IBotStrings,System.Nullable{System.UInt64},System.String)
-  isExtensionMethod: true
-  parent: Mewdeko.Extensions.Extensions
-  langs:
-  - csharp
-  - vb
-  name: RealRemarksArr(SlashCommandInfo, IBotStrings, ulong?, string?)
-  nameWithType: Extensions.RealRemarksArr(SlashCommandInfo, IBotStrings, ulong?, string?)
-  fullName: Mewdeko.Extensions.Extensions.RealRemarksArr(Discord.Interactions.SlashCommandInfo, Mewdeko.Services.strings.IBotStrings, ulong?, string?)
-  type: Method
-  source:
-    remote:
-      path: src/Mewdeko/Extensions/Extensions.cs
-      branch: psqldeko
-      repo: https://github.com/Sylveon76/Mewdeko.git
-    id: RealRemarksArr
-    path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 347
-  assemblies:
-  - Mewdeko
-  namespace: Mewdeko.Extensions
-  summary: Retrieves the real remarks array of a slash command.
-  example: []
-  syntax:
-    content: public static string[] RealRemarksArr(this SlashCommandInfo cmd, IBotStrings strings, ulong? guildId, string? prefix)
-    parameters:
-    - id: cmd
-      type: Discord.Interactions.SlashCommandInfo
-      description: Slash command information.
+      description: Command information.
     - id: strings
       type: Mewdeko.Services.strings.IBotStrings
       description: Bot strings provider.
@@ -1239,12 +1197,12 @@ items:
       description: Command prefix.
     return:
       type: System.String[]
-      description: Real remarks array of the slash command.
-    content.vb: Public Shared Function RealRemarksArr(cmd As SlashCommandInfo, strings As IBotStrings, guildId As ULong?, prefix As String) As String()
+      description: Real remarks array of the command.
+    content.vb: Public Shared Function RealRemarksArr(cmd As CommandInfo, strings As IBotStrings, guildId As ULong?, prefix As String) As String()
   overload: Mewdeko.Extensions.Extensions.RealRemarksArr*
-  nameWithType.vb: Extensions.RealRemarksArr(SlashCommandInfo, IBotStrings, ULong?, String)
-  fullName.vb: Mewdeko.Extensions.Extensions.RealRemarksArr(Discord.Interactions.SlashCommandInfo, Mewdeko.Services.strings.IBotStrings, ULong?, String)
-  name.vb: RealRemarksArr(SlashCommandInfo, IBotStrings, ULong?, String)
+  nameWithType.vb: Extensions.RealRemarksArr(CommandInfo, IBotStrings, ULong?, String)
+  fullName.vb: Mewdeko.Extensions.Extensions.RealRemarksArr(Discord.Commands.CommandInfo, Mewdeko.Services.strings.IBotStrings, ULong?, String)
+  name.vb: RealRemarksArr(CommandInfo, IBotStrings, ULong?, String)
 - uid: Mewdeko.Extensions.Extensions.MethodName(Discord.Commands.CommandInfo)
   commentId: M:Mewdeko.Extensions.Extensions.MethodName(Discord.Commands.CommandInfo)
   id: MethodName(Discord.Commands.CommandInfo)
@@ -1264,7 +1222,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MethodName
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 357
+    startLine: 344
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1299,7 +1257,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetFullUsage
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 368
+    startLine: 355
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1344,7 +1302,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddPaginatedFooter
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 378
+    startLine: 365
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1389,7 +1347,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: WithOkColor
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 390
+    startLine: 377
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1425,7 +1383,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: WithErrorColor
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 398
+    startLine: 385
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1461,7 +1419,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: WithOkColor
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 405
+    startLine: 392
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1497,7 +1455,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: WithErrorColor
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 412
+    startLine: 399
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1533,7 +1491,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddFakeHeaders
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 419
+    startLine: 406
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1569,7 +1527,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddFakeHeaders
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 429
+    startLine: 416
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1602,7 +1560,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: DeleteAfter
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 442
+    startLine: 429
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1641,7 +1599,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: DeleteAfter
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 465
+    startLine: 452
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1680,7 +1638,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetTopLevelModule
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 488
+    startLine: 475
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1716,7 +1674,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetMembersAsync
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 499
+    startLine: 486
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1752,7 +1710,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ToStream
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 510
+    startLine: 497
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1791,7 +1749,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ToStream
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 525
+    startLine: 512
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1833,7 +1791,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetRoles
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 537
+    startLine: 524
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1869,7 +1827,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: IsImage
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 545
+    startLine: 532
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1905,7 +1863,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: IsImage
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 553
+    startLine: 540
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1947,7 +1905,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetImageSize
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 565
+    startLine: 552
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1983,7 +1941,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ToSkImage
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 576
+    startLine: 563
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -2022,7 +1980,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetCtNames
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 586
+    startLine: 573
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -2058,7 +2016,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetRealName
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 613
+    startLine: 600
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -3493,35 +3451,6 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.string
   - name: (
   - name: )
-- uid: Discord.Interactions.SlashCommandInfo
-  commentId: T:Discord.Interactions.SlashCommandInfo
-  parent: Discord.Interactions
-  isExternal: true
-  name: SlashCommandInfo
-  nameWithType: SlashCommandInfo
-  fullName: Discord.Interactions.SlashCommandInfo
-- uid: Discord.Interactions
-  commentId: N:Discord.Interactions
-  isExternal: true
-  name: Discord.Interactions
-  nameWithType: Discord.Interactions
-  fullName: Discord.Interactions
-  spec.csharp:
-  - uid: Discord
-    name: Discord
-    isExternal: true
-  - name: .
-  - uid: Discord.Interactions
-    name: Interactions
-    isExternal: true
-  spec.vb:
-  - uid: Discord
-    name: Discord
-    isExternal: true
-  - name: .
-  - uid: Discord.Interactions
-    name: Interactions
-    isExternal: true
 - uid: Mewdeko.Extensions.Extensions.MethodName*
   commentId: Overload:Mewdeko.Extensions.Extensions.MethodName
   href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_MethodName_Discord_Commands_CommandInfo_

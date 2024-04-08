@@ -652,7 +652,7 @@ items:
     parameters:
     - id: afkTypeEnum
       type: Mewdeko.Modules.Afk.Afk.AfkTypeEnum
-      description: The type of AFK behavior to set. AfkTypeEnum
+      description: The type of AFK behavior to set. <xref href="Mewdeko.Modules.Afk.Afk.AfkTypeEnum" data-throw-if-not-resolved="false"></xref>
     return:
       type: System.Threading.Tasks.Task
     content.vb: >-
@@ -6234,12 +6234,6 @@ references:
   nameWithType.vb: Integer
   fullName.vb: Integer
   name.vb: Integer
-- uid: Mewdeko.Modules.Afk.SlashAfk.AfkType*
-  commentId: Overload:Mewdeko.Modules.Afk.SlashAfk.AfkType
-  href: Mewdeko.Modules.Afk.SlashAfk.html#Mewdeko_Modules_Afk_SlashAfk_AfkType_Mewdeko_Modules_Afk_Afk_AfkTypeEnum_
-  name: AfkType
-  nameWithType: SlashAfk.AfkType
-  fullName: Mewdeko.Modules.Afk.SlashAfk.AfkType
 - uid: Mewdeko.Modules.Afk.Afk.AfkTypeEnum
   commentId: T:Mewdeko.Modules.Afk.Afk.AfkTypeEnum
   parent: Mewdeko.Modules.Afk
@@ -6263,6 +6257,12 @@ references:
   - uid: Mewdeko.Modules.Afk.Afk.AfkTypeEnum
     name: AfkTypeEnum
     href: Mewdeko.Modules.Afk.Afk.AfkTypeEnum.html
+- uid: Mewdeko.Modules.Afk.SlashAfk.AfkType*
+  commentId: Overload:Mewdeko.Modules.Afk.SlashAfk.AfkType
+  href: Mewdeko.Modules.Afk.SlashAfk.html#Mewdeko_Modules_Afk_SlashAfk_AfkType_Mewdeko_Modules_Afk_Afk_AfkTypeEnum_
+  name: AfkType
+  nameWithType: SlashAfk.AfkType
+  fullName: Mewdeko.Modules.Afk.SlashAfk.AfkType
 - uid: Mewdeko.Modules.Afk.SlashAfk.AfkTimeout*
   commentId: Overload:Mewdeko.Modules.Afk.SlashAfk.AfkTimeout
   href: Mewdeko.Modules.Afk.SlashAfk.html#Mewdeko_Modules_Afk_SlashAfk_AfkTimeout_System_String_

@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Confessions.Services
   commentId: N:Mewdeko.Modules.Confessions.Services
-  id: Mewdeko.Modules.Confessions.Services
+  id: Services
+  parent: Mewdeko.Modules.Confessions
   children:
   - Mewdeko.Modules.Confessions.Services.ConfessionExtensions
   - Mewdeko.Modules.Confessions.Services.ConfessionService
@@ -16,15 +17,15 @@ items:
   assemblies:
   - Mewdeko
 references:
-- uid: Mewdeko.Modules.Confessions.Services.ConfessionService
-  commentId: T:Mewdeko.Modules.Confessions.Services.ConfessionService
-  href: Mewdeko.Modules.Confessions.Services.ConfessionService.html
-  name: ConfessionService
-  nameWithType: ConfessionService
-  fullName: Mewdeko.Modules.Confessions.Services.ConfessionService
 - uid: Mewdeko.Modules.Confessions.Services.ConfessionExtensions
   commentId: T:Mewdeko.Modules.Confessions.Services.ConfessionExtensions
   href: Mewdeko.Modules.Confessions.Services.ConfessionExtensions.html
   name: ConfessionExtensions
   nameWithType: ConfessionExtensions
   fullName: Mewdeko.Modules.Confessions.Services.ConfessionExtensions
+- uid: Mewdeko.Modules.Confessions.Services.ConfessionService
+  commentId: T:Mewdeko.Modules.Confessions.Services.ConfessionService
+  href: Mewdeko.Modules.Confessions.Services.ConfessionService.html
+  name: ConfessionService
+  nameWithType: ConfessionService
+  fullName: Mewdeko.Modules.Confessions.Services.ConfessionService

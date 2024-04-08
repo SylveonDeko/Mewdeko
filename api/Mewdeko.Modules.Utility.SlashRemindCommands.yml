@@ -166,7 +166,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Me
     path: src/Mewdeko/Modules/Utility/SlashRemindCommands.cs
-    startLine: 22
+    startLine: 21
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -241,7 +241,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Here
     path: src/Mewdeko/Modules/Utility/SlashRemindCommands.cs
-    startLine: 47
+    startLine: 46
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -316,7 +316,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Channel
     path: src/Mewdeko/Modules/Utility/SlashRemindCommands.cs
-    startLine: 78
+    startLine: 77
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -411,7 +411,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ReminderModal
     path: src/Mewdeko/Modules/Utility/SlashRemindCommands.cs
-    startLine: 118
+    startLine: 117
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -474,7 +474,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: List
     path: src/Mewdeko/Modules/Utility/SlashRemindCommands.cs
-    startLine: 182
+    startLine: 181
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -538,7 +538,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RemindDelete
     path: src/Mewdeko/Modules/Utility/SlashRemindCommands.cs
-    startLine: 230
+    startLine: 229
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility

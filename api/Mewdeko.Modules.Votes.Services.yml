@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Votes.Services
   commentId: N:Mewdeko.Modules.Votes.Services
-  id: Mewdeko.Modules.Votes.Services
+  id: Services
+  parent: Mewdeko.Modules.Votes
   children:
   - Mewdeko.Modules.Votes.Services.CustomVoteThingy
   - Mewdeko.Modules.Votes.Services.VoteService
@@ -16,15 +17,15 @@ items:
   assemblies:
   - Mewdeko
 references:
-- uid: Mewdeko.Modules.Votes.Services.VoteService
-  commentId: T:Mewdeko.Modules.Votes.Services.VoteService
-  href: Mewdeko.Modules.Votes.Services.VoteService.html
-  name: VoteService
-  nameWithType: VoteService
-  fullName: Mewdeko.Modules.Votes.Services.VoteService
 - uid: Mewdeko.Modules.Votes.Services.CustomVoteThingy
   commentId: T:Mewdeko.Modules.Votes.Services.CustomVoteThingy
   href: Mewdeko.Modules.Votes.Services.CustomVoteThingy.html
   name: CustomVoteThingy
   nameWithType: CustomVoteThingy
   fullName: Mewdeko.Modules.Votes.Services.CustomVoteThingy
+- uid: Mewdeko.Modules.Votes.Services.VoteService
+  commentId: T:Mewdeko.Modules.Votes.Services.VoteService
+  href: Mewdeko.Modules.Votes.Services.VoteService.html
+  name: VoteService
+  nameWithType: VoteService
+  fullName: Mewdeko.Modules.Votes.Services.VoteService

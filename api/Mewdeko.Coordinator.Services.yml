@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Coordinator.Services
   commentId: N:Mewdeko.Coordinator.Services
-  id: Mewdeko.Coordinator.Services
+  id: Services
+  parent: Mewdeko.Coordinator
   children:
   - Mewdeko.Coordinator.Services.CoordinatorRunner
   - Mewdeko.Coordinator.Services.CoordinatorService

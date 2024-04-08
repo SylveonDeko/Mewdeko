@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Administration.Common
   commentId: N:Mewdeko.Modules.Administration.Common
-  id: Mewdeko.Modules.Administration.Common
+  id: Common
+  parent: Mewdeko.Modules.Administration
   children:
   - Mewdeko.Modules.Administration.Common.AntiAltStats
   - Mewdeko.Modules.Administration.Common.AntiRaidStats
@@ -20,13 +21,12 @@ items:
   assemblies:
   - Mewdeko
 references:
-- uid: Mewdeko.Modules.Administration.Common.ProtectionType
-  commentId: T:Mewdeko.Modules.Administration.Common.ProtectionType
-  parent: Mewdeko.Modules.Administration.Common
-  href: Mewdeko.Modules.Administration.Common.ProtectionType.html
-  name: ProtectionType
-  nameWithType: ProtectionType
-  fullName: Mewdeko.Modules.Administration.Common.ProtectionType
+- uid: Mewdeko.Modules.Administration.Common.AntiAltStats
+  commentId: T:Mewdeko.Modules.Administration.Common.AntiAltStats
+  href: Mewdeko.Modules.Administration.Common.AntiAltStats.html
+  name: AntiAltStats
+  nameWithType: AntiAltStats
+  fullName: Mewdeko.Modules.Administration.Common.AntiAltStats
 - uid: Mewdeko.Modules.Administration.Common.AntiRaidStats
   commentId: T:Mewdeko.Modules.Administration.Common.AntiRaidStats
   href: Mewdeko.Modules.Administration.Common.AntiRaidStats.html
@@ -39,12 +39,13 @@ references:
   name: AntiSpamStats
   nameWithType: AntiSpamStats
   fullName: Mewdeko.Modules.Administration.Common.AntiSpamStats
-- uid: Mewdeko.Modules.Administration.Common.AntiAltStats
-  commentId: T:Mewdeko.Modules.Administration.Common.AntiAltStats
-  href: Mewdeko.Modules.Administration.Common.AntiAltStats.html
-  name: AntiAltStats
-  nameWithType: AntiAltStats
-  fullName: Mewdeko.Modules.Administration.Common.AntiAltStats
+- uid: Mewdeko.Modules.Administration.Common.ProtectionType
+  commentId: T:Mewdeko.Modules.Administration.Common.ProtectionType
+  parent: Mewdeko.Modules.Administration.Common
+  href: Mewdeko.Modules.Administration.Common.ProtectionType.html
+  name: ProtectionType
+  nameWithType: ProtectionType
+  fullName: Mewdeko.Modules.Administration.Common.ProtectionType
 - uid: Mewdeko.Modules.Administration.Common.PunishQueueItem
   commentId: T:Mewdeko.Modules.Administration.Common.PunishQueueItem
   href: Mewdeko.Modules.Administration.Common.PunishQueueItem.html

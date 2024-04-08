@@ -40,6 +40,48 @@ items:
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetType
   - System.Object.ReferenceEquals(System.Object,System.Object)
+- uid: Mewdeko.Coordinator.Shared.Config.#ctor(System.Int32,System.Int32,System.String,System.String,System.Double,System.UInt64)
+  commentId: M:Mewdeko.Coordinator.Shared.Config.#ctor(System.Int32,System.Int32,System.String,System.String,System.Double,System.UInt64)
+  id: '#ctor(System.Int32,System.Int32,System.String,System.String,System.Double,System.UInt64)'
+  parent: Mewdeko.Coordinator.Shared.Config
+  langs:
+  - csharp
+  - vb
+  name: Config(int, int, string, string, double, ulong)
+  nameWithType: Config.Config(int, int, string, string, double, ulong)
+  fullName: Mewdeko.Coordinator.Shared.Config.Config(int, int, string, string, double, ulong)
+  type: Constructor
+  source:
+    remote:
+      path: src/Mewdeko.Coordinator/Shared/Config.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: .ctor
+    path: src/Mewdeko.Coordinator/Shared/Config.cs
+    startLine: 2
+  assemblies:
+  - Mewdeko.Coordinator
+  namespace: Mewdeko.Coordinator.Shared
+  syntax:
+    content: public Config(int totalShards, int recheckIntervalMs, string shardStartCommand, string shardStartArgs, double unresponsiveSec, ulong clientId)
+    parameters:
+    - id: totalShards
+      type: System.Int32
+    - id: recheckIntervalMs
+      type: System.Int32
+    - id: shardStartCommand
+      type: System.String
+    - id: shardStartArgs
+      type: System.String
+    - id: unresponsiveSec
+      type: System.Double
+    - id: clientId
+      type: System.UInt64
+    content.vb: Public Sub New(totalShards As Integer, recheckIntervalMs As Integer, shardStartCommand As String, shardStartArgs As String, unresponsiveSec As Double, clientId As ULong)
+  overload: Mewdeko.Coordinator.Shared.Config.#ctor*
+  nameWithType.vb: Config.New(Integer, Integer, String, String, Double, ULong)
+  fullName.vb: Mewdeko.Coordinator.Shared.Config.New(Integer, Integer, String, String, Double, ULong)
+  name.vb: New(Integer, Integer, String, String, Double, ULong)
 - uid: Mewdeko.Coordinator.Shared.Config.TotalShards
   commentId: P:Mewdeko.Coordinator.Shared.Config.TotalShards
   id: TotalShards
@@ -58,7 +100,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: TotalShards
     path: src/Mewdeko.Coordinator/Shared/Config.cs
-    startLine: 4
+    startLine: 10
   assemblies:
   - Mewdeko.Coordinator
   namespace: Mewdeko.Coordinator.Shared
@@ -87,7 +129,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RecheckIntervalMs
     path: src/Mewdeko.Coordinator/Shared/Config.cs
-    startLine: 5
+    startLine: 11
   assemblies:
   - Mewdeko.Coordinator
   namespace: Mewdeko.Coordinator.Shared
@@ -116,7 +158,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ShardStartCommand
     path: src/Mewdeko.Coordinator/Shared/Config.cs
-    startLine: 6
+    startLine: 12
   assemblies:
   - Mewdeko.Coordinator
   namespace: Mewdeko.Coordinator.Shared
@@ -145,7 +187,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ShardStartArgs
     path: src/Mewdeko.Coordinator/Shared/Config.cs
-    startLine: 7
+    startLine: 13
   assemblies:
   - Mewdeko.Coordinator
   namespace: Mewdeko.Coordinator.Shared
@@ -174,7 +216,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UnresponsiveSec
     path: src/Mewdeko.Coordinator/Shared/Config.cs
-    startLine: 8
+    startLine: 14
   assemblies:
   - Mewdeko.Coordinator
   namespace: Mewdeko.Coordinator.Shared
@@ -203,7 +245,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ClientId
     path: src/Mewdeko.Coordinator/Shared/Config.cs
-    startLine: 9
+    startLine: 15
   assemblies:
   - Mewdeko.Coordinator
   namespace: Mewdeko.Coordinator.Shared
@@ -214,48 +256,6 @@ items:
       type: System.UInt64
     content.vb: Public Property ClientId As ULong
   overload: Mewdeko.Coordinator.Shared.Config.ClientId*
-- uid: Mewdeko.Coordinator.Shared.Config.#ctor(System.Int32,System.Int32,System.String,System.String,System.Double,System.UInt64)
-  commentId: M:Mewdeko.Coordinator.Shared.Config.#ctor(System.Int32,System.Int32,System.String,System.String,System.Double,System.UInt64)
-  id: '#ctor(System.Int32,System.Int32,System.String,System.String,System.Double,System.UInt64)'
-  parent: Mewdeko.Coordinator.Shared.Config
-  langs:
-  - csharp
-  - vb
-  name: Config(int, int, string, string, double, ulong)
-  nameWithType: Config.Config(int, int, string, string, double, ulong)
-  fullName: Mewdeko.Coordinator.Shared.Config.Config(int, int, string, string, double, ulong)
-  type: Constructor
-  source:
-    remote:
-      path: src/Mewdeko.Coordinator/Shared/Config.cs
-      branch: psqldeko
-      repo: https://github.com/Sylveon76/Mewdeko.git
-    id: .ctor
-    path: src/Mewdeko.Coordinator/Shared/Config.cs
-    startLine: 11
-  assemblies:
-  - Mewdeko.Coordinator
-  namespace: Mewdeko.Coordinator.Shared
-  syntax:
-    content: public Config(int totalShards, int recheckIntervalMs, string shardStartCommand, string shardStartArgs, double unresponsiveSec, ulong clientId)
-    parameters:
-    - id: totalShards
-      type: System.Int32
-    - id: recheckIntervalMs
-      type: System.Int32
-    - id: shardStartCommand
-      type: System.String
-    - id: shardStartArgs
-      type: System.String
-    - id: unresponsiveSec
-      type: System.Double
-    - id: clientId
-      type: System.UInt64
-    content.vb: Public Sub New(totalShards As Integer, recheckIntervalMs As Integer, shardStartCommand As String, shardStartArgs As String, unresponsiveSec As Double, clientId As ULong)
-  overload: Mewdeko.Coordinator.Shared.Config.#ctor*
-  nameWithType.vb: Config.New(Integer, Integer, String, String, Double, ULong)
-  fullName.vb: Mewdeko.Coordinator.Shared.Config.New(Integer, Integer, String, String, Double, ULong)
-  name.vb: New(Integer, Integer, String, String, Double, ULong)
 references:
 - uid: Mewdeko.Coordinator.Shared
   commentId: N:Mewdeko.Coordinator.Shared
@@ -504,12 +504,15 @@ references:
   name: System
   nameWithType: System
   fullName: System
-- uid: Mewdeko.Coordinator.Shared.Config.TotalShards*
-  commentId: Overload:Mewdeko.Coordinator.Shared.Config.TotalShards
-  href: Mewdeko.Coordinator.Shared.Config.html#Mewdeko_Coordinator_Shared_Config_TotalShards
-  name: TotalShards
-  nameWithType: Config.TotalShards
-  fullName: Mewdeko.Coordinator.Shared.Config.TotalShards
+- uid: Mewdeko.Coordinator.Shared.Config.#ctor*
+  commentId: Overload:Mewdeko.Coordinator.Shared.Config.#ctor
+  href: Mewdeko.Coordinator.Shared.Config.html#Mewdeko_Coordinator_Shared_Config__ctor_System_Int32_System_Int32_System_String_System_String_System_Double_System_UInt64_
+  name: Config
+  nameWithType: Config.Config
+  fullName: Mewdeko.Coordinator.Shared.Config.Config
+  nameWithType.vb: Config.New
+  fullName.vb: Mewdeko.Coordinator.Shared.Config.New
+  name.vb: New
 - uid: System.Int32
   commentId: T:System.Int32
   parent: System
@@ -521,6 +524,45 @@ references:
   nameWithType.vb: Integer
   fullName.vb: Integer
   name.vb: Integer
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.double
+  name: double
+  nameWithType: double
+  fullName: double
+  nameWithType.vb: Double
+  fullName.vb: Double
+  name.vb: Double
+- uid: System.UInt64
+  commentId: T:System.UInt64
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.uint64
+  name: ulong
+  nameWithType: ulong
+  fullName: ulong
+  nameWithType.vb: ULong
+  fullName.vb: ULong
+  name.vb: ULong
+- uid: Mewdeko.Coordinator.Shared.Config.TotalShards*
+  commentId: Overload:Mewdeko.Coordinator.Shared.Config.TotalShards
+  href: Mewdeko.Coordinator.Shared.Config.html#Mewdeko_Coordinator_Shared_Config_TotalShards
+  name: TotalShards
+  nameWithType: Config.TotalShards
+  fullName: Mewdeko.Coordinator.Shared.Config.TotalShards
 - uid: Mewdeko.Coordinator.Shared.Config.RecheckIntervalMs*
   commentId: Overload:Mewdeko.Coordinator.Shared.Config.RecheckIntervalMs
   href: Mewdeko.Coordinator.Shared.Config.html#Mewdeko_Coordinator_Shared_Config_RecheckIntervalMs
@@ -533,17 +575,6 @@ references:
   name: ShardStartCommand
   nameWithType: Config.ShardStartCommand
   fullName: Mewdeko.Coordinator.Shared.Config.ShardStartCommand
-- uid: System.String
-  commentId: T:System.String
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.string
-  name: string
-  nameWithType: string
-  fullName: string
-  nameWithType.vb: String
-  fullName.vb: String
-  name.vb: String
 - uid: Mewdeko.Coordinator.Shared.Config.ShardStartArgs*
   commentId: Overload:Mewdeko.Coordinator.Shared.Config.ShardStartArgs
   href: Mewdeko.Coordinator.Shared.Config.html#Mewdeko_Coordinator_Shared_Config_ShardStartArgs
@@ -556,40 +587,9 @@ references:
   name: UnresponsiveSec
   nameWithType: Config.UnresponsiveSec
   fullName: Mewdeko.Coordinator.Shared.Config.UnresponsiveSec
-- uid: System.Double
-  commentId: T:System.Double
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.double
-  name: double
-  nameWithType: double
-  fullName: double
-  nameWithType.vb: Double
-  fullName.vb: Double
-  name.vb: Double
 - uid: Mewdeko.Coordinator.Shared.Config.ClientId*
   commentId: Overload:Mewdeko.Coordinator.Shared.Config.ClientId
   href: Mewdeko.Coordinator.Shared.Config.html#Mewdeko_Coordinator_Shared_Config_ClientId
   name: ClientId
   nameWithType: Config.ClientId
   fullName: Mewdeko.Coordinator.Shared.Config.ClientId
-- uid: System.UInt64
-  commentId: T:System.UInt64
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.uint64
-  name: ulong
-  nameWithType: ulong
-  fullName: ulong
-  nameWithType.vb: ULong
-  fullName.vb: ULong
-  name.vb: ULong
-- uid: Mewdeko.Coordinator.Shared.Config.#ctor*
-  commentId: Overload:Mewdeko.Coordinator.Shared.Config.#ctor
-  href: Mewdeko.Coordinator.Shared.Config.html#Mewdeko_Coordinator_Shared_Config__ctor_System_Int32_System_Int32_System_String_System_String_System_Double_System_UInt64_
-  name: Config
-  nameWithType: Config.Config
-  fullName: Mewdeko.Coordinator.Shared.Config.Config
-  nameWithType.vb: Config.New
-  fullName.vb: Mewdeko.Coordinator.Shared.Config.New
-  name.vb: New

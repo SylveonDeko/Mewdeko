@@ -149,7 +149,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ToggleVerboseErrors
     path: src/Mewdeko/Modules/Utility/Services/VerboseErrorsService.cs
-    startLine: 111
+    startLine: 113
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility.Services

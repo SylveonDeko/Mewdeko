@@ -161,7 +161,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetXpImage
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 121
+    startLine: 122
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -242,7 +242,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SyncRewards
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 162
+    startLine: 163
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -316,7 +316,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpSetting
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 239
+    startLine: 240
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -400,7 +400,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Experience
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 346
+    startLine: 347
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -476,7 +476,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpLevelUpRewards
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 374
+    startLine: 375
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -538,7 +538,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpRoleReward
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 436
+    startLine: 437
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -623,7 +623,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpNotify
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 474
+    startLine: 475
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -688,7 +688,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpNotify
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 496
+    startLine: 497
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -760,7 +760,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpExclude
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 514
+    startLine: 515
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -834,7 +834,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpExclude
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 532
+    startLine: 533
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -915,7 +915,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpExclude
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 551
+    startLine: 552
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -1002,7 +1002,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpExclusionList
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 571
+    startLine: 572
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -1064,7 +1064,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpLeaderboard
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 627
+    startLine: 628
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -1154,7 +1154,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpAdd
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 710
+    startLine: 711
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -1235,7 +1235,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpAdd
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 733
+    startLine: 734
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -1320,7 +1320,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: TemplateConfig
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 747
+    startLine: 748
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp

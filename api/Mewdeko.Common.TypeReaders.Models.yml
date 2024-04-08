@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Common.TypeReaders.Models
   commentId: N:Mewdeko.Common.TypeReaders.Models
-  id: Mewdeko.Common.TypeReaders.Models
+  id: Models
+  parent: Mewdeko.Common.TypeReaders
   children:
   - Mewdeko.Common.TypeReaders.Models.PermValue
   - Mewdeko.Common.TypeReaders.Models.PermissionAction
@@ -17,13 +18,6 @@ items:
   assemblies:
   - Mewdeko
 references:
-- uid: Mewdeko.Common.TypeReaders.Models.PermissionAction
-  commentId: T:Mewdeko.Common.TypeReaders.Models.PermissionAction
-  parent: Mewdeko.Common.TypeReaders.Models
-  href: Mewdeko.Common.TypeReaders.Models.PermissionAction.html
-  name: PermissionAction
-  nameWithType: PermissionAction
-  fullName: Mewdeko.Common.TypeReaders.Models.PermissionAction
 - uid: Mewdeko.Common.TypeReaders.Models.PermValue
   commentId: T:Mewdeko.Common.TypeReaders.Models.PermValue
   parent: Mewdeko.Common.TypeReaders.Models
@@ -31,6 +25,13 @@ references:
   name: PermValue
   nameWithType: PermValue
   fullName: Mewdeko.Common.TypeReaders.Models.PermValue
+- uid: Mewdeko.Common.TypeReaders.Models.PermissionAction
+  commentId: T:Mewdeko.Common.TypeReaders.Models.PermissionAction
+  parent: Mewdeko.Common.TypeReaders.Models
+  href: Mewdeko.Common.TypeReaders.Models.PermissionAction.html
+  name: PermissionAction
+  nameWithType: PermissionAction
+  fullName: Mewdeko.Common.TypeReaders.Models.PermissionAction
 - uid: Mewdeko.Common.TypeReaders.Models.StoopidTime
   commentId: T:Mewdeko.Common.TypeReaders.Models.StoopidTime
   parent: Mewdeko.Common.TypeReaders.Models

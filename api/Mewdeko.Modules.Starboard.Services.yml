@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Starboard.Services
   commentId: N:Mewdeko.Modules.Starboard.Services
-  id: Mewdeko.Modules.Starboard.Services
+  id: Services
+  parent: Mewdeko.Modules.Starboard
   children:
   - Mewdeko.Modules.Starboard.Services.StarboardService
   langs:

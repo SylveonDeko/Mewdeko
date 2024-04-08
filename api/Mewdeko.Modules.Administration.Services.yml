@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Administration.Services
   commentId: N:Mewdeko.Modules.Administration.Services
-  id: Mewdeko.Modules.Administration.Services
+  id: Services
+  parent: Mewdeko.Modules.Administration
   children:
   - Mewdeko.Modules.Administration.Services.AdministrationService
   - Mewdeko.Modules.Administration.Services.AutoAssignRoleService
@@ -44,12 +45,6 @@ references:
   name: AutoAssignRoleService
   nameWithType: AutoAssignRoleService
   fullName: Mewdeko.Modules.Administration.Services.AutoAssignRoleService
-- uid: Mewdeko.Modules.Administration.Services.GuildConfigExtensions
-  commentId: T:Mewdeko.Modules.Administration.Services.GuildConfigExtensions
-  href: Mewdeko.Modules.Administration.Services.GuildConfigExtensions.html
-  name: GuildConfigExtensions
-  nameWithType: GuildConfigExtensions
-  fullName: Mewdeko.Modules.Administration.Services.GuildConfigExtensions
 - uid: Mewdeko.Modules.Administration.Services.AutoBanRoleService
   commentId: T:Mewdeko.Modules.Administration.Services.AutoBanRoleService
   href: Mewdeko.Modules.Administration.Services.AutoBanRoleService.html
@@ -69,6 +64,12 @@ references:
   name: GameVoiceChannelService
   nameWithType: GameVoiceChannelService
   fullName: Mewdeko.Modules.Administration.Services.GameVoiceChannelService
+- uid: Mewdeko.Modules.Administration.Services.GuildConfigExtensions
+  commentId: T:Mewdeko.Modules.Administration.Services.GuildConfigExtensions
+  href: Mewdeko.Modules.Administration.Services.GuildConfigExtensions.html
+  name: GuildConfigExtensions
+  nameWithType: GuildConfigExtensions
+  fullName: Mewdeko.Modules.Administration.Services.GuildConfigExtensions
 - uid: Mewdeko.Modules.Administration.Services.GuildTimezoneService
   commentId: T:Mewdeko.Modules.Administration.Services.GuildTimezoneService
   parent: Mewdeko.Modules.Administration.Services
@@ -82,29 +83,6 @@ references:
   name: NewLogCommandService
   nameWithType: NewLogCommandService
   fullName: Mewdeko.Modules.Administration.Services.NewLogCommandService
-- uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType
-  commentId: T:Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType
-  parent: Mewdeko.Modules.Administration.Services
-  href: Mewdeko.Modules.Administration.Services.NewLogCommandService.html
-  name: NewLogCommandService.LogType
-  nameWithType: NewLogCommandService.LogType
-  fullName: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType
-  spec.csharp:
-  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService
-    name: NewLogCommandService
-    href: Mewdeko.Modules.Administration.Services.NewLogCommandService.html
-  - name: .
-  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType
-    name: LogType
-    href: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType.html
-  spec.vb:
-  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService
-    name: NewLogCommandService
-    href: Mewdeko.Modules.Administration.Services.NewLogCommandService.html
-  - name: .
-  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType
-    name: LogType
-    href: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType.html
 - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
   commentId: T:Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
   parent: Mewdeko.Modules.Administration.Services
@@ -128,6 +106,29 @@ references:
   - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes
     name: LogCategoryTypes
     href: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogCategoryTypes.html
+- uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType
+  commentId: T:Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType
+  parent: Mewdeko.Modules.Administration.Services
+  href: Mewdeko.Modules.Administration.Services.NewLogCommandService.html
+  name: NewLogCommandService.LogType
+  nameWithType: NewLogCommandService.LogType
+  fullName: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType
+  spec.csharp:
+  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService
+    name: NewLogCommandService
+    href: Mewdeko.Modules.Administration.Services.NewLogCommandService.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType
+    name: LogType
+    href: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService
+    name: NewLogCommandService
+    href: Mewdeko.Modules.Administration.Services.NewLogCommandService.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType
+    name: LogType
+    href: Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType.html
 - uid: Mewdeko.Modules.Administration.Services.ProtectionService
   commentId: T:Mewdeko.Modules.Administration.Services.ProtectionService
   href: Mewdeko.Modules.Administration.Services.ProtectionService.html

@@ -105,7 +105,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: .ctor
     path: src/Mewdeko/Modules/Utility/Common/Exceptions/StreamRolePermissionException.cs
-    startLine: 18
+    startLine: 19
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility.Common.Exceptions
@@ -140,7 +140,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: .ctor
     path: src/Mewdeko/Modules/Utility/Common/Exceptions/StreamRolePermissionException.cs
-    startLine: 27
+    startLine: 28
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility.Common.Exceptions

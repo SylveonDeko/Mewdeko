@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.UserProfile.Common
   commentId: N:Mewdeko.Modules.UserProfile.Common
-  id: Mewdeko.Modules.UserProfile.Common
+  id: Common
+  parent: Mewdeko.Modules.UserProfile
   children:
   - Mewdeko.Modules.UserProfile.Common.PronounSearchResult
   - Mewdeko.Modules.UserProfile.Common.ZodiacResult

@@ -415,15 +415,19 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Reset
     path: src/Mewdeko/Modules/Permissions/Services/PermissionsService.cs
-    startLine: 264
+    startLine: 265
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
+  summary: Resets all permissions for a guild to their default values.
+  remarks: Updates both the database and the in-memory cache.
+  example: []
   syntax:
     content: public Task Reset(ulong guildId)
     parameters:
     - id: guildId
       type: System.UInt64
+      description: The ID of the guild.
     return:
       type: System.Threading.Tasks.Task
     content.vb: Public Function Reset(guildId As ULong) As Task
@@ -449,7 +453,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MentionPerm
     path: src/Mewdeko/Modules/Permissions/Services/PermissionsService.cs
-    startLine: 279
+    startLine: 280
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -490,7 +494,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RemovePerm
     path: src/Mewdeko/Modules/Permissions/Services/PermissionsService.cs
-    startLine: 297
+    startLine: 298
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -531,7 +535,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UpdatePerm
     path: src/Mewdeko/Modules/Permissions/Services/PermissionsService.cs
-    startLine: 318
+    startLine: 319
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -575,7 +579,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UnsafeMovePerm
     path: src/Mewdeko/Modules/Permissions/Services/PermissionsService.cs
-    startLine: 339
+    startLine: 340
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services

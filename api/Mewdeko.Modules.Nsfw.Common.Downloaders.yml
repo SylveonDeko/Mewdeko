@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Nsfw.Common.Downloaders
   commentId: N:Mewdeko.Modules.Nsfw.Common.Downloaders
-  id: Mewdeko.Modules.Nsfw.Common.Downloaders
+  id: Downloaders
+  parent: Mewdeko.Modules.Nsfw.Common
   children:
   - Mewdeko.Modules.Nsfw.Common.Downloaders.DanbooruImageDownloader
   - Mewdeko.Modules.Nsfw.Common.Downloaders.DapiImageDownloader
@@ -80,6 +81,12 @@ references:
   name: IImageDownloader
   nameWithType: IImageDownloader
   fullName: Mewdeko.Modules.Nsfw.Common.Downloaders.IImageDownloader
+- uid: Mewdeko.Modules.Nsfw.Common.Downloaders.ImageDownloaderHelper
+  commentId: T:Mewdeko.Modules.Nsfw.Common.Downloaders.ImageDownloaderHelper
+  href: Mewdeko.Modules.Nsfw.Common.Downloaders.ImageDownloaderHelper.html
+  name: ImageDownloaderHelper
+  nameWithType: ImageDownloaderHelper
+  fullName: Mewdeko.Modules.Nsfw.Common.Downloaders.ImageDownloaderHelper
 - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.ImageDownloader`1
   commentId: T:Mewdeko.Modules.Nsfw.Common.Downloaders.ImageDownloader`1
   href: Mewdeko.Modules.Nsfw.Common.Downloaders.ImageDownloader-1.html
@@ -105,12 +112,6 @@ references:
   - name: " "
   - name: T
   - name: )
-- uid: Mewdeko.Modules.Nsfw.Common.Downloaders.ImageDownloaderHelper
-  commentId: T:Mewdeko.Modules.Nsfw.Common.Downloaders.ImageDownloaderHelper
-  href: Mewdeko.Modules.Nsfw.Common.Downloaders.ImageDownloaderHelper.html
-  name: ImageDownloaderHelper
-  nameWithType: ImageDownloaderHelper
-  fullName: Mewdeko.Modules.Nsfw.Common.Downloaders.ImageDownloaderHelper
 - uid: Mewdeko.Modules.Nsfw.Common.Downloaders.KonachanImageDownloader
   commentId: T:Mewdeko.Modules.Nsfw.Common.Downloaders.KonachanImageDownloader
   href: Mewdeko.Modules.Nsfw.Common.Downloaders.KonachanImageDownloader.html

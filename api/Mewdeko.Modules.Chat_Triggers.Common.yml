@@ -2,7 +2,8 @@
 items:
 - uid: Mewdeko.Modules.Chat_Triggers.Common
   commentId: N:Mewdeko.Modules.Chat_Triggers.Common
-  id: Mewdeko.Modules.Chat_Triggers.Common
+  id: Common
+  parent: Mewdeko.Modules.Chat_Triggers
   children:
   - Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError
   - Mewdeko.Modules.Chat_Triggers.Common.ExportedTriggers
@@ -16,6 +17,12 @@ items:
   assemblies:
   - Mewdeko
 references:
+- uid: Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError
+  commentId: T:Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError
+  href: Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError.html
+  name: ChatTriggersInteractionError
+  nameWithType: ChatTriggersInteractionError
+  fullName: Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError
 - uid: Mewdeko.Modules.Chat_Triggers.Common.ExportedTriggers
   commentId: T:Mewdeko.Modules.Chat_Triggers.Common.ExportedTriggers
   parent: Mewdeko.Modules.Chat_Triggers.Common
@@ -23,12 +30,6 @@ references:
   name: ExportedTriggers
   nameWithType: ExportedTriggers
   fullName: Mewdeko.Modules.Chat_Triggers.Common.ExportedTriggers
-- uid: Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError
-  commentId: T:Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError
-  href: Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError.html
-  name: ChatTriggersInteractionError
-  nameWithType: ChatTriggersInteractionError
-  fullName: Mewdeko.Modules.Chat_Triggers.Common.ChatTriggersInteractionError
 - uid: Mewdeko.Modules.Chat_Triggers.Common
   commentId: N:Mewdeko.Modules.Chat_Triggers.Common
   href: Mewdeko.html
