@@ -5,12 +5,22 @@ using Mewdeko.Votes.Common;
 
 namespace Mewdeko.Modules.Votes.Services;
 
+/// <summary>
+/// Manages voting functionality within the bot, handling vote configuration, processing, and reward distribution.
+/// </summary>
 public class VoteService : INService
 {
     private readonly DbService db;
     private readonly DiscordSocketClient client;
     private readonly MuteService muteService;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="VoteService"/> class, setting up dependencies and subscribing to voting-related pub/sub events.
+    /// </summary>
+    /// <param name="pubSub">The pub/sub system for event handling.</param>
+    /// <param name="db">The database service for data access.</param>
+    /// <param name="client">The Discord client for interacting with the Discord API.</param>
+    /// <param name="muteService">The service for managing mutes within the bot.</param>
     public VoteService(IPubSub pubSub, DbService db, DiscordSocketClient client,
         MuteService muteService)
     {
@@ -24,7 +34,8 @@ public class VoteService : INService
     private async ValueTask RunVoteStuff(CompoundVoteModal voteModal)
     {
         await using var uow = db.GetDbContext();
-        var potentialVoteConfig = await uow.GuildConfigs.FirstOrDefaultAsyncEF(x => x.VotesPassword == voteModal.Password);
+        var potentialVoteConfig =
+            await uow.GuildConfigs.FirstOrDefaultAsyncEF(x => x.VotesPassword == voteModal.Password);
         if (potentialVoteConfig is null)
             return;
         var guild = client.GetGuild(potentialVoteConfig.GuildId);
@@ -86,9 +97,11 @@ public class VoteService : INService
             var rep = new ReplacementBuilder()
                 .WithDefault(user, null, guild, client)
                 .WithOverride("%votestotalcount%", () => votes.Count().ToString())
-                .WithOverride("%votesmonthcount%", () => votes.Count(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month).ToString()).Build();
+                .WithOverride("%votesmonthcount%",
+                    () => votes.Count(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month).ToString()).Build();
 
-            if (SmartEmbed.TryParse(rep.Replace(potentialVoteConfig.VoteEmbed), guild.Id, out var embeds, out var plainText, out var components))
+            if (SmartEmbed.TryParse(rep.Replace(potentialVoteConfig.VoteEmbed), guild.Id, out var embeds,
+                    out var plainText, out var components))
             {
                 await channel.SendMessageAsync(plainText, embeds: embeds, components: components.Build());
             }
@@ -121,6 +134,13 @@ public class VoteService : INService
         }
     }
 
+    /// <summary>
+    /// Adds a vote role to the guild configuration, setting a timer for automatic role removal if specified.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild where the role is to be added.</param>
+    /// <param name="roleId">The ID of the role to be added as a vote role.</param>
+    /// <param name="seconds">The duration in seconds after which the role should be automatically removed. Zero for indefinite.</param>
+    /// <returns>A tuple indicating success status and an optional error message.</returns>
     public async Task<(bool, string)> AddVoteRole(ulong guildId, ulong roleId, int seconds = 0)
     {
         if (roleId == guildId)
@@ -142,6 +162,12 @@ public class VoteService : INService
         return (true, null);
     }
 
+    /// <summary>
+    /// Removes a vote role from the guild configuration.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild from which the role is to be removed.</param>
+    /// <param name="roleId">The ID of the role to be removed from vote roles.</param>
+    /// <returns>A tuple indicating success status and an optional error message.</returns>
     public async Task<(bool, string)> RemoveVoteRole(ulong guildId, ulong roleId)
     {
         if (roleId == guildId)
@@ -158,6 +184,12 @@ public class VoteService : INService
         return (true, null);
     }
 
+    /// <summary>
+    /// Updates the timer for automatic role removal for a vote role in the guild configuration.
+    /// </summary>
+    /// <param name="roleId">The ID of the role whose timer is to be updated.</param>
+    /// <param name="seconds">The new duration in seconds after which the role should be automatically removed.</param>
+    /// <returns>A tuple indicating success status and an optional error message.</returns>
     public async Task<(bool, string)> UpdateTimer(ulong roleId, int seconds)
     {
         await using var uow = db.GetDbContext();
@@ -172,12 +204,22 @@ public class VoteService : INService
         return (true, null);
     }
 
+    /// <summary>
+    /// Retrieves all vote roles configured for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild for which vote roles are requested.</param>
+    /// <returns>A list of vote roles.</returns>
     public async Task<IList<VoteRoles>> GetVoteRoles(ulong guildId)
     {
         await using var uow = db.GetDbContext();
         return await uow.VoteRoles.Where(x => x.GuildId == guildId)?.ToListAsyncEF() ?? new List<VoteRoles>();
     }
 
+    /// <summary>
+    /// Gets the custom vote message configured for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild for which the vote message is requested.</param>
+    /// <returns>The custom vote message, if any.</returns>
     public async Task<string> GetVoteMessage(ulong guildId)
     {
         await using var uow = db.GetDbContext();
@@ -185,6 +227,11 @@ public class VoteService : INService
         return gc.VoteEmbed;
     }
 
+    /// <summary>
+    /// Clears all vote roles configured for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild whose vote roles are to be cleared.</param>
+    /// <returns>A tuple indicating success status and an optional error message.</returns>
     public async Task<(bool, string)> ClearVoteRoles(ulong guildId)
     {
         await using var uow = db.GetDbContext();
@@ -196,6 +243,12 @@ public class VoteService : INService
         return (true, null);
     }
 
+    /// <summary>
+    /// Sets or updates the custom vote message for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild for which the vote message is to be set.</param>
+    /// <param name="message">The new custom vote message.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SetVoteMessage(ulong guildId, string message)
     {
         await using var uow = db.GetDbContext();
@@ -204,6 +257,12 @@ public class VoteService : INService
         await uow.SaveChangesAsync();
     }
 
+    /// <summary>
+    /// Sets or updates the password required for vote validation in a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild for which the vote password is to be set.</param>
+    /// <param name="password">The new password for vote validation.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SetVotePassword(ulong guildId, string password)
     {
         await using var uow = db.GetDbContext();
@@ -212,6 +271,12 @@ public class VoteService : INService
         await uow.SaveChangesAsync();
     }
 
+    /// <summary>
+    /// Sets or updates the channel ID where vote acknowledgements should be sent in a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild for which the vote channel is to be set.</param>
+    /// <param name="channel">The ID of the channel for vote acknowledgements.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SetVoteChannel(ulong guildId, ulong channel)
     {
         await using var uow = db.GetDbContext();
@@ -220,22 +285,40 @@ public class VoteService : INService
         await uow.SaveChangesAsync();
     }
 
+    /// <summary>
+    /// Retrieves all votes cast by a user in a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="userId">The ID of the user.</param>
+    /// <returns>A list of votes.</returns>
     public async Task<List<Database.Models.Votes>> GetVotes(ulong guildId, ulong userId)
     {
         await using var uow = db.GetDbContext();
         return await uow.Votes.Where(x => x.GuildId == guildId && x.UserId == userId).ToListAsyncEF();
     }
 
+    /// <summary>
+    /// Retrieves all votes cast in a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <returns>A list of votes.</returns>
     public async Task<List<Database.Models.Votes>> GetVotes(ulong guildId)
     {
         await using var uow = db.GetDbContext();
         return await uow.Votes.Where(x => x.GuildId == guildId).ToListAsyncEF();
     }
 
+    /// <summary>
+    /// Generates an embed with vote statistics for a user in a guild, including total votes and votes this month.
+    /// </summary>
+    /// <param name="user">The user for whom vote stats are generated.</param>
+    /// <param name="guild">The guild in which the votes were cast.</param>
+    /// <returns>An embed builder populated with vote statistics.</returns>
     public async Task<EmbedBuilder> GetTotalVotes(IUser user, IGuild guild)
     {
         await using var uow = db.GetDbContext();
-        var thisMonth = await uow.Votes.CountAsyncEF(x => x.DateAdded.Value.Month == DateTime.UtcNow.Month && x.UserId == user.Id && x.GuildId == guild.Id);
+        var thisMonth = await uow.Votes.CountAsyncEF(x =>
+            x.DateAdded.Value.Month == DateTime.UtcNow.Month && x.UserId == user.Id && x.GuildId == guild.Id);
         var total = await uow.Votes.CountAsyncEF(x => x.GuildId == guild.Id && x.UserId == user.Id);
         if (total is 0)
             return new EmbedBuilder().WithErrorColor().WithDescription("You do not have any votes.");
@@ -245,12 +328,23 @@ public class VoteService : INService
             .AddField("Votes this month", thisMonth)
             .AddField("Total Votes", total)
             .WithThumbnailUrl(user.RealAvatarUrl().AbsoluteUri)
-            .WithFooter(new EmbedFooterBuilder().WithIconUrl(user.RealAvatarUrl().AbsoluteUri).WithText($"{user} | {user.Id}"));
+            .WithFooter(new EmbedFooterBuilder().WithIconUrl(user.RealAvatarUrl().AbsoluteUri)
+                .WithText($"{user} | {user.Id}"));
     }
 }
 
+/// <summary>
+/// Represents a custom structure for holding user vote information.
+/// </summary>
 public class CustomVoteThingy
 {
+    /// <summary>
+    /// Gets or sets the user associated with the vote count.
+    /// </summary>
     public IUser User { get; set; }
+
+    /// <summary>
+    /// Gets or sets the total vote count for the user.
+    /// </summary>
     public int VoteCount { get; set; }
 }

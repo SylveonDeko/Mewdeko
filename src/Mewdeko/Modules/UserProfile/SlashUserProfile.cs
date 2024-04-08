@@ -8,6 +8,10 @@ using SkiaSharp;
 
 namespace Mewdeko.Modules.UserProfile;
 
+/// <summary>
+/// Provides slash commands for viewing and managing user profiles within the Mewdeko bot framework.
+/// Includes functionality for viewing profiles, setting biographical information, privacy settings, and more.
+/// </summary>
 [Group("userprofile", "Commands to view and manage your user profile")]
 public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
 {
@@ -15,6 +19,12 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     private readonly Mewdeko bot;
     private readonly BlacklistService bss;
 
+    /// <summary>
+    /// Initializes a new instance of the SlashUserProfile class, setting up dependencies for database and blacklist services.
+    /// </summary>
+    /// <param name="db">The database service instance.</param>
+    /// <param name="bot">The bot instance.</param>
+    /// <param name="bss">The blacklist service instance.</param>
     public SlashUserProfile(DbService db, Mewdeko bot, BlacklistService bss)
     {
         this.db = db;
@@ -22,6 +32,10 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         this.bss = bss;
     }
 
+    /// <summary>
+    /// Displays the profile of the specified user or the command caller if no user is specified.
+    /// </summary>
+    /// <param name="user">The user whose profile to display, optional.</param>
     [SlashCommand("profile", "Shows your or another users profile")]
     public async Task Profile(IUser user = null)
     {
@@ -33,6 +47,11 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
             await ctx.Interaction.RespondAsync(embed: embed);
     }
 
+
+    /// <summary>
+    /// Sets the biography in the user's profile.
+    /// </summary>
+    /// <param name="bio">The biography text to set.</param>
     [SlashCommand("setbio", "Set's the description in your user profile"), CheckPermissions]
     public async Task SetBio(string bio)
     {
@@ -46,6 +65,9 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         await ctx.Interaction.SendConfirmAsync($"Your Profile Bio has been set to:\n{bio}");
     }
 
+    /// <summary>
+    /// Toggles the command statistics collection opt-in/out for the user.
+    /// </summary>
     [SlashCommand("statsoptout", "Opts you out/in on command stats collection.")]
     public async Task UserStatsOptOut()
     {
@@ -57,6 +79,9 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
             await ctx.Interaction.SendConfirmAsync("Succesfully disable command stats collection.");
     }
 
+    /// <summary>
+    /// Deletes the user's command statistics data.
+    /// </summary>
     [SlashCommand("deletestatsdata", "Deletes your stats data, irreversible."), InteractionRatelimit(3600)]
     public async Task DeleteStatsData()
     {
@@ -70,6 +95,10 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         }
     }
 
+    /// <summary>
+    /// Sets the zodiac sign in the user's profile.
+    /// </summary>
+    /// <param name="zodiac">The zodiac sign to set.</param>
     [SlashCommand("setzodiac", "Set's the zodiac in your user profile"), CheckPermissions]
     public async Task SetZodiac(string zodiac)
     {
@@ -80,6 +109,10 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
             await ctx.Interaction.SendConfirmAsync($"Your Zodiac has been set to:\n`{zodiac}`");
     }
 
+    /// <summary>
+    /// Sets the profile color based on input string, accepting hex and regular color names.
+    /// </summary>
+    /// <param name="input">The color input as a string.</param>
     [SlashCommand("setcolor", "Set's the color in your user profile"), CheckPermissions]
     public async Task SetProfileColor([Summary("color", "Accepts hex and regular color names.")] string input)
     {
@@ -94,6 +127,10 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         await ctx.Interaction.SendConfirmAsync($"Your Profile Color has been set to:\n`{inputColor}`");
     }
 
+    /// <summary>
+    /// Sets the user's birthday in the profile.
+    /// </summary>
+    /// <param name="timeInput">The birthday date input as a string.</param>
     [SlashCommand("setbirthday", "Set's the color in your user profile"), CheckPermissions]
     public async Task SetBirthday(string timeInput)
     {
@@ -107,6 +144,10 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         await ctx.Interaction.SendConfirmAsync($"Your birthday has been set to {dateTime:d}");
     }
 
+    /// <summary>
+    /// Sets the privacy setting for how the user's birthday is displayed in their profile.
+    /// </summary>
+    /// <param name="birthdayDisplayModeEnum">The birthday display mode to set.</param>
     [SlashCommand("setbirthdayprivacy", "Sets how your birthday is displayed in your profile"), CheckPermissions]
     public async Task SetBirthdayPrivacy(DiscordUser.BirthdayDisplayModeEnum birthdayDisplayModeEnum)
     {
@@ -115,6 +156,10 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
             $"Your birthday display mode has been set to {birthdayDisplayModeEnum.ToString()}");
     }
 
+    /// <summary>
+    /// Displays or updates the Nintendo Switch friend code on the user's profile.
+    /// </summary>
+    /// <param name="switchFc">The Nintendo Switch friend code to set. Must match the format SW-XXXX-XXXX-XXXX.</param>
     [SlashCommand("setswitchfriendcode", "Display your switch friend code on your user profile"), CheckPermissions]
     public async Task SetSwitchFc(
         [Summary("friend-code", "your switch friend code, in the format sw-XXXX-XXXX-XXXX"), MinLength(17),
@@ -134,6 +179,10 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
             await ctx.Interaction.SendConfirmAsync($"Your Switch Friend Code has been set to {switchFc}.");
     }
 
+    /// <summary>
+    /// Sets the profile image for the user's profile.
+    /// </summary>
+    /// <param name="url">The URL of the image to be used as the profile image.</param>
     [SlashCommand("setprofileimage", "Set's the image used in your profile"), CheckPermissions]
     public async Task SetProfileImage(string url)
     {
@@ -150,6 +199,10 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         await ctx.Interaction.RespondAsync(embed: eb.Build());
     }
 
+    /// <summary>
+    /// Sets the privacy level of the user's profile.
+    /// </summary>
+    /// <param name="privacyEnum">The privacy setting to apply.</param>
     [SlashCommand("setprivacy", "Set's the privacy of your user profile"), CheckPermissions]
     public async Task SetPrivacy(DiscordUser.ProfilePrivacyEnum privacyEnum)
     {
@@ -157,10 +210,16 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         await ctx.Interaction.SendConfirmAsync($"Privacy succesfully set to `{privacyEnum.ToString()}`");
     }
 
+    /// <summary>
+    /// Handles the component interaction for overwriting pronouns.
+    /// </summary>
     [ComponentInteraction("pronouns_overwrite", true)]
     public Task OverwritePronouns() =>
         RespondWithModalAsync<PronounsModal>("pronouns_overwrite_modal");
 
+    /// <summary>
+    /// Clears pronouns for a user.
+    /// </summary>
     [ComponentInteraction("pronouns_overwrite_clear", true)]
     public async Task ClearPronounsOverwrite()
     {
@@ -172,6 +231,10 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         await ConfirmLocalizedAsync("pronouns_cleared_self").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Handles the modal interaction for setting pronouns.
+    /// </summary>
+    /// <param name="modal">The modal containing the user's pronouns input.</param>
     [ModalInteraction("pronouns_overwrite_modal", true)]
     public async Task PronounsOverwriteModal(PronounsModal modal)
     {
@@ -183,6 +246,10 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         await ConfirmLocalizedAsync("pronouns_internal_update", user.Pronouns).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Reports incorrect or abusive pronoun usage.
+    /// </summary>
+    /// <param name="sId">The user ID of the person being reported.</param>
     [ComponentInteraction("pronouns_report.*;", true)]
     public async Task ReportPronouns(string sId)
     {
@@ -227,22 +294,43 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         await EphemeralReplyConfirmLocalizedAsync("pronouns_reported").ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Clears the pronouns for a specified user, optionally disabling pronoun functionality.
+    /// </summary>
+    /// <param name="sId">The user ID whose pronouns should be cleared.</param>
+    /// <param name="sDisable">Indicates whether to disable pronoun functionality for this user.</param>
+    /// <remarks>This operation is reserved for server owners and requires confirmation through a modal interaction.</remarks>
     [ComponentInteraction("pronouns_clear:*,*", true), SlashOwnerOnly]
     public Task ClearPronouns(string sId, string sDisable) =>
         Context.Interaction.RespondWithModalAsync<PronounsFcbModal>($"pronouns_fc_action:{sId},{sDisable},false",
             null, x => x.WithTitle("Clear Pronouns"));
 
+    /// <summary>
+    /// Initiates the process to blacklist a user from using pronouns, clearing their current pronouns in the process.
+    /// </summary>
+    /// <param name="sId">The user ID to be blacklisted.</param>
+    /// <remarks>This operation is reserved for server owners and requires confirmation through a modal interaction.</remarks>
     [ComponentInteraction("pronouns_blacklist:*", true), SlashOwnerOnly]
     public Task BlacklistPronouns(string sId) =>
         ctx.Interaction.RespondWithModalAsync<PronounsFcbModal>($"pronouns_fc_action:{sId},true,true", null,
             x => x.WithTitle("Blacklist User and Clear Pronouns"));
 
+    /// <summary>
+    /// Initiates the process to blacklist a guild from using pronouns functionality.
+    /// </summary>
+    /// <param name="sId">The guild ID to be blacklisted.</param>
+    /// <remarks>This operation is reserved for server owners and requires confirmation through a modal interaction.</remarks>
     [ComponentInteraction("pronouns_blacklist_guild:*", true), SlashOwnerOnly]
     public Task BlacklistGuildPronouns(string sId) =>
         ctx.Interaction
             .RespondWithModalAsync<PronounsFcbModal>($"pronouns_fcb_g:{sId}", null,
                 x => x.WithTitle("Blacklist Guild"));
 
+    /// <summary>
+    /// Handles the blacklisting of a guild, preventing its members from using pronouns functionality.
+    /// </summary>
+    /// <param name="sId">The guild ID to be blacklisted.</param>
+    /// <param name="modal">The modal containing the reason for blacklisting.</param>
     [ModalInteraction("pronouns_fcb_g:*", true), SlashOwnerOnly]
     public Task PronounsGuildBlacklist(string sId, PronounsFcbModal modal)
     {
@@ -251,6 +339,13 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         return RespondAsync("blacklisted the server");
     }
 
+    /// <summary>
+    /// Performs moderation actions related to pronouns, such as clearing them or blacklisting users.
+    /// </summary>
+    /// <param name="sId">The user ID to perform actions on.</param>
+    /// <param name="sPronounsDisable">Indicates whether pronouns functionality should be disabled for the user.</param>
+    /// <param name="sBlacklist">Indicates whether the user should be blacklisted from using pronouns.</param>
+    /// <param name="modal">The modal containing additional information for the action.</param>
     [ModalInteraction("pronouns_fc_action:*,*,*", true), SlashOwnerOnly]
     public async Task PronounsFcAction(
         string sId,
@@ -277,6 +372,11 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         return true;
     }
 
+    /// <summary>
+    /// Checks if pronouns functionality is disabled for a user and informs them if it is.
+    /// </summary>
+    /// <param name="user">The user to check.</param>
+    /// <returns>True if pronouns functionality is disabled for the user, otherwise false.</returns>
     [SlashCommand("pronouns", "Get a user's pronouns!"), CheckPermissions]
     [UserCommand("Pronouns")]
     public async Task Pronouns(IUser? user)
@@ -296,6 +396,10 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
                 pronouns.Pronouns), components: cb.Build(), ephemeral: true).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Allows a user to set or override their pronouns.
+    /// </summary>
+    /// <param name="pronouns">The pronouns to set or override. If blank, clears any existing overrides.</param>
     [SlashCommand("setpronouns", "Override your default pronouns"), CheckPermissions]
     public async Task SetPronouns(string? pronouns = null)
     {
@@ -323,11 +427,21 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         await ConfirmLocalizedAsync("pronouns_internal_update", user.Pronouns).ConfigureAwait(false);
     }
 
+
+    /// <summary>
+    /// Initiates a direct message to a user who was reported for pronoun abuse. Or the owner.
+    /// </summary>
+    /// <param name="uIdStr">The user ID of the person to message.</param>
     [ComponentInteraction("pronouns_reportdm:*", true), SlashOwnerOnly]
     public Task DmUser(string uIdStr) =>
         ctx.Interaction
             .RespondWithModalAsync<DmUserModal>($"pronouns_reportdm_modal:{uIdStr}", null, x => x.WithTitle("dm user"));
 
+    /// <summary>
+    /// Handles sending a direct message to a user after moderation action.
+    /// </summary>
+    /// <param name="uIdStr">The user ID of the person to message.</param>
+    /// <param name="modal">The modal containing the message to be sent.</param>
     [ModalInteraction("pronouns_reportdm_modal:*", true), SlashOwnerOnly]
     public async Task DmUserModal(string uIdStr, DmUserModal modal)
     {

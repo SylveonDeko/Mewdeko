@@ -8,15 +8,34 @@ namespace Mewdeko.Modules.Utility;
 
 public partial class Utility
 {
+    /// <summary>
+    /// Provides commands for managing reminders.
+    /// </summary>
     [Group]
     public class RemindCommands(DbService db, GuildTimezoneService tz) : MewdekoSubmodule<RemindService>
     {
+        /// <summary>
+        /// Determines whether the reminder should be sent to the user directly or to the channel.
+        /// </summary>
         public enum MeOrHere
         {
+            /// <summary>
+            /// Sends the reminder to the user directly.
+            /// </summary>
             Me,
+
+            /// <summary>
+            /// Sends the reminder to the channel.
+            /// </summary>
             Here
         }
 
+        /// <summary>
+        /// Creates a reminder.
+        /// </summary>
+        /// <param name="meorhere">Determines whether the reminder should be sent to the user directly or to the channel.</param>
+        /// <param name="remindString">The reminder message and time.</param>
+        /// <returns>A task that represents the asynchronous operation of creating a reminder.</returns>
         [Cmd, Aliases, Priority(1)]
         public async Task Remind(MeOrHere meorhere, [Remainder] string remindString)
         {
@@ -35,6 +54,12 @@ public partial class Utility
             }
         }
 
+        /// <summary>
+        /// Creates a reminder in a specific text channel.
+        /// </summary>
+        /// <param name="channel">The target text channel for the reminder.</param>
+        /// <param name="remindString">The reminder message and time.</param>
+        /// <returns>A task that represents the asynchronous operation of creating a reminder in a channel.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), Priority(0)]
         public async Task Remind(ITextChannel channel, [Remainder] string remindString)
@@ -59,6 +84,11 @@ public partial class Utility
             }
         }
 
+        /// <summary>
+        /// Lists reminders for the user.
+        /// </summary>
+        /// <param name="page">The page number of reminders to list.</param>
+        /// <returns>A task that represents the asynchronous operation of listing reminders.</returns>
         [Cmd, Aliases]
         public async Task RemindList(int page = 1)
         {
@@ -100,6 +130,11 @@ public partial class Utility
             await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Deletes a specific reminder.
+        /// </summary>
+        /// <param name="index">The index of the reminder to delete.</param>
+        /// <returns>A task that represents the asynchronous operation of deleting a reminder.</returns>
         [Cmd, Aliases]
         public async Task RemindDelete(int index)
         {

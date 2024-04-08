@@ -1,22 +1,17 @@
 ﻿namespace Mewdeko.Coordinator.Shared;
 
-public readonly struct Config
+public readonly struct Config(
+    int totalShards,
+    int recheckIntervalMs,
+    string shardStartCommand,
+    string shardStartArgs,
+    double unresponsiveSec,
+    ulong clientId)
 {
-    public int TotalShards { get; init; }
-    public int RecheckIntervalMs { get; init; }
-    public string ShardStartCommand { get; init; }
-    public string ShardStartArgs { get; init; }
-    public double UnresponsiveSec { get; init; }
-    public ulong ClientId { get; init; }
-
-    public Config(int totalShards, int recheckIntervalMs, string shardStartCommand, string shardStartArgs, double unresponsiveSec,
-        ulong clientId)
-    {
-        TotalShards = totalShards;
-        RecheckIntervalMs = recheckIntervalMs;
-        ShardStartCommand = shardStartCommand;
-        ShardStartArgs = shardStartArgs;
-        UnresponsiveSec = unresponsiveSec;
-        ClientId = clientId;
-    }
+    public int TotalShards { get; init; } = totalShards;
+    public int RecheckIntervalMs { get; init; } = recheckIntervalMs;
+    public string ShardStartCommand { get; init; } = shardStartCommand;
+    public string ShardStartArgs { get; init; } = shardStartArgs;
+    public double UnresponsiveSec { get; init; } = unresponsiveSec;
+    public ulong ClientId { get; init; } = clientId;
 }

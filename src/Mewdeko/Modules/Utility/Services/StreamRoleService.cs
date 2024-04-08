@@ -7,12 +7,22 @@ using Serilog;
 
 namespace Mewdeko.Modules.Utility.Services;
 
+/// <summary>
+/// Manages stream role assignments based on user streaming status and additional configurable conditions within guilds.
+/// </summary>
 public class StreamRoleService : INService, IUnloadableService
 {
     private readonly EventHandler eventHandler;
     private readonly DbService db;
     private readonly ConcurrentDictionary<ulong, StreamRoleSettings> guildSettings;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="StreamRoleService"/>.
+    /// </summary>
+    /// <param name="client">The Discord client used to access guild and user information.</param>
+    /// <param name="db">The database service for storing and retrieving stream role settings.</param>
+    /// <param name="eventHandler">Event handler for capturing and responding to guild member updates.</param>
+    /// <param name="bot">The bot instance for initializing service with current guild configurations.</param>
     public StreamRoleService(DiscordSocketClient client, DbService db, EventHandler eventHandler, Mewdeko bot)
     {
         this.db = db;
@@ -39,6 +49,9 @@ public class StreamRoleService : INService, IUnloadableService
         });
     }
 
+    /// <summary>
+    /// Unloads the service, detaching event handlers to stop listening to guild member updates.
+    /// </summary>
     public Task Unload()
     {
         eventHandler.GuildMemberUpdated -= Client_GuildMemberUpdated;
@@ -58,6 +71,15 @@ public class StreamRoleService : INService, IUnloadableService
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Adds or removes a user to/from a whitelist or blacklist for stream role management, and rescans users if successful.
+    /// </summary>
+    /// <param name="listType">Specifies whether to modify the whitelist or blacklist.</param>
+    /// <param name="guild">The guild where the action is taking place.</param>
+    /// <param name="action">Specifies whether to add or remove the user from the list.</param>
+    /// <param name="userId">The ID of the user to add or remove.</param>
+    /// <param name="userName">The name of the user to add or remove.</param>
+    /// <returns>A task that represents the asynchronous operation, containing a boolean indicating the success of the action.</returns>
     public async Task<bool> ApplyListAction(StreamRoleListType listType, IGuild guild, AddRemove action,
         ulong userId, string userName)
     {
@@ -198,6 +220,12 @@ public class StreamRoleService : INService, IUnloadableService
         }
     }
 
+    /// <summary>
+    /// Stops the stream role management in a guild, optionally cleaning up by removing the stream role from all users.
+    /// </summary>
+    /// <param name="guild">The guild to stop stream role management in.</param>
+    /// <param name="cleanup">Whether to clean up by removing the stream role from all users.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task StopStreamRole(IGuild guild, bool cleanup = false)
     {
         var uow = db.GetDbContext();

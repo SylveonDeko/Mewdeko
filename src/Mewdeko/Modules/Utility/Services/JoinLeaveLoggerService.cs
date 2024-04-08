@@ -9,6 +9,10 @@ using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.Utility.Services;
 
+/// <summary>
+/// Service for logging user join and leave events.
+/// Implements the INService interface.
+/// </summary>
 public class JoinLeaveLoggerService : INService
 {
     private readonly DbService dbContext;
@@ -16,6 +20,13 @@ public class JoinLeaveLoggerService : INService
     private readonly Timer flushTimer;
     private readonly IBotCredentials credentials;
 
+    /// <summary>
+    /// Constructor for the JoinLeaveLoggerService.
+    /// </summary>
+    /// <param name="eventHandler">Event handler for user join and leave events.</param>
+    /// <param name="cache">Data cache for storing join and leave logs.</param>
+    /// <param name="db">Database service for storing join and leave logs.</param>
+    /// <param name="credentials">Bot credentials for accessing the Redis database.</param>
     public JoinLeaveLoggerService(EventHandler eventHandler, IDataCache cache, DbService db,
         IBotCredentials credentials)
     {
@@ -31,6 +42,10 @@ public class JoinLeaveLoggerService : INService
         eventHandler.UserLeft += LogUserLeft;
     }
 
+    /// <summary>
+    /// Logs when a user joins a guild.
+    /// </summary>
+    /// <param name="args">The user who joined the guild.</param>
     private async Task LogUserJoined(IGuildUser args)
     {
         var db = cache.Redis.GetDatabase();
@@ -43,6 +58,11 @@ public class JoinLeaveLoggerService : INService
         await db.ListRightPushAsync(GetRedisKey(args.Guild.Id), serializedEvent);
     }
 
+    /// <summary>
+    /// Logs when a user leaves a guild.
+    /// </summary>
+    /// <param name="args">The guild the user left.</param>
+    /// <param name="arsg2">The user who left the guild.</param>
     private async Task LogUserLeft(IGuild args, IUser arsg2)
     {
         var db = cache.Redis.GetDatabase();
@@ -55,11 +75,21 @@ public class JoinLeaveLoggerService : INService
         await db.ListRightPushAsync(GetRedisKey(args.Id), serializedEvent);
     }
 
+    /// <summary>
+    /// Generates a Redis key for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <returns>A Redis key for the guild.</returns>
     private string GetRedisKey(ulong guildId)
     {
         return $"{credentials.RedisKey()}:joinLeaveLogs:{guildId}";
     }
 
+    /// <summary>
+    /// Calculates the average number of joins per guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <returns>The average number of joins per guild.</returns>
     public double CalculateAverageJoinsPerGuild(ulong guildId)
     {
         var redisDatabase = cache.Redis.GetDatabase();
@@ -80,6 +110,11 @@ public class JoinLeaveLoggerService : INService
         return joinEventsCount / allEvents.Length;
     }
 
+    /// <summary>
+    /// Generates a graph of join events for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <returns>A stream containing the graph image and an embed for the graph.</returns>
     public async Task<Tuple<Stream, Embed>> GenerateJoinGraphAsync(ulong guildId)
     {
         var redisDatabase = cache.Redis.GetDatabase();
@@ -226,6 +261,11 @@ public class JoinLeaveLoggerService : INService
         return new Tuple<Stream, Embed>(imageStream, embedBuilder.Build());
     }
 
+    /// <summary>
+    /// Generates a graph of leave events for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <returns>A stream containing the graph image and an embed for the graph.</returns>
     public async Task<Tuple<Stream, Embed>> GenerateLeaveGraphAsync(ulong guildId)
     {
         var redisDatabase = cache.Redis.GetDatabase();
@@ -421,6 +461,11 @@ public class JoinLeaveLoggerService : INService
         Log.Information("Flushing join/leave logs to DB completed");
     }
 
+    /// <summary>
+    /// Sets the color for the join graph.
+    /// </summary>
+    /// <param name="color">The color for the join graph.</param>
+    /// <param name="guildId">The ID of the guild.</param>
     public async Task SetJoinColor(uint color, ulong guildId)
     {
         await using var db = dbContext.GetDbContext();
@@ -430,6 +475,11 @@ public class JoinLeaveLoggerService : INService
         await db.SaveChangesAsync();
     }
 
+    /// <summary>
+    /// Sets the color for the leave graph.
+    /// </summary>
+    /// <param name="color">The color for the leave graph.</param>
+    /// <param name="guildId">The ID of the guild.</param>
     public async Task SetLeaveColor(uint color, ulong guildId)
     {
         await using var db = dbContext.GetDbContext();

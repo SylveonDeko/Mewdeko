@@ -6,9 +6,16 @@ namespace Mewdeko.Modules.Utility;
 
 public partial class Utility
 {
+    /// <summary>
+    /// Contains commands for converting units from one system to another.
+    /// </summary>
     [Group]
     public class UnitConverterCommands : MewdekoSubmodule<ConverterService>
     {
+        /// <summary>
+        /// Lists all available units that can be converted.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [Cmd, Aliases]
         public async Task ConvertList()
         {
@@ -23,6 +30,13 @@ public partial class Utility
             await ctx.Channel.EmbedAsync(res).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Converts a specified value from one unit to another.
+        /// </summary>
+        /// <param name="origin">The original unit of the value.</param>
+        /// <param name="target">The target unit to convert to.</param>
+        /// <param name="value">The value to be converted.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [Cmd, Aliases, Priority(0)]
         public async Task Convert(string origin, string target, decimal value)
         {

@@ -6,12 +6,8 @@ using Mewdeko.Coordinator.Shared;
 
 namespace Mewdeko.Coordinator.Services;
 
-public sealed class CoordinatorService : Coordinator.CoordinatorBase
+public sealed class CoordinatorService(CoordinatorRunner runner) : Coordinator.CoordinatorBase
 {
-    private readonly CoordinatorRunner runner;
-
-    public CoordinatorService(CoordinatorRunner runner) => this.runner = runner;
-
     public override Task<HeartbeatReply> Heartbeat(HeartbeatRequest request, ServerCallContext context)
     {
         var gracefulImminent = runner.Heartbeat(request.ShardId, request.GuildCount, request.State, request.UserCount);

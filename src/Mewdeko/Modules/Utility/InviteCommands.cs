@@ -9,9 +9,19 @@ namespace Mewdeko.Modules.Utility;
 
 public partial class Utility
 {
+    /// <summary>
+    /// Commands for creating and managing server invites.
+    /// </summary>
+    /// <param name="serv">The service for embed pagination.</param>
+    /// <param name="client">The Discord client.</param>
     [Group]
     public class InviteCommands(InteractiveService serv, DiscordSocketClient client) : MewdekoSubmodule<InviteService>
     {
+        /// <summary>
+        /// Creates a new invite to the server with customizable options such as expiry time and maximum use count.
+        /// </summary>
+        /// <param name="args">Arguments to customize the invite, including expiry, max uses, and more.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          BotPerm(ChannelPermission.CreateInstantInvite), UserPerm(ChannelPermission.CreateInstantInvite),
          MewdekoOptions(typeof(InviteService.Options))]
@@ -29,6 +39,11 @@ public partial class Utility
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Retrieves detailed information about an existing invite, including member count and guild features.
+        /// </summary>
+        /// <param name="text">The invite code or link to gather information about.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task InviteInfo(string text)
         {
@@ -75,6 +90,10 @@ public partial class Utility
             await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Lists all active invites for the server, including their usage and creator information.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          BotPerm(GuildPermission.ManageGuild)]
         public async Task InviteList()
@@ -106,6 +125,11 @@ public partial class Utility
             }
         }
 
+        /// <summary>
+        /// Deletes an invite from the server based on its index in the invite list.
+        /// </summary>
+        /// <param name="index">The index of the invite to delete, starting from 1.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          BotPerm(ChannelPermission.ManageChannels), UserPerm(ChannelPermission.ManageChannels)]
         public async Task InviteDelete(int index)

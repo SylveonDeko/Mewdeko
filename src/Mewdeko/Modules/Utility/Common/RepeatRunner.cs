@@ -5,6 +5,9 @@ using Serilog;
 
 namespace Mewdeko.Modules.Utility.Common;
 
+/// <summary>
+/// Manages the repeating execution of a message in a specified Discord channel.
+/// </summary>
 public class RepeatRunner
 {
     private readonly DiscordSocketClient client;
@@ -15,6 +18,17 @@ public class RepeatRunner
 
     private Timer t;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="RepeatRunner"/> with the specified parameters.
+    /// </summary>
+    /// <param name="client">The Discord client.</param>
+    /// <param name="guild">The guild in which the message will be repeated.</param>
+    /// <param name="repeater">The repeater configuration.</param>
+    /// <param name="mrs">The message repeater service.</param>
+    /// <remarks>
+    /// The runner calculates the initial and subsequent intervals for message repetition,
+    /// handling daily repetitions or at specific intervals.
+    /// </remarks>
     public RepeatRunner(DiscordSocketClient client, SocketGuild guild, Repeater repeater,
         MessageRepeaterService mrs)
     {
@@ -28,11 +42,26 @@ public class RepeatRunner
         Run();
     }
 
+    /// <summary>
+    /// Gets the repeater configuration associated with this instance.
+    /// </summary>
     public Repeater Repeater { get; }
+
+    /// <summary>
+    /// Gets the guild (server) where the message will be repeated.
+    /// </summary>
     public SocketGuild Guild { get; }
 
+    /// <summary>
+    /// Gets the text channel where the repeated message is sent.
+    /// This property is set after the first execution of the repeater.
+    /// </summary>
     public ITextChannel? Channel { get; private set; }
 
+    /// <summary>
+    /// Gets or sets the initial interval before the first message repetition.
+    /// Subsequent intervals are based on the configured <see cref="Repeater.Interval"/>.
+    /// </summary>
     public TimeSpan InitialInterval
     {
         get => initialInterval;
@@ -147,6 +176,10 @@ public class RepeatRunner
         }
     }
 
+
+    /// <summary>
+    /// Executes the repeater's action, sending the configured message to the specified channel.
+    /// </summary>
     public async Task Trigger()
     {
         Task ChannelMissingError()
@@ -230,14 +263,24 @@ public class RepeatRunner
         }
     }
 
+    /// <summary>
+    /// Stops and then restarts the repeater, recalculating the initial interval based on current settings.
+    /// </summary>
     public void Reset()
     {
         Stop();
         Run();
     }
 
+    /// <summary>
+    /// Stops the repeater, preventing any further executions until reset or restarted.
+    /// </summary>
     public void Stop() => t.Change(Timeout.Infinite, Timeout.Infinite);
 
+    /// <summary>
+    /// Provides a string representation of the repeater's current state, including its channel, interval, and message.
+    /// </summary>
+    /// <returns>A string detailing the repeater's configuration and status.</returns>
     public override string ToString()
     {
         TimeSpan.TryParse(Repeater.Interval, out var interval);

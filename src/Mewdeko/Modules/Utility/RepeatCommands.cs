@@ -10,9 +10,20 @@ namespace Mewdeko.Modules.Utility;
 
 public partial class Utility
 {
+    /// <summary>
+    /// Provides commands for managing message repeaters within the guild.
+    /// Allows for setting up automated messages that can be repeated at specified intervals.
+    /// </summary>
     [Group]
     public class RepeatCommands(DiscordSocketClient client, DbService db) : MewdekoSubmodule<MessageRepeaterService>
     {
+        /// <summary>
+        /// Invokes a repeater immediately by its index.
+        /// </summary>
+        /// <param name="index">The one-based index of the repeater to invoke. The list of repeaters can be viewed with the RepeatList command.</param>
+        /// <remarks>
+        /// The repeater is reset after invocation. Requires Manage Messages permission.
+        /// </remarks>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task RepeatInvoke(int index)
         {
@@ -47,6 +58,13 @@ public partial class Utility
             }
         }
 
+        /// <summary>
+        /// Removes a repeater by its index.
+        /// </summary>
+        /// <param name="index">The one-based index of the repeater to remove.</param>
+        /// <remarks>
+        /// This action cannot be undone. Requires Manage Messages permission.
+        /// </remarks>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task RepeatRemove(int index)
         {
@@ -97,6 +115,13 @@ public partial class Utility
                 .WithDescription(description)).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Toggles the redundancy setting of a repeater by its index.
+        /// </summary>
+        /// <param name="index">The one-based index of the repeater to modify.</param>
+        /// <remarks>
+        /// When enabled, the repeater will not trigger if the message is identical to the last. Requires Manage Messages permission.
+        /// </remarks>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task RepeatRedundant(int index)
         {
@@ -143,18 +168,45 @@ public partial class Utility
             }
         }
 
+
+        /// <summary>
+        /// Creates a new repeater with the specified message.
+        /// </summary>
+        /// <param name="message">The message to repeat.</param>
+        /// <returns>A task representing the asynchronous operation of creating a new repeater.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), Priority(-1)]
         public Task Repeat([Remainder] string? message) => Repeat(null, null, message);
 
+        /// <summary>
+        /// Creates a new repeater with the specified message and interval.
+        /// </summary>
+        /// <param name="interval">The interval at which to repeat the message.</param>
+        /// <param name="message">The message to repeat.</param>
+        /// <returns>A task representing the asynchronous operation of creating a new repeater.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), Priority(0)]
         public Task Repeat(StoopidTime interval, [Remainder] string? message) => Repeat(null, interval, message);
 
+        /// <summary>
+        /// Creates a new repeater with the specified message and time of day.
+        /// </summary>
+        /// <param name="dt">The time of day at which to repeat the message.</param>
+        /// <param name="message">The message to repeat.</param>
+        /// <returns></returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), Priority(1)]
         public Task Repeat(GuildDateTime dt, [Remainder] string? message) => Repeat(dt, null, message);
 
+        /// <summary>
+        /// Creates or updates a repeater with the given message, interval, and optional start time.
+        /// </summary>
+        /// <param name="dt">The date and time when the repeater should first run. Optional.</param>
+        /// <param name="interval">The interval between each repetition. Required if no start time is specified.</param>
+        /// <param name="message">The message to be repeated. Can include placeholders for dynamic content.</param>
+        /// <remarks>
+        /// Use either a start time (dt) or an interval, not both. Requires Manage Messages permission.
+        /// </remarks>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), Priority(2)]
         public async Task Repeat(GuildDateTime? dt, StoopidTime? interval, [Remainder] string? message)
@@ -234,6 +286,12 @@ public partial class Utility
             }
         }
 
+        /// <summary>
+        /// Lists all repeaters in the guild.
+        /// </summary>
+        /// <remarks>
+        /// Repeaters are listed with their index, message, interval, and next trigger time. Requires Manage Messages permission.
+        /// </remarks>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task RepeatList()
         {
@@ -268,6 +326,14 @@ public partial class Utility
             await Context.Channel.EmbedAsync(embed).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Updates the message of an existing repeater by its index.
+        /// </summary>
+        /// <param name="index">The one-based index of the repeater to update.</param>
+        /// <param name="text">The new message for the repeater.</param>
+        /// <remarks>
+        /// Requires Manage Messages permission.
+        /// </remarks>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task RepeatMessage(int index, [Remainder] string? text)
         {
@@ -308,6 +374,14 @@ public partial class Utility
             await ReplyConfirmLocalizedAsync("repeater_msg_update", text).ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Changes the channel where an existing repeater sends its message.
+        /// </summary>
+        /// <param name="index">The one-based index of the repeater to modify.</param>
+        /// <param name="textChannel">The new channel for the repeater's messages.</param>
+        /// <remarks>
+        /// Requires Manage Messages permission.
+        /// </remarks>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task RepeatChannel(int index, [Remainder] ITextChannel? textChannel)
         {

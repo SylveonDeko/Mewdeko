@@ -4,6 +4,9 @@ using Serilog;
 
 namespace Mewdeko.Modules.Utility.Services;
 
+/// <summary>
+/// Manages and executes reminders for users at specified times.
+/// </summary>
 public partial class RemindService : INService
 {
     private readonly DiscordSocketClient client;
@@ -13,6 +16,12 @@ public partial class RemindService : INService
     private readonly Regex regex =
         MyRegex();
 
+    /// <summary>
+    /// Initializes the reminder service, starting the background task to check for and execute reminders.
+    /// </summary>
+    /// <param name="client">The Discord client used for sending reminder notifications.</param>
+    /// <param name="db">The database service for managing reminders.</param>
+    /// <param name="creds">The bot's credentials, used for shard management and distribution of tasks.</param>
     public RemindService(DiscordSocketClient client, DbService db, IBotCredentials creds)
     {
         this.client = client;
@@ -86,7 +95,15 @@ public partial class RemindService : INService
         return reminders;
     }
 
-
+    /// <summary>
+    /// Parses a remind command input and extracts the reminder details.
+    /// </summary>
+    /// <param name="input">The input string containing the remind command and its parameters.</param>
+    /// <param name="obj">When this method returns, contains the reminder object created from the input.</param>
+    /// <returns>true if the input could be parsed; otherwise, false.</returns>
+    /// <remarks>
+    /// The method uses a regular expression to parse the input and extract reminder details like time and message.
+    /// </remarks>
     public bool TryParseRemindMessage(string input, out RemindObject obj)
     {
         var m = regex.Match(input);
@@ -176,14 +193,33 @@ public partial class RemindService : INService
         }
     }
 
+    /// <summary>
+    /// Represents the details of a reminder, including what the reminder is for and the time until the reminder should occur.
+    /// </summary>
     public struct RemindObject
     {
+        /// <summary>
+        /// Gets or sets the message or content of the reminder.
+        /// </summary>
+        /// <value>
+        /// The content of the reminder, describing what the reminder is for.
+        /// </value>
         public string? What { get; set; }
+
+        /// <summary>
+        /// Gets or sets the duration of time until the reminder should be triggered.
+        /// </summary>
+        /// <value>
+        /// A <see cref="TimeSpan"/> representing the amount of time until the reminder occurs.
+        /// </value>
+        /// <remarks>
+        /// This value is used to calculate the specific datetime when the reminder will be triggered, based on the current time plus the TimeSpan.
+        /// </remarks>
         public TimeSpan Time { get; set; }
     }
 
     [GeneratedRegex(
-        "^(?:in\\s?)?\\s*(?:(?<mo>\\d+)(?:\\s?(?:months?|mos?),?))?(?:(?:\\sand\\s|\\s*)?(?<w>\\d+)(?:\\s?(?:weeks?|w),?))?(?:(?:\\sand\\s|\\s*)?(?<d>\\d+)(?:\\s?(?:days?|d),?))?(?:(?:\\sand\\s|\\s*)?(?<h>\\d+)(?:\\s?(?:hours?|h),?))?(?:(?:\\sand\\s|\\s*)?(?<m>\\d+)(?:\\s?(?:minutes?|mins?|m),?))?\\s+(?:to:?\\s+)?(?<what>(?:\\r\\n|[\\r\\n]|.)+)",
+        @"^(?:in\s?)?\s*(?:(?<mo>\d+)(?:\s?(?:months?|mos?),?))?(?:(?:\sand\s|\s*)?(?<w>\d+)(?:\s?(?:weeks?|w),?))?(?:(?:\sand\s|\s*)?(?<d>\d+)(?:\s?(?:days?|d),?))?(?:(?:\sand\s|\s*)?(?<h>\d+)(?:\s?(?:hours?|h),?))?(?:(?:\sand\s|\s*)?(?<m>\d+)(?:\s?(?:minutes?|mins?|m),?))?\s+(?:to:?\s+)?(?<what>(?:\r\n|[\r\n]|.)+)",
         RegexOptions.Multiline | RegexOptions.Compiled)]
     private static partial Regex MyRegex();
 }
