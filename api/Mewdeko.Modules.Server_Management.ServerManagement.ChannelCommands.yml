@@ -68,6 +68,7 @@ items:
   - Mewdeko.Common.MewdekoModule.Strings
   - Mewdeko.Common.MewdekoModule.Localization
   - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.Config
   - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   - Mewdeko.Common.MewdekoModule.GetText(System.String)
   - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
@@ -293,7 +294,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MoveTo
     path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
-    startLine: 89
+    startLine: 90
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -357,7 +358,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MoveUserTo
     path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
-    startLine: 110
+    startLine: 112
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -433,7 +434,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Grab
     path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
-    startLine: 129
+    startLine: 132
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -497,7 +498,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Unlockdown
     path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
-    startLine: 155
+    startLine: 158
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -566,7 +567,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Nuke
     path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
-    startLine: 176
+    startLine: 179
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -642,7 +643,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Lock
     path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
-    startLine: 226
+    startLine: 229
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -727,7 +728,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CreateCatAndTxtChannels
     path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
-    startLine: 257
+    startLine: 260
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -795,7 +796,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CreateCatAndVcChannels
     path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
-    startLine: 281
+    startLine: 284
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -865,7 +866,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CreateCatVcChans
     path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
-    startLine: 304
+    startLine: 307
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -935,7 +936,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CreateCatTxtChans
     path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
-    startLine: 326
+    startLine: 329
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -1005,7 +1006,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Unlock
     path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
-    startLine: 347
+    startLine: 350
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -1090,7 +1091,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Slowmode
     path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
-    startLine: 380
+    startLine: 383
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -1107,7 +1108,7 @@ items:
 
       [UserPerm(GuildPermission.ManageChannels)]
 
-      public static Task Slowmode(StoopidTime time, ITextChannel channel)
+      public Task Slowmode(StoopidTime time, ITextChannel channel)
     parameters:
     - id: time
       type: Mewdeko.Common.TypeReaders.Models.StoopidTime
@@ -1126,7 +1127,7 @@ items:
 
       <UserPerm(GuildPermission.ManageChannels)>
 
-      Public Shared Function Slowmode(time As StoopidTime, channel As ITextChannel) As Task
+      Public Function Slowmode(time As StoopidTime, channel As ITextChannel) As Task
   overload: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode*
   attributes:
   - type: Mewdeko.Common.Attributes.TextCommands.Cmd
@@ -1167,7 +1168,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Slowmode
     path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
-    startLine: 394
+    startLine: 397
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -1246,7 +1247,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Slowmode
     path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
-    startLine: 407
+    startLine: 410
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -1268,7 +1269,7 @@ items:
 
       [UserPerm(GuildPermission.ManageChannels)]
 
-      public static Task Slowmode(ITextChannel channel)
+      public Task Slowmode(ITextChannel channel)
     parameters:
     - id: channel
       type: Discord.ITextChannel
@@ -1284,7 +1285,7 @@ items:
 
       <UserPerm(GuildPermission.ManageChannels)>
 
-      Public Shared Function Slowmode(channel As ITextChannel) As Task
+      Public Function Slowmode(channel As ITextChannel) As Task
   overload: Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands.Slowmode*
   attributes:
   - type: Mewdeko.Common.Attributes.TextCommands.Cmd
@@ -1325,7 +1326,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Slowmode
     path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
-    startLine: 420
+    startLine: 423
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -1402,7 +1403,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CreateWebhook
     path: src/Mewdeko/Modules/Server Management/ChannelCommands.cs
-    startLine: 464
+    startLine: 468
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -1660,6 +1661,13 @@ references:
   name: ctx
   nameWithType: MewdekoModule.ctx
   fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.Config
+  commentId: P:Mewdeko.Common.MewdekoModule.Config
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Config
+  name: Config
+  nameWithType: MewdekoModule.Config
+  fullName: Mewdeko.Common.MewdekoModule.Config
 - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   parent: Mewdeko.Common.MewdekoModule

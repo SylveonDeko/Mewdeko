@@ -321,7 +321,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ExportCrs
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 551
+    startLine: 552
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -359,7 +359,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ImportCrsAsync
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 573
+    startLine: 574
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -400,7 +400,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ResetCrReactions
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 824
+    startLine: 825
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -440,7 +440,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetCrReactions
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1007
+    startLine: 1008
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -483,7 +483,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ToggleCrOptionAsync
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1036
+    startLine: 1037
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -524,7 +524,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetChatTriggers
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1074
+    startLine: 1075
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -565,7 +565,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetGuildOrGlobalTriggers
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1090
+    startLine: 1091
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -606,7 +606,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: DeleteAllChatTriggers
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1106
+    startLine: 1107
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -644,7 +644,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ReactionExists
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1122
+    startLine: 1123
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -685,7 +685,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: OnReadyAsync
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1134
+    startLine: 1135
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -718,7 +718,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: TriggerReloadChatTriggers
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1208
+    startLine: 1209
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -749,7 +749,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddAsync
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1244
+    startLine: 1245
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -796,7 +796,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: EditAsync
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1277
+    startLine: 1278
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -846,7 +846,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: DeleteAsync
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1314
+    startLine: 1315
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -887,7 +887,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetRoleGrantType
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1340
+    startLine: 1341
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -931,7 +931,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetInteractionType
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1362
+    startLine: 1363
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -975,7 +975,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetInteractionName
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1384
+    startLine: 1385
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -1019,7 +1019,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetInteractionDescription
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1407
+    startLine: 1408
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -1063,7 +1063,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetInteractionEphemeral
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1429
+    startLine: 1430
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -1107,7 +1107,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetPrefixType
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1451
+    startLine: 1452
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -1151,7 +1151,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetPrefix
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1473
+    startLine: 1474
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -1195,7 +1195,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetCrosspostingWebhookUrl
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1498
+    startLine: 1499
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -1242,7 +1242,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetCrosspostingChannelId
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1539
+    startLine: 1540
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -1286,7 +1286,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetValidTriggerType
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1563
+    startLine: 1564
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -1333,7 +1333,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetChatTriggersFor
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1592
+    startLine: 1593
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -1371,7 +1371,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ToggleGrantedRole
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1615
+    startLine: 1616
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -1412,7 +1412,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ToggleRemovedRole
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1637
+    startLine: 1638
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -1453,7 +1453,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetEmbed
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1660
+    startLine: 1661
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -1497,7 +1497,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetApplicationCommandProperties
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1728
+    startLine: 1729
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -1535,7 +1535,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: TryGetApplicationCommandProperties
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1836
+    startLine: 1837
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -1576,7 +1576,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RegisterTriggersToGuildAsync
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1855
+    startLine: 1856
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -1611,7 +1611,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ValidCommandRegex
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1884
+    startLine: 1885
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -1640,7 +1640,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: IsValidName
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1892
+    startLine: 1893
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -1681,7 +1681,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetAcctErrors
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1905
+    startLine: 1906
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services
@@ -1719,7 +1719,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetAcctErrors
     path: src/Mewdeko/Modules/Chat Triggers/Services/ChatTriggersService.cs
-    startLine: 1916
+    startLine: 1917
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers.Services

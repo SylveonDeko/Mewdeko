@@ -223,7 +223,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddServices
     path: src/Mewdeko/Services/CommandHandler.cs
-    startLine: 437
+    startLine: 439
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Services
@@ -255,7 +255,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ExecuteExternal
     path: src/Mewdeko/Services/CommandHandler.cs
-    startLine: 468
+    startLine: 470
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Services
@@ -299,7 +299,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddCommandToParseQueue
     path: src/Mewdeko/Services/CommandHandler.cs
-    startLine: 605
+    startLine: 607
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Services
@@ -331,7 +331,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ExecuteCommandsInChannelAsync
     path: src/Mewdeko/Services/CommandHandler.cs
-    startLine: 620
+    startLine: 622
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Services

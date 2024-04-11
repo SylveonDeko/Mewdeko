@@ -5,7 +5,7 @@ items:
   id: FilterService
   parent: Mewdeko.Modules.Permissions.Services
   children:
-  - Mewdeko.Modules.Permissions.Services.FilterService.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Database.DbService,Mewdeko.Common.PubSub.IPubSub,Mewdeko.Modules.Moderation.Services.UserPunishService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Modules.Administration.Services.AdministrationService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Mewdeko)
+  - Mewdeko.Modules.Permissions.Services.FilterService.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Database.DbService,Mewdeko.Common.PubSub.IPubSub,Mewdeko.Modules.Moderation.Services.UserPunishService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Modules.Administration.Services.AdministrationService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Mewdeko,Mewdeko.Common.Configs.BotConfig)
   - Mewdeko.Modules.Permissions.Services.FilterService.BehaviorType
   - Mewdeko.Modules.Permissions.Services.FilterService.Blacklist
   - Mewdeko.Modules.Permissions.Services.FilterService.ClearFilteredWords(System.UInt64)
@@ -46,7 +46,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: FilterService
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 17
+    startLine: 18
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -88,7 +88,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Blacklist
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 29
+    startLine: 31
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -99,16 +99,16 @@ items:
     return:
       type: System.Collections.Generic.HashSet{Mewdeko.Database.Models.AutoBanEntry}
     content.vb: Public Blacklist As HashSet(Of AutoBanEntry)
-- uid: Mewdeko.Modules.Permissions.Services.FilterService.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Database.DbService,Mewdeko.Common.PubSub.IPubSub,Mewdeko.Modules.Moderation.Services.UserPunishService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Modules.Administration.Services.AdministrationService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Mewdeko)
-  commentId: M:Mewdeko.Modules.Permissions.Services.FilterService.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Database.DbService,Mewdeko.Common.PubSub.IPubSub,Mewdeko.Modules.Moderation.Services.UserPunishService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Modules.Administration.Services.AdministrationService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Mewdeko)
-  id: '#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Database.DbService,Mewdeko.Common.PubSub.IPubSub,Mewdeko.Modules.Moderation.Services.UserPunishService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Modules.Administration.Services.AdministrationService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Mewdeko)'
+- uid: Mewdeko.Modules.Permissions.Services.FilterService.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Database.DbService,Mewdeko.Common.PubSub.IPubSub,Mewdeko.Modules.Moderation.Services.UserPunishService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Modules.Administration.Services.AdministrationService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Mewdeko,Mewdeko.Common.Configs.BotConfig)
+  commentId: M:Mewdeko.Modules.Permissions.Services.FilterService.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Database.DbService,Mewdeko.Common.PubSub.IPubSub,Mewdeko.Modules.Moderation.Services.UserPunishService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Modules.Administration.Services.AdministrationService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Mewdeko,Mewdeko.Common.Configs.BotConfig)
+  id: '#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Database.DbService,Mewdeko.Common.PubSub.IPubSub,Mewdeko.Modules.Moderation.Services.UserPunishService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Modules.Administration.Services.AdministrationService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Mewdeko,Mewdeko.Common.Configs.BotConfig)'
   parent: Mewdeko.Modules.Permissions.Services.FilterService
   langs:
   - csharp
   - vb
-  name: FilterService(DiscordSocketClient, DbService, IPubSub, UserPunishService, IBotStrings, AdministrationService, GuildSettingsService, EventHandler, Mewdeko)
-  nameWithType: FilterService.FilterService(DiscordSocketClient, DbService, IPubSub, UserPunishService, IBotStrings, AdministrationService, GuildSettingsService, EventHandler, Mewdeko)
-  fullName: Mewdeko.Modules.Permissions.Services.FilterService.FilterService(Discord.WebSocket.DiscordSocketClient, Mewdeko.Database.DbService, Mewdeko.Common.PubSub.IPubSub, Mewdeko.Modules.Moderation.Services.UserPunishService, Mewdeko.Services.strings.IBotStrings, Mewdeko.Modules.Administration.Services.AdministrationService, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Impl.EventHandler, Mewdeko.Mewdeko)
+  name: FilterService(DiscordSocketClient, DbService, IPubSub, UserPunishService, IBotStrings, AdministrationService, GuildSettingsService, EventHandler, Mewdeko, BotConfig)
+  nameWithType: FilterService.FilterService(DiscordSocketClient, DbService, IPubSub, UserPunishService, IBotStrings, AdministrationService, GuildSettingsService, EventHandler, Mewdeko, BotConfig)
+  fullName: Mewdeko.Modules.Permissions.Services.FilterService.FilterService(Discord.WebSocket.DiscordSocketClient, Mewdeko.Database.DbService, Mewdeko.Common.PubSub.IPubSub, Mewdeko.Modules.Moderation.Services.UserPunishService, Mewdeko.Services.strings.IBotStrings, Mewdeko.Modules.Administration.Services.AdministrationService, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Impl.EventHandler, Mewdeko.Mewdeko, Mewdeko.Common.Configs.BotConfig)
   type: Constructor
   source:
     remote:
@@ -117,7 +117,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: .ctor
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 42
+    startLine: 44
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -128,7 +128,7 @@ items:
     for real-time monitoring and filtering of messages across all guilds the bot is part of.
   example: []
   syntax:
-    content: public FilterService(DiscordSocketClient client, DbService db, IPubSub pubSub, UserPunishService upun2, IBotStrings strng, AdministrationService ass, GuildSettingsService gss, EventHandler eventHandler, Mewdeko bot)
+    content: public FilterService(DiscordSocketClient client, DbService db, IPubSub pubSub, UserPunishService upun2, IBotStrings strng, AdministrationService ass, GuildSettingsService gss, EventHandler eventHandler, Mewdeko bot, BotConfig config)
     parameters:
     - id: client
       type: Discord.WebSocket.DiscordSocketClient
@@ -148,11 +148,13 @@ items:
       type: Mewdeko.Services.Impl.EventHandler
     - id: bot
       type: Mewdeko.Mewdeko
-    content.vb: Public Sub New(client As DiscordSocketClient, db As DbService, pubSub As IPubSub, upun2 As UserPunishService, strng As IBotStrings, ass As AdministrationService, gss As GuildSettingsService, eventHandler As EventHandler, bot As Mewdeko)
+    - id: config
+      type: Mewdeko.Common.Configs.BotConfig
+    content.vb: Public Sub New(client As DiscordSocketClient, db As DbService, pubSub As IPubSub, upun2 As UserPunishService, strng As IBotStrings, ass As AdministrationService, gss As GuildSettingsService, eventHandler As EventHandler, bot As Mewdeko, config As BotConfig)
   overload: Mewdeko.Modules.Permissions.Services.FilterService.#ctor*
-  nameWithType.vb: FilterService.New(DiscordSocketClient, DbService, IPubSub, UserPunishService, IBotStrings, AdministrationService, GuildSettingsService, EventHandler, Mewdeko)
-  fullName.vb: Mewdeko.Modules.Permissions.Services.FilterService.New(Discord.WebSocket.DiscordSocketClient, Mewdeko.Database.DbService, Mewdeko.Common.PubSub.IPubSub, Mewdeko.Modules.Moderation.Services.UserPunishService, Mewdeko.Services.strings.IBotStrings, Mewdeko.Modules.Administration.Services.AdministrationService, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Impl.EventHandler, Mewdeko.Mewdeko)
-  name.vb: New(DiscordSocketClient, DbService, IPubSub, UserPunishService, IBotStrings, AdministrationService, GuildSettingsService, EventHandler, Mewdeko)
+  nameWithType.vb: FilterService.New(DiscordSocketClient, DbService, IPubSub, UserPunishService, IBotStrings, AdministrationService, GuildSettingsService, EventHandler, Mewdeko, BotConfig)
+  fullName.vb: Mewdeko.Modules.Permissions.Services.FilterService.New(Discord.WebSocket.DiscordSocketClient, Mewdeko.Database.DbService, Mewdeko.Common.PubSub.IPubSub, Mewdeko.Modules.Moderation.Services.UserPunishService, Mewdeko.Services.strings.IBotStrings, Mewdeko.Modules.Administration.Services.AdministrationService, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Impl.EventHandler, Mewdeko.Mewdeko, Mewdeko.Common.Configs.BotConfig)
+  name.vb: New(DiscordSocketClient, DbService, IPubSub, UserPunishService, IBotStrings, AdministrationService, GuildSettingsService, EventHandler, Mewdeko, BotConfig)
 - uid: Mewdeko.Modules.Permissions.Services.FilterService.Strings
   commentId: P:Mewdeko.Modules.Permissions.Services.FilterService.Strings
   id: Strings
@@ -171,7 +173,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Strings
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 94
+    startLine: 97
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -202,7 +204,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: InviteFilteringChannels
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 99
+    startLine: 102
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -233,7 +235,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: InviteFilteringServers
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 104
+    startLine: 107
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -264,7 +266,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ServerFilteredWords
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 110
+    startLine: 113
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -295,7 +297,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: WordFilteringChannels
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 115
+    startLine: 118
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -326,7 +328,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: WordFilteringServers
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 120
+    startLine: 123
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -357,7 +359,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: LinkFilteringChannels
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 125
+    startLine: 128
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -388,7 +390,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: LinkFilteringServers
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 130
+    startLine: 133
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -419,7 +421,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Priority
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 135
+    startLine: 138
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -452,7 +454,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: BehaviorType
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 140
+    startLine: 143
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -485,7 +487,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RunBehavior
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 149
+    startLine: 152
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -528,7 +530,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Reload
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 166
+    startLine: 169
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -563,7 +565,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: WordBlacklist
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 179
+    startLine: 182
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -601,7 +603,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UnBlacklist
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 197
+    startLine: 200
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -639,7 +641,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: FilteredWordsForChannel
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 217
+    startLine: 220
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -680,7 +682,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetInvWarn
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 230
+    startLine: 233
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -718,7 +720,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: InvWarn
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 237
+    startLine: 240
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -758,7 +760,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetFw
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 265
+    startLine: 268
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -796,7 +798,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetFwarn
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 272
+    startLine: 275
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -836,7 +838,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ClearFilteredWords
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 299
+    startLine: 302
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -873,7 +875,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: FilteredWordsForServer
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 323
+    startLine: 326
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -911,7 +913,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: FilterBannedWords
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 339
+    startLine: 342
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -952,7 +954,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: FilterWords
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 410
+    startLine: 413
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -993,7 +995,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: FilterInvites
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 504
+    startLine: 509
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -1034,7 +1036,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: FilterLinks
     path: src/Mewdeko/Modules/Permissions/Services/FilterService.cs
-    startLine: 544
+    startLine: 549
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -1623,7 +1625,7 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: Mewdeko.Modules.Permissions.Services.FilterService.#ctor*
   commentId: Overload:Mewdeko.Modules.Permissions.Services.FilterService.#ctor
-  href: Mewdeko.Modules.Permissions.Services.FilterService.html#Mewdeko_Modules_Permissions_Services_FilterService__ctor_Discord_WebSocket_DiscordSocketClient_Mewdeko_Database_DbService_Mewdeko_Common_PubSub_IPubSub_Mewdeko_Modules_Moderation_Services_UserPunishService_Mewdeko_Services_strings_IBotStrings_Mewdeko_Modules_Administration_Services_AdministrationService_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_Impl_EventHandler_Mewdeko_Mewdeko_
+  href: Mewdeko.Modules.Permissions.Services.FilterService.html#Mewdeko_Modules_Permissions_Services_FilterService__ctor_Discord_WebSocket_DiscordSocketClient_Mewdeko_Database_DbService_Mewdeko_Common_PubSub_IPubSub_Mewdeko_Modules_Moderation_Services_UserPunishService_Mewdeko_Services_strings_IBotStrings_Mewdeko_Modules_Administration_Services_AdministrationService_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_Impl_EventHandler_Mewdeko_Mewdeko_Mewdeko_Common_Configs_BotConfig_
   name: FilterService
   nameWithType: FilterService.FilterService
   fullName: Mewdeko.Modules.Permissions.Services.FilterService.FilterService
@@ -1693,6 +1695,13 @@ references:
   name: Mewdeko
   nameWithType: Mewdeko
   fullName: Mewdeko.Mewdeko
+- uid: Mewdeko.Common.Configs.BotConfig
+  commentId: T:Mewdeko.Common.Configs.BotConfig
+  parent: Mewdeko.Common.Configs
+  href: Mewdeko.Common.Configs.BotConfig.html
+  name: BotConfig
+  nameWithType: BotConfig
+  fullName: Mewdeko.Common.Configs.BotConfig
 - uid: Discord.WebSocket
   commentId: N:Discord.WebSocket
   isExternal: true
@@ -1909,6 +1918,36 @@ references:
   name: Mewdeko
   nameWithType: Mewdeko
   fullName: Mewdeko
+- uid: Mewdeko.Common.Configs
+  commentId: N:Mewdeko.Common.Configs
+  href: Mewdeko.html
+  name: Mewdeko.Common.Configs
+  nameWithType: Mewdeko.Common.Configs
+  fullName: Mewdeko.Common.Configs
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
 - uid: Mewdeko.Modules.Permissions.Services.FilterService.Strings*
   commentId: Overload:Mewdeko.Modules.Permissions.Services.FilterService.Strings
   href: Mewdeko.Modules.Permissions.Services.FilterService.html#Mewdeko_Modules_Permissions_Services_FilterService_Strings

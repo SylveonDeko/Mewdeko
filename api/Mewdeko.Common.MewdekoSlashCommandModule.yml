@@ -8,6 +8,7 @@ items:
   - Mewdeko.Common.MewdekoSlashCommandModule.BeforeExecute(Discord.Interactions.ICommandInfo)
   - Mewdeko.Common.MewdekoSlashCommandModule.CheckRoleHierarchy(Discord.IGuildUser,System.Boolean)
   - Mewdeko.Common.MewdekoSlashCommandModule.CmdHandler
+  - Mewdeko.Common.MewdekoSlashCommandModule.Config
   - Mewdeko.Common.MewdekoSlashCommandModule.ConfirmLocalizedAsync(System.String,System.Object[])
   - Mewdeko.Common.MewdekoSlashCommandModule.CultureInfo
   - Mewdeko.Common.MewdekoSlashCommandModule.EphemeralReplyConfirmLocalizedAsync(System.String,System.Object[])
@@ -38,7 +39,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MewdekoSlashCommandModule
     path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
-    startLine: 9
+    startLine: 10
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Common
@@ -111,7 +112,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CultureInfo
     path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
-    startLine: 14
+    startLine: 15
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Common
@@ -142,7 +143,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Strings
     path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
-    startLine: 19
+    startLine: 20
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Common
@@ -173,7 +174,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CmdHandler
     path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
-    startLine: 24
+    startLine: 25
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Common
@@ -204,7 +205,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Localization
     path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
-    startLine: 29
+    startLine: 30
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Common
@@ -217,6 +218,37 @@ items:
       type: Mewdeko.Services.ILocalization
     content.vb: Public Property Localization As ILocalization
   overload: Mewdeko.Common.MewdekoSlashCommandModule.Localization*
+- uid: Mewdeko.Common.MewdekoSlashCommandModule.Config
+  commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.Config
+  id: Config
+  parent: Mewdeko.Common.MewdekoSlashCommandModule
+  langs:
+  - csharp
+  - vb
+  name: Config
+  nameWithType: MewdekoSlashCommandModule.Config
+  fullName: Mewdeko.Common.MewdekoSlashCommandModule.Config
+  type: Property
+  source:
+    remote:
+      path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
+      branch: psqldeko
+      repo: https://github.com/Sylveon76/Mewdeko.git
+    id: Config
+    path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
+    startLine: 35
+  assemblies:
+  - Mewdeko
+  namespace: Mewdeko.Common
+  summary: The bot configuration.
+  example: []
+  syntax:
+    content: public BotConfig Config { get; set; }
+    parameters: []
+    return:
+      type: Mewdeko.Common.Configs.BotConfig
+    content.vb: Public Property Config As BotConfig
+  overload: Mewdeko.Common.MewdekoSlashCommandModule.Config*
 - uid: Mewdeko.Common.MewdekoSlashCommandModule.ctx
   commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.ctx
   id: ctx
@@ -235,7 +267,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ctx
     path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
-    startLine: 35
+    startLine: 41
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Common
@@ -266,7 +298,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: BeforeExecute
     path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
-    startLine: 41
+    startLine: 47
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Common
@@ -301,7 +333,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetText
     path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
-    startLine: 46
+    startLine: 52
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Common
@@ -337,7 +369,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetText
     path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
-    startLine: 51
+    startLine: 57
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Common
@@ -375,7 +407,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ErrorLocalizedAsync
     path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
-    startLine: 56
+    startLine: 62
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Common
@@ -413,7 +445,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ReplyErrorLocalizedAsync
     path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
-    startLine: 65
+    startLine: 71
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Common
@@ -451,7 +483,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: EphemeralReplyErrorLocalizedAsync
     path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
-    startLine: 74
+    startLine: 80
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Common
@@ -489,7 +521,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ConfirmLocalizedAsync
     path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
-    startLine: 83
+    startLine: 89
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Common
@@ -527,7 +559,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ReplyConfirmLocalizedAsync
     path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
-    startLine: 92
+    startLine: 98
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Common
@@ -565,7 +597,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: EphemeralReplyConfirmLocalizedAsync
     path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
-    startLine: 101
+    startLine: 107
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Common
@@ -603,7 +635,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: PromptUserConfirmAsync
     path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
-    startLine: 110
+    startLine: 116
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Common
@@ -645,7 +677,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: PromptUserConfirmAsync
     path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
-    startLine: 116
+    startLine: 122
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Common
@@ -687,7 +719,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CheckRoleHierarchy
     path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
-    startLine: 141
+    startLine: 147
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Common
@@ -725,7 +757,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetButtonInputAsync
     path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
-    startLine: 168
+    startLine: 174
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Common
@@ -772,7 +804,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: NextMessageAsync
     path: src/Mewdeko/Common/MewdekoSlashModuleBase.cs
-    startLine: 224
+    startLine: 230
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Common
@@ -5193,6 +5225,49 @@ references:
   name: ILocalization
   nameWithType: ILocalization
   fullName: Mewdeko.Services.ILocalization
+- uid: Mewdeko.Common.MewdekoSlashCommandModule.Config*
+  commentId: Overload:Mewdeko.Common.MewdekoSlashCommandModule.Config
+  href: Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_Config
+  name: Config
+  nameWithType: MewdekoSlashCommandModule.Config
+  fullName: Mewdeko.Common.MewdekoSlashCommandModule.Config
+- uid: Mewdeko.Common.Configs.BotConfig
+  commentId: T:Mewdeko.Common.Configs.BotConfig
+  parent: Mewdeko.Common.Configs
+  href: Mewdeko.Common.Configs.BotConfig.html
+  name: BotConfig
+  nameWithType: BotConfig
+  fullName: Mewdeko.Common.Configs.BotConfig
+- uid: Mewdeko.Common.Configs
+  commentId: N:Mewdeko.Common.Configs
+  href: Mewdeko.html
+  name: Mewdeko.Common.Configs
+  nameWithType: Mewdeko.Common.Configs
+  fullName: Mewdeko.Common.Configs
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
 - uid: Mewdeko.Common.MewdekoSlashCommandModule.ctx*
   commentId: Overload:Mewdeko.Common.MewdekoSlashCommandModule.ctx
   href: Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_ctx

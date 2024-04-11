@@ -6,7 +6,6 @@ items:
   parent: Mewdeko.Modules
   children:
   - Mewdeko.Modules.Utility.Common
-  - Mewdeko.Modules.Utility.LinkCommands
   - Mewdeko.Modules.Utility.Services
   - Mewdeko.Modules.Utility.SlashAutoPublish
   - Mewdeko.Modules.Utility.SlashRemindCommands
@@ -18,6 +17,7 @@ items:
   - Mewdeko.Modules.Utility.Utility.InfoCommands
   - Mewdeko.Modules.Utility.Utility.InviteCommands
   - Mewdeko.Modules.Utility.Utility.JoinLeaveStats
+  - Mewdeko.Modules.Utility.Utility.LinkCommands
   - Mewdeko.Modules.Utility.Utility.NetworkUtilities
   - Mewdeko.Modules.Utility.Utility.PermissionType
   - Mewdeko.Modules.Utility.Utility.QuoteCommands
@@ -114,12 +114,6 @@ references:
   - uid: Mewdeko.Modules.Utility.Services
     name: Services
     href: Mewdeko.Modules.Utility.Services.html
-- uid: Mewdeko.Modules.Utility.LinkCommands
-  commentId: T:Mewdeko.Modules.Utility.LinkCommands
-  href: Mewdeko.Modules.Utility.LinkCommands.html
-  name: LinkCommands
-  nameWithType: LinkCommands
-  fullName: Mewdeko.Modules.Utility.LinkCommands
 - uid: Mewdeko.Modules.Utility.SlashAutoPublish
   commentId: T:Mewdeko.Modules.Utility.SlashAutoPublish
   href: Mewdeko.Modules.Utility.SlashAutoPublish.html
@@ -276,6 +270,28 @@ references:
   - uid: Mewdeko.Modules.Utility.Utility.JoinLeaveStats
     name: JoinLeaveStats
     href: Mewdeko.Modules.Utility.Utility.JoinLeaveStats.html
+- uid: Mewdeko.Modules.Utility.Utility.LinkCommands
+  commentId: T:Mewdeko.Modules.Utility.Utility.LinkCommands
+  href: Mewdeko.Modules.Utility.Utility.html
+  name: Utility.LinkCommands
+  nameWithType: Utility.LinkCommands
+  fullName: Mewdeko.Modules.Utility.Utility.LinkCommands
+  spec.csharp:
+  - uid: Mewdeko.Modules.Utility.Utility
+    name: Utility
+    href: Mewdeko.Modules.Utility.Utility.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility.Utility.LinkCommands
+    name: LinkCommands
+    href: Mewdeko.Modules.Utility.Utility.LinkCommands.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Utility.Utility
+    name: Utility
+    href: Mewdeko.Modules.Utility.Utility.html
+  - name: .
+  - uid: Mewdeko.Modules.Utility.Utility.LinkCommands
+    name: LinkCommands
+    href: Mewdeko.Modules.Utility.Utility.LinkCommands.html
 - uid: Mewdeko.Modules.Utility.Utility.NetworkUtilities
   commentId: T:Mewdeko.Modules.Utility.Utility.NetworkUtilities
   href: Mewdeko.Modules.Utility.Utility.html

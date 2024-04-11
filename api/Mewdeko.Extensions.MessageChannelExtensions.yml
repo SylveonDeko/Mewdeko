@@ -15,7 +15,7 @@ items:
   - Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.ITextChannel,System.String,Discord.ComponentBuilder)
   - Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.Webhook.DiscordWebhookClient,System.String)
   - Mewdeko.Extensions.MessageChannelExtensions.SendConfirmReplyAsync(Discord.IUserMessage,System.String)
-  - Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel,System.String,System.Boolean,Discord.EmbedFieldBuilder[])
+  - Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel,System.String,Mewdeko.Common.Configs.BotConfig,Discord.EmbedFieldBuilder[])
   - Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel,System.String,System.String,System.String,System.String)
   - Mewdeko.Extensions.MessageChannelExtensions.SendErrorReplyAsync(Discord.IUserMessage,System.String)
   - Mewdeko.Extensions.MessageChannelExtensions.SendTableAsync``1(Discord.IMessageChannel,System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.String},System.Int32)
@@ -35,7 +35,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MessageChannelExtensions
     path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
-    startLine: 7
+    startLine: 8
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -73,7 +73,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: EmbedAsync
     path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
-    startLine: 16
+    startLine: 17
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -118,7 +118,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendErrorAsync
     path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
-    startLine: 32
+    startLine: 33
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -150,17 +150,17 @@ items:
   nameWithType.vb: MessageChannelExtensions.SendErrorAsync(IMessageChannel, String, String, String, String)
   fullName.vb: Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel, String, String, String, String)
   name.vb: SendErrorAsync(IMessageChannel, String, String, String, String)
-- uid: Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel,System.String,System.Boolean,Discord.EmbedFieldBuilder[])
-  commentId: M:Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel,System.String,System.Boolean,Discord.EmbedFieldBuilder[])
-  id: SendErrorAsync(Discord.IMessageChannel,System.String,System.Boolean,Discord.EmbedFieldBuilder[])
+- uid: Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel,System.String,Mewdeko.Common.Configs.BotConfig,Discord.EmbedFieldBuilder[])
+  commentId: M:Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel,System.String,Mewdeko.Common.Configs.BotConfig,Discord.EmbedFieldBuilder[])
+  id: SendErrorAsync(Discord.IMessageChannel,System.String,Mewdeko.Common.Configs.BotConfig,Discord.EmbedFieldBuilder[])
   isExtensionMethod: true
   parent: Mewdeko.Extensions.MessageChannelExtensions
   langs:
   - csharp
   - vb
-  name: SendErrorAsync(IMessageChannel, string?, bool, EmbedFieldBuilder[]?)
-  nameWithType: MessageChannelExtensions.SendErrorAsync(IMessageChannel, string?, bool, EmbedFieldBuilder[]?)
-  fullName: Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel, string?, bool, Discord.EmbedFieldBuilder[]?)
+  name: SendErrorAsync(IMessageChannel, string?, BotConfig, EmbedFieldBuilder[]?)
+  nameWithType: MessageChannelExtensions.SendErrorAsync(IMessageChannel, string?, BotConfig, EmbedFieldBuilder[]?)
+  fullName: Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel, string?, Mewdeko.Common.Configs.BotConfig, Discord.EmbedFieldBuilder[]?)
   type: Method
   source:
     remote:
@@ -169,14 +169,14 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendErrorAsync
     path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
-    startLine: 52
+    startLine: 53
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
   summary: Sends an error message to the message channel asynchronously.
   example: []
   syntax:
-    content: public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string? error, bool helpButton = true, EmbedFieldBuilder[]? fields = null)
+    content: public static Task<IUserMessage> SendErrorAsync(this IMessageChannel ch, string? error, BotConfig config, EmbedFieldBuilder[]? fields = null)
     parameters:
     - id: ch
       type: Discord.IMessageChannel
@@ -184,20 +184,20 @@ items:
     - id: error
       type: System.String
       description: The error message content.
-    - id: helpButton
-      type: System.Boolean
-      description: A flag indicating whether to include a support server button.
+    - id: config
+      type: Mewdeko.Common.Configs.BotConfig
+      description: The bot config
     - id: fields
       type: Discord.EmbedFieldBuilder[]
       description: Optional fields to include in the error message.
     return:
       type: System.Threading.Tasks.Task{Discord.IUserMessage}
       description: A task representing the asynchronous operation, returning the sent user message.
-    content.vb: Public Shared Function SendErrorAsync(ch As IMessageChannel, [error] As String, helpButton As Boolean = True, fields As EmbedFieldBuilder() = Nothing) As Task(Of IUserMessage)
+    content.vb: Public Shared Function SendErrorAsync(ch As IMessageChannel, [error] As String, config As BotConfig, fields As EmbedFieldBuilder() = Nothing) As Task(Of IUserMessage)
   overload: Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync*
-  nameWithType.vb: MessageChannelExtensions.SendErrorAsync(IMessageChannel, String, Boolean, EmbedFieldBuilder())
-  fullName.vb: Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel, String, Boolean, Discord.EmbedFieldBuilder())
-  name.vb: SendErrorAsync(IMessageChannel, String, Boolean, EmbedFieldBuilder())
+  nameWithType.vb: MessageChannelExtensions.SendErrorAsync(IMessageChannel, String, BotConfig, EmbedFieldBuilder())
+  fullName.vb: Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync(Discord.IMessageChannel, String, Mewdeko.Common.Configs.BotConfig, Discord.EmbedFieldBuilder())
+  name.vb: SendErrorAsync(IMessageChannel, String, BotConfig, EmbedFieldBuilder())
 - uid: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IMessageChannel,System.String,System.String,System.String,System.String)
   commentId: M:Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync(Discord.IMessageChannel,System.String,System.String,System.String,System.String)
   id: SendConfirmAsync(Discord.IMessageChannel,System.String,System.String,System.String,System.String)
@@ -217,7 +217,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendConfirmAsync
     path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
-    startLine: 78
+    startLine: 80
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -268,7 +268,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendConfirmAsync
     path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
-    startLine: 99
+    startLine: 101
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -319,7 +319,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendConfirmAsync
     path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
-    startLine: 117
+    startLine: 119
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -361,7 +361,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendConfirmReplyAsync
     path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
-    startLine: 126
+    startLine: 128
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -403,7 +403,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendConfirmAsync
     path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
-    startLine: 135
+    startLine: 137
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -445,7 +445,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendErrorReplyAsync
     path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
-    startLine: 148
+    startLine: 150
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -487,7 +487,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendConfirmAsync
     path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
-    startLine: 158
+    startLine: 160
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -532,7 +532,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendConfirmAsync
     path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
-    startLine: 170
+    startLine: 172
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -577,7 +577,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendTableAsync
     path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
-    startLine: 186
+    startLine: 188
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -631,7 +631,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendTableAsync
     path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
-    startLine: 205
+    startLine: 207
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -682,7 +682,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: OkAsync
     path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
-    startLine: 214
+    startLine: 216
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -718,7 +718,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ErrorAsync
     path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
-    startLine: 221
+    startLine: 223
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -754,7 +754,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: WarningAsync
     path: src/Mewdeko/Extensions/IMessageChannelExtensions.cs
-    startLine: 228
+    startLine: 230
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1172,17 +1172,13 @@ references:
   name: SendErrorAsync
   nameWithType: MessageChannelExtensions.SendErrorAsync
   fullName: Mewdeko.Extensions.MessageChannelExtensions.SendErrorAsync
-- uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.boolean
-  name: bool
-  nameWithType: bool
-  fullName: bool
-  nameWithType.vb: Boolean
-  fullName.vb: Boolean
-  name.vb: Boolean
+- uid: Mewdeko.Common.Configs.BotConfig
+  commentId: T:Mewdeko.Common.Configs.BotConfig
+  parent: Mewdeko.Common.Configs
+  href: Mewdeko.Common.Configs.BotConfig.html
+  name: BotConfig
+  nameWithType: BotConfig
+  fullName: Mewdeko.Common.Configs.BotConfig
 - uid: Discord.EmbedFieldBuilder[]
   isExternal: true
   name: EmbedFieldBuilder[]
@@ -1203,6 +1199,36 @@ references:
     isExternal: true
   - name: (
   - name: )
+- uid: Mewdeko.Common.Configs
+  commentId: N:Mewdeko.Common.Configs
+  href: Mewdeko.html
+  name: Mewdeko.Common.Configs
+  nameWithType: Mewdeko.Common.Configs
+  fullName: Mewdeko.Common.Configs
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
 - uid: Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync*
   commentId: Overload:Mewdeko.Extensions.MessageChannelExtensions.SendConfirmAsync
   href: Mewdeko.Extensions.MessageChannelExtensions.html#Mewdeko_Extensions_MessageChannelExtensions_SendConfirmAsync_Discord_IMessageChannel_System_String_System_String_System_String_System_String_

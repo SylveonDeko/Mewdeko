@@ -7,6 +7,7 @@ items:
   children:
   - Mewdeko.Modules.Administration.Administration
   - Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands
+  - Mewdeko.Modules.Administration.Administration.AutoBanRole
   - Mewdeko.Modules.Administration.Administration.Channel
   - Mewdeko.Modules.Administration.Administration.DiscordPermOverrideCommands
   - Mewdeko.Modules.Administration.Administration.GameChannelCommands
@@ -24,7 +25,6 @@ items:
   - Mewdeko.Modules.Administration.Administration.State
   - Mewdeko.Modules.Administration.Administration.TimeZoneCommands
   - Mewdeko.Modules.Administration.Administration.VcRoleCommands
-  - Mewdeko.Modules.Administration.AutoBanRole
   - Mewdeko.Modules.Administration.Common
   - Mewdeko.Modules.Administration.Services
   - Mewdeko.Modules.Administration.SlashAdministration
@@ -144,6 +144,28 @@ references:
   - uid: Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands
     name: AutoAssignRoleCommands
     href: Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands.html
+- uid: Mewdeko.Modules.Administration.Administration.AutoBanRole
+  commentId: T:Mewdeko.Modules.Administration.Administration.AutoBanRole
+  href: Mewdeko.Modules.Administration.Administration.html
+  name: Administration.AutoBanRole
+  nameWithType: Administration.AutoBanRole
+  fullName: Mewdeko.Modules.Administration.Administration.AutoBanRole
+  spec.csharp:
+  - uid: Mewdeko.Modules.Administration.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Administration.AutoBanRole
+    name: AutoBanRole
+    href: Mewdeko.Modules.Administration.Administration.AutoBanRole.html
+  spec.vb:
+  - uid: Mewdeko.Modules.Administration.Administration
+    name: Administration
+    href: Mewdeko.Modules.Administration.Administration.html
+  - name: .
+  - uid: Mewdeko.Modules.Administration.Administration.AutoBanRole
+    name: AutoBanRole
+    href: Mewdeko.Modules.Administration.Administration.AutoBanRole.html
 - uid: Mewdeko.Modules.Administration.Administration.Channel
   commentId: T:Mewdeko.Modules.Administration.Administration.Channel
   parent: Mewdeko.Modules.Administration
@@ -540,12 +562,6 @@ references:
   - uid: Mewdeko.Modules.Administration.Administration.VcRoleCommands
     name: VcRoleCommands
     href: Mewdeko.Modules.Administration.Administration.VcRoleCommands.html
-- uid: Mewdeko.Modules.Administration.AutoBanRole
-  commentId: T:Mewdeko.Modules.Administration.AutoBanRole
-  href: Mewdeko.Modules.Administration.AutoBanRole.html
-  name: AutoBanRole
-  nameWithType: AutoBanRole
-  fullName: Mewdeko.Modules.Administration.AutoBanRole
 - uid: Mewdeko.Modules.Administration.SlashAdministration
   commentId: T:Mewdeko.Modules.Administration.SlashAdministration
   href: Mewdeko.Modules.Administration.SlashAdministration.html

@@ -5,7 +5,7 @@ items:
   id: Music
   parent: Mewdeko.Modules.Music
   children:
-  - Mewdeko.Modules.Music.Music.#ctor(Lavalink4NET.IAudioService,Fergun.Interactive.InteractiveService,Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Settings.BotConfigService,Mewdeko.Services.IBotCredentials)
+  - Mewdeko.Modules.Music.Music.#ctor(Lavalink4NET.IAudioService,Fergun.Interactive.InteractiveService,Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.IBotCredentials)
   - Mewdeko.Modules.Music.Music.AutoDisconnect(Mewdeko.Database.Models.AutoDisconnect)
   - Mewdeko.Modules.Music.Music.AutoPlay(System.Int32)
   - Mewdeko.Modules.Music.Music.ClearQueue
@@ -42,7 +42,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Music
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 30
+    startLine: 28
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -65,6 +65,7 @@ items:
   - Mewdeko.Common.MewdekoModule.Strings
   - Mewdeko.Common.MewdekoModule.Localization
   - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.Config
   - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   - Mewdeko.Common.MewdekoModule.GetText(System.String)
   - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
@@ -94,16 +95,16 @@ items:
   - System.Object.ToString
   extensionMethods:
   - Mewdeko.Modules.Music.Music.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
-- uid: Mewdeko.Modules.Music.Music.#ctor(Lavalink4NET.IAudioService,Fergun.Interactive.InteractiveService,Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Settings.BotConfigService,Mewdeko.Services.IBotCredentials)
-  commentId: M:Mewdeko.Modules.Music.Music.#ctor(Lavalink4NET.IAudioService,Fergun.Interactive.InteractiveService,Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Settings.BotConfigService,Mewdeko.Services.IBotCredentials)
-  id: '#ctor(Lavalink4NET.IAudioService,Fergun.Interactive.InteractiveService,Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Settings.BotConfigService,Mewdeko.Services.IBotCredentials)'
+- uid: Mewdeko.Modules.Music.Music.#ctor(Lavalink4NET.IAudioService,Fergun.Interactive.InteractiveService,Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.IBotCredentials)
+  commentId: M:Mewdeko.Modules.Music.Music.#ctor(Lavalink4NET.IAudioService,Fergun.Interactive.InteractiveService,Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.IBotCredentials)
+  id: '#ctor(Lavalink4NET.IAudioService,Fergun.Interactive.InteractiveService,Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.IBotCredentials)'
   parent: Mewdeko.Modules.Music.Music
   langs:
   - csharp
   - vb
-  name: Music(IAudioService, InteractiveService, DbService, DiscordSocketClient, GuildSettingsService, BotConfigService, IBotCredentials)
-  nameWithType: Music.Music(IAudioService, InteractiveService, DbService, DiscordSocketClient, GuildSettingsService, BotConfigService, IBotCredentials)
-  fullName: Mewdeko.Modules.Music.Music.Music(Lavalink4NET.IAudioService, Fergun.Interactive.InteractiveService, Mewdeko.Database.DbService, Discord.WebSocket.DiscordSocketClient, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Settings.BotConfigService, Mewdeko.Services.IBotCredentials)
+  name: Music(IAudioService, InteractiveService, DbService, DiscordSocketClient, GuildSettingsService, IBotCredentials)
+  nameWithType: Music.Music(IAudioService, InteractiveService, DbService, DiscordSocketClient, GuildSettingsService, IBotCredentials)
+  fullName: Mewdeko.Modules.Music.Music.Music(Lavalink4NET.IAudioService, Fergun.Interactive.InteractiveService, Mewdeko.Database.DbService, Discord.WebSocket.DiscordSocketClient, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.IBotCredentials)
   type: Constructor
   source:
     remote:
@@ -112,14 +113,14 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: .ctor
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 30
+    startLine: 28
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
   summary: Module for music commands.
   example: []
   syntax:
-    content: public Music(IAudioService lava, InteractiveService interactive, DbService dbService, DiscordSocketClient client, GuildSettingsService guildSettings, BotConfigService config, IBotCredentials creds)
+    content: public Music(IAudioService lava, InteractiveService interactive, DbService dbService, DiscordSocketClient client, GuildSettingsService guildSettings, IBotCredentials creds)
     parameters:
     - id: lava
       type: Lavalink4NET.IAudioService
@@ -136,17 +137,14 @@ items:
     - id: guildSettings
       type: Mewdeko.Services.GuildSettingsService
       description: The guild settings service
-    - id: config
-      type: Mewdeko.Services.Settings.BotConfigService
-      description: The bot configuration service
     - id: creds
       type: Mewdeko.Services.IBotCredentials
       description: The bot credentials
-    content.vb: Public Sub New(lava As IAudioService, interactive As InteractiveService, dbService As DbService, client As DiscordSocketClient, guildSettings As GuildSettingsService, config As BotConfigService, creds As IBotCredentials)
+    content.vb: Public Sub New(lava As IAudioService, interactive As InteractiveService, dbService As DbService, client As DiscordSocketClient, guildSettings As GuildSettingsService, creds As IBotCredentials)
   overload: Mewdeko.Modules.Music.Music.#ctor*
-  nameWithType.vb: Music.New(IAudioService, InteractiveService, DbService, DiscordSocketClient, GuildSettingsService, BotConfigService, IBotCredentials)
-  fullName.vb: Mewdeko.Modules.Music.Music.New(Lavalink4NET.IAudioService, Fergun.Interactive.InteractiveService, Mewdeko.Database.DbService, Discord.WebSocket.DiscordSocketClient, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Settings.BotConfigService, Mewdeko.Services.IBotCredentials)
-  name.vb: New(IAudioService, InteractiveService, DbService, DiscordSocketClient, GuildSettingsService, BotConfigService, IBotCredentials)
+  nameWithType.vb: Music.New(IAudioService, InteractiveService, DbService, DiscordSocketClient, GuildSettingsService, IBotCredentials)
+  fullName.vb: Mewdeko.Modules.Music.Music.New(Lavalink4NET.IAudioService, Fergun.Interactive.InteractiveService, Mewdeko.Database.DbService, Discord.WebSocket.DiscordSocketClient, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.IBotCredentials)
+  name.vb: New(IAudioService, InteractiveService, DbService, DiscordSocketClient, GuildSettingsService, IBotCredentials)
 - uid: Mewdeko.Modules.Music.Music.SongRemove(System.Int32)
   commentId: M:Mewdeko.Modules.Music.Music.SongRemove(System.Int32)
   id: SongRemove(System.Int32)
@@ -165,7 +163,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SongRemove
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 90
+    startLine: 87
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -232,7 +230,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AutoDisconnect
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 120
+    startLine: 119
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -296,7 +294,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MoveSong
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 134
+    startLine: 133
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -366,7 +364,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Playlists
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 151
+    startLine: 150
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -426,7 +424,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Playlist
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 188
+    startLine: 187
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -500,7 +498,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Lyrics
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 692
+    startLine: 700
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -571,7 +569,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Join
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 789
+    startLine: 797
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -631,7 +629,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Leave
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 826
+    startLine: 834
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -691,7 +689,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Play
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 852
+    startLine: 861
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -758,7 +756,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Play
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 898
+    startLine: 907
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -829,7 +827,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Pause
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 1205
+    startLine: 1219
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -889,7 +887,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Shuffle
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 1238
+    startLine: 1253
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -949,7 +947,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Stop
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 1275
+    startLine: 1292
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -1009,7 +1007,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Skip
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 1294
+    startLine: 1311
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -1076,7 +1074,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Seek
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 1317
+    startLine: 1334
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -1140,7 +1138,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ClearQueue
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 1351
+    startLine: 1370
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -1200,7 +1198,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Loop
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 1370
+    startLine: 1389
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -1264,7 +1262,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Volume
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 1382
+    startLine: 1401
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -1331,7 +1329,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetMusicChannel
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 1407
+    startLine: 1426
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -1391,7 +1389,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AutoPlay
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 1423
+    startLine: 1442
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -1458,7 +1456,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: NowPlaying
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 1463
+    startLine: 1484
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -1518,7 +1516,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Queue
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 1504
+    startLine: 1526
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -1722,6 +1720,13 @@ references:
   name: ctx
   nameWithType: MewdekoModule.ctx
   fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.Config
+  commentId: P:Mewdeko.Common.MewdekoModule.Config
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Config
+  name: Config
+  nameWithType: MewdekoModule.Config
+  fullName: Mewdeko.Common.MewdekoModule.Config
 - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   parent: Mewdeko.Common.MewdekoModule
@@ -3329,7 +3334,7 @@ references:
     href: Mewdeko.Extensions.html
 - uid: Mewdeko.Modules.Music.Music.#ctor*
   commentId: Overload:Mewdeko.Modules.Music.Music.#ctor
-  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music__ctor_Lavalink4NET_IAudioService_Fergun_Interactive_InteractiveService_Mewdeko_Database_DbService_Discord_WebSocket_DiscordSocketClient_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_Settings_BotConfigService_Mewdeko_Services_IBotCredentials_
+  href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music__ctor_Lavalink4NET_IAudioService_Fergun_Interactive_InteractiveService_Mewdeko_Database_DbService_Discord_WebSocket_DiscordSocketClient_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_IBotCredentials_
   name: Music
   nameWithType: Music.Music
   fullName: Mewdeko.Modules.Music.Music.Music
@@ -3371,13 +3376,6 @@ references:
   name: GuildSettingsService
   nameWithType: GuildSettingsService
   fullName: Mewdeko.Services.GuildSettingsService
-- uid: Mewdeko.Services.Settings.BotConfigService
-  commentId: T:Mewdeko.Services.Settings.BotConfigService
-  parent: Mewdeko.Services.Settings
-  href: Mewdeko.Services.Settings.BotConfigService.html
-  name: BotConfigService
-  nameWithType: BotConfigService
-  fullName: Mewdeko.Services.Settings.BotConfigService
 - uid: Mewdeko.Services.IBotCredentials
   commentId: T:Mewdeko.Services.IBotCredentials
   parent: Mewdeko.Services
@@ -3479,36 +3477,6 @@ references:
   - uid: Mewdeko.Services
     name: Services
     href: Mewdeko.Services.html
-- uid: Mewdeko.Services.Settings
-  commentId: N:Mewdeko.Services.Settings
-  href: Mewdeko.html
-  name: Mewdeko.Services.Settings
-  nameWithType: Mewdeko.Services.Settings
-  fullName: Mewdeko.Services.Settings
-  spec.csharp:
-  - uid: Mewdeko
-    name: Mewdeko
-    href: Mewdeko.html
-  - name: .
-  - uid: Mewdeko.Services
-    name: Services
-    href: Mewdeko.Services.html
-  - name: .
-  - uid: Mewdeko.Services.Settings
-    name: Settings
-    href: Mewdeko.Services.Settings.html
-  spec.vb:
-  - uid: Mewdeko
-    name: Mewdeko
-    href: Mewdeko.html
-  - name: .
-  - uid: Mewdeko.Services
-    name: Services
-    href: Mewdeko.Services.html
-  - name: .
-  - uid: Mewdeko.Services.Settings
-    name: Settings
-    href: Mewdeko.Services.Settings.html
 - uid: Mewdeko.Modules.Music.Music.SongRemove*
   commentId: Overload:Mewdeko.Modules.Music.Music.SongRemove
   href: Mewdeko.Modules.Music.Music.html#Mewdeko_Modules_Music_Music_SongRemove_System_Int32_

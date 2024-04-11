@@ -21,7 +21,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CommandTextEqualityComparer
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 311
+    startLine: 312
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help
@@ -65,7 +65,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Equals
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 319
+    startLine: 320
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help
@@ -108,7 +108,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetHashCode
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 326
+    startLine: 327
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help

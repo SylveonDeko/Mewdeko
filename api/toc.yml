@@ -1059,6 +1059,8 @@ items:
         name: Administration
       - uid: Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands
         name: Administration.AutoAssignRoleCommands
+      - uid: Mewdeko.Modules.Administration.Administration.AutoBanRole
+        name: Administration.AutoBanRole
       - uid: Mewdeko.Modules.Administration.Administration.Channel
         name: Administration.Channel
       - uid: Mewdeko.Modules.Administration.Administration.DiscordPermOverrideCommands
@@ -1093,8 +1095,6 @@ items:
         name: Administration.TimeZoneCommands
       - uid: Mewdeko.Modules.Administration.Administration.VcRoleCommands
         name: Administration.VcRoleCommands
-      - uid: Mewdeko.Modules.Administration.AutoBanRole
-        name: AutoBanRole
       - uid: Mewdeko.Modules.Administration.SlashAdministration
         name: SlashAdministration
       - uid: Mewdeko.Modules.Administration.SlashAdministration.SlashAutoBanRole
@@ -1992,8 +1992,6 @@ items:
           name: UtilityService
         - uid: Mewdeko.Modules.Utility.Services.VerboseErrorsService
           name: VerboseErrorsService
-      - uid: Mewdeko.Modules.Utility.LinkCommands
-        name: LinkCommands
       - uid: Mewdeko.Modules.Utility.SlashAutoPublish
         name: SlashAutoPublish
       - uid: Mewdeko.Modules.Utility.SlashRemindCommands
@@ -2014,6 +2012,8 @@ items:
         name: Utility.InviteCommands
       - uid: Mewdeko.Modules.Utility.Utility.JoinLeaveStats
         name: Utility.JoinLeaveStats
+      - uid: Mewdeko.Modules.Utility.Utility.LinkCommands
+        name: Utility.LinkCommands
       - uid: Mewdeko.Modules.Utility.Utility.NetworkUtilities
         name: Utility.NetworkUtilities
       - uid: Mewdeko.Modules.Utility.Utility.PermissionType

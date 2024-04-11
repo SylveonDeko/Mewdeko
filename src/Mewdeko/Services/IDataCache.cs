@@ -1,4 +1,5 @@
-﻿using Mewdeko.Modules.Searches.Services;
+﻿using Lavalink4NET.Tracks;
+using Mewdeko.Modules.Searches.Services;
 using Mewdeko.Modules.Utility.Common;
 using StackExchange.Redis;
 
@@ -9,6 +10,24 @@ namespace Mewdeko.Services
     /// </summary>
     public interface IDataCache
     {
+        #region StatusRoles Methods
+
+        /// <summary>
+        /// Sets user status cache.
+        /// </summary>
+        Task<bool> SetUserStatusCache(ulong id, string base64);
+
+        #endregion
+
+        #region Ratelimit Methods
+
+        /// <summary>
+        /// Tries to add a ratelimit.
+        /// </summary>
+        TimeSpan? TryAddRatelimit(ulong id, string name, int expireIn);
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -47,12 +66,22 @@ namespace Mewdeko.Services
 
         #endregion
 
-        #region StatusRoles Methods
+        #region Music Methods
 
         /// <summary>
-        /// Sets user status cache.
+        /// Retrieves music queue for a server.
         /// </summary>
-        Task<bool> SetUserStatusCache(ulong id, string base64);
+        /// <param name="id">The server ID.</param>
+        /// <returns>The music queue.</returns>
+        Task<List<LavalinkTrack>> GetMusicQueue(ulong id);
+
+        /// <summary>
+        /// Sets music queue for a server.
+        /// </summary>
+        /// <param name="id">The server ID.</param>
+        /// <param name="tracks">The music queue.</param>
+        /// <returns>A task representing the operation.</returns>
+        Task SetMusicQueue(ulong id, List<LavalinkTrack> tracks);
 
         #endregion
 
@@ -136,15 +165,6 @@ namespace Mewdeko.Services
         /// Sets image data asynchronously.
         /// </summary>
         Task SetImageDataAsync(Uri key, byte[] data);
-
-        #endregion
-
-        #region Ratelimit Methods
-
-        /// <summary>
-        /// Tries to add a ratelimit.
-        /// </summary>
-        TimeSpan? TryAddRatelimit(ulong id, string name, int expireIn);
 
         #endregion
 

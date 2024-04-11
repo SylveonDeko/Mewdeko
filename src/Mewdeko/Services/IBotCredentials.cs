@@ -138,6 +138,11 @@ namespace Mewdeko.Services
         string CsrfToken { get; }
 
         /// <summary>
+        /// Lavalink Url
+        /// </summary>
+        string LavalinkUrl { get; }
+
+        /// <summary>
         /// Checks if the given user is an owner of the bot.
         /// </summary>
         /// <param name="u">The user to check.</param>

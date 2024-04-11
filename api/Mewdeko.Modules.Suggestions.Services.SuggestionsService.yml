@@ -5,7 +5,7 @@ items:
   id: SuggestionsService
   parent: Mewdeko.Modules.Suggestions.Services
   children:
-  - Mewdeko.Modules.Suggestions.Services.SuggestionsService.#ctor(Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Administration.Services.AdministrationService,Mewdeko.Modules.Permissions.Services.PermissionService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler)
+  - Mewdeko.Modules.Suggestions.Services.SuggestionsService.#ctor(Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Administration.Services.AdministrationService,Mewdeko.Modules.Permissions.Services.PermissionService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Common.Configs.BotConfig)
   - Mewdeko.Modules.Suggestions.Services.SuggestionsService.AddThreadChannel(System.UInt64,System.UInt64)
   - Mewdeko.Modules.Suggestions.Services.SuggestionsService.ForUser(System.UInt64,System.UInt64)
   - Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetAcceptChannel(Discord.IGuild)
@@ -98,7 +98,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SuggestionsService
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 13
+    startLine: 14
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -121,16 +121,16 @@ items:
   - System.Object.ToString
   extensionMethods:
   - Mewdeko.Modules.Suggestions.Services.SuggestionsService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
-- uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService.#ctor(Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Administration.Services.AdministrationService,Mewdeko.Modules.Permissions.Services.PermissionService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler)
-  commentId: M:Mewdeko.Modules.Suggestions.Services.SuggestionsService.#ctor(Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Administration.Services.AdministrationService,Mewdeko.Modules.Permissions.Services.PermissionService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler)
-  id: '#ctor(Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Administration.Services.AdministrationService,Mewdeko.Modules.Permissions.Services.PermissionService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler)'
+- uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService.#ctor(Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Administration.Services.AdministrationService,Mewdeko.Modules.Permissions.Services.PermissionService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Common.Configs.BotConfig)
+  commentId: M:Mewdeko.Modules.Suggestions.Services.SuggestionsService.#ctor(Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Administration.Services.AdministrationService,Mewdeko.Modules.Permissions.Services.PermissionService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Common.Configs.BotConfig)
+  id: '#ctor(Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Administration.Services.AdministrationService,Mewdeko.Modules.Permissions.Services.PermissionService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Common.Configs.BotConfig)'
   parent: Mewdeko.Modules.Suggestions.Services.SuggestionsService
   langs:
   - csharp
   - vb
-  name: SuggestionsService(DbService, DiscordSocketClient, AdministrationService, PermissionService, GuildSettingsService, EventHandler)
-  nameWithType: SuggestionsService.SuggestionsService(DbService, DiscordSocketClient, AdministrationService, PermissionService, GuildSettingsService, EventHandler)
-  fullName: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestionsService(Mewdeko.Database.DbService, Discord.WebSocket.DiscordSocketClient, Mewdeko.Modules.Administration.Services.AdministrationService, Mewdeko.Modules.Permissions.Services.PermissionService, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Impl.EventHandler)
+  name: SuggestionsService(DbService, DiscordSocketClient, AdministrationService, PermissionService, GuildSettingsService, EventHandler, BotConfig)
+  nameWithType: SuggestionsService.SuggestionsService(DbService, DiscordSocketClient, AdministrationService, PermissionService, GuildSettingsService, EventHandler, BotConfig)
+  fullName: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestionsService(Mewdeko.Database.DbService, Discord.WebSocket.DiscordSocketClient, Mewdeko.Modules.Administration.Services.AdministrationService, Mewdeko.Modules.Permissions.Services.PermissionService, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Impl.EventHandler, Mewdeko.Common.Configs.BotConfig)
   type: Constructor
   source:
     remote:
@@ -139,14 +139,14 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: .ctor
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 32
+    startLine: 34
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
   summary: Initializes a new instance of the SuggestionsService class.
   example: []
   syntax:
-    content: public SuggestionsService(DbService db, DiscordSocketClient client, AdministrationService aserv, PermissionService permserv, GuildSettingsService guildSettings, EventHandler eventHandler)
+    content: public SuggestionsService(DbService db, DiscordSocketClient client, AdministrationService aserv, PermissionService permserv, GuildSettingsService guildSettings, EventHandler eventHandler, BotConfig config)
     parameters:
     - id: db
       type: Mewdeko.Database.DbService
@@ -166,11 +166,13 @@ items:
     - id: eventHandler
       type: Mewdeko.Services.Impl.EventHandler
       description: Event handler for Discord client events.
-    content.vb: Public Sub New(db As DbService, client As DiscordSocketClient, aserv As AdministrationService, permserv As PermissionService, guildSettings As GuildSettingsService, eventHandler As EventHandler)
+    - id: config
+      type: Mewdeko.Common.Configs.BotConfig
+    content.vb: Public Sub New(db As DbService, client As DiscordSocketClient, aserv As AdministrationService, permserv As PermissionService, guildSettings As GuildSettingsService, eventHandler As EventHandler, config As BotConfig)
   overload: Mewdeko.Modules.Suggestions.Services.SuggestionsService.#ctor*
-  nameWithType.vb: SuggestionsService.New(DbService, DiscordSocketClient, AdministrationService, PermissionService, GuildSettingsService, EventHandler)
-  fullName.vb: Mewdeko.Modules.Suggestions.Services.SuggestionsService.New(Mewdeko.Database.DbService, Discord.WebSocket.DiscordSocketClient, Mewdeko.Modules.Administration.Services.AdministrationService, Mewdeko.Modules.Permissions.Services.PermissionService, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Impl.EventHandler)
-  name.vb: New(DbService, DiscordSocketClient, AdministrationService, PermissionService, GuildSettingsService, EventHandler)
+  nameWithType.vb: SuggestionsService.New(DbService, DiscordSocketClient, AdministrationService, PermissionService, GuildSettingsService, EventHandler, BotConfig)
+  fullName.vb: Mewdeko.Modules.Suggestions.Services.SuggestionsService.New(Mewdeko.Database.DbService, Discord.WebSocket.DiscordSocketClient, Mewdeko.Modules.Administration.Services.AdministrationService, Mewdeko.Modules.Permissions.Services.PermissionService, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Impl.EventHandler, Mewdeko.Common.Configs.BotConfig)
+  name.vb: New(DbService, DiscordSocketClient, AdministrationService, PermissionService, GuildSettingsService, EventHandler, BotConfig)
 - uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSNum(System.UInt64)
   commentId: M:Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSNum(System.UInt64)
   id: GetSNum(System.UInt64)
@@ -189,7 +191,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetSNum
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 436
+    startLine: 439
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -227,7 +229,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetMaxLength
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 443
+    startLine: 446
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -265,7 +267,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetMinLength
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 450
+    startLine: 453
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -303,7 +305,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetEmotes
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 457
+    startLine: 460
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -341,7 +343,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetButtonType
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 466
+    startLine: 469
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -385,7 +387,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetRepostedMessageAndChannel
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 499
+    startLine: 502
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -423,7 +425,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetSuggestionEmotes
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 518
+    startLine: 521
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -464,7 +466,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetSuggestButtonColor
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 533
+    startLine: 536
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -505,7 +507,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetSuggestionButtonId
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 548
+    startLine: 551
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -546,7 +548,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetSuggestionChannelId
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 564
+    startLine: 567
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -587,7 +589,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetMinLength
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 579
+    startLine: 582
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -628,7 +630,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetMaxLength
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 594
+    startLine: 597
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -669,7 +671,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetSuggestButton
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 608
+    startLine: 611
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -704,7 +706,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SuggestReset
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 632
+    startLine: 635
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -739,7 +741,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UpdateSuggestionButtonMessage
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 649
+    startLine: 652
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -783,7 +785,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetSuggestButtonMessage
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 745
+    startLine: 748
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -824,7 +826,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetSuggestButtonLabel
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 760
+    startLine: 763
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -865,7 +867,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetSuggestionMessage
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 775
+    startLine: 778
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -906,7 +908,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetAcceptMessage
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 790
+    startLine: 793
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -947,7 +949,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetDenyMessage
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 805
+    startLine: 808
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -988,7 +990,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetImplementMessage
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 820
+    startLine: 823
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1029,7 +1031,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UpdateSuggestState
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 836
+    startLine: 839
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1073,7 +1075,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UpdateStateMessageId
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 852
+    startLine: 855
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1114,7 +1116,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetSuggestThreadsType
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 866
+    startLine: 869
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1155,7 +1157,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetConsiderMessage
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 881
+    startLine: 884
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1196,7 +1198,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Sugnum
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 896
+    startLine: 899
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1237,7 +1239,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetArchiveOnDeny
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 911
+    startLine: 914
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1278,7 +1280,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetArchiveOnAccept
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 926
+    startLine: 929
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1319,7 +1321,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetArchiveOnConsider
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 941
+    startLine: 944
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1360,7 +1362,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetArchiveOnImplement
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 956
+    startLine: 959
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1401,7 +1403,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetEmoteMode
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 971
+    startLine: 974
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1442,7 +1444,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetAcceptChannel
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 986
+    startLine: 989
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1483,7 +1485,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetDenyChannel
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1001
+    startLine: 1004
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1524,7 +1526,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetConsiderChannel
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1016
+    startLine: 1019
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1565,7 +1567,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetImplementChannel
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1031
+    startLine: 1034
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1606,7 +1608,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetSuggestButtonChannel
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1046
+    startLine: 1049
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1647,7 +1649,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetSuggestButtonEmote
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1061
+    startLine: 1064
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1688,7 +1690,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UpdateEmoteCount
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1077
+    startLine: 1080
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1732,7 +1734,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetCurrentCount
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1139
+    startLine: 1142
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1773,7 +1775,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetSuggestMote
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1160
+    startLine: 1163
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1814,7 +1816,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetSuggestionChannel
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1178
+    startLine: 1181
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1852,7 +1854,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetSuggestionMessage
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1186
+    startLine: 1189
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1887,7 +1889,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetAcceptMessage
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1194
+    startLine: 1197
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1922,7 +1924,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetDenyMessage
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1202
+    startLine: 1205
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1957,7 +1959,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetImplementMessage
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1210
+    startLine: 1213
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -1992,7 +1994,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetConsiderMessage
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1218
+    startLine: 1221
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2027,7 +2029,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetThreadType
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1226
+    startLine: 1229
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2062,7 +2064,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetEmoteMode
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1234
+    startLine: 1237
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2097,7 +2099,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetConsiderChannel
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1242
+    startLine: 1245
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2132,7 +2134,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetAcceptChannel
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1250
+    startLine: 1253
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2167,7 +2169,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetImplementChannel
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1258
+    startLine: 1261
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2202,7 +2204,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetDenyChannel
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1266
+    startLine: 1269
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2237,7 +2239,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetArchiveOnDeny
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1274
+    startLine: 1277
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2272,7 +2274,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetArchiveOnAccept
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1282
+    startLine: 1285
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2307,7 +2309,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetArchiveOnConsider
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1290
+    startLine: 1293
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2342,7 +2344,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetArchiveOnImplement
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1298
+    startLine: 1301
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2377,7 +2379,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetSuggestButtonName
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1306
+    startLine: 1309
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2412,7 +2414,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetSuggestButtonChannel
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1314
+    startLine: 1317
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2447,7 +2449,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetSuggestButtonEmote
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1322
+    startLine: 1325
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2482,7 +2484,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetSuggestButtonMessage
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1330
+    startLine: 1333
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2517,7 +2519,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetSuggestButtonRepost
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1338
+    startLine: 1341
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2552,7 +2554,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetSuggestButtonMessageId
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1346
+    startLine: 1349
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2587,7 +2589,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetSuggestButtonColor
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1354
+    startLine: 1357
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2622,7 +2624,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetButtonStyle
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1363
+    startLine: 1366
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2663,7 +2665,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendDenyEmbed
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1387
+    startLine: 1390
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2724,7 +2726,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendConsiderEmbed
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 1785
+    startLine: 1794
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2783,7 +2785,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendImplementEmbed
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 2171
+    startLine: 2185
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2844,7 +2846,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendAcceptEmbed
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 2556
+    startLine: 2575
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2903,7 +2905,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendSuggestion
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 2941
+    startLine: 2965
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -2959,7 +2961,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Suggest
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 3108
+    startLine: 3134
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -3009,7 +3011,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Suggestions
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 3146
+    startLine: 3172
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -3050,7 +3052,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Suggestions
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 3157
+    startLine: 3183
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -3088,7 +3090,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetSuggestByMessage
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 3168
+    startLine: 3194
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -3126,7 +3128,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ForUser
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 3180
+    startLine: 3206
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -3167,7 +3169,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetPickedEmote
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 3192
+    startLine: 3218
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -3208,7 +3210,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UpdatePickedEmote
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 3207
+    startLine: 3233
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -3255,7 +3257,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddThreadChannel
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 3235
+    startLine: 3261
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -3299,7 +3301,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetThreadByMessage
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 3251
+    startLine: 3277
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -3755,7 +3757,7 @@ references:
     href: Mewdeko.Extensions.html
 - uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService.#ctor*
   commentId: Overload:Mewdeko.Modules.Suggestions.Services.SuggestionsService.#ctor
-  href: Mewdeko.Modules.Suggestions.Services.SuggestionsService.html#Mewdeko_Modules_Suggestions_Services_SuggestionsService__ctor_Mewdeko_Database_DbService_Discord_WebSocket_DiscordSocketClient_Mewdeko_Modules_Administration_Services_AdministrationService_Mewdeko_Modules_Permissions_Services_PermissionService_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_Impl_EventHandler_
+  href: Mewdeko.Modules.Suggestions.Services.SuggestionsService.html#Mewdeko_Modules_Suggestions_Services_SuggestionsService__ctor_Mewdeko_Database_DbService_Discord_WebSocket_DiscordSocketClient_Mewdeko_Modules_Administration_Services_AdministrationService_Mewdeko_Modules_Permissions_Services_PermissionService_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_Impl_EventHandler_Mewdeko_Common_Configs_BotConfig_
   name: SuggestionsService
   nameWithType: SuggestionsService.SuggestionsService
   fullName: Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestionsService
@@ -3804,6 +3806,13 @@ references:
   name: EventHandler
   nameWithType: EventHandler
   fullName: Mewdeko.Services.Impl.EventHandler
+- uid: Mewdeko.Common.Configs.BotConfig
+  commentId: T:Mewdeko.Common.Configs.BotConfig
+  parent: Mewdeko.Common.Configs
+  href: Mewdeko.Common.Configs.BotConfig.html
+  name: BotConfig
+  nameWithType: BotConfig
+  fullName: Mewdeko.Common.Configs.BotConfig
 - uid: Mewdeko.Database
   commentId: N:Mewdeko.Database
   href: Mewdeko.html
@@ -3954,6 +3963,36 @@ references:
   - uid: Mewdeko.Services.Impl
     name: Impl
     href: Mewdeko.Services.Impl.html
+- uid: Mewdeko.Common.Configs
+  commentId: N:Mewdeko.Common.Configs
+  href: Mewdeko.html
+  name: Mewdeko.Common.Configs
+  nameWithType: Mewdeko.Common.Configs
+  fullName: Mewdeko.Common.Configs
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
 - uid: Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSNum*
   commentId: Overload:Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSNum
   href: Mewdeko.Modules.Suggestions.Services.SuggestionsService.html#Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSNum_System_UInt64_

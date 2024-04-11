@@ -76,6 +76,7 @@ items:
   - Mewdeko.Common.MewdekoSlashCommandModule.Strings
   - Mewdeko.Common.MewdekoSlashCommandModule.CmdHandler
   - Mewdeko.Common.MewdekoSlashCommandModule.Localization
+  - Mewdeko.Common.MewdekoSlashCommandModule.Config
   - Mewdeko.Common.MewdekoSlashCommandModule.ctx
   - Mewdeko.Common.MewdekoSlashCommandModule.BeforeExecute(Discord.Interactions.ICommandInfo)
   - Mewdeko.Common.MewdekoSlashCommandModule.GetText(System.String)
@@ -702,7 +703,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetProfileImage
     path: src/Mewdeko/Modules/UserProfile/SlashUserProfile.cs
-    startLine: 185
+    startLine: 186
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.UserProfile
@@ -757,7 +758,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetPrivacy
     path: src/Mewdeko/Modules/UserProfile/SlashUserProfile.cs
-    startLine: 205
+    startLine: 207
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.UserProfile
@@ -809,7 +810,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: OverwritePronouns
     path: src/Mewdeko/Modules/UserProfile/SlashUserProfile.cs
-    startLine: 215
+    startLine: 217
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.UserProfile
@@ -855,7 +856,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ClearPronounsOverwrite
     path: src/Mewdeko/Modules/UserProfile/SlashUserProfile.cs
-    startLine: 222
+    startLine: 224
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.UserProfile
@@ -901,7 +902,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: PronounsOverwriteModal
     path: src/Mewdeko/Modules/UserProfile/SlashUserProfile.cs
-    startLine: 237
+    startLine: 239
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.UserProfile
@@ -951,7 +952,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ReportPronouns
     path: src/Mewdeko/Modules/UserProfile/SlashUserProfile.cs
-    startLine: 252
+    startLine: 254
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.UserProfile
@@ -1004,7 +1005,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ClearPronouns
     path: src/Mewdeko/Modules/UserProfile/SlashUserProfile.cs
-    startLine: 302
+    startLine: 304
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.UserProfile
@@ -1061,7 +1062,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: BlacklistPronouns
     path: src/Mewdeko/Modules/UserProfile/SlashUserProfile.cs
-    startLine: 312
+    startLine: 314
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.UserProfile
@@ -1115,7 +1116,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: BlacklistGuildPronouns
     path: src/Mewdeko/Modules/UserProfile/SlashUserProfile.cs
-    startLine: 322
+    startLine: 324
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.UserProfile
@@ -1169,7 +1170,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: PronounsGuildBlacklist
     path: src/Mewdeko/Modules/UserProfile/SlashUserProfile.cs
-    startLine: 333
+    startLine: 335
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.UserProfile
@@ -1225,7 +1226,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: PronounsFcAction
     path: src/Mewdeko/Modules/UserProfile/SlashUserProfile.cs
-    startLine: 348
+    startLine: 350
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.UserProfile
@@ -1287,7 +1288,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Pronouns
     path: src/Mewdeko/Modules/UserProfile/SlashUserProfile.cs
-    startLine: 379
+    startLine: 381
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.UserProfile
@@ -1352,7 +1353,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetPronouns
     path: src/Mewdeko/Modules/UserProfile/SlashUserProfile.cs
-    startLine: 402
+    startLine: 404
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.UserProfile
@@ -1407,7 +1408,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: DmUser
     path: src/Mewdeko/Modules/UserProfile/SlashUserProfile.cs
-    startLine: 434
+    startLine: 436
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.UserProfile
@@ -1460,7 +1461,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: DmUserModal
     path: src/Mewdeko/Modules/UserProfile/SlashUserProfile.cs
-    startLine: 444
+    startLine: 446
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.UserProfile
@@ -1660,6 +1661,13 @@ references:
   name: Localization
   nameWithType: MewdekoSlashCommandModule.Localization
   fullName: Mewdeko.Common.MewdekoSlashCommandModule.Localization
+- uid: Mewdeko.Common.MewdekoSlashCommandModule.Config
+  commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.Config
+  parent: Mewdeko.Common.MewdekoSlashCommandModule
+  href: Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_Config
+  name: Config
+  nameWithType: MewdekoSlashCommandModule.Config
+  fullName: Mewdeko.Common.MewdekoSlashCommandModule.Config
 - uid: Mewdeko.Common.MewdekoSlashCommandModule.ctx
   commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.ctx
   parent: Mewdeko.Common.MewdekoSlashCommandModule

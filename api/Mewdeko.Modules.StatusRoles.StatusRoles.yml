@@ -54,6 +54,7 @@ items:
   - Mewdeko.Common.MewdekoModule.Strings
   - Mewdeko.Common.MewdekoModule.Localization
   - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.Config
   - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   - Mewdeko.Common.MewdekoModule.GetText(System.String)
   - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
@@ -349,7 +350,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetStatusRoleChannel
     path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
-    startLine: 133
+    startLine: 134
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.StatusRoles
@@ -419,7 +420,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetAddRoles
     path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
-    startLine: 166
+    startLine: 167
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.StatusRoles
@@ -489,7 +490,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetRemoveRoles
     path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
-    startLine: 205
+    startLine: 206
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.StatusRoles
@@ -559,7 +560,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RemoveAddRoles
     path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
-    startLine: 244
+    startLine: 245
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.StatusRoles
@@ -629,7 +630,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RemoveRemoveRoles
     path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
-    startLine: 280
+    startLine: 281
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.StatusRoles
@@ -699,7 +700,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ToggleRemoveAdded
     path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
-    startLine: 316
+    startLine: 317
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.StatusRoles
@@ -766,7 +767,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ToggleReaddRemoved
     path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
-    startLine: 341
+    startLine: 342
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.StatusRoles
@@ -833,7 +834,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ListStatusRoles
     path: src/Mewdeko/Modules/StatusRoles/StatusRoles.cs
-    startLine: 365
+    startLine: 366
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.StatusRoles
@@ -1037,6 +1038,13 @@ references:
   name: ctx
   nameWithType: MewdekoModule.ctx
   fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.Config
+  commentId: P:Mewdeko.Common.MewdekoModule.Config
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Config
+  name: Config
+  nameWithType: MewdekoModule.Config
+  fullName: Mewdeko.Common.MewdekoModule.Config
 - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   parent: Mewdeko.Common.MewdekoModule

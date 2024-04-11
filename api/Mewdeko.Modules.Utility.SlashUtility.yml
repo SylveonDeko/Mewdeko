@@ -68,6 +68,7 @@ items:
   - Mewdeko.Common.MewdekoSlashCommandModule.Strings
   - Mewdeko.Common.MewdekoSlashCommandModule.CmdHandler
   - Mewdeko.Common.MewdekoSlashCommandModule.Localization
+  - Mewdeko.Common.MewdekoSlashCommandModule.Config
   - Mewdeko.Common.MewdekoSlashCommandModule.ctx
   - Mewdeko.Common.MewdekoSlashCommandModule.BeforeExecute(Discord.Interactions.ICommandInfo)
   - Mewdeko.Common.MewdekoSlashCommandModule.GetText(System.String)
@@ -699,7 +700,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Fetch
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 322
+    startLine: 323
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -772,7 +773,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ServerInfo
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 354
+    startLine: 355
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -830,7 +831,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ChannelInfo
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 406
+    startLine: 407
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -892,7 +893,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UserInfo
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 428
+    startLine: 429
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -964,7 +965,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UserInfo
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 501
+    startLine: 502
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -1020,7 +1021,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UserId
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 509
+    startLine: 510
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -1091,7 +1092,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UserId
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 519
+    startLine: 520
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -1147,7 +1148,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Avatar
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 527
+    startLine: 528
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -1218,7 +1219,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GenerateTimestamp
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 570
+    startLine: 571
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -1309,7 +1310,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MoreSInfo
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 591
+    startLine: 592
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -1356,7 +1357,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MoreUInfo
     path: src/Mewdeko/Modules/Utility/SlashUtility.cs
-    startLine: 621
+    startLine: 622
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Utility
@@ -1555,6 +1556,13 @@ references:
   name: Localization
   nameWithType: MewdekoSlashCommandModule.Localization
   fullName: Mewdeko.Common.MewdekoSlashCommandModule.Localization
+- uid: Mewdeko.Common.MewdekoSlashCommandModule.Config
+  commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.Config
+  parent: Mewdeko.Common.MewdekoSlashCommandModule
+  href: Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_Config
+  name: Config
+  nameWithType: MewdekoSlashCommandModule.Config
+  fullName: Mewdeko.Common.MewdekoSlashCommandModule.Config
 - uid: Mewdeko.Common.MewdekoSlashCommandModule.ctx
   commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.ctx
   parent: Mewdeko.Common.MewdekoSlashCommandModule

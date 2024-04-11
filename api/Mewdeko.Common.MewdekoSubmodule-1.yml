@@ -19,7 +19,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MewdekoSubmodule
     path: src/Mewdeko/Common/MewdekoModuleBase.cs
-    startLine: 350
+    startLine: 356
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Common
@@ -39,6 +39,7 @@ items:
   - Mewdeko.Common.MewdekoModuleBase{{TService}}
   derivedClasses:
   - Mewdeko.Modules.Administration.Administration.AutoAssignRoleCommands
+  - Mewdeko.Modules.Administration.Administration.AutoBanRole
   - Mewdeko.Modules.Administration.Administration.DiscordPermOverrideCommands
   - Mewdeko.Modules.Administration.Administration.GameChannelCommands
   - Mewdeko.Modules.Administration.Administration.LogCommands
@@ -48,7 +49,6 @@ items:
   - Mewdeko.Modules.Administration.Administration.ServerGreetCommands
   - Mewdeko.Modules.Administration.Administration.TimeZoneCommands
   - Mewdeko.Modules.Administration.Administration.VcRoleCommands
-  - Mewdeko.Modules.Administration.AutoBanRole
   - Mewdeko.Modules.Games.Games.AcropobiaCommands
   - Mewdeko.Modules.Games.Games.ChatterBotCommands
   - Mewdeko.Modules.Games.Games.HangmanCommands
@@ -71,12 +71,12 @@ items:
   - Mewdeko.Modules.Server_Management.ServerManagement.ChannelCommands
   - Mewdeko.Modules.Server_Management.ServerManagement.RoleCommands
   - Mewdeko.Modules.Starboard.Starboard
-  - Mewdeko.Modules.Utility.LinkCommands
   - Mewdeko.Modules.Utility.Utility.AutoPublish
   - Mewdeko.Modules.Utility.Utility.CommandMapCommands
   - Mewdeko.Modules.Utility.Utility.InfoCommands
   - Mewdeko.Modules.Utility.Utility.InviteCommands
   - Mewdeko.Modules.Utility.Utility.JoinLeaveStats
+  - Mewdeko.Modules.Utility.Utility.LinkCommands
   - Mewdeko.Modules.Utility.Utility.RemindCommands
   - Mewdeko.Modules.Utility.Utility.RepeatCommands
   - Mewdeko.Modules.Utility.Utility.StreamRoleCommands
@@ -92,6 +92,7 @@ items:
   - Mewdeko.Common.MewdekoModule.Strings
   - Mewdeko.Common.MewdekoModule.Localization
   - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.Config
   - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   - Mewdeko.Common.MewdekoModule.GetText(System.String)
   - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
@@ -274,6 +275,13 @@ references:
   name: ctx
   nameWithType: MewdekoModule.ctx
   fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.Config
+  commentId: P:Mewdeko.Common.MewdekoModule.Config
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Config
+  name: Config
+  nameWithType: MewdekoModule.Config
+  fullName: Mewdeko.Common.MewdekoModule.Config
 - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   parent: Mewdeko.Common.MewdekoModule

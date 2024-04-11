@@ -60,6 +60,7 @@ items:
   - Mewdeko.Common.MewdekoSlashCommandModule.Strings
   - Mewdeko.Common.MewdekoSlashCommandModule.CmdHandler
   - Mewdeko.Common.MewdekoSlashCommandModule.Localization
+  - Mewdeko.Common.MewdekoSlashCommandModule.Config
   - Mewdeko.Common.MewdekoSlashCommandModule.ctx
   - Mewdeko.Common.MewdekoSlashCommandModule.BeforeExecute(Discord.Interactions.ICommandInfo)
   - Mewdeko.Common.MewdekoSlashCommandModule.GetText(System.String)
@@ -375,7 +376,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetStatusRoleChannel
     path: src/Mewdeko/Modules/StatusRoles/SlashStatusRoles.cs
-    startLine: 116
+    startLine: 117
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.StatusRoles
@@ -445,7 +446,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetAddRoles
     path: src/Mewdeko/Modules/StatusRoles/SlashStatusRoles.cs
-    startLine: 138
+    startLine: 140
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.StatusRoles
@@ -518,7 +519,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetRemoveRoles
     path: src/Mewdeko/Modules/StatusRoles/SlashStatusRoles.cs
-    startLine: 165
+    startLine: 167
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.StatusRoles
@@ -591,7 +592,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RemoveAddRoles
     path: src/Mewdeko/Modules/StatusRoles/SlashStatusRoles.cs
-    startLine: 193
+    startLine: 195
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.StatusRoles
@@ -664,7 +665,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RemoveRemoveRoles
     path: src/Mewdeko/Modules/StatusRoles/SlashStatusRoles.cs
-    startLine: 218
+    startLine: 220
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.StatusRoles
@@ -737,7 +738,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ToggleRemoveAdded
     path: src/Mewdeko/Modules/StatusRoles/SlashStatusRoles.cs
-    startLine: 243
+    startLine: 245
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.StatusRoles
@@ -804,7 +805,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ToggleReaddRemoved
     path: src/Mewdeko/Modules/StatusRoles/SlashStatusRoles.cs
-    startLine: 257
+    startLine: 259
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.StatusRoles
@@ -871,7 +872,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ListStatusRoles
     path: src/Mewdeko/Modules/StatusRoles/SlashStatusRoles.cs
-    startLine: 270
+    startLine: 272
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.StatusRoles
@@ -1072,6 +1073,13 @@ references:
   name: Localization
   nameWithType: MewdekoSlashCommandModule.Localization
   fullName: Mewdeko.Common.MewdekoSlashCommandModule.Localization
+- uid: Mewdeko.Common.MewdekoSlashCommandModule.Config
+  commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.Config
+  parent: Mewdeko.Common.MewdekoSlashCommandModule
+  href: Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_Config
+  name: Config
+  nameWithType: MewdekoSlashCommandModule.Config
+  fullName: Mewdeko.Common.MewdekoSlashCommandModule.Config
 - uid: Mewdeko.Common.MewdekoSlashCommandModule.ctx
   commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.ctx
   parent: Mewdeko.Common.MewdekoSlashCommandModule

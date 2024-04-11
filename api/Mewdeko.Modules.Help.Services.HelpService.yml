@@ -271,7 +271,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetCommandHelp
     path: src/Mewdeko/Modules/Help/Services/HelpService.cs
-    startLine: 240
+    startLine: 256
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help.Services

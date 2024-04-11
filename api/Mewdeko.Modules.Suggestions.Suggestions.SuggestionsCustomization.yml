@@ -72,6 +72,7 @@ items:
   - Mewdeko.Common.MewdekoModule.Strings
   - Mewdeko.Common.MewdekoModule.Localization
   - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.Config
   - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   - Mewdeko.Common.MewdekoModule.GetText(System.String)
   - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
@@ -287,7 +288,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SuggestMotesMode
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 166
+    startLine: 167
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -364,7 +365,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SuggestButtonColor
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 181
+    startLine: 182
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -441,7 +442,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SuggestMoteColor
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 199
+    startLine: 200
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -524,7 +525,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MaxSuggestionLength
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 216
+    startLine: 217
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -604,7 +605,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AcceptMessage
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 239
+    startLine: 241
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -688,7 +689,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AcceptChannel
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 263
+    startLine: 265
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -768,7 +769,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: DenyChannel
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 281
+    startLine: 283
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -848,7 +849,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ConsiderChannel
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 299
+    startLine: 301
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -928,7 +929,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ImplementChannel
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 317
+    startLine: 319
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -1008,7 +1009,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ImplementMessage
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 335
+    startLine: 337
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -1092,7 +1093,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SuggestThreadsType
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 358
+    startLine: 360
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -1166,7 +1167,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SuggestButtonChannel
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 373
+    startLine: 375
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -1240,7 +1241,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SuggestButtonMessage
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 392
+    startLine: 394
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -1324,7 +1325,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SuggestButtonLabel
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 419
+    startLine: 421
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -1408,7 +1409,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SuggestButtonEmote
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 454
+    startLine: 457
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -1488,7 +1489,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ArchiveOnDeny
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 482
+    startLine: 485
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -1561,7 +1562,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ArchiveOnAccept
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 497
+    startLine: 500
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -1634,7 +1635,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ArchiveOnConsider
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 512
+    startLine: 515
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -1707,7 +1708,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ArchiveOnImplement
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 527
+    startLine: 530
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -1780,7 +1781,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: DenyMessage
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 544
+    startLine: 547
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -1864,7 +1865,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ConsiderMessage
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 567
+    startLine: 570
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -1948,7 +1949,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SuggestMotes
     path: src/Mewdeko/Modules/Suggestions/SuggestionsCustomization.cs
-    startLine: 589
+    startLine: 592
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -2176,6 +2177,13 @@ references:
   name: ctx
   nameWithType: MewdekoModule.ctx
   fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.Config
+  commentId: P:Mewdeko.Common.MewdekoModule.Config
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Config
+  name: Config
+  nameWithType: MewdekoModule.Config
+  fullName: Mewdeko.Common.MewdekoModule.Config
 - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   parent: Mewdeko.Common.MewdekoModule

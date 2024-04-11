@@ -20,7 +20,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ShortenData
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 1314
+    startLine: 1317
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -65,7 +65,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ResultUrl
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 1322
+    startLine: 1325
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
