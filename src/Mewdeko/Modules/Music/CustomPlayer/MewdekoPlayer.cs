@@ -130,6 +130,31 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     }
 
     /// <summary>
+    /// Sets the music channel for the player.
+    /// </summary>
+    /// <param name="channelId">The channel id to set.</param>
+    /// <param name="guildId">The guild id to set the channel for.</param>
+    public async Task SetMusicChannelAsync(ulong channelId, ulong guildId)
+    {
+        await using var uow = dbService.GetDbContext();
+        var settings = await uow.MusicPlayerSettings.FirstOrDefaultAsync(x => x.GuildId == base.GuildId);
+        if (settings is null)
+        {
+            settings = new MusicPlayerSettings
+            {
+                GuildId = base.GuildId, MusicChannelId = channelId
+            };
+            await uow.MusicPlayerSettings.AddAsync(settings);
+        }
+        else
+        {
+            settings.MusicChannelId = channelId;
+        }
+
+        await uow.SaveChangesAsync();
+    }
+
+    /// <summary>
     /// Gets the repeat type for the player.
     /// </summary>
     /// <param name="guildId">The guild id to get the repeat type for.</param>
