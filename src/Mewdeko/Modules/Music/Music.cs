@@ -400,6 +400,24 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
     }
 
     /// <summary>
+    /// Sets the channel where music events will be sent.
+    /// </summary>
+    /// <param name="channel">The channel where music events will be sent.</param>
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
+    public async Task SetMusicChannel(IMessageChannel channel)
+    {
+        var (player, reason) = await GetPlayerAsync(false);
+        if (reason is not null)
+        {
+            await ReplyErrorLocalizedAsync("music_join_fail").ConfigureAwait(false);
+            return;
+        }
+
+        await player.SetMusicChannelAsync(channel.Id, ctx.Guild.Id).ConfigureAwait(false);
+        await ReplyConfirmLocalizedAsync("music_channel_set", channel.Id).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Sets if the bot should loop and how.
     /// </summary>
     /// <param name="repeatType">The repeat type.</param>
@@ -416,6 +434,7 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
         await player.SetRepeatTypeAsync(repeatType, ctx.Guild.Id).ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("music_repeat_type", repeatType).ConfigureAwait(false);
     }
+
 
     private async ValueTask<(MewdekoPlayer, string?)> GetPlayerAsync(bool connectToVoiceChannel = true)
     {

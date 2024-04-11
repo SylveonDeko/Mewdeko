@@ -482,6 +482,7 @@
   "music_song_removed_stop": "Song removed from the queue and the player has been stopped.",
   "music_no_current_track": "No song is currently playing.",
   "music_repeat_type": "Repeat type set to {0}",
+  "music_channel_set": "Music channel set to <#{0}>",
   "music_song_moved": "{0} has been moved to queue position {1}",
   "music_volume_set": "Volume set to {0}%",
   "music_volume_invalid": "Invalid volume specified. Please specify a number between 1 and 100",
