@@ -21,7 +21,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Options
     path: src/Mewdeko/Modules/Games/Common/TicTacToe.cs
-    startLine: 339
+    startLine: 343
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Games.Common
@@ -62,7 +62,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: TurnTimer
     path: src/Mewdeko/Modules/Games/Common/TicTacToe.cs
-    startLine: 344
+    startLine: 348
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Games.Common
@@ -117,7 +117,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: NormalizeOptions
     path: src/Mewdeko/Modules/Games/Common/TicTacToe.cs
-    startLine: 350
+    startLine: 354
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Games.Common

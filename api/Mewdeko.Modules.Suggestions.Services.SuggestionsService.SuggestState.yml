@@ -24,7 +24,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SuggestState
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 55
+    startLine: 58
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -51,7 +51,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Suggested
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 60
+    startLine: 63
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -79,7 +79,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Accepted
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 65
+    startLine: 68
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -107,7 +107,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Denied
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 70
+    startLine: 73
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -135,7 +135,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Considered
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 75
+    startLine: 78
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services
@@ -163,7 +163,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Implemented
     path: src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs
-    startLine: 80
+    startLine: 83
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions.Services

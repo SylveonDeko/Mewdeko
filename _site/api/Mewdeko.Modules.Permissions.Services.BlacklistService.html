@@ -133,20 +133,20 @@ offering functionality to add, remove, and check entities against a blacklist.</
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Permissions_Services_BlacklistService__ctor_Mewdeko_Database_DbService_Mewdeko_Common_PubSub_IPubSub_Mewdeko_Services_Impl_EventHandler_Discord_WebSocket_DiscordSocketClient_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Permissions.Services.BlacklistService.%23ctor(Mewdeko.Database.DbService%2CMewdeko.Common.PubSub.IPubSub%2CMewdeko.Services.Impl.EventHandler%2CDiscord.WebSocket.DiscordSocketClient)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Permissions_Services_BlacklistService__ctor_Mewdeko_Database_DbService_Mewdeko_Common_PubSub_IPubSub_Mewdeko_Services_Impl_EventHandler_Discord_WebSocket_DiscordSocketClient_Mewdeko_Common_Configs_BotConfig_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Permissions.Services.BlacklistService.%23ctor(Mewdeko.Database.DbService%2CMewdeko.Common.PubSub.IPubSub%2CMewdeko.Services.Impl.EventHandler%2CDiscord.WebSocket.DiscordSocketClient%2CMewdeko.Common.Configs.BotConfig)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Permissions/Services/BlacklistService.cs/#L38">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Permissions/Services/BlacklistService.cs/#L41">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Permissions_Services_BlacklistService__ctor_" data-uid="Mewdeko.Modules.Permissions.Services.BlacklistService.#ctor*"></a>
-  <h4 id="Mewdeko_Modules_Permissions_Services_BlacklistService__ctor_Mewdeko_Database_DbService_Mewdeko_Common_PubSub_IPubSub_Mewdeko_Services_Impl_EventHandler_Discord_WebSocket_DiscordSocketClient_" data-uid="Mewdeko.Modules.Permissions.Services.BlacklistService.#ctor(Mewdeko.Database.DbService,Mewdeko.Common.PubSub.IPubSub,Mewdeko.Services.Impl.EventHandler,Discord.WebSocket.DiscordSocketClient)">BlacklistService(DbService, IPubSub, EventHandler, DiscordSocketClient)</h4>
+  <h4 id="Mewdeko_Modules_Permissions_Services_BlacklistService__ctor_Mewdeko_Database_DbService_Mewdeko_Common_PubSub_IPubSub_Mewdeko_Services_Impl_EventHandler_Discord_WebSocket_DiscordSocketClient_Mewdeko_Common_Configs_BotConfig_" data-uid="Mewdeko.Modules.Permissions.Services.BlacklistService.#ctor(Mewdeko.Database.DbService,Mewdeko.Common.PubSub.IPubSub,Mewdeko.Services.Impl.EventHandler,Discord.WebSocket.DiscordSocketClient,Mewdeko.Common.Configs.BotConfig)">BlacklistService(DbService, IPubSub, EventHandler, DiscordSocketClient, BotConfig)</h4>
   <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Mewdeko.Modules.Permissions.Services.BlacklistService.html">BlacklistService</a> class, setting up listeners for guild joins and the bot's readiness,
 and preloading the blacklist.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public BlacklistService(DbService db, IPubSub pubSub, EventHandler handler, DiscordSocketClient client)</code></pre>
+    <pre><code class="lang-csharp hljs">public BlacklistService(DbService db, IPubSub pubSub, EventHandler handler, DiscordSocketClient client, BotConfig config)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-condensed">
@@ -182,9 +182,15 @@ and preloading the blacklist.</p>
         <td><p>The Discord socket client instance.</p>
 </td>
       </tr>
+      <tr>
+        <td><a class="xref" href="Mewdeko.Common.Configs.BotConfig.html">BotConfig</a></td>
+        <td><span class="parametername">config</span></td>
+        <td><p>The bot configuration service.</p>
+</td>
+      </tr>
     </tbody>
   </table>
-  <h5 id="Mewdeko_Modules_Permissions_Services_BlacklistService__ctor_Mewdeko_Database_DbService_Mewdeko_Common_PubSub_IPubSub_Mewdeko_Services_Impl_EventHandler_Discord_WebSocket_DiscordSocketClient__remarks">Remarks</h5>
+  <h5 id="Mewdeko_Modules_Permissions_Services_BlacklistService__ctor_Mewdeko_Database_DbService_Mewdeko_Common_PubSub_IPubSub_Mewdeko_Services_Impl_EventHandler_Discord_WebSocket_DiscordSocketClient_Mewdeko_Common_Configs_BotConfig__remarks">Remarks</h5>
   <div class="markdown level1 remarks"><p>The service subscribes to relevant events to automatically enforce blacklist rules upon guild join events or when the bot starts.</p>
 </div>
   <h3 id="fields">Fields
@@ -194,7 +200,7 @@ and preloading the blacklist.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Permissions_Services_BlacklistService_BlacklistEntries.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Permissions.Services.BlacklistService.BlacklistEntries%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Permissions/Services/BlacklistService.cs/#L23">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Permissions/Services/BlacklistService.cs/#L25">View Source</a>
   </span>
   <h4 id="Mewdeko_Modules_Permissions_Services_BlacklistService_BlacklistEntries" data-uid="Mewdeko.Modules.Permissions.Services.BlacklistService.BlacklistEntries">BlacklistEntries</h4>
   <div class="markdown level1 summary"><p>Gets or sets the collection of blacklist entries.</p>
@@ -226,7 +232,7 @@ and preloading the blacklist.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Permissions_Services_BlacklistService_BehaviorType.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Permissions.Services.BlacklistService.BehaviorType%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Permissions/Services/BlacklistService.cs/#L187">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Permissions/Services/BlacklistService.cs/#L194">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Permissions_Services_BlacklistService_BehaviorType_" data-uid="Mewdeko.Modules.Permissions.Services.BlacklistService.BehaviorType*"></a>
   <h4 id="Mewdeko_Modules_Permissions_Services_BlacklistService_BehaviorType" data-uid="Mewdeko.Modules.Permissions.Services.BlacklistService.BehaviorType">BehaviorType</h4>
@@ -257,7 +263,7 @@ and preloading the blacklist.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Permissions_Services_BlacklistService_Priority.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Permissions.Services.BlacklistService.Priority%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Permissions/Services/BlacklistService.cs/#L182">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Permissions/Services/BlacklistService.cs/#L189">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Permissions_Services_BlacklistService_Priority_" data-uid="Mewdeko.Modules.Permissions.Services.BlacklistService.Priority*"></a>
   <h4 id="Mewdeko_Modules_Permissions_Services_BlacklistService_Priority" data-uid="Mewdeko.Modules.Permissions.Services.BlacklistService.Priority">Priority</h4>
@@ -290,7 +296,7 @@ and preloading the blacklist.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Permissions_Services_BlacklistService_Blacklist_Mewdeko_Database_Models_BlacklistType_System_UInt64_System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Permissions.Services.BlacklistService.Blacklist(Mewdeko.Database.Models.BlacklistType%2CSystem.UInt64%2CSystem.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Permissions/Services/BlacklistService.cs/#L249">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Permissions/Services/BlacklistService.cs/#L256">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Permissions_Services_BlacklistService_Blacklist_" data-uid="Mewdeko.Modules.Permissions.Services.BlacklistService.Blacklist*"></a>
   <h4 id="Mewdeko_Modules_Permissions_Services_BlacklistService_Blacklist_Mewdeko_Database_Models_BlacklistType_System_UInt64_System_String_" data-uid="Mewdeko.Modules.Permissions.Services.BlacklistService.Blacklist(Mewdeko.Database.Models.BlacklistType,System.UInt64,System.String)">Blacklist(BlacklistType, ulong, string?)</h4>
@@ -339,7 +345,7 @@ and preloading the blacklist.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Permissions_Services_BlacklistService_BlacklistUsers_System_Collections_Generic_IEnumerable_System_UInt64__.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Permissions.Services.BlacklistService.BlacklistUsers(System.Collections.Generic.IEnumerable%7BSystem.UInt64%7D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Permissions/Services/BlacklistService.cs/#L291">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Permissions/Services/BlacklistService.cs/#L298">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Permissions_Services_BlacklistService_BlacklistUsers_" data-uid="Mewdeko.Modules.Permissions.Services.BlacklistService.BlacklistUsers*"></a>
   <h4 id="Mewdeko_Modules_Permissions_Services_BlacklistService_BlacklistUsers_System_Collections_Generic_IEnumerable_System_UInt64__" data-uid="Mewdeko.Modules.Permissions.Services.BlacklistService.BlacklistUsers(System.Collections.Generic.IEnumerable{System.UInt64})">BlacklistUsers(IEnumerable&lt;ulong&gt;)</h4>
@@ -376,7 +382,7 @@ and preloading the blacklist.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Permissions_Services_BlacklistService_Reload_System_Boolean_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Permissions.Services.BlacklistService.Reload(System.Boolean)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Permissions/Services/BlacklistService.cs/#L232">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Permissions/Services/BlacklistService.cs/#L239">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Permissions_Services_BlacklistService_Reload_" data-uid="Mewdeko.Modules.Permissions.Services.BlacklistService.Reload*"></a>
   <h4 id="Mewdeko_Modules_Permissions_Services_BlacklistService_Reload_System_Boolean_" data-uid="Mewdeko.Modules.Permissions.Services.BlacklistService.Reload(System.Boolean)">Reload(bool)</h4>
@@ -410,7 +416,7 @@ and preloading the blacklist.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Permissions_Services_BlacklistService_RunBehavior_Discord_WebSocket_DiscordSocketClient_Discord_IGuild_Discord_IUserMessage_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Permissions.Services.BlacklistService.RunBehavior(Discord.WebSocket.DiscordSocketClient%2CDiscord.IGuild%2CDiscord.IUserMessage)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Permissions/Services/BlacklistService.cs/#L199">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Permissions/Services/BlacklistService.cs/#L206">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Permissions_Services_BlacklistService_RunBehavior_" data-uid="Mewdeko.Modules.Permissions.Services.BlacklistService.RunBehavior*"></a>
   <h4 id="Mewdeko_Modules_Permissions_Services_BlacklistService_RunBehavior_Discord_WebSocket_DiscordSocketClient_Discord_IGuild_Discord_IUserMessage_" data-uid="Mewdeko.Modules.Permissions.Services.BlacklistService.RunBehavior(Discord.WebSocket.DiscordSocketClient,Discord.IGuild,Discord.IUserMessage)">RunBehavior(DiscordSocketClient, IGuild, IUserMessage)</h4>
@@ -475,7 +481,7 @@ and preloading the blacklist.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Permissions_Services_BlacklistService_SendManualCheck.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Permissions.Services.BlacklistService.SendManualCheck%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Permissions/Services/BlacklistService.cs/#L111">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Permissions/Services/BlacklistService.cs/#L116">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Permissions_Services_BlacklistService_SendManualCheck_" data-uid="Mewdeko.Modules.Permissions.Services.BlacklistService.SendManualCheck*"></a>
   <h4 id="Mewdeko_Modules_Permissions_Services_BlacklistService_SendManualCheck" data-uid="Mewdeko.Modules.Permissions.Services.BlacklistService.SendManualCheck">SendManualCheck()</h4>
@@ -510,7 +516,7 @@ and preloading the blacklist.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Permissions_Services_BlacklistService_UnBlacklist_Mewdeko_Database_Models_BlacklistType_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Permissions.Services.BlacklistService.UnBlacklist(Mewdeko.Database.Models.BlacklistType%2CSystem.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Permissions/Services/BlacklistService.cs/#L270">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Permissions/Services/BlacklistService.cs/#L277">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Permissions_Services_BlacklistService_UnBlacklist_" data-uid="Mewdeko.Modules.Permissions.Services.BlacklistService.UnBlacklist*"></a>
   <h4 id="Mewdeko_Modules_Permissions_Services_BlacklistService_UnBlacklist_Mewdeko_Database_Models_BlacklistType_System_UInt64_" data-uid="Mewdeko.Modules.Permissions.Services.BlacklistService.UnBlacklist(Mewdeko.Database.Models.BlacklistType,System.UInt64)">UnBlacklist(BlacklistType, ulong)</h4>

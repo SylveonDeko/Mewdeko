@@ -15,15 +15,15 @@
       {
         "files": [
           "api/**.yml",
-          "api/index.md"
-        ]
-      },
-      {
-        "files": [
-          "articles/**.md",
-          "articles/**/toc.yml",
+          "api/index.md",
+          "docs/CONTRIBUTING.md",
+          "docs/About-Mewdeko.md",
+          "docs/CODE_OF_CONDUCT.md",
+          "docs/Selfhost-Linux.md",
+          "docs/Selfhost-Windows.md",
+          "docs/toc.yml",
           "toc.yml",
-          "*.md"
+          "**.md"
         ]
       }
     ],

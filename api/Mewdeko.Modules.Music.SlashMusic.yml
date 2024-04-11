@@ -70,6 +70,7 @@ items:
   - Mewdeko.Common.MewdekoSlashCommandModule.Strings
   - Mewdeko.Common.MewdekoSlashCommandModule.CmdHandler
   - Mewdeko.Common.MewdekoSlashCommandModule.Localization
+  - Mewdeko.Common.MewdekoSlashCommandModule.Config
   - Mewdeko.Common.MewdekoSlashCommandModule.ctx
   - Mewdeko.Common.MewdekoSlashCommandModule.BeforeExecute(Discord.Interactions.ICommandInfo)
   - Mewdeko.Common.MewdekoSlashCommandModule.GetText(System.String)
@@ -262,7 +263,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AutoDisconnect
     path: src/Mewdeko/Modules/Music/SlashMusic.cs
-    startLine: 127
+    startLine: 128
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -323,7 +324,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Playlists
     path: src/Mewdeko/Modules/Music/SlashMusic.cs
-    startLine: 140
+    startLine: 141
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -380,7 +381,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Playlist
     path: src/Mewdeko/Modules/Music/SlashMusic.cs
-    startLine: 179
+    startLine: 180
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -447,7 +448,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Lyrics
     path: src/Mewdeko/Modules/Music/SlashMusic.cs
-    startLine: 699
+    startLine: 709
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -515,7 +516,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Join
     path: src/Mewdeko/Modules/Music/SlashMusic.cs
-    startLine: 797
+    startLine: 807
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -572,7 +573,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Leave
     path: src/Mewdeko/Modules/Music/SlashMusic.cs
-    startLine: 835
+    startLine: 847
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -629,7 +630,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Play
     path: src/Mewdeko/Modules/Music/SlashMusic.cs
-    startLine: 863
+    startLine: 876
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -693,7 +694,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Play
     path: src/Mewdeko/Modules/Music/SlashMusic.cs
-    startLine: 910
+    startLine: 924
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -757,7 +758,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Pause
     path: src/Mewdeko/Modules/Music/SlashMusic.cs
-    startLine: 1203
+    startLine: 1220
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -814,7 +815,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Shuffle
     path: src/Mewdeko/Modules/Music/SlashMusic.cs
-    startLine: 1230
+    startLine: 1247
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -871,7 +872,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Stop
     path: src/Mewdeko/Modules/Music/SlashMusic.cs
-    startLine: 1261
+    startLine: 1278
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -928,7 +929,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Skip
     path: src/Mewdeko/Modules/Music/SlashMusic.cs
-    startLine: 1281
+    startLine: 1298
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -992,7 +993,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Seek
     path: src/Mewdeko/Modules/Music/SlashMusic.cs
-    startLine: 1305
+    startLine: 1322
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -1056,7 +1057,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ClearQueue
     path: src/Mewdeko/Modules/Music/SlashMusic.cs
-    startLine: 1344
+    startLine: 1362
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -1113,7 +1114,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetMusicChannel
     path: src/Mewdeko/Modules/Music/SlashMusic.cs
-    startLine: 1363
+    startLine: 1381
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -1170,7 +1171,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AutoPlay
     path: src/Mewdeko/Modules/Music/SlashMusic.cs
-    startLine: 1380
+    startLine: 1398
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -1234,7 +1235,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Loop
     path: src/Mewdeko/Modules/Music/SlashMusic.cs
-    startLine: 1406
+    startLine: 1425
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -1295,7 +1296,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Volume
     path: src/Mewdeko/Modules/Music/SlashMusic.cs
-    startLine: 1420
+    startLine: 1439
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -1359,7 +1360,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: NowPlaying
     path: src/Mewdeko/Modules/Music/SlashMusic.cs
-    startLine: 1446
+    startLine: 1465
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -1416,7 +1417,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Queue
     path: src/Mewdeko/Modules/Music/SlashMusic.cs
-    startLine: 1480
+    startLine: 1500
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -1617,6 +1618,13 @@ references:
   name: Localization
   nameWithType: MewdekoSlashCommandModule.Localization
   fullName: Mewdeko.Common.MewdekoSlashCommandModule.Localization
+- uid: Mewdeko.Common.MewdekoSlashCommandModule.Config
+  commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.Config
+  parent: Mewdeko.Common.MewdekoSlashCommandModule
+  href: Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_Config
+  name: Config
+  nameWithType: MewdekoSlashCommandModule.Config
+  fullName: Mewdeko.Common.MewdekoSlashCommandModule.Config
 - uid: Mewdeko.Common.MewdekoSlashCommandModule.ctx
   commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.ctx
   parent: Mewdeko.Common.MewdekoSlashCommandModule

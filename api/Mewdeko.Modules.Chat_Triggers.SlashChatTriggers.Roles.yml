@@ -22,7 +22,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Roles
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 669
+    startLine: 657
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -51,6 +51,7 @@ items:
   - Mewdeko.Common.MewdekoSlashCommandModule.Strings
   - Mewdeko.Common.MewdekoSlashCommandModule.CmdHandler
   - Mewdeko.Common.MewdekoSlashCommandModule.Localization
+  - Mewdeko.Common.MewdekoSlashCommandModule.Config
   - Mewdeko.Common.MewdekoSlashCommandModule.ctx
   - Mewdeko.Common.MewdekoSlashCommandModule.BeforeExecute(Discord.Interactions.ICommandInfo)
   - Mewdeko.Common.MewdekoSlashCommandModule.GetText(System.String)
@@ -126,7 +127,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CtrGrantToggle
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 678
+    startLine: 666
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -215,7 +216,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CtrRemoveToggle
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 730
+    startLine: 718
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -304,7 +305,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ChatTriggerRoleGrantType
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 779
+    startLine: 767
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -537,6 +538,13 @@ references:
   name: Localization
   nameWithType: MewdekoSlashCommandModule.Localization
   fullName: Mewdeko.Common.MewdekoSlashCommandModule.Localization
+- uid: Mewdeko.Common.MewdekoSlashCommandModule.Config
+  commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.Config
+  parent: Mewdeko.Common.MewdekoSlashCommandModule
+  href: Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_Config
+  name: Config
+  nameWithType: MewdekoSlashCommandModule.Config
+  fullName: Mewdeko.Common.MewdekoSlashCommandModule.Config
 - uid: Mewdeko.Common.MewdekoSlashCommandModule.ctx
   commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.ctx
   parent: Mewdeko.Common.MewdekoSlashCommandModule

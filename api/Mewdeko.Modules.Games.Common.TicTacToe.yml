@@ -5,7 +5,7 @@ items:
   id: TicTacToe
   parent: Mewdeko.Modules.Games.Common
   children:
-  - Mewdeko.Modules.Games.Common.TicTacToe.#ctor(Mewdeko.Services.strings.IBotStrings,Discord.WebSocket.DiscordSocketClient,Discord.ITextChannel,Discord.IGuildUser,Mewdeko.Modules.Games.Common.TicTacToe.Options)
+  - Mewdeko.Modules.Games.Common.TicTacToe.#ctor(Mewdeko.Services.strings.IBotStrings,Discord.WebSocket.DiscordSocketClient,Discord.ITextChannel,Discord.IGuildUser,Mewdeko.Modules.Games.Common.TicTacToe.Options,Mewdeko.Common.Configs.BotConfig)
   - Mewdeko.Modules.Games.Common.TicTacToe.GetEmbed(System.String)
   - Mewdeko.Modules.Games.Common.TicTacToe.GetState
   - Mewdeko.Modules.Games.Common.TicTacToe.OnEnded
@@ -24,7 +24,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: TicTacToe
     path: src/Mewdeko/Modules/Games/Common/TicTacToe.cs
-    startLine: 10
+    startLine: 11
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Games.Common
@@ -45,16 +45,16 @@ items:
   - System.Object.ToString
   extensionMethods:
   - Mewdeko.Modules.Games.Common.TicTacToe.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
-- uid: Mewdeko.Modules.Games.Common.TicTacToe.#ctor(Mewdeko.Services.strings.IBotStrings,Discord.WebSocket.DiscordSocketClient,Discord.ITextChannel,Discord.IGuildUser,Mewdeko.Modules.Games.Common.TicTacToe.Options)
-  commentId: M:Mewdeko.Modules.Games.Common.TicTacToe.#ctor(Mewdeko.Services.strings.IBotStrings,Discord.WebSocket.DiscordSocketClient,Discord.ITextChannel,Discord.IGuildUser,Mewdeko.Modules.Games.Common.TicTacToe.Options)
-  id: '#ctor(Mewdeko.Services.strings.IBotStrings,Discord.WebSocket.DiscordSocketClient,Discord.ITextChannel,Discord.IGuildUser,Mewdeko.Modules.Games.Common.TicTacToe.Options)'
+- uid: Mewdeko.Modules.Games.Common.TicTacToe.#ctor(Mewdeko.Services.strings.IBotStrings,Discord.WebSocket.DiscordSocketClient,Discord.ITextChannel,Discord.IGuildUser,Mewdeko.Modules.Games.Common.TicTacToe.Options,Mewdeko.Common.Configs.BotConfig)
+  commentId: M:Mewdeko.Modules.Games.Common.TicTacToe.#ctor(Mewdeko.Services.strings.IBotStrings,Discord.WebSocket.DiscordSocketClient,Discord.ITextChannel,Discord.IGuildUser,Mewdeko.Modules.Games.Common.TicTacToe.Options,Mewdeko.Common.Configs.BotConfig)
+  id: '#ctor(Mewdeko.Services.strings.IBotStrings,Discord.WebSocket.DiscordSocketClient,Discord.ITextChannel,Discord.IGuildUser,Mewdeko.Modules.Games.Common.TicTacToe.Options,Mewdeko.Common.Configs.BotConfig)'
   parent: Mewdeko.Modules.Games.Common.TicTacToe
   langs:
   - csharp
   - vb
-  name: TicTacToe(IBotStrings, DiscordSocketClient, ITextChannel, IGuildUser, Options)
-  nameWithType: TicTacToe.TicTacToe(IBotStrings, DiscordSocketClient, ITextChannel, IGuildUser, TicTacToe.Options)
-  fullName: Mewdeko.Modules.Games.Common.TicTacToe.TicTacToe(Mewdeko.Services.strings.IBotStrings, Discord.WebSocket.DiscordSocketClient, Discord.ITextChannel, Discord.IGuildUser, Mewdeko.Modules.Games.Common.TicTacToe.Options)
+  name: TicTacToe(IBotStrings, DiscordSocketClient, ITextChannel, IGuildUser, Options, BotConfig)
+  nameWithType: TicTacToe.TicTacToe(IBotStrings, DiscordSocketClient, ITextChannel, IGuildUser, TicTacToe.Options, BotConfig)
+  fullName: Mewdeko.Modules.Games.Common.TicTacToe.TicTacToe(Mewdeko.Services.strings.IBotStrings, Discord.WebSocket.DiscordSocketClient, Discord.ITextChannel, Discord.IGuildUser, Mewdeko.Modules.Games.Common.TicTacToe.Options, Mewdeko.Common.Configs.BotConfig)
   type: Constructor
   source:
     remote:
@@ -63,14 +63,14 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: .ctor
     path: src/Mewdeko/Modules/Games/Common/TicTacToe.cs
-    startLine: 41
+    startLine: 44
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Games.Common
   summary: Initializes a new instance of the <xref href="Mewdeko.Modules.Games.Common.TicTacToe" data-throw-if-not-resolved="false"></xref> class with the specified strings, client, channel, first user, and options.
   example: []
   syntax:
-    content: public TicTacToe(IBotStrings strings, DiscordSocketClient client, ITextChannel channel, IGuildUser firstUser, TicTacToe.Options options)
+    content: public TicTacToe(IBotStrings strings, DiscordSocketClient client, ITextChannel channel, IGuildUser firstUser, TicTacToe.Options options, BotConfig config)
     parameters:
     - id: strings
       type: Mewdeko.Services.strings.IBotStrings
@@ -87,11 +87,14 @@ items:
     - id: options
       type: Mewdeko.Modules.Games.Common.TicTacToe.Options
       description: Options along with the game
-    content.vb: Public Sub New(strings As IBotStrings, client As DiscordSocketClient, channel As ITextChannel, firstUser As IGuildUser, options As TicTacToe.Options)
+    - id: config
+      type: Mewdeko.Common.Configs.BotConfig
+      description: Bot Configuration
+    content.vb: Public Sub New(strings As IBotStrings, client As DiscordSocketClient, channel As ITextChannel, firstUser As IGuildUser, options As TicTacToe.Options, config As BotConfig)
   overload: Mewdeko.Modules.Games.Common.TicTacToe.#ctor*
-  nameWithType.vb: TicTacToe.New(IBotStrings, DiscordSocketClient, ITextChannel, IGuildUser, TicTacToe.Options)
-  fullName.vb: Mewdeko.Modules.Games.Common.TicTacToe.New(Mewdeko.Services.strings.IBotStrings, Discord.WebSocket.DiscordSocketClient, Discord.ITextChannel, Discord.IGuildUser, Mewdeko.Modules.Games.Common.TicTacToe.Options)
-  name.vb: New(IBotStrings, DiscordSocketClient, ITextChannel, IGuildUser, Options)
+  nameWithType.vb: TicTacToe.New(IBotStrings, DiscordSocketClient, ITextChannel, IGuildUser, TicTacToe.Options, BotConfig)
+  fullName.vb: Mewdeko.Modules.Games.Common.TicTacToe.New(Mewdeko.Services.strings.IBotStrings, Discord.WebSocket.DiscordSocketClient, Discord.ITextChannel, Discord.IGuildUser, Mewdeko.Modules.Games.Common.TicTacToe.Options, Mewdeko.Common.Configs.BotConfig)
+  name.vb: New(IBotStrings, DiscordSocketClient, ITextChannel, IGuildUser, Options, BotConfig)
 - uid: Mewdeko.Modules.Games.Common.TicTacToe.OnEnded
   commentId: E:Mewdeko.Modules.Games.Common.TicTacToe.OnEnded
   id: OnEnded
@@ -110,7 +113,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: OnEnded
     path: src/Mewdeko/Modules/Games/Common/TicTacToe.cs
-    startLine: 73
+    startLine: 77
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Games.Common
@@ -139,7 +142,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetState
     path: src/Mewdeko/Modules/Games/Common/TicTacToe.cs
-    startLine: 81
+    startLine: 85
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Games.Common
@@ -169,7 +172,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetEmbed
     path: src/Mewdeko/Modules/Games/Common/TicTacToe.cs
-    startLine: 105
+    startLine: 109
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Games.Common
@@ -207,7 +210,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Start
     path: src/Mewdeko/Modules/Games/Common/TicTacToe.cs
-    startLine: 144
+    startLine: 148
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Games.Common
@@ -636,7 +639,7 @@ references:
   fullName: Mewdeko.Modules.Games.Common.TicTacToe
 - uid: Mewdeko.Modules.Games.Common.TicTacToe.#ctor*
   commentId: Overload:Mewdeko.Modules.Games.Common.TicTacToe.#ctor
-  href: Mewdeko.Modules.Games.Common.TicTacToe.html#Mewdeko_Modules_Games_Common_TicTacToe__ctor_Mewdeko_Services_strings_IBotStrings_Discord_WebSocket_DiscordSocketClient_Discord_ITextChannel_Discord_IGuildUser_Mewdeko_Modules_Games_Common_TicTacToe_Options_
+  href: Mewdeko.Modules.Games.Common.TicTacToe.html#Mewdeko_Modules_Games_Common_TicTacToe__ctor_Mewdeko_Services_strings_IBotStrings_Discord_WebSocket_DiscordSocketClient_Discord_ITextChannel_Discord_IGuildUser_Mewdeko_Modules_Games_Common_TicTacToe_Options_Mewdeko_Common_Configs_BotConfig_
   name: TicTacToe
   nameWithType: TicTacToe.TicTacToe
   fullName: Mewdeko.Modules.Games.Common.TicTacToe.TicTacToe
@@ -694,6 +697,13 @@ references:
   - uid: Mewdeko.Modules.Games.Common.TicTacToe.Options
     name: Options
     href: Mewdeko.Modules.Games.Common.TicTacToe.Options.html
+- uid: Mewdeko.Common.Configs.BotConfig
+  commentId: T:Mewdeko.Common.Configs.BotConfig
+  parent: Mewdeko.Common.Configs
+  href: Mewdeko.Common.Configs.BotConfig.html
+  name: BotConfig
+  nameWithType: BotConfig
+  fullName: Mewdeko.Common.Configs.BotConfig
 - uid: Mewdeko.Services.strings
   commentId: N:Mewdeko.Services.strings
   href: Mewdeko.html
@@ -752,6 +762,36 @@ references:
   name: Discord
   nameWithType: Discord
   fullName: Discord
+- uid: Mewdeko.Common.Configs
+  commentId: N:Mewdeko.Common.Configs
+  href: Mewdeko.html
+  name: Mewdeko.Common.Configs
+  nameWithType: Mewdeko.Common.Configs
+  fullName: Mewdeko.Common.Configs
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
 - uid: System.Action{Mewdeko.Modules.Games.Common.TicTacToe}
   commentId: T:System.Action{Mewdeko.Modules.Games.Common.TicTacToe}
   parent: System

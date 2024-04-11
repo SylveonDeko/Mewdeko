@@ -75,6 +75,7 @@ items:
   - Mewdeko.Common.MewdekoModule.Strings
   - Mewdeko.Common.MewdekoModule.Localization
   - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.Config
   - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   - Mewdeko.Common.MewdekoModule.GetText(System.String)
   - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
@@ -573,7 +574,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: StopJob
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 222
+    startLine: 223
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -658,7 +659,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetRoles
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 257
+    startLine: 259
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -746,7 +747,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddUsersToRole
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 286
+    startLine: 290
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -834,7 +835,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RemoveUsersFromRole
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 318
+    startLine: 322
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -922,7 +923,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RemoveRoles
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 350
+    startLine: 354
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -1010,7 +1011,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RoleJobs
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 380
+    startLine: 386
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -1089,7 +1090,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddToAll
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 425
+    startLine: 431
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -1172,7 +1173,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddToAllBots
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 513
+    startLine: 520
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -1255,7 +1256,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddToAllUsers
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 600
+    startLine: 608
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -1338,7 +1339,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ExportRoleList
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 683
+    startLine: 692
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -1416,7 +1417,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ImportRoleList
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 724
+    startLine: 733
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -1501,7 +1502,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddRoleToList
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 846
+    startLine: 858
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -1584,7 +1585,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddToUsersOver
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 971
+    startLine: 985
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -1670,7 +1671,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddToUsersUnder
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 1063
+    startLine: 1078
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -1756,7 +1757,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RemoveFromAll
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 1153
+    startLine: 1169
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -1839,7 +1840,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RemoveFromAllUsers
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 1240
+    startLine: 1257
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -1922,7 +1923,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RemoveFromAllBots
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 1327
+    startLine: 1345
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -2005,7 +2006,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddRoleToRole
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 1415
+    startLine: 1434
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -2091,7 +2092,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RemoveFromRole
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 1505
+    startLine: 1525
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -2177,7 +2178,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddThenRemove
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 1588
+    startLine: 1608
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -2438,6 +2439,13 @@ references:
   name: ctx
   nameWithType: MewdekoModule.ctx
   fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.Config
+  commentId: P:Mewdeko.Common.MewdekoModule.Config
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Config
+  name: Config
+  nameWithType: MewdekoModule.Config
+  fullName: Mewdeko.Common.MewdekoModule.Config
 - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   parent: Mewdeko.Common.MewdekoModule

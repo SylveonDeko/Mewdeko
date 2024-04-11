@@ -4904,6 +4904,16 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Mewdeko.Modules.Administration.Administration.AutoBanRole.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Mewdeko.Modules.Administration.Administration.AutoBanRole.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Mewdeko.Modules.Administration.Administration.Channel.yml",
       "output": {
         ".html": {
@@ -9594,6 +9604,16 @@
     },
     {
       "type": "ManagedReference",
+      "source_relative_path": "api/Mewdeko.Modules.Utility.Utility.LinkCommands.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/Mewdeko.Modules.Utility.Utility.LinkCommands.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
       "source_relative_path": "api/Mewdeko.Modules.Utility.Utility.NetworkUtilities.yml",
       "output": {
         ".html": {
@@ -10861,6 +10881,56 @@
         },
         ".json": {
           "relative_path": "api/toc.json"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/About-Mewdeko.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/About-Mewdeko.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/CODE_OF_CONDUCT.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/CODE_OF_CONDUCT.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/CONTRIBUTING.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/CONTRIBUTING.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/Selfhost-Linux.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/Selfhost-Linux.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "docs/Selfhost-Windows.md",
+      "output": {
+        ".html": {
+          "relative_path": "docs/Selfhost-Windows.html"
         }
       },
       "version": ""

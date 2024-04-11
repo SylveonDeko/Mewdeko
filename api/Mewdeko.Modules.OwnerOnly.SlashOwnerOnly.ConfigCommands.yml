@@ -9,7 +9,7 @@ items:
   - Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.AutoCommandAdd(System.Int32,System.String)
   - Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.AutoCommandRemove(System.Int32)
   - Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.AutoCommandsList(System.Int32)
-  - Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.Config(System.String,System.String,System.String)
+  - Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.BotConfig(System.String,System.String,System.String)
   - Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.DefPrefix(System.String)
   - Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.ForwardMessages
   - Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.ForwardToAll
@@ -34,7 +34,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ConfigCommands
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 241
+    startLine: 243
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -63,6 +63,7 @@ items:
   - Mewdeko.Common.MewdekoSlashCommandModule.Strings
   - Mewdeko.Common.MewdekoSlashCommandModule.CmdHandler
   - Mewdeko.Common.MewdekoSlashCommandModule.Localization
+  - Mewdeko.Common.MewdekoSlashCommandModule.Config
   - Mewdeko.Common.MewdekoSlashCommandModule.ctx
   - Mewdeko.Common.MewdekoSlashCommandModule.BeforeExecute(Discord.Interactions.ICommandInfo)
   - Mewdeko.Common.MewdekoSlashCommandModule.GetText(System.String)
@@ -138,7 +139,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: .ctor
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 241
+    startLine: 243
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -185,7 +186,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: DefPrefix
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 258
+    startLine: 260
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -244,7 +245,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: LanguageSetDefault
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 283
+    startLine: 285
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -303,7 +304,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: StartupCommandAdd
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 317
+    startLine: 319
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -384,7 +385,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AutoCommandAdd
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 363
+    startLine: 365
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -472,7 +473,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: StartupCommandsList
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 419
+    startLine: 421
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -540,7 +541,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AutoCommandsList
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 460
+    startLine: 462
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -610,7 +611,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AutoCommandRemove
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 503
+    startLine: 505
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -693,7 +694,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: StartupCommandRemove
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 526
+    startLine: 528
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -767,7 +768,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: StartupCommandsClear
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 542
+    startLine: 544
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -837,7 +838,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ForwardMessages
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 559
+    startLine: 561
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -889,7 +890,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ForwardToAll
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 576
+    startLine: 578
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -941,7 +942,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetName
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 593
+    startLine: 595
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -1001,7 +1002,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetAvatar
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 619
+    startLine: 621
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -1043,25 +1044,25 @@ items:
   nameWithType.vb: SlashOwnerOnly.ConfigCommands.SetAvatar(String)
   fullName.vb: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.SetAvatar(String)
   name.vb: SetAvatar(String)
-- uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.Config(System.String,System.String,System.String)
-  commentId: M:Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.Config(System.String,System.String,System.String)
-  id: Config(System.String,System.String,System.String)
+- uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.BotConfig(System.String,System.String,System.String)
+  commentId: M:Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.BotConfig(System.String,System.String,System.String)
+  id: BotConfig(System.String,System.String,System.String)
   parent: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands
   langs:
   - csharp
   - vb
-  name: Config(string?, string?, string?)
-  nameWithType: SlashOwnerOnly.ConfigCommands.Config(string?, string?, string?)
-  fullName: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.Config(string?, string?, string?)
+  name: BotConfig(string?, string?, string?)
+  nameWithType: SlashOwnerOnly.ConfigCommands.BotConfig(string?, string?, string?)
+  fullName: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.BotConfig(string?, string?, string?)
   type: Method
   source:
     remote:
       path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
       branch: psqldeko
       repo: https://github.com/Sylveon76/Mewdeko.git
-    id: Config
+    id: BotConfig
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 634
+    startLine: 636
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -1071,7 +1072,7 @@ items:
     content: >-
       [SlashCommand("botconfig", "Config various bot settings", false, RunMode.Default)]
 
-      public Task Config(string? name = null, string? prop = null, string? value = null)
+      public Task BotConfig(string? name = null, string? prop = null, string? value = null)
     parameters:
     - id: name
       type: System.String
@@ -1103,8 +1104,8 @@ items:
     content.vb: >-
       <SlashCommand("botconfig", "Config various bot settings", False, RunMode.Default)>
 
-      Public Function Config(name As String = Nothing, prop As String = Nothing, value As String = Nothing) As Task
-  overload: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.Config*
+      Public Function BotConfig(name As String = Nothing, prop As String = Nothing, value As String = Nothing) As Task
+  overload: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.BotConfig*
   attributes:
   - type: Discord.Interactions.SlashCommandAttribute
     ctor: Discord.Interactions.SlashCommandAttribute.#ctor(System.String,System.String,System.Boolean,Discord.Interactions.RunMode)
@@ -1117,9 +1118,9 @@ items:
       value: false
     - type: Discord.Interactions.RunMode
       value: 2
-  nameWithType.vb: SlashOwnerOnly.ConfigCommands.Config(String, String, String)
-  fullName.vb: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.Config(String, String, String)
-  name.vb: Config(String, String, String)
+  nameWithType.vb: SlashOwnerOnly.ConfigCommands.BotConfig(String, String, String)
+  fullName.vb: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.BotConfig(String, String, String)
+  name.vb: BotConfig(String, String, String)
 references:
 - uid: Mewdeko.Modules.OwnerOnly
   commentId: N:Mewdeko.Modules.OwnerOnly
@@ -1282,6 +1283,13 @@ references:
   name: Localization
   nameWithType: MewdekoSlashCommandModule.Localization
   fullName: Mewdeko.Common.MewdekoSlashCommandModule.Localization
+- uid: Mewdeko.Common.MewdekoSlashCommandModule.Config
+  commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.Config
+  parent: Mewdeko.Common.MewdekoSlashCommandModule
+  href: Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_Config
+  name: Config
+  nameWithType: MewdekoSlashCommandModule.Config
+  fullName: Mewdeko.Common.MewdekoSlashCommandModule.Config
 - uid: Mewdeko.Common.MewdekoSlashCommandModule.ctx
   commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.ctx
   parent: Mewdeko.Common.MewdekoSlashCommandModule
@@ -6576,9 +6584,9 @@ references:
   name: SetAvatar
   nameWithType: SlashOwnerOnly.ConfigCommands.SetAvatar
   fullName: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.SetAvatar
-- uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.Config*
-  commentId: Overload:Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.Config
-  href: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.html#Mewdeko_Modules_OwnerOnly_SlashOwnerOnly_ConfigCommands_Config_System_String_System_String_System_String_
-  name: Config
-  nameWithType: SlashOwnerOnly.ConfigCommands.Config
-  fullName: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.Config
+- uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.BotConfig*
+  commentId: Overload:Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.BotConfig
+  href: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.html#Mewdeko_Modules_OwnerOnly_SlashOwnerOnly_ConfigCommands_BotConfig_System_String_System_String_System_String_
+  name: BotConfig
+  nameWithType: SlashOwnerOnly.ConfigCommands.BotConfig
+  fullName: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ConfigCommands.BotConfig

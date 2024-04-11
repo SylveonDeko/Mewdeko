@@ -5,7 +5,7 @@ items:
   id: PermissionService
   parent: Mewdeko.Modules.Permissions.Services
   children:
-  - Mewdeko.Modules.Permissions.Services.PermissionService.#ctor(Mewdeko.Database.DbService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Services.GuildSettingsService,Mewdeko.Mewdeko)
+  - Mewdeko.Modules.Permissions.Services.PermissionService.#ctor(Mewdeko.Database.DbService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Services.GuildSettingsService,Mewdeko.Mewdeko,Mewdeko.Common.Configs.BotConfig)
   - Mewdeko.Modules.Permissions.Services.PermissionService.AddPermissions(System.UInt64,Mewdeko.Database.Models.Permissionv2[])
   - Mewdeko.Modules.Permissions.Services.PermissionService.Cache
   - Mewdeko.Modules.Permissions.Services.PermissionService.GetCacheFor(System.UInt64)
@@ -33,7 +33,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: PermissionService
     path: src/Mewdeko/Modules/Permissions/Services/PermissionsService.cs
-    startLine: 12
+    startLine: 13
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -75,7 +75,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Strings
     path: src/Mewdeko/Modules/Permissions/Services/PermissionsService.cs
-    startLine: 19
+    startLine: 20
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -86,16 +86,16 @@ items:
     return:
       type: Mewdeko.Services.strings.IBotStrings
     content.vb: Public ReadOnly Strings As IBotStrings
-- uid: Mewdeko.Modules.Permissions.Services.PermissionService.#ctor(Mewdeko.Database.DbService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Services.GuildSettingsService,Mewdeko.Mewdeko)
-  commentId: M:Mewdeko.Modules.Permissions.Services.PermissionService.#ctor(Mewdeko.Database.DbService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Services.GuildSettingsService,Mewdeko.Mewdeko)
-  id: '#ctor(Mewdeko.Database.DbService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Services.GuildSettingsService,Mewdeko.Mewdeko)'
+- uid: Mewdeko.Modules.Permissions.Services.PermissionService.#ctor(Mewdeko.Database.DbService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Services.GuildSettingsService,Mewdeko.Mewdeko,Mewdeko.Common.Configs.BotConfig)
+  commentId: M:Mewdeko.Modules.Permissions.Services.PermissionService.#ctor(Mewdeko.Database.DbService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Services.GuildSettingsService,Mewdeko.Mewdeko,Mewdeko.Common.Configs.BotConfig)
+  id: '#ctor(Mewdeko.Database.DbService,Mewdeko.Services.strings.IBotStrings,Mewdeko.Services.GuildSettingsService,Mewdeko.Mewdeko,Mewdeko.Common.Configs.BotConfig)'
   parent: Mewdeko.Modules.Permissions.Services.PermissionService
   langs:
   - csharp
   - vb
-  name: PermissionService(DbService, IBotStrings, GuildSettingsService, Mewdeko)
-  nameWithType: PermissionService.PermissionService(DbService, IBotStrings, GuildSettingsService, Mewdeko)
-  fullName: Mewdeko.Modules.Permissions.Services.PermissionService.PermissionService(Mewdeko.Database.DbService, Mewdeko.Services.strings.IBotStrings, Mewdeko.Services.GuildSettingsService, Mewdeko.Mewdeko)
+  name: PermissionService(DbService, IBotStrings, GuildSettingsService, Mewdeko, BotConfig)
+  nameWithType: PermissionService.PermissionService(DbService, IBotStrings, GuildSettingsService, Mewdeko, BotConfig)
+  fullName: Mewdeko.Modules.Permissions.Services.PermissionService.PermissionService(Mewdeko.Database.DbService, Mewdeko.Services.strings.IBotStrings, Mewdeko.Services.GuildSettingsService, Mewdeko.Mewdeko, Mewdeko.Common.Configs.BotConfig)
   type: Constructor
   source:
     remote:
@@ -104,14 +104,14 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: .ctor
     path: src/Mewdeko/Modules/Permissions/Services/PermissionsService.cs
-    startLine: 30
+    startLine: 34
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
   summary: Initializes a new instance of the <xref href="Mewdeko.Modules.Permissions.Services.PermissionService" data-throw-if-not-resolved="false"></xref> class.
   example: []
   syntax:
-    content: public PermissionService(DbService db, IBotStrings strings, GuildSettingsService guildSettings, Mewdeko bot)
+    content: public PermissionService(DbService db, IBotStrings strings, GuildSettingsService guildSettings, Mewdeko bot, BotConfig configService)
     parameters:
     - id: db
       type: Mewdeko.Database.DbService
@@ -125,11 +125,14 @@ items:
     - id: bot
       type: Mewdeko.Mewdeko
       description: The main bot instance for accessing global configurations.
-    content.vb: Public Sub New(db As DbService, strings As IBotStrings, guildSettings As GuildSettingsService, bot As Mewdeko)
+    - id: configService
+      type: Mewdeko.Common.Configs.BotConfig
+      description: The service for bot-wide configurations.
+    content.vb: Public Sub New(db As DbService, strings As IBotStrings, guildSettings As GuildSettingsService, bot As Mewdeko, configService As BotConfig)
   overload: Mewdeko.Modules.Permissions.Services.PermissionService.#ctor*
-  nameWithType.vb: PermissionService.New(DbService, IBotStrings, GuildSettingsService, Mewdeko)
-  fullName.vb: Mewdeko.Modules.Permissions.Services.PermissionService.New(Mewdeko.Database.DbService, Mewdeko.Services.strings.IBotStrings, Mewdeko.Services.GuildSettingsService, Mewdeko.Mewdeko)
-  name.vb: New(DbService, IBotStrings, GuildSettingsService, Mewdeko)
+  nameWithType.vb: PermissionService.New(DbService, IBotStrings, GuildSettingsService, Mewdeko, BotConfig)
+  fullName.vb: Mewdeko.Modules.Permissions.Services.PermissionService.New(Mewdeko.Database.DbService, Mewdeko.Services.strings.IBotStrings, Mewdeko.Services.GuildSettingsService, Mewdeko.Mewdeko, Mewdeko.Common.Configs.BotConfig)
+  name.vb: New(DbService, IBotStrings, GuildSettingsService, Mewdeko, BotConfig)
 - uid: Mewdeko.Modules.Permissions.Services.PermissionService.Cache
   commentId: P:Mewdeko.Modules.Permissions.Services.PermissionService.Cache
   id: Cache
@@ -148,7 +151,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Cache
     path: src/Mewdeko/Modules/Permissions/Services/PermissionsService.cs
-    startLine: 54
+    startLine: 59
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -179,7 +182,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Priority
     path: src/Mewdeko/Modules/Permissions/Services/PermissionsService.cs
-    startLine: 59
+    startLine: 64
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -212,7 +215,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: TryBlockLate
     path: src/Mewdeko/Modules/Permissions/Services/PermissionsService.cs
-    startLine: 69
+    startLine: 74
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -261,7 +264,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: TryBlockLate
     path: src/Mewdeko/Modules/Permissions/Services/PermissionsService.cs
-    startLine: 170
+    startLine: 175
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -304,7 +307,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetCacheFor
     path: src/Mewdeko/Modules/Permissions/Services/PermissionsService.cs
-    startLine: 205
+    startLine: 210
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -342,7 +345,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddPermissions
     path: src/Mewdeko/Modules/Permissions/Services/PermissionsService.cs
-    startLine: 226
+    startLine: 231
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -383,7 +386,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UpdateCache
     path: src/Mewdeko/Modules/Permissions/Services/PermissionsService.cs
-    startLine: 246
+    startLine: 251
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -415,7 +418,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Reset
     path: src/Mewdeko/Modules/Permissions/Services/PermissionsService.cs
-    startLine: 265
+    startLine: 270
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -453,7 +456,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MentionPerm
     path: src/Mewdeko/Modules/Permissions/Services/PermissionsService.cs
-    startLine: 280
+    startLine: 285
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -494,7 +497,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RemovePerm
     path: src/Mewdeko/Modules/Permissions/Services/PermissionsService.cs
-    startLine: 298
+    startLine: 303
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -535,7 +538,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UpdatePerm
     path: src/Mewdeko/Modules/Permissions/Services/PermissionsService.cs
-    startLine: 319
+    startLine: 324
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -579,7 +582,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UnsafeMovePerm
     path: src/Mewdeko/Modules/Permissions/Services/PermissionsService.cs
-    startLine: 340
+    startLine: 345
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Permissions.Services
@@ -1119,7 +1122,7 @@ references:
   fullName: Mewdeko.Modules.Permissions.Services.PermissionService
 - uid: Mewdeko.Modules.Permissions.Services.PermissionService.#ctor*
   commentId: Overload:Mewdeko.Modules.Permissions.Services.PermissionService.#ctor
-  href: Mewdeko.Modules.Permissions.Services.PermissionService.html#Mewdeko_Modules_Permissions_Services_PermissionService__ctor_Mewdeko_Database_DbService_Mewdeko_Services_strings_IBotStrings_Mewdeko_Services_GuildSettingsService_Mewdeko_Mewdeko_
+  href: Mewdeko.Modules.Permissions.Services.PermissionService.html#Mewdeko_Modules_Permissions_Services_PermissionService__ctor_Mewdeko_Database_DbService_Mewdeko_Services_strings_IBotStrings_Mewdeko_Services_GuildSettingsService_Mewdeko_Mewdeko_Mewdeko_Common_Configs_BotConfig_
   name: PermissionService
   nameWithType: PermissionService.PermissionService
   fullName: Mewdeko.Modules.Permissions.Services.PermissionService.PermissionService
@@ -1147,6 +1150,13 @@ references:
   name: Mewdeko
   nameWithType: Mewdeko
   fullName: Mewdeko.Mewdeko
+- uid: Mewdeko.Common.Configs.BotConfig
+  commentId: T:Mewdeko.Common.Configs.BotConfig
+  parent: Mewdeko.Common.Configs
+  href: Mewdeko.Common.Configs.BotConfig.html
+  name: BotConfig
+  nameWithType: BotConfig
+  fullName: Mewdeko.Common.Configs.BotConfig
 - uid: Mewdeko.Database
   commentId: N:Mewdeko.Database
   href: Mewdeko.html
@@ -1175,6 +1185,36 @@ references:
   name: Mewdeko
   nameWithType: Mewdeko
   fullName: Mewdeko
+- uid: Mewdeko.Common.Configs
+  commentId: N:Mewdeko.Common.Configs
+  href: Mewdeko.html
+  name: Mewdeko.Common.Configs
+  nameWithType: Mewdeko.Common.Configs
+  fullName: Mewdeko.Common.Configs
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
 - uid: Mewdeko.Modules.Permissions.Services.PermissionService.Cache*
   commentId: Overload:Mewdeko.Modules.Permissions.Services.PermissionService.Cache
   href: Mewdeko.Modules.Permissions.Services.PermissionService.html#Mewdeko_Modules_Permissions_Services_PermissionService_Cache

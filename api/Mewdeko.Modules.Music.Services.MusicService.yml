@@ -5,7 +5,7 @@ items:
   id: MusicService
   parent: Mewdeko.Modules.Music.Services
   children:
-  - Mewdeko.Modules.Music.Services.MusicService.#ctor(Lavalink4NET.LavalinkNode,Mewdeko.Services.IBotCredentials,Mewdeko.Database.DbService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Services.IGoogleApiService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.Settings.BotConfigService)
+  - Mewdeko.Modules.Music.Services.MusicService.#ctor(Lavalink4NET.LavalinkNode,Mewdeko.Services.IBotCredentials,Mewdeko.Database.DbService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Services.IGoogleApiService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Common.Configs.BotConfig)
   - Mewdeko.Modules.Music.Services.MusicService.AutoPlay(System.UInt64)
   - Mewdeko.Modules.Music.Services.MusicService.Enqueue(System.UInt64,Discord.IUser,Lavalink4NET.Player.LavalinkTrack,Mewdeko.Database.Models.Platform)
   - Mewdeko.Modules.Music.Services.MusicService.Enqueue(System.UInt64,Discord.IUser,System.Collections.Generic.IEnumerable{Lavalink4NET.Player.LavalinkTrack},Mewdeko.Database.Models.Platform)
@@ -60,16 +60,16 @@ items:
   - System.Object.ToString
   extensionMethods:
   - Mewdeko.Modules.Music.Services.MusicService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
-- uid: Mewdeko.Modules.Music.Services.MusicService.#ctor(Lavalink4NET.LavalinkNode,Mewdeko.Services.IBotCredentials,Mewdeko.Database.DbService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Services.IGoogleApiService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.Settings.BotConfigService)
-  commentId: M:Mewdeko.Modules.Music.Services.MusicService.#ctor(Lavalink4NET.LavalinkNode,Mewdeko.Services.IBotCredentials,Mewdeko.Database.DbService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Services.IGoogleApiService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.Settings.BotConfigService)
-  id: '#ctor(Lavalink4NET.LavalinkNode,Mewdeko.Services.IBotCredentials,Mewdeko.Database.DbService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Services.IGoogleApiService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.Settings.BotConfigService)'
+- uid: Mewdeko.Modules.Music.Services.MusicService.#ctor(Lavalink4NET.LavalinkNode,Mewdeko.Services.IBotCredentials,Mewdeko.Database.DbService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Services.IGoogleApiService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Common.Configs.BotConfig)
+  commentId: M:Mewdeko.Modules.Music.Services.MusicService.#ctor(Lavalink4NET.LavalinkNode,Mewdeko.Services.IBotCredentials,Mewdeko.Database.DbService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Services.IGoogleApiService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Common.Configs.BotConfig)
+  id: '#ctor(Lavalink4NET.LavalinkNode,Mewdeko.Services.IBotCredentials,Mewdeko.Database.DbService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Services.IGoogleApiService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Common.Configs.BotConfig)'
   parent: Mewdeko.Modules.Music.Services.MusicService
   langs:
   - csharp
   - vb
-  name: MusicService(LavalinkNode, IBotCredentials, DbService, EventHandler, IGoogleApiService, DiscordSocketClient, BotConfigService)
-  nameWithType: MusicService.MusicService(LavalinkNode, IBotCredentials, DbService, EventHandler, IGoogleApiService, DiscordSocketClient, BotConfigService)
-  fullName: Mewdeko.Modules.Music.Services.MusicService.MusicService(Lavalink4NET.LavalinkNode, Mewdeko.Services.IBotCredentials, Mewdeko.Database.DbService, Mewdeko.Services.Impl.EventHandler, Mewdeko.Services.IGoogleApiService, Discord.WebSocket.DiscordSocketClient, Mewdeko.Services.Settings.BotConfigService)
+  name: MusicService(LavalinkNode, IBotCredentials, DbService, EventHandler, IGoogleApiService, DiscordSocketClient, BotConfig)
+  nameWithType: MusicService.MusicService(LavalinkNode, IBotCredentials, DbService, EventHandler, IGoogleApiService, DiscordSocketClient, BotConfig)
+  fullName: Mewdeko.Modules.Music.Services.MusicService.MusicService(Lavalink4NET.LavalinkNode, Mewdeko.Services.IBotCredentials, Mewdeko.Database.DbService, Mewdeko.Services.Impl.EventHandler, Mewdeko.Services.IGoogleApiService, Discord.WebSocket.DiscordSocketClient, Mewdeko.Common.Configs.BotConfig)
   type: Constructor
   source:
     remote:
@@ -85,7 +85,7 @@ items:
   summary: Initializes a new instance of <xref href="Mewdeko.Modules.Music.Services.MusicService" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public MusicService(LavalinkNode lavaNode, IBotCredentials creds, DbService db, EventHandler eventHandler, IGoogleApiService googleApi, DiscordSocketClient client, BotConfigService config)
+    content: public MusicService(LavalinkNode lavaNode, IBotCredentials creds, DbService db, EventHandler eventHandler, IGoogleApiService googleApi, DiscordSocketClient client, BotConfig config)
     parameters:
     - id: lavaNode
       type: Lavalink4NET.LavalinkNode
@@ -106,13 +106,13 @@ items:
       type: Discord.WebSocket.DiscordSocketClient
       description: The Discord client
     - id: config
-      type: Mewdeko.Services.Settings.BotConfigService
+      type: Mewdeko.Common.Configs.BotConfig
       description: The bot configuration service
-    content.vb: Public Sub New(lavaNode As LavalinkNode, creds As IBotCredentials, db As DbService, eventHandler As EventHandler, googleApi As IGoogleApiService, client As DiscordSocketClient, config As BotConfigService)
+    content.vb: Public Sub New(lavaNode As LavalinkNode, creds As IBotCredentials, db As DbService, eventHandler As EventHandler, googleApi As IGoogleApiService, client As DiscordSocketClient, config As BotConfig)
   overload: Mewdeko.Modules.Music.Services.MusicService.#ctor*
-  nameWithType.vb: MusicService.New(LavalinkNode, IBotCredentials, DbService, EventHandler, IGoogleApiService, DiscordSocketClient, BotConfigService)
-  fullName.vb: Mewdeko.Modules.Music.Services.MusicService.New(Lavalink4NET.LavalinkNode, Mewdeko.Services.IBotCredentials, Mewdeko.Database.DbService, Mewdeko.Services.Impl.EventHandler, Mewdeko.Services.IGoogleApiService, Discord.WebSocket.DiscordSocketClient, Mewdeko.Services.Settings.BotConfigService)
-  name.vb: New(LavalinkNode, IBotCredentials, DbService, EventHandler, IGoogleApiService, DiscordSocketClient, BotConfigService)
+  nameWithType.vb: MusicService.New(LavalinkNode, IBotCredentials, DbService, EventHandler, IGoogleApiService, DiscordSocketClient, BotConfig)
+  fullName.vb: Mewdeko.Modules.Music.Services.MusicService.New(Lavalink4NET.LavalinkNode, Mewdeko.Services.IBotCredentials, Mewdeko.Database.DbService, Mewdeko.Services.Impl.EventHandler, Mewdeko.Services.IGoogleApiService, Discord.WebSocket.DiscordSocketClient, Mewdeko.Common.Configs.BotConfig)
+  name.vb: New(LavalinkNode, IBotCredentials, DbService, EventHandler, IGoogleApiService, DiscordSocketClient, BotConfig)
 - uid: Mewdeko.Modules.Music.Services.MusicService.GetPrettyInfo(Lavalink4NET.Player.LavalinkPlayer,Discord.IGuild)
   commentId: M:Mewdeko.Modules.Music.Services.MusicService.GetPrettyInfo(Lavalink4NET.Player.LavalinkPlayer,Discord.IGuild)
   id: GetPrettyInfo(Lavalink4NET.Player.LavalinkPlayer,Discord.IGuild)
@@ -349,7 +349,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MoveSong
     path: src/Mewdeko/Modules/Music/Services/MusicService.cs
-    startLine: 345
+    startLine: 349
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music.Services
@@ -393,7 +393,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AutoPlay
     path: src/Mewdeko/Modules/Music/Services/MusicService.cs
-    startLine: 374
+    startLine: 378
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music.Services
@@ -430,7 +430,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RemoveSong
     path: src/Mewdeko/Modules/Music/Services/MusicService.cs
-    startLine: 441
+    startLine: 447
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music.Services
@@ -471,7 +471,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetQueue
     path: src/Mewdeko/Modules/Music/Services/MusicService.cs
-    startLine: 465
+    startLine: 471
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music.Services
@@ -509,7 +509,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Skip
     path: src/Mewdeko/Modules/Music/Services/MusicService.cs
-    startLine: 490
+    startLine: 496
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music.Services
@@ -558,7 +558,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Shuffle
     path: src/Mewdeko/Modules/Music/Services/MusicService.cs
-    startLine: 553
+    startLine: 559
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music.Services
@@ -590,7 +590,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: QueueClear
     path: src/Mewdeko/Modules/Music/Services/MusicService.cs
-    startLine: 561
+    startLine: 567
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music.Services
@@ -628,7 +628,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetVolume
     path: src/Mewdeko/Modules/Music/Services/MusicService.cs
-    startLine: 573
+    startLine: 579
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music.Services
@@ -666,7 +666,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetDefaultPlaylist
     path: src/Mewdeko/Modules/Music/Services/MusicService.cs
-    startLine: 581
+    startLine: 587
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music.Services
@@ -701,7 +701,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetPlaylists
     path: src/Mewdeko/Modules/Music/Services/MusicService.cs
-    startLine: 592
+    startLine: 598
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music.Services
@@ -736,7 +736,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetSettingsInternalAsync
     path: src/Mewdeko/Modules/Music/Services/MusicService.cs
-    startLine: 604
+    startLine: 610
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music.Services
@@ -774,7 +774,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ModifySettingsInternalAsync
     path: src/Mewdeko/Modules/Music/Services/MusicService.cs
-    startLine: 624
+    startLine: 630
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music.Services
@@ -1242,7 +1242,7 @@ references:
   fullName: Mewdeko.Modules.Music.Services.MusicService
 - uid: Mewdeko.Modules.Music.Services.MusicService.#ctor*
   commentId: Overload:Mewdeko.Modules.Music.Services.MusicService.#ctor
-  href: Mewdeko.Modules.Music.Services.MusicService.html#Mewdeko_Modules_Music_Services_MusicService__ctor_Lavalink4NET_LavalinkNode_Mewdeko_Services_IBotCredentials_Mewdeko_Database_DbService_Mewdeko_Services_Impl_EventHandler_Mewdeko_Services_IGoogleApiService_Discord_WebSocket_DiscordSocketClient_Mewdeko_Services_Settings_BotConfigService_
+  href: Mewdeko.Modules.Music.Services.MusicService.html#Mewdeko_Modules_Music_Services_MusicService__ctor_Lavalink4NET_LavalinkNode_Mewdeko_Services_IBotCredentials_Mewdeko_Database_DbService_Mewdeko_Services_Impl_EventHandler_Mewdeko_Services_IGoogleApiService_Discord_WebSocket_DiscordSocketClient_Mewdeko_Common_Configs_BotConfig_
   name: MusicService
   nameWithType: MusicService.MusicService
   fullName: Mewdeko.Modules.Music.Services.MusicService.MusicService
@@ -1291,13 +1291,13 @@ references:
   name: DiscordSocketClient
   nameWithType: DiscordSocketClient
   fullName: Discord.WebSocket.DiscordSocketClient
-- uid: Mewdeko.Services.Settings.BotConfigService
-  commentId: T:Mewdeko.Services.Settings.BotConfigService
-  parent: Mewdeko.Services.Settings
-  href: Mewdeko.Services.Settings.BotConfigService.html
-  name: BotConfigService
-  nameWithType: BotConfigService
-  fullName: Mewdeko.Services.Settings.BotConfigService
+- uid: Mewdeko.Common.Configs.BotConfig
+  commentId: T:Mewdeko.Common.Configs.BotConfig
+  parent: Mewdeko.Common.Configs
+  href: Mewdeko.Common.Configs.BotConfig.html
+  name: BotConfig
+  nameWithType: BotConfig
+  fullName: Mewdeko.Common.Configs.BotConfig
 - uid: Lavalink4NET
   commentId: N:Lavalink4NET
   isExternal: true
@@ -1378,36 +1378,36 @@ references:
   - uid: Discord.WebSocket
     name: WebSocket
     isExternal: true
-- uid: Mewdeko.Services.Settings
-  commentId: N:Mewdeko.Services.Settings
+- uid: Mewdeko.Common.Configs
+  commentId: N:Mewdeko.Common.Configs
   href: Mewdeko.html
-  name: Mewdeko.Services.Settings
-  nameWithType: Mewdeko.Services.Settings
-  fullName: Mewdeko.Services.Settings
+  name: Mewdeko.Common.Configs
+  nameWithType: Mewdeko.Common.Configs
+  fullName: Mewdeko.Common.Configs
   spec.csharp:
   - uid: Mewdeko
     name: Mewdeko
     href: Mewdeko.html
   - name: .
-  - uid: Mewdeko.Services
-    name: Services
-    href: Mewdeko.Services.html
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
   - name: .
-  - uid: Mewdeko.Services.Settings
-    name: Settings
-    href: Mewdeko.Services.Settings.html
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
   spec.vb:
   - uid: Mewdeko
     name: Mewdeko
     href: Mewdeko.html
   - name: .
-  - uid: Mewdeko.Services
-    name: Services
-    href: Mewdeko.Services.html
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
   - name: .
-  - uid: Mewdeko.Services.Settings
-    name: Settings
-    href: Mewdeko.Services.Settings.html
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
 - uid: Mewdeko.Modules.Music.Services.MusicService.GetPrettyInfo*
   commentId: Overload:Mewdeko.Modules.Music.Services.MusicService.GetPrettyInfo
   href: Mewdeko.Modules.Music.Services.MusicService.html#Mewdeko_Modules_Music_Services_MusicService_GetPrettyInfo_Lavalink4NET_Player_LavalinkPlayer_Discord_IGuild_

@@ -72,6 +72,7 @@ items:
   - Mewdeko.Common.MewdekoModule.Strings
   - Mewdeko.Common.MewdekoModule.Localization
   - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.Config
   - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   - Mewdeko.Common.MewdekoModule.GetText(System.String)
   - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
@@ -618,7 +619,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: BanUnder
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 317
+    startLine: 320
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -703,7 +704,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: KickUnder
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 410
+    startLine: 413
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -785,7 +786,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: PruneMembers
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 486
+    startLine: 489
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -876,7 +877,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MemberRole
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 574
+    startLine: 577
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -954,7 +955,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: StaffRole
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 620
+    startLine: 623
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -1036,7 +1037,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: StaffRoleDisable
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 665
+    startLine: 668
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -1107,7 +1108,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Delmsgoncmd
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 688
+    startLine: 691
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -1199,7 +1200,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Delmsgoncmd
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 726
+    startLine: 729
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -1292,7 +1293,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Delmsgoncmd
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 752
+    startLine: 755
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -1383,7 +1384,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Delmsgoncmd
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 768
+    startLine: 771
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -1486,7 +1487,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Deafen
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 798
+    startLine: 801
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -1573,7 +1574,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UnDeafen
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 814
+    startLine: 817
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -1660,7 +1661,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: DelVoiChanl
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 831
+    startLine: 834
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -1748,7 +1749,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CreatVoiChanl
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 847
+    startLine: 850
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -1839,7 +1840,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: DelTxtChanl
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 863
+    startLine: 866
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -1927,7 +1928,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CreaTxtChanl
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 880
+    startLine: 883
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -2018,7 +2019,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetTopic
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 896
+    startLine: 899
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -2109,7 +2110,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetChanlName
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 914
+    startLine: 917
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -2200,7 +2201,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: NsfwToggle
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 930
+    startLine: 933
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -2280,7 +2281,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Edit
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 955
+    startLine: 958
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -2368,7 +2369,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Delete
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 984
+    startLine: 987
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -2458,7 +2459,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Delete
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 998
+    startLine: 1001
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -2533,7 +2534,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RenameChannel
     path: src/Mewdeko/Modules/Administration/Administration.cs
-    startLine: 1061
+    startLine: 1064
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Administration
@@ -2762,6 +2763,13 @@ references:
   name: ctx
   nameWithType: MewdekoModule.ctx
   fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.Config
+  commentId: P:Mewdeko.Common.MewdekoModule.Config
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Config
+  name: Config
+  nameWithType: MewdekoModule.Config
+  fullName: Mewdeko.Common.MewdekoModule.Config
 - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   parent: Mewdeko.Common.MewdekoModule

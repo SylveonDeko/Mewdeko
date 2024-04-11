@@ -50,6 +50,7 @@ items:
   - Mewdeko.Common.MewdekoModule.Strings
   - Mewdeko.Common.MewdekoModule.Localization
   - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.Config
   - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   - Mewdeko.Common.MewdekoModule.GetText(System.String)
   - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
@@ -399,7 +400,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Deny
     path: src/Mewdeko/Modules/Suggestions/Suggestions.cs
-    startLine: 168
+    startLine: 170
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -483,7 +484,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Accept
     path: src/Mewdeko/Modules/Suggestions/Suggestions.cs
-    startLine: 182
+    startLine: 184
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -567,7 +568,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Implemented
     path: src/Mewdeko/Modules/Suggestions/Suggestions.cs
-    startLine: 196
+    startLine: 198
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -651,7 +652,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Consider
     path: src/Mewdeko/Modules/Suggestions/Suggestions.cs
-    startLine: 210
+    startLine: 212
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -879,6 +880,13 @@ references:
   name: ctx
   nameWithType: MewdekoModule.ctx
   fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.Config
+  commentId: P:Mewdeko.Common.MewdekoModule.Config
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Config
+  name: Config
+  nameWithType: MewdekoModule.Config
+  fullName: Mewdeko.Common.MewdekoModule.Config
 - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   parent: Mewdeko.Common.MewdekoModule

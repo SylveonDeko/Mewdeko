@@ -122,6 +122,9 @@
       <a class="xref" href="Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_Localization">MewdekoSlashCommandModule.Localization</a>
     </div>
     <div>
+      <a class="xref" href="Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_Config">MewdekoSlashCommandModule.Config</a>
+    </div>
+    <div>
       <a class="xref" href="Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_ctx">MewdekoSlashCommandModule.ctx</a>
     </div>
     <div>
@@ -274,19 +277,19 @@ public class SlashAdministration.SlashServerRecovery : MewdekoSlashModuleBase&lt
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery__ctor_Mewdeko_Services_IDataCache_Mewdeko_Services_IBotCredentials_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.%23ctor(Mewdeko.Services.IDataCache%2CMewdeko.Services.IBotCredentials)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery__ctor_Mewdeko_Services_IDataCache_Mewdeko_Services_IBotCredentials_Mewdeko_Common_Configs_BotConfig_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.%23ctor(Mewdeko.Services.IDataCache%2CMewdeko.Services.IBotCredentials%2CMewdeko.Common.Configs.BotConfig)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Administration/SlashServerRecovery.cs/#L26">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Administration/SlashServerRecovery.cs/#L28">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery__ctor_" data-uid="Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.#ctor*"></a>
-  <h4 id="Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery__ctor_Mewdeko_Services_IDataCache_Mewdeko_Services_IBotCredentials_" data-uid="Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.#ctor(Mewdeko.Services.IDataCache,Mewdeko.Services.IBotCredentials)">SlashServerRecovery(IDataCache, IBotCredentials)</h4>
+  <h4 id="Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery__ctor_Mewdeko_Services_IDataCache_Mewdeko_Services_IBotCredentials_Mewdeko_Common_Configs_BotConfig_" data-uid="Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.#ctor(Mewdeko.Services.IDataCache,Mewdeko.Services.IBotCredentials,Mewdeko.Common.Configs.BotConfig)">SlashServerRecovery(IDataCache, IBotCredentials, BotConfig)</h4>
   <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.html">SlashAdministration.SlashServerRecovery</a> class.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public SlashServerRecovery(IDataCache cache, IBotCredentials credentials)</code></pre>
+    <pre><code class="lang-csharp hljs">public SlashServerRecovery(IDataCache cache, IBotCredentials credentials, BotConfig botConfig)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-condensed">
@@ -308,6 +311,11 @@ public class SlashAdministration.SlashServerRecovery : MewdekoSlashModuleBase&lt
         <td><span class="parametername">credentials</span></td>
         <td></td>
       </tr>
+      <tr>
+        <td><a class="xref" href="Mewdeko.Common.Configs.BotConfig.html">BotConfig</a></td>
+        <td><span class="parametername">botConfig</span></td>
+        <td></td>
+      </tr>
     </tbody>
   </table>
   <h3 id="methods">Methods
@@ -317,7 +325,7 @@ public class SlashAdministration.SlashServerRecovery : MewdekoSlashModuleBase&lt
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery_ClearServerRecover.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.ClearServerRecover%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Administration/SlashServerRecovery.cs/#L38">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Administration/SlashServerRecovery.cs/#L41">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery_ClearServerRecover_" data-uid="Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.ClearServerRecover*"></a>
   <h4 id="Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery_ClearServerRecover" data-uid="Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.ClearServerRecover">ClearServerRecover()</h4>
@@ -352,7 +360,7 @@ public Task ClearServerRecover()</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery_HandleRecoveryKey_Mewdeko_Common_Modals_RecoveryKeyModal_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.HandleRecoveryKey(Mewdeko.Common.Modals.RecoveryKeyModal)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Administration/SlashServerRecovery.cs/#L158">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Administration/SlashServerRecovery.cs/#L161">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery_HandleRecoveryKey_" data-uid="Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.HandleRecoveryKey*"></a>
   <h4 id="Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery_HandleRecoveryKey_Mewdeko_Common_Modals_RecoveryKeyModal_" data-uid="Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.HandleRecoveryKey(Mewdeko.Common.Modals.RecoveryKeyModal)">HandleRecoveryKey(RecoveryKeyModal)</h4>
@@ -403,7 +411,7 @@ public Task HandleRecoveryKey(RecoveryKeyModal modal)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery_HandleTwoFactor_System_String_Mewdeko_Common_Modals_TwoFactorModal_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.HandleTwoFactor(System.String%2CMewdeko.Common.Modals.TwoFactorModal)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Administration/SlashServerRecovery.cs/#L199">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Administration/SlashServerRecovery.cs/#L202">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery_HandleTwoFactor_" data-uid="Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.HandleTwoFactor*"></a>
   <h4 id="Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery_HandleTwoFactor_System_String_Mewdeko_Common_Modals_TwoFactorModal_" data-uid="Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.HandleTwoFactor(System.String,Mewdeko.Common.Modals.TwoFactorModal)">HandleTwoFactor(string, TwoFactorModal)</h4>
@@ -460,7 +468,7 @@ public Task HandleTwoFactor(string type, TwoFactorModal modal)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery_SendRecoveryKeyModal.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.SendRecoveryKeyModal%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Administration/SlashServerRecovery.cs/#L149">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Administration/SlashServerRecovery.cs/#L152">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery_SendRecoveryKeyModal_" data-uid="Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.SendRecoveryKeyModal*"></a>
   <h4 id="Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery_SendRecoveryKeyModal" data-uid="Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.SendRecoveryKeyModal">SendRecoveryKeyModal()</h4>
@@ -493,7 +501,7 @@ public Task SendRecoveryKeyModal()</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery_SendTwoFactorModal_System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.SendTwoFactorModal(System.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Administration/SlashServerRecovery.cs/#L188">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Administration/SlashServerRecovery.cs/#L191">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery_SendTwoFactorModal_" data-uid="Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.SendTwoFactorModal*"></a>
   <h4 id="Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery_SendTwoFactorModal_System_String_" data-uid="Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.SendTwoFactorModal(System.String)">SendTwoFactorModal(string)</h4>
@@ -544,7 +552,7 @@ public Task SendTwoFactorModal(string type)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery_ServerRecover.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.ServerRecover%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Administration/SlashServerRecovery.cs/#L64">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Administration/SlashServerRecovery.cs/#L67">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery_ServerRecover_" data-uid="Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.ServerRecover*"></a>
   <h4 id="Mewdeko_Modules_Administration_SlashAdministration_SlashServerRecovery_ServerRecover" data-uid="Mewdeko.Modules.Administration.SlashAdministration.SlashServerRecovery.ServerRecover">ServerRecover()</h4>

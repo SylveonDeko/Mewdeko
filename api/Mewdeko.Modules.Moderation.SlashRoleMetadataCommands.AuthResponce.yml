@@ -24,7 +24,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AuthResponce
     path: src/Mewdeko/Modules/Moderation/SlashRoleMetadataCommands.cs
-    startLine: 122
+    startLine: 124
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Moderation
@@ -63,7 +63,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: access_token
     path: src/Mewdeko/Modules/Moderation/SlashRoleMetadataCommands.cs
-    startLine: 127
+    startLine: 129
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Moderation
@@ -94,7 +94,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: token_type
     path: src/Mewdeko/Modules/Moderation/SlashRoleMetadataCommands.cs
-    startLine: 132
+    startLine: 134
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Moderation
@@ -125,7 +125,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: expires_in
     path: src/Mewdeko/Modules/Moderation/SlashRoleMetadataCommands.cs
-    startLine: 137
+    startLine: 139
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Moderation
@@ -156,7 +156,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: refresh_token
     path: src/Mewdeko/Modules/Moderation/SlashRoleMetadataCommands.cs
-    startLine: 142
+    startLine: 144
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Moderation
@@ -187,7 +187,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: scope
     path: src/Mewdeko/Modules/Moderation/SlashRoleMetadataCommands.cs
-    startLine: 147
+    startLine: 149
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Moderation

@@ -5,7 +5,7 @@ items:
   id: MusicPlayer
   parent: Mewdeko.Modules.Music.Services
   children:
-  - Mewdeko.Modules.Music.Services.MusicPlayer.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Music.Services.MusicService,Mewdeko.Services.Settings.BotConfigService)
+  - Mewdeko.Modules.Music.Services.MusicPlayer.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Music.Services.MusicService,Mewdeko.Common.Configs.BotConfig)
   - Mewdeko.Modules.Music.Services.MusicPlayer.OnTrackEndAsync(Lavalink4NET.Events.TrackEndEventArgs)
   - Mewdeko.Modules.Music.Services.MusicPlayer.OnTrackStartedAsync(Lavalink4NET.Events.TrackStartedEventArgs)
   langs:
@@ -79,16 +79,16 @@ items:
   - System.Object.ToString
   extensionMethods:
   - Mewdeko.Modules.Music.Services.MusicPlayer.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
-- uid: Mewdeko.Modules.Music.Services.MusicPlayer.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Music.Services.MusicService,Mewdeko.Services.Settings.BotConfigService)
-  commentId: M:Mewdeko.Modules.Music.Services.MusicPlayer.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Music.Services.MusicService,Mewdeko.Services.Settings.BotConfigService)
-  id: '#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Music.Services.MusicService,Mewdeko.Services.Settings.BotConfigService)'
+- uid: Mewdeko.Modules.Music.Services.MusicPlayer.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Music.Services.MusicService,Mewdeko.Common.Configs.BotConfig)
+  commentId: M:Mewdeko.Modules.Music.Services.MusicPlayer.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Music.Services.MusicService,Mewdeko.Common.Configs.BotConfig)
+  id: '#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Music.Services.MusicService,Mewdeko.Common.Configs.BotConfig)'
   parent: Mewdeko.Modules.Music.Services.MusicPlayer
   langs:
   - csharp
   - vb
-  name: MusicPlayer(DiscordSocketClient, MusicService, BotConfigService)
-  nameWithType: MusicPlayer.MusicPlayer(DiscordSocketClient, MusicService, BotConfigService)
-  fullName: Mewdeko.Modules.Music.Services.MusicPlayer.MusicPlayer(Discord.WebSocket.DiscordSocketClient, Mewdeko.Modules.Music.Services.MusicService, Mewdeko.Services.Settings.BotConfigService)
+  name: MusicPlayer(DiscordSocketClient, MusicService, BotConfig)
+  nameWithType: MusicPlayer.MusicPlayer(DiscordSocketClient, MusicService, BotConfig)
+  fullName: Mewdeko.Modules.Music.Services.MusicPlayer.MusicPlayer(Discord.WebSocket.DiscordSocketClient, Mewdeko.Modules.Music.Services.MusicService, Mewdeko.Common.Configs.BotConfig)
   type: Constructor
   source:
     remote:
@@ -104,7 +104,7 @@ items:
   summary: Music player service.
   example: []
   syntax:
-    content: public MusicPlayer(DiscordSocketClient client, MusicService musicService, BotConfigService config)
+    content: public MusicPlayer(DiscordSocketClient client, MusicService musicService, BotConfig config)
     parameters:
     - id: client
       type: Discord.WebSocket.DiscordSocketClient
@@ -113,13 +113,13 @@ items:
       type: Mewdeko.Modules.Music.Services.MusicService
       description: The music service
     - id: config
-      type: Mewdeko.Services.Settings.BotConfigService
+      type: Mewdeko.Common.Configs.BotConfig
       description: The bot configuration service
-    content.vb: Public Sub New(client As DiscordSocketClient, musicService As MusicService, config As BotConfigService)
+    content.vb: Public Sub New(client As DiscordSocketClient, musicService As MusicService, config As BotConfig)
   overload: Mewdeko.Modules.Music.Services.MusicPlayer.#ctor*
-  nameWithType.vb: MusicPlayer.New(DiscordSocketClient, MusicService, BotConfigService)
-  fullName.vb: Mewdeko.Modules.Music.Services.MusicPlayer.New(Discord.WebSocket.DiscordSocketClient, Mewdeko.Modules.Music.Services.MusicService, Mewdeko.Services.Settings.BotConfigService)
-  name.vb: New(DiscordSocketClient, MusicService, BotConfigService)
+  nameWithType.vb: MusicPlayer.New(DiscordSocketClient, MusicService, BotConfig)
+  fullName.vb: Mewdeko.Modules.Music.Services.MusicPlayer.New(Discord.WebSocket.DiscordSocketClient, Mewdeko.Modules.Music.Services.MusicService, Mewdeko.Common.Configs.BotConfig)
+  name.vb: New(DiscordSocketClient, MusicService, BotConfig)
 - uid: Mewdeko.Modules.Music.Services.MusicPlayer.OnTrackStartedAsync(Lavalink4NET.Events.TrackStartedEventArgs)
   commentId: M:Mewdeko.Modules.Music.Services.MusicPlayer.OnTrackStartedAsync(Lavalink4NET.Events.TrackStartedEventArgs)
   id: OnTrackStartedAsync(Lavalink4NET.Events.TrackStartedEventArgs)
@@ -1352,7 +1352,7 @@ references:
     href: Mewdeko.Extensions.html
 - uid: Mewdeko.Modules.Music.Services.MusicPlayer.#ctor*
   commentId: Overload:Mewdeko.Modules.Music.Services.MusicPlayer.#ctor
-  href: Mewdeko.Modules.Music.Services.MusicPlayer.html#Mewdeko_Modules_Music_Services_MusicPlayer__ctor_Discord_WebSocket_DiscordSocketClient_Mewdeko_Modules_Music_Services_MusicService_Mewdeko_Services_Settings_BotConfigService_
+  href: Mewdeko.Modules.Music.Services.MusicPlayer.html#Mewdeko_Modules_Music_Services_MusicPlayer__ctor_Discord_WebSocket_DiscordSocketClient_Mewdeko_Modules_Music_Services_MusicService_Mewdeko_Common_Configs_BotConfig_
   name: MusicPlayer
   nameWithType: MusicPlayer.MusicPlayer
   fullName: Mewdeko.Modules.Music.Services.MusicPlayer.MusicPlayer
@@ -1373,13 +1373,13 @@ references:
   name: MusicService
   nameWithType: MusicService
   fullName: Mewdeko.Modules.Music.Services.MusicService
-- uid: Mewdeko.Services.Settings.BotConfigService
-  commentId: T:Mewdeko.Services.Settings.BotConfigService
-  parent: Mewdeko.Services.Settings
-  href: Mewdeko.Services.Settings.BotConfigService.html
-  name: BotConfigService
-  nameWithType: BotConfigService
-  fullName: Mewdeko.Services.Settings.BotConfigService
+- uid: Mewdeko.Common.Configs.BotConfig
+  commentId: T:Mewdeko.Common.Configs.BotConfig
+  parent: Mewdeko.Common.Configs
+  href: Mewdeko.Common.Configs.BotConfig.html
+  name: BotConfig
+  nameWithType: BotConfig
+  fullName: Mewdeko.Common.Configs.BotConfig
 - uid: Discord.WebSocket
   commentId: N:Discord.WebSocket
   isExternal: true
@@ -1402,36 +1402,36 @@ references:
   - uid: Discord.WebSocket
     name: WebSocket
     isExternal: true
-- uid: Mewdeko.Services.Settings
-  commentId: N:Mewdeko.Services.Settings
+- uid: Mewdeko.Common.Configs
+  commentId: N:Mewdeko.Common.Configs
   href: Mewdeko.html
-  name: Mewdeko.Services.Settings
-  nameWithType: Mewdeko.Services.Settings
-  fullName: Mewdeko.Services.Settings
+  name: Mewdeko.Common.Configs
+  nameWithType: Mewdeko.Common.Configs
+  fullName: Mewdeko.Common.Configs
   spec.csharp:
   - uid: Mewdeko
     name: Mewdeko
     href: Mewdeko.html
   - name: .
-  - uid: Mewdeko.Services
-    name: Services
-    href: Mewdeko.Services.html
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
   - name: .
-  - uid: Mewdeko.Services.Settings
-    name: Settings
-    href: Mewdeko.Services.Settings.html
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
   spec.vb:
   - uid: Mewdeko
     name: Mewdeko
     href: Mewdeko.html
   - name: .
-  - uid: Mewdeko.Services
-    name: Services
-    href: Mewdeko.Services.html
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
   - name: .
-  - uid: Mewdeko.Services.Settings
-    name: Settings
-    href: Mewdeko.Services.Settings.html
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
 - uid: Lavalink4NET.Player.LavalinkPlayer.OnTrackStartedAsync(Lavalink4NET.Events.TrackStartedEventArgs)
   commentId: M:Lavalink4NET.Player.LavalinkPlayer.OnTrackStartedAsync(Lavalink4NET.Events.TrackStartedEventArgs)
   parent: Lavalink4NET.Player.LavalinkPlayer

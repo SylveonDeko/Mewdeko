@@ -5,7 +5,7 @@ items:
   id: SlashOwnerOnly
   parent: Mewdeko.Modules.OwnerOnly
   children:
-  - Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.strings.IBotStrings,Fergun.Interactive.InteractiveService,Mewdeko.Services.ICoordinator,Mewdeko.Database.DbService,Mewdeko.Services.IDataCache,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.CommandHandler)
+  - Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.strings.IBotStrings,Fergun.Interactive.InteractiveService,Mewdeko.Services.ICoordinator,Mewdeko.Database.DbService,Mewdeko.Services.IDataCache,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.CommandHandler,Mewdeko.Common.Configs.BotConfig)
   - Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.Bash(System.String)
   - Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ClearUsedTokens
   - Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.CommandStats
@@ -37,7 +37,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SlashOwnerOnly
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 38
+    startLine: 39
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -66,6 +66,7 @@ items:
   - Mewdeko.Common.MewdekoSlashCommandModule.Strings
   - Mewdeko.Common.MewdekoSlashCommandModule.CmdHandler
   - Mewdeko.Common.MewdekoSlashCommandModule.Localization
+  - Mewdeko.Common.MewdekoSlashCommandModule.Config
   - Mewdeko.Common.MewdekoSlashCommandModule.ctx
   - Mewdeko.Common.MewdekoSlashCommandModule.BeforeExecute(Discord.Interactions.ICommandInfo)
   - Mewdeko.Common.MewdekoSlashCommandModule.GetText(System.String)
@@ -123,16 +124,16 @@ items:
       value: owneronly
     - type: System.String
       value: Commands only the bot owner can use
-- uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.strings.IBotStrings,Fergun.Interactive.InteractiveService,Mewdeko.Services.ICoordinator,Mewdeko.Database.DbService,Mewdeko.Services.IDataCache,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.CommandHandler)
-  commentId: M:Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.strings.IBotStrings,Fergun.Interactive.InteractiveService,Mewdeko.Services.ICoordinator,Mewdeko.Database.DbService,Mewdeko.Services.IDataCache,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.CommandHandler)
-  id: '#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.strings.IBotStrings,Fergun.Interactive.InteractiveService,Mewdeko.Services.ICoordinator,Mewdeko.Database.DbService,Mewdeko.Services.IDataCache,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.CommandHandler)'
+- uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.strings.IBotStrings,Fergun.Interactive.InteractiveService,Mewdeko.Services.ICoordinator,Mewdeko.Database.DbService,Mewdeko.Services.IDataCache,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.CommandHandler,Mewdeko.Common.Configs.BotConfig)
+  commentId: M:Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.strings.IBotStrings,Fergun.Interactive.InteractiveService,Mewdeko.Services.ICoordinator,Mewdeko.Database.DbService,Mewdeko.Services.IDataCache,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.CommandHandler,Mewdeko.Common.Configs.BotConfig)
+  id: '#ctor(Discord.WebSocket.DiscordSocketClient,Mewdeko.Services.strings.IBotStrings,Fergun.Interactive.InteractiveService,Mewdeko.Services.ICoordinator,Mewdeko.Database.DbService,Mewdeko.Services.IDataCache,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.CommandHandler,Mewdeko.Common.Configs.BotConfig)'
   parent: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly
   langs:
   - csharp
   - vb
-  name: SlashOwnerOnly(DiscordSocketClient, IBotStrings, InteractiveService, ICoordinator, DbService, IDataCache, GuildSettingsService, CommandHandler)
-  nameWithType: SlashOwnerOnly.SlashOwnerOnly(DiscordSocketClient, IBotStrings, InteractiveService, ICoordinator, DbService, IDataCache, GuildSettingsService, CommandHandler)
-  fullName: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.SlashOwnerOnly(Discord.WebSocket.DiscordSocketClient, Mewdeko.Services.strings.IBotStrings, Fergun.Interactive.InteractiveService, Mewdeko.Services.ICoordinator, Mewdeko.Database.DbService, Mewdeko.Services.IDataCache, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.CommandHandler)
+  name: SlashOwnerOnly(DiscordSocketClient, IBotStrings, InteractiveService, ICoordinator, DbService, IDataCache, GuildSettingsService, CommandHandler, BotConfig)
+  nameWithType: SlashOwnerOnly.SlashOwnerOnly(DiscordSocketClient, IBotStrings, InteractiveService, ICoordinator, DbService, IDataCache, GuildSettingsService, CommandHandler, BotConfig)
+  fullName: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.SlashOwnerOnly(Discord.WebSocket.DiscordSocketClient, Mewdeko.Services.strings.IBotStrings, Fergun.Interactive.InteractiveService, Mewdeko.Services.ICoordinator, Mewdeko.Database.DbService, Mewdeko.Services.IDataCache, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.CommandHandler, Mewdeko.Common.Configs.BotConfig)
   type: Constructor
   source:
     remote:
@@ -141,14 +142,14 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: .ctor
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 38
+    startLine: 39
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
   summary: Initializes a new instance of the <xref href="Mewdeko.Modules.OwnerOnly.SlashOwnerOnly" data-throw-if-not-resolved="false"></xref> class, intended for slash command based owner-only operations within the Mewdeko bot framework.
   example: []
   syntax:
-    content: public SlashOwnerOnly(DiscordSocketClient client, IBotStrings strings, InteractiveService serv, ICoordinator coord, DbService db, IDataCache cache, GuildSettingsService guildSettings, CommandHandler commandHandler)
+    content: public SlashOwnerOnly(DiscordSocketClient client, IBotStrings strings, InteractiveService serv, ICoordinator coord, DbService db, IDataCache cache, GuildSettingsService guildSettings, CommandHandler commandHandler, BotConfig botConfigService)
     parameters:
     - id: client
       type: Discord.WebSocket.DiscordSocketClient
@@ -174,11 +175,13 @@ items:
     - id: commandHandler
       type: Mewdeko.Services.CommandHandler
       description: Handler for processing and executing commands received from users.
-    content.vb: Public Sub New(client As DiscordSocketClient, strings As IBotStrings, serv As InteractiveService, coord As ICoordinator, db As DbService, cache As IDataCache, guildSettings As GuildSettingsService, commandHandler As CommandHandler)
+    - id: botConfigService
+      type: Mewdeko.Common.Configs.BotConfig
+    content.vb: Public Sub New(client As DiscordSocketClient, strings As IBotStrings, serv As InteractiveService, coord As ICoordinator, db As DbService, cache As IDataCache, guildSettings As GuildSettingsService, commandHandler As CommandHandler, botConfigService As BotConfig)
   overload: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.#ctor*
-  nameWithType.vb: SlashOwnerOnly.New(DiscordSocketClient, IBotStrings, InteractiveService, ICoordinator, DbService, IDataCache, GuildSettingsService, CommandHandler)
-  fullName.vb: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.New(Discord.WebSocket.DiscordSocketClient, Mewdeko.Services.strings.IBotStrings, Fergun.Interactive.InteractiveService, Mewdeko.Services.ICoordinator, Mewdeko.Database.DbService, Mewdeko.Services.IDataCache, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.CommandHandler)
-  name.vb: New(DiscordSocketClient, IBotStrings, InteractiveService, ICoordinator, DbService, IDataCache, GuildSettingsService, CommandHandler)
+  nameWithType.vb: SlashOwnerOnly.New(DiscordSocketClient, IBotStrings, InteractiveService, ICoordinator, DbService, IDataCache, GuildSettingsService, CommandHandler, BotConfig)
+  fullName.vb: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.New(Discord.WebSocket.DiscordSocketClient, Mewdeko.Services.strings.IBotStrings, Fergun.Interactive.InteractiveService, Mewdeko.Services.ICoordinator, Mewdeko.Database.DbService, Mewdeko.Services.IDataCache, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.CommandHandler, Mewdeko.Common.Configs.BotConfig)
+  name.vb: New(DiscordSocketClient, IBotStrings, InteractiveService, ICoordinator, DbService, IDataCache, GuildSettingsService, CommandHandler, BotConfig)
 - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ClearUsedTokens
   commentId: M:Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ClearUsedTokens
   id: ClearUsedTokens
@@ -197,7 +200,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ClearUsedTokens
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 83
+    startLine: 85
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -249,7 +252,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Sudo
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 102
+    startLine: 104
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -315,7 +318,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RedisExec
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 123
+    startLine: 125
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -378,7 +381,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SqlExec
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 141
+    startLine: 143
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -443,7 +446,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ListServers
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 158
+    startLine: 160
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -495,7 +498,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CommandStats
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 199
+    startLine: 201
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -551,7 +554,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ShardStats
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 907
+    startLine: 909
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -605,7 +608,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RestartShard
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 975
+    startLine: 977
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -661,7 +664,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: LeaveServer
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 991
+    startLine: 993
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -721,7 +724,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Die
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 1000
+    startLine: 1002
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -770,7 +773,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Restart
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 1024
+    startLine: 1026
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -819,7 +822,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Send
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 1054
+    startLine: 1056
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -885,7 +888,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ImagesReload
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 1145
+    startLine: 1150
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -937,7 +940,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: StringsReload
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 1159
+    startLine: 1164
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -989,7 +992,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Bash
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 1183
+    startLine: 1188
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -1049,7 +1052,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Evaluate
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 1288
+    startLine: 1293
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -1109,7 +1112,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: EvaluateModalInteraction
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 1296
+    startLine: 1301
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -1309,6 +1312,13 @@ references:
   name: Localization
   nameWithType: MewdekoSlashCommandModule.Localization
   fullName: Mewdeko.Common.MewdekoSlashCommandModule.Localization
+- uid: Mewdeko.Common.MewdekoSlashCommandModule.Config
+  commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.Config
+  parent: Mewdeko.Common.MewdekoSlashCommandModule
+  href: Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_Config
+  name: Config
+  nameWithType: MewdekoSlashCommandModule.Config
+  fullName: Mewdeko.Common.MewdekoSlashCommandModule.Config
 - uid: Mewdeko.Common.MewdekoSlashCommandModule.ctx
   commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.ctx
   parent: Mewdeko.Common.MewdekoSlashCommandModule
@@ -6258,7 +6268,7 @@ references:
     href: Mewdeko.Extensions.html
 - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.#ctor*
   commentId: Overload:Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.#ctor
-  href: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.html#Mewdeko_Modules_OwnerOnly_SlashOwnerOnly__ctor_Discord_WebSocket_DiscordSocketClient_Mewdeko_Services_strings_IBotStrings_Fergun_Interactive_InteractiveService_Mewdeko_Services_ICoordinator_Mewdeko_Database_DbService_Mewdeko_Services_IDataCache_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_CommandHandler_
+  href: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.html#Mewdeko_Modules_OwnerOnly_SlashOwnerOnly__ctor_Discord_WebSocket_DiscordSocketClient_Mewdeko_Services_strings_IBotStrings_Fergun_Interactive_InteractiveService_Mewdeko_Services_ICoordinator_Mewdeko_Database_DbService_Mewdeko_Services_IDataCache_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_CommandHandler_Mewdeko_Common_Configs_BotConfig_
   name: SlashOwnerOnly
   nameWithType: SlashOwnerOnly.SlashOwnerOnly
   fullName: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.SlashOwnerOnly
@@ -6321,6 +6331,13 @@ references:
   name: CommandHandler
   nameWithType: CommandHandler
   fullName: Mewdeko.Services.CommandHandler
+- uid: Mewdeko.Common.Configs.BotConfig
+  commentId: T:Mewdeko.Common.Configs.BotConfig
+  parent: Mewdeko.Common.Configs
+  href: Mewdeko.Common.Configs.BotConfig.html
+  name: BotConfig
+  nameWithType: BotConfig
+  fullName: Mewdeko.Common.Configs.BotConfig
 - uid: Discord.WebSocket
   commentId: N:Discord.WebSocket
   isExternal: true
@@ -6439,6 +6456,36 @@ references:
   - uid: Mewdeko.Database
     name: Database
     href: Mewdeko.Database.html
+- uid: Mewdeko.Common.Configs
+  commentId: N:Mewdeko.Common.Configs
+  href: Mewdeko.html
+  name: Mewdeko.Common.Configs
+  nameWithType: Mewdeko.Common.Configs
+  fullName: Mewdeko.Common.Configs
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
 - uid: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ClearUsedTokens*
   commentId: Overload:Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.ClearUsedTokens
   href: Mewdeko.Modules.OwnerOnly.SlashOwnerOnly.html#Mewdeko_Modules_OwnerOnly_SlashOwnerOnly_ClearUsedTokens

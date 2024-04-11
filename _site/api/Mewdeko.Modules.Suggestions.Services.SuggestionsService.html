@@ -134,19 +134,19 @@
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService__ctor_Mewdeko_Database_DbService_Discord_WebSocket_DiscordSocketClient_Mewdeko_Modules_Administration_Services_AdministrationService_Mewdeko_Modules_Permissions_Services_PermissionService_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_Impl_EventHandler_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.%23ctor(Mewdeko.Database.DbService%2CDiscord.WebSocket.DiscordSocketClient%2CMewdeko.Modules.Administration.Services.AdministrationService%2CMewdeko.Modules.Permissions.Services.PermissionService%2CMewdeko.Services.GuildSettingsService%2CMewdeko.Services.Impl.EventHandler)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService__ctor_Mewdeko_Database_DbService_Discord_WebSocket_DiscordSocketClient_Mewdeko_Modules_Administration_Services_AdministrationService_Mewdeko_Modules_Permissions_Services_PermissionService_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_Impl_EventHandler_Mewdeko_Common_Configs_BotConfig_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.%23ctor(Mewdeko.Database.DbService%2CDiscord.WebSocket.DiscordSocketClient%2CMewdeko.Modules.Administration.Services.AdministrationService%2CMewdeko.Modules.Permissions.Services.PermissionService%2CMewdeko.Services.GuildSettingsService%2CMewdeko.Services.Impl.EventHandler%2CMewdeko.Common.Configs.BotConfig)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L33">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L35">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService__ctor_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.#ctor*"></a>
-  <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService__ctor_Mewdeko_Database_DbService_Discord_WebSocket_DiscordSocketClient_Mewdeko_Modules_Administration_Services_AdministrationService_Mewdeko_Modules_Permissions_Services_PermissionService_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_Impl_EventHandler_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.#ctor(Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Administration.Services.AdministrationService,Mewdeko.Modules.Permissions.Services.PermissionService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler)">SuggestionsService(DbService, DiscordSocketClient, AdministrationService, PermissionService, GuildSettingsService, EventHandler)</h4>
+  <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService__ctor_Mewdeko_Database_DbService_Discord_WebSocket_DiscordSocketClient_Mewdeko_Modules_Administration_Services_AdministrationService_Mewdeko_Modules_Permissions_Services_PermissionService_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_Impl_EventHandler_Mewdeko_Common_Configs_BotConfig_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.#ctor(Mewdeko.Database.DbService,Discord.WebSocket.DiscordSocketClient,Mewdeko.Modules.Administration.Services.AdministrationService,Mewdeko.Modules.Permissions.Services.PermissionService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Common.Configs.BotConfig)">SuggestionsService(DbService, DiscordSocketClient, AdministrationService, PermissionService, GuildSettingsService, EventHandler, BotConfig)</h4>
   <div class="markdown level1 summary"><p>Initializes a new instance of the SuggestionsService class.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public SuggestionsService(DbService db, DiscordSocketClient client, AdministrationService aserv, PermissionService permserv, GuildSettingsService guildSettings, EventHandler eventHandler)</code></pre>
+    <pre><code class="lang-csharp hljs">public SuggestionsService(DbService db, DiscordSocketClient client, AdministrationService aserv, PermissionService permserv, GuildSettingsService guildSettings, EventHandler eventHandler, BotConfig config)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-condensed">
@@ -194,6 +194,11 @@
         <td><p>Event handler for Discord client events.</p>
 </td>
       </tr>
+      <tr>
+        <td><a class="xref" href="Mewdeko.Common.Configs.BotConfig.html">BotConfig</a></td>
+        <td><span class="parametername">config</span></td>
+        <td></td>
+      </tr>
     </tbody>
   </table>
   <h3 id="methods">Methods
@@ -203,7 +208,7 @@
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_AddThreadChannel_System_UInt64_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.AddThreadChannel(System.UInt64%2CSystem.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L3236">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L3262">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_AddThreadChannel_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.AddThreadChannel*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_AddThreadChannel_System_UInt64_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.AddThreadChannel(System.UInt64,System.UInt64)">AddThreadChannel(ulong, ulong)</h4>
@@ -260,7 +265,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_ForUser_System_UInt64_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.ForUser(System.UInt64%2CSystem.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L3181">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L3207">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_ForUser_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.ForUser*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_ForUser_System_UInt64_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.ForUser(System.UInt64,System.UInt64)">ForUser(ulong, ulong)</h4>
@@ -316,7 +321,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetAcceptChannel_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetAcceptChannel(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1251">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1254">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetAcceptChannel_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetAcceptChannel*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetAcceptChannel_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetAcceptChannel(Discord.IGuild)">GetAcceptChannel(IGuild)</h4>
@@ -366,7 +371,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetAcceptMessage_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetAcceptMessage(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1195">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1198">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetAcceptMessage_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetAcceptMessage*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetAcceptMessage_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetAcceptMessage(Discord.IGuild)">GetAcceptMessage(IGuild)</h4>
@@ -416,7 +421,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetArchiveOnAccept_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetArchiveOnAccept(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1283">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1286">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetArchiveOnAccept_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetArchiveOnAccept*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetArchiveOnAccept_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetArchiveOnAccept(Discord.IGuild)">GetArchiveOnAccept(IGuild)</h4>
@@ -466,7 +471,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetArchiveOnConsider_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetArchiveOnConsider(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1291">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1294">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetArchiveOnConsider_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetArchiveOnConsider*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetArchiveOnConsider_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetArchiveOnConsider(Discord.IGuild)">GetArchiveOnConsider(IGuild)</h4>
@@ -516,7 +521,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetArchiveOnDeny_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetArchiveOnDeny(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1275">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1278">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetArchiveOnDeny_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetArchiveOnDeny*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetArchiveOnDeny_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetArchiveOnDeny(Discord.IGuild)">GetArchiveOnDeny(IGuild)</h4>
@@ -566,7 +571,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetArchiveOnImplement_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetArchiveOnImplement(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1299">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1302">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetArchiveOnImplement_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetArchiveOnImplement*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetArchiveOnImplement_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetArchiveOnImplement(Discord.IGuild)">GetArchiveOnImplement(IGuild)</h4>
@@ -616,7 +621,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetButtonStyle_Discord_IGuild_System_Int32_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetButtonStyle(Discord.IGuild%2CSystem.Int32)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1364">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1367">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetButtonStyle_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetButtonStyle*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetButtonStyle_Discord_IGuild_System_Int32_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetButtonStyle(Discord.IGuild,System.Int32)">GetButtonStyle(IGuild, int)</h4>
@@ -672,7 +677,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetConsiderChannel_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetConsiderChannel(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1243">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1246">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetConsiderChannel_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetConsiderChannel*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetConsiderChannel_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetConsiderChannel(Discord.IGuild)">GetConsiderChannel(IGuild)</h4>
@@ -722,7 +727,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetConsiderMessage_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetConsiderMessage(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1219">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1222">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetConsiderMessage_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetConsiderMessage*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetConsiderMessage_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetConsiderMessage(Discord.IGuild)">GetConsiderMessage(IGuild)</h4>
@@ -772,7 +777,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetCurrentCount_System_UInt64_System_Int32_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetCurrentCount(System.UInt64%2CSystem.Int32)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1140">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1143">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetCurrentCount_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetCurrentCount*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetCurrentCount_System_UInt64_System_Int32_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetCurrentCount(System.UInt64,System.Int32)">GetCurrentCount(ulong, int)</h4>
@@ -828,7 +833,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetDenyChannel_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetDenyChannel(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1267">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1270">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetDenyChannel_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetDenyChannel*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetDenyChannel_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetDenyChannel(Discord.IGuild)">GetDenyChannel(IGuild)</h4>
@@ -878,7 +883,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetDenyMessage_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetDenyMessage(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1203">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1206">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetDenyMessage_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetDenyMessage*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetDenyMessage_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetDenyMessage(Discord.IGuild)">GetDenyMessage(IGuild)</h4>
@@ -928,7 +933,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetEmoteMode_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetEmoteMode(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1235">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1238">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetEmoteMode_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetEmoteMode*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetEmoteMode_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetEmoteMode(Discord.IGuild)">GetEmoteMode(IGuild)</h4>
@@ -978,7 +983,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetEmotes_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetEmotes(System.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L458">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L461">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetEmotes_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetEmotes*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetEmotes_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetEmotes(System.UInt64)">GetEmotes(ulong)</h4>
@@ -1028,7 +1033,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetImplementChannel_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetImplementChannel(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1259">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1262">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetImplementChannel_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetImplementChannel*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetImplementChannel_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetImplementChannel(Discord.IGuild)">GetImplementChannel(IGuild)</h4>
@@ -1078,7 +1083,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetImplementMessage_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetImplementMessage(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1211">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1214">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetImplementMessage_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetImplementMessage*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetImplementMessage_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetImplementMessage(Discord.IGuild)">GetImplementMessage(IGuild)</h4>
@@ -1128,7 +1133,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetMaxLength_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetMaxLength(System.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L444">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L447">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetMaxLength_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetMaxLength*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetMaxLength_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetMaxLength(System.UInt64)">GetMaxLength(ulong)</h4>
@@ -1178,7 +1183,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetMinLength_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetMinLength(System.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L451">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L454">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetMinLength_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetMinLength*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetMinLength_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetMinLength(System.UInt64)">GetMinLength(ulong)</h4>
@@ -1228,7 +1233,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetPickedEmote_System_UInt64_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetPickedEmote(System.UInt64%2CSystem.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L3193">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L3219">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetPickedEmote_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetPickedEmote*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetPickedEmote_System_UInt64_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetPickedEmote(System.UInt64,System.UInt64)">GetPickedEmote(ulong, ulong)</h4>
@@ -1284,7 +1289,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetRepostedMessageAndChannel_Mewdeko_Database_Models_SuggestionsModel_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetRepostedMessageAndChannel(Mewdeko.Database.Models.SuggestionsModel%2CDiscord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L500">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L503">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetRepostedMessageAndChannel_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetRepostedMessageAndChannel*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetRepostedMessageAndChannel_Mewdeko_Database_Models_SuggestionsModel_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetRepostedMessageAndChannel(Mewdeko.Database.Models.SuggestionsModel,Discord.IGuild)">GetRepostedMessageAndChannel(SuggestionsModel, IGuild)</h4>
@@ -1340,7 +1345,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSNum_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSNum(System.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L437">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L440">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSNum_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSNum*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSNum_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSNum(System.UInt64)">GetSNum(ulong)</h4>
@@ -1390,7 +1395,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButton_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButton(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L609">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L612">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButton_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButton*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButton_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButton(Discord.IGuild)">GetSuggestButton(IGuild)</h4>
@@ -1440,7 +1445,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButtonChannel_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButtonChannel(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1315">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1318">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButtonChannel_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButtonChannel*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButtonChannel_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButtonChannel(Discord.IGuild)">GetSuggestButtonChannel(IGuild)</h4>
@@ -1490,7 +1495,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButtonColor_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButtonColor(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1355">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1358">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButtonColor_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButtonColor*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButtonColor_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButtonColor(Discord.IGuild)">GetSuggestButtonColor(IGuild)</h4>
@@ -1540,7 +1545,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButtonEmote_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButtonEmote(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1323">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1326">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButtonEmote_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButtonEmote*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButtonEmote_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButtonEmote(Discord.IGuild)">GetSuggestButtonEmote(IGuild)</h4>
@@ -1590,7 +1595,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButtonMessage_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButtonMessage(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1331">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1334">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButtonMessage_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButtonMessage*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButtonMessage_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButtonMessage(Discord.IGuild)">GetSuggestButtonMessage(IGuild)</h4>
@@ -1640,7 +1645,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButtonMessageId_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButtonMessageId(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1347">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1350">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButtonMessageId_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButtonMessageId*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButtonMessageId_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButtonMessageId(Discord.IGuild)">GetSuggestButtonMessageId(IGuild)</h4>
@@ -1690,7 +1695,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButtonName_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButtonName(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1307">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1310">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButtonName_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButtonName*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButtonName_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButtonName(Discord.IGuild)">GetSuggestButtonName(IGuild)</h4>
@@ -1740,7 +1745,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButtonRepost_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButtonRepost(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1339">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1342">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButtonRepost_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButtonRepost*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestButtonRepost_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestButtonRepost(Discord.IGuild)">GetSuggestButtonRepost(IGuild)</h4>
@@ -1790,7 +1795,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestByMessage_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestByMessage(System.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L3169">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L3195">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestByMessage_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestByMessage*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestByMessage_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestByMessage(System.UInt64)">GetSuggestByMessage(ulong)</h4>
@@ -1840,7 +1845,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestMote_Discord_IGuild_System_Int32_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestMote(Discord.IGuild%2CSystem.Int32)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1161">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1164">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestMote_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestMote*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestMote_Discord_IGuild_System_Int32_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestMote(Discord.IGuild,System.Int32)">GetSuggestMote(IGuild, int)</h4>
@@ -1896,7 +1901,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestionChannel_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestionChannel(System.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1179">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1182">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestionChannel_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestionChannel*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestionChannel_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestionChannel(System.UInt64)">GetSuggestionChannel(ulong)</h4>
@@ -1946,7 +1951,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestionMessage_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestionMessage(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1187">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1190">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestionMessage_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestionMessage*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetSuggestionMessage_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetSuggestionMessage(Discord.IGuild)">GetSuggestionMessage(IGuild)</h4>
@@ -1996,7 +2001,7 @@ that are created for discussing specific suggestions.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetThreadByMessage_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetThreadByMessage(System.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L3252">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L3278">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetThreadByMessage_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetThreadByMessage*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetThreadByMessage_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetThreadByMessage(System.UInt64)">GetThreadByMessage(ulong)</h4>
@@ -2047,7 +2052,7 @@ find the discussion thread for a suggestion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetThreadType_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetThreadType(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1227">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1230">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetThreadType_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetThreadType*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_GetThreadType_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.GetThreadType(Discord.IGuild)">GetThreadType(IGuild)</h4>
@@ -2097,7 +2102,7 @@ find the discussion thread for a suggestion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SendAcceptEmbed_Discord_IGuild_Discord_WebSocket_DiscordSocketClient_Discord_IUser_System_UInt64_Discord_ITextChannel_System_String_Discord_IDiscordInteraction_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SendAcceptEmbed(Discord.IGuild%2CDiscord.WebSocket.DiscordSocketClient%2CDiscord.IUser%2CSystem.UInt64%2CDiscord.ITextChannel%2CSystem.String%2CDiscord.IDiscordInteraction)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L2557">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L2576">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SendAcceptEmbed_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SendAcceptEmbed*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SendAcceptEmbed_Discord_IGuild_Discord_WebSocket_DiscordSocketClient_Discord_IUser_System_UInt64_Discord_ITextChannel_System_String_Discord_IDiscordInteraction_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SendAcceptEmbed(Discord.IGuild,Discord.WebSocket.DiscordSocketClient,Discord.IUser,System.UInt64,Discord.ITextChannel,System.String,Discord.IDiscordInteraction)">SendAcceptEmbed(IGuild, DiscordSocketClient, IUser, ulong, ITextChannel, string?, IDiscordInteraction?)</h4>
@@ -2184,7 +2189,7 @@ marked as accepted, archiving the thread if set, and notifying the suggestion's 
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SendConsiderEmbed_Discord_IGuild_Discord_WebSocket_DiscordSocketClient_Discord_IUser_System_UInt64_Discord_ITextChannel_System_String_Discord_IDiscordInteraction_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SendConsiderEmbed(Discord.IGuild%2CDiscord.WebSocket.DiscordSocketClient%2CDiscord.IUser%2CSystem.UInt64%2CDiscord.ITextChannel%2CSystem.String%2CDiscord.IDiscordInteraction)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1786">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1795">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SendConsiderEmbed_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SendConsiderEmbed*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SendConsiderEmbed_Discord_IGuild_Discord_WebSocket_DiscordSocketClient_Discord_IUser_System_UInt64_Discord_ITextChannel_System_String_Discord_IDiscordInteraction_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SendConsiderEmbed(Discord.IGuild,Discord.WebSocket.DiscordSocketClient,Discord.IUser,System.UInt64,Discord.ITextChannel,System.String,Discord.IDiscordInteraction)">SendConsiderEmbed(IGuild, DiscordSocketClient, IUser, ulong, ITextChannel, string?, IDiscordInteraction?)</h4>
@@ -2271,7 +2276,7 @@ the suggestion is under consideration, with customized messages if set, and hand
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SendDenyEmbed_Discord_IGuild_Discord_WebSocket_DiscordSocketClient_Discord_IUser_System_UInt64_Discord_ITextChannel_System_String_Discord_IDiscordInteraction_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SendDenyEmbed(Discord.IGuild%2CDiscord.WebSocket.DiscordSocketClient%2CDiscord.IUser%2CSystem.UInt64%2CDiscord.ITextChannel%2CSystem.String%2CDiscord.IDiscordInteraction)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1388">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1391">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SendDenyEmbed_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SendDenyEmbed*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SendDenyEmbed_Discord_IGuild_Discord_WebSocket_DiscordSocketClient_Discord_IUser_System_UInt64_Discord_ITextChannel_System_String_Discord_IDiscordInteraction_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SendDenyEmbed(Discord.IGuild,Discord.WebSocket.DiscordSocketClient,Discord.IUser,System.UInt64,Discord.ITextChannel,System.String,Discord.IDiscordInteraction)">SendDenyEmbed(IGuild, DiscordSocketClient, IUser, ulong, ITextChannel, string?, IDiscordInteraction?)</h4>
@@ -2359,7 +2364,7 @@ is set. It also handles archiving the suggestion thread if necessary.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SendImplementEmbed_Discord_IGuild_Discord_WebSocket_DiscordSocketClient_Discord_IUser_System_UInt64_Discord_ITextChannel_System_String_Discord_IDiscordInteraction_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SendImplementEmbed(Discord.IGuild%2CDiscord.WebSocket.DiscordSocketClient%2CDiscord.IUser%2CSystem.UInt64%2CDiscord.ITextChannel%2CSystem.String%2CDiscord.IDiscordInteraction)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L2172">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L2186">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SendImplementEmbed_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SendImplementEmbed*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SendImplementEmbed_Discord_IGuild_Discord_WebSocket_DiscordSocketClient_Discord_IUser_System_UInt64_Discord_ITextChannel_System_String_Discord_IDiscordInteraction_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SendImplementEmbed(Discord.IGuild,Discord.WebSocket.DiscordSocketClient,Discord.IUser,System.UInt64,Discord.ITextChannel,System.String,Discord.IDiscordInteraction)">SendImplementEmbed(IGuild, DiscordSocketClient, IUser, ulong, ITextChannel, string?, IDiscordInteraction?)</h4>
@@ -2447,7 +2452,7 @@ the suggestion's thread.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SendSuggestion_Discord_IGuild_Discord_IGuildUser_Discord_WebSocket_DiscordSocketClient_System_String_Discord_ITextChannel_Discord_IDiscordInteraction_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SendSuggestion(Discord.IGuild%2CDiscord.IGuildUser%2CDiscord.WebSocket.DiscordSocketClient%2CSystem.String%2CDiscord.ITextChannel%2CDiscord.IDiscordInteraction)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L2942">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L2966">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SendSuggestion_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SendSuggestion*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SendSuggestion_Discord_IGuild_Discord_IGuildUser_Discord_WebSocket_DiscordSocketClient_System_String_Discord_ITextChannel_Discord_IDiscordInteraction_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SendSuggestion(Discord.IGuild,Discord.IGuildUser,Discord.WebSocket.DiscordSocketClient,System.String,Discord.ITextChannel,Discord.IDiscordInteraction)">SendSuggestion(IGuild, IGuildUser, DiscordSocketClient, string, ITextChannel, IDiscordInteraction?)</h4>
@@ -2528,7 +2533,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetAcceptChannel_Discord_IGuild_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetAcceptChannel(Discord.IGuild%2CSystem.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L987">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L990">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetAcceptChannel_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetAcceptChannel*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetAcceptChannel_Discord_IGuild_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetAcceptChannel(Discord.IGuild,System.UInt64)">SetAcceptChannel(IGuild, ulong)</h4>
@@ -2584,7 +2589,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetAcceptMessage_Discord_IGuild_System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetAcceptMessage(Discord.IGuild%2CSystem.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L791">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L794">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetAcceptMessage_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetAcceptMessage*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetAcceptMessage_Discord_IGuild_System_String_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetAcceptMessage(Discord.IGuild,System.String)">SetAcceptMessage(IGuild, string)</h4>
@@ -2640,7 +2645,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetArchiveOnAccept_Discord_IGuild_System_Boolean_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetArchiveOnAccept(Discord.IGuild%2CSystem.Boolean)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L927">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L930">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetArchiveOnAccept_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetArchiveOnAccept*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetArchiveOnAccept_Discord_IGuild_System_Boolean_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetArchiveOnAccept(Discord.IGuild,System.Boolean)">SetArchiveOnAccept(IGuild, bool)</h4>
@@ -2696,7 +2701,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetArchiveOnConsider_Discord_IGuild_System_Boolean_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetArchiveOnConsider(Discord.IGuild%2CSystem.Boolean)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L942">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L945">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetArchiveOnConsider_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetArchiveOnConsider*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetArchiveOnConsider_Discord_IGuild_System_Boolean_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetArchiveOnConsider(Discord.IGuild,System.Boolean)">SetArchiveOnConsider(IGuild, bool)</h4>
@@ -2752,7 +2757,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetArchiveOnDeny_Discord_IGuild_System_Boolean_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetArchiveOnDeny(Discord.IGuild%2CSystem.Boolean)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L912">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L915">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetArchiveOnDeny_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetArchiveOnDeny*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetArchiveOnDeny_Discord_IGuild_System_Boolean_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetArchiveOnDeny(Discord.IGuild,System.Boolean)">SetArchiveOnDeny(IGuild, bool)</h4>
@@ -2808,7 +2813,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetArchiveOnImplement_Discord_IGuild_System_Boolean_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetArchiveOnImplement(Discord.IGuild%2CSystem.Boolean)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L957">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L960">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetArchiveOnImplement_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetArchiveOnImplement*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetArchiveOnImplement_Discord_IGuild_System_Boolean_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetArchiveOnImplement(Discord.IGuild,System.Boolean)">SetArchiveOnImplement(IGuild, bool)</h4>
@@ -2864,7 +2869,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetButtonType_Discord_IGuild_System_Int32_System_Int32_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetButtonType(Discord.IGuild%2CSystem.Int32%2CSystem.Int32)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L467">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L470">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetButtonType_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetButtonType*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetButtonType_Discord_IGuild_System_Int32_System_Int32_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetButtonType(Discord.IGuild,System.Int32,System.Int32)">SetButtonType(IGuild, int, int)</h4>
@@ -2926,7 +2931,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetConsiderChannel_Discord_IGuild_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetConsiderChannel(Discord.IGuild%2CSystem.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1017">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1020">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetConsiderChannel_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetConsiderChannel*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetConsiderChannel_Discord_IGuild_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetConsiderChannel(Discord.IGuild,System.UInt64)">SetConsiderChannel(IGuild, ulong)</h4>
@@ -2982,7 +2987,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetConsiderMessage_Discord_IGuild_System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetConsiderMessage(Discord.IGuild%2CSystem.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L882">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L885">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetConsiderMessage_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetConsiderMessage*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetConsiderMessage_Discord_IGuild_System_String_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetConsiderMessage(Discord.IGuild,System.String)">SetConsiderMessage(IGuild, string)</h4>
@@ -3038,7 +3043,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetDenyChannel_Discord_IGuild_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetDenyChannel(Discord.IGuild%2CSystem.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1002">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1005">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetDenyChannel_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetDenyChannel*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetDenyChannel_Discord_IGuild_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetDenyChannel(Discord.IGuild,System.UInt64)">SetDenyChannel(IGuild, ulong)</h4>
@@ -3094,7 +3099,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetDenyMessage_Discord_IGuild_System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetDenyMessage(Discord.IGuild%2CSystem.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L806">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L809">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetDenyMessage_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetDenyMessage*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetDenyMessage_Discord_IGuild_System_String_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetDenyMessage(Discord.IGuild,System.String)">SetDenyMessage(IGuild, string)</h4>
@@ -3150,7 +3155,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetEmoteMode_Discord_IGuild_System_Int32_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetEmoteMode(Discord.IGuild%2CSystem.Int32)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L972">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L975">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetEmoteMode_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetEmoteMode*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetEmoteMode_Discord_IGuild_System_Int32_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetEmoteMode(Discord.IGuild,System.Int32)">SetEmoteMode(IGuild, int)</h4>
@@ -3206,7 +3211,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetImplementChannel_Discord_IGuild_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetImplementChannel(Discord.IGuild%2CSystem.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1032">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1035">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetImplementChannel_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetImplementChannel*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetImplementChannel_Discord_IGuild_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetImplementChannel(Discord.IGuild,System.UInt64)">SetImplementChannel(IGuild, ulong)</h4>
@@ -3262,7 +3267,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetImplementMessage_Discord_IGuild_System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetImplementMessage(Discord.IGuild%2CSystem.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L821">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L824">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetImplementMessage_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetImplementMessage*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetImplementMessage_Discord_IGuild_System_String_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetImplementMessage(Discord.IGuild,System.String)">SetImplementMessage(IGuild, string)</h4>
@@ -3318,7 +3323,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetMaxLength_Discord_IGuild_System_Int32_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetMaxLength(Discord.IGuild%2CSystem.Int32)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L595">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L598">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetMaxLength_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetMaxLength*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetMaxLength_Discord_IGuild_System_Int32_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetMaxLength(Discord.IGuild,System.Int32)">SetMaxLength(IGuild, int)</h4>
@@ -3374,7 +3379,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetMinLength_Discord_IGuild_System_Int32_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetMinLength(Discord.IGuild%2CSystem.Int32)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L580">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L583">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetMinLength_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetMinLength*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetMinLength_Discord_IGuild_System_Int32_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetMinLength(Discord.IGuild,System.Int32)">SetMinLength(IGuild, int)</h4>
@@ -3430,7 +3435,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestButtonChannel_Discord_IGuild_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestButtonChannel(Discord.IGuild%2CSystem.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1047">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1050">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestButtonChannel_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestButtonChannel*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestButtonChannel_Discord_IGuild_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestButtonChannel(Discord.IGuild,System.UInt64)">SetSuggestButtonChannel(IGuild, ulong)</h4>
@@ -3486,7 +3491,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestButtonColor_Discord_IGuild_System_Int32_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestButtonColor(Discord.IGuild%2CSystem.Int32)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L534">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L537">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestButtonColor_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestButtonColor*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestButtonColor_Discord_IGuild_System_Int32_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestButtonColor(Discord.IGuild,System.Int32)">SetSuggestButtonColor(IGuild, int)</h4>
@@ -3542,7 +3547,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestButtonEmote_Discord_IGuild_System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestButtonEmote(Discord.IGuild%2CSystem.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1062">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1065">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestButtonEmote_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestButtonEmote*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestButtonEmote_Discord_IGuild_System_String_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestButtonEmote(Discord.IGuild,System.String)">SetSuggestButtonEmote(IGuild, string)</h4>
@@ -3598,7 +3603,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestButtonLabel_Discord_IGuild_System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestButtonLabel(Discord.IGuild%2CSystem.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L761">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L764">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestButtonLabel_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestButtonLabel*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestButtonLabel_Discord_IGuild_System_String_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestButtonLabel(Discord.IGuild,System.String)">SetSuggestButtonLabel(IGuild, string)</h4>
@@ -3654,7 +3659,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestButtonMessage_Discord_IGuild_System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestButtonMessage(Discord.IGuild%2CSystem.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L746">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L749">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestButtonMessage_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestButtonMessage*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestButtonMessage_Discord_IGuild_System_String_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestButtonMessage(Discord.IGuild,System.String)">SetSuggestButtonMessage(IGuild, string?)</h4>
@@ -3710,7 +3715,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestThreadsType_Discord_IGuild_System_Int32_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestThreadsType(Discord.IGuild%2CSystem.Int32)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L867">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L870">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestThreadsType_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestThreadsType*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestThreadsType_Discord_IGuild_System_Int32_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestThreadsType(Discord.IGuild,System.Int32)">SetSuggestThreadsType(IGuild, int)</h4>
@@ -3766,7 +3771,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestionButtonId_Discord_IGuild_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestionButtonId(Discord.IGuild%2CSystem.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L549">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L552">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestionButtonId_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestionButtonId*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestionButtonId_Discord_IGuild_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestionButtonId(Discord.IGuild,System.UInt64)">SetSuggestionButtonId(IGuild, ulong)</h4>
@@ -3822,7 +3827,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestionChannelId_Discord_IGuild_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestionChannelId(Discord.IGuild%2CSystem.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L565">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L568">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestionChannelId_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestionChannelId*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestionChannelId_Discord_IGuild_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestionChannelId(Discord.IGuild,System.UInt64)">SetSuggestionChannelId(IGuild, ulong)</h4>
@@ -3878,7 +3883,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestionEmotes_Discord_IGuild_System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestionEmotes(Discord.IGuild%2CSystem.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L519">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L522">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestionEmotes_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestionEmotes*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestionEmotes_Discord_IGuild_System_String_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestionEmotes(Discord.IGuild,System.String)">SetSuggestionEmotes(IGuild, string)</h4>
@@ -3934,7 +3939,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestionMessage_Discord_IGuild_System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestionMessage(Discord.IGuild%2CSystem.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L776">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L779">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestionMessage_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestionMessage*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SetSuggestionMessage_Discord_IGuild_System_String_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SetSuggestionMessage(Discord.IGuild,System.String)">SetSuggestionMessage(IGuild, string)</h4>
@@ -3990,7 +3995,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_Suggest_Discord_IGuild_System_UInt64_System_UInt64_System_UInt64_System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.Suggest(Discord.IGuild%2CSystem.UInt64%2CSystem.UInt64%2CSystem.UInt64%2CSystem.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L3109">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L3135">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_Suggest_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.Suggest*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_Suggest_Discord_IGuild_System_UInt64_System_UInt64_System_UInt64_System_String_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.Suggest(Discord.IGuild,System.UInt64,System.UInt64,System.UInt64,System.String)">Suggest(IGuild, ulong, ulong, ulong, string)</h4>
@@ -4064,7 +4069,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_SuggestReset_Discord_IGuild_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestReset(Discord.IGuild)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L633">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L636">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SuggestReset_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestReset*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_SuggestReset_Discord_IGuild_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.SuggestReset(Discord.IGuild)">SuggestReset(IGuild)</h4>
@@ -4114,7 +4119,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_Suggestions_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.Suggestions(System.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L3158">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L3184">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_Suggestions_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.Suggestions*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_Suggestions_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.Suggestions(System.UInt64)">Suggestions(ulong)</h4>
@@ -4164,7 +4169,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_Suggestions_System_UInt64_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.Suggestions(System.UInt64%2CSystem.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L3147">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L3173">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_Suggestions_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.Suggestions*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_Suggestions_System_UInt64_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.Suggestions(System.UInt64,System.UInt64)">Suggestions(ulong, ulong)</h4>
@@ -4220,7 +4225,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_Sugnum_Discord_IGuild_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.Sugnum(Discord.IGuild%2CSystem.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L897">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L900">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_Sugnum_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.Sugnum*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_Sugnum_Discord_IGuild_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.Sugnum(Discord.IGuild,System.UInt64)">Sugnum(IGuild, ulong)</h4>
@@ -4276,7 +4281,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_UpdateEmoteCount_System_UInt64_System_Int32_System_Boolean_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.UpdateEmoteCount(System.UInt64%2CSystem.Int32%2CSystem.Boolean)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1078">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L1081">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_UpdateEmoteCount_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.UpdateEmoteCount*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_UpdateEmoteCount_System_UInt64_System_Int32_System_Boolean_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.UpdateEmoteCount(System.UInt64,System.Int32,System.Boolean)">UpdateEmoteCount(ulong, int, bool)</h4>
@@ -4338,7 +4343,7 @@ based on configuration, and potentially starting a thread for discussion.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_UpdatePickedEmote_System_UInt64_System_UInt64_System_Int32_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.UpdatePickedEmote(System.UInt64%2CSystem.UInt64%2CSystem.Int32)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L3208">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L3234">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_UpdatePickedEmote_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.UpdatePickedEmote*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_UpdatePickedEmote_System_UInt64_System_UInt64_System_Int32_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.UpdatePickedEmote(System.UInt64,System.UInt64,System.Int32)">UpdatePickedEmote(ulong, ulong, int)</h4>
@@ -4401,7 +4406,7 @@ picked an emote for this message, a new vote record is created. Otherwise, the e
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_UpdateStateMessageId_Mewdeko_Database_Models_SuggestionsModel_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.UpdateStateMessageId(Mewdeko.Database.Models.SuggestionsModel%2CSystem.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L853">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L856">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_UpdateStateMessageId_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.UpdateStateMessageId*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_UpdateStateMessageId_Mewdeko_Database_Models_SuggestionsModel_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.UpdateStateMessageId(Mewdeko.Database.Models.SuggestionsModel,System.UInt64)">UpdateStateMessageId(SuggestionsModel, ulong)</h4>
@@ -4457,7 +4462,7 @@ picked an emote for this message, a new vote record is created. Otherwise, the e
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_UpdateSuggestState_Mewdeko_Database_Models_SuggestionsModel_System_Int32_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.UpdateSuggestState(Mewdeko.Database.Models.SuggestionsModel%2CSystem.Int32%2CSystem.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L837">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L840">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_UpdateSuggestState_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.UpdateSuggestState*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_UpdateSuggestState_Mewdeko_Database_Models_SuggestionsModel_System_Int32_System_UInt64_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.UpdateSuggestState(Mewdeko.Database.Models.SuggestionsModel,System.Int32,System.UInt64)">UpdateSuggestState(SuggestionsModel, int, ulong)</h4>
@@ -4519,7 +4524,7 @@ picked an emote for this message, a new vote record is created. Otherwise, the e
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Suggestions_Services_SuggestionsService_UpdateSuggestionButtonMessage_Discord_IGuild_System_String_System_Boolean_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Suggestions.Services.SuggestionsService.UpdateSuggestionButtonMessage(Discord.IGuild%2CSystem.String%2CSystem.Boolean)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L650">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Suggestions/Services/SuggestService.cs/#L653">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_UpdateSuggestionButtonMessage_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.UpdateSuggestionButtonMessage*"></a>
   <h4 id="Mewdeko_Modules_Suggestions_Services_SuggestionsService_UpdateSuggestionButtonMessage_Discord_IGuild_System_String_System_Boolean_" data-uid="Mewdeko.Modules.Suggestions.Services.SuggestionsService.UpdateSuggestionButtonMessage(Discord.IGuild,System.String,System.Boolean)">UpdateSuggestionButtonMessage(IGuild, string?, bool)</h4>

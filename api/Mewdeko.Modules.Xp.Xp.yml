@@ -63,6 +63,7 @@ items:
   - Mewdeko.Common.MewdekoModule.Strings
   - Mewdeko.Common.MewdekoModule.Localization
   - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.Config
   - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   - Mewdeko.Common.MewdekoModule.GetText(System.String)
   - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
@@ -242,7 +243,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SyncRewards
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 163
+    startLine: 164
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -316,7 +317,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpSetting
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 240
+    startLine: 242
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -400,7 +401,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Experience
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 347
+    startLine: 350
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -476,7 +477,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpLevelUpRewards
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 375
+    startLine: 378
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -538,7 +539,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpRoleReward
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 437
+    startLine: 440
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -623,7 +624,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpNotify
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 475
+    startLine: 478
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -688,7 +689,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpNotify
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 497
+    startLine: 500
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -760,7 +761,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpExclude
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 515
+    startLine: 518
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -834,7 +835,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpExclude
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 533
+    startLine: 536
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -915,7 +916,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpExclude
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 552
+    startLine: 555
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -1002,7 +1003,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpExclusionList
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 572
+    startLine: 575
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -1064,7 +1065,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpLeaderboard
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 628
+    startLine: 631
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -1154,7 +1155,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpAdd
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 711
+    startLine: 714
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -1235,7 +1236,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: XpAdd
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 734
+    startLine: 737
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -1320,7 +1321,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: TemplateConfig
     path: src/Mewdeko/Modules/Xp/Xp.cs
-    startLine: 748
+    startLine: 751
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Xp
@@ -1548,6 +1549,13 @@ references:
   name: ctx
   nameWithType: MewdekoModule.ctx
   fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.Config
+  commentId: P:Mewdeko.Common.MewdekoModule.Config
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Config
+  name: Config
+  nameWithType: MewdekoModule.Config
+  fullName: Mewdeko.Common.MewdekoModule.Config
 - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   parent: Mewdeko.Common.MewdekoModule

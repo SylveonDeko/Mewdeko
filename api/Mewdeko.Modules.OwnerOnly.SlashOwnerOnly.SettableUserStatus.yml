@@ -23,7 +23,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SettableUserStatus
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 53
+    startLine: 55
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -50,7 +50,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Online
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 58
+    startLine: 60
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -78,7 +78,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Invisible
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 63
+    startLine: 65
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -106,7 +106,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Idle
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 68
+    startLine: 70
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -134,7 +134,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Dnd
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 73
+    startLine: 75
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly

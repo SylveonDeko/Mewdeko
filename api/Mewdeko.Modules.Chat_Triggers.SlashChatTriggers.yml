@@ -5,7 +5,7 @@ items:
   id: SlashChatTriggers
   parent: Mewdeko.Modules.Chat_Triggers
   children:
-  - Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.#ctor(System.Net.Http.IHttpClientFactory,Fergun.Interactive.InteractiveService)
+  - Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.#ctor(System.Net.Http.IHttpClientFactory,Fergun.Interactive.InteractiveService,Mewdeko.Common.Configs.BotConfig)
   - Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.AddChatTrigger(System.Boolean)
   - Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.AddChatTriggerModal(System.String,Mewdeko.Common.Modals.ChatTriggerModal)
   - Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.ChatTriggerValidType(System.Int32,Mewdeko.Database.Models.ChatTriggerType,System.Boolean)
@@ -38,7 +38,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SlashChatTriggers
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 14
+    startLine: 15
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -67,6 +67,7 @@ items:
   - Mewdeko.Common.MewdekoSlashCommandModule.Strings
   - Mewdeko.Common.MewdekoSlashCommandModule.CmdHandler
   - Mewdeko.Common.MewdekoSlashCommandModule.Localization
+  - Mewdeko.Common.MewdekoSlashCommandModule.Config
   - Mewdeko.Common.MewdekoSlashCommandModule.ctx
   - Mewdeko.Common.MewdekoSlashCommandModule.BeforeExecute(Discord.Interactions.ICommandInfo)
   - Mewdeko.Common.MewdekoSlashCommandModule.GetText(System.String)
@@ -124,16 +125,16 @@ items:
       value: triggers
     - type: System.String
       value: Manage chat triggers.
-- uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.#ctor(System.Net.Http.IHttpClientFactory,Fergun.Interactive.InteractiveService)
-  commentId: M:Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.#ctor(System.Net.Http.IHttpClientFactory,Fergun.Interactive.InteractiveService)
-  id: '#ctor(System.Net.Http.IHttpClientFactory,Fergun.Interactive.InteractiveService)'
+- uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.#ctor(System.Net.Http.IHttpClientFactory,Fergun.Interactive.InteractiveService,Mewdeko.Common.Configs.BotConfig)
+  commentId: M:Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.#ctor(System.Net.Http.IHttpClientFactory,Fergun.Interactive.InteractiveService,Mewdeko.Common.Configs.BotConfig)
+  id: '#ctor(System.Net.Http.IHttpClientFactory,Fergun.Interactive.InteractiveService,Mewdeko.Common.Configs.BotConfig)'
   parent: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers
   langs:
   - csharp
   - vb
-  name: SlashChatTriggers(IHttpClientFactory, InteractiveService)
-  nameWithType: SlashChatTriggers.SlashChatTriggers(IHttpClientFactory, InteractiveService)
-  fullName: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.SlashChatTriggers(System.Net.Http.IHttpClientFactory, Fergun.Interactive.InteractiveService)
+  name: SlashChatTriggers(IHttpClientFactory, InteractiveService, BotConfig)
+  nameWithType: SlashChatTriggers.SlashChatTriggers(IHttpClientFactory, InteractiveService, BotConfig)
+  fullName: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.SlashChatTriggers(System.Net.Http.IHttpClientFactory, Fergun.Interactive.InteractiveService, Mewdeko.Common.Configs.BotConfig)
   type: Constructor
   source:
     remote:
@@ -142,26 +143,26 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: .ctor
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 26
+    startLine: 15
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
-  summary: Initializes a new instance of <xref href="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers" data-throw-if-not-resolved="false"></xref>.
+  summary: Slash Module for managing chat triggers.
   example: []
   syntax:
-    content: public SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveService serv)
+    content: public SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveService interactivity, BotConfig config)
     parameters:
     - id: clientFactory
       type: System.Net.Http.IHttpClientFactory
-      description: Http client factory to avoid memory leaks with http clients being made everywhere lol.
-    - id: serv
+    - id: interactivity
       type: Fergun.Interactive.InteractiveService
-      description: Interactivity service for embed pagination
-    content.vb: Public Sub New(clientFactory As IHttpClientFactory, serv As InteractiveService)
+    - id: config
+      type: Mewdeko.Common.Configs.BotConfig
+    content.vb: Public Sub New(clientFactory As IHttpClientFactory, interactivity As InteractiveService, config As BotConfig)
   overload: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.#ctor*
-  nameWithType.vb: SlashChatTriggers.New(IHttpClientFactory, InteractiveService)
-  fullName.vb: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.New(System.Net.Http.IHttpClientFactory, Fergun.Interactive.InteractiveService)
-  name.vb: New(IHttpClientFactory, InteractiveService)
+  nameWithType.vb: SlashChatTriggers.New(IHttpClientFactory, InteractiveService, BotConfig)
+  fullName.vb: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.New(System.Net.Http.IHttpClientFactory, Fergun.Interactive.InteractiveService, Mewdeko.Common.Configs.BotConfig)
+  name.vb: New(IHttpClientFactory, InteractiveService, BotConfig)
 - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.TriggerRunInHandler(System.Int32,System.Nullable{System.UInt64},System.String)
   commentId: M:Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.TriggerRunInHandler(System.Int32,System.Nullable{System.UInt64},System.String)
   id: TriggerRunInHandler(System.Int32,System.Nullable{System.UInt64},System.String)
@@ -180,7 +181,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: TriggerRunInHandler
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 38
+    startLine: 26
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -239,7 +240,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CtsExport
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 50
+    startLine: 38
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -306,7 +307,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CtsImport
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 70
+    startLine: 58
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -377,7 +378,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddChatTrigger
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 105
+    startLine: 93
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -450,7 +451,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddChatTriggerModal
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 115
+    startLine: 103
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -515,7 +516,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: EditChatTrigger
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 139
+    startLine: 127
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -604,7 +605,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: EditChatTriggerModal
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 167
+    startLine: 155
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -672,7 +673,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CtPrefixType
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 202
+    startLine: 190
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -761,7 +762,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CtPrefix
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 232
+    startLine: 220
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -850,7 +851,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ListChatTriggers
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 259
+    startLine: 247
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -908,7 +909,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ListChatTriggersGroup
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 310
+    startLine: 298
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -966,7 +967,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ShowChatTrigger
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 359
+    startLine: 347
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -1044,7 +1045,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: DeleteChatTrigger
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 381
+    startLine: 369
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -1122,7 +1123,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CtReact
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 413
+    startLine: 401
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -1211,7 +1212,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: InternalCtEdit
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 486
+    startLine: 474
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -1300,7 +1301,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ChatTriggerValidType
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 532
+    startLine: 520
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -1400,7 +1401,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CtsClear
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 562
+    startLine: 550
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -1458,7 +1459,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: HandleMultitriggers
     path: src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs
-    startLine: 1021
+    startLine: 1009
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Chat_Triggers
@@ -1658,6 +1659,13 @@ references:
   name: Localization
   nameWithType: MewdekoSlashCommandModule.Localization
   fullName: Mewdeko.Common.MewdekoSlashCommandModule.Localization
+- uid: Mewdeko.Common.MewdekoSlashCommandModule.Config
+  commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.Config
+  parent: Mewdeko.Common.MewdekoSlashCommandModule
+  href: Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_Config
+  name: Config
+  nameWithType: MewdekoSlashCommandModule.Config
+  fullName: Mewdeko.Common.MewdekoSlashCommandModule.Config
 - uid: Mewdeko.Common.MewdekoSlashCommandModule.ctx
   commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.ctx
   parent: Mewdeko.Common.MewdekoSlashCommandModule
@@ -6605,15 +6613,9 @@ references:
   - uid: Mewdeko.Extensions
     name: Extensions
     href: Mewdeko.Extensions.html
-- uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers
-  commentId: T:Mewdeko.Modules.Chat_Triggers.SlashChatTriggers
-  href: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.html
-  name: SlashChatTriggers
-  nameWithType: SlashChatTriggers
-  fullName: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers
 - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.#ctor*
   commentId: Overload:Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.#ctor
-  href: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.html#Mewdeko_Modules_Chat_Triggers_SlashChatTriggers__ctor_System_Net_Http_IHttpClientFactory_Fergun_Interactive_InteractiveService_
+  href: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.html#Mewdeko_Modules_Chat_Triggers_SlashChatTriggers__ctor_System_Net_Http_IHttpClientFactory_Fergun_Interactive_InteractiveService_Mewdeko_Common_Configs_BotConfig_
   name: SlashChatTriggers
   nameWithType: SlashChatTriggers.SlashChatTriggers
   fullName: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.SlashChatTriggers
@@ -6635,6 +6637,13 @@ references:
   name: InteractiveService
   nameWithType: InteractiveService
   fullName: Fergun.Interactive.InteractiveService
+- uid: Mewdeko.Common.Configs.BotConfig
+  commentId: T:Mewdeko.Common.Configs.BotConfig
+  parent: Mewdeko.Common.Configs
+  href: Mewdeko.Common.Configs.BotConfig.html
+  name: BotConfig
+  nameWithType: BotConfig
+  fullName: Mewdeko.Common.Configs.BotConfig
 - uid: System.Net.Http
   commentId: N:System.Net.Http
   isExternal: true
@@ -6694,6 +6703,36 @@ references:
   - uid: Fergun.Interactive
     name: Interactive
     isExternal: true
+- uid: Mewdeko.Common.Configs
+  commentId: N:Mewdeko.Common.Configs
+  href: Mewdeko.html
+  name: Mewdeko.Common.Configs
+  nameWithType: Mewdeko.Common.Configs
+  fullName: Mewdeko.Common.Configs
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
 - uid: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.TriggerRunInHandler*
   commentId: Overload:Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.TriggerRunInHandler
   href: Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.html#Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_TriggerRunInHandler_System_Int32_System_Nullable_System_UInt64__System_String_

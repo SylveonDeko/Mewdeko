@@ -58,6 +58,7 @@ items:
   - Mewdeko.Common.MewdekoSlashCommandModule.Strings
   - Mewdeko.Common.MewdekoSlashCommandModule.CmdHandler
   - Mewdeko.Common.MewdekoSlashCommandModule.Localization
+  - Mewdeko.Common.MewdekoSlashCommandModule.Config
   - Mewdeko.Common.MewdekoSlashCommandModule.ctx
   - Mewdeko.Common.MewdekoSlashCommandModule.BeforeExecute(Discord.Interactions.ICommandInfo)
   - Mewdeko.Common.MewdekoSlashCommandModule.GetText(System.String)
@@ -232,7 +233,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MultiGreetRemove
     path: src/Mewdeko/Modules/MultiGreets/SlashMultiGreets.cs
-    startLine: 67
+    startLine: 68
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.MultiGreets
@@ -305,7 +306,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MultiGreetRemove
     path: src/Mewdeko/Modules/MultiGreets/SlashMultiGreets.cs
-    startLine: 86
+    startLine: 87
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.MultiGreets
@@ -375,7 +376,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MultiGreetDelete
     path: src/Mewdeko/Modules/MultiGreets/SlashMultiGreets.cs
-    startLine: 114
+    startLine: 116
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.MultiGreets
@@ -468,7 +469,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MultiGreetDisable
     path: src/Mewdeko/Modules/MultiGreets/SlashMultiGreets.cs
-    startLine: 142
+    startLine: 144
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.MultiGreets
@@ -544,7 +545,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MultiGreetType
     path: src/Mewdeko/Modules/MultiGreets/SlashMultiGreets.cs
-    startLine: 161
+    startLine: 163
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.MultiGreets
@@ -614,7 +615,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MultiGreetWebhook
     path: src/Mewdeko/Modules/MultiGreets/SlashMultiGreets.cs
-    startLine: 189
+    startLine: 191
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.MultiGreets
@@ -702,7 +703,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MultiGreetMessage
     path: src/Mewdeko/Modules/MultiGreets/SlashMultiGreets.cs
-    startLine: 244
+    startLine: 246
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.MultiGreets
@@ -778,7 +779,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MultiGreetList
     path: src/Mewdeko/Modules/MultiGreets/SlashMultiGreets.cs
-    startLine: 301
+    startLine: 304
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.MultiGreets
@@ -988,6 +989,13 @@ references:
   name: Localization
   nameWithType: MewdekoSlashCommandModule.Localization
   fullName: Mewdeko.Common.MewdekoSlashCommandModule.Localization
+- uid: Mewdeko.Common.MewdekoSlashCommandModule.Config
+  commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.Config
+  parent: Mewdeko.Common.MewdekoSlashCommandModule
+  href: Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_Config
+  name: Config
+  nameWithType: MewdekoSlashCommandModule.Config
+  fullName: Mewdeko.Common.MewdekoSlashCommandModule.Config
 - uid: Mewdeko.Common.MewdekoSlashCommandModule.ctx
   commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.ctx
   parent: Mewdeko.Common.MewdekoSlashCommandModule

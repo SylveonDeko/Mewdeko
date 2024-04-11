@@ -2,6 +2,10 @@ server: # REST and WS server
   port: 2333
   address: 127.0.0.1
 lavalink:
+  plugins:
+    - dependency: "com.github.topi314.lavasearch:lavasearch-plugin:1.0.0"
+      snapshot: false # set to true if you want to use snapshot builds (see below)
+    - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.0.1"
   server:
     password: "Hope4a11"
     sources:
@@ -13,6 +17,8 @@ lavalink:
       http: true
       local: false
     bufferDurationMs: 700 # The duration of the NAS buffer. Higher values fare better against longer GC pauses
+    opusEncodingQuality: 10
+    resamplingQuality: HIGH
     frameBufferDurationMs: 1000 # How many milliseconds of audio to keep buffered
     youtubePlaylistLoadLimit: 6 # Number of pages at 100 each
     playerUpdateInterval: 1 # How frequently to send player updates to clients, in seconds
@@ -45,3 +51,26 @@ sentry:
   level:
     root: INFO
     lavalink: INFO
+
+logging:
+  file:
+    path: ./logs/
+  level:
+    # Set this to DEBUG to enable more detailed logging. Please note that this will log probably spam your console.
+    root: INFO
+    # Set this to DEBUG to enable more detailed logging from Lavalink
+    lavalink: INFO
+    # Set this to TRACE to see all WebSocket messages
+    lavalink.server.io.SocketContext: INFO
+    # Log all track exceptions (COMMON, SUSPICIOUS & FAULT)
+    com.sedmelluq.discord.lavaplayer.tools.ExceptionTools: INFO
+
+plugins:
+  lavaSrc:
+    sources:
+      spotify: false # Enable Spotify source
+      applemusic: false # Enable Apple Music source
+      deezer: false # Enable Deezer source
+      yandexmusic: false # Enable Yandex Music source
+      flowerytts: false # Enable Flowery TTS source
+      youtube: true # Enable YouTube search source (https://github.com/topi314/LavaSearch)
