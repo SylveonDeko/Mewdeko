@@ -320,7 +320,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RunAndBlockAsync
     path: src/Mewdeko/Mewdeko.cs
-    startLine: 477
+    startLine: 480
   assemblies:
   - Mewdeko
   namespace: Mewdeko
@@ -350,7 +350,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetGameAsync
     path: src/Mewdeko/Mewdeko.cs
-    startLine: 528
+    startLine: 531
   assemblies:
   - Mewdeko
   namespace: Mewdeko

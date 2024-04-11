@@ -22,7 +22,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ExportedRoles
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 1667
+    startLine: 1687
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -63,7 +63,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RoleId
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 1672
+    startLine: 1692
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -94,7 +94,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UserId
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 1677
+    startLine: 1697
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management
@@ -125,7 +125,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RoleName
     path: src/Mewdeko/Modules/Server Management/RoleCommands.cs
-    startLine: 1682
+    startLine: 1702
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Server_Management

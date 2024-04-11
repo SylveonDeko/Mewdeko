@@ -122,6 +122,9 @@
       <a class="xref" href="Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_Localization">MewdekoSlashCommandModule.Localization</a>
     </div>
     <div>
+      <a class="xref" href="Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_Config">MewdekoSlashCommandModule.Config</a>
+    </div>
+    <div>
       <a class="xref" href="Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_ctx">MewdekoSlashCommandModule.ctx</a>
     </div>
     <div>
@@ -274,19 +277,19 @@ public class SlashChatTriggers : MewdekoSlashModuleBase&lt;ChatTriggersService&g
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Chat_Triggers_SlashChatTriggers__ctor_System_Net_Http_IHttpClientFactory_Fergun_Interactive_InteractiveService_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.%23ctor(System.Net.Http.IHttpClientFactory%2CFergun.Interactive.InteractiveService)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Chat_Triggers_SlashChatTriggers__ctor_System_Net_Http_IHttpClientFactory_Fergun_Interactive_InteractiveService_Mewdeko_Common_Configs_BotConfig_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.%23ctor(System.Net.Http.IHttpClientFactory%2CFergun.Interactive.InteractiveService%2CMewdeko.Common.Configs.BotConfig)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L27">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L16">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers__ctor_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.#ctor*"></a>
-  <h4 id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers__ctor_System_Net_Http_IHttpClientFactory_Fergun_Interactive_InteractiveService_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.#ctor(System.Net.Http.IHttpClientFactory,Fergun.Interactive.InteractiveService)">SlashChatTriggers(IHttpClientFactory, InteractiveService)</h4>
-  <div class="markdown level1 summary"><p>Initializes a new instance of <a class="xref" href="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.html">SlashChatTriggers</a>.</p>
+  <h4 id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers__ctor_System_Net_Http_IHttpClientFactory_Fergun_Interactive_InteractiveService_Mewdeko_Common_Configs_BotConfig_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.#ctor(System.Net.Http.IHttpClientFactory,Fergun.Interactive.InteractiveService,Mewdeko.Common.Configs.BotConfig)">SlashChatTriggers(IHttpClientFactory, InteractiveService, BotConfig)</h4>
+  <div class="markdown level1 summary"><p>Slash Module for managing chat triggers.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveService serv)</code></pre>
+    <pre><code class="lang-csharp hljs">public SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveService interactivity, BotConfig config)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-condensed">
@@ -301,14 +304,17 @@ public class SlashChatTriggers : MewdekoSlashModuleBase&lt;ChatTriggersService&g
       <tr>
         <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.net.http.ihttpclientfactory">IHttpClientFactory</a></td>
         <td><span class="parametername">clientFactory</span></td>
-        <td><p>Http client factory to avoid memory leaks with http clients being made everywhere lol.</p>
-</td>
+        <td></td>
       </tr>
       <tr>
         <td><span class="xref">InteractiveService</span></td>
-        <td><span class="parametername">serv</span></td>
-        <td><p>Interactivity service for embed pagination</p>
-</td>
+        <td><span class="parametername">interactivity</span></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><a class="xref" href="Mewdeko.Common.Configs.BotConfig.html">BotConfig</a></td>
+        <td><span class="parametername">config</span></td>
+        <td></td>
       </tr>
     </tbody>
   </table>
@@ -319,7 +325,7 @@ public class SlashChatTriggers : MewdekoSlashModuleBase&lt;ChatTriggersService&g
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_AddChatTrigger_System_Boolean_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.AddChatTrigger(System.Boolean)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L106">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L94">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_AddChatTrigger_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.AddChatTrigger*"></a>
   <h4 id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_AddChatTrigger_System_Boolean_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.AddChatTrigger(System.Boolean)">AddChatTrigger(bool)</h4>
@@ -373,7 +379,7 @@ public Task AddChatTrigger(bool regex = false)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_AddChatTriggerModal_System_String_Mewdeko_Common_Modals_ChatTriggerModal_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.AddChatTriggerModal(System.String%2CMewdeko.Common.Modals.ChatTriggerModal)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L116">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L104">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_AddChatTriggerModal_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.AddChatTriggerModal*"></a>
   <h4 id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_AddChatTriggerModal_System_String_Mewdeko_Common_Modals_ChatTriggerModal_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.AddChatTriggerModal(System.String,Mewdeko.Common.Modals.ChatTriggerModal)">AddChatTriggerModal(string, ChatTriggerModal)</h4>
@@ -430,7 +436,7 @@ public Task AddChatTriggerModal(string sRgx, ChatTriggerModal modal)</code></pre
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_ChatTriggerValidType_System_Int32_Mewdeko_Database_Models_ChatTriggerType_System_Boolean_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.ChatTriggerValidType(System.Int32%2CMewdeko.Database.Models.ChatTriggerType%2CSystem.Boolean)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L533">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L521">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_ChatTriggerValidType_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.ChatTriggerValidType*"></a>
   <h4 id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_ChatTriggerValidType_System_Int32_Mewdeko_Database_Models_ChatTriggerType_System_Boolean_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.ChatTriggerValidType(System.Int32,Mewdeko.Database.Models.ChatTriggerType,System.Boolean)">ChatTriggerValidType(int, ChatTriggerType, bool)</h4>
@@ -496,7 +502,7 @@ public Task ChatTriggerValidType(int id, ChatTriggerType type, bool enabled)</co
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_CtPrefix_System_Int32_System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.CtPrefix(System.Int32%2CSystem.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L233">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L221">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_CtPrefix_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.CtPrefix*"></a>
   <h4 id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_CtPrefix_System_Int32_System_String_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.CtPrefix(System.Int32,System.String)">CtPrefix(int, string)</h4>
@@ -556,7 +562,7 @@ public Task CtPrefix(int id, string prefix)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_CtPrefixType_System_Int32_Mewdeko_Database_Models_RequirePrefixType_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.CtPrefixType(System.Int32%2CMewdeko.Database.Models.RequirePrefixType)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L203">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L191">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_CtPrefixType_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.CtPrefixType*"></a>
   <h4 id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_CtPrefixType_System_Int32_Mewdeko_Database_Models_RequirePrefixType_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.CtPrefixType(System.Int32,Mewdeko.Database.Models.RequirePrefixType)">CtPrefixType(int, RequirePrefixType)</h4>
@@ -616,7 +622,7 @@ public Task CtPrefixType(int id, RequirePrefixType type)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_CtReact_System_Int32_System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.CtReact(System.Int32%2CSystem.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L414">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L402">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_CtReact_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.CtReact*"></a>
   <h4 id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_CtReact_System_Int32_System_String_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.CtReact(System.Int32,System.String)">CtReact(int, string)</h4>
@@ -676,7 +682,7 @@ public Task CtReact(int id, string emoji)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_CtsClear.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.CtsClear%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L563">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L551">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_CtsClear_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.CtsClear*"></a>
   <h4 id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_CtsClear" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.CtsClear">CtsClear()</h4>
@@ -712,7 +718,7 @@ public Task CtsClear()</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_CtsExport.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.CtsExport%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L51">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L39">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_CtsExport_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.CtsExport*"></a>
   <h4 id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_CtsExport" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.CtsExport">CtsExport()</h4>
@@ -749,7 +755,7 @@ public Task CtsExport()</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_CtsImport_Discord_IAttachment_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.CtsImport(Discord.IAttachment)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L71">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L59">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_CtsImport_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.CtsImport*"></a>
   <h4 id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_CtsImport_Discord_IAttachment_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.CtsImport(Discord.IAttachment)">CtsImport(IAttachment)</h4>
@@ -804,7 +810,7 @@ public Task CtsImport(IAttachment file)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_DeleteChatTrigger_System_Int32_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.DeleteChatTrigger(System.Int32)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L382">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L370">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_DeleteChatTrigger_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.DeleteChatTrigger*"></a>
   <h4 id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_DeleteChatTrigger_System_Int32_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.DeleteChatTrigger(System.Int32)">DeleteChatTrigger(int)</h4>
@@ -858,7 +864,7 @@ public Task DeleteChatTrigger(int id)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_EditChatTrigger_System_Int32_System_Boolean_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.EditChatTrigger(System.Int32%2CSystem.Boolean)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L140">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L128">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_EditChatTrigger_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.EditChatTrigger*"></a>
   <h4 id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_EditChatTrigger_System_Int32_System_Boolean_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.EditChatTrigger(System.Int32,System.Boolean)">EditChatTrigger(int, bool)</h4>
@@ -918,7 +924,7 @@ public Task EditChatTrigger(int id, bool regex = false)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_EditChatTriggerModal_System_String_System_String_Mewdeko_Common_Modals_ChatTriggerModal_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.EditChatTriggerModal(System.String%2CSystem.String%2CMewdeko.Common.Modals.ChatTriggerModal)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L168">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L156">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_EditChatTriggerModal_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.EditChatTriggerModal*"></a>
   <h4 id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_EditChatTriggerModal_System_String_System_String_Mewdeko_Common_Modals_ChatTriggerModal_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.EditChatTriggerModal(System.String,System.String,Mewdeko.Common.Modals.ChatTriggerModal)">EditChatTriggerModal(string, string, ChatTriggerModal)</h4>
@@ -981,7 +987,7 @@ public Task EditChatTriggerModal(string sId, string sRgx, ChatTriggerModal modal
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_HandleMultitriggers_System_Nullable_System_UInt64__System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.HandleMultitriggers(System.Nullable%7BSystem.UInt64%7D%2CSystem.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L1022">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L1010">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_HandleMultitriggers_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.HandleMultitriggers*"></a>
   <h4 id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_HandleMultitriggers_System_Nullable_System_UInt64__System_String_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.HandleMultitriggers(System.Nullable{System.UInt64},System.String)">HandleMultitriggers(ulong?, string)</h4>
@@ -1037,7 +1043,7 @@ public Task HandleMultitriggers(ulong? guildId, string _)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_InternalCtEdit_System_Int32_Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_CtField_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.InternalCtEdit(System.Int32%2CMewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L487">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L475">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_InternalCtEdit_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.InternalCtEdit*"></a>
   <h4 id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_InternalCtEdit_System_Int32_Mewdeko_Modules_Chat_Triggers_Services_ChatTriggersService_CtField_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.InternalCtEdit(System.Int32,Mewdeko.Modules.Chat_Triggers.Services.ChatTriggersService.CtField)">InternalCtEdit(int, CtField)</h4>
@@ -1097,7 +1103,7 @@ public Task InternalCtEdit(int id, ChatTriggersService.CtField option)</code></p
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_ListChatTriggers.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.ListChatTriggers%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L260">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L248">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_ListChatTriggers_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.ListChatTriggers*"></a>
   <h4 id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_ListChatTriggers" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.ListChatTriggers">ListChatTriggers()</h4>
@@ -1133,7 +1139,7 @@ public Task ListChatTriggers()</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_ListChatTriggersGroup.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.ListChatTriggersGroup%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L311">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L299">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_ListChatTriggersGroup_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.ListChatTriggersGroup*"></a>
   <h4 id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_ListChatTriggersGroup" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.ListChatTriggersGroup">ListChatTriggersGroup()</h4>
@@ -1169,7 +1175,7 @@ public Task ListChatTriggersGroup()</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_ShowChatTrigger_System_Int32_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.ShowChatTrigger(System.Int32)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L360">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L348">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_ShowChatTrigger_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.ShowChatTrigger*"></a>
   <h4 id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_ShowChatTrigger_System_Int32_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.ShowChatTrigger(System.Int32)">ShowChatTrigger(int)</h4>
@@ -1223,7 +1229,7 @@ public Task ShowChatTrigger(int id)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_TriggerRunInHandler_System_Int32_System_Nullable_System_UInt64__System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.TriggerRunInHandler(System.Int32%2CSystem.Nullable%7BSystem.UInt64%7D%2CSystem.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L39">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Chat Triggers/SlashChatTriggers.cs/#L27">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_TriggerRunInHandler_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.TriggerRunInHandler*"></a>
   <h4 id="Mewdeko_Modules_Chat_Triggers_SlashChatTriggers_TriggerRunInHandler_System_Int32_System_Nullable_System_UInt64__System_String_" data-uid="Mewdeko.Modules.Chat_Triggers.SlashChatTriggers.TriggerRunInHandler(System.Int32,System.Nullable{System.UInt64},System.String)">TriggerRunInHandler(int, ulong?, string)</h4>

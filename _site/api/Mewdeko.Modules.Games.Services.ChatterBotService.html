@@ -134,19 +134,19 @@
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Games_Services_ChatterBotService__ctor_Discord_WebSocket_DiscordSocketClient_System_Net_Http_IHttpClientFactory_Mewdeko_Services_IBotCredentials_Mewdeko_Database_DbService_Mewdeko_Modules_Permissions_Services_BlacklistService_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_Impl_EventHandler_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Games.Services.ChatterBotService.%23ctor(Discord.WebSocket.DiscordSocketClient%2CSystem.Net.Http.IHttpClientFactory%2CMewdeko.Services.IBotCredentials%2CMewdeko.Database.DbService%2CMewdeko.Modules.Permissions.Services.BlacklistService%2CMewdeko.Services.GuildSettingsService%2CMewdeko.Services.Impl.EventHandler)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Games_Services_ChatterBotService__ctor_Discord_WebSocket_DiscordSocketClient_System_Net_Http_IHttpClientFactory_Mewdeko_Services_IBotCredentials_Mewdeko_Database_DbService_Mewdeko_Modules_Permissions_Services_BlacklistService_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_Impl_EventHandler_Mewdeko_Common_Configs_BotConfig_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Games.Services.ChatterBotService.%23ctor(Discord.WebSocket.DiscordSocketClient%2CSystem.Net.Http.IHttpClientFactory%2CMewdeko.Services.IBotCredentials%2CMewdeko.Database.DbService%2CMewdeko.Modules.Permissions.Services.BlacklistService%2CMewdeko.Services.GuildSettingsService%2CMewdeko.Services.Impl.EventHandler%2CMewdeko.Common.Configs.BotConfig)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Games/Services/ChatterbotService.cs/#L31">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Games/Services/ChatterbotService.cs/#L33">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Games_Services_ChatterBotService__ctor_" data-uid="Mewdeko.Modules.Games.Services.ChatterBotService.#ctor*"></a>
-  <h4 id="Mewdeko_Modules_Games_Services_ChatterBotService__ctor_Discord_WebSocket_DiscordSocketClient_System_Net_Http_IHttpClientFactory_Mewdeko_Services_IBotCredentials_Mewdeko_Database_DbService_Mewdeko_Modules_Permissions_Services_BlacklistService_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_Impl_EventHandler_" data-uid="Mewdeko.Modules.Games.Services.ChatterBotService.#ctor(Discord.WebSocket.DiscordSocketClient,System.Net.Http.IHttpClientFactory,Mewdeko.Services.IBotCredentials,Mewdeko.Database.DbService,Mewdeko.Modules.Permissions.Services.BlacklistService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler)">ChatterBotService(DiscordSocketClient, IHttpClientFactory, IBotCredentials, DbService, BlacklistService, GuildSettingsService, EventHandler)</h4>
+  <h4 id="Mewdeko_Modules_Games_Services_ChatterBotService__ctor_Discord_WebSocket_DiscordSocketClient_System_Net_Http_IHttpClientFactory_Mewdeko_Services_IBotCredentials_Mewdeko_Database_DbService_Mewdeko_Modules_Permissions_Services_BlacklistService_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_Impl_EventHandler_Mewdeko_Common_Configs_BotConfig_" data-uid="Mewdeko.Modules.Games.Services.ChatterBotService.#ctor(Discord.WebSocket.DiscordSocketClient,System.Net.Http.IHttpClientFactory,Mewdeko.Services.IBotCredentials,Mewdeko.Database.DbService,Mewdeko.Modules.Permissions.Services.BlacklistService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Common.Configs.BotConfig)">ChatterBotService(DiscordSocketClient, IHttpClientFactory, IBotCredentials, DbService, BlacklistService, GuildSettingsService, EventHandler, BotConfig)</h4>
   <div class="markdown level1 summary"><p>Initializes a new instance of the <a class="xref" href="Mewdeko.Modules.Games.Services.ChatterBotService.html">ChatterBotService</a> class.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public ChatterBotService(DiscordSocketClient client, IHttpClientFactory factory, IBotCredentials creds, DbService db, BlacklistService blacklistService, GuildSettingsService guildSettings, EventHandler eventHandler)</code></pre>
+    <pre><code class="lang-csharp hljs">public ChatterBotService(DiscordSocketClient client, IHttpClientFactory factory, IBotCredentials creds, DbService db, BlacklistService blacklistService, GuildSettingsService guildSettings, EventHandler eventHandler, BotConfig config)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-condensed">
@@ -200,6 +200,11 @@
         <td><p>The event handler.</p>
 </td>
       </tr>
+      <tr>
+        <td><a class="xref" href="Mewdeko.Common.Configs.BotConfig.html">BotConfig</a></td>
+        <td><span class="parametername">config</span></td>
+        <td></td>
+      </tr>
     </tbody>
   </table>
   <h3 id="fields">Fields
@@ -209,7 +214,7 @@
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Games_Services_ChatterBotService_CleverbotUsers.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Games.Services.ChatterBotService.CleverbotUsers%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Games/Services/ChatterbotService.cs/#L59">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Games/Services/ChatterbotService.cs/#L62">View Source</a>
   </span>
   <h4 id="Mewdeko_Modules_Games_Services_ChatterBotService_CleverbotUsers" data-uid="Mewdeko.Modules.Games.Services.ChatterBotService.CleverbotUsers">CleverbotUsers</h4>
   <div class="markdown level1 summary"><p>Dictionary to store the Cleverbot sessions for users.</p>
@@ -241,7 +246,7 @@
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Games_Services_ChatterBotService_BehaviorType.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Games.Services.ChatterBotService.BehaviorType%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Games/Services/ChatterbotService.cs/#L54">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Games/Services/ChatterbotService.cs/#L57">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Games_Services_ChatterBotService_BehaviorType_" data-uid="Mewdeko.Modules.Games.Services.ChatterBotService.BehaviorType*"></a>
   <h4 id="Mewdeko_Modules_Games_Services_ChatterBotService_BehaviorType" data-uid="Mewdeko.Modules.Games.Services.ChatterBotService.BehaviorType">BehaviorType</h4>
@@ -272,7 +277,7 @@
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Games_Services_ChatterBotService_Priority.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Games.Services.ChatterBotService.Priority%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Games/Services/ChatterbotService.cs/#L49">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Games/Services/ChatterbotService.cs/#L52">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Games_Services_ChatterBotService_Priority_" data-uid="Mewdeko.Modules.Games.Services.ChatterBotService.Priority*"></a>
   <h4 id="Mewdeko_Modules_Games_Services_ChatterBotService_Priority" data-uid="Mewdeko.Modules.Games.Services.ChatterBotService.Priority">Priority</h4>
@@ -305,7 +310,7 @@
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Games_Services_ChatterBotService_CreateSession.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Games.Services.ChatterBotService.CreateSession%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Games/Services/ChatterbotService.cs/#L130">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Games/Services/ChatterbotService.cs/#L133">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Games_Services_ChatterBotService_CreateSession_" data-uid="Mewdeko.Modules.Games.Services.ChatterBotService.CreateSession*"></a>
   <h4 id="Mewdeko_Modules_Games_Services_ChatterBotService_CreateSession" data-uid="Mewdeko.Modules.Games.Services.ChatterBotService.CreateSession">CreateSession()</h4>
@@ -337,7 +342,7 @@
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Games_Services_ChatterBotService_GetCleverbotChannel_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Games.Services.ChatterBotService.GetCleverbotChannel(System.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Games/Services/ChatterbotService.cs/#L80">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Games/Services/ChatterbotService.cs/#L83">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Games_Services_ChatterBotService_GetCleverbotChannel_" data-uid="Mewdeko.Modules.Games.Services.ChatterBotService.GetCleverbotChannel*"></a>
   <h4 id="Mewdeko_Modules_Games_Services_ChatterBotService_GetCleverbotChannel_System_UInt64_" data-uid="Mewdeko.Modules.Games.Services.ChatterBotService.GetCleverbotChannel(System.UInt64)">GetCleverbotChannel(ulong)</h4>
@@ -387,7 +392,7 @@
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Games_Services_ChatterBotService_MessageReceived_Discord_WebSocket_SocketMessage_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Games.Services.ChatterBotService.MessageReceived(Discord.WebSocket.SocketMessage)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Games/Services/ChatterbotService.cs/#L86">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Games/Services/ChatterbotService.cs/#L89">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Games_Services_ChatterBotService_MessageReceived_" data-uid="Mewdeko.Modules.Games.Services.ChatterBotService.MessageReceived*"></a>
   <h4 id="Mewdeko_Modules_Games_Services_ChatterBotService_MessageReceived_Discord_WebSocket_SocketMessage_" data-uid="Mewdeko.Modules.Games.Services.ChatterBotService.MessageReceived(Discord.WebSocket.SocketMessage)">MessageReceived(SocketMessage)</h4>
@@ -436,7 +441,7 @@
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Games_Services_ChatterBotService_SetCleverbotChannel_Discord_IGuild_System_UInt64_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Games.Services.ChatterBotService.SetCleverbotChannel(Discord.IGuild%2CSystem.UInt64)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Games/Services/ChatterbotService.cs/#L66">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Games/Services/ChatterbotService.cs/#L69">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Games_Services_ChatterBotService_SetCleverbotChannel_" data-uid="Mewdeko.Modules.Games.Services.ChatterBotService.SetCleverbotChannel*"></a>
   <h4 id="Mewdeko_Modules_Games_Services_ChatterBotService_SetCleverbotChannel_Discord_IGuild_System_UInt64_" data-uid="Mewdeko.Modules.Games.Services.ChatterBotService.SetCleverbotChannel(Discord.IGuild,System.UInt64)">SetCleverbotChannel(IGuild, ulong)</h4>

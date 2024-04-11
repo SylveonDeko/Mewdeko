@@ -60,6 +60,7 @@ items:
   - Mewdeko.Common.MewdekoSlashCommandModule.Strings
   - Mewdeko.Common.MewdekoSlashCommandModule.CmdHandler
   - Mewdeko.Common.MewdekoSlashCommandModule.Localization
+  - Mewdeko.Common.MewdekoSlashCommandModule.Config
   - Mewdeko.Common.MewdekoSlashCommandModule.ctx
   - Mewdeko.Common.MewdekoSlashCommandModule.BeforeExecute(Discord.Interactions.ICommandInfo)
   - Mewdeko.Common.MewdekoSlashCommandModule.GetText(System.String)
@@ -429,7 +430,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: StarboardChToggle
     path: src/Mewdeko/Modules/Starboard/StarboardSlash.cs
-    startLine: 116
+    startLine: 118
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Starboard
@@ -491,7 +492,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: StarboardWlMode
     path: src/Mewdeko/Modules/Starboard/StarboardSlash.cs
-    startLine: 141
+    startLine: 143
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Starboard
@@ -553,7 +554,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: StarboardRemoveOnReactionsCleared
     path: src/Mewdeko/Modules/Starboard/StarboardSlash.cs
-    startLine: 162
+    startLine: 164
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Starboard
@@ -618,7 +619,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: StarboardRemoveOnDelete
     path: src/Mewdeko/Modules/Starboard/StarboardSlash.cs
-    startLine: 181
+    startLine: 183
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Starboard
@@ -683,7 +684,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: StarboardRemoveOnBelowThreshold
     path: src/Mewdeko/Modules/Starboard/StarboardSlash.cs
-    startLine: 201
+    startLine: 203
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Starboard
@@ -748,7 +749,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: StarboardAllowBots
     path: src/Mewdeko/Modules/Starboard/StarboardSlash.cs
-    startLine: 223
+    startLine: 225
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Starboard
@@ -988,6 +989,13 @@ references:
   name: Localization
   nameWithType: MewdekoSlashCommandModule.Localization
   fullName: Mewdeko.Common.MewdekoSlashCommandModule.Localization
+- uid: Mewdeko.Common.MewdekoSlashCommandModule.Config
+  commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.Config
+  parent: Mewdeko.Common.MewdekoSlashCommandModule
+  href: Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_Config
+  name: Config
+  nameWithType: MewdekoSlashCommandModule.Config
+  fullName: Mewdeko.Common.MewdekoSlashCommandModule.Config
 - uid: Mewdeko.Common.MewdekoSlashCommandModule.ctx
   commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.ctx
   parent: Mewdeko.Common.MewdekoSlashCommandModule

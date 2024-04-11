@@ -61,6 +61,7 @@ items:
   - Mewdeko.Common.MewdekoSlashCommandModule.Strings
   - Mewdeko.Common.MewdekoSlashCommandModule.CmdHandler
   - Mewdeko.Common.MewdekoSlashCommandModule.Localization
+  - Mewdeko.Common.MewdekoSlashCommandModule.Config
   - Mewdeko.Common.MewdekoSlashCommandModule.ctx
   - Mewdeko.Common.MewdekoSlashCommandModule.BeforeExecute(Discord.Interactions.ICommandInfo)
   - Mewdeko.Common.MewdekoSlashCommandModule.GetText(System.String)
@@ -695,7 +696,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SuggestClear
     path: src/Mewdeko/Modules/Suggestions/SlashSuggestions.cs
-    startLine: 175
+    startLine: 176
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -745,7 +746,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Deny
     path: src/Mewdeko/Modules/Suggestions/SlashSuggestions.cs
-    startLine: 203
+    startLine: 205
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -835,7 +836,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Accept
     path: src/Mewdeko/Modules/Suggestions/SlashSuggestions.cs
-    startLine: 220
+    startLine: 222
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -925,7 +926,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Implemented
     path: src/Mewdeko/Modules/Suggestions/SlashSuggestions.cs
-    startLine: 237
+    startLine: 239
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -1015,7 +1016,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Consider
     path: src/Mewdeko/Modules/Suggestions/SlashSuggestions.cs
-    startLine: 254
+    startLine: 256
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Suggestions
@@ -1249,6 +1250,13 @@ references:
   name: Localization
   nameWithType: MewdekoSlashCommandModule.Localization
   fullName: Mewdeko.Common.MewdekoSlashCommandModule.Localization
+- uid: Mewdeko.Common.MewdekoSlashCommandModule.Config
+  commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.Config
+  parent: Mewdeko.Common.MewdekoSlashCommandModule
+  href: Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_Config
+  name: Config
+  nameWithType: MewdekoSlashCommandModule.Config
+  fullName: Mewdeko.Common.MewdekoSlashCommandModule.Config
 - uid: Mewdeko.Common.MewdekoSlashCommandModule.ctx
   commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.ctx
   parent: Mewdeko.Common.MewdekoSlashCommandModule

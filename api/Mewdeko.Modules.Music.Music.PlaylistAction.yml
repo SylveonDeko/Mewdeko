@@ -27,7 +27,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: PlaylistAction
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 43
+    startLine: 40
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -54,7 +54,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Show
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 48
+    startLine: 45
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -82,7 +82,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Delete
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 53
+    startLine: 50
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -110,7 +110,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Create
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 58
+    startLine: 55
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -138,7 +138,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Remove
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 63
+    startLine: 60
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -166,7 +166,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Add
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 68
+    startLine: 65
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -194,7 +194,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Load
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 73
+    startLine: 70
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -222,7 +222,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Save
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 78
+    startLine: 75
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music
@@ -250,7 +250,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Default
     path: src/Mewdeko/Modules/Music/Music.cs
-    startLine: 83
+    startLine: 80
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Music

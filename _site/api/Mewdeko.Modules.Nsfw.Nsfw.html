@@ -122,6 +122,9 @@
       <a class="xref" href="Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_ctx">MewdekoModule.ctx</a>
     </div>
     <div>
+      <a class="xref" href="Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Config">MewdekoModule.Config</a>
+    </div>
+    <div>
       <a class="xref" href="Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_BeforeExecute_Discord_Commands_CommandInfo_">MewdekoModule.BeforeExecute(CommandInfo)</a>
     </div>
     <div>
@@ -213,19 +216,19 @@
 </h3>
   <span class="small pull-right mobile-hide">
     <span class="divider">|</span>
-    <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw__ctor_Fergun_Interactive_InteractiveService_MartineApiNet_MartineApi_Mewdeko_Services_GuildSettingsService_System_Net_Http_HttpClient_Mewdeko_Services_Settings_BotConfigService_Mewdeko_Services_IBotCredentials_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.%23ctor(Fergun.Interactive.InteractiveService%2CMartineApiNet.MartineApi%2CMewdeko.Services.GuildSettingsService%2CSystem.Net.Http.HttpClient%2CMewdeko.Services.Settings.BotConfigService%2CMewdeko.Services.IBotCredentials)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw__ctor_Fergun_Interactive_InteractiveService_MartineApiNet_MartineApi_Mewdeko_Services_GuildSettingsService_System_Net_Http_HttpClient_Mewdeko_Services_IBotCredentials_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.%23ctor(Fergun.Interactive.InteractiveService%2CMartineApiNet.MartineApi%2CMewdeko.Services.GuildSettingsService%2CSystem.Net.Http.HttpClient%2CMewdeko.Services.IBotCredentials)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L28">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L26">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw__ctor_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.#ctor*"></a>
-  <h4 id="Mewdeko_Modules_Nsfw_Nsfw__ctor_Fergun_Interactive_InteractiveService_MartineApiNet_MartineApi_Mewdeko_Services_GuildSettingsService_System_Net_Http_HttpClient_Mewdeko_Services_Settings_BotConfigService_Mewdeko_Services_IBotCredentials_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.#ctor(Fergun.Interactive.InteractiveService,MartineApiNet.MartineApi,Mewdeko.Services.GuildSettingsService,System.Net.Http.HttpClient,Mewdeko.Services.Settings.BotConfigService,Mewdeko.Services.IBotCredentials)">Nsfw(InteractiveService, MartineApi, GuildSettingsService, HttpClient, BotConfigService, IBotCredentials)</h4>
+  <h4 id="Mewdeko_Modules_Nsfw_Nsfw__ctor_Fergun_Interactive_InteractiveService_MartineApiNet_MartineApi_Mewdeko_Services_GuildSettingsService_System_Net_Http_HttpClient_Mewdeko_Services_IBotCredentials_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.#ctor(Fergun.Interactive.InteractiveService,MartineApiNet.MartineApi,Mewdeko.Services.GuildSettingsService,System.Net.Http.HttpClient,Mewdeko.Services.IBotCredentials)">Nsfw(InteractiveService, MartineApi, GuildSettingsService, HttpClient, IBotCredentials)</h4>
   <div class="markdown level1 summary"><p>The most used module in Mewdeko, nsfw.</p>
 </div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public Nsfw(InteractiveService interactivity, MartineApi martineApi, GuildSettingsService guildSettings, HttpClient client, BotConfigService config, IBotCredentials credentials)</code></pre>
+    <pre><code class="lang-csharp hljs">public Nsfw(InteractiveService interactivity, MartineApi martineApi, GuildSettingsService guildSettings, HttpClient client, IBotCredentials credentials)</code></pre>
   </div>
   <h5 class="parameters">Parameters</h5>
   <table class="table table-bordered table-condensed">
@@ -240,32 +243,32 @@
       <tr>
         <td><span class="xref">InteractiveService</span></td>
         <td><span class="parametername">interactivity</span></td>
-        <td></td>
+        <td><p>Used for sending paginated messages</p>
+</td>
       </tr>
       <tr>
         <td><span class="xref">MartineApi</span></td>
         <td><span class="parametername">martineApi</span></td>
-        <td></td>
+        <td><p>The Martine API</p>
+</td>
       </tr>
       <tr>
         <td><a class="xref" href="Mewdeko.Services.GuildSettingsService.html">GuildSettingsService</a></td>
         <td><span class="parametername">guildSettings</span></td>
-        <td></td>
+        <td><p>The guild settings service</p>
+</td>
       </tr>
       <tr>
         <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.net.http.httpclient">HttpClient</a></td>
         <td><span class="parametername">client</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td><a class="xref" href="Mewdeko.Services.Settings.BotConfigService.html">BotConfigService</a></td>
-        <td><span class="parametername">config</span></td>
-        <td></td>
+        <td><p>The http client</p>
+</td>
       </tr>
       <tr>
         <td><a class="xref" href="Mewdeko.Services.IBotCredentials.html">IBotCredentials</a></td>
         <td><span class="parametername">credentials</span></td>
-        <td></td>
+        <td><p>The bot credentials</p>
+</td>
       </tr>
     </tbody>
   </table>
@@ -276,7 +279,7 @@
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_Anal.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.Anal%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L248">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L252">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_Anal_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Anal*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_Anal" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Anal">Anal()</h4>
@@ -312,7 +315,7 @@ public Task Anal()</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_AutoBoobs_System_Int32_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.AutoBoobs(System.Int32)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L381">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L385">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_AutoBoobs_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.AutoBoobs*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_AutoBoobs_System_Int32_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.AutoBoobs(System.Int32)">AutoBoobs(int)</h4>
@@ -367,7 +370,7 @@ public Task AutoBoobs(int interval = 0)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_AutoButts_System_Int32_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.AutoButts(System.Int32)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L424">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L428">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_AutoButts_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.AutoButts*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_AutoButts_System_Int32_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.AutoButts(System.Int32)">AutoButts(int)</h4>
@@ -422,7 +425,7 @@ public Task AutoButts(int interval = 0)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_AutoHentai_System_Int32_System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.AutoHentai(System.Int32%2CSystem.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L323">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L327">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_AutoHentai_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.AutoHentai*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_AutoHentai_System_Int32_System_String_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.AutoHentai(System.Int32,System.String)">AutoHentai(int, string?)</h4>
@@ -483,7 +486,7 @@ public Task AutoHentai(int interval = 0, string? tags = null)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_Bondage.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.Bondage%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L262">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L266">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_Bondage_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Bondage*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_Bondage" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Bondage">Bondage()</h4>
@@ -519,7 +522,7 @@ public Task Bondage()</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_Boobs.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.Boobs%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L663">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L667">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_Boobs_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Boobs*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_Boobs" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Boobs">Boobs()</h4>
@@ -555,7 +558,7 @@ public Task Boobs()</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_Butts.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.Butts%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L671">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L675">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_Butts_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Butts*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_Butts" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Butts">Butts()</h4>
@@ -591,7 +594,7 @@ public Task Butts()</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_Danbooru_System_String___.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.Danbooru(System.String%5B%5D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L614">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L618">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_Danbooru_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Danbooru*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_Danbooru_System_String___" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Danbooru(System.String[])">Danbooru(params string[])</h4>
@@ -645,7 +648,7 @@ public Task Danbooru(params string[] tags)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_Derpibooru_System_String___.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.Derpibooru(System.String%5B%5D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L634">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L638">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_Derpibooru_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Derpibooru*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_Derpibooru_System_String___" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Derpibooru(System.String[])">Derpibooru(params string[])</h4>
@@ -699,7 +702,7 @@ public Task Derpibooru(params string[] tags)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_E621_System_String___.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.E621(System.String%5B%5D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L594">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L598">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_E621_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.E621*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_E621_System_String___" data-uid="Mewdeko.Modules.Nsfw.Nsfw.E621(System.String[])">E621(params string[])</h4>
@@ -753,7 +756,7 @@ public Task E621(params string[] tags)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_Gelbooru_System_String___.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.Gelbooru(System.String%5B%5D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L624">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L628">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_Gelbooru_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Gelbooru*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_Gelbooru_System_String___" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Gelbooru(System.String[])">Gelbooru(params string[])</h4>
@@ -807,7 +810,7 @@ public Task Gelbooru(params string[] tags)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_Hentai_System_String___.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.Hentai(System.String%5B%5D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L470">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L474">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_Hentai_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Hentai*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_Hentai_System_String___" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Hentai(System.String[])">Hentai(params string[])</h4>
@@ -861,7 +864,7 @@ public Task Hentai(params string[] tags)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_HentaiBomb_System_String___.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.HentaiBomb(System.String%5B%5D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L480">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L484">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_HentaiBomb_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.HentaiBomb*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_HentaiBomb_System_String___" data-uid="Mewdeko.Modules.Nsfw.Nsfw.HentaiBomb(System.String[])">HentaiBomb(params string[])</h4>
@@ -915,7 +918,7 @@ public Task HentaiBomb(params string[] tags)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_HentaiGif.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.HentaiGif%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L234">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L238">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_HentaiGif_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.HentaiGif*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_HentaiGif" data-uid="Mewdeko.Modules.Nsfw.Nsfw.HentaiGif">HentaiGif()</h4>
@@ -951,7 +954,7 @@ public Task HentaiGif()</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_Konachan_System_String___.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.Konachan(System.String%5B%5D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L574">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L578">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_Konachan_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Konachan*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_Konachan_System_String___" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Konachan(System.String[])">Konachan(params string[])</h4>
@@ -1005,7 +1008,7 @@ public Task Konachan(params string[] tags)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_NHentai_System_Int32_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.NHentai(System.Int32)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L133">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L136">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_NHentai_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.NHentai*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_NHentai_System_Int32_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.NHentai(System.Int32)">NHentai(int)</h4>
@@ -1062,7 +1065,7 @@ NSFW (Not Safe For Work) content is required for this command.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_NHentaiSearch_System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.NHentaiSearch(System.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L270">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L274">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_NHentaiSearch_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.NHentaiSearch*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_NHentaiSearch_System_String_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.NHentaiSearch(System.String)">NHentaiSearch(string)</h4>
@@ -1116,7 +1119,7 @@ public Task NHentaiSearch(string search)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_NHentaiSearch_System_String_System_Int32_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.NHentaiSearch(System.String%2CSystem.Int32)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L290">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L294">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_NHentaiSearch_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.NHentaiSearch*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_NHentaiSearch_System_String_System_Int32_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.NHentaiSearch(System.String,System.Int32)">NHentaiSearch(string, int)</h4>
@@ -1176,7 +1179,7 @@ public Task NHentaiSearch(string search, int page)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_NHentaiSearch_System_String_System_Int32_System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.NHentaiSearch(System.String%2CSystem.Int32%2CSystem.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L301">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L305">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_NHentaiSearch_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.NHentaiSearch*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_NHentaiSearch_System_String_System_Int32_System_String_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.NHentaiSearch(System.String,System.Int32,System.String)">NHentaiSearch(string, int, string)</h4>
@@ -1242,7 +1245,7 @@ public Task NHentaiSearch(string search, int page, string type)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_NHentaiSearch_System_String_System_Int32_System_String_System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.NHentaiSearch(System.String%2CSystem.Int32%2CSystem.String%2CSystem.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L313">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L317">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_NHentaiSearch_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.NHentaiSearch*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_NHentaiSearch_System_String_System_Int32_System_String_System_String_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.NHentaiSearch(System.String,System.Int32,System.String,System.String)">NHentaiSearch(string, int, string, string)</h4>
@@ -1314,7 +1317,7 @@ public Task NHentaiSearch(string search, int page, string type, string blacklist
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_NHentaiSearch_System_String_System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.NHentaiSearch(System.String%2CSystem.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L280">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L284">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_NHentaiSearch_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.NHentaiSearch*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_NHentaiSearch_System_String_System_String_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.NHentaiSearch(System.String,System.String)">NHentaiSearch(string, string)</h4>
@@ -1374,7 +1377,7 @@ public Task NHentaiSearch(string search, string blacklist)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_NsfwTagBlacklist_System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.NsfwTagBlacklist(System.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L680">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L684">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_NsfwTagBlacklist_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.NsfwTagBlacklist*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_NsfwTagBlacklist_System_String_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.NsfwTagBlacklist(System.String)">NsfwTagBlacklist(string?)</h4>
@@ -1428,7 +1431,7 @@ public Task NsfwTagBlacklist(string? tag = null)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_Porn.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.Porn%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L255">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L259">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_Porn_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Porn*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_Porn" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Porn">Porn()</h4>
@@ -1464,7 +1467,7 @@ public Task Porn()</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_PornBomb_System_String___.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.PornBomb(System.String%5B%5D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L522">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L526">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_PornBomb_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.PornBomb*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_PornBomb_System_String___" data-uid="Mewdeko.Modules.Nsfw.Nsfw.PornBomb(System.String[])">PornBomb(params string[])</h4>
@@ -1518,7 +1521,7 @@ public Task PornBomb(params string[] tags)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_Pussy.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.Pussy%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L241">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L245">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_Pussy_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Pussy*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_Pussy" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Pussy">Pussy()</h4>
@@ -1554,7 +1557,7 @@ public Task Pussy()</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_Realbooru_System_String___.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.Realbooru(System.String%5B%5D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L654">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L658">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_Realbooru_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Realbooru*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_Realbooru_System_String___" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Realbooru(System.String[])">Realbooru(params string[])</h4>
@@ -1608,7 +1611,7 @@ public Task Realbooru(params string[] tags)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_RedditNsfw_System_String_.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.RedditNsfw(System.String)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L51">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L48">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_RedditNsfw_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.RedditNsfw*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_RedditNsfw_System_String_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.RedditNsfw(System.String)">RedditNsfw(string)</h4>
@@ -1667,7 +1670,7 @@ The command is rate-limited to 10 uses within a specified time frame.</p>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_Rule34_System_String___.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.Rule34(System.String%5B%5D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L604">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L608">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_Rule34_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Rule34*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_Rule34_System_String___" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Rule34(System.String[])">Rule34(params string[])</h4>
@@ -1721,7 +1724,7 @@ public Task Rule34(params string[] tags)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_Safebooru_System_String___.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.Safebooru(System.String%5B%5D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L644">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L648">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_Safebooru_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Safebooru*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_Safebooru_System_String___" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Safebooru(System.String[])">Safebooru(params string[])</h4>
@@ -1775,7 +1778,7 @@ public Task Safebooru(params string[] tags)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_Sankaku_System_String___.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.Sankaku(System.String%5B%5D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L584">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L588">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_Sankaku_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Sankaku*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_Sankaku_System_String___" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Sankaku(System.String[])">Sankaku(params string[])</h4>
@@ -1829,7 +1832,7 @@ public Task Sankaku(params string[] tags)</code></pre>
     <a href="https://github.com/Sylveon76/Mewdeko/new/psqldeko/apiSpec/new?filename=Mewdeko_Modules_Nsfw_Nsfw_Yandere_System_String___.md&amp;value=---%0Auid%3A%20Mewdeko.Modules.Nsfw.Nsfw.Yandere(System.String%5B%5D)%0Asummary%3A%20&#39;*You%20can%20override%20summary%20for%20the%20API%20here%20using%20*MARKDOWN*%20syntax&#39;%0A---%0A%0A*Please%20type%20below%20more%20information%20about%20this%20API%3A*%0A%0A">Edit this page</a>
   </span>
   <span class="small pull-right mobile-hide">
-    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L564">View Source</a>
+    <a href="https://github.com/Sylveon76/Mewdeko/blob/psqldeko/src/Mewdeko/Modules/Nsfw/Nsfw.cs/#L568">View Source</a>
   </span>
   <a id="Mewdeko_Modules_Nsfw_Nsfw_Yandere_" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Yandere*"></a>
   <h4 id="Mewdeko_Modules_Nsfw_Nsfw_Yandere_System_String___" data-uid="Mewdeko.Modules.Nsfw.Nsfw.Yandere(System.String[])">Yandere(params string[])</h4>

@@ -56,6 +56,7 @@ items:
   - Mewdeko.Common.MewdekoSlashCommandModule.Strings
   - Mewdeko.Common.MewdekoSlashCommandModule.CmdHandler
   - Mewdeko.Common.MewdekoSlashCommandModule.Localization
+  - Mewdeko.Common.MewdekoSlashCommandModule.Config
   - Mewdeko.Common.MewdekoSlashCommandModule.ctx
   - Mewdeko.Common.MewdekoSlashCommandModule.BeforeExecute(Discord.Interactions.ICommandInfo)
   - Mewdeko.Common.MewdekoSlashCommandModule.GetText(System.String)
@@ -241,7 +242,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ListHighlights
     path: src/Mewdeko/Modules/Highlights/SlashHighlights.cs
-    startLine: 59
+    startLine: 60
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Highlights
@@ -298,7 +299,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: DeleteHighlight
     path: src/Mewdeko/Modules/Highlights/SlashHighlights.cs
-    startLine: 98
+    startLine: 99
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Highlights
@@ -375,7 +376,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MatchHighlight
     path: src/Mewdeko/Modules/Highlights/SlashHighlights.cs
-    startLine: 150
+    startLine: 151
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Highlights
@@ -452,7 +453,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ToggleUser
     path: src/Mewdeko/Modules/Highlights/SlashHighlights.cs
-    startLine: 198
+    startLine: 199
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Highlights
@@ -513,7 +514,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ToggleChannel
     path: src/Mewdeko/Modules/Highlights/SlashHighlights.cs
-    startLine: 214
+    startLine: 215
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Highlights
@@ -574,7 +575,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ToggleGlobal
     path: src/Mewdeko/Modules/Highlights/SlashHighlights.cs
-    startLine: 232
+    startLine: 233
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Highlights
@@ -790,6 +791,13 @@ references:
   name: Localization
   nameWithType: MewdekoSlashCommandModule.Localization
   fullName: Mewdeko.Common.MewdekoSlashCommandModule.Localization
+- uid: Mewdeko.Common.MewdekoSlashCommandModule.Config
+  commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.Config
+  parent: Mewdeko.Common.MewdekoSlashCommandModule
+  href: Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_Config
+  name: Config
+  nameWithType: MewdekoSlashCommandModule.Config
+  fullName: Mewdeko.Common.MewdekoSlashCommandModule.Config
 - uid: Mewdeko.Common.MewdekoSlashCommandModule.ctx
   commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.ctx
   parent: Mewdeko.Common.MewdekoSlashCommandModule

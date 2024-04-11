@@ -74,6 +74,7 @@ items:
   - Mewdeko.Common.MewdekoModule.Strings
   - Mewdeko.Common.MewdekoModule.Localization
   - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.Config
   - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   - Mewdeko.Common.MewdekoModule.GetText(System.String)
   - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
@@ -302,7 +303,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Rip
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 168
+    startLine: 169
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -366,7 +367,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Weather
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 192
+    startLine: 193
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -433,7 +434,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Time
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 270
+    startLine: 271
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -500,7 +501,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Youtube
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 320
+    startLine: 321
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -567,7 +568,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Movie
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 367
+    startLine: 368
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -634,7 +635,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RandomCat
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 402
+    startLine: 403
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -690,7 +691,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RandomDog
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 415
+    startLine: 416
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -746,7 +747,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RandomFood
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 428
+    startLine: 429
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -802,7 +803,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RandomBird
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 441
+    startLine: 442
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -858,7 +859,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Image
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 464
+    startLine: 465
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -934,7 +935,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Lmgtfy
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 585
+    startLine: 587
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -1003,7 +1004,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Shorten
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 607
+    startLine: 609
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -1070,7 +1071,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Google
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 665
+    startLine: 667
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -1137,7 +1138,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MagicTheGathering
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 717
+    startLine: 719
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -1206,7 +1207,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Hearthstone
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 754
+    startLine: 756
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -1273,7 +1274,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: UrbanDict
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 795
+    startLine: 797
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -1340,7 +1341,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Define
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 856
+    startLine: 858
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -1407,7 +1408,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Catfact
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 942
+    startLine: 944
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -1463,7 +1464,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Revav
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 965
+    startLine: 967
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -1538,7 +1539,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Revimg
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 987
+    startLine: 989
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -1605,7 +1606,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Safebooru
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 1039
+    startLine: 1041
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -1674,7 +1675,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Wiki
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 1054
+    startLine: 1056
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -1741,7 +1742,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Color
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 1085
+    startLine: 1087
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -1804,7 +1805,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Wikia
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 1127
+    startLine: 1129
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -1874,7 +1875,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Bible
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 1176
+    startLine: 1178
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -1949,7 +1950,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Steam
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 1218
+    startLine: 1220
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -2016,7 +2017,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ResolveToneTags
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 1257
+    startLine: 1259
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -2083,7 +2084,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ValidateQuery
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 1297
+    startLine: 1300
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -2126,7 +2127,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: TestLocalize
     path: src/Mewdeko/Modules/Searches/Searches.cs
-    startLine: 1337
+    startLine: 1340
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Searches
@@ -2337,6 +2338,13 @@ references:
   name: ctx
   nameWithType: MewdekoModule.ctx
   fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.Config
+  commentId: P:Mewdeko.Common.MewdekoModule.Config
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Config
+  name: Config
+  nameWithType: MewdekoModule.Config
+  fullName: Mewdeko.Common.MewdekoModule.Config
 - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   parent: Mewdeko.Common.MewdekoModule

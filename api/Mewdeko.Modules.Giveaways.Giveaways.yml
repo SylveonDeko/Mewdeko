@@ -51,6 +51,7 @@ items:
   - Mewdeko.Common.MewdekoModule.Strings
   - Mewdeko.Common.MewdekoModule.Localization
   - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.Config
   - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   - Mewdeko.Common.MewdekoModule.GetText(System.String)
   - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
@@ -538,7 +539,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GReroll
     path: src/Mewdeko/Modules/Giveaways/Giveaways.cs
-    startLine: 207
+    startLine: 208
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Giveaways
@@ -605,7 +606,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GStats
     path: src/Mewdeko/Modules/Giveaways/Giveaways.cs
-    startLine: 233
+    startLine: 234
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Giveaways
@@ -656,7 +657,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GStart
     path: src/Mewdeko/Modules/Giveaways/Giveaways.cs
-    startLine: 273
+    startLine: 275
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Giveaways
@@ -736,7 +737,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GStart
     path: src/Mewdeko/Modules/Giveaways/Giveaways.cs
-    startLine: 310
+    startLine: 313
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Giveaways
@@ -796,7 +797,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GList
     path: src/Mewdeko/Modules/Giveaways/Giveaways.cs
-    startLine: 566
+    startLine: 570
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Giveaways
@@ -856,7 +857,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GEnd
     path: src/Mewdeko/Modules/Giveaways/Giveaways.cs
-    startLine: 611
+    startLine: 615
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Giveaways
@@ -1076,6 +1077,13 @@ references:
   name: ctx
   nameWithType: MewdekoModule.ctx
   fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.Config
+  commentId: P:Mewdeko.Common.MewdekoModule.Config
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Config
+  name: Config
+  nameWithType: MewdekoModule.Config
+  fullName: Mewdeko.Common.MewdekoModule.Config
 - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   parent: Mewdeko.Common.MewdekoModule

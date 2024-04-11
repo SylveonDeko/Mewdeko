@@ -54,6 +54,7 @@ items:
   - Mewdeko.Common.MewdekoModule.Strings
   - Mewdeko.Common.MewdekoModule.Localization
   - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.Config
   - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   - Mewdeko.Common.MewdekoModule.GetText(System.String)
   - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
@@ -216,7 +217,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MultiGreetRemove
     path: src/Mewdeko/Modules/MultiGreets/MultiGreets.cs
-    startLine: 65
+    startLine: 66
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.MultiGreets
@@ -292,7 +293,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MultiGreetRemove
     path: src/Mewdeko/Modules/MultiGreets/MultiGreets.cs
-    startLine: 83
+    startLine: 84
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.MultiGreets
@@ -369,7 +370,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MultiGreetDelete
     path: src/Mewdeko/Modules/MultiGreets/MultiGreets.cs
-    startLine: 109
+    startLine: 110
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.MultiGreets
@@ -457,7 +458,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MultiGreetDelete
     path: src/Mewdeko/Modules/MultiGreets/MultiGreets.cs
-    startLine: 130
+    startLine: 131
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.MultiGreets
@@ -545,7 +546,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MultiGreetDisable
     path: src/Mewdeko/Modules/MultiGreets/MultiGreets.cs
-    startLine: 155
+    startLine: 156
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.MultiGreets
@@ -624,7 +625,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MultiGreetType
     path: src/Mewdeko/Modules/MultiGreets/MultiGreets.cs
-    startLine: 173
+    startLine: 174
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.MultiGreets
@@ -697,7 +698,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MultiGreetGreetBots
     path: src/Mewdeko/Modules/MultiGreets/MultiGreets.cs
-    startLine: 198
+    startLine: 199
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.MultiGreets
@@ -771,7 +772,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MultiGreetWebhook
     path: src/Mewdeko/Modules/MultiGreets/MultiGreets.cs
-    startLine: 218
+    startLine: 219
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.MultiGreets
@@ -862,7 +863,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MultiGreetMessage
     path: src/Mewdeko/Modules/MultiGreets/MultiGreets.cs
-    startLine: 272
+    startLine: 273
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.MultiGreets
@@ -945,7 +946,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MultiGreetList
     path: src/Mewdeko/Modules/MultiGreets/MultiGreets.cs
-    startLine: 325
+    startLine: 326
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.MultiGreets
@@ -1158,6 +1159,13 @@ references:
   name: ctx
   nameWithType: MewdekoModule.ctx
   fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.Config
+  commentId: P:Mewdeko.Common.MewdekoModule.Config
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Config
+  name: Config
+  nameWithType: MewdekoModule.Config
+  fullName: Mewdeko.Common.MewdekoModule.Config
 - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   parent: Mewdeko.Common.MewdekoModule

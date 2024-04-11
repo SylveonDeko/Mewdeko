@@ -59,6 +59,7 @@ items:
   - Mewdeko.Common.MewdekoSlashCommandModule.Strings
   - Mewdeko.Common.MewdekoSlashCommandModule.CmdHandler
   - Mewdeko.Common.MewdekoSlashCommandModule.Localization
+  - Mewdeko.Common.MewdekoSlashCommandModule.Config
   - Mewdeko.Common.MewdekoSlashCommandModule.ctx
   - Mewdeko.Common.MewdekoSlashCommandModule.BeforeExecute(Discord.Interactions.ICommandInfo)
   - Mewdeko.Common.MewdekoSlashCommandModule.GetText(System.String)
@@ -239,7 +240,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GBanner
     path: src/Mewdeko/Modules/Giveaways/SlashGiveaways.cs
-    startLine: 57
+    startLine: 58
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Giveaways
@@ -303,7 +304,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GWinEmbedColor
     path: src/Mewdeko/Modules/Giveaways/SlashGiveaways.cs
-    startLine: 79
+    startLine: 80
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Giveaways
@@ -367,7 +368,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GEmbedColor
     path: src/Mewdeko/Modules/Giveaways/SlashGiveaways.cs
-    startLine: 112
+    startLine: 113
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Giveaways
@@ -431,7 +432,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GDm
     path: src/Mewdeko/Modules/Giveaways/SlashGiveaways.cs
-    startLine: 144
+    startLine: 145
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Giveaways
@@ -488,7 +489,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GReroll
     path: src/Mewdeko/Modules/Giveaways/SlashGiveaways.cs
-    startLine: 159
+    startLine: 160
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Giveaways
@@ -552,7 +553,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GStats
     path: src/Mewdeko/Modules/Giveaways/SlashGiveaways.cs
-    startLine: 185
+    startLine: 186
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Giveaways
@@ -600,7 +601,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GStart
     path: src/Mewdeko/Modules/Giveaways/SlashGiveaways.cs
-    startLine: 228
+    startLine: 230
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Giveaways
@@ -682,7 +683,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GList
     path: src/Mewdeko/Modules/Giveaways/SlashGiveaways.cs
-    startLine: 270
+    startLine: 274
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Giveaways
@@ -739,7 +740,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GEnd
     path: src/Mewdeko/Modules/Giveaways/SlashGiveaways.cs
-    startLine: 315
+    startLine: 319
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Giveaways
@@ -956,6 +957,13 @@ references:
   name: Localization
   nameWithType: MewdekoSlashCommandModule.Localization
   fullName: Mewdeko.Common.MewdekoSlashCommandModule.Localization
+- uid: Mewdeko.Common.MewdekoSlashCommandModule.Config
+  commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.Config
+  parent: Mewdeko.Common.MewdekoSlashCommandModule
+  href: Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_Config
+  name: Config
+  nameWithType: MewdekoSlashCommandModule.Config
+  fullName: Mewdeko.Common.MewdekoSlashCommandModule.Config
 - uid: Mewdeko.Common.MewdekoSlashCommandModule.ctx
   commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.ctx
   parent: Mewdeko.Common.MewdekoSlashCommandModule

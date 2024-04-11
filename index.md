@@ -2,10 +2,13 @@
 _layout: landing
 ---
 
-# This is the **HOMEPAGE**.
+# Welcome to the docs for mewdeko!
 
-Refer to [Markdown](http://daringfireball.net/projects/markdown/) for how to write markdown files.
+## These took me almost two weeks to make, so I hope you enjoy them!
 
-## Quick Start Notes:
+### Here are some links to get you started:
 
-1. Add images to the *images* folder if the file is referencing an image.
+## - [Invite Mewdeko](https://discord.com/oauth2/authorize?client_id=752236274261426212&scope=bot&permissions=66186303)
+## - [Support Server](https://discord.gg/deko)
+## - [Modules/Commands](/api/Mewdeko.Modules.html)
+## - [GitHub](https://github.com/SylveonDeko/mewdeko)

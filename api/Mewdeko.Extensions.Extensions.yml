@@ -35,11 +35,11 @@ items:
   - Mewdeko.Extensions.Extensions.SendConfirmFollowupAsync(Discord.IDiscordInteraction,System.String)
   - Mewdeko.Extensions.Extensions.SendConfirmFollowupAsync(Discord.IDiscordInteraction,System.String,Discord.ComponentBuilder)
   - Mewdeko.Extensions.Extensions.SendEphemeralConfirmAsync(Discord.IDiscordInteraction,System.String)
-  - Mewdeko.Extensions.Extensions.SendEphemeralErrorAsync(Discord.IDiscordInteraction,System.String)
+  - Mewdeko.Extensions.Extensions.SendEphemeralErrorAsync(Discord.IDiscordInteraction,System.String,Mewdeko.Common.Configs.BotConfig)
   - Mewdeko.Extensions.Extensions.SendEphemeralFollowupConfirmAsync(Discord.IDiscordInteraction,System.String)
-  - Mewdeko.Extensions.Extensions.SendEphemeralFollowupErrorAsync(Discord.IDiscordInteraction,System.String)
-  - Mewdeko.Extensions.Extensions.SendErrorAsync(Discord.IDiscordInteraction,System.String)
-  - Mewdeko.Extensions.Extensions.SendErrorFollowupAsync(Discord.IDiscordInteraction,System.String)
+  - Mewdeko.Extensions.Extensions.SendEphemeralFollowupErrorAsync(Discord.IDiscordInteraction,System.String,Mewdeko.Common.Configs.BotConfig)
+  - Mewdeko.Extensions.Extensions.SendErrorAsync(Discord.IDiscordInteraction,System.String,Mewdeko.Common.Configs.BotConfig)
+  - Mewdeko.Extensions.Extensions.SendErrorFollowupAsync(Discord.IDiscordInteraction,System.String,Mewdeko.Common.Configs.BotConfig)
   - Mewdeko.Extensions.Extensions.ThrowIfNull``1(``0,System.String)
   - Mewdeko.Extensions.Extensions.ToIEmote(System.String)
   - Mewdeko.Extensions.Extensions.ToPrettyStringHm(System.TimeSpan)
@@ -243,17 +243,17 @@ items:
   nameWithType.vb: Extensions.SendEphemeralConfirmAsync(IDiscordInteraction, String)
   fullName.vb: Mewdeko.Extensions.Extensions.SendEphemeralConfirmAsync(Discord.IDiscordInteraction, String)
   name.vb: SendEphemeralConfirmAsync(IDiscordInteraction, String)
-- uid: Mewdeko.Extensions.Extensions.SendErrorAsync(Discord.IDiscordInteraction,System.String)
-  commentId: M:Mewdeko.Extensions.Extensions.SendErrorAsync(Discord.IDiscordInteraction,System.String)
-  id: SendErrorAsync(Discord.IDiscordInteraction,System.String)
+- uid: Mewdeko.Extensions.Extensions.SendErrorAsync(Discord.IDiscordInteraction,System.String,Mewdeko.Common.Configs.BotConfig)
+  commentId: M:Mewdeko.Extensions.Extensions.SendErrorAsync(Discord.IDiscordInteraction,System.String,Mewdeko.Common.Configs.BotConfig)
+  id: SendErrorAsync(Discord.IDiscordInteraction,System.String,Mewdeko.Common.Configs.BotConfig)
   isExtensionMethod: true
   parent: Mewdeko.Extensions.Extensions
   langs:
   - csharp
   - vb
-  name: SendErrorAsync(IDiscordInteraction, string?)
-  nameWithType: Extensions.SendErrorAsync(IDiscordInteraction, string?)
-  fullName: Mewdeko.Extensions.Extensions.SendErrorAsync(Discord.IDiscordInteraction, string?)
+  name: SendErrorAsync(IDiscordInteraction, string?, BotConfig)
+  nameWithType: Extensions.SendErrorAsync(IDiscordInteraction, string?, BotConfig)
+  fullName: Mewdeko.Extensions.Extensions.SendErrorAsync(Discord.IDiscordInteraction, string?, Mewdeko.Common.Configs.BotConfig)
   type: Method
   source:
     remote:
@@ -262,14 +262,14 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendErrorAsync
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 63
+    startLine: 64
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
   summary: Sends an error message asynchronously.
   example: []
   syntax:
-    content: public static Task SendErrorAsync(this IDiscordInteraction interaction, string? message)
+    content: public static Task SendErrorAsync(this IDiscordInteraction interaction, string? message, BotConfig config)
     parameters:
     - id: interaction
       type: Discord.IDiscordInteraction
@@ -277,25 +277,28 @@ items:
     - id: message
       type: System.String
       description: Message to include in the error.
+    - id: config
+      type: Mewdeko.Common.Configs.BotConfig
+      description: Bot configuration.
     return:
       type: System.Threading.Tasks.Task
       description: Task representing the asynchronous operation.
-    content.vb: Public Shared Function SendErrorAsync(interaction As IDiscordInteraction, message As String) As Task
+    content.vb: Public Shared Function SendErrorAsync(interaction As IDiscordInteraction, message As String, config As BotConfig) As Task
   overload: Mewdeko.Extensions.Extensions.SendErrorAsync*
-  nameWithType.vb: Extensions.SendErrorAsync(IDiscordInteraction, String)
-  fullName.vb: Mewdeko.Extensions.Extensions.SendErrorAsync(Discord.IDiscordInteraction, String)
-  name.vb: SendErrorAsync(IDiscordInteraction, String)
-- uid: Mewdeko.Extensions.Extensions.SendEphemeralErrorAsync(Discord.IDiscordInteraction,System.String)
-  commentId: M:Mewdeko.Extensions.Extensions.SendEphemeralErrorAsync(Discord.IDiscordInteraction,System.String)
-  id: SendEphemeralErrorAsync(Discord.IDiscordInteraction,System.String)
+  nameWithType.vb: Extensions.SendErrorAsync(IDiscordInteraction, String, BotConfig)
+  fullName.vb: Mewdeko.Extensions.Extensions.SendErrorAsync(Discord.IDiscordInteraction, String, Mewdeko.Common.Configs.BotConfig)
+  name.vb: SendErrorAsync(IDiscordInteraction, String, BotConfig)
+- uid: Mewdeko.Extensions.Extensions.SendEphemeralErrorAsync(Discord.IDiscordInteraction,System.String,Mewdeko.Common.Configs.BotConfig)
+  commentId: M:Mewdeko.Extensions.Extensions.SendEphemeralErrorAsync(Discord.IDiscordInteraction,System.String,Mewdeko.Common.Configs.BotConfig)
+  id: SendEphemeralErrorAsync(Discord.IDiscordInteraction,System.String,Mewdeko.Common.Configs.BotConfig)
   isExtensionMethod: true
   parent: Mewdeko.Extensions.Extensions
   langs:
   - csharp
   - vb
-  name: SendEphemeralErrorAsync(IDiscordInteraction, string?)
-  nameWithType: Extensions.SendEphemeralErrorAsync(IDiscordInteraction, string?)
-  fullName: Mewdeko.Extensions.Extensions.SendEphemeralErrorAsync(Discord.IDiscordInteraction, string?)
+  name: SendEphemeralErrorAsync(IDiscordInteraction, string?, BotConfig)
+  nameWithType: Extensions.SendEphemeralErrorAsync(IDiscordInteraction, string?, BotConfig)
+  fullName: Mewdeko.Extensions.Extensions.SendEphemeralErrorAsync(Discord.IDiscordInteraction, string?, Mewdeko.Common.Configs.BotConfig)
   type: Method
   source:
     remote:
@@ -304,14 +307,14 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendEphemeralErrorAsync
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 75
+    startLine: 80
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
   summary: Sends an error message asynchronously with ephemeral visibility.
   example: []
   syntax:
-    content: public static Task SendEphemeralErrorAsync(this IDiscordInteraction interaction, string? message)
+    content: public static Task SendEphemeralErrorAsync(this IDiscordInteraction interaction, string? message, BotConfig config)
     parameters:
     - id: interaction
       type: Discord.IDiscordInteraction
@@ -319,14 +322,17 @@ items:
     - id: message
       type: System.String
       description: Message to include in the error.
+    - id: config
+      type: Mewdeko.Common.Configs.BotConfig
+      description: Bot configuration.
     return:
       type: System.Threading.Tasks.Task
       description: Task representing the asynchronous operation.
-    content.vb: Public Shared Function SendEphemeralErrorAsync(interaction As IDiscordInteraction, message As String) As Task
+    content.vb: Public Shared Function SendEphemeralErrorAsync(interaction As IDiscordInteraction, message As String, config As BotConfig) As Task
   overload: Mewdeko.Extensions.Extensions.SendEphemeralErrorAsync*
-  nameWithType.vb: Extensions.SendEphemeralErrorAsync(IDiscordInteraction, String)
-  fullName.vb: Mewdeko.Extensions.Extensions.SendEphemeralErrorAsync(Discord.IDiscordInteraction, String)
-  name.vb: SendEphemeralErrorAsync(IDiscordInteraction, String)
+  nameWithType.vb: Extensions.SendEphemeralErrorAsync(IDiscordInteraction, String, BotConfig)
+  fullName.vb: Mewdeko.Extensions.Extensions.SendEphemeralErrorAsync(Discord.IDiscordInteraction, String, Mewdeko.Common.Configs.BotConfig)
+  name.vb: SendEphemeralErrorAsync(IDiscordInteraction, String, BotConfig)
 - uid: Mewdeko.Extensions.Extensions.SendConfirmFollowupAsync(Discord.IDiscordInteraction,System.String)
   commentId: M:Mewdeko.Extensions.Extensions.SendConfirmFollowupAsync(Discord.IDiscordInteraction,System.String)
   id: SendConfirmFollowupAsync(Discord.IDiscordInteraction,System.String)
@@ -346,7 +352,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendConfirmFollowupAsync
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 87
+    startLine: 95
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -388,7 +394,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendConfirmFollowupAsync
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 98
+    startLine: 106
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -433,7 +439,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendEphemeralFollowupConfirmAsync
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 109
+    startLine: 117
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -456,17 +462,17 @@ items:
   nameWithType.vb: Extensions.SendEphemeralFollowupConfirmAsync(IDiscordInteraction, String)
   fullName.vb: Mewdeko.Extensions.Extensions.SendEphemeralFollowupConfirmAsync(Discord.IDiscordInteraction, String)
   name.vb: SendEphemeralFollowupConfirmAsync(IDiscordInteraction, String)
-- uid: Mewdeko.Extensions.Extensions.SendErrorFollowupAsync(Discord.IDiscordInteraction,System.String)
-  commentId: M:Mewdeko.Extensions.Extensions.SendErrorFollowupAsync(Discord.IDiscordInteraction,System.String)
-  id: SendErrorFollowupAsync(Discord.IDiscordInteraction,System.String)
+- uid: Mewdeko.Extensions.Extensions.SendErrorFollowupAsync(Discord.IDiscordInteraction,System.String,Mewdeko.Common.Configs.BotConfig)
+  commentId: M:Mewdeko.Extensions.Extensions.SendErrorFollowupAsync(Discord.IDiscordInteraction,System.String,Mewdeko.Common.Configs.BotConfig)
+  id: SendErrorFollowupAsync(Discord.IDiscordInteraction,System.String,Mewdeko.Common.Configs.BotConfig)
   isExtensionMethod: true
   parent: Mewdeko.Extensions.Extensions
   langs:
   - csharp
   - vb
-  name: SendErrorFollowupAsync(IDiscordInteraction, string)
-  nameWithType: Extensions.SendErrorFollowupAsync(IDiscordInteraction, string)
-  fullName: Mewdeko.Extensions.Extensions.SendErrorFollowupAsync(Discord.IDiscordInteraction, string)
+  name: SendErrorFollowupAsync(IDiscordInteraction, string, BotConfig)
+  nameWithType: Extensions.SendErrorFollowupAsync(IDiscordInteraction, string, BotConfig)
+  fullName: Mewdeko.Extensions.Extensions.SendErrorFollowupAsync(Discord.IDiscordInteraction, string, Mewdeko.Common.Configs.BotConfig)
   type: Method
   source:
     remote:
@@ -475,14 +481,14 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendErrorFollowupAsync
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 120
+    startLine: 129
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
   summary: Sends a follow-up error message asynchronously.
   example: []
   syntax:
-    content: public static Task<IUserMessage> SendErrorFollowupAsync(this IDiscordInteraction interaction, string message)
+    content: public static Task<IUserMessage> SendErrorFollowupAsync(this IDiscordInteraction interaction, string message, BotConfig config)
     parameters:
     - id: interaction
       type: Discord.IDiscordInteraction
@@ -490,25 +496,28 @@ items:
     - id: message
       type: System.String
       description: Message to include in the error.
+    - id: config
+      type: Mewdeko.Common.Configs.BotConfig
+      description: Bot configuration.
     return:
       type: System.Threading.Tasks.Task{Discord.IUserMessage}
       description: Task representing the asynchronous operation.
-    content.vb: Public Shared Function SendErrorFollowupAsync(interaction As IDiscordInteraction, message As String) As Task(Of IUserMessage)
+    content.vb: Public Shared Function SendErrorFollowupAsync(interaction As IDiscordInteraction, message As String, config As BotConfig) As Task(Of IUserMessage)
   overload: Mewdeko.Extensions.Extensions.SendErrorFollowupAsync*
-  nameWithType.vb: Extensions.SendErrorFollowupAsync(IDiscordInteraction, String)
-  fullName.vb: Mewdeko.Extensions.Extensions.SendErrorFollowupAsync(Discord.IDiscordInteraction, String)
-  name.vb: SendErrorFollowupAsync(IDiscordInteraction, String)
-- uid: Mewdeko.Extensions.Extensions.SendEphemeralFollowupErrorAsync(Discord.IDiscordInteraction,System.String)
-  commentId: M:Mewdeko.Extensions.Extensions.SendEphemeralFollowupErrorAsync(Discord.IDiscordInteraction,System.String)
-  id: SendEphemeralFollowupErrorAsync(Discord.IDiscordInteraction,System.String)
+  nameWithType.vb: Extensions.SendErrorFollowupAsync(IDiscordInteraction, String, BotConfig)
+  fullName.vb: Mewdeko.Extensions.Extensions.SendErrorFollowupAsync(Discord.IDiscordInteraction, String, Mewdeko.Common.Configs.BotConfig)
+  name.vb: SendErrorFollowupAsync(IDiscordInteraction, String, BotConfig)
+- uid: Mewdeko.Extensions.Extensions.SendEphemeralFollowupErrorAsync(Discord.IDiscordInteraction,System.String,Mewdeko.Common.Configs.BotConfig)
+  commentId: M:Mewdeko.Extensions.Extensions.SendEphemeralFollowupErrorAsync(Discord.IDiscordInteraction,System.String,Mewdeko.Common.Configs.BotConfig)
+  id: SendEphemeralFollowupErrorAsync(Discord.IDiscordInteraction,System.String,Mewdeko.Common.Configs.BotConfig)
   isExtensionMethod: true
   parent: Mewdeko.Extensions.Extensions
   langs:
   - csharp
   - vb
-  name: SendEphemeralFollowupErrorAsync(IDiscordInteraction, string)
-  nameWithType: Extensions.SendEphemeralFollowupErrorAsync(IDiscordInteraction, string)
-  fullName: Mewdeko.Extensions.Extensions.SendEphemeralFollowupErrorAsync(Discord.IDiscordInteraction, string)
+  name: SendEphemeralFollowupErrorAsync(IDiscordInteraction, string, BotConfig)
+  nameWithType: Extensions.SendEphemeralFollowupErrorAsync(IDiscordInteraction, string, BotConfig)
+  fullName: Mewdeko.Extensions.Extensions.SendEphemeralFollowupErrorAsync(Discord.IDiscordInteraction, string, Mewdeko.Common.Configs.BotConfig)
   type: Method
   source:
     remote:
@@ -517,14 +526,14 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SendEphemeralFollowupErrorAsync
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 132
+    startLine: 146
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
   summary: Sends an ephemeral follow-up error message asynchronously.
   example: []
   syntax:
-    content: public static Task<IUserMessage> SendEphemeralFollowupErrorAsync(this IDiscordInteraction interaction, string message)
+    content: public static Task<IUserMessage> SendEphemeralFollowupErrorAsync(this IDiscordInteraction interaction, string message, BotConfig config)
     parameters:
     - id: interaction
       type: Discord.IDiscordInteraction
@@ -532,14 +541,17 @@ items:
     - id: message
       type: System.String
       description: Message to include in the error.
+    - id: config
+      type: Mewdeko.Common.Configs.BotConfig
+      description: Bot configuration.
     return:
       type: System.Threading.Tasks.Task{Discord.IUserMessage}
       description: Task representing the asynchronous operation.
-    content.vb: Public Shared Function SendEphemeralFollowupErrorAsync(interaction As IDiscordInteraction, message As String) As Task(Of IUserMessage)
+    content.vb: Public Shared Function SendEphemeralFollowupErrorAsync(interaction As IDiscordInteraction, message As String, config As BotConfig) As Task(Of IUserMessage)
   overload: Mewdeko.Extensions.Extensions.SendEphemeralFollowupErrorAsync*
-  nameWithType.vb: Extensions.SendEphemeralFollowupErrorAsync(IDiscordInteraction, String)
-  fullName.vb: Mewdeko.Extensions.Extensions.SendEphemeralFollowupErrorAsync(Discord.IDiscordInteraction, String)
-  name.vb: SendEphemeralFollowupErrorAsync(IDiscordInteraction, String)
+  nameWithType.vb: Extensions.SendEphemeralFollowupErrorAsync(IDiscordInteraction, String, BotConfig)
+  fullName.vb: Mewdeko.Extensions.Extensions.SendEphemeralFollowupErrorAsync(Discord.IDiscordInteraction, String, Mewdeko.Common.Configs.BotConfig)
+  name.vb: SendEphemeralFollowupErrorAsync(IDiscordInteraction, String, BotConfig)
 - uid: Mewdeko.Extensions.Extensions.IsValidAttachment(System.Collections.Generic.IReadOnlyCollection{Discord.IAttachment})
   commentId: M:Mewdeko.Extensions.Extensions.IsValidAttachment(System.Collections.Generic.IReadOnlyCollection{Discord.IAttachment})
   id: IsValidAttachment(System.Collections.Generic.IReadOnlyCollection{Discord.IAttachment})
@@ -559,7 +571,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: IsValidAttachment
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 144
+    startLine: 161
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -598,7 +610,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetGuildIds
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 155
+    startLine: 172
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -634,7 +646,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ToPrettyStringHm
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 162
+    startLine: 179
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -670,7 +682,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: TryGetConfig
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 174
+    startLine: 191
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -715,7 +727,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddRange
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 193
+    startLine: 210
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -757,7 +769,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RemoveRange
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 204
+    startLine: 221
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -799,7 +811,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddTypeReaders
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 216
+    startLine: 233
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -841,7 +853,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: TryGetUrlPath
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 225
+    startLine: 242
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -883,7 +895,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ToIEmote
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 243
+    startLine: 260
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -922,7 +934,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: TryToIEmote
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 254
+    startLine: 271
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -964,7 +976,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RedisKey
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 269
+    startLine: 286
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1000,7 +1012,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ReplaceAsync
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 278
+    startLine: 295
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1045,7 +1057,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ThrowIfNull
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 302
+    startLine: 319
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1087,7 +1099,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: IsAuthor
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 314
+    startLine: 331
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1126,7 +1138,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RealSummary
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 324
+    startLine: 341
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1174,7 +1186,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RealRemarksArr
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 335
+    startLine: 352
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1222,7 +1234,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MethodName
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 344
+    startLine: 361
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1257,7 +1269,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetFullUsage
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 355
+    startLine: 372
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1302,7 +1314,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddPaginatedFooter
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 365
+    startLine: 382
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1347,7 +1359,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: WithOkColor
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 377
+    startLine: 394
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1383,7 +1395,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: WithErrorColor
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 385
+    startLine: 402
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1419,7 +1431,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: WithOkColor
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 392
+    startLine: 409
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1455,7 +1467,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: WithErrorColor
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 399
+    startLine: 416
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1491,7 +1503,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddFakeHeaders
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 406
+    startLine: 423
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1527,7 +1539,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddFakeHeaders
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 416
+    startLine: 433
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1560,7 +1572,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: DeleteAfter
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 429
+    startLine: 446
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1599,7 +1611,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: DeleteAfter
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 452
+    startLine: 469
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1638,7 +1650,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetTopLevelModule
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 475
+    startLine: 492
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1674,7 +1686,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetMembersAsync
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 486
+    startLine: 503
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1710,7 +1722,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ToStream
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 497
+    startLine: 514
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1749,7 +1761,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ToStream
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 512
+    startLine: 529
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1791,7 +1803,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetRoles
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 524
+    startLine: 541
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1827,7 +1839,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: IsImage
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 532
+    startLine: 549
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1863,7 +1875,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: IsImage
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 540
+    startLine: 557
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1905,7 +1917,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetImageSize
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 552
+    startLine: 569
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1941,7 +1953,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ToSkImage
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 563
+    startLine: 580
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -1980,7 +1992,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetCtNames
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 573
+    startLine: 590
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -2016,7 +2028,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetRealName
     path: src/Mewdeko/Extensions/Extensions.cs
-    startLine: 600
+    startLine: 617
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Extensions
@@ -2528,13 +2540,50 @@ references:
   fullName: Mewdeko.Extensions.Extensions.SendEphemeralConfirmAsync
 - uid: Mewdeko.Extensions.Extensions.SendErrorAsync*
   commentId: Overload:Mewdeko.Extensions.Extensions.SendErrorAsync
-  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_SendErrorAsync_Discord_IDiscordInteraction_System_String_
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_SendErrorAsync_Discord_IDiscordInteraction_System_String_Mewdeko_Common_Configs_BotConfig_
   name: SendErrorAsync
   nameWithType: Extensions.SendErrorAsync
   fullName: Mewdeko.Extensions.Extensions.SendErrorAsync
+- uid: Mewdeko.Common.Configs.BotConfig
+  commentId: T:Mewdeko.Common.Configs.BotConfig
+  parent: Mewdeko.Common.Configs
+  href: Mewdeko.Common.Configs.BotConfig.html
+  name: BotConfig
+  nameWithType: BotConfig
+  fullName: Mewdeko.Common.Configs.BotConfig
+- uid: Mewdeko.Common.Configs
+  commentId: N:Mewdeko.Common.Configs
+  href: Mewdeko.html
+  name: Mewdeko.Common.Configs
+  nameWithType: Mewdeko.Common.Configs
+  fullName: Mewdeko.Common.Configs
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
 - uid: Mewdeko.Extensions.Extensions.SendEphemeralErrorAsync*
   commentId: Overload:Mewdeko.Extensions.Extensions.SendEphemeralErrorAsync
-  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_SendEphemeralErrorAsync_Discord_IDiscordInteraction_System_String_
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_SendEphemeralErrorAsync_Discord_IDiscordInteraction_System_String_Mewdeko_Common_Configs_BotConfig_
   name: SendEphemeralErrorAsync
   nameWithType: Extensions.SendEphemeralErrorAsync
   fullName: Mewdeko.Extensions.Extensions.SendEphemeralErrorAsync
@@ -2620,13 +2669,13 @@ references:
   fullName: Mewdeko.Extensions.Extensions.SendEphemeralFollowupConfirmAsync
 - uid: Mewdeko.Extensions.Extensions.SendErrorFollowupAsync*
   commentId: Overload:Mewdeko.Extensions.Extensions.SendErrorFollowupAsync
-  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_SendErrorFollowupAsync_Discord_IDiscordInteraction_System_String_
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_SendErrorFollowupAsync_Discord_IDiscordInteraction_System_String_Mewdeko_Common_Configs_BotConfig_
   name: SendErrorFollowupAsync
   nameWithType: Extensions.SendErrorFollowupAsync
   fullName: Mewdeko.Extensions.Extensions.SendErrorFollowupAsync
 - uid: Mewdeko.Extensions.Extensions.SendEphemeralFollowupErrorAsync*
   commentId: Overload:Mewdeko.Extensions.Extensions.SendEphemeralFollowupErrorAsync
-  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_SendEphemeralFollowupErrorAsync_Discord_IDiscordInteraction_System_String_
+  href: Mewdeko.Extensions.Extensions.html#Mewdeko_Extensions_Extensions_SendEphemeralFollowupErrorAsync_Discord_IDiscordInteraction_System_String_Mewdeko_Common_Configs_BotConfig_
   name: SendEphemeralFollowupErrorAsync
   nameWithType: Extensions.SendEphemeralFollowupErrorAsync
   fullName: Mewdeko.Extensions.Extensions.SendEphemeralFollowupErrorAsync

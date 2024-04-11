@@ -1,4 +1,5 @@
-﻿using Mewdeko.Modules.Searches.Services;
+﻿using Lavalink4NET.Tracks;
+using Mewdeko.Modules.Searches.Services;
 using Mewdeko.Modules.Utility.Common;
 using Newtonsoft.Json;
 using Serilog;
@@ -25,17 +26,6 @@ public class RedisCache : IDataCache
         var conf = ConfigurationOptions.Parse(creds.RedisOptions);
         conf.SocketManager = new SocketManager("Main", true);
         LoadRedis(conf, creds, shardId).ConfigureAwait(false);
-    }
-
-
-    private async Task LoadRedis(ConfigurationOptions options, IBotCredentials creds, int shardId)
-    {
-        options.AsyncTimeout = 20000;
-        options.SyncTimeout = 20000;
-        Redis = await ConnectionMultiplexer.ConnectAsync(options).ConfigureAwait(false);
-        LocalImages = new RedisImagesCache(Redis, creds);
-        LocalData = new RedisLocalDataCache(Redis, creds, shardId);
-        redisKey = creds.RedisKey();
     }
 
     /// <summary>
@@ -182,6 +172,30 @@ public class RedisCache : IDataCache
             }
         }).ConfigureAwait(false);
         return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Sets the music queue for a guild.
+    /// </summary>
+    /// <param name="id">The server ID.</param>
+    /// <param name="tracks">The list of tracks.</param>
+    /// <returns></returns>
+    public async Task SetMusicQueue(ulong id, List<LavalinkTrack> tracks)
+    {
+        var db = Redis.GetDatabase();
+        await db.StringSetAsync($"{redisKey}_musicqueue_{id}", JsonConvert.SerializeObject(tracks));
+    }
+
+    /// <summary>
+    /// Gets the music queue for a guild.
+    /// </summary>
+    /// <param name="id">The server ID.</param>
+    /// <returns>A list of tracks.</returns>
+    public async Task<List<LavalinkTrack>> GetMusicQueue(ulong id)
+    {
+        var db = Redis.GetDatabase();
+        var result = await db.StringGetAsync($"{redisKey}_musicqueue_{id}");
+        return result.HasValue ? JsonConvert.DeserializeObject<List<LavalinkTrack>>(result) : [];
     }
 
     /// <summary>
@@ -423,5 +437,16 @@ public class RedisCache : IDataCache
             expiry, flags: CommandFlags.FireAndForget).ConfigureAwait(false);
 
         return obj;
+    }
+
+
+    private async Task LoadRedis(ConfigurationOptions options, IBotCredentials creds, int shardId)
+    {
+        options.AsyncTimeout = 20000;
+        options.SyncTimeout = 20000;
+        Redis = await ConnectionMultiplexer.ConnectAsync(options).ConfigureAwait(false);
+        LocalImages = new RedisImagesCache(Redis, creds);
+        LocalData = new RedisLocalDataCache(Redis, creds, shardId);
+        redisKey = creds.RedisKey();
     }
 }

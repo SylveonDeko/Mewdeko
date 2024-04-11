@@ -64,6 +64,7 @@ items:
   - Mewdeko.Common.MewdekoModule.Strings
   - Mewdeko.Common.MewdekoModule.Localization
   - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.Config
   - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   - Mewdeko.Common.MewdekoModule.GetText(System.String)
   - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
@@ -239,7 +240,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MWarn
     path: src/Mewdeko/Modules/Moderation/UserPunishCommands2.cs
-    startLine: 72
+    startLine: 73
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Moderation
@@ -322,7 +323,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MWarnExpire
     path: src/Mewdeko/Modules/Moderation/UserPunishCommands2.cs
-    startLine: 147
+    startLine: 148
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Moderation
@@ -409,7 +410,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MWarnlog
     path: src/Mewdeko/Modules/Moderation/UserPunishCommands2.cs
-    startLine: 181
+    startLine: 182
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Moderation
@@ -498,7 +499,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MWarnlog
     path: src/Mewdeko/Modules/Moderation/UserPunishCommands2.cs
-    startLine: 190
+    startLine: 191
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Moderation
@@ -575,7 +576,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MWarnlog
     path: src/Mewdeko/Modules/Moderation/UserPunishCommands2.cs
-    startLine: 206
+    startLine: 207
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Moderation
@@ -664,7 +665,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MWarnlog
     path: src/Mewdeko/Modules/Moderation/UserPunishCommands2.cs
-    startLine: 215
+    startLine: 216
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Moderation
@@ -750,7 +751,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MWarnlogAll
     path: src/Mewdeko/Modules/Moderation/UserPunishCommands2.cs
-    startLine: 261
+    startLine: 262
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Moderation
@@ -819,7 +820,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MWarnclear
     path: src/Mewdeko/Modules/Moderation/UserPunishCommands2.cs
-    startLine: 307
+    startLine: 308
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Moderation
@@ -899,7 +900,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MWarnclear
     path: src/Mewdeko/Modules/Moderation/UserPunishCommands2.cs
-    startLine: 316
+    startLine: 317
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Moderation
@@ -978,7 +979,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MWarnPunish
     path: src/Mewdeko/Modules/Moderation/UserPunishCommands2.cs
-    startLine: 350
+    startLine: 351
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Moderation
@@ -1072,7 +1073,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MWarnPunish
     path: src/Mewdeko/Modules/Moderation/UserPunishCommands2.cs
-    startLine: 381
+    startLine: 382
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Moderation
@@ -1154,7 +1155,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MWarnPunish
     path: src/Mewdeko/Modules/Moderation/UserPunishCommands2.cs
-    startLine: 413
+    startLine: 414
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Moderation
@@ -1230,7 +1231,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MWarnPunishList
     path: src/Mewdeko/Modules/Moderation/UserPunishCommands2.cs
-    startLine: 426
+    startLine: 427
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Moderation
@@ -1465,6 +1466,13 @@ references:
   name: ctx
   nameWithType: MewdekoModule.ctx
   fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.Config
+  commentId: P:Mewdeko.Common.MewdekoModule.Config
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Config
+  name: Config
+  nameWithType: MewdekoModule.Config
+  fullName: Mewdeko.Common.MewdekoModule.Config
 - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   parent: Mewdeko.Common.MewdekoModule

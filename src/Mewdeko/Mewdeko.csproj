@@ -65,7 +65,9 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-      <PackageReference Include="Lavalink4NET.Discord.NET" Version="3.0.0"/>
+      <PackageReference Include="Lavalink4NET.Discord.NET" Version="4.0.19-beta.4"/>
+      <PackageReference Include="Lavalink4NET.Integrations.Lavasearch" Version="4.0.19-beta.4"/>
+      <PackageReference Include="Lavalink4NET.Integrations.Lavasrc" Version="4.0.19-beta.4"/>
       <PackageReference Include="linq2db.EntityFrameworkCore" Version="8.1.0"/>
       <PackageReference Include="MartineApiNet" Version="1.0.14"/>
       <PackageReference Include="MathNet.Numerics" Version="6.0.0-beta1"/>

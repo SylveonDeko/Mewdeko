@@ -27,7 +27,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: StatusCommands
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 770
+    startLine: 772
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -56,6 +56,7 @@ items:
   - Mewdeko.Common.MewdekoSlashCommandModule.Strings
   - Mewdeko.Common.MewdekoSlashCommandModule.CmdHandler
   - Mewdeko.Common.MewdekoSlashCommandModule.Localization
+  - Mewdeko.Common.MewdekoSlashCommandModule.Config
   - Mewdeko.Common.MewdekoSlashCommandModule.ctx
   - Mewdeko.Common.MewdekoSlashCommandModule.BeforeExecute(Discord.Interactions.ICommandInfo)
   - Mewdeko.Common.MewdekoSlashCommandModule.GetText(System.String)
@@ -131,7 +132,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: .ctor
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 770
+    startLine: 772
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -169,7 +170,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RotatePlaying
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 779
+    startLine: 781
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -218,7 +219,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: AddPlaying
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 795
+    startLine: 797
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -281,7 +282,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ListPlaying
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 809
+    startLine: 811
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -330,7 +331,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: RemovePlaying
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 831
+    startLine: 833
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -386,7 +387,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetStatus
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 851
+    startLine: 853
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -443,7 +444,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetGame
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 867
+    startLine: 869
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -506,7 +507,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetStream
     path: src/Mewdeko/Modules/OwnerOnly/SlashOwnerOnly.cs
-    startLine: 887
+    startLine: 889
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -713,6 +714,13 @@ references:
   name: Localization
   nameWithType: MewdekoSlashCommandModule.Localization
   fullName: Mewdeko.Common.MewdekoSlashCommandModule.Localization
+- uid: Mewdeko.Common.MewdekoSlashCommandModule.Config
+  commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.Config
+  parent: Mewdeko.Common.MewdekoSlashCommandModule
+  href: Mewdeko.Common.MewdekoSlashCommandModule.html#Mewdeko_Common_MewdekoSlashCommandModule_Config
+  name: Config
+  nameWithType: MewdekoSlashCommandModule.Config
+  fullName: Mewdeko.Common.MewdekoSlashCommandModule.Config
 - uid: Mewdeko.Common.MewdekoSlashCommandModule.ctx
   commentId: P:Mewdeko.Common.MewdekoSlashCommandModule.ctx
   parent: Mewdeko.Common.MewdekoSlashCommandModule

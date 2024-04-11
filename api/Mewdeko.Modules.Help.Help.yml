@@ -52,6 +52,7 @@ items:
   - Mewdeko.Common.MewdekoModule.Strings
   - Mewdeko.Common.MewdekoModule.Localization
   - Mewdeko.Common.MewdekoModule.ctx
+  - Mewdeko.Common.MewdekoModule.Config
   - Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   - Mewdeko.Common.MewdekoModule.GetText(System.String)
   - Mewdeko.Common.MewdekoModule.GetText(System.String,System.Object[])
@@ -270,7 +271,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Modules
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 138
+    startLine: 139
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help
@@ -321,7 +322,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Donate
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 157
+    startLine: 158
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help
@@ -372,7 +373,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Commands
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 167
+    startLine: 168
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help
@@ -434,7 +435,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: H
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 254
+    startLine: 255
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help
@@ -505,7 +506,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Guide
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 285
+    startLine: 286
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help
@@ -556,7 +557,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Source
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 292
+    startLine: 293
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help
@@ -607,7 +608,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Vote
     path: src/Mewdeko/Modules/Help/Help.cs
-    startLine: 299
+    startLine: 300
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Help
@@ -811,6 +812,13 @@ references:
   name: ctx
   nameWithType: MewdekoModule.ctx
   fullName: Mewdeko.Common.MewdekoModule.ctx
+- uid: Mewdeko.Common.MewdekoModule.Config
+  commentId: P:Mewdeko.Common.MewdekoModule.Config
+  parent: Mewdeko.Common.MewdekoModule
+  href: Mewdeko.Common.MewdekoModule.html#Mewdeko_Common_MewdekoModule_Config
+  name: Config
+  nameWithType: MewdekoModule.Config
+  fullName: Mewdeko.Common.MewdekoModule.Config
 - uid: Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   commentId: M:Mewdeko.Common.MewdekoModule.BeforeExecute(Discord.Commands.CommandInfo)
   parent: Mewdeko.Common.MewdekoModule

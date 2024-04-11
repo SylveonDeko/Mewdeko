@@ -21,7 +21,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ConfessionExtensions
     path: src/Mewdeko/Modules/Confessions/Services/ConfessionService.cs
-    startLine: 275
+    startLine: 282
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Confessions.Services
@@ -59,7 +59,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetConfessionBlacklists
     path: src/Mewdeko/Modules/Confessions/Services/ConfessionService.cs
-    startLine: 282
+    startLine: 289
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Confessions.Services
@@ -95,7 +95,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetConfessionBlacklists
     path: src/Mewdeko/Modules/Confessions/Services/ConfessionService.cs
-    startLine: 292
+    startLine: 299
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Confessions.Services

@@ -27,7 +27,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: EvaluationEnvironment
     path: src/Mewdeko/Modules/OwnerOnly/OwnerOnly.cs
-    startLine: 1581
+    startLine: 1586
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -71,7 +71,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: .ctor
     path: src/Mewdeko/Modules/OwnerOnly/OwnerOnly.cs
-    startLine: 1587
+    startLine: 1592
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -106,7 +106,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Ctx
     path: src/Mewdeko/Modules/OwnerOnly/OwnerOnly.cs
-    startLine: 1595
+    startLine: 1600
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -137,7 +137,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Message
     path: src/Mewdeko/Modules/OwnerOnly/OwnerOnly.cs
-    startLine: 1600
+    startLine: 1605
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -168,7 +168,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Channel
     path: src/Mewdeko/Modules/OwnerOnly/OwnerOnly.cs
-    startLine: 1605
+    startLine: 1610
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -199,7 +199,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Guild
     path: src/Mewdeko/Modules/OwnerOnly/OwnerOnly.cs
-    startLine: 1610
+    startLine: 1615
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -230,7 +230,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: User
     path: src/Mewdeko/Modules/OwnerOnly/OwnerOnly.cs
-    startLine: 1615
+    startLine: 1620
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -261,7 +261,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Member
     path: src/Mewdeko/Modules/OwnerOnly/OwnerOnly.cs
-    startLine: 1620
+    startLine: 1625
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly
@@ -292,7 +292,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Client
     path: src/Mewdeko/Modules/OwnerOnly/OwnerOnly.cs
-    startLine: 1625
+    startLine: 1630
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.OwnerOnly

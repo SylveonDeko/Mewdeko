@@ -5,7 +5,7 @@ items:
   id: ChatterBotService
   parent: Mewdeko.Modules.Games.Services
   children:
-  - Mewdeko.Modules.Games.Services.ChatterBotService.#ctor(Discord.WebSocket.DiscordSocketClient,System.Net.Http.IHttpClientFactory,Mewdeko.Services.IBotCredentials,Mewdeko.Database.DbService,Mewdeko.Modules.Permissions.Services.BlacklistService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler)
+  - Mewdeko.Modules.Games.Services.ChatterBotService.#ctor(Discord.WebSocket.DiscordSocketClient,System.Net.Http.IHttpClientFactory,Mewdeko.Services.IBotCredentials,Mewdeko.Database.DbService,Mewdeko.Modules.Permissions.Services.BlacklistService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Common.Configs.BotConfig)
   - Mewdeko.Modules.Games.Services.ChatterBotService.BehaviorType
   - Mewdeko.Modules.Games.Services.ChatterBotService.CleverbotUsers
   - Mewdeko.Modules.Games.Services.ChatterBotService.CreateSession
@@ -27,7 +27,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: ChatterBotService
     path: src/Mewdeko/Modules/Games/Services/ChatterbotService.cs
-    startLine: 11
+    startLine: 12
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Games.Services
@@ -50,16 +50,16 @@ items:
   - System.Object.ToString
   extensionMethods:
   - Mewdeko.Modules.Games.Services.ChatterBotService.Mewdeko.Extensions.Extensions.ThrowIfNull``1(System.String)
-- uid: Mewdeko.Modules.Games.Services.ChatterBotService.#ctor(Discord.WebSocket.DiscordSocketClient,System.Net.Http.IHttpClientFactory,Mewdeko.Services.IBotCredentials,Mewdeko.Database.DbService,Mewdeko.Modules.Permissions.Services.BlacklistService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler)
-  commentId: M:Mewdeko.Modules.Games.Services.ChatterBotService.#ctor(Discord.WebSocket.DiscordSocketClient,System.Net.Http.IHttpClientFactory,Mewdeko.Services.IBotCredentials,Mewdeko.Database.DbService,Mewdeko.Modules.Permissions.Services.BlacklistService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler)
-  id: '#ctor(Discord.WebSocket.DiscordSocketClient,System.Net.Http.IHttpClientFactory,Mewdeko.Services.IBotCredentials,Mewdeko.Database.DbService,Mewdeko.Modules.Permissions.Services.BlacklistService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler)'
+- uid: Mewdeko.Modules.Games.Services.ChatterBotService.#ctor(Discord.WebSocket.DiscordSocketClient,System.Net.Http.IHttpClientFactory,Mewdeko.Services.IBotCredentials,Mewdeko.Database.DbService,Mewdeko.Modules.Permissions.Services.BlacklistService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Common.Configs.BotConfig)
+  commentId: M:Mewdeko.Modules.Games.Services.ChatterBotService.#ctor(Discord.WebSocket.DiscordSocketClient,System.Net.Http.IHttpClientFactory,Mewdeko.Services.IBotCredentials,Mewdeko.Database.DbService,Mewdeko.Modules.Permissions.Services.BlacklistService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Common.Configs.BotConfig)
+  id: '#ctor(Discord.WebSocket.DiscordSocketClient,System.Net.Http.IHttpClientFactory,Mewdeko.Services.IBotCredentials,Mewdeko.Database.DbService,Mewdeko.Modules.Permissions.Services.BlacklistService,Mewdeko.Services.GuildSettingsService,Mewdeko.Services.Impl.EventHandler,Mewdeko.Common.Configs.BotConfig)'
   parent: Mewdeko.Modules.Games.Services.ChatterBotService
   langs:
   - csharp
   - vb
-  name: ChatterBotService(DiscordSocketClient, IHttpClientFactory, IBotCredentials, DbService, BlacklistService, GuildSettingsService, EventHandler)
-  nameWithType: ChatterBotService.ChatterBotService(DiscordSocketClient, IHttpClientFactory, IBotCredentials, DbService, BlacklistService, GuildSettingsService, EventHandler)
-  fullName: Mewdeko.Modules.Games.Services.ChatterBotService.ChatterBotService(Discord.WebSocket.DiscordSocketClient, System.Net.Http.IHttpClientFactory, Mewdeko.Services.IBotCredentials, Mewdeko.Database.DbService, Mewdeko.Modules.Permissions.Services.BlacklistService, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Impl.EventHandler)
+  name: ChatterBotService(DiscordSocketClient, IHttpClientFactory, IBotCredentials, DbService, BlacklistService, GuildSettingsService, EventHandler, BotConfig)
+  nameWithType: ChatterBotService.ChatterBotService(DiscordSocketClient, IHttpClientFactory, IBotCredentials, DbService, BlacklistService, GuildSettingsService, EventHandler, BotConfig)
+  fullName: Mewdeko.Modules.Games.Services.ChatterBotService.ChatterBotService(Discord.WebSocket.DiscordSocketClient, System.Net.Http.IHttpClientFactory, Mewdeko.Services.IBotCredentials, Mewdeko.Database.DbService, Mewdeko.Modules.Permissions.Services.BlacklistService, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Impl.EventHandler, Mewdeko.Common.Configs.BotConfig)
   type: Constructor
   source:
     remote:
@@ -68,14 +68,14 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: .ctor
     path: src/Mewdeko/Modules/Games/Services/ChatterbotService.cs
-    startLine: 30
+    startLine: 32
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Games.Services
   summary: Initializes a new instance of the <xref href="Mewdeko.Modules.Games.Services.ChatterBotService" data-throw-if-not-resolved="false"></xref> class.
   example: []
   syntax:
-    content: public ChatterBotService(DiscordSocketClient client, IHttpClientFactory factory, IBotCredentials creds, DbService db, BlacklistService blacklistService, GuildSettingsService guildSettings, EventHandler eventHandler)
+    content: public ChatterBotService(DiscordSocketClient client, IHttpClientFactory factory, IBotCredentials creds, DbService db, BlacklistService blacklistService, GuildSettingsService guildSettings, EventHandler eventHandler, BotConfig config)
     parameters:
     - id: client
       type: Discord.WebSocket.DiscordSocketClient
@@ -98,11 +98,13 @@ items:
     - id: eventHandler
       type: Mewdeko.Services.Impl.EventHandler
       description: The event handler.
-    content.vb: Public Sub New(client As DiscordSocketClient, factory As IHttpClientFactory, creds As IBotCredentials, db As DbService, blacklistService As BlacklistService, guildSettings As GuildSettingsService, eventHandler As EventHandler)
+    - id: config
+      type: Mewdeko.Common.Configs.BotConfig
+    content.vb: Public Sub New(client As DiscordSocketClient, factory As IHttpClientFactory, creds As IBotCredentials, db As DbService, blacklistService As BlacklistService, guildSettings As GuildSettingsService, eventHandler As EventHandler, config As BotConfig)
   overload: Mewdeko.Modules.Games.Services.ChatterBotService.#ctor*
-  nameWithType.vb: ChatterBotService.New(DiscordSocketClient, IHttpClientFactory, IBotCredentials, DbService, BlacklistService, GuildSettingsService, EventHandler)
-  fullName.vb: Mewdeko.Modules.Games.Services.ChatterBotService.New(Discord.WebSocket.DiscordSocketClient, System.Net.Http.IHttpClientFactory, Mewdeko.Services.IBotCredentials, Mewdeko.Database.DbService, Mewdeko.Modules.Permissions.Services.BlacklistService, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Impl.EventHandler)
-  name.vb: New(DiscordSocketClient, IHttpClientFactory, IBotCredentials, DbService, BlacklistService, GuildSettingsService, EventHandler)
+  nameWithType.vb: ChatterBotService.New(DiscordSocketClient, IHttpClientFactory, IBotCredentials, DbService, BlacklistService, GuildSettingsService, EventHandler, BotConfig)
+  fullName.vb: Mewdeko.Modules.Games.Services.ChatterBotService.New(Discord.WebSocket.DiscordSocketClient, System.Net.Http.IHttpClientFactory, Mewdeko.Services.IBotCredentials, Mewdeko.Database.DbService, Mewdeko.Modules.Permissions.Services.BlacklistService, Mewdeko.Services.GuildSettingsService, Mewdeko.Services.Impl.EventHandler, Mewdeko.Common.Configs.BotConfig)
+  name.vb: New(DiscordSocketClient, IHttpClientFactory, IBotCredentials, DbService, BlacklistService, GuildSettingsService, EventHandler, BotConfig)
 - uid: Mewdeko.Modules.Games.Services.ChatterBotService.Priority
   commentId: P:Mewdeko.Modules.Games.Services.ChatterBotService.Priority
   id: Priority
@@ -121,7 +123,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: Priority
     path: src/Mewdeko/Modules/Games/Services/ChatterbotService.cs
-    startLine: 48
+    startLine: 51
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Games.Services
@@ -152,7 +154,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: BehaviorType
     path: src/Mewdeko/Modules/Games/Services/ChatterbotService.cs
-    startLine: 53
+    startLine: 56
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Games.Services
@@ -183,7 +185,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CleverbotUsers
     path: src/Mewdeko/Modules/Games/Services/ChatterbotService.cs
-    startLine: 58
+    startLine: 61
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Games.Services
@@ -212,7 +214,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: SetCleverbotChannel
     path: src/Mewdeko/Modules/Games/Services/ChatterbotService.cs
-    startLine: 65
+    startLine: 68
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Games.Services
@@ -252,7 +254,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: GetCleverbotChannel
     path: src/Mewdeko/Modules/Games/Services/ChatterbotService.cs
-    startLine: 79
+    startLine: 82
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Games.Services
@@ -290,7 +292,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: MessageReceived
     path: src/Mewdeko/Modules/Games/Services/ChatterbotService.cs
-    startLine: 85
+    startLine: 88
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Games.Services
@@ -324,7 +326,7 @@ items:
       repo: https://github.com/Sylveon76/Mewdeko.git
     id: CreateSession
     path: src/Mewdeko/Modules/Games/Services/ChatterbotService.cs
-    startLine: 129
+    startLine: 132
   assemblies:
   - Mewdeko
   namespace: Mewdeko.Modules.Games.Services
@@ -776,7 +778,7 @@ references:
   fullName: Mewdeko.Modules.Games.Services.ChatterBotService
 - uid: Mewdeko.Modules.Games.Services.ChatterBotService.#ctor*
   commentId: Overload:Mewdeko.Modules.Games.Services.ChatterBotService.#ctor
-  href: Mewdeko.Modules.Games.Services.ChatterBotService.html#Mewdeko_Modules_Games_Services_ChatterBotService__ctor_Discord_WebSocket_DiscordSocketClient_System_Net_Http_IHttpClientFactory_Mewdeko_Services_IBotCredentials_Mewdeko_Database_DbService_Mewdeko_Modules_Permissions_Services_BlacklistService_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_Impl_EventHandler_
+  href: Mewdeko.Modules.Games.Services.ChatterBotService.html#Mewdeko_Modules_Games_Services_ChatterBotService__ctor_Discord_WebSocket_DiscordSocketClient_System_Net_Http_IHttpClientFactory_Mewdeko_Services_IBotCredentials_Mewdeko_Database_DbService_Mewdeko_Modules_Permissions_Services_BlacklistService_Mewdeko_Services_GuildSettingsService_Mewdeko_Services_Impl_EventHandler_Mewdeko_Common_Configs_BotConfig_
   name: ChatterBotService
   nameWithType: ChatterBotService.ChatterBotService
   fullName: Mewdeko.Modules.Games.Services.ChatterBotService.ChatterBotService
@@ -833,6 +835,13 @@ references:
   name: EventHandler
   nameWithType: EventHandler
   fullName: Mewdeko.Services.Impl.EventHandler
+- uid: Mewdeko.Common.Configs.BotConfig
+  commentId: T:Mewdeko.Common.Configs.BotConfig
+  parent: Mewdeko.Common.Configs
+  href: Mewdeko.Common.Configs.BotConfig.html
+  name: BotConfig
+  nameWithType: BotConfig
+  fullName: Mewdeko.Common.Configs.BotConfig
 - uid: Discord.WebSocket
   commentId: N:Discord.WebSocket
   isExternal: true
@@ -982,6 +991,36 @@ references:
   - uid: Mewdeko.Services.Impl
     name: Impl
     href: Mewdeko.Services.Impl.html
+- uid: Mewdeko.Common.Configs
+  commentId: N:Mewdeko.Common.Configs
+  href: Mewdeko.html
+  name: Mewdeko.Common.Configs
+  nameWithType: Mewdeko.Common.Configs
+  fullName: Mewdeko.Common.Configs
+  spec.csharp:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
+  spec.vb:
+  - uid: Mewdeko
+    name: Mewdeko
+    href: Mewdeko.html
+  - name: .
+  - uid: Mewdeko.Common
+    name: Common
+    href: Mewdeko.Common.html
+  - name: .
+  - uid: Mewdeko.Common.Configs
+    name: Configs
+    href: Mewdeko.Common.Configs.html
 - uid: Mewdeko.Modules.Games.Services.ChatterBotService.Priority*
   commentId: Overload:Mewdeko.Modules.Games.Services.ChatterBotService.Priority
   href: Mewdeko.Modules.Games.Services.ChatterBotService.html#Mewdeko_Modules_Games_Services_ChatterBotService_Priority
