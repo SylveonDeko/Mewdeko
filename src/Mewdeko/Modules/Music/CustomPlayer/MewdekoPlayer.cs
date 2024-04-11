@@ -137,7 +137,7 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     public async Task SetMusicChannelAsync(ulong channelId, ulong guildId)
     {
         await using var uow = dbService.GetDbContext();
-        var settings = await uow.MusicPlayerSettings.FirstOrDefaultAsync(x => x.GuildId == base.GuildId);
+        var settings = await uow.MusicPlayerSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
         if (settings is null)
         {
             settings = new MusicPlayerSettings
