@@ -1,5 +1,3 @@
-
-
 // ReSharper disable NotNullMemberIsNotInitialized
 
 namespace Mewdeko.Common.DiscordImplementations;
@@ -73,4 +71,12 @@ public class MewdekoUserMessage : IUserMessage
     public MessageRoleSubscriptionData RoleSubscriptionData => throw new NotImplementedException();
 
     public MessageResolvedData ResolvedData => throw new NotImplementedException();
+
+    public IMessageInteractionMetadata InteractionMetadata
+    {
+        get
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
