@@ -20,9 +20,11 @@ public class SlashMusic(IAudioService service, IDataCache cache) : MewdekoSlashC
     /// Handling track selection for the play command select menu.
     /// </summary>
     /// <param name="selectedValue">The selected track.</param>
-    [ComponentInteraction("track_select", true), CheckPermissions]
-    public async Task TrackSelect(string[] selectedValue)
+    [ComponentInteraction("track_select:*", true), CheckPermissions]
+    public async Task TrackSelect(ulong userId, string[] selectedValue)
     {
+        if (ctx.User.Id != userId) return;
+
         var componentInteraction = ctx.Interaction as IComponentInteraction;
         var selectedNumber = selectedValue[0].Split("_")[1];
 

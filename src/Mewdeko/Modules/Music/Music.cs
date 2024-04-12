@@ -185,7 +185,7 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
 
                 var trackList = tracks.Tracks.Take(25).ToList();
                 var selectMenu = new SelectMenuBuilder()
-                    .WithCustomId("track_select")
+                    .WithCustomId($"track_select:{ctx.User.Id}")
                     .WithPlaceholder("Select a track to play");
 
                 foreach (var track in trackList)
