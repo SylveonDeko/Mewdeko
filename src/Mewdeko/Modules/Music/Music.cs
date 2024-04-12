@@ -387,9 +387,9 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
             foreach (var track in tracks)
             {
                 if (player.CurrentItem is not null && player.CurrentItem.Track == track)
-                    sb.AppendLine($":loud_sound: **{tracks.IndexOf(track) + 1}. [{track.Title}]({track.Uri})**");
+                    sb.AppendLine($":loud_sound: **{queue.IndexOf(track) + 1}. [{track.Title}]({track.Uri})**");
                 else
-                    sb.AppendLine($"{tracks.IndexOf(track) + 1}. [{track.Title}]({track.Uri})");
+                    sb.AppendLine($"{queue.IndexOf(track) + 1}. [{track.Title}]({track.Uri})");
             }
 
             return new PageBuilder()
