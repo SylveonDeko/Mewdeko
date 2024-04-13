@@ -9,7 +9,9 @@ using Lavalink4NET.DiscordNet;
 using Lavalink4NET.Players;
 using Lavalink4NET.Rest.Entities.Tracks;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Modules.Music.Common;
 using Mewdeko.Modules.Music.CustomPlayer;
+using Serilog;
 using Swan;
 
 namespace Mewdeko.Modules.Music;
@@ -17,7 +19,11 @@ namespace Mewdeko.Modules.Music;
 /// <summary>
 /// A module containing music commands.
 /// </summary>
-public class Music(IAudioService service, IDataCache cache, InteractiveService interactiveService) : MewdekoModule
+public class Music(
+    IAudioService service,
+    IDataCache cache,
+    InteractiveService interactiveService,
+    GuildSettingsService guildSettingsService) : MewdekoModule
 {
     /// <summary>
     /// Retrieves the music player an attempts to join the voice channel.
@@ -32,7 +38,12 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
         }
         else
         {
-            await ReplyErrorLocalizedAsync("music_join_fail").ConfigureAwait(false);
+            var eb = new EmbedBuilder()
+                .WithErrorColor()
+                .WithTitle(GetText("music_player_error"))
+                .WithDescription(result);
+
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
         }
     }
 
@@ -45,11 +56,17 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
         var (player, result) = await GetPlayerAsync(false);
         if (result is not null)
         {
-            await ReplyErrorLocalizedAsync("music_join_fail_not_channel").ConfigureAwait(false);
+            var eb = new EmbedBuilder()
+                .WithErrorColor()
+                .WithTitle(GetText("music_player_error"))
+                .WithDescription(result);
+
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             return;
         }
 
         await cache.SetMusicQueue(ctx.Guild.Id, []).ConfigureAwait(false);
+        await cache.SetCurrentTrack(ctx.Guild.Id, null);
 
         await player.DisconnectAsync().ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("music_disconnect").ConfigureAwait(false);
@@ -61,8 +78,23 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task ClearQueue()
     {
+        var (player, result) = await GetPlayerAsync(false);
+
+        if (result is not null)
+        {
+            var eb = new EmbedBuilder()
+                .WithErrorColor()
+                .WithTitle(GetText("music_player_error"))
+                .WithDescription(result);
+
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+            return;
+        }
+
         await cache.SetMusicQueue(ctx.Guild.Id, []).ConfigureAwait(false);
-        await ctx.Channel.SendConfirmAsync("Queue cleared.").ConfigureAwait(false);
+        await ReplyConfirmLocalizedAsync("music_queue_cleared").ConfigureAwait(false);
+        await player.StopAsync();
+        await cache.SetCurrentTrack(ctx.Guild.Id, null);
     }
 
     /// <summary>
@@ -73,9 +105,15 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
     public async Task Play([Remainder] int queueNumber)
     {
         var (player, result) = await GetPlayerAsync(false);
+
         if (result is not null)
         {
-            await ReplyErrorLocalizedAsync("music_join_fail").ConfigureAwait(false);
+            var eb = new EmbedBuilder()
+                .WithErrorColor()
+                .WithTitle(GetText("music_player_error"))
+                .WithDescription(result);
+
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             return;
         }
 
@@ -93,8 +131,10 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
             return;
         }
 
+        var trackToPlay = queue.FirstOrDefault(x => x.Index == queueNumber);
         await player.StopAsync();
-        await player.PlayAsync(queue[actualNumber]).ConfigureAwait(false);
+        await player.PlayAsync(trackToPlay.Track).ConfigureAwait(false);
+        await cache.SetCurrentTrack(ctx.Guild.Id, trackToPlay);
     }
 
     /// <summary>
@@ -106,111 +146,165 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
     {
         var (player, result) = await GetPlayerAsync();
 
-        var queue = await cache.GetMusicQueue(ctx.Guild.Id);
-
-        if (string.IsNullOrWhiteSpace(result))
+        if (result is not null)
         {
-            if (Uri.TryCreate(query, UriKind.Absolute, out var uri))
+            var eb = new EmbedBuilder()
+                .WithErrorColor()
+                .WithTitle(GetText("music_player_error"))
+                .WithDescription(result);
+
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+            return;
+        }
+
+        await player.SetVolumeAsync(await player.GetVolume(ctx.Guild.Id) / 100f).ConfigureAwait(false);
+
+        var queue = await cache.GetMusicQueue(ctx.Guild.Id);
+        if (Uri.TryCreate(query, UriKind.Absolute, out var uri))
+        {
+            TrackLoadOptions options;
+            if (query.Contains("music.youtube"))
             {
-                TrackLoadOptions options;
-                if (query.Contains("music.youtube"))
+                options = new TrackLoadOptions
                 {
-                    options = new TrackLoadOptions
-                    {
-                        SearchMode = TrackSearchMode.YouTubeMusic
-                    };
-                }
-                else if (query.Contains("youtube.com") || query.Contains("youtu.be"))
+                    SearchMode = TrackSearchMode.YouTubeMusic
+                };
+            }
+            else if (query.Contains("youtube.com") || query.Contains("youtu.be"))
+            {
+                options = new TrackLoadOptions
                 {
-                    options = new TrackLoadOptions
-                    {
-                        SearchMode = TrackSearchMode.YouTube
-                    };
-                }
-                else if (query.Contains("open.spotify") || query.Contains("spotify.com"))
+                    SearchMode = TrackSearchMode.YouTube
+                };
+            }
+            else if (query.Contains("open.spotify") || query.Contains("spotify.com"))
+            {
+                options = new TrackLoadOptions
                 {
-                    options = new TrackLoadOptions
-                    {
-                        SearchMode = TrackSearchMode.Spotify
-                    };
-                }
-                else
+                    SearchMode = TrackSearchMode.Spotify
+                };
+            }
+            else if (query.Contains("soundcloud.com"))
+            {
+                options = new TrackLoadOptions
                 {
-                    options = new TrackLoadOptions
-                    {
-                        SearchMode = TrackSearchMode.None
-                    };
-                }
-
-                var trackResults = await service.Tracks.LoadTracksAsync(query, options);
-                if (!trackResults.IsSuccess)
-                {
-                    await ReplyErrorLocalizedAsync("music_search_fail").ConfigureAwait(false);
-                    return;
-                }
-
-                if (trackResults.Tracks.Length > 1)
-                {
-                    queue.AddRange(trackResults.Tracks);
-                    await cache.SetMusicQueue(ctx.Guild.Id, queue);
-
-                    var eb = new EmbedBuilder()
-                        .WithDescription(
-                            $"Added {trackResults.Tracks.Length} tracks to the queue from {trackResults.Playlist.Name}")
-                        .WithThumbnailUrl(trackResults.Tracks[0].ArtworkUri?.ToString())
-                        .WithOkColor()
-                        .Build();
-
-                    await ctx.Channel.SendMessageAsync(embed: eb).ConfigureAwait(false);
-                }
-                else
-                {
-                    queue.Add(trackResults.Tracks[0]);
-                }
-
-                if (player.CurrentItem is null)
-                {
-                    await player.PlayAsync(trackResults.Tracks[0]).ConfigureAwait(false);
-                }
+                    SearchMode = TrackSearchMode.SoundCloud
+                };
             }
             else
             {
-                var tracks = await service.Tracks.LoadTracksAsync(query, TrackSearchMode.YouTube);
-
-                if (!tracks.IsSuccess)
+                options = new TrackLoadOptions
                 {
-                    await ReplyErrorLocalizedAsync("music_no_tracks").ConfigureAwait(false);
-                    return;
-                }
+                    SearchMode = TrackSearchMode.None
+                };
+            }
 
-                var trackList = tracks.Tracks.Take(25).ToList();
-                var selectMenu = new SelectMenuBuilder()
-                    .WithCustomId($"track_select:{ctx.User.Id}")
-                    .WithPlaceholder("Select a track to play");
+            var trackResults = await service.Tracks.LoadTracksAsync(query, options);
+            if (!trackResults.IsSuccess)
+            {
+                await ReplyErrorLocalizedAsync("music_search_fail").ConfigureAwait(false);
+                return;
+            }
 
-                foreach (var track in trackList)
-                {
-                    var index = trackList.IndexOf(track);
-                    selectMenu.AddOption(track.Title.Truncate(100), $"track_{index}");
-                }
+            if (trackResults.Tracks.Length > 1)
+            {
+                var startIndex = queue.Count + 1;
+                queue.AddRange(trackResults.Tracks.Select(track =>
+                    new MewdekoTrack(startIndex++, track, new PartialUser
+                    {
+                        Id = ctx.User.Id, Username = ctx.User.Username, AvatarUrl = ctx.User.GetAvatarUrl()
+                    })));
+                await cache.SetMusicQueue(ctx.Guild.Id, queue);
 
                 var eb = new EmbedBuilder()
-                    .WithDescription("Select a track to play from the list below.")
+                    .WithDescription(
+                        $"Added {trackResults.Tracks.Length} tracks to the queue from {trackResults.Playlist.Name}")
+                    .WithThumbnailUrl(trackResults.Tracks[0].ArtworkUri?.ToString())
                     .WithOkColor()
                     .Build();
 
-                var components = new ComponentBuilder().WithSelectMenu(selectMenu).Build();
+                await ctx.Channel.SendMessageAsync(embed: eb).ConfigureAwait(false);
+            }
+            else
+            {
+                queue.Add(new MewdekoTrack(queue.Count + 1, trackResults.Tracks[0], new PartialUser
+                {
+                    Id = ctx.User.Id, Username = ctx.User.Username, AvatarUrl = ctx.User.GetAvatarUrl()
+                }));
+            }
 
-                var message = await ctx.Channel.SendMessageAsync(embed: eb, components: components);
-
-                await cache.Redis.GetDatabase().StringSetAsync($"{ctx.User.Id}_{message.Id}_tracks",
-                    JsonSerializer.Serialize(trackList), expiry: TimeSpan.FromMinutes(5));
+            if (player.CurrentItem is null)
+            {
+                await player.PlayAsync(trackResults.Tracks[0]).ConfigureAwait(false);
+                await cache.SetCurrentTrack(ctx.Guild.Id, queue[0]);
             }
         }
         else
         {
-            await ReplyErrorLocalizedAsync("music_join_fail").ConfigureAwait(false);
+            var tracks = await service.Tracks.LoadTracksAsync(query, TrackSearchMode.YouTube);
+
+            if (!tracks.IsSuccess)
+            {
+                await ReplyErrorLocalizedAsync("music_no_tracks").ConfigureAwait(false);
+                return;
+            }
+
+            var trackList = tracks.Tracks.Take(25).ToList();
+            var selectMenu = new SelectMenuBuilder()
+                .WithCustomId($"track_select:{ctx.User.Id}")
+                .WithPlaceholder(GetText("music_select_tracks"))
+                .WithMaxValues(trackList.Count)
+                .WithMinValues(1);
+
+            foreach (var track in trackList)
+            {
+                var index = trackList.IndexOf(track);
+                selectMenu.AddOption(track.Title.Truncate(100), $"track_{index}");
+            }
+
+            var eb = new EmbedBuilder()
+                .WithDescription(GetText("music_select_tracks_embed"))
+                .WithOkColor()
+                .Build();
+
+            var components = new ComponentBuilder().WithSelectMenu(selectMenu).Build();
+
+            var message = await ctx.Channel.SendMessageAsync(embed: eb, components: components);
+
+            await cache.Redis.GetDatabase().StringSetAsync($"{ctx.User.Id}_{message.Id}_tracks",
+                JsonSerializer.Serialize(trackList), expiry: TimeSpan.FromMinutes(5));
         }
+    }
+
+    /// <summary>
+    /// Gets the now playing track, if any.
+    /// </summary>
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
+    public async Task NowPlaying()
+    {
+        var (player, result) = await GetPlayerAsync(false);
+
+        if (result is not null)
+        {
+            var eb = new EmbedBuilder()
+                .WithErrorColor()
+                .WithTitle(GetText("music_player_error"))
+                .WithDescription(result);
+
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+            return;
+        }
+
+        var queue = await cache.GetMusicQueue(ctx.Guild.Id);
+
+        if (queue.Count == 0)
+        {
+            await ReplyErrorLocalizedAsync("music_queue_empty").ConfigureAwait(false);
+            return;
+        }
+
+        var embed = await player.PrettyNowPlayingAsync(queue);
+        await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -223,13 +317,18 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
         var (player, result) = await GetPlayerAsync(false);
         if (result is not null)
         {
-            await ReplyErrorLocalizedAsync("music_join_fail").ConfigureAwait(false);
+            var eb = new EmbedBuilder()
+                .WithErrorColor()
+                .WithTitle(GetText("music_player_error"))
+                .WithDescription(result);
+
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             return;
         }
 
         var queue = await cache.GetMusicQueue(ctx.Guild.Id);
-        var currentTrack = queue.IndexOf(player.CurrentItem.Track);
-        var nextTrack = queue.ElementAtOrDefault(currentTrack + 1);
+        var currentTrack = await cache.GetCurrentTrack(ctx.Guild.Id);
+        var nextTrack = queue.FirstOrDefault(x => x.Index == currentTrack.Index + 1);
         if (queue.Count == 0)
         {
             await ReplyErrorLocalizedAsync("music_queue_empty").ConfigureAwait(false);
@@ -245,14 +344,16 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
         if (nextTrack is not null)
         {
             await player.StopAsync();
-            await player.PlayAsync(nextTrack);
+            await player.PlayAsync(nextTrack.Track);
+            await cache.SetCurrentTrack(ctx.Guild.Id, nextTrack);
         }
         else
         {
             await player.StopAsync();
+            await cache.SetCurrentTrack(ctx.Guild.Id, null);
         }
 
-        queue.RemoveAt(currentTrack);
+        queue.Remove(currentTrack);
         await cache.SetMusicQueue(ctx.Guild.Id, queue);
 
         if (player.State == PlayerState.Playing)
@@ -276,7 +377,12 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
         var (player, result) = await GetPlayerAsync(false);
         if (result is not null)
         {
-            await ReplyErrorLocalizedAsync("music_join_fail").ConfigureAwait(false);
+            var eb = new EmbedBuilder()
+                .WithErrorColor()
+                .WithTitle(GetText("music_player_error"))
+                .WithDescription(result);
+
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             return;
         }
 
@@ -287,21 +393,38 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
             return;
         }
 
-        if (from < 1 || from > queue.Count || to < 1 || to > queue.Count)
+        if (from < 1 || from > queue.Count || to < 1 || to > queue.Count + 1)
         {
             await ReplyErrorLocalizedAsync("music_queue_invalid").ConfigureAwait(false);
             return;
         }
 
-        var actualFrom = from - 1;
-        var actualTo = to - 1;
+        var track = queue.FirstOrDefault(x => x.Index == from);
+        var replace = queue.FirstOrDefault(x => x.Index == to);
+        var currentSong = await cache.GetCurrentTrack(ctx.Guild.Id);
 
-        var track = queue[actualFrom];
-        queue.RemoveAt(actualFrom);
-        queue.Insert(actualTo, track);
+        queue[queue.IndexOf(track)].Index = to;
 
-        await cache.SetMusicQueue(ctx.Guild.Id, queue);
-        await ReplyConfirmLocalizedAsync("music_song_moved", track.Title, actualTo).ConfigureAwait(false);
+        if (currentSong is not null && currentSong.Index == from)
+        {
+            track.Index = to;
+            await cache.SetCurrentTrack(ctx.Guild.Id, track);
+        }
+
+        if (replace is not null)
+        {
+            queue[queue.IndexOf(replace)].Index = from;
+        }
+
+        try
+        {
+            await cache.SetMusicQueue(ctx.Guild.Id, queue);
+            await ReplyConfirmLocalizedAsync("music_song_moved", track.Track.Title, to).ConfigureAwait(false);
+        }
+        catch (Exception e)
+        {
+            Log.Error(e, "Failed to move song.");
+        }
     }
 
     /// <summary>
@@ -314,7 +437,12 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
         var (player, result) = await GetPlayerAsync(false);
         if (result is not null)
         {
-            await ReplyErrorLocalizedAsync("music_join_fail").ConfigureAwait(false);
+            var eb = new EmbedBuilder()
+                .WithErrorColor()
+                .WithTitle(GetText("music_player_error"))
+                .WithDescription(result);
+
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             return;
         }
 
@@ -324,7 +452,8 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
             return;
         }
 
-        await player.SetVolumeAsync(volume / 100).ConfigureAwait(false);
+        await player.SetVolumeAsync(volume / 100f).ConfigureAwait(false);
+        await player.SetGuildVolumeAsync(volume, ctx.Guild.Id).ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("music_volume_set", volume).ConfigureAwait(false);
     }
 
@@ -337,7 +466,12 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
         var (player, result) = await GetPlayerAsync(false);
         if (result is not null)
         {
-            await ReplyErrorLocalizedAsync("music_join_fail").ConfigureAwait(false);
+            var eb = new EmbedBuilder()
+                .WithErrorColor()
+                .WithTitle(GetText("music_player_error"))
+                .WithDescription(result);
+
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             return;
         }
 
@@ -359,7 +493,12 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
         var (player, result) = await GetPlayerAsync(false);
         if (result is not null)
         {
-            await ReplyErrorLocalizedAsync("music_join_fail").ConfigureAwait(false);
+            var eb = new EmbedBuilder()
+                .WithErrorColor()
+                .WithTitle(GetText("music_player_error"))
+                .WithDescription(result);
+
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             return;
         }
 
@@ -369,6 +508,8 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
             await ReplyErrorLocalizedAsync("music_queue_empty").ConfigureAwait(false);
             return;
         }
+
+        var currentTrack = await cache.GetCurrentTrack(ctx.Guild.Id);
 
         var paginator = new LazyPaginatorBuilder().AddUser(ctx.User)
             .WithPageFactory(PageFactory)
@@ -382,14 +523,17 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
 
         async Task<PageBuilder> PageFactory(int index)
         {
-            var tracks = queue.Skip(index * 10).Take(10).ToList();
+            var tracks = queue.OrderBy(x => x.Index).Skip(index * 10).Take(10).ToList();
             var sb = new StringBuilder();
             foreach (var track in tracks)
             {
-                if (player.CurrentItem is not null && player.CurrentItem.Track == track)
-                    sb.AppendLine($":loud_sound: **{queue.IndexOf(track) + 1}. [{track.Title}]({track.Uri})**");
+                if (currentTrack.Index == track.Index)
+                    sb.AppendLine(
+                        $":loud_sound: **{track.Index}. [{track.Track.Title}]({track.Track.Uri})**" +
+                        $"\n`{track.Track.Duration} {track.Requester.Username} {track.Track.Provider}`");
                 else
-                    sb.AppendLine($"{queue.IndexOf(track) + 1}. [{track.Title}]({track.Uri})");
+                    sb.AppendLine($"{track.Index}. [{track.Track.Title}]({track.Track.Uri})" +
+                                  $"\n`{track.Track.Duration} {track.Requester.Username} {track.Track.Provider}`");
             }
 
             return new PageBuilder()
@@ -404,17 +548,23 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
     /// </summary>
     /// <param name="channel">The channel where music events will be sent.</param>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
-    public async Task SetMusicChannel(IMessageChannel channel)
+    public async Task SetMusicChannel(IMessageChannel channel = null)
     {
-        var (player, reason) = await GetPlayerAsync(false);
-        if (reason is not null)
+        var channelToUse = channel ?? ctx.Channel;
+        var (player, result) = await GetPlayerAsync(false);
+        if (result is not null)
         {
-            await ReplyErrorLocalizedAsync("music_join_fail").ConfigureAwait(false);
+            var eb = new EmbedBuilder()
+                .WithErrorColor()
+                .WithTitle(GetText("music_player_error"))
+                .WithDescription(result);
+
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             return;
         }
 
-        await player.SetMusicChannelAsync(channel.Id, ctx.Guild.Id).ConfigureAwait(false);
-        await ReplyConfirmLocalizedAsync("music_channel_set", channel.Id).ConfigureAwait(false);
+        await player.SetMusicChannelAsync(channelToUse.Id, ctx.Guild.Id).ConfigureAwait(false);
+        await ReplyConfirmLocalizedAsync("music_channel_set", channelToUse.Id).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -427,7 +577,12 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
         var (player, result) = await GetPlayerAsync(false);
         if (result is not null)
         {
-            await ReplyErrorLocalizedAsync("music_join_fail").ConfigureAwait(false);
+            var eb = new EmbedBuilder()
+                .WithErrorColor()
+                .WithTitle(GetText("music_player_error"))
+                .WithDescription(result);
+
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
             return;
         }
 
@@ -453,12 +608,19 @@ public class Music(IAudioService service, IDataCache cache, InteractiveService i
             .RetrieveAsync<MewdekoPlayer, MewdekoPlayerOptions>(Context, CreatePlayerAsync, options, retrieveOptions)
             .ConfigureAwait(false);
 
+        await result.Player.SetVolumeAsync(await result.Player.GetVolume(ctx.Guild.Id) / 100f).ConfigureAwait(false);
+
         if (result.IsSuccess) return (result.Player, null);
         var errorMessage = result.Status switch
         {
-            PlayerRetrieveStatus.UserNotInVoiceChannel => "You are not connected to a voice channel.",
-            PlayerRetrieveStatus.BotNotConnected => "The bot is currently not connected.",
-            _ => "Unknown error.",
+            PlayerRetrieveStatus.UserNotInVoiceChannel => GetText("music_not_in_channel"),
+            PlayerRetrieveStatus.BotNotConnected => GetText("music_bot_not_connect",
+                await guildSettingsService.GetPrefix(ctx.Guild)),
+            PlayerRetrieveStatus.VoiceChannelMismatch => GetText("music_voice_channel_mismatch"),
+            PlayerRetrieveStatus.Success => null,
+            PlayerRetrieveStatus.UserInSameVoiceChannel => null,
+            PlayerRetrieveStatus.PreconditionFailed => null,
+            _ => throw new ArgumentOutOfRangeException()
         };
         return (null, errorMessage);
     }

@@ -1,8 +1,11 @@
 ﻿using System.Threading;
 using Lavalink4NET.Players;
 using Lavalink4NET.Protocol.Payloads.Events;
+using Mewdeko.Modules.Music.Common;
+using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.Music.CustomPlayer;
 
@@ -15,6 +18,7 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     private IMessageChannel channel;
     private DiscordSocketClient client;
     private DbService dbService;
+    private IBotStrings strings;
 
     /// <summary>
     /// Initializes a new instance of <see cref="MewdekoPlayer"/>.
@@ -26,6 +30,7 @@ public sealed class MewdekoPlayer : LavalinkPlayer
         client = properties.ServiceProvider.GetRequiredService<DiscordSocketClient>();
         dbService = properties.ServiceProvider.GetRequiredService<DbService>();
         cache = properties.ServiceProvider.GetRequiredService<IDataCache>();
+        strings = properties.ServiceProvider.GetRequiredService<IBotStrings>();
     }
 
 
@@ -40,8 +45,8 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     {
         var musicChannel = await GetMusicChannel(base.GuildId);
         var queue = await cache.GetMusicQueue(base.GuildId);
-        var currentTrack = queue.IndexOf(item.Track);
-        var nextTrack = queue.ElementAtOrDefault(currentTrack + 1);
+        var currentTrack = await cache.GetCurrentTrack(base.GuildId);
+        var nextTrack = queue.FirstOrDefault(x => x.Index == currentTrack.Index + 1);
         switch (reason)
         {
             case TrackEndReason.Finished:
@@ -54,10 +59,12 @@ public sealed class MewdekoPlayer : LavalinkPlayer
                         {
                             await musicChannel.SendMessageAsync("Queue is empty. Stopping.");
                             await base.StopAsync(token);
+                            await cache.SetCurrentTrack(base.GuildId, null);
                         }
                         else
                         {
-                            await base.PlayAsync(nextTrack, cancellationToken: token);
+                            await base.PlayAsync(nextTrack.Track, cancellationToken: token);
+                            await cache.SetCurrentTrack(base.GuildId, nextTrack);
                         }
 
                         break;
@@ -67,11 +74,13 @@ public sealed class MewdekoPlayer : LavalinkPlayer
                     case PlayerRepeatType.Queue:
                         if (nextTrack is null)
                         {
-                            await base.PlayAsync(queue[0], cancellationToken: token);
+                            await base.PlayAsync(queue[0].Track, cancellationToken: token);
+                            await cache.SetCurrentTrack(base.GuildId, queue[0]);
                         }
                         else
                         {
-                            await base.PlayAsync(nextTrack, cancellationToken: token);
+                            await base.PlayAsync(nextTrack.Track, cancellationToken: token);
+                            await cache.SetCurrentTrack(base.GuildId, nextTrack);
                         }
 
                         break;
@@ -104,16 +113,11 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     /// <param name="track">The track that started playing.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
     protected override async ValueTask NotifyTrackStartedAsync(ITrackQueueItem track,
-        CancellationToken cancellationToken = new CancellationToken())
+        CancellationToken cancellationToken = new())
     {
+        var queue = await cache.GetMusicQueue(base.GuildId);
         var musicChannel = await GetMusicChannel(base.GuildId);
-        var eb = new EmbedBuilder()
-            .WithDescription($"Playing [{track.Track.Title}]({track.Track.Uri}) by {track.Track.Author}")
-            .WithThumbnailUrl(track.Track.ArtworkUri?.ToString())
-            .WithOkColor()
-            .Build();
-
-        await musicChannel.SendMessageAsync(embed: eb);
+        await musicChannel.SendMessageAsync(embed: await PrettyNowPlayingAsync(queue));
     }
 
     private async Task<IMessageChannel> GetMusicChannel(ulong guildId)
@@ -149,6 +153,64 @@ public sealed class MewdekoPlayer : LavalinkPlayer
         else
         {
             settings.MusicChannelId = channelId;
+        }
+
+        await uow.SaveChangesAsync();
+    }
+
+    /// <summary>
+    /// Gets a pretty now playing message for the player.
+    /// </summary>
+    public async Task<Embed> PrettyNowPlayingAsync(List<MewdekoTrack> queue)
+    {
+        var currentTrack = await cache.GetCurrentTrack(base.GuildId);
+        var eb = new EmbedBuilder()
+            .WithTitle(strings.GetText("music_now_playing"))
+            .WithDescription($"`Artist:` ***{currentTrack.Track.Author}***" +
+                             $"\n`Name:` ***[{currentTrack.Track.Title}]({currentTrack.Track.Uri})***" +
+                             $"\n`Source:` ***{currentTrack.Track.Provider}***" +
+                             $"\n`Queued By:` ***{currentTrack.Requester.Username}***")
+            .WithOkColor()
+            .WithImageUrl(currentTrack.Track.ArtworkUri?.ToString())
+            .WithFooter(
+                $"Track Number: {currentTrack.Index}/{queue.Count} | {base.CurrentTrack.Duration} | 🔊: {base.Volume * 100}% | 🔁: {await GetRepeatType(base.GuildId)}");
+
+        return eb.Build();
+    }
+
+    /// <summary>
+    /// Gets the volume for a guild, defaults to max.
+    /// </summary>
+    /// <param name="guildId">The guild id to get the volume for.</param>
+    /// <returns>An integer representing the guilds player volume</returns>
+    public async Task<int> GetVolume(ulong guildId)
+    {
+        await using var uow = dbService.GetDbContext();
+        var settings = await uow.MusicPlayerSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
+        return settings?.Volume ?? 100;
+    }
+
+    /// <summary>
+    /// Sets the volume for the player.
+    /// </summary>
+    /// <param name="volume">The volume to set.</param>
+    /// <param name="guildId">The guild id to set the volume for.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    public async Task SetGuildVolumeAsync(int volume, ulong guildId)
+    {
+        await using var uow = dbService.GetDbContext();
+        var settings = await uow.MusicPlayerSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
+        if (settings is null)
+        {
+            settings = new MusicPlayerSettings
+            {
+                GuildId = base.GuildId, Volume = volume
+            };
+            await uow.MusicPlayerSettings.AddAsync(settings);
+        }
+        else
+        {
+            settings.Volume = volume;
         }
 
         await uow.SaveChangesAsync();
