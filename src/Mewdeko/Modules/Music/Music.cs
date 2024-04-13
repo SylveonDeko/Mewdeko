@@ -514,7 +514,7 @@ public class Music(
         var paginator = new LazyPaginatorBuilder().AddUser(ctx.User)
             .WithPageFactory(PageFactory)
             .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-            .WithMaxPageIndex(queue.Count / 10)
+            .WithMaxPageIndex((queue.Count - 1) / 10)
             .WithDefaultEmotes()
             .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
