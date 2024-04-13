@@ -157,7 +157,7 @@ public class Music(
             return;
         }
 
-        await player.SetVolumeAsync(await player.GetVolume(ctx.Guild.Id) / 100f).ConfigureAwait(false);
+        await player.SetVolumeAsync(await player.GetVolume() / 100f).ConfigureAwait(false);
 
         var queue = await cache.GetMusicQueue(ctx.Guild.Id);
         if (Uri.TryCreate(query, UriKind.Absolute, out var uri))
@@ -453,7 +453,7 @@ public class Music(
         }
 
         await player.SetVolumeAsync(volume / 100f).ConfigureAwait(false);
-        await player.SetGuildVolumeAsync(volume, ctx.Guild.Id).ConfigureAwait(false);
+        await player.SetGuildVolumeAsync(volume).ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("music_volume_set", volume).ConfigureAwait(false);
     }
 
@@ -544,6 +544,77 @@ public class Music(
     }
 
     /// <summary>
+    /// Sets the autoplay amount in the guild. Uses spotify api so client secret and id must be valid.
+    /// </summary>
+    /// <param name="amount">The amount of tracks to autoplay. Max of 5</param>
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
+    public async Task AutoPlay(int amount)
+    {
+        var (player, result) = await GetPlayerAsync(false);
+        if (result is not null)
+        {
+            var eb = new EmbedBuilder()
+                .WithErrorColor()
+                .WithTitle(GetText("music_player_error"))
+                .WithDescription(result);
+
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+            return;
+        }
+
+        if (amount is < 0 or > 5)
+        {
+            await ReplyErrorLocalizedAsync("music_autoplay_invalid").ConfigureAwait(false);
+            return;
+        }
+
+        await player.SetAutoPlay(amount).ConfigureAwait(false);
+        if (amount == 0)
+        {
+            await ReplyConfirmLocalizedAsync("music_autoplay_disabled").ConfigureAwait(false);
+        }
+        else
+        {
+            await ReplyConfirmLocalizedAsync("music_autoplay_set", amount).ConfigureAwait(false);
+        }
+    }
+
+    /// <summary>
+    /// Gets the guilds current settings for music.
+    /// </summary>
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
+    public async Task MusicSettings()
+    {
+        var (player, result) = await GetPlayerAsync(false);
+        if (result is not null)
+        {
+            var eb = new EmbedBuilder()
+                .WithErrorColor()
+                .WithTitle(GetText("music_player_error"))
+                .WithDescription(result);
+
+            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+            return;
+        }
+
+        var volume = await player.GetVolume();
+        var autoplay = await player.GetAutoPlay();
+        var repeat = await player.GetRepeatType();
+        var musicChannel = await player.GetMusicChannel();
+
+        var toSend = new EmbedBuilder()
+            .WithOkColor()
+            .WithTitle(GetText("music_settings"))
+            .WithDescription(
+                $"{(autoplay == 0 ? GetText("musicsettings_autoplay_disabled") : GetText("musicsettings_autoplay", autoplay))}\n" +
+                $"{GetText("musicsettings_volume", volume)}\n" +
+                $"{GetText("musicsettings_repeat", repeat)}\n" +
+                $"{(musicChannel == null ? GetText("musicsettings_channel_none") : GetText("musicsettings_channel", musicChannel.Id))}");
+
+        await ctx.Channel.SendMessageAsync(embed: toSend.Build()).ConfigureAwait(false);
+    }
+
+    /// <summary>
     /// Sets the channel where music events will be sent.
     /// </summary>
     /// <param name="channel">The channel where music events will be sent.</param>
@@ -563,7 +634,7 @@ public class Music(
             return;
         }
 
-        await player.SetMusicChannelAsync(channelToUse.Id, ctx.Guild.Id).ConfigureAwait(false);
+        await player.SetMusicChannelAsync(channelToUse.Id).ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("music_channel_set", channelToUse.Id).ConfigureAwait(false);
     }
 
@@ -586,43 +657,51 @@ public class Music(
             return;
         }
 
-        await player.SetRepeatTypeAsync(repeatType, ctx.Guild.Id).ConfigureAwait(false);
+        await player.SetRepeatTypeAsync(repeatType).ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("music_repeat_type", repeatType).ConfigureAwait(false);
     }
 
 
     private async ValueTask<(MewdekoPlayer, string?)> GetPlayerAsync(bool connectToVoiceChannel = true)
     {
-        var channelBehavior = connectToVoiceChannel
-            ? PlayerChannelBehavior.Join
-            : PlayerChannelBehavior.None;
-
-        var retrieveOptions = new PlayerRetrieveOptions(ChannelBehavior: channelBehavior);
-
-        var options = new MewdekoPlayerOptions
+        try
         {
-            Channel = ctx.Channel as ITextChannel
-        };
+            var channelBehavior = connectToVoiceChannel
+                ? PlayerChannelBehavior.Join
+                : PlayerChannelBehavior.None;
 
-        var result = await service.Players
-            .RetrieveAsync<MewdekoPlayer, MewdekoPlayerOptions>(Context, CreatePlayerAsync, options, retrieveOptions)
-            .ConfigureAwait(false);
+            var retrieveOptions = new PlayerRetrieveOptions(ChannelBehavior: channelBehavior);
 
-        await result.Player.SetVolumeAsync(await result.Player.GetVolume(ctx.Guild.Id) / 100f).ConfigureAwait(false);
+            var options = new MewdekoPlayerOptions
+            {
+                Channel = ctx.Channel as ITextChannel
+            };
 
-        if (result.IsSuccess) return (result.Player, null);
-        var errorMessage = result.Status switch
+            var result = await service.Players
+                .RetrieveAsync<MewdekoPlayer, MewdekoPlayerOptions>(Context, CreatePlayerAsync, options,
+                    retrieveOptions)
+                .ConfigureAwait(false);
+
+            await result.Player.SetVolumeAsync(await result.Player.GetVolume() / 100f).ConfigureAwait(false);
+
+            if (result.IsSuccess) return (result.Player, null);
+            var errorMessage = result.Status switch
+            {
+                PlayerRetrieveStatus.UserNotInVoiceChannel => GetText("music_not_in_channel"),
+                PlayerRetrieveStatus.BotNotConnected => GetText("music_bot_not_connect",
+                    await guildSettingsService.GetPrefix(ctx.Guild)),
+                PlayerRetrieveStatus.VoiceChannelMismatch => GetText("music_voice_channel_mismatch"),
+                PlayerRetrieveStatus.Success => null,
+                PlayerRetrieveStatus.UserInSameVoiceChannel => null,
+                PlayerRetrieveStatus.PreconditionFailed => null,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            return (null, errorMessage);
+        }
+        catch (TimeoutException)
         {
-            PlayerRetrieveStatus.UserNotInVoiceChannel => GetText("music_not_in_channel"),
-            PlayerRetrieveStatus.BotNotConnected => GetText("music_bot_not_connect",
-                await guildSettingsService.GetPrefix(ctx.Guild)),
-            PlayerRetrieveStatus.VoiceChannelMismatch => GetText("music_voice_channel_mismatch"),
-            PlayerRetrieveStatus.Success => null,
-            PlayerRetrieveStatus.UserInSameVoiceChannel => null,
-            PlayerRetrieveStatus.PreconditionFailed => null,
-            _ => throw new ArgumentOutOfRangeException()
-        };
-        return (null, errorMessage);
+            return (null, GetText("music_lavalink_disconnected"));
+        }
     }
 
     private static ValueTask<MewdekoPlayer> CreatePlayerAsync(
