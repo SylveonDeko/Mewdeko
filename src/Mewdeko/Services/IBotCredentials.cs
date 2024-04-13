@@ -143,6 +143,16 @@ namespace Mewdeko.Services
         string LavalinkUrl { get; }
 
         /// <summary>
+        /// Last.fm API key
+        /// </summary>
+        string LastFmApiKey { get; }
+
+        /// <summary>
+        /// Last.fm API secret
+        /// </summary>
+        string LastFmApiSecret { get; }
+
+        /// <summary>
         /// Checks if the given user is an owner of the bot.
         /// </summary>
         /// <param name="u">The user to check.</param>
