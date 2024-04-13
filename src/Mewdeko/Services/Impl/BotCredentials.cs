@@ -202,6 +202,16 @@ public class BotCredentials : IBotCredentials
     public string LavalinkUrl { get; set; }
 
     /// <summary>
+    /// Gets or sets last.fm API key.
+    /// </summary>
+    public string LastFmApiKey { get; set; }
+
+    /// <summary>
+    /// Gets or sets last.fm API secret.
+    /// </summary>
+    public string LastFmApiSecret { get; set; }
+
+    /// <summary>
     /// Gets or sets the bot's owner IDs.
     /// </summary>
     public ImmutableArray<ulong> OwnerIds { get; set; }
@@ -309,6 +319,8 @@ public class BotCredentials : IBotCredentials
             CsrfToken = data[nameof(CsrfToken)];
             UserAgent = data[nameof(UserAgent)];
             CfClearance = data[nameof(CfClearance)];
+            LastFmApiKey = data[nameof(LastFmApiKey)];
+            LastFmApiSecret = data[nameof(LastFmApiSecret)];
             MashapeKey = data[nameof(MashapeKey)];
             OsuApiKey = data[nameof(OsuApiKey)];
             TwitchClientId = data[nameof(TwitchClientId)];
@@ -426,6 +438,9 @@ public class BotCredentials : IBotCredentials
         public ulong GuildJoinsChannelId { get; set; } = 892789588739891250;
         public ulong GlobalBanReportChannelId { get; set; } = 905109141620682782;
         public ulong PronounAbuseReportChannelId { get; set; } = 970086914826858547;
+
+        public string LastFmApiKey { get; set; }
+        public string LastFmApiSecret { get; set; }
 
         public string Token { get; set; } = "";
         public string ClientSecret { get; } = "";
