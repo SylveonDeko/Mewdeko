@@ -1,4 +1,4 @@
-﻿using Lavalink4NET.Tracks;
+﻿using Mewdeko.Modules.Music.Common;
 using Mewdeko.Modules.Searches.Services;
 using Mewdeko.Modules.Utility.Common;
 using Newtonsoft.Json;
@@ -14,6 +14,11 @@ namespace Mewdeko.Services.Impl;
 /// </summary>
 public class RedisCache : IDataCache
 {
+    private readonly JsonSerializerSettings settings = new()
+    {
+        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+    };
+
     private string redisKey;
 
     /// <summary>
@@ -180,10 +185,10 @@ public class RedisCache : IDataCache
     /// <param name="id">The server ID.</param>
     /// <param name="tracks">The list of tracks.</param>
     /// <returns></returns>
-    public async Task SetMusicQueue(ulong id, List<LavalinkTrack> tracks)
+    public async Task SetMusicQueue(ulong id, List<MewdekoTrack> tracks)
     {
         var db = Redis.GetDatabase();
-        await db.StringSetAsync($"{redisKey}_musicqueue_{id}", JsonConvert.SerializeObject(tracks));
+        await db.StringSetAsync($"{redisKey}_musicqueue_{id}", JsonConvert.SerializeObject(tracks, settings));
     }
 
     /// <summary>
@@ -191,11 +196,38 @@ public class RedisCache : IDataCache
     /// </summary>
     /// <param name="id">The server ID.</param>
     /// <returns>A list of tracks.</returns>
-    public async Task<List<LavalinkTrack>> GetMusicQueue(ulong id)
+    public async Task<List<MewdekoTrack>> GetMusicQueue(ulong id)
     {
         var db = Redis.GetDatabase();
         var result = await db.StringGetAsync($"{redisKey}_musicqueue_{id}");
-        return result.HasValue ? JsonConvert.DeserializeObject<List<LavalinkTrack>>(result) : [];
+        return result.HasValue ? JsonConvert.DeserializeObject<List<MewdekoTrack>>(result, settings) : [];
+    }
+
+    /// <summary>
+    /// Sets the current track for a guild.
+    /// </summary>
+    /// <param name="id">The server ID.</param>
+    /// <param name="track">The track to set.</param>
+    /// <return>A task representing the operation.</return>
+    public async Task SetCurrentTrack(ulong id, MewdekoTrack? track)
+    {
+        var db = Redis.GetDatabase();
+        if (track is null)
+            await db.KeyDeleteAsync($"{redisKey}_currenttrack_{id}");
+        else
+            await db.StringSetAsync($"{redisKey}_currenttrack_{id}", JsonConvert.SerializeObject(track, settings));
+    }
+
+    /// <summary>
+    /// Gets the current track for a guild.
+    /// </summary>
+    /// <param name="id">The server ID.</param>
+    /// <returns>The current track.</returns>
+    public async Task<MewdekoTrack?> GetCurrentTrack(ulong id)
+    {
+        var db = Redis.GetDatabase();
+        var result = await db.StringGetAsync($"{redisKey}_currenttrack_{id}");
+        return result.HasValue ? JsonConvert.DeserializeObject<MewdekoTrack>(result, settings) : null;
     }
 
     /// <summary>
