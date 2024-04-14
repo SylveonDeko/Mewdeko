@@ -204,7 +204,7 @@ public sealed partial class MewdekoPlayer : LavalinkPlayer
             .WithOkColor()
             .WithImageUrl(currentTrack.Track.ArtworkUri?.ToString())
             .WithFooter(
-                $"Track Number: {currentTrack.Index}/{queue.Count} | {base.CurrentTrack.Duration} | 🔊: {base.Volume * 100}% | 🔁: {await GetRepeatType()}");
+                $"Track Number: {currentTrack.Index}/{queue.Count} | {base.Position.Value.Position:hh\\:mm\\:ss} | {base.CurrentTrack.Duration} | 🔊: {base.Volume * 100}% | 🔁: {await GetRepeatType()}");
 
         return eb.Build();
     }
