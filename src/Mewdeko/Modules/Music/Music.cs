@@ -231,6 +231,7 @@ public class Music(
                 {
                     Id = ctx.User.Id, Username = ctx.User.Username, AvatarUrl = ctx.User.GetAvatarUrl()
                 }));
+                await cache.SetMusicQueue(ctx.Guild.Id, queue);
             }
 
             if (player.CurrentItem is null)
