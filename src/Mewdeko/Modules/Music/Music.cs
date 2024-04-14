@@ -277,13 +277,13 @@ public class Music(
         }
     }
 
-    /// <summary>
-    /// Gets the now playing track, if any.
+    ///<summary>
+    /// Pauses or unpauses the player based on the current state.
     /// </summary>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
-    public async Task NowPlaying()
+    public async Task Pause()
     {
-        var (player, result) = await GetPlayerAsync(false);
+        var (player, result) = await GetPlayerAsync();
 
         if (result is not null)
         {
@@ -296,16 +296,56 @@ public class Music(
             return;
         }
 
-        var queue = await cache.GetMusicQueue(ctx.Guild.Id);
-
-        if (queue.Count == 0)
+        if (player.State == PlayerState.Paused)
         {
-            await ReplyErrorLocalizedAsync("music_queue_empty").ConfigureAwait(false);
-            return;
+            await player.ResumeAsync();
+            await ReplyConfirmLocalizedAsync("music_resume").ConfigureAwait(false);
         }
+        else
+        {
+            await player.PauseAsync();
+            await ReplyConfirmLocalizedAsync("music_pause").ConfigureAwait(false);
+        }
+    }
 
-        var embed = await player.PrettyNowPlayingAsync(queue);
-        await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
+
+    /// <summary>
+    /// Gets the now playing track, if any.
+    /// </summary>
+    [Cmd, Aliases, RequireContext(ContextType.Guild)]
+    public async Task NowPlaying()
+    {
+        try
+        {
+            var (player, result) = await GetPlayerAsync(false);
+
+            if (result is not null)
+            {
+                var eb = new EmbedBuilder()
+                    .WithErrorColor()
+                    .WithTitle(GetText("music_player_error"))
+                    .WithDescription(result);
+
+                await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+                return;
+            }
+
+            var queue = await cache.GetMusicQueue(ctx.Guild.Id);
+
+            if (queue.Count == 0)
+            {
+                await ReplyErrorLocalizedAsync("music_queue_empty").ConfigureAwait(false);
+                return;
+            }
+
+
+            var embed = await player.PrettyNowPlayingAsync(queue);
+            await ctx.Channel.SendMessageAsync(embed: embed).ConfigureAwait(false);
+        }
+        catch (Exception e)
+        {
+            Log.Error("Failed to get now playing track: {Message}", e.Message);
+        }
     }
 
     /// <summary>

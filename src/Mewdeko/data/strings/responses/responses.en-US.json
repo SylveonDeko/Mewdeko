@@ -499,6 +499,8 @@
   "music_autoplay_set": "AutoPlay set to {0}",
   "music_auto_play_disabled": "Auto-play disabled.",
   "music_settings": "Music settings",
+  "music_pause": "Player has been paused.",
+  "music_resume": "Player has been resumed.",
   "music_lavalink_disconnected": "Lavalink is disconnected. Please turn on lavalink and try again.",
   "musicsettings_volume": "***Volume***: {0}%",
   "musicsettings_autoplay": "***AutoPlay***: {0} tracks.",
