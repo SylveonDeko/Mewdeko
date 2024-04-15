@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿#nullable enable
+using System.Reflection;
 using System.Text;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Database.Common;
@@ -10,10 +11,10 @@ namespace Mewdeko.Database;
 
 public class DbService
 {
-    private readonly bool usePostgres;
     private readonly string connectionString;
+    private readonly bool usePostgres;
 
-    public DbService(int shardCount, string token, bool usePostgres, string psqlConnection = null)
+    public DbService(int shardCount, string? token, bool usePostgres, string psqlConnection = null)
     {
         this.usePostgres = usePostgres;
         LinqToDBForEFTools.Initialize();
