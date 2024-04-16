@@ -39,10 +39,12 @@ public class MessageRepeaterService(DiscordSocketClient client, DbService db, Me
             {
                 var config = await gss.GetGuildConfig(gc.Id);
                 var idToRepeater = config.GuildRepeaters
-                    .Where(gr => gr.DateAdded is not null)
-                    .Select(gr =>
-                        new KeyValuePair<int, RepeatRunner>(gr.Id, new RepeatRunner(client, gc, gr, this)))
-                    .ToDictionary(x => x.Key, y => y.Value)
+                    .Where(gr => gr.DateAdded != null)
+                    .Select(gr => new KeyValuePair<int, RepeatRunner>(
+                        gr.Id,
+                        new RepeatRunner(client, gc, gr, this)))
+                    .GroupBy(x => x.Key)
+                    .ToDictionary(g => g.Key, g => g.First().Value)
                     .ToConcurrent();
 
                 repeaters.TryAdd(gc.Id, idToRepeater);
