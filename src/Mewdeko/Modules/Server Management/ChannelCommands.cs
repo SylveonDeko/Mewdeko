@@ -3,7 +3,6 @@ using Discord.Commands;
 using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
-using Mewdeko.Modules.Server_Management.Services;
 using Mewdeko.Services.Settings;
 using PermValue = Discord.PermValue;
 
@@ -15,7 +14,7 @@ public partial class ServerManagement
     /// Manages channel-specific operations such as locking, unlocking, and modifying slowmode settings.
     /// </summary>
     [Group]
-    public class ChannelCommands(BotConfigService config, HttpClient http) : MewdekoSubmodule<ServerManagementService>
+    public class ChannelCommands(BotConfigService config, HttpClient http) : MewdekoSubmodule
     {
         /// <summary>
         /// Checks roles for SendMessages permission and modifies them as necessary before a lockdown.

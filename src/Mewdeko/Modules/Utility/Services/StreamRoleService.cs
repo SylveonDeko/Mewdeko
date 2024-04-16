@@ -12,8 +12,8 @@ namespace Mewdeko.Modules.Utility.Services;
 /// </summary>
 public class StreamRoleService : INService, IUnloadableService
 {
-    private readonly EventHandler eventHandler;
     private readonly DbService db;
+    private readonly EventHandler eventHandler;
     private readonly ConcurrentDictionary<ulong, StreamRoleSettings> guildSettings;
 
     /// <summary>
@@ -27,10 +27,9 @@ public class StreamRoleService : INService, IUnloadableService
     {
         this.db = db;
         this.eventHandler = eventHandler;
-        var allgc = bot.AllGuildConfigs;
 
-        guildSettings = allgc
-            .ToDictionary(x => x.GuildId, x => x.StreamRole)
+        guildSettings = bot.AllGuildConfigs
+            .ToDictionary(x => x.Key, x => x.Value.StreamRole)
             .Where(x => x.Value is { Enabled: 1 })
             .ToConcurrent();
 

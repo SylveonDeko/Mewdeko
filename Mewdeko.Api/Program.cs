@@ -9,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectString = builder.Configuration.GetSection("ConnectionString").Value;
 var skipApiKey = builder.Configuration.GetSection("SkipAuthorization").Value == "true";
+var redisUrl = builder.Configuration.GetSection("RedisUrl").Value;
+var redisKey = builder.Configuration.GetSection("RedisKey").Value;
 
 // Add services to the container.
 
@@ -43,6 +45,22 @@ var db = new DbService(0, null, true, connectString);
 db.Setup();
 
 builder.Services.AddSingleton(db);
+
+if (string.IsNullOrEmpty(redisUrl))
+{
+    Log.Error("Redis Url is empty. This is required for the api");
+    Environment.Exit(1);
+}
+
+if (string.IsNullOrEmpty(redisKey))
+{
+    Log.Error("Redis Key is empty. This is required for the api");
+    Environment.Exit(1);
+}
+
+var redis = new RedisCache(redisUrl, redisKey);
+
+builder.Services.AddSingleton(redis);
 
 var app = builder.Build();
 

@@ -94,11 +94,10 @@ public class SearchesService : INService, IUnloadableService
         this.cache = cache;
         this.creds = creds;
         rng = new MewdekoRandom();
-        var allgc = bot.AllGuildConfigs;
         blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
-            allgc.ToDictionary(
-                x => x.GuildId,
-                x => new HashSet<string>(x.NsfwBlacklistedTags.Select(y => y.Tag))));
+            bot.AllGuildConfigs.ToDictionary(
+                x => x.Key,
+                x => new HashSet<string>(x.Value.NsfwBlacklistedTags.Select(y => y.Tag))));
 
         //translate commands
         client.MessageReceived += msg =>
