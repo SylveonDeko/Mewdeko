@@ -14,21 +14,12 @@ namespace Mewdeko.Modules.Searches.Common.StreamNotifications;
 /// </summary>
 public class NotifChecker
 {
-    /// <summary>
-    /// Occurs when streams become offline.
-    /// </summary>
-    public event Func<List<StreamData>, Task> OnStreamsOffline = _ => Task.CompletedTask;
-
-    /// <summary>
-    /// Occurs when streams become online.
-    /// </summary>
-    public event Func<List<StreamData>, Task> OnStreamsOnline = _ => Task.CompletedTask;
-
-    private readonly ConnectionMultiplexer multi;
     private readonly string key;
 
-    private readonly Dictionary<FollowedStream.FType, Provider> streamProviders;
+    private readonly ConnectionMultiplexer multi;
     private readonly HashSet<(FollowedStream.FType, string)> offlineBuffer;
+
+    private readonly Dictionary<FollowedStream.FType, Provider> streamProviders;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="NotifChecker"/> class.
@@ -68,6 +59,16 @@ public class NotifChecker
         if (isMaster)
             CacheClearAllData();
     }
+
+    /// <summary>
+    ///     Occurs when streams become offline.
+    /// </summary>
+    public event Func<List<StreamData>, Task> OnStreamsOffline = _ => Task.CompletedTask;
+
+    /// <summary>
+    ///     Occurs when streams become online.
+    /// </summary>
+    public event Func<List<StreamData>, Task> OnStreamsOnline = _ => Task.CompletedTask;
 
     /// <summary>
     /// Gets all streams that have been failing for more than the provided timespan.
@@ -231,10 +232,10 @@ public class NotifChecker
     /// <summary>
     /// Clears all stream data from the cache.
     /// </summary>
-    public void CacheClearAllData()
+    private async void CacheClearAllData()
     {
         var db = multi.GetDatabase();
-        db.KeyDelete(key);
+        await db.KeyDeleteAsync(key);
     }
 
     /// <summary>
