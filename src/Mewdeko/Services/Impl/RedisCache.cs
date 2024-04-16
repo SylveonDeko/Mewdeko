@@ -117,6 +117,29 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
+    ///     Caches config for a guild.
+    /// </summary>
+    /// <param name="id">The guild ID.</param>
+    /// <param name="config">The config to cache.</param>
+    public async Task SetGuildConfigCache(ulong id, GuildConfig config)
+    {
+        var db = Redis.GetDatabase();
+        await db.StringSetAsync($"{redisKey}_guildconfig_{id}", JsonConvert.SerializeObject(config, settings));
+    }
+
+    /// <summary>
+    ///     Retrieves config for a guild.
+    /// </summary>
+    /// <param name="id">The guild ID.</param>
+    /// <returns>If successfull, the guild config, if not, null.</returns>
+    public async Task<GuildConfig?> GetGuildConfigCache(ulong id)
+    {
+        var db = Redis.GetDatabase();
+        var result = await db.StringGetAsync($"{redisKey}_guildconfig_{id}");
+        return result.HasValue ? JsonConvert.DeserializeObject<GuildConfig>(result, settings) : null;
+    }
+
+    /// <summary>
     /// Caches all status roles.
     /// </summary>
     /// <param name="statusRoles">The status roles to cache.</param>

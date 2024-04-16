@@ -17,11 +17,9 @@ public partial class Permissions
     /// <param name="service">The command cooldown service</param>
     /// <param name="db">The database service</param>
     [Group]
-    public class CmdCdsCommands(CmdCdService service, DbService db) : MewdekoSubmodule
+    public class CmdCdsCommands(CmdCdService service, DbService db, GuildSettingsService settingsService)
+        : MewdekoSubmodule
     {
-        private ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>> CommandCooldowns
-            => service.CommandCooldowns;
-
         private ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>> ActiveCooldowns
             => service.ActiveCooldowns;
 
@@ -54,13 +52,12 @@ public partial class Permissions
             var uow = db.GetDbContext();
             await using (uow.ConfigureAwait(false))
             {
+                var gConfig = await settingsService.GetGuildConfig(channel.Guild.Id);
                 var config = await uow.ForGuildId(channel.Guild.Id, set => set.Include(gc => gc.CommandCooldowns));
-                var localSet = CommandCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CommandCooldown>());
 
                 var toDelete = config.CommandCooldowns.FirstOrDefault(cc => cc.CommandName == name);
                 if (toDelete != null)
                     uow.CommandCooldown.Remove(toDelete);
-                localSet.RemoveWhere(cc => cc.CommandName == name);
                 if (time.Time.TotalSeconds != 0)
                 {
                     var cc = new CommandCooldown
@@ -68,7 +65,7 @@ public partial class Permissions
                         CommandName = name, Seconds = Convert.ToInt32(time.Time.TotalSeconds)
                     };
                     config.CommandCooldowns.Add(cc);
-                    localSet.Add(cc);
+                    await settingsService.UpdateGuildConfig(ctx.Guild.Id, gConfig).ConfigureAwait(false);
                 }
 
                 await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -104,16 +101,17 @@ public partial class Permissions
         public async Task AllCmdCooldowns()
         {
             var channel = (ITextChannel)ctx.Channel;
-            var localSet = CommandCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<CommandCooldown>());
+            var config = await settingsService.GetGuildConfig(channel.Guild.Id);
 
-            if (localSet.Count == 0)
+            if (config.CommandCooldowns.Count == 0)
             {
                 await ReplyConfirmLocalizedAsync("cmdcd_none").ConfigureAwait(false);
             }
             else
             {
                 await channel.SendTableAsync("",
-                        localSet.Select(c => $"{c.CommandName}: {c.Seconds}{GetText("sec")}"), s => $"{s,-30}", 2)
+                        config.CommandCooldowns.Select(c => $"{c.CommandName}: {c.Seconds}{GetText("sec")}"),
+                        s => $"{s,-30}", 2)
                     .ConfigureAwait(false);
             }
         }

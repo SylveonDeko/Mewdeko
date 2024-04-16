@@ -220,7 +220,7 @@ public class GuildConfig : DbEntity
 
     public StreamRoleSettings StreamRole { get; set; }
 
-    public XpSettings XpSettings { get; set; }
+    public XpSettings? XpSettings { get; set; }
     public List<FeedSub> FeedSubs { get; set; } = new();
     public IndexedCollection<ReactionRoleMessage> ReactionRoleMessages { get; set; } = new();
     public long NotifyStreamOffline { get; set; }

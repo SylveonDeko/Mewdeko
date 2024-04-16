@@ -1,8 +1,8 @@
 ﻿using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
+using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.Attributes.TextCommands;
-using Mewdeko.Common.Collections;
 using Mewdeko.Modules.Permissions.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +14,8 @@ public partial class Permissions
     /// Provides commands for managing word filters and automatic bans within guilds.
     /// </summary>
     [Group]
-    public class FilterCommands(DbService db, InteractiveService serv) : MewdekoSubmodule<FilterService>
+    public class FilterCommands(DbService db, InteractiveService serv, GuildSettingsService gss)
+        : MewdekoSubmodule<FilterService>
     {
         /// <summary>
         /// Toggles a word on or off the automatic ban list for the current guild.
@@ -35,7 +36,9 @@ public partial class Permissions
         [RequireContext(ContextType.Guild)]
         public async Task AutoBanWord([Remainder] string word)
         {
-            if (Service.Blacklist.Count(x => x.Word == word && x.GuildId == ctx.Guild.Id) == 1)
+            await using var uow = db.GetDbContext();
+            var blacklist = uow.AutoBanWords;
+            if (blacklist.Count(x => x.Word == word && x.GuildId == ctx.Guild.Id) == 1)
             {
                 Service.UnBlacklist(word, ctx.Guild.Id);
                 await ctx.Channel.SendConfirmAsync($"Removed {Format.Code(word)} from the auto bans word list!")
@@ -66,7 +69,8 @@ public partial class Permissions
         [RequireContext(ContextType.Guild)]
         public async Task AutoBanWordList()
         {
-            var words = Service.Blacklist.Where(x => x.GuildId == ctx.Guild.Id);
+            await using var uow = db.GetDbContext();
+            var words = uow.AutoBanWords.ToLinqToDB().Where(x => x.GuildId == ctx.Guild.Id);
             if (!words.Any())
             {
                 await ctx.Channel.SendErrorAsync("No AutoBanWords set.", Config).ConfigureAwait(false);
@@ -195,24 +199,20 @@ public partial class Permissions
         {
             var channel = (ITextChannel)ctx.Channel;
 
-            long newValue;
             var uow = db.GetDbContext();
-            await using (uow.ConfigureAwait(false))
-            {
-                var config = await uow.ForGuildId(channel.Guild.Id, set => set);
-                newValue = config.FilterInvites == 0L ? 1L : 0L;
-                config.FilterInvites = newValue;
-                await uow.SaveChangesAsync().ConfigureAwait(false);
-            }
+            await using var disposable = uow.ConfigureAwait(false);
+            var config = await uow.ForGuildId(channel.Guild.Id, set => set);
+            var newValue = config.FilterInvites == 0L ? 1L : 0L;
+            config.FilterInvites = newValue;
+            await uow.SaveChangesAsync().ConfigureAwait(false);
+            await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
 
             if (newValue == 1L)
             {
-                Service.InviteFilteringServers.Add(channel.Guild.Id);
                 await ReplyConfirmLocalizedAsync("invite_filter_server_on").ConfigureAwait(false);
             }
             else
             {
-                Service.InviteFilteringServers.TryRemove(channel.Guild.Id);
                 await ReplyConfirmLocalizedAsync("invite_filter_server_off").ConfigureAwait(false);
             }
         }
@@ -253,16 +253,15 @@ public partial class Permissions
                 else
                     uow.Remove(removed);
                 await uow.SaveChangesAsync().ConfigureAwait(false);
+                await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
             }
 
             if (removed == null)
             {
-                Service.InviteFilteringChannels.Add(channel.Id);
                 await ReplyConfirmLocalizedAsync("invite_filter_channel_on").ConfigureAwait(false);
             }
             else
             {
-                Service.InviteFilteringChannels.TryRemove(channel.Id);
                 await ReplyConfirmLocalizedAsync("invite_filter_channel_off").ConfigureAwait(false);
             }
         }
@@ -293,16 +292,15 @@ public partial class Permissions
                 newValue = config.FilterLinks == 0L ? 1L : 0L;
                 config.FilterLinks = newValue;
                 await uow.SaveChangesAsync().ConfigureAwait(false);
+                await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
             }
 
             if (newValue == 1L)
             {
-                Service.LinkFilteringServers.Add(channel.Guild.Id);
                 await ReplyConfirmLocalizedAsync("link_filter_server_on").ConfigureAwait(false);
             }
             else
             {
-                Service.LinkFilteringServers.TryRemove(channel.Guild.Id);
                 await ReplyConfirmLocalizedAsync("link_filter_server_off").ConfigureAwait(false);
             }
         }
@@ -342,16 +340,15 @@ public partial class Permissions
                 else
                     uow.Remove(removed);
                 await uow.SaveChangesAsync().ConfigureAwait(false);
+                await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
             }
 
             if (removed == null)
             {
-                Service.LinkFilteringChannels.Add(channel.Id);
                 await ReplyConfirmLocalizedAsync("link_filter_channel_on").ConfigureAwait(false);
             }
             else
             {
-                Service.LinkFilteringChannels.TryRemove(channel.Id);
                 await ReplyConfirmLocalizedAsync("link_filter_channel_off").ConfigureAwait(false);
             }
         }
@@ -382,16 +379,15 @@ public partial class Permissions
                 newValue = config.FilterWords == 0L ? 1L : 0L;
                 config.FilterWords = newValue;
                 await uow.SaveChangesAsync().ConfigureAwait(false);
+                await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
             }
 
             if (newValue == 1L)
             {
-                Service.WordFilteringServers.Add(channel.Guild.Id);
                 await ReplyConfirmLocalizedAsync("word_filter_server_on").ConfigureAwait(false);
             }
             else
             {
-                Service.WordFilteringServers.TryRemove(channel.Guild.Id);
                 await ReplyConfirmLocalizedAsync("word_filter_server_off").ConfigureAwait(false);
             }
         }
@@ -435,12 +431,10 @@ public partial class Permissions
 
             if (removed == null)
             {
-                Service.WordFilteringChannels.Add(channel.Id);
                 await ReplyConfirmLocalizedAsync("word_filter_channel_on").ConfigureAwait(false);
             }
             else
             {
-                Service.WordFilteringChannels.TryRemove(channel.Id);
                 await ReplyConfirmLocalizedAsync("word_filter_channel_off").ConfigureAwait(false);
             }
         }
@@ -487,19 +481,15 @@ public partial class Permissions
                     uow.Remove(removed);
 
                 await uow.SaveChangesAsync().ConfigureAwait(false);
+                await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
             }
-
-            var filteredWords =
-                Service.ServerFilteredWords.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<string>());
 
             if (removed == null)
             {
-                filteredWords.Add(word);
                 await ReplyConfirmLocalizedAsync("filter_word_add", Format.Code(word)).ConfigureAwait(false);
             }
             else
             {
-                filteredWords.TryRemove(word);
                 await ReplyConfirmLocalizedAsync("filter_word_remove", Format.Code(word)).ConfigureAwait(false);
             }
         }
@@ -522,7 +512,8 @@ public partial class Permissions
         {
             var channel = (ITextChannel)ctx.Channel;
 
-            Service.ServerFilteredWords.TryGetValue(channel.Guild.Id, out var fwHash);
+            var config = await gss.GetGuildConfig(channel.Guild.Id);
+            var fwHash = config.FilteredWords.Select(x => x.Word);
 
             var fws = fwHash.ToArray();
 

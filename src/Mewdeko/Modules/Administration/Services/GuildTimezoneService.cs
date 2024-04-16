@@ -6,7 +6,7 @@
 public class GuildTimezoneService : INService
 {
     private readonly DbService db;
-    private readonly ConcurrentDictionary<ulong, TimeZoneInfo> timezones;
+    private readonly GuildSettingsService gss;
 
     /// <summary>
     /// Constructs a new instance of the GuildTimezoneService.
@@ -14,23 +14,15 @@ public class GuildTimezoneService : INService
     /// <param name="client">The Discord client.</param>
     /// <param name="bot">The Mewdeko bot.</param>
     /// <param name="db">The database service.</param>
-    public GuildTimezoneService(DiscordSocketClient client, Mewdeko bot, DbService db)
+    public GuildTimezoneService(DiscordSocketClient client, Mewdeko bot, DbService db, GuildSettingsService gss)
     {
         using var uow = db.GetDbContext();
-
-        timezones = bot.AllGuildConfigs
-            .Select(x => GetTimzezoneTuple(x.Value))
-            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-            .Where(x => x.Timezone != null)
-            .ToDictionary(x => x.GuildId, x => x.Timezone)
-            .ToConcurrent();
 
         var curUser = client.CurrentUser;
         if (curUser != null)
             AllServices.TryAdd(curUser.Id, this);
         this.db = db;
-
-        bot.JoinedGuild += Bot_JoinedGuild;
+        this.gss = gss;
     }
 
     /// <summary>
@@ -39,45 +31,26 @@ public class GuildTimezoneService : INService
     public static ConcurrentDictionary<ulong, GuildTimezoneService> AllServices { get; } = new();
 
     /// <summary>
-    /// Handles the JoinedGuild event.
-    /// </summary>
-    /// <param name="arg">The guild configuration.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-    private Task Bot_JoinedGuild(GuildConfig arg)
-    {
-        var (guildId, tz) = GetTimzezoneTuple(arg);
-        if (tz != null)
-            timezones.TryAdd(guildId, tz);
-        return Task.CompletedTask;
-    }
-
-    /// <summary>
-    /// Gets the timezone tuple for a guild configuration.
-    /// </summary>
-    /// <param name="x">The guild configuration.</param>
-    /// <returns>A tuple containing the guild ID and the timezone.</returns>
-    private static (ulong GuildId, TimeZoneInfo? Timezone) GetTimzezoneTuple(GuildConfig x)
-    {
-        TimeZoneInfo tz;
-        try
-        {
-            tz = x.TimeZoneId == null ? null : TimeZoneInfo.FindSystemTimeZoneById(x.TimeZoneId);
-        }
-        catch
-        {
-            tz = null;
-        }
-
-        return (x.GuildId, Timezone: tz);
-    }
-
-    /// <summary>
     /// Gets the timezone for a guild, or null if no timezone is set.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns>The timezone for the guild, or null if no timezone is set.</returns>
     public TimeZoneInfo? GetTimeZoneOrDefault(ulong guildId)
-        => timezones.TryGetValue(guildId, out var tz) ? tz : null;
+    {
+        var config = gss.GetGuildConfig(guildId).GetAwaiter().GetResult();
+
+        if (config?.TimeZoneId == null)
+            return null;
+
+        try
+        {
+            return TimeZoneInfo.FindSystemTimeZoneById(config.TimeZoneId);
+        }
+        catch (TimeZoneNotFoundException)
+        {
+            return null;
+        }
+    }
 
     /// <summary>
     /// Sets the timezone for a guild.
@@ -92,11 +65,7 @@ public class GuildTimezoneService : INService
 
         gc.TimeZoneId = tz?.Id;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-
-        if (tz == null)
-            timezones.TryRemove(guildId, out tz);
-        else
-            timezones.AddOrUpdate(guildId, tz, (_, _) => tz);
+        await gss.UpdateGuildConfig(guildId, gc);
     }
 
     /// <summary>

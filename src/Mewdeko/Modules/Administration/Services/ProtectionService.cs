@@ -21,6 +21,7 @@ public class ProtectionService : INService
 
     private readonly DiscordSocketClient client;
     private readonly DbService db;
+    private readonly GuildSettingsService gss;
     private readonly MuteService mute;
     private readonly UserPunishService punishService;
 
@@ -45,14 +46,23 @@ public class ProtectionService : INService
     /// <param name="db">The database service.</param>
     /// <param name="punishService">The user punish service.</param>
     /// <param name="eventHandler">The event handler.</param>
+    /// <param name="gss">The guild settings service.</param>
     public ProtectionService(DiscordSocketClient client, Mewdeko bot,
-        MuteService mute, DbService db, UserPunishService punishService, EventHandler eventHandler)
+        MuteService mute, DbService db, UserPunishService punishService, EventHandler eventHandler,
+        GuildSettingsService gss)
     {
         this.client = client;
         this.mute = mute;
         this.db = db;
         this.punishService = punishService;
-        foreach (var gc in bot.AllGuildConfigs) Initialize(gc.Value);
+        this.gss = gss;
+        Parallel.ForEachAsync(client.Guilds, new ParallelOptions
+        {
+            MaxDegreeOfParallelism = 4
+        }, async (gc, _) =>
+        {
+            await Initialize(gc.Id);
+        }).ConfigureAwait(false);
 
         eventHandler.MessageReceived += HandleAntiSpam;
         eventHandler.UserJoined += HandleUserJoined;
@@ -120,23 +130,16 @@ public class ProtectionService : INService
     /// <returns>A task that represents the asynchronous operation.</returns>
     private async Task _bot_JoinedGuild(GuildConfig gc)
     {
-        await using var uow = db.GetDbContext();
-        var gcWithData = await uow.ForGuildId(gc.GuildId,
-            set => set
-                .Include(x => x.AntiRaidSetting)
-                .Include(x => x.AntiAltSetting)
-                .Include(x => x.AntiSpamSetting)
-                .ThenInclude(x => x.IgnoredChannels));
-
-        Initialize(gcWithData);
+        await Initialize(gc.GuildId);
     }
 
     /// <summary>
     /// Initializes the anti-raid, anti-spam, and anti-alt settings for a guild.
     /// </summary>
-    /// <param name="gc">The configuration of the guild to initialize.</param>
-    private void Initialize(GuildConfig gc)
+    /// <param name="guildId">The ID of the guild to initialize the settings for.</param>
+    private async Task Initialize(ulong guildId)
     {
+        var gc = await gss.GetGuildConfig(guildId);
         var raid = gc.AntiRaidSetting;
         var spam = gc.AntiSpamSetting;
 

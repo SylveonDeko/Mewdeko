@@ -1,5 +1,4 @@
 ﻿using Discord.Commands;
-using Mewdeko.Common.Collections;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Administration.Services;
@@ -32,30 +31,10 @@ public class AdministrationService : INService
         this.db = db;
         this.guildSettings = guildSettings;
 
-        // Initialize the DeleteMessagesOnCommand set with guild IDs where DeleteMessageOnCommand is set to 1
-        DeleteMessagesOnCommand =
-            new ConcurrentHashSet<ulong>(bot.AllGuildConfigs.Where(g => g.Value.DeleteMessageOnCommand == 1)
-                .Select(g => g.Value.GuildId));
-
-        // Initialize the DeleteMessagesOnCommandChannels dictionary with channel IDs and states from the guild configurations
-        DeleteMessagesOnCommandChannels = new ConcurrentDictionary<ulong, bool>(bot.AllGuildConfigs
-            .SelectMany(g =>
-                g.Value.DelMsgOnCmdChannels.Select(c => new KeyValuePair<ulong, bool>(c.ChannelId, c.State == 1))));
-
         // Subscribe to the CommandExecuted event of the command handler
         cmdHandler.CommandExecuted += DelMsgOnCmd_Handler;
     }
 
-
-    /// <summary>
-    /// A thread-safe set of guild IDs where DeleteMessageOnCommand is set to 1.
-    /// </summary>
-    private ConcurrentHashSet<ulong> DeleteMessagesOnCommand { get; }
-
-    /// <summary>
-    /// A thread-safe dictionary of channel IDs and states from the guild configurations.
-    /// </summary>
-    private ConcurrentDictionary<ulong, bool> DeleteMessagesOnCommandChannels { get; }
 
     /// <summary>
     /// Sets the staff role for a given guild.
@@ -171,42 +150,40 @@ public class AdministrationService : INService
     /// <param name="msg">The user message that triggered the command.</param>
     /// <param name="cmd">The executed command.</param>
     /// <returns>A completed task.</returns>
-    private Task DelMsgOnCmd_Handler(IUserMessage msg, CommandInfo cmd)
+    private async Task DelMsgOnCmd_Handler(IUserMessage msg, CommandInfo cmd)
     {
-        _ = Task.Run(async () =>
+        if (msg.Channel is not ITextChannel channel)
+            return;
+        var config = guildSettings.GetGuildConfig(channel.Guild.Id).GetAwaiter().GetResult();
+
+        var exists = config.DelMsgOnCmdChannels.FirstOrDefault(x => x.ChannelId == channel.Id);
+        if (exists is not null)
         {
-            if (msg.Channel is SocketTextChannel channel)
+            // If the state is true and the command is not 'Purge' or 'pick', delete the message
+            if (exists.State == 1 && cmd.Name != "Purge" && cmd.Name != "pick")
             {
-                if (DeleteMessagesOnCommandChannels.TryGetValue(channel.Id, out var state))
+                try
                 {
-                    // If the state is true and the command is not 'Purge' or 'pick', delete the message
-                    if (state && cmd.Name != "Purge" && cmd.Name != "pick")
-                    {
-                        try
-                        {
-                            await msg.DeleteAsync().ConfigureAwait(false);
-                        }
-                        catch
-                        {
-                            // ignored
-                        }
-                    }
+                    await msg.DeleteAsync().ConfigureAwait(false);
                 }
-                else if (DeleteMessagesOnCommand.Contains(channel.Guild.Id) && cmd.Name != "Purge" &&
-                         cmd.Name != "pick")
+                catch
                 {
-                    try
-                    {
-                        await msg.DeleteAsync().ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
+                    // ignored
                 }
             }
-        });
-        return Task.CompletedTask;
+        }
+        else if (config.DeleteMessageOnCommand == 1 && cmd.Name != "Purge" &&
+                 cmd.Name != "pick")
+        {
+            try
+            {
+                await msg.DeleteAsync().ConfigureAwait(false);
+            }
+            catch
+            {
+                // ignored
+            }
+        }
     }
 
     /// <summary>
@@ -272,24 +249,11 @@ public class AdministrationService : INService
 
             // Set the new state
             old.State = newState == Administration.State.Enable ? 1 : 0;
-            DeleteMessagesOnCommandChannels[chId] = newState == Administration.State.Enable;
         }
 
         // Save changes to the database
         await uow.SaveChangesAsync().ConfigureAwait(false);
-
-        // Update the DeleteMessagesOnCommandChannels dictionary based on the new state
-        switch (newState)
-        {
-            case Administration.State.Disable:
-                break;
-            case Administration.State.Enable:
-                DeleteMessagesOnCommandChannels[chId] = true; // true
-                break;
-            default:
-                DeleteMessagesOnCommandChannels.TryRemove(chId, out _);
-                break;
-        }
+        await guildSettings.UpdateGuildConfig(guildId, conf);
     }
 
 

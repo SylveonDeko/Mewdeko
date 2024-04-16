@@ -197,6 +197,24 @@ namespace Mewdeko.Services
 
         #endregion
 
+        #region GuildConfig Methods
+
+        /// <summary>
+        ///     Caches config for a guild.
+        /// </summary>
+        /// <param name="id">The guild ID.</param>
+        /// <param name="config">The config to cache.</param>
+        Task SetGuildConfigCache(ulong id, GuildConfig config);
+
+        /// <summary>
+        ///     Retrieves config for a guild.
+        /// </summary>
+        /// <param name="id">The guild ID.</param>
+        /// <returns>If successfull, the guild config, if not, null.</returns>
+        Task<GuildConfig?> GetGuildConfigCache(ulong id);
+
+        #endregion
+
         #region Cached Data Methods
 
         /// <summary>

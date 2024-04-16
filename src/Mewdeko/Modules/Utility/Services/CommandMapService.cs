@@ -6,33 +6,8 @@ namespace Mewdeko.Modules.Utility.Services;
 /// <summary>
 /// Manages the transformation of input commands based on alias mappings, allowing customization of command triggers.
 /// </summary>
-public class CommandMapService : IInputTransformer, INService
+public class CommandMapService(DbService db, Mewdeko bot, GuildSettingsService gss) : IInputTransformer, INService
 {
-    private readonly DbService db;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CommandMapService"/>.
-    /// </summary>
-    /// <param name="db">The database service for accessing command alias configurations.</param>
-    /// <param name="bot">The bot instance to access global guild configurations.</param>
-    public CommandMapService(DbService db, Mewdeko bot)
-    {
-        AliasMaps = new ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>>(bot.AllGuildConfigs
-            .ToDictionary(
-                x => x.Key,
-                x => new ConcurrentDictionary<string, string>(x.Value.CommandAliases
-                    .Distinct(new CommandAliasEqualityComparer())
-                    .ToDictionary(ca => ca.Trigger, ca => ca.Mapping))));
-
-        this.db = db;
-    }
-
-
-    /// <summary>
-    /// Gets the collection of alias mappings by guild.
-    /// </summary>
-    public ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>> AliasMaps { get; }
-
     /// <summary>
     /// Transforms an input command based on alias mappings for the specific guild.
     /// </summary>
@@ -48,19 +23,21 @@ public class CommandMapService : IInputTransformer, INService
         if (guild == null || string.IsNullOrWhiteSpace(input))
             return input;
 
+        var aliases = await GetCommandMap(guild.Id);
+
         // ReSharper disable once HeuristicUnreachableCode
         if (guild == null) return input;
-        if (!AliasMaps.TryGetValue(guild.Id, out var maps)) return input;
-        var keys = maps.Keys
+        if (aliases is null || aliases.Count == 0) return input;
+        var keys = aliases.Keys
             .OrderByDescending(x => x.Length);
 
         foreach (var k in keys)
         {
             string newInput;
             if (input.StartsWith($"{k} ", StringComparison.InvariantCultureIgnoreCase))
-                newInput = string.Concat(maps[k], input.AsSpan(k.Length, input.Length - k.Length));
+                newInput = string.Concat(aliases[k], input.AsSpan(k.Length, input.Length - k.Length));
             else if (input.Equals(k, StringComparison.InvariantCultureIgnoreCase))
-                newInput = maps[k];
+                newInput = aliases[k];
             else
                 continue;
             return newInput;
@@ -70,19 +47,37 @@ public class CommandMapService : IInputTransformer, INService
     }
 
     /// <summary>
+    ///     Gets the command map for the specified guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild for which to get the command map.</param>
+    /// <returns>A dictionary of command aliases and their mappings.</returns>
+    public async Task<Dictionary<string, string>?> GetCommandMap(ulong guildId)
+    {
+        var gc = await gss.GetGuildConfig(guildId);
+        return gc.CommandAliases?.Distinct(new CommandAliasEqualityComparer())
+            .ToDictionary(ca => ca.Trigger, ca => ca.Mapping);
+    }
+
+    /// <summary>
     /// Clears all command aliases for a specified guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild for which to clear aliases.</param>
     /// <returns>The number of aliases cleared.</returns>
     public async Task<int> ClearAliases(ulong guildId)
     {
-        AliasMaps.TryRemove(guildId, out _);
+        var config = await gss.GetGuildConfig(guildId);
+        if (config.CommandAliases is null || config.CommandAliases.Count == 0)
+            return 0;
+
+        config.CommandAliases.Clear();
 
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set.Include(x => x.CommandAliases));
         var count = gc.CommandAliases.Count;
         gc.CommandAliases.Clear();
         await uow.SaveChangesAsync();
+
+        await gss.UpdateGuildConfig(guildId, config);
 
         return count;
     }
