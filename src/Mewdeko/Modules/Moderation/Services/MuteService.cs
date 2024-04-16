@@ -85,8 +85,13 @@ public class MuteService : INService
         var max = TimeSpan.FromDays(49);
 
         using var uow = db.GetDbContext();
-        var guilds = uow.GuildConfigs.ToLinqToDB().Include(x => x.MutedUsers).Include(x => x.UnmuteTimers)
-            .Include(x => x.UnbanTimer).Include(x => x.UnroleTimer).ToList();
+        var guilds = uow.GuildConfigs.ToLinqToDB().Include(x => x.MutedUsers)
+            .Include(x => x.UnmuteTimers)
+            .Include(x => x.UnbanTimer)
+            .Include(x => x.UnroleTimer).ToList();
+
+        MutedUsers = new ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>(
+            guilds.ToDictionary(x => x.GuildId, x => new ConcurrentHashSet<ulong>(x.MutedUsers.Select(y => y.UserId))));
         Parallel.ForEach(guilds, conf =>
         {
             foreach (var x in conf.UnmuteTimers)
