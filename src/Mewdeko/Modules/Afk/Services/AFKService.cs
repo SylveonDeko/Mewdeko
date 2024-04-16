@@ -13,12 +13,12 @@ namespace Mewdeko.Modules.Afk.Services;
 /// </summary>
 public class AfkService : INService, IReadyExecutor
 {
-    private readonly DbService db;
-    private readonly DiscordSocketClient client;
     private readonly IDataCache cache;
-    private readonly GuildSettingsService guildSettings;
-    private readonly IBotCredentials creds;
+    private readonly DiscordSocketClient client;
     private readonly BotConfigService config;
+    private readonly IBotCredentials creds;
+    private readonly DbService db;
+    private readonly GuildSettingsService guildSettings;
 
 
     /// <summary>
@@ -50,6 +50,54 @@ public class AfkService : INService, IReadyExecutor
         eventHandler.MessageUpdated += MessageUpdated;
         eventHandler.UserIsTyping += UserTyping;
         _ = Task.Run(StartTimedAfkLoop);
+    }
+
+
+    /// <summary>
+    ///     Handles actions to be performed when the bot is ready.
+    /// </summary>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public async Task OnReadyAsync()
+    {
+        // Retrieve all AFK entries from the database
+        await using var uow = db.GetDbContext();
+        var allafk = await uow.Afk.OrderByDescending(afk => afk.DateAdded).ToListAsyncEF();
+
+        // Create a dictionary to store the latest AFK entry per user per guild
+        var latestAfkPerUserPerGuild =
+            new ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, Database.Models.Afk>>();
+
+        // Get unique guild IDs with AFK entries
+        var guildIdsWithAfk = allafk.Select(afk => afk.GuildId).Distinct();
+
+        // Process each guild's AFK entries
+        var tasks = guildIdsWithAfk.Select(guildId =>
+        {
+            var latestAfkPerUser = new ConcurrentDictionary<ulong, Database.Models.Afk>();
+
+            // Get the latest AFK entry for each user in the guild
+            var afkEntriesForGuild = allafk.Where(afk => afk.GuildId == guildId)
+                .GroupBy(afk => afk.UserId)
+                .Select(g => g.First());
+
+            foreach (var afk in afkEntriesForGuild)
+            {
+                latestAfkPerUser.TryAdd(afk.UserId, afk);
+            }
+
+            latestAfkPerUserPerGuild.TryAdd(guildId, latestAfkPerUser);
+            return Task.CompletedTask;
+        });
+
+        // Wait for all tasks to complete
+        await Task.WhenAll(tasks);
+
+        // Cache the latest AFK entries
+        await CacheLatestAfks(latestAfkPerUserPerGuild);
+
+        // Set an environment variable to indicate that AFK data is cached
+        Environment.SetEnvironmentVariable($"AFK_CACHED_{client.ShardId}", "1");
+        Log.Information("AFK Cached");
     }
 
 
@@ -167,54 +215,6 @@ public class AfkService : INService, IReadyExecutor
 
 
     /// <summary>
-    /// Handles actions to be performed when the bot is ready.
-    /// </summary>
-    /// <returns>A task representing the asynchronous operation.</returns>
-    public async Task OnReadyAsync()
-    {
-        // Retrieve all AFK entries from the database
-        await using var uow = db.GetDbContext();
-        var allafk = await uow.Afk.OrderByDescending(afk => afk.DateAdded).ToListAsyncEF();
-
-        // Create a dictionary to store the latest AFK entry per user per guild
-        var latestAfkPerUserPerGuild =
-            new ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, Database.Models.Afk>>();
-
-        // Get unique guild IDs with AFK entries
-        var guildIdsWithAfk = allafk.Select(afk => afk.GuildId).Distinct();
-
-        // Process each guild's AFK entries
-        var tasks = guildIdsWithAfk.Select(guildId =>
-        {
-            var latestAfkPerUser = new ConcurrentDictionary<ulong, Database.Models.Afk>();
-
-            // Get the latest AFK entry for each user in the guild
-            var afkEntriesForGuild = allafk.Where(afk => afk.GuildId == guildId)
-                .GroupBy(afk => afk.UserId)
-                .Select(g => g.First());
-
-            foreach (var afk in afkEntriesForGuild)
-            {
-                latestAfkPerUser.TryAdd(afk.UserId, afk);
-            }
-
-            latestAfkPerUserPerGuild.TryAdd(guildId, latestAfkPerUser);
-            return Task.CompletedTask;
-        });
-
-        // Wait for all tasks to complete
-        await Task.WhenAll(tasks);
-
-        // Cache the latest AFK entries
-        CacheLatestAfks(latestAfkPerUserPerGuild);
-
-        // Set an environment variable to indicate that AFK data is cached
-        Environment.SetEnvironmentVariable($"AFK_CACHED_{client.ShardId}", "1");
-        Log.Information("AFK Cached");
-    }
-
-
-    /// <summary>
     /// Caches the latest AFK entries.
     /// </summary>
     /// <param name="latestAfks">A dictionary containing the latest AFK entries per user per guild.</param>
@@ -245,7 +245,7 @@ public class AfkService : INService, IReadyExecutor
         if (user.Value is IGuildUser use)
         {
             // Check if the guild has AFK type 2 or 4 and if the user is AFK
-            if (await GetAfkType(use.GuildId) is 2 or 4 && await IsAfk(use.Guild.Id, use.Id))
+            if (await GetAfkType(use.GuildId) is 3 or 4 && await IsAfk(use.Guild.Id, use.Id))
             {
                 var afkEntry = await GetAfk(use.Guild.Id, user.Id);
                 // Check if the AFK entry was set less than the AFK timeout and was not timed
@@ -300,7 +300,7 @@ public class AfkService : INService, IReadyExecutor
                 var afk = await GetAfk(user.GuildId, user.Id);
 
                 // Check if the guild has AFK type 3 or 4 and if the user is AFK
-                if (await GetAfkType(user.Guild.Id) is 3 or 4)
+                if (await GetAfkType(user.Guild.Id) is 2 or 4)
                 {
                     if (await IsAfk(user.Guild.Id, user.Id))
                     {
@@ -371,7 +371,7 @@ public class AfkService : INService, IReadyExecutor
 
                         // Retrieve the custom AFK message
                         var customafkmessage = await GetCustomAfkMessage(user.Guild.Id);
-                        var afkdel = await GetAfkDel(((ITextChannel)msg.Channel).GuildId);
+                        var afkdel = await GetAfkDel(user.Guild.Id);
 
                         // Check if there is a custom AFK message
                         if (customafkmessage is null or "-")
@@ -613,7 +613,11 @@ public class AfkService : INService, IReadyExecutor
     /// </summary>
     /// <param name="id">The ID of the guild.</param>
     /// <returns>The AFK deletion setting.</returns>
-    public async Task<int> GetAfkDel(ulong id) => int.Parse((await guildSettings.GetGuildConfig(id)).AfkDel);
+    public async Task<int> GetAfkDel(ulong id)
+    {
+        var config = await guildSettings.GetGuildConfig(id);
+        return int.TryParse(config.AfkDel, out var num) ? num : 0;
+    }
 
     /// <summary>
     /// Retrieves the AFK type for the specified guild.

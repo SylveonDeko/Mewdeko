@@ -12,6 +12,15 @@ public class GreetSettingsService : INService, IReadyExecutor
     private readonly BotConfigService bss;
     private readonly DiscordSocketClient client;
     private readonly DbService db;
+
+    private readonly Channel<(GreetSettings, IGuildUser, TaskCompletionSource<bool>)> greetDmQueue =
+        Channel.CreateBounded<(GreetSettings, IGuildUser, TaskCompletionSource<bool>)>(new BoundedChannelOptions(60)
+        {
+            // The limit of 60 users should be only hit when there's a raid. In that case
+            // probably the best thing to do is to drop newest (raiding) users
+            FullMode = BoundedChannelFullMode.DropNewest
+        });
+
     private readonly GuildSettingsService gss;
 
     /// <summary>
@@ -34,8 +43,7 @@ public class GreetSettingsService : INService, IReadyExecutor
         this.gss = gss;
         this.bss = bss;
         GuildConfigsCache = new ConcurrentDictionary<ulong, GreetSettings>(
-            bot.AllGuildConfigs
-                .ToDictionary(g => g.GuildId, GreetSettings.Create));
+            bot.AllGuildConfigs.ToDictionary(x => x.Key, x => GreetSettings.Create(x.Value)));
 
         eventHandler.UserJoined += UserJoined;
         eventHandler.UserLeft += UserLeft;
@@ -46,19 +54,14 @@ public class GreetSettingsService : INService, IReadyExecutor
         eventHandler.GuildMemberUpdated += ClientOnGuildMemberUpdated;
     }
 
-    private readonly Channel<(GreetSettings, IGuildUser, TaskCompletionSource<bool>)> greetDmQueue =
-        Channel.CreateBounded<(GreetSettings, IGuildUser, TaskCompletionSource<bool>)>(new BoundedChannelOptions(60)
-        {
-            // The limit of 60 users should be only hit when there's a raid. In that case
-            // probably the best thing to do is to drop newest (raiding) users
-            FullMode = BoundedChannelFullMode.DropNewest
-        });
+    private ConcurrentDictionary<ulong, GreetSettings?> GuildConfigsCache { get; }
 
-    private async Task<bool> GreetDmUser(GreetSettings conf, IGuildUser user)
+    private bool GroupGreets
     {
-        var completionSource = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-        await greetDmQueue.Writer.WriteAsync((conf, user, completionSource));
-        return await completionSource.Task;
+        get
+        {
+            return bss.Data.GroupGreets;
+        }
     }
 
 
@@ -81,8 +84,12 @@ public class GreetSettingsService : INService, IReadyExecutor
         }
     }
 
-    private ConcurrentDictionary<ulong, GreetSettings?> GuildConfigsCache { get; }
-    private bool GroupGreets => bss.Data.GroupGreets;
+    private async Task<bool> GreetDmUser(GreetSettings conf, IGuildUser user)
+    {
+        var completionSource = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        await greetDmQueue.Writer.WriteAsync((conf, user, completionSource));
+        return await completionSource.Task;
+    }
 
     private async Task TriggerBoostMessage(GreetSettings conf, SocketGuildUser user)
     {

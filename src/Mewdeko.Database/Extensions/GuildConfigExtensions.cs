@@ -7,16 +7,29 @@ namespace Mewdeko.Database.Extensions;
 
 public static class GuildConfigExtensions
 {
-    public class GeneratingChannel
+    private static List<WarningPunishment> DefaultWarnPunishments
     {
-        public ulong GuildId { get; set; }
-        public ulong ChannelId { get; set; }
+        get
+        {
+            return
+            [
+                new WarningPunishment
+                {
+                    Count = 3, Punishment = PunishmentAction.Kick
+                },
+
+                new WarningPunishment
+                {
+                    Count = 5, Punishment = PunishmentAction.Ban
+                }
+            ];
+        }
     }
 
 
     public static IEnumerable<GuildConfig> GetAllGuildConfigs(
         this DbSet<GuildConfig> configs,
-        List<ulong> availableGuilds)
+        IEnumerable<ulong> availableGuilds)
         => configs.IncludeEverything().AsNoTracking().Where(x => availableGuilds.Contains(x.GuildId)).ToList();
 
 
@@ -161,19 +174,6 @@ public static class GuildConfigExtensions
         return config;
     }
 
-    private static List<WarningPunishment> DefaultWarnPunishments =>
-    [
-        new WarningPunishment
-        {
-            Count = 3, Punishment = PunishmentAction.Kick
-        },
-
-        new WarningPunishment
-        {
-            Count = 5, Punishment = PunishmentAction.Ban
-        }
-    ];
-
     public static ulong GetCleverbotChannel(this DbSet<GuildConfig> set, ulong guildid) =>
         set.AsQueryable()
             .Where(x => x.GuildId == guildid)
@@ -202,4 +202,10 @@ public static class GuildConfigExtensions
             .ThenInclude(x => x.CurrencyRewards)
             .Include(x => x.XpSettings)
             .ThenInclude(x => x.ExclusionList);
+
+    public class GeneratingChannel
+    {
+        public ulong GuildId { get; set; }
+        public ulong ChannelId { get; set; }
+    }
 }

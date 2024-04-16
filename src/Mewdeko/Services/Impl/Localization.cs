@@ -28,9 +28,7 @@ namespace Mewdeko.Services.Impl
             this.bss = bss;
             this.db = db;
             using var uow = db.GetDbContext();
-            var allgc = bot.AllGuildConfigs;
-            var cultureInfoNames = allgc
-                .ToDictionary(x => x.GuildId, x => x.Locale);
+            var cultureInfoNames = bot.AllGuildConfigs.ToDictionary(x => x.Key, x => x.Value.Locale);
 
             GuildCultureInfos = new ConcurrentDictionary<ulong, CultureInfo?>(cultureInfoNames.ToDictionary(x => x.Key,
                 x =>
@@ -78,6 +76,39 @@ namespace Mewdeko.Services.Impl
         /// <inheritdoc/>
         public void SetGuildCulture(IGuild guild, CultureInfo? ci) => SetGuildCulture(guild.Id, ci);
 
+        /// <inheritdoc />
+        public void RemoveGuildCulture(IGuild guild)
+        {
+            RemoveGuildCulture(guild.Id);
+        }
+
+        /// <inheritdoc />
+        public void SetDefaultCulture(CultureInfo? ci)
+        {
+            bss.ModifyConfig(bs => bs.DefaultLocale = ci);
+        }
+
+        /// <inheritdoc />
+        public void ResetDefaultCulture()
+        {
+            SetDefaultCulture(CultureInfo.CurrentCulture);
+        }
+
+        /// <inheritdoc />
+        public CultureInfo? GetCultureInfo(IGuild? guild)
+        {
+            return GetCultureInfo(guild?.Id);
+        }
+
+        /// <inheritdoc />
+        public CultureInfo? GetCultureInfo(ulong? guildId)
+        {
+            if (guildId is null || !GuildCultureInfos.TryGetValue(guildId.Value, out var info) || info is null)
+                return bss.Data.DefaultLocale;
+
+            return info;
+        }
+
         /// <summary>
         /// Sets the culture info for the specified guild.
         /// </summary>
@@ -101,9 +132,6 @@ namespace Mewdeko.Services.Impl
             GuildCultureInfos.AddOrUpdate(guildId, ci, (_, _) => ci);
         }
 
-        /// <inheritdoc/>
-        public void RemoveGuildCulture(IGuild guild) => RemoveGuildCulture(guild.Id);
-
         /// <summary>
         /// Removes the culture info for the specified guild.
         /// </summary>
@@ -115,24 +143,6 @@ namespace Mewdeko.Services.Impl
             var gc = await uow.ForGuildId(guildId, set => set);
             gc.Locale = null;
             await uow.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        /// <inheritdoc/>
-        public void SetDefaultCulture(CultureInfo? ci) => bss.ModifyConfig(bs => bs.DefaultLocale = ci);
-
-        /// <inheritdoc/>
-        public void ResetDefaultCulture() => SetDefaultCulture(CultureInfo.CurrentCulture);
-
-        /// <inheritdoc/>
-        public CultureInfo? GetCultureInfo(IGuild? guild) => GetCultureInfo(guild?.Id);
-
-        /// <inheritdoc/>
-        public CultureInfo? GetCultureInfo(ulong? guildId)
-        {
-            if (guildId is null || !GuildCultureInfos.TryGetValue(guildId.Value, out var info) || info is null)
-                return bss.Data.DefaultLocale;
-
-            return info;
         }
     }
 }

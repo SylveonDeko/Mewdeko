@@ -14,13 +14,13 @@ namespace Mewdeko.Modules.Utility.Services;
 /// </summary>
 public class VerboseErrorsService : INService, IUnloadableService
 {
+    private readonly BotConfigService botConfigService;
     private readonly CommandHandler ch;
     private readonly DbService db;
-    private readonly IBotStrings strings;
     private readonly ConcurrentHashSet<ulong> guildsEnabled;
     private readonly GuildSettingsService guildSettings;
     private readonly IServiceProvider services;
-    private readonly BotConfigService botConfigService;
+    private readonly IBotStrings strings;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VerboseErrorsService"/> class.
@@ -43,12 +43,11 @@ public class VerboseErrorsService : INService, IUnloadableService
         this.botConfigService = botConfigService;
         this.db = db;
         this.ch = ch;
-        var allgc = bot.AllGuildConfigs;
         this.ch.CommandErrored += LogVerboseError;
 
-        guildsEnabled = new ConcurrentHashSet<ulong>(allgc
-            .Where(x => x.VerboseErrors != 0)
-            .Select(x => x.GuildId));
+        guildsEnabled = new ConcurrentHashSet<ulong>(bot.AllGuildConfigs
+            .Where(x => x.Value.VerboseErrors != 0)
+            .Select(x => x.Key));
     }
 
     /// <summary>

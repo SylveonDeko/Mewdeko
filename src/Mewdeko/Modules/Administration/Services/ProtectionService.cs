@@ -52,8 +52,7 @@ public class ProtectionService : INService
         this.mute = mute;
         this.db = db;
         this.punishService = punishService;
-        var allgc = bot.AllGuildConfigs;
-        foreach (var gc in allgc) Initialize(gc);
+        foreach (var gc in bot.AllGuildConfigs) Initialize(gc.Value);
 
         eventHandler.MessageReceived += HandleAntiSpam;
         eventHandler.UserJoined += HandleUserJoined;

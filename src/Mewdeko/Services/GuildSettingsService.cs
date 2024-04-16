@@ -50,9 +50,8 @@ namespace Mewdeko.Services
         /// </summary>
         public async Task<GuildConfig> GetGuildConfig(ulong guildId)
         {
-            var configs = bot.AllGuildConfigs;
-            var toReturn = configs.FirstOrDefault(x => x.GuildId == guildId);
-            if (toReturn is not null)
+            var configExists = bot.AllGuildConfigs.TryGetValue(guildId, out var toReturn);
+            if (configExists)
                 return toReturn;
 
             await using var uow = db.GetDbContext();
@@ -63,8 +62,7 @@ namespace Mewdeko.Services
                 toLoad = uow.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.GuildId == guildId);
             }
 
-            configs.Add(toLoad);
-            bot.AllGuildConfigs = configs;
+            bot.AllGuildConfigs.TryAdd(guildId, toLoad);
             return toLoad;
         }
 
@@ -74,27 +72,24 @@ namespace Mewdeko.Services
         public async Task UpdateGuildConfig(ulong guildId, GuildConfig toUpdate)
         {
             await using var uow = db.GetDbContext();
-            var configs = bot.AllGuildConfigs;
-            var old = configs.FirstOrDefault(x => x.GuildId == guildId);
+            var exists = bot.AllGuildConfigs.TryGetValue(guildId, out var fetched);
 
-            if (old is not null)
+            if (exists)
             {
-                configs.TryRemove(old);
                 var properties = typeof(GuildConfig).GetProperties();
                 foreach (var property in properties)
                 {
-                    var oldValue = property.GetValue(old);
+                    var oldValue = property.GetValue(fetched);
                     var newValue = property.GetValue(toUpdate);
 
                     if (newValue != null && !newValue.Equals(oldValue))
                     {
-                        property.SetValue(old, newValue);
+                        property.SetValue(fetched, newValue);
                     }
                 }
 
-                configs.Add(old);
-                bot.AllGuildConfigs = configs;
-                uow.GuildConfigs.Update(old);
+                bot.AllGuildConfigs.TryUpdate(guildId, toUpdate, fetched);
+                uow.GuildConfigs.Update(fetched);
                 await uow.SaveChangesAsync();
             }
             else
@@ -115,10 +110,9 @@ namespace Mewdeko.Services
                         }
                     }
 
+                    bot.AllGuildConfigs.TryAdd(guildId, config);
                     uow.GuildConfigs.Update(config);
                     await uow.SaveChangesAsync();
-                    configs.Add(config);
-                    bot.AllGuildConfigs = configs;
                 }
             }
         }

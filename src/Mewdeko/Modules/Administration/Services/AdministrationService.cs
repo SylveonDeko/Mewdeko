@@ -23,7 +23,7 @@ public class AdministrationService : INService
         GuildSettingsService guildSettings, Mewdeko bot)
     {
         // Get all guild configurations from the bot
-        var allgc = bot.AllGuildConfigs;
+
 
         // Create a new database context
         using var uow = db.GetDbContext();
@@ -34,13 +34,13 @@ public class AdministrationService : INService
 
         // Initialize the DeleteMessagesOnCommand set with guild IDs where DeleteMessageOnCommand is set to 1
         DeleteMessagesOnCommand =
-            new ConcurrentHashSet<ulong>(allgc.Where(g => g.DeleteMessageOnCommand == 1).Select(g => g.GuildId));
+            new ConcurrentHashSet<ulong>(bot.AllGuildConfigs.Where(g => g.Value.DeleteMessageOnCommand == 1)
+                .Select(g => g.Value.GuildId));
 
         // Initialize the DeleteMessagesOnCommandChannels dictionary with channel IDs and states from the guild configurations
-        DeleteMessagesOnCommandChannels = new ConcurrentDictionary<ulong, bool>(allgc
-            .SelectMany(x => x.DelMsgOnCmdChannels)
-            .ToDictionary(x => x.ChannelId, x => x.State == 1)
-            .ToConcurrent());
+        DeleteMessagesOnCommandChannels = new ConcurrentDictionary<ulong, bool>(bot.AllGuildConfigs
+            .SelectMany(g =>
+                g.Value.DelMsgOnCmdChannels.Select(c => new KeyValuePair<ulong, bool>(c.ChannelId, c.State == 1))));
 
         // Subscribe to the CommandExecuted event of the command handler
         cmdHandler.CommandExecuted += DelMsgOnCmd_Handler;

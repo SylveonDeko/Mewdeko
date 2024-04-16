@@ -10,7 +10,6 @@ using Figgle;
 using Lavalink4NET;
 using Lavalink4NET.Extensions;
 using MartineApiNet;
-using Mewdeko.Common.Collections;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
@@ -22,6 +21,7 @@ using Mewdeko.Modules.Nsfw;
 using Mewdeko.Modules.Searches.Services;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.Settings;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NekosBestApiNet;
 using Newtonsoft.Json;
@@ -43,7 +43,7 @@ public class Mewdeko
     /// <summary>
     /// Gets the collection of all guild configurations. Is somehow better than redis.
     /// </summary>
-    public ConcurrentHashSet<GuildConfig> AllGuildConfigs;
+    public ConcurrentDictionary<ulong, GuildConfig> AllGuildConfigs;
 
     /// <summary>
     /// Initializes a new instance of the Mewdeko bot with a specific shard ID.
@@ -131,9 +131,11 @@ public class Mewdeko
         var gs2 = Stopwatch.StartNew();
         var bot = Client.CurrentUser;
         await using var uow = db.GetDbContext();
-        AllGuildConfigs =
-            new ConcurrentHashSet<GuildConfig>(
-                uow.GuildConfigs.GetAllGuildConfigs(Client.Guilds.Select(x => x.Id).ToList()));
+
+        AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs(Client.Guilds.Select(x => x.Id))
+            .ToDictionary(x => x.GuildId, x => x)
+            .ToConcurrent();
+
         await uow.EnsureUserCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
         gs2.Stop();
         Log.Information("Guild Configs cached in {ElapsedTotalSeconds}s", gs2.Elapsed.TotalSeconds);
@@ -236,9 +238,16 @@ public class Mewdeko
         }
 
         var sub = cache.Redis.GetSubscriber();
-        await sub.SubscribeAsync($"{Credentials.RedisKey()}_configsupdate", async (_, _) =>
+        await sub.SubscribeAsync($"{Credentials.RedisKey()}_configsupdate", async (channel, message) =>
         {
-            await GuildConfigsUpdated();
+            if (ulong.TryParse(message, out var guildId))
+            {
+                await GuildConfigsUpdated(guildId);
+            }
+            else
+            {
+                Log.Error("Failed to convert message to ulong");
+            }
         });
 
         sw.Stop();
@@ -531,11 +540,12 @@ public class Mewdeko
     /// <summary>
     /// Updates te guild configs hashset to whatever the db has right now. Will probably used by the api.
     /// </summary>
-    private async Task GuildConfigsUpdated()
+    private async Task GuildConfigsUpdated(ulong guildId)
     {
         await using var uow = db.GetDbContext();
-        AllGuildConfigs =
-            new ConcurrentHashSet<GuildConfig>(
-                uow.GuildConfigs.GetAllGuildConfigs(Client.Guilds.Select(x => x.Id).ToList()));
+        var result = await uow.GuildConfigs.IncludeEverything().FirstOrDefaultAsync(x => x.GuildId == guildId);
+        if (result is null)
+            return;
+        AllGuildConfigs.AddOrUpdate(guildId, result, (_, _) => result);
     }
 }

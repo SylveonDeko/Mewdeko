@@ -33,8 +33,7 @@ public class VcRoleService : INService
         ToAssign = new NonBlocking.ConcurrentDictionary<ulong, ConcurrentQueue<(bool, IGuildUser, IRole)>>();
 
         // Getting all guild configurations and initializing VC roles for each guild
-        var allgc = bot.AllGuildConfigs;
-        Task.WhenAll(allgc.Select(InitializeVcRole));
+        Task.WhenAll(bot.AllGuildConfigs.Select(x => InitializeVcRole(x.Value)));
 
         // Starting a new task that continuously assigns or removes roles from users
         Task.Run(async () =>

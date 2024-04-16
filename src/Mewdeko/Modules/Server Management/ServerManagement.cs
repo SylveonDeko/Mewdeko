@@ -2,7 +2,6 @@ using System.Net.Http;
 using Discord.Commands;
 using Discord.Net;
 using Mewdeko.Common.Attributes.TextCommands;
-using Mewdeko.Modules.Server_Management.Services;
 using Mewdeko.Services.Settings;
 using Image = Discord.Image;
 
@@ -12,7 +11,7 @@ namespace Mewdeko.Modules.Server_Management;
 /// Contains commands related to server management.
 /// </summary>
 public partial class ServerManagement(IHttpClientFactory factory, BotConfigService config)
-    : MewdekoModuleBase<ServerManagementService>
+    : MewdekoModule
 {
     /// <summary>
     /// Displays the list of allowed permissions for the invoking user.
