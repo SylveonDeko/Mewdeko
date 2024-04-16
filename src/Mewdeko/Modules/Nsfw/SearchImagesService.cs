@@ -42,10 +42,10 @@ public record UrlReply
 /// </summary>
 public class SearchImagesService : ISearchImagesService, INService
 {
-    private readonly ConcurrentDictionary<ulong, HashSet<string>> blacklistedTags;
     private readonly SearchImageCacher cache;
     private readonly DbService db;
     private readonly HttpClient http;
+    private readonly GuildSettingsService service;
 
     private readonly object taglock = new();
 
@@ -55,23 +55,19 @@ public class SearchImagesService : ISearchImagesService, INService
     /// <param name="http">The HTTP client factory for creating HttpClient instances.</param>
     /// <param name="cacher">The search image cacher.</param>
     /// <param name="db">The database service.</param>
-    /// <param name="bot">The bot instance.</param>
+    /// <param name="service">The guild settings service.</param>
     public SearchImagesService(
         IHttpClientFactory http,
         SearchImageCacher cacher,
         DbService db,
-        Mewdeko bot)
+        GuildSettingsService service)
     {
         this.http = http.CreateClient();
         this.http.AddFakeHeaders();
         cache = cacher;
         this.db = db;
+        this.service = service;
         using var uow = db.GetDbContext();
-
-        blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
-            bot.AllGuildConfigs.ToDictionary(
-                x => x.Key,
-                x => new HashSet<string>(x.Value.NsfwBlacklistedTags.Select(y => y.Tag))));
     }
 
     /// <summary>
@@ -263,8 +259,7 @@ public class SearchImagesService : ISearchImagesService, INService
             added = false;
         }
 
-        var newTags = new HashSet<string>(gc.NsfwBlacklistedTags.Select(x => x.Tag));
-        blacklistedTags.AddOrUpdate(guildId, newTags, delegate { return newTags; });
+        await service.UpdateGuildConfig(guildId, gc).ConfigureAwait(false);
 
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
@@ -276,14 +271,12 @@ public class SearchImagesService : ISearchImagesService, INService
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns>A task representing the asynchronous operation, containing an array of blacklisted tags.</returns>
-    public ValueTask<string[]> GetBlacklistedTags(ulong guildId)
+    public async ValueTask<string[]?> GetBlacklistedTags(ulong guildId)
     {
-        lock (taglock)
-        {
-            return blacklistedTags.TryGetValue(guildId, out var tags)
-                ? new ValueTask<string[]>(tags.ToArray())
-                : new ValueTask<string[]>(Array.Empty<string>());
-        }
+        var config = await service.GetGuildConfig(guildId);
+        return config.NsfwBlacklistedTags.Count != 0
+            ? config.NsfwBlacklistedTags.Select(x => x.Tag).ToArray()
+            : [];
     }
 
     private Task<UrlReply?> GetNsfwImageAsync(ulong? guildId, bool forceExplicit, string[]? tags, Booru dapi,
@@ -317,7 +310,7 @@ public class SearchImagesService : ISearchImagesService, INService
 #endif
         try
         {
-            blacklistedTags.TryGetValue(guildId, out var blTags);
+            var blTags = await GetBlacklistedTags(guildId).ConfigureAwait(false);
 
             switch (dapi)
             {
@@ -343,7 +336,7 @@ public class SearchImagesService : ISearchImagesService, INService
                 }
             }
 
-            var result = await cache.GetImageNew(tags, forceExplicit, dapi, blTags ?? new HashSet<string>(), cancel)
+            var result = await cache.GetImageNew(tags, forceExplicit, dapi, blTags?.ToHashSet() ?? [], cancel)
                 .ConfigureAwait(false);
 
             if (result is null)

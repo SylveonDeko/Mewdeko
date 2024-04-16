@@ -8,7 +8,8 @@ namespace Mewdeko.Modules.Utility.Services;
 /// <summary>
 /// Manages the scheduling and execution of repeating messages across guilds.
 /// </summary>
-public class MessageRepeaterService(DiscordSocketClient client, DbService db, Mewdeko bot) : INService, IReadyExecutor
+public class MessageRepeaterService(DiscordSocketClient client, DbService db, Mewdeko bot, GuildSettingsService gss)
+    : INService, IReadyExecutor
 {
     /// <summary>
     /// A collection of repeaters organized by guild ID and then by repeater ID.
@@ -29,31 +30,28 @@ public class MessageRepeaterService(DiscordSocketClient client, DbService db, Me
         await using var uow = db.GetDbContext();
 
         var repeaters = new Dictionary<ulong, ConcurrentDictionary<int, RepeatRunner>>();
-        foreach (var gc in bot.AllGuildConfigs)
+        await Parallel.ForEachAsync(client.Guilds, new ParallelOptions
+        {
+            MaxDegreeOfParallelism = 8
+        }, async (gc, cancellationToken) =>
         {
             try
             {
-                var guild = client.GetGuild(gc.Key);
-                if (guild is null)
-                {
-                    Log.Information("Unable to find guild {GuildId} for message repeaters", gc.Key);
-                    continue;
-                }
-
-                var idToRepeater = gc.Value.GuildRepeaters
+                var config = await gss.GetGuildConfig(gc.Id);
+                var idToRepeater = config.GuildRepeaters
                     .Where(gr => gr.DateAdded is not null)
                     .Select(gr =>
-                        new KeyValuePair<int, RepeatRunner>(gr.Id, new RepeatRunner(client, guild, gr, this)))
+                        new KeyValuePair<int, RepeatRunner>(gr.Id, new RepeatRunner(client, gc, gr, this)))
                     .ToDictionary(x => x.Key, y => y.Value)
                     .ToConcurrent();
 
-                repeaters.TryAdd(gc.Key, idToRepeater);
+                repeaters.TryAdd(gc.Id, idToRepeater);
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Failed to load repeaters on Guild {0}", gc.Key);
+                Log.Error(ex, "Failed to load repeaters on Guild {0}", gc.Id);
             }
-        }
+        });
 
         Repeaters = repeaters.ToConcurrent();
         RepeaterReady = true;

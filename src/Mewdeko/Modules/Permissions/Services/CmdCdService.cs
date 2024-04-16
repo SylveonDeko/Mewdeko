@@ -8,33 +8,8 @@ namespace Mewdeko.Modules.Permissions.Services;
 /// <summary>
 /// Represents a service for managing command cooldowns.
 /// </summary>
-public class CmdCdService : ILateBlocker, INService
+public class CmdCdService(GuildSettingsService gss) : ILateBlocker, INService
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CmdCdService"/> class.
-    /// </summary>
-    /// <param name="bot">The instance of the Mewdeko bot.</param>
-    /// <remarks>
-    /// This constructor retrieves all guild configurations from the bot and initializes the CommandCooldowns property.
-    /// The CommandCooldowns property is a concurrent dictionary where the key is the guild ID and the value is a set of CommandCooldown objects.
-    /// </remarks>
-    public CmdCdService(Mewdeko bot)
-    {
-        CommandCooldowns = new ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>>(
-            bot.AllGuildConfigs.ToDictionary(k => k.Key,
-                v => new ConcurrentHashSet<CommandCooldown>(v.Value.CommandCooldowns)));
-    }
-
-    /// <summary>
-    /// Manages the collection of command cooldown configurations across different guilds.
-    /// </summary>
-    /// <remarks>
-    /// This dictionary maps guild IDs to a set of <see cref="CommandCooldown"/> objects,
-    /// representing the cooldown configurations for commands within each guild.
-    /// It ensures that commands can have custom cooldown periods on a per-guild basis.
-    /// </remarks>
-    public ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>> CommandCooldowns { get; }
-
     /// <summary>
     /// Tracks active cooldowns for commands being executed by users across different guilds.
     /// </summary>
@@ -104,18 +79,19 @@ public class CmdCdService : ILateBlocker, INService
     /// Checks if the specified command is on cooldown for the user in the given guild. If so, blocks the command execution.
     /// This method manages cooldown state and ensures that commands cannot be spammed by tracking active cooldowns.
     /// </remarks>
-    public Task<bool> TryBlock(IGuild? guild, IUser user, string commandName)
+    public async Task<bool> TryBlock(IGuild? guild, IUser user, string commandName)
     {
         if (guild is null)
-            return Task.FromResult(false);
+            return false;
 
-        var cmdcds = CommandCooldowns.GetOrAdd(guild.Id, new ConcurrentHashSet<CommandCooldown>());
+        var config = await gss.GetGuildConfig(guild.Id);
+        var cmdcds = config.CommandCooldowns;
         CommandCooldown cdRule;
         if ((cdRule = cmdcds.FirstOrDefault(cc => cc.CommandName == commandName)) == null)
-            return Task.FromResult(false);
+            return false;
         var activeCdsForGuild = ActiveCooldowns.GetOrAdd(guild.Id, new ConcurrentHashSet<ActiveCooldown>());
         if (activeCdsForGuild.FirstOrDefault(ac => ac.UserId == user.Id && ac.Command == commandName) != null)
-            return Task.FromResult(true);
+            return true;
 
         activeCdsForGuild.Add(new ActiveCooldown
         {
@@ -135,7 +111,7 @@ public class CmdCdService : ILateBlocker, INService
             }
         });
 
-        return Task.FromResult(false);
+        return false;
     }
 }
 

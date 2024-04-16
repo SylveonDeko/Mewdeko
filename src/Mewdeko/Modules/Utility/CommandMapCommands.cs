@@ -15,7 +15,8 @@ public partial class Utility
     /// <param name="db">The database service.</param>
     /// <param name="serv">The interactive service.</param>
     [Group]
-    public class CommandMapCommands(DbService db, InteractiveService serv) : MewdekoSubmodule<CommandMapService>
+    public class CommandMapCommands(DbService db, InteractiveService serv, GuildSettingsService service)
+        : MewdekoSubmodule<CommandMapService>
     {
         /// <summary>
         /// Clears all command aliases for the guild.
@@ -45,8 +46,10 @@ public partial class Utility
 
             if (string.IsNullOrWhiteSpace(mapping))
             {
-                if (!Service.AliasMaps.TryGetValue(ctx.Guild.Id, out var maps) ||
-                    !maps.TryRemove(trigger, out _))
+                var cachedConfig = await service.GetGuildConfig(ctx.Guild.Id);
+                var gottenMaps = await Service.GetCommandMap(ctx.Guild.Id);
+                if (gottenMaps != null && (gottenMaps.Count != 0 ||
+                                           !gottenMaps.Remove(trigger, out _)))
                 {
                     await ReplyErrorLocalizedAsync("alias_remove_fail", Format.Code(trigger)).ConfigureAwait(false);
                     return;
@@ -60,51 +63,24 @@ public partial class Utility
                     if (tr != null)
                         uow.Set<CommandAlias>().Remove(tr);
                     await uow.SaveChangesAsync().ConfigureAwait(false);
+                    await service.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
                 }
 
                 await ReplyConfirmLocalizedAsync("alias_removed", Format.Code(trigger)).ConfigureAwait(false);
                 return;
             }
 
-            Service.AliasMaps.AddOrUpdate(ctx.Guild.Id, _ =>
+            await using (var uow = db.GetDbContext())
             {
-                using (var uow = db.GetDbContext())
+                var config = uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases)).GetAwaiter()
+                    .GetResult();
+                config.CommandAliases.Add(new CommandAlias
                 {
-                    var config = uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases)).GetAwaiter()
-                        .GetResult();
-                    config.CommandAliases.Add(new CommandAlias
-                    {
-                        Mapping = mapping, Trigger = trigger
-                    });
-                    uow.SaveChanges();
-                }
-
-                return new ConcurrentDictionary<string, string>(new Dictionary<string, string>
-                {
-                    {
-                        trigger.Trim().ToLowerInvariant(), mapping.ToLowerInvariant()
-                    }
+                    Mapping = mapping, Trigger = trigger
                 });
-            }, (_, map) =>
-            {
-                using (var uow = db.GetDbContext())
-                {
-                    var config = uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases)).GetAwaiter()
-                        .GetResult();
-                    var toAdd = new CommandAlias
-                    {
-                        Mapping = mapping, Trigger = trigger
-                    };
-                    var toRemove = config.CommandAliases.Where(x => x.Trigger == trigger);
-                    if (toRemove.Any())
-                        uow.RemoveRange(toRemove);
-                    config.CommandAliases.Add(toAdd);
-                    uow.SaveChanges();
-                }
-
-                map.AddOrUpdate(trigger, mapping, (_, _) => mapping);
-                return map;
-            });
+                await uow.SaveChangesAsync();
+                await service.UpdateGuildConfig(ctx.Guild.Id, config);
+            }
 
             await ReplyConfirmLocalizedAsync("alias_added", Format.Code(trigger), Format.Code(mapping))
                 .ConfigureAwait(false);
@@ -117,19 +93,18 @@ public partial class Utility
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task AliasList()
         {
-            if (!Service.AliasMaps.TryGetValue(ctx.Guild.Id, out var maps) || maps.Count == 0)
+            var aliases = await Service.GetCommandMap(ctx.Guild.Id);
+            if (aliases is null || aliases.Count == 0)
             {
                 await ReplyErrorLocalizedAsync("aliases_none").ConfigureAwait(false);
                 return;
             }
 
-            var arr = maps.ToArray();
-
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)
                 .WithPageFactory(PageFactory)
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                .WithMaxPageIndex(arr.Length / 10)
+                .WithMaxPageIndex((aliases.Count - 1) / 10)
                 .WithDefaultEmotes()
                 .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
@@ -142,7 +117,7 @@ public partial class Utility
                 return new PageBuilder().WithOkColor()
                     .WithTitle(GetText("alias_list"))
                     .WithDescription(string.Join("\n",
-                        arr.Skip(page * 10).Take(10).Select(x => $"`{x.Key}` => `{x.Value}`")));
+                        aliases.Skip(page * 10).Take(10).Select(x => $"`{x.Key}` => `{x.Value}`")));
             }
         }
     }

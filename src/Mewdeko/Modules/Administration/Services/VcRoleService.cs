@@ -11,6 +11,7 @@ public class VcRoleService : INService
 {
     private readonly DiscordSocketClient client;
     private readonly DbService db;
+    private readonly GuildSettingsService guildSettingsService;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="VcRoleService"/> class.
@@ -19,21 +20,21 @@ public class VcRoleService : INService
     /// <param name="bot">The bot instance.</param>
     /// <param name="db">The database service.</param>
     /// <param name="eventHandler">The event handler.</param>
-    public VcRoleService(DiscordSocketClient client, Mewdeko bot, DbService db, EventHandler eventHandler)
+    /// <param name="guildSettingsService">The guild settings service.</param>
+    public VcRoleService(DiscordSocketClient client, Mewdeko bot, DbService db, EventHandler eventHandler,
+        GuildSettingsService guildSettingsService)
     {
         // Assigning the database service and the Discord client
         this.db = db;
+        this.guildSettingsService = guildSettingsService;
         this.client = client;
 
         // Subscribing to the UserVoiceStateUpdated event
         eventHandler.UserVoiceStateUpdated += ClientOnUserVoiceStateUpdated;
 
-        // Initializing the VcRoles and ToAssign dictionaries
-        VcRoles = new NonBlocking.ConcurrentDictionary<ulong, NonBlocking.ConcurrentDictionary<ulong, IRole>>();
         ToAssign = new NonBlocking.ConcurrentDictionary<ulong, ConcurrentQueue<(bool, IGuildUser, IRole)>>();
 
         // Getting all guild configurations and initializing VC roles for each guild
-        Task.WhenAll(bot.AllGuildConfigs.Select(x => InitializeVcRole(x.Value)));
 
         // Starting a new task that continuously assigns or removes roles from users
         Task.Run(async () =>
@@ -90,12 +91,13 @@ public class VcRoleService : INService
     /// <summary>
     /// A dictionary that maps guild IDs to another dictionary, which maps voice channel IDs to roles.
     /// </summary>
-    public NonBlocking.ConcurrentDictionary<ulong, NonBlocking.ConcurrentDictionary<ulong, IRole>> VcRoles { get; }
+    public NonBlocking.ConcurrentDictionary<ulong, NonBlocking.ConcurrentDictionary<ulong, IRole>> VcRoles { get; } =
+        new();
 
     /// <summary>
     /// A dictionary that maps guild IDs to a queue of tuples, each containing a boolean indicating whether to add or remove a role, a guild user, and a role.
     /// </summary>
-    public NonBlocking.ConcurrentDictionary<ulong, ConcurrentQueue<(bool, IGuildUser, IRole)>> ToAssign { get; }
+    private NonBlocking.ConcurrentDictionary<ulong, ConcurrentQueue<(bool, IGuildUser, IRole)>> ToAssign { get; }
 
     /// <summary>
     /// Event handler for when the bot joins a guild. Initializes voice channel roles for the guild.
@@ -157,6 +159,7 @@ public class VcRoleService : INService
             Log.Warning("Removing {MissingRolesCount} missing roles from {VcRoleServiceName}", missingRoles.Count,
                 nameof(VcRoleService));
             uow.RemoveRange(missingRoles);
+            await guildSettingsService.UpdateGuildConfig(gconf.GuildId, gconf).ConfigureAwait(false);
             await uow.SaveChangesAsync().ConfigureAwait(false);
         }
     }
@@ -170,8 +173,7 @@ public class VcRoleService : INService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task AddVcRole(ulong guildId, IRole role, ulong vcId)
     {
-        if (role == null)
-            throw new ArgumentNullException(nameof(role));
+        ArgumentNullException.ThrowIfNull(role);
 
         var guildVcRoles = VcRoles.GetOrAdd(guildId, new NonBlocking.ConcurrentDictionary<ulong, IRole>());
 
@@ -185,6 +187,7 @@ public class VcRoleService : INService
             VoiceChannelId = vcId, RoleId = role.Id
         }); // add new one
         await uow.SaveChangesAsync().ConfigureAwait(false);
+        await guildSettingsService.UpdateGuildConfig(conf.GuildId, conf).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -206,6 +209,7 @@ public class VcRoleService : INService
         var toRemove = conf.VcRoleInfos.Where(x => x.VoiceChannelId == vcId).ToList();
         uow.RemoveRange(toRemove);
         await uow.SaveChangesAsync().ConfigureAwait(false);
+        await guildSettingsService.UpdateGuildConfig(conf.GuildId, conf).ConfigureAwait(false);
 
         return true;
     }

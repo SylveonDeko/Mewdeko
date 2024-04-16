@@ -201,7 +201,8 @@ public partial class Administration
          UserPerm(GuildPermission.ManageRoles)]
         public async Task ReactionRolesList()
         {
-            if (!Service.Get(ctx.Guild.Id, out var rrs) || rrs.Count == 0)
+            var (success, rrs) = await Service.Get(ctx.Guild.Id).ConfigureAwait(false);
+            if (!success || rrs.Count == 0)
             {
                 await ctx.Channel.SendErrorAsync(GetText("no_reaction_roles"), Config).ConfigureAwait(false);
             }
@@ -256,8 +257,9 @@ public partial class Administration
          UserPerm(GuildPermission.ManageRoles)]
         public async Task ReactionRolesRemove(int index)
         {
+            var (success, rrs) = await Service.Get(ctx.Guild.Id).ConfigureAwait(false);
             if (index < 1 ||
-                !Service.Get(ctx.Guild.Id, out var rrs) ||
+                !success ||
                 rrs.Count == 0 || rrs.Count < index)
             {
                 return;

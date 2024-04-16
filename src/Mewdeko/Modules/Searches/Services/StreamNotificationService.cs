@@ -73,16 +73,14 @@ public class StreamNotificationService : IReadyExecutor, INService
         streamFollowKey = new TypedKey<FollowStreamPubData>("stream.follow");
         streamUnfollowKey = new TypedKey<FollowStreamPubData>("stream.unfollow");
 
-        offlineNotificationServers =
-        [
-            ..bot.AllGuildConfigs
-                .Where(gc => gc.Value.NotifyStreamOffline != 0)
-                .Select(x => x.Key)
-                .ToList()
-        ];
 
-        var followedStreams = bot.AllGuildConfigs.SelectMany(x => x.Value.FollowedStreams).ToList();
+        offlineNotificationServers = uow.Set<GuildConfig>()
+            .AsQueryable()
+            .Where(x => x.NotifyStreamOffline == 1L)
+            .Select(x => x.GuildId)
+            .ToList();
 
+        var followedStreams = uow.Set<FollowedStream>().AsQueryable().ToList();
         shardTrackedStreams = followedStreams.GroupBy(x => new
             {
                 x.Type, Name = x.Username.ToLower()

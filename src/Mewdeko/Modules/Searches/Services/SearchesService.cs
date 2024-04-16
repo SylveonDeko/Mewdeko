@@ -8,7 +8,6 @@ using AngleSharp.Html.Parser;
 using GTranslate.Translators;
 using Html2Markdown;
 using Mewdeko.Modules.Searches.Common;
-using Mewdeko.Services.Impl;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
@@ -56,11 +55,10 @@ public class SearchesService : INService, IUnloadableService
         IsNotSupportingFrames = true
     });
 
-    private readonly ConcurrentDictionary<ulong, HashSet<string>> blacklistedTags;
     private readonly IDataCache cache;
     private readonly IBotCredentials creds;
-    private readonly DbService db;
     private readonly IGoogleApiService google;
+    private readonly GuildSettingsService gss;
     private readonly IHttpClientFactory httpFactory;
 
     private readonly ConcurrentDictionary<ulong, SearchImageCacher> imageCacher = new();
@@ -77,27 +75,20 @@ public class SearchesService : INService, IUnloadableService
     /// </summary>
     /// <param name="client">The Discord client.</param>
     /// <param name="google">The Google API service.</param>
-    /// <param name="db">The database service.</param>
     /// <param name="cache">The data cache.</param>
     /// <param name="factory">The HTTP client factory.</param>
-    /// <param name="fonts">The font provider.</param>
     /// <param name="creds">The bot credentials.</param>
-    /// <param name="bot">The bot instance.</param>
-    public SearchesService(DiscordSocketClient client, IGoogleApiService google,
-        DbService db, IDataCache cache, IHttpClientFactory factory,
-        FontProvider fonts, IBotCredentials creds, Mewdeko bot)
+    public SearchesService(DiscordSocketClient client, IGoogleApiService google, IDataCache cache,
+        IHttpClientFactory factory,
+        IBotCredentials creds, GuildSettingsService gss)
     {
         httpFactory = factory;
         this.google = google;
-        this.db = db;
         imgs = cache.LocalImages;
         this.cache = cache;
         this.creds = creds;
+        this.gss = gss;
         rng = new MewdekoRandom();
-        blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
-            bot.AllGuildConfigs.ToDictionary(
-                x => x.Key,
-                x => new HashSet<string>(x.Value.NsfwBlacklistedTags.Select(y => y.Tag))));
 
         //translate commands
         client.MessageReceived += msg =>
@@ -534,14 +525,14 @@ public class SearchesService : INService, IUnloadableService
     /// <param name="guild">The ID of the guild where the search is performed.</param>
     /// <param name="isExplicit">A boolean indicating whether the search is explicit or not.</param>
     /// <returns>A task representing the asynchronous operation, returning the search result.</returns>
-    public Task<ImageCacherObject?> DapiSearch(string? tag, DapiSearchType type, ulong? guild,
+    public async Task<ImageCacherObject?> DapiSearch(string? tag, DapiSearchType type, ulong? guild,
         bool isExplicit = false)
     {
         tag ??= "";
         if (string.IsNullOrWhiteSpace(tag)
             && (tag.Contains("loli") || tag.Contains("shota")))
         {
-            return Task.FromResult<ImageCacherObject>(null);
+            return null;
         }
 
         var tags = tag
@@ -551,17 +542,17 @@ public class SearchesService : INService, IUnloadableService
 
         if (guild.HasValue)
         {
-            var hashSet = GetBlacklistedTags(guild.Value);
+            var hashSet = await GetBlacklistedTags(guild.Value);
 
             var cacher = imageCacher.GetOrAdd(guild.Value, _ => new SearchImageCacher(httpFactory));
 
-            return cacher.GetImage(tags, isExplicit, type, hashSet);
+            return await cacher.GetImage(tags, isExplicit, type, hashSet);
         }
         else
         {
             var cacher = imageCacher.GetOrAdd(guild ?? 0, _ => new SearchImageCacher(httpFactory));
 
-            return cacher.GetImage(tags, isExplicit, type);
+            return await cacher.GetImage(tags, isExplicit, type);
         }
     }
 
@@ -570,9 +561,12 @@ public class SearchesService : INService, IUnloadableService
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns>A HashSet containing the blacklisted tags for the guild.</returns>
-    private HashSet<string> GetBlacklistedTags(ulong guildId)
+    private async Task<HashSet<string>> GetBlacklistedTags(ulong guildId)
     {
-        return blacklistedTags.TryGetValue(guildId, out var tags) ? tags : new HashSet<string>();
+        var config = await gss.GetGuildConfig(guildId);
+        return config.NsfwBlacklistedTags.Count != 0
+            ? [..config.NsfwBlacklistedTags.Select(x => x.Tag)]
+            : [];
     }
 
     /// <summary>
