@@ -30,21 +30,16 @@ public class MessageRepeaterService(DiscordSocketClient client, DbService db, Me
         await using var uow = db.GetDbContext();
 
         var repeaters = new Dictionary<ulong, ConcurrentDictionary<int, RepeatRunner>>();
-        await Parallel.ForEachAsync(client.Guilds, new ParallelOptions
-        {
-            MaxDegreeOfParallelism = 8
-        }, async (gc, cancellationToken) =>
+        foreach (var gc in client.Guilds)
         {
             try
             {
                 var config = await gss.GetGuildConfig(gc.Id);
                 var idToRepeater = config.GuildRepeaters
-                    .Where(gr => gr.DateAdded != null)
-                    .Select(gr => new KeyValuePair<int, RepeatRunner>(
-                        gr.Id,
-                        new RepeatRunner(client, gc, gr, this)))
-                    .GroupBy(x => x.Key)
-                    .ToDictionary(g => g.Key, g => g.First().Value)
+                    .Where(gr => gr.DateAdded is not null)
+                    .Select(gr =>
+                        new KeyValuePair<int, RepeatRunner>(gr.Id, new RepeatRunner(client, gc, gr, this)))
+                    .ToDictionary(x => x.Key, y => y.Value)
                     .ToConcurrent();
 
                 repeaters.TryAdd(gc.Id, idToRepeater);
@@ -53,7 +48,7 @@ public class MessageRepeaterService(DiscordSocketClient client, DbService db, Me
             {
                 Log.Error(ex, "Failed to load repeaters on Guild {0}", gc.Id);
             }
-        });
+        }
 
         Repeaters = repeaters.ToConcurrent();
         RepeaterReady = true;
