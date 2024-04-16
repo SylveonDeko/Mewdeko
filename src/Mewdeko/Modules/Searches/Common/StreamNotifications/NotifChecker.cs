@@ -235,7 +235,7 @@ public class NotifChecker
     private async void CacheClearAllData()
     {
         var db = multi.GetDatabase();
-        await db.KeyDeleteAsync(key);
+        await db.KeyDeleteAsync(key, CommandFlags.FireAndForget);
     }
 
     /// <summary>
