@@ -27,31 +27,31 @@ public class MessageRepeaterService(DiscordSocketClient client, DbService db, Me
         await bot.Ready.Task.ConfigureAwait(false);
         Log.Information("Loading message repeaters on shard {ShardId}", client.ShardId);
         await using var uow = db.GetDbContext();
-        var allgc = bot.AllGuildConfigs;
+
         var repeaters = new Dictionary<ulong, ConcurrentDictionary<int, RepeatRunner>>();
-        foreach (var gc in allgc)
+        foreach (var gc in bot.AllGuildConfigs)
         {
             try
             {
-                var guild = client.GetGuild(gc.GuildId);
+                var guild = client.GetGuild(gc.Key);
                 if (guild is null)
                 {
-                    Log.Information("Unable to find guild {GuildId} for message repeaters", gc.GuildId);
+                    Log.Information("Unable to find guild {GuildId} for message repeaters", gc.Key);
                     continue;
                 }
 
-                var idToRepeater = gc.GuildRepeaters
+                var idToRepeater = gc.Value.GuildRepeaters
                     .Where(gr => gr.DateAdded is not null)
                     .Select(gr =>
                         new KeyValuePair<int, RepeatRunner>(gr.Id, new RepeatRunner(client, guild, gr, this)))
                     .ToDictionary(x => x.Key, y => y.Value)
                     .ToConcurrent();
 
-                repeaters.TryAdd(gc.GuildId, idToRepeater);
+                repeaters.TryAdd(gc.Key, idToRepeater);
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Failed to load repeaters on Guild {0}", gc.GuildId);
+                Log.Error(ex, "Failed to load repeaters on Guild {0}", gc.Key);
             }
         }
 

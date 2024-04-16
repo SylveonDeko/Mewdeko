@@ -59,12 +59,12 @@ public class MuteService : INService
     private readonly DiscordSocketClient client;
     private readonly DbService db;
 
+    private readonly GuildSettingsService guildSettings;
+
     /// <summary>
     /// Roles to remove on mute.
     /// </summary>
     public string[] Uroles = Array.Empty<string>();
-
-    private readonly GuildSettingsService guildSettings;
 
     /// <summary>
     /// Initializes a new instance of <see cref="MuteService"/>.
@@ -80,25 +80,24 @@ public class MuteService : INService
         this.client = client;
         this.db = db;
         this.guildSettings = guildSettings;
-        var allgc = bot.AllGuildConfigs;
 
 
-        GuildMuteRoles = allgc
-            .Where(c => !string.IsNullOrWhiteSpace(c.MuteRoleName))
-            .ToDictionary(c => c.GuildId, c => c.MuteRoleName)
+        GuildMuteRoles = bot.AllGuildConfigs
+            .Where(c => !string.IsNullOrWhiteSpace(c.Value.MuteRoleName))
+            .ToDictionary(c => c.Value.GuildId, c => c.Value.MuteRoleName)
             .ToConcurrent();
 
-        MutedUsers = new ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>(allgc
+        MutedUsers = new ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>(bot.AllGuildConfigs
             .ToDictionary(
-                k => k.GuildId,
-                v => new ConcurrentHashSet<ulong>(v.MutedUsers.Select(m => m.UserId))
+                k => k.Key,
+                v => new ConcurrentHashSet<ulong>(v.Value.MutedUsers.Select(m => m.UserId))
             ));
 
         var max = TimeSpan.FromDays(49);
 
-        foreach (var conf in allgc)
+        foreach (var conf in bot.AllGuildConfigs)
         {
-            foreach (var x in conf.UnmuteTimers)
+            foreach (var x in conf.Value.UnmuteTimers)
             {
                 TimeSpan after;
                 if (x.UnmuteAt - TimeSpan.FromMinutes(2) <= DateTime.UtcNow)
@@ -111,10 +110,10 @@ public class MuteService : INService
                     after = unmute > max ? max : unmute;
                 }
 
-                StartUn_Timer(conf.GuildId, x.UserId, after, TimerType.Mute);
+                StartUn_Timer(conf.Value.GuildId, x.UserId, after, TimerType.Mute);
             }
 
-            foreach (var x in conf.UnbanTimer)
+            foreach (var x in conf.Value.UnbanTimer)
             {
                 TimeSpan after;
                 if (x.UnbanAt - TimeSpan.FromMinutes(2) <= DateTime.UtcNow)
@@ -127,10 +126,10 @@ public class MuteService : INService
                     after = unban > max ? max : unban;
                 }
 
-                StartUn_Timer(conf.GuildId, x.UserId, after, TimerType.Ban);
+                StartUn_Timer(conf.Value.GuildId, x.UserId, after, TimerType.Ban);
             }
 
-            foreach (var x in conf.UnroleTimer)
+            foreach (var x in conf.Value.UnroleTimer)
             {
                 TimeSpan after;
                 if (x.UnbanAt - TimeSpan.FromMinutes(2) <= DateTime.UtcNow)
@@ -143,7 +142,7 @@ public class MuteService : INService
                     after = unban > max ? max : unban;
                 }
 
-                StartUn_Timer(conf.GuildId, x.UserId, after, TimerType.AddRole, x.RoleId);
+                StartUn_Timer(conf.Value.GuildId, x.UserId, after, TimerType.AddRole, x.RoleId);
             }
         }
 

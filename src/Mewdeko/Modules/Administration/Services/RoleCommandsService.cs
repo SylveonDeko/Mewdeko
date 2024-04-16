@@ -21,9 +21,7 @@ public class RoleCommandsService : INService
     public RoleCommandsService(DbService db, EventHandler eventHandler, Mewdeko bot)
     {
         this.db = db;
-        var allgc = bot.AllGuildConfigs;
-        models = allgc.ToDictionary(x => x.GuildId,
-                x => x.ReactionRoleMessages)
+        models = bot.AllGuildConfigs.ToDictionary(x => x.Key, x => x.Value.ReactionRoleMessages)
             .ToConcurrent();
         eventHandler.ReactionAdded += _client_ReactionAdded;
         eventHandler.ReactionRemoved += _client_ReactionRemoved;

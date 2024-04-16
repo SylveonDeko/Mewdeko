@@ -13,16 +13,15 @@ namespace Mewdeko.Modules.Permissions.Services;
 /// </summary>
 public class PermissionService : ILateBlocker, INService
 {
+    private readonly BotConfig config;
     private readonly DbService db;
+
+    private readonly GuildSettingsService guildSettings;
 
     /// <summary>
     /// Service for accessing localized bot strings.
     /// </summary>
     public readonly IBotStrings Strings;
-
-    private readonly GuildSettingsService guildSettings;
-
-    private readonly BotConfig config;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PermissionService"/> class.
@@ -40,16 +39,15 @@ public class PermissionService : ILateBlocker, INService
         this.db = db;
         Strings = strings;
         this.guildSettings = guildSettings;
-        var allgc = bot.AllGuildConfigs;
         using var uow = this.db.GetDbContext();
-        foreach (var x in allgc)
+        foreach (var x in bot.AllGuildConfigs)
         {
-            Cache.TryAdd(x.GuildId,
+            Cache.TryAdd(x.Key,
                 new PermissionCache
                 {
-                    Verbose = false.ParseBoth(x.VerbosePermissions.ToString()),
-                    PermRole = x.PermissionRole,
-                    Permissions = new PermissionsCollection<Permissionv2>(x.Permissions)
+                    Verbose = false.ParseBoth(x.Value.VerbosePermissions.ToString()),
+                    PermRole = x.Value.PermissionRole,
+                    Permissions = new PermissionsCollection<Permissionv2>(x.Value.Permissions)
                 });
         }
     }

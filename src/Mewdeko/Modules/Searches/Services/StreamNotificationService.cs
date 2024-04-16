@@ -18,26 +18,26 @@ namespace Mewdeko.Modules.Searches.Services;
 /// </summary>
 public class StreamNotificationService : IReadyExecutor, INService
 {
-    private readonly DbService db;
-    private readonly IBotStrings strings;
-    private readonly Random rng = new MewdekoRandom();
     private readonly DiscordSocketClient client;
-    private readonly NotifChecker streamTracker;
-
-    private readonly object shardLock = new();
-
-    private readonly Dictionary<StreamDataKey, HashSet<ulong>> trackCounter = new();
-
-    private readonly Dictionary<StreamDataKey, Dictionary<ulong, HashSet<FollowedStream>>> shardTrackedStreams;
+    private readonly DbService db;
     private readonly List<ulong> offlineNotificationServers;
 
     private readonly IPubSub pubSub;
+    private readonly Random rng = new MewdekoRandom();
 
-    private readonly TypedKey<List<StreamData>> streamsOnlineKey;
-    private readonly TypedKey<List<StreamData>> streamsOfflineKey;
+    private readonly object shardLock = new();
+
+    private readonly Dictionary<StreamDataKey, Dictionary<ulong, HashSet<FollowedStream>>> shardTrackedStreams;
 
     private readonly TypedKey<FollowStreamPubData> streamFollowKey;
+    private readonly TypedKey<List<StreamData>> streamsOfflineKey;
+
+    private readonly TypedKey<List<StreamData>> streamsOnlineKey;
+    private readonly NotifChecker streamTracker;
     private readonly TypedKey<FollowStreamPubData> streamUnfollowKey;
+    private readonly IBotStrings strings;
+
+    private readonly Dictionary<StreamDataKey, HashSet<ulong>> trackCounter = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StreamNotificationService"/> class.
@@ -73,17 +73,15 @@ public class StreamNotificationService : IReadyExecutor, INService
         streamFollowKey = new TypedKey<FollowStreamPubData>("stream.follow");
         streamUnfollowKey = new TypedKey<FollowStreamPubData>("stream.unfollow");
 
-        var allgc = bot.AllGuildConfigs;
-
         offlineNotificationServers =
         [
-            ..allgc
-                .Where(gc => gc.NotifyStreamOffline != 0)
-                .Select(x => x.GuildId)
+            ..bot.AllGuildConfigs
+                .Where(gc => gc.Value.NotifyStreamOffline != 0)
+                .Select(x => x.Key)
                 .ToList()
         ];
 
-        var followedStreams = allgc.SelectMany(x => x.FollowedStreams).ToList();
+        var followedStreams = bot.AllGuildConfigs.SelectMany(x => x.Value.FollowedStreams).ToList();
 
         shardTrackedStreams = followedStreams.GroupBy(x => new
             {

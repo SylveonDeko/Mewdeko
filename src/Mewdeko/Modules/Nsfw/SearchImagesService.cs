@@ -42,25 +42,12 @@ public record UrlReply
 /// </summary>
 public class SearchImagesService : ISearchImagesService, INService
 {
-    private readonly HttpClient http;
+    private readonly ConcurrentDictionary<ulong, HashSet<string>> blacklistedTags;
     private readonly SearchImageCacher cache;
     private readonly DbService db;
-    private readonly ConcurrentDictionary<ulong, HashSet<string>> blacklistedTags;
+    private readonly HttpClient http;
 
-    /// <summary>
-    /// Represents a collection of timers associated with auto-hentai functionality.
-    /// </summary>
-    public ConcurrentDictionary<ulong, Timer> AutoHentaiTimers { get; } = new();
-
-    /// <summary>
-    /// Represents a collection of timers associated with auto-boob functionality.
-    /// </summary>
-    public ConcurrentDictionary<ulong, Timer> AutoBoobTimers { get; } = new();
-
-    /// <summary>
-    /// Represents a collection of timers associated with auto-butt functionality.
-    /// </summary>
-    public ConcurrentDictionary<ulong, Timer> AutoButtTimers { get; } = new();
+    private readonly object taglock = new();
 
     /// <summary>
     /// Initializes a new instance of the SearchImagesService class.
@@ -80,95 +67,27 @@ public class SearchImagesService : ISearchImagesService, INService
         cache = cacher;
         this.db = db;
         using var uow = db.GetDbContext();
-        var allgc = bot.AllGuildConfigs;
+
         blacklistedTags = new ConcurrentDictionary<ulong, HashSet<string>>(
-            allgc.ToDictionary(
-                x => x.GuildId,
-                x => new HashSet<string>(x.NsfwBlacklistedTags.Select(y => y.Tag))));
+            bot.AllGuildConfigs.ToDictionary(
+                x => x.Key,
+                x => new HashSet<string>(x.Value.NsfwBlacklistedTags.Select(y => y.Tag))));
     }
 
-    private Task<UrlReply?> GetNsfwImageAsync(ulong? guildId, bool forceExplicit, string[]? tags, Booru dapi,
-        CancellationToken cancel = default) =>
-        GetNsfwImageAsync(guildId ?? 0, tags ?? Array.Empty<string>(), forceExplicit, dapi, cancel);
+    /// <summary>
+    ///     Represents a collection of timers associated with auto-hentai functionality.
+    /// </summary>
+    public ConcurrentDictionary<ulong, Timer> AutoHentaiTimers { get; } = new();
 
-    private static bool IsValidTag(string tag) =>
-        tag.All(x => x != '+' && x != '?' && x != '/'); // tags mustn't contain + or ? or /
+    /// <summary>
+    ///     Represents a collection of timers associated with auto-boob functionality.
+    /// </summary>
+    public ConcurrentDictionary<ulong, Timer> AutoBoobTimers { get; } = new();
 
-    private async Task<UrlReply?> GetNsfwImageAsync(
-        ulong guildId,
-        string[] tags,
-        bool forceExplicit,
-        Booru dapi,
-        CancellationToken cancel)
-    {
-        if (!tags.All(IsValidTag))
-        {
-            return new UrlReply
-            {
-                Error = "One or more tags are invalid.", Url = ""
-            };
-        }
-#if DEBUG
-        Log.Information("Getting {V} image for Guild: {GuildId}...", dapi.ToString(), guildId);
-#endif
-        try
-        {
-            blacklistedTags.TryGetValue(guildId, out var blTags);
-
-            switch (dapi)
-            {
-                case Booru.E621:
-                {
-                    for (var i = 0; i < tags.Length; ++i)
-                    {
-                        if (tags[i] == "yuri")
-                            tags[i] = "female/female";
-                    }
-
-                    break;
-                }
-                case Booru.Derpibooru:
-                {
-                    for (var i = 0; i < tags.Length; ++i)
-                    {
-                        if (tags[i] == "yuri")
-                            tags[i] = "lesbian";
-                    }
-
-                    break;
-                }
-            }
-
-            var result = await cache.GetImageNew(tags, forceExplicit, dapi, blTags ?? new HashSet<string>(), cancel)
-                .ConfigureAwait(false);
-
-            if (result is null)
-            {
-                return new UrlReply
-                {
-                    Error = "Image not found.", Url = ""
-                };
-            }
-
-            var reply = new UrlReply
-            {
-                Error = "", Url = result.FileUrl, Rating = result.Rating, Provider = result.SearchType.ToString()
-            };
-
-            reply.Tags.AddRange(result.Tags);
-
-            return reply;
-        }
-        catch (Exception ex)
-        {
-            if (!ex.Message.Contains("cancelled"))
-                Log.Error(ex, "Failed getting {Dapi} image: {Message}", dapi, ex.Message);
-            return new UrlReply
-            {
-                Error = ex.Message, Url = ""
-            };
-        }
-    }
+    /// <summary>
+    ///     Represents a collection of timers associated with auto-butt functionality.
+    /// </summary>
+    public ConcurrentDictionary<ulong, Timer> AutoButtTimers { get; } = new();
 
     /// <summary>
     /// Retrieves an NSFW image URL from Gelbooru.
@@ -315,8 +234,6 @@ public class SearchImagesService : ISearchImagesService, INService
         };
     }
 
-    private readonly object taglock = new();
-
     /// <summary>
     /// Toggles the blacklisting of a tag for the specified guild.
     /// </summary>
@@ -366,6 +283,94 @@ public class SearchImagesService : ISearchImagesService, INService
             return blacklistedTags.TryGetValue(guildId, out var tags)
                 ? new ValueTask<string[]>(tags.ToArray())
                 : new ValueTask<string[]>(Array.Empty<string>());
+        }
+    }
+
+    private Task<UrlReply?> GetNsfwImageAsync(ulong? guildId, bool forceExplicit, string[]? tags, Booru dapi,
+        CancellationToken cancel = default)
+    {
+        return GetNsfwImageAsync(guildId ?? 0, tags ?? Array.Empty<string>(), forceExplicit, dapi, cancel);
+    }
+
+    private static bool IsValidTag(string tag)
+    {
+        return tag.All(x => x != '+' && x != '?' && x != '/');
+        // tags mustn't contain + or ? or /
+    }
+
+    private async Task<UrlReply?> GetNsfwImageAsync(
+        ulong guildId,
+        string[] tags,
+        bool forceExplicit,
+        Booru dapi,
+        CancellationToken cancel)
+    {
+        if (!tags.All(IsValidTag))
+        {
+            return new UrlReply
+            {
+                Error = "One or more tags are invalid.", Url = ""
+            };
+        }
+#if DEBUG
+        Log.Information("Getting {V} image for Guild: {GuildId}...", dapi.ToString(), guildId);
+#endif
+        try
+        {
+            blacklistedTags.TryGetValue(guildId, out var blTags);
+
+            switch (dapi)
+            {
+                case Booru.E621:
+                {
+                    for (var i = 0; i < tags.Length; ++i)
+                    {
+                        if (tags[i] == "yuri")
+                            tags[i] = "female/female";
+                    }
+
+                    break;
+                }
+                case Booru.Derpibooru:
+                {
+                    for (var i = 0; i < tags.Length; ++i)
+                    {
+                        if (tags[i] == "yuri")
+                            tags[i] = "lesbian";
+                    }
+
+                    break;
+                }
+            }
+
+            var result = await cache.GetImageNew(tags, forceExplicit, dapi, blTags ?? new HashSet<string>(), cancel)
+                .ConfigureAwait(false);
+
+            if (result is null)
+            {
+                return new UrlReply
+                {
+                    Error = "Image not found.", Url = ""
+                };
+            }
+
+            var reply = new UrlReply
+            {
+                Error = "", Url = result.FileUrl, Rating = result.Rating, Provider = result.SearchType.ToString()
+            };
+
+            reply.Tags.AddRange(result.Tags);
+
+            return reply;
+        }
+        catch (Exception ex)
+        {
+            if (!ex.Message.Contains("cancelled"))
+                Log.Error(ex, "Failed getting {Dapi} image: {Message}", dapi, ex.Message);
+            return new UrlReply
+            {
+                Error = ex.Message, Url = ""
+            };
         }
     }
 }

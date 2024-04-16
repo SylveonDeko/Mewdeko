@@ -20,9 +20,9 @@ public class CmdCdService : ILateBlocker, INService
     /// </remarks>
     public CmdCdService(Mewdeko bot)
     {
-        var allgc = bot.AllGuildConfigs;
         CommandCooldowns = new ConcurrentDictionary<ulong, ConcurrentHashSet<CommandCooldown>>(
-            allgc.ToDictionary(k => k.GuildId, v => new ConcurrentHashSet<CommandCooldown>(v.CommandCooldowns)));
+            bot.AllGuildConfigs.ToDictionary(k => k.Key,
+                v => new ConcurrentHashSet<CommandCooldown>(v.Value.CommandCooldowns)));
     }
 
     /// <summary>

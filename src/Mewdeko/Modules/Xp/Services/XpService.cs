@@ -25,14 +25,15 @@ public class XpService : INService, IUnloadableService
     public const int XpRequiredLvl1 = 36;
 
     private readonly ConcurrentQueue<UserCacheItem> addMessageXp = new();
+    private readonly Mewdeko bot;
 
     private readonly IDataCache cache;
     private readonly DiscordSocketClient client;
     private readonly CommandHandler cmd;
     private readonly IBotCredentials creds;
-    private readonly EventHandler eventHandler;
 
     private readonly DbService db;
+    private readonly EventHandler eventHandler;
 
     private readonly NonBlocking.ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> excludedChannels;
 
@@ -40,10 +41,9 @@ public class XpService : INService, IUnloadableService
 
     private readonly ConcurrentHashSet<ulong> excludedServers;
     private readonly IImageCache images;
+    private readonly IMemoryCache memoryCache;
     private readonly IBotStrings strings;
     private readonly XpConfigService xpConfig;
-    private readonly Mewdeko bot;
-    private readonly IMemoryCache memoryCache;
 
 
     /// <summary>
@@ -91,28 +91,28 @@ public class XpService : INService, IUnloadableService
 
 
         //load settings
-        var allGuildConfigs = bot.AllGuildConfigs;
-        XpTxtRates = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpTxtRate).ToConcurrent();
-        XpTxtTimeouts = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpTxtTimeout).ToConcurrent();
-        XpVoiceRates = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpVoiceRate).ToConcurrent();
-        XpVoiceTimeouts = allGuildConfigs.ToDictionary(x => x.GuildId, x => x.XpVoiceTimeout).ToConcurrent();
-        excludedChannels = allGuildConfigs.Where(x => x.XpSettings?.ExclusionList.Count > 0).ToDictionary(
-            x => x.GuildId,
-            x => new ConcurrentHashSet<ulong>(x.XpSettings?.ExclusionList
+        XpTxtRates = bot.AllGuildConfigs.ToDictionary(x => x.Key, x => x.Value.XpTxtRate).ToConcurrent();
+        XpTxtTimeouts = bot.AllGuildConfigs.ToDictionary(x => x.Key, x => x.Value.XpTxtTimeout).ToConcurrent();
+        XpVoiceRates = bot.AllGuildConfigs.ToDictionary(x => x.Key, x => x.Value.XpVoiceRate).ToConcurrent();
+        XpVoiceTimeouts = bot.AllGuildConfigs.ToDictionary(x => x.Key, x => x.Value.XpVoiceTimeout).ToConcurrent();
+        excludedChannels = bot.AllGuildConfigs.Where(x => x.Value.XpSettings?.ExclusionList.Count > 0).ToDictionary(
+            x => x.Key,
+            x => new ConcurrentHashSet<ulong>(x.Value.XpSettings?.ExclusionList
                 .Where(ex => ex.ItemType == ExcludedItemType.Channel)
                 .Select(ex => ex.ItemId).Distinct())).ToConcurrent();
 
-        excludedRoles = allGuildConfigs.Where(x => x.XpSettings?.ExclusionList.Count > 0).ToDictionary(x => x.GuildId,
-            x => new ConcurrentHashSet<ulong>(x.XpSettings?.ExclusionList
+        excludedRoles = bot.AllGuildConfigs.Where(x => x.Value.XpSettings?.ExclusionList.Count > 0).ToDictionary(
+            x => x.Key,
+            x => new ConcurrentHashSet<ulong>(x.Value.XpSettings?.ExclusionList
                 .Where(ex => ex.ItemType == ExcludedItemType.Role)
                 .Select(ex => ex.ItemId).Distinct())).ToConcurrent();
 
         excludedServers = new ConcurrentHashSet<ulong>(
-            allGuildConfigs.Where(x => x.XpSettings?.ServerExcluded == 1).Select(x => x.GuildId));
+            bot.AllGuildConfigs.Where(x => x.Value.XpSettings?.ServerExcluded == 1).Select(x => x.Key));
 
-        XpImages = new NonBlocking.ConcurrentDictionary<ulong, string>(allGuildConfigs
-            .Where(x => !string.IsNullOrWhiteSpace(x.XpImgUrl))
-            .ToDictionary(x => x.GuildId, x => x.XpImgUrl));
+        XpImages = new NonBlocking.ConcurrentDictionary<ulong, string>(bot.AllGuildConfigs
+            .Where(x => !string.IsNullOrWhiteSpace(x.Value.XpImgUrl))
+            .ToDictionary(x => x.Key, x => x.Value.XpImgUrl));
 
         this.cmd.OnMessageNoTrigger += Cmd_OnMessageNoTrigger;
 
@@ -1152,12 +1152,6 @@ public class XpService : INService, IUnloadableService
         uow.SaveChanges();
     }
 
-    private enum NotifOf
-    {
-        Server,
-        Global
-    } // is it a server level-up or global level-up notification
-
     /// <summary>
     /// Sets a custom image URL for the XP image background in a specified guild.
     /// </summary>
@@ -1223,4 +1217,10 @@ public class XpService : INService, IUnloadableService
             return ("An unknown error occured while attempting to fetch the image", false);
         }
     }
+
+    private enum NotifOf
+    {
+        Server,
+        Global
+    } // is it a server level-up or global level-up notification
 }

@@ -18,22 +18,21 @@ namespace Mewdeko.Modules.Permissions.Services;
 /// </summary>
 public class FilterService : IEarlyBehavior, INService
 {
-    private readonly CultureInfo? cultureInfo = new("en-US");
-    private readonly DbService db;
-    private readonly IPubSub pubSub;
-    private readonly BotConfig config;
+    private readonly AdministrationService ass;
 
     private readonly TypedKey<HashSet<AutoBanEntry>> blPubKey = new("autobanword.reload");
     private readonly DiscordSocketClient client;
+    private readonly BotConfig config;
+    private readonly CultureInfo? cultureInfo = new("en-US");
+    private readonly DbService db;
+    private readonly GuildSettingsService gss;
+    private readonly IPubSub pubSub;
+    private readonly UserPunishService upun;
 
     /// <summary>
     /// HashSet of banned words for auto-banning.
     /// </summary>
     public HashSet<AutoBanEntry> Blacklist;
-
-    private readonly AdministrationService ass;
-    private readonly UserPunishService upun;
-    private readonly GuildSettingsService gss;
 
     /// <summary>
     /// Initializes a new instance of the FilterService with necessary dependencies for filtering operations.
@@ -56,30 +55,31 @@ public class FilterService : IEarlyBehavior, INService
         this.ass = ass;
         this.gss = gss;
         this.config = config;
-        var allgc = bot.AllGuildConfigs;
 
         InviteFilteringServers =
-            new ConcurrentHashSet<ulong>(allgc.Where(gc => gc.FilterInvites != 0).Select(gc => gc.GuildId));
+            new ConcurrentHashSet<ulong>(bot.AllGuildConfigs.Where(gc => gc.Value.FilterInvites != 0)
+                .Select(gc => gc.Key));
         InviteFilteringChannels =
-            new ConcurrentHashSet<ulong>(allgc.SelectMany(gc =>
-                gc.FilterInvitesChannelIds.Select(fci => fci.ChannelId)));
+            new ConcurrentHashSet<ulong>(bot.AllGuildConfigs.SelectMany(gc =>
+                gc.Value.FilterInvitesChannelIds.Select(fci => fci.ChannelId)));
 
         LinkFilteringServers =
-            new ConcurrentHashSet<ulong>(allgc.Where(gc => gc.FilterLinks != 0).Select(gc => gc.GuildId));
+            new ConcurrentHashSet<ulong>(
+                bot.AllGuildConfigs.Where(gc => gc.Value.FilterLinks != 0).Select(gc => gc.Key));
         LinkFilteringChannels =
-            new ConcurrentHashSet<ulong>(allgc.SelectMany(gc =>
-                gc.FilterLinksChannelIds.Select(fci => fci.ChannelId)));
+            new ConcurrentHashSet<ulong>(bot.AllGuildConfigs.SelectMany(gc =>
+                gc.Value.FilterLinksChannelIds.Select(fci => fci.ChannelId)));
 
-        var dict = allgc.ToDictionary(gc => gc.GuildId,
-            gc => new ConcurrentHashSet<string>(gc.FilteredWords.Select(fw => fw.Word)));
+        var dict = bot.AllGuildConfigs.ToDictionary(gc => gc.Value.GuildId,
+            gc => new ConcurrentHashSet<string>(gc.Value.FilteredWords.Select(fw => fw.Word)));
 
         ServerFilteredWords = new ConcurrentDictionary<ulong, ConcurrentHashSet<string>>(dict);
 
-        var serverFiltering = allgc.Where(gc => gc.FilterWords != 0);
-        WordFilteringServers = new ConcurrentHashSet<ulong>(serverFiltering.Select(gc => gc.GuildId));
+        var serverFiltering = bot.AllGuildConfigs.Where(gc => gc.Value.FilterWords != 0);
+        WordFilteringServers = new ConcurrentHashSet<ulong>(serverFiltering.Select(gc => gc.Value.GuildId));
         WordFilteringChannels =
-            new ConcurrentHashSet<ulong>(allgc.SelectMany(gc =>
-                gc.FilterWordsChannelIds.Select(fwci => fwci.ChannelId)));
+            new ConcurrentHashSet<ulong>(bot.AllGuildConfigs.SelectMany(gc =>
+                gc.Value.FilterWordsChannelIds.Select(fwci => fwci.ChannelId)));
 
         eventHandler.MessageUpdated += (_, newMsg, channel) =>
         {

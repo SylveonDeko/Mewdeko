@@ -17,12 +17,10 @@ public class CommandMapService : IInputTransformer, INService
     /// <param name="bot">The bot instance to access global guild configurations.</param>
     public CommandMapService(DbService db, Mewdeko bot)
     {
-        var allgc = bot.AllGuildConfigs;
-
-        AliasMaps = new ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>>(allgc
+        AliasMaps = new ConcurrentDictionary<ulong, ConcurrentDictionary<string, string>>(bot.AllGuildConfigs
             .ToDictionary(
-                x => x.GuildId,
-                x => new ConcurrentDictionary<string, string>(x.CommandAliases
+                x => x.Key,
+                x => new ConcurrentDictionary<string, string>(x.Value.CommandAliases
                     .Distinct(new CommandAliasEqualityComparer())
                     .ToDictionary(ca => ca.Trigger, ca => ca.Mapping))));
 
