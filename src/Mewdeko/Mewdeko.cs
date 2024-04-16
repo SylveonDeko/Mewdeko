@@ -21,7 +21,6 @@ using Mewdeko.Modules.Nsfw;
 using Mewdeko.Modules.Searches.Services;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.Settings;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NekosBestApiNet;
 using Newtonsoft.Json;
@@ -39,11 +38,6 @@ namespace Mewdeko;
 public class Mewdeko
 {
     private readonly DbService db;
-
-    /// <summary>
-    /// Gets the collection of all guild configurations. Is somehow better than redis.
-    /// </summary>
-    public ConcurrentDictionary<ulong, GuildConfig> AllGuildConfigs;
 
     /// <summary>
     /// Initializes a new instance of the Mewdeko bot with a specific shard ID.
@@ -131,10 +125,6 @@ public class Mewdeko
         var gs2 = Stopwatch.StartNew();
         var bot = Client.CurrentUser;
         await using var uow = db.GetDbContext();
-
-        AllGuildConfigs = uow.GuildConfigs.GetAllGuildConfigs(Client.Guilds.Select(x => x.Id))
-            .ToDictionary(x => x.GuildId, x => x)
-            .ToConcurrent();
 
         await uow.EnsureUserCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
         gs2.Stop();
@@ -236,19 +226,6 @@ public class Mewdeko
         {
             Log.Error("Unable to start audio service: {Message}", e.Message);
         }
-
-        var sub = cache.Redis.GetSubscriber();
-        await sub.SubscribeAsync($"{Credentials.RedisKey()}_configsupdate", async (channel, message) =>
-        {
-            if (ulong.TryParse(message, out var guildId))
-            {
-                await GuildConfigsUpdated(guildId);
-            }
-            else
-            {
-                Log.Error("Failed to convert message to ulong");
-            }
-        });
 
         sw.Stop();
         Log.Information($"All services loaded in {sw.Elapsed.TotalSeconds:F2}s");
@@ -535,17 +512,5 @@ public class Mewdeko
         var sub = Services.GetService<IDataCache>().Redis.GetSubscriber();
         await sub.PublishAsync($"{Client.CurrentUser.Id}_status.game_set", JsonConvert.SerializeObject(obj))
             .ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Updates te guild configs hashset to whatever the db has right now. Will probably used by the api.
-    /// </summary>
-    private async Task GuildConfigsUpdated(ulong guildId)
-    {
-        await using var uow = db.GetDbContext();
-        var result = await uow.GuildConfigs.IncludeEverything().FirstOrDefaultAsync(x => x.GuildId == guildId);
-        if (result is null)
-            return;
-        AllGuildConfigs.AddOrUpdate(guildId, result, (_, _) => result);
     }
 }

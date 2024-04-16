@@ -204,7 +204,10 @@ public static class GuildConfigExtensions
             .Include(x => x.XpSettings)
             .ThenInclude(x => x.CurrencyRewards)
             .Include(x => x.XpSettings)
-            .ThenInclude(x => x.ExclusionList);
+            .ThenInclude(x => x.ExclusionList)
+            .Include(x => x.FilterInvitesChannelIds)
+            .Include(x => x.FilterWordsChannelIds)
+            .Include(x => x.FilterLinksChannelIds);
 
     public class GeneratingChannel
     {

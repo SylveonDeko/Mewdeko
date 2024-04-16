@@ -1,5 +1,4 @@
 ﻿using Discord.Commands;
-using Mewdeko.Common.Collections;
 using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
@@ -17,7 +16,6 @@ public class VerboseErrorsService : INService, IUnloadableService
     private readonly BotConfigService botConfigService;
     private readonly CommandHandler ch;
     private readonly DbService db;
-    private readonly ConcurrentHashSet<ulong> guildsEnabled;
     private readonly GuildSettingsService guildSettings;
     private readonly IServiceProvider services;
     private readonly IBotStrings strings;
@@ -44,10 +42,6 @@ public class VerboseErrorsService : INService, IUnloadableService
         this.db = db;
         this.ch = ch;
         this.ch.CommandErrored += LogVerboseError;
-
-        guildsEnabled = new ConcurrentHashSet<ulong>(bot.AllGuildConfigs
-            .Where(x => x.Value.VerboseErrors != 0)
-            .Select(x => x.Key));
     }
 
     /// <summary>
@@ -64,20 +58,22 @@ public class VerboseErrorsService : INService, IUnloadableService
     /// </summary>
     private async Task LogVerboseError(CommandInfo cmd, ITextChannel? channel, string reason, IUser user)
     {
-        if (channel == null || !guildsEnabled.Contains(channel.GuildId))
+        if (channel == null)
+            return;
+        var config = await guildSettings.GetGuildConfig(channel.GuildId);
+        if (config.VerboseErrors == 0)
             return;
         var perms = services.GetService<PermissionService>();
         var pc = await perms.GetCacheFor(channel.GuildId);
-        foreach (var i in cmd.Aliases)
+        if (cmd.Aliases.Any(i => !(pc.Permissions != null
+                                   && pc.Permissions.CheckPermissions(new MewdekoUserMessage
+                                       {
+                                           Author = user, Channel = channel
+                                       },
+                                       i,
+                                       cmd.MethodName(), out _))))
         {
-            if (!(pc.Permissions != null
-                  && pc.Permissions.CheckPermissions(new MewdekoUserMessage
-                      {
-                          Author = user, Channel = channel
-                      },
-                      i,
-                      cmd.MethodName(), out _)))
-                return;
+            return;
         }
 
         try
@@ -112,24 +108,19 @@ public class VerboseErrorsService : INService, IUnloadableService
     /// <returns>True if verbose errors are enabled after the operation; otherwise, false.</returns>
     public async Task<bool> ToggleVerboseErrors(ulong guildId, bool? enabled = null)
     {
-        await using (var uow = db.GetDbContext())
-        {
-            var gc = await uow.ForGuildId(guildId, set => set);
+        await using var uow = db.GetDbContext();
+        var gc = await uow.ForGuildId(guildId, set => set);
 
-            long? longEnabled = enabled.HasValue ? (enabled.Value ? 1L : 0L) : null;
+        long? longEnabled = enabled.HasValue ? enabled.Value ? 1L : 0L : null;
 
-            if (longEnabled == null)
-                longEnabled =
-                    gc.VerboseErrors = gc.VerboseErrors == 0L ? 1L : 0L; // Old behaviour, now behind a condition
-            else gc.VerboseErrors = (long)longEnabled; // New behaviour, just set it.
+        if (longEnabled == null)
+            longEnabled =
+                gc.VerboseErrors = gc.VerboseErrors == 0L ? 1L : 0L; // Old behaviour, now behind a condition
+        else gc.VerboseErrors = (long)longEnabled; // New behaviour, just set it.
 
-            await uow.SaveChangesAsync();
-        }
+        await guildSettings.UpdateGuildConfig(guildId, gc);
 
-        if (enabled != null && (bool)enabled) // This doesn't need to be duplicated inside the using block
-            guildsEnabled.Add(guildId);
-        else
-            guildsEnabled.TryRemove(guildId);
+        await uow.SaveChangesAsync();
 
         return (bool)enabled;
     }

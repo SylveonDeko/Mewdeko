@@ -6,7 +6,12 @@ namespace Mewdeko.Services
     /// <summary>
     /// Service for managing guild settings.
     /// </summary>
-    public class GuildSettingsService(DbService db, IConfigService? bss, Mewdeko bot, IServiceProvider services)
+    public class GuildSettingsService(
+        DbService db,
+        IConfigService? bss,
+        Mewdeko bot,
+        IServiceProvider services,
+        IDataCache cache)
     {
         /// <summary>
         /// Sets the prefix for the specified guild.
@@ -50,9 +55,9 @@ namespace Mewdeko.Services
         /// </summary>
         public async Task<GuildConfig> GetGuildConfig(ulong guildId)
         {
-            var configExists = bot.AllGuildConfigs.TryGetValue(guildId, out var toReturn);
-            if (configExists)
-                return toReturn;
+            var configExists = await cache.GetGuildConfigCache(guildId);
+            if (configExists != null)
+                return configExists;
 
             await using var uow = db.GetDbContext();
             var toLoad = uow.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.GuildId == guildId);
@@ -62,7 +67,7 @@ namespace Mewdeko.Services
                 toLoad = uow.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.GuildId == guildId);
             }
 
-            bot.AllGuildConfigs.TryAdd(guildId, toLoad);
+            await cache.SetGuildConfigCache(guildId, toLoad!);
             return toLoad;
         }
 
@@ -72,24 +77,24 @@ namespace Mewdeko.Services
         public async Task UpdateGuildConfig(ulong guildId, GuildConfig toUpdate)
         {
             await using var uow = db.GetDbContext();
-            var exists = bot.AllGuildConfigs.TryGetValue(guildId, out var fetched);
+            var exists = await cache.GetGuildConfigCache(guildId);
 
-            if (exists)
+            if (exists is not null)
             {
                 var properties = typeof(GuildConfig).GetProperties();
                 foreach (var property in properties)
                 {
-                    var oldValue = property.GetValue(fetched);
+                    var oldValue = property.GetValue(exists);
                     var newValue = property.GetValue(toUpdate);
 
                     if (newValue != null && !newValue.Equals(oldValue))
                     {
-                        property.SetValue(fetched, newValue);
+                        property.SetValue(exists, newValue);
                     }
                 }
 
-                bot.AllGuildConfigs.TryUpdate(guildId, toUpdate, fetched);
-                uow.GuildConfigs.Update(fetched);
+                await cache.SetGuildConfigCache(guildId, exists);
+                uow.GuildConfigs.Update(exists);
                 await uow.SaveChangesAsync();
             }
             else
@@ -110,7 +115,7 @@ namespace Mewdeko.Services
                         }
                     }
 
-                    bot.AllGuildConfigs.TryAdd(guildId, config);
+                    await cache.SetGuildConfigCache(guildId, config);
                     uow.GuildConfigs.Update(config);
                     await uow.SaveChangesAsync();
                 }

@@ -88,10 +88,10 @@ public partial class Xp(
     {
         var list = new List<XpStuffs>
         {
-            CreateXpStuffs("xptextrate", Service.GetTxtXpRate(ctx.Guild.Id), xpconfig.Data.XpPerMessage),
-            CreateXpStuffs("voicexprate", Service.GetVoiceXpRate(ctx.Guild.Id), xpconfig.Data.VoiceXpPerMinute),
-            CreateXpStuffs("txtxptimeout", Service.GetXpTimeout(ctx.Guild.Id), xpconfig.Data.MessageXpCooldown),
-            CreateXpStuffs("voiceminutestimeout", Service.GetVoiceXpTimeout(ctx.Guild.Id),
+            CreateXpStuffs("xptextrate", await Service.GetTxtXpRate(ctx.Guild.Id), xpconfig.Data.XpPerMessage),
+            CreateXpStuffs("voicexprate", await Service.GetVoiceXpRate(ctx.Guild.Id), xpconfig.Data.VoiceXpPerMinute),
+            CreateXpStuffs("txtxptimeout", await Service.GetXpTimeout(ctx.Guild.Id), xpconfig.Data.MessageXpCooldown),
+            CreateXpStuffs("voiceminutestimeout", await Service.GetVoiceXpTimeout(ctx.Guild.Id),
                 xpconfig.Data.VoiceMaxMinutes)
         };
 
@@ -576,14 +576,16 @@ public partial class Xp(
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task XpExclusionList()
     {
-        var serverExcluded = Service.IsServerExcluded(ctx.Guild.Id);
-        var roles = Service.GetExcludedRoles(ctx.Guild.Id)
+        var serverExcluded = await Service.IsServerExcluded(ctx.Guild.Id);
+        var roles = (await Service.GetExcludedRoles(ctx.Guild.Id))
             .Select(x => ctx.Guild.GetRole(x))
             .Where(x => x != null)
             .Select(x => $"`role`   {x.Mention}")
             .ToList();
 
-        var chans = (await Task.WhenAll(Service.GetExcludedChannels(ctx.Guild.Id)
+        var excludedChannels = await Service.GetExcludedChannels(ctx.Guild.Id);
+
+        var chans = (await Task.WhenAll(excludedChannels
                     .Select(x => ctx.Guild.GetChannelAsync(x)))
                 .ConfigureAwait(false))
             .Where(x => x != null)

@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using Discord.Interactions;
+using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Permissions.Common;
@@ -33,23 +34,13 @@ public class PermissionService : ILateBlocker, INService
     /// <param name="configService">The service for bot-wide configurations.</param>
     public PermissionService(DbService db,
         IBotStrings strings,
-        GuildSettingsService guildSettings, Mewdeko bot, BotConfig configService)
+        GuildSettingsService guildSettings, DiscordSocketClient client, BotConfig configService)
     {
         config = configService;
         this.db = db;
         Strings = strings;
         this.guildSettings = guildSettings;
-        using var uow = this.db.GetDbContext();
-        foreach (var x in bot.AllGuildConfigs)
-        {
-            Cache.TryAdd(x.Key,
-                new PermissionCache
-                {
-                    Verbose = false.ParseBoth(x.Value.VerbosePermissions.ToString()),
-                    PermRole = x.Value.PermissionRole,
-                    Permissions = new PermissionsCollection<Permissionv2>(x.Value.Permissions)
-                });
-        }
+        _ = CacheAll(client.Guilds.Select(x => x.Id));
     }
 
     /// <summary>
@@ -199,6 +190,28 @@ public class PermissionService : ILateBlocker, INService
         }
 
         return true;
+    }
+
+    private async Task CacheAll(IEnumerable<ulong> guildIds)
+    {
+        await using var uow = db.GetDbContext();
+        var configs = await uow.GuildConfigs.ToLinqToDB().Include(x => x.Permissions)
+            .Where(x => guildIds.Contains(x.GuildId)).ToListAsync();
+        foreach (var config in configs)
+        {
+            Cache.AddOrUpdate(config.GuildId, new PermissionCache
+            {
+                Permissions = new PermissionsCollection<Permissionv2>(config.Permissions),
+                PermRole = config.PermissionRole,
+                Verbose = false.ParseBoth(config.VerbosePermissions.ToString())
+            }, (_, old) =>
+            {
+                old.Permissions = new PermissionsCollection<Permissionv2>(config.Permissions);
+                old.PermRole = config.PermissionRole;
+                old.Verbose = false.ParseBoth(config.VerbosePermissions.ToString());
+                return old;
+            });
+        }
     }
 
     /// <summary>

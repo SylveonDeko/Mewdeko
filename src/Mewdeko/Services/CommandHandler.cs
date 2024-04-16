@@ -31,35 +31,25 @@ public class CommandHandler : INService
     private const float OneThousandth = 1.0f / 1000;
     private readonly Mewdeko bot;
     private readonly BotConfigService bss;
-    private readonly DiscordSocketClient client;
-    private readonly CommandService commandService;
-    private readonly DbService db;
-    private readonly IServiceProvider services;
+    private readonly IDataCache cache;
 
     // ReSharper disable once NotAccessedField.Local
     private readonly Timer clearUsersOnShortCooldown;
+    private readonly DiscordSocketClient client;
+    private readonly CommandService commandService;
+    private readonly IBotCredentials creds;
+    private readonly DbService db;
+    private readonly GuildSettingsService gss;
+    private readonly InteractionService interactionService;
+    private readonly IServiceProvider services;
     private readonly IBotStrings strings;
     private IEnumerable<IEarlyBehavior> earlyBehaviors;
     private IEnumerable<IInputTransformer> inputTransformers;
     private IEnumerable<ILateBlocker> lateBlockers;
     private IEnumerable<ILateExecutor> lateExecutors;
-    private readonly InteractionService interactionService;
-    private readonly GuildSettingsService gss;
-    private readonly IBotCredentials creds;
-    private readonly IDataCache cache;
 
     /// <summary>
-    /// A thread-safe dictionary mapping channel IDs to command parse queues.
-    /// </summary>
-    private NonBlocking.ConcurrentDictionary<ulong, ConcurrentQueue<IUserMessage>> CommandParseQueue { get; } = new();
-
-    /// <summary>
-    /// A thread-safe dictionary indicating whether a command parse lock is active for a channel.
-    /// </summary>
-    private NonBlocking.ConcurrentDictionary<ulong, bool> CommandParseLock { get; } = new();
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CommandHandler"/> class.
+    ///     Initializes a new instance of the <see cref="CommandHandler" /> class.
     /// </summary>
     /// <param name="client">The Discord client.</param>
     /// <param name="db">The database service.</param>
@@ -96,6 +86,16 @@ public class CommandHandler : INService
             GlobalCommandsCooldown);
         eventHandler.MessageReceived += MessageReceivedHandler;
     }
+
+    /// <summary>
+    /// A thread-safe dictionary mapping channel IDs to command parse queues.
+    /// </summary>
+    private NonBlocking.ConcurrentDictionary<ulong, ConcurrentQueue<IUserMessage>> CommandParseQueue { get; } = new();
+
+    /// <summary>
+    /// A thread-safe dictionary indicating whether a command parse lock is active for a channel.
+    /// </summary>
+    private NonBlocking.ConcurrentDictionary<ulong, bool> CommandParseLock { get; } = new();
 
     private ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new();
 
@@ -761,7 +761,7 @@ public class CommandHandler : INService
             await LogErroredExecution(error, usrMsg, channel as ITextChannel, exec2, execTime);
             if (guild != null)
             {
-                var perms = new PermissionService(db, strings, gss, bot, bss.Data);
+                var perms = new PermissionService(db, strings, gss, client, bss.Data);
                 var pc = await perms.GetCacheFor(guild.Id);
                 if (pc != null && pc.Permissions.CheckPermissions(usrMsg, info.Name, info.Module.Name, out _))
                     await CommandErrored(info, channel as ITextChannel, error, usrMsg.Author).ConfigureAwait(false);

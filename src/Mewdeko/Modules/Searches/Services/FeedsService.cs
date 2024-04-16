@@ -27,17 +27,11 @@ public class FeedsService : INService
     public FeedsService(DbService db, DiscordSocketClient client, Mewdeko bot)
     {
         this.db = db;
-
-        subs = bot.AllGuildConfigs
-            .SelectMany(x => x.Value.FeedSubs)
-            .GroupBy(x => x.Url.ToLower())
-            .ToDictionary(x => x.Key, x => x.ToHashSet())
-            .ToConcurrent();
-
+        subs = new ConcurrentDictionary<string, HashSet<FeedSub>>();
 
         this.client = client;
 
-        _ = Task.Run(TrackFeeds);
+        _ = Task.Run(async () => await TrackFeeds(client.Guilds.Select(x => x.Id)));
     }
 
 
@@ -45,8 +39,20 @@ public class FeedsService : INService
     /// Tracks RSS feeds for updates and sends notifications to subscribed channels.
     /// </summary>
     /// <returns>An asynchronous task representing the operation.</returns>
-    private async Task<EmbedBuilder> TrackFeeds()
+    private async Task<EmbedBuilder> TrackFeeds(IEnumerable<ulong> serverIds)
     {
+        Parallel.ForEach(serverIds, async serverId =>
+        {
+            var feeds = GetFeeds(serverId);
+            foreach (var feed in feeds)
+            {
+                subs.AddOrUpdate(feed.Url.ToLower(), [feed], (_, old) =>
+                {
+                    old.Add(feed);
+                    return old;
+                });
+            }
+        });
         while (true)
         {
             var allSendTasks = new List<Task>(subs.Count);
