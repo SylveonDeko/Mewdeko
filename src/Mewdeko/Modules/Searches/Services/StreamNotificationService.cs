@@ -97,7 +97,8 @@ public class StreamNotificationService : IReadyExecutor, INService
         {
             _ = Task.Run(async () =>
             {
-                var allFollowedStreams = uow.Set<FollowedStream>().AsQueryable().ToList();
+                await using var uow2 = db.GetDbContext();
+                var allFollowedStreams = uow2.Set<FollowedStream>().AsQueryable().ToList();
 
                 foreach (var fs in allFollowedStreams)
                     await streamTracker.CacheAddData(fs.CreateKey(), null, false);
