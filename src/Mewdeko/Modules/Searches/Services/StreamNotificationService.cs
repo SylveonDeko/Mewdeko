@@ -112,19 +112,39 @@ public class StreamNotificationService : IReadyExecutor, INService
             });
         }
 
-        this.pubSub.Sub(streamsOfflineKey, HandleStreamsOffline);
-        this.pubSub.Sub(streamsOnlineKey, HandleStreamsOnline);
+        _ = Task.Run(async () =>
+        {
+            await this.pubSub.Sub(streamsOnlineKey, async data =>
+            {
+                await HandleStreamsOnline(data);
+            });
+            await this.pubSub.Sub(streamsOfflineKey, async data =>
+            {
+                await HandleStreamsOffline(data);
+            });
+        });
 
         if (client.ShardId == 0)
         {
-            // only shard 0 will run the tracker,
-            // and then publish updates with redis to other shards
-            streamTracker.OnStreamsOffline += OnStreamsOffline;
-            streamTracker.OnStreamsOnline += OnStreamsOnline;
-            _ = streamTracker.RunAsync();
+            _ = Task.Run(async () =>
+            {
+                // only shard 0 will run the tracker,
+                // and then publish updates with redis to other shards
+                streamTracker.OnStreamsOffline +=
+                    async data => await OnStreamsOffline(data).ConfigureAwait(false);
+                streamTracker.OnStreamsOnline +=
+                    async data => await OnStreamsOnline(data).ConfigureAwait(false);
+                _ = streamTracker.RunAsync();
 
-            this.pubSub.Sub(streamFollowKey, HandleFollowStream);
-            this.pubSub.Sub(streamUnfollowKey, HandleUnfollowStream);
+                await this.pubSub.Sub(streamFollowKey, async data =>
+                {
+                    await HandleFollowStream(data);
+                });
+                await this.pubSub.Sub(streamUnfollowKey, async data =>
+                {
+                    await HandleUnfollowStream(data);
+                });
+            });
         }
 
         bot.JoinedGuild += ClientOnJoinedGuild;
@@ -171,7 +191,7 @@ public class StreamNotificationService : IReadyExecutor, INService
                     await uow.SaveChangesAsync().ConfigureAwait(false);
 
                     foreach (var loginToDelete in kvp.Value)
-                        streamTracker.UntrackStreamByKey(new StreamDataKey(kvp.Key, loginToDelete));
+                        await streamTracker.UntrackStreamByKey(new StreamDataKey(kvp.Key, loginToDelete));
                 }
             }
             catch (Exception ex)
@@ -186,20 +206,17 @@ public class StreamNotificationService : IReadyExecutor, INService
     ///     When counter reaches 0, stream is removed from tracking because
     ///     that means no guilds are subscribed to that stream anymore
     /// </summary>
-    private async ValueTask HandleFollowStream(FollowStreamPubData info)
+    private async Task HandleFollowStream(FollowStreamPubData info)
     {
         await streamTracker.CacheAddData(info.Key, null, false);
-        lock (shardLock)
+        var key = info.Key;
+        if (trackCounter.TryGetValue(key, out _))
         {
-            var key = info.Key;
-            if (trackCounter.TryGetValue(key, out _))
-            {
-                trackCounter[key].Add(info.GuildId);
-            }
-            else
-            {
-                trackCounter[key] = [info.GuildId];
-            }
+            trackCounter[key].Add(info.GuildId);
+        }
+        else
+        {
+            trackCounter[key] = [info.GuildId];
         }
     }
 
@@ -208,32 +225,27 @@ public class StreamNotificationService : IReadyExecutor, INService
     ///     When counter reaches 0, stream is removed from tracking because
     ///     that means no guilds are subscribed to that stream anymore
     /// </summary>
-    private ValueTask HandleUnfollowStream(FollowStreamPubData info)
+    private async Task HandleUnfollowStream(FollowStreamPubData info)
     {
-        lock (shardLock)
+        var key = info.Key;
+        if (!trackCounter.TryGetValue(key, out var set))
         {
-            var key = info.Key;
-            if (!trackCounter.TryGetValue(key, out var set))
-            {
-                // it should've been removed already?
-                streamTracker.UntrackStreamByKey(in key);
-                return default;
-            }
-
-            set.Remove(info.GuildId);
-            if (set.Count != 0)
-                return default;
-
-            trackCounter.Remove(key);
-            // if no other guilds are following this stream
-            // untrack the stream
-            streamTracker.UntrackStreamByKey(in key);
+            // it should've been removed already?
+            await streamTracker.UntrackStreamByKey(key);
+            return;
         }
 
-        return default;
+        set.Remove(info.GuildId);
+        if (set.Count != 0)
+            return;
+
+        trackCounter.Remove(key);
+        // if no other guilds are following this stream
+        // untrack the stream
+        await streamTracker.UntrackStreamByKey(key);
     }
 
-    private async ValueTask HandleStreamsOffline(List<StreamData> offlineStreams)
+    private async Task HandleStreamsOffline(List<StreamData> offlineStreams)
     {
         foreach (var stream in offlineStreams)
         {
@@ -252,7 +264,7 @@ public class StreamNotificationService : IReadyExecutor, INService
         }
     }
 
-    private async ValueTask HandleStreamsOnline(List<StreamData> onlineStreams)
+    private async Task HandleStreamsOnline(List<StreamData> onlineStreams)
     {
         foreach (var stream in onlineStreams)
         {
@@ -280,11 +292,11 @@ public class StreamNotificationService : IReadyExecutor, INService
         }
     }
 
-    private Task OnStreamsOnline(List<StreamData> data)
-        => pubSub.Pub(streamsOnlineKey, data);
+    private async Task OnStreamsOnline(List<StreamData> data)
+        => await pubSub.Pub(streamsOnlineKey, data);
 
-    private Task OnStreamsOffline(List<StreamData> data)
-        => pubSub.Pub(streamsOfflineKey, data);
+    private async Task OnStreamsOffline(List<StreamData> data)
+        => await pubSub.Pub(streamsOfflineKey, data);
 
     private Task ClientOnJoinedGuild(GuildConfig guildConfig)
     {

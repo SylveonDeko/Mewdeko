@@ -103,7 +103,7 @@ public class NotifChecker
             {
                 try
                 {
-                    var allStreamData = CacheGetAllData();
+                    var allStreamData = await CacheGetAllData();
 
                     var oldStreamDataDict = allStreamData
                         // group by type
@@ -223,10 +223,10 @@ public class NotifChecker
     /// Deletes stream data from the cache.
     /// </summary>
     /// <param name="streamdataKey">The stream data key.</param>
-    public void CacheDeleteData(StreamDataKey streamdataKey)
+    private async Task CacheDeleteData(StreamDataKey streamdataKey)
     {
         var db = multi.GetDatabase();
-        db.HashDelete(this.key, JsonConvert.SerializeObject(streamdataKey));
+        await db.HashDeleteAsync(this.key, JsonConvert.SerializeObject(streamdataKey));
     }
 
     /// <summary>
@@ -242,14 +242,16 @@ public class NotifChecker
     /// Gets all stream data from the cache.
     /// </summary>
     /// <returns>A dictionary containing all cached stream data.</returns>
-    public Dictionary<StreamDataKey, StreamData?> CacheGetAllData()
+    private async Task<Dictionary<StreamDataKey, StreamData?>> CacheGetAllData()
     {
         var db = multi.GetDatabase();
-        if (!db.KeyExists(key))
+        if (!await db.KeyExistsAsync(key))
             return new Dictionary<StreamDataKey, StreamData?>();
 
-        return db.HashGetAll(key)
-            .Select(redisEntry => (Key: JsonConvert.DeserializeObject<StreamDataKey>(redisEntry.Name),
+
+        var getAll = await db.HashGetAllAsync(key);
+
+        return getAll.Select(redisEntry => (Key: JsonConvert.DeserializeObject<StreamDataKey>(redisEntry.Name),
                 Value: JsonConvert.DeserializeObject<StreamData?>(redisEntry.Value)))
             .Where(keyValuePair => keyValuePair.Key.Name is not null)
             .ToDictionary(keyValuePair => keyValuePair.Key, entry => entry.Value);
@@ -305,6 +307,6 @@ public class NotifChecker
     /// Removes a stream from tracking.
     /// </summary>
     /// <param name="streamDataKey">The stream data key.</param>
-    public void UntrackStreamByKey(in StreamDataKey streamDataKey)
-        => CacheDeleteData(streamDataKey);
+    public async Task UntrackStreamByKey(StreamDataKey streamDataKey)
+        => await CacheDeleteData(streamDataKey);
 }
