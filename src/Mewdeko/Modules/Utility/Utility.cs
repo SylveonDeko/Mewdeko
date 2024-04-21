@@ -42,7 +42,8 @@ public partial class Utility(
     GuildSettingsService guildSettings,
     HttpClient httpClient,
     BotConfigService config,
-    DbService db)
+    DbService db,
+    IDataCache cache)
     : MewdekoModuleBase<UtilityService>
 {
     /// <summary>
@@ -1792,6 +1793,7 @@ public partial class Utility(
         await Sem.WaitAsync(5000).ConfigureAwait(false);
         try
         {
+            var redisPing = await cache.Redis.GetDatabase().PingAsync();
             await using var uow = db.GetDbContext();
             var sw = Stopwatch.StartNew();
             var msg = await ctx.Channel.SendMessageAsync("🏓").ConfigureAwait(false);
@@ -1800,7 +1802,9 @@ public partial class Utility(
 
             await ctx.Channel
                 .SendConfirmAsync(
-                    $"Bot Ping {(int)sw.Elapsed.TotalMilliseconds}ms\nBot Latency {((DiscordSocketClient)ctx.Client).Latency}ms")
+                    $"Bot Ping {(int)sw.Elapsed.TotalMilliseconds}ms" +
+                    $"\nBot Latency {((DiscordSocketClient)ctx.Client).Latency}ms" +
+                    $"\nRedis Ping {redisPing.Nanoseconds}ns")
                 .ConfigureAwait(false);
         }
         finally

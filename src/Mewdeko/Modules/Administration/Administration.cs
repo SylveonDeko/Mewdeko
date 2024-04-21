@@ -95,6 +95,52 @@ public partial class Administration(InteractiveService serv, BotConfigService co
 
 
     /// <summary>
+    /// Bans multiple users by their avatar id, aka their avatar hash. Useful for userbots that are stupid.
+    /// </summary>
+    /// <param name="avatarHash">The avatar hash to search for</param>
+    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
+    public async Task BanByHash(string avatarHash)
+    {
+        var users = await ctx.Guild.GetUsersAsync();
+        var usersToBan = users?.Where(x => x.AvatarId == avatarHash);
+
+        if (usersToBan is null || !usersToBan.Any())
+        {
+            await ctx.Channel.SendErrorAsync(GetText("ban_by_hash_none", avatarHash), Config);
+            return;
+        }
+
+        if (await PromptUserConfirmAsync(
+                GetText("ban_by_hash_confirm", usersToBan.Count(), avatarHash), ctx.User.Id))
+        {
+            await ctx.Channel.SendConfirmAsync(GetText("ban_by_hash_start", usersToBan.Count(), avatarHash));
+            var failedUsers = 0;
+            var bannedUsers = 0;
+            foreach (var i in usersToBan)
+            {
+                try
+                {
+                    await ctx.Guild.AddBanAsync(i, 0, $"{ctx.User.Id} banning by hash {avatarHash}");
+                    bannedUsers++;
+                }
+                catch
+                {
+                    failedUsers++;
+                }
+            }
+
+            if (failedUsers == 0)
+                await ctx.Channel.SendConfirmAsync(GetText("ban_by_hash_success", bannedUsers, avatarHash));
+            else if (failedUsers == usersToBan.Count())
+                await ctx.Channel.SendErrorAsync(GetText("ban_by_hash_fail_all", usersToBan.Count(), avatarHash),
+                    Config);
+            else
+                await ctx.Channel.SendConfirmAsync(GetText("ban_by_hash_fail_some", bannedUsers, failedUsers,
+                    avatarHash));
+        }
+    }
+
+    /// <summary>
     /// Allows you to opt the entire guild out of stats tracking.
     /// </summary>
     /// <example>.guildstatsoptout</example>

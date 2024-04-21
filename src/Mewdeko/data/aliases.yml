@@ -10,6 +10,9 @@ autobanroleremove:
   - abrr
 baninrole:
   - baninrole
+banbyhash:
+  - banbyhash
+  - bbh
 debugembed:
   - debugembed
   - embeddebug
