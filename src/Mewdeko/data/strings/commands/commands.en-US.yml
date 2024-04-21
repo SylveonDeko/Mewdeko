@@ -13,6 +13,10 @@ gpingrole:
     - "roleid"
     - "@role"
   desc: "Sets the role to ping when a giveaway starts"
+banbyhash:
+  args:
+    - "hash"
+  desc: "Bans a user by their avatar hash"
 autobanroleadd:
   args:
     - "roleid"
