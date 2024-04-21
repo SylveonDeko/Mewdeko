@@ -37,7 +37,7 @@ public class StreamNotificationService : IReadyExecutor, INService
     private readonly TypedKey<FollowStreamPubData> streamUnfollowKey;
     private readonly IBotStrings strings;
 
-    private readonly Dictionary<StreamDataKey, HashSet<ulong>> trackCounter = new();
+    private Dictionary<StreamDataKey, HashSet<ulong>> trackCounter = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StreamNotificationService"/> class.
@@ -95,17 +95,20 @@ public class StreamNotificationService : IReadyExecutor, INService
         // shard 0 will keep track of when there are no more guilds which track a stream
         if (client.ShardId == 0)
         {
-            var allFollowedStreams = uow.Set<FollowedStream>().AsQueryable().ToList();
+            _ = Task.Run(async () =>
+            {
+                var allFollowedStreams = uow.Set<FollowedStream>().AsQueryable().ToList();
 
-            foreach (var fs in allFollowedStreams)
-                streamTracker.CacheAddData(fs.CreateKey(), null, false);
+                foreach (var fs in allFollowedStreams)
+                    await streamTracker.CacheAddData(fs.CreateKey(), null, false);
 
-            trackCounter = allFollowedStreams.GroupBy(x => new
-                {
-                    x.Type, Name = x.Username.ToLower()
-                })
-                .ToDictionary(x => new StreamDataKey(x.Key.Type, x.Key.Name),
-                    x => x.Select(fs => fs.GuildId).ToHashSet());
+                trackCounter = allFollowedStreams.GroupBy(x => new
+                    {
+                        x.Type, Name = x.Username.ToLower()
+                    })
+                    .ToDictionary(x => new StreamDataKey(x.Key.Type, x.Key.Name),
+                        x => x.Select(fs => fs.GuildId).ToHashSet());
+            });
         }
 
         this.pubSub.Sub(streamsOfflineKey, HandleStreamsOffline);
@@ -182,9 +185,9 @@ public class StreamNotificationService : IReadyExecutor, INService
     ///     When counter reaches 0, stream is removed from tracking because
     ///     that means no guilds are subscribed to that stream anymore
     /// </summary>
-    private ValueTask HandleFollowStream(FollowStreamPubData info)
+    private async ValueTask HandleFollowStream(FollowStreamPubData info)
     {
-        streamTracker.CacheAddData(info.Key, null, false);
+        await streamTracker.CacheAddData(info.Key, null, false);
         lock (shardLock)
         {
             var key = info.Key;
@@ -197,8 +200,6 @@ public class StreamNotificationService : IReadyExecutor, INService
                 trackCounter[key] = [info.GuildId];
             }
         }
-
-        return default;
     }
 
     /// <summary>
