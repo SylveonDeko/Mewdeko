@@ -143,7 +143,7 @@ public class NotifChecker
                             || !typeDict.TryGetValue(cachekey.Name, out var oldData)
                             || oldData is null)
                         {
-                            CacheAddData(cachekey, newData, true);
+                            await CacheAddData(cachekey, newData, true);
                             continue;
                         }
 
@@ -151,7 +151,7 @@ public class NotifChecker
                         if (string.IsNullOrWhiteSpace(newData.Game))
                             newData.Game = oldData.Game;
 
-                        CacheAddData(cachekey, newData, true);
+                        await CacheAddData(cachekey, newData, true);
 
                         // if the stream is offline, we need to check if it was
                         // marked as offline once previously
@@ -209,10 +209,10 @@ public class NotifChecker
     /// <param name="data">The stream data.</param>
     /// <param name="replace">if set to <c>true</c> replaces existing data.</param>
     /// <returns><c>true</c> if data was successfully added or updated; otherwise, <c>false</c>.</returns>
-    public bool CacheAddData(StreamDataKey streamDataKey, StreamData? data, bool replace)
+    public async Task<bool> CacheAddData(StreamDataKey streamDataKey, StreamData? data, bool replace)
     {
         var db = multi.GetDatabase();
-        return db.HashSet(this.key,
+        return await db.HashSetAsync(this.key,
             JsonConvert.SerializeObject(streamDataKey),
             JsonConvert.SerializeObject(data),
             replace ? When.Always : When.NotExists);
@@ -284,19 +284,19 @@ public class NotifChecker
     public async Task<StreamData?> TrackStreamByUrlAsync(string url)
     {
         var data = await GetStreamDataByUrlAsync(url).ConfigureAwait(false);
-        EnsureTracked(data);
+        await EnsureTracked(data);
         return data;
     }
 
 
-    private void EnsureTracked(StreamData? data)
+    private async Task EnsureTracked(StreamData? data)
     {
         // something failed, don't add anything to cache
         if (data is null) return;
 
         // if stream is found, add it to the cache for tracking only if it doesn't already exist
         // because stream will be checked and events will fire in a loop. We don't want to override old state
-        CacheAddData(data.CreateKey(), data, false);
+        await CacheAddData(data.CreateKey(), data, false);
     }
 
     // if stream is found, add it to the cache for tracking only if it doesn't already exist
