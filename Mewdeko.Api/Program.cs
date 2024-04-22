@@ -61,6 +61,7 @@ if (string.IsNullOrEmpty(redisKey))
 var redis = new RedisCache(redisUrl, redisKey);
 
 builder.Services.AddSingleton(redis);
+builder.Services.AddSingleton(new GuildSettingsService(db, redis));
 
 var app = builder.Build();
 
