@@ -12,6 +12,11 @@ public class RedisCache
 {
     private readonly string redisKey;
 
+    private readonly JsonSerializerSettings settings = new()
+    {
+        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+    };
+
     /// <summary>
     ///     Initializes a new instance of the <see cref="RedisCache" /> class.
     /// </summary>
@@ -46,6 +51,29 @@ public class RedisCache
         {
             Log.Error(e, "An error occured while setting afk");
         }
+    }
+
+    /// <summary>
+    ///     Caches config for a guild.
+    /// </summary>
+    /// <param name="id">The guild ID.</param>
+    /// <param name="config">The config to cache.</param>
+    public async Task SetGuildConfigCache(ulong id, GuildConfig config)
+    {
+        var db = Redis.GetDatabase();
+        await db.StringSetAsync($"{redisKey}_guildconfig_{id}", JsonConvert.SerializeObject(config, settings));
+    }
+
+    /// <summary>
+    ///     Retrieves config for a guild.
+    /// </summary>
+    /// <param name="id">The guild ID.</param>
+    /// <returns>If successfull, the guild config, if not, null.</returns>
+    public async Task<GuildConfig?> GetGuildConfigCache(ulong id)
+    {
+        var db = Redis.GetDatabase();
+        var result = await db.StringGetAsync($"{redisKey}_guildconfig_{id}");
+        return result.HasValue ? JsonConvert.DeserializeObject<GuildConfig>(result, settings) : null;
     }
 
     /// <summary>

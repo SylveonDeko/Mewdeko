@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Mewdeko.Database.Migrations.PostgreSql
 {
     [DbContext(typeof(MewdekoPostgresContext))]
-    [Migration("AddXpImage")]
+    [Migration("AddXpBanner")]
     partial class AddXpImage
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
