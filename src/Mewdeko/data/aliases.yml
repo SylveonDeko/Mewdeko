@@ -16,6 +16,9 @@ banbyhash:
 debugembed:
   - debugembed
   - embeddebug
+purgeuser:
+  - purgeuser
+  - pruneuser
 acceptchannel:
   - acceptchannel
 gpingrole:
