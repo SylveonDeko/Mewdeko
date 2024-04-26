@@ -73,7 +73,7 @@ public class AdministrationService : INService
         var gc = await uow.ForGuildId(guild.Id, set => set);
 
         // Toggle the opt-out status
-        gc.StatsOptOut = gc.StatsOptOut == 0L ? 1L : 0L;
+        gc.StatsOptOut = !gc.StatsOptOut;
 
         // Save changes to the database
         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -82,7 +82,7 @@ public class AdministrationService : INService
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
 
         // Return the boolean equivalent of the new opt-out status
-        return gc.StatsOptOut != 0;
+        return gc.StatsOptOut;
     }
 
 
@@ -141,7 +141,7 @@ public class AdministrationService : INService
         var conf = await uow.ForGuildId(guildId,
             set => set.Include(x => x.DelMsgOnCmdChannels));
 
-        return (false.ParseBoth(conf.DeleteMessageOnCommand.ToString()), conf.DelMsgOnCmdChannels);
+        return (conf.DeleteMessageOnCommand, conf.DelMsgOnCmdChannels);
     }
 
     /// <summary>
@@ -160,7 +160,7 @@ public class AdministrationService : INService
         if (exists is not null)
         {
             // If the state is true and the command is not 'Purge' or 'pick', delete the message
-            if (exists.State == 1 && cmd.Name != "Purge" && cmd.Name != "pick")
+            if (exists.State && cmd.Name != "Purge" && cmd.Name != "pick")
             {
                 try
                 {
@@ -172,7 +172,7 @@ public class AdministrationService : INService
                 }
             }
         }
-        else if (config.DeleteMessageOnCommand == 1 && cmd.Name != "Purge" &&
+        else if (config.DeleteMessageOnCommand && cmd.Name != "Purge" &&
                  cmd.Name != "pick")
         {
             try
@@ -197,13 +197,12 @@ public class AdministrationService : INService
         var conf = await uow.ForGuildId(guildId, set => set);
 
         // Toggle the value using a ternary operator
-        conf.DeleteMessageOnCommand = conf.DeleteMessageOnCommand == 0L ? 1L : 0L;
+        conf.DeleteMessageOnCommand = !conf.DeleteMessageOnCommand;
 
         await guildSettings.UpdateGuildConfig(guildId, conf);
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
-        // Return the boolean equivalent of the new value
-        return conf.DeleteMessageOnCommand != 0;
+        return conf.DeleteMessageOnCommand;
     }
 
 
@@ -248,7 +247,7 @@ public class AdministrationService : INService
             }
 
             // Set the new state
-            old.State = newState == Administration.State.Enable ? 1 : 0;
+            old.State = newState == Administration.State.Enable;
         }
 
         // Save changes to the database

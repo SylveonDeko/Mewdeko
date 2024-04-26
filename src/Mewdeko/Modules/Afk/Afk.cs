@@ -62,7 +62,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
             var afkmsg = await Service.GetAfk(ctx.Guild.Id, ctx.User.Id);
             if (string.IsNullOrEmpty(afkmsg?.Message))
             {
-                await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, "_ _", 0).ConfigureAwait(false);
+                await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, "_ _").ConfigureAwait(false);
                 await ReplyConfirmLocalizedAsync("afk_enabled_no_message").ConfigureAwait(false);
                 try
                 {
@@ -81,7 +81,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
                 return;
             }
 
-            await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, "", 0).ConfigureAwait(false);
+            await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, "").ConfigureAwait(false);
             await ReplyConfirmLocalizedAsync("afk_disabled").ConfigureAwait(false);
             try
             {
@@ -104,7 +104,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
             return;
         }
 
-        await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, message.EscapeWeirdStuff(), 0).ConfigureAwait(false);
+        await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, message.EscapeWeirdStuff()).ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("afk_enabled", message).ConfigureAwait(false);
         try
         {
@@ -198,7 +198,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
             return;
         }
 
-        await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, message, 1, DateTime.UtcNow + time.Time);
+        await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, message, true, DateTime.UtcNow + time.Time);
         await ConfirmLocalizedAsync("afk_timed_set",
             TimestampTag.FromDateTimeOffset(DateTimeOffset.UtcNow + time.Time, TimestampTagStyles.Relative), message);
     }
@@ -544,7 +544,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
                 continue;
             }
 
-            await Service.AfkSet(ctx.Guild.Id, i.Id, "", 0).ConfigureAwait(false);
+            await Service.AfkSet(ctx.Guild.Id, i.Id, "").ConfigureAwait(false);
             users++;
             try
             {

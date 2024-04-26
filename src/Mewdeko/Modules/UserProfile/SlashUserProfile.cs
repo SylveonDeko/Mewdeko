@@ -15,9 +15,9 @@ namespace Mewdeko.Modules.UserProfile;
 [Group("userprofile", "Commands to view and manage your user profile")]
 public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
 {
-    private readonly DbService db;
     private readonly Mewdeko bot;
     private readonly BlacklistService bss;
+    private readonly DbService db;
 
     /// <summary>
     /// Initializes a new instance of the SlashUserProfile class, setting up dependencies for database and blacklist services.
@@ -351,7 +351,7 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     [ModalInteraction("pronouns_fc_action:*,*,*", true), SlashOwnerOnly]
     public async Task PronounsFcAction(
         string sId,
-        string sPronounsDisable,
+        bool sPronounsDisable,
         string sBlacklist,
         PronounsFcbModal modal)
     {
@@ -359,7 +359,7 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         await using var uow = db.GetDbContext();
         var user = await uow.DiscordUser.AsQueryable().FirstAsync(x => x.UserId == userId).ConfigureAwait(false);
         user.Pronouns = "";
-        user.PronounsDisabled = bool.TryParse(sPronounsDisable, out var disable) && disable ? 1 : 0;
+        user.PronounsDisabled = sPronounsDisable;
         user.PronounsClearedReason = modal.FcbReason;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         if (bool.TryParse(sBlacklist, out var blacklist) && blacklist)
@@ -369,7 +369,7 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
 
     private async Task<bool> PronounsDisabled(DiscordUser user)
     {
-        if (user.PronounsDisabled == 0) return false;
+        if (!user.PronounsDisabled) return false;
         await ReplyErrorLocalizedAsync("pronouns_disabled_user", user.PronounsClearedReason).ConfigureAwait(false);
         return true;
     }

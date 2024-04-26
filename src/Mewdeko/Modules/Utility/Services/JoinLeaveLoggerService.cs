@@ -15,10 +15,10 @@ namespace Mewdeko.Modules.Utility.Services;
 /// </summary>
 public class JoinLeaveLoggerService : INService
 {
-    private readonly DbService dbContext;
     private readonly IDataCache cache;
-    private readonly Timer flushTimer;
     private readonly IBotCredentials credentials;
+    private readonly DbService dbContext;
+    private readonly Timer flushTimer;
 
     /// <summary>
     /// Constructor for the JoinLeaveLoggerService.

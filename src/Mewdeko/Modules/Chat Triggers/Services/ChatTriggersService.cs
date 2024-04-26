@@ -103,27 +103,33 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         .DisableAliases()
         .Build();
 
+
+    /// <summary>
+    /// A regex pattern to validate command names.
+    /// </summary>
+    public static readonly Regex ValidCommandRegex = new(@"^(?:[\w-]{1,32} {0,1}){1,3}$", RegexOptions.Compiled);
+
     private readonly DiscordSocketClient client;
     private readonly CmdCdService cmdCds;
+    private readonly BotConfigService configService;
+    private readonly TypedKey<CTModel> crAdded = new("cr.added");
+    private readonly IBotCredentials creds;
     private readonly TypedKey<bool> crsReloadedKey = new("crs.reloaded");
 
     private readonly DbService db;
+    private readonly DiscordPermOverrideService discordPermOverride;
 
     private readonly TypedKey<CTModel> gcrAddedKey = new("gcr.added");
     private readonly TypedKey<int> gcrDeletedkey = new("gcr.deleted");
     private readonly TypedKey<CTModel> gcrEditedKey = new("gcr.edited");
-    private readonly TypedKey<CTModel> crAdded = new("cr.added");
 
     private readonly object gcrWriteLock = new();
     private readonly GlobalPermissionService gperm;
-    private readonly DiscordPermOverrideService discordPermOverride;
+    private readonly GuildSettingsService guildSettings;
     private readonly PermissionService perms;
     private readonly IPubSub pubSub;
     private readonly Random rng;
     private readonly IBotStrings strings;
-    private readonly GuildSettingsService guildSettings;
-    private readonly BotConfigService configService;
-    private readonly IBotCredentials creds;
 
     // it is perfectly fine to have global chattriggers as an array
     // 1. custom reactions are almost never added (compared to how many times they are being looped through)
@@ -184,16 +190,6 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         bot.JoinedGuild += OnJoinedGuild;
         this.client.LeftGuild += OnLeftGuild;
-    }
-
-
-    /// <summary>
-    /// Handles the event when a chat trigger is added.
-    /// </summary>
-    /// <param name="arg">The chat trigger model.</param>
-    private async ValueTask OnCrAdded(CTModel arg)
-    {
-        await AddAsync(arg.GuildId, arg.Trigger, arg.Response, arg.IsRegex == 1);
     }
 
     /// <summary>
@@ -278,12 +274,12 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             var guildConfig = await guildSettings.GetGuildConfig(guild.Id);
             var uow = db.GetDbContext();
             var dbUser = await uow.GetOrCreateUser(msg.Author);
-            if (!false.ParseBoth(guildConfig.StatsOptOut.ToString()) && dbUser.StatsOptOut == 0)
+            if (!guildConfig.StatsOptOut && !dbUser.StatsOptOut)
             {
                 var toAdd = new CommandStats
                 {
                     ChannelId = msg.Channel.Id,
-                    Trigger = 1,
+                    Trigger = true,
                     NameOrId = $"{ct.Id}",
                     GuildId = guild.Id,
                     UserId = msg.Author.Id
@@ -300,7 +296,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             {
                 try
                 {
-                    if (ct.ReactToTrigger == 0 && ct.NoRespond == 0)
+                    if (!ct.ReactToTrigger && !ct.NoRespond)
                         await sentMsg.AddReactionAsync(reaction.ToIEmote()).ConfigureAwait(false);
                     else
                         await msg.AddReactionAsync(reaction.ToIEmote()).ConfigureAwait(false);
@@ -318,7 +314,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             // Delete the triggering message if necessary
             try
             {
-                if (ct.AutoDeleteTrigger == 1)
+                if (ct.AutoDeleteTrigger)
                     await msg.DeleteAsync().ConfigureAwait(false);
             }
             catch
@@ -367,6 +363,22 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// Handles tasks to be executed when the bot is ready.
+    /// </summary>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public Task OnReadyAsync() => ReloadInternal(client.Guilds.Select(x => x.Id).ToList());
+
+
+    /// <summary>
+    /// Handles the event when a chat trigger is added.
+    /// </summary>
+    /// <param name="arg">The chat trigger model.</param>
+    private async ValueTask OnCrAdded(CTModel arg)
+    {
+        await AddAsync(arg.GuildId, arg.Trigger, arg.Response, arg.IsRegex);
     }
 
 
@@ -454,12 +466,12 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     var dbUser = await uow.GetOrCreateUser(fakeMsg.Author);
 
                     // If stats tracking is enabled for the guild and the user has not opted out, record the command usage.
-                    if (!false.ParseBoth(guildConfig.StatsOptOut) && dbUser.StatsOptOut == 0)
+                    if (!guildConfig.StatsOptOut && !dbUser.StatsOptOut)
                     {
                         var toAdd = new CommandStats
                         {
                             ChannelId = channel.Id,
-                            Trigger = 1,
+                            Trigger = true,
                             NameOrId = $"{ct.Id}",
                             GuildId = channel.GuildId,
                             UserId = inter.User.Id
@@ -469,14 +481,14 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     }
 
                     var sentMsg = await ct.SendInteraction(inter, this.client, false, fakeMsg,
-                        false.ParseBoth(ct.EphemeralResponse), uow, followup).ConfigureAwait(false);
+                        ct.EphemeralResponse, uow, followup).ConfigureAwait(false);
 
                     // Add reactions to the sent message, if any.
                     foreach (var reaction in ct.GetReactions())
                     {
                         try
                         {
-                            if (ct.ReactToTrigger == 0 && ct.NoRespond == 0)
+                            if (!ct.ReactToTrigger && !ct.NoRespond)
                                 await sentMsg.AddReactionAsync(reaction.ToIEmote()).ConfigureAwait(false);
                             else
                                 await sentMsg.AddReactionAsync(reaction.ToIEmote()).ConfigureAwait(false);
@@ -768,7 +780,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             }
 
             // Check if the trigger is a regex pattern
-            if (ct.IsRegex == 1)
+            if (ct.IsRegex)
             {
                 // Match the content against the trigger regex pattern
                 if (Regex.IsMatch(new string(content), trigger, RegexOptions.None, TimeSpan.FromMilliseconds(1)))
@@ -787,7 +799,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             if (content.Length > trigger.Length)
             {
                 // If the trigger has ContainsAnywhere enabled, check if it is contained as a word within the content
-                if (ct.ContainsAnywhere == 1)
+                if (ct.ContainsAnywhere)
                 {
                     var wp = Extensions.Extensions.GetWordPosition(content, trigger);
                     if (wp != WordPosition.None)
@@ -796,8 +808,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 }
 
                 // If AllowTarget is enabled, the content has to start with the trigger followed by a space
-                if (ct.AllowTarget == 1 && content.StartsWith(trigger, StringComparison.OrdinalIgnoreCase)
-                                        && content[trigger.Length] == ' ')
+                if (ct.AllowTarget && content.StartsWith(trigger, StringComparison.OrdinalIgnoreCase)
+                                   && content[trigger.Length] == ' ')
                 {
                     result.Add(ct);
                 }
@@ -1037,7 +1049,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// <returns>A tuple indicating the success of the operation and the new value of the option.</returns>
     public async Task<(bool Success, bool NewValue)> ToggleCrOptionAsync(CTModel? ct, CtField? field)
     {
-        long newVal = 0; // Variable to store the new value of the option
+        var newVal = false; // Variable to store the new value of the option
         await using var uow = db.GetDbContext(); // Initialize the database context
 
         // Check if the chat trigger is null
@@ -1047,12 +1059,12 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         // Toggle the value of the specified field based on the option
         newVal = field switch
         {
-            CtField.AutoDelete => ct.AutoDeleteTrigger ^= 1,
-            CtField.ContainsAnywhere => ct.ContainsAnywhere ^= 1,
-            CtField.DmResponse => ct.DmResponse ^= 1,
-            CtField.AllowTarget => ct.AllowTarget ^= 1,
-            CtField.ReactToTrigger => ct.ReactToTrigger ^= 1,
-            CtField.NoRespond => ct.NoRespond ^= 1,
+            CtField.AutoDelete => !ct.AutoDeleteTrigger,
+            CtField.ContainsAnywhere => !ct.ContainsAnywhere,
+            CtField.DmResponse => !ct.DmResponse,
+            CtField.AllowTarget => !ct.AllowTarget,
+            CtField.ReactToTrigger => !ct.ReactToTrigger,
+            CtField.NoRespond => !ct.NoRespond,
             _ => newVal // Default case: return the current value
         };
 
@@ -1064,7 +1076,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         await UpdateInternalAsync(ct.GuildId, ct).ConfigureAwait(false);
 
         // Return success and the new value of the option
-        return (true, false.ParseBoth(newVal));
+        return (true, newVal);
     }
 
     /// <summary>
@@ -1128,12 +1140,6 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             input); // Retrieve the chat trigger by guild ID and input
         return ct != null; // Return true if the chat trigger exists, otherwise false
     }
-
-    /// <summary>
-    /// Handles tasks to be executed when the bot is ready.
-    /// </summary>
-    /// <returns>A task representing the asynchronous operation.</returns>
-    public Task OnReadyAsync() => ReloadInternal(client.Guilds.Select(x => x.Id).ToList());
 
     /// <summary>
     /// Handles the event when a chat trigger should be reloaded.
@@ -1248,12 +1254,12 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         key = key.ToLowerInvariant(); // Convert the key to lowercase
         var cr = new CTModel // Create a new chat trigger
         {
-            GuildId = guildId, Trigger = key, Response = message, IsRegex = regex ? 1 : 0
+            GuildId = guildId, Trigger = key, Response = message, IsRegex = regex
         };
 
         if (cr.Response.Contains("%target",
                 StringComparison.OrdinalIgnoreCase)) // Check if the message contains the target placeholder
-            cr.AllowTarget = 1; // Enable targeting
+            cr.AllowTarget = true; // Enable targeting
 
         var uow = db.GetDbContext(); // Initialize the database context
         await using (uow.ConfigureAwait(false))
@@ -1284,13 +1290,13 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         if (ct == null || ct.GuildId != guildId) // Check if the chat trigger exists or belongs to the guild
             return null;
 
-        ct.IsRegex = regex.HasValue ? Convert.ToInt64(regex.Value) : ct.IsRegex; // Update the regex flag
+        ct.IsRegex = regex ?? ct.IsRegex; // Update the regex flag
 
         // Disable allow target if message had target but it was removed
         if (!message.Contains("%target%", StringComparison.OrdinalIgnoreCase)
             && ct.Response.Contains("%target%", StringComparison.OrdinalIgnoreCase))
         {
-            ct.AllowTarget = 0; // Disable targeting
+            ct.AllowTarget = false; // Disable targeting
         }
 
         ct.Response = message; // Update the trigger message
@@ -1298,7 +1304,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         // Enable allow target if message is edited to contain target
         if (ct.Response.Contains("%target%", StringComparison.OrdinalIgnoreCase))
-            ct.AllowTarget = 1; // Enable targeting
+            ct.AllowTarget = true; // Enable targeting
 
         await uow.SaveChangesAsync().ConfigureAwait(false); // Save changes
         await UpdateInternalAsync(guildId.Value, ct).ConfigureAwait(false); // Update the trigger internally
@@ -1436,7 +1442,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         if (ct == null || ct.GuildId != guildId) // Check if the trigger exists and belongs to the guild
             return null;
 
-        ct.EphemeralResponse = ephemeral ? 1 : 0; // Update the ephemeral response
+        ct.EphemeralResponse = ephemeral; // Update the ephemeral response
         await uow.SaveChangesAsync().ConfigureAwait(false); // Save changes
         await UpdateInternalAsync(guildId, ct).ConfigureAwait(false); // Update the trigger internally
 
@@ -1716,12 +1722,6 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         return eb; // Return the embed builder
     }
 
-
-    /// <summary>
-    /// Represents the grouping of trigger children for building application command properties.
-    /// </summary>
-    private record TriggerChildGrouping(string Name, CTModel? Triggers, List<TriggerChildGrouping>? Children);
-
     /// <summary>
     /// Gets the application command properties for a guild.
     /// </summary>
@@ -1879,12 +1879,6 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
-
-    /// <summary>
-    /// A regex pattern to validate command names.
-    /// </summary>
-    public static readonly Regex ValidCommandRegex = new(@"^(?:[\w-]{1,32} {0,1}){1,3}$", RegexOptions.Compiled);
-
     /// <summary>
     /// Checks whether a given command name is valid for the specified application command type.
     /// </summary>
@@ -1998,4 +1992,10 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         return errors.Any() ? errors : null;
     }
+
+
+    /// <summary>
+    /// Represents the grouping of trigger children for building application command properties.
+    /// </summary>
+    private record TriggerChildGrouping(string Name, CTModel? Triggers, List<TriggerChildGrouping>? Children);
 }

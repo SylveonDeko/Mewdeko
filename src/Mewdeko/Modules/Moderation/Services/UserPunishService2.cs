@@ -11,8 +11,8 @@ namespace Mewdeko.Modules.Moderation.Services;
 public class UserPunishService2 : INService
 {
     private readonly DbService db;
-    private readonly MuteService mute;
     private readonly GuildSettingsService guildSettings;
+    private readonly MuteService mute;
 
     /// <summary>
     /// Initializes a new instance of <see cref="UserPunishService2"/>.
@@ -72,11 +72,7 @@ public class UserPunishService2 : INService
 
         var warn2 = new Warning2
         {
-            UserId = userId,
-            GuildId = guildId,
-            Forgiven = 0,
-            Reason = reason,
-            Moderator = modName
+            UserId = userId, GuildId = guildId, Reason = reason, Moderator = modName
         };
 
         var warnings = 1;
@@ -89,7 +85,7 @@ public class UserPunishService2 : INService
 
             warnings += uow.Warnings2
                 .ForId(guildId, userId)
-                .Count(w => w.Forgiven == 0 && w.UserId == userId);
+                .Count(w => !w.Forgiven && w.UserId == userId);
 
             uow.Warnings2.Add(warn2);
 
@@ -211,7 +207,7 @@ public class UserPunishService2 : INService
         using var uow = db.GetDbContext();
         return uow.Warnings2
             .ForId(guild.Id, userId)
-            .Count(w => w.Forgiven == 0 && w.UserId == userId);
+            .Count(w => !w.Forgiven && w.UserId == userId);
     }
 
     /// <summary>
@@ -232,12 +228,12 @@ public class UserPunishService2 : INService
         {
             var expireTime = DateTime.Now.AddHours(-gc.WarnExpireHours);
             var warningsToClear = await uow.Warnings2
-                .Where(w => w.GuildId == gc.GuildId && w.Forgiven == 1 && w.DateAdded < expireTime)
+                .Where(w => w.GuildId == gc.GuildId && w.Forgiven && w.DateAdded < expireTime)
                 .ToListAsync();
 
             foreach (var warning in warningsToClear)
             {
-                warning.Forgiven = 1;
+                warning.Forgiven = true;
                 warning.ForgivenBy = "Expiry";
             }
 
@@ -291,10 +287,10 @@ public class UserPunishService2 : INService
         {
             case WarnExpireAction.Clear:
                 var warningsToForgive =
-                    uow.Warnings2.Where(w => w.GuildId == guildId && w.Forgiven == 0 && w.DateAdded < expiryDate);
+                    uow.Warnings2.Where(w => w.GuildId == guildId && !w.Forgiven && w.DateAdded < expiryDate);
                 foreach (var warning in warningsToForgive)
                 {
-                    warning.Forgiven = 1;
+                    warning.Forgiven = true;
                     warning.ForgivenBy = "Expiry";
                 }
 

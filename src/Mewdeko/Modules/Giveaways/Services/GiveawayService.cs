@@ -411,7 +411,7 @@ public class GiveawayService(
                 var index = rand.Next(users.Count);
                 var user = users.ToList()[index];
                 var gset = await guildSettings.GetGuildConfig(guild.Id);
-                if (gset.DmOnGiveawayWin == 1)
+                if (gset.DmOnGiveawayWin)
                 {
                     if (!string.IsNullOrEmpty(gset.GiveawayEndMessage))
                     {

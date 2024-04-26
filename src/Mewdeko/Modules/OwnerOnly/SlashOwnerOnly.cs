@@ -202,35 +202,561 @@ public class SlashOwnerOnly(
     [SlashCommand("commandstats", "Get stats about commands")]
     public async Task CommandStats()
     {
-        await using var uow = db.GetDbContext();
-        var commandStatsTable = uow.CommandStats;
-        // fetch actual tops
-        var topCommand = await commandStatsTable.Where(x => x.Trigger == 0).GroupBy(q => q.NameOrId)
-            .OrderByDescending(gp => gp.Count()).Select(x => x.Key).FirstOrDefaultAsyncLinqToDB();
-        var topModule = await commandStatsTable.Where(x => x.Trigger == 0).GroupBy(q => q.Module)
-            .OrderByDescending(gp => gp.Count()).Select(x => x.Key).FirstOrDefaultAsyncLinqToDB();
-        var topGuild = await commandStatsTable.Where(x => x.Trigger == 0).GroupBy(q => q.GuildId)
-            .OrderByDescending(gp => gp.Count()).Select(x => x.Key).FirstOrDefaultAsyncLinqToDB();
-        var topUser = await commandStatsTable.Where(x => x.Trigger == 0).GroupBy(q => q.UserId)
-            .OrderByDescending(gp => gp.Count()).Select(x => x.Key).FirstOrDefaultAsyncLinqToDB();
+        var commandStatsTable = db.GetDbContext().CommandStats;
+        var topCommandTask = commandStatsTable
+            .Where(x => !x.Trigger)
+            .GroupBy(q => q.NameOrId)
+            .Select(g => new
+            {
+                Key = g.Key, Count = g.Count()
+            })
+            .OrderByDescending(gc => gc.Count)
+            .FirstOrDefaultAsyncLinqToDB();
 
-        // then fetch their counts... This can probably be done better....
-        var topCommandCount = commandStatsTable.Count(x => x.NameOrId == topCommand);
-        var topModuleCount = commandStatsTable.Count(x => x.NameOrId == topCommand);
-        var topGuildCount = commandStatsTable.Count(x => x.GuildId == topGuild);
-        var topUserCount = commandStatsTable.Count(x => x.UserId == topUser);
+        var topModuleTask = commandStatsTable
+            .Where(x => !x.Trigger)
+            .GroupBy(q => q.Module)
+            .Select(g => new
+            {
+                Key = g.Key, Count = g.Count()
+            })
+            .OrderByDescending(gc => gc.Count)
+            .FirstOrDefaultAsyncLinqToDB();
 
-        var guild = await client.Rest.GetGuildAsync(topGuild);
-        var user = await client.Rest.GetUserAsync(topUser);
+        var topGuildTask = commandStatsTable
+            .Where(x => !x.Trigger)
+            .GroupBy(q => q.GuildId)
+            .Select(g => new
+            {
+                Key = g.Key, Count = g.Count()
+            })
+            .OrderByDescending(gc => gc.Count)
+            .FirstOrDefaultAsyncLinqToDB();
+
+        var topUserTask = commandStatsTable
+            .Where(x => !x.Trigger)
+            .GroupBy(q => q.UserId)
+            .Select(g => new
+            {
+                Key = g.Key, Count = g.Count()
+            })
+            .OrderByDescending(gc => gc.Count)
+            .FirstOrDefaultAsyncLinqToDB();
+
+        await Task.WhenAll(topCommandTask, topModuleTask, topGuildTask, topUserTask);
+
+        var topCommand = await topCommandTask;
+        var topModule = await topModuleTask;
+        var topGuild = await topGuildTask;
+        var topUser = await topUserTask;
+
+        var guild = await client.Rest.GetGuildAsync(topGuild.Key);
+        var user = await client.Rest.GetUserAsync(topUser.Key);
 
         var eb = new EmbedBuilder()
             .WithOkColor()
-            .AddField("Top Command", $"{topCommand} was used {topCommandCount} times!")
-            .AddField("Top Module", $"{topModule} was used {topModuleCount} times!")
-            .AddField("Top User", $"{user} has used commands {topUserCount} times!")
-            .AddField("Top Guild", $"{guild} has used commands {topGuildCount} times!");
+            .AddField("Top Command", $"{topCommand.Key} was used {topCommand.Count} times!")
+            .AddField("Top Module", $"{topModule.Key} was used {topModule.Count} times!")
+            .AddField("Top User", $"{user} has used commands {topUser.Count} times!")
+            .AddField("Top Guild", $"{guild} has used commands {topGuild.Count} times!");
 
         await ctx.Interaction.RespondAsync(embed: eb.Build());
+    }
+
+
+    /// <summary>
+    /// Displays statistics for all shards of the bot, including their statuses, guild counts, and user counts.
+    /// </summary>
+    /// <remarks>
+    /// This command aggregates the current status of all shards and displays a summary followed by a detailed
+    /// paginated list of each shard's status, including the time since last update, guild count, and user count.
+    /// The statuses are represented by emojis for quick visual reference.
+    /// </remarks>
+    [SlashCommand("shardstats", "Shows the stats for all shards")]
+    public async Task ShardStats()
+    {
+        var statuses = coord.GetAllShardStatuses();
+
+        var status = string.Join(" : ", statuses
+            .Select(x => (ConnectionStateToEmoji(x), x))
+            .GroupBy(x => x.Item1)
+            .Select(x => $"`{x.Count()} {x.Key}`")
+            .ToArray());
+
+        var allShardStrings = statuses
+            .Select(st =>
+            {
+                var stateStr = ConnectionStateToEmoji(st);
+                var timeDiff = DateTime.UtcNow - st.LastUpdate;
+                var maxGuildCountLength = statuses.Max(x => x.GuildCount).ToString().Length;
+                return
+                    $"`{stateStr} | #{st.ShardId.ToString().PadBoth(3)} | {timeDiff:mm\\:ss} | {st.GuildCount.ToString().PadBoth(maxGuildCountLength)} | {st.UserCount}`";
+            })
+            .ToArray();
+
+        var paginator = new LazyPaginatorBuilder()
+            .AddUser(ctx.User)
+            .WithPageFactory(PageFactory)
+            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+            .WithMaxPageIndex(allShardStrings.Length / 25)
+            .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+            .Build();
+
+        await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+
+        async Task<PageBuilder> PageFactory(int page)
+        {
+            await Task.CompletedTask.ConfigureAwait(false);
+            var str = string.Join("\n", allShardStrings.Skip(25 * page).Take(25));
+
+            if (string.IsNullOrWhiteSpace(str))
+                str = GetText("no_shards_on_page");
+
+            return new PageBuilder()
+                .WithAuthor(a => a.WithName(GetText("shard_stats")))
+                .WithTitle(status)
+                .WithColor(Mewdeko.OkColor)
+                .WithDescription(str);
+        }
+    }
+
+    private static string ConnectionStateToEmoji(ShardStatus status)
+    {
+        var timeDiff = DateTime.UtcNow - status.LastUpdate;
+        return status.ConnectionState switch
+        {
+            ConnectionState.Connected => "✅",
+            ConnectionState.Disconnected => "🔻",
+            _ when timeDiff > TimeSpan.FromSeconds(30) => " ❗ ",
+            _ => " ⏳"
+        };
+    }
+
+    /// <summary>
+    /// Attempts to restart a specified shard by its ID.
+    /// </summary>
+    /// <param name="shardId">The ID of the shard to restart.</param>
+    /// <remarks>
+    /// Sends a confirmation message if the shard is successfully marked for restart, or an error message if the shard ID is not found.
+    /// </remarks>
+    [SlashCommand("restartshard", "Restarts a shard by its number")]
+    public Task RestartShard(int shardId)
+    {
+        var success = coord.RestartShard(shardId);
+        if (success)
+            return ReplyConfirmLocalizedAsync("shard_reconnecting", Format.Bold($"#{shardId}"));
+        return ReplyErrorLocalizedAsync("no_shard_id");
+    }
+
+    /// <summary>
+    /// Commands the bot to leave a server.
+    /// </summary>
+    /// <param name="guildStr">The identifier or name of the guild to leave.</param>
+    /// <remarks>
+    /// This action is irreversible through bot commands and should be used with caution.
+    /// </remarks>
+    [SlashCommand("leaveserver", "Leaves a server by id or name")]
+    public Task LeaveServer([Remainder] string guildStr) => Service.LeaveGuild(guildStr);
+
+    /// <summary>
+    /// Initiates a shutdown of the bot.
+    /// </summary>
+    /// <remarks>
+    /// Before shutting down, the bot attempts to send a confirmation message. Delays for a short period before triggering the shutdown sequence.
+    /// </remarks>
+    [SlashCommand("die", "Shuts down the bot")]
+    public async Task Die()
+    {
+        try
+        {
+            await ReplyConfirmLocalizedAsync("shutting_down").ConfigureAwait(false);
+        }
+        catch
+        {
+            // ignored
+        }
+
+        await Task.Delay(2000).ConfigureAwait(false);
+        Environment.SetEnvironmentVariable("SNIPE_CACHED", "0");
+        Environment.SetEnvironmentVariable("AFK_CACHED", "0");
+        coord.Die();
+    }
+
+    /// <summary>
+    /// Restarts the entire bot.
+    /// </summary>
+    /// <remarks>
+    /// Sends an error message if the restart fails, otherwise sends a confirmation message before initiating the restart.
+    /// </remarks>
+    [SlashCommand("restart", "Restarts the bot, restart command must be set in credentials")]
+    public async Task Restart()
+    {
+        var success = coord.RestartBot();
+        if (!success)
+        {
+            await ReplyErrorLocalizedAsync("restart_fail").ConfigureAwait(false);
+            return;
+        }
+
+        try
+        {
+            await ReplyConfirmLocalizedAsync("restarting").ConfigureAwait(false);
+        }
+        catch
+        {
+            // ignored
+        }
+    }
+
+
+    /// <summary>
+    /// Sends a message to a specified channel or user.
+    /// </summary>
+    /// <param name="whereOrTo">The ID of the channel or user to send the message to.</param>
+    /// <param name="to">The ID of the user to send the message to.</param>
+    /// <param name="msg">The message to send.</param>
+    /// <remarks>
+    /// If the first ID is a server, the second ID is a channel, and the message is sent to that channel.
+    /// </remarks>
+    [SlashCommand("send", "Sends a message to a server or dm")]
+    public async Task Send(ulong whereOrTo, ulong to = 0, [Remainder] string? msg = null)
+    {
+        var rep = new ReplacementBuilder().WithDefault(Context).Build();
+        RestGuild potentialServer;
+        try
+        {
+            potentialServer = await client.Rest.GetGuildAsync(whereOrTo).ConfigureAwait(false);
+        }
+        catch
+        {
+            var potentialUser = client.GetUser(whereOrTo);
+            if (potentialUser is null)
+            {
+                await ctx.Interaction.SendErrorAsync("Unable to find that user or guild! Please double check the Id!",
+                        botConfigService)
+                    .ConfigureAwait(false);
+                return;
+            }
+
+            if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild?.Id, out var embed, out var plainText,
+                    out var components))
+            {
+                await potentialUser.SendMessageAsync(plainText, embeds: embed, components: components.Build())
+                    .ConfigureAwait(false);
+                await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialUser.Mention}!")
+                    .ConfigureAwait(false);
+                return;
+            }
+
+            await potentialUser.SendMessageAsync(rep.Replace(msg)).ConfigureAwait(false);
+            await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialUser.Mention}!").ConfigureAwait(false);
+            return;
+        }
+
+        if (to == 0)
+        {
+            await ctx.Interaction.SendErrorAsync("You need to specify a Channel or User ID after the Server ID!",
+                    botConfigService)
+                .ConfigureAwait(false);
+            return;
+        }
+
+        var channel = await potentialServer.GetTextChannelAsync(to).ConfigureAwait(false);
+        if (channel is not null)
+        {
+            if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild.Id, out var embed, out var plainText,
+                    out var components))
+            {
+                await channel.SendMessageAsync(plainText, embeds: embed, components: components?.Build())
+                    .ConfigureAwait(false);
+                await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialServer} in {channel.Mention}")
+                    .ConfigureAwait(false);
+                return;
+            }
+
+            await channel.SendMessageAsync(rep.Replace(msg)).ConfigureAwait(false);
+            await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialServer} in {channel.Mention}")
+                .ConfigureAwait(false);
+            return;
+        }
+
+        var user = await potentialServer.GetUserAsync(to).ConfigureAwait(false);
+        if (user is null)
+        {
+            await ctx.Interaction
+                .SendErrorAsync("Unable to find that channel or user! Please check the ID and try again.",
+                    botConfigService)
+                .ConfigureAwait(false);
+            return;
+        }
+
+        if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild?.Id, out var embed1, out var plainText1,
+                out var components1))
+        {
+            await channel.SendMessageAsync(plainText1, embeds: embed1, components: components1?.Build())
+                .ConfigureAwait(false);
+            await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialServer} to {user.Mention}")
+                .ConfigureAwait(false);
+            return;
+        }
+
+        await channel.SendMessageAsync(rep.Replace(msg)).ConfigureAwait(false);
+        await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialServer} in {user.Mention}")
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Initiates the reloading of images used by the bot.
+    /// </summary>
+    /// <remarks>
+    /// This command triggers a process to reload all images, ensuring that any updates to image resources are reflected without restarting the bot.
+    /// A confirmation message is sent upon the start of the reload process.
+    /// </remarks>
+    [SlashCommand("imagesreload", "Recaches and redownloads all images")]
+    public Task ImagesReload()
+    {
+        Service.ReloadImages();
+        return ReplyConfirmLocalizedAsync("images_loading", 0);
+    }
+
+    /// <summary>
+    /// Initiates the reloading of bot strings (localizations).
+    /// </summary>
+    /// <remarks>
+    /// This command triggers a process to reload all localized strings, ensuring that any updates to text resources are applied without restarting the bot.
+    /// A confirmation message is sent upon successful reloading of bot strings.
+    /// </remarks>
+    [SlashCommand("stringsreload", "Reloads localized strings")]
+    public Task StringsReload()
+    {
+        strings.Reload();
+        return ReplyConfirmLocalizedAsync("bot_strings_reloaded");
+    }
+
+    private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus) =>
+        sus switch
+        {
+            SettableUserStatus.Online => UserStatus.Online,
+            SettableUserStatus.Invisible => UserStatus.Invisible,
+            SettableUserStatus.Idle => UserStatus.AFK,
+            SettableUserStatus.Dnd => UserStatus.DoNotDisturb,
+            _ => UserStatus.Online
+        };
+
+    /// <summary>
+    /// Executes a bash command. Depending on the platform, the command is executed in either bash or PowerShell.
+    /// </summary>
+    /// <param name="message">The command to execute.</param>
+    /// <remarks>
+    /// The command is executed in a new process, and the output is sent as a paginated message. If the process hangs, it is terminated. The command has a timeout of 2 hours. The output is split into chunks of 1988 characters to avoid Discord message limits.
+    /// </remarks>
+    [SlashCommand("bash", "Executes a bash command on the host machine")]
+    public async Task Bash([Remainder] string message)
+    {
+        await DeferAsync();
+        using var process = new Process();
+        var isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+        if (isLinux)
+        {
+            process.StartInfo = new ProcessStartInfo
+            {
+                FileName = "/bin/bash",
+                Arguments = $"-c \"{message} 2>&1\"",
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+        }
+        else
+        {
+            process.StartInfo = new ProcessStartInfo
+            {
+                FileName = "powershell.exe",
+                Arguments = $"/c \"{message} 2>&1\"",
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+        }
+
+        using (ctx.Channel.EnterTypingState())
+        {
+            process.Start();
+            var reader = process.StandardOutput;
+            var timeout = TimeSpan.FromHours(2);
+            var task = Task.Run(() => reader.ReadToEndAsync());
+            if (await Task.WhenAny(task, Task.Delay(timeout)) == task)
+            {
+                var output = await task.ConfigureAwait(false);
+
+                if (string.IsNullOrEmpty(output))
+                {
+                    await ctx.Interaction.FollowupAsync("```The output was blank```").ConfigureAwait(false);
+                    return;
+                }
+
+                var chunkSize = 1988;
+                var stringList = new List<string>();
+
+                for (var i = 0; i < output.Length; i += chunkSize)
+                {
+                    if (i + chunkSize > output.Length)
+                        chunkSize = output.Length - i;
+                    stringList.Add(output.Substring(i, chunkSize));
+
+                    if (stringList.Count < 50) continue;
+                    process.Kill();
+                    break;
+                }
+
+                var paginator = new LazyPaginatorBuilder()
+                    .AddUser(ctx.User)
+                    .WithPageFactory(PageFactory)
+                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                    .WithMaxPageIndex(stringList.Count - 1)
+                    .WithDefaultEmotes()
+                    .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                    .Build();
+
+                await serv.SendPaginatorAsync(paginator, ctx.Interaction, TimeSpan.FromMinutes(60),
+                        InteractionResponseType.DeferredChannelMessageWithSource)
+                    .ConfigureAwait(false);
+
+                async Task<PageBuilder> PageFactory(int page)
+                {
+                    await Task.CompletedTask;
+
+                    return new PageBuilder()
+                        .WithOkColor()
+                        .WithAuthor("Bash Output")
+                        .AddField("Input", message)
+                        .WithDescription($"```{(isLinux ? "bash" : "powershell")}\n{stringList[page]}```");
+                }
+            }
+            else
+            {
+                process.Kill();
+                await ctx.Interaction.FollowupAsync("The process was hanging and has been terminated.")
+                    .ConfigureAwait(false);
+            }
+
+            if (!process.HasExited)
+            {
+                await process.WaitForExitAsync().ConfigureAwait(false);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Evaluates a C# code snippet. Launched a modal to do so.
+    /// </summary>
+    /// <param name="code">The C# code to evaluate.</param>
+    /// <remarks>
+    /// The code is compiled and executed in a sandboxed environment. The result is displayed in an embed, including the return value, compilation time, and execution time.
+    /// </remarks>
+    /// <exception cref="ArgumentException"></exception>
+    [SlashCommand("eval", "Eval C# code"), OwnerOnly]
+    public Task Evaluate()
+        => ctx.Interaction.RespondWithModalAsync<EvalModal>("evalhandle");
+
+    /// <summary>
+    /// The modal interaction handler for evaluating C# code snippets.
+    /// </summary>
+    /// <param name="modal">The modal itself</param>
+    [ModalInteraction("evalhandle", true)]
+    public async Task EvaluateModalInteraction(EvalModal modal)
+    {
+        await DeferAsync();
+
+        var embed = new EmbedBuilder
+        {
+            Title = "Evaluating...", Color = new Color(0xD091B2)
+        };
+        var msg = await ctx.Interaction.FollowupAsync(embed: embed.Build()).ConfigureAwait(false);
+
+        var globals = new InteractionEvaluationEnvironment(ctx);
+        var sopts = ScriptOptions.Default
+            .WithImports("System", "System.Collections.Generic", "System.Diagnostics", "System.Linq",
+                "System.Net.Http", "System.Net.Http.Headers", "System.Reflection", "System.Text",
+                "System.Threading.Tasks", "Discord.Net", "Discord", "Discord.WebSocket", "Mewdeko.Modules",
+                "Mewdeko.Services", "Mewdeko.Extensions", "Mewdeko.Modules.Administration",
+                "Mewdeko.Modules.Chat_Triggers", "Mewdeko.Modules.Gambling", "Mewdeko.Modules.Games",
+                "Mewdeko.Modules.Help", "Mewdeko.Modules.Music", "Mewdeko.Modules.Nsfw",
+                "Mewdeko.Modules.Permissions", "Mewdeko.Modules.Searches", "Mewdeko.Modules.Server_Management",
+                "Discord.Interactions")
+            .WithReferences(AppDomain.CurrentDomain.GetAssemblies()
+                .Where(xa => !xa.IsDynamic && !string.IsNullOrWhiteSpace(xa.Location)));
+
+        var sw1 = Stopwatch.StartNew();
+        var cs = CSharpScript.Create(modal.Code, sopts, typeof(InteractionEvaluationEnvironment));
+        var csc = cs.Compile();
+        sw1.Stop();
+
+        if (csc.Any(xd => xd.Severity == DiagnosticSeverity.Error))
+        {
+            embed = new EmbedBuilder
+            {
+                Title = "Compilation failed",
+                Description =
+                    $"Compilation failed after {sw1.ElapsedMilliseconds:#,##0}ms with {csc.Length:#,##0} errors.",
+                Color = new Color(0xD091B2)
+            };
+            foreach (var xd in csc.Take(3))
+            {
+                var ls = xd.Location.GetLineSpan();
+                embed.AddField($"Error at {ls.StartLinePosition.Line:#,##0}, {ls.StartLinePosition.Character:#,##0}",
+                    Format.Code(xd.GetMessage()));
+            }
+
+            if (csc.Length > 3)
+                embed.AddField("Some errors omitted", $"{csc.Length - 3:#,##0} more errors not displayed");
+            await msg.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
+            return;
+        }
+
+        Exception rex;
+        ScriptState<object> css = default;
+        var sw2 = Stopwatch.StartNew();
+        try
+        {
+            css = await cs.RunAsync(globals).ConfigureAwait(false);
+            rex = css.Exception;
+        }
+        catch (Exception ex)
+        {
+            rex = ex;
+        }
+
+        sw2.Stop();
+
+        if (rex != null)
+        {
+            embed = new EmbedBuilder
+            {
+                Title = "Execution failed",
+                Description =
+                    $"Execution failed after {sw2.ElapsedMilliseconds:#,##0}ms with `{rex.GetType()}: {rex.Message}`.",
+                Color = new Color(0xD091B2)
+            };
+            await msg.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
+            return;
+        }
+
+        // execution succeeded
+        embed = new EmbedBuilder
+        {
+            Title = "Evaluation successful", Color = new Color(0xD091B2)
+        };
+
+        embed.AddField("Result", css.ReturnValue != null ? css.ReturnValue.ToString() : "No value returned")
+            .AddField("Compilation time", $"{sw1.ElapsedMilliseconds:#,##0}ms", true)
+            .AddField("Execution time", $"{sw2.ElapsedMilliseconds:#,##0}ms", true);
+
+        if (css.ReturnValue != null)
+            embed.AddField("Return type", css.ReturnValue.GetType().ToString(), true);
+
+        await msg.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -896,502 +1422,6 @@ public class SlashOwnerOnly(
 
             await ReplyConfirmLocalizedAsync("set_stream").ConfigureAwait(false);
         }
-    }
-
-
-    /// <summary>
-    /// Displays statistics for all shards of the bot, including their statuses, guild counts, and user counts.
-    /// </summary>
-    /// <remarks>
-    /// This command aggregates the current status of all shards and displays a summary followed by a detailed
-    /// paginated list of each shard's status, including the time since last update, guild count, and user count.
-    /// The statuses are represented by emojis for quick visual reference.
-    /// </remarks>
-    [SlashCommand("shardstats", "Shows the stats for all shards")]
-    public async Task ShardStats()
-    {
-        var statuses = coord.GetAllShardStatuses();
-
-        var status = string.Join(" : ", statuses
-            .Select(x => (ConnectionStateToEmoji(x), x))
-            .GroupBy(x => x.Item1)
-            .Select(x => $"`{x.Count()} {x.Key}`")
-            .ToArray());
-
-        var allShardStrings = statuses
-            .Select(st =>
-            {
-                var stateStr = ConnectionStateToEmoji(st);
-                var timeDiff = DateTime.UtcNow - st.LastUpdate;
-                var maxGuildCountLength = statuses.Max(x => x.GuildCount).ToString().Length;
-                return
-                    $"`{stateStr} | #{st.ShardId.ToString().PadBoth(3)} | {timeDiff:mm\\:ss} | {st.GuildCount.ToString().PadBoth(maxGuildCountLength)} | {st.UserCount}`";
-            })
-            .ToArray();
-
-        var paginator = new LazyPaginatorBuilder()
-            .AddUser(ctx.User)
-            .WithPageFactory(PageFactory)
-            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-            .WithMaxPageIndex(allShardStrings.Length / 25)
-            .WithDefaultEmotes()
-            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-            .Build();
-
-        await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
-
-        async Task<PageBuilder> PageFactory(int page)
-        {
-            await Task.CompletedTask.ConfigureAwait(false);
-            var str = string.Join("\n", allShardStrings.Skip(25 * page).Take(25));
-
-            if (string.IsNullOrWhiteSpace(str))
-                str = GetText("no_shards_on_page");
-
-            return new PageBuilder()
-                .WithAuthor(a => a.WithName(GetText("shard_stats")))
-                .WithTitle(status)
-                .WithColor(Mewdeko.OkColor)
-                .WithDescription(str);
-        }
-    }
-
-    private static string ConnectionStateToEmoji(ShardStatus status)
-    {
-        var timeDiff = DateTime.UtcNow - status.LastUpdate;
-        return status.ConnectionState switch
-        {
-            ConnectionState.Connected => "✅",
-            ConnectionState.Disconnected => "🔻",
-            _ when timeDiff > TimeSpan.FromSeconds(30) => " ❗ ",
-            _ => " ⏳"
-        };
-    }
-
-    /// <summary>
-    /// Attempts to restart a specified shard by its ID.
-    /// </summary>
-    /// <param name="shardId">The ID of the shard to restart.</param>
-    /// <remarks>
-    /// Sends a confirmation message if the shard is successfully marked for restart, or an error message if the shard ID is not found.
-    /// </remarks>
-    [SlashCommand("restartshard", "Restarts a shard by its number")]
-    public Task RestartShard(int shardId)
-    {
-        var success = coord.RestartShard(shardId);
-        if (success)
-            return ReplyConfirmLocalizedAsync("shard_reconnecting", Format.Bold($"#{shardId}"));
-        return ReplyErrorLocalizedAsync("no_shard_id");
-    }
-
-    /// <summary>
-    /// Commands the bot to leave a server.
-    /// </summary>
-    /// <param name="guildStr">The identifier or name of the guild to leave.</param>
-    /// <remarks>
-    /// This action is irreversible through bot commands and should be used with caution.
-    /// </remarks>
-    [SlashCommand("leaveserver", "Leaves a server by id or name")]
-    public Task LeaveServer([Remainder] string guildStr) => Service.LeaveGuild(guildStr);
-
-    /// <summary>
-    /// Initiates a shutdown of the bot.
-    /// </summary>
-    /// <remarks>
-    /// Before shutting down, the bot attempts to send a confirmation message. Delays for a short period before triggering the shutdown sequence.
-    /// </remarks>
-    [SlashCommand("die", "Shuts down the bot")]
-    public async Task Die()
-    {
-        try
-        {
-            await ReplyConfirmLocalizedAsync("shutting_down").ConfigureAwait(false);
-        }
-        catch
-        {
-            // ignored
-        }
-
-        await Task.Delay(2000).ConfigureAwait(false);
-        Environment.SetEnvironmentVariable("SNIPE_CACHED", "0");
-        Environment.SetEnvironmentVariable("AFK_CACHED", "0");
-        coord.Die();
-    }
-
-    /// <summary>
-    /// Restarts the entire bot.
-    /// </summary>
-    /// <remarks>
-    /// Sends an error message if the restart fails, otherwise sends a confirmation message before initiating the restart.
-    /// </remarks>
-    [SlashCommand("restart", "Restarts the bot, restart command must be set in credentials")]
-    public async Task Restart()
-    {
-        var success = coord.RestartBot();
-        if (!success)
-        {
-            await ReplyErrorLocalizedAsync("restart_fail").ConfigureAwait(false);
-            return;
-        }
-
-        try
-        {
-            await ReplyConfirmLocalizedAsync("restarting").ConfigureAwait(false);
-        }
-        catch
-        {
-            // ignored
-        }
-    }
-
-
-    /// <summary>
-    /// Sends a message to a specified channel or user.
-    /// </summary>
-    /// <param name="whereOrTo">The ID of the channel or user to send the message to.</param>
-    /// <param name="to">The ID of the user to send the message to.</param>
-    /// <param name="msg">The message to send.</param>
-    /// <remarks>
-    /// If the first ID is a server, the second ID is a channel, and the message is sent to that channel.
-    /// </remarks>
-    [SlashCommand("send", "Sends a message to a server or dm")]
-    public async Task Send(ulong whereOrTo, ulong to = 0, [Remainder] string? msg = null)
-    {
-        var rep = new ReplacementBuilder().WithDefault(Context).Build();
-        RestGuild potentialServer;
-        try
-        {
-            potentialServer = await client.Rest.GetGuildAsync(whereOrTo).ConfigureAwait(false);
-        }
-        catch
-        {
-            var potentialUser = client.GetUser(whereOrTo);
-            if (potentialUser is null)
-            {
-                await ctx.Interaction.SendErrorAsync("Unable to find that user or guild! Please double check the Id!",
-                        botConfigService)
-                    .ConfigureAwait(false);
-                return;
-            }
-
-            if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild?.Id, out var embed, out var plainText,
-                    out var components))
-            {
-                await potentialUser.SendMessageAsync(plainText, embeds: embed, components: components.Build())
-                    .ConfigureAwait(false);
-                await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialUser.Mention}!")
-                    .ConfigureAwait(false);
-                return;
-            }
-
-            await potentialUser.SendMessageAsync(rep.Replace(msg)).ConfigureAwait(false);
-            await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialUser.Mention}!").ConfigureAwait(false);
-            return;
-        }
-
-        if (to == 0)
-        {
-            await ctx.Interaction.SendErrorAsync("You need to specify a Channel or User ID after the Server ID!",
-                    botConfigService)
-                .ConfigureAwait(false);
-            return;
-        }
-
-        var channel = await potentialServer.GetTextChannelAsync(to).ConfigureAwait(false);
-        if (channel is not null)
-        {
-            if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild.Id, out var embed, out var plainText,
-                    out var components))
-            {
-                await channel.SendMessageAsync(plainText, embeds: embed, components: components?.Build())
-                    .ConfigureAwait(false);
-                await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialServer} in {channel.Mention}")
-                    .ConfigureAwait(false);
-                return;
-            }
-
-            await channel.SendMessageAsync(rep.Replace(msg)).ConfigureAwait(false);
-            await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialServer} in {channel.Mention}")
-                .ConfigureAwait(false);
-            return;
-        }
-
-        var user = await potentialServer.GetUserAsync(to).ConfigureAwait(false);
-        if (user is null)
-        {
-            await ctx.Interaction
-                .SendErrorAsync("Unable to find that channel or user! Please check the ID and try again.",
-                    botConfigService)
-                .ConfigureAwait(false);
-            return;
-        }
-
-        if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild?.Id, out var embed1, out var plainText1,
-                out var components1))
-        {
-            await channel.SendMessageAsync(plainText1, embeds: embed1, components: components1?.Build())
-                .ConfigureAwait(false);
-            await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialServer} to {user.Mention}")
-                .ConfigureAwait(false);
-            return;
-        }
-
-        await channel.SendMessageAsync(rep.Replace(msg)).ConfigureAwait(false);
-        await ctx.Interaction.SendConfirmAsync($"Message sent to {potentialServer} in {user.Mention}")
-            .ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Initiates the reloading of images used by the bot.
-    /// </summary>
-    /// <remarks>
-    /// This command triggers a process to reload all images, ensuring that any updates to image resources are reflected without restarting the bot.
-    /// A confirmation message is sent upon the start of the reload process.
-    /// </remarks>
-    [SlashCommand("imagesreload", "Recaches and redownloads all images")]
-    public Task ImagesReload()
-    {
-        Service.ReloadImages();
-        return ReplyConfirmLocalizedAsync("images_loading", 0);
-    }
-
-    /// <summary>
-    /// Initiates the reloading of bot strings (localizations).
-    /// </summary>
-    /// <remarks>
-    /// This command triggers a process to reload all localized strings, ensuring that any updates to text resources are applied without restarting the bot.
-    /// A confirmation message is sent upon successful reloading of bot strings.
-    /// </remarks>
-    [SlashCommand("stringsreload", "Reloads localized strings")]
-    public Task StringsReload()
-    {
-        strings.Reload();
-        return ReplyConfirmLocalizedAsync("bot_strings_reloaded");
-    }
-
-    private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus) =>
-        sus switch
-        {
-            SettableUserStatus.Online => UserStatus.Online,
-            SettableUserStatus.Invisible => UserStatus.Invisible,
-            SettableUserStatus.Idle => UserStatus.AFK,
-            SettableUserStatus.Dnd => UserStatus.DoNotDisturb,
-            _ => UserStatus.Online
-        };
-
-    /// <summary>
-    /// Executes a bash command. Depending on the platform, the command is executed in either bash or PowerShell.
-    /// </summary>
-    /// <param name="message">The command to execute.</param>
-    /// <remarks>
-    /// The command is executed in a new process, and the output is sent as a paginated message. If the process hangs, it is terminated. The command has a timeout of 2 hours. The output is split into chunks of 1988 characters to avoid Discord message limits.
-    /// </remarks>
-    [SlashCommand("bash", "Executes a bash command on the host machine")]
-    public async Task Bash([Remainder] string message)
-    {
-        await DeferAsync();
-        using var process = new Process();
-        var isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
-        if (isLinux)
-        {
-            process.StartInfo = new ProcessStartInfo
-            {
-                FileName = "/bin/bash",
-                Arguments = $"-c \"{message} 2>&1\"",
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-        }
-        else
-        {
-            process.StartInfo = new ProcessStartInfo
-            {
-                FileName = "powershell.exe",
-                Arguments = $"/c \"{message} 2>&1\"",
-                RedirectStandardOutput = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-        }
-
-        using (ctx.Channel.EnterTypingState())
-        {
-            process.Start();
-            var reader = process.StandardOutput;
-            var timeout = TimeSpan.FromHours(2);
-            var task = Task.Run(() => reader.ReadToEndAsync());
-            if (await Task.WhenAny(task, Task.Delay(timeout)) == task)
-            {
-                var output = await task.ConfigureAwait(false);
-
-                if (string.IsNullOrEmpty(output))
-                {
-                    await ctx.Interaction.FollowupAsync("```The output was blank```").ConfigureAwait(false);
-                    return;
-                }
-
-                var chunkSize = 1988;
-                var stringList = new List<string>();
-
-                for (var i = 0; i < output.Length; i += chunkSize)
-                {
-                    if (i + chunkSize > output.Length)
-                        chunkSize = output.Length - i;
-                    stringList.Add(output.Substring(i, chunkSize));
-
-                    if (stringList.Count < 50) continue;
-                    process.Kill();
-                    break;
-                }
-
-                var paginator = new LazyPaginatorBuilder()
-                    .AddUser(ctx.User)
-                    .WithPageFactory(PageFactory)
-                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                    .WithMaxPageIndex(stringList.Count - 1)
-                    .WithDefaultEmotes()
-                    .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-                    .Build();
-
-                await serv.SendPaginatorAsync(paginator, ctx.Interaction, TimeSpan.FromMinutes(60),
-                        InteractionResponseType.DeferredChannelMessageWithSource)
-                    .ConfigureAwait(false);
-
-                async Task<PageBuilder> PageFactory(int page)
-                {
-                    await Task.CompletedTask;
-
-                    return new PageBuilder()
-                        .WithOkColor()
-                        .WithAuthor("Bash Output")
-                        .AddField("Input", message)
-                        .WithDescription($"```{(isLinux ? "bash" : "powershell")}\n{stringList[page]}```");
-                }
-            }
-            else
-            {
-                process.Kill();
-                await ctx.Interaction.FollowupAsync("The process was hanging and has been terminated.")
-                    .ConfigureAwait(false);
-            }
-
-            if (!process.HasExited)
-            {
-                await process.WaitForExitAsync().ConfigureAwait(false);
-            }
-        }
-    }
-
-    /// <summary>
-    /// Evaluates a C# code snippet. Launched a modal to do so.
-    /// </summary>
-    /// <param name="code">The C# code to evaluate.</param>
-    /// <remarks>
-    /// The code is compiled and executed in a sandboxed environment. The result is displayed in an embed, including the return value, compilation time, and execution time.
-    /// </remarks>
-    /// <exception cref="ArgumentException"></exception>
-    [SlashCommand("eval", "Eval C# code"), OwnerOnly]
-    public Task Evaluate()
-        => ctx.Interaction.RespondWithModalAsync<EvalModal>("evalhandle");
-
-    /// <summary>
-    /// The modal interaction handler for evaluating C# code snippets.
-    /// </summary>
-    /// <param name="modal">The modal itself</param>
-    [ModalInteraction("evalhandle", true)]
-    public async Task EvaluateModalInteraction(EvalModal modal)
-    {
-        await DeferAsync();
-
-        var embed = new EmbedBuilder
-        {
-            Title = "Evaluating...", Color = new Color(0xD091B2)
-        };
-        var msg = await ctx.Interaction.FollowupAsync(embed: embed.Build()).ConfigureAwait(false);
-
-        var globals = new InteractionEvaluationEnvironment(ctx);
-        var sopts = ScriptOptions.Default
-            .WithImports("System", "System.Collections.Generic", "System.Diagnostics", "System.Linq",
-                "System.Net.Http", "System.Net.Http.Headers", "System.Reflection", "System.Text",
-                "System.Threading.Tasks", "Discord.Net", "Discord", "Discord.WebSocket", "Mewdeko.Modules",
-                "Mewdeko.Services", "Mewdeko.Extensions", "Mewdeko.Modules.Administration",
-                "Mewdeko.Modules.Chat_Triggers", "Mewdeko.Modules.Gambling", "Mewdeko.Modules.Games",
-                "Mewdeko.Modules.Help", "Mewdeko.Modules.Music", "Mewdeko.Modules.Nsfw",
-                "Mewdeko.Modules.Permissions", "Mewdeko.Modules.Searches", "Mewdeko.Modules.Server_Management",
-                "Discord.Interactions")
-            .WithReferences(AppDomain.CurrentDomain.GetAssemblies()
-                .Where(xa => !xa.IsDynamic && !string.IsNullOrWhiteSpace(xa.Location)));
-
-        var sw1 = Stopwatch.StartNew();
-        var cs = CSharpScript.Create(modal.Code, sopts, typeof(InteractionEvaluationEnvironment));
-        var csc = cs.Compile();
-        sw1.Stop();
-
-        if (csc.Any(xd => xd.Severity == DiagnosticSeverity.Error))
-        {
-            embed = new EmbedBuilder
-            {
-                Title = "Compilation failed",
-                Description =
-                    $"Compilation failed after {sw1.ElapsedMilliseconds:#,##0}ms with {csc.Length:#,##0} errors.",
-                Color = new Color(0xD091B2)
-            };
-            foreach (var xd in csc.Take(3))
-            {
-                var ls = xd.Location.GetLineSpan();
-                embed.AddField($"Error at {ls.StartLinePosition.Line:#,##0}, {ls.StartLinePosition.Character:#,##0}",
-                    Format.Code(xd.GetMessage()));
-            }
-
-            if (csc.Length > 3)
-                embed.AddField("Some errors omitted", $"{csc.Length - 3:#,##0} more errors not displayed");
-            await msg.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
-            return;
-        }
-
-        Exception rex;
-        ScriptState<object> css = default;
-        var sw2 = Stopwatch.StartNew();
-        try
-        {
-            css = await cs.RunAsync(globals).ConfigureAwait(false);
-            rex = css.Exception;
-        }
-        catch (Exception ex)
-        {
-            rex = ex;
-        }
-
-        sw2.Stop();
-
-        if (rex != null)
-        {
-            embed = new EmbedBuilder
-            {
-                Title = "Execution failed",
-                Description =
-                    $"Execution failed after {sw2.ElapsedMilliseconds:#,##0}ms with `{rex.GetType()}: {rex.Message}`.",
-                Color = new Color(0xD091B2)
-            };
-            await msg.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
-            return;
-        }
-
-        // execution succeeded
-        embed = new EmbedBuilder
-        {
-            Title = "Evaluation successful", Color = new Color(0xD091B2)
-        };
-
-        embed.AddField("Result", css.ReturnValue != null ? css.ReturnValue.ToString() : "No value returned")
-            .AddField("Compilation time", $"{sw1.ElapsedMilliseconds:#,##0}ms", true)
-            .AddField("Execution time", $"{sw2.ElapsedMilliseconds:#,##0}ms", true);
-
-        if (css.ReturnValue != null)
-            embed.AddField("Return type", css.ReturnValue.GetType().ToString(), true);
-
-        await msg.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
     }
 }
 

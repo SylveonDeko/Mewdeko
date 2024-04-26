@@ -100,7 +100,7 @@ public partial class Administration
 
             if (target != null && await Service.Add(ctx.Guild.Id, new ReactionRoleMessage
                 {
-                    Exclusive = exclusive ? 1 : 0,
+                    Exclusive = exclusive,
                     MessageId = target.Id,
                     ChannelId = target.Channel.Id,
                     ReactionRoles = all.Select(x => new ReactionRole
@@ -234,7 +234,7 @@ public partial class Administration
                             .AddField(GetText("rero_roles_count", rr.ReactionRoles.Count),
                                 string.Join(",",
                                     rr.ReactionRoles.Select(x => $"{x.EmoteName} {g.GetRole(x.RoleId).Mention}")))
-                            .AddField(GetText("users_can_select_morethan_one"), rr.Exclusive == 1)
+                            .AddField(GetText("users_can_select_morethan_one"), rr.Exclusive)
                             .AddField(GetText("wasdeleted"), msg == null ? GetText("yes") : GetText("no"))
                             .AddField(GetText("messagelink"),
                                 msg == null

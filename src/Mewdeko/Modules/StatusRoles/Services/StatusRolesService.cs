@@ -9,9 +9,9 @@ namespace Mewdeko.Modules.StatusRoles.Services;
 /// </summary>
 public class StatusRolesService : INService, IReadyExecutor
 {
+    private readonly IDataCache cache;
     private readonly DiscordSocketClient client;
     private readonly DbService db;
-    private readonly IDataCache cache;
     private readonly HashSet<StatusRolesTable> statusRoles = new();
 
     /// <summary>
@@ -88,7 +88,7 @@ public class StatusRolesService : INService, IReadyExecutor
                 {
                     if (beforeStatus is not null && beforeStatus.State.Contains(i.Status))
                     {
-                        if (i.RemoveAdded == 1)
+                        if (i.RemoveAdded)
                         {
                             if (toAdd.Count != 0)
                             {
@@ -109,7 +109,7 @@ public class StatusRolesService : INService, IReadyExecutor
                             }
                         }
 
-                        if (i.ReaddRemoved == 1)
+                        if (i.ReaddRemoved)
                         {
                             if (toRemove.Count != 0)
                             {
@@ -358,14 +358,14 @@ public class StatusRolesService : INService, IReadyExecutor
     public async Task<bool> ToggleRemoveAdded(StatusRolesTable status)
     {
         await using var uow = db.GetDbContext();
-        status.RemoveAdded = status.RemoveAdded == 1 ? 0 : 1;
+        status.RemoveAdded = !status.RemoveAdded;
         uow.StatusRoles.Update(status);
         await uow.SaveChangesAsync();
         var statusCache = await cache.GetStatusRoleCache();
         var listIndex = statusCache.IndexOf(statusCache.FirstOrDefault(x => x.Id == status.Id));
         statusCache[listIndex] = status;
         await cache.SetStatusRoleCache(statusCache);
-        return false.ParseBoth(status.RemoveAdded);
+        return status.RemoveAdded;
     }
 
     /// <summary>
@@ -376,13 +376,13 @@ public class StatusRolesService : INService, IReadyExecutor
     public async Task<bool> ToggleAddRemoved(StatusRolesTable status)
     {
         await using var uow = db.GetDbContext();
-        status.ReaddRemoved = status.ReaddRemoved == 1 ? 0 : 1;
+        status.ReaddRemoved = !status.ReaddRemoved;
         uow.StatusRoles.Update(status);
         await uow.SaveChangesAsync();
         var statusCache = await cache.GetStatusRoleCache();
         var listIndex = statusCache.IndexOf(statusCache.FirstOrDefault(x => x.Id == status.Id));
         statusCache[listIndex] = status;
         await cache.SetStatusRoleCache(statusCache);
-        return false.ParseBoth(status.ReaddRemoved);
+        return status.ReaddRemoved;
     }
 }

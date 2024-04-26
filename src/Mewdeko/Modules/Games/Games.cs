@@ -1,20 +1,27 @@
 ﻿using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Common.Configs;
 using Mewdeko.Modules.Games.Services;
 
 namespace Mewdeko.Modules.Games;
 
 public partial class Games : MewdekoModuleBase<GamesService>
 {
-    private readonly MewdekoRandom rng = new();
+    private readonly BotConfig config;
     private readonly MewdekoContext db;
+    private readonly MewdekoRandom rng = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Games"/> class.
     /// </summary>
     /// <param name="data">The data cache service.</param>
     /// <param name="db">The database service.</param>
-    public Games(IDataCache data, DbService db) => (_, this.db) = (data.LocalImages, db.GetDbContext());
+    /// <param name="config">Bot config service.</param>
+    public Games(IDataCache data, DbService db, BotConfig config)
+    {
+        this.config = config;
+        (_, this.db) = (data.LocalImages, db.GetDbContext());
+    }
 
     /// <summary>
     /// Command to choose randomly from a list of options.
@@ -56,22 +63,11 @@ public partial class Games : MewdekoModuleBase<GamesService>
     /// <param name="usr">Terrible command.</param>
     /// <example>Terrible command. Dont use it.</example>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
-    public async Task RateGirl(IGuildUser usr)
+    public async Task RateGirl()
     {
-        var dbUser = await db.GetOrCreateUser(usr);
-        if (dbUser.IsDragon == 1)
-        {
-            var eb = new EmbedBuilder()
-                .WithOkColor()
-                .WithFooter("credit: r/place")
-                .WithDescription(GetText("dragon_goes_nom"))
-                .WithImageUrl(
-                    "https://cdn.discordapp.com/attachments/839193628525330482/962026674122281020/unknown.png");
-            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
-            return;
-        }
-
-        await ReplyErrorLocalizedAsync("dragon_goes_suk");
+        await ctx.Channel.SendErrorAsync(
+            "Calling people a slur isnt nice, NadekoBot. This command has been here since this bot was forked from Nadeko. Here as a fuck you to nadeko and the dev.",
+            config);
     }
 
     /// <summary>
@@ -98,9 +94,9 @@ There really is a {loonix}, and these people are using it, but it is just a part
     public async Task Dragon()
     {
         var user = await db.GetOrCreateUser(ctx.User);
-        user.IsDragon = user.IsDragon == 1 ? 0 : 1;
+        user.IsDragon = !user.IsDragon;
         await db.SaveChangesAsync();
-        await ReplyConfirmLocalizedAsync(false.ParseBoth(user.IsDragon) ? "dragon_set" : "dragon_unset")
+        await ReplyConfirmLocalizedAsync(user.IsDragon ? "dragon_set" : "dragon_unset")
             .ConfigureAwait(false);
     }
 }

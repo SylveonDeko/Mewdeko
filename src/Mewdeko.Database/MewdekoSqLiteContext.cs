@@ -1,5 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace Mewdeko.Database;
 
@@ -19,5 +21,8 @@ public sealed class MewdekoSqLiteContext : MewdekoContext
         var builder = new SqliteConnectionStringBuilder(connectionString);
         builder.DataSource = Path.Combine(AppContext.BaseDirectory, builder.DataSource);
         optionsBuilder.UseSqlite(builder.ToString());
+        optionsBuilder.LogTo(Log.Information, LogLevel.Error);
+        optionsBuilder.EnableDetailedErrors();
+        optionsBuilder.EnableSensitiveDataLogging();
     }
 }

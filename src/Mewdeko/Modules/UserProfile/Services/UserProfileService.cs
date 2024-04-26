@@ -14,9 +14,9 @@ namespace Mewdeko.Modules.UserProfile.Services;
 public partial class UserProfileService : INService
 {
     private readonly DbService db;
+    private readonly Regex fcRegex = MyRegex();
     private readonly HttpClient http;
     private readonly List<string> zodiacList;
-    private readonly Regex fcRegex = MyRegex();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="UserProfileService"/> class with specified database and HTTP services.
@@ -287,10 +287,10 @@ public partial class UserProfileService : INService
     {
         await using var uow = db.GetDbContext();
         var dbUser = await uow.GetOrCreateUser(user);
-        dbUser.StatsOptOut = dbUser.StatsOptOut == 0 ? 1 : 0;
+        dbUser.StatsOptOut = !dbUser.StatsOptOut;
         uow.DiscordUser.Update(dbUser);
         await uow.SaveChangesAsync();
-        return false.ParseBoth(dbUser.StatsOptOut);
+        return dbUser.StatsOptOut;
     }
 
     /// <summary>

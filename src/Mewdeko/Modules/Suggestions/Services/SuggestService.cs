@@ -14,45 +14,6 @@ namespace Mewdeko.Modules.Suggestions.Services;
 /// </summary>
 public class SuggestionsService : INService
 {
-    private readonly DbService db;
-    private readonly PermissionService perms;
-    private readonly DiscordSocketClient client;
-    private readonly AdministrationService adminserv;
-    private readonly List<ulong> repostChecking;
-    private readonly List<ulong> spamCheck;
-    private readonly GuildSettingsService guildSettings;
-    private readonly BotConfig config;
-
-    /// <summary>
-    /// Initializes a new instance of the SuggestionsService class.
-    /// </summary>
-    /// <param name="db">Database service for data persistence.</param>
-    /// <param name="client">The Discord client instance.</param>
-    /// <param name="aserv">Service for administration tasks.</param>
-    /// <param name="permserv">Service for managing permissions.</param>
-    /// <param name="guildSettings">Service for guild-specific settings.</param>
-    /// <param name="eventHandler">Event handler for Discord client events.</param>
-    public SuggestionsService(
-        DbService db,
-        DiscordSocketClient client,
-        AdministrationService aserv,
-        PermissionService permserv,
-        GuildSettingsService guildSettings, EventHandler eventHandler, BotConfig config)
-    {
-        perms = permserv;
-        this.guildSettings = guildSettings;
-        this.config = config;
-        repostChecking = [];
-        spamCheck = [];
-        adminserv = aserv;
-        this.client = client;
-        eventHandler.MessageReceived += MessageRecieved;
-        eventHandler.ReactionAdded += UpdateCountOnReact;
-        eventHandler.ReactionRemoved += UpdateCountOnRemoveReact;
-        eventHandler.MessageReceived += RepostButton;
-        this.db = db;
-    }
-
     /// <summary>
     /// Used to track the state of a suggestion.
     /// </summary>
@@ -82,6 +43,45 @@ public class SuggestionsService : INService
         /// The suggestion is implemented.
         /// </summary>
         Implemented = 4
+    }
+
+    private readonly AdministrationService adminserv;
+    private readonly DiscordSocketClient client;
+    private readonly BotConfig config;
+    private readonly DbService db;
+    private readonly GuildSettingsService guildSettings;
+    private readonly PermissionService perms;
+    private readonly List<ulong> repostChecking;
+    private readonly List<ulong> spamCheck;
+
+    /// <summary>
+    /// Initializes a new instance of the SuggestionsService class.
+    /// </summary>
+    /// <param name="db">Database service for data persistence.</param>
+    /// <param name="client">The Discord client instance.</param>
+    /// <param name="aserv">Service for administration tasks.</param>
+    /// <param name="permserv">Service for managing permissions.</param>
+    /// <param name="guildSettings">Service for guild-specific settings.</param>
+    /// <param name="eventHandler">Event handler for Discord client events.</param>
+    public SuggestionsService(
+        DbService db,
+        DiscordSocketClient client,
+        AdministrationService aserv,
+        PermissionService permserv,
+        GuildSettingsService guildSettings, EventHandler eventHandler, BotConfig config)
+    {
+        perms = permserv;
+        this.guildSettings = guildSettings;
+        this.config = config;
+        repostChecking = [];
+        spamCheck = [];
+        adminserv = aserv;
+        this.client = client;
+        eventHandler.MessageReceived += MessageRecieved;
+        eventHandler.ReactionAdded += UpdateCountOnReact;
+        eventHandler.ReactionRemoved += UpdateCountOnRemoveReact;
+        eventHandler.MessageReceived += RepostButton;
+        this.db = db;
     }
 
     private async Task RepostButton(SocketMessage arg)
@@ -916,7 +916,7 @@ public class SuggestionsService : INService
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.ArchiveOnDeny = value ? 1L : 0L;
+        gc.ArchiveOnDeny = value;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -931,7 +931,7 @@ public class SuggestionsService : INService
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.ArchiveOnAccept = value ? 1L : 0L;
+        gc.ArchiveOnAccept = value;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -946,7 +946,7 @@ public class SuggestionsService : INService
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.ArchiveOnConsider = value ? 1L : 0L;
+        gc.ArchiveOnConsider = value;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -961,7 +961,7 @@ public class SuggestionsService : INService
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.ArchiveOnImplement = value ? 1L : 0L;
+        gc.ArchiveOnImplement = value;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -1276,7 +1276,7 @@ public class SuggestionsService : INService
     /// <param name="guild">The guild to check the archive setting for.</param>
     /// <returns>True if suggestions are archived upon denial; otherwise, false.</returns>
     public async Task<bool> GetArchiveOnDeny(IGuild guild)
-        => false.ParseBoth((await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnDeny.ToString());
+        => (await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnDeny;
 
     /// <summary>
     /// Determines whether suggestions are archived upon acceptance in a guild.
@@ -1284,7 +1284,7 @@ public class SuggestionsService : INService
     /// <param name="guild">The guild to check the archive setting for.</param>
     /// <returns>True if suggestions are archived upon acceptance; otherwise, false.</returns>
     public async Task<bool> GetArchiveOnAccept(IGuild guild)
-        => false.ParseBoth((await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnAccept.ToString());
+        => (await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnAccept;
 
     /// <summary>
     /// Determines whether suggestions are archived upon consideration in a guild.
@@ -1292,7 +1292,7 @@ public class SuggestionsService : INService
     /// <param name="guild">The guild to check the archive setting for.</param>
     /// <returns>True if suggestions are archived upon consideration; otherwise, false.</returns>
     public async Task<bool> GetArchiveOnConsider(IGuild guild)
-        => false.ParseBoth((await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnConsider.ToString());
+        => (await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnConsider;
 
     /// <summary>
     /// Determines whether suggestions are archived upon implementation in a guild.
@@ -1300,7 +1300,7 @@ public class SuggestionsService : INService
     /// <param name="guild">The guild to check the archive setting for.</param>
     /// <returns>True if suggestions are archived upon implementation; otherwise, false.</returns>
     public async Task<bool> GetArchiveOnImplement(IGuild guild)
-        => false.ParseBoth((await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnImplement.ToString());
+        => (await guildSettings.GetGuildConfig(guild.Id)).ArchiveOnImplement;
 
     /// <summary>
     /// Retrieves the name of the suggest button in a guild.

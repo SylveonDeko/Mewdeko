@@ -8,8 +8,8 @@ namespace Mewdeko.Modules.MultiGreets.Services;
 /// </summary>
 public class MultiGreetService : INService
 {
-    private readonly DbService db;
     private readonly DiscordSocketClient client;
+    private readonly DbService db;
     private readonly GuildSettingsService guildSettingsService;
 
 
@@ -70,7 +70,7 @@ public class MultiGreetService : INService
             .WithServer(client, user.Guild as SocketGuild).Build();
         if (greet.WebhookUrl is not null)
         {
-            if (user.IsBot && greet.GreetBots == 0)
+            if (user.IsBot && !greet.GreetBots)
                 return;
             var webhook = new DiscordWebhookClient(greet.WebhookUrl);
             var content = replacer.Replace(greet.Message);
@@ -107,7 +107,7 @@ public class MultiGreetService : INService
         }
         else
         {
-            if (user.IsBot && greet.GreetBots == 0)
+            if (user.IsBot && !greet.GreetBots)
                 return;
             var channel = await user.Guild.GetTextChannelAsync(greet.ChannelId);
             var content = replacer.Replace(greet.Message);
@@ -165,9 +165,9 @@ public class MultiGreetService : INService
             .WithServer(client, user.Guild as SocketGuild).Build();
         foreach (var i in multiGreets.Where(x => x.WebhookUrl == null))
         {
-            if (i.Disabled == 1)
+            if (i.Disabled)
                 continue;
-            if (user.IsBot && i.GreetBots == 0)
+            if (user.IsBot && !i.GreetBots)
                 continue;
             if (i.WebhookUrl is not null) continue;
             var channel = await user.Guild.GetTextChannelAsync(i.ChannelId);
@@ -205,9 +205,9 @@ public class MultiGreetService : INService
             .WithServer(client, user.Guild as SocketGuild).Build();
         foreach (var i in multiGreets)
         {
-            if (i.Disabled == 1)
+            if (i.Disabled)
                 continue;
-            if (user.IsBot && i.GreetBots == 0)
+            if (user.IsBot && !i.GreetBots)
                 continue;
             if (i.WebhookUrl is null) continue;
             var webhook = new DiscordWebhookClient(i.WebhookUrl);
@@ -315,7 +315,7 @@ public class MultiGreetService : INService
     public async Task ChangeMgGb(MultiGreet greet, bool enabled)
     {
         await using var uow = db.GetDbContext();
-        greet.GreetBots = enabled ? 1 : 0;
+        greet.GreetBots = enabled;
         uow.MultiGreets.Update(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
@@ -365,7 +365,7 @@ public class MultiGreetService : INService
     public async Task MultiGreetDisable(MultiGreet greet, bool disabled)
     {
         var uow = db.GetDbContext();
-        greet.Disabled = disabled ? 1 : 0;
+        greet.Disabled = disabled;
         uow.MultiGreets.Update(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }

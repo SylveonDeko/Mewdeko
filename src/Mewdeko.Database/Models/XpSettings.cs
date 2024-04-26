@@ -7,14 +7,12 @@ public class XpSettings : DbEntity
     [ForeignKey("GuildConfigId")]
     public int GuildConfigId { get; set; }
 
-    public GuildConfig GuildConfig { get; set; }
-
     public HashSet<XpRoleReward> RoleRewards { get; set; } = new();
     public HashSet<XpCurrencyReward> CurrencyRewards { get; set; } = new();
-    public long XpRoleRewardExclusive { get; set; }
+    public bool XpRoleRewardExclusive { get; set; } = false;
     public string NotifyMessage { get; set; } = "Congratulations {0}! You have reached level {1}!";
     public HashSet<ExcludedItem> ExclusionList { get; set; } = new();
-    public long ServerExcluded { get; set; }
+    public bool ServerExcluded { get; set; } = false;
 }
 
 public enum ExcludedItemType
@@ -35,7 +33,8 @@ public class XpRoleReward : DbEntity
 
     public override int GetHashCode() => Level.GetHashCode() ^ XpSettingsId.GetHashCode();
 
-    public override bool Equals(object obj) => obj is XpRoleReward xrr && xrr.Level == Level && xrr.XpSettingsId == XpSettingsId;
+    public override bool Equals(object obj) =>
+        obj is XpRoleReward xrr && xrr.Level == Level && xrr.XpSettingsId == XpSettingsId;
 }
 
 public class XpCurrencyReward : DbEntity
@@ -48,7 +47,8 @@ public class XpCurrencyReward : DbEntity
 
     public override int GetHashCode() => Level.GetHashCode() ^ XpSettingsId.GetHashCode();
 
-    public override bool Equals(object obj) => obj is XpCurrencyReward xrr && xrr.Level == Level && xrr.XpSettingsId == XpSettingsId;
+    public override bool Equals(object obj) =>
+        obj is XpCurrencyReward xrr && xrr.Level == Level && xrr.XpSettingsId == XpSettingsId;
 }
 
 public class ExcludedItem : DbEntity

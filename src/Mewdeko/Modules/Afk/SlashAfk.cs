@@ -15,9 +15,9 @@ namespace Mewdeko.Modules.Afk;
 [Group("afk", "Set or Manage AFK")]
 public class SlashAfk : MewdekoSlashModuleBase<AfkService>
 {
-    private readonly InteractiveService interactivity;
-    private readonly DiscordSocketClient client;
     private readonly BotConfig botConfig;
+    private readonly DiscordSocketClient client;
+    private readonly InteractiveService interactivity;
 
     /// <summary>
     /// Initializes a new instance of <see cref="SlashAfk"/>.
@@ -52,7 +52,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
             var afkmsg = (await Service.GetAfk(ctx.Guild.Id, ctx.User.Id))?.Message;
             if (string.IsNullOrEmpty(afkmsg))
             {
-                await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, "_ _", 0).ConfigureAwait(false);
+                await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, "_ _").ConfigureAwait(false);
                 await EphemeralReplyErrorLocalizedAsync("afk_msg_enabled").ConfigureAwait(false);
                 try
                 {
@@ -71,7 +71,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
                 return;
             }
 
-            await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, "", 0).ConfigureAwait(false);
+            await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, "").ConfigureAwait(false);
             await EphemeralReplyConfirmLocalizedAsync("afk_msg_disabled");
             try
             {
@@ -94,7 +94,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
             return;
         }
 
-        await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, message.EscapeWeirdStuff(), 0).ConfigureAwait(false);
+        await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, message.EscapeWeirdStuff()).ConfigureAwait(false);
         await ReplyConfirmLocalizedAsync("afk_enabled", message).ConfigureAwait(false);
         await ctx.Guild.DownloadUsersAsync().ConfigureAwait(false);
     }
@@ -129,7 +129,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
             return;
         }
 
-        await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, message, 1, DateTime.UtcNow + parsedTime.Time);
+        await Service.AfkSet(ctx.Guild.Id, ctx.User.Id, message, true, DateTime.UtcNow + parsedTime.Time);
         await ConfirmLocalizedAsync("afk_time_set",
             TimestampTag.FromDateTimeOffset(DateTimeOffset.UtcNow + parsedTime.Time), TimestampTagStyles.Relative,
             message);
@@ -498,7 +498,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
             return;
         }
 
-        await Service.AfkSet(ctx.Guild.Id, user.Id, "", 0).ConfigureAwait(false);
+        await Service.AfkSet(ctx.Guild.Id, user.Id, "").ConfigureAwait(false);
         await EphemeralReplyErrorLocalizedAsync("afk_noted", user.Mention);
     }
 }

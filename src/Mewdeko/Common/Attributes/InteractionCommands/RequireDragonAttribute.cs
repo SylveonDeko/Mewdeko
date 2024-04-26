@@ -29,7 +29,7 @@ public class RequireDragonAttribute : PreconditionAttribute
 
         // If the user has the dragon status, return success.
         // Otherwise, return an error with a message.
-        return user.IsDragon == 1
+        return user.IsDragon
             ? PreconditionResult.FromSuccess()
             : PreconditionResult.FromError("Your meek human arms could never push the 10,000 pound rock blocking the " +
                                            "path out of the cave of stable features. You must call upon the dragon in " +

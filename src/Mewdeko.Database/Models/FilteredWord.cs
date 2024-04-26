@@ -2,6 +2,7 @@
 
 namespace Mewdeko.Database.Models;
 
+[Table("FilteredWord")]
 public class FilteredWord : DbEntity
 {
     public string Word { get; set; }

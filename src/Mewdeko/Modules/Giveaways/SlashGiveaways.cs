@@ -147,7 +147,7 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
     public async Task GDm()
     {
         var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
-        gc.DmOnGiveawayWin = gc.DmOnGiveawayWin == 1 ? 0 : 1;
+        gc.DmOnGiveawayWin = !gc.DmOnGiveawayWin;
         await guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
         await ctx.Interaction.SendConfirmAsync(
                 $"Giveaway DMs set to {gc.DmOnGiveawayWin}! Just keep in mind this doesn't update until the next giveaway.")

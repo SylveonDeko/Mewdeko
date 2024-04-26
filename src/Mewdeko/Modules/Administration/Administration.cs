@@ -752,7 +752,7 @@ public partial class Administration(InteractiveService serv, BotConfigService co
             {
                 var ch = guild.GetChannel(x.ChannelId)?.ToString()
                          ?? x.ChannelId.ToString();
-                var prefix = x.State == 1 ? "✅ " : "❌ ";
+                var prefix = x.State ? "✅ " : "❌ ";
                 return prefix + ch;
             }));
 

@@ -103,9 +103,8 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
     /// <param name="modal">The modal containing trigger details.</param>
     [ModalInteraction("chat_trigger_add:*", true),
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
-    public async Task AddChatTriggerModal(string sRgx, ChatTriggerModal modal)
+    public async Task AddChatTriggerModal(bool sRgx, ChatTriggerModal modal)
     {
-        var rgx = false.ParseBoth(sRgx);
         if (string.IsNullOrWhiteSpace(modal.Trigger) || string.IsNullOrWhiteSpace(modal.Message))
         {
             await RespondAsync("trigger_add_invalid").ConfigureAwait(false);
@@ -113,7 +112,7 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
             return;
         }
 
-        var ct = await Service.AddAsync(ctx.Guild?.Id, modal.Trigger, modal.Message, rgx).ConfigureAwait(false);
+        var ct = await Service.AddAsync(ctx.Guild?.Id, modal.Trigger, modal.Message, sRgx).ConfigureAwait(false);
 
         await RespondAsync(embed: Service.GetEmbed(ct, ctx.Guild?.Id).Build()).ConfigureAwait(false);
         await FollowupWithTriggerStatus().ConfigureAwait(false);
@@ -155,14 +154,13 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
     /// <param name="modal">The modal containing trigger details.</param>
     [ModalInteraction("chat_trigger_edit:*,*", true),
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
-    public async Task EditChatTriggerModal(string sId, string sRgx, ChatTriggerModal modal)
+    public async Task EditChatTriggerModal(string sId, bool sRgx, ChatTriggerModal modal)
     {
         var id = int.Parse(sId);
-        var rgx = false.ParseBoth(sRgx);
         if (string.IsNullOrWhiteSpace(modal.Message) || id < 0)
             return;
 
-        var cr = await Service.EditAsync(ctx.Guild?.Id, id, modal.Message, rgx, modal.Trigger).ConfigureAwait(false);
+        var cr = await Service.EditAsync(ctx.Guild?.Id, id, modal.Message, sRgx, modal.Trigger).ConfigureAwait(false);
         if (cr != null)
         {
             await RespondAsync(embed: new EmbedBuilder().WithOkColor()
@@ -273,9 +271,9 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
                         .Take(20).Select(cr =>
                         {
                             var str = $"`#{cr.Id}` {cr.Trigger}";
-                            if (cr.AutoDeleteTrigger == 1)
+                            if (cr.AutoDeleteTrigger)
                                 str = $"🗑{str}";
-                            if (cr.DmResponse == 1)
+                            if (cr.DmResponse)
                                 str = $"📪{str}";
                             var reactions = cr.GetReactions();
                             if (reactions.Length > 0)
@@ -562,6 +560,36 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
         }
 
         await FollowupWithTriggerStatus().ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Follows up with trigger status by checking for errors.
+    /// </summary>
+    private async Task FollowupWithTriggerStatus()
+    {
+        var errors = Service.GetAcctErrors(ctx.Guild?.Id);
+        if (!(errors?.Any() ?? false))
+            return;
+        var embed = new EmbedBuilder()
+            .WithTitle(GetText("ct_interaction_errors_title"))
+            .WithDescription(GetText("ct_interaction_errors_desc"))
+            .WithErrorColor();
+        await ctx.Interaction.FollowupAsync(embed: embed.Build(), ephemeral: true).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Handles component interactions related to multitriggers.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="_">The interaction string.</param>
+    [ComponentInteraction("multitrigger.runin.*$*", true)]
+    public async Task HandleMultitriggers(ulong? guildId, string _)
+    {
+        var values = (Context.Interaction as SocketMessageComponent).Data.Values;
+        var i = -1;
+        foreach (var n in values)
+            await Service.RunInteractionTrigger(ctx.Interaction as SocketInteraction,
+                await Service.GetChatTriggers(guildId, Convert.ToInt32(n)), ++i >= 1);
     }
 
     /// <summary>
@@ -985,35 +1013,5 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
 
             return RespondAsync(embed: eb.Build(), components: cb.Build());
         }
-    }
-
-    /// <summary>
-    /// Follows up with trigger status by checking for errors.
-    /// </summary>
-    private async Task FollowupWithTriggerStatus()
-    {
-        var errors = Service.GetAcctErrors(ctx.Guild?.Id);
-        if (!(errors?.Any() ?? false))
-            return;
-        var embed = new EmbedBuilder()
-            .WithTitle(GetText("ct_interaction_errors_title"))
-            .WithDescription(GetText("ct_interaction_errors_desc"))
-            .WithErrorColor();
-        await ctx.Interaction.FollowupAsync(embed: embed.Build(), ephemeral: true).ConfigureAwait(false);
-    }
-
-    /// <summary>
-    /// Handles component interactions related to multitriggers.
-    /// </summary>
-    /// <param name="guildId">The ID of the guild.</param>
-    /// <param name="_">The interaction string.</param>
-    [ComponentInteraction("multitrigger.runin.*$*", true)]
-    public async Task HandleMultitriggers(ulong? guildId, string _)
-    {
-        var values = (Context.Interaction as SocketMessageComponent).Data.Values;
-        var i = -1;
-        foreach (var n in values)
-            await Service.RunInteractionTrigger(ctx.Interaction as SocketInteraction,
-                await Service.GetChatTriggers(guildId, Convert.ToInt32(n)), ++i >= 1);
     }
 }

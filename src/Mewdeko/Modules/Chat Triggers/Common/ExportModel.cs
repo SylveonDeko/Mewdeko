@@ -6,14 +6,14 @@ namespace Mewdeko.Modules.Chat_Triggers.Common
     public class ExportedTriggers
     {
         /// <summary>
-        /// Gets or sets the reactions associated with the trigger.
-        /// </summary>
-        public string[]? React;
-
-        /// <summary>
         /// Gets or sets the roles to be added by the trigger.
         /// </summary>
         public List<ulong> ARole = new();
+
+        /// <summary>
+        /// Gets or sets the reactions associated with the trigger.
+        /// </summary>
+        public string[]? React;
 
         /// <summary>
         /// Gets or sets the roles to be removed by the trigger.
@@ -107,16 +107,16 @@ namespace Mewdeko.Modules.Chat_Triggers.Common
             {
                 Id = "",
                 Res = ct.Response,
-                Ad = ct.AutoDeleteTrigger == 1,
-                At = ct.AllowTarget == 1,
-                Ca = ct.ContainsAnywhere == 1,
-                Dm = ct.DmResponse == 1,
-                Rgx = ct.IsRegex == 1,
+                Ad = ct.AutoDeleteTrigger,
+                At = ct.AllowTarget,
+                Ca = ct.ContainsAnywhere,
+                Dm = ct.DmResponse,
+                Rgx = ct.IsRegex,
                 React = string.IsNullOrWhiteSpace(ct.Reactions)
                     ? null
                     : ct.GetReactions(),
-                Rtt = ct.ReactToTrigger == 1,
-                Nr = ct.NoRespond == 1,
+                Rtt = ct.ReactToTrigger,
+                Nr = ct.NoRespond,
                 RRole = ct.GetRemovedRoles(),
                 ARole = ct.GetGrantedRoles(),
                 Rgt = ct.RoleGrantType,
@@ -124,7 +124,7 @@ namespace Mewdeko.Modules.Chat_Triggers.Common
                 AcName = ct.ApplicationCommandName,
                 AcDesc = ct.ApplicationCommandDescription,
                 Act = ct.ApplicationCommandType,
-                Eph = ct.EphemeralResponse == 1
+                Eph = ct.EphemeralResponse
             };
     }
 }
