@@ -2454,8 +2454,8 @@ namespace Mewdeko.Database.Migrations.PostgreSql
                     b.Property<bool>("Disabled")
                         .HasColumnType("boolean");
 
-                    b.Property<long>("GreetBots")
-                        .HasColumnType("bigint");
+                    b.Property<bool>("GreetBots")
+                        .HasColumnType("boolean");
 
                     b.Property<decimal>("GuildId")
                         .HasColumnType("numeric(20,0)");
@@ -3377,8 +3377,8 @@ namespace Mewdeko.Database.Migrations.PostgreSql
                     b.Property<DateTime?>("DateAdded")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<long>("Forgiven")
-                        .HasColumnType("bigint");
+                    b.Property<bool>("Forgiven")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("ForgivenBy")
                         .HasColumnType("text");

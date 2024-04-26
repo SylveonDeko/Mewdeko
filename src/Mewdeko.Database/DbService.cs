@@ -19,29 +19,20 @@ public class DbService
     private readonly string connectionString;
     private readonly int shardCount;
     private readonly string token;
-    private readonly bool usePostgres;
 
-    public DbService(int shardCount, string? token, bool usePostgres, string psqlConnection = null,
+    public DbService(int shardCount, string? token, string psqlConnection,
         bool migrate = false)
     {
         this.shardCount = shardCount;
         this.token = token ?? "";
-        this.usePostgres = usePostgres;
         LinqToDBForEFTools.Initialize();
 
-        if (usePostgres)
+        if (string.IsNullOrEmpty(psqlConnection))
         {
-            if (string.IsNullOrEmpty(psqlConnection))
-            {
-                throw new ArgumentException("PostgreSQL connection string must be provided when using PostgreSQL.");
-            }
+            throw new ArgumentException("PostgreSQL connection string must be provided.");
+        }
 
-            connectionString = psqlConnection;
-        }
-        else
-        {
-            connectionString = BuildSqliteConnectionString(shardCount, token);
-        }
+        connectionString = psqlConnection;
 
         if (migrate)
         {
@@ -84,41 +75,12 @@ public class DbService
     private async Task MigrateDataAsync()
     {
         // Initialize destination context
-        await using var destCont = GetCurrentContext();
-        var toApply = (await destCont.Database.GetPendingMigrationsAsync().ConfigureAwait(false)).ToList();
-        if (toApply.Any())
-        {
-            // Apply pending migrations
-            await destCont.Database.MigrateAsync().ConfigureAwait(false);
-
-            // Execute post-migration handlers
-            var env = Assembly.GetExecutingAssembly();
-            var postMigrationHandlers = env.GetTypes()
-                .Where(t => typeof(IPostMigrationHandler).IsAssignableFrom(t) &&
-                            t.GetCustomAttribute<MigrationAttribute>() != null)
-                .ToList();
-
-            foreach (var id in toApply)
-            {
-                var handlers = postMigrationHandlers
-                    .Where(handler => handler.GetCustomAttribute<MigrationAttribute>()?.Id == id)
-                    .ToList();
-
-                foreach (var handler in handlers)
-                {
-                    var methodInfo = handler.GetMethod("PostMigrationHandler");
-                    methodInfo?.Invoke(null, new object[]
-                    {
-                        id, destCont
-                    });
-                }
-            }
-        }
-
+        await using var destCont = GetDbContext();
         var destinationContext = destCont.CreateLinqToDBConnection();
 
         await using var sourceContext = new MewdekoSqLiteContext(BuildSqliteConnectionString(shardCount, token));
-
+        await ApplyMigrations(sourceContext);
+        await ApplyMigrations(destCont);
         var options = new BulkCopyOptions
         {
             MaxDegreeOfParallelism = 50, MaxBatchSize = 5000, BulkCopyType = BulkCopyType.ProviderSpecific
@@ -221,12 +183,11 @@ public class DbService
         Log.Information("Copied");
     }
 
-
-    public async void Setup()
+    public async Task ApplyMigrations(DbContext? context = null)
     {
-        var context = GetCurrentContext();
+        context ??= GetDbContext();
         var toApply = (await context.Database.GetPendingMigrationsAsync().ConfigureAwait(false)).ToList();
-        if (toApply.Any())
+        if (toApply.Count != 0)
         {
             await context.Database.MigrateAsync().ConfigureAwait(false);
             await context.SaveChangesAsync().ConfigureAwait(false);
@@ -246,35 +207,8 @@ public class DbService
             }
         }
 
-        if (context.Database.IsSqlite())
-        {
-            await context.Database.ExecuteSqlRawAsync("PRAGMA journal_mode=WAL").ConfigureAwait(false);
-        }
-
-        await context.SaveChangesAsync().ConfigureAwait(false);
+        await context.SaveChangesAsync();
     }
 
-    private MewdekoContext GetCurrentContext()
-    {
-        if (usePostgres)
-        {
-            return new MewdekoPostgresContext(connectionString);
-        }
-
-        return new MewdekoSqLiteContext(connectionString);
-    }
-
-    private MewdekoContext GetDbContextInternal()
-    {
-        var context = GetCurrentContext();
-        if (!context.Database.IsSqlite()) return context;
-        var conn = context.Database.GetDbConnection();
-        conn.OpenAsync();
-        using var com = conn.CreateCommand();
-        com.CommandText = "PRAGMA journal_mode=WAL; PRAGMA synchronous=OFF;";
-        com.ExecuteNonQueryAsync();
-        return context;
-    }
-
-    public MewdekoContext GetDbContext() => GetDbContextInternal();
+    public MewdekoContext GetDbContext() => new MewdekoPostgresContext(connectionString);
 }
