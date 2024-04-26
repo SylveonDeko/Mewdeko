@@ -22,6 +22,10 @@ autobanroleadd:
     - "roleid"
     - "@role"
   desc: "Adds a role to be autobanned when a user adds the role to themselves in onboarding or another method. Usually used to fight join bots."
+purgeuser:
+  args:
+    - "user 1000"
+  desc: "Purges any messages found within x count of messages specified to search in all channels."
 autobanroleremove:
   args:
     - "roleid"
@@ -2692,7 +2696,7 @@ purge:
     - '5'
     - 5 --safe
     - '@Someone'
-    - '@Someone --safe'
+    - '@Someone --safe --hasembed'
     - '@Someone X'
     - '@Someone X -s'
     - 20 --nb
