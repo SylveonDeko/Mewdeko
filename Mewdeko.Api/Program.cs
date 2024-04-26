@@ -27,22 +27,22 @@ try
 {
     var sBuilder = new NpgsqlConnectionStringBuilder(connectString);
 
-    if (string.IsNullOrEmpty(sBuilder.Host))
+    if (connectString is null || string.IsNullOrEmpty(sBuilder.Host))
     {
         Log.Error("No connection string provided. Exiting...");
         Environment.Exit(1);
     }
 }
-catch (Exception e)
+catch
 {
     Log.Error("Invalid connection string provided. Exiting...");
     Environment.Exit(1);
 }
 
 
-var db = new DbService(0, null, true, connectString);
+var db = new DbService(0, null, connectString);
 
-db.Setup();
+await db.ApplyMigrations();
 
 builder.Services.AddSingleton(db);
 

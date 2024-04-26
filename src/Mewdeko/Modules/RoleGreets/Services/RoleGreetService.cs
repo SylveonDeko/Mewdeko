@@ -94,7 +94,7 @@ public class RoleGreetService : INService
         {
             if (i.Disabled)
                 continue;
-            if (i.GreetBots == 0 && user.IsBot)
+            if (!i.GreetBots && user.IsBot)
                 continue;
             if (i.WebhookUrl != null)
                 continue;
@@ -173,7 +173,7 @@ public class RoleGreetService : INService
                 continue;
             if (i.Disabled)
                 continue;
-            if (i.GreetBots == 0 && user.IsBot)
+            if (!i.GreetBots && user.IsBot)
                 continue;
 
             if (string.IsNullOrEmpty(i.WebhookUrl)) continue;
@@ -319,7 +319,7 @@ public class RoleGreetService : INService
     public async Task ChangeRgGb(RoleGreet greet, bool enabled)
     {
         var uow = db.GetDbContext();
-        greet.GreetBots = enabled ? 1 : 0;
+        greet.GreetBots = enabled;
         uow.Update(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }
