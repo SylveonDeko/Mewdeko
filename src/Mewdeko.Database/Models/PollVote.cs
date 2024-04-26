@@ -1,5 +1,8 @@
-﻿namespace Mewdeko.Database.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
+namespace Mewdeko.Database.Models;
+
+[Table("PollVote")]
 public class PollVote : DbEntity
 {
     public ulong UserId { get; set; }

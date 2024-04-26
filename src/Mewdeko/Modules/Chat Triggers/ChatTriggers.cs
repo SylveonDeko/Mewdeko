@@ -160,9 +160,9 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
                 string.Join("\n", chatTriggers.OrderBy(cr => cr.Trigger).Skip(page * 20).Take(20).Select(cr =>
                 {
                     var str = $"`#{cr.Id}` {cr.Trigger}";
-                    if (cr.AutoDeleteTrigger == 1)
+                    if (cr.AutoDeleteTrigger)
                         str = $"🗑{str}";
-                    if (cr.DmResponse == 1)
+                    if (cr.DmResponse)
                         str = $"📪{str}";
                     var reactions = cr.GetReactions();
                     if (reactions.Length > 0)

@@ -58,7 +58,7 @@ public class StreamRoleService : INService, IUnloadableService
     private async Task Client_GuildMemberUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser after)
     {
         var config = await gss.GetGuildConfig(after.Guild.Id);
-        if (config.StreamRole.Enabled == 0)
+        if (config.StreamRole.Enabled)
             return;
         await RescanUser(after, config.StreamRole);
     }
@@ -174,7 +174,7 @@ public class StreamRoleService : INService, IUnloadableService
         {
             var streamRoleSettings = await uow.GetStreamRoleSettings(fromRole.Guild.Id);
 
-            streamRoleSettings.Enabled = 1;
+            streamRoleSettings.Enabled = true;
             streamRoleSettings.AddRoleId = addRole.Id;
             streamRoleSettings.FromRoleId = fromRole.Id;
 
@@ -201,7 +201,7 @@ public class StreamRoleService : INService, IUnloadableService
         var uow = db.GetDbContext();
         await using var disposable = uow.ConfigureAwait(false);
         var streamRoleSettings = await uow.GetStreamRoleSettings(guild.Id);
-        streamRoleSettings.Enabled = 0;
+        streamRoleSettings.Enabled = false;
         streamRoleSettings.AddRoleId = 0;
         streamRoleSettings.FromRoleId = 0;
         await uow.SaveChangesAsync().ConfigureAwait(false);
@@ -217,7 +217,7 @@ public class StreamRoleService : INService, IUnloadableService
                                   setting.Whitelist.Any(x => x.UserId == user.Id)));
 
         if (g is not null
-            && setting.Enabled == 1
+            && setting.Enabled
             && setting.Blacklist.All(x => x.UserId != user.Id)
             && user.RoleIds.Contains(setting.FromRoleId))
         {
@@ -278,14 +278,14 @@ public class StreamRoleService : INService, IUnloadableService
         var config = await gss.GetGuildConfig(guild.Id);
         var setting = config.StreamRole;
 
-        if (setting.Enabled == 0)
+        if (!setting.Enabled)
             return;
 
         var addRole = guild.GetRole(setting.AddRoleId);
         if (addRole == null)
             return;
 
-        if (setting.Enabled == 1)
+        if (setting.Enabled)
         {
             var users = await guild.GetUsersAsync(CacheMode.CacheOnly).ConfigureAwait(false);
             foreach (var usr in users.Where(x =>

@@ -124,17 +124,17 @@ public class CommandHandler : INService
             if (ctx.Guild is not null)
             {
                 var gconf = await gss.GetGuildConfig(ctx.Guild.Id);
-                if (!false.ParseBoth(gconf.StatsOptOut.ToString()))
+                if (!gconf.StatsOptOut)
                 {
                     await using var uow = db.GetDbContext();
                     var user = await uow.GetOrCreateUser(ctx.User);
-                    if (!false.ParseBoth(user.StatsOptOut))
+                    if (!user.StatsOptOut)
                     {
                         var comStats = new CommandStats
                         {
                             ChannelId = ctx.Channel.Id,
                             GuildId = ctx.Guild.Id,
-                            IsSlash = 1,
+                            IsSlash = true,
                             NameOrId = info.Name,
                             UserId = ctx.User.Id,
                             Module = info.Module.Name
@@ -257,17 +257,17 @@ public class CommandHandler : INService
             if (ctx.Guild is not null)
             {
                 var gconf = await gss.GetGuildConfig(ctx.Guild.Id);
-                if (!false.ParseBoth(gconf.StatsOptOut.ToString()))
+                if (!gconf.StatsOptOut)
                 {
                     await using var uow = db.GetDbContext();
                     var user = await uow.GetOrCreateUser(ctx.User);
-                    if (!false.ParseBoth(user.StatsOptOut))
+                    if (!user.StatsOptOut)
                     {
                         var comStats = new CommandStats
                         {
                             ChannelId = ctx.Channel.Id,
                             GuildId = ctx.Guild.Id,
-                            IsSlash = 1,
+                            IsSlash = true,
                             NameOrId = slashInfo.Name,
                             UserId = ctx.User.Id,
                             Module = slashInfo.Module.Name
@@ -729,11 +729,11 @@ public class CommandHandler : INService
         if (guild is not null)
         {
             var gconf = await gss.GetGuildConfig(guild.Id);
-            if (!false.ParseBoth(gconf.StatsOptOut.ToString()) && info is not null)
+            if (!gconf.StatsOptOut && info is not null)
             {
                 await using var uow = db.GetDbContext();
                 var user = await uow.GetOrCreateUser(usrMsg.Author);
-                if (!false.ParseBoth(user.StatsOptOut))
+                if (!user.StatsOptOut)
                 {
                     var comStats = new CommandStats
                     {

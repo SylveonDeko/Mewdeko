@@ -108,16 +108,11 @@ public class SelfAssignedRolesService : INService
         await using var uow = db.GetDbContext();
         var config = await uow.ForGuildId(guildId, set => set);
 
-        // convert the long to bool for processing
-        var currentVal = config.AutoDeleteSelfAssignedRoleMessages != 0;
-        var newVal = !currentVal;
-
-        // convert the bool back to long for storage
-        config.AutoDeleteSelfAssignedRoleMessages = newVal ? 1 : 0;
+        config.AutoDeleteSelfAssignedRoleMessages = !config.AutoDeleteSelfAssignedRoleMessages;
 
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
-        return newVal;
+        return config.AutoDeleteSelfAssignedRoleMessages;
     }
 
     /// <summary>
@@ -269,11 +264,9 @@ public class SelfAssignedRolesService : INService
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set);
-        var autoDelete = false.ParseBoth(gc.AutoDeleteSelfAssignedRoleMessages.ToString());
-        var exclusive = false.ParseBoth(gc.ExclusiveSelfAssignedRoles.ToString());
         var roles = await uow.SelfAssignableRoles.GetFromGuild(guildId);
 
-        return (autoDelete, exclusive, roles);
+        return (gc.AutoDeleteSelfAssignedRoleMessages, gc.ExclusiveSelfAssignedRoles, roles);
     }
 
     /// <summary>
@@ -310,14 +303,9 @@ public class SelfAssignedRolesService : INService
     {
         await using var uow = db.GetDbContext();
         var config = await uow.ForGuildId(guildId, set => set);
-
-        // Use a ternary operator to toggle the value
-        config.ExclusiveSelfAssignedRoles = config.ExclusiveSelfAssignedRoles == 0L ? 1L : 0L;
-
+        config.ExclusiveSelfAssignedRoles = !config.ExclusiveSelfAssignedRoles;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-
-        // Return the boolean equivalent of the new value
-        return config.ExclusiveSelfAssignedRoles != 0;
+        return config.ExclusiveSelfAssignedRoles;
     }
 
     /// <summary>
@@ -332,7 +320,6 @@ public class SelfAssignedRolesService : INService
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set.Include(x => x.SelfAssignableRoleGroupNames));
-        var exclusive = false.ParseBoth(gc.ExclusiveSelfAssignedRoles.ToString());
         IDictionary<int, string> groupNames = gc.SelfAssignableRoleGroupNames.ToDictionary(x => x.Number, x => x.Name);
         var roleModels = await uow.SelfAssignableRoles.GetFromGuild(guild.Id);
         var roles = roleModels
@@ -340,6 +327,6 @@ public class SelfAssignedRolesService : INService
         uow.SelfAssignableRoles.RemoveRange(roles.Where(x => x.Role.Name == null).Select(x => x.Model).ToArray());
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
-        return (exclusive, roles.Where(x => x.Role.Name != null), groupNames);
+        return (gc.ExclusiveSelfAssignedRoles, roles.Where(x => x.Role.Name != null), groupNames);
     }
 }

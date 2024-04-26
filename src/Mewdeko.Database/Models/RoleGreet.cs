@@ -9,5 +9,5 @@ public class RoleGreet : DbEntity
     public string Message { get; set; } = "Welcome %user%";
     public int DeleteTime { get; set; } = 0;
     public string WebhookUrl { get; set; }
-    public long Disabled { get; set; }
+    public bool Disabled { get; set; } = false;
 }

@@ -2,6 +2,7 @@
 
 namespace Mewdeko.Database.Models;
 
+[Table("VcRoleInfo")]
 public class VcRoleInfo : DbEntity
 {
     [ForeignKey("GuildConfigId")]

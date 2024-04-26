@@ -7,12 +7,10 @@ public class StreamRoleSettings : DbEntity
     [ForeignKey("GuildConfigId")]
     public int GuildConfigId { get; set; }
 
-    public GuildConfig GuildConfig { get; set; }
-
     /// <summary>
     ///     Whether the feature is enabled in the guild.
     /// </summary>
-    public long Enabled { get; set; }
+    public bool Enabled { get; set; }
 
     /// <summary>
     ///     Id of the role to give to the users in the role 'FromRole' when they start streaming

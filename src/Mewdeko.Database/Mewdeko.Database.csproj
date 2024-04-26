@@ -12,6 +12,8 @@
   <ItemGroup>
     <PackageReference Include="Discord.Net.WebSocket" Version="3.13.0" />
     <PackageReference Include="linq2db.EntityFrameworkCore" Version="8.0.0-rc.2" />
+    <PackageReference Include="linq2db.PostgreSQL" Version="5.4.1"/>
+    <PackageReference Include="linq2db.SQLite" Version="5.4.1"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
@@ -35,6 +37,10 @@
     <Compile Remove="Migrations\TestMigration2.Designer.cs" />
     <Compile Remove="Migrations\TestMigration1.cs" />
     <Compile Remove="Migrations\TestMigration1.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\PostgreSql\"/>
   </ItemGroup>
 
 </Project>

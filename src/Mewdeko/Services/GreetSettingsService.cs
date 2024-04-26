@@ -193,7 +193,7 @@ public class GreetSettingsService : INService, IReadyExecutor
         conf.BoostMessage = message;
         await gss.UpdateGuildConfig(guildId, conf);
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        return false.ParseBoth(conf.SendBoostMessage.ToString());
+        return conf.SendBoostMessage;
     }
 
     /// <summary>
@@ -232,18 +232,16 @@ public class GreetSettingsService : INService, IReadyExecutor
     /// <param name="channelId">The ID of the channel where boost messages should be sent.</param>
     /// <param name="value">Optional. Specifies whether the boost message feature should be enabled or disabled. If not provided, the setting is toggled.</param>
     /// <returns>A boolean indicating whether the boost message feature is now enabled.</returns>
-    public async Task<bool> SetBoost(ulong guildId, ulong channelId, bool? value = null)
+    public async Task<bool> SetBoost(ulong guildId, ulong channelId)
     {
         await using var uow = db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set);
-        var enabledLong = conf.SendBoostMessage == 0 ? 1 : 0;
-        var isEnabled = (value.HasValue) ? (value.Value ? 1L : 0L) : enabledLong;
-        conf.SendBoostMessage = isEnabled;
+        conf.SendBoostMessage = !conf.SendBoostMessage;
         conf.BoostMessageChannelId = channelId;
         await gss.UpdateGuildConfig(guildId, conf);
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
-        return isEnabled != 0;
+        return !conf.SendBoostMessage;
     }
 
     /// <summary>
@@ -576,12 +574,10 @@ public class GreetSettingsService : INService, IReadyExecutor
     {
         await using var uow = db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set);
-        var enabledLong = conf.SendChannelGreetMessage == 0 ? 1 : 0;
-        var isEnabled = (value.HasValue) ? (value.Value ? 1L : 0L) : enabledLong;
-        conf.SendChannelGreetMessage = isEnabled;
+        conf.SendChannelGreetMessage = !conf.SendChannelGreetMessage;
         conf.GreetMessageChannelId = channelId;
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        return isEnabled != 0;
+        return conf.SendChannelGreetMessage;
     }
 
     /// <summary>
@@ -601,11 +597,10 @@ public class GreetSettingsService : INService, IReadyExecutor
         await using var uow = db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set);
         conf.ChannelGreetMessageText = message;
-        var greetMsgEnabled = conf.SendChannelGreetMessage;
         await gss.UpdateGuildConfig(guildId, conf);
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
-        return false.ParseBoth(greetMsgEnabled.ToString());
+        return conf.SendChannelGreetMessage;
     }
 
     /// <summary>
@@ -618,12 +613,10 @@ public class GreetSettingsService : INService, IReadyExecutor
     {
         await using var uow = db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set);
-        var enabledLong = conf.SendDmGreetMessage == 0 ? 1 : 0;
-        var isEnabled = (value.HasValue) ? (value.Value ? 1L : 0L) : enabledLong;
-        conf.SendDmGreetMessage = isEnabled;
+        conf.SendDmGreetMessage = !conf.SendDmGreetMessage;
         await gss.UpdateGuildConfig(guildId, conf);
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        return isEnabled != 0;
+        return conf.SendDmGreetMessage;
     }
 
     /// <summary>
@@ -643,10 +636,9 @@ public class GreetSettingsService : INService, IReadyExecutor
         await using var uow = db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set);
         conf.DmGreetMessageText = message;
-        var greetMsgEnabled = conf.SendDmGreetMessage;
         await gss.UpdateGuildConfig(guildId, conf);
         await uow.SaveChangesAsync().ConfigureAwait(false);
-        return false.ParseBoth(greetMsgEnabled.ToString());
+        return conf.SendDmGreetMessage;
     }
 
     /// <summary>
@@ -660,14 +652,12 @@ public class GreetSettingsService : INService, IReadyExecutor
     {
         await using var uow = db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set);
-        var enabledLong = conf.SendChannelByeMessage == 0 ? 1 : 0;
-        var isEnabled = (value.HasValue) ? (value.Value ? 1L : 0L) : enabledLong;
-        conf.SendChannelByeMessage = isEnabled;
+        conf.SendChannelByeMessage = !conf.SendChannelByeMessage;
         conf.ByeMessageChannelId = channelId;
         await gss.UpdateGuildConfig(guildId, conf);
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
-        return isEnabled != 0;
+        return conf.SendChannelByeMessage;
     }
 
     /// <summary>
@@ -687,11 +677,10 @@ public class GreetSettingsService : INService, IReadyExecutor
         await using var uow = db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set);
         conf.ChannelByeMessageText = message;
-        var byeMsgEnabled = conf.SendChannelByeMessage;
         await gss.UpdateGuildConfig(guildId, conf);
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
-        return false.ParseBoth(byeMsgEnabled.ToString());
+        return conf.SendChannelByeMessage;
     }
 
     /// <summary>
@@ -741,7 +730,7 @@ public class GreetSettingsService : INService, IReadyExecutor
     {
         await using var uow = db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set);
-        return false.ParseBoth(conf.SendDmGreetMessage.ToString());
+        return conf.SendDmGreetMessage;
     }
 
     /// <summary>
@@ -753,7 +742,7 @@ public class GreetSettingsService : INService, IReadyExecutor
     {
         await using var uow = db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set);
-        return false.ParseBoth(conf.SendChannelGreetMessage.ToString());
+        return conf.SendChannelGreetMessage;
     }
 
     /// <summary>
@@ -765,7 +754,7 @@ public class GreetSettingsService : INService, IReadyExecutor
     {
         await using var uow = db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set);
-        return false.ParseBoth(conf.SendBoostMessage.ToString());
+        return conf.SendBoostMessage;
     }
 
     /// <summary>
@@ -777,7 +766,7 @@ public class GreetSettingsService : INService, IReadyExecutor
     {
         await using var uow = db.GetDbContext();
         var conf = await uow.ForGuildId(guildId, set => set);
-        return false.ParseBoth(conf.SendChannelByeMessage.ToString());
+        return conf.SendChannelByeMessage;
     }
 
     #endregion
@@ -920,15 +909,15 @@ public class GreetSettings
             AutoDeleteGreetMessagesTimer = g.AutoDeleteGreetMessagesTimer,
             GreetMessageChannelId = g.GreetMessageChannelId,
             ByeMessageChannelId = g.ByeMessageChannelId,
-            SendDmGreetMessage = false.ParseBoth(g.SendDmGreetMessage.ToString()),
+            SendDmGreetMessage = g.SendDmGreetMessage,
             DmGreetMessageText = g.DmGreetMessageText,
-            SendChannelGreetMessage = false.ParseBoth(g.SendChannelGreetMessage.ToString()),
+            SendChannelGreetMessage = g.SendChannelGreetMessage,
             ChannelGreetMessageText = g.ChannelGreetMessageText,
-            SendChannelByeMessage = false.ParseBoth(g.SendChannelByeMessage.ToString()),
+            SendChannelByeMessage = g.SendChannelByeMessage,
             ChannelByeMessageText = g.ChannelByeMessageText,
             BoostMessage = g.BoostMessage,
             BoostMessageChannelId = g.BoostMessageChannelId,
             BoostMessageDeleteAfter = g.BoostMessageDeleteAfter,
-            SendBoostMessage = false.ParseBoth(g.SendBoostMessage.ToString())
+            SendBoostMessage = g.SendBoostMessage
         };
 }

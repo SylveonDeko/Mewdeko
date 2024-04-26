@@ -65,14 +65,14 @@ public static class GuildConfigExtensions
             {
                 GuildId = guildId,
                 Permissions = Permissionv2.GetDefaultPermlist,
-                WarningsInitialized = 1,
+                WarningsInitialized = true,
                 WarnPunishments = DefaultWarnPunishments
             });
             await ctx.SaveChangesAsync();
         }
 
-        if (false.ParseBoth(config.WarningsInitialized.ToString())) return config;
-        config.WarningsInitialized = 1;
+        if (config.WarningsInitialized) return config;
+        config.WarningsInitialized = true;
         config.WarnPunishments = DefaultWarnPunishments;
 
         return config;
@@ -89,18 +89,6 @@ public static class GuildConfigExtensions
 
         return query.ToList();
     }
-
-    public static IEnumerable<GeneratingChannel> GetGeneratingChannels(this DbSet<GuildConfig> configs) =>
-        configs
-            .AsQueryable()
-            .Include(x => x.GenerateCurrencyChannelIds)
-            .Where(x => x.GenerateCurrencyChannelIds.Any())
-            .SelectMany(x => x.GenerateCurrencyChannelIds)
-            .Select(x => new GeneratingChannel
-            {
-                ChannelId = x.ChannelId, GuildId = x.GuildConfig.GuildId
-            })
-            .ToArray();
 
     public static async Task<GuildConfig> GcWithPermissionsv2For(this MewdekoContext ctx, ulong guildId)
     {
@@ -164,14 +152,14 @@ public static class GuildConfigExtensions
             {
                 GuildId = guildId,
                 Permissions = Permissionv2.GetDefaultPermlist,
-                WarningsInitialized = 1,
+                WarningsInitialized = true,
                 WarnPunishments = DefaultWarnPunishments
             });
             await ctx.SaveChangesAsync();
         }
 
-        if (false.ParseBoth(config.WarningsInitialized.ToString())) return config;
-        config.WarningsInitialized = 1;
+        if (config.WarningsInitialized) return config;
+        config.WarningsInitialized = true;
         config.WarnPunishments = DefaultWarnPunishments;
 
         return config;
@@ -188,7 +176,6 @@ public static class GuildConfigExtensions
             .Include(gc => gc.LogSetting)
             .ThenInclude(gc => gc.IgnoredChannels)
             .Include(gc => gc.Permissions)
-            .Include(gc => gc.GenerateCurrencyChannelIds)
             .Include(gc => gc.CommandCooldowns)
             .Include(gc => gc.GuildRepeaters)
             .Include(gc => gc.FollowedStreams)
@@ -205,6 +192,7 @@ public static class GuildConfigExtensions
             .ThenInclude(x => x.CurrencyRewards)
             .Include(x => x.XpSettings)
             .ThenInclude(x => x.ExclusionList)
+            .Include(x => x.FilteredWords)
             .Include(x => x.FilterInvitesChannelIds)
             .Include(x => x.FilterWordsChannelIds)
             .Include(x => x.FilterLinksChannelIds);

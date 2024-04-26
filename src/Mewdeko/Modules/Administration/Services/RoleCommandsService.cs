@@ -66,7 +66,7 @@ public class RoleCommandsService : INService
                 x.EmoteName == reaction.Emote.Name || x.EmoteName == reaction.Emote.ToString());
             if (reactionRole == null)
                 return;
-            if (conf.Exclusive == 1)
+            if (conf.Exclusive)
             {
                 var roleIds = conf.ReactionRoles.Select(x => x.RoleId)
                     .Where(x => x != reactionRole.RoleId)

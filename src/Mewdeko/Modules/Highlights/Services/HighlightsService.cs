@@ -9,9 +9,15 @@ namespace Mewdeko.Modules.Highlights.Services;
 /// </summary>
 public class HighlightsService : INService, IReadyExecutor
 {
-    private readonly DiscordSocketClient client;
     private readonly IDataCache cache;
+    private readonly DiscordSocketClient client;
     private readonly DbService db;
+
+    private readonly Channel<(SocketMessage, TaskCompletionSource<bool>)> highlightQueue =
+        Channel.CreateBounded<(SocketMessage, TaskCompletionSource<bool>)>(new BoundedChannelOptions(60)
+        {
+            FullMode = BoundedChannelFullMode.DropNewest
+        });
 
     /// <summary>
     /// Initializes a new instance of the <see cref="HighlightsService"/> class.
@@ -27,34 +33,6 @@ public class HighlightsService : INService, IReadyExecutor
         this.client.MessageReceived += StaggerHighlights;
         this.client.UserIsTyping += AddHighlightTimer;
         _ = HighlightLoop();
-    }
-
-    private async Task HighlightLoop()
-    {
-        while (true)
-        {
-            bool res;
-            var (msg, compl) = await highlightQueue.Reader.ReadAsync().ConfigureAwait(false);
-            try
-            {
-                res = await ExecuteHighlights(msg).ConfigureAwait(false);
-            }
-            catch
-            {
-                continue;
-            }
-
-            compl.TrySetResult(res);
-            await Task.Delay(2000).ConfigureAwait(false);
-        }
-    }
-
-    private async Task AddHighlightTimer(Cacheable<IUser, ulong> arg1, Cacheable<IMessageChannel, ulong> _)
-    {
-        if (arg1.Value is not IGuildUser user)
-            return;
-
-        await cache.TryAddHighlightStagger(user.GuildId, user.Id).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -88,6 +66,34 @@ public class HighlightsService : INService, IReadyExecutor
         return Task.CompletedTask;
     }
 
+    private async Task HighlightLoop()
+    {
+        while (true)
+        {
+            bool res;
+            var (msg, compl) = await highlightQueue.Reader.ReadAsync().ConfigureAwait(false);
+            try
+            {
+                res = await ExecuteHighlights(msg).ConfigureAwait(false);
+            }
+            catch
+            {
+                continue;
+            }
+
+            compl.TrySetResult(res);
+            await Task.Delay(2000).ConfigureAwait(false);
+        }
+    }
+
+    private async Task AddHighlightTimer(Cacheable<IUser, ulong> arg1, Cacheable<IMessageChannel, ulong> _)
+    {
+        if (arg1.Value is not IGuildUser user)
+            return;
+
+        await cache.TryAddHighlightStagger(user.GuildId, user.Id).ConfigureAwait(false);
+    }
+
     private Task StaggerHighlights(SocketMessage message)
     {
         _ = Task.Run(async () =>
@@ -98,12 +104,6 @@ public class HighlightsService : INService, IReadyExecutor
         });
         return Task.CompletedTask;
     }
-
-    private readonly Channel<(SocketMessage, TaskCompletionSource<bool>)> highlightQueue =
-        Channel.CreateBounded<(SocketMessage, TaskCompletionSource<bool>)>(new BoundedChannelOptions(60)
-        {
-            FullMode = BoundedChannelFullMode.DropNewest
-        });
 
     private async Task<bool> ExecuteHighlights(SocketMessage message)
     {
@@ -131,7 +131,7 @@ public class HighlightsService : INService, IReadyExecutor
                     .FirstOrDefault(x => x.UserId == i.UserId && x.GuildId == channel.GuildId);
                 if (settings is not null)
                 {
-                    if (settings.HighlightsOn == 0)
+                    if (!settings.HighlightsOn)
                         continue;
                     if (settings.IgnoredChannels.Split(" ").Contains(channel.Id.ToString()))
                         continue;
@@ -221,7 +221,7 @@ public class HighlightsService : INService, IReadyExecutor
             {
                 GuildId = guildId,
                 UserId = userId,
-                HighlightsOn = enabled ? 1 : 0,
+                HighlightsOn = enabled,
                 IgnoredChannels = "0",
                 IgnoredUsers = "0"
             };
@@ -232,7 +232,7 @@ public class HighlightsService : INService, IReadyExecutor
             await cache.AddHighlightSettingToCache(guildId, current1).ConfigureAwait(false);
         }
 
-        toupdate.HighlightsOn = enabled ? 1 : 0;
+        toupdate.HighlightsOn = enabled;
         uow.HighlightSettings.Update(toupdate);
         await uow.SaveChangesAsync().ConfigureAwait(false);
         var current = cache.GetHighlightSettingsForGuild(guildId) ?? new List<HighlightSettings?>();
@@ -258,7 +258,7 @@ public class HighlightsService : INService, IReadyExecutor
             {
                 GuildId = guildId,
                 UserId = userId,
-                HighlightsOn = 1,
+                HighlightsOn = true,
                 IgnoredChannels = "0",
                 IgnoredUsers = "0"
             };
@@ -311,7 +311,7 @@ public class HighlightsService : INService, IReadyExecutor
             {
                 GuildId = guildId,
                 UserId = userId,
-                HighlightsOn = 1,
+                HighlightsOn = true,
                 IgnoredChannels = "0",
                 IgnoredUsers = "0"
             };

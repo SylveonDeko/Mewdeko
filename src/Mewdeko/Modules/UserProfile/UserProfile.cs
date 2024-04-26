@@ -233,7 +233,7 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
 
     private async Task<bool> PronounsDisabled(DiscordUser user)
     {
-        if (user.PronounsDisabled == 0) return false;
+        if (!user.PronounsDisabled) return false;
         await ReplyErrorLocalizedAsync("pronouns_disabled_user", user.PronounsClearedReason).ConfigureAwait(false);
         return true;
     }
@@ -250,7 +250,7 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
         var uow = db.GetDbContext();
         await using var _ = uow.ConfigureAwait(false);
         var dbUser = await uow.GetOrCreateUser(user).ConfigureAwait(false);
-        dbUser.PronounsDisabled = pronounsDisabledAbuse ? 1 : 0;
+        dbUser.PronounsDisabled = pronounsDisabledAbuse;
         dbUser.PronounsClearedReason = reason;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         await ConfirmLocalizedAsync(pronounsDisabledAbuse ? "pronouns_disabled_user" : "pronouns_cleared")
@@ -269,7 +269,7 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
         var uow = db.GetDbContext();
         await using var _ = uow.ConfigureAwait(false);
         var dbUser = await uow.DiscordUser.AsQueryable().FirstAsync(x => x.UserId == user).ConfigureAwait(false);
-        dbUser.PronounsDisabled = pronounsDisabledAbuse ? 1 : 0;
+        dbUser.PronounsDisabled = pronounsDisabledAbuse;
         dbUser.PronounsClearedReason = reason;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         await ConfirmLocalizedAsync(pronounsDisabledAbuse ? "pronouns_disabled_user" : "pronouns_cleared")

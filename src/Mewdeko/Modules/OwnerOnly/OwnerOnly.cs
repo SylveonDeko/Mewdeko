@@ -379,33 +379,63 @@ public class OwnerOnly(
     [Cmd, Aliases]
     public async Task CommandStats()
     {
-        await using var uow = db.GetDbContext();
-        var commandStatsTable = uow.CommandStats;
-        // Fetch actual tops
-        var topCommand = await commandStatsTable.Where(x => x.Trigger == 0).GroupBy(q => q.NameOrId)
-            .OrderByDescending(gp => gp.Count()).Select(x => x.Key).FirstOrDefaultAsyncLinqToDB();
-        var topModule = await commandStatsTable.Where(x => x.Trigger == 0).GroupBy(q => q.Module)
-            .OrderByDescending(gp => gp.Count()).Select(x => x.Key).FirstOrDefaultAsyncLinqToDB();
-        var topGuild = await commandStatsTable.Where(x => x.Trigger == 0).GroupBy(q => q.GuildId)
-            .OrderByDescending(gp => gp.Count()).Select(x => x.Key).FirstOrDefaultAsyncLinqToDB();
-        var topUser = await commandStatsTable.Where(x => x.Trigger == 0).GroupBy(q => q.UserId)
-            .OrderByDescending(gp => gp.Count()).Select(x => x.Key).FirstOrDefaultAsyncLinqToDB();
+        var commandStatsTable = db.GetDbContext().CommandStats;
+        var topCommandTask = commandStatsTable
+            .Where(x => !x.Trigger)
+            .GroupBy(q => q.NameOrId)
+            .Select(g => new
+            {
+                Key = g.Key, Count = g.Count()
+            })
+            .OrderByDescending(gc => gc.Count)
+            .FirstOrDefaultAsyncLinqToDB();
 
-        // Then fetch their counts... This can probably be done better....
-        var topCommandCount = commandStatsTable.Count(x => x.NameOrId == topCommand);
-        var topModuleCount = commandStatsTable.Count(x => x.NameOrId == topCommand);
-        var topGuildCount = commandStatsTable.Count(x => x.GuildId == topGuild);
-        var topUserCount = commandStatsTable.Count(x => x.UserId == topUser);
+        var topModuleTask = commandStatsTable
+            .Where(x => !x.Trigger)
+            .GroupBy(q => q.Module)
+            .Select(g => new
+            {
+                Key = g.Key, Count = g.Count()
+            })
+            .OrderByDescending(gc => gc.Count)
+            .FirstOrDefaultAsyncLinqToDB();
 
-        var guild = await client.Rest.GetGuildAsync(topGuild);
-        var user = await client.Rest.GetUserAsync(topUser);
+        var topGuildTask = commandStatsTable
+            .Where(x => !x.Trigger)
+            .GroupBy(q => q.GuildId)
+            .Select(g => new
+            {
+                Key = g.Key, Count = g.Count()
+            })
+            .OrderByDescending(gc => gc.Count)
+            .FirstOrDefaultAsyncLinqToDB();
+
+        var topUserTask = commandStatsTable
+            .Where(x => !x.Trigger)
+            .GroupBy(q => q.UserId)
+            .Select(g => new
+            {
+                Key = g.Key, Count = g.Count()
+            })
+            .OrderByDescending(gc => gc.Count)
+            .FirstOrDefaultAsyncLinqToDB();
+
+        await Task.WhenAll(topCommandTask, topModuleTask, topGuildTask, topUserTask);
+
+        var topCommand = await topCommandTask;
+        var topModule = await topModuleTask;
+        var topGuild = await topGuildTask;
+        var topUser = await topUserTask;
+
+        var guild = await client.Rest.GetGuildAsync(topGuild.Key);
+        var user = await client.Rest.GetUserAsync(topUser.Key);
 
         var eb = new EmbedBuilder()
             .WithOkColor()
-            .AddField("Top Command", $"{topCommand} was used {topCommandCount} times!")
-            .AddField("Top Module", $"{topModule} was used {topModuleCount} times!")
-            .AddField("Top User", $"{user} has used commands {topUserCount} times!")
-            .AddField("Top Guild", $"{guild} has used commands {topGuildCount} times!");
+            .AddField("Top Command", $"{topCommand.Key} was used {topCommand.Count} times!")
+            .AddField("Top Module", $"{topModule.Key} was used {topModule.Count} times!")
+            .AddField("Top User", $"{user} has used commands {topUser.Count} times!")
+            .AddField("Top Guild", $"{guild} has used commands {topGuild.Count} times!");
 
         await ctx.Channel.SendMessageAsync(embed: eb.Build());
     }

@@ -143,7 +143,6 @@ public class XpService : INService, IUnloadableService
                         var oldGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
                         usr.Xp += xp;
                         du.TotalXp += xp;
-                        if (du.Club != null) du.Club.Xp += xp;
                         var newGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
 
                         if (oldGlobalLevelData.Level < newGlobalLevelData.Level)
@@ -668,7 +667,7 @@ public class XpService : INService, IUnloadableService
     public async Task<bool> IsServerExcluded(ulong id)
     {
         var config = await guildSettings.GetGuildConfig(id);
-        return config.XpSettings.ServerExcluded == 1;
+        return config.XpSettings.ServerExcluded;
     }
 
     /// <summary>
@@ -742,8 +741,8 @@ public class XpService : INService, IUnloadableService
         var config = await guildSettings.GetGuildConfig(id);
         await using var uow = db.GetDbContext();
         var xpSetting = await uow.XpSettingsFor(id);
-        xpSetting.ServerExcluded = 0;
-        config.XpSettings.ServerExcluded = 0;
+        xpSetting.ServerExcluded = false;
+        config.XpSettings.ServerExcluded = false;
         await guildSettings.UpdateGuildConfig(id, config);
         await uow.SaveChangesAsync().ConfigureAwait(false);
         return false;

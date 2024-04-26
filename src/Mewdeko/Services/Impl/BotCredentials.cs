@@ -142,6 +142,11 @@ public class BotCredentials : IBotCredentials
     public ulong PronounAbuseReportChannelId { get; set; }
 
     /// <summary>
+    /// Gets or sets whether the bot should migrate to PostgreSQL.
+    /// </summary>
+    public bool MigrateToPsql { get; set; }
+
+    /// <summary>
     /// Gets or sets the bot's token.
     /// </summary>
     public string Token { get; set; }
@@ -314,9 +319,10 @@ public class BotCredentials : IBotCredentials
             OwnerIds = data.GetSection("OwnerIds").GetChildren().Select(c => ulong.Parse(c.Value))
                 .ToImmutableArray();
             GoogleApiKey = data[nameof(GoogleApiKey)];
-            UsePsql = false.ParseBoth(data[nameof(UsePsql)] ?? "false");
+            UsePsql = bool.Parse(data[nameof(UsePsql)] ?? "false");
             PsqlConnectionString = data[nameof(PsqlConnectionString)];
             CsrfToken = data[nameof(CsrfToken)];
+            MigrateToPsql = bool.Parse(data[nameof(MigrateToPsql)] ?? "false");
             UserAgent = data[nameof(UserAgent)];
             CfClearance = data[nameof(CfClearance)];
             LastFmApiKey = data[nameof(LastFmApiKey)];
@@ -438,6 +444,7 @@ public class BotCredentials : IBotCredentials
         public ulong GuildJoinsChannelId { get; set; } = 892789588739891250;
         public ulong GlobalBanReportChannelId { get; set; } = 905109141620682782;
         public ulong PronounAbuseReportChannelId { get; set; } = 970086914826858547;
+        public bool MigrateToPsql { get; set; } = false;
 
         public string LastFmApiKey { get; set; }
         public string LastFmApiSecret { get; set; }

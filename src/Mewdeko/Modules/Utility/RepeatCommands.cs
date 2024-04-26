@@ -144,8 +144,7 @@ public partial class Utility
             }
 
             var repeater = repeaterList[index].Value.Repeater;
-            var newValue = repeater.NoRedundant == 0 ? 1 : 0;
-            repeater.NoRedundant = newValue;
+            repeater.NoRedundant = !repeater.NoRedundant;
 
             await using var uow = db.GetDbContext();
 
@@ -154,11 +153,11 @@ public partial class Utility
             var item = guildConfig.GuildRepeaters.Find(r => r.Id == repeater.Id);
             if (item != null)
             {
-                item.NoRedundant = newValue;
+                item.NoRedundant = !item.NoRedundant;
                 await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
-            if (newValue == 1)
+            if (repeater.NoRedundant)
             {
                 await ReplyConfirmLocalizedAsync("repeater_redundant_no", index + 1).ConfigureAwait(false);
             }
@@ -241,7 +240,7 @@ public partial class Utility
                     Message = ((IGuildUser)ctx.User).GuildPermissions.MentionEveryone
                         ? message
                         : message.SanitizeMentions(true),
-                    NoRedundant = 0,
+                    NoRedundant = false,
                     StartTimeOfDay = startTimeOfDay?.ToString()
                 };
 
@@ -419,7 +418,7 @@ public partial class Utility
             var message = Format.Sanitize(runner.Repeater.Message.TrimTo(50));
 
             var description = "";
-            if (runner.Repeater.NoRedundant == 1)
+            if (runner.Repeater.NoRedundant)
                 description = $"{Format.Underline(Format.Bold(GetText("no_redundant:")))}\n\n";
 
             description +=

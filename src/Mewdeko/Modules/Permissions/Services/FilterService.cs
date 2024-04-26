@@ -216,7 +216,7 @@ public class FilterService : IEarlyBehavior, INService
             set => set.Include(x => x.FilteredWords)
                 .Include(x => x.FilterWordsChannelIds));
 
-        gc.FilterWords = 0;
+        gc.FilterWords = false;
         gc.FilteredWords.Clear();
         gc.FilterWordsChannelIds.Clear();
 
@@ -417,7 +417,7 @@ public class FilterService : IEarlyBehavior, INService
 
         var servConfig = await gss.GetGuildConfig(guild.Id);
         if (!servConfig.FilterInvitesChannelIds.Select(x => x.ChannelId).Contains(usrMsg.Channel.Id)
-            && servConfig.FilterInvites != 1
+            && servConfig.FilterInvites
             || !usrMsg.Content.IsDiscordInvite()) return false;
         try
         {
@@ -456,7 +456,7 @@ public class FilterService : IEarlyBehavior, INService
 
         var servConfig = await gss.GetGuildConfig(guild.Id);
         if ((servConfig.FilterLinksChannelIds.Select(x => x.ChannelId).Contains(usrMsg.Channel.Id)
-             || servConfig.FilterLinks == 1)
+             || servConfig.FilterLinks)
             && usrMsg.Content.TryGetUrlPath(out _))
         {
             try
