@@ -2,6 +2,7 @@
 
 namespace Mewdeko.Database.Models;
 
+[Table("UnroleTimer")]
 public class UnroleTimer : DbEntity
 {
     [ForeignKey("GuildConfigId")]

@@ -8,8 +8,8 @@ namespace Mewdeko.Modules.RoleGreets.Services;
 /// </summary>
 public class RoleGreetService : INService
 {
-    private readonly DbService db;
     private readonly DiscordSocketClient client;
+    private readonly DbService db;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RoleGreetService"/> class.
@@ -92,7 +92,7 @@ public class RoleGreetService : INService
             .Build();
         foreach (var i in checkGreets)
         {
-            if (i.Disabled == 1)
+            if (i.Disabled)
                 continue;
             if (i.GreetBots == 0 && user.IsBot)
                 continue;
@@ -171,7 +171,7 @@ public class RoleGreetService : INService
         {
             if (i.WebhookUrl == null)
                 continue;
-            if (i.Disabled == 1)
+            if (i.Disabled)
                 continue;
             if (i.GreetBots == 0 && user.IsBot)
                 continue;
@@ -280,7 +280,7 @@ public class RoleGreetService : INService
     public async Task RoleGreetDisable(RoleGreet greet, bool disabled)
     {
         var uow = db.GetDbContext();
-        greet.Disabled = disabled ? 1 : 0;
+        greet.Disabled = disabled;
         uow.RoleGreets.Update(greet);
         await uow.SaveChangesAsync().ConfigureAwait(false);
     }

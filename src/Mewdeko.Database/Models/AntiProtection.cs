@@ -2,12 +2,11 @@
 
 namespace Mewdeko.Database.Models;
 
+[Table("AntiRaidSetting")]
 public class AntiRaidSetting : DbEntity
 {
     [ForeignKey("GuildConfigId")]
     public int GuildConfigId { get; set; }
-
-    public GuildConfig GuildConfig { get; set; }
 
     public int UserThreshold { get; set; }
     public int Seconds { get; set; }
@@ -20,12 +19,11 @@ public class AntiRaidSetting : DbEntity
     public int PunishDuration { get; set; }
 }
 
+[Table("AntiSpamSetting")]
 public class AntiSpamSetting : DbEntity
 {
     [ForeignKey("GuildConfigId")]
     public int GuildConfigId { get; set; }
-
-    public GuildConfig GuildConfig { get; set; }
 
     public PunishmentAction Action { get; set; }
     public int MessageThreshold { get; set; } = 0;
@@ -39,8 +37,6 @@ public class AntiMassMentionSetting : DbEntity
     [ForeignKey("GuildConfigId")]
     public int GuildConfigId { get; set; }
 
-    public GuildConfig GuildConfig { get; set; }
-
     public PunishmentAction Action { get; set; }
     public int MentionThreshold { get; set; } = 3;
     public int MuteTime { get; set; } = 0;
@@ -48,6 +44,7 @@ public class AntiMassMentionSetting : DbEntity
     public HashSet<AntiSpamIgnore> IgnoredChannels { get; set; } = new();
 }
 
+[Table("AntiAltSetting")]
 public class AntiAltSetting
 {
     public int Id { get; set; }
@@ -82,7 +79,7 @@ public class AntiSpamIgnore : DbEntity
     public ulong ChannelId { get; set; }
 
     [ForeignKey("AntiSpamSettingId")]
-    public int AntiSpamSettingId { get; set; }
+    public int? AntiSpamSettingId { get; set; }
 
     public override int GetHashCode() => ChannelId.GetHashCode();
 

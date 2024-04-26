@@ -12,6 +12,8 @@ public class StarboardService : INService, IReadyExecutor
     private readonly DbService db;
     private readonly GuildSettingsService guildSettings;
 
+    private List<StarboardPosts> starboardPosts = new();
+
     /// <summary>
     /// Initializes a new instance of the <see cref="StarboardService"/> class.
     /// </summary>
@@ -30,8 +32,6 @@ public class StarboardService : INService, IReadyExecutor
         eventHandler.ReactionRemoved += OnReactionRemoveAsync;
         eventHandler.ReactionsCleared += OnAllReactionsClearedAsync;
     }
-
-    private List<StarboardPosts> starboardPosts = new();
 
     /// <inheritdoc />
     public Task OnReadyAsync()
@@ -106,7 +106,7 @@ public class StarboardService : INService, IReadyExecutor
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.StarboardAllowBots = enabled ? 1L : 0L;
+        gc.StarboardAllowBots = enabled;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -121,7 +121,7 @@ public class StarboardService : INService, IReadyExecutor
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.StarboardRemoveOnDelete = removeOnDelete ? 1L : 0L;
+        gc.StarboardRemoveOnDelete = removeOnDelete;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -136,7 +136,7 @@ public class StarboardService : INService, IReadyExecutor
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.StarboardRemoveOnReactionsClear = removeOnClear ? 1L : 0L;
+        gc.StarboardRemoveOnReactionsClear = removeOnClear;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -151,7 +151,7 @@ public class StarboardService : INService, IReadyExecutor
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.StarboardRemoveOnBelowThreshold = removeOnBelowThreshold ? 1L : 0L;
+        gc.StarboardRemoveOnBelowThreshold = removeOnBelowThreshold;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -166,7 +166,7 @@ public class StarboardService : INService, IReadyExecutor
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.UseStarboardBlacklist = checkmode ? 1L : 0L;
+        gc.UseStarboardBlacklist = checkmode;
         await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -239,7 +239,7 @@ public class StarboardService : INService, IReadyExecutor
     /// <param name="id">The ID of the guild.</param>
     /// <returns><c>true</c> if bots are allowed to trigger starboard; otherwise, <c>false</c>.</returns>
     public async Task<bool> GetAllowBots(ulong id)
-        => false.ParseBoth((await guildSettings.GetGuildConfig(id)).StarboardAllowBots.ToString());
+        => (await guildSettings.GetGuildConfig(id)).StarboardAllowBots;
 
     /// <summary>
     /// Gets the current check mode for starboard channels in the guild.
@@ -247,19 +247,19 @@ public class StarboardService : INService, IReadyExecutor
     /// <param name="id">The ID of the guild.</param>
     /// <returns><c>true</c> if blacklist mode is enabled; otherwise, <c>false</c>.</returns>
     public async Task<bool> GetCheckMode(ulong id)
-        => false.ParseBoth((await guildSettings.GetGuildConfig(id)).UseStarboardBlacklist.ToString());
+        => (await guildSettings.GetGuildConfig(id)).UseStarboardBlacklist;
 
     private async Task<int> GetThreshold(ulong id)
         => (await guildSettings.GetGuildConfig(id)).RepostThreshold;
 
     private async Task<bool> GetRemoveOnBelowThreshold(ulong id)
-        => false.ParseBoth((await guildSettings.GetGuildConfig(id)).StarboardRemoveOnBelowThreshold.ToString());
+        => (await guildSettings.GetGuildConfig(id)).StarboardRemoveOnBelowThreshold;
 
     private async Task<bool> GetRemoveOnDelete(ulong id)
-        => false.ParseBoth((await guildSettings.GetGuildConfig(id)).StarboardRemoveOnDelete.ToString());
+        => (await guildSettings.GetGuildConfig(id)).StarboardRemoveOnDelete;
 
     private async Task<bool> GetRemoveOnReactionsClear(ulong id)
-        => false.ParseBoth((await guildSettings.GetGuildConfig(id)).StarboardRemoveOnReactionsClear.ToString());
+        => (await guildSettings.GetGuildConfig(id)).StarboardRemoveOnReactionsClear;
 
     /// <summary>
     /// Sets the star emote for the guild.

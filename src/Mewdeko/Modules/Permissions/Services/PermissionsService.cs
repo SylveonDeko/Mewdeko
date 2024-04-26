@@ -203,12 +203,12 @@ public class PermissionService : ILateBlocker, INService
             {
                 Permissions = new PermissionsCollection<Permissionv2>(config.Permissions),
                 PermRole = config.PermissionRole,
-                Verbose = false.ParseBoth(config.VerbosePermissions.ToString())
+                Verbose = config.VerbosePermissions
             }, (_, old) =>
             {
                 old.Permissions = new PermissionsCollection<Permissionv2>(config.Permissions);
                 old.PermRole = config.PermissionRole;
-                old.Verbose = false.ParseBoth(config.VerbosePermissions.ToString());
+                old.Verbose = config.VerbosePermissions;
                 return old;
             });
         }
@@ -265,12 +265,12 @@ public class PermissionService : ILateBlocker, INService
         {
             Permissions = new PermissionsCollection<Permissionv2>(config.Permissions),
             PermRole = config.PermissionRole,
-            Verbose = false.ParseBoth(config.VerbosePermissions.ToString())
+            Verbose = config.VerbosePermissions
         }, (_, old) =>
         {
             old.Permissions = new PermissionsCollection<Permissionv2>(config.Permissions);
             old.PermRole = config.PermissionRole;
-            old.Verbose = false.ParseBoth(config.VerbosePermissions.ToString());
+            old.Verbose = config.VerbosePermissions;
             return old;
         });
 
@@ -341,7 +341,7 @@ public class PermissionService : ILateBlocker, INService
         var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
 
         var p = permsCol[index];
-        p.State = state ? 1 : 0;
+        p.State = state;
         uow.Update(p);
         await uow.SaveChangesAsync().ConfigureAwait(false);
         UpdateCache(config);

@@ -202,12 +202,11 @@ public partial class Permissions
             var uow = db.GetDbContext();
             await using var disposable = uow.ConfigureAwait(false);
             var config = await uow.ForGuildId(channel.Guild.Id, set => set);
-            var newValue = config.FilterInvites == 0L ? 1L : 0L;
-            config.FilterInvites = newValue;
+            config.FilterInvites = !config.FilterInvites;
             await uow.SaveChangesAsync().ConfigureAwait(false);
             await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
 
-            if (newValue == 1L)
+            if (config.FilterInvites)
             {
                 await ReplyConfirmLocalizedAsync("invite_filter_server_on").ConfigureAwait(false);
             }
@@ -283,19 +282,14 @@ public partial class Permissions
         public async Task SrvrFilterLin()
         {
             var channel = (ITextChannel)ctx.Channel;
-
-            long newValue;
             var uow = db.GetDbContext();
-            await using (uow.ConfigureAwait(false))
-            {
-                var config = await uow.ForGuildId(channel.Guild.Id, set => set);
-                newValue = config.FilterLinks == 0L ? 1L : 0L;
-                config.FilterLinks = newValue;
-                await uow.SaveChangesAsync().ConfigureAwait(false);
-                await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
-            }
+            await using var disposable = uow.ConfigureAwait(false);
+            var config = await uow.ForGuildId(channel.Guild.Id, set => set);
+            config.FilterLinks = !config.FilterLinks;
+            await uow.SaveChangesAsync().ConfigureAwait(false);
+            await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
 
-            if (newValue == 1L)
+            if (config.FilterLinks)
             {
                 await ReplyConfirmLocalizedAsync("link_filter_server_on").ConfigureAwait(false);
             }
@@ -371,18 +365,13 @@ public partial class Permissions
         {
             var channel = (ITextChannel)ctx.Channel;
 
-            long newValue;
-            var uow = db.GetDbContext();
-            await using (uow.ConfigureAwait(false))
-            {
-                var config = await uow.ForGuildId(channel.Guild.Id, set => set);
-                newValue = config.FilterWords == 0L ? 1L : 0L;
-                config.FilterWords = newValue;
-                await uow.SaveChangesAsync().ConfigureAwait(false);
-                await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
-            }
+            await using var uow = db.GetDbContext();
+            var config = await uow.ForGuildId(channel.Guild.Id, set => set);
+            config.FilterWords = !config.FilterWords;
+            await uow.SaveChangesAsync().ConfigureAwait(false);
+            await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
 
-            if (newValue == 1L)
+            if (config.FilterWords)
             {
                 await ReplyConfirmLocalizedAsync("word_filter_server_on").ConfigureAwait(false);
             }

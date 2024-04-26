@@ -38,7 +38,7 @@ public static class DiscordUserExtensions
         string avatarId)
     {
         await ctx.EnsureUserCreated(userId, username, discrim, avatarId);
-        return await ctx.DiscordUser.Include(x => x.Club).FirstOrDefaultAsyncEF(u => u.UserId == userId)
+        return await ctx.DiscordUser.FirstOrDefaultAsyncEF(u => u.UserId == userId)
             .ConfigureAwait(false);
     }
 

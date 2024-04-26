@@ -16,5 +16,5 @@ public class Repeater : DbEntity
     public string Message { get; set; }
     public string Interval { get; set; }
     public string? StartTimeOfDay { get; set; }
-    public long NoRedundant { get; set; }
+    public bool NoRedundant { get; set; } = false;
 }

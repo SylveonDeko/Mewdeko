@@ -2,6 +2,7 @@
 
 namespace Mewdeko.Database.Models;
 
+[Table("PlaylistSong")]
 public class PlaylistSong : DbEntity
 {
     [ForeignKey("MusicPlaylistId")]

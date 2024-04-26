@@ -166,7 +166,7 @@ public partial class RemindService : INService
         try
         {
             IMessageChannel ch;
-            if (r.IsPrivate == 1)
+            if (r.IsPrivate)
             {
                 var user = client.GetUser(r.ChannelId);
                 if (user == null)
@@ -193,6 +193,11 @@ public partial class RemindService : INService
         }
     }
 
+    [GeneratedRegex(
+        @"^(?:in\s?)?\s*(?:(?<mo>\d+)(?:\s?(?:months?|mos?),?))?(?:(?:\sand\s|\s*)?(?<w>\d+)(?:\s?(?:weeks?|w),?))?(?:(?:\sand\s|\s*)?(?<d>\d+)(?:\s?(?:days?|d),?))?(?:(?:\sand\s|\s*)?(?<h>\d+)(?:\s?(?:hours?|h),?))?(?:(?:\sand\s|\s*)?(?<m>\d+)(?:\s?(?:minutes?|mins?|m),?))?\s+(?:to:?\s+)?(?<what>(?:\r\n|[\r\n]|.)+)",
+        RegexOptions.Multiline | RegexOptions.Compiled)]
+    private static partial Regex MyRegex();
+
     /// <summary>
     /// Represents the details of a reminder, including what the reminder is for and the time until the reminder should occur.
     /// </summary>
@@ -217,9 +222,4 @@ public partial class RemindService : INService
         /// </remarks>
         public TimeSpan Time { get; set; }
     }
-
-    [GeneratedRegex(
-        @"^(?:in\s?)?\s*(?:(?<mo>\d+)(?:\s?(?:months?|mos?),?))?(?:(?:\sand\s|\s*)?(?<w>\d+)(?:\s?(?:weeks?|w),?))?(?:(?:\sand\s|\s*)?(?<d>\d+)(?:\s?(?:days?|d),?))?(?:(?:\sand\s|\s*)?(?<h>\d+)(?:\s?(?:hours?|h),?))?(?:(?:\sand\s|\s*)?(?<m>\d+)(?:\s?(?:minutes?|mins?|m),?))?\s+(?:to:?\s+)?(?<what>(?:\r\n|[\r\n]|.)+)",
-        RegexOptions.Multiline | RegexOptions.Compiled)]
-    private static partial Regex MyRegex();
 }

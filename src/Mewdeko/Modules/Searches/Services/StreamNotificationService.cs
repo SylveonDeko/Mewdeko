@@ -76,7 +76,7 @@ public class StreamNotificationService : IReadyExecutor, INService
 
         offlineNotificationServers = uow.Set<GuildConfig>()
             .AsQueryable()
-            .Where(x => x.NotifyStreamOffline == 1L)
+            .Where(x => x.NotifyStreamOffline)
             .Select(x => x.GuildId)
             .ToList();
 
@@ -309,7 +309,7 @@ public class StreamNotificationService : IReadyExecutor, INService
             if (gc is null)
                 return Task.CompletedTask;
 
-            if (false.ParseBoth(gc.NotifyStreamOffline.ToString()))
+            if (gc.NotifyStreamOffline)
                 offlineNotificationServers.Add(gc.GuildId);
 
             foreach (var followedStream in gc.FollowedStreams)
@@ -513,16 +513,15 @@ public class StreamNotificationService : IReadyExecutor, INService
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set);
-        var newValue = gc.NotifyStreamOffline == 0L ? 1L : 0L;
-        gc.NotifyStreamOffline = newValue;
+        gc.NotifyStreamOffline = !gc.NotifyStreamOffline;
         await uow.SaveChangesAsync().ConfigureAwait(false);
 
-        if (newValue == 1L)
+        if (gc.NotifyStreamOffline)
             offlineNotificationServers.Add(guildId);
         else
             offlineNotificationServers.Remove(guildId);
 
-        return newValue == 1L;
+        return gc.NotifyStreamOffline;
     }
 
     /// <summary>

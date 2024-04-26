@@ -61,7 +61,7 @@ public class VerboseErrorsService : INService, IUnloadableService
         if (channel == null)
             return;
         var config = await guildSettings.GetGuildConfig(channel.GuildId);
-        if (config.VerboseErrors == 0)
+        if (!config.VerboseErrors)
             return;
         var perms = services.GetService<PermissionService>();
         var pc = await perms.GetCacheFor(channel.GuildId);
@@ -110,18 +110,12 @@ public class VerboseErrorsService : INService, IUnloadableService
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guildId, set => set);
-
-        long? longEnabled = enabled.HasValue ? enabled.Value ? 1L : 0L : null;
-
-        if (longEnabled == null)
-            longEnabled =
-                gc.VerboseErrors = gc.VerboseErrors == 0L ? 1L : 0L; // Old behaviour, now behind a condition
-        else gc.VerboseErrors = (long)longEnabled; // New behaviour, just set it.
+        gc.VerboseErrors = !gc.VerboseErrors;
 
         await guildSettings.UpdateGuildConfig(guildId, gc);
 
         await uow.SaveChangesAsync();
 
-        return (bool)enabled;
+        return gc.VerboseErrors;
     }
 }

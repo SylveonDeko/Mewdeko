@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mewdeko.Database.Models;
 
+[Table("WarningPunishment2")]
 public class WarningPunishment2 : DbEntity
 {
     [ForeignKey("GuildConfigId")]

@@ -14,13 +14,13 @@ public class GuildConfig : DbEntity
     public ulong StaffRole { get; set; }
     public ulong GameMasterRole { get; set; }
     public ulong CommandLogChannel { get; set; } = 0;
-    public long DeleteMessageOnCommand { get; set; }
+    public bool DeleteMessageOnCommand { get; set; } = false;
     public string? WarnMessage { get; set; } = "-";
     public HashSet<DelMsgOnCmdChannel> DelMsgOnCmdChannels { get; set; } = new();
     public string? AutoAssignRoleId { get; set; } = "0";
 
     public string XpImgUrl { get; set; }
-    public long StatsOptOut { get; set; } = 0;
+    public bool StatsOptOut { get; set; } = false;
     public string CurrencyName { get; set; } = "Coins";
 
     public string CurrencyEmoji { get; set; } = "💰";
@@ -30,16 +30,16 @@ public class GuildConfig : DbEntity
     public string GiveawayBanner { get; set; } = "";
     public string GiveawayEmbedColor { get; set; } = "";
     public string GiveawayWinEmbedColor { get; set; } = "";
-    public long DmOnGiveawayWin { get; set; } = 0;
+    public bool DmOnGiveawayWin { get; set; } = true;
     public string GiveawayEndMessage { get; set; } = "";
     public ulong GiveawayPingRole { get; set; } = 0;
 
     // Starboard
-    public long StarboardAllowBots { get; set; } = 1;
-    public long StarboardRemoveOnDelete { get; set; } = 0;
-    public long StarboardRemoveOnReactionsClear { get; set; } = 0;
-    public long StarboardRemoveOnBelowThreshold { get; set; } = 1;
-    public long UseStarboardBlacklist { get; set; } = 1;
+    public bool StarboardAllowBots { get; set; } = true;
+    public bool StarboardRemoveOnDelete { get; set; } = false;
+    public bool StarboardRemoveOnReactionsClear { get; set; } = false;
+    public bool StarboardRemoveOnBelowThreshold { get; set; } = true;
+    public bool UseStarboardBlacklist { get; set; } = true;
     public string? StarboardCheckChannels { get; set; } = "0";
 
     // Votes
@@ -49,10 +49,10 @@ public class GuildConfig : DbEntity
 
     // Suggestions
     public int SuggestionThreadType { get; set; } = 0;
-    public long ArchiveOnDeny { get; set; } = 0;
-    public long ArchiveOnAccept { get; set; } = 0;
-    public long ArchiveOnConsider { get; set; } = 0;
-    public long ArchiveOnImplement { get; set; } = 0;
+    public bool ArchiveOnDeny { get; set; } = false;
+    public bool ArchiveOnAccept { get; set; } = false;
+    public bool ArchiveOnConsider { get; set; } = false;
+    public bool ArchiveOnImplement { get; set; } = false;
     public string? SuggestButtonMessage { get; set; } = "-";
     public string? SuggestButtonName { get; set; } = "-";
     public string? SuggestButtonEmote { get; set; } = "-";
@@ -88,7 +88,7 @@ public class GuildConfig : DbEntity
     // public string? CurrencyName { get; set; }
     // public ulong MinBet { get; set; }
     // public ulong MaxBet { get; set; }
-    // public long CurrencyGenerationEnabled { get; set; }
+    // public bool CurrencyGenerationEnabled { get; set; }
     // public int CurrencyGenerationMaxAmount { get; set; }
     // public int CurrencyGenerationMinAmount { get; set; }
     // public int CurrencyGenerationCooldown { get; set; }
@@ -99,7 +99,7 @@ public class GuildConfig : DbEntity
     public string? AfkMessage { get; set; } = "-";
     public string? AutoBotRoleIds { get; set; }
     public int GBEnabled { get; set; } = 1;
-    public long GBAction { get; set; } = 1;
+    public bool GBAction { get; set; } = false;
     public ulong ConfessionLogChannel { get; set; } = 0;
     public ulong ConfessionChannel { get; set; } = 0;
     public string? ConfessionBlacklist { get; set; } = "0";
@@ -111,7 +111,7 @@ public class GuildConfig : DbEntity
     public string? GWinMessage { get; set; } = "none";
     public ulong WarnlogChannelId { get; set; } = 0;
     public ulong MiniWarnlogChannelId { get; set; } = 0;
-    public long SendBoostMessage { get; set; }
+    public bool SendBoostMessage { get; set; } = false;
     public string? GRolesBlacklist { get; set; } = "-";
     public string? GUsersBlacklist { get; set; } = "-";
     public string? BoostMessage { get; set; } = "%user% just boosted this server!";
@@ -120,7 +120,7 @@ public class GuildConfig : DbEntity
     public string? GiveawayEmote { get; set; } = "🎉";
     public ulong TicketChannel { get; set; } = 0;
     public ulong TicketCategory { get; set; } = 0;
-    public long snipeset { get; set; }
+    public bool snipeset { get; set; } = false;
     public int AfkLength { get; set; } = 250;
     public int XpTxtTimeout { get; set; }
     public int XpTxtRate { get; set; }
@@ -143,8 +143,8 @@ public class GuildConfig : DbEntity
     public int fwarn { get; set; }
     public int invwarn { get; set; }
     public int removeroles { get; set; }
-    public long AutoDeleteGreetMessages { get; set; }
-    public long AutoDeleteByeMessages { get; set; }
+    public bool AutoDeleteGreetMessages { get; set; } = false;
+    public bool AutoDeleteByeMessages { get; set; } = false;
     public int AutoDeleteGreetMessagesTimer { get; set; } = 30;
     public int AutoDeleteByeMessagesTimer { get; set; } = 30;
 
@@ -153,43 +153,40 @@ public class GuildConfig : DbEntity
     public string? GreetHook { get; set; } = "";
     public string? LeaveHook { get; set; } = "";
 
-    public long SendDmGreetMessage { get; set; }
+    public bool SendDmGreetMessage { get; set; } = false;
     public string? DmGreetMessageText { get; set; } = "Welcome to the %server% server, %user%!";
 
-    public long SendChannelGreetMessage { get; set; }
+    public bool SendChannelGreetMessage { get; set; } = false;
     public string? ChannelGreetMessageText { get; set; } = "Welcome to the %server% server, %user%!";
 
-    public long SendChannelByeMessage { get; set; }
+    public bool SendChannelByeMessage { get; set; } = false;
     public string? ChannelByeMessageText { get; set; } = "%user% has left!";
 
     public LogSetting LogSetting { get; set; } = new();
-    public long ExclusiveSelfAssignedRoles { get; set; }
-    public long AutoDeleteSelfAssignedRoleMessages { get; set; }
+    public bool ExclusiveSelfAssignedRoles { get; set; } = false;
+    public bool AutoDeleteSelfAssignedRoleMessages { get; set; } = false;
 
     [ForeignKey("LogSettingId")]
-    public int LogSettingId { get; set; }
+    public int? LogSettingId { get; set; }
 
     //stream notifications
     public HashSet<FollowedStream> FollowedStreams { get; set; } = new();
 
-    //currencyGeneration
-    public HashSet<GCChannelId> GenerateCurrencyChannelIds { get; set; } = new();
-
     //permissions
     public List<Permissionv2> Permissions { get; set; }
-    public long VerbosePermissions { get; set; } = 1;
+    public bool VerbosePermissions { get; set; } = true;
     public string? PermissionRole { get; set; } = null;
 
     public HashSet<CommandCooldown> CommandCooldowns { get; set; } = new();
 
     //filtering
-    public long FilterInvites { get; set; }
-    public long FilterLinks { get; set; }
+    public bool FilterInvites { get; set; } = false;
+    public bool FilterLinks { get; set; } = false;
     public HashSet<FilterInvitesChannelIds> FilterInvitesChannelIds { get; set; } = new();
     public HashSet<FilterLinksChannelId> FilterLinksChannelIds { get; set; } = new();
 
 
-    public long FilterWords { get; set; }
+    public bool FilterWords { get; set; } = false;
     public HashSet<FilteredWord> FilteredWords { get; set; } = new();
     public HashSet<FilterWordsChannelIds> FilterWordsChannelIds { get; set; } = new();
 
@@ -211,19 +208,18 @@ public class GuildConfig : DbEntity
     public HashSet<VcRoleInfo> VcRoleInfos { get; set; }
     public HashSet<CommandAlias> CommandAliases { get; set; } = new();
     public List<WarningPunishment> WarnPunishments { get; set; } = new();
-    public long WarningsInitialized { get; set; }
+    public bool WarningsInitialized { get; set; } = false;
     public HashSet<NsfwBlacklitedTag> NsfwBlacklistedTags { get; set; } = new();
 
-    public List<ShopEntry> ShopEntries { get; set; }
     public ulong? GameVoiceChannel { get; set; } = null;
-    public long VerboseErrors { get; set; } = 1;
+    public bool VerboseErrors { get; set; } = true;
 
     public StreamRoleSettings StreamRole { get; set; }
 
     public XpSettings? XpSettings { get; set; }
     public List<FeedSub> FeedSubs { get; set; } = new();
     public IndexedCollection<ReactionRoleMessage> ReactionRoleMessages { get; set; } = new();
-    public long NotifyStreamOffline { get; set; }
+    public bool NotifyStreamOffline { get; set; } = false;
     public List<GroupName> SelfAssignableRoleGroupNames { get; set; }
     public int WarnExpireHours { get; set; } = 0;
     public WarnExpireAction WarnExpireAction { get; set; } = WarnExpireAction.Clear;

@@ -141,7 +141,7 @@ public class SlashRemindCommands(DbService db, GuildTimezoneService tz) : Mewdek
         var rem = new Reminder
         {
             ChannelId = targetId,
-            IsPrivate = isPrivate ? 1 : 0,
+            IsPrivate = isPrivate,
             When = time,
             Message = message,
             UserId = ctx.User.Id,
@@ -208,9 +208,11 @@ public class SlashRemindCommands(DbService db, GuildTimezoneService tz) : Mewdek
                 var diff = when - DateTime.UtcNow;
                 embed.AddField(
                     $"#{++i + (page * 10)} {rem.When:HH:mm yyyy-MM-dd} UTC (in {(int)diff.TotalHours}h {diff.Minutes}m)",
-                    $@"`Target:` {(false.ParseBoth(rem.IsPrivate) ? "DM" : "Channel")}
-`TargetId:` {rem.ChannelId}
-`Message:` {rem.Message?.TrimTo(50)}");
+                    $"""
+                     `Target:` {((rem.IsPrivate) ? "DM" : "Channel")}
+                     `TargetId:` {rem.ChannelId}
+                     `Message:` {rem.Message?.TrimTo(50)}
+                     """);
             }
         }
         else

@@ -1,7 +1,9 @@
-﻿using Discord;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Discord;
 
 namespace Mewdeko.Database.Models;
 
+[Table("RotatingStatus")]
 public class RotatingPlayingStatus : DbEntity
 {
     public string Status { get; set; }

@@ -16,7 +16,7 @@ public class Permission : DbEntity
     public SecondaryPermissionType SecondaryTarget { get; set; }
     public string SecondaryTargetName { get; set; }
 
-    public long State { get; set; }
+    public bool State { get; set; }
 }
 
 public interface IIndexed
@@ -36,9 +36,9 @@ public class Permissionv2 : DbEntity, IIndexed
     public SecondaryPermissionType SecondaryTarget { get; set; }
     public string SecondaryTargetName { get; set; }
 
-    public long IsCustomCommand { get; set; }
+    public bool IsCustomCommand { get; set; } = false;
 
-    public long State { get; set; }
+    public bool State { get; set; }
 
     [NotMapped]
     public static Permissionv2 AllowAllPerm => new()
@@ -47,7 +47,7 @@ public class Permissionv2 : DbEntity, IIndexed
         PrimaryTargetId = 0,
         SecondaryTarget = SecondaryPermissionType.AllModules,
         SecondaryTargetName = "*",
-        State = 1,
+        State = true,
         Index = 0
     };
 

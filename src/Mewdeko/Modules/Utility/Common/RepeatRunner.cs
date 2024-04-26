@@ -204,7 +204,7 @@ public class RepeatRunner
                 return;
             }
 
-            if (Repeater.NoRedundant == 1)
+            if (Repeater.NoRedundant)
             {
                 var lastMsgInChannel = (await Channel.GetMessagesAsync(2).FlattenAsync().ConfigureAwait(false))
                     .FirstOrDefault();
@@ -244,7 +244,7 @@ public class RepeatRunner
                 newMsg = await Channel.SendMessageAsync(rep.Replace(toSend)).ConfigureAwait(false);
             }
 
-            if (Repeater.NoRedundant == 1)
+            if (Repeater.NoRedundant)
             {
                 mrs.SetRepeaterLastMessage(Repeater.Id, newMsg.Id);
                 Repeater.LastMessageId = newMsg.Id;
@@ -285,6 +285,6 @@ public class RepeatRunner
     {
         TimeSpan.TryParse(Repeater.Interval, out var interval);
         return
-            $"{Channel?.Mention ?? $"⚠<#{Repeater.ChannelId}>"} {(Repeater.NoRedundant == 1 ? "| ✍" : "")}| {interval.TotalHours}:{interval:mm} | {Repeater.Message.TrimTo(33)}";
+            $"{Channel?.Mention ?? $"⚠<#{Repeater.ChannelId}>"} {(Repeater.NoRedundant ? "| ✍" : "")}| {interval.TotalHours}:{interval:mm} | {Repeater.Message.TrimTo(33)}";
     }
 }

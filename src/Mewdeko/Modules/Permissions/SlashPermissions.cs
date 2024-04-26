@@ -9,6 +9,7 @@ using Mewdeko.Common.Autocompleters;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
+using Swan;
 using ContextType = Discord.Interactions.ContextType;
 using TextUserPermAttribute = Mewdeko.Common.Attributes.TextCommands.UserPermAttribute;
 
@@ -20,8 +21,6 @@ namespace Mewdeko.Modules.Permissions;
 [Discord.Interactions.Group("permissions", "Change or view command permissions.")]
 public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 {
-    private readonly GuildSettingsService guildSettings;
-
     /// <summary>
     /// Enum for permission control.
     /// </summary>
@@ -49,11 +48,13 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         Reset
     }
 
+    private readonly CommandService cmdServe;
+
 
     private readonly DbService db;
-    private readonly InteractiveService interactivity;
     private readonly DiscordPermOverrideService dpoS;
-    private readonly CommandService cmdServe;
+    private readonly GuildSettingsService guildSettings;
+    private readonly InteractiveService interactivity;
 
     /// <summary>
     /// Initializes a new instance of the SlashPermissions class.
@@ -111,7 +112,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         await using (uow.ConfigureAwait(false))
         {
             var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
-            config.VerbosePermissions = Convert.ToBoolean(action) ? 1 : 0;
+            config.VerbosePermissions = action.Value.ToBoolean();
             await uow.SaveChangesAsync().ConfigureAwait(false);
             Service.UpdateCache(config);
         }
@@ -281,8 +282,8 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = 0,
             SecondaryTarget = SecondaryPermissionType.Command,
             SecondaryTargetName = command.ToLowerInvariant(),
-            State = Convert.ToBoolean((int)action) ? 1 : 0,
-            IsCustomCommand = 0
+            State = action.ToBoolean(),
+            IsCustomCommand = false
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -324,7 +325,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = 0,
             SecondaryTarget = SecondaryPermissionType.Module,
             SecondaryTargetName = module.ToLowerInvariant(),
-            State = Convert.ToBoolean((int)action) ? 1 : 0
+            State = action.ToBoolean()
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -365,8 +366,8 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = user.Id,
             SecondaryTarget = SecondaryPermissionType.Command,
             SecondaryTargetName = command.ToLowerInvariant(),
-            State = Convert.ToBoolean((int)action) ? 1 : 0,
-            IsCustomCommand = 0
+            State = action.ToBoolean(),
+            IsCustomCommand = true
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -409,7 +410,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = user.Id,
             SecondaryTarget = SecondaryPermissionType.Module,
             SecondaryTargetName = module.ToLowerInvariant(),
-            State = Convert.ToBoolean((int)action) ? 1 : 0
+            State = action.ToBoolean()
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -455,8 +456,8 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = role.Id,
             SecondaryTarget = SecondaryPermissionType.Command,
             SecondaryTargetName = command.ToLowerInvariant(),
-            State = Convert.ToBoolean((int)action) ? 1 : 0,
-            IsCustomCommand = 0
+            State = action.ToBoolean(),
+            IsCustomCommand = true
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -502,7 +503,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = role.Id,
             SecondaryTarget = SecondaryPermissionType.Module,
             SecondaryTargetName = module.ToLowerInvariant(),
-            State = Convert.ToBoolean((int)action) ? 1 : 0
+            State = action.ToBoolean()
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -545,8 +546,8 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = chnl.Id,
             SecondaryTarget = SecondaryPermissionType.Command,
             SecondaryTargetName = command.ToLowerInvariant(),
-            State = Convert.ToBoolean((int)action) ? 1 : 0,
-            IsCustomCommand = 0
+            State = action.ToBoolean(),
+            IsCustomCommand = true
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -589,7 +590,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = chnl.Id,
             SecondaryTarget = SecondaryPermissionType.Module,
             SecondaryTargetName = module.ToLowerInvariant(),
-            State = Convert.ToBoolean((int)action) ? 1 : 0
+            State = action.ToBoolean()
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -628,7 +629,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = chnl.Id,
             SecondaryTarget = SecondaryPermissionType.AllModules,
             SecondaryTargetName = "*",
-            State = Convert.ToBoolean((int)action) ? 1 : 0
+            State = action.ToBoolean()
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -667,8 +668,8 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = chnl.Id,
             SecondaryTarget = SecondaryPermissionType.Command,
             SecondaryTargetName = command.ToLowerInvariant(),
-            State = Convert.ToBoolean((int)action) ? 1 : 0,
-            IsCustomCommand = 0
+            State = action.ToBoolean(),
+            IsCustomCommand = true
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -711,7 +712,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = chnl.Id,
             SecondaryTarget = SecondaryPermissionType.Module,
             SecondaryTargetName = module.ToLowerInvariant(),
-            State = Convert.ToBoolean((int)action) ? 1 : 0
+            State = action.ToBoolean()
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -749,7 +750,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = chnl.Id,
             SecondaryTarget = SecondaryPermissionType.AllModules,
             SecondaryTargetName = "*",
-            State = Convert.ToBoolean((int)action) ? 1 : 0
+            State = action.ToBoolean()
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -786,7 +787,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = role.Id,
             SecondaryTarget = SecondaryPermissionType.AllModules,
             SecondaryTargetName = "*",
-            State = Convert.ToBoolean((int)action) ? 1 : 0
+            State = action.ToBoolean()
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -820,7 +821,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = user.Id,
             SecondaryTarget = SecondaryPermissionType.AllModules,
             SecondaryTargetName = "*",
-            State = Convert.ToBoolean((int)action) ? 1 : 0
+            State = action.ToBoolean()
         }).ConfigureAwait(false);
 
         if (Convert.ToBoolean((int)action))
@@ -854,7 +855,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = 0,
             SecondaryTarget = SecondaryPermissionType.AllModules,
             SecondaryTargetName = "*",
-            State = Convert.ToBoolean((int)action) ? 1 : 0
+            State = action.ToBoolean()
         };
 
         var allowUser = new Permissionv2
@@ -863,7 +864,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             PrimaryTargetId = ctx.User.Id,
             SecondaryTarget = SecondaryPermissionType.AllModules,
             SecondaryTargetName = "*",
-            State = 1
+            State = true
         };
 
         await Service.AddPermissions(ctx.Guild.Id,
@@ -939,7 +940,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             return;
         }
 
-        if (effecting.Any(x => x.PrimaryTarget == PrimaryPermissionType.Server && x.State == 0))
+        if (effecting.Any(x => x.PrimaryTarget == PrimaryPermissionType.Server && !x.State))
             cb.WithButton(GetText("perm_quick_options_disable_disabled"), $"command_toggle_disable.{commandName}",
                 ButtonStyle.Success,
                 "<:perms_check:1085356998247317514>".ToIEmote());
@@ -1147,7 +1148,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var sc = perms
             .FirstOrDefault(x => x.PrimaryTarget == PrimaryPermissionType.Server, null);
 
-        if (sc is not null && sc.State == 1)
+        if (sc is not null && sc.State)
         {
             await Service.RemovePerm(ctx.Guild.Id, sc.Index);
             sc = null;
@@ -1158,12 +1159,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 GuildConfigId = uow.ForGuildId(ctx.Guild.Id).Id,
-                IsCustomCommand = 0,
+                IsCustomCommand = true,
                 PrimaryTarget = PrimaryPermissionType.Server,
                 PrimaryTargetId = 0,
                 SecondaryTarget = SecondaryPermissionType.Command,
                 SecondaryTargetName = commandName,
-                State = 0
+                State = false
             });
 
             // reset local cache
@@ -1379,7 +1380,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         perms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.User)
-            .Where(x => x.State == 1)
+            .Where(x => x.State)
             .ToList();
         // chunk into groups of 25, take first three
         var splitGroups = perms
@@ -1458,7 +1459,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         perms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.User)
-            .Where(x => x.State == 1)
+            .Where(x => x.State)
             .ToList();
         // chunk into groups of 25, take first three
         var splitGroups = perms
@@ -1505,7 +1506,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var matchingPerms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.User)
-            .Where(x => x.State == 1)
+            .Where(x => x.State)
             .ToList();
 
         var needMod = values.Where(x => !matchingPerms.Any(y => y.PrimaryTargetId == x.Id));
@@ -1518,12 +1519,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         var trueAdd = needAdd.Select(x => new Permissionv2
         {
-            IsCustomCommand = 0,
+            IsCustomCommand = true,
             PrimaryTarget = PrimaryPermissionType.User,
             PrimaryTargetId = x.Id,
             SecondaryTarget = SecondaryPermissionType.Command,
             SecondaryTargetName = commandName,
-            State = 1
+            State = true
         });
         await Service.AddPermissions(ctx.Guild.Id, trueAdd.ToArray());
 
@@ -1605,7 +1606,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         perms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.Role)
-            .Where(x => x.State == 1)
+            .Where(x => x.State)
             .ToList();
         // chunk into groups of 25, take first three
         var splitGroups = perms
@@ -1682,7 +1683,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         perms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.Role)
-            .Where(x => x.State == 1)
+            .Where(x => x.State)
             .ToList();
         // chunk into groups of 25, take first three
         var splitGroups = perms
@@ -1725,7 +1726,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var matchingPerms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.Role)
-            .Where(x => x.State == 1)
+            .Where(x => x.State)
             .ToList();
 
         var needMod = values.Where(x => !matchingPerms.Any(y => y.PrimaryTargetId == x.Id));
@@ -1738,12 +1739,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         var trueAdd = needAdd.Select(x => new Permissionv2
         {
-            IsCustomCommand = 0,
+            IsCustomCommand = true,
             PrimaryTarget = PrimaryPermissionType.Role,
             PrimaryTargetId = x.Id,
             SecondaryTarget = SecondaryPermissionType.Command,
             SecondaryTargetName = commandName,
-            State = 1
+            State = true
         });
         await Service.AddPermissions(ctx.Guild.Id, trueAdd.ToArray());
 
@@ -1805,7 +1806,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         perms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.Channel)
-            .Where(x => x.State == 1)
+            .Where(x => x.State)
             .ToList();
         // chunk into groups of 25, take first three
         var splitGroups = perms
@@ -1885,7 +1886,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         perms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.Channel)
-            .Where(x => x.State == 1)
+            .Where(x => x.State)
             .ToList();
         // chunk into groups of 25, take first three
         var splitGroups = perms
@@ -1932,7 +1933,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var matchingPerms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.Channel)
-            .Where(x => x.State == 1)
+            .Where(x => x.State)
             .ToList();
 
         var needMod = values.Where(x => !matchingPerms.Any(y => y.PrimaryTargetId == x.Id));
@@ -1945,12 +1946,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         var trueAdd = needAdd.Select(x => new Permissionv2
         {
-            IsCustomCommand = 0,
+            IsCustomCommand = true,
             PrimaryTarget = PrimaryPermissionType.Channel,
             PrimaryTargetId = x.Id,
             SecondaryTarget = SecondaryPermissionType.Command,
             SecondaryTargetName = commandName,
-            State = 1
+            State = true
         });
         await Service.AddPermissions(ctx.Guild.Id, trueAdd.ToArray());
 
@@ -2013,7 +2014,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         perms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.Category)
-            .Where(x => x.State == 1)
+            .Where(x => x.State)
             .ToList();
         // chunk into groups of 25, take first three
         var splitGroups = perms
@@ -2095,7 +2096,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         perms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.Category)
-            .Where(x => x.State == 1)
+            .Where(x => x.State)
             .ToList();
         // chunk into groups of 25, take first three
         var splitGroups = perms
@@ -2142,7 +2143,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var matchingPerms = perms
             .Where(x => x.SecondaryTargetName == commandName)
             .Where(x => x.PrimaryTarget == PrimaryPermissionType.Category)
-            .Where(x => x.State == 1)
+            .Where(x => x.State)
             .ToList();
 
         var needMod = values.Where(x => !matchingPerms.Any(y => y.PrimaryTargetId == x.Id));
@@ -2155,12 +2156,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         var trueAdd = needAdd.Select(x => new Permissionv2
         {
-            IsCustomCommand = 0,
+            IsCustomCommand = true,
             PrimaryTarget = PrimaryPermissionType.Category,
             PrimaryTargetId = x.Id,
             SecondaryTarget = SecondaryPermissionType.Command,
             SecondaryTargetName = commandName,
-            State = 1
+            State = true
         });
         await Service.AddPermissions(ctx.Guild.Id, trueAdd.ToArray());
 

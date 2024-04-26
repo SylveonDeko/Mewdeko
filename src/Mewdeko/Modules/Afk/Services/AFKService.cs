@@ -161,7 +161,7 @@ public class AfkService : INService, IReadyExecutor
                 .ToLinqToDB()
                 .Where(x =>
                     (int)(x.GuildId / (ulong)Math.Pow(2, 22) % (ulong)creds.TotalShards) == client.ShardId &&
-                    x.When < now && x.WasTimed == 1)
+                    x.When < now && x.WasTimed)
                 .ToList();
         }
         else // For other database providers
@@ -193,7 +193,7 @@ public class AfkService : INService, IReadyExecutor
         }
 
         // Reset the user's AFK status
-        await AfkSet(afk.GuildId, afk.UserId, "", 0);
+        await AfkSet(afk.GuildId, afk.UserId, "", false);
 
         // Retrieve the guild and user
         var guild = client.GetGuild(afk.GuildId);
@@ -252,10 +252,10 @@ public class AfkService : INService, IReadyExecutor
                 if (afkEntry.DateAdded != null &&
                     afkEntry.DateAdded.Value.ToLocalTime() <
                     DateTime.Now.AddSeconds(-await GetAfkTimeout(use.GuildId)) &&
-                    afkEntry.WasTimed == 0)
+                    afkEntry.WasTimed)
                 {
                     // Disable the user's AFK status
-                    await AfkSet(use.Guild.Id, use.Id, "", 0).ConfigureAwait(false);
+                    await AfkSet(use.Guild.Id, use.Id, "", false).ConfigureAwait(false);
                     // Send a message in the channel indicating the user is back from AFK
                     var msg = await chan.Value
                         .SendMessageAsync(
@@ -307,10 +307,10 @@ public class AfkService : INService, IReadyExecutor
                         // Check if the AFK entry was set less than the AFK timeout and was not timed
                         if (afk.DateAdded != null &&
                             afk.DateAdded.Value.ToLocalTime() <
-                            DateTime.Now.AddSeconds(-await GetAfkTimeout(user.GuildId)) && afk.WasTimed == 0)
+                            DateTime.Now.AddSeconds(-await GetAfkTimeout(user.GuildId)) && !afk.WasTimed)
                         {
                             // Disable the user's AFK status
-                            await AfkSet(user.Guild.Id, user.Id, "", 0).ConfigureAwait(false);
+                            await AfkSet(user.Guild.Id, user.Id, "", false).ConfigureAwait(false);
 
                             // Send a message in the channel indicating the user is back from AFK
                             var ms = await msg.Channel
@@ -656,7 +656,7 @@ public class AfkService : INService, IReadyExecutor
     /// <param name="message">The AFK message.</param>
     /// <param name="timed">Whether the AFK is timed.</param>
     /// <param name="when">The time when the AFK was set.</param>
-    public async Task AfkSet(ulong guildId, ulong userId, string message, int timed, DateTime when = new())
+    public async Task AfkSet(ulong guildId, ulong userId, string message, bool timed = false, DateTime when = new())
     {
         var afk = new Database.Models.Afk
         {

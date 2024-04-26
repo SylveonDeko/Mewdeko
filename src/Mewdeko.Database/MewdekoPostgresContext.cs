@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace Mewdeko.Database;
 
-public sealed class MewdekoPostgresContext(string connStr) : MewdekoContext
+public sealed class MewdekoPostgresContext(string connStr = "") : MewdekoContext
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -10,6 +12,10 @@ public sealed class MewdekoPostgresContext(string connStr) : MewdekoContext
 
         base.OnConfiguring(optionsBuilder);
         optionsBuilder
+            .LogTo(Log.Information, LogLevel.Error)
+            .EnableDetailedErrors()
+            .EnableSensitiveDataLogging()
+            .EnableServiceProviderCaching()
             .UseNpgsql(connStr);
     }
 }

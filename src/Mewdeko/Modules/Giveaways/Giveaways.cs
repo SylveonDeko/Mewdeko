@@ -169,10 +169,10 @@ public partial class Giveaways(
     public async Task GDm()
     {
         var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
-        gc.DmOnGiveawayWin = gc.DmOnGiveawayWin == 0 ? 1 : 0;
+        gc.DmOnGiveawayWin = !gc.DmOnGiveawayWin;
         await guildSettings.UpdateGuildConfig(Context.Guild.Id, gc);
         await ctx.Channel.SendConfirmAsync(
-                $"Giveaway DMs set to {gc.DmOnGiveawayWin == 1}! Just keep in mind this doesn't update until the next giveaway.")
+                $"Giveaway DMs set to {gc.DmOnGiveawayWin}! Just keep in mind this doesn't update until the next giveaway.")
             .ConfigureAwait(false);
     }
 

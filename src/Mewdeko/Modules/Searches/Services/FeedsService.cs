@@ -35,6 +35,12 @@ public class FeedsService : INService
     }
 
 
+    private async Task<GuildConfig> GetGuildConfigFromId(int guildConfigId)
+    {
+        using var uow = db.GetDbContext();
+        return await uow.GuildConfigs.AsQueryable().FirstOrDefaultAsync(x => x.Id == guildConfigId);
+    }
+
     /// <summary>
     /// Tracks RSS feeds for updates and sends notifications to subscribed channels.
     /// </summary>
@@ -174,10 +180,10 @@ public class FeedsService : INService
                             embed.WithDescription(desc.TrimTo(2048));
 
                         //send the created embed to all subscribed channels
-                        var feedSendTasks = value.Where(x => x.GuildConfig != null);
-                        foreach (var feed1 in feedSendTasks)
+                        foreach (var feed1 in value)
                         {
-                            var channel = client.GetGuild(feed1.GuildConfig.GuildId).GetTextChannel(feed1.ChannelId);
+                            var guildConfig = await GetGuildConfigFromId(feed1.GuildConfigId);
+                            var channel = client.GetGuild(guildConfig.GuildId).GetTextChannel(feed1.ChannelId);
                             if (channel is null)
                                 continue;
                             var (builder, content, componentBuilder) =

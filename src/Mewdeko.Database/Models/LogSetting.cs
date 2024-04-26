@@ -3,7 +3,6 @@
 public class LogSetting : DbEntity
 {
     public HashSet<IgnoredLogChannel> IgnoredChannels { get; set; } = new();
-    public HashSet<IgnoredVoicePresenceChannel> IgnoredVoicePresenceChannelIds { get; set; } = new();
 
     public ulong? LogOtherId { get; set; } = 0;
     public ulong? MessageUpdatedId { get; set; } = 0;

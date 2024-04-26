@@ -5,7 +5,7 @@ namespace Mewdeko.Database.Models;
 public class DelMsgOnCmdChannel : DbEntity
 {
     public ulong ChannelId { get; set; }
-    public long State { get; set; }
+    public bool State { get; set; } = true;
 
     [ForeignKey("GuildConfigId")]
     public int GuildConfigId { get; set; }

@@ -10,10 +10,10 @@ namespace Mewdeko.Modules.Utility.Services;
 /// </summary>
 public partial class UtilityService : INService
 {
-    private readonly DbService db;
     private readonly IDataCache cache;
-    private readonly GuildSettingsService guildSettings;
     private readonly DiscordSocketClient client;
+    private readonly DbService db;
+    private readonly GuildSettingsService guildSettings;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="UtilityService"/> class.
@@ -89,7 +89,7 @@ public partial class UtilityService : INService
     /// <param name="id">The ID of the guild to check.</param>
     /// <returns>A task that represents the asynchronous operation, containing a boolean indicating if snipe set is enabled.</returns>
     public async Task<bool> GetSnipeSet(ulong id) =>
-        false.ParseBoth((await guildSettings.GetGuildConfig(id)).snipeset.ToString());
+        (await guildSettings.GetGuildConfig(id)).snipeset;
 
     /// <summary>
     /// Sets the snipe set status for a specific guild.
@@ -100,7 +100,7 @@ public partial class UtilityService : INService
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
-        gc.snipeset = enabled ? 1L : 0L; // Converting bool to long
+        gc.snipeset = enabled; // Converting bool to long
         await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }

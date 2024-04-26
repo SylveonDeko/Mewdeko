@@ -2,6 +2,7 @@
 
 namespace Mewdeko.Database.Models;
 
+[Table("WarningPunishment")]
 public class WarningPunishment : DbEntity
 {
     [ForeignKey("GuildConfigId")]

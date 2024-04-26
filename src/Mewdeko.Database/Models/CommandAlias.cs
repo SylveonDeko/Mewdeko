@@ -2,13 +2,14 @@
 
 namespace Mewdeko.Database.Models;
 
+[Table("CommandAlias")]
 public class CommandAlias : DbEntity
 {
     public string Trigger { get; set; }
     public string Mapping { get; set; }
 
     [ForeignKey("GuildConfigId")]
-    public int GuildConfigId { get; set; }
+    public int? GuildConfigId { get; set; }
 
     //// override object.Equals
     //public override bool Equals(object obj)

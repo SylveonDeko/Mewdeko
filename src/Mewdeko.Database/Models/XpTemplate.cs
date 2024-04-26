@@ -23,7 +23,7 @@ public class Template : DbEntity
     public int AwardedY { get; set; } = 347;
     public int AwardedFontSize { get; set; } = 25;
     public string AwardedColor { get; set; } = "ffffffff";
-    public bool ShowAwarded { get; set; }
+    public bool ShowAwarded { get; set; } = false;
 
     // Navigation Properties
     [ForeignKey("TemplateUserId")]
