@@ -75,23 +75,11 @@ public partial class RemindService : INService
     private async Task<List<Reminder>> GetRemindersBeforeAsync(DateTime now)
     {
         await using var uow = db.GetDbContext();
-        List<Reminder> reminders;
 
-        if (uow.Database.IsNpgsql())
-        {
-            reminders = await uow.Reminders
-                .Where(x => (int)(x.ServerId / (ulong)Math.Pow(2, 22) % (ulong)creds.TotalShards) == client.ShardId &&
-                            x.When < now)
-                .ToListAsync();
-        }
-        else
-        {
-            reminders = await uow.Reminders
-                .FromSqlInterpolated(
-                    $"select * from reminders where ((ServerId >> 22) % {creds.TotalShards}) = {client.ShardId} and \"when\" < {now};")
-                .ToListAsync();
-        }
-
+        var reminders = await uow.Reminders
+            .Where(x => (int)(x.ServerId / (ulong)Math.Pow(2, 22) % (ulong)creds.TotalShards) == client.ShardId &&
+                        x.When < now)
+            .ToListAsync();
         return reminders;
     }
 

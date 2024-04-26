@@ -3,7 +3,6 @@ using Humanizer;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Services.Settings;
-using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace Mewdeko.Modules.Afk.Services;
@@ -151,27 +150,14 @@ public class AfkService : INService, IReadyExecutor
     private IEnumerable<Database.Models.Afk> GetAfkBeforeAsync(DateTime now)
     {
         using var uow = db.GetDbContext();
-        IEnumerable<Database.Models.Afk> afks;
 
-        // Check if the database provider is Npgsql (PostgreSQL)
-        if (uow.Database.IsNpgsql())
-        {
-            // Retrieve timed AFKs using LINQ to DB query because Npgsql is ⭐ special ⭐
-            afks = uow.Afk
+        IEnumerable<Database.Models.Afk> afks =
+            uow.Afk
                 .ToLinqToDB()
                 .Where(x =>
                     (int)(x.GuildId / (ulong)Math.Pow(2, 22) % (ulong)creds.TotalShards) == client.ShardId &&
                     x.When < now && x.WasTimed)
                 .ToList();
-        }
-        else // For other database providers
-        {
-            // Retrieve timed AFKs using raw SQL query
-            afks = uow.Afk
-                .FromSqlInterpolated(
-                    $"select * from AFK where ((GuildId >> 22) % {creds.TotalShards}) = {client.ShardId} and \"WasTimed\" = 1 and \"when\" < {now};")
-                .ToList();
-        }
 
         return afks;
     }

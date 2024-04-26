@@ -661,7 +661,7 @@ namespace Mewdeko.Database.Migrations.PostgreSql
                     GuildId = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
                     RoleId = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
                     ChannelId = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
-                    GreetBots = table.Column<long>(type: "bigint", nullable: false),
+                    GreetBots = table.Column<bool>(type: "boolean", nullable: false),
                     Message = table.Column<string>(type: "text", nullable: true),
                     DeleteTime = table.Column<int>(type: "integer", nullable: false),
                     WebhookUrl = table.Column<string>(type: "text", nullable: true),
@@ -1040,7 +1040,7 @@ namespace Mewdeko.Database.Migrations.PostgreSql
                     GuildId = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
                     UserId = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
                     Reason = table.Column<string>(type: "text", nullable: true),
-                    Forgiven = table.Column<long>(type: "bigint", nullable: false),
+                    Forgiven = table.Column<bool>(type: "boolean", nullable: false),
                     ForgivenBy = table.Column<string>(type: "text", nullable: true),
                     Moderator = table.Column<string>(type: "text", nullable: true),
                     DateAdded = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)

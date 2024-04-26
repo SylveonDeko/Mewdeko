@@ -1,7 +1,6 @@
 ﻿using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
-using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Swan;
 
@@ -122,24 +121,13 @@ public class GiveawayService(
     private IEnumerable<Database.Models.Giveaways> GetGiveawaysBeforeAsync(DateTime now)
     {
         using var uow = db.GetDbContext();
-        IEnumerable<Database.Models.Giveaways> giveaways;
 
-        if (uow.Database.IsNpgsql())
-        {
+        IEnumerable<Database.Models.Giveaways> giveaways =
             // Linq to db queries because npgsql is special, again.
-            giveaways = uow.Giveaways
+            uow.Giveaways
                 .ToLinqToDB()
                 .Where(x => (int)(x.ServerId / (ulong)Math.Pow(2, 22) % (ulong)creds.TotalShards) == client.ShardId &&
                             x.Ended != 1 && x.When < now).ToList();
-        }
-
-        else
-        {
-            giveaways = uow.Giveaways
-                .FromSqlInterpolated(
-                    $"select * from Giveaways where ((ServerId >> 22) % {creds.TotalShards}) = {client.ShardId} and ended = 0 and \"when\" < {now};")
-                .ToList();
-        }
 
         return giveaways;
     }
