@@ -2,6 +2,8 @@
 
 // ReSharper disable UnassignedGetOnlyAutoProperty
 
+// ReSharper disable AssignNullToNotNullAttribute
+
 namespace Mewdeko.Common.DiscordImplementations;
 
 /// <summary>

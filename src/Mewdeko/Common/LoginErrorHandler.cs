@@ -60,7 +60,7 @@ namespace Mewdeko.Common
             }
 
             // Log the exception details
-            Log.Fatal(ex.ToString());
+            Log.Fatal(ex, "Another exception occured");
         }
     }
 }

@@ -957,13 +957,13 @@ public partial class Searches(
     /// <summary>
     /// Performs a reverse image search using an avatar link.
     /// </summary>
-    /// <param name="imageLink">The direct URL of the image to search for.</param>
+    /// <param name="usr">The user whos avatar to reverse search</param>
     /// <remarks>
     /// This command utilizes Google, TinEye, and Yandex reverse image search engines to find similar images or the source of the given image.
     /// It provides links to the search results on each platform, offering users multiple avenues to explore related or source images.
     /// </remarks>
     /// <example>
-    /// <code>.revimg @user</code>
+    /// <code>.revav @user</code>
     /// </example>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public Task Revav([Remainder] IGuildUser? usr = null)
@@ -1308,26 +1308,6 @@ public partial class Searches(
     }
 
     /// <summary>
-    /// Represents the response data from a URL shortening service.
-    /// </summary>
-    /// <remarks>
-    /// This class is designed to capture the shortened URL result from a URL shortening service's API response.
-    /// It is utilized in the process of shortening URLs to make them more manageable and shareable.
-    /// The `result_url` property in the JSON response maps to the `ResultUrl` property in this class.
-    /// </remarks>
-    public class ShortenData
-    {
-        /// <summary>
-        /// Gets or sets the shortened URL result from the URL shortening service.
-        /// </summary>
-        /// <value>
-        /// The shortened URL as a string.
-        /// </value>
-        [JsonProperty("result_url")]
-        public string ResultUrl { get; set; }
-    }
-
-    /// <summary>
     /// Demonstrates localized string responses in commands for testing purposes.
     /// </summary>
     /// <param name="input">The input string to localize, followed by optional arguments separated by "|".</param>
@@ -1350,5 +1330,25 @@ public partial class Searches(
         }
 
         await ConfirmLocalizedAsync(sp[0], sp.Skip(1).ToArray());
+    }
+
+    /// <summary>
+    /// Represents the response data from a URL shortening service.
+    /// </summary>
+    /// <remarks>
+    /// This class is designed to capture the shortened URL result from a URL shortening service's API response.
+    /// It is utilized in the process of shortening URLs to make them more manageable and shareable.
+    /// The `result_url` property in the JSON response maps to the `ResultUrl` property in this class.
+    /// </remarks>
+    public class ShortenData
+    {
+        /// <summary>
+        /// Gets or sets the shortened URL result from the URL shortening service.
+        /// </summary>
+        /// <value>
+        /// The shortened URL as a string.
+        /// </value>
+        [JsonProperty("result_url")]
+        public string ResultUrl { get; set; }
     }
 }

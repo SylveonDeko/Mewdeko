@@ -36,6 +36,7 @@ public class ChatterBotService : INService
     /// <param name="blacklistService">The blacklist service.</param>
     /// <param name="guildSettings">The guild settings service.</param>
     /// <param name="eventHandler">The event handler.</param>
+    /// <param name="config">Bot config service</param>
     public ChatterBotService(DiscordSocketClient client, IHttpClientFactory factory,
         IBotCredentials creds, DbService db,
         BlacklistService blacklistService,

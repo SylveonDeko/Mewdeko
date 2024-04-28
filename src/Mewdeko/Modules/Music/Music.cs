@@ -564,6 +564,7 @@ public class Music(
 
         async Task<PageBuilder> PageFactory(int index)
         {
+            await Task.CompletedTask;
             var tracks = queue.OrderBy(x => x.Index).Skip(index * 10).Take(10).ToList();
             var sb = new StringBuilder();
             foreach (var track in tracks)

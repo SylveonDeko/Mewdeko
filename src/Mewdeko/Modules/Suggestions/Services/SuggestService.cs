@@ -63,6 +63,7 @@ public class SuggestionsService : INService
     /// <param name="permserv">Service for managing permissions.</param>
     /// <param name="guildSettings">Service for guild-specific settings.</param>
     /// <param name="eventHandler">Event handler for Discord client events.</param>
+    /// <param name="config">The bot config service.</param>
     public SuggestionsService(
         DbService db,
         DiscordSocketClient client,

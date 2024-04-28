@@ -311,10 +311,9 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
     }
 
     /// <summary>
-    /// Removes one or more roles from the roles removed when a user has the selected status.
+    /// Toggles whether added roles are removed when a user no longer has a status by the provided index
     /// </summary>
     /// <param name="index">The index of the status role.</param>
-    /// <param name="roles">The roles to remove.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.ManageGuild)]
     public async Task ToggleRemoveAdded(int index)
     {

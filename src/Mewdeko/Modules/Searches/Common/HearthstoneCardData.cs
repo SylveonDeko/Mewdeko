@@ -1,4 +1,6 @@
-﻿/// <summary>
+﻿namespace Mewdeko.Modules.Searches.Common;
+
+/// <summary>
 /// Represents data for a Hearthstone card.
 /// </summary>
 public class HearthstoneCardData

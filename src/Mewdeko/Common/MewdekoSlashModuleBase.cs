@@ -3,6 +3,8 @@ using Discord.Interactions;
 using Mewdeko.Common.Configs;
 using Mewdeko.Services.strings;
 
+// ReSharper disable NotNullOrRequiredMemberIsNotInitialized
+
 namespace Mewdeko.Common
 {
     /// <summary>

@@ -55,6 +55,7 @@ public class XpService : INService, IUnloadableService
     /// <param name="bot">The main bot instance.</param>
     /// <param name="memoryCache">The memory cache for storing temporary data.</param>
     /// <param name="eventHandler">The event handler for subscribing to Discord events.</param>
+    /// <param name="guildSettings">The guild config service.</param>
     /// <remarks>Initializes services and sets up event handlers for managing XP accumulation and rewards.</remarks>
     public XpService(
         DiscordSocketClient client,

@@ -13,7 +13,6 @@ public class MewdekoTrack
     /// <param name="index">The index of the track in the queue.</param>
     /// <param name="track">The track.</param>
     /// <param name="requester">The user who requested the track.</param>
-    /// <param name="platform">The platform the track was requested from.</param>
     public MewdekoTrack(int index, LavalinkTrack track, PartialUser requester)
     {
         Index = index;

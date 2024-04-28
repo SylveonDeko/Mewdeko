@@ -432,8 +432,6 @@ public class FilterService : IEarlyBehavior, INService
                 ex);
             return true;
         }
-
-        return false;
     }
 
     /// <summary>

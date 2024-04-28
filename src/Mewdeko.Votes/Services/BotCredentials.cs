@@ -31,6 +31,7 @@ public class BotCredentials : IBotCredentials
             credsFileName = "credentials.json";
         if (!File.Exists(credsFileName))
         {
+            // ReSharper disable once TemplateIsNotCompileTimeConstantProblem
             Log.Information(Directory.GetCurrentDirectory());
             Log.Warning(
                 "credentials.json is missing. Attempting to load creds from environment variables prefixed with \'Mewdeko_\'. Example is in {FullPath}",
@@ -40,6 +41,10 @@ public class BotCredentials : IBotCredentials
 
         UpdateCredentials();
     }
+
+    public string Token { get; set; }
+
+    public string RedisOptions { get; set; }
 
     public void UpdateCredentials()
     {
@@ -65,15 +70,10 @@ public class BotCredentials : IBotCredentials
         }
         catch (Exception ex)
         {
-            Log.Error("JSON serialization has failed. Fix your credentials file and restart the bot");
-            Log.Fatal(ex.ToString());
+            Log.Error(ex, "JSON serialization has failed. Fix your credentials file and restart the bot");
             Environment.Exit(6);
         }
     }
-
-    public string Token { get; set; }
-
-    public string RedisOptions { get; set; }
 
     /// <summary>
     ///     No idea why this thing exists

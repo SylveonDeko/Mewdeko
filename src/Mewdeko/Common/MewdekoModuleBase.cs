@@ -3,6 +3,8 @@ using Discord.Commands;
 using Mewdeko.Common.Configs;
 using Mewdeko.Services.strings;
 
+// ReSharper disable NotNullOrRequiredMemberIsNotInitialized
+
 namespace Mewdeko.Common
 {
     /// <summary>
@@ -48,7 +50,7 @@ namespace Mewdeko.Common
         /// </summary>
         /// <param name="key">The key identifying the text string.</param>
         /// <returns>The localized text string.</returns>
-        protected string GetText(string? key) => Strings.GetText(key, CultureInfo);
+        protected string? GetText(string? key) => Strings.GetText(key, CultureInfo);
 
         /// <summary>
         /// Retrieves a formatted localized text string using the specified key and arguments.
