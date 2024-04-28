@@ -1,6 +1,7 @@
 ﻿using Discord.Rest;
 using Mewdeko.Modules.Moderation.Services;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -1688,9 +1689,16 @@ public class NewLogCommandService : INService
                 break;
         }
 
-        uow.LogSettings.Update(logSetting);
-        await uow.SaveChangesAsync();
-        GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
+        try
+        {
+            uow.LogSettings.Update(logSetting);
+            await uow.SaveChangesAsync();
+            GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
+        }
+        catch (Exception e)
+        {
+            Log.Error(e, "There was an issue setting log settings");
+        }
     }
 
     /// <summary>
