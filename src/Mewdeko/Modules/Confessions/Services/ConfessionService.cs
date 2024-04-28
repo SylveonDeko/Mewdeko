@@ -222,7 +222,6 @@ public class ConfessionService(
         await using var uow = db.GetDbContext();
         var guildConfig = await uow.ForGuildId(guild.Id, set => set);
         guildConfig.ConfessionChannel = channelId;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
     }
 
@@ -249,7 +248,6 @@ public class ConfessionService(
             blacklists.Add(roleId);
 
         guildConfig.SetConfessionBlacklists(blacklists);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guildId, guildConfig);
     }
 
@@ -264,7 +262,6 @@ public class ConfessionService(
         await using var uow = db.GetDbContext();
         var guildConfig = await uow.ForGuildId(guild.Id, set => set);
         guildConfig.ConfessionLogChannel = channelId;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
     }
 

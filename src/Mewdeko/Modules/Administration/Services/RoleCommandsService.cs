@@ -203,7 +203,6 @@ public class RoleCommandsService : INService
             .Include(x => x.ReactionRoleMessages)
             .ThenInclude(x => x.ReactionRoles));
         gc.ReactionRoleMessages.Add(rrm);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await gss.UpdateGuildConfig(id, gc);
         return true;
     }
@@ -224,6 +223,5 @@ public class RoleCommandsService : INService
             .RemoveRange(gc.ReactionRoleMessages[index].ReactionRoles);
         gc.ReactionRoleMessages.RemoveAt(index);
         await gss.UpdateGuildConfig(id, gc);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 }

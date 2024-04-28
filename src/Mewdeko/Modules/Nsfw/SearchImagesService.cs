@@ -261,8 +261,6 @@ public class SearchImagesService : ISearchImagesService, INService
 
         await service.UpdateGuildConfig(guildId, gc).ConfigureAwait(false);
 
-        await uow.SaveChangesAsync().ConfigureAwait(false);
-
         return await new ValueTask<bool>(added);
     }
 

@@ -78,7 +78,6 @@ public partial class UtilityService : INService
         {
             var gc = await uow.ForGuildId(guild.Id, set => set);
             gc.PreviewLinks = yesno;
-            await uow.SaveChangesAsync().ConfigureAwait(false);
             await guildSettings.UpdateGuildConfig(guild.Id, gc);
         }
     }

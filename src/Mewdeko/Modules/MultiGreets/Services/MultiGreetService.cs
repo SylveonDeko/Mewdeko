@@ -247,7 +247,6 @@ public class MultiGreetService : INService
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.MultiGreetType = type;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettingsService.UpdateGuildConfig(guild.Id, gc);
     }
 

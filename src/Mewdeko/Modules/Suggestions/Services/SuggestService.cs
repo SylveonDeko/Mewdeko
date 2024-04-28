@@ -490,7 +490,6 @@ public class SuggestionsService : INService
                 break;
         }
 
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -524,7 +523,6 @@ public class SuggestionsService : INService
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.SuggestEmotes = parsedEmotes;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 

@@ -67,8 +67,6 @@ public partial class Permissions
                     config.CommandCooldowns.Add(cc);
                     await settingsService.UpdateGuildConfig(ctx.Guild.Id, gConfig).ConfigureAwait(false);
                 }
-
-                await uow.SaveChangesAsync().ConfigureAwait(false);
             }
 
             if (time.Time.TotalSeconds == 0)

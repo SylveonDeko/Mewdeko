@@ -203,7 +203,6 @@ public partial class Permissions
             await using var disposable = uow.ConfigureAwait(false);
             var config = await uow.ForGuildId(channel.Guild.Id, set => set);
             config.FilterInvites = !config.FilterInvites;
-            await uow.SaveChangesAsync().ConfigureAwait(false);
             await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
 
             if (config.FilterInvites)
@@ -251,7 +250,6 @@ public partial class Permissions
                     config.FilterInvitesChannelIds.Add(match);
                 else
                     uow.Remove(removed);
-                await uow.SaveChangesAsync().ConfigureAwait(false);
                 await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
             }
 
@@ -286,7 +284,6 @@ public partial class Permissions
             await using var disposable = uow.ConfigureAwait(false);
             var config = await uow.ForGuildId(channel.Guild.Id, set => set);
             config.FilterLinks = !config.FilterLinks;
-            await uow.SaveChangesAsync().ConfigureAwait(false);
             await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
 
             if (config.FilterLinks)
@@ -333,7 +330,6 @@ public partial class Permissions
                     config.FilterLinksChannelIds.Add(match);
                 else
                     uow.Remove(removed);
-                await uow.SaveChangesAsync().ConfigureAwait(false);
                 await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
             }
 
@@ -368,7 +364,6 @@ public partial class Permissions
             await using var uow = db.GetDbContext();
             var config = await uow.ForGuildId(channel.Guild.Id, set => set);
             config.FilterWords = !config.FilterWords;
-            await uow.SaveChangesAsync().ConfigureAwait(false);
             await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
 
             if (config.FilterWords)
@@ -469,7 +464,6 @@ public partial class Permissions
                 else
                     uow.Remove(removed);
 
-                await uow.SaveChangesAsync().ConfigureAwait(false);
                 await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
             }
 

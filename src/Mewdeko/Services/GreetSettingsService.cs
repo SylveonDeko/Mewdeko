@@ -192,7 +192,6 @@ public class GreetSettingsService : INService, IReadyExecutor
         var conf = await uow.ForGuildId(guildId, set => set);
         conf.BoostMessage = message;
         await gss.UpdateGuildConfig(guildId, conf);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         return conf.SendBoostMessage;
     }
 
@@ -214,7 +213,6 @@ public class GreetSettingsService : INService, IReadyExecutor
         var conf = await uow.ForGuildId(guildId, set => set);
         conf.BoostMessageDeleteAfter = timer;
         await gss.UpdateGuildConfig(guildId, conf);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -239,7 +237,6 @@ public class GreetSettingsService : INService, IReadyExecutor
         conf.SendBoostMessage = !conf.SendBoostMessage;
         conf.BoostMessageChannelId = channelId;
         await gss.UpdateGuildConfig(guildId, conf);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return !conf.SendBoostMessage;
     }
@@ -257,7 +254,6 @@ public class GreetSettingsService : INService, IReadyExecutor
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.GreetHook = url;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await gss.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -274,7 +270,6 @@ public class GreetSettingsService : INService, IReadyExecutor
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.LeaveHook = url;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await gss.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -598,7 +593,6 @@ public class GreetSettingsService : INService, IReadyExecutor
         var conf = await uow.ForGuildId(guildId, set => set);
         conf.ChannelGreetMessageText = message;
         await gss.UpdateGuildConfig(guildId, conf);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return conf.SendChannelGreetMessage;
     }
@@ -615,7 +609,6 @@ public class GreetSettingsService : INService, IReadyExecutor
         var conf = await uow.ForGuildId(guildId, set => set);
         conf.SendDmGreetMessage = !conf.SendDmGreetMessage;
         await gss.UpdateGuildConfig(guildId, conf);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         return conf.SendDmGreetMessage;
     }
 
@@ -637,7 +630,6 @@ public class GreetSettingsService : INService, IReadyExecutor
         var conf = await uow.ForGuildId(guildId, set => set);
         conf.DmGreetMessageText = message;
         await gss.UpdateGuildConfig(guildId, conf);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         return conf.SendDmGreetMessage;
     }
 
@@ -655,7 +647,6 @@ public class GreetSettingsService : INService, IReadyExecutor
         conf.SendChannelByeMessage = !conf.SendChannelByeMessage;
         conf.ByeMessageChannelId = channelId;
         await gss.UpdateGuildConfig(guildId, conf);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return conf.SendChannelByeMessage;
     }
@@ -678,7 +669,6 @@ public class GreetSettingsService : INService, IReadyExecutor
         var conf = await uow.ForGuildId(guildId, set => set);
         conf.ChannelByeMessageText = message;
         await gss.UpdateGuildConfig(guildId, conf);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return conf.SendChannelByeMessage;
     }
@@ -698,7 +688,6 @@ public class GreetSettingsService : INService, IReadyExecutor
         var conf = await uow.ForGuildId(guildId, set => set);
         conf.AutoDeleteByeMessagesTimer = timer;
         await gss.UpdateGuildConfig(guildId, conf);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -716,7 +705,6 @@ public class GreetSettingsService : INService, IReadyExecutor
         var conf = await uow.ForGuildId(id, set => set);
         conf.AutoDeleteGreetMessagesTimer = timer;
         await gss.UpdateGuildConfig(id, conf);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     #region Get Enabled Status

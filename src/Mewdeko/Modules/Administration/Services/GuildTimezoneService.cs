@@ -64,7 +64,6 @@ public class GuildTimezoneService : INService
         var gc = await uow.ForGuildId(guildId, set => set);
 
         gc.TimeZoneId = tz?.Id;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await gss.UpdateGuildConfig(guildId, gc);
     }
 

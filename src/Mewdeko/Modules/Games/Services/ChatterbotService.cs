@@ -12,13 +12,19 @@ namespace Mewdeko.Modules.Games.Services;
 /// </summary>
 public class ChatterBotService : INService
 {
-    private readonly DiscordSocketClient client;
     private readonly BlacklistService blacklistService;
+
+    /// <summary>
+    /// Dictionary to store the Cleverbot sessions for users.
+    /// </summary>
+    public readonly ConcurrentDictionary<ulong, Lazy<IChatterBotSession>> CleverbotUsers = new();
+
+    private readonly DiscordSocketClient client;
+    private readonly BotConfig config;
     private readonly IBotCredentials creds;
     private readonly DbService db;
-    private readonly IHttpClientFactory httpFactory;
     private readonly GuildSettingsService guildSettings;
-    private readonly BotConfig config;
+    private readonly IHttpClientFactory httpFactory;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ChatterBotService"/> class.
@@ -57,11 +63,6 @@ public class ChatterBotService : INService
     public static ModuleBehaviorType BehaviorType => ModuleBehaviorType.Executor;
 
     /// <summary>
-    /// Dictionary to store the Cleverbot sessions for users.
-    /// </summary>
-    public readonly ConcurrentDictionary<ulong, Lazy<IChatterBotSession>> CleverbotUsers = new();
-
-    /// <summary>
     /// Sets the Cleverbot channel for a guild.
     /// </summary>
     /// <param name="guild">The guild.</param>
@@ -71,7 +72,6 @@ public class ChatterBotService : INService
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.CleverbotChannel = id;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 

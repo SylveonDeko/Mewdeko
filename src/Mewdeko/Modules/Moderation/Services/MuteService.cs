@@ -339,7 +339,6 @@ public class MuteService : INService
 
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.removeroles = yesno;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
