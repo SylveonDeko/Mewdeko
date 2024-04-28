@@ -156,14 +156,22 @@ public partial class Administration
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(0)]
         public async Task Log(LogType type, ITextChannel? channel = null)
         {
-            await Service.SetLogChannel(ctx.Guild.Id, channel?.Id ?? 0, type).ConfigureAwait(false);
-            if (channel is not null)
+            try
             {
-                await ConfirmLocalizedAsync("logging_event_enabled", type, channel.Id).ConfigureAwait(false);
-                return;
-            }
+                await Service.SetLogChannel(ctx.Guild.Id, channel?.Id ?? 0, type).ConfigureAwait(false);
+                if (channel is not null)
+                {
+                    await ConfirmLocalizedAsync("logging_event_enabled", type, channel.Id).ConfigureAwait(false);
+                    return;
+                }
 
-            await ConfirmLocalizedAsync("logging_event_disabled", type);
+                await ConfirmLocalizedAsync("logging_event_disabled", type);
+            }
+            catch (Exception e)
+            {
+                Serilog.Log.Error(e, "There was an issue setting logs");
+                await ctx.Channel.SendErrorAsync(GetText("command_fatal_error"), Config);
+            }
         }
 
 
