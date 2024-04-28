@@ -52,9 +52,6 @@ public class AdministrationService : INService
         // Set the staff role
         gc.StaffRole = role;
 
-        // Save changes to the database
-        await uow.SaveChangesAsync().ConfigureAwait(false);
-
         // Update the guild configuration in the cache
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -74,9 +71,6 @@ public class AdministrationService : INService
 
         // Toggle the opt-out status
         gc.StatsOptOut = !gc.StatsOptOut;
-
-        // Save changes to the database
-        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         // Update the guild configuration in the cache
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
@@ -112,7 +106,6 @@ public class AdministrationService : INService
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.MemberRole = role;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -200,7 +193,6 @@ public class AdministrationService : INService
         conf.DeleteMessageOnCommand = !conf.DeleteMessageOnCommand;
 
         await guildSettings.UpdateGuildConfig(guildId, conf);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
 
         return conf.DeleteMessageOnCommand;
     }
@@ -250,8 +242,6 @@ public class AdministrationService : INService
             old.State = newState == Administration.State.Enable;
         }
 
-        // Save changes to the database
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guildId, conf);
     }
 

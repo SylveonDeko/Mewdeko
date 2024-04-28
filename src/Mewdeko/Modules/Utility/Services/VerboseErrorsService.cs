@@ -114,8 +114,6 @@ public class VerboseErrorsService : INService, IUnloadableService
 
         await guildSettings.UpdateGuildConfig(guildId, gc);
 
-        await uow.SaveChangesAsync();
-
         return gc.VerboseErrors;
     }
 }

@@ -37,7 +37,6 @@ namespace Mewdeko.Modules.Games.Services
             await using var uow = db.GetDbContext();
             var gc = await uow.ForGuildId(guildid, set => set);
             gc.GameMasterRole = role;
-            await uow.SaveChangesAsync().ConfigureAwait(false);
             await guildSettings.UpdateGuildConfig(guildid, gc);
         }
     }

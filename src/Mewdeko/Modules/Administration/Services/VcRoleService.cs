@@ -160,7 +160,6 @@ public class VcRoleService : INService
                 nameof(VcRoleService));
             uow.RemoveRange(missingRoles);
             await guildSettingsService.UpdateGuildConfig(gconf.GuildId, gconf).ConfigureAwait(false);
-            await uow.SaveChangesAsync().ConfigureAwait(false);
         }
     }
 
@@ -186,7 +185,6 @@ public class VcRoleService : INService
         {
             VoiceChannelId = vcId, RoleId = role.Id
         }); // add new one
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettingsService.UpdateGuildConfig(conf.GuildId, conf).ConfigureAwait(false);
     }
 
@@ -208,7 +206,6 @@ public class VcRoleService : INService
         var conf = await uow.ForGuildId(guildId, set => set.Include(x => x.VcRoleInfos));
         var toRemove = conf.VcRoleInfos.Where(x => x.VoiceChannelId == vcId).ToList();
         uow.RemoveRange(toRemove);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettingsService.UpdateGuildConfig(conf.GuildId, conf).ConfigureAwait(false);
 
         return true;
