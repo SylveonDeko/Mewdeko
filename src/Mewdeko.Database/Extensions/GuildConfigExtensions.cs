@@ -158,6 +158,12 @@ public static class GuildConfigExtensions
             await ctx.SaveChangesAsync();
         }
 
+        if (config.LogSetting == null)
+        {
+            config.LogSetting = new LogSetting();
+            await ctx.SaveChangesAsync();
+        }
+
         if (config.WarningsInitialized) return config;
         config.WarningsInitialized = true;
         config.WarnPunishments = DefaultWarnPunishments;
