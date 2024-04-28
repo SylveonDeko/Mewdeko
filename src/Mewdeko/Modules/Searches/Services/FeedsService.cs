@@ -47,8 +47,10 @@ public class FeedsService : INService
     /// <returns>An asynchronous task representing the operation.</returns>
     private async Task<EmbedBuilder> TrackFeeds(IEnumerable<ulong> serverIds)
     {
+        // ReSharper disable once AsyncVoidLambda
         Parallel.ForEach(serverIds, async serverId =>
         {
+            await Task.CompletedTask;
             var feeds = GetFeeds(serverId);
             foreach (var feed in feeds)
             {

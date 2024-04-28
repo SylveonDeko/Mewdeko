@@ -299,10 +299,10 @@ public class StatusRolesService : INService, IReadyExecutor
     /// <param name="status">The status role configuration.</param>
     /// <param name="toRemove">The IDs of the roles to remove.</param>
     /// <returns>True if the roles were successfully set; otherwise, false.</returns>
-    public async Task<bool> SetRemoveRoles(StatusRolesTable status, string toAdd)
+    public async Task<bool> SetRemoveRoles(StatusRolesTable status, string toRemove)
     {
         await using var uow = db.GetDbContext();
-        status.ToRemove = toAdd;
+        status.ToRemove = toRemove;
         uow.StatusRoles.Update(status);
         await uow.SaveChangesAsync();
         var statusCache = await cache.GetStatusRoleCache();

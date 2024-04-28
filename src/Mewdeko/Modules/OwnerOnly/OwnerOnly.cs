@@ -448,7 +448,7 @@ public class OwnerOnly(
     /// <param name="prop">The property of the config to change.</param>
     /// <param name="value">The new value to set for the property.</param>
     [Cmd, Aliases]
-    public async Task Config(string? name = null, string? prop = null, [Remainder] string? value = null)
+    public new async Task Config(string? name = null, string? prop = null, [Remainder] string? value = null)
     {
         try
         {

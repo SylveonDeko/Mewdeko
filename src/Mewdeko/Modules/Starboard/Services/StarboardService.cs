@@ -266,10 +266,10 @@ public class StarboardService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Sets the starboard channel for the guild.
+    /// Sets after how many messages a starboard post should be reposted when a star is added to it.
     /// </summary>
     /// <param name="guild">The guild.</param>
-    /// <param name="channel">The ID of the starboard channel.</param>
+    /// <param name="threshold">The message threshold</param>
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SetRepostThreshold(IGuild guild, int threshold)
     {

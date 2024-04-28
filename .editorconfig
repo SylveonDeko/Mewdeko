@@ -64,6 +64,8 @@ resharper_place_accessorholder_attribute_on_same_line = false
 resharper_place_accessor_attribute_on_same_line = false
 resharper_place_simple_initializer_on_single_line = false
 resharper_wrap_object_and_collection_initializer_style = chop_always
+resharper_possible_null_reference_exception_highlighting = none
+
 
 #########################
 # File Extension Settings

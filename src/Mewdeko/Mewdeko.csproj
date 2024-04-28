@@ -65,22 +65,22 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-      <PackageReference Include="Lavalink4NET.Discord.NET" Version="4.0.19-beta.4"/>
-      <PackageReference Include="Lavalink4NET.Integrations.Lavasearch" Version="4.0.19-beta.4"/>
-      <PackageReference Include="Lavalink4NET.Integrations.Lavasrc" Version="4.0.19-beta.4"/>
+      <PackageReference Include="Lavalink4NET.Discord.NET" Version="4.0.19-beta.6"/>
+      <PackageReference Include="Lavalink4NET.Integrations.Lavasearch" Version="4.0.19-beta.6"/>
+      <PackageReference Include="Lavalink4NET.Integrations.Lavasrc" Version="4.0.19-beta.6"/>
       <PackageReference Include="linq2db.EntityFrameworkCore" Version="8.1.0"/>
       <PackageReference Include="MartineApiNet" Version="1.0.14"/>
       <PackageReference Include="MathNet.Numerics" Version="6.0.0-beta1"/>
       <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.10.0-2.final"/>
       <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.10.0-2.final"/>
       <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.10.0-2.final"/>
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0"/>
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4"/>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0"/>
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.4"/>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
@@ -88,7 +88,7 @@
       <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0"/>
       <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0"/>
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0"/>
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0"/>
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1"/>
       <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0"/>
       <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0"/>
       <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.0"/>
@@ -97,7 +97,7 @@
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
       <PackageReference Include="NHentaiAPI" Version="1.7.0"/>
       <PackageReference Include="NonBlocking" Version="2.1.2"/>
-      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0-rc.2"/>
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2"/>
       <PackageReference Include="NsfwSpy" Version="3.5.0"/>
       <PackageReference Include="Octokit" Version="10.0.0"/>
       <PackageReference Include="OpenAI" Version="1.11.0"/>

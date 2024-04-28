@@ -651,7 +651,6 @@ public class SlashOwnerOnly(
     /// <summary>
     /// Evaluates a C# code snippet. Launched a modal to do so.
     /// </summary>
-    /// <param name="code">The C# code to evaluate.</param>
     /// <remarks>
     /// The code is compiled and executed in a sandboxed environment. The result is displayed in an embed, including the return value, compilation time, and execution time.
     /// </remarks>

@@ -3,18 +3,16 @@ using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Mewdeko.Votes.Common;
 
-public class AuthHandler(IOptionsMonitor<AuthenticationSchemeOptions> options,
-        ILoggerFactory logger,
-        UrlEncoder encoder,
-        ISystemClock clock,
-        IConfiguration conf)
-    : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder, clock)
+public class AuthHandler(
+    IOptionsMonitor<AuthenticationSchemeOptions> options,
+    ILoggerFactory logger,
+    UrlEncoder encoder)
+    : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder)
 {
     public const string SchemeName = "AUTHORIZATION_SCHEME";
     public const string TopggClaim = "TOPGG_CLAIM";
@@ -23,7 +21,7 @@ public class AuthHandler(IOptionsMonitor<AuthenticationSchemeOptions> options,
     {
         var claims = new List<Claim>();
 
-        if (conf[ConfKeys.TOPGG_KEY] == Request.Headers["Authorization"].ToString().Trim())
+        if ("TopGGKey" == Request.Headers.Authorization.ToString().Trim())
             claims.Add(new Claim(TopggClaim, "true"));
 
         return Task.FromResult(

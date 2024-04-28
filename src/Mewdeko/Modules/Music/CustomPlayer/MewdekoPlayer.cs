@@ -19,7 +19,7 @@ namespace Mewdeko.Modules.Music.CustomPlayer;
 /// <summary>
 /// Custom LavaLink player to be able to handle events and such, as well as auto play.
 /// </summary>
-public sealed partial class MewdekoPlayer : LavalinkPlayer
+public sealed class MewdekoPlayer : LavalinkPlayer
 {
     private readonly IAudioService audioService;
     private readonly BotConfig config;
@@ -167,7 +167,6 @@ public sealed partial class MewdekoPlayer : LavalinkPlayer
     /// Sets the music channel for the player.
     /// </summary>
     /// <param name="channelId">The channel id to set.</param>
-    /// <param name="guildId">The guild id to set the channel for.</param>
     public async Task SetMusicChannelAsync(ulong channelId)
     {
         var guildId = base.GuildId;
@@ -243,7 +242,7 @@ public sealed partial class MewdekoPlayer : LavalinkPlayer
             var fullTitle = lastSong.Track.Title;
             var trackTitle = fullTitle;
             var artistName = lastSong.Track.Author;
-            var hyphenIndex = fullTitle.IndexOf(" - ");
+            var hyphenIndex = fullTitle.IndexOf(" - ", StringComparison.Ordinal);
 
             // if the title has a hyphen, split the title and artist, used in cases where the title is formatted as "Artist - Title"
             if (hyphenIndex != -1)

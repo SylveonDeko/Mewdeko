@@ -14,7 +14,7 @@
     <PackageReference Include="linq2db.EntityFrameworkCore" Version="8.0.0-rc.2" />
     <PackageReference Include="linq2db.PostgreSQL" Version="5.4.1"/>
     <PackageReference Include="linq2db.SQLite" Version="5.4.1"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

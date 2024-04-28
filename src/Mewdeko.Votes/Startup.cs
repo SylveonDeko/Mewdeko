@@ -14,6 +14,9 @@ namespace Mewdeko.Votes;
 
 public class Startup
 {
+    public readonly IBotCredentials Credentials;
+    public readonly ConnectionMultiplexer Redis;
+
     public Startup(IConfiguration configuration)
     {
         Credentials = new BotCredentials();
@@ -24,8 +27,6 @@ public class Startup
     }
 
     public IConfiguration Configuration { get; }
-    public readonly IBotCredentials Credentials;
-    public readonly ConnectionMultiplexer Redis;
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
@@ -53,7 +54,7 @@ public class Startup
                 opts.DefaultPolicy = new AuthorizationPolicyBuilder(AuthHandler.SchemeName)
                     .RequireAssertion(_ => false)
                     .Build();
-                opts.AddPolicy(Policies.TOPGG_AUTH, policy => policy.RequireClaim(AuthHandler.TopggClaim));
+                opts.AddPolicy("TopggAuth", policy => policy.RequireClaim(AuthHandler.TopggClaim));
             });
     }
 

@@ -58,10 +58,9 @@ public class RoleGreets(InteractiveService interactivity, HttpClient http) : Mew
     }
 
     /// <summary>
-    /// Updates a role greet message to be automatically deleted after a specified duration.
+    /// Removes rolegreets associated with the given roleid
     /// </summary>
-    /// <param name="id">The ID of the role greet to update, based on its position in the list of all role greets.</param>
-    /// <param name="time">The duration after which the greet message will be deleted, specified in seconds or as a human-readable string.</param>
+    /// <param name="role">The role to delete rgs for.</param>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task RoleGreetRemove([Remainder] IRole role)
     {

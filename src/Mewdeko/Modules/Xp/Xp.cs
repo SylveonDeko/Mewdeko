@@ -529,6 +529,7 @@ public partial class Xp(
     /// <summary>
     /// Toggles whether a role is excluded from earning XP.
     /// </summary>
+    /// <param name="_">Idiot check.</param>
     /// <param name="role">The role to toggle exclusion for.</param>
     /// <returns>A task that represents the asynchronous operation of toggling role XP exclusion.</returns>
     /// <remarks>
@@ -547,6 +548,7 @@ public partial class Xp(
     /// <summary>
     /// Toggles whether a channel is excluded from earning XP.
     /// </summary>
+    /// <param name="_">Idiot check.</param>
     /// <param name="channel">The channel to toggle exclusion for. If null, the current channel is used.</param>
     /// <returns>A task that represents the asynchronous operation of toggling channel XP exclusion.</returns>
     /// <remarks>

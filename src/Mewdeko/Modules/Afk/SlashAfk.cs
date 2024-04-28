@@ -3,7 +3,6 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
 using Mewdeko.Common.Attributes.InteractionCommands;
-using Mewdeko.Common.Configs;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Modules.Afk.Services;
 
@@ -15,7 +14,6 @@ namespace Mewdeko.Modules.Afk;
 [Group("afk", "Set or Manage AFK")]
 public class SlashAfk : MewdekoSlashModuleBase<AfkService>
 {
-    private readonly BotConfig botConfig;
     private readonly DiscordSocketClient client;
     private readonly InteractiveService interactivity;
 
@@ -24,11 +22,10 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     /// </summary>
     /// <param name="serv">The interactivity service used for embed pagination.</param>
     /// <param name="client">The discord client.</param>
-    public SlashAfk(InteractiveService serv, DiscordSocketClient client, BotConfig botConfig)
+    public SlashAfk(InteractiveService serv, DiscordSocketClient client)
     {
         interactivity = serv;
         this.client = client;
-        this.botConfig = botConfig;
     }
 
     /// <summary>
@@ -359,7 +356,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
         {
             await ctx.Interaction
-                .SendErrorAsync("afk_still_starting", botConfig).ConfigureAwait(false);
+                .SendErrorAsync("afk_still_starting", Config).ConfigureAwait(false);
             return;
         }
 
@@ -416,7 +413,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
         if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
         {
             await ctx.Interaction
-                .SendErrorAsync("afk_still_starting", botConfig).ConfigureAwait(false);
+                .SendErrorAsync("afk_still_starting", Config).ConfigureAwait(false);
             return;
         }
 
