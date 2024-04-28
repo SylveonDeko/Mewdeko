@@ -12,6 +12,7 @@
   "ban_by_hash_success": "Banned {0} users by hash {1}",
   "ban_by_hash_start": "Banning {0} users by hash {1}...",
   "ban_by_hash_fail_all": "Failed to ban {0} users by hash {1}",
+  "command_fatal_error": "This command had a fatal error. Please notify the bot owner or check your logs if you are selfhosting. If neccesary join the support server below.",
   "ban_by_hash_fail_some": "Banned {0} users by hash {1}, but failed to ban {2} users. Most likely due to heirarchy issues.",
   "ban_by_hash_none": "No users found with hash {0}",
   "ban_by_hash_confirm": "Are you sure you want to ban {0} users by hash {1}?",
