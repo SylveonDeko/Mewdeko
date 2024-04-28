@@ -81,8 +81,6 @@ public class GameVoiceChannelService : INService
             await guildSettings.UpdateGuildConfig(guildId, gc);
         }
 
-        await uow.SaveChangesAsync().ConfigureAwait(false);
-
         return id;
     }
 

@@ -165,7 +165,6 @@ public class FilterService : IEarlyBehavior, INService
         {
             var gc = await uow.ForGuildId(guild.Id, set => set);
             gc.invwarn = yesno;
-            await uow.SaveChangesAsync().ConfigureAwait(false);
             await gss.UpdateGuildConfig(guild.Id, gc);
         }
     }
@@ -200,7 +199,6 @@ public class FilterService : IEarlyBehavior, INService
         {
             var gc = await uow.ForGuildId(guild.Id, set => set);
             gc.fwarn = yesno;
-            await uow.SaveChangesAsync().ConfigureAwait(false);
             await gss.UpdateGuildConfig(guild.Id, gc);
         }
     }
@@ -221,8 +219,6 @@ public class FilterService : IEarlyBehavior, INService
         gc.FilterWordsChannelIds.Clear();
 
         await gss.UpdateGuildConfig(guildId, gc);
-
-        await uow.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -342,7 +338,6 @@ public class FilterService : IEarlyBehavior, INService
                     if (removed is null)
                         return false;
                     uow.Remove(removed);
-                    await uow.SaveChangesAsync().ConfigureAwait(false);
                     await gss.UpdateGuildConfig(guild.Id, config);
                     return false;
                 }

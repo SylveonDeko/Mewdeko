@@ -1,5 +1,6 @@
 using Mewdeko.Services.Settings;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace Mewdeko.Services
 {
@@ -76,49 +77,56 @@ namespace Mewdeko.Services
         /// </summary>
         public async Task UpdateGuildConfig(ulong guildId, GuildConfig toUpdate)
         {
-            await using var uow = db.GetDbContext();
-            var exists = await cache.GetGuildConfigCache(guildId);
-
-            if (exists is not null)
+            try
             {
-                var properties = typeof(GuildConfig).GetProperties();
-                foreach (var property in properties)
-                {
-                    var oldValue = property.GetValue(exists);
-                    var newValue = property.GetValue(toUpdate);
+                await using var uow = db.GetDbContext();
+                var exists = await cache.GetGuildConfigCache(guildId);
 
-                    if (newValue != null && !newValue.Equals(oldValue))
-                    {
-                        property.SetValue(exists, newValue);
-                    }
-                }
-
-                await cache.SetGuildConfigCache(guildId, exists);
-                uow.GuildConfigs.Update(exists);
-                await uow.SaveChangesAsync();
-            }
-            else
-            {
-                var config = uow.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.Id == toUpdate.Id);
-
-                if (config != null)
+                if (exists is not null)
                 {
                     var properties = typeof(GuildConfig).GetProperties();
                     foreach (var property in properties)
                     {
-                        var oldValue = property.GetValue(config);
+                        var oldValue = property.GetValue(exists);
                         var newValue = property.GetValue(toUpdate);
 
                         if (newValue != null && !newValue.Equals(oldValue))
                         {
-                            property.SetValue(config, newValue);
+                            property.SetValue(exists, newValue);
                         }
                     }
 
-                    await cache.SetGuildConfigCache(guildId, config);
-                    uow.GuildConfigs.Update(config);
+                    await cache.SetGuildConfigCache(guildId, toUpdate);
+                    uow.GuildConfigs.Update(toUpdate);
                     await uow.SaveChangesAsync();
                 }
+                else
+                {
+                    var config = uow.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.Id == toUpdate.Id);
+
+                    if (config != null)
+                    {
+                        var properties = typeof(GuildConfig).GetProperties();
+                        foreach (var property in properties)
+                        {
+                            var oldValue = property.GetValue(config);
+                            var newValue = property.GetValue(toUpdate);
+
+                            if (newValue != null && !newValue.Equals(oldValue))
+                            {
+                                property.SetValue(config, newValue);
+                            }
+                        }
+
+                        await cache.SetGuildConfigCache(guildId, toUpdate);
+                        uow.GuildConfigs.Update(config);
+                        await uow.SaveChangesAsync();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, "There was an issue updating a GuildConfig");
             }
         }
     }

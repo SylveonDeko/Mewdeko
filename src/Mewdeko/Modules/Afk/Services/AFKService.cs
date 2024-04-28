@@ -478,7 +478,6 @@ public class AfkService : INService, IReadyExecutor
         await using var uow = db.GetDbContext();
         var guildConfig = await uow.ForGuildId(guild.Id, set => set);
         guildConfig.AfkMessage = afkMessage;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
     }
 
@@ -525,7 +524,6 @@ public class AfkService : INService, IReadyExecutor
         await using var uow = db.GetDbContext();
         var guildConfig = await uow.ForGuildId(guild.Id, set => set);
         guildConfig.AfkType = num;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
     }
 
@@ -540,7 +538,6 @@ public class AfkService : INService, IReadyExecutor
         await using var uow = db.GetDbContext();
         var guildConfig = await uow.ForGuildId(guild.Id, set => set);
         guildConfig.AfkDel = num;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
     }
 
@@ -554,7 +551,6 @@ public class AfkService : INService, IReadyExecutor
         await using var uow = db.GetDbContext();
         var guildConfig = await uow.ForGuildId(guild.Id, set => set);
         guildConfig.AfkLength = num;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
     }
 
@@ -568,7 +564,6 @@ public class AfkService : INService, IReadyExecutor
         await using var uow = db.GetDbContext();
         var guildConfig = await uow.ForGuildId(guild.Id, set => set);
         guildConfig.AfkTimeout = num;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
     }
 
@@ -582,7 +577,6 @@ public class AfkService : INService, IReadyExecutor
         await using var uow = db.GetDbContext();
         var guildConfig = await uow.ForGuildId(guild.Id, set => set);
         guildConfig.AfkDisabledChannels = num;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
     }
 

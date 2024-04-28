@@ -75,7 +75,6 @@ public class CommandMapService(DbService db, Mewdeko bot, GuildSettingsService g
         var gc = await uow.ForGuildId(guildId, set => set.Include(x => x.CommandAliases));
         var count = gc.CommandAliases.Count;
         gc.CommandAliases.Clear();
-        await uow.SaveChangesAsync();
 
         await gss.UpdateGuildConfig(guildId, config);
 

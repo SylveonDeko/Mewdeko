@@ -610,7 +610,6 @@ public class XpService : INService, IUnloadableService
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.XpTxtRate = num;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -625,7 +624,6 @@ public class XpService : INService, IUnloadableService
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.XpTxtTimeout = num;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -640,7 +638,6 @@ public class XpService : INService, IUnloadableService
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.XpVoiceRate = num;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -655,7 +652,6 @@ public class XpService : INService, IUnloadableService
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.XpVoiceTimeout = num;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -744,7 +740,6 @@ public class XpService : INService, IUnloadableService
         xpSetting.ServerExcluded = false;
         config.XpSettings.ServerExcluded = false;
         await guildSettings.UpdateGuildConfig(id, config);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
         return false;
     }
 
