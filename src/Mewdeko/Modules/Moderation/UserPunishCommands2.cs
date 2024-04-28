@@ -145,7 +145,7 @@ public partial class Moderation
         /// Sets the mini warn expire time.
         /// </summary>
         /// <param name="days">The number of days to set</param>
-        /// <param name="args">The arguments</param>
+        /// <param name="action">The action to take when a warn expires</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.Administrator), Priority(2)]
         public async Task MWarnExpire(int days, WarnExpireAction action = WarnExpireAction.Clear)

@@ -78,6 +78,7 @@ public class SearchesService : INService, IUnloadableService
     /// <param name="cache">The data cache.</param>
     /// <param name="factory">The HTTP client factory.</param>
     /// <param name="creds">The bot credentials.</param>
+    /// <param name="gss">The guild setting service.</param>
     public SearchesService(DiscordSocketClient client, IGoogleApiService google, IDataCache cache,
         IHttpClientFactory factory,
         IBotCredentials creds, GuildSettingsService gss)

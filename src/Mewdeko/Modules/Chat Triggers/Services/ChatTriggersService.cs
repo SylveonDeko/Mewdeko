@@ -1822,10 +1822,12 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             .Select(x => x.Build() as ApplicationCommandProperties).ToList();
 
         triggers.Where(x => x.ApplicationCommandType == CtApplicationCommandType.Message).ForEach(x =>
-            props.Add(new MessageCommandBuilder().WithName(x.RealName).WithDMPermission(false).Build()));
+            props.Add(new MessageCommandBuilder().WithName(x.RealName).WithContextTypes(InteractionContextType.Guild)
+                .Build()));
 
         triggers.Where(x => x.ApplicationCommandType == CtApplicationCommandType.User).ForEach(x =>
-            props.Add(new UserCommandBuilder().WithName(x.RealName).WithDMPermission(false).Build()));
+            props.Add(new UserCommandBuilder().WithName(x.RealName).WithContextTypes(InteractionContextType.Guild)
+                .Build()));
         return props;
     }
 

@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using Serilog;
 using StackExchange.Redis;
 
+#pragma warning disable CS8604 // Possible null reference argument.
+
 namespace Mewdeko.Api.Services;
 
 /// <summary>
@@ -20,7 +22,9 @@ public class RedisCache
     /// <summary>
     ///     Initializes a new instance of the <see cref="RedisCache" /> class.
     /// </summary>
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public RedisCache(string redisUrl, string redisKey)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
         var conf = ConfigurationOptions.Parse(redisUrl);
         conf.SocketManager = new SocketManager("Main", true);
@@ -73,7 +77,7 @@ public class RedisCache
     {
         var db = Redis.GetDatabase();
         var result = await db.StringGetAsync($"{redisKey}_guildconfig_{id}");
-        return result.HasValue ? JsonConvert.DeserializeObject<GuildConfig>(result, settings) : null;
+        return result.HasValue ? JsonConvert.DeserializeObject<GuildConfig>(result!, settings) : null;
     }
 
     /// <summary>

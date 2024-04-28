@@ -60,7 +60,6 @@ public partial class Games : MewdekoModuleBase<GamesService>
     /// <summary>
     /// Command that used to exist. Called trans people a slur in NadekoBot. Here as a memory and a fuck you to NadekoBot.
     /// </summary>
-    /// <param name="usr">Terrible command.</param>
     /// <example>Terrible command. Dont use it.</example>
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task RateGirl()

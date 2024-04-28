@@ -1,6 +1,8 @@
 ﻿using Mewdeko.Common.JsonConverters;
 using Newtonsoft.Json;
 
+// ReSharper disable NotNullOrRequiredMemberIsNotInitialized
+
 namespace Mewdeko.Common
 {
     /// <summary>
@@ -18,7 +20,7 @@ namespace Mewdeko.Common
         /// Gets or sets the URL associated with the author.
         /// </summary>
         [JsonProperty("url")]
-        public string Url { get; set; }
+        public string? Url { get; set; }
 
         /// <summary>
         /// Gets or sets the icon URL associated with the author.
@@ -219,83 +221,6 @@ namespace Mewdeko.Common
             Embed?.Fields is { Count: > 0 };
 
         /// <summary>
-        /// Represents a component in a new embed message.
-        /// </summary>
-        public class NewEmbedComponent
-        {
-            /// <summary>
-            /// Gets or sets the display name of the component.
-            /// </summary>
-            public string? DisplayName { get; set; }
-
-            /// <summary>
-            /// Gets or sets the ID of the component.
-            /// </summary>
-            public string Id { get; set; } = null!;
-
-            /// <summary>
-            /// Gets or sets the style of the component.
-            /// </summary>
-            public ButtonStyle Style { get; set; } = ButtonStyle.Primary;
-
-            /// <summary>
-            /// Gets or sets the URL of the component.
-            /// </summary>
-            public string? Url { get; set; }
-
-            /// <summary>
-            /// Gets or sets the emoji of the component.
-            /// </summary>
-            public string? Emoji { get; set; }
-
-            /// <summary>
-            /// Gets or sets a value indicating whether the component is a select menu.
-            /// </summary>
-            public bool IsSelect { get; set; } = false;
-
-            /// <summary>
-            /// Gets or sets the maximum number of options in the select menu.
-            /// </summary>
-            public int MaxOptions { get; set; } = 1;
-
-            /// <summary>
-            /// Gets or sets the minimum number of options in the select menu.
-            /// </summary>
-            public int MinOptions { get; set; } = 1;
-
-            /// <summary>
-            /// Gets or sets the list of options for the select menu.
-            /// </summary>
-            public List<NewEmbedSelectOption>? Options { get; set; }
-        }
-
-        /// <summary>
-        /// Represents an option in a select menu of a new embed message.
-        /// </summary>
-        public class NewEmbedSelectOption
-        {
-            /// <summary>
-            /// Gets or sets the ID of the option.
-            /// </summary>
-            public string Id { get; set; }
-
-            /// <summary>
-            /// Gets or sets the name of the option.
-            /// </summary>
-            public string Name { get; set; }
-
-            /// <summary>
-            /// Gets or sets the emoji of the option.
-            /// </summary>
-            public string Emoji { get; set; }
-
-            /// <summary>
-            /// Gets or sets the description of the option.
-            /// </summary>
-            public string Description { get; set; }
-        }
-
-        /// <summary>
         /// Gets the components of the message.
         /// </summary>
         /// <param name="guildId">The ID of the guild.</param>
@@ -480,6 +405,83 @@ namespace Mewdeko.Common
             }
 
             return toReturn.ToArray();
+        }
+
+        /// <summary>
+        /// Represents a component in a new embed message.
+        /// </summary>
+        public class NewEmbedComponent
+        {
+            /// <summary>
+            /// Gets or sets the display name of the component.
+            /// </summary>
+            public string? DisplayName { get; set; }
+
+            /// <summary>
+            /// Gets or sets the ID of the component.
+            /// </summary>
+            public string Id { get; set; } = null!;
+
+            /// <summary>
+            /// Gets or sets the style of the component.
+            /// </summary>
+            public ButtonStyle Style { get; set; } = ButtonStyle.Primary;
+
+            /// <summary>
+            /// Gets or sets the URL of the component.
+            /// </summary>
+            public string? Url { get; set; }
+
+            /// <summary>
+            /// Gets or sets the emoji of the component.
+            /// </summary>
+            public string? Emoji { get; set; }
+
+            /// <summary>
+            /// Gets or sets a value indicating whether the component is a select menu.
+            /// </summary>
+            public bool IsSelect { get; set; } = false;
+
+            /// <summary>
+            /// Gets or sets the maximum number of options in the select menu.
+            /// </summary>
+            public int MaxOptions { get; set; } = 1;
+
+            /// <summary>
+            /// Gets or sets the minimum number of options in the select menu.
+            /// </summary>
+            public int MinOptions { get; set; } = 1;
+
+            /// <summary>
+            /// Gets or sets the list of options for the select menu.
+            /// </summary>
+            public List<NewEmbedSelectOption>? Options { get; set; }
+        }
+
+        /// <summary>
+        /// Represents an option in a select menu of a new embed message.
+        /// </summary>
+        public class NewEmbedSelectOption
+        {
+            /// <summary>
+            /// Gets or sets the ID of the option.
+            /// </summary>
+            public string Id { get; set; }
+
+            /// <summary>
+            /// Gets or sets the name of the option.
+            /// </summary>
+            public string Name { get; set; }
+
+            /// <summary>
+            /// Gets or sets the emoji of the option.
+            /// </summary>
+            public string Emoji { get; set; }
+
+            /// <summary>
+            /// Gets or sets the description of the option.
+            /// </summary>
+            public string Description { get; set; }
         }
     }
 }

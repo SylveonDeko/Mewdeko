@@ -30,7 +30,7 @@ public class PermissionService : ILateBlocker, INService
     /// <param name="db">The database service for accessing permission settings.</param>
     /// <param name="strings">The service for localized bot strings.</param>
     /// <param name="guildSettings">The service for managing guild-specific settings.</param>
-    /// <param name="bot">The main bot instance for accessing global configurations.</param>
+    /// <param name="client">The discord socket client</param>
     /// <param name="configService">The service for bot-wide configurations.</param>
     public PermissionService(DbService db,
         IBotStrings strings,

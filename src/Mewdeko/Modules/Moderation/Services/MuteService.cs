@@ -152,7 +152,7 @@ public class MuteService : INService
     /// <summary>
     /// Guild mute roles cache.
     /// </summary>
-    public ConcurrentDictionary<ulong, string> GuildMuteRoles { get; }
+    public ConcurrentDictionary<ulong, string> GuildMuteRoles { get; } = new();
 
     /// <summary>
     /// Muted users cache.

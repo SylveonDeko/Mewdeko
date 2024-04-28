@@ -1,3 +1,4 @@
+#nullable disable
 using Discord.Interactions;
 
 namespace Mewdeko.Common.Modals;
@@ -8,11 +9,6 @@ namespace Mewdeko.Common.Modals;
 public class SuggestionModal : IModal
 {
     /// <summary>
-    /// Gets the title of the modal.
-    /// </summary>
-    public string Title => "Suggestion";
-
-    /// <summary>
     /// Gets or sets the suggestion text.
     /// </summary>
     /// <remarks>
@@ -22,4 +18,9 @@ public class SuggestionModal : IModal
     [InputLabel("Suggestion")]
     [ModalTextInput("suggestion", TextInputStyle.Paragraph, "Please enter suggestion")]
     public string Suggestion { get; set; }
+
+    /// <summary>
+    /// Gets the title of the modal.
+    /// </summary>
+    public string Title => "Suggestion";
 }

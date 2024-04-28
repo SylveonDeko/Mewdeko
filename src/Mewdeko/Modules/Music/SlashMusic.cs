@@ -27,6 +27,7 @@ public class SlashMusic(
     /// <summary>
     /// Handling track selection for the play command select menu.
     /// </summary>
+    /// <param name="userId">The original user who summoned the select menu</param>
     /// <param name="selectedValue">The selected track.</param>
     [ComponentInteraction("track_select:*", true), CheckPermissions]
     public async Task TrackSelect(ulong userId, string[] selectedValue)
@@ -80,6 +81,7 @@ public class SlashMusic(
 
             async Task<PageBuilder> PageFactory(int index)
             {
+                await Task.CompletedTask;
                 var tracks = queue.Skip(index * 10).Take(10).ToList();
                 var sb = new StringBuilder();
                 foreach (var track in tracks)

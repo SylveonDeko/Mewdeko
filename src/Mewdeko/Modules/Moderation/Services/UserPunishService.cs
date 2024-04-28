@@ -401,7 +401,7 @@ public class UserPunishService : INService
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="days">The number of days before warnings expire.</param>
-    /// <param name="delete">Indicates whether to delete warnings after expiry.</param>
+    /// <param name="action">Indicates whether to delete warnings after expiry.</param>
     public async Task WarnExpireAsync(ulong guildId, int days, WarnExpireAction action)
     {
         try

@@ -12,19 +12,18 @@ namespace Mewdeko.Modules.Permissions.Services;
 /// </summary>
 public sealed class BlacklistService : IEarlyBehavior, INService
 {
-    private readonly DbService db;
-    private readonly IPubSub pubSub;
-    private readonly DiscordSocketClient client;
-    private readonly BotConfig config;
+    private readonly TypedKey<bool> blPrivKey = new("blacklist.reload.priv");
 
     private readonly TypedKey<BlacklistEntry[]> blPubKey = new("blacklist.reload");
+    private readonly DiscordSocketClient client;
+    private readonly BotConfig config;
+    private readonly DbService db;
+    private readonly IPubSub pubSub;
 
     /// <summary>
     /// Gets or sets the collection of blacklist entries.
     /// </summary>
     public IList<BlacklistEntry> BlacklistEntries;
-
-    private readonly TypedKey<bool> blPrivKey = new("blacklist.reload.priv");
 
     /// <summary>
     /// Initializes a new instance of the <see cref="BlacklistService"/> class, setting up listeners for guild joins and the bot's readiness,
@@ -63,6 +62,45 @@ public sealed class BlacklistService : IEarlyBehavior, INService
         {
             DateAdded = DateTime.UtcNow, ItemId = 767459211373314118, Type = BlacklistType.User
         });
+    }
+
+    /// <summary>
+    /// The priority order in which the early behavior should run, with lower numbers indicating higher priority.
+    /// </summary>
+    public int Priority => -100;
+
+    /// <summary>
+    /// The type of behavior this service represents, indicating when it should be run in the bot's lifecycle.
+    /// </summary>
+    public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Blocker;
+
+    /// <summary>
+    /// Evaluates whether the incoming message should be blocked based on the blacklist status of the user, channel, or guild.
+    /// </summary>
+    /// <param name="socketClient">The Discord socket client instance.</param>
+    /// <param name="guild">The guild from which the message originated, if applicable.</param>
+    /// <param name="usrMsg">The user message to be evaluated against the blacklist.</param>
+    /// <returns>A task that resolves to true if the message should be blocked; otherwise, false.</returns>
+    /// <remarks>
+    /// This method allows the service to act as a pre-message processing step, blocking messages from blacklisted entities.
+    /// </remarks>
+    public Task<bool> RunBehavior(DiscordSocketClient socketClient, IGuild guild, IUserMessage usrMsg)
+    {
+        foreach (var bl in BlacklistEntries)
+        {
+            if (guild != null && bl.Type == BlacklistType.Server && bl.ItemId == guild.Id)
+                return Task.FromResult(true);
+
+            switch (bl.Type)
+            {
+                case BlacklistType.Channel when bl.ItemId == usrMsg.Channel.Id:
+                    return Task.FromResult(true);
+                case BlacklistType.User when bl.ItemId == usrMsg.Author.Id:
+                    return Task.FromResult(true);
+            }
+        }
+
+        return Task.FromResult(false);
     }
 
     /// <summary>
@@ -184,44 +222,6 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     }
 
     /// <summary>
-    /// The priority order in which the early behavior should run, with lower numbers indicating higher priority.
-    /// </summary>
-    public int Priority => -100;
-
-    /// <summary>
-    /// The type of behavior this service represents, indicating when it should be run in the bot's lifecycle.
-    /// </summary>
-    public ModuleBehaviorType BehaviorType => ModuleBehaviorType.Blocker;
-
-    /// <summary>
-    /// Evaluates whether the incoming message should be blocked based on the blacklist status of the user, channel, or guild.
-    /// </summary>
-    /// <param name="socketClient">The Discord socket client instance.</param>
-    /// <param name="guild">The guild from which the message originated, if applicable.</param>
-    /// <param name="usrMsg">The user message to be evaluated against the blacklist.</param>
-    /// <returns>A task that resolves to true if the message should be blocked; otherwise, false.</returns>
-    /// <remarks>
-    /// This method allows the service to act as a pre-message processing step, blocking messages from blacklisted entities.
-    /// </remarks>
-    public Task<bool> RunBehavior(DiscordSocketClient socketClient, IGuild guild, IUserMessage usrMsg)
-    {
-        foreach (var bl in BlacklistEntries)
-        {
-            if (guild != null && bl.Type == BlacklistType.Server && bl.ItemId == guild.Id)
-                return Task.FromResult(true);
-
-            switch (bl.Type)
-            {
-                case BlacklistType.Channel when bl.ItemId == usrMsg.Channel.Id:
-                    return Task.FromResult(true);
-                case BlacklistType.User when bl.ItemId == usrMsg.Author.Id:
-                    return Task.FromResult(true);
-            }
-        }
-
-        return Task.FromResult(false);
-    }
-
     /// Handles a publish-subscribe notification to reload the blacklist from an updated source.
     /// </summary>
     /// <param name="blacklist">The updated array of blacklist entries to load.</param>

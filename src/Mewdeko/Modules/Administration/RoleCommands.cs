@@ -31,7 +31,7 @@ public partial class Administration
             Excl
         }
 
-        private async Task? InternalReactionRoles(bool exclusive, ulong? messageId, params string[] input)
+        private async Task InternalReactionRoles(bool exclusive, ulong? messageId, params string[] input)
         {
             var target = messageId is { } msgId
                 ? await ctx.Channel.GetMessageAsync(msgId).ConfigureAwait(false)
@@ -139,12 +139,13 @@ public partial class Administration
         /// It requires the Manage Roles permission for the user and the Manage Roles permission for the bot.
         /// </remarks>
         /// <param name="messageId">The ID of the message to which reactions will be added.</param>
+        /// <param name="_">Used to mark </param>
         /// <param name="input">The roles and emojis to be associated with reactions.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageRoles),
          BotPerm(GuildPermission.ManageRoles), Priority(1)]
-        public Task ReactionRoles(ulong messageId, Exclude _, params string[] input) =>
-            InternalReactionRoles(true, messageId, input);
+        public async Task ReactionRoles(ulong messageId, Exclude _, params string[] input) =>
+            await InternalReactionRoles(true, messageId, input);
 
         /// <summary>
         /// Assigns reaction roles based on the provided input, excluding certain roles.
@@ -159,8 +160,8 @@ public partial class Administration
         /// <returns>A task representing the asynchronous operation.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageRoles),
          BotPerm(GuildPermission.ManageRoles), Priority(1)]
-        public Task ReactionRoles(Exclude _, ulong messageId, params string[] input) =>
-            InternalReactionRoles(true, messageId, input);
+        public async Task ReactionRoles(Exclude _, ulong messageId, params string[] input) =>
+            await InternalReactionRoles(true, messageId, input);
 
         /// <summary>
         /// Assigns reaction roles based on the provided input.
@@ -173,7 +174,7 @@ public partial class Administration
         /// <returns>A task representing the asynchronous operation.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles), Priority(0)]
-        public Task ReactionRoles(params string[] input) => InternalReactionRoles(false, null, input);
+        public async Task ReactionRoles(params string[] input) => await InternalReactionRoles(false, null, input);
 
         /// <summary>
         /// Assigns reaction roles based on the provided input, excluding certain roles.
@@ -186,7 +187,8 @@ public partial class Administration
         /// <returns>A task representing the asynchronous operation.</returns>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles), Priority(1)]
-        public Task ReactionRoles(Exclude _, params string[] input) => InternalReactionRoles(true, null, input);
+        public async Task ReactionRoles(Exclude _, params string[] input) =>
+            await InternalReactionRoles(true, null, input);
 
 
         /// <summary>
@@ -237,9 +239,9 @@ public partial class Administration
                             .AddField(GetText("users_can_select_morethan_one"), rr.Exclusive)
                             .AddField(GetText("wasdeleted"), msg == null ? GetText("yes") : GetText("no"))
                             .AddField(GetText("messagelink"),
-                                msg == null
+                                (msg == null
                                     ? GetText("messagewasdeleted")
-                                    : $"[{GetText("HYATT")}]({msg.GetJumpUrl()})");
+                                    : $"[{GetText("HYATT")}]({msg.GetJumpUrl()})")!);
                 }
             }
         }

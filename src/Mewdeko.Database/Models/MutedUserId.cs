@@ -13,8 +13,4 @@ public class MutedUserId : DbEntity
 
     [ForeignKey("GuildConfigId")]
     public int GuildConfigId { get; set; }
-
-    public override int GetHashCode() => UserId.GetHashCode();
-
-    public override bool Equals(object obj) => obj is MutedUserId mui && mui.UserId == UserId;
 }

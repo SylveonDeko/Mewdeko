@@ -10,7 +10,6 @@ namespace Mewdeko.Services
     public class GuildSettingsService(
         DbService db,
         IConfigService? bss,
-        Mewdeko bot,
         IServiceProvider services,
         IDataCache cache)
     {

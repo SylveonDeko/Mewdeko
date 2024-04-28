@@ -224,7 +224,6 @@ public partial class ServerManagement
         /// <summary>
         /// Enables or disables slowmode in a channel, with customizable duration.
         /// </summary>
-        /// <param name="time">The duration to set for slowmode.</param>
         /// <param name="channel">Optional parameter to specify a channel to apply slowmode.</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.ManageMessages), BotPerm(GuildPermission.ManageMessages)]
@@ -252,11 +251,10 @@ public partial class ServerManagement
         }
 
         /// <summary>
-        /// Creates a webhook in a specified text channel.
+        /// Creates a category and the specified channels in a server.
         /// </summary>
-        /// <param name="channel">The text channel to create the webhook in.</param>
-        /// <param name="name">The name of the webhook.</param>
-        /// <param name="avatar">Optional URL of an image for the webhook's avatar.</param>
+        /// <param name="catName">The name of the category to create</param>
+        /// <param name="channels">The names of the channels to create</param>
         [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
         public async Task CreateCatAndTxtChannels(string catName, params string[] channels)
         {

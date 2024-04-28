@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using Discord.Interactions;
-using Mewdeko.Common.Configs;
 using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Administration.Services;
 using OtpNet;
@@ -18,18 +17,16 @@ public partial class SlashAdministration
     {
         private readonly IDataCache cache;
         private readonly IBotCredentials credentials;
-        private readonly BotConfig botConfig;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SlashServerRecovery"/> class.
         /// </summary>
-        /// <param name="cache"></param>
-        /// <param name="credentials"></param>
-        public SlashServerRecovery(IDataCache cache, IBotCredentials credentials, BotConfig botConfig)
+        /// <param name="cache">The redis cache</param>
+        /// <param name="credentials">The bot credentials</param>
+        public SlashServerRecovery(IDataCache cache, IBotCredentials credentials)
         {
             this.cache = cache;
             this.credentials = credentials;
-            this.botConfig = botConfig;
         }
 
         /// <summary>
@@ -45,14 +42,14 @@ public partial class SlashAdministration
 
             if (!setup)
             {
-                await ctx.Interaction.SendErrorAsync(GetText("nothingsetup"), botConfig);
+                await ctx.Interaction.SendErrorAsync(GetText("nothingsetup"), Config);
             }
             else
             {
                 if (await PromptUserConfirmAsync(GetText("areyouabsolutelysure"), ctx.User.Id))
                 {
                     await Service.ClearRecoverySetup(store);
-                    await ctx.Interaction.SendErrorFollowupAsync(GetText("recoverydeleted"), botConfig);
+                    await ctx.Interaction.SendErrorFollowupAsync(GetText("recoverydeleted"), Config);
                 }
             }
         }
@@ -71,7 +68,7 @@ public partial class SlashAdministration
             var curBotUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
             if (!curBotUser.GuildPermissions.Has(GuildPermission.Administrator))
             {
-                await ctx.Interaction.SendErrorFollowupAsync(GetText("recovernoadmin"), botConfig);
+                await ctx.Interaction.SendErrorFollowupAsync(GetText("recovernoadmin"), Config);
                 return;
             }
 
@@ -81,7 +78,7 @@ public partial class SlashAdministration
             {
                 if (ctx.Guild.OwnerId != ctx.User.Id)
                 {
-                    await ctx.Interaction.SendErrorFollowupAsync(GetText("recoverowneronly"), botConfig);
+                    await ctx.Interaction.SendErrorFollowupAsync(GetText("recoverowneronly"), Config);
                     return;
                 }
 
@@ -128,7 +125,7 @@ public partial class SlashAdministration
                 }
                 catch
                 {
-                    await ctx.Interaction.SendErrorFollowupAsync("cant_dm", botConfig);
+                    await ctx.Interaction.SendErrorFollowupAsync("cant_dm", Config);
                 }
             }
             else
@@ -176,7 +173,7 @@ public partial class SlashAdministration
 
                 else
                 {
-                    await ctx.Interaction.SendErrorAsync(GetText("tryagain"), botConfig);
+                    await ctx.Interaction.SendErrorAsync(GetText("tryagain"), Config);
                     await db.KeyDeleteAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
                     await db.KeyDeleteAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}");
                 }
@@ -223,14 +220,14 @@ public partial class SlashAdministration
                     }
                     else
                     {
-                        await ctx.Interaction.SendErrorAsync(GetText("incorrect2fa"), botConfig);
+                        await ctx.Interaction.SendErrorAsync(GetText("incorrect2fa"), Config);
                         await db.KeyDeleteAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
                         await db.KeyDeleteAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}");
                     }
                 }
                 else
                 {
-                    await ctx.Interaction.SendErrorAsync(GetText("startagain"), botConfig);
+                    await ctx.Interaction.SendErrorAsync(GetText("startagain"), Config);
                 }
             }
             else
@@ -242,7 +239,7 @@ public partial class SlashAdministration
                 var isValid = totp.VerifyTotp(modal.Code, out _, new VerificationWindow(2, 2));
                 if (!isValid)
                 {
-                    await ctx.Interaction.SendErrorAsync(GetText("incorrect2fa"), botConfig);
+                    await ctx.Interaction.SendErrorAsync(GetText("incorrect2fa"), Config);
                     await db.KeyDeleteAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
                     await db.KeyDeleteAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}");
                     return;

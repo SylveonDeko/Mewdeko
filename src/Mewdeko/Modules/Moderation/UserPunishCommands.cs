@@ -836,7 +836,7 @@ public partial class Moderation : MewdekoModule
         /// <summary>
         /// Bans a user.
         /// </summary>
-        /// <param name="userId">The ID of the user to ban</param>
+        /// <param name="user">The user to ban</param>
         /// <param name="msg">The reason for the ban</param>
         [Cmd, Aliases, RequireContext(ContextType.Guild),
          UserPerm(GuildPermission.BanMembers), BotPerm(GuildPermission.BanMembers), Priority(2)]

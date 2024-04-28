@@ -24,7 +24,7 @@ namespace Mewdeko.Services.strings
         /// <param name="locale">The culture info specifying the locale of the text. Default is null.</param>
         /// <param name="data">Additional data to format the text.</param>
         /// <returns>The retrieved text.</returns>
-        string? GetText(string? key, CultureInfo? locale, params object?[] data);
+        string GetText(string? key, CultureInfo? locale, params object?[] data);
 
         /// <summary>
         /// Reloads the bot strings.

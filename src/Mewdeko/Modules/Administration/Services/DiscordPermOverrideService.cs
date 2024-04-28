@@ -13,6 +13,7 @@ namespace Mewdeko.Modules.Administration.Services;
 /// </summary>
 public class DiscordPermOverrideService : INService, ILateBlocker
 {
+    private readonly BotConfig botConfig;
     private readonly DbService db;
 
     /// <summary>
@@ -21,13 +22,13 @@ public class DiscordPermOverrideService : INService, ILateBlocker
     private readonly ConcurrentDictionary<(ulong, string), DiscordPermOverride> overrides;
 
     private readonly IServiceProvider services;
-    private readonly BotConfig botConfig;
 
     /// <summary>
     /// Constructs a new instance of the DiscordPermOverrideService.
     /// </summary>
     /// <param name="db">The database service.</param>
     /// <param name="services">The service provider.</param>
+    /// <param name="config">The bot config service.</param>
     public DiscordPermOverrideService(DbService db, IServiceProvider services, BotConfig config)
     {
         this.botConfig = config;

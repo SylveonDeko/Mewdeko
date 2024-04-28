@@ -18,6 +18,7 @@ public class RoleCommandsService : INService
     /// <param name="db">The database service.</param>
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="bot">The bot.</param>
+    /// /// <param name="gss">The guild config service.</param>
     public RoleCommandsService(DbService db, EventHandler eventHandler, Mewdeko bot, GuildSettingsService gss)
     {
         this.db = db;

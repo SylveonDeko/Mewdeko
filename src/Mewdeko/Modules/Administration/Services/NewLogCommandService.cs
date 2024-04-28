@@ -9,14 +9,56 @@ namespace Mewdeko.Modules.Administration.Services;
 /// </summary>
 public class NewLogCommandService : INService
 {
-    private readonly DbService db;
-    private readonly IDataCache cache;
-    private readonly DiscordSocketClient client;
-
     /// <summary>
-    /// Dictionary of log settings for each guild.
+    /// Log category types.
     /// </summary>
-    public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
+    public enum LogCategoryTypes
+    {
+        /// <summary>
+        /// All events.
+        /// </summary>
+        All,
+
+        /// <summary>
+        /// All events related to users.
+        /// </summary>
+        Users,
+
+        /// <summary>
+        /// All events related to threads.
+        /// </summary>
+        Threads,
+
+        /// <summary>
+        /// All events related to roles.
+        /// </summary>
+        Roles,
+
+        /// <summary>
+        /// All events related to the server.
+        /// </summary>
+        Server,
+
+        /// <summary>
+        /// All events related to messages.
+        /// </summary>
+        Channel,
+
+        /// <summary>
+        /// All events related to messages.
+        /// </summary>
+        Messages,
+
+        /// <summary>
+        /// All events related to moderation.
+        /// </summary>
+        Moderation,
+
+        /// <summary>
+        /// Sets all events to none.
+        /// </summary>
+        None
+    }
 
     /// <summary>
     /// Dictionary of log types.
@@ -154,56 +196,9 @@ public class NewLogCommandService : INService
         UserMuted
     }
 
-    /// <summary>
-    /// Log category types.
-    /// </summary>
-    public enum LogCategoryTypes
-    {
-        /// <summary>
-        /// All events.
-        /// </summary>
-        All,
-
-        /// <summary>
-        /// All events related to users.
-        /// </summary>
-        Users,
-
-        /// <summary>
-        /// All events related to threads.
-        /// </summary>
-        Threads,
-
-        /// <summary>
-        /// All events related to roles.
-        /// </summary>
-        Roles,
-
-        /// <summary>
-        /// All events related to the server.
-        /// </summary>
-        Server,
-
-        /// <summary>
-        /// All events related to messages.
-        /// </summary>
-        Channel,
-
-        /// <summary>
-        /// All events related to messages.
-        /// </summary>
-        Messages,
-
-        /// <summary>
-        /// All events related to moderation.
-        /// </summary>
-        Moderation,
-
-        /// <summary>
-        /// Sets all events to none.
-        /// </summary>
-        None
-    }
+    private readonly IDataCache cache;
+    private readonly DiscordSocketClient client;
+    private readonly DbService db;
 
 
     /// <summary>
@@ -263,6 +258,11 @@ public class NewLogCommandService : INService
             .ToDictionary(g => g.GuildId, g => g.LogSetting)
             .ToConcurrent();
     }
+
+    /// <summary>
+    /// Dictionary of log settings for each guild.
+    /// </summary>
+    public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
 
     /// <summary>
     /// Handles the creation of audit logs.
@@ -1567,6 +1567,7 @@ public class NewLogCommandService : INService
     /// <exception cref="NotImplementedException"></exception>
     private async Task OnVoicePresenceTts(SocketUser args, SocketVoiceState args2, SocketVoiceState args3)
     {
+        await Task.CompletedTask;
         throw new NotImplementedException();
     }
 
@@ -1580,6 +1581,7 @@ public class NewLogCommandService : INService
     /// <exception cref="NotImplementedException"></exception>
     private async Task OnUserMuted(IGuildUser guildUser, IUser args2, MuteType args3, string args4)
     {
+        await Task.CompletedTask;
         throw new NotImplementedException();
     }
 
@@ -1593,6 +1595,7 @@ public class NewLogCommandService : INService
     /// <exception cref="NotImplementedException"></exception>
     private async Task OnUserUnmuted(IGuildUser args, IUser args2, MuteType args3, string args4)
     {
+        await Task.CompletedTask;
         throw new NotImplementedException();
     }
 

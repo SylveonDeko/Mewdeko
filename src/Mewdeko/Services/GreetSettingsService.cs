@@ -228,7 +228,6 @@ public class GreetSettingsService : INService, IReadyExecutor
     /// </summary>
     /// <param name="guildId">The guild's unique identifier.</param>
     /// <param name="channelId">The ID of the channel where boost messages should be sent.</param>
-    /// <param name="value">Optional. Specifies whether the boost message feature should be enabled or disabled. If not provided, the setting is toggled.</param>
     /// <returns>A boolean indicating whether the boost message feature is now enabled.</returns>
     public async Task<bool> SetBoost(ulong guildId, ulong channelId)
     {
