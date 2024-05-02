@@ -1,4 +1,8 @@
-﻿<h1 align="center"><a href="https://mewdeko.tech/">Mewdeko</a> - the 🌸<em>kawaii</em>🌸 Discord bot!</h1>
+﻿---
+uid: About-Mewdeko
+---
+
+<h1 align="center"><a href="https://mewdeko.tech/">Mewdeko</a> - the 🌸<em>kawaii</em>🌸 Discord bot!</h1>
 <p align="center">
     <img height="400px" src="https://cdn.mewdeko.tech/mewbackg.jpg" alt="mewdeko banner~ nya"/>
 </p>
