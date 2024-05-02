@@ -3,6 +3,8 @@
 patreon_rewards.json
 command_errors*.txt
 _output/
+_site/
+api/
 
 src/Mewdeko/Command Errors*.txt
 bot.yml
