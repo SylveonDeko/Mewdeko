@@ -22,6 +22,6 @@
 ### - [Contribution Guide](CONTRIBUTING.md)
 ### - [Discord Server](https://discord.gg/mewdeko)
 ### - [Top.gg Link](https://top.gg/bot/752236274261426212)
-### - [License](LICENSE)
+### - [License](LICENSE.md)
 
 ## If you have any questions please join the discord server above or open an issue here.

@@ -23,7 +23,8 @@
           "docs/Selfhost-Windows.md",
           "docs/toc.yml",
           "toc.yml",
-          "**.md"
+          "**.md",
+          "LICENSE.md"
         ]
       }
     ],
