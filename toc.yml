@@ -1,4 +1,4 @@
-- name: Docs
+- name: Other Docs (Wip)
   href: docs/
   items:
     - name: About Mewdeko
@@ -11,5 +11,5 @@
       href: Selfhosting-Windows.md
     - name: Selfhosting On Linux
       href: Selfhosting-Linux.md
-- name: API
+- name: Bot Docs
   href: api/

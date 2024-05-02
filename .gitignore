@@ -376,4 +376,6 @@ src\Mewdeko\data\*.yml
 # Cottage Test Utilities
 __cottage_test/
 
-/_site
+_site/*
+api/*
+/api

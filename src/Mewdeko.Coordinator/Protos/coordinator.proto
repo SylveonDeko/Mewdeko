@@ -21,13 +21,13 @@ service Coordinator {
   // Restarts all shards. Queues them to be restarted at a normal rate. Setting Nuke to true will kill all shards right
   // away
   rpc RestartAllShards(RestartAllRequest) returns (RestartAllReply);
-  
+
   // kill coordinator (and all shards as a consequence)
   rpc Die(DieRequest) returns (DieReply);
-  
+
   rpc SetConfigText(SetConfigTextRequest) returns (SetConfigTextReply);
-  
-  rpc GetConfigText(GetConfigTextRequest) returns (GetConfigTextReply);
+
+	rpc GetConfigText(GetConfigTextRequest) returns (GetConfigTextReply);
 }
 
 enum ConnState {
@@ -38,7 +38,7 @@ enum ConnState {
 
 message HeartbeatRequest {
   int32 shardId = 1;
-  int32 guildCount = 2;  
+	int32 guildCount = 2;
   ConnState state = 3;
   int32 userCount = 4;
 }
@@ -54,7 +54,7 @@ message RestartShardRequest {
 }
 
 message RestartShardReply {
-  
+
 }
 
 message ReshardRequest {
@@ -62,19 +62,19 @@ message ReshardRequest {
 }
 
 message ReshardReply {
-  
+
 }
 
 message ReloadRequest {
-  
+
 }
 
 message ReloadReply {
-  
+
 }
 
 message GetStatusRequest {
- int32 shardId = 1; 
+	int32 shardId = 1;
 }
 
 message GetStatusReply {
@@ -88,7 +88,7 @@ message GetStatusReply {
 }
 
 message GetAllStatusesRequest {
-  
+
 }
 
 message GetAllStatusesReply {
@@ -100,7 +100,7 @@ message RestartAllRequest {
 }
 
 message RestartAllReply {
-  
+
 }
 
 message DieRequest {
@@ -108,11 +108,11 @@ message DieRequest {
 }
 
 message DieReply {
-  
+
 }
 
 message GetConfigTextRequest {
-  
+
 }
 
 message GetConfigTextReply {
