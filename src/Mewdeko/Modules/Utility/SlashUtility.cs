@@ -227,6 +227,7 @@ public class SlashUtility : MewdekoSlashModuleBase<UtilityService>
     {
         var link = platform.ToLower() switch
         {
+            "v3" or "version-3" => "https://docs.tealstreet.io/docs/about/version-3",
             "windows" or "win" => "https://docs.tealstreet.io/docs/desktopclient/windows",
             "linux" or "nix" => "https://docs.tealstreet.io/docs/desktopclient/linux",
             "mac" or "macos" => "https://docs.tealstreet.io/docs/desktopclient/mac",
