@@ -7,6 +7,7 @@ using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.JsonSettings;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
+using Mewdeko.Services.Impl;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using Newtonsoft.Json;
@@ -58,6 +59,7 @@ public class Help(
                         j.Preconditions.FirstOrDefault(ca => ca is RequireDragonAttribute) as RequireDragonAttribute
                     select new Command
                     {
+                        BotVersion = StatsService.BotVersion,
                         CommandName = j.Aliases.Any() ? j.Aliases[0] : j.Name,
                         Description = j.RealSummary(strings, ctx.Guild.Id, prefix),
                         Example = j.RealRemarksArr(strings, ctx.Guild.Id, prefix).ToList() ?? new List<string>(),
@@ -95,8 +97,10 @@ public class Help(
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            await ctx.Channel.SendErrorAsync(
+                "Seems like there was an issue dumping commands to a json file. Please check console for issues.",
+                Config);
+            Log.Error(e, "An error has occured while dumping commands to json");
         }
     }
 
@@ -149,7 +153,10 @@ public class Help(
         }
         catch (Exception e)
         {
-            Log.Information(e.ToString());
+            await ctx.Channel.SendErrorAsync(
+                "There was an issue sending the help command, please check console and report to the support server.",
+                Config);
+            Log.Error(e, "There was an issue embedding the help command");
         }
     }
 
@@ -352,6 +359,10 @@ public class Module(List<Command> commands, string name)
 public class Command
 {
     /// <summary>
+    /// The bot version the specified command exists on.
+    /// </summary>
+    public string BotVersion { get; set; } = StatsService.BotVersion;
+    /// <summary>
     /// Gets or sets a value indicating whether the command is a dragon command. Used to indicate if a command is beta only.
     /// </summary>
     public bool IsDragon { get; set; }
@@ -374,20 +385,20 @@ public class Command
     /// <summary>
     /// The guild permissions required by the user to use the command.
     /// </summary>
-    public string GuildUserPermissions { get; set; }
+    public string? GuildUserPermissions { get; set; }
 
     /// <summary>
     /// The channel permissions required by the user to use the command.
     /// </summary>
-    public string ChannelUserPermissions { get; set; }
+    public string? ChannelUserPermissions { get; set; }
 
     /// <summary>
     /// The channel permissions required by the bot to use the command.
     /// </summary>
-    public string ChannelBotPermissions { get; set; }
+    public string? ChannelBotPermissions { get; set; }
 
     /// <summary>
     /// The guild permissions required by the bot to use the command.
     /// </summary>
-    public string GuildBotPermissions { get; set; }
+    public string? GuildBotPermissions { get; set; }
 }
