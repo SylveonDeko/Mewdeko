@@ -100,7 +100,6 @@ public class BotCredentials : IBotCredentials
     /// Gets or sets the PostgreSQL connection string.
     /// </summary>
     public string PsqlConnectionString { get; set; }
-
     /// <summary>
     /// Gets or sets a value indicating whether the bot should use global currency.
     /// </summary>
@@ -436,8 +435,9 @@ public class BotCredentials : IBotCredentials
 
         public string BotListToken { get; set; }
         public string VotesUrl { get; set; }
-        public bool UsePsql { get; set; }
-        public string PsqlConnectionString { get; set; }
+        public string PsqlConnectionString { get; set; }  =
+            "Server=ServerIp;Database=DatabaseName;Port=PsqlPort;UID=PsqlUser;Password=UserPassword";
+
         public string CoinmarketcapApiKey { get; set; }
 
         public ulong DebugGuildId { get; set; } = 843489716674494475;
@@ -483,7 +483,5 @@ public class BotCredentials : IBotCredentials
         RestartConfig IBotCredentials.RestartCommand { get; }
 
         public bool IsOwner(IUser u) => throw new NotImplementedException();
-
-        public bool IsOfficialMod(IUser u) => throw new NotImplementedException();
     }
 }
