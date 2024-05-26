@@ -92,11 +92,6 @@ public class BotCredentials : IBotCredentials
     public string ShardRunArguments { get; set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the bot should use PostgreSQL.
-    /// </summary>
-    public bool UsePsql { get; set; }
-
-    /// <summary>
     /// Gets or sets the PostgreSQL connection string.
     /// </summary>
     public string PsqlConnectionString { get; set; }
@@ -318,7 +313,6 @@ public class BotCredentials : IBotCredentials
             OwnerIds = data.GetSection("OwnerIds").GetChildren().Select(c => ulong.Parse(c.Value))
                 .ToImmutableArray();
             GoogleApiKey = data[nameof(GoogleApiKey)];
-            UsePsql = bool.Parse(data[nameof(UsePsql)] ?? "false");
             PsqlConnectionString = data[nameof(PsqlConnectionString)];
             CsrfToken = data[nameof(CsrfToken)];
             MigrateToPsql = bool.Parse(data[nameof(MigrateToPsql)] ?? "false");
