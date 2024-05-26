@@ -10,10 +10,11 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: 8.0.203
+          dotnet-version: 8.0.300
 
       - name: Restore dependencies Mewdeko
         run: dotnet restore src/Mewdeko/Mewdeko.csproj
@@ -41,6 +42,16 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
         shell: bash
 
+      - name: Get previous tag
+        id: prev_tag
+        run: echo "::set-output name=prev_tag::$(git describe --tags --abbrev=0)"
+        shell: bash
+
+      - name: Get commit messages
+        id: commit_messages
+        run: echo "::set-output name=messages::$(git log --pretty=format:'* %s' ${{ steps.prev_tag.outputs.prev_tag }}..HEAD)"
+        shell: bash
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -49,7 +60,12 @@ jobs:
         with:
           tag_name: psqldeko-${{ github.run_number }}
           release_name: PsqlDeko build ${{ github.run_number }} (${{ steps.get_date.outputs.date }})
-          body: "Automated psql build for commit ${{ github.sha }} \n # WARNING: Mewdeko on PSQL is in early beta and has missing features. If you find bugs please report them."
+          body: |
+            Automated psql build for commit ${{ github.sha }}
+            # WARNING: Mewdeko on PSQL is in early beta and has missing features. If you find bugs please report them.
+
+            ## Commits since previous release:
+            - ${{ steps.commit_messages.outputs.messages }}
           draft: false
           prerelease: true
 
