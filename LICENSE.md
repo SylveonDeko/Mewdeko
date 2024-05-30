@@ -659,3 +659,8 @@ specific requirements.
 if any, to sign a "copyright disclaimer" for the program, if necessary.
 For more information on this, and how to apply and follow the GNU AGPL, see
 <https://www.gnu.org/licenses/>.
+
+
+Additional Clause:
+
+In accordance with Section 7 of the AGPLv3, any modifications to the source code must not remove or alter any notices of the original authorship or credits unless the program itself provides a clear option to do so within its functionality. This clause ensures that the original authors are properly credited for their work in all distributed versions of the program.
