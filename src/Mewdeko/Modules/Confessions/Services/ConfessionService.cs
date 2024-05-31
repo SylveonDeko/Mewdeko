@@ -29,7 +29,7 @@ public class ConfessionService(
         ulong serverId,
         IUser user,
         string confession,
-        IMessageChannel currentChannel, IInteractionContext ctx = null, string? imageUrl = null)
+        IMessageChannel currentChannel, IInteractionContext? ctx = null, string? imageUrl = null)
     {
         var uow = db.GetDbContext();
         var confessions = uow.Confessions.ForGuild(serverId);
@@ -230,7 +230,7 @@ public class ConfessionService(
     /// </summary>
     /// <param name="id">The ID of the guild.</param>
     /// <returns>The ID of the confession channel.</returns>
-    public async Task<ulong> GetConfessionChannel(ulong id)
+    private async Task<ulong> GetConfessionChannel(ulong id)
         => (await guildSettings.GetGuildConfig(id)).ConfessionChannel;
 
     /// <summary>
@@ -270,7 +270,7 @@ public class ConfessionService(
     /// </summary>
     /// <param name="id">The ID of the guild.</param>
     /// <returns>The ID of the confession log channel.</returns>
-    public async Task<ulong> GetConfessionLogChannel(ulong id)
+    private async Task<ulong> GetConfessionLogChannel(ulong id)
         => (await guildSettings.GetGuildConfig(id)).ConfessionLogChannel;
 }
 
