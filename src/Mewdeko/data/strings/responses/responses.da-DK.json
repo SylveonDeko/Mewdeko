@@ -33,6 +33,7 @@
   "abilities": "Evner",
   "nameban_processing": "Banning {0} users...",
   "nameban_finished_nofail": "Banned {0} users.",
+  "command_count": "Command Count",
   "account_not_found": "That account does not exist or is set to private.",
   "acm_disable": "Slog brugen af ALLE MODULER fra i kanalen {0}.",
   "acm_enable": "Slog brugen af ALLE MODULER til i kanalen {0}.",
