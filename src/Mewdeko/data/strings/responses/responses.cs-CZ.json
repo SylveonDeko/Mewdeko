@@ -33,6 +33,7 @@
   "abilities": "Schopnosti",
   "nameban_processing": "Banning {0} users...",
   "nameban_finished_nofail": "Banned {0} users.",
+  "command_count": "Command Count",
   "account_not_found": "Tento účet buď neexistuje nebo je nastaven jako soukromý.",
   "acm_disable": "Vypnuto používání všech modulů v kanálu {0}.",
   "acm_enable": "Zapnuto používání všech modulů v kanálu {0}.",
