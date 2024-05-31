@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Threading.Tasks;
 using Mewdeko.Votes.Extensions;
 using Mewdeko.Votes.Services;
@@ -7,25 +8,21 @@ using StackExchange.Redis;
 
 namespace Mewdeko.Votes.Common.PubSub;
 
-public sealed class RedisPubSub : IPubSub
+public sealed class RedisPubSub(ConnectionMultiplexer multi, ISeria serializer, IBotCredentials creds) : IPubSub
 {
-    private readonly IBotCredentials creds;
-    private readonly ConnectionMultiplexer multi;
-    private readonly ISeria serializer;
-
-    public RedisPubSub(ConnectionMultiplexer multi, ISeria serializer, IBotCredentials creds)
-    {
-        this.multi = multi;
-        this.serializer = serializer;
-        this.creds = creds;
-    }
-
-    public Task Pub<TData>(in TypedKey<TData> key, TData data)
+    public Task Pub<TData>(in TypedKey<TData> key, TData? data)
         where TData : notnull
     {
+        if (data is null)
+        {
+            Log.Warning("Trying to publish a null value for event {EventName}. This is not allowed", key.Key);
+            return Task.CompletedTask;
+        }
+
         var serialized = serializer.Serialize(data);
+        var redisKey = $"{creds.RedisKey()}:{key.Key}";
         return multi.GetSubscriber()
-            .PublishAsync($"{creds.RedisKey()}:{key.Key}", serialized, CommandFlags.FireAndForget);
+            .PublishAsync(RedisChannel.Literal(redisKey), serialized, CommandFlags.FireAndForget);
     }
 
     public Task Sub<TData>(in TypedKey<TData> key, Func<TData, ValueTask> action)
@@ -33,19 +30,21 @@ public sealed class RedisPubSub : IPubSub
     {
         var eventName = key.Key;
 
+        var redisKey = $"{creds.RedisKey()}:{eventName}";
+        return multi.GetSubscriber().SubscribeAsync(RedisChannel.Literal(redisKey), OnSubscribeHandler);
+
         async void OnSubscribeHandler(RedisChannel _, RedisValue data)
         {
             try
             {
-                var dataObj = serializer.Deserialize<TData>(data);
+                var dataObj = serializer.Deserialize<TData?>(data);
                 if (dataObj is not null)
                 {
                     await action(dataObj).ConfigureAwait(false);
                 }
                 else
                 {
-                    Log.Warning("Publishing event {EventName} with a null value. This is not allowed",
-                        eventName);
+                    Log.Warning("Publishing event {EventName} with a null value. This is not allowed", eventName);
                 }
             }
             catch (Exception ex)
@@ -53,7 +52,11 @@ public sealed class RedisPubSub : IPubSub
                 Log.Error("Error handling the event {EventName}: {ErrorMessage}", eventName, ex.Message);
             }
         }
+    }
 
-        return multi.GetSubscriber().SubscribeAsync($"{creds.RedisKey()}:{eventName}", OnSubscribeHandler);
+    public Task Unsub<TData>(in TypedKey<TData> key)
+    {
+        var redisKey = $"{creds.RedisKey()}:{key.Key}";
+        return multi.GetSubscriber().UnsubscribeAsync(RedisChannel.Literal(redisKey));
     }
 }

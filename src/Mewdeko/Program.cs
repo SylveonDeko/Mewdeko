@@ -35,7 +35,6 @@ internal class Program
         {
             throw new ArgumentException("No token provided. Exiting...");
         }
-
         // Setup environment variables and logging
         Environment.SetEnvironmentVariable($"AFK_CACHED_{shardId}", "0");
         Log.Information($"Pid: {Environment.ProcessId}");
