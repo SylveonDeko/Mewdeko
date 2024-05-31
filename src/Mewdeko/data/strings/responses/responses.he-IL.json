@@ -33,6 +33,7 @@
   "abilities": "יכולות",
   "nameban_processing": "Banning {0} users...",
   "nameban_finished_nofail": "Banned {0} users.",
+  "command_count": "Command Count",
   "account_not_found": "That account does not exist or is set to private.",
   "acm_disable": "שימוש מושבת בכל המודולים בערוץ {0}.",
   "acm_enable": "שימוש מופעל בכל המודולים בערוץ {0}.",
