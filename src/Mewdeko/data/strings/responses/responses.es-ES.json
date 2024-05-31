@@ -33,6 +33,7 @@
   "abilities": "Habilidades",
   "nameban_processing": "Banning {0} users...",
   "nameban_finished_nofail": "Banned {0} users.",
+  "command_count": "Command Count",
   "account_not_found": "Esa cuenta no existe o es privada.",
   "acm_disable": "Desactivado el uso de todos los módulos en el canal {0}.",
   "acm_enable": "Activado el uso de todos los módulos en el canal {0}.",
