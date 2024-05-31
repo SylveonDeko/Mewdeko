@@ -33,6 +33,7 @@
   "abilities": "Способности",
   "nameban_processing": "Banning {0} users...",
   "nameban_finished_nofail": "Banned {0} users.",
+  "command_count": "Command Count",
   "account_not_found": "Этот аккаунт либо не существует, либо является конфиденциальным.",
   "acm_disable": "Отключено использование ВСЕХ МОДУЛЕЙ в канале {0}.",
   "acm_enable": "Включено использование ВСЕХ МОДУЛЕЙ в канале {0}.",
