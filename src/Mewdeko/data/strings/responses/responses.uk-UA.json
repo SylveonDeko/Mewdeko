@@ -33,6 +33,7 @@
   "abilities": "Здібності",
   "nameban_processing": "Banning {0} users...",
   "nameban_finished_nofail": "Banned {0} users.",
+  "command_count": "Command Count",
   "account_not_found": "Цього облікового запису не існує або він значиться як приватний.",
   "acm_disable": "Використання всіх модулів вимкнене на каналі {0}",
   "acm_enable": "Використання всіх модулів увімкнене на каналі {0}",
