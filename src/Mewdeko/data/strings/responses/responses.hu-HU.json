@@ -33,6 +33,7 @@
   "abilities": "Képességek",
   "nameban_processing": "Banning {0} users...",
   "nameban_finished_nofail": "Banned {0} users.",
+  "command_count": "Command Count",
   "account_not_found": "Ez a fiók nem létezik, vagy privát.",
   "acm_disable": "Az ÖSSZES MODUL használata letiltva a(z) {0} szobán.",
   "acm_enable": "Az ÖSSZES MODUL használata engedélyezve a(z) szobán.",
