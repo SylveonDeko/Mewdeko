@@ -33,6 +33,7 @@
   "abilities": "Abilities",
   "nameban_processing": "Banning {0} users...",
   "nameban_finished_nofail": "Banned {0} users.",
+  "command_count": "Command Count",
   "account_not_found": "That account does not exist or is set to private.",
   "acm_disable": "Disabled usage of ALL MODULES on channel {0}.",
   "acm_enable": "Enabled usage of ALL MODULES on channel {0}.",
