@@ -33,6 +33,7 @@
   "abilities": "能力",
   "nameban_processing": "Banning {0} users...",
   "nameban_finished_nofail": "Banned {0} users.",
+  "command_count": "Command Count",
   "account_not_found": "That account does not exist or is set to private.",
   "acm_disable": "在{0}頻道上禁用執行所有模組指令。",
   "acm_enable": "在{0}頻道上開放執行所有模組指令。",
