@@ -434,7 +434,7 @@ public class GreetSettingsService : INService, IReadyExecutor
             }
             catch (Exception ex)
             {
-                Log.Warning(ex, "Error embeding greet message");
+                Log.Warning(ex, "Error embedding greet message");
             }
         }
         else
