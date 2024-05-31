@@ -33,6 +33,7 @@
   "abilities": "Begaafdheid",
   "nameban_processing": "Banning {0} users...",
   "nameban_finished_nofail": "Banned {0} users.",
+  "command_count": "Command Count",
   "account_not_found": "Dat account bestaat niet of is op privé gezet.",
   "acm_disable": "ALLE MODULES zijn uitgeschakeld op kanaal {0}.",
   "acm_enable": "ALLE MODULES zijn ingeschakeld op kanaal {0}.",
