@@ -33,6 +33,7 @@
   "abilities": "Abilități",
   "nameban_processing": "Banning {0} users...",
   "nameban_finished_nofail": "Banned {0} users.",
+  "command_count": "Command Count",
   "account_not_found": "Acel cont nu există sau a fost setat pe privat.",
   "acm_disable": "Dezactivat folosirea a TOATE MODULELE pe canal {0}.",
   "acm_enable": "Activat folosirea a TOATE MODULELE pe canal {0}.",
