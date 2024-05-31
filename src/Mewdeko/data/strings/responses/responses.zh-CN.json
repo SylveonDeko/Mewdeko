@@ -33,6 +33,7 @@
   "abilities": "能力",
   "nameban_processing": "Banning {0} users...",
   "nameban_finished_nofail": "Banned {0} users.",
+  "command_count": "Command Count",
   "account_not_found": "那个账户或不存在，或设置为私有账户。",
   "acm_disable": "已在{0}频道上禁用所有组件。",
   "acm_enable": "在{0}频道上允许启用所有组件。",
