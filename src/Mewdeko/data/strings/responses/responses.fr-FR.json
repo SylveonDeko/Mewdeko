@@ -33,6 +33,7 @@
   "abilities": "Capacités",
   "nameban_processing": "Banning {0} users...",
   "nameban_finished_nofail": "Banned {0} users.",
+  "command_count": "Command Count",
   "account_not_found": "Le compte n'existe pas ou est privé.",
   "acm_disable": "Désactivation de TOUS LES MODULES pour le salon {0}.",
   "acm_enable": "Activation de TOUS LES MODULES pour le salon {0}.",
