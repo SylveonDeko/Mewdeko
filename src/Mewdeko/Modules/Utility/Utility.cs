@@ -43,7 +43,7 @@ public partial class Utility(
     HttpClient httpClient,
     BotConfigService config,
     DbService db,
-    IDataCache cache)
+    IDataCache cache, CryptoService cryptoService)
     : MewdekoModuleBase<UtilityService>
 {
     /// <summary>
@@ -63,6 +63,19 @@ public partial class Utility(
     }
 
     private static readonly SemaphoreSlim Sem = new(1, 1);
+
+    /// <summary>
+    /// Crypto command to generate a chart with the given days
+    /// </summary>
+    /// <param name="cryptoName"></param>
+    /// <param name="time"></param>
+    [Cmd, Aliases]
+    public async Task Crypto(string cryptoName, StoopidTime? time = null)
+    {
+        var (image, embed) = await cryptoService.GenerateCryptoPriceChartAsync(cryptoName, time is null ? TimeSpan.FromDays(1).Days : time.Time.Days);
+        await ctx.Channel.SendFileAsync(stream: image, "cryptopricechart.png", embed: embed);
+    }
+
 
     /// <summary>
     /// Debug command to test parsing of embeds.

@@ -318,20 +318,19 @@ public partial class Administration(InteractiveService serv, BotConfigService co
                 await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
                     .ConfigureAwait(false);
 
+                break;
+
                 async Task<PageBuilder> PageFactory(int page)
                 {
                     await Task.CompletedTask.ConfigureAwait(false);
                     return new PageBuilder().WithTitle(GetText("nameban_preview_count", users.Count, name.ToLower()))
                         .WithDescription(string.Join("\n", users.Skip(page * 20).Take(20)));
                 }
-
-                break;
             case "executeorder66":
                 if (await PromptUserConfirmAsync(GetText("nameban_confirm", users.Count), ctx.User.Id))
                 {
                     var failedUsers = 0;
-                    await ctx.Channel.SendConfirmAsync(
-                        $"{configService.Data.LoadingEmote} executing order 66 on {users.Count} users, this may take a bit...");
+                    await SuccessLocalizedAsync("nameban_processing", users.Count);
                     foreach (var i in users)
                     {
                         try
