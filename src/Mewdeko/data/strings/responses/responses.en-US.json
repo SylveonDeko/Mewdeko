@@ -776,6 +776,7 @@
   "module_description_afk": "Set or cusotmize afk",
   "module_description_chattriggers": "Setup custom bot responses to certain words or phrases",
   "module_description_confessions": "Send anonymous messages to a set channel",
+  "module_description_currency": "Our revised currency system, now using dailyreward, and admins can even set the daily reward!",
   "module_description_gambling": "Bet on dice rolls, blackjack, slots, coinflips and others",
   "module_description_games": "Play trivia, nunchi, hangman, connect4 and other games",
   "module_description_giveaways": "Start giveaways",
