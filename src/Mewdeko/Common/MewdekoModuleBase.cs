@@ -69,7 +69,7 @@ namespace Mewdeko.Common
         public Task<IUserMessage> ErrorLocalizedAsync(string? textKey, params object?[] args)
         {
             var text = GetText(textKey, args);
-            return ctx.Channel.SendErrorAsync(text, Config);
+            return ctx.Channel.SendErrorAsync($"{Config.ErrorEmote} {text}", Config);
         }
 
         /// <summary>
@@ -94,6 +94,30 @@ namespace Mewdeko.Common
         {
             var text = GetText(textKey, args);
             return ctx.Channel.SendConfirmAsync(text);
+        }
+
+        /// <summary>
+        /// Sends a confirmation message to the channel with localized text.
+        /// </summary>
+        /// <param name="textKey">The key identifying the text string.</param>
+        /// <param name="args">The arguments to format into the text string.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task<IUserMessage> SuccessLocalizedAsync(string? textKey, params object?[] args)
+        {
+            var text = GetText(textKey, args);
+            return ctx.Channel.SendConfirmAsync($"{Config.SuccessEmote} {text}");
+        }
+
+        /// <summary>
+        /// Sends a confirmation message to the channel with localized text.
+        /// </summary>
+        /// <param name="textKey">The key identifying the text string.</param>
+        /// <param name="args">The arguments to format into the text string.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        public Task<IUserMessage> LoadingLocalizedAsync(string? textKey, params object?[] args)
+        {
+            var text = GetText(textKey, args);
+            return ctx.Channel.SendConfirmAsync($"{Config.LoadingEmote} {text}");
         }
 
         /// <summary>
