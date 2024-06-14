@@ -396,7 +396,6 @@ public class Mewdeko
         await interactionService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
             .ConfigureAwait(false);
 #if !DEBUG
-        if (Client.ShardId == 0)
             await interactionService.RegisterCommandsGloballyAsync().ConfigureAwait(false);
 #endif
 #if DEBUG

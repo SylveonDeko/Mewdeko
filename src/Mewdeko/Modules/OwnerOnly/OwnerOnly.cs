@@ -1110,6 +1110,7 @@ public class OwnerOnly(
         await Task.Delay(2000).ConfigureAwait(false);
         Environment.SetEnvironmentVariable("SNIPE_CACHED", "0");
         Environment.SetEnvironmentVariable("AFK_CACHED", "0");
+        Environment.Exit(0);
     }
 
 
