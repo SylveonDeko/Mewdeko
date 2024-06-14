@@ -30,7 +30,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
     private readonly IDataCache cache;
     private int currentStatusNum;
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly CommandHandler cmdHandler;
     private readonly IBotCredentials creds;
     private readonly DbService db;
@@ -68,7 +68,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     /// The constructor subscribes to message received events and sets up periodic tasks for rotating statuses
     /// and checking for updates. It also listens for commands to leave guilds or reload images via Redis subscriptions.
     /// </remarks>
-    public OwnerOnlyService(DiscordSocketClient client, CommandHandler cmdHandler, DbService db,
+    public OwnerOnlyService(DiscordShardedClient client, CommandHandler cmdHandler, DbService db,
         IBotStrings strings, IBotCredentials creds, IDataCache cache, IHttpClientFactory factory,
         BotConfigService bss, IEnumerable<IPlaceholderProvider> phProviders, Mewdeko bot,
         GuildSettingsService guildSettings, EventHandler handler)
@@ -86,22 +86,16 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         httpFactory = factory;
         this.bss = bss;
         handler.MessageReceived += OnMessageReceived;
-        if (client.ShardId == 0)
-        {
             rep = new ReplacementBuilder()
                 .WithClient(client)
                 .WithProviders(phProviders)
                 .Build();
 
             _ = Task.Run(RotatingStatuses);
-        }
 
         var sub = redis.GetSubscriber();
-        if (this.client.ShardId == 0)
-        {
             sub.Subscribe($"{this.creds.RedisKey()}_reload_images",
                 delegate { imgs.Reload(); }, CommandFlags.FireAndForget);
-        }
 
         sub.Subscribe($"{this.creds.RedisKey()}_leave_guild", async (_, v) =>
         {
@@ -318,7 +312,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             return;
         try
         {
-            var api = new OpenAIAPI(bss.Data.ChatGptKey);
+            var api = new OpenAI_API.OpenAIAPI(bss.Data.ChatGptKey);
             if (args.Content is "deletesession")
             {
                 if (conversations.TryRemove(args.Author.Id, out _))
@@ -453,14 +447,14 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     /// <summary>
     /// Forwards direct messages (DMs) received by the bot to the owners' DMs. This allows bot owners to monitor and respond to user messages directly.
     /// </summary>
-    /// <param name="discordSocketClient">The Discord client through which the message was received.</param>
+    /// <param name="DiscordShardedClient">The Discord client through which the message was received.</param>
     /// <param name="guild">The guild associated with the message, if any.</param>
     /// <param name="msg">The message that was received and is to be forwarded.</param>
     /// <remarks>
     /// The method checks if the message was sent in a DM channel and forwards it to all owners if the setting is enabled.
     /// Attachments are also forwarded. Errors in sending messages to any owner are logged but not thrown.
     /// </remarks>
-    public async Task LateExecute(DiscordSocketClient discordSocketClient, IGuild guild, IUserMessage msg)
+    public async Task LateExecute(DiscordShardedClient DiscordShardedClient, IGuild guild, IUserMessage msg)
     {
         var bs = bss.Data;
         if (msg.Channel is IDMChannel && bss.Data.ForwardMessages && ownerChannels.Count > 0)
@@ -544,8 +538,6 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             }
         }
 
-        if (client.ShardId == 0)
-        {
             var channels = await Task.WhenAll(creds.OwnerIds.Select(id =>
             {
                 var user = client.GetUser(id);
@@ -566,7 +558,6 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
                 Log.Information(
                     $"Created {ownerChannels.Count} out of {creds.OwnerIds.Length} owner message channels.");
             }
-        }
     }
 
     private async Task RotatingStatuses()
@@ -679,8 +670,6 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             if (cmd.GuildId is null)
                 return;
             var guildShard = (int)((cmd.GuildId.Value >> 22) % (ulong)creds.TotalShards);
-            if (guildShard != client.ShardId)
-                return;
             var prefix = await guildSettings.GetPrefix(cmd.GuildId.Value);
             //if someone already has .die as their startup command, ignore it
             if (cmd.CommandText.StartsWith($"{prefix}die", StringComparison.InvariantCulture))

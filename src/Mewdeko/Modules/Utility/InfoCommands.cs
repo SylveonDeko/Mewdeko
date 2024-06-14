@@ -14,7 +14,7 @@ public partial class Utility
     /// <param name="client">The Discord client used for fetching information.</param>
     /// <param name="muteService">The mute service for fetching mute information.</param>
     [Group]
-    public class InfoCommands(DiscordSocketClient client, MuteService muteService) : MewdekoSubmodule<UtilityService>
+    public class InfoCommands(DiscordShardedClient client, MuteService muteService) : MewdekoSubmodule<UtilityService>
     {
         /// <summary>
         /// Displays information about a specified role within the guild.

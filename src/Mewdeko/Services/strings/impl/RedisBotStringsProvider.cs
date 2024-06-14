@@ -22,15 +22,13 @@ namespace Mewdeko.Services.Strings.Impl
         /// <param name="discordClient">The Discord socket client.</param>
         /// <param name="source">The strings source.</param>
         /// <param name="creds">The bot credentials.</param>
-        public RedisBotStringsProvider(ConnectionMultiplexer redis, DiscordSocketClient discordClient,
+        public RedisBotStringsProvider(ConnectionMultiplexer redis, DiscordShardedClient discordClient,
             IStringsSource source, IBotCredentials creds)
         {
             this.redis = redis;
             this.source = source;
             this.creds = creds;
-
-            if (discordClient.ShardId == 0)
-                Reload();
+            Reload();
         }
 
         /// <summary>

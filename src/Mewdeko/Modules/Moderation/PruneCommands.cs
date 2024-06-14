@@ -11,7 +11,7 @@ public partial class Moderation
     /// </summary>
     /// <param name="client"></param>
     [Group]
-    public class PurgeCommands(DiscordSocketClient client) : MewdekoSubmodule<PurgeService>
+    public class PurgeCommands(DiscordShardedClient client) : MewdekoSubmodule<PurgeService>
     {
         private static readonly TimeSpan TwoWeeks = TimeSpan.FromDays(14);
 

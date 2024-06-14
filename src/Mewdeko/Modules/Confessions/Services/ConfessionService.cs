@@ -10,7 +10,7 @@ namespace Mewdeko.Modules.Confessions.Services;
 /// <param name="guildSettings"></param>
 public class ConfessionService(
     DbService db,
-    DiscordSocketClient client,
+    DiscordShardedClient client,
     GuildSettingsService guildSettings,
     BotConfig config)
     : INService

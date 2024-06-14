@@ -15,7 +15,7 @@ public partial class Utility
     /// <param name="serv">The service for embed pagination.</param>
     /// <param name="client">The Discord client.</param>
     [Group]
-    public class InviteCommands(InteractiveService serv, DiscordSocketClient client) : MewdekoSubmodule<InviteService>
+    public class InviteCommands(InteractiveService serv, DiscordShardedClient client) : MewdekoSubmodule<InviteService>
     {
         /// <summary>
         /// Creates a new invite to the server with customizable options such as expiry time and maximum use count.

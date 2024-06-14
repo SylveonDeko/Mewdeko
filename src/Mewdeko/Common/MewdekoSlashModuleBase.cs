@@ -178,7 +178,7 @@ namespace Mewdeko.Common
             bool alreadyDeferred = false)
         {
             var userInputTask = new TaskCompletionSource<string>();
-            var dsc = (DiscordSocketClient)ctx.Client;
+            var dsc = (DiscordShardedClient)ctx.Client;
             try
             {
                 dsc.InteractionCreated += Interaction;
@@ -233,7 +233,7 @@ namespace Mewdeko.Common
         public async Task<string>? NextMessageAsync(ulong channelId, ulong userId)
         {
             var userInputTask = new TaskCompletionSource<string>();
-            var dsc = (DiscordSocketClient)ctx.Client;
+            var dsc = (DiscordShardedClient)ctx.Client;
             try
             {
                 dsc.MessageReceived += Interaction;

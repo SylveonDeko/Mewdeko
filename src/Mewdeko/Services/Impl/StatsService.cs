@@ -22,8 +22,7 @@ namespace Mewdeko.Services.Impl
         public const string BotVersion = "8";
 
         private readonly IDataCache cache;
-        private readonly DiscordSocketClient client;
-        private readonly ICoordinator coord;
+        private readonly DiscordShardedClient client;
         private readonly IBotCredentials creds;
         private readonly HttpClient http;
 
@@ -41,12 +40,11 @@ namespace Mewdeko.Services.Impl
         /// <param name="cache">The caching service</param>
         /// <exception cref="ArgumentNullException"></exception>
         public StatsService(
-            DiscordSocketClient client, IBotCredentials creds, ICoordinator coord, CommandService cmdServ,
+            DiscordShardedClient client, IBotCredentials creds, CommandService cmdServ,
             HttpClient http, IDataCache cache)
         {
             this.client = client ?? throw new ArgumentNullException(nameof(client));
             this.creds = creds ?? throw new ArgumentNullException(nameof(creds));
-            this.coord = coord ?? throw new ArgumentNullException(nameof(coord));
             this.http = http ?? throw new ArgumentNullException(nameof(http));
             this.cache = cache ?? throw new ArgumentNullException(nameof(cache));
 
@@ -66,9 +64,6 @@ namespace Mewdeko.Services.Impl
         /// <inheritdoc/>
         public async Task OnReadyAsync()
         {
-            if (client.ShardId != 0)
-                return;
-
             var periodicTimer = new PeriodicTimer(TimeSpan.FromHours(12));
 
             do
@@ -128,7 +123,7 @@ namespace Mewdeko.Services.Impl
 
         private async Task PostToTopGg()
         {
-            if (client.ShardId != 0 || string.IsNullOrEmpty(creds.VotesToken)) return;
+            if (string.IsNullOrEmpty(creds.VotesToken)) return;
 
             topGgTimer = new PeriodicTimer(TimeSpan.FromSeconds(10));
 
@@ -140,10 +135,7 @@ namespace Mewdeko.Services.Impl
                         "shard_count", creds.TotalShards.ToString()
                     },
                     {
-                        "shard_id", client.ShardId.ToString()
-                    },
-                    {
-                        "server_count", coord.GetGuildCount().ToString()
+                        "server_count", client.Guilds.Count.ToString()
                     }
                 });
 

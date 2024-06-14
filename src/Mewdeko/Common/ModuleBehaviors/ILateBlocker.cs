@@ -21,7 +21,7 @@ public interface ILateBlocker
     /// <param name="moduleName">The name of the module.</param>
     /// <param name="command">The command that was executed.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains a boolean indicating whether the module blocked the execution.</returns>
-    Task<bool> TryBlockLate(DiscordSocketClient client, ICommandContext context,
+    Task<bool> TryBlockLate(DiscordShardedClient client, ICommandContext context,
         string moduleName, CommandInfo command);
 
     /// <summary>
@@ -31,6 +31,6 @@ public interface ILateBlocker
     /// <param name="context">The interaction context.</param>
     /// <param name="command">The command that was executed.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains a boolean indicating whether the module blocked the execution.</returns>
-    Task<bool> TryBlockLate(DiscordSocketClient client, IInteractionContext context,
+    Task<bool> TryBlockLate(DiscordShardedClient client, IInteractionContext context,
         ICommandInfo command);
 }

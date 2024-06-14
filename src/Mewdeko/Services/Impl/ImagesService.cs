@@ -31,9 +31,7 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
     {
         this.con = con;
         http = new HttpClient();
-        imagesPath = Path.Combine(BasePath, "images.yml");
         redisKey = creds.RedisKey();
-        ImageUrls = Yaml.Deserializer.Deserialize<ImageUrls>(File.ReadAllText(imagesPath));
     }
 
     /// <summary>

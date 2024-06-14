@@ -11,7 +11,7 @@ namespace Mewdeko.Modules.Votes.Services;
 public class VoteService : INService
 {
     private readonly DbService db;
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly MuteService muteService;
 
     /// <summary>
@@ -21,7 +21,7 @@ public class VoteService : INService
     /// <param name="db">The database service for data access.</param>
     /// <param name="client">The Discord client for interacting with the Discord API.</param>
     /// <param name="muteService">The service for managing mutes within the bot.</param>
-    public VoteService(IPubSub pubSub, DbService db, DiscordSocketClient client,
+    public VoteService(IPubSub pubSub, DbService db, DiscordShardedClient client,
         MuteService muteService)
     {
         this.db = db;

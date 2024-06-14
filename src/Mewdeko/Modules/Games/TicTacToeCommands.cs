@@ -13,7 +13,7 @@ public partial class Games
     /// </summary>
     /// <param name="client"></param>
     [Group]
-    public class TicTacToeCommands(DiscordSocketClient client) : MewdekoSubmodule<GamesService>
+    public class TicTacToeCommands(DiscordShardedClient client) : MewdekoSubmodule<GamesService>
     {
         private readonly SemaphoreSlim sem = new(1, 1);
 

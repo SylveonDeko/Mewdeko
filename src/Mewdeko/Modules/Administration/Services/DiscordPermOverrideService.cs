@@ -54,7 +54,7 @@ public class DiscordPermOverrideService : INService, ILateBlocker
     /// <param name="moduleName">The name of the module.</param>
     /// <param name="command">The command to block.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains a boolean indicating whether the command was blocked.</returns>
-    public async Task<bool> TryBlockLate(DiscordSocketClient client, ICommandContext context, string moduleName,
+    public async Task<bool> TryBlockLate(DiscordShardedClient client, ICommandContext context, string moduleName,
         CommandInfo command)
     {
         if (!TryGetOverrides(context.Guild?.Id ?? 0, command.MethodName(), out var perm)) return false;
@@ -70,7 +70,7 @@ public class DiscordPermOverrideService : INService, ILateBlocker
     /// <param name="context">The interaction context.</param>
     /// <param name="command">The command to block.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains a boolean indicating whether the command was blocked.</returns>
-    public async Task<bool> TryBlockLate(DiscordSocketClient client, IInteractionContext context,
+    public async Task<bool> TryBlockLate(DiscordShardedClient client, IInteractionContext context,
         ICommandInfo command)
     {
         if (!TryGetOverrides(context.Guild?.Id ?? 0, command.MethodName, out var perm)) return false;

@@ -16,7 +16,7 @@ public partial class Games
     /// </summary>
     /// <param name="client">The discord client</param>
     [Group]
-    public class AcropobiaCommands(DiscordSocketClient client) : MewdekoSubmodule<GamesService>
+    public class AcropobiaCommands(DiscordShardedClient client) : MewdekoSubmodule<GamesService>
     {
         /// <summary>
         /// Command for starting an Acrophobia game.

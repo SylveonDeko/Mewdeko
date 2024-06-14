@@ -7,14 +7,14 @@ namespace Mewdeko.Common.TypeReaders
     /// </summary>
     public class GuildTypeReader : MewdekoTypeReader<IGuild>
     {
-        private readonly DiscordSocketClient client;
+        private readonly DiscordShardedClient client;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GuildTypeReader"/> class.
         /// </summary>
-        /// <param name="client">The DiscordSocketClient instance.</param>
+        /// <param name="client">The DiscordShardedClient instance.</param>
         /// <param name="cmds">The CommandService instance.</param>
-        public GuildTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds) =>
+        public GuildTypeReader(DiscordShardedClient client, CommandService cmds) : base(client, cmds) =>
             this.client = client;
 
         /// <inheritdoc />

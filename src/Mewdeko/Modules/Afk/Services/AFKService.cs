@@ -13,7 +13,7 @@ namespace Mewdeko.Modules.Afk.Services;
 public class AfkService : INService, IReadyExecutor
 {
     private readonly IDataCache cache;
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly BotConfigService config;
     private readonly IBotCredentials creds;
     private readonly DbService db;
@@ -32,7 +32,7 @@ public class AfkService : INService, IReadyExecutor
     /// <param name="config">The bot configuration service.</param>
     public AfkService(
         DbService db,
-        DiscordSocketClient client,
+        DiscordShardedClient client,
         IDataCache cache,
         GuildSettingsService guildSettings,
         EventHandler eventHandler,
@@ -95,7 +95,7 @@ public class AfkService : INService, IReadyExecutor
         await CacheLatestAfks(latestAfkPerUserPerGuild);
 
         // Set an environment variable to indicate that AFK data is cached
-        Environment.SetEnvironmentVariable($"AFK_CACHED_{client.ShardId}", "1");
+        Environment.SetEnvironmentVariable($"AFK_CACHED", "1");
         Log.Information("AFK Cached");
     }
 
@@ -154,9 +154,7 @@ public class AfkService : INService, IReadyExecutor
         IEnumerable<Database.Models.Afk> afks =
             uow.Afk
                 .ToLinqToDB()
-                .Where(x =>
-                    (int)(x.GuildId / (ulong)Math.Pow(2, 22) % (ulong)creds.TotalShards) == client.ShardId &&
-                    x.When < now && x.WasTimed)
+                .Where(x => x.When < now && x.WasTimed)
                 .ToList();
 
         return afks;

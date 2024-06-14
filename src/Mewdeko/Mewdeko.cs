@@ -50,23 +50,18 @@ public class Mewdeko
 
         Credentials = new BotCredentials();
         Cache = new RedisCache(Credentials, shardId);
-        db = new DbService(Credentials.TotalShards, Credentials.Token,
+        db = new DbService(Credentials.Token,
             Credentials.PsqlConnectionString, Credentials.MigrateToPsql);
-
-
-        if (shardId == 0)
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            db.ApplyMigrations();
+        db.ApplyMigrations();
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
 
-        Client = new DiscordSocketClient(new DiscordSocketConfig
+        Client = new DiscordShardedClient(new DiscordSocketConfig
         {
             MessageCacheSize = 15,
             LogLevel = LogSeverity.Info,
             ConnectionTimeout = int.MaxValue,
-            TotalShards = Credentials.TotalShards,
-            ShardId = shardId,
             AlwaysDownloadUsers = true,
             GatewayIntents = GatewayIntents.All,
             FormatUsersInBidirectionalUnicode = false,
@@ -84,10 +79,12 @@ public class Mewdeko
     /// </summary>
     public BotCredentials Credentials { get; }
 
+    private int ReadyCount { get; set; }
+
     /// <summary>
     /// Gets the Discord client used by the bot.
     /// </summary>
-    public DiscordSocketClient Client { get; }
+    public DiscordShardedClient Client { get; }
 
     private CommandService CommandService { get; }
 
@@ -152,7 +149,7 @@ public class Mewdeko
                 ReturnAfterSendingPaginator = true
             }))
             .AddSingleton(new NekosBestApi())
-            .AddSingleton<InteractionService>()
+            .AddSingleton(new InteractionService(Client.Rest))
             .AddSingleton<Localization>()
             .AddSingleton<BotConfigService>()
             .AddSingleton<BotConfig>()
@@ -185,17 +182,6 @@ public class Mewdeko
         {
             AllowAutoRedirect = false
         });
-        if (Credentials.TotalShards <= 1 &&
-            Environment.GetEnvironmentVariable($"{Client.CurrentUser.Id}_IS_COORDINATED") != "1")
-        {
-            s.AddSingleton<ICoordinator, SingleProcessCoordinator>();
-        }
-        else
-        {
-            s.AddSingleton<RemoteGrpcCoordinator>()
-                .AddSingleton<ICoordinator>(x => x.GetRequiredService<RemoteGrpcCoordinator>())
-                .AddSingleton<IReadyExecutor>(x => x.GetRequiredService<RemoteGrpcCoordinator>());
-        }
 
         Log.Information("Passed Coord");
 
@@ -284,14 +270,18 @@ public class Mewdeko
         Client.Log += Client_Log;
         var clientReady = new TaskCompletionSource<bool>();
 
-        Task SetClientReady()
+        Task SetClientReady(DiscordSocketClient unused)
         {
+            ReadyCount++;
+            Log.Information($"Shard {unused.ShardId} is ready");
+            if (ReadyCount != Client.Shards.Count)
+                return Task.CompletedTask;
             _ = Task.Run(() => clientReady.TrySetResult(true));
             return Task.CompletedTask;
         }
 
         //connect
-        Log.Information("Shard {0} logging in ...", Client.ShardId);
+        Log.Information("Logging in...");
         try
         {
             await Client.LoginAsync(TokenType.Bot, token).ConfigureAwait(false);
@@ -308,12 +298,12 @@ public class Mewdeko
             Helpers.ReadErrorAndExit(4);
         }
 
-        Client.Ready += SetClientReady;
+        Client.ShardReady += SetClientReady;
         await clientReady.Task.ConfigureAwait(false);
-        Client.Ready -= SetClientReady;
+        Client.ShardReady -= SetClientReady;
         Client.JoinedGuild += Client_JoinedGuild;
         Client.LeftGuild += Client_LeftGuild;
-        Log.Information("Shard {0} logged in", Client.ShardId);
+        Log.Information("Logged in.");
         Log.Information("Logged in as:");
         Console.WriteLine(FiggleFonts.Digital.Render(Client.CurrentUser.Username));
 
@@ -334,8 +324,7 @@ public class Mewdeko
 
                     [
                         new EmbedFieldBuilder().WithName("Total Guilds")
-                            .WithValue(Services.GetRequiredService<ICoordinator>()
-                                .GetGuildCount().ToString())
+                            .WithValue(Client.Guilds.Count)
                     ]).ConfigureAwait(false);
             }
             catch
@@ -373,7 +362,7 @@ public class Mewdeko
             eb.AddField("Owner", $"Name: {arg.Owner}\nID: {arg.OwnerId}");
             eb.AddField("Text Channels", arg.TextChannels.Count);
             eb.AddField("Voice Channels", arg.VoiceChannels.Count);
-            eb.AddField("Total Guilds", Services.GetRequiredService<ICoordinator>().GetGuildCount());
+            eb.AddField("Total Guilds", Client.Guilds.Count);
             eb.WithThumbnailUrl(arg.IconUrl);
             eb.WithColor(OkColor);
             await chan.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
@@ -387,7 +376,7 @@ public class Mewdeko
 
         await LoginAsync(Credentials.Token).ConfigureAwait(false);
 
-        Log.Information("Shard {ShardId} loading services...", Client.ShardId);
+        Log.Information("Loading Services...");
         try
         {
             await AddServices();
@@ -399,7 +388,7 @@ public class Mewdeko
         }
 
         sw.Stop();
-        Log.Information("Shard {ShardId} connected in {Elapsed:F2}s", Client.ShardId, sw.Elapsed.TotalSeconds);
+        Log.Information("Connected in {Elapsed:F2}s", sw.Elapsed.TotalSeconds);
         var commandService = Services.GetService<CommandService>();
         var interactionService = Services.GetRequiredService<InteractionService>();
         await commandService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
@@ -419,7 +408,7 @@ public class Mewdeko
         _ = Task.Run(HandleStatusChanges);
         _ = Task.Run(ExecuteReadySubscriptions);
         Ready.TrySetResult(true);
-        Log.Information("Shard {ShardId} ready", Client.ShardId);
+        Log.Information("Ready.");
     }
 
     private Task ExecuteReadySubscriptions()

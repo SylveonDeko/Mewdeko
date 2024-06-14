@@ -14,7 +14,7 @@ public partial class Games
     /// <param name="client">The discord client</param>
     /// <param name="guildSettings">The guild settings service</param>
     [Group]
-    public class HangmanCommands(DiscordSocketClient client, GuildSettingsService guildSettings)
+    public class HangmanCommands(DiscordShardedClient client, GuildSettingsService guildSettings)
         : MewdekoSubmodule<GamesService>
     {
         /// <summary>

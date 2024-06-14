@@ -8,7 +8,7 @@ namespace Mewdeko.Modules.MultiGreets.Services;
 /// </summary>
 public class MultiGreetService : INService
 {
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly DbService db;
     private readonly GuildSettingsService guildSettingsService;
 
@@ -20,7 +20,7 @@ public class MultiGreetService : INService
     /// <param name="client">The discord client</param>
     /// <param name="guildSettingsService">The guild settings service</param>
     /// <param name="eventHandler">The event handler that i had to make because dnet has never heard of multithreading events</param>
-    public MultiGreetService(DbService db, DiscordSocketClient client,
+    public MultiGreetService(DbService db, DiscordShardedClient client,
         GuildSettingsService guildSettingsService, EventHandler eventHandler)
     {
         this.client = client;

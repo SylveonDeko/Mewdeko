@@ -20,7 +20,7 @@ public class FilterService : IEarlyBehavior, INService
 {
     private readonly AdministrationService ass;
 
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly BotConfig config;
     private readonly CultureInfo? cultureInfo = new("en-US");
     private readonly DbService db;
@@ -35,7 +35,7 @@ public class FilterService : IEarlyBehavior, INService
     /// On initialization, this service loads filtering configurations from the database and subscribes to necessary events
     /// for real-time monitoring and filtering of messages across all guilds the bot is part of.
     /// </remarks>
-    public FilterService(DiscordSocketClient client, DbService db, IPubSub pubSub,
+    public FilterService(DiscordShardedClient client, DbService db, IPubSub pubSub,
         UserPunishService upun2, IBotStrings strng, AdministrationService ass,
         GuildSettingsService gss, EventHandler eventHandler, BotConfig config)
     {
@@ -82,7 +82,7 @@ public class FilterService : IEarlyBehavior, INService
     /// <param name="guild">The guild where the message was posted.</param>
     /// <param name="msg">The user message to be checked against the filters.</param>
     /// <returns>A task that resolves to true if the message was acted upon due to a filter match; otherwise, false.</returns>
-    public async Task<bool> RunBehavior(DiscordSocketClient socketClient, IGuild guild, IUserMessage msg) =>
+    public async Task<bool> RunBehavior(DiscordShardedClient socketClient, IGuild guild, IUserMessage msg) =>
         msg.Author is IGuildUser gu && !gu.RoleIds.Contains(await ass.GetStaffRole(guild.Id)) &&
         !gu.GuildPermissions.Administrator && (await FilterInvites(guild, msg).ConfigureAwait(false)
                                                || await FilterWords(guild, msg).ConfigureAwait(false)

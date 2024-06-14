@@ -170,7 +170,7 @@ public static partial class Extensions
     /// </summary>
     /// <param name="client">Discord socket client.</param>
     /// <returns>List of guild IDs.</returns>
-    public static List<ulong> GetGuildIds(this DiscordSocketClient client) => client.Guilds.Select(x => x.Id).ToList();
+    public static List<ulong> GetGuildIds(this DiscordShardedClient client) => client.Guilds.Select(x => x.Id).ToList();
 
     /// <summary>
     /// Converts a TimeSpan to a pretty formatted string.

@@ -2,6 +2,7 @@
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Games.Services;
+using Poll = Mewdeko.Database.Models.Poll;
 
 namespace Mewdeko.Modules.Games;
 

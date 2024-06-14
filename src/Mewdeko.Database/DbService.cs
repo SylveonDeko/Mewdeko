@@ -20,10 +20,9 @@ public class DbService
     private readonly int shardCount;
     private readonly string token;
 
-    public DbService(int shardCount, string? token, string psqlConnection,
+    public DbService(string? token, string psqlConnection,
         bool migrate = false)
     {
-        this.shardCount = shardCount;
         this.token = token ?? "";
         LinqToDBForEFTools.Initialize();
 

@@ -14,7 +14,7 @@ namespace Mewdeko.Common.TypeReaders
         /// </summary>
         /// <param name="client">The discord client</param>
         /// <param name="cmds">The command service</param>
-        public GuildDateTimeTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
+        public GuildDateTimeTypeReader(DiscordShardedClient client, CommandService cmds) : base(client, cmds)
         {
         }
 

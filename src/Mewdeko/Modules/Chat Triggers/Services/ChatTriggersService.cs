@@ -109,7 +109,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// </summary>
     public static readonly Regex ValidCommandRegex = new(@"^(?:[\w-]{1,32} {0,1}){1,3}$", RegexOptions.Compiled);
 
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly CmdCdService cmdCds;
     private readonly BotConfigService configService;
     private readonly TypedKey<CTModel> crAdded = new("cr.added");
@@ -160,7 +160,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         DbService db,
         IBotStrings strings,
         Mewdeko bot,
-        DiscordSocketClient client,
+        DiscordShardedClient client,
         GlobalPermissionService gperm,
         CmdCdService cmdCds,
         IPubSub pubSub,
@@ -210,7 +210,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// <param name="guild">The guild where the message was sent.</param>
     /// <param name="msg">The user message triggering the behavior.</param>
     /// <returns>A <see cref="Task{TResult}"/> representing the asynchronous operation, returning <c>true</c> if the behavior is executed successfully, otherwise <c>false</c>.</returns>
-    public async Task<bool> RunBehavior(DiscordSocketClient socketClient, IGuild guild, IUserMessage msg)
+    public async Task<bool> RunBehavior(DiscordShardedClient socketClient, IGuild guild, IUserMessage msg)
     {
         // Maybe this message is a custom reaction
         var ct = await TryGetChatTriggers(msg);
@@ -656,9 +656,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         // Retrieve chat trigger items for the current shard from the database
         var guildItems = await uow.ChatTriggers
-            .ToLinqToDB().Where(x =>
-                (int)(x.GuildId / (ulong)Math.Pow(2, 22) % (ulong)creds.TotalShards) == client.ShardId)
-            .AsNoTracking().ToListAsyncLinqToDB();
+            .ToLinqToDB().AsNoTracking().ToListAsyncLinqToDB();
 
         // Update the new guild reactions dictionary with the retrieved items
         newGuildReactions = guildItems

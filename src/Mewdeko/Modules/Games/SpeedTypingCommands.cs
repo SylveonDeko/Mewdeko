@@ -13,7 +13,7 @@ namespace Mewdeko.Modules.Games
         [Group]
         public class SpeedTypingCommands : MewdekoSubmodule<GamesService>
         {
-            private readonly DiscordSocketClient _client;
+            private readonly DiscordShardedClient _client;
             private readonly GamesService _games;
             private readonly GuildSettingsService _guildSettings;
 
@@ -23,7 +23,7 @@ namespace Mewdeko.Modules.Games
             /// <param name="client">The discord client</param>
             /// <param name="games">The games service for fetching configs</param>
             /// <param name="guildSettings">The guild settings service</param>
-            public SpeedTypingCommands(DiscordSocketClient client, GamesService games,
+            public SpeedTypingCommands(DiscordShardedClient client, GamesService games,
                 GuildSettingsService guildSettings)
             {
                 _client = client;

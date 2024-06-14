@@ -1,6 +1,7 @@
 using Mewdeko.Database.Common;
 using Mewdeko.Modules.Games.Common;
 using Serilog;
+using Poll = Mewdeko.Database.Models.Poll;
 
 namespace Mewdeko.Modules.Games.Services
 {
@@ -70,8 +71,8 @@ namespace Mewdeko.Modules.Games.Services
             if (data.Length < 3)
                 return null;
 
-            var col = new IndexedCollection<PollAnswer>(data.Skip(1)
-                .Select(x => new PollAnswer
+            var col = new IndexedCollection<PollAnswers>(data.Skip(1)
+                .Select(x => new PollAnswers
                 {
                     Text = x
                 }));

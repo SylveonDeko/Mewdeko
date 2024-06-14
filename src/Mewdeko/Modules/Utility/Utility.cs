@@ -33,13 +33,12 @@ namespace Mewdeko.Modules.Utility;
 /// <param name="config"></param>
 /// <param name="db"></param>
 public partial class Utility(
-    DiscordSocketClient client,
+    DiscordShardedClient client,
     IStatsService stats,
     IBotCredentials creds,
     DownloadTracker tracker,
     CommandService cmdServ,
     InteractiveService serv,
-    ICoordinator coordinator,
     GuildSettingsService guildSettings,
     HttpClient httpClient,
     BotConfigService config,
@@ -1636,7 +1635,7 @@ public partial class Utility(
         var (attachments, processedMessage, streams) = await HandleAttachmentsAsync(isTextInAttachments, message);
 
         var rep = new ReplacementBuilder()
-            .WithDefault(ctx.User, channel, (SocketGuild)ctx.Guild, (DiscordSocketClient)ctx.Client)
+            .WithDefault(ctx.User, channel, (SocketGuild)ctx.Guild, (DiscordShardedClient)ctx.Client)
             .Build();
 
         var msg = rep.Replace(processedMessage);
@@ -1775,10 +1774,10 @@ public partial class Utility(
                     .AddField(GetText("command_count"), cmdServ.Commands.DistinctBy(x => x.Name).Count())
                     .AddField("Library", stats.Library)
                     .AddField(GetText("owner_ids"), string.Join("\n", creds.OwnerIds.Select(x => $"<@{x}>")))
-                    .AddField(GetText("shard"), $"#{client.ShardId} / {creds.TotalShards}")
+                    .AddField(GetText("shard"), $"#{client.GetShardFor(ctx.Guild)} / {creds.TotalShards}")
                     .AddField(GetText("memory"), $"{stats.Heap} MB")
                     .AddField(GetText("uptime"), stats.GetUptimeString("\n"))
-                    .AddField("Servers", $"{coordinator.GetGuildCount()} Servers"))
+                    .AddField("Servers", $"{client.Guilds.Count} Servers"))
             .ConfigureAwait(false);
     }
 
@@ -1818,7 +1817,7 @@ public partial class Utility(
             await ctx.Channel
                 .SendConfirmAsync(
                     $"Bot Ping {(int)sw.Elapsed.TotalMilliseconds}ms" +
-                    $"\nBot Latency {((DiscordSocketClient)ctx.Client).Latency}ms" +
+                    $"\nBot Latency {((DiscordShardedClient)ctx.Client).Latency}ms" +
                     $"\nRedis Ping {redisPing.Nanoseconds}ns")
                 .ConfigureAwait(false);
         }
