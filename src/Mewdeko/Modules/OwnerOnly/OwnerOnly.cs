@@ -1036,7 +1036,7 @@ public class OwnerOnly(
                 var stateStr = ConnectionStateToEmoji(st.ConnectionState);
                 var maxGuildCountLength = statuses.Max(x => x.Guilds.Count).ToString().Length;
                 return
-                    $"`{stateStr} | #{st.ShardId.ToString().PadBoth(3)} | {st.Guilds.Count.ToString().PadBoth(maxGuildCountLength)} | {st.Guilds.Select(x => x.Users).Count()}`";
+                    $"`{stateStr} | #{st.ShardId.ToString().PadBoth(3)} | {st.Guilds.Count.ToString().PadBoth(maxGuildCountLength)} | {st.Guilds.Select(x => x.Users.Count).Sum()}`";
             })
             .ToArray();
 
