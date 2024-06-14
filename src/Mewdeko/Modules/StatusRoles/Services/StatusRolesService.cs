@@ -10,7 +10,7 @@ namespace Mewdeko.Modules.StatusRoles.Services;
 public class StatusRolesService : INService, IReadyExecutor
 {
     private readonly IDataCache cache;
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly DbService db;
     private readonly HashSet<StatusRolesTable> statusRoles = new();
 
@@ -21,7 +21,7 @@ public class StatusRolesService : INService, IReadyExecutor
     /// <param name="db">The database service.</param>
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="cache">The data cache service.</param>
-    public StatusRolesService(DiscordSocketClient client, DbService db, EventHandler eventHandler, IDataCache cache)
+    public StatusRolesService(DiscordShardedClient client, DbService db, EventHandler eventHandler, IDataCache cache)
     {
         this.client = client;
         this.db = db;

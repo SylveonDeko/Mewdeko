@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using Poll = Mewdeko.Database.Models.Poll;
 
 namespace Mewdeko.Modules.Games.Common
 {

@@ -19,7 +19,7 @@ public class ChatterBotService : INService
     /// </summary>
     public readonly ConcurrentDictionary<ulong, Lazy<IChatterBotSession>> CleverbotUsers = new();
 
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly BotConfig config;
     private readonly IBotCredentials creds;
     private readonly DbService db;
@@ -37,7 +37,7 @@ public class ChatterBotService : INService
     /// <param name="guildSettings">The guild settings service.</param>
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="config">Bot config service</param>
-    public ChatterBotService(DiscordSocketClient client, IHttpClientFactory factory,
+    public ChatterBotService(DiscordShardedClient client, IHttpClientFactory factory,
         IBotCredentials creds, DbService db,
         BlacklistService blacklistService,
         GuildSettingsService guildSettings, EventHandler eventHandler, BotConfig config)

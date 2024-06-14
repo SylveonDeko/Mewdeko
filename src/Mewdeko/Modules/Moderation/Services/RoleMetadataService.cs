@@ -11,7 +11,7 @@ namespace Mewdeko.Modules.Moderation.Services;
 /// <param name="dbService">The database service</param>
 /// <param name="client">The Discord client</param>
 /// <param name="botCredentials">The bot credentials</param>
-public class RoleMetadataService(DbService dbService, DiscordSocketClient client, IBotCredentials botCredentials)
+public class RoleMetadataService(DbService dbService, DiscordShardedClient client, IBotCredentials botCredentials)
     : INService, IReadyExecutor
 {
     private IBotCredentials botCredentials = botCredentials;

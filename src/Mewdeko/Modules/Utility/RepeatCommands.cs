@@ -15,7 +15,7 @@ public partial class Utility
     /// Allows for setting up automated messages that can be repeated at specified intervals.
     /// </summary>
     [Group]
-    public class RepeatCommands(DiscordSocketClient client, DbService db) : MewdekoSubmodule<MessageRepeaterService>
+    public class RepeatCommands(DiscordShardedClient client, DbService db) : MewdekoSubmodule<MessageRepeaterService>
     {
         /// <summary>
         /// Invokes a repeater immediately by its index.

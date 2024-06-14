@@ -16,7 +16,7 @@ namespace Mewdeko.Modules.Moderation.Services;
 public class UserPunishService : INService
 {
     private readonly BlacklistService blacklistService;
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly DbService db;
     private readonly GuildSettingsService guildSettings;
     private readonly Dictionary<ulong, MassNick> massNicks = new();
@@ -28,10 +28,10 @@ public class UserPunishService : INService
     /// <param name="mute">An instance of the MuteService class.</param>
     /// <param name="db">An instance of the DbService class.</param>
     /// <param name="blacklistService">An instance of the BlacklistService class.</param>
-    /// <param name="client">An instance of the DiscordSocketClient class.</param>
+    /// <param name="client">An instance of the DiscordShardedClient class.</param>
     /// <param name="guildSettings">An instance of the GuildSettingsService class.</param>
     public UserPunishService(MuteService mute, DbService db, BlacklistService blacklistService,
-        DiscordSocketClient client,
+        DiscordShardedClient client,
         GuildSettingsService guildSettings)
     {
         this.mute = mute;
@@ -653,7 +653,7 @@ public class UserPunishService : INService
         string? defaultMessage,
         string? banReason, TimeSpan? duration) =>
         GetBanUserDmEmbed(
-            (DiscordSocketClient)context.Client,
+            (DiscordShardedClient)context.Client,
             (SocketGuild)context.Guild,
             (IGuildUser)context.User,
             target,
@@ -674,7 +674,7 @@ public class UserPunishService : INService
         IGuildUser target, string? defaultMessage,
         string? banReason, TimeSpan? duration) =>
         GetBanUserDmEmbed(
-            (DiscordSocketClient)context.Client,
+            (DiscordShardedClient)context.Client,
             (SocketGuild)context.Guild,
             (IGuildUser)context.User,
             target,
@@ -685,7 +685,7 @@ public class UserPunishService : INService
     /// <summary>
     /// Gets the dm ban embed for a user.
     /// </summary>
-    /// <param name="discordSocketClient">The DiscordSocketClient instance.</param>
+    /// <param name="DiscordShardedClient">The DiscordShardedClient instance.</param>
     /// <param name="guild">The guild where the ban is issued.</param>
     /// <param name="moderator">The user who issues the ban.</param>
     /// <param name="target">The user to ban.</param>
@@ -693,7 +693,7 @@ public class UserPunishService : INService
     /// <param name="banReason">The reason for the ban.</param>
     /// <param name="duration">The duration of the ban.</param>
     /// <returns></returns>
-    public Task<(Embed[], string?, ComponentBuilder?)> GetBanUserDmEmbed(DiscordSocketClient discordSocketClient,
+    public Task<(Embed[], string?, ComponentBuilder?)> GetBanUserDmEmbed(DiscordShardedClient DiscordShardedClient,
         SocketGuild guild,
         IGuildUser moderator, IGuildUser target, string? defaultMessage, string? banReason, TimeSpan? duration)
     {
@@ -704,7 +704,7 @@ public class UserPunishService : INService
             : banReason;
 
         var replacer = new ReplacementBuilder()
-            .WithServer(discordSocketClient, guild)
+            .WithServer(DiscordShardedClient, guild)
             .WithOverride("%ban.mod%", moderator.ToString)
             .WithOverride("%ban.mod.fullname%", moderator.ToString)
             .WithOverride("%ban.mod.name%", () => moderator.Username)

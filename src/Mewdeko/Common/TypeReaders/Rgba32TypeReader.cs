@@ -11,9 +11,9 @@ namespace Mewdeko.Common.TypeReaders
         /// <summary>
         /// Initializes a new instance of the <see cref="SkColorTypeReader"/> class.
         /// </summary>
-        /// <param name="client">The DiscordSocketClient instance.</param>
+        /// <param name="client">The DiscordShardedClient instance.</param>
         /// <param name="cmds">The CommandService instance.</param>
-        public SkColorTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds)
+        public SkColorTypeReader(DiscordShardedClient client, CommandService cmds) : base(client, cmds)
         {
         }
 

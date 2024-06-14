@@ -12,7 +12,7 @@ public partial class Games
     /// </summary>
     /// <param name="client"></param>
     [Group]
-    public class NunchiCommands(DiscordSocketClient client) : MewdekoSubmodule<GamesService>
+    public class NunchiCommands(DiscordShardedClient client) : MewdekoSubmodule<GamesService>
     {
         /// <summary>
         /// Starts or joins a game of Nunchi.

@@ -19,7 +19,7 @@ public class ProtectionService : INService
     private readonly ConcurrentDictionary<ulong, AntiSpamStats> antiSpamGuilds
         = new();
 
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly DbService db;
     private readonly GuildSettingsService gss;
     private readonly MuteService mute;
@@ -47,7 +47,7 @@ public class ProtectionService : INService
     /// <param name="punishService">The user punish service.</param>
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="gss">The guild settings service.</param>
-    public ProtectionService(DiscordSocketClient client, Mewdeko bot,
+    public ProtectionService(DiscordShardedClient client, Mewdeko bot,
         MuteService mute, DbService db, UserPunishService punishService, EventHandler eventHandler,
         GuildSettingsService gss)
     {

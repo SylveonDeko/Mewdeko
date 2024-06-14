@@ -9,7 +9,7 @@ namespace Mewdeko.Modules.Utility.Services;
 /// </summary>
 public partial class RemindService : INService
 {
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly IBotCredentials creds;
     private readonly DbService db;
 
@@ -22,7 +22,7 @@ public partial class RemindService : INService
     /// <param name="client">The Discord client used for sending reminder notifications.</param>
     /// <param name="db">The database service for managing reminders.</param>
     /// <param name="creds">The bot's credentials, used for shard management and distribution of tasks.</param>
-    public RemindService(DiscordSocketClient client, DbService db, IBotCredentials creds)
+    public RemindService(DiscordShardedClient client, DbService db, IBotCredentials creds)
     {
         this.client = client;
         this.db = db;
@@ -77,8 +77,7 @@ public partial class RemindService : INService
         await using var uow = db.GetDbContext();
 
         var reminders = await uow.Reminders
-            .Where(x => (int)(x.ServerId / (ulong)Math.Pow(2, 22) % (ulong)creds.TotalShards) == client.ShardId &&
-                        x.When < now)
+            .Where(x => x.When < now)
             .ToListAsync();
         return reminders;
     }

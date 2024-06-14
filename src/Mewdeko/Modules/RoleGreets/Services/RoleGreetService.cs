@@ -8,7 +8,7 @@ namespace Mewdeko.Modules.RoleGreets.Services;
 /// </summary>
 public class RoleGreetService : INService
 {
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly DbService db;
 
     /// <summary>
@@ -17,7 +17,7 @@ public class RoleGreetService : INService
     /// <param name="db">The database service for accessing role greet configurations.</param>
     /// <param name="client">The Discord socket client to interact with the Discord API.</param>
     /// <param name="eventHandler">The event handler to subscribe to guild member update events.</param>
-    public RoleGreetService(DbService db, DiscordSocketClient client, EventHandler eventHandler)
+    public RoleGreetService(DbService db, DiscordShardedClient client, EventHandler eventHandler)
     {
         this.client = client;
         this.db = db;

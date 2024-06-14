@@ -4,6 +4,8 @@
 
 // ReSharper disable AssignNullToNotNullAttribute
 
+using Poll = Discord.Poll;
+
 namespace Mewdeko.Common.DiscordImplementations;
 
 /// <summary>
@@ -146,6 +148,19 @@ public class MewdekoUserMessage : IUserMessage
         TagHandling emojiHandling = TagHandling.Name) =>
         throw new NotImplementedException();
 
+   /// <inheritdoc/>
+    public Task EndPollAsync(RequestOptions options)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc/>
+    public IAsyncEnumerable<IReadOnlyCollection<IUser>> GetPollAnswerVotersAsync(uint answerId, int? limit = null, ulong? afterId = null,
+        RequestOptions options = null)
+    {
+        throw new NotImplementedException();
+    }
+
     /// <inheritdoc />
     public MessageResolvedData ResolvedData { get; }
 
@@ -154,6 +169,9 @@ public class MewdekoUserMessage : IUserMessage
 
     /// <inheritdoc />
     public IMessageInteractionMetadata InteractionMetadata { get; }
+
+    /// <inheritdoc/>
+    public Poll? Poll { get; }
 
     /// <inheritdoc />
     public IThreadChannel Thread => throw new NotImplementedException();

@@ -24,20 +24,16 @@ public class ConverterService : INService, IUnloadableService
     /// <param name="client">The Discord client, used for identifying the primary shard.</param>
     /// <param name="cache">The cache service for storing conversion units.</param>
     /// <param name="factory">The HTTP client factory for fetching currency conversion rates.</param>
-    public ConverterService(DiscordSocketClient client,
+    public ConverterService(DiscordShardedClient client,
         IDataCache cache, IHttpClientFactory factory)
     {
         this.cache = cache;
         httpFactory = factory;
-
-        if (client.ShardId == 0)
-        {
             currencyUpdater = new Timer(
                 async shouldLoad => await UpdateCurrency((bool)shouldLoad).ConfigureAwait(false),
-                client.ShardId == 0,
+                true,
                 TimeSpan.Zero,
                 updateInterval);
-        }
     }
 
     /// <summary>

@@ -13,7 +13,7 @@ namespace Mewdeko.Modules.Afk;
 /// </summary>
 /// <param name="serv">The interactivity service for doing embed pagination.</param>
 /// <param name="client">The discord client.</param>
-public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoModuleBase<AfkService>
+public class Afk(InteractiveService serv, DiscordShardedClient client) : MewdekoModuleBase<AfkService>
 {
     /// <summary>
     /// Enumerates different types of AFK (Away From Keyboard) settings.
@@ -51,7 +51,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
     [Cmd, Aliases, Priority(0)]
     public async Task SetAfk([Remainder] string? message = null)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -130,7 +130,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
     [Cmd, Aliases, Priority(0), UserPerm(GuildPermission.ManageGuild)]
     public async Task AfkDel()
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -155,7 +155,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
     [Cmd, Aliases, Priority(1)]
     public async Task AfkDel(int num)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
         {
             await ErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -186,7 +186,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
     [Cmd, Aliases, Priority(0)]
     public async Task TimedAfk(StoopidTime time, [Remainder] string message)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
         {
             await ErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
         }
@@ -230,7 +230,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
     [Cmd, Aliases, Priority(0)]
     public async Task GetActiveAfks()
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
         {
             await ErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -273,7 +273,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
     {
         if (!await CheckRoleHierarchy(user))
             return;
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
         {
             await ErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -340,7 +340,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
     [Cmd, Aliases, Priority(0), UserPerm(GuildPermission.Administrator)]
     public async Task AfkLength(int num)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
         {
             await ErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -365,7 +365,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
     [Cmd, Aliases, Priority(1), UserPerm(GuildPermission.Administrator)]
     public async Task AfkType(AfkTypeEnum afkTypeEnum)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -383,7 +383,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task AfkTimeout(StoopidTime time)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -408,7 +408,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task AfkUndisable(params ITextChannel[] chan)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -459,7 +459,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
     [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
     public async Task AfkDisable(params ITextChannel[] chan)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -524,7 +524,7 @@ public class Afk(InteractiveService serv, DiscordSocketClient client) : MewdekoM
                 return;
         }
 
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;

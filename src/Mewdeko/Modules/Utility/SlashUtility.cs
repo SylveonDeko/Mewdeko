@@ -18,8 +18,7 @@ namespace Mewdeko.Modules.Utility;
 /// </summary>
 [Group("utility", "Utility commands like userinfo")]
 public class SlashUtility(
-    DiscordSocketClient client,
-    ICoordinator coordinator,
+    DiscordShardedClient client,
     StatsService stats,
     IBotCredentials creds,
     MuteService muteService,
@@ -182,7 +181,7 @@ public class SlashUtility(
         var channel = await ctx.Guild.GetTextChannelAsync(channelId);
         var canMention = ((IGuildUser)ctx.User).GuildPermissions.MentionEveryone;
         var rep = new ReplacementBuilder()
-            .WithDefault(ctx.User, channel, (SocketGuild)ctx.Guild, (DiscordSocketClient)ctx.Client).Build();
+            .WithDefault(ctx.User, channel, (SocketGuild)ctx.Guild, (DiscordShardedClient)ctx.Client).Build();
 
         if (SmartEmbed.TryParse(rep.Replace(modal.Message), ctx.Guild?.Id, out var embedData, out var plainText,
                 out var components))
@@ -231,10 +230,10 @@ public class SlashUtility(
                     .AddField(GetText("commands_ran"), $"{commandStats}/5s")
                     .AddField("Library", stats.Library)
                     .AddField(GetText("owner_ids"), string.Join("\n", creds.OwnerIds.Select(x => $"<@{x}>")))
-                    .AddField(GetText("shard"), $"#{client.ShardId} / {creds.TotalShards}")
+                    .AddField(GetText("shard"), $"#{client.GetShardFor(ctx.Guild)} / {creds.TotalShards}")
                     .AddField(GetText("memory"), $"{stats.Heap} MB")
                     .AddField(GetText("uptime"), stats.GetUptimeString("\n"))
-                    .AddField("Servers", $"{coordinator.GetGuildCount()} Servers").Build())
+                    .AddField("Servers", $"{client.Guilds.Count} Servers").Build())
             .ConfigureAwait(false);
     }
 

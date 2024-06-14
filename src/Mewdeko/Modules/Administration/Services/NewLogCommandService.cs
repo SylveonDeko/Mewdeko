@@ -198,7 +198,7 @@ public class NewLogCommandService : INService
     }
 
     private readonly IDataCache cache;
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly DbService db;
 
 
@@ -210,7 +210,7 @@ public class NewLogCommandService : INService
     /// <param name="client">The Discord client.</param>
     /// <param name="handler">The event handler.</param>
     /// <param name="muteService">The mute service.</param>
-    public NewLogCommandService(DbService db, IDataCache cache, DiscordSocketClient client, EventHandler handler,
+    public NewLogCommandService(DbService db, IDataCache cache, DiscordShardedClient client, EventHandler handler,
         MuteService muteService)
     {
         this.db = db;

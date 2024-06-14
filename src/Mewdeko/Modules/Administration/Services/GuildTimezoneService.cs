@@ -15,7 +15,7 @@ public class GuildTimezoneService : INService
     /// <param name="bot">The Mewdeko bot.</param>
     /// <param name="db">The database service.</param>
     /// /// <param name="gss">The guild config service.</param>
-    public GuildTimezoneService(DiscordSocketClient client, Mewdeko bot, DbService db, GuildSettingsService gss)
+    public GuildTimezoneService(DiscordShardedClient client, Mewdeko bot, DbService db, GuildSettingsService gss)
     {
         using var uow = db.GetDbContext();
 

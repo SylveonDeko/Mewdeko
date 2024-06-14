@@ -209,18 +209,18 @@ public class EventHandler
     /// <summary>
     /// Occurs when the client is ready.
     /// </summary>
-    public event AsyncEventHandler<DiscordSocketClient>? Ready;
+    public event AsyncEventHandler<DiscordShardedClient>? Ready;
 
     #endregion
 
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
 
 
     /// <summary>
     /// Initializes a new instance of the <see cref="EventHandler"/> class. Used to combat discord.nets stupid non async event handlers.
     /// </summary>
     /// <param name="client">The discord client.</param>
-    public EventHandler(DiscordSocketClient client)
+    public EventHandler(DiscordShardedClient client)
     {
         this.client = client;
         client.MessageReceived += ClientOnMessageReceived;
@@ -255,7 +255,6 @@ public class EventHandler
         client.ThreadMemberJoined += ClientOnThreadMemberJoined;
         client.ThreadMemberLeft += ClientOnThreadMemberLeft;
         client.AuditLogCreated += ClientOnAuditLogCreated;
-        client.Ready += ClientOnReady;
     }
 
     #region Event Handlers
@@ -264,13 +263,6 @@ public class EventHandler
     {
         if (AuditLogCreated is not null)
             _ = AuditLogCreated(arg1, arg2);
-        return Task.CompletedTask;
-    }
-
-    private Task ClientOnReady()
-    {
-        if (Ready is not null)
-            _ = Ready(client);
         return Task.CompletedTask;
     }
 

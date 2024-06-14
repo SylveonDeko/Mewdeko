@@ -15,7 +15,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     private readonly TypedKey<bool> blPrivKey = new("blacklist.reload.priv");
 
     private readonly TypedKey<BlacklistEntry[]> blPubKey = new("blacklist.reload");
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly BotConfig config;
     private readonly DbService db;
     private readonly IPubSub pubSub;
@@ -37,7 +37,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     /// <remarks>
     /// The service subscribes to relevant events to automatically enforce blacklist rules upon guild join events or when the bot starts.
     /// </remarks>
-    public BlacklistService(DbService db, IPubSub pubSub, EventHandler handler, DiscordSocketClient client,
+    public BlacklistService(DbService db, IPubSub pubSub, EventHandler handler, DiscordShardedClient client,
         BotConfig config)
     {
         this.db = db;
@@ -48,7 +48,6 @@ public sealed class BlacklistService : IEarlyBehavior, INService
         this.pubSub.Sub(blPubKey, OnReload);
         this.pubSub.Sub(blPrivKey, ManualCheck);
         handler.JoinedGuild += CheckBlacklist;
-        client.Ready += CheckAllGuilds;
         _ = CheckAllGuilds();
         BlacklistEntries.Add(new BlacklistEntry
         {
@@ -84,7 +83,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     /// <remarks>
     /// This method allows the service to act as a pre-message processing step, blocking messages from blacklisted entities.
     /// </remarks>
-    public Task<bool> RunBehavior(DiscordSocketClient socketClient, IGuild guild, IUserMessage usrMsg)
+    public Task<bool> RunBehavior(DiscordShardedClient socketClient, IGuild guild, IUserMessage usrMsg)
     {
         foreach (var bl in BlacklistEntries)
         {
