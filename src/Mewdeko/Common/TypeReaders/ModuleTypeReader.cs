@@ -12,9 +12,9 @@ namespace Mewdeko.Common.TypeReaders
         /// <summary>
         /// Initializes a new instance of the <see cref="ModuleTypeReader"/> class.
         /// </summary>
-        /// <param name="client">The DiscordSocketClient instance.</param>
+        /// <param name="client">The DiscordShardedClient instance.</param>
         /// <param name="cmds">The CommandService instance.</param>
-        public ModuleTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds) =>
+        public ModuleTypeReader(DiscordShardedClient client, CommandService cmds) : base(client, cmds) =>
             this.cmds = cmds;
 
         /// <inheritdoc />
@@ -39,9 +39,9 @@ namespace Mewdeko.Common.TypeReaders
         /// <summary>
         /// Initializes a new instance of the <see cref="ModuleOrCrTypeReader"/> class.
         /// </summary>
-        /// <param name="client">The DiscordSocketClient instance.</param>
+        /// <param name="client">The DiscordShardedClient instance.</param>
         /// <param name="cmds">The CommandService instance.</param>
-        public ModuleOrCrTypeReader(DiscordSocketClient client, CommandService cmds) : base(client, cmds) =>
+        public ModuleOrCrTypeReader(DiscordShardedClient client, CommandService cmds) : base(client, cmds) =>
             this.cmds = cmds;
 
         /// <inheritdoc />

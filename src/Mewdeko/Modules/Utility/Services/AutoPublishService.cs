@@ -10,7 +10,7 @@ namespace Mewdeko.Modules.Utility.Services;
 public class AutoPublishService : INService
 {
     private readonly DbService dbService;
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AutoPublishService"/> class.
@@ -18,7 +18,7 @@ public class AutoPublishService : INService
     /// <param name="service">The database service for accessing and storing configuration.</param>
     /// <param name="handler">The event handler for subscribing to message received events.</param>
     /// <param name="client">The Discord client for interacting with the Discord API.</param>
-    public AutoPublishService(DbService service, EventHandler handler, DiscordSocketClient client)
+    public AutoPublishService(DbService service, EventHandler handler, DiscordShardedClient client)
     {
         this.client = client;
         dbService = service;

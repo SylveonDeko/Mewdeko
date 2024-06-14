@@ -16,7 +16,7 @@ public partial class Games
     /// <param name="guildSettings">The guild settings service</param>
     [Group]
     public class TriviaCommands(
-        DiscordSocketClient client,
+        DiscordShardedClient client,
         IDataCache cache,
         GamesConfigService gamesConfig,
         GuildSettingsService guildSettings)

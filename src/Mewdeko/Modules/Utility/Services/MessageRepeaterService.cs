@@ -8,7 +8,7 @@ namespace Mewdeko.Modules.Utility.Services;
 /// <summary>
 /// Manages the scheduling and execution of repeating messages across guilds.
 /// </summary>
-public class MessageRepeaterService(DiscordSocketClient client, DbService db, Mewdeko bot, GuildSettingsService gss)
+public class MessageRepeaterService(DiscordShardedClient client, DbService db, Mewdeko bot, GuildSettingsService gss)
     : INService, IReadyExecutor
 {
     /// <summary>
@@ -26,7 +26,7 @@ public class MessageRepeaterService(DiscordSocketClient client, DbService db, Me
     public async Task OnReadyAsync()
     {
         await bot.Ready.Task.ConfigureAwait(false);
-        Log.Information("Loading message repeaters on shard {ShardId}", client.ShardId);
+        Log.Information("Loading message repeaters");
         await using var uow = db.GetDbContext();
 
         var repeaters = new Dictionary<ulong, ConcurrentDictionary<int, RepeatRunner>>();

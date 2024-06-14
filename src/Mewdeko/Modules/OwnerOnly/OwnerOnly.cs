@@ -39,11 +39,10 @@ namespace Mewdeko.Modules.OwnerOnly;
 /// <param name="commandHandler">Handler for processing and executing commands received from users.</param>
 [OwnerOnly]
 public class OwnerOnly(
-    DiscordSocketClient client,
+    DiscordShardedClient client,
     Mewdeko bot,
     IBotStrings strings,
     InteractiveService serv,
-    ICoordinator coord,
     IEnumerable<IConfigService> settingServices,
     DbService db,
     IDataCache cache,
@@ -1021,11 +1020,11 @@ public class OwnerOnly(
     [Cmd, Aliases]
     public async Task ShardStats()
     {
-        var statuses = coord.GetAllShardStatuses();
+        var statuses = client.Shards;
 
         // Aggregate shard status summaries
         var status = string.Join(" : ", statuses
-            .Select(x => (ConnectionStateToEmoji(x), x))
+            .Select(x => (ConnectionStateToEmoji(x.ConnectionState), x))
             .GroupBy(x => x.Item1)
             .Select(x => $"`{x.Count()} {x.Key}`")
             .ToArray());
@@ -1034,11 +1033,10 @@ public class OwnerOnly(
         var allShardStrings = statuses
             .Select(st =>
             {
-                var stateStr = ConnectionStateToEmoji(st);
-                var timeDiff = DateTime.UtcNow - st.LastUpdate;
-                var maxGuildCountLength = statuses.Max(x => x.GuildCount).ToString().Length;
+                var stateStr = ConnectionStateToEmoji(st.ConnectionState);
+                var maxGuildCountLength = statuses.Max(x => x.Guilds.Count).ToString().Length;
                 return
-                    $"`{stateStr} | #{st.ShardId.ToString().PadBoth(3)} | {timeDiff:mm\\:ss} | {st.GuildCount.ToString().PadBoth(maxGuildCountLength)} | {st.UserCount}`";
+                    $"`{stateStr} | #{st.ShardId.ToString().PadBoth(3)} | {st.Guilds.Count.ToString().PadBoth(maxGuildCountLength)} | {st.Guilds.Select(x => x.Users).Count()}`";
             })
             .ToArray();
 
@@ -1071,33 +1069,14 @@ public class OwnerOnly(
     }
 
 
-    private static string ConnectionStateToEmoji(ShardStatus status)
+    private static string ConnectionStateToEmoji(ConnectionState status)
     {
-        var timeDiff = DateTime.UtcNow - status.LastUpdate;
-        return status.ConnectionState switch
+        return status switch
         {
             ConnectionState.Connected => "✅",
             ConnectionState.Disconnected => "🔻",
-            _ when timeDiff > TimeSpan.FromSeconds(30) => " ❗ ",
-            _ => " ⏳"
-        };
-    }
 
-    /// <summary>
-    /// Attempts to restart a specified shard by its ID.
-    /// </summary>
-    /// <param name="shardId">The ID of the shard to restart.</param>
-    /// <remarks>
-    /// Sends a confirmation message if the shard is successfully marked for restart, or an error message if the shard ID is not found.
-    /// </remarks>
-    [Cmd, Aliases]
-    public async Task RestartShard(int shardId)
-    {
-        var success = coord.RestartShard(shardId);
-        if (success)
-            await ReplyConfirmLocalizedAsync("shard_reconnecting", Format.Bold($"#{shardId}")).ConfigureAwait(false);
-        else
-            await ReplyErrorLocalizedAsync("no_shard_id").ConfigureAwait(false);
+        };
     }
 
     /// <summary>
@@ -1131,34 +1110,8 @@ public class OwnerOnly(
         await Task.Delay(2000).ConfigureAwait(false);
         Environment.SetEnvironmentVariable("SNIPE_CACHED", "0");
         Environment.SetEnvironmentVariable("AFK_CACHED", "0");
-        coord.Die();
     }
 
-    /// <summary>
-    /// Restarts the entire bot.
-    /// </summary>
-    /// <remarks>
-    /// Sends an error message if the restart fails, otherwise sends a confirmation message before initiating the restart.
-    /// </remarks>
-    [Cmd, Aliases]
-    public async Task Restart()
-    {
-        var success = coord.RestartBot();
-        if (!success)
-        {
-            await ReplyErrorLocalizedAsync("restart_fail").ConfigureAwait(false);
-            return;
-        }
-
-        try
-        {
-            await ReplyConfirmLocalizedAsync("restarting").ConfigureAwait(false);
-        }
-        catch
-        {
-            // ignored
-        }
-    }
 
     /// <summary>
     /// Changes the bot's username to the specified new name.
@@ -1658,5 +1611,5 @@ public sealed class EvaluationEnvironment
     /// <summary>
     /// Gets the Discord client instance associated with the current command execution.
     /// </summary>
-    public DiscordSocketClient Client => Ctx.Client as DiscordSocketClient;
+    public DiscordShardedClient Client => Ctx.Client as DiscordShardedClient;
 }

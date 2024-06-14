@@ -40,7 +40,7 @@ catch
 }
 
 
-var db = new DbService(0, null, connectString);
+var db = new DbService(null, connectString);
 
 await db.ApplyMigrations();
 

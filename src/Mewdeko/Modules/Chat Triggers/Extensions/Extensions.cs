@@ -62,7 +62,7 @@ public static class Extensions
     /// <param name="str">The trigger string containing the placeholder.</param>
     /// <param name="client">The Discord socket client.</param>
     /// <returns>The trigger string with the placeholder replaced.</returns>
-    private static string ResolveTriggerString(this string str, DiscordSocketClient client) =>
+    private static string ResolveTriggerString(this string str, DiscordShardedClient client) =>
         str.Replace("%bot.mention%", client.CurrentUser.Mention, StringComparison.Ordinal);
 
 
@@ -78,7 +78,7 @@ public static class Extensions
     /// <param name="triggerId">Optional: The ID of the trigger. Default is 0.</param>
     /// <returns>The resolved response string.</returns>
     private static async Task<string?> ResolveResponseStringAsync(this string? str, IUserMessage ctx,
-        DiscordSocketClient client, string resolvedTrigger, bool containsAnywhere, MewdekoContext uow = null,
+        DiscordShardedClient client, string resolvedTrigger, bool containsAnywhere, MewdekoContext uow = null,
         int triggerId = 0)
     {
         // Calculate the index where the substring begins
@@ -120,7 +120,7 @@ public static class Extensions
                 var mention = ctx.Content.GetUserMentions().FirstOrDefault();
                 if (mention is 0)
                     return "";
-                var user = client.GetUserAsync(mention).GetAwaiter().GetResult();
+                var user = client.GetUser(mention);
                 return user is null ? "" : user.Id.ToString();
             })
             .WithOverride("%targetuser.avatar%", () =>
@@ -128,7 +128,7 @@ public static class Extensions
                 var mention = ctx.Content.GetUserMentions().FirstOrDefault();
                 if (mention is 0)
                     return "";
-                var user = client.GetUserAsync(mention).GetAwaiter().GetResult();
+                var user = client.GetUser(mention);
                 return user is null ? "" : user.RealAvatarUrl().ToString();
             })
             .WithOverride("%targetusers%", () =>
@@ -166,7 +166,7 @@ public static class Extensions
     /// <param name="context">Optional: The database context. Default is null.</param>
     /// <returns>The response string with context.</returns>
     public static Task<string?> ResponseWithContextAsync(this Database.Models.ChatTriggers cr, IUserMessage ctx,
-        DiscordSocketClient client, bool containsAnywhere, MewdekoContext context = null) =>
+        DiscordShardedClient client, bool containsAnywhere, MewdekoContext context = null) =>
         cr.Response.ResolveResponseStringAsync(ctx, client, cr.Trigger.ResolveTriggerString(client),
             containsAnywhere, context, cr.Id);
 
@@ -181,7 +181,7 @@ public static class Extensions
     /// <param name="dbContext">Optional: The database context. Default is null.</param>
     /// <returns>The sent user message or null if no response is required.</returns>
     public static async Task<IUserMessage>? Send(this Database.Models.ChatTriggers ct, IUserMessage ctx,
-        DiscordSocketClient client, bool sanitize, MewdekoContext dbContext = null)
+        DiscordShardedClient client, bool sanitize, MewdekoContext dbContext = null)
     {
         var channel = ct.DmResponse
             ? await ctx.Author.CreateDMChannelAsync().ConfigureAwait(false)
@@ -216,7 +216,7 @@ public static class Extensions
                     var mention = ctx.MentionedUserIds.FirstOrDefault();
                     if (mention is 0)
                         return "";
-                    var user = client.GetUserAsync(mention).GetAwaiter().GetResult();
+                    var user = client.GetUser(mention);
                     return user is null ? "" : user.Mention;
                 })
                 .WithOverride("%targetuser.id%", () =>
@@ -224,7 +224,7 @@ public static class Extensions
                     var mention = ctx.MentionedUserIds.FirstOrDefault();
                     if (mention is 0)
                         return "";
-                    var user = client.GetUserAsync(mention).GetAwaiter().GetResult();
+                    var user = client.GetUser(mention);
                     return user is null ? "" : user.Id.ToString();
                 })
                 .WithOverride("%targetuser.avatar%", () =>
@@ -232,7 +232,7 @@ public static class Extensions
                     var mention = ctx.MentionedUserIds.FirstOrDefault();
                     if (mention is 0)
                         return "";
-                    var user = client.GetUserAsync(mention).GetAwaiter().GetResult();
+                    var user = client.GetUser(mention);
                     return user is null ? "" : user.RealAvatarUrl().ToString();
                 })
                 .Build();
@@ -302,7 +302,7 @@ public static class Extensions
     /// <returns>The sent user message or null if no response is required.</returns>
     public static async Task<IUserMessage>? SendInteraction(this Database.Models.ChatTriggers ct,
         SocketInteraction inter,
-        DiscordSocketClient client, bool sanitize, IUserMessage fakeMsg, bool ephemeral = false,
+        DiscordShardedClient client, bool sanitize, IUserMessage fakeMsg, bool ephemeral = false,
         MewdekoContext dbContext = null, bool followup = false)
     {
         var rep = new ReplacementBuilder()

@@ -23,7 +23,7 @@ public class StreamRoleService : INService, IUnloadableService
     /// <param name="db">The database service for storing and retrieving stream role settings.</param>
     /// <param name="eventHandler">Event handler for capturing and responding to guild member updates.</param>
     /// <param name="gss">The guild settings service for retrieving guild-specific settings.</param>
-    public StreamRoleService(DiscordSocketClient client, DbService db, EventHandler eventHandler,
+    public StreamRoleService(DiscordShardedClient client, DbService db, EventHandler eventHandler,
         GuildSettingsService gss)
     {
         this.db = db;

@@ -9,7 +9,7 @@ namespace Mewdeko.Modules.Administration.Services;
 /// </summary>
 public class VcRoleService : INService
 {
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly DbService db;
     private readonly GuildSettingsService guildSettingsService;
 
@@ -21,7 +21,7 @@ public class VcRoleService : INService
     /// <param name="db">The database service.</param>
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="guildSettingsService">The guild settings service.</param>
-    public VcRoleService(DiscordSocketClient client, Mewdeko bot, DbService db, EventHandler eventHandler,
+    public VcRoleService(DiscordShardedClient client, Mewdeko bot, DbService db, EventHandler eventHandler,
         GuildSettingsService guildSettingsService)
     {
         // Assigning the database service and the Discord client

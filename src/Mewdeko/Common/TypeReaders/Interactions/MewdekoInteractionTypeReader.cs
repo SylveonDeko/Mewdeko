@@ -14,7 +14,7 @@ public abstract class MewdekoTypeReader<T> : TypeReader
     /// The Discord client.
     /// </summary>
     // ReSharper disable once NotAccessedField.Local
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
 
     /// <summary>
     /// The interaction service.
@@ -27,7 +27,7 @@ public abstract class MewdekoTypeReader<T> : TypeReader
     /// </summary>
     /// <param name="client">The Discord client.</param>
     /// <param name="cmds">The interaction service.</param>
-    protected MewdekoTypeReader(DiscordSocketClient client, InteractionService cmds)
+    protected MewdekoTypeReader(DiscordShardedClient client, InteractionService cmds)
     {
         this.client = client;
         this.cmds = cmds;

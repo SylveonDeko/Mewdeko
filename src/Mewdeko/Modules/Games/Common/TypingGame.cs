@@ -15,7 +15,7 @@ public class TypingGame
     /// </summary>
     public const float WordValue = 4.5f;
 
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly GamesService games;
     private readonly Options options;
     private readonly string? prefix;
@@ -30,7 +30,7 @@ public class TypingGame
     /// <param name="channel">The channel the game will start in</param>
     /// <param name="prefix">The bots prefix</param>
     /// <param name="options">Options along with starting the game</param>
-    public TypingGame(GamesService games, DiscordSocketClient client, ITextChannel channel,
+    public TypingGame(GamesService games, DiscordShardedClient client, ITextChannel channel,
         string? prefix, Options options)
     {
         this.games = games;

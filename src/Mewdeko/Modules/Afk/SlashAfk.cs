@@ -14,7 +14,7 @@ namespace Mewdeko.Modules.Afk;
 [Group("afk", "Set or Manage AFK")]
 public class SlashAfk : MewdekoSlashModuleBase<AfkService>
 {
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly InteractiveService interactivity;
 
     /// <summary>
@@ -22,7 +22,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     /// </summary>
     /// <param name="serv">The interactivity service used for embed pagination.</param>
     /// <param name="client">The discord client.</param>
-    public SlashAfk(InteractiveService serv, DiscordSocketClient client)
+    public SlashAfk(InteractiveService serv, DiscordShardedClient client)
     {
         interactivity = serv;
         this.client = client;
@@ -38,7 +38,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
      SlashUserPerm(GuildPermission.SendMessages)]
     public async Task Afk(string? message = null)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
         {
             await ErrorLocalizedAsync("afk_still_starting");
             return;
@@ -106,7 +106,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
      RequireContext(ContextType.Guild), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
     public async Task TimedAfk(string time, string message)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await EphemeralReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -142,7 +142,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task CustomAfkMessage(string embedCode)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -166,7 +166,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     [SlashCommand("listactive", "Sends a list of active afk users"), CheckPermissions]
     public async Task GetActiveAfks()
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -205,7 +205,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
      CheckPermissions]
     public async Task AfkView(IGuildUser user)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -229,7 +229,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
      SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task AfkDisabledList()
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -276,7 +276,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task AfkLength(int num)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -302,7 +302,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task AfkType(Afk.AfkTypeEnum afkTypeEnum)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -321,7 +321,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task AfkTimeout(string input)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -353,7 +353,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
      SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task AfkUndisable(ITextChannel channel)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ctx.Interaction
                 .SendErrorAsync("afk_still_starting", Config).ConfigureAwait(false);
@@ -410,7 +410,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
      SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
     public async Task AfkDisable(ITextChannel channel)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ctx.Interaction
                 .SendErrorAsync("afk_still_starting", Config).ConfigureAwait(false);
@@ -476,7 +476,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     {
         if (!await CheckRoleHierarchy(user))
             return;
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED_{client.ShardId}") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;

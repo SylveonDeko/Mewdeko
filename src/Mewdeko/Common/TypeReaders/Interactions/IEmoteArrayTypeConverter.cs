@@ -20,7 +20,7 @@ public class EmoteArrayTypeConverter : MewdekoTypeReader<IEmote[]>
     /// <param name="client">The Discord client.</param>
     /// <param name="cmds">The interaction service.</param>
     /// <param name="strings">The bot strings service.</param>
-    public EmoteArrayTypeConverter(DiscordSocketClient client, InteractionService cmds, IBotStrings strings) :
+    public EmoteArrayTypeConverter(DiscordShardedClient client, InteractionService cmds, IBotStrings strings) :
         base(client, cmds) => Strings = strings;
 
     /// <summary>

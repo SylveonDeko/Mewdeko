@@ -10,7 +10,7 @@ namespace Mewdeko.Services;
 public class GreetSettingsService : INService, IReadyExecutor
 {
     private readonly BotConfigService bss;
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly DbService db;
 
     private readonly Channel<(GreetSettings, IGuildUser, TaskCompletionSource<bool>)> greetDmQueue =
@@ -35,7 +35,7 @@ public class GreetSettingsService : INService, IReadyExecutor
     /// <remarks>
     /// Event handlers are set up to listen for specific Discord events, allowing the service to respond to user and guild activities such as joining, leaving, or boosting.
     /// </remarks>
-    public GreetSettingsService(DiscordSocketClient client, GuildSettingsService gss, DbService db,
+    public GreetSettingsService(DiscordShardedClient client, GuildSettingsService gss, DbService db,
         BotConfigService bss, EventHandler eventHandler, Mewdeko bot)
     {
         this.db = db;

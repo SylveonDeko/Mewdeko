@@ -16,7 +16,7 @@ public partial class Utility
     /// </summary>
     [Group("snipe", "Snipe edited or delete messages!")]
     public class SlashSnipes(
-        DiscordSocketClient client,
+        DiscordShardedClient client,
         InteractiveService interactiveService,
         GuildSettingsService guildSettings,
         BotConfigService config)

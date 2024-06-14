@@ -10,7 +10,7 @@ namespace Mewdeko.Modules.Utility.Common;
 /// </summary>
 public class RepeatRunner
 {
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
 
     private readonly MessageRepeaterService mrs;
 
@@ -29,7 +29,7 @@ public class RepeatRunner
     /// The runner calculates the initial and subsequent intervals for message repetition,
     /// handling daily repetitions or at specific intervals.
     /// </remarks>
-    public RepeatRunner(DiscordSocketClient client, SocketGuild guild, Repeater repeater,
+    public RepeatRunner(DiscordShardedClient client, SocketGuild guild, Repeater repeater,
         MessageRepeaterService mrs)
     {
         Repeater = repeater;

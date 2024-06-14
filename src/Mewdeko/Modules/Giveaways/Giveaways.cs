@@ -39,8 +39,8 @@ public partial class Giveaways(
             {
                 var rep = new ReplacementBuilder()
                     .WithChannel(Context.Channel)
-                    .WithClient(Context.Client as DiscordSocketClient)
-                    .WithServer(Context.Client as DiscordSocketClient, Context.Guild as SocketGuild)
+                    .WithClient(Context.Client as DiscordShardedClient)
+                    .WithServer(Context.Client as DiscordShardedClient, Context.Guild as SocketGuild)
                     .WithUser(Context.User);
 
                 rep.WithOverride("%messagelink%",

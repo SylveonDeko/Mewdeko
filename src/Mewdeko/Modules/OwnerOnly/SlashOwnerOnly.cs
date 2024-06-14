@@ -21,6 +21,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
+using Octokit;
 using Serilog;
 using ContextType = Discord.Interactions.ContextType;
 
@@ -39,10 +40,9 @@ namespace Mewdeko.Modules.OwnerOnly;
 /// <param name="commandHandler">Handler for processing and executing commands received from users.</param>
 [SlashOwnerOnly, Discord.Interactions.Group("owneronly", "Commands only the bot owner can use")]
 public class SlashOwnerOnly(
-    DiscordSocketClient client,
+    DiscordShardedClient client,
     IBotStrings strings,
     InteractiveService serv,
-    ICoordinator coord,
     DbService db,
     IDataCache cache,
     GuildSettingsService guildSettings,
@@ -275,25 +275,27 @@ public class SlashOwnerOnly(
     [SlashCommand("shardstats", "Shows the stats for all shards")]
     public async Task ShardStats()
     {
-        var statuses = coord.GetAllShardStatuses();
+        var statuses = client.Shards;
 
+        // Aggregate shard status summaries
         var status = string.Join(" : ", statuses
-            .Select(x => (ConnectionStateToEmoji(x), x))
+            .Select(x => (ConnectionStateToEmoji(x.ConnectionState), x))
             .GroupBy(x => x.Item1)
             .Select(x => $"`{x.Count()} {x.Key}`")
             .ToArray());
 
+        // Detailed shard status for each shard
         var allShardStrings = statuses
             .Select(st =>
             {
-                var stateStr = ConnectionStateToEmoji(st);
-                var timeDiff = DateTime.UtcNow - st.LastUpdate;
-                var maxGuildCountLength = statuses.Max(x => x.GuildCount).ToString().Length;
+                var stateStr = ConnectionStateToEmoji(st.ConnectionState);
+                var maxGuildCountLength = statuses.Max(x => x.Guilds.Count).ToString().Length;
                 return
-                    $"`{stateStr} | #{st.ShardId.ToString().PadBoth(3)} | {timeDiff:mm\\:ss} | {st.GuildCount.ToString().PadBoth(maxGuildCountLength)} | {st.UserCount}`";
+                    $"`{stateStr} | #{st.ShardId.ToString().PadBoth(3)} | {st.Guilds.Count.ToString().PadBoth(maxGuildCountLength)} | {st.Guilds.Select(x => x.Users).Count()}`";
             })
             .ToArray();
 
+        // Setup and send a paginator for detailed shard stats
         var paginator = new LazyPaginatorBuilder()
             .AddUser(ctx.User)
             .WithPageFactory(PageFactory)
@@ -321,33 +323,16 @@ public class SlashOwnerOnly(
         }
     }
 
-    private static string ConnectionStateToEmoji(ShardStatus status)
+    private static string ConnectionStateToEmoji(ConnectionState status)
     {
-        var timeDiff = DateTime.UtcNow - status.LastUpdate;
-        return status.ConnectionState switch
+        return status switch
         {
             ConnectionState.Connected => "✅",
             ConnectionState.Disconnected => "🔻",
-            _ when timeDiff > TimeSpan.FromSeconds(30) => " ❗ ",
-            _ => " ⏳"
+
         };
     }
 
-    /// <summary>
-    /// Attempts to restart a specified shard by its ID.
-    /// </summary>
-    /// <param name="shardId">The ID of the shard to restart.</param>
-    /// <remarks>
-    /// Sends a confirmation message if the shard is successfully marked for restart, or an error message if the shard ID is not found.
-    /// </remarks>
-    [SlashCommand("restartshard", "Restarts a shard by its number")]
-    public Task RestartShard(int shardId)
-    {
-        var success = coord.RestartShard(shardId);
-        if (success)
-            return ReplyConfirmLocalizedAsync("shard_reconnecting", Format.Bold($"#{shardId}"));
-        return ReplyErrorLocalizedAsync("no_shard_id");
-    }
 
     /// <summary>
     /// Commands the bot to leave a server.
@@ -380,33 +365,7 @@ public class SlashOwnerOnly(
         await Task.Delay(2000).ConfigureAwait(false);
         Environment.SetEnvironmentVariable("SNIPE_CACHED", "0");
         Environment.SetEnvironmentVariable("AFK_CACHED", "0");
-        coord.Die();
-    }
-
-    /// <summary>
-    /// Restarts the entire bot.
-    /// </summary>
-    /// <remarks>
-    /// Sends an error message if the restart fails, otherwise sends a confirmation message before initiating the restart.
-    /// </remarks>
-    [SlashCommand("restart", "Restarts the bot, restart command must be set in credentials")]
-    public async Task Restart()
-    {
-        var success = coord.RestartBot();
-        if (!success)
-        {
-            await ReplyErrorLocalizedAsync("restart_fail").ConfigureAwait(false);
-            return;
-        }
-
-        try
-        {
-            await ReplyConfirmLocalizedAsync("restarting").ConfigureAwait(false);
-        }
-        catch
-        {
-            // ignored
-        }
+        Environment.Exit(0);
     }
 
 
@@ -771,7 +730,7 @@ public class SlashOwnerOnly(
         GuildSettingsService guildSettings,
         CommandService commandService,
         IServiceProvider services,
-        DiscordSocketClient client,
+        DiscordShardedClient client,
         IEnumerable<IConfigService> settingServices)
         : MewdekoSlashModuleBase<OwnerOnlyService>
     {
@@ -900,7 +859,7 @@ public class SlashOwnerOnly(
             if (!command.IsSuccess)
                 return;
 
-            var currentContext = new CommandContext(ctx.Client as DiscordSocketClient, new MewdekoUserMessage
+            var currentContext = new CommandContext(ctx.Client as DiscordShardedClient, new MewdekoUserMessage
             {
                 Content = "HI!", Author = ctx.User, Channel = ctx.Channel
             });
@@ -1296,7 +1255,7 @@ public class SlashOwnerOnly(
     /// <param name="bot">The bot instance to manage.</param>
     /// <param name="client">The Discord client used to interact with the Discord API.</param>
     [Discord.Interactions.Group("statuscommands", "Commands to manage bot status")]
-    public class StatusCommands(Mewdeko bot, DiscordSocketClient client) : MewdekoSlashModuleBase<OwnerOnlyService>
+    public class StatusCommands(Mewdeko bot, DiscordShardedClient client) : MewdekoSlashModuleBase<OwnerOnlyService>
     {
         /// <summary>
         /// Toggles the rotation of playing statuses for the bot.
@@ -1476,5 +1435,5 @@ public sealed class InteractionEvaluationEnvironment
     /// <summary>
     /// Gets the Discord client instance associated with the current interaction handling.
     /// </summary>
-    public DiscordSocketClient Client => Ctx.Client as DiscordSocketClient;
+    public DiscordShardedClient Client => Ctx.Client as DiscordShardedClient;
 }

@@ -35,7 +35,7 @@ public class CommandHandler : INService
 
     // ReSharper disable once NotAccessedField.Local
     private readonly Timer clearUsersOnShortCooldown;
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly CommandService commandService;
     private readonly IBotCredentials creds;
     private readonly DbService db;
@@ -63,7 +63,7 @@ public class CommandHandler : INService
     /// <param name="eventHandler">The event handler for discord events.</param>
     /// <param name="creds">The bot credentials.</param>
     /// <param name="cache">The data cache service.</param>
-    public CommandHandler(DiscordSocketClient client, DbService db, CommandService commandService,
+    public CommandHandler(DiscordShardedClient client, DbService db, CommandService commandService,
         BotConfigService bss, Mewdeko bot, IServiceProvider services, IBotStrings strngs,
         InteractionService interactionService,
         GuildSettingsService gss, EventHandler eventHandler, IBotCredentials creds, IDataCache cache)
@@ -425,7 +425,7 @@ public class CommandHandler : INService
         //     && compInter.Message.Author.IsWebhook
         //     && !compInter.Data.CustomId.StartsWith("trigger.")) return;
 
-        var ctx = new SocketInteractionContext(client, interaction);
+        var ctx = new ShardedInteractionContext(client, interaction);
         var result = await interactionService.ExecuteCommandAsync(ctx, services).ConfigureAwait(false);
 #if DEBUG
         Log.Information($"Button was executed:{result.IsSuccess}\nReason:{result.ErrorReason}");

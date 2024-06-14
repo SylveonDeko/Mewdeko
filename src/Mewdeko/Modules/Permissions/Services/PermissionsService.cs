@@ -34,7 +34,7 @@ public class PermissionService : ILateBlocker, INService
     /// <param name="configService">The service for bot-wide configurations.</param>
     public PermissionService(DbService db,
         IBotStrings strings,
-        GuildSettingsService guildSettings, DiscordSocketClient client, BotConfig configService)
+        GuildSettingsService guildSettings, DiscordShardedClient client, BotConfig configService)
     {
         config = configService;
         this.db = db;
@@ -62,7 +62,7 @@ public class PermissionService : ILateBlocker, INService
     /// <param name="command">The command information.</param>
     /// <returns>True if the command execution should be blocked, otherwise false.</returns>
     public async Task<bool> TryBlockLate(
-        DiscordSocketClient client,
+        DiscordShardedClient client,
         ICommandContext ctx,
         string moduleName,
         CommandInfo command)
@@ -162,7 +162,7 @@ public class PermissionService : ILateBlocker, INService
     /// <param name="ctx">The interaction context.</param>
     /// <param name="command">The slash command information.</param>
     /// <returns>True if the slash command execution should be blocked, otherwise false.</returns>*
-    public async Task<bool> TryBlockLate(DiscordSocketClient client, IInteractionContext ctx, ICommandInfo command)
+    public async Task<bool> TryBlockLate(DiscordShardedClient client, IInteractionContext ctx, ICommandInfo command)
     {
         var guild = ctx.Guild;
         var commandName = command.MethodName.ToLowerInvariant();

@@ -41,7 +41,7 @@ public class GlobalPermissionService : ILateBlocker, INService
     /// <param name="moduleName">The name of the module containing the command.</param>
     /// <param name="command">The command being executed.</param>
     /// <returns>A task that resolves to true if the command should be blocked; otherwise, false.</returns>
-    public Task<bool> TryBlockLate(DiscordSocketClient client, ICommandContext ctx, string moduleName,
+    public Task<bool> TryBlockLate(DiscordShardedClient client, ICommandContext ctx, string moduleName,
         CommandInfo command)
     {
         var settings = bss.Data;
@@ -60,7 +60,7 @@ public class GlobalPermissionService : ILateBlocker, INService
     /// <param name="ctx">The interaction context.</param>
     /// <param name="command">The slash command being executed.</param>
     /// <returns>A task that resolves to true if the command should be blocked; otherwise, false.</returns>
-    public Task<bool> TryBlockLate(DiscordSocketClient client, IInteractionContext ctx,
+    public Task<bool> TryBlockLate(DiscordShardedClient client, IInteractionContext ctx,
         ICommandInfo command)
     {
         var settings = bss.Data;

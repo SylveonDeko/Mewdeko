@@ -271,8 +271,8 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
                 case "preview":
                     await msg.DeleteAsync().ConfigureAwait(false);
                     var replacer = new ReplacementBuilder().WithUser(ctx.User)
-                        .WithClient(ctx.Client as DiscordSocketClient)
-                        .WithServer(ctx.Client as DiscordSocketClient, ctx.Guild as SocketGuild).Build();
+                        .WithClient(ctx.Client as DiscordShardedClient)
+                        .WithServer(ctx.Client as DiscordShardedClient, ctx.Guild as SocketGuild).Build();
                     var content = replacer.Replace(greet.Message);
                     if (SmartEmbed.TryParse(content, ctx.Guild.Id, out var embedData, out var plainText,
                             out var components2))

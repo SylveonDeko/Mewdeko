@@ -8,9 +8,9 @@ public interface ILateExecutor
     /// <summary>
     /// Executes the module's behavior.
     /// </summary>
-    /// <param name="discordSocketClient">The Discord client.</param>
+    /// <param name="DiscordShardedClient">The Discord client.</param>
     /// <param name="guild">The guild in which the message was sent.</param>
     /// <param name="msg">The message that triggered the module.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    Task LateExecute(DiscordSocketClient discordSocketClient, IGuild guild, IUserMessage msg);
+    Task LateExecute(DiscordShardedClient DiscordShardedClient, IGuild guild, IUserMessage msg);
 }

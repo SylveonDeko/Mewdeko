@@ -12,7 +12,7 @@ namespace Mewdeko.Modules.Games.Common;
 public class TicTacToe
 {
     private readonly ITextChannel channel;
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly SemaphoreSlim moveLock;
     private readonly BotConfig config;
 
@@ -42,7 +42,7 @@ public class TicTacToe
     /// <param name="firstUser">User who started tic tac toe</param>
     /// <param name="options">Options along with the game</param>
     /// <param name="config">Bot Configuration</param>
-    public TicTacToe(IBotStrings strings, DiscordSocketClient client, ITextChannel channel,
+    public TicTacToe(IBotStrings strings, DiscordShardedClient client, ITextChannel channel,
         IGuildUser firstUser, Options options, BotConfig config)
     {
         this.channel = channel;

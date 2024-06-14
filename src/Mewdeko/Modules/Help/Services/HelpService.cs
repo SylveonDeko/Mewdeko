@@ -20,7 +20,7 @@ public class HelpService : ILateExecutor, INService
     private readonly BlacklistService blacklistService;
     private readonly Mewdeko bot;
     private readonly BotConfigService bss;
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly CommandService cmds;
     private readonly DiscordPermOverrideService dpos;
     private readonly GuildSettingsService guildSettings;
@@ -49,7 +49,7 @@ public class HelpService : ILateExecutor, INService
         IBotStrings strings,
         DiscordPermOverrideService dpos,
         BotConfigService bss,
-        DiscordSocketClient client,
+        DiscordShardedClient client,
         Mewdeko bot,
         BlacklistService blacklistService,
         CommandService cmds,
@@ -76,18 +76,18 @@ public class HelpService : ILateExecutor, INService
     /// <summary>
     /// Executes the help text when someone attempts to dm the bot with a bad command
     /// </summary>
-    /// <param name="discordSocketClient">The client</param>
+    /// <param name="DiscordShardedClient">The client</param>
     /// <param name="guild">The guild (hopefully null otherwise this method is useless)</param>
     /// <param name="msg">The message of the user</param>
     /// <returns></returns>
-    public Task LateExecute(DiscordSocketClient discordSocketClient, IGuild? guild, IUserMessage msg)
+    public Task LateExecute(DiscordShardedClient DiscordShardedClient, IGuild? guild, IUserMessage msg)
     {
         var settings = bss.Data;
         if (guild != null) return Task.CompletedTask;
         if (string.IsNullOrWhiteSpace(settings.DmHelpText) || settings.DmHelpText == "-")
             return Task.CompletedTask;
         var replacer = new ReplacementBuilder()
-            .WithDefault(msg.Author, msg.Channel, guild as SocketGuild, discordSocketClient).Build();
+            .WithDefault(msg.Author, msg.Channel, guild as SocketGuild, DiscordShardedClient).Build();
         return SmartEmbed.TryParse(replacer.Replace(settings.DmHelpText), null, out var embed, out var plainText,
             out var components)
             ? msg.Channel.SendMessageAsync(plainText, embeds: embed, components: components?.Build())

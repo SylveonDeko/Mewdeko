@@ -27,7 +27,7 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     private readonly HttpClient httpClient;
     private IDataCache cache;
     private IMessageChannel channel;
-    private DiscordSocketClient client;
+    private DiscordShardedClient client;
     private DbService dbService;
     private IBotStrings strings;
 
@@ -42,7 +42,7 @@ public sealed class MewdekoPlayer : LavalinkPlayer
         audioService = properties.ServiceProvider.GetRequiredService<IAudioService>();
         creds = properties.ServiceProvider.GetRequiredService<IBotCredentials>();
         channel = properties.Options.Value.Channel;
-        client = properties.ServiceProvider.GetRequiredService<DiscordSocketClient>();
+        client = properties.ServiceProvider.GetRequiredService<DiscordShardedClient>();
         dbService = properties.ServiceProvider.GetRequiredService<DbService>();
         cache = properties.ServiceProvider.GetRequiredService<IDataCache>();
         strings = properties.ServiceProvider.GetRequiredService<IBotStrings>();

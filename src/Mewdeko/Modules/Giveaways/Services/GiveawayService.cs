@@ -14,7 +14,7 @@ namespace Mewdeko.Modules.Giveaways.Services;
 /// <param name="creds">The bot credentials.</param>
 /// <param name="guildSettings">Guild Settings Service</param>
 public class GiveawayService(
-    DiscordSocketClient client,
+    DiscordShardedClient client,
     DbService db,
     IBotCredentials creds,
     GuildSettingsService guildSettings,
@@ -125,8 +125,7 @@ public class GiveawayService(
             // Linq to db queries because npgsql is special, again.
             uow.Giveaways
                 .ToLinqToDB()
-                .Where(x => (int)(x.ServerId / (ulong)Math.Pow(2, 22) % (ulong)creds.TotalShards) == client.ShardId &&
-                            x.Ended != 1 && x.When < now).ToList();
+                .Where(x => x.Ended != 1 && x.When < now).ToList();
 
         return giveaways;
     }

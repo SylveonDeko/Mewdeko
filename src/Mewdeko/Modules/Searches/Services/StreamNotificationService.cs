@@ -18,7 +18,7 @@ namespace Mewdeko.Modules.Searches.Services;
 /// </summary>
 public class StreamNotificationService : IReadyExecutor, INService
 {
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly DbService db;
     private readonly List<ulong> offlineNotificationServers;
 
@@ -52,7 +52,7 @@ public class StreamNotificationService : IReadyExecutor, INService
     /// <param name="pubSub">The pub/sub service instance.</param>
     public StreamNotificationService(
         DbService db,
-        DiscordSocketClient client,
+        DiscordShardedClient client,
         IBotStrings strings,
         ConnectionMultiplexer redis,
         IBotCredentials creds,
@@ -64,7 +64,7 @@ public class StreamNotificationService : IReadyExecutor, INService
         this.client = client;
         this.strings = strings;
         this.pubSub = pubSub;
-        streamTracker = new NotifChecker(httpFactory, creds, redis, creds.RedisKey(), client.ShardId == 0);
+        streamTracker = new NotifChecker(httpFactory, creds, redis, creds.RedisKey(), true);
         using var uow = this.db.GetDbContext();
 
         streamsOnlineKey = new TypedKey<List<StreamData>>("streams.online");
@@ -93,8 +93,6 @@ public class StreamNotificationService : IReadyExecutor, INService
                         y => y.AsEnumerable().ToHashSet()));
 
         // shard 0 will keep track of when there are no more guilds which track a stream
-        if (client.ShardId == 0)
-        {
             _ = Task.Run(async () =>
             {
                 await using var uow2 = db.GetDbContext();
@@ -110,7 +108,6 @@ public class StreamNotificationService : IReadyExecutor, INService
                     .ToDictionary(x => new StreamDataKey(x.Key.Type, x.Key.Name),
                         x => x.Select(fs => fs.GuildId).ToHashSet());
             });
-        }
 
         _ = Task.Run(async () =>
         {
@@ -124,8 +121,6 @@ public class StreamNotificationService : IReadyExecutor, INService
             });
         });
 
-        if (client.ShardId == 0)
-        {
             _ = Task.Run(async () =>
             {
                 // only shard 0 will run the tracker,
@@ -145,7 +140,6 @@ public class StreamNotificationService : IReadyExecutor, INService
                     await HandleUnfollowStream(data);
                 });
             });
-        }
 
         bot.JoinedGuild += ClientOnJoinedGuild;
         client.LeftGuild += ClientOnLeftGuild;
@@ -154,8 +148,6 @@ public class StreamNotificationService : IReadyExecutor, INService
     /// <inheritdoc />
     public async Task OnReadyAsync()
     {
-        if (client.ShardId != 0)
-            return;
 
         using var timer = new PeriodicTimer(TimeSpan.FromMinutes(30));
         while (await timer.WaitForNextTickAsync().ConfigureAwait(false))

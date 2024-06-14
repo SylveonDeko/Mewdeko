@@ -12,7 +12,7 @@ namespace Mewdeko.Modules.Games.Common.Trivia;
 /// </summary>
 public class TriviaGame
 {
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly SemaphoreSlim guessLock = new(1, 1);
     private readonly TriviaOptions options;
 
@@ -33,7 +33,7 @@ public class TriviaGame
     /// <param name="channel">The channel the game is running in</param>
     /// <param name="options">Options when the game was started.</param>
     /// <param name="quitCommand">If the quit command was activated this round</param>
-    public TriviaGame(IBotStrings strings, DiscordSocketClient client,
+    public TriviaGame(IBotStrings strings, DiscordShardedClient client,
         IDataCache cache, IGuild guild, ITextChannel channel,
         TriviaOptions options, string? quitCommand)
     {

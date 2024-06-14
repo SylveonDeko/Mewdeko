@@ -27,7 +27,7 @@ public class XpService : INService, IUnloadableService
     private readonly Mewdeko bot;
 
     private readonly IDataCache cache;
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly CommandHandler cmd;
     private readonly IBotCredentials creds;
 
@@ -58,7 +58,7 @@ public class XpService : INService, IUnloadableService
     /// <param name="guildSettings">The guild config service.</param>
     /// <remarks>Initializes services and sets up event handlers for managing XP accumulation and rewards.</remarks>
     public XpService(
-        DiscordSocketClient client,
+        DiscordShardedClient client,
         CommandHandler cmd,
         DbService db,
         IBotStrings strings,

@@ -10,7 +10,7 @@ namespace Mewdeko.Modules.Highlights.Services;
 public class HighlightsService : INService, IReadyExecutor
 {
     private readonly IDataCache cache;
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly DbService db;
 
     private readonly Channel<(SocketMessage, TaskCompletionSource<bool>)> highlightQueue =
@@ -25,7 +25,7 @@ public class HighlightsService : INService, IReadyExecutor
     /// <param name="client">The discord client</param>
     /// <param name="cache">Redis cache</param>
     /// <param name="db">The database provider</param>
-    public HighlightsService(DiscordSocketClient client, IDataCache cache, DbService db)
+    public HighlightsService(DiscordShardedClient client, IDataCache cache, DbService db)
     {
         this.client = client;
         this.cache = cache;

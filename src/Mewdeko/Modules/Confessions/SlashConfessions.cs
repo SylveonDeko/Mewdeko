@@ -180,9 +180,9 @@ public class SlashConfessions : MewdekoSlashModuleBase<ConfessionService>
             return;
         }
 
-        var reportedGuild = await ((DiscordSocketClient)ctx.Client).Rest.GetGuildAsync(serverId).ConfigureAwait(false);
+        var reportedGuild = await ((DiscordShardedClient)ctx.Client).Rest.GetGuildAsync(serverId).ConfigureAwait(false);
         var channel =
-            await ((DiscordSocketClient)ctx.Client).Rest.GetChannelAsync(credentials.ConfessionReportChannelId)
+            await ((DiscordShardedClient)ctx.Client).Rest.GetChannelAsync(credentials.ConfessionReportChannelId)
                 .ConfigureAwait(false) as ITextChannel;
         var eb = new EmbedBuilder().WithErrorColor().WithTitle(GetText("confessions_report_received"))
             .AddField(GetText("confessions_report"), how)

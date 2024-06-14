@@ -11,7 +11,7 @@ namespace Mewdeko.Modules.Utility.Services;
 public partial class UtilityService : INService
 {
     private readonly IDataCache cache;
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly DbService db;
     private readonly GuildSettingsService guildSettings;
 
@@ -28,7 +28,7 @@ public partial class UtilityService : INService
         IDataCache cache,
         GuildSettingsService guildSettings,
         EventHandler eventHandler,
-        DiscordSocketClient client)
+        DiscordShardedClient client)
     {
         eventHandler.MessageDeleted += MsgStore;
         eventHandler.MessageUpdated += MsgStore2;

@@ -10,7 +10,7 @@ namespace Mewdeko.Modules.Searches.Services;
 /// </summary>
 public class FeedsService : INService
 {
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly DbService db;
 
     private readonly ConcurrentDictionary<string, DateTime> lastPosts =
@@ -24,7 +24,7 @@ public class FeedsService : INService
     /// <param name="db">The database service.</param>
     /// <param name="client">The Discord client.</param>
     /// <param name="bot">The bot instance.</param>
-    public FeedsService(DbService db, DiscordSocketClient client, Mewdeko bot)
+    public FeedsService(DbService db, DiscordShardedClient client, Mewdeko bot)
     {
         this.db = db;
         subs = new ConcurrentDictionary<string, HashSet<FeedSub>>();

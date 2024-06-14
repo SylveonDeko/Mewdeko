@@ -19,7 +19,7 @@ public partial class ReplacementBuilder
     /// <summary>
     /// The Discord client.
     /// </summary>
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
 
     /// <summary>
     /// The NekosBest API client.
@@ -41,7 +41,7 @@ public partial class ReplacementBuilder
     /// Initializes a new instance of the ReplacementBuilder class.
     /// </summary>
     /// <param name="client">The Discord client.</param>
-    public ReplacementBuilder(DiscordSocketClient? client = null)
+    public ReplacementBuilder(DiscordShardedClient? client = null)
     {
         nekosBestApi = new NekosBestApi();
         this.client = client;
@@ -57,7 +57,7 @@ public partial class ReplacementBuilder
     /// <param name="socketClient">The client.</param>
     /// <returns>The ReplacementBuilder instance.</returns>
     public ReplacementBuilder WithDefault(IUser usr, IMessageChannel ch, SocketGuild g,
-        DiscordSocketClient socketClient) =>
+        DiscordShardedClient socketClient) =>
         WithUser(usr)
             .WithChannel(ch)
             .WithServer(socketClient, g)
@@ -70,7 +70,7 @@ public partial class ReplacementBuilder
     /// <param name="ctx">The command context.</param>
     /// <returns>The ReplacementBuilder instance.</returns>
     public ReplacementBuilder WithDefault(ICommandContext ctx) => WithDefault(ctx.User, ctx.Channel,
-        ctx.Guild as SocketGuild, (DiscordSocketClient)ctx.Client);
+        ctx.Guild as SocketGuild, (DiscordShardedClient)ctx.Client);
 
     /// <summary>
     /// Sets up default replacements for an interaction context.
@@ -78,19 +78,15 @@ public partial class ReplacementBuilder
     /// <param name="ctx">The interaction context.</param>
     /// <returns>The ReplacementBuilder instance.</returns>
     public ReplacementBuilder WithDefault(IInteractionContext ctx) => WithDefault(ctx.User, ctx.Channel,
-        ctx.Guild as SocketGuild, (DiscordSocketClient)ctx.Client);
+        ctx.Guild as SocketGuild, (DiscordShardedClient)ctx.Client);
 
     /// <summary>
     /// Sets up replacements for a client.
     /// </summary>
     /// <param name="socketClient">The client.</param>
     /// <returns>The ReplacementBuilder instance.</returns>
-    public ReplacementBuilder WithClient(DiscordSocketClient socketClient)
+    public ReplacementBuilder WithClient(DiscordShardedClient socketClient)
     {
-        /*OBSOLETE*/
-        reps.TryAdd("%shardid%", () => socketClient.ShardId.ToString());
-        reps.TryAdd("%time%",
-            () => DateTime.Now.ToString($"HH:mm {TimeZoneInfo.Local.StandardName.GetInitials()}"));
 
         /*NEW*/
         reps.TryAdd("%bot.status%", () => socketClient.Status.ToString());
@@ -113,7 +109,7 @@ public partial class ReplacementBuilder
     /// <param name="socketClient">The client.</param>
     /// <param name="g">The server.</param>
     /// <returns>The ReplacementBuilder instance.</returns>
-    public ReplacementBuilder WithServer(DiscordSocketClient socketClient, SocketGuild? g)
+    public ReplacementBuilder WithServer(DiscordShardedClient socketClient, SocketGuild? g)
     {
         /*OBSOLETE*/
         reps.TryAdd("%sid%", () => g == null ? "DM" : g.Id.ToString());
@@ -336,7 +332,7 @@ public partial class ReplacementBuilder
     /// Sets up replacements for RNG placeholders.
     /// </summary>
     /// <returns>The ReplacementBuilder instance.</returns>
-    private void WithStats(DiscordSocketClient c)
+    private void WithStats(DiscordShardedClient c)
     {
         /*OBSOLETE*/
         reps.TryAdd("%servers%", () => c.Guilds.Count.ToString());
@@ -349,7 +345,6 @@ public partial class ReplacementBuilder
 #if !GLOBAL_Mewdeko
         reps.TryAdd("%shard.usercount%", () => c.Guilds.Sum(s => s.Users.Count).ToString());
 #endif
-        reps.TryAdd("%shard.id%", () => c.ShardId.ToString());
     }
 
     /// <summary>

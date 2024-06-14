@@ -10,9 +10,9 @@ namespace Mewdeko.Common.TypeReaders
     /// <typeparam name="T">The type that the type reader converts input to.</typeparam>
     public abstract class MewdekoTypeReader<T> : TypeReader
     {
-        // DiscordSocketClient instance (unused field)
+        // DiscordShardedClient instance (unused field)
         // ReSharper disable once NotAccessedField.Local
-        private readonly DiscordSocketClient client;
+        private readonly DiscordShardedClient client;
 
         // CommandService instance (unused field)
         // ReSharper disable once NotAccessedField.Local
@@ -21,9 +21,9 @@ namespace Mewdeko.Common.TypeReaders
         /// <summary>
         /// Initializes a new instance of the <see cref="MewdekoTypeReader{T}"/> class.
         /// </summary>
-        /// <param name="client">The DiscordSocketClient instance.</param>
+        /// <param name="client">The DiscordShardedClient instance.</param>
         /// <param name="cmds">The CommandService instance.</param>
-        protected MewdekoTypeReader(DiscordSocketClient client, CommandService cmds)
+        protected MewdekoTypeReader(DiscordShardedClient client, CommandService cmds)
         {
             this.client = client;
             this.cmds = cmds;

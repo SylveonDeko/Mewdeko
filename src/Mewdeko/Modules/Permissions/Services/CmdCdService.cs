@@ -37,7 +37,7 @@ public class CmdCdService(GuildSettingsService gss) : ILateBlocker, INService
     /// This method checks if there's an existing cooldown for the command being executed by the user in the specified guild.
     /// If the command is on cooldown, the execution is blocked. This check is specific to traditional text-based commands.
     /// </remarks>
-    public Task<bool> TryBlockLate(DiscordSocketClient client, ICommandContext ctx, string moduleName,
+    public Task<bool> TryBlockLate(DiscordShardedClient client, ICommandContext ctx, string moduleName,
         CommandInfo command)
     {
         var guild = ctx.Guild;
@@ -55,10 +55,10 @@ public class CmdCdService(GuildSettingsService gss) : ILateBlocker, INService
     /// <param name="command">Information about the interaction command being executed.</param>
     /// <returns>A task that resolves to true if the command execution should be blocked due to cooldown; otherwise, false.</returns>
     /// <remarks>
-    /// This method performs a similar function to <see cref="TryBlockLate(DiscordSocketClient, ICommandContext, string, CommandInfo)"/>
+    /// This method performs a similar function to <see cref="TryBlockLate(DiscordShardedClient, ICommandContext, string, CommandInfo)"/>
     /// but is tailored for interactions such as slash commands. It checks if the interaction command is on cooldown for the user.
     /// </remarks>
-    public Task<bool> TryBlockLate(DiscordSocketClient client, IInteractionContext ctx,
+    public Task<bool> TryBlockLate(DiscordShardedClient client, IInteractionContext ctx,
         ICommandInfo command)
     {
         var guild = ctx.Guild;

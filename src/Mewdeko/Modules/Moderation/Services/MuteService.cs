@@ -57,7 +57,7 @@ public class MuteService : INService
         new(addReactions: PermValue.Deny, sendMessages: PermValue.Deny,
             attachFiles: PermValue.Deny, sendMessagesInThreads: PermValue.Deny, createPublicThreads: PermValue.Deny);
 
-    private readonly DiscordSocketClient client;
+    private readonly DiscordShardedClient client;
     private readonly DbService db;
 
     private readonly GuildSettingsService guildSettings;
@@ -75,7 +75,7 @@ public class MuteService : INService
     /// <param name="guildSettings">Service for retrieving guildconfigs</param>
     /// <param name="eventHandler">Handler for async events (Hear that dnet? ASYNC, not GATEWAY THREAD)</param>
     /// <param name="bot">The bot</param>
-    public MuteService(DiscordSocketClient client, DbService db, GuildSettingsService guildSettings,
+    public MuteService(DiscordShardedClient client, DbService db, GuildSettingsService guildSettings,
         EventHandler eventHandler, Mewdeko bot)
     {
         this.client = client;
