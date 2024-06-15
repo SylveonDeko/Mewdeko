@@ -65,6 +65,7 @@ public class StreamNotificationService : IReadyExecutor, INService
         this.strings = strings;
         this.pubSub = pubSub;
         streamTracker = new NotifChecker(httpFactory, creds, redis, creds.RedisKey(), true);
+
         using var uow = this.db.GetDbContext();
 
         streamsOnlineKey = new TypedKey<List<StreamData>>("streams.online");
@@ -73,14 +74,16 @@ public class StreamNotificationService : IReadyExecutor, INService
         streamFollowKey = new TypedKey<FollowStreamPubData>("stream.follow");
         streamUnfollowKey = new TypedKey<FollowStreamPubData>("stream.unfollow");
 
-
         offlineNotificationServers = uow.Set<GuildConfig>()
-            .AsQueryable()
+            .AsNoTracking()
             .Where(x => x.NotifyStreamOffline)
             .Select(x => x.GuildId)
             .ToList();
 
-        var followedStreams = uow.Set<FollowedStream>().AsQueryable().ToList();
+        var followedStreams = uow.Set<FollowedStream>()
+            .AsNoTracking()
+            .ToList();
+
         shardTrackedStreams = followedStreams.GroupBy(x => new
             {
                 x.Type, Name = x.Username.ToLower()
@@ -93,21 +96,23 @@ public class StreamNotificationService : IReadyExecutor, INService
                         y => y.AsEnumerable().ToHashSet()));
 
         // shard 0 will keep track of when there are no more guilds which track a stream
-            _ = Task.Run(async () =>
-            {
-                await using var uow2 = db.GetDbContext();
-                var allFollowedStreams = uow2.Set<FollowedStream>().AsQueryable().ToList();
+        _ = Task.Run(async () =>
+        {
+            await using var uow2 = db.GetDbContext();
+            var allFollowedStreams = uow2.Set<FollowedStream>()
+                .AsNoTracking()
+                .ToList();
 
-                foreach (var fs in allFollowedStreams)
-                    await streamTracker.CacheAddData(fs.CreateKey(), null, false);
+            foreach (var fs in allFollowedStreams)
+                await streamTracker.CacheAddData(fs.CreateKey(), null, false);
 
-                trackCounter = allFollowedStreams.GroupBy(x => new
-                    {
-                        x.Type, Name = x.Username.ToLower()
-                    })
-                    .ToDictionary(x => new StreamDataKey(x.Key.Type, x.Key.Name),
-                        x => x.Select(fs => fs.GuildId).ToHashSet());
-            });
+            trackCounter = allFollowedStreams.GroupBy(x => new
+                {
+                    x.Type, Name = x.Username.ToLower()
+                })
+                .ToDictionary(x => new StreamDataKey(x.Key.Type, x.Key.Name),
+                    x => x.Select(fs => fs.GuildId).ToHashSet());
+        });
 
         _ = Task.Run(async () =>
         {
@@ -121,25 +126,25 @@ public class StreamNotificationService : IReadyExecutor, INService
             });
         });
 
-            _ = Task.Run(async () =>
-            {
-                // only shard 0 will run the tracker,
-                // and then publish updates with redis to other shards
-                streamTracker.OnStreamsOffline +=
-                    async data => await OnStreamsOffline(data).ConfigureAwait(false);
-                streamTracker.OnStreamsOnline +=
-                    async data => await OnStreamsOnline(data).ConfigureAwait(false);
-                _ = streamTracker.RunAsync();
+        _ = Task.Run(async () =>
+        {
+            // only shard 0 will run the tracker,
+            // and then publish updates with redis to other shards
+            streamTracker.OnStreamsOffline +=
+                async data => await OnStreamsOffline(data).ConfigureAwait(false);
+            streamTracker.OnStreamsOnline +=
+                async data => await OnStreamsOnline(data).ConfigureAwait(false);
+            _ = streamTracker.RunAsync();
 
-                await this.pubSub.Sub(streamFollowKey, async data =>
-                {
-                    await HandleFollowStream(data);
-                });
-                await this.pubSub.Sub(streamUnfollowKey, async data =>
-                {
-                    await HandleUnfollowStream(data);
-                });
+            await this.pubSub.Sub(streamFollowKey, async data =>
+            {
+                await HandleFollowStream(data);
             });
+            await this.pubSub.Sub(streamUnfollowKey, async data =>
+            {
+                await HandleUnfollowStream(data);
+            });
+        });
 
         bot.JoinedGuild += ClientOnJoinedGuild;
         client.LeftGuild += ClientOnLeftGuild;
@@ -148,7 +153,6 @@ public class StreamNotificationService : IReadyExecutor, INService
     /// <inheritdoc />
     public async Task OnReadyAsync()
     {
-
         using var timer = new PeriodicTimer(TimeSpan.FromMinutes(30));
         while (await timer.WaitForNextTickAsync().ConfigureAwait(false))
         {
@@ -163,8 +167,7 @@ public class StreamNotificationService : IReadyExecutor, INService
                 var deleteGroups = failingStreams.GroupBy(x => x.Type)
                     .ToDictionary(x => x.Key, x => x.Select(y => y.Name).ToList());
 
-                var uow = db.GetDbContext();
-                await using var _ = uow.ConfigureAwait(false);
+                await using var uow = db.GetDbContext();
                 foreach (var kvp in deleteGroups)
                 {
                     Log.Information(
@@ -175,7 +178,6 @@ public class StreamNotificationService : IReadyExecutor, INService
                         string.Join(", ", kvp.Value));
 
                     var toDelete = uow.Set<FollowedStream>()
-                        .AsQueryable()
                         .Where(x => x.Type == kvp.Key && kvp.Value.Contains(x.Username))
                         .ToList();
 
@@ -208,7 +210,7 @@ public class StreamNotificationService : IReadyExecutor, INService
         }
         else
         {
-            trackCounter[key] = [info.GuildId];
+            trackCounter[key] = new HashSet<ulong> { info.GuildId };
         }
     }
 
@@ -219,7 +221,9 @@ public class StreamNotificationService : IReadyExecutor, INService
     /// </summary>
     private async Task HandleUnfollowStream(FollowStreamPubData info)
     {
-        var key = info.Key;
+
+
+ var key = info.Key;
         if (!trackCounter.TryGetValue(key, out var set))
         {
             // it should've been removed already?
@@ -369,7 +373,6 @@ public class StreamNotificationService : IReadyExecutor, INService
         await using (uow.ConfigureAwait(false))
         {
             var fss = uow.Set<FollowedStream>()
-                .AsQueryable()
                 .Where(x => x.GuildId == guildId)
                 .OrderBy(x => x.Id)
                 .ToList();
@@ -530,13 +533,13 @@ public class StreamNotificationService : IReadyExecutor, INService
         {
             if (map.TryGetValue(guildId, out var set))
                 return set;
-            return map[guildId] = [];
+            return map[guildId] = new HashSet<FollowedStream>();
         }
 
         shardTrackedStreams[key] = new Dictionary<ulong, HashSet<FollowedStream>>
         {
             {
-                guildId, []
+                guildId, new HashSet<FollowedStream>()
             }
         };
         return shardTrackedStreams[key][guildId];
@@ -557,7 +560,7 @@ public class StreamNotificationService : IReadyExecutor, INService
         out FollowedStream fs)
     {
         using var uow = db.GetDbContext();
-        var fss = uow.Set<FollowedStream>().AsQueryable().Where(x => x.GuildId == guildId).OrderBy(x => x.Id).ToList();
+        var fss = uow.Set<FollowedStream>().Where(x => x.GuildId == guildId).OrderBy(x => x.Id).ToList();
 
         if (fss.Count <= index)
         {
