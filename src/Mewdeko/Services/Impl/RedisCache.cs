@@ -28,15 +28,16 @@ public class RedisCache : IDataCache
     /// <param name="shardId">The shard ID.</param>
     public RedisCache(IBotCredentials creds, int shardId)
     {
-        var conf = ConfigurationOptions.Parse(creds.RedisOptions);
-        conf.SocketManager = new SocketManager("Main", true);
-        LoadRedis(conf, creds, shardId).ConfigureAwait(false);
+        RedisConnectionManager.Initialize(creds.RedisConnections);
+        LocalImages = new RedisImagesCache(Redis, creds);
+        LocalData = new RedisLocalDataCache(Redis, creds, shardId);
+        redisKey = creds.RedisKey();
     }
 
     /// <summary>
     /// The Redis connection multiplexer.
     /// </summary>
-    public ConnectionMultiplexer Redis { get; set; }
+    public ConnectionMultiplexer Redis => RedisConnectionManager.Connection;
 
     /// <summary>
     /// The local image cache.
@@ -492,16 +493,5 @@ public class RedisCache : IDataCache
             expiry, flags: CommandFlags.FireAndForget).ConfigureAwait(false);
 
         return obj;
-    }
-
-
-    private async Task LoadRedis(ConfigurationOptions options, IBotCredentials creds, int shardId)
-    {
-        options.AsyncTimeout = 20000;
-        options.SyncTimeout = 20000;
-        Redis = await ConnectionMultiplexer.ConnectAsync(options).ConfigureAwait(false);
-        LocalImages = new RedisImagesCache(Redis, creds);
-        LocalData = new RedisLocalDataCache(Redis, creds, shardId);
-        redisKey = creds.RedisKey();
     }
 }
