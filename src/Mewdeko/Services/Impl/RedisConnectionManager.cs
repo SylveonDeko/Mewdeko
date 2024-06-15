@@ -19,7 +19,9 @@ public static class RedisConnectionManager
         var configurationOptions = new ConfigurationOptions
         {
             AbortOnConnectFail = false,
-            SocketManager = SocketManager.Shared
+            SocketManager = new SocketManager("", true),
+            AsyncTimeout = 5000,
+            SyncTimeout = 5000
         };
 
         var connections = redisConnections.Split(';');
