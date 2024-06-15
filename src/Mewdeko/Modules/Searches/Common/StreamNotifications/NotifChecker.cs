@@ -16,7 +16,7 @@ public class NotifChecker
 {
     private readonly string key;
 
-    private readonly ConnectionMultiplexer multi;
+    private readonly IDataCache multi;
     private readonly HashSet<(FollowedStream.FType, string)> offlineBuffer;
 
     private readonly Dictionary<FollowedStream.FType, Provider> streamProviders;
@@ -32,7 +32,7 @@ public class NotifChecker
     public NotifChecker(
         IHttpClientFactory httpClientFactory,
         IBotCredentials credsProvider,
-        ConnectionMultiplexer multi,
+        IDataCache multi,
         string uniqueCacheKey,
         bool isMaster)
     {
@@ -211,7 +211,7 @@ public class NotifChecker
     /// <returns><c>true</c> if data was successfully added or updated; otherwise, <c>false</c>.</returns>
     public async Task<bool> CacheAddData(StreamDataKey streamDataKey, StreamData? data, bool replace)
     {
-        var db = multi.GetDatabase();
+        var db = multi.Redis.GetDatabase();
         return await db.HashSetAsync(this.key,
             JsonConvert.SerializeObject(streamDataKey),
             JsonConvert.SerializeObject(data),
@@ -225,7 +225,7 @@ public class NotifChecker
     /// <param name="streamdataKey">The stream data key.</param>
     private async Task CacheDeleteData(StreamDataKey streamdataKey)
     {
-        var db = multi.GetDatabase();
+        var db = multi.Redis.GetDatabase();
         await db.HashDeleteAsync(this.key, JsonConvert.SerializeObject(streamdataKey));
     }
 
@@ -234,7 +234,7 @@ public class NotifChecker
     /// </summary>
     private async void CacheClearAllData()
     {
-        var db = multi.GetDatabase();
+        var db = multi.Redis.GetDatabase();
         await db.KeyDeleteAsync(key, CommandFlags.FireAndForget);
     }
 
@@ -244,7 +244,7 @@ public class NotifChecker
     /// <returns>A dictionary containing all cached stream data.</returns>
     private async Task<Dictionary<StreamDataKey, StreamData?>> CacheGetAllData()
     {
-        var db = multi.GetDatabase();
+        var db = multi.Redis.GetDatabase();
         if (!await db.KeyExistsAsync(key))
             return new Dictionary<StreamDataKey, StreamData?>();
 
