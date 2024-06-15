@@ -54,7 +54,7 @@ public class StreamNotificationService : IReadyExecutor, INService
         DbService db,
         DiscordShardedClient client,
         IBotStrings strings,
-        ConnectionMultiplexer redis,
+        IDataCache redis,
         IBotCredentials creds,
         IHttpClientFactory httpFactory,
         Mewdeko bot,
