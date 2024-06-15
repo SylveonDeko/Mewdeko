@@ -111,6 +111,11 @@ public class BotCredentials : IBotCredentials
     public string BotListToken { get; set; }
 
     /// <summary>
+    /// The IPs to use with redis, use a ; seperated list for multiple
+    /// </summary>
+    public string RedisConnections { get; set; }
+
+    /// <summary>
     /// Gets or sets the API key for Coinmarketcap.
     /// </summary>
     public string CoinmarketcapApiKey { get; set; }
@@ -379,6 +384,7 @@ public class BotCredentials : IBotCredentials
 
             TwitchClientId = data[nameof(TwitchClientId)];
             if (string.IsNullOrWhiteSpace(TwitchClientId)) TwitchClientId = "67w6z9i09xv2uoojdm9l0wsyph4hxo6";
+            RedisConnections = data[nameof(RedisConnections)];
 
             DebugGuildId = ulong.TryParse(data[nameof(DebugGuildId)], out var dgid) ? dgid : 843489716674494475;
             GuildJoinsChannelId = ulong.TryParse(data[nameof(GuildJoinsChannelId)], out var gjid)
@@ -423,6 +429,7 @@ public class BotCredentials : IBotCredentials
         public string CarbonKey { get; } = "";
         public string PatreonAccessToken { get; } = "";
         public string PatreonCampaignId { get; } = "334038";
+        public string RedisConnections { get; } = "127.0.0.1:6379";
 
         public string ShardRunCommand { get; } = "";
         public string ShardRunArguments { get; } = "";
