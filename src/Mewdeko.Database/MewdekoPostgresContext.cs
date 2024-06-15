@@ -22,7 +22,7 @@ public sealed class MewdekoPostgresContext(string connStr = "") : MewdekoContext
 #if DEBUG
         optionsBuilder.LogTo(Log.Information);
 #else
-        optionsBuilder.LogTo(Log.Information, LogLevel.Information)
+        optionsBuilder.LogTo(Log.Information, LogLevel.Information);
 #endif
 
         base.OnConfiguring(optionsBuilder);
