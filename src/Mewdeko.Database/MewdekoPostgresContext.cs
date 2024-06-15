@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Data.Common;
+using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Logging;
 using Serilog;
 
@@ -10,12 +13,13 @@ public sealed class MewdekoPostgresContext(string connStr = "") : MewdekoContext
     {
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-        base.OnConfiguring(optionsBuilder);
         optionsBuilder
-            .LogTo(Log.Information, LogLevel.Error)
+            .LogTo(Log.Information)
             .EnableDetailedErrors()
             .EnableSensitiveDataLogging()
             .EnableServiceProviderCaching()
             .UseNpgsql(connStr);
+
+        base.OnConfiguring(optionsBuilder);
     }
 }
