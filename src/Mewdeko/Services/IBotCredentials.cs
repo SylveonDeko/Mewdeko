@@ -23,6 +23,11 @@ namespace Mewdeko.Services
         string GoogleApiKey { get; }
 
         /// <summary>
+        /// The connections to use for connecting to redis. Use a ; separated list to use multiple.
+        /// </summary>
+        string RedisConnections { get; }
+
+        /// <summary>
         /// Gets the IDs of the bot's owners.
         /// </summary>
         ImmutableArray<ulong> OwnerIds { get; }
