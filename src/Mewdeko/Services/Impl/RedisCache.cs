@@ -29,7 +29,6 @@ public class RedisCache : IDataCache
     public RedisCache(IBotCredentials creds, int shardId)
     {
         RedisConnectionManager.Initialize(creds.RedisConnections);
-        LocalImages = new RedisImagesCache(Redis, creds);
         LocalData = new RedisLocalDataCache(Redis, creds, shardId);
         redisKey = creds.RedisKey();
     }

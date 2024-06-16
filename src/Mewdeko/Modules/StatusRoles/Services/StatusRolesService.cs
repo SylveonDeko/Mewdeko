@@ -1,5 +1,6 @@
 ﻿using Mewdeko.Common.ModuleBehaviors;
 using Serilog;
+using ZiggyCreatures.Caching.Fusion;
 using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.StatusRoles.Services;
@@ -9,10 +10,9 @@ namespace Mewdeko.Modules.StatusRoles.Services;
 /// </summary>
 public class StatusRolesService : INService, IReadyExecutor
 {
-    private readonly IDataCache cache;
+    private readonly IFusionCache cache;
     private readonly DiscordShardedClient client;
     private readonly DbService db;
-    private readonly HashSet<StatusRolesTable> statusRoles = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StatusRolesService"/> class.
@@ -21,7 +21,7 @@ public class StatusRolesService : INService, IReadyExecutor
     /// <param name="db">The database service.</param>
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="cache">The data cache service.</param>
-    public StatusRolesService(DiscordShardedClient client, DbService db, EventHandler eventHandler, IDataCache cache)
+    public StatusRolesService(DiscordShardedClient client, DbService db, EventHandler eventHandler, IFusionCache cache)
     {
         this.client = client;
         this.db = db;
@@ -33,19 +33,35 @@ public class StatusRolesService : INService, IReadyExecutor
     public async Task OnReadyAsync()
     {
         await using var uow = db.GetDbContext();
-        foreach (var i in uow.StatusRoles)
-        {
-            statusRoles.Add(i);
-        }
+        var statusRoles = uow.StatusRoles.ToList();
+
+        await cache.SetAsync("statusRoles", statusRoles);
 
         Log.Information("StatusRoles cached");
+    }
+
+    private async Task<List<StatusRolesTable>> GetStatusRolesAsync()
+    {
+        var cacheResult = await cache.TryGetAsync<List<StatusRolesTable>>("statusRoles");
+        if (cacheResult.HasValue)
+        {
+            return cacheResult.Value;
+        }
+
+        await using var uow = db.GetDbContext();
+        var statusRoles = uow.StatusRoles.ToList();
+        await cache.SetAsync("statusRoles", statusRoles);
+
+        return statusRoles;
     }
 
     private async Task EventHandlerOnPresenceUpdated(SocketUser args, SocketPresence args2, SocketPresence args3)
     {
         try
         {
-            if (this.statusRoles.Count == 0)
+            var statusRoles = await GetStatusRolesAsync();
+
+            if (statusRoles.Count == 0)
                 return;
 
             if (args is not SocketGuildUser user)
@@ -62,17 +78,14 @@ public class StatusRolesService : INService, IReadyExecutor
                 return;
             }
 
-            if (!await cache.SetUserStatusCache(args.Id,
-                    status.State?.ToBase64() is null ? "none" : status.State.ToBase64()))
+            var cachedStatus = await cache.TryGetAsync<string>($"userStatus_{args.Id}");
+
+            if (cachedStatus.HasValue && status.State?.ToBase64() == cachedStatus)
             {
                 return;
             }
 
-            await using var uow = db.GetDbContext();
-            if (statusRoles.Count == 0)
-            {
-                return;
-            }
+            await cache.SetAsync($"userStatus_{args.Id}", status.State?.ToBase64());
 
             var statusRolesTables = statusRoles.Where(x => x.GuildId == user.Guild.Id).ToList();
 
@@ -215,7 +228,9 @@ public class StatusRolesService : INService, IReadyExecutor
             return false;
         uow.StatusRoles.Add(toAdd);
         await uow.SaveChangesAsync();
-        await cache.SetStatusRoleCache(uow.StatusRoles.ToList());
+        var statusRoles = await GetStatusRolesAsync();
+        statusRoles.Add(toAdd);
+        await cache.SetAsync("statusRoles", statusRoles);
         return true;
     }
 
@@ -232,10 +247,11 @@ public class StatusRolesService : INService, IReadyExecutor
             return;
         uow.StatusRoles.Remove(status);
         await uow.SaveChangesAsync();
+        var statusRoles = await GetStatusRolesAsync();
         var toremove = statusRoles.FirstOrDefault(x => x.Id == index);
         if (toremove is not null)
             statusRoles.Remove(toremove);
-        statusRoles.Add(status);
+        await cache.SetAsync("statusRoles", statusRoles);
     }
 
     /// <summary>
@@ -250,9 +266,11 @@ public class StatusRolesService : INService, IReadyExecutor
             await using var uow = db.GetDbContext();
             uow.StatusRoles.Remove(status);
             await uow.SaveChangesAsync();
+            var statusRoles = await GetStatusRolesAsync();
             var toremove = statusRoles.FirstOrDefault(x => x.Id == status.Id);
             if (toremove is not null)
                 statusRoles.Remove(toremove);
+            await cache.SetAsync("statusRoles", statusRoles);
         }
         catch (Exception e)
         {
@@ -266,12 +284,15 @@ public class StatusRolesService : INService, IReadyExecutor
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns>The set of status role configurations for the guild.</returns>
-    public Task<HashSet<StatusRolesTable>?> GetStatusRoleConfig(ulong guildId)
+    public async Task<HashSet<StatusRolesTable>> GetStatusRoleConfig(ulong guildId)
     {
-        if (statusRoles.Count == 0)
-            return Task.FromResult(new HashSet<StatusRolesTable>());
+        var statusRoles = await GetStatusRolesAsync();
+        if (statusRoles.Count
+
+ == 0)
+            return new HashSet<StatusRolesTable>();
         var statusList = statusRoles.Where(x => x.GuildId == guildId).ToHashSet();
-        return Task.FromResult(statusList.Count != 0 ? statusList : []);
+        return statusList.Count != 0 ? statusList : new HashSet<StatusRolesTable>();
     }
 
     /// <summary>
@@ -286,10 +307,10 @@ public class StatusRolesService : INService, IReadyExecutor
         status.ToAdd = toAdd;
         uow.StatusRoles.Update(status);
         await uow.SaveChangesAsync();
-        var statusCache = await cache.GetStatusRoleCache();
-        var listIndex = statusCache.IndexOf(statusCache.FirstOrDefault(x => x.Id == status.Id));
-        statusCache[listIndex] = status;
-        await cache.SetStatusRoleCache(statusCache);
+        var statusRoles = await GetStatusRolesAsync();
+        var listIndex = statusRoles.FindIndex(x => x.Id == status.Id);
+        statusRoles[listIndex] = status;
+        await cache.SetAsync("statusRoles", statusRoles);
         return true;
     }
 
@@ -305,10 +326,10 @@ public class StatusRolesService : INService, IReadyExecutor
         status.ToRemove = toRemove;
         uow.StatusRoles.Update(status);
         await uow.SaveChangesAsync();
-        var statusCache = await cache.GetStatusRoleCache();
-        var listIndex = statusCache.IndexOf(statusCache.FirstOrDefault(x => x.Id == status.Id));
-        statusCache[listIndex] = status;
-        await cache.SetStatusRoleCache(statusCache);
+        var statusRoles = await GetStatusRolesAsync();
+        var listIndex = statusRoles.FindIndex(x => x.Id == status.Id);
+        statusRoles[listIndex] = status;
+        await cache.SetAsync("statusRoles", statusRoles);
         return true;
     }
 
@@ -324,10 +345,10 @@ public class StatusRolesService : INService, IReadyExecutor
         status.StatusChannelId = channelId;
         uow.StatusRoles.Update(status);
         await uow.SaveChangesAsync();
-        var statusCache = await cache.GetStatusRoleCache();
-        var listIndex = statusCache.IndexOf(statusCache.FirstOrDefault(x => x.Id == status.Id));
-        statusCache[listIndex] = status;
-        await cache.SetStatusRoleCache(statusCache);
+        var statusRoles = await GetStatusRolesAsync();
+        var listIndex = statusRoles.FindIndex(x => x.Id == status.Id);
+        statusRoles[listIndex] = status;
+        await cache.SetAsync("statusRoles", statusRoles);
         return true;
     }
 
@@ -343,10 +364,10 @@ public class StatusRolesService : INService, IReadyExecutor
         status.StatusEmbed = embedText;
         uow.StatusRoles.Update(status);
         await uow.SaveChangesAsync();
-        var statusCache = await cache.GetStatusRoleCache();
-        var listIndex = statusCache.IndexOf(statusCache.FirstOrDefault(x => x.Id == status.Id));
-        statusCache[listIndex] = status;
-        await cache.SetStatusRoleCache(statusCache);
+        var statusRoles = await GetStatusRolesAsync();
+        var listIndex = statusRoles.FindIndex(x => x.Id == status.Id);
+        statusRoles[listIndex] = status;
+        await cache.SetAsync("statusRoles", statusRoles);
         return true;
     }
 
@@ -361,10 +382,10 @@ public class StatusRolesService : INService, IReadyExecutor
         status.RemoveAdded = !status.RemoveAdded;
         uow.StatusRoles.Update(status);
         await uow.SaveChangesAsync();
-        var statusCache = await cache.GetStatusRoleCache();
-        var listIndex = statusCache.IndexOf(statusCache.FirstOrDefault(x => x.Id == status.Id));
-        statusCache[listIndex] = status;
-        await cache.SetStatusRoleCache(statusCache);
+        var statusRoles = await GetStatusRolesAsync();
+        var listIndex = statusRoles.FindIndex(x => x.Id == status.Id);
+        statusRoles[listIndex] = status;
+        await cache.SetAsync("statusRoles", statusRoles);
         return status.RemoveAdded;
     }
 
@@ -379,10 +400,10 @@ public class StatusRolesService : INService, IReadyExecutor
         status.ReaddRemoved = !status.ReaddRemoved;
         uow.StatusRoles.Update(status);
         await uow.SaveChangesAsync();
-        var statusCache = await cache.GetStatusRoleCache();
-        var listIndex = statusCache.IndexOf(statusCache.FirstOrDefault(x => x.Id == status.Id));
-        statusCache[listIndex] = status;
-        await cache.SetStatusRoleCache(statusCache);
+        var statusRoles = await GetStatusRolesAsync();
+        var listIndex = statusRoles.FindIndex(x => x.Id == status.Id);
+        statusRoles[listIndex] = status;
+        await cache.SetAsync("statusRoles", statusRoles);
         return status.ReaddRemoved;
     }
 }
