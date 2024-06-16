@@ -195,7 +195,7 @@ public class PermissionService : ILateBlocker, INService
     private async Task CacheAll(IEnumerable<ulong> guildIds)
     {
         await using var uow = db.GetDbContext();
-        var configs = await uow.GuildConfigs.ToLinqToDB().Include(x => x.Permissions)
+        var configs = await uow.GuildConfigs.ToLinqToDB().AsNoTracking().Include(x => x.Permissions)
             .Where(x => guildIds.Contains(x.GuildId)).ToListAsync();
         foreach (var config in configs)
         {
