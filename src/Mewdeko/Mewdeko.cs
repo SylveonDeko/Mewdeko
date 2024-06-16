@@ -33,16 +33,20 @@ using TypeReader = Discord.Commands.TypeReader;
 namespace Mewdeko;
 
 /// <summary>
-/// The main class for Mewdeko, responsible for initializing services, handling events, and managing the bot's lifecycle.
+///     The main class for Mewdeko, responsible for initializing services, handling events, and managing the bot's
+///     lifecycle.
 /// </summary>
 public class Mewdeko
 {
     private readonly DbService db;
 
     /// <summary>
-    /// Initializes a new instance of the Mewdeko bot with a specific shard ID.
+    ///     Initializes a new instance of the Mewdeko bot with a specific shard ID.
     /// </summary>
-    /// <param name="shardId">The ID of the shard this instance will operate on. If set to nothing it will act as if its unsharded.</param>
+    /// <param name="shardId">
+    ///     The ID of the shard this instance will operate on. If set to nothing it will act as if its
+    ///     unsharded.
+    /// </param>
     /// <exception cref="ArgumentOutOfRangeException">Thrown if the shard ID is negative.</exception>
     public Mewdeko(int shardId)
     {
@@ -75,31 +79,31 @@ public class Mewdeko
     }
 
     /// <summary>
-    /// Gets the credentials used by the bot.
+    ///     Gets the credentials used by the bot.
     /// </summary>
     public BotCredentials Credentials { get; }
 
     private int ReadyCount { get; set; }
 
     /// <summary>
-    /// Gets the Discord client used by the bot.
+    ///     Gets the Discord client used by the bot.
     /// </summary>
     public DiscordShardedClient Client { get; }
 
     private CommandService CommandService { get; }
 
     /// <summary>
-    /// Gets the color used for successful operations.
+    ///     Gets the color used for successful operations.
     /// </summary>
     public static Color OkColor { get; set; }
 
     /// <summary>
-    /// Gets the color used for error operations.
+    ///     Gets the color used for error operations.
     /// </summary>
     public static Color ErrorColor { get; set; }
 
     /// <summary>
-    /// Used to tell other services in the bot if its done initializing.
+    ///     Used to tell other services in the bot if its done initializing.
     /// </summary>
     public TaskCompletionSource<bool> Ready { get; } = new();
 
@@ -107,7 +111,7 @@ public class Mewdeko
     private IDataCache Cache { get; }
 
     /// <summary>
-    /// Occurs when the bot joins a guild.
+    ///     Occurs when the bot joins a guild.
     /// </summary>
     public event Func<GuildConfig, Task> JoinedGuild = delegate { return Task.CompletedTask; };
 
@@ -129,8 +133,10 @@ public class Mewdeko
         gs2.Stop();
         Log.Information("Guild Configs cached in {ElapsedTotalSeconds}s", gs2.Elapsed.TotalSeconds);
 
-        var s = new ServiceCollection()
-            .AddScoped<INsfwSpy, NsfwSpy>()
+        var s = new ServiceCollection();
+
+        s.AddFusionCache();
+        s.AddScoped<INsfwSpy, NsfwSpy>()
             .AddSingleton<FontProvider>()
             .AddSingleton<IBotCredentials>(Credentials)
             .AddSingleton(db)
@@ -320,12 +326,10 @@ public class Mewdeko
             {
                 var chan = await Client.Rest.GetChannelAsync(Credentials.GuildJoinsChannelId).ConfigureAwait(false);
                 await ((RestTextChannel)chan).SendErrorAsync($"Left server: {arg.Name} [{arg.Id}]", new BotConfig(),
-                    fields:
-
-                    [
-                        new EmbedFieldBuilder().WithName("Total Guilds")
-                            .WithValue(Client.Guilds.Count)
-                    ]).ConfigureAwait(false);
+                [
+                    new EmbedFieldBuilder().WithName("Total Guilds")
+                        .WithValue(Client.Guilds.Count)
+                ]).ConfigureAwait(false);
             }
             catch
             {
@@ -440,7 +444,7 @@ public class Mewdeko
     }
 
     /// <summary>
-    /// Runs the bot and blocks the calling thread until the bot is stopped.
+    ///     Runs the bot and blocks the calling thread until the bot is stopped.
     /// </summary>
     public async Task RunAndBlockAsync()
     {
@@ -489,7 +493,7 @@ public class Mewdeko
     }
 
     /// <summary>
-    /// Sets the bot's status to the specified game.
+    ///     Sets the bot's status to the specified game.
     /// </summary>
     /// <param name="game">The name of the game to set.</param>
     /// <param name="type">The type of activity.</param>
