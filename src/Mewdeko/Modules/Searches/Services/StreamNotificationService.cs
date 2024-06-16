@@ -299,6 +299,7 @@ public class StreamNotificationService : IReadyExecutor, INService
         using (var uow = db.GetDbContext())
         {
             var gc = uow.GuildConfigs.AsQueryable()
+                .AsNoTracking()
                 .Include(x => x.FollowedStreams)
                 .FirstOrDefault(x => x.GuildId == guildConfig.GuildId);
 

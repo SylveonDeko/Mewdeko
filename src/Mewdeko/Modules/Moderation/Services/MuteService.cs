@@ -85,7 +85,7 @@ public class MuteService : INService
         var max = TimeSpan.FromDays(49);
 
         using var uow = db.GetDbContext();
-        var guilds = uow.GuildConfigs.ToLinqToDB().Include(x => x.MutedUsers)
+        var guilds = uow.GuildConfigs.ToLinqToDB().AsNoTracking().Include(x => x.MutedUsers)
             .Include(x => x.UnmuteTimers)
             .Include(x => x.UnbanTimer)
             .Include(x => x.UnroleTimer).ToList();
