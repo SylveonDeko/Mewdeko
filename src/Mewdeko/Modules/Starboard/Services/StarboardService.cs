@@ -40,7 +40,7 @@ public class StarboardService : INService, IReadyExecutor
         {
             await using var uow = db.GetDbContext();
             var all = (await uow.Starboard.All()).ToList();
-            starboardPosts = all.Any() ? all : [];
+            starboardPosts = all.Count!=0 ? all : [];
             Log.Information("Starboard Posts Cached");
         });
         return Task.CompletedTask;
