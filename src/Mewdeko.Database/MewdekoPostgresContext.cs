@@ -14,6 +14,7 @@ public sealed class MewdekoPostgresContext(string connStr = "") : MewdekoContext
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
         optionsBuilder
+            .EnableServiceProviderCaching()
             .EnableDetailedErrors()
             .EnableSensitiveDataLogging()
             .EnableServiceProviderCaching()
