@@ -3,35 +3,33 @@ using System.Net.Http;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.Yml;
 using Serilog;
-using StackExchange.Redis;
+using ZiggyCreatures.Caching.Fusion;
 
 namespace Mewdeko.Services.Impl;
 
 /// <summary>
-/// Service for caching images in Redis.
+/// Service for caching images in FusionCache.
 /// </summary>
-public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
+public sealed class FusionImagesCache : IImageCache, IReadyExecutor, INService
 {
-    private readonly ConnectionMultiplexer con;
+    private readonly IFusionCache cache;
     private readonly HttpClient http;
     private readonly string imagesPath;
-    private readonly string redisKey;
 
-    private IDatabase Db => con.GetDatabase();
-
-    private const string BasePath = "data/";
-    private const string CardsPath = "data/images/cards";
+    private const string BasePath = "data/images/";
+    private const string CardsPath = BasePath + "cards/";
+    private const string CoinPath = BasePath + "coin/";
+    private const string EmojiPath = BasePath + "emoji/";
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RedisImagesCache"/> class.
+    /// Initializes a new instance of the <see cref="FusionImagesCache"/> class.
     /// </summary>
-    /// <param name="con">The Redis connection multiplexer.</param>
+    /// <param name="cache">The FusionCache instance.</param>
     /// <param name="creds">The bot credentials.</param>
-    public RedisImagesCache(ConnectionMultiplexer con, IBotCredentials creds)
+    public FusionImagesCache(IFusionCache cache, IBotCredentials creds)
     {
-        this.con = con;
+        this.cache = cache;
         http = new HttpClient();
-        redisKey = creds.RedisKey();
     }
 
     /// <summary>
@@ -91,49 +89,20 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
     }
 
     /// <summary>
-    /// Retrieves a list of byte arrays representing images of coin heads.
-    /// </summary>
-    public IReadOnlyList<byte[]> Heads => GetByteArrayData(ImageKeys.CoinHeads);
-
-    /// <summary>
-    /// Retrieves a list of byte arrays representing images of coin tails.
-    /// </summary>
-    public IReadOnlyList<byte[]> Tails => GetByteArrayData(ImageKeys.CoinTails);
-
-    /// <summary>
-    /// Retrieves a list of byte arrays representing dice images.
-    /// </summary>
-    public IReadOnlyList<byte[]> Dice => GetByteArrayData(ImageKeys.Dice);
-
-    /// <summary>
-    /// Retrieves a list of byte arrays representing slot machine emojis.
-    /// </summary>
-    public IReadOnlyList<byte[]> SlotEmojis => GetByteArrayData(ImageKeys.SlotEmojis);
-
-    /// <summary>
-    /// Retrieves a list of byte arrays representing currency symbols.
-    /// </summary>
-    public IReadOnlyList<byte[]> Currency => GetByteArrayData(ImageKeys.Currency);
-
-    /// <summary>
-    /// Retrieves a byte array representing the background image for the slot machine.
-    /// </summary>
-    public byte[] SlotBackground => GetByteData(ImageKeys.SlotBg);
-
-    /// <summary>
     /// Retrieves a byte array representing the background image for the XP system.
     /// </summary>
-    public byte[] XpBackground => GetByteData(ImageKeys.XpBg);
+    public byte[] XpBackground => GetByteData(ImageKeys.XpBg, BasePath + "xp-background/", "xp.png");
 
     /// <summary>
     /// Retrieves a byte array representing the RIP background image.
     /// </summary>
-    public byte[] Rip => GetByteData(ImageKeys.RipBg);
+    public byte[] Rip => GetByteData(ImageKeys.RipBg, EmojiPath, "rip-bg.png");
 
     /// <summary>
     /// Retrieves a byte array representing the RIP overlay image.
     /// </summary>
-    public byte[] RipOverlay => GetByteData(ImageKeys.RipOverlay);
+    public byte[] RipOverlay => GetByteData(ImageKeys.RipOverlay, EmojiPath, "rip-overlay.png");
+
 
     /// <summary>
     /// Retrieves a card image byte array based on the provided key.
@@ -141,7 +110,6 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
     /// <param name="key">The key of the card image.</param>
     /// <returns>The byte array representing the card image.</returns>
     public byte[] GetCard(string key) =>
-        // since cards are always local for now, don't cache them
         File.ReadAllBytes(Path.Join(CardsPath, $"{key}.jpg"));
 
     /// <summary>
@@ -160,116 +128,88 @@ public sealed class RedisImagesCache : IImageCache, IReadyExecutor, INService
     /// </summary>
     public async Task Reload()
     {
-        ImageUrls = Yaml.Deserializer.Deserialize<ImageUrls>(await File.ReadAllTextAsync(imagesPath)
-            .ConfigureAwait(false));
-        foreach (var key in GetAllKeys())
-        {
-            switch (key)
-            {
-                case ImageKeys.CoinHeads:
-                    await Load(key, ImageUrls.Coins.Heads).ConfigureAwait(false);
-                    break;
-                case ImageKeys.CoinTails:
-                    await Load(key, ImageUrls.Coins.Tails).ConfigureAwait(false);
-                    break;
-                case ImageKeys.Dice:
-                    await Load(key, ImageUrls.Dice).ConfigureAwait(false);
-                    break;
-                case ImageKeys.SlotBg:
-                    await Load(key, ImageUrls.Slots.Bg).ConfigureAwait(false);
-                    break;
-                case ImageKeys.SlotEmojis:
-                    await Load(key, ImageUrls.Slots.Emojis).ConfigureAwait(false);
-                    break;
-                case ImageKeys.Currency:
-                    await Load(key, ImageUrls.Currency).ConfigureAwait(false);
-                    break;
-                case ImageKeys.RipOverlay:
-                    await Load(key, ImageUrls.Rip.Overlay).ConfigureAwait(false);
-                    break;
-                case ImageKeys.RipBg:
-                    await Load(key, ImageUrls.Rip.Bg).ConfigureAwait(false);
-                    break;
-                case ImageKeys.XpBg:
-                    await Load(key, ImageUrls.Xp.Bg).ConfigureAwait(false);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
+        await Load(ImageKeys.CoinHeads, Directory.GetFiles(CoinPath, "head-coin.png")).ConfigureAwait(false);
+        await Load(ImageKeys.CoinTails, Directory.GetFiles(CoinPath, "tail-coin.png")).ConfigureAwait(false);
+        await Load(ImageKeys.Dice, Directory.GetFiles(BasePath, "dice*.png")).ConfigureAwait(false);
+        await Load(ImageKeys.SlotEmojis, Directory.GetFiles(EmojiPath)).ConfigureAwait(false);
+        await Load(ImageKeys.XpBg, Directory.GetFiles(BasePath + "xp-background/", "xp.png")).ConfigureAwait(false);
     }
 
-    private async Task Load(ImageKeys key, Uri uri)
+    private async Task Load(ImageKeys key, string path)
     {
-        var data = await GetImageData(uri).ConfigureAwait(false);
+        var data = await GetImageDataFromFile(path).ConfigureAwait(false);
         if (data is null)
             return;
 
-        await Db.StringSetAsync(GetRedisKey(key), data, flags: CommandFlags.FireAndForget).ConfigureAwait(false);
+        await cache.SetAsync(GetCacheKey(key), data).ConfigureAwait(false);
     }
 
-    private async Task Load(ImageKeys key, Uri[] uris)
+    private async Task Load(ImageKeys key, string[] paths)
     {
-        await Db.KeyDeleteAsync(GetRedisKey(key)).ConfigureAwait(false);
-        var imageData = await Task.WhenAll(uris.Select(GetImageData)).ConfigureAwait(false);
-        var vals = imageData
-            .Where(x => x is not null)
-            .Select(x => (RedisValue)x)
-            .ToArray();
+        var tasks = paths.Select(GetImageDataFromFile);
+        var imageData = await Task.WhenAll(tasks).ConfigureAwait(false);
+        var validData = imageData.Where(x => x is not null).ToArray();
 
-        await Db.ListRightPushAsync(GetRedisKey(key), vals, flags: CommandFlags.FireAndForget).ConfigureAwait(false);
+        await cache.SetAsync(GetCacheKey(key), validData).ConfigureAwait(false);
 
-        if (uris.Length != vals.Length)
+        if (paths.Length != validData.Length)
         {
-            Log.Information("{Loaded}/{Max} URIs for the key '{ImageKey}' have been loaded.\n" +
-                            "Some of the supplied URIs are either unavailable or invalid",
-                vals.Length, uris.Length, key);
+            Log.Information("{Loaded}/{Max} paths for the key '{ImageKey}' have been loaded.\n" +
+                            "Some of the supplied paths are either unavailable or invalid",
+                validData.Length, paths.Length, key);
         }
     }
 
-    private async Task<byte[]?> GetImageData(Uri uri)
+    private async Task<byte[]?> GetImageDataFromFile(string path)
     {
-        if (uri.IsFile)
-        {
-            try
-            {
-                return await File.ReadAllBytesAsync(uri.LocalPath).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Log.Warning(ex, "Failed reading image bytes from uri: {Uri}", uri.ToString());
-                return null;
-            }
-        }
-
         try
         {
-            return await http.GetByteArrayAsync(uri).ConfigureAwait(false);
+            return await File.ReadAllBytesAsync(path).ConfigureAwait(false);
         }
-        catch
+        catch (Exception ex)
         {
-            Log.Warning("Image url you provided is not a valid image: {Uri}", uri.ToString());
+            Log.Warning(ex, "Failed reading image bytes from path: {Path}", path);
             return null;
         }
     }
 
     private async Task<bool> AllKeysExist()
     {
-        var tasks = await Task.WhenAll(GetAllKeys()
-            .Select(x => Db.KeyExistsAsync(GetRedisKey(x)))).ConfigureAwait(false);
+        var tasks = GetAllKeys()
+            .Select(key => cache.TryGetAsync<byte[]>(GetCacheKey(key)).AsTask());
 
-        return tasks.All(exist => exist);
+        var results = await Task.WhenAll(tasks).ConfigureAwait(false);
+
+        return results.All(result => result.HasValue);
     }
+
+
 
     private static IEnumerable<ImageKeys> GetAllKeys() =>
         Enum.GetValues<ImageKeys>();
 
-    private byte[][] GetByteArrayData(ImageKeys key)
-        => Db.ListRange(GetRedisKey(key)).Map(x => (byte[])x);
+    private IReadOnlyList<byte[]> GetByteArrayData(ImageKeys key, string path, string pattern)
+    {
+        return cache.GetOrSet(GetCacheKey(key), async _ =>
+        {
+            var files = Directory.GetFiles(path, pattern);
+            var data = await Task.WhenAll(files.Select(file => File.ReadAllBytesAsync(file)));
+            return data;
+        }, TimeSpan.FromDays(1)).Result;
+    }
 
-    private byte[] GetByteData(ImageKeys key)
-        => Db.StringGet(GetRedisKey(key));
+    private byte[] GetByteData(ImageKeys key, string path, string fileName)
+    {
+        return cache.GetOrSet(GetCacheKey(key), async _ =>
+        {
+            var filePath = Path.Combine(path, fileName);
+            if (File.Exists(filePath))
+            {
+                return await File.ReadAllBytesAsync(filePath);
+            }
+            return Array.Empty<byte>();
+        }, TimeSpan.FromDays(1)).Result;
+    }
 
-    private RedisKey GetRedisKey(ImageKeys key)
-        => $"{redisKey}_image_{key}";
+   private string GetCacheKey(ImageKeys key) => $"{key}";
 }

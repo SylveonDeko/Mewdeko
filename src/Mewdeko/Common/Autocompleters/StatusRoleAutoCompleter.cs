@@ -1,4 +1,5 @@
 using Discord.Interactions;
+using ZiggyCreatures.Caching.Fusion;
 
 namespace Mewdeko.Common.Autocompleters;
 
@@ -10,13 +11,13 @@ public class StatusRoleAutocompleter : AutocompleteHandler
     /// <summary>
     /// Initializes a new instance of the StatusRoleAutocompleter class.
     /// </summary>
-    /// <param name="cache">The data cache.</param>
-    public StatusRoleAutocompleter(IDataCache cache) => this.cache = cache;
+    /// <param name="cache">The FusionCache instance.</param>
+    public StatusRoleAutocompleter(IFusionCache cache) => this.cache = cache;
 
     /// <summary>
-    /// Gets the data cache.
+    /// Gets the FusionCache instance.
     /// </summary>
-    private readonly IDataCache cache;
+    private readonly IFusionCache cache;
 
     /// <summary>
     /// Generates suggestions for autocomplete.
@@ -31,16 +32,20 @@ public class StatusRoleAutocompleter : AutocompleteHandler
         IServiceProvider services)
     {
         var content = (string)interaction.Data.Current.Value;
-        var statusRoles = await cache.GetStatusRoleCache();
+        var statusRoles = await cache.GetOrSetAsync<List<StatusRolesTable>>("statusRoles",
+            async _ => []);
 
         if (statusRoles == null)
             return AutocompletionResult.FromSuccess(Enumerable.Empty<AutocompleteResult>());
 
-        return AutocompletionResult.FromSuccess(statusRoles
+        var results = statusRoles
             .Where(x => x.GuildId == context.Guild.Id)
             .Select(x => x.Status)
-            .Where(x => x.Contains(content))
+            .Where(x => x.Contains(content, StringComparison.OrdinalIgnoreCase))
             .Take(20)
-            .Select(x => new AutocompleteResult(x, x)));
+            .Select(x => new AutocompleteResult(x, x))
+            .ToList();
+
+        return AutocompletionResult.FromSuccess(results);
     }
 }

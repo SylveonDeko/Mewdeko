@@ -11,36 +11,6 @@
         ImageUrls ImageUrls { get; }
 
         /// <summary>
-        /// Gets a read-only list of cached images for heads.
-        /// </summary>
-        IReadOnlyList<byte[]> Heads { get; }
-
-        /// <summary>
-        /// Gets a read-only list of cached images for tails.
-        /// </summary>
-        IReadOnlyList<byte[]> Tails { get; }
-
-        /// <summary>
-        /// Gets a read-only list of cached images for dice.
-        /// </summary>
-        IReadOnlyList<byte[]> Dice { get; }
-
-        /// <summary>
-        /// Gets a read-only list of cached images for slot machine emojis.
-        /// </summary>
-        IReadOnlyList<byte[]> SlotEmojis { get; }
-
-        /// <summary>
-        /// Gets a read-only list of cached currency images.
-        /// </summary>
-        IReadOnlyList<byte[]> Currency { get; }
-
-        /// <summary>
-        /// Gets the background image for the slot machine.
-        /// </summary>
-        byte[] SlotBackground { get; }
-
-        /// <summary>
         /// Gets the background image for XP.
         /// </summary>
         byte[] XpBackground { get; }

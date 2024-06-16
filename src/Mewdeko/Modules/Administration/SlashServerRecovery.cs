@@ -4,26 +4,27 @@ using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Administration.Services;
 using OtpNet;
 using QRCoder;
+using ZiggyCreatures.Caching.Fusion;
 
 namespace Mewdeko.Modules.Administration;
 
 public partial class SlashAdministration
 {
     /// <summary>
-    /// The module for server recovery. Allows you to recover your server access level if th owner account is lost.
+    /// The module for server recovery. Allows you to recover your server access level if the owner account is lost.
     /// </summary>
     [Group("serverrecovery", "Server recovery stuffs")]
     public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
     {
-        private readonly IDataCache cache;
+        private readonly IFusionCache cache;
         private readonly IBotCredentials credentials;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SlashServerRecovery"/> class.
         /// </summary>
-        /// <param name="cache">The redis cache</param>
+        /// <param name="cache">The FusionCache instance</param>
         /// <param name="credentials">The bot credentials</param>
-        public SlashServerRecovery(IDataCache cache, IBotCredentials credentials)
+        public SlashServerRecovery(IFusionCache cache, IBotCredentials credentials)
         {
             this.cache = cache;
             this.credentials = credentials;
@@ -54,7 +55,6 @@ public partial class SlashAdministration
             }
         }
 
-
         /// <summary>
         /// Initiates a server recovery, or starts recovery setup.
         /// </summary>
@@ -73,7 +73,6 @@ public partial class SlashAdministration
             }
 
             var (setup, store) = await Service.RecoveryIsSetup(ctx.Guild.Id);
-            var db = cache.Redis.GetDatabase();
             if (!setup)
             {
                 if (ctx.Guild.OwnerId != ctx.User.Id)
@@ -82,11 +81,11 @@ public partial class SlashAdministration
                     return;
                 }
 
-                var secretKey = KeyGeneration.GenerateRandomKey(); //Generates a random secret key
+                var secretKey = KeyGeneration.GenerateRandomKey(); // Generates a random secret key
                 var base32Secret = Base32Encoding.ToString(secretKey);
 
                 var otpauth =
-                    $"otpauth://totp/{ctx.User.Username}?secret={Base32Encoding.ToString(secretKey)}&issuer={ctx.Client.CurrentUser.Username}";
+                    $"otpauth://totp/{ctx.User.Username}?secret={base32Secret}&issuer={ctx.Client.CurrentUser.Username}";
 
                 var qrGenerator = new QRCodeGenerator();
                 var qrCodeData = qrGenerator.CreateQrCode(otpauth, QRCodeGenerator.ECCLevel.Q);
@@ -94,8 +93,8 @@ public partial class SlashAdministration
                 var qrCodeImage = qrCode.GetGraphic(20);
                 var secureString = StringExtensions.GenerateSecureString(30);
 
-                await db.StringSetAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}", base32Secret);
-                await db.StringSetAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}", secureString);
+                await cache.SetAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}", base32Secret);
+                await cache.SetAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}", secureString);
 
                 var component = new ComponentBuilder().WithButton("Click to enter 2fa", customId: "2fa-verify-setup")
                     .WithButton("Download Authy (iOS)", style: ButtonStyle.Link,
@@ -110,7 +109,7 @@ public partial class SlashAdministration
                     .WithTitle(GetText("keepsecret"))
                     .WithDescription($"\nRecovery Key: {secureString}" +
                                      $"\n2FA Key ***only***: {base32Secret}" +
-                                     $"\n***The recovery key will also be sent to your dms.***");
+                                     $"\n***The recovery key will also be sent to your DMs.***");
 
                 await ctx.Interaction.FollowupWithFileAsync(new MemoryStream(qrCodeImage),
                     "qrcode.png", embed: eb.WithImageUrl("attachment://qrcode.png").Build(), ephemeral: true,
@@ -125,7 +124,7 @@ public partial class SlashAdministration
                 }
                 catch
                 {
-                    await ctx.Interaction.SendErrorFollowupAsync("cant_dm", Config);
+                    await ctx.Interaction.SendErrorFollowupAsync("can't_dm", Config);
                 }
             }
             else
@@ -136,11 +135,10 @@ public partial class SlashAdministration
                         .WithDescription("Please follow the steps to recover your server.").Build(),
                     components: components.Build());
 
-                await db.StringSetAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}", store.TwoFactorKey);
-                await db.StringSetAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}", store.RecoveryKey);
+                await cache.SetAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}", store.TwoFactorKey);
+                await cache.SetAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}", store.RecoveryKey);
             }
         }
-
 
         /// <summary>
         /// Handles the interaction when the user clicks on the "Recovery Key" button.
@@ -158,11 +156,10 @@ public partial class SlashAdministration
         [ModalInteraction("recoverykeymodal", true)]
         public async Task HandleRecoveryKey(RecoveryKeyModal modal)
         {
-            var db = cache.Redis.GetDatabase();
-            var rescue = await db.StringGetAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
+            var rescue = await cache.TryGetAsync<string>($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
             if (rescue.HasValue)
             {
-                if (modal.RecoveryKey == rescue)
+                if (modal.RecoveryKey == rescue.Value)
                 {
                     var component = new ComponentBuilder().WithButton(GetText("enter2fa"), "2fa-verify-rescue").Build();
                     await ctx.Interaction.RespondAsync(embed: new EmbedBuilder()
@@ -170,12 +167,11 @@ public partial class SlashAdministration
                         .WithOkColor()
                         .Build(), components: component);
                 }
-
                 else
                 {
                     await ctx.Interaction.SendErrorAsync(GetText("tryagain"), Config);
-                    await db.KeyDeleteAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
-                    await db.KeyDeleteAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}");
+                    await cache.RemoveAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
+                    await cache.RemoveAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}");
                 }
             }
         }
@@ -189,7 +185,6 @@ public partial class SlashAdministration
         public Task SendTwoFactorModal(string type)
             => RespondWithModalAsync<TwoFactorModal>($"twofactormodal-{type}");
 
-
         /// <summary>
         /// Handles the interaction when the user submits the 2FA modal.
         /// </summary>
@@ -199,30 +194,30 @@ public partial class SlashAdministration
         [ModalInteraction("twofactormodal-*", true)]
         public async Task HandleTwoFactor(string type, TwoFactorModal modal)
         {
-            var db = cache.Redis.GetDatabase();
             if (type is "setup")
             {
-                var secretKey = await db.StringGetAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}");
-                var rescueKey = await db.StringGetAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
+                var secretKey = await cache.TryGetAsync<string>($"{credentials.RedisKey()}_2fa_{ctx.User.Id}");
+                var rescueKey = await cache.TryGetAsync<string>($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
                 if (secretKey.HasValue)
                 {
-                    var secret = Base32Encoding.ToBytes(secretKey);
+                    var secret = Base32Encoding.ToBytes(secretKey.Value);
                     var totp = new Totp(secret);
                     var isValid = totp.VerifyTotp(modal.Code, out _, new VerificationWindow(2, 2));
 
-
                     if (isValid)
                     {
-                        await Service.SetupRecovery(ctx.Guild.Id, rescueKey, Base32Encoding.ToString(secret));
+                        await Service.SetupRecovery(ctx.Guild.Id, rescueKey.Value, Base32Encoding.ToString(secret));
                         await ctx.Interaction.SendConfirmAsync(GetText("recoverysetupcomplete"));
-                        await db.KeyDeleteAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
-                        await db.KeyDeleteAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}");
+
+
+ await cache.RemoveAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
+                        await cache.RemoveAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}");
                     }
                     else
                     {
                         await ctx.Interaction.SendErrorAsync(GetText("incorrect2fa"), Config);
-                        await db.KeyDeleteAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
-                        await db.KeyDeleteAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}");
+                        await cache.RemoveAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
+                        await cache.RemoveAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}");
                     }
                 }
                 else
@@ -240,13 +235,13 @@ public partial class SlashAdministration
                 if (!isValid)
                 {
                     await ctx.Interaction.SendErrorAsync(GetText("incorrect2fa"), Config);
-                    await db.KeyDeleteAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
-                    await db.KeyDeleteAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}");
+                    await cache.RemoveAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
+                    await cache.RemoveAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}");
                     return;
                 }
 
-                await db.KeyDeleteAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
-                await db.KeyDeleteAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}");
+                await cache.RemoveAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
+                await cache.RemoveAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}");
                 var currentBotUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id);
                 var highestRole = currentBotUser.GetRoles().Max(role => role.Position);
                 var newRole = await ctx.Guild.CreateRoleAsync("Recovered Server Owner Role",
