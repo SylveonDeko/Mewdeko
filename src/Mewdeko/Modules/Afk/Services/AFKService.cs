@@ -4,6 +4,7 @@ using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Services.Settings;
 using Serilog;
+using ZiggyCreatures.Caching.Fusion;
 
 namespace Mewdeko.Modules.Afk.Services;
 
@@ -12,10 +13,9 @@ namespace Mewdeko.Modules.Afk.Services;
 /// </summary>
 public class AfkService : INService, IReadyExecutor
 {
-    private readonly IDataCache cache;
+    private readonly IFusionCache cache;
     private readonly DiscordShardedClient client;
     private readonly BotConfigService config;
-    private readonly IBotCredentials creds;
     private readonly DbService db;
     private readonly GuildSettingsService guildSettings;
 
@@ -25,23 +25,20 @@ public class AfkService : INService, IReadyExecutor
     /// </summary>
     /// <param name="db">The database service.</param>
     /// <param name="client">The Discord socket client.</param>
-    /// <param name="cache">The data cache.</param>
+    /// <param name="cache">The FusionCache instance.</param>
     /// <param name="guildSettings">The guild settings service.</param>
     /// <param name="eventHandler">The event handler.</param>
-    /// <param name="creds">The bot credentials.</param>
     /// <param name="config">The bot configuration service.</param>
     public AfkService(
         DbService db,
         DiscordShardedClient client,
-        IDataCache cache,
+        IFusionCache cache,
         GuildSettingsService guildSettings,
         EventHandler eventHandler,
-        IBotCredentials creds,
         BotConfigService config)
     {
         this.cache = cache;
         this.guildSettings = guildSettings;
-        this.creds = creds;
         this.config = config;
         this.db = db;
         this.client = client;
@@ -50,7 +47,6 @@ public class AfkService : INService, IReadyExecutor
         eventHandler.UserIsTyping += UserTyping;
         _ = Task.Run(StartTimedAfkLoop);
     }
-
 
     /// <summary>
     ///     Handles actions to be performed when the bot is ready.
@@ -99,7 +95,6 @@ public class AfkService : INService, IReadyExecutor
         Log.Information("AFK Cached");
     }
 
-
     /// <summary>
     /// Starts the timed AFK loop asynchronously.
     /// </summary>
@@ -141,7 +136,6 @@ public class AfkService : INService, IReadyExecutor
         }
     }
 
-
     /// <summary>
     /// Retrieves timed AFKs that occurred before the specified time.
     /// </summary>
@@ -159,7 +153,6 @@ public class AfkService : INService, IReadyExecutor
 
         return afks;
     }
-
 
     /// <summary>
     /// Handles the completion of a timed AFK.
@@ -197,7 +190,6 @@ public class AfkService : INService, IReadyExecutor
         await RemoveAfk(afk);
     }
 
-
     /// <summary>
     /// Caches the latest AFK entries.
     /// </summary>
@@ -211,13 +203,12 @@ public class AfkService : INService, IReadyExecutor
             {
                 // Clear the AFK entry if the message is empty or cache the AFK entry
                 if (string.IsNullOrEmpty(userAfk.Value.Message))
-                    await cache.ClearAfk(guild.Key, userAfk.Key);
+                    await cache.RemoveAsync($"{guild.Key}:{userAfk.Key}");
                 else
-                    await cache.CacheAfk(guild.Key, userAfk.Key, userAfk.Value);
+                    await cache.SetAsync($"{guild.Key}:{userAfk.Key}", userAfk.Value);
             }
         }
     }
-
 
     /// <summary>
     /// Handles the event when a user starts typing.
@@ -240,7 +231,7 @@ public class AfkService : INService, IReadyExecutor
                 {
                     // Disable the user's AFK status
                     await AfkSet(use.Guild.Id, use.Id, "", false).ConfigureAwait(false);
-                    // Send a message in the channel indicating the user is back from AFK
+                    //Send a message in the channel indicating the user is back from AFK
                     var msg = await chan.Value
                         .SendMessageAsync(
                             $"Welcome back {user.Value.Mention}! I noticed you typing so I disabled your AFK.")
@@ -262,7 +253,6 @@ public class AfkService : INService, IReadyExecutor
             }
         }
     }
-
 
     /// <summary>
     /// Handles the event when a message is received, and processes AFK-related actions.
@@ -444,7 +434,7 @@ public class AfkService : INService, IReadyExecutor
     /// <returns>The AFK entry for the user if found; otherwise, null.</returns>
     public async Task<Database.Models.Afk?> GetAfk(ulong guildId, ulong userId)
     {
-        return await cache.RetrieveAfk(guildId, userId);
+        return await cache.GetOrDefaultAsync<Database.Models.Afk>($"{guildId}:{userId}");
     }
 
     /// <summary>
@@ -487,7 +477,7 @@ public class AfkService : INService, IReadyExecutor
     /// <returns>True if the user is AFK in the guild; otherwise, false.</returns>
     public async Task<bool> IsAfk(ulong guildId, ulong userId)
     {
-        var afkMessage = await cache.RetrieveAfk(guildId, userId);
+        var afkMessage = await cache.GetOrDefaultAsync<Database.Models.Afk>($"{guildId}:{userId}");
         return afkMessage is not null;
     }
 
@@ -510,7 +500,6 @@ public class AfkService : INService, IReadyExecutor
 
         await MessageReceived(msg2).ConfigureAwait(false);
     }
-
 
     /// <summary>
     /// Sets the AFK type for the guild.
@@ -577,7 +566,6 @@ public class AfkService : INService, IReadyExecutor
         guildConfig.AfkDisabledChannels = num;
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
     }
-
 
     /// <summary>
     /// Retrieves the custom AFK message for the specified guild.
@@ -648,9 +636,9 @@ public class AfkService : INService, IReadyExecutor
         uow.Afk.Update(afk);
         await uow.SaveChangesAsync().ConfigureAwait(false);
         if (string.IsNullOrEmpty(message))
-            await cache.ClearAfk(guildId, userId);
+            await cache.RemoveAsync($"{guildId}:{userId}");
         else
-            await cache.CacheAfk(guildId, userId, afk);
+            await cache.SetAsync($"{guildId}:{userId}", afk);
     }
 
     /// <summary>
@@ -659,7 +647,7 @@ public class AfkService : INService, IReadyExecutor
     /// <param name="afk">The AFK entry to remove.</param>
     private async Task RemoveAfk(Database.Models.Afk afk)
     {
-        await cache.ClearAfk(afk.GuildId, afk.UserId);
+        await cache.RemoveAsync($"{afk.GuildId}:{afk.UserId}");
 
         await using var uow = db.GetDbContext();
         uow.Afk.Remove(afk);
