@@ -48,7 +48,7 @@ public class FeedsService : INService
     private async Task<EmbedBuilder> TrackFeeds(IEnumerable<ulong> serverIds)
     {
         // ReSharper disable once AsyncVoidLambda
-        Parallel.ForEach(serverIds, async serverId =>
+        foreach(var serverId in serverIds)
         {
             await Task.CompletedTask;
             var feeds = GetFeeds(serverId);
@@ -60,7 +60,7 @@ public class FeedsService : INService
                     return old;
                 });
             }
-        });
+        }
         while (true)
         {
             var allSendTasks = new List<Task>(subs.Count);
