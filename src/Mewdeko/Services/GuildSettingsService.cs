@@ -1,6 +1,7 @@
 using Mewdeko.Services.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using ZiggyCreatures.Caching.Fusion;
 
 namespace Mewdeko.Services
 {
@@ -8,11 +9,15 @@ namespace Mewdeko.Services
     /// Service for managing guild settings.
     /// </summary>
     public class GuildSettingsService(
+
         DbService db,
         IConfigService? bss,
         IServiceProvider services,
-        IDataCache cache)
+        IFusionCache cache)
     {
+
+        private ConcurrentDictionary<ulong, GuildConfig> AllGuildConfigs { get; set; }
+
         /// <summary>
         /// Sets the prefix for the specified guild.
         /// </summary>
@@ -55,28 +60,49 @@ namespace Mewdeko.Services
         /// </summary>
         public async Task<GuildConfig> GetGuildConfig(ulong guildId)
         {
+            var configExists = await cache.TryGetAsync<GuildConfig>($"guildconfig_{guildId}");
+            if (configExists.HasValue)
+                return configExists;
 
             await using var uow = db.GetDbContext();
             var toLoad = uow.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.GuildId == guildId);
-            if (toLoad is not null) return toLoad;
+            if (toLoad is null)
             {
                 await uow.ForGuildId(guildId);
                 toLoad = uow.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.GuildId == guildId);
             }
 
+            await cache.SetAsync($"guildconfig_{guildId}", toLoad);
             return toLoad;
         }
 
         /// <summary>
         /// Updates the guild configuration.
         /// </summary>
-        public async Task UpdateGuildConfig(ulong _, GuildConfig toUpdate)
+        public async Task UpdateGuildConfig(ulong guildId, GuildConfig toUpdate)
         {
-            await using var uow = db.GetDbContext();
             try
             {
-                    uow.GuildConfigs.Update(toUpdate);
-                    await uow.SaveChangesAsync();
+                await using var uow = db.GetDbContext();
+                var config = uow.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.Id == toUpdate.Id);
+                    if (config != null)
+                    {
+                        var properties = typeof(GuildConfig).GetProperties();
+                        foreach (var property in properties)
+                        {
+                            var oldValue = property.GetValue(config);
+                            var newValue = property.GetValue(toUpdate);
+
+                            if (newValue != null && !newValue.Equals(oldValue))
+                            {
+                                property.SetValue(config, newValue);
+                            }
+                        }
+
+                        await cache.SetAsync($"guildconfig_{guildId}", config);
+                        uow.GuildConfigs.Update(config);
+                        await uow.SaveChangesAsync();
+                    }
             }
             catch (Exception e)
             {
