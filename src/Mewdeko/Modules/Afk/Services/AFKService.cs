@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Data.Entity;
+using System.Threading;
 using Humanizer;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.ModuleBehaviors;
@@ -56,7 +57,7 @@ public class AfkService : INService, IReadyExecutor
     {
         // Retrieve all AFK entries from the database
         await using var uow = db.GetDbContext();
-        var allafk = await uow.Afk.OrderByDescending(afk => afk.DateAdded).ToListAsyncEF();
+        var allafk = await uow.Afk.AsNoTracking().OrderByDescending(afk => afk.DateAdded).ToListAsyncEF();
 
         // Create a dictionary to store the latest AFK entry per user per guild
         var latestAfkPerUserPerGuild =
