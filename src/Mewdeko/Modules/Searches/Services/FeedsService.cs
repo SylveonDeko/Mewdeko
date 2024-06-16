@@ -38,7 +38,7 @@ public class FeedsService : INService
     private async Task<GuildConfig> GetGuildConfigFromId(int guildConfigId)
     {
         using var uow = db.GetDbContext();
-        return await uow.GuildConfigs.AsQueryable().FirstOrDefaultAsync(x => x.Id == guildConfigId);
+        return await uow.GuildConfigs.AsQueryable().AsNoTracking().FirstOrDefaultAsync(x => x.Id == guildConfigId);
     }
 
     /// <summary>
