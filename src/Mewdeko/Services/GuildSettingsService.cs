@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Mewdeko.Services.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -60,6 +61,8 @@ namespace Mewdeko.Services
         /// </summary>
         public async Task<GuildConfig> GetGuildConfig(ulong guildId)
         {
+            var sw = new Stopwatch();
+            sw.Start();
             var configExists = await cache.TryGetAsync<GuildConfig>($"guildconfig_{guildId}");
             if (configExists.HasValue)
                 return configExists;
@@ -73,6 +76,8 @@ namespace Mewdeko.Services
             }
 
             await cache.SetAsync($"guildconfig_{guildId}", toLoad);
+            Log.Information($"GuildConfig Get took {sw.Elapsed}");
+            sw.Stop();
             return toLoad;
         }
 
@@ -81,6 +86,8 @@ namespace Mewdeko.Services
         /// </summary>
         public async Task UpdateGuildConfig(ulong guildId, GuildConfig toUpdate)
         {
+            var sw = new Stopwatch();
+            sw.Start();
             try
             {
                 await using var uow = db.GetDbContext();
@@ -102,11 +109,13 @@ namespace Mewdeko.Services
                         await cache.SetAsync($"guildconfig_{guildId}", config);
                         uow.GuildConfigs.Update(config);
                         await uow.SaveChangesAsync();
+                        Log.Information($"GuildConfig Set took {sw.Elapsed}");
                     }
             }
             catch (Exception e)
             {
                 Log.Error(e, "There was an issue updating a GuildConfig");
+                sw.Stop();
             }
         }
     }
