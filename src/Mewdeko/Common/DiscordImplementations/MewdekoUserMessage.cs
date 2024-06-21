@@ -178,4 +178,10 @@ public class MewdekoUserMessage : IUserMessage
 
     /// <inheritdoc />
     public MessageRoleSubscriptionData RoleSubscriptionData => throw new NotImplementedException();
+
+    /// <inheritdoc />
+    public PurchaseNotification PurchaseNotification { get; }
+
+    /// <inheritdoc />
+    public MessageCallData? CallData { get; }
 }
