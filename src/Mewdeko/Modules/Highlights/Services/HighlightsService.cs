@@ -42,6 +42,7 @@ public class HighlightsService : INService, IReadyExecutor
     /// <returns></returns>
     public async Task OnReadyAsync()
     {
+        Log.Information($"Starting {this.GetType()} Cache");
         await using var uow = db.GetDbContext();
         var allHighlights = uow.Highlights.AllHighlights();
         var allHighlightSettings = uow.HighlightSettings.AllHighlightSettings();

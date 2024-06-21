@@ -117,6 +117,7 @@ public sealed class FusionImagesCache : IImageCache, IReadyExecutor, INService
     /// </summary>
     public async Task OnReadyAsync()
     {
+        Log.Information($"Starting {this.GetType()} Cache");
         if (await AllKeysExist().ConfigureAwait(false))
             return;
 

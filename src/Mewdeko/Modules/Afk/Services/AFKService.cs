@@ -55,6 +55,7 @@ public class AfkService : INService, IReadyExecutor
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task OnReadyAsync()
     {
+        Log.Information($"Starting {this.GetType()} Cache");
         // Retrieve all AFK entries from the database
         await using var uow = db.GetDbContext();
         var allafk = await uow.Afk.AsNoTracking().OrderByDescending(afk => afk.DateAdded).ToListAsyncEF();

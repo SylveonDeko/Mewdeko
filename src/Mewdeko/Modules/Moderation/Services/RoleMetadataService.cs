@@ -2,6 +2,7 @@ using System.Net.Http;
 using System.Text.Json;
 using Discord.Rest;
 using Mewdeko.Common.ModuleBehaviors;
+using Serilog;
 
 namespace Mewdeko.Modules.Moderation.Services;
 
@@ -30,6 +31,7 @@ public class RoleMetadataService(DbService dbService, DiscordShardedClient clien
     /// </summary>
     public async Task OnReadyAsync()
     {
+        Log.Information($"Starting {this.GetType()} Cache");
         // keys
         // total/min => int
         // earliest/latest => date

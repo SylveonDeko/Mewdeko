@@ -513,6 +513,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     /// </remarks>
     public async Task OnReadyAsync()
     {
+        Log.Information($"Starting {this.GetType()} Cache");
         await using var uow = db.GetDbContext();
 
         autoCommands =

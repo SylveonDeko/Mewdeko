@@ -51,6 +51,7 @@ public class GreetSettingsService : INService, IReadyExecutor
     /// <inheritdoc />
     public async Task OnReadyAsync()
     {
+        Log.Information($"Starting {this.GetType()} Cache");
         while (true)
         {
             try
