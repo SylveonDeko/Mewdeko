@@ -151,7 +151,7 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
 
                         if (!settings.HasValue)
                         {
-                            var config = await uow.GuildConfigs
+                            var config = await uow.GuildConfigs.AsNoTracking()
                                 .Include(x => x.XpSettings)
                                     .ThenInclude(x => x.RoleRewards)
                                 .Include(x => x.XpSettings)
@@ -254,7 +254,7 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
         sw.Start();
         await using var uow = db.GetDbContext();
 
-        var guildConfigs = await uow.GuildConfigs
+        var guildConfigs = await uow.GuildConfigs.AsNoTracking()
             .Include(x => x.XpSettings)
                 .ThenInclude(x => x.RoleRewards)
             .Include(x => x.XpSettings)
@@ -291,7 +291,7 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
         var settings = await GetOrAddCacheItem($"XpSettings_{id}", async () =>
         {
             await using var uow = db.GetDbContext();
-            var config = await uow.GuildConfigs
+            var config = await uow.GuildConfigs.AsNoTracking()
                 .Include(x => x.XpSettings)
                 .ThenInclude(x => x.RoleRewards)
                 .Include(x => x.XpSettings)
@@ -575,7 +575,7 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
         var settings = await GetOrAddCacheItem($"XpSettings_{guildId}", async () =>
         {
             await using var uow = db.GetDbContext();
-            var config = await uow.GuildConfigs
+            var config = await uow.GuildConfigs.AsNoTracking()
                 .Include(x => x.XpSettings)
                 .ThenInclude(x => x.RoleRewards)
                 .Include(x => x.XpSettings)
@@ -594,7 +594,7 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
         var settings = await GetOrAddCacheItem($"XpSettings_{user.Guild.Id}", async () =>
         {
             await using var uow = db.GetDbContext();
-            var config = await uow.GuildConfigs
+            var config = await uow.GuildConfigs.AsNoTracking()
                 .Include(x => x.XpSettings)
                 .ThenInclude(x => x.RoleRewards)
                 .Include(x => x.XpSettings)
@@ -746,7 +746,7 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
         var settings = await GetOrAddCacheItem($"XpSettings_{id}", async () =>
         {
             await using var uow = db.GetDbContext();
-            var config = await uow.GuildConfigs
+            var config = await uow.GuildConfigs.AsNoTracking()
                 .Include(x => x.XpSettings)
                 .ThenInclude(x => x.RoleRewards)
                 .Include(x => x.XpSettings)
@@ -769,7 +769,7 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
         var settings = await GetOrAddCacheItem($"XpSettings_{id}", async () =>
         {
             await using var uow = db.GetDbContext();
-            var config = await uow.GuildConfigs
+            var config = await uow.GuildConfigs.AsNoTracking()
                 .Include(x => x.XpSettings)
                 .ThenInclude(x => x.RoleRewards)
                 .Include(x => x.XpSettings)
@@ -792,7 +792,7 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
         var settings = await GetOrAddCacheItem($"XpSettings_{id}", async () =>
         {
             await using var uow = db.GetDbContext();
-            var config = await uow.GuildConfigs
+            var config = await uow.GuildConfigs.AsNoTracking()
                 .Include(x => x.XpSettings)
                 .ThenInclude(x => x.RoleRewards)
                 .Include(x => x.XpSettings)
@@ -836,7 +836,7 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
         var settings = await GetOrAddCacheItem($"XpSettings_{id}", async () =>
         {
             await using var uow = db.GetDbContext();
-            var config = await uow.GuildConfigs
+            var config = await uow.GuildConfigs.AsNoTracking()
                 .Include(x => x.XpSettings)
                 .ThenInclude(x => x.RoleRewards)
                 .Include(x => x.XpSettings)
@@ -871,7 +871,7 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
         var settings = await GetOrAddCacheItem($"XpSettings_{guildId}", async () =>
         {
             await using var uow = db.GetDbContext();
-            var config = await uow.GuildConfigs
+            var config = await uow.GuildConfigs.AsNoTracking()
                 .Include(x => x.XpSettings)
                 .ThenInclude(x => x.RoleRewards)
                 .Include(x => x.XpSettings)
@@ -928,7 +928,7 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
         var settings = await GetOrAddCacheItem($"XpSettings_{guildId}", async () =>
         {
             await using var uow = db.GetDbContext();
-            var config = await uow.GuildConfigs
+            var config = await uow.GuildConfigs.AsNoTracking()
                 .Include(x => x.XpSettings)
                 .ThenInclude(x => x.RoleRewards)
                 .Include(x => x.XpSettings)
