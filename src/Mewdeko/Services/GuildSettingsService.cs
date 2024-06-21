@@ -77,7 +77,7 @@ namespace Mewdeko.Services
 
             await cache.SetAsync($"guildconfig_{guildId}", toLoad);
             sw.Stop();
-            Log.Information($"GuildConfig Get took {sw.Elapsed}");
+            Log.Information($"GuildConfig Get for {guildId} took {sw.Elapsed}");
             return toLoad;
         }
 
@@ -110,7 +110,7 @@ namespace Mewdeko.Services
                         uow.GuildConfigs.Update(config);
                         await uow.SaveChangesAsync();
                         sw.Stop();
-                        Log.Information($"GuildConfig Set took {sw.Elapsed}");
+                        Log.Information($"GuildConfig Set for {guildId} took {sw.Elapsed}");
                     }
             }
             catch (Exception e)
