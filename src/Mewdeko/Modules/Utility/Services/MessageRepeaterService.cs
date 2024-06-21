@@ -25,6 +25,7 @@ public class MessageRepeaterService(DiscordShardedClient client, DbService db, M
     /// <inheritdoc />
     public async Task OnReadyAsync()
     {
+        Log.Information($"Starting {this.GetType()} Cache");
         await bot.Ready.Task.ConfigureAwait(false);
         Log.Information("Loading message repeaters");
         await using var uow = db.GetDbContext();

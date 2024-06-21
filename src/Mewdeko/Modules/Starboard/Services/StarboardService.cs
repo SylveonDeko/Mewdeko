@@ -36,6 +36,7 @@ public class StarboardService : INService, IReadyExecutor
     /// <inheritdoc />
     public Task OnReadyAsync()
     {
+        Log.Information($"Starting {this.GetType()} Cache");
         _ = Task.Run(async () =>
         {
             await using var uow = db.GetDbContext();

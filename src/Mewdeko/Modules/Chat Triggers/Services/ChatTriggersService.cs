@@ -651,6 +651,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// <param name="allGuildIds">A list of all guild IDs.</param>
     private async Task ReloadInternal(IReadOnlyList<ulong> allGuildIds)
     {
+        Log.Information($"Starting {this.GetType()} Cache");
         // Start a new database context
         await using var uow = db.GetDbContext();
 
