@@ -34,7 +34,6 @@ namespace Mewdeko.Services.Impl
         /// </summary>
         /// <param name="client">The discord client</param>
         /// <param name="creds">The bots credentials</param>
-        /// <param name="coord">The coordinator service</param>
         /// <param name="cmdServ">The command service</param>
         /// <param name="http">The http client</param>
         /// <param name="cache">The caching service</param>
@@ -50,7 +49,7 @@ namespace Mewdeko.Services.Impl
 
             started = DateTime.UtcNow;
 
-            InitializePeriodicTasks(cmdServ);
+            _ = Task.Run(async () => await PostToTopGg());
         }
 
         /// <summary>
@@ -112,11 +111,6 @@ namespace Mewdeko.Services.Impl
         public string GetUptimeString(string separator = ", ") =>
             GetUptime().Humanize(2, minUnit: TimeUnit.Minute, collectionSeparator: separator);
 
-        private void InitializePeriodicTasks(CommandService cmdServ)
-        {
-            _ = PostToTopGg();
-            _ = OnReadyAsync();
-        }
 
         private TimeSpan GetUptime() => DateTime.UtcNow - started;
 
