@@ -251,7 +251,7 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
         var sw = new Stopwatch();
         sw.Start();
         await using var uow = db.GetDbContext();
-
+        Log.Information("Starting to cache xp");
         var guildConfigs = uow.GuildConfigs.ToLinqToDB().AsNoTracking()
             .Include(x => x.XpSettings)
             .ThenInclude(x => x.RoleRewards)
