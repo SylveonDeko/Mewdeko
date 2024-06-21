@@ -27,15 +27,6 @@ public static class GuildConfigExtensions
     }
 
 
-    public static IEnumerable<GuildConfig> GetAllGuildConfigs(
-        this DbSet<GuildConfig> configs,
-        IEnumerable<ulong> availableGuilds)
-    {
-        return configs.IncludeEverything().ToLinqToDB().AsNoTracking().Where(x => availableGuilds.Contains(x.GuildId))
-            .ToList();
-    }
-
-
     public static IndexedCollection<ReactionRoleMessage> GetReactionRoles(this MewdekoContext ctx, ulong guildId)
         => ctx.GuildConfigs
             .Include(x => x.ReactionRoleMessages)
