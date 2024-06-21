@@ -151,48 +151,52 @@ public class StreamNotificationService : IReadyExecutor, INService
     }
 
     /// <inheritdoc />
-    public async Task OnReadyAsync()
+    public Task OnReadyAsync()
     {
-        using var timer = new PeriodicTimer(TimeSpan.FromMinutes(30));
-        while (await timer.WaitForNextTickAsync().ConfigureAwait(false))
+        _ = Task.Run(async () =>
         {
-            try
+            using var timer = new PeriodicTimer(TimeSpan.FromMinutes(30));
+            while (await timer.WaitForNextTickAsync().ConfigureAwait(false))
             {
-                var errorLimit = TimeSpan.FromHours(12);
-                var failingStreams = streamTracker.GetFailingStreams(errorLimit, true).ToList();
-
-                if (failingStreams.Count == 0)
-                    continue;
-
-                var deleteGroups = failingStreams.GroupBy(x => x.Type)
-                    .ToDictionary(x => x.Key, x => x.Select(y => y.Name).ToList());
-
-                await using var uow = db.GetDbContext();
-                foreach (var kvp in deleteGroups)
+                try
                 {
-                    Log.Information(
-                        "Deleting {StreamCount} {Platform} streams because they've been erroring for more than {ErrorLimit}: {RemovedList}",
-                        kvp.Value.Count,
-                        kvp.Key,
-                        errorLimit,
-                        string.Join(", ", kvp.Value));
+                    var errorLimit = TimeSpan.FromHours(12);
+                    var failingStreams = streamTracker.GetFailingStreams(errorLimit, true).ToList();
 
-                    var toDelete = uow.Set<FollowedStream>()
-                        .Where(x => x.Type == kvp.Key && kvp.Value.Contains(x.Username))
-                        .ToList();
+                    if (failingStreams.Count == 0)
+                        continue;
 
-                    uow.RemoveRange(toDelete);
-                    await uow.SaveChangesAsync().ConfigureAwait(false);
+                    var deleteGroups = failingStreams.GroupBy(x => x.Type)
+                        .ToDictionary(x => x.Key, x => x.Select(y => y.Name).ToList());
 
-                    foreach (var loginToDelete in kvp.Value)
-                        await streamTracker.UntrackStreamByKey(new StreamDataKey(kvp.Key, loginToDelete));
+                    await using var uow = db.GetDbContext();
+                    foreach (var kvp in deleteGroups)
+                    {
+                        Log.Information(
+                            "Deleting {StreamCount} {Platform} streams because they've been erroring for more than {ErrorLimit}: {RemovedList}",
+                            kvp.Value.Count,
+                            kvp.Key,
+                            errorLimit,
+                            string.Join(", ", kvp.Value));
+
+                        var toDelete = uow.Set<FollowedStream>()
+                            .Where(x => x.Type == kvp.Key && kvp.Value.Contains(x.Username))
+                            .ToList();
+
+                        uow.RemoveRange(toDelete);
+                        await uow.SaveChangesAsync().ConfigureAwait(false);
+
+                        foreach (var loginToDelete in kvp.Value)
+                            await streamTracker.UntrackStreamByKey(new StreamDataKey(kvp.Key, loginToDelete));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "Error cleaning up FollowedStreams");
                 }
             }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Error cleaning up FollowedStreams");
-            }
-        }
+        });
+        return Task.CompletedTask;
     }
 
     /// <summary>

@@ -28,6 +28,7 @@ public class GiveawayService(
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task OnReadyAsync()
     {
+        Log.Information($"Starting {this.GetType()} Ready Loop");
         Log.Information("Giveaway Loop Started");
         while (true)
         {

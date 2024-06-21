@@ -61,35 +61,39 @@ namespace Mewdeko.Services.Impl
         }
 
         /// <inheritdoc/>
-        public async Task OnReadyAsync()
+        public Task OnReadyAsync()
         {
-            var periodicTimer = new PeriodicTimer(TimeSpan.FromHours(12));
-
-            do
+            _ = Task.Run(async () =>
             {
-                try
-                {
-                    Log.Information("Updating top guilds");
-                    var guilds = await client.Rest.GetGuildsAsync(true);
-                    var servers = guilds.OrderByDescending(x => x.ApproximateMemberCount.Value)
-                        .Where(x => !x.Name.ToLower().Contains("botlist")).Take(11).Select(x =>
-                            new MewdekoPartialGuild
-                            {
-                                IconUrl = x.IconId.StartsWith("a_") ? x.IconUrl.Replace(".jpg", ".gif") : x.IconUrl,
-                                MemberCount = x.ApproximateMemberCount.Value,
-                                Name = x.Name
-                            });
+                var periodicTimer = new PeriodicTimer(TimeSpan.FromHours(12));
 
-                    var serialied = Json.Serialize(servers);
-                    await cache.Redis.GetDatabase().StringSetAsync($"{client.CurrentUser.Id}_topguilds", serialied)
-                        .ConfigureAwait(false);
-                    Log.Information("Updated top guilds");
-                }
-                catch (Exception e)
+                do
                 {
-                    Log.Error("Failed to update top guilds: {0}", e);
-                }
-            } while (await periodicTimer.WaitForNextTickAsync());
+                    try
+                    {
+                        Log.Information("Updating top guilds");
+                        var guilds = await client.Rest.GetGuildsAsync(true);
+                        var servers = guilds.OrderByDescending(x => x.ApproximateMemberCount.Value)
+                            .Where(x => !x.Name.ToLower().Contains("botlist")).Take(11).Select(x =>
+                                new MewdekoPartialGuild
+                                {
+                                    IconUrl = x.IconId.StartsWith("a_") ? x.IconUrl.Replace(".jpg", ".gif") : x.IconUrl,
+                                    MemberCount = x.ApproximateMemberCount.Value,
+                                    Name = x.Name
+                                });
+
+                        var serialied = Json.Serialize(servers);
+                        await cache.Redis.GetDatabase().StringSetAsync($"{client.CurrentUser.Id}_topguilds", serialied)
+                            .ConfigureAwait(false);
+                        Log.Information("Updated top guilds");
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error("Failed to update top guilds: {0}", e);
+                    }
+                } while (await periodicTimer.WaitForNextTickAsync());
+            });
+            return Task.CompletedTask;
         }
 
         /// <summary>

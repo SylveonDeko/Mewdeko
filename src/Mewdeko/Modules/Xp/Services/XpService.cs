@@ -78,7 +78,12 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
         eventHandler.UserVoiceStateUpdated += Client_OnUserVoiceStateUpdated;
 
         this.client.GuildAvailable += Client_OnGuildAvailable;
-        foreach (var guild in this.client.Guilds) Client_OnGuildAvailable(guild);
+        _ = Task.Run(async () =>
+        {
+            foreach (var guild in this.client.Guilds)
+                await Client_OnGuildAvailable(guild);
+        });
+
         _ = Task.Run(UpdateLoop);
     }
 
