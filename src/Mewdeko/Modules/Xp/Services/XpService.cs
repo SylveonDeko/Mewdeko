@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -362,7 +363,7 @@ public class XpService : INService, IUnloadableService
 
     private Task Client_OnGuildAvailable(SocketGuild guild)
     {
-        Task.Run(() =>
+        _ = Task.Run(() =>
         {
             foreach (var channel in guild.VoiceChannels) ScanChannelForVoiceXp(channel);
         });
@@ -372,20 +373,30 @@ public class XpService : INService, IUnloadableService
 
     private async Task Client_OnUserVoiceStateUpdated(SocketUser socketUser, SocketVoiceState before, SocketVoiceState after)
     {
+        var sw = new Stopwatch();
+        sw.Start();
         if (socketUser is not SocketGuildUser user || user.IsBot)
             return;
         var vcxp = await GetVoiceXpRate(user.Guild.Id);
         var vctime = await GetVoiceXpTimeout(user.Guild.Id);
         if (vctime == 0 || vcxp == 0 || !bot.Ready.Task.IsCompleted)
+        {
+            sw.Stop();
+            Log.Information($"VC Check in {user.Guild.Id} took {sw.Elapsed}");
             return;
+        }
         if (before.VoiceChannel != null) ScanChannelForVoiceXp(before.VoiceChannel);
 
         if (after.VoiceChannel != null && after.VoiceChannel != before.VoiceChannel)
         {
+            sw.Stop();
+            Log.Information($"VC Check in {user.Guild.Id} took {sw.Elapsed}");
             ScanChannelForVoiceXp(after.VoiceChannel);
         }
         else if (after.VoiceChannel == null)
         {
+            sw.Stop();
+            Log.Information($"VC Check in {user.Guild.Id} took {sw.Elapsed}");
             UserLeftVoiceChannel(user, before.VoiceChannel);
         }
     }
