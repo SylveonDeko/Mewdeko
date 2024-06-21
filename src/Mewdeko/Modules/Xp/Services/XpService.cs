@@ -6,31 +6,29 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Humanizer;
+using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Xp.Common;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using Serilog;
 using SkiaSharp;
+using ZiggyCreatures.Caching.Fusion;
 
 namespace Mewdeko.Modules.Xp.Services;
 
-
 /// <summary>
-/// Main xp service
+/// Represents a service that handles experience points (XP) in the bot.
 /// </summary>
-public class XpService : INService, IUnloadableService
+public class XpService : INService, IUnloadableService, IReadyExecutor
 {
-
     /// <summary>
-    /// Xp required to be at level 1
+    /// Represents the constant experience points required to reach level 1.
     /// </summary>
     public const int XpRequiredLvl1 = 36;
 
     private readonly ConcurrentQueue<UserCacheItem> addMessageXp = new();
     private readonly Mewdeko bot;
-
     private readonly DiscordShardedClient client;
     private readonly CommandHandler cmd;
     private readonly IBotCredentials creds;
@@ -41,20 +39,20 @@ public class XpService : INService, IUnloadableService
     private readonly IBotStrings strings;
     private readonly XpConfigService xpConfig;
 
-    private readonly NonBlocking.ConcurrentDictionary<string, DateTimeOffset> localCache = new();
+    private readonly FusionCache cache;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="XpService"/> class, setting up dependencies necessary for XP management.
+    /// Represents a service that handles experience points (XP) in the bot
     /// </summary>
-    /// <param name="client">The Discord client.</param>
-    /// <param name="cmd">The command handler.</param>
-    /// <param name="db">The database service.</param>
-    /// <param name="strings">The bot strings service for localization.</param>
-    /// <param name="creds">The bot credentials provider.</param>
-    /// <param name="xpConfig">The XP configuration service.</param>
-    /// <param name="bot">The main bot instance.</param>
-    /// <param name="eventHandler">The event handler for subscribing to Discord events.</param>
-    /// <param name="guildSettings">The guild config service.</param>
+    /// <param name="client">The Discord client instance.</param>
+    /// <param name="cmd">The command handler instance.</param>
+    /// <param name="db">The database service instance.</param>
+    /// <param name="strings">The bot strings service instance.</param>
+    /// <param name="creds">The bot credentials instance.</param>
+    /// <param name="xpConfig">The XP configuration service instance.</param>
+    /// <param name="bot">The bot instance.</param>
+    /// <param name="eventHandler">The event handler instance.</param>
+    /// <param name="guildSettings">The guild settings service instance.</param>
     public XpService(
         DiscordShardedClient client,
         CommandHandler cmd,
@@ -64,7 +62,8 @@ public class XpService : INService, IUnloadableService
         XpConfigService xpConfig,
         Mewdeko bot,
         EventHandler eventHandler,
-        GuildSettingsService guildSettings)
+        GuildSettingsService guildSettings,
+        FusionCache cache)
     {
         this.db = db;
         this.cmd = cmd;
@@ -76,6 +75,7 @@ public class XpService : INService, IUnloadableService
         this.eventHandler = eventHandler;
         this.guildSettings = guildSettings;
         this.client = client;
+        this.cache = cache;
 
         this.cmd.OnMessageNoTrigger += Cmd_OnMessageNoTrigger;
         eventHandler.UserVoiceStateUpdated += Client_OnUserVoiceStateUpdated;
@@ -85,10 +85,160 @@ public class XpService : INService, IUnloadableService
         _ = Task.Run(UpdateLoop);
     }
 
+
     /// <summary>
-    /// Unloads the service, detaching from event handlers and performing cleanup tasks.
+    /// Handles the XP update loop asynchronously.
     /// </summary>
-    /// <returns>A task that represents the asynchronous unload operation.</returns>
+   private async Task UpdateLoop()
+{
+    while (true)
+    {
+        await Task.Delay(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
+        try
+        {
+            var toNotify = new List<(IGuild Guild, IMessageChannel? MessageChannel, IUser User, int Level, XpNotificationLocation NotifyType, NotifOf NotifOf)>();
+            var roleRewards = new Dictionary<ulong, List<XpRoleReward>>();
+            var curRewards = new Dictionary<ulong, List<XpCurrencyReward>>();
+
+            var toAddTo = new List<UserCacheItem>();
+            while (addMessageXp.TryDequeue(out var usr)) toAddTo.Add(usr);
+
+            var group = toAddTo.GroupBy(x => (GuildId: x.Guild.Id, x.User));
+            if (toAddTo.Count == 0) continue;
+
+            var uow = db.GetDbContext();
+            await using (uow.ConfigureAwait(false))
+            {
+                foreach (var item in group)
+                {
+                    var xp = item.Sum(x => x.XpAmount);
+
+                    var usr = await uow.UserXpStats.GetOrCreateUser(item.Key.GuildId, item.Key.User.Id);
+                    var du = await uow.GetOrCreateUser(item.Key.User).ConfigureAwait(false);
+
+                    var globalXp = du.TotalXp;
+                    var oldGlobalLevelData = new LevelStats(globalXp);
+                    var newGlobalLevelData = new LevelStats(globalXp + xp);
+
+                    var oldGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
+                    usr.Xp += xp;
+                    du.TotalXp += xp;
+                    var newGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
+
+                    if (oldGlobalLevelData.Level < newGlobalLevelData.Level)
+                    {
+                        du.LastLevelUp = DateTime.UtcNow;
+                        var first = item.First();
+                        if (du.NotifyOnLevelUp != XpNotificationLocation.None)
+                        {
+                            toNotify.Add((first.Guild, first.Channel, first.User, newGlobalLevelData.Level,
+                                du.NotifyOnLevelUp, NotifOf.Global));
+                        }
+                    }
+
+                    if (oldGuildLevelData.Level >= newGuildLevelData.Level) continue;
+                    {
+                        usr.LastLevelUp = DateTime.UtcNow;
+                        var first = item.First();
+                        if (usr.NotifyOnLevelUp != XpNotificationLocation.None)
+                        {
+                            toNotify.Add((first.Guild, first.Channel, first.User, newGuildLevelData.Level,
+                                usr.NotifyOnLevelUp, NotifOf.Server));
+                        }
+
+                        var guildSettingsKey = $"XpSettings_{usr.GuildId}";
+                        var settings = await cache.TryGetAsync<XpSettings>(guildSettingsKey);
+
+                        if (!settings.HasValue)
+                        {
+                            var config = await uow.GuildConfigs
+                                .Include(x => x.XpSettings)
+                                    .ThenInclude(x => x.RoleRewards)
+                                .Include(x => x.XpSettings)
+                                    .ThenInclude(x => x.CurrencyRewards)
+                                .Include(x => x.XpSettings)
+                                    .ThenInclude(x => x.ExclusionList)
+                                .FirstOrDefaultAsync(x => x.GuildId == usr.GuildId);
+
+                            settings = config?.XpSettings;
+
+                            if (settings != null)
+                            {
+                                await cache.SetAsync(guildSettingsKey, settings);
+                            }
+                        }
+
+                        if (settings != null)
+                        {
+                            if (!roleRewards.ContainsKey(usr.GuildId))
+                            {
+                                roleRewards[usr.GuildId] = settings.Value.RoleRewards.ToList();
+                            }
+
+                            if (!curRewards.ContainsKey(usr.GuildId))
+                            {
+                                curRewards[usr.GuildId] = settings.Value.CurrencyRewards.ToList();
+                            }
+                        }
+
+                        for (var i = oldGuildLevelData.Level + 1; i <= newGuildLevelData.Level; i++)
+                        {
+                            var rrew = roleRewards[usr.GuildId].Find(x => x.Level == i);
+                            if (rrew == null) continue;
+                            var role = first.User.Guild.GetRole(rrew.RoleId);
+                            if (role is not null) _ = first.User.AddRoleAsync(role);
+                        }
+                    }
+                }
+
+                await uow.SaveChangesAsync().ConfigureAwait(false);
+            }
+
+            await Task.WhenAll(toNotify.Select(async x =>
+            {
+                if (x.NotifOf == NotifOf.Server)
+                {
+                    if (x.NotifyType == XpNotificationLocation.Dm)
+                    {
+                        var chan = await x.User.CreateDMChannelAsync().ConfigureAwait(false);
+                        if (chan != null)
+                        {
+                            await chan.SendConfirmAsync(strings.GetText("level_up_dm", x.Guild.Id, x.User.Mention,
+                                    Format.Bold(x.Level.ToString()), Format.Bold(x.Guild.ToString() ?? "-")))
+                                .ConfigureAwait(false);
+                        }
+                    }
+                    else if (x.MessageChannel != null)
+                    {
+                        await x.MessageChannel.SendConfirmAsync(strings.GetText("level_up_channel", x.Guild.Id,
+                            x.User.Mention, Format.Bold(x.Level.ToString()))).ConfigureAwait(false);
+                    }
+                }
+                else
+                {
+                    IMessageChannel chan;
+                    if (x.NotifyType == XpNotificationLocation.Dm)
+                        chan = await x.User.CreateDMChannelAsync().ConfigureAwait(false);
+                    else
+                        chan = x.MessageChannel;
+
+                    await chan.SendConfirmAsync(strings.GetText("level_up_global", x.Guild.Id, x.User.Mention,
+                        Format.Bold(x.Level.ToString()))).ConfigureAwait(false);
+                }
+            })).ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error in the XP update loop");
+        }
+    }
+}
+
+
+
+    /// <summary>
+    /// Unloads the service by removing event handlers.
+    /// </summary>
     public Task Unload()
     {
         cmd.OnMessageNoTrigger -= Cmd_OnMessageNoTrigger;
@@ -97,149 +247,67 @@ public class XpService : INService, IUnloadableService
         return Task.CompletedTask;
     }
 
-    /// <summary>
-    /// The main update loop that processes XP additions and notifications.
-    /// </summary>
-    /// <returns>A task that represents the asynchronous update loop operation.</returns>
-    private async Task UpdateLoop()
+    /// <inheritdoc />
+    public async Task OnReadyAsync()
     {
-        while (true)
+        var sw = new Stopwatch();
+        sw.Start();
+        await using var uow = db.GetDbContext();
+
+        var guildConfigs = await uow.GuildConfigs
+            .Include(x => x.XpSettings)
+                .ThenInclude(x => x.RoleRewards)
+            .Include(x => x.XpSettings)
+                .ThenInclude(x => x.CurrencyRewards)
+            .Include(x => x.XpSettings)
+                .ThenInclude(x => x.ExclusionList)
+            .ToListAsync();
+
+        sw.Stop();
+        Log.Information($"Xp Settings cached in {sw.Elapsed}");
+
+        foreach (var config in guildConfigs)
         {
-            await Task.Delay(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
-            try
-            {
-                var toNotify = new List<(IGuild Guild, IMessageChannel? MessageChannel, IUser User, int Level, XpNotificationLocation NotifyType, NotifOf NotifOf)>();
-                var roleRewards = new Dictionary<ulong, List<XpRoleReward>>();
-                var curRewards = new Dictionary<ulong, List<XpCurrencyReward>>();
-
-                var toAddTo = new List<UserCacheItem>();
-                while (addMessageXp.TryDequeue(out var usr)) toAddTo.Add(usr);
-
-                var group = toAddTo.GroupBy(x => (GuildId: x.Guild.Id, x.User));
-                if (toAddTo.Count == 0) continue;
-
-                var uow = db.GetDbContext();
-                await using (uow.ConfigureAwait(false))
-                {
-                    foreach (var item in group)
-                    {
-                        var xp = item.Sum(x => x.XpAmount);
-
-                        var usr = await uow.UserXpStats.GetOrCreateUser(item.Key.GuildId, item.Key.User.Id);
-                        var du = await uow.GetOrCreateUser(item.Key.User).ConfigureAwait(false);
-
-                        var globalXp = du.TotalXp;
-                        var oldGlobalLevelData = new LevelStats(globalXp);
-                        var newGlobalLevelData = new LevelStats(globalXp + xp);
-
-                        var oldGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
-                        usr.Xp += xp;
-                        du.TotalXp += xp;
-                        var newGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
-
-                        if (oldGlobalLevelData.Level < newGlobalLevelData.Level)
-                        {
-                            du.LastLevelUp = DateTime.UtcNow;
-                            var first = item.First();
-                            if (du.NotifyOnLevelUp != XpNotificationLocation.None)
-                            {
-                                toNotify.Add((first.Guild, first.Channel, first.User, newGlobalLevelData.Level,
-                                    du.NotifyOnLevelUp, NotifOf.Global));
-                            }
-                        }
-
-                        if (oldGuildLevelData.Level >= newGuildLevelData.Level) continue;
-                        {
-                            usr.LastLevelUp = DateTime.UtcNow;
-                            var first = item.First();
-                            if (usr.NotifyOnLevelUp != XpNotificationLocation.None)
-                            {
-                                toNotify.Add((first.Guild, first.Channel, first.User, newGuildLevelData.Level,
-                                    usr.NotifyOnLevelUp, NotifOf.Server));
-                            }
-
-                            if (!roleRewards.TryGetValue(usr.GuildId, out var rrews))
-                            {
-                                rrews = (await uow.XpSettingsFor(usr.GuildId)).RoleRewards.ToList();
-                                roleRewards.Add(usr.GuildId, rrews);
-                            }
-
-                            if (!curRewards.TryGetValue(usr.GuildId, out var crews))
-                            {
-                                crews = (await uow.XpSettingsFor(usr.GuildId)).CurrencyRewards.ToList();
-                                curRewards.Add(usr.GuildId, crews);
-                            }
-
-                            for (var i = oldGuildLevelData.Level + 1; i <= newGuildLevelData.Level; i++)
-                            {
-                                var rrew = rrews.Find(x => x.Level == i);
-                                if (rrew == null) continue;
-                                var role = first.User.Guild.GetRole(rrew.RoleId);
-                                if (role is not null) _ = first.User.AddRoleAsync(role);
-                            }
-                        }
-                    }
-
-                    await uow.SaveChangesAsync().ConfigureAwait(false);
-                }
-
-                await Task.WhenAll(toNotify.Select(async x =>
-                {
-                    if (x.NotifOf == NotifOf.Server)
-                    {
-                        if (x.NotifyType == XpNotificationLocation.Dm)
-                        {
-                            var chan = await x.User.CreateDMChannelAsync().ConfigureAwait(false);
-                            if (chan != null)
-                            {
-                                await chan.SendConfirmAsync(strings.GetText("level_up_dm", x.Guild.Id, x.User.Mention,
-                                        Format.Bold(x.Level.ToString()), Format.Bold(x.Guild.ToString() ?? "-")))
-                                    .ConfigureAwait(false);
-                            }
-                        }
-                        else if (x.MessageChannel != null)
-                        {
-                            await x.MessageChannel.SendConfirmAsync(strings.GetText("level_up_channel", x.Guild.Id,
-                                x.User.Mention, Format.Bold(x.Level.ToString()))).ConfigureAwait(false);
-                        }
-                    }
-                    else
-                    {
-                        IMessageChannel chan;
-                        if (x.NotifyType == XpNotificationLocation.Dm)
-                            chan = await x.User.CreateDMChannelAsync().ConfigureAwait(false);
-                        else
-                            chan = x.MessageChannel;
-
-                        await chan.SendConfirmAsync(strings.GetText("level_up_global", x.Guild.Id, x.User.Mention,
-                            Format.Bold(x.Level.ToString()))).ConfigureAwait(false);
-                    }
-                })).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, "Error In the XP update loop");
-            }
+            await cache.SetAsync($"XpSettings_{config.GuildId}", config.XpSettings);
         }
     }
 
-    /// <summary>
-    /// Retrieves a list of all role rewards for a specified guild.
-    /// </summary>
-    /// <param name="id">The unique identifier for the guild.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains an enumerable of <see cref="XpRoleReward"/>.</returns>
-    public async Task<IEnumerable<XpRoleReward>> GetRoleRewards(ulong id)
+    private async Task<T> GetOrAddCacheItem<T>(string key, Func<Task<T>> factory)
     {
-        await using var uow = db.GetDbContext();
-        return (await uow.XpSettingsFor(id)).RoleRewards.ToArray();
+        var fu = await cache.GetOrSetAsync(key, factory);
+        return await fu.Invoke();
     }
 
     /// <summary>
-    /// Sets a role reward for reaching a specified level within a guild.
+    /// Retrieves the role rewards for a guild asynchronously.
     /// </summary>
-    /// <param name="guildId">The unique identifier for the guild.</param>
-    /// <param name="level">The level at which the reward is given.</param>
-    /// <param name="roleId">The unique identifier for the role to be awarded. If null, existing rewards for the level will be removed.</param>
+    /// <param name="id">The guild ID.</param>
+    public async Task<IEnumerable<XpRoleReward>> GetRoleRewards(ulong id)
+    {
+        var settings = await GetOrAddCacheItem($"XpSettings_{id}", async () =>
+        {
+            await using var uow = db.GetDbContext();
+            var config = await uow.GuildConfigs
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.RoleRewards)
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.CurrencyRewards)
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.ExclusionList)
+                .FirstOrDefaultAsync(x => x.GuildId == id);
+            return config?.XpSettings;
+        });
+
+        return settings?.RoleRewards ?? Enumerable.Empty<XpRoleReward>();
+    }
+
+    /// <summary>
+    /// Sets the role reward for a specific level in a guild asynchronously.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="level">The level for which to set the reward.</param>
+    /// <param name="roleId">The role ID to assign as a reward, or null to remove the reward.</param>
+
     public async void SetRoleReward(ulong guildId, int level, ulong? roleId)
     {
         await using var uow = db.GetDbContext();
@@ -268,14 +336,14 @@ public class XpService : INService, IUnloadableService
         }
 
         await uow.SaveChangesAsync().ConfigureAwait(false);
+        await cache.SetAsync($"XpSettings_{guildId}", settings);
     }
 
     /// <summary>
-    /// Retrieves a list of users with their XP statistics for a specified guild and page number.
+    /// Retrieves the user XP stats for a guild and page number asynchronously.
     /// </summary>
-    /// <param name="guildId">The unique identifier for the guild.</param>
-    /// <param name="page">The page number of users to retrieve.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains a list of <see cref="UserXpStats"/>.</returns>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="page">The page number.</param>
     public async Task<List<UserXpStats>> GetUserXps(ulong guildId, int page)
     {
         await using var uow = db.GetDbContext();
@@ -283,10 +351,9 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Retrieves a list of top users based on XP in a specified guild.
+    /// Retrieves the top user XP stats for a guild asynchronously.
     /// </summary>
-    /// <param name="guildId">The unique identifier for the guild.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains a list of <see cref="UserXpStats"/>.</returns>
+    /// <param name="guildId">The guild ID.</param>
     public async Task<List<UserXpStats>> GetTopUserXps(ulong guildId)
     {
         await using var uow = db.GetDbContext();
@@ -294,10 +361,9 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Retrieves a leaderboard of users based on XP across all guilds for a specified page number.
+    /// Retrieves the user XP leaderboard for a specific page.
     /// </summary>
-    /// <param name="page">The page number of users to retrieve.</param>
-    /// <returns>An array of <see cref="DiscordUser"/> containing user XP leaderboard information.</returns>
+    /// <param name="page">The page number.</param>
     public DiscordUser[] GetUserXps(int page)
     {
         using var uow = db.GetDbContext();
@@ -305,28 +371,25 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Changes the notification type for when a user levels up in a specified guild.
+    /// Changes the notification type for a user in a guild asynchronously.
     /// </summary>
-    /// <param name="userId">The unique identifier for the user.</param>
-    /// <param name="guildId">The unique identifier for the guild.</param>
-    /// <param name="type">The notification location type, determining where the user will be notified about leveling up.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-
+    /// <param name="userId">The user ID.</param>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="type">The notification type.</param>
     public async Task ChangeNotificationType(ulong userId, ulong guildId, XpNotificationLocation type)
     {
         await using var uow = db.GetDbContext();
         var user = await uow.UserXpStats.GetOrCreateUser(guildId, userId);
         user.NotifyOnLevelUp = type;
         await uow.SaveChangesAsync().ConfigureAwait(false);
+        await cache.RemoveAsync($"XpSettings_{guildId}");
     }
 
     /// <summary>
-    /// Gets the notification type for when a user levels up in a specified guild.
+    /// Retrieves the notification type for a user in a guild asynchronously.
     /// </summary>
-    /// <param name="userId">The unique identifier for the user.</param>
-    /// <param name="guildId">The unique identifier for the guild.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains the notification location type.</returns>
-
+    /// <param name="userId">The user ID.</param>
+    /// <param name="guildId">The guild ID.</param>
     public async Task<XpNotificationLocation> GetNotificationType(ulong userId, ulong guildId)
     {
         await using var uow = db.GetDbContext();
@@ -335,11 +398,9 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Gets the global notification type for when the specified user levels up.
+    /// Retrieves the notification type for a user asynchronously.
     /// </summary>
-    /// <param name="user">The user whose notification type is to be retrieved.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains the notification location type.</returns>
-
+    /// <param name="user">The user instance.</param>
     public async Task<XpNotificationLocation> GetNotificationType(IUser user)
     {
         await using var uow = db.GetDbContext();
@@ -347,12 +408,10 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Changes the global notification type for when the specified user levels up.
+    /// Changes the notification type for a user asynchronously.
     /// </summary>
-    /// <param name="user">The user for whom to change the notification type.</param>
-    /// <param name="type">The notification location type, determining where the user will be notified about leveling up globally.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
-
+    /// <param name="user">The user instance.</param>
+    /// <param name="type">The notification type.</param>
     public async Task ChangeNotificationType(IUser user, XpNotificationLocation type)
     {
         await using var uow = db.GetDbContext();
@@ -435,64 +494,67 @@ public class XpService : INService, IUnloadableService
         var value = DateTimeOffset.UtcNow;
         var e = await GetVoiceXpTimeout(user.Guild.Id) == 0 ? xpConfig.Data.VoiceMaxMinutes : await GetVoiceXpTimeout(user.Guild.Id);
 
-        if (localCache.ContainsKey(key))
+        var maybeValue = await cache.TryGetAsync<DateTimeOffset>(key);
+        if (maybeValue.HasValue)
             return;
 
-        localCache[key] = value;
+        await cache.SetAsync(key, value);
     }
 
     /// <summary>
-    /// Retrieves the text XP timeout for a specified guild.
+    /// Retrieves the XP timeout for a guild asynchronously.
     /// </summary>
-    /// <param name="id">The unique identifier of the guild.</param>
-    /// <returns>The text XP timeout in minutes.</returns>
+    /// <param name="id">The guild ID.</param>
     public async Task<int> GetXpTimeout(ulong id)
     {
-        var config = await guildSettings.GetGuildConfig(id);
-        return config.XpTxtTimeout;
+        var settings = await guildSettings.GetGuildConfig(id);
+
+        return settings?.XpTxtTimeout ?? 0;
     }
 
     /// <summary>
-    /// Retrieves the text XP rate for messages sent in a specified guild.
+    /// Retrieves the text XP rate for a guild asynchronously.
     /// </summary>
-    /// <param name="id">The unique identifier of the guild.</param>
-    /// <returns>The XP amount awarded for text messages.</returns>
+    /// <param name="id">The guild ID.</param>
+
     public async Task<int> GetTxtXpRate(ulong id)
     {
-        var config = await guildSettings.GetGuildConfig(id);
-        return config.XpTxtRate;
+        var settings = await guildSettings.GetGuildConfig(id);
+
+        return settings?.XpTxtRate ?? 0;
     }
 
     /// <summary>
-    /// Retrieves the voice XP rate for voice channel participation in a specified guild.
+    /// Retrieves the voice XP rate for a guild asynchronously.
     /// </summary>
-    /// <param name="id">The unique identifier of the guild.</param>
-    /// <returns>The XP rate per minute for voice channel participation.</returns>
+    /// <param name="id">The guild ID.</param>
     public async Task<double> GetVoiceXpRate(ulong id)
     {
-        var config = await guildSettings.GetGuildConfig(id);
-        return config.XpVoiceRate;
+        var settings = await guildSettings.GetGuildConfig(id);
+
+        return settings?.XpVoiceRate ?? 0;
     }
 
     /// <summary>
-    /// Retrieves the voice XP timeout for a specified guild.
+    /// Retrieves the voice XP timeout for a guild asynchronously.
     /// </summary>
-    /// <param name="id">The unique identifier of the guild.</param>
-    /// <returns>The voice XP timeout in minutes.</returns>
+    /// <param name="id">The guild ID.</param>
     public async Task<int> GetVoiceXpTimeout(ulong id)
     {
-        var config = await guildSettings.GetGuildConfig(id);
-        return config.XpVoiceTimeout;
+        var settings = await guildSettings.GetGuildConfig(id);
+
+        return settings?.XpVoiceTimeout ?? 0;
     }
 
     private async void UserLeftVoiceChannel(SocketGuildUser user, SocketGuildChannel channel)
     {
         var key = $"{creds.RedisKey()}_user_xp_vc_join_{user.Id}";
-        if (!localCache.TryGetValue(key, out var startTime))
+        var cacheItem = await cache.TryGetAsync<DateTimeOffset>(key);
+        if (!cacheItem.HasValue)
             return;
 
-        localCache.Remove(key, out _);
-        var minutes = (DateTimeOffset.UtcNow - startTime).TotalMinutes;
+        await cache.RemoveAsync(key);
+        var minutes = (DateTimeOffset.UtcNow - cacheItem.Value).TotalMinutes;
         var xpRate = await GetVoiceXpRate(user.Guild.Id) == 0 ? xpConfig.Data.VoiceXpPerMinute : await GetVoiceXpRate(user.Guild.Id);
         var xp = xpRate * minutes;
         var actualXp = (int)Math.Floor(xp);
@@ -506,21 +568,47 @@ public class XpService : INService, IUnloadableService
 
     private async Task<bool> IsChannelExcluded(ulong guildId, ulong itemId)
     {
-        var config = await guildSettings.GetGuildConfig(guildId);
-        return config.XpSettings.ExclusionList.Select(x => x.ItemId).Contains(itemId);
+        var settings = await GetOrAddCacheItem($"XpSettings_{guildId}", async () =>
+        {
+            await using var uow = db.GetDbContext();
+            var config = await uow.GuildConfigs
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.RoleRewards)
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.CurrencyRewards)
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.ExclusionList)
+                .FirstOrDefaultAsync(x => x.GuildId == guildId);
+            return config?.XpSettings;
+        });
+
+        return settings?.ExclusionList.Select(x => x.ItemId).Contains(itemId) ?? false;
     }
 
     private async Task<bool> ShouldTrackXp(SocketGuildUser user, ulong channelId)
     {
-        var config = await guildSettings.GetGuildConfig(user.Guild.Id);
-        if (config.XpSettings is null)
+        var settings = await GetOrAddCacheItem($"XpSettings_{user.Guild.Id}", async () =>
+        {
+            await using var uow = db.GetDbContext();
+            var config = await uow.GuildConfigs
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.RoleRewards)
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.CurrencyRewards)
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.ExclusionList)
+                .FirstOrDefaultAsync(x => x.GuildId == user.Guild.Id);
+            return config?.XpSettings;
+        });
+
+        if (settings?.ExclusionList == null)
             return true;
-        if (config.XpSettings.ExclusionList.Select(x => x.ItemId).Contains(channelId))
+        if (settings.ExclusionList.Select(x => x.ItemId).Contains(channelId))
             return false;
-        if (config.XpSettings.ExclusionList.Select(x => x.ItemId).Contains(user.Id))
+        if (settings.ExclusionList.Select(x => x.ItemId).Contains(user.Id))
             return false;
 
-        return !user.Roles.Any(i => config.XpSettings.ExclusionList.Select(x => x.ItemId).Contains(i.Id));
+        return !user.Roles.Any(i => settings.ExclusionList.Select(x => x.ItemId).Contains(i.Id));
     }
 
     private async Task Cmd_OnMessageNoTrigger(IUserMessage arg)
@@ -548,18 +636,19 @@ public class XpService : INService, IUnloadableService
         var key = $"{creds.RedisKey()}_user_xp_gain_{user.Id}";
         var cooldown = TimeSpan.FromMinutes(GetXpTimeout(user.Guild.Id).Result == 0 ? xpConfig.Data.MessageXpCooldown : GetXpTimeout(user.Guild.Id).Result);
 
-        if (localCache.TryGetValue(key, out var lastTime) && (DateTimeOffset.UtcNow - lastTime) < cooldown)
+        var maybeValue = cache.TryGet<DateTimeOffset>(key);
+        if (maybeValue.HasValue && (DateTimeOffset.UtcNow - maybeValue) < cooldown)
             return false;
 
-        localCache[key] = DateTimeOffset.UtcNow;
+        cache.Set(key, DateTimeOffset.UtcNow);
         return true;
     }
 
     /// <summary>
-    /// Adds XP directly to a user for their activity in a guild.
+    /// Adds XP directly to a user.
     /// </summary>
-    /// <param name="user">The user to whom XP will be added.</param>
-    /// <param name="channel">The channel where the activity occurred.</param>
+    /// <param name="user">The guild user instance.</param>
+    /// <param name="channel">The message channel instance.</param>
     /// <param name="amount">The amount of XP to add.</param>
     public void AddXpDirectly(IGuildUser user, IMessageChannel channel, int amount)
     {
@@ -572,12 +661,11 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Adds XP to a user in a guild, considering awarded XP.
+    /// Adds XP to a user in a guild asynchronously.
     /// </summary>
-    /// <param name="userId">The unique identifier of the user.</param>
-    /// <param name="guildId">The unique identifier of the guild.</param>
+    /// <param name="userId">The user ID.</param>
+    /// <param name="guildId">The guild ID.</param>
     /// <param name="amount">The amount of XP to add.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task AddXp(ulong userId, ulong guildId, int amount)
     {
         await using var uow = db.GetDbContext();
@@ -586,102 +674,138 @@ public class XpService : INService, IUnloadableService
         usr.AwardedXp += amount;
 
         await uow.SaveChangesAsync().ConfigureAwait(false);
+        await cache.RemoveAsync($"XpSettings_{guildId}");
     }
 
     /// <summary>
-    /// Sets the XP rate for text messages in a guild.
+    /// Sets the text XP rate for a guild asynchronously.
     /// </summary>
-    /// <param name="guild">The guild object.</param>
-    /// <param name="num">The XP rate to be set.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <param name="guild">The guild instance.</param>
+    /// <param name="num">The XP rate value.</param>
     public async Task XpTxtRateSet(IGuild guild, int num)
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.XpTxtRate = num;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
+        await cache.RemoveAsync($"XpSettings_{guild.Id}");
     }
 
     /// <summary>
-    /// Sets the XP timeout for text messages in a guild.
+    /// Sets the text XP timeout for a guild asynchronously.
     /// </summary>
-    /// <param name="guild">The guild object.</param>
-    /// <param name="num">The XP timeout to be set, in minutes.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <param name="guild">The guild instance.</param>
+    /// <param name="num">The XP timeout value.</param>
     public async Task XpTxtTimeoutSet(IGuild guild, int num)
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.XpTxtTimeout = num;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
+        await cache.RemoveAsync($"XpSettings_{guild.Id}");
     }
 
     /// <summary>
-    /// Sets the XP rate for voice channel participation in a guild.
+    /// Sets the voice XP rate for a guild asynchronously.
     /// </summary>
-    /// <param name="guild">The guild object.</param>
-    /// <param name="num">The XP rate to be set, per minute.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <param name="guild">The guild instance.</param>
+    /// <param name="num">The XP rate value.</param>
     public async Task XpVoiceRateSet(IGuild guild, int num)
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.XpVoiceRate = num;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
+        await cache.RemoveAsync($"XpSettings_{guild.Id}");
     }
 
     /// <summary>
-    /// Sets the XP timeout for voice channel participation in a guild.
+    /// Sets the voice XP timeout for a guild asynchronously.
     /// </summary>
-    /// <param name="guild">The guild object.</param>
-    /// <param name="num">The XP timeout to be set, in minutes.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <param name="guild">The guild instance.</param>
+    /// <param name="num">The XP timeout value.</param>
     public async Task XpVoiceTimeoutSet(IGuild guild, int num)
     {
         await using var uow = db.GetDbContext();
         var gc = await uow.ForGuildId(guild.Id, set => set);
         gc.XpVoiceTimeout = num;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
+        await cache.RemoveAsync($"XpSettings_{guild.Id}");
     }
 
     /// <summary>
-    /// Checks if a server is excluded from XP gain.
+    /// Determines whether a server is excluded from XP tracking.
     /// </summary>
-    /// <param name="id">The unique identifier of the guild.</param>
-    /// <returns>True if the server is excluded, otherwise false.</returns>
+    /// <param name="id">The server ID.</param>
     public async Task<bool> IsServerExcluded(ulong id)
     {
-        var config = await guildSettings.GetGuildConfig(id);
-        return config.XpSettings.ServerExcluded;
+        var settings = await GetOrAddCacheItem($"XpSettings_{id}", async () =>
+        {
+            await using var uow = db.GetDbContext();
+            var config = await uow.GuildConfigs
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.RoleRewards)
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.CurrencyRewards)
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.ExclusionList)
+                .FirstOrDefaultAsync(x => x.GuildId == id);
+            return config?.XpSettings;
+        });
+
+        return settings?.ServerExcluded ?? false;
     }
 
     /// <summary>
-    /// Retrieves a collection of role IDs excluded from XP gain in a specified guild.
+    /// Retrieves the roles excluded from XP tracking for a guild.
     /// </summary>
-    /// <param name="id">The unique identifier of the guild.</param>
-    /// <returns>An enumerable of role IDs excluded from XP gain.</returns>
+    /// <param name="id">The guild ID.</param>
     public async Task<IEnumerable<ulong>> GetExcludedRoles(ulong id)
     {
-        var config = await guildSettings.GetGuildConfig(id);
-        return config.XpSettings.ExclusionList.Where(x => x.ItemType == ExcludedItemType.Role).Select(x => x.ItemId);
+        var settings = await GetOrAddCacheItem($"XpSettings_{id}", async () =>
+        {
+            await using var uow = db.GetDbContext();
+            var config = await uow.GuildConfigs
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.RoleRewards)
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.CurrencyRewards)
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.ExclusionList)
+                .FirstOrDefaultAsync(x => x.GuildId == id);
+            return config?.XpSettings;
+        });
+
+        return settings?.ExclusionList.Where(x => x.ItemType == ExcludedItemType.Role).Select(x => x.ItemId) ?? Enumerable.Empty<ulong>();
     }
 
     /// <summary>
-    /// Retrieves a collection of channel IDs excluded from XP gain in a specified guild.
+    /// Retrieves the channels excluded from XP tracking for a guild.
     /// </summary>
-    /// <param name="id">The unique identifier of the guild.</param>
-    /// <returns>An enumerable of channel IDs excluded from XP gain.</returns>
+    /// <param name="id">The guild ID.</param>
     public async Task<IEnumerable<ulong>> GetExcludedChannels(ulong id)
     {
-        var config = await guildSettings.GetGuildConfig(id);
-        return config.XpSettings.ExclusionList.Where(x => x.ItemType == ExcludedItemType.Channel).Select(x => x.ItemId);
+        var settings = await GetOrAddCacheItem($"XpSettings_{id}", async () =>
+        {
+            await using var uow = db.GetDbContext();
+            var config = await uow.GuildConfigs
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.RoleRewards)
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.CurrencyRewards)
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.ExclusionList)
+                .FirstOrDefaultAsync(x => x.GuildId == id);
+            return config?.XpSettings;
+        });
+
+        return settings?.ExclusionList.Where(x => x.ItemType == ExcludedItemType.Channel).Select(x => x.ItemId) ?? Enumerable.Empty<ulong>();
     }
 
     /// <summary>
-    /// Retrieves the full user statistics, including Discord user information, XP statistics, and guild ranking.
+    /// Retrieves the user stats for a guild user asynchronously.
     /// </summary>
-    /// <param name="user">The guild user for whom statistics are being retrieved.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains the full user statistics.</returns>
+    /// <param name="user">The guild user instance.</param>
     public async Task<FullUserStats> GetUserStatsAsync(IGuildUser user)
     {
         DiscordUser du;
@@ -700,119 +824,146 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Toggles the exclusion of a server from XP gain.
+    /// Toggles the exclusion of a server from XP tracking.
     /// </summary>
-    /// <param name="id">The unique identifier of the server.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result indicates whether the server is now excluded.</returns>
+    /// <param name="id">The server ID.</param>
     public async Task<bool> ToggleExcludeServer(ulong id)
     {
-        var config = await guildSettings.GetGuildConfig(id);
-        await using var uow = db.GetDbContext();
-        var xpSetting = await uow.XpSettingsFor(id);
-        xpSetting.ServerExcluded = false;
-        config.XpSettings.ServerExcluded = false;
-        await guildSettings.UpdateGuildConfig(id, config);
+        var settings = await GetOrAddCacheItem($"XpSettings_{id}", async () =>
+        {
+            await using var uow = db.GetDbContext();
+            var config = await uow.GuildConfigs
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.RoleRewards)
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.CurrencyRewards)
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.ExclusionList)
+                .FirstOrDefaultAsync(x => x.GuildId == id);
+            return config?.XpSettings;
+        });
+
+        if (settings != null)
+        {
+            settings.ServerExcluded = !settings.ServerExcluded;
+            await using var uow = db.GetDbContext();
+            uow.Update(settings);
+            await uow.SaveChangesAsync();
+            await cache.SetAsync($"XpSettings_{id}", settings);
+            return settings.ServerExcluded;
+        }
+
+        return false;
+    }
+
+
+    /// <summary>
+    /// Toggles the exclusion of a role from XP tracking in a guild.
+    /// </summary>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="rId">The role ID.</param>
+    public async Task<bool> ToggleExcludeRole(ulong guildId, ulong rId)
+    {
+        var settings = await GetOrAddCacheItem($"XpSettings_{guildId}", async () =>
+        {
+            await using var uow = db.GetDbContext();
+            var config = await uow.GuildConfigs
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.RoleRewards)
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.CurrencyRewards)
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.ExclusionList)
+                .FirstOrDefaultAsync(x => x.GuildId == guildId);
+            return config?.XpSettings;
+        });
+
+        if (settings != null)
+        {
+            var excluded = settings.ExclusionList;
+            if (excluded.Select(x => x.ItemId).Contains(rId))
+            {
+                excluded.Remove(excluded.FirstOrDefault(x => x.ItemId == rId));
+            }
+            else
+            {
+                excluded.Add(new ExcludedItem
+                {
+                    ItemId = rId, ItemType = ExcludedItemType.Role
+                });
+            }
+
+            await using var uow = db.GetDbContext();
+            uow.Update(settings);
+            await uow.SaveChangesAsync();
+            await cache.SetAsync($"XpSettings_{guildId}", settings);
+            return excluded.Select(x => x.ItemId).Contains(rId);
+        }
+
         return false;
     }
 
     /// <summary>
-    /// Toggles the exclusion of a role from XP gain in a specified guild.
+    /// Retrieves the XP image URL for a guild asynchronously.
     /// </summary>
-    /// <param name="guildId">The unique identifier of the guild.</param>
-    /// <param name="rId">The unique identifier of the role.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result indicates whether the role is now excluded.</returns>
-
-    public async Task<bool> ToggleExcludeRole(ulong guildId, ulong rId)
+    /// <param name="guildId">The guild ID.</param>
+    public async Task<string?> GetXpImage(ulong guildId)
     {
-        var config = await guildSettings.GetGuildConfig(guildId);
-        var excluded = config.XpSettings.ExclusionList;
-        await using var uow = db.GetDbContext();
+        var settings = await guildSettings.GetGuildConfig(guildId);
 
-        if (excluded.Select(x => x.ItemId).Contains(rId))
-        {
-            excluded.Remove(excluded.FirstOrDefault(x => x.ItemId == rId));
-            config.XpSettings.ExclusionList = excluded;
-            await guildSettings.UpdateGuildConfig(guildId, config);
-            var xpSetting = await uow.XpSettingsFor(guildId);
-            xpSetting.ExclusionList.RemoveWhere(x => x.ItemId == rId);
-            uow.Update(xpSetting);
-            await uow.SaveChangesAsync().ConfigureAwait(false);
-            return false;
-        }
-        else
-        {
-            excluded.Add(new ExcludedItem
-            {
-                ItemId = rId, ItemType = ExcludedItemType.Role
-            });
-
-            config.XpSettings.ExclusionList = excluded;
-            await guildSettings.UpdateGuildConfig(guildId, config);
-            var xpSetting = await uow.XpSettingsFor(guildId);
-            xpSetting.ExclusionList.Add(new ExcludedItem
-            {
-                ItemId = rId, ItemType = ExcludedItemType.Role
-            });
-            await uow.SaveChangesAsync().ConfigureAwait(false);
-            return true;
-        }
-    }
-
-    private async Task<string?> GetXpImage(ulong guildId)
-    {
-        var config = await guildSettings.GetGuildConfig(guildId);
-        return config.XpImgUrl;
+        return settings?.XpImgUrl;
     }
 
     /// <summary>
-    /// Toggles the exclusion of a channel from XP gain in a specified guild.
+    /// Toggles the exclusion of a channel from XP tracking in a guild.
     /// </summary>
-    /// <param name="guildId">The unique identifier of the guild.</param>
-    /// <param name="chId">The unique identifier of the channel.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result indicates whether the channel is now excluded.</returns>
-
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="chId">The channel ID.</param>
     public async Task<bool> ToggleExcludeChannel(ulong guildId, ulong chId)
     {
-        var config = await guildSettings.GetGuildConfig(guildId);
-        var excluded = config.XpSettings.ExclusionList;
-        await using var uow = db.GetDbContext();
-
-        if (excluded.Select(x => x.ItemId).Contains(chId))
+        var settings = await GetOrAddCacheItem($"XpSettings_{guildId}", async () =>
         {
-            excluded.Remove(excluded.FirstOrDefault(x => x.ItemId == chId));
-            config.XpSettings.ExclusionList = excluded;
-            await guildSettings.UpdateGuildConfig(guildId, config);
-            var xpSetting = await uow.XpSettingsFor(guildId);
-            xpSetting.ExclusionList.RemoveWhere(x => x.ItemId == chId);
-            uow.Update(xpSetting);
-            await uow.SaveChangesAsync().ConfigureAwait(false);
-            return false;
-        }
-        else
-        {
-            excluded.Add(new ExcludedItem
-            {
-                ItemId = chId, ItemType = ExcludedItemType.Channel
-            });
+            await using var uow = db.GetDbContext();
+            var config = await uow.GuildConfigs
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.RoleRewards)
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.CurrencyRewards)
+                .Include(x => x.XpSettings)
+                .ThenInclude(x => x.ExclusionList)
+                .FirstOrDefaultAsync(x => x.GuildId == guildId);
+            return config?.XpSettings;
+        });
 
-            config.XpSettings.ExclusionList = excluded;
-            await guildSettings.UpdateGuildConfig(guildId, config);
-            var xpSetting = await uow.XpSettingsFor(guildId);
-            xpSetting.ExclusionList.Add(new ExcludedItem
+        if (settings != null)
+        {
+            var excluded = settings.ExclusionList;
+            if (excluded.Select(x => x.ItemId).Contains(chId))
             {
-                ItemId = chId, ItemType = ExcludedItemType.Channel
-            });
-            await uow.SaveChangesAsync().ConfigureAwait(false);
-            return true;
+                excluded.Remove(excluded.FirstOrDefault(x => x.ItemId == chId));
+            }
+            else
+            {
+                excluded.Add(new ExcludedItem
+                {
+                    ItemId = chId, ItemType = ExcludedItemType.Channel
+                });
+            }
+
+            await using var uow = db.GetDbContext();
+            uow.Update(settings);
+            await uow.SaveChangesAsync();
+            await cache.SetAsync($"XpSettings_{guildId}", settings);
+            return excluded.Select(x => x.ItemId).Contains(chId);
         }
+
+        return false;
     }
 
     /// <summary>
-    /// Generates an XP image for a user based on their statistics and a specified template.
+    /// Generates an XP image for a user asynchronously.
     /// </summary>
-    /// <param name="user">The guild user for whom the XP image is generated.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains the generated XP image as a stream.</returns>
-
+    /// <param name="user">The guild user instance.</param
     public async Task<Stream> GenerateXpImageAsync(IGuildUser user)
     {
         var stats = await GetUserStatsAsync(user).ConfigureAwait(false);
@@ -1012,11 +1163,9 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Retrieves or creates a default template for generating XP images in a specified guild.
+    /// Retrieves the template for a guild asynchronously.
     /// </summary>
-    /// <param name="guildId">The unique identifier of the guild.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains the template used for generating XP images.</returns>
-
+    /// <param name="guildId">The guild ID.</param>
     public async Task<Template> GetTemplate(ulong guildId)
     {
         await using var uow = db.GetDbContext();
@@ -1048,10 +1197,10 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Resets the XP statistics for a specific user in a specific guild.
+    /// Resets the XP for a user in a guild.
     /// </summary>
-    /// <param name="guildId">The unique identifier of the guild.</param>
-    /// <param name="userId">The unique identifier of the user.</param>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="userId">The user ID.</param>
     public void XpReset(ulong guildId, ulong userId)
     {
         using var uow = db.GetDbContext();
@@ -1060,9 +1209,9 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Resets the XP statistics for all users in a specific guild.
+    /// Resets the XP for all users in a guild.
     /// </summary>
-    /// <param name="guildId">The unique identifier of the guild.</param>
+    /// <param name="guildId">The guild ID.</param>
     public void XpReset(ulong guildId)
     {
         using var uow = db.GetDbContext();
@@ -1071,11 +1220,10 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Sets a custom image URL for the XP image background in a specified guild.
+    /// Sets the XP image URL for a guild asynchronously.
     /// </summary>
-    /// <param name="guildId">The unique identifier of the guild.</param>
-    /// <param name="imageUrl">The URL of the image to be used as the background.</param>
-    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <param name="guildId">The guild ID.</param>
+    /// <param name="imageUrl">The image URL.</param>
     public async Task SetImageUrl(ulong guildId, string imageUrl)
     {
         await using var uow = db.GetDbContext();
@@ -1087,10 +1235,9 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Validates a given image URL for use as a custom XP image background.
+    /// Validates an image URL asynchronously.
     /// </summary>
-    /// <param name="url">The URL of the image to be validated.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains a tuple indicating the validation message and whether the URL is valid.</returns>
+    /// <param name="url">The image URL.</param>
     public static async Task<(string, bool)> ValidateImageUrl(string url)
     {
         if (!Uri.IsWellFormedUriString(url, UriKind.Absolute))
