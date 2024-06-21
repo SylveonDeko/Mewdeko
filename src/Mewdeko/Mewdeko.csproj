@@ -33,11 +33,11 @@
     <!--    happy pride 🏳️‍⚧️ 🏳️‍🌈-->
 
   <ItemGroup>
-    <PackageReference Include="Discord.Net.WebSocket" Version="3.15.0" />
-    <PackageReference Include="Discord.Net.Rest" Version="3.15.0" />
-    <PackageReference Include="Discord.Net.Webhook" Version="3.15.0" />
-    <PackageReference Include="Discord.Net.Interactions" Version="3.15.0" />
-    <PackageReference Include="Discord.Net.Commands" Version="3.15.0" />
+    <PackageReference Include="Discord.Net.WebSocket" Version="3.15.2" />
+    <PackageReference Include="Discord.Net.Rest" Version="3.15.2" />
+    <PackageReference Include="Discord.Net.Webhook" Version="3.15.2" />
+    <PackageReference Include="Discord.Net.Interactions" Version="3.15.2" />
+    <PackageReference Include="Discord.Net.Commands" Version="3.15.2" />
     <PackageReference Include="ZiggyCreatures.FusionCache" Version="1.2.0" />
   </ItemGroup>
 
