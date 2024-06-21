@@ -13,11 +13,12 @@ public sealed class MewdekoPostgresContext(string connStr = "") : MewdekoContext
     {
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
+        base.OnConfiguring(optionsBuilder);
+
         optionsBuilder
+            .LogTo(Log.Information)
             .EnableDetailedErrors()
             .EnableSensitiveDataLogging()
             .UseNpgsql(connStr);
-
-        base.OnConfiguring(optionsBuilder);
     }
 }
