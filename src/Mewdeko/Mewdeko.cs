@@ -64,7 +64,7 @@ public class Mewdeko
         Client = new DiscordShardedClient(new DiscordSocketConfig
         {
             MessageCacheSize = 15,
-            LogLevel = LogSeverity.Info,
+            LogLevel = LogSeverity.Debug,
             ConnectionTimeout = int.MaxValue,
             AlwaysDownloadUsers = true,
             GatewayIntents = GatewayIntents.All,
@@ -312,10 +312,6 @@ public class Mewdeko
         Log.Information("Logged in.");
         Log.Information("Logged in as:");
         Console.WriteLine(FiggleFonts.Digital.Render(Client.CurrentUser.Username));
-
-#if !DEBUG
-        Client.Log -= Client_Log;
-#endif
     }
 
     private Task Client_LeftGuild(SocketGuild arg)
