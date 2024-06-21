@@ -39,7 +39,7 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     private readonly IBotStrings strings;
     private readonly XpConfigService xpConfig;
 
-    private readonly FusionCache cache;
+    private readonly IFusionCache cache;
 
     /// <summary>
     /// Represents a service that handles experience points (XP) in the bot
@@ -63,7 +63,7 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
         Mewdeko bot,
         EventHandler eventHandler,
         GuildSettingsService guildSettings,
-        FusionCache cache)
+        IFusionCache cache)
     {
         this.db = db;
         this.cmd = cmd;
