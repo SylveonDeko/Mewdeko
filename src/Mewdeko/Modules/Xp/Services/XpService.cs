@@ -252,14 +252,13 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
         sw.Start();
         await using var uow = db.GetDbContext();
 
-        var guildConfigs = await uow.GuildConfigs.ToLinqToDB().AsNoTracking()
+        var guildConfigs = uow.GuildConfigs.ToLinqToDB().AsNoTracking()
             .Include(x => x.XpSettings)
             .ThenInclude(x => x.RoleRewards)
             .Include(x => x.XpSettings)
             .ThenInclude(x => x.CurrencyRewards)
             .Include(x => x.XpSettings)
-            .ThenInclude(x => x.ExclusionList)
-            .ToListAsync();
+            .ThenInclude(x => x.ExclusionList);
 
         sw.Stop();
         Log.Information($"Xp Settings cached in {sw.Elapsed}");
