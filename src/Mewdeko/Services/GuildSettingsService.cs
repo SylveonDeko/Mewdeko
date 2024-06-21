@@ -68,11 +68,11 @@ namespace Mewdeko.Services
                 return configExists;
 
             await using var uow = db.GetDbContext();
-            var toLoad = uow.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.GuildId == guildId);
+            var toLoad = uow.GuildConfigs.FirstOrDefault(x => x.GuildId == guildId);
             if (toLoad is null)
             {
                 await uow.ForGuildId(guildId);
-                toLoad = uow.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.GuildId == guildId);
+                toLoad = uow.GuildConfigs.FirstOrDefault(x => x.GuildId == guildId);
             }
 
             await cache.SetAsync($"guildconfig_{guildId}", toLoad);
@@ -91,7 +91,7 @@ namespace Mewdeko.Services
             try
             {
                 await using var uow = db.GetDbContext();
-                var config = uow.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.Id == toUpdate.Id);
+                var config = uow.GuildConfigs.FirstOrDefault(x => x.Id == toUpdate.Id);
                     if (config != null)
                     {
                         var properties = typeof(GuildConfig).GetProperties();
