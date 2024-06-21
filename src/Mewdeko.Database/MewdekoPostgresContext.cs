@@ -16,7 +16,6 @@ public sealed class MewdekoPostgresContext(string connStr = "") : MewdekoContext
         base.OnConfiguring(optionsBuilder);
 
         optionsBuilder
-            .LogTo(Log.Information)
             .EnableDetailedErrors()
             .EnableSensitiveDataLogging()
             .UseNpgsql(connStr);
