@@ -274,11 +274,11 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
 
     private async Task<T> GetOrAddCacheItem<T>(string key, Func<Task<T>> factory)
     {
-        var sw = new Stopwatch();
-        sw.Start();
+        // var sw = new Stopwatch();
+        // sw.Start();
         var fu = await cache.GetOrSetAsync(key, factory);
-        sw.Stop();
-        Log.Information($"Cache save/get completed for {key} in {sw.Elapsed}");
+        // sw.Stop();
+        // Log.Information($"Cache save/get completed for {key} in {sw.Elapsed}");
         return await fu.Invoke();
     }
 
