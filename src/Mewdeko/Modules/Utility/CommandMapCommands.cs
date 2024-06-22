@@ -15,7 +15,7 @@ public partial class Utility
     /// <param name="db">The database service.</param>
     /// <param name="serv">The interactive service.</param>
     [Group]
-    public class CommandMapCommands(DbService db, InteractiveService serv, GuildSettingsService service)
+    public class CommandMapCommands(MewdekoContext dbContext, InteractiveService serv, GuildSettingsService service)
         : MewdekoSubmodule<CommandMapService>
     {
         /// <summary>
@@ -55,14 +55,14 @@ public partial class Utility
                     return;
                 }
 
-                var uow = db.GetDbContext();
-                await using (uow.ConfigureAwait(false))
+
+                await using (dbContext.ConfigureAwait(false))
                 {
-                    var config = await uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
+                    var config = await dbContext.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
                     var tr = config.CommandAliases.FirstOrDefault(x => x.Trigger == trigger);
                     if (tr != null)
-                        uow.Set<CommandAlias>().Remove(tr);
-                    await uow.SaveChangesAsync().ConfigureAwait(false);
+                        dbContext.Set<CommandAlias>().Remove(tr);
+                    await dbContext.SaveChangesAsync().ConfigureAwait(false);
                     await service.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
                 }
 
@@ -70,20 +70,20 @@ public partial class Utility
                 return;
             }
 
-            await using (var uow = db.GetDbContext())
+            await using (dbContext.ConfigureAwait(false))
             {
-                var config = uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases)).GetAwaiter()
+                var config = dbContext.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases)).GetAwaiter()
                     .GetResult();
                 config.CommandAliases.Add(new CommandAlias
                 {
                     Mapping = mapping, Trigger = trigger
                 });
-                await uow.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
                 await service.UpdateGuildConfig(ctx.Guild.Id, config);
-            }
 
-            await ReplyConfirmLocalizedAsync("alias_added", Format.Code(trigger), Format.Code(mapping))
-                .ConfigureAwait(false);
+                await ReplyConfirmLocalizedAsync("alias_added", Format.Code(trigger), Format.Code(mapping))
+                    .ConfigureAwait(false);
+            }
         }
 
         /// <summary>

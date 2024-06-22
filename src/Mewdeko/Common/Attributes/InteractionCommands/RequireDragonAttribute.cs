@@ -19,13 +19,12 @@ public class RequireDragonAttribute : PreconditionAttribute
         ICommandInfo commandInfo, IServiceProvider services)
     {
         // Get the database service.
-        var db = services.GetRequiredService(typeof(DbService)) as DbService;
+        var db = services.GetRequiredService<MewdekoContext>();
 
         // Get the database context.
-        await using var ctx = db.GetDbContext();
 
         // Get or create the user in the database.
-        var user = await ctx.GetOrCreateUser(context.User);
+        var user = await db.GetOrCreateUser(context.User);
 
         // If the user has the dragon status, return success.
         // Otherwise, return an error with a message.

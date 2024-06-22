@@ -11,7 +11,7 @@ namespace Mewdeko.Modules.Utility;
 /// Handles commands for setting, viewing, and managing reminders.
 /// </summary>
 [Group("remind", "remind")]
-public class SlashRemindCommands(DbService db, GuildTimezoneService tz) : MewdekoSlashModuleBase<RemindService>
+public class SlashRemindCommands(MewdekoContext dbContext, GuildTimezoneService tz) : MewdekoSlashModuleBase<RemindService>
 {
     /// <summary>
     /// Sends a reminder to the user invoking the command.
@@ -148,11 +148,11 @@ public class SlashRemindCommands(DbService db, GuildTimezoneService tz) : Mewdek
             ServerId = ctx.Guild?.Id ?? 0
         };
 
-        var uow = db.GetDbContext();
-        await using (uow.ConfigureAwait(false))
+
+        await using (dbContext.ConfigureAwait(false))
         {
-            uow.Reminders.Add(rem);
-            await uow.SaveChangesAsync().ConfigureAwait(false);
+            dbContext.Reminders.Add(rem);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
         var gTime = ctx.Guild == null
@@ -192,10 +192,10 @@ public class SlashRemindCommands(DbService db, GuildTimezoneService tz) : Mewdek
             .WithTitle(GetText("reminder_list"));
 
         List<Reminder> rems;
-        var uow = db.GetDbContext();
-        await using (uow.ConfigureAwait(false))
+
+        await using (dbContext.ConfigureAwait(false))
         {
-            rems = uow.Reminders.RemindersFor(ctx.User.Id, page)
+            rems = dbContext.Reminders.RemindersFor(ctx.User.Id, page)
                 .ToList();
         }
 
@@ -236,17 +236,17 @@ public class SlashRemindCommands(DbService db, GuildTimezoneService tz) : Mewdek
             return;
 
         Reminder? rem = null;
-        var uow = db.GetDbContext();
-        await using (uow.ConfigureAwait(false))
+
+        await using (dbContext.ConfigureAwait(false))
         {
-            var rems = uow.Reminders.RemindersFor(ctx.User.Id, index / 10)
+            var rems = dbContext.Reminders.RemindersFor(ctx.User.Id, index / 10)
                 .ToList();
             var pageIndex = index % 10;
             if (rems.Count > pageIndex)
             {
                 rem = rems[pageIndex];
-                uow.Reminders.Remove(rem);
-                await uow.SaveChangesAsync().ConfigureAwait(false);
+                dbContext.Reminders.Remove(rem);
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
 

@@ -9,7 +9,7 @@ namespace Mewdeko.Modules.MultiGreets.Services;
 public class MultiGreetService : INService
 {
     private readonly DiscordShardedClient client;
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
     private readonly GuildSettingsService guildSettingsService;
 
 
@@ -20,12 +20,12 @@ public class MultiGreetService : INService
     /// <param name="client">The discord client</param>
     /// <param name="guildSettingsService">The guild settings service</param>
     /// <param name="eventHandler">The event handler that i had to make because dnet has never heard of multithreading events</param>
-    public MultiGreetService(DbService db, DiscordShardedClient client,
+    public MultiGreetService(MewdekoContext dbContext, DiscordShardedClient client,
         GuildSettingsService guildSettingsService, EventHandler eventHandler)
     {
         this.client = client;
         this.guildSettingsService = guildSettingsService;
-        this.db = db;
+        this.dbContext = dbContext;
         eventHandler.UserJoined += DoMultiGreet;
     }
 
@@ -34,9 +34,9 @@ public class MultiGreetService : INService
     /// </summary>
     /// <param name="guildId">The guild id</param>
     /// <returns>An array of <see cref="MultiGreet"/></returns>
-    public MultiGreet?[] GetGreets(ulong guildId) => db.GetDbContext().MultiGreets.GetAllGreets(guildId);
+    public MultiGreet?[] GetGreets(ulong guildId) => dbContext.MultiGreets.GetAllGreets(guildId);
 
-    private MultiGreet?[] GetForChannel(ulong channelId) => db.GetDbContext().MultiGreets.GetForChannel(channelId);
+    private MultiGreet?[] GetForChannel(ulong channelId) => dbContext.MultiGreets.GetForChannel(channelId);
 
     private async Task DoMultiGreet(IGuildUser user)
     {
@@ -244,8 +244,8 @@ public class MultiGreetService : INService
     /// <param name="type">The type to set</param>
     public async Task SetMultiGreetType(IGuild guild, int type)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.MultiGreetType = type;
         await guildSettingsService.UpdateGuildConfig(guild.Id, gc);
     }
@@ -274,9 +274,9 @@ public class MultiGreetService : INService
         {
             ChannelId = channelId, GuildId = guildId
         };
-        using var uow = db.GetDbContext();
-        uow.MultiGreets.Add(toadd);
-        uow.SaveChangesAsync();
+
+        dbContext.MultiGreets.Add(toadd);
+        dbContext.SaveChangesAsync();
         return true;
     }
 
@@ -287,10 +287,10 @@ public class MultiGreetService : INService
     /// <param name="code">The new message</param>
     public async Task ChangeMgMessage(MultiGreet greet, string code)
     {
-        await using var uow = db.GetDbContext();
+
         greet.Message = code;
-        uow.MultiGreets.Update(greet);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        dbContext.MultiGreets.Update(greet);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -300,10 +300,10 @@ public class MultiGreetService : INService
     /// <param name="howlong">The new delete time</param>
     public async Task ChangeMgDelete(MultiGreet greet, int howlong)
     {
-        await using var uow = db.GetDbContext();
+
         greet.DeleteTime = howlong;
-        uow.MultiGreets.Update(greet);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        dbContext.MultiGreets.Update(greet);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -313,10 +313,10 @@ public class MultiGreetService : INService
     /// <param name="enabled">Whether to greet bots</param>
     public async Task ChangeMgGb(MultiGreet greet, bool enabled)
     {
-        await using var uow = db.GetDbContext();
+
         greet.GreetBots = enabled;
-        uow.MultiGreets.Update(greet);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        dbContext.MultiGreets.Update(greet);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -326,10 +326,10 @@ public class MultiGreetService : INService
     /// <param name="webhookurl">The new webhook url</param>
     public async Task ChangeMgWebhook(MultiGreet greet, string webhookurl)
     {
-        await using var uow = db.GetDbContext();
+
         greet.WebhookUrl = webhookurl;
-        uow.MultiGreets.Update(greet);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        dbContext.MultiGreets.Update(greet);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -338,10 +338,10 @@ public class MultiGreetService : INService
     /// <param name="greet">The greet to remove</param>
     public async Task RemoveMultiGreetInternal(MultiGreet greet)
     {
-        var uow = db.GetDbContext();
-        await using var _ = uow.ConfigureAwait(false);
-        uow.MultiGreets.Remove(greet);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+
+        await using var _ = dbContext.ConfigureAwait(false);
+        dbContext.MultiGreets.Remove(greet);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -350,10 +350,10 @@ public class MultiGreetService : INService
     /// <param name="greet">The greets to remove</param>
     public async Task MultiRemoveMultiGreetInternal(MultiGreet[] greet)
     {
-        var uow = db.GetDbContext();
-        await using var _ = uow.ConfigureAwait(false);
-        uow.MultiGreets.RemoveRange(greet);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+
+        await using var _ = dbContext.ConfigureAwait(false);
+        dbContext.MultiGreets.RemoveRange(greet);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -363,9 +363,9 @@ public class MultiGreetService : INService
     /// <param name="disabled">Whether to disable the greet</param>
     public async Task MultiGreetDisable(MultiGreet greet, bool disabled)
     {
-        var uow = db.GetDbContext();
+
         greet.Disabled = disabled;
-        uow.MultiGreets.Update(greet);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        dbContext.MultiGreets.Update(greet);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 }

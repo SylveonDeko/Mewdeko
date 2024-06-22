@@ -9,7 +9,7 @@ namespace Mewdeko.Modules.Starboard.Services;
 public class StarboardService : INService, IReadyExecutor
 {
     private readonly DiscordShardedClient client;
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
     private readonly GuildSettingsService guildSettings;
 
     private List<StarboardPosts> starboardPosts = new();
@@ -21,11 +21,11 @@ public class StarboardService : INService, IReadyExecutor
     /// <param name="db">The database service.</param>
     /// <param name="bot">The guild settings service.</param>
     /// <param name="eventHandler">The event handler.</param>
-    public StarboardService(DiscordShardedClient client, DbService db,
+    public StarboardService(DiscordShardedClient client, MewdekoContext dbContext,
         GuildSettingsService bot, EventHandler eventHandler)
     {
         this.client = client;
-        this.db = db;
+        this.dbContext = dbContext;
         guildSettings = bot;
         eventHandler.ReactionAdded += OnReactionAddedAsync;
         eventHandler.MessageDeleted += OnMessageDeletedAsync;
@@ -39,8 +39,8 @@ public class StarboardService : INService, IReadyExecutor
         Log.Information($"Starting {this.GetType()} Cache");
         _ = Task.Run(async () =>
         {
-            await using var uow = db.GetDbContext();
-            var all = (await uow.Starboard.All()).ToList();
+
+            var all = (await dbContext.Starboard.All()).ToList();
             starboardPosts = all.Count!=0 ? all : [];
             Log.Information("Starboard Posts Cached");
         });
@@ -49,7 +49,7 @@ public class StarboardService : INService, IReadyExecutor
 
     private async Task AddStarboardPost(ulong messageId, ulong postId)
     {
-        await using var uow = db.GetDbContext();
+
         var post = starboardPosts.Find(x => x.MessageId == messageId);
         if (post is null)
         {
@@ -58,8 +58,8 @@ public class StarboardService : INService, IReadyExecutor
                 MessageId = messageId, PostId = postId
             };
             starboardPosts.Add(toAdd);
-            uow.Starboard.Add(toAdd);
-            await uow.SaveChangesAsync().ConfigureAwait(false);
+            dbContext.Starboard.Add(toAdd);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             return;
         }
 
@@ -68,18 +68,18 @@ public class StarboardService : INService, IReadyExecutor
 
         starboardPosts.Remove(post);
         post.PostId = postId;
-        uow.Starboard.Update(post);
+        dbContext.Starboard.Update(post);
         starboardPosts.Add(post);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     private async Task RemoveStarboardPost(ulong messageId)
     {
         var toRemove = starboardPosts.Find(x => x.MessageId == messageId);
-        await using var uow = db.GetDbContext();
-        uow.Starboard.Remove(toRemove);
+
+        dbContext.Starboard.Remove(toRemove);
         starboardPosts.Remove(toRemove);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -90,8 +90,8 @@ public class StarboardService : INService, IReadyExecutor
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task SetStarboardChannel(IGuild guild, ulong channel)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.StarboardChannel = channel;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -104,8 +104,8 @@ public class StarboardService : INService, IReadyExecutor
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task SetStarboardAllowBots(IGuild guild, bool enabled)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.StarboardAllowBots = enabled;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -118,8 +118,8 @@ public class StarboardService : INService, IReadyExecutor
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task SetRemoveOnDelete(IGuild guild, bool removeOnDelete)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.StarboardRemoveOnDelete = removeOnDelete;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -132,8 +132,8 @@ public class StarboardService : INService, IReadyExecutor
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task SetRemoveOnClear(IGuild guild, bool removeOnClear)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.StarboardRemoveOnReactionsClear = removeOnClear;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -146,8 +146,8 @@ public class StarboardService : INService, IReadyExecutor
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task SetRemoveOnBelowThreshold(IGuild guild, bool removeOnBelowThreshold)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.StarboardRemoveOnBelowThreshold = removeOnBelowThreshold;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -160,8 +160,8 @@ public class StarboardService : INService, IReadyExecutor
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task SetCheckMode(IGuild guild, bool checkmode)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.UseStarboardBlacklist = checkmode;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -174,13 +174,13 @@ public class StarboardService : INService, IReadyExecutor
     /// <returns><c>true</c> if the channel is added to the check list; otherwise, <c>false</c>.</returns>
     public async Task<bool> ToggleChannel(IGuild guild, string id)
     {
-        await using var uow = db.GetDbContext();
+
         var channels = (await GetCheckedChannels(guild.Id)).Split(" ").ToList();
         if (!channels.Contains(id))
         {
             channels.Add(id);
             var joinedchannels = string.Join(" ", channels);
-            var gc = await uow.ForGuildId(guild.Id, set => set);
+            var gc = await dbContext.ForGuildId(guild.Id, set => set);
             gc.StarboardCheckChannels = joinedchannels;
             await guildSettings.UpdateGuildConfig(guild.Id, gc);
             return false;
@@ -189,7 +189,7 @@ public class StarboardService : INService, IReadyExecutor
         channels.Remove(id);
         var joinedchannels1 = string.Join(" ", channels);
 
-        var gc1 = await uow.ForGuildId(guild.Id, set => set);
+        var gc1 = await dbContext.ForGuildId(guild.Id, set => set);
         gc1.StarboardCheckChannels = joinedchannels1;
         await guildSettings.UpdateGuildConfig(guild.Id, gc1);
         return true;
@@ -203,8 +203,8 @@ public class StarboardService : INService, IReadyExecutor
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task SetStarCount(IGuild guild, int num)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.Stars = num;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -260,8 +260,8 @@ public class StarboardService : INService, IReadyExecutor
     /// <param name="emote">The emote to use as a star.</param>
     public async Task SetStar(IGuild guild, string emote)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.Star2 = emote;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -274,8 +274,8 @@ public class StarboardService : INService, IReadyExecutor
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SetRepostThreshold(IGuild guild, int threshold)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.RepostThreshold = threshold;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }

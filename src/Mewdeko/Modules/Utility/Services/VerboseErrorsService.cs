@@ -15,7 +15,7 @@ public class VerboseErrorsService : INService, IUnloadableService
 {
     private readonly BotConfigService botConfigService;
     private readonly CommandHandler ch;
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
     private readonly GuildSettingsService guildSettings;
     private readonly IServiceProvider services;
     private readonly IBotStrings strings;
@@ -30,7 +30,7 @@ public class VerboseErrorsService : INService, IUnloadableService
     /// <param name="services">The service provider.</param>
     /// <param name="botConfigService">The bot configuration service.</param>
     /// <param name="bot">The bot instance.</param>
-    public VerboseErrorsService(DbService db, CommandHandler ch,
+    public VerboseErrorsService(MewdekoContext dbContext, CommandHandler ch,
         IBotStrings strings,
         GuildSettingsService guildSettings,
         IServiceProvider services, BotConfigService botConfigService, Mewdeko bot)
@@ -39,7 +39,7 @@ public class VerboseErrorsService : INService, IUnloadableService
         this.guildSettings = guildSettings;
         this.services = services;
         this.botConfigService = botConfigService;
-        this.db = db;
+        this.dbContext = dbContext;
         this.ch = ch;
         this.ch.CommandErrored += LogVerboseError;
     }
@@ -108,8 +108,8 @@ public class VerboseErrorsService : INService, IUnloadableService
     /// <returns>True if verbose errors are enabled after the operation; otherwise, false.</returns>
     public async Task<bool> ToggleVerboseErrors(ulong guildId, bool? enabled = null)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guildId, set => set);
+
+        var gc = await dbContext.ForGuildId(guildId, set => set);
         gc.VerboseErrors = !gc.VerboseErrors;
 
         await guildSettings.UpdateGuildConfig(guildId, gc);

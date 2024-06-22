@@ -17,10 +17,10 @@ public partial class Games : MewdekoModuleBase<GamesService>
     /// <param name="data">The data cache service.</param>
     /// <param name="db">The database service.</param>
     /// <param name="config">Bot config service.</param>
-    public Games(IDataCache data, DbService db, BotConfig config)
+    public Games(IDataCache data, MewdekoContext dbContext, BotConfig config)
     {
         this.config = config;
-        (_, this.db) = (data.LocalImages, db.GetDbContext());
+        (_, this.db) = (data.LocalImages, dbContext);
     }
 
     /// <summary>

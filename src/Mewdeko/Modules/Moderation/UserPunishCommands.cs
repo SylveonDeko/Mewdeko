@@ -26,7 +26,7 @@ public partial class Moderation : MewdekoModule
     [Group]
     public class UserPunishCommands(
         MuteService mute,
-        DbService db,
+        MewdekoContext dbContext,
         InteractiveService serv,
         NekosBestApi nekos,
         BotConfigService config)
@@ -405,8 +405,8 @@ public partial class Moderation : MewdekoModule
             await ctx.Channel.EmbedAsync(embed);
             if (await Service.GetWarnlogChannel(ctx.Guild.Id) != 0)
             {
-                var uow = db.GetDbContext();
-                var warnings = uow.Warnings
+
+                var warnings = dbContext.Warnings
                     .ForId(ctx.Guild.Id, user.Id)
                     .Count(w => !w.Forgiven && w.UserId == user.Id);
                 var condition = punishment != null;

@@ -1,23 +1,16 @@
-﻿using System.Data.Common;
-using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
 using Serilog;
 
-namespace Mewdeko.Database;
-
-public sealed class MewdekoPostgresContext(string connStr = "") : MewdekoContext
+namespace Mewdeko.Database
 {
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    /// <summary>
+    /// Represents the database context for Mewdeko using PostgreSQL.
+    /// </summary>
+    public class MewdekoPostgresContext : MewdekoContext
     {
-        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        public MewdekoPostgresContext(DbContextOptions<MewdekoPostgresContext> options) : base(options)
+        {
 
-        base.OnConfiguring(optionsBuilder);
-
-        optionsBuilder
-            .EnableDetailedErrors()
-            .EnableSensitiveDataLogging()
-            .UseNpgsql(connStr);
+        }
     }
 }

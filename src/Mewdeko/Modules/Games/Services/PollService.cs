@@ -10,19 +10,19 @@ namespace Mewdeko.Modules.Games.Services
     /// </summary>
     public class PollService : INService
     {
-        private readonly DbService db;
+        private readonly MewdekoContext dbContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PollService"/> class.
         /// </summary>
         /// <param name="db">The database service.</param>
-        public PollService(DbService db)
+        public PollService(MewdekoContext dbContext)
         {
-            this.db = db;
+            this.dbContext = dbContext;
 
-            using var uow = db.GetDbContext();
-            ActivePolls = uow.Poll.GetAllPolls()
-                .ToDictionary(x => x.GuildId, x => new PollRunner(db, x))
+
+            ActivePolls = dbContext.Poll.GetAllPolls()
+                .ToDictionary(x => x.GuildId, x => new PollRunner(this.dbContext, x))
                 .ToConcurrent();
         }
 
@@ -95,11 +95,11 @@ namespace Mewdeko.Modules.Games.Services
         /// <returns>True if the poll started successfully, otherwise false.</returns>
         public bool StartPoll(Poll p)
         {
-            var pr = new PollRunner(db, p);
+            var pr = new PollRunner(dbContext, p);
             if (!ActivePolls.TryAdd(p.GuildId, pr)) return false;
-            using var uow = db.GetDbContext();
-            uow.Poll.Add(p);
-            uow.SaveChanges();
+
+            dbContext.Poll.Add(p);
+            dbContext.SaveChanges();
             return true;
         }
 
@@ -111,11 +111,8 @@ namespace Mewdeko.Modules.Games.Services
         public async Task<Poll?> StopPoll(ulong guildId)
         {
             if (!ActivePolls.TryRemove(guildId, out var pr)) return null;
-            await using (var uow = db.GetDbContext())
-            {
-                await uow.RemovePoll(pr.Poll.Id);
-                await uow.SaveChangesAsync();
-            }
+                await dbContext.RemovePoll(pr.Poll.Id);
+                await dbContext.SaveChangesAsync();
 
             return pr.Poll;
         }

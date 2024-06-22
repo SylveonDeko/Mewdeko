@@ -12,7 +12,7 @@ public partial class UtilityService : INService
 {
     private readonly IDataCache cache;
     private readonly DiscordShardedClient client;
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
     private readonly GuildSettingsService guildSettings;
 
     /// <summary>
@@ -24,7 +24,7 @@ public partial class UtilityService : INService
     /// <param name="eventHandler">The event handler service.</param>
     /// <param name="client">The Discord client.</param>
     public UtilityService(
-        DbService db,
+        MewdekoContext dbContext,
         IDataCache cache,
         GuildSettingsService guildSettings,
         EventHandler eventHandler,
@@ -34,7 +34,7 @@ public partial class UtilityService : INService
         eventHandler.MessageUpdated += MsgStore2;
         eventHandler.MessageReceived += MsgReciev;
         eventHandler.MessagesBulkDeleted += BulkMsgStore;
-        this.db = db;
+        this.dbContext = dbContext;
         this.cache = cache;
         this.guildSettings = guildSettings;
         this.client = client;
@@ -63,7 +63,7 @@ public partial class UtilityService : INService
     public async Task PreviewLinks(IGuild guild, string yesnt)
     {
         var yesno = -1;
-        await using (db.GetDbContext().ConfigureAwait(false))
+        await using (dbContext.ConfigureAwait(false))
         {
             yesno = yesnt switch
             {
@@ -73,10 +73,10 @@ public partial class UtilityService : INService
             };
         }
 
-        var uow = db.GetDbContext();
-        await using (uow.ConfigureAwait(false))
+
+        await using (dbContext.ConfigureAwait(false))
         {
-            var gc = await uow.ForGuildId(guild.Id, set => set);
+            var gc = await dbContext.ForGuildId(guild.Id, set => set);
             gc.PreviewLinks = yesno;
             await guildSettings.UpdateGuildConfig(guild.Id, gc);
         }
@@ -97,10 +97,10 @@ public partial class UtilityService : INService
     /// <param name="enabled">A boolean indicating whether to enable or disable snipe set.</param>
     public async Task SnipeSet(IGuild guild, bool enabled)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.snipeset = enabled; // Converting bool to long
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 

@@ -7,7 +7,7 @@ namespace Mewdeko.Modules.Administration.Services;
 /// </summary>
 public class GameVoiceChannelService : INService
 {
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
     private readonly GuildSettingsService guildSettings;
 
     /// <summary>
@@ -16,10 +16,10 @@ public class GameVoiceChannelService : INService
     /// <param name="db">The database service.</param>
     /// <param name="guildSettings">The guild settings service.</param>
     /// <param name="eventHandler">The event handler.</param>
-    public GameVoiceChannelService(DbService db,
+    public GameVoiceChannelService(MewdekoContext dbContext,
         GuildSettingsService guildSettings, EventHandler eventHandler)
     {
-        this.db = db;
+        this.dbContext = dbContext;
         this.guildSettings = guildSettings;
 
         eventHandler.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
@@ -67,8 +67,8 @@ public class GameVoiceChannelService : INService
     public async Task<ulong?> ToggleGameVoiceChannel(ulong guildId, ulong vchId)
     {
         ulong? id;
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guildId, set => set);
+
+        var gc = await dbContext.ForGuildId(guildId, set => set);
 
         if (gc.GameVoiceChannel == vchId)
         {

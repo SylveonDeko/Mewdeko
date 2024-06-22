@@ -8,7 +8,7 @@ namespace Mewdeko.Api.Services;
 /// Service for managing guild settings.
 /// </summary>
 public class GuildSettingsService(
-    DbService db,
+    MewdekoContext dbContext,
     RedisCache cache)
 {
     /// <summary>
@@ -20,12 +20,12 @@ public class GuildSettingsService(
         if (configExists != null)
             return configExists;
 
-        await using var uow = db.GetDbContext();
-        var toLoad = uow.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.GuildId == guildId);
+
+        var toLoad = dbContext.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.GuildId == guildId);
         if (toLoad is null)
         {
-            await uow.ForGuildId(guildId);
-            toLoad = uow.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.GuildId == guildId);
+            await dbContext.ForGuildId(guildId);
+            toLoad = dbContext.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.GuildId == guildId);
         }
 
         await cache.SetGuildConfigCache(guildId, toLoad!);
@@ -37,7 +37,7 @@ public class GuildSettingsService(
     /// </summary>
     public async Task UpdateGuildConfig(ulong guildId, GuildConfig toUpdate)
     {
-        await using var uow = db.GetDbContext();
+
         var exists = await cache.GetGuildConfigCache(guildId);
 
         if (exists is not null)
@@ -55,12 +55,12 @@ public class GuildSettingsService(
             }
 
             await cache.SetGuildConfigCache(guildId, exists);
-            uow.GuildConfigs.Update(exists);
-            await uow.SaveChangesAsync();
+            dbContext.GuildConfigs.Update(exists);
+            await dbContext.SaveChangesAsync();
         }
         else
         {
-            var config = uow.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.Id == toUpdate.Id);
+            var config = dbContext.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.Id == toUpdate.Id);
 
             if (config != null)
             {
@@ -77,8 +77,8 @@ public class GuildSettingsService(
                 }
 
                 await cache.SetGuildConfigCache(guildId, config);
-                uow.GuildConfigs.Update(config);
-                await uow.SaveChangesAsync();
+                dbContext.GuildConfigs.Update(config);
+                await dbContext.SaveChangesAsync();
             }
         }
     }

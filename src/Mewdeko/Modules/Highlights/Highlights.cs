@@ -12,7 +12,7 @@ namespace Mewdeko.Modules.Highlights;
 /// <param name="interactivity">The embed pagination service</param>
 /// <param name="svcs"></param>
 /// <param name="db"></param>
-public class Highlights(InteractiveService interactivity, IServiceProvider svcs, DbService db)
+public class Highlights(InteractiveService interactivity, IServiceProvider svcs, MewdekoContext dbContext)
     : MewdekoModuleBase<HighlightsService>
 {
     /// <summary>
@@ -64,8 +64,8 @@ public class Highlights(InteractiveService interactivity, IServiceProvider svcs,
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Highlight(HighlightActions action, [Remainder] string words = null)
     {
-        await using var uow = db.GetDbContext();
-        var highlights = uow.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
+
+        var highlights = dbContext.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
         switch (action)
         {
             case HighlightActions.Add:

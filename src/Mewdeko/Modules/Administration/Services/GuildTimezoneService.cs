@@ -5,7 +5,7 @@
 /// </summary>
 public class GuildTimezoneService : INService
 {
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
     private readonly GuildSettingsService gss;
 
     /// <summary>
@@ -15,14 +15,14 @@ public class GuildTimezoneService : INService
     /// <param name="bot">The Mewdeko bot.</param>
     /// <param name="db">The database service.</param>
     /// /// <param name="gss">The guild config service.</param>
-    public GuildTimezoneService(DiscordShardedClient client, Mewdeko bot, DbService db, GuildSettingsService gss)
+    public GuildTimezoneService(DiscordShardedClient client, Mewdeko bot, MewdekoContext dbContext, GuildSettingsService gss)
     {
-        using var uow = db.GetDbContext();
+
 
         var curUser = client.CurrentUser;
         if (curUser != null)
             AllServices.TryAdd(curUser.Id, this);
-        this.db = db;
+        this.dbContext = dbContext;
         this.gss = gss;
     }
 
@@ -61,8 +61,8 @@ public class GuildTimezoneService : INService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetTimeZone(ulong guildId, TimeZoneInfo? tz)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guildId, set => set);
+
+        var gc = await dbContext.ForGuildId(guildId, set => set);
 
         gc.TimeZoneId = tz?.Id;
         await gss.UpdateGuildConfig(guildId, gc);

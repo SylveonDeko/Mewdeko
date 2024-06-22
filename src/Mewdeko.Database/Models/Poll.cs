@@ -3,6 +3,7 @@ using Mewdeko.Database.Common;
 
 namespace Mewdeko.Database.Models;
 
+
 public class Poll : DbEntity
 {
     public ulong GuildId { get; set; }

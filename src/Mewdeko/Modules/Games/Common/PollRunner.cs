@@ -8,7 +8,7 @@ namespace Mewdeko.Modules.Games.Common
     /// </summary>
     public class PollRunner
     {
-        private readonly DbService db;
+        private readonly MewdekoContext dbContext;
         private readonly SemaphoreSlim locker = new(1, 1);
 
         /// <summary>
@@ -16,9 +16,9 @@ namespace Mewdeko.Modules.Games.Common
         /// </summary>
         /// <param name="db">The database service.</param>
         /// <param name="poll">The poll to manage.</param>
-        public PollRunner(DbService db, Poll poll)
+        public PollRunner(MewdekoContext dbContext, Poll poll)
         {
-            this.db = db;
+            this.dbContext = dbContext;
             Poll = poll;
         }
 
@@ -51,10 +51,10 @@ namespace Mewdeko.Modules.Games.Common
                 {
                     case PollType.SingleAnswer when !Poll.Votes.Contains(voteObj):
                     {
-                        await using var uow = db.GetDbContext();
-                        var trackedPoll = await uow.Poll.GetById(Poll.Id);
+
+                        var trackedPoll = await dbContext.Poll.GetById(Poll.Id);
                         trackedPoll.Votes.Add(voteObj);
-                        await uow.SaveChangesAsync().ConfigureAwait(false);
+                        await dbContext.SaveChangesAsync().ConfigureAwait(false);
                         Poll.Votes.Add(voteObj);
                         return (true, PollType.SingleAnswer);
                     }
@@ -64,13 +64,13 @@ namespace Mewdeko.Modules.Games.Common
 
                     case PollType.AllowChange when voteCheck:
                     {
-                        await using var uow = db.GetDbContext();
-                        var trackedPoll = await uow.Poll.GetById(Poll.Id);
+
+                        var trackedPoll = await dbContext.Poll.GetById(Poll.Id);
                         trackedPoll.Votes.Remove(trackedPoll.Votes.Find(x => x.UserId == user.Id));
                         trackedPoll.Votes.Add(voteObj);
                         Poll.Votes.Remove(Poll.Votes.Find(x => x.UserId == user.Id));
                         Poll.Votes.Add(voteObj);
-                        await uow.SaveChangesAsync().ConfigureAwait(false);
+                        await dbContext.SaveChangesAsync().ConfigureAwait(false);
                         return (true, PollType.AllowChange);
                     }
 
@@ -79,21 +79,21 @@ namespace Mewdeko.Modules.Games.Common
 
                     case PollType.MultiAnswer when !voteCheck:
                     {
-                        await using var uow = db.GetDbContext();
-                        var trackedPoll = await uow.Poll.GetById(Poll.Id);
+
+                        var trackedPoll = await dbContext.Poll.GetById(Poll.Id);
                         trackedPoll.Votes.Remove(voteObj);
                         Poll.Votes.Remove(voteObj);
-                        await uow.SaveChangesAsync().ConfigureAwait(false);
+                        await dbContext.SaveChangesAsync().ConfigureAwait(false);
                         return (false, PollType.MultiAnswer);
                     }
 
                     case PollType.MultiAnswer when voteCheck:
                     {
-                        await using var uow = db.GetDbContext();
-                        var trackedPoll = await uow.Poll.GetById(Poll.Id);
+
+                        var trackedPoll = await dbContext.Poll.GetById(Poll.Id);
                         trackedPoll.Votes.Add(voteObj);
                         Poll.Votes.Add(voteObj);
-                        await uow.SaveChangesAsync().ConfigureAwait(false);
+                        await dbContext.SaveChangesAsync().ConfigureAwait(false);
                         return (true, PollType.MultiAnswer);
                     }
                 }

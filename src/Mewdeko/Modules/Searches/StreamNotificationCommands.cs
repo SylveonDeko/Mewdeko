@@ -13,7 +13,7 @@ public partial class Searches
     /// Contains commands for managing stream notifications within a Discord guild.
     /// </summary>
     [Group]
-    public class StreamNotificationCommands(DbService db, InteractiveService serv)
+    public class StreamNotificationCommands(MewdekoContext dbContext, InteractiveService serv)
         : MewdekoSubmodule<StreamNotificationService>
     {
         /// <summary>
@@ -91,10 +91,10 @@ public partial class Searches
         public async Task StreamList()
         {
             var streams = new List<FollowedStream>();
-            var uow = db.GetDbContext();
-            await using (uow.ConfigureAwait(false))
+
+            await using (dbContext.ConfigureAwait(false))
             {
-                var all = (await uow
+                var all = (await dbContext
                         .ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.FollowedStreams)))
                     .FollowedStreams
                     .OrderBy(x => x.Id)
