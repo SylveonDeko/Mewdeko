@@ -27,7 +27,7 @@ public partial class Xp(
     XpConfigService xpconfig,
     InteractiveService serv,
     BotConfigService bss,
-    DbService db)
+    MewdekoContext dbContext)
     : MewdekoModuleBase<XpService>
 {
     /// <summary>
@@ -757,7 +757,7 @@ public partial class Xp(
      UserPerm(GuildPermission.Administrator)]
     public async Task TemplateConfig(string property = null, string subProperty = null, string value = null)
     {
-        await using var uow = db.GetDbContext();
+
         var template = await Service.GetTemplate(ctx.Guild.Id);
 
         var embedBuilder = new EmbedBuilder()
@@ -823,8 +823,8 @@ public partial class Xp(
                 if (TryParseValue(propertyInfo.PropertyType, subProperty, out var propertyValue))
                 {
                     propertyInfo.SetValue(template, propertyValue);
-                    uow.Templates.Update(template);
-                    await uow.SaveChangesAsync();
+                    dbContext.Templates.Update(template);
+                    await dbContext.SaveChangesAsync();
                     await ctx.Channel.SendConfirmAsync($"Set {propertyInfo.Name} to {subProperty}.");
                 }
                 else
@@ -893,8 +893,8 @@ public partial class Xp(
             }
 
             // Save changes to the database
-            uow.Templates.Update(template);
-            await uow.SaveChangesAsync();
+            dbContext.Templates.Update(template);
+            await dbContext.SaveChangesAsync();
             await ctx.Channel.SendConfirmAsync("Configuration updated successfully!");
         }
     }

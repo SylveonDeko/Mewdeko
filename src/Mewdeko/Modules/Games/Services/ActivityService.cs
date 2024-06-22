@@ -5,7 +5,7 @@ namespace Mewdeko.Modules.Games.Services
     /// </summary>
     public class ActivityService : INService
     {
-        private readonly DbService db;
+        private readonly MewdekoContext dbContext;
         private readonly GuildSettingsService guildSettings;
 
         /// <summary>
@@ -13,9 +13,9 @@ namespace Mewdeko.Modules.Games.Services
         /// </summary>
         /// <param name="db">The database service.</param>
         /// <param name="guildSettings">The guild settings service.</param>
-        public ActivityService(DbService db, GuildSettingsService guildSettings)
+        public ActivityService(MewdekoContext dbContext, GuildSettingsService guildSettings)
         {
-            this.db = db;
+            this.dbContext = dbContext;
             this.guildSettings = guildSettings;
         }
 
@@ -34,8 +34,8 @@ namespace Mewdeko.Modules.Games.Services
         /// <param name="role">The ID of the role to set as the game master role.</param>
         public async Task GameMasterRoleSet(ulong guildid, ulong role)
         {
-            await using var uow = db.GetDbContext();
-            var gc = await uow.ForGuildId(guildid, set => set);
+
+            var gc = await dbContext.ForGuildId(guildid, set => set);
             gc.GameMasterRole = role;
             await guildSettings.UpdateGuildConfig(guildid, gc);
         }

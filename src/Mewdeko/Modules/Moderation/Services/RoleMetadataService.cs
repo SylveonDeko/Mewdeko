@@ -9,10 +9,10 @@ namespace Mewdeko.Modules.Moderation.Services;
 /// <summary>
 /// Service for managing role connection metadata.
 /// </summary>
-/// <param name="dbService">The database service</param>
+/// <param name="dbContext">The database service</param>
 /// <param name="client">The Discord client</param>
 /// <param name="botCredentials">The bot credentials</param>
-public class RoleMetadataService(DbService dbService, DiscordShardedClient client, IBotCredentials botCredentials)
+public class RoleMetadataService(MewdekoContext dbContext, DiscordShardedClient client, IBotCredentials botCredentials)
     : INService, IReadyExecutor
 {
     private IBotCredentials botCredentials = botCredentials;
@@ -39,17 +39,17 @@ public class RoleMetadataService(DbService dbService, DiscordShardedClient clien
 
         await client.Rest.ModifyRoleConnectionMetadataRecordsAsync(props);
 
-        await using var uow = dbService.GetDbContext();
+
         var cachedValues = new Dictionary<ulong, int>();
         var htclient = new HttpClient();
         while (true)
         {
-            var authedUsers = uow.AuthCodes
+            var authedUsers = dbContext.AuthCodes
                 .Where(x => x.Scopes.Contains("role_connections.write"))
                 .AsEnumerable()
                 .Distinct(x => x.UserId);
 
-            // async void LUpdate(RoleConnectionAuthStorage x) => await UpdateRoleConnectionData(x.UserId, x.Id, uow, _client.CurrentUser.Id, _botCredentials.ClientSecret, client);
+            // async void LUpdate(RoleConnectionAuthStorage x) => await UpdateRoleConnectionData(x.UserId, x.Id, dbContext, _client.CurrentUser.Id, _botCredentials.ClientSecret, client);
 
             // authedUsers.ForEach(LUpdate);
             await Task.Delay(TimeSpan.FromHours(1));
@@ -63,12 +63,12 @@ public class RoleMetadataService(DbService dbService, DiscordShardedClient clien
     /// <param name="clientId">The client id</param>
     /// <param name="clientSecret">The client secret</param>
     /// <param name="client">The HTTP client</param>
-    /// <param name="uow">The unit of work service</param>
+    /// <param name="dbContext">The unit of work service</param>
     /// <returns></returns>
     public static async Task<string> RefreshUserToken(int tokenId, ulong clientId, string clientSecret,
-        HttpClient client, MewdekoContext uow)
+        HttpClient client, MewdekoContext dbContext)
     {
-        var val = await uow.AuthCodes.GetById(tokenId);
+        var val = await dbContext.AuthCodes.GetById(tokenId);
         var resp = await client.PostAsync("https://discord.com/api/v10/oauth2/token",
             new FormUrlEncodedContent(new Dictionary<string, string>
             {
@@ -90,8 +90,8 @@ public class RoleMetadataService(DbService dbService, DiscordShardedClient clien
         val.ExpiresAt = DateTime.UtcNow + TimeSpan.FromSeconds(data.expires_in);
         val.Token = data.access_token;
         val.RefreshToken = data.refresh_token;
-        uow.AuthCodes.Update(val);
-        await uow.SaveChangesAsync();
+        dbContext.AuthCodes.Update(val);
+        await dbContext.SaveChangesAsync();
         return data.access_token;
     }
 
@@ -100,22 +100,22 @@ public class RoleMetadataService(DbService dbService, DiscordShardedClient clien
     /// </summary>
     /// <param name="userId">The user id</param>
     /// <param name="tokenId">The token id</param>
-    /// <param name="uow">The unit of work service</param>
+    /// <param name="dbContext">The unit of work service</param>
     /// <param name="clientId">The client id</param>
     /// <param name="clientSecret">The client secret</param>
     /// <param name="client">The HTTP client</param>
-    public static async Task UpdateRoleConnectionData(ulong userId, int tokenId, MewdekoContext uow, ulong clientId,
+    public static async Task UpdateRoleConnectionData(ulong userId, int tokenId, MewdekoContext dbContext, ulong clientId,
         string clientSecret, HttpClient client)
     {
-        var tokenData = await uow.AuthCodes.GetById(tokenId);
-        var cmds = uow.CommandStats.Where(x => x.UserId == userId).ToList();
+        var tokenData = await dbContext.AuthCodes.GetById(tokenId);
+        var cmds = dbContext.CommandStats.Where(x => x.UserId == userId).ToList();
         var count = cmds.Count;
         var date = cmds.OrderByDescending(x => x.NameOrId).First().DateAdded;
-        var dbu = uow.DiscordUser.FirstOrDefault(y => y.UserId == userId);
+        var dbu = dbContext.DiscordUser.FirstOrDefault(y => y.UserId == userId);
 
         var token = tokenData.Token;
         if (tokenData.ExpiresAt <= DateTime.UtcNow)
-            token = await RefreshUserToken(tokenId, clientId, clientSecret, client, uow);
+            token = await RefreshUserToken(tokenId, clientId, clientSecret, client, dbContext);
 
         await using var dClient = new DiscordRestClient();
 

@@ -17,7 +17,7 @@ public partial class Permissions
     /// <param name="service">The command cooldown service</param>
     /// <param name="db">The database service</param>
     [Group]
-    public class CmdCdsCommands(CmdCdService service, DbService db, GuildSettingsService settingsService)
+    public class CmdCdsCommands(CmdCdService service, MewdekoContext dbContext, GuildSettingsService settingsService)
         : MewdekoSubmodule
     {
         private ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>> ActiveCooldowns
@@ -49,15 +49,15 @@ public partial class Permissions
             }
 
             var name = command.Name.ToLowerInvariant();
-            var uow = db.GetDbContext();
-            await using (uow.ConfigureAwait(false))
+
+            await using (dbContext.ConfigureAwait(false))
             {
                 var gConfig = await settingsService.GetGuildConfig(channel.Guild.Id);
-                var config = await uow.ForGuildId(channel.Guild.Id, set => set.Include(gc => gc.CommandCooldowns));
+                var config = await dbContext.ForGuildId(channel.Guild.Id, set => set.Include(gc => gc.CommandCooldowns));
 
                 var toDelete = config.CommandCooldowns.FirstOrDefault(cc => cc.CommandName == name);
                 if (toDelete != null)
-                    uow.CommandCooldown.Remove(toDelete);
+                    dbContext.CommandCooldown.Remove(toDelete);
                 if (time.Time.TotalSeconds != 0)
                 {
                     var cc = new CommandCooldown

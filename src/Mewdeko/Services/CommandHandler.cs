@@ -38,7 +38,7 @@ public class CommandHandler : INService
     private readonly DiscordShardedClient client;
     private readonly CommandService commandService;
     private readonly IBotCredentials creds;
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
     private readonly GuildSettingsService gss;
     private readonly InteractionService interactionService;
     private readonly IServiceProvider services;
@@ -63,7 +63,7 @@ public class CommandHandler : INService
     /// <param name="eventHandler">The event handler for discord events.</param>
     /// <param name="creds">The bot credentials.</param>
     /// <param name="cache">The data cache service.</param>
-    public CommandHandler(DiscordShardedClient client, DbService db, CommandService commandService,
+    public CommandHandler(DiscordShardedClient client, MewdekoContext dbContext, CommandService commandService,
         BotConfigService bss, Mewdeko bot, IServiceProvider services, IBotStrings strngs,
         InteractionService interactionService,
         GuildSettingsService gss, EventHandler eventHandler, IBotCredentials creds, IDataCache cache)
@@ -77,7 +77,7 @@ public class CommandHandler : INService
         this.commandService = commandService;
         this.bss = bss;
         this.bot = bot;
-        this.db = db;
+        this.dbContext = dbContext;
         this.services = services;
         eventHandler.InteractionCreated += TryRunInteraction;
         this.interactionService.SlashCommandExecuted += HandleCommands;
@@ -126,8 +126,8 @@ public class CommandHandler : INService
                 var gconf = await gss.GetGuildConfig(ctx.Guild.Id);
                 if (!gconf.StatsOptOut)
                 {
-                    await using var uow = db.GetDbContext();
-                    var user = await uow.GetOrCreateUser(ctx.User);
+
+                    var user = await dbContext.GetOrCreateUser(ctx.User);
                     if (!user.StatsOptOut)
                     {
                         var comStats = new CommandStats
@@ -139,8 +139,8 @@ public class CommandHandler : INService
                             UserId = ctx.User.Id,
                             Module = info.Module.Name
                         };
-                        await uow.CommandStats.AddAsync(comStats);
-                        await uow.SaveChangesAsync();
+                        await dbContext.CommandStats.AddAsync(comStats);
+                        await dbContext.SaveChangesAsync();
                     }
                 }
             }
@@ -259,8 +259,8 @@ public class CommandHandler : INService
                 var gconf = await gss.GetGuildConfig(ctx.Guild.Id);
                 if (!gconf.StatsOptOut)
                 {
-                    await using var uow = db.GetDbContext();
-                    var user = await uow.GetOrCreateUser(ctx.User);
+
+                    var user = await dbContext.GetOrCreateUser(ctx.User);
                     if (!user.StatsOptOut)
                     {
                         var comStats = new CommandStats
@@ -272,8 +272,8 @@ public class CommandHandler : INService
                             UserId = ctx.User.Id,
                             Module = slashInfo.Module.Name
                         };
-                        await uow.CommandStats.AddAsync(comStats);
-                        await uow.SaveChangesAsync();
+                        await dbContext.CommandStats.AddAsync(comStats);
+                        await dbContext.SaveChangesAsync();
                     }
                 }
             }
@@ -731,8 +731,8 @@ public class CommandHandler : INService
             var gconf = await gss.GetGuildConfig(guild.Id);
             if (!gconf.StatsOptOut && info is not null)
             {
-                await using var uow = db.GetDbContext();
-                var user = await uow.GetOrCreateUser(usrMsg.Author);
+
+                var user = await dbContext.GetOrCreateUser(usrMsg.Author);
                 if (!user.StatsOptOut)
                 {
                     var comStats = new CommandStats
@@ -743,8 +743,8 @@ public class CommandHandler : INService
                         UserId = usrMsg.Author.Id,
                         Module = info.Module.Name
                     };
-                    await uow.CommandStats.AddAsync(comStats);
-                    await uow.SaveChangesAsync();
+                    await dbContext.CommandStats.AddAsync(comStats);
+                    await dbContext.SaveChangesAsync();
                 }
             }
         }
@@ -761,7 +761,7 @@ public class CommandHandler : INService
             await LogErroredExecution(error, usrMsg, channel as ITextChannel, exec2, execTime);
             if (guild != null)
             {
-                var perms = new PermissionService(db, strings, gss, client, bss.Data);
+                var perms = new PermissionService(dbContext, strings, gss, client, bss.Data);
                 var pc = await perms.GetCacheFor(guild.Id);
                 if (pc != null && pc.Permissions.CheckPermissions(usrMsg, info.Name, info.Module.Name, out _))
                     await CommandErrored(info, channel as ITextChannel, error, usrMsg.Author).ConfigureAwait(false);

@@ -6,7 +6,7 @@ namespace Mewdeko.Modules.Utility.Services;
 /// <summary>
 /// Manages the transformation of input commands based on alias mappings, allowing customization of command triggers.
 /// </summary>
-public class CommandMapService(DbService db, GuildSettingsService gss) : IInputTransformer, INService
+public class CommandMapService(MewdekoContext dbContext, GuildSettingsService gss) : IInputTransformer, INService
 {
     /// <summary>
     /// Transforms an input command based on alias mappings for the specific guild.
@@ -71,8 +71,8 @@ public class CommandMapService(DbService db, GuildSettingsService gss) : IInputT
 
         config.CommandAliases.Clear();
 
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guildId, set => set.Include(x => x.CommandAliases));
+
+        var gc = await dbContext.ForGuildId(guildId, set => set.Include(x => x.CommandAliases));
         var count = gc.CommandAliases.Count;
         gc.CommandAliases.Clear();
 

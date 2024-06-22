@@ -9,7 +9,7 @@ namespace Mewdeko.Modules.Confessions.Services;
 /// <param name="client"></param>
 /// <param name="guildSettings"></param>
 public class ConfessionService(
-    DbService db,
+    MewdekoContext dbContext,
     DiscordShardedClient client,
     GuildSettingsService guildSettings,
     BotConfig config)
@@ -31,8 +31,8 @@ public class ConfessionService(
         string confession,
         IMessageChannel currentChannel, IInteractionContext? ctx = null, string? imageUrl = null)
     {
-        var uow = db.GetDbContext();
-        var confessions = uow.Confessions.ForGuild(serverId);
+
+        var confessions = dbContext.Confessions.ForGuild(serverId);
         if (confessions.Count > 0)
         {
             var guild = client.GetGuild(serverId);
@@ -107,8 +107,8 @@ public class ConfessionService(
                 MessageId = msg.Id,
                 UserId = user.Id
             };
-            uow.Confessions.Add(toadd);
-            await uow.SaveChangesAsync().ConfigureAwait(false);
+            dbContext.Confessions.Add(toadd);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             if (await GetConfessionLogChannel(serverId) != 0)
             {
                 var logChannel = guild.GetTextChannel(await GetConfessionLogChannel(serverId));
@@ -194,8 +194,8 @@ public class ConfessionService(
                 MessageId = msg.Id,
                 UserId = user.Id
             };
-            uow.Confessions.Add(toadd);
-            await uow.SaveChangesAsync().ConfigureAwait(false);
+            dbContext.Confessions.Add(toadd);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             if (await GetConfessionLogChannel(serverId) != 0)
             {
                 var logChannel = guild.GetTextChannel(await GetConfessionLogChannel(serverId));
@@ -219,8 +219,8 @@ public class ConfessionService(
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SetConfessionChannel(IGuild guild, ulong channelId)
     {
-        await using var uow = db.GetDbContext();
-        var guildConfig = await uow.ForGuildId(guild.Id, set => set);
+
+        var guildConfig = await dbContext.ForGuildId(guild.Id, set => set);
         guildConfig.ConfessionChannel = channelId;
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
     }
@@ -241,8 +241,8 @@ public class ConfessionService(
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task ToggleUserBlacklistAsync(ulong guildId, ulong roleId)
     {
-        await using var uow = db.GetDbContext();
-        var guildConfig = await uow.ForGuildId(guildId, set => set);
+
+        var guildConfig = await dbContext.ForGuildId(guildId, set => set);
         var blacklists = guildConfig.GetConfessionBlacklists();
         if (!blacklists.Remove(roleId))
             blacklists.Add(roleId);
@@ -259,8 +259,8 @@ public class ConfessionService(
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SetConfessionLogChannel(IGuild guild, ulong channelId)
     {
-        await using var uow = db.GetDbContext();
-        var guildConfig = await uow.ForGuildId(guild.Id, set => set);
+
+        var guildConfig = await dbContext.ForGuildId(guild.Id, set => set);
         guildConfig.ConfessionLogChannel = channelId;
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
     }

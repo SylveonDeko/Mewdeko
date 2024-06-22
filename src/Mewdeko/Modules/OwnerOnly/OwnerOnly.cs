@@ -44,7 +44,7 @@ public class OwnerOnly(
     IBotStrings strings,
     InteractiveService serv,
     IEnumerable<IConfigService> settingServices,
-    DbService db,
+    MewdekoContext dbContext,
     IDataCache cache,
     CommandService commandService,
     IServiceProvider services,
@@ -322,8 +322,8 @@ public class OwnerOnly(
     {
         if (!await PromptUserConfirmAsync("Are you sure you want to execute this??", ctx.User.Id).ConfigureAwait(false))
             return;
-        await using var uow = db.GetDbContext();
-        var affected = await uow.Database.ExecuteSqlRawAsync(sql).ConfigureAwait(false);
+
+        var affected = await dbContext.Database.ExecuteSqlRawAsync(sql).ConfigureAwait(false);
         await ctx.Channel.SendErrorAsync($"Affected {affected} rows.", config).ConfigureAwait(false);
     }
 
@@ -378,7 +378,7 @@ public class OwnerOnly(
     [Cmd, Aliases]
     public async Task CommandStats()
     {
-        var commandStatsTable = db.GetDbContext().CommandStats;
+        var commandStatsTable = dbContext.CommandStats;
         var topCommandTask = commandStatsTable
             .Where(x => !x.Trigger)
             .GroupBy(q => q.NameOrId)

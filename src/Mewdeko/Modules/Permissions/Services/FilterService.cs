@@ -23,7 +23,7 @@ public class FilterService : IEarlyBehavior, INService
     private readonly DiscordShardedClient client;
     private readonly BotConfig config;
     private readonly CultureInfo? cultureInfo = new("en-US");
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
     private readonly GuildSettingsService gss;
     private readonly IPubSub pubSub;
     private readonly UserPunishService upun;
@@ -35,11 +35,11 @@ public class FilterService : IEarlyBehavior, INService
     /// On initialization, this service loads filtering configurations from the database and subscribes to necessary events
     /// for real-time monitoring and filtering of messages across all guilds the bot is part of.
     /// </remarks>
-    public FilterService(DiscordShardedClient client, DbService db, IPubSub pubSub,
+    public FilterService(DiscordShardedClient client, MewdekoContext dbContext, IPubSub pubSub,
         UserPunishService upun2, IBotStrings strng, AdministrationService ass,
         GuildSettingsService gss, EventHandler eventHandler, BotConfig config)
     {
-        this.db = db;
+        this.dbContext = dbContext;
         this.client = client;
         this.pubSub = pubSub;
         upun = upun2;
@@ -97,13 +97,13 @@ public class FilterService : IEarlyBehavior, INService
     /// <param name="id2">The ID of the guild for which the word is blacklisted.</param>
     public void WordBlacklist(string id, ulong id2)
     {
-        using var uow = db.GetDbContext();
+
         var item = new AutoBanEntry
         {
             Word = id, GuildId = id2
         };
-        uow.AutoBanWords.Add(item);
-        uow.SaveChanges();
+        dbContext.AutoBanWords.Add(item);
+        dbContext.SaveChanges();
     }
 
     /// <summary>
@@ -113,14 +113,14 @@ public class FilterService : IEarlyBehavior, INService
     /// <param name="id2">The ID of the guild from which the word is removed.</param>
     public async void UnBlacklist(string id, ulong id2)
     {
-        await using var uow = db.GetDbContext();
-        var toRemove = uow.AutoBanWords
+
+        var toRemove = dbContext.AutoBanWords
             .FirstOrDefault(bi => bi.Word == id && bi.GuildId == id2);
 
         if (toRemove is not null)
-            uow.AutoBanWords.Remove(toRemove);
+            dbContext.AutoBanWords.Remove(toRemove);
 
-        await uow.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -150,20 +150,17 @@ public class FilterService : IEarlyBehavior, INService
     public async Task InvWarn(IGuild guild, string yesnt)
     {
         var yesno = -1;
-        await using (db.GetDbContext().ConfigureAwait(false))
-        {
             yesno = yesnt switch
             {
                 "y" => 1,
                 "n" => 0,
                 _ => yesno
             };
-        }
 
-        var uow = db.GetDbContext();
-        await using (uow.ConfigureAwait(false))
+
+        await using (dbContext.ConfigureAwait(false))
         {
-            var gc = await uow.ForGuildId(guild.Id, set => set);
+            var gc = await dbContext.ForGuildId(guild.Id, set => set);
             gc.invwarn = yesno;
             await gss.UpdateGuildConfig(guild.Id, gc);
         }
@@ -184,20 +181,17 @@ public class FilterService : IEarlyBehavior, INService
     public async Task SetFwarn(IGuild guild, string yesnt)
     {
         var yesno = -1;
-        await using (db.GetDbContext().ConfigureAwait(false))
-        {
             yesno = yesnt switch
             {
                 "y" => 1,
                 "n" => 0,
                 _ => yesno
             };
-        }
 
-        var uow = db.GetDbContext();
-        await using (uow.ConfigureAwait(false))
+
+        await using (dbContext.ConfigureAwait(false))
         {
-            var gc = await uow.ForGuildId(guild.Id, set => set);
+            var gc = await dbContext.ForGuildId(guild.Id, set => set);
             gc.fwarn = yesno;
             await gss.UpdateGuildConfig(guild.Id, gc);
         }
@@ -209,8 +203,8 @@ public class FilterService : IEarlyBehavior, INService
     /// <param name="guildId">The ID of the guild for which to clear filtered words.</param>
     public async Task ClearFilteredWords(ulong guildId)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guildId,
+
+        var gc = await dbContext.ForGuildId(guildId,
             set => set.Include(x => x.FilteredWords)
                 .Include(x => x.FilterWordsChannelIds));
 
@@ -246,7 +240,7 @@ public class FilterService : IEarlyBehavior, INService
             return false;
         if (msg is null)
             return false;
-        var blacklist = db.GetDbContext().AutoBanWords.ToLinqToDB().Where(x => x.GuildId == guild.Id);
+        var blacklist = dbContext.AutoBanWords.ToLinqToDB().Where(x => x.GuildId == guild.Id);
         foreach (var i in blacklist)
         {
             Regex regex;
@@ -257,9 +251,9 @@ public class FilterService : IEarlyBehavior, INService
             catch
             {
                 Log.Error("Invalid regex, removing.: {IWord}", i.Word);
-                await using var uow = db.GetDbContext();
-                uow.AutoBanWords.Remove(i);
-                await uow.SaveChangesAsync();
+
+                dbContext.AutoBanWords.Remove(i);
+                await dbContext.SaveChangesAsync();
                 return false;
             }
 
@@ -331,13 +325,13 @@ public class FilterService : IEarlyBehavior, INService
                 catch
                 {
                     Log.Error("Invalid regex, removing.: {Word}", word);
-                    await using var uow = db.GetDbContext();
-                    var config = await uow.ForGuildId(guild.Id, set => set.Include(gc => gc.FilteredWords));
+
+                    var config = await dbContext.ForGuildId(guild.Id, set => set.Include(gc => gc.FilteredWords));
 
                     var removed = config.FilteredWords.FirstOrDefault(fw => fw.Word.Trim().ToLowerInvariant() == word);
                     if (removed is null)
                         return false;
-                    uow.Remove(removed);
+                    dbContext.Remove(removed);
                     await gss.UpdateGuildConfig(guild.Id, config);
                     return false;
                 }

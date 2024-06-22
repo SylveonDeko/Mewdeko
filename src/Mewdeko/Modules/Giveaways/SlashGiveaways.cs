@@ -14,7 +14,7 @@ namespace Mewdeko.Modules.Giveaways;
 /// <param name="interactiveService">The service used to make paginated embeds</param>
 /// <param name="guildSettings">Service for getting guild configs</param>
 [Group("giveaways", "Create or manage giveaways!")]
-public class SlashGiveaways(DbService db, InteractiveService interactiveService, GuildSettingsService guildSettings)
+public class SlashGiveaways(MewdekoContext dbContext, InteractiveService interactiveService, GuildSettingsService guildSettings)
     : MewdekoSlashModuleBase<GiveawayService>
 {
     /// <summary>
@@ -161,8 +161,8 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
     [SlashCommand("reroll", "Rerolls a giveaway!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GReroll(ulong messageid)
     {
-        await using var uow = db.GetDbContext();
-        var gway = uow.Giveaways
+
+        var gway = dbContext.Giveaways
             .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
         {
@@ -188,7 +188,7 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
     public async Task GStats()
     {
         var eb = new EmbedBuilder().WithOkColor();
-        var gways = db.GetDbContext().Giveaways.GiveawaysForGuild(ctx.Guild.Id);
+        var gways = dbContext.Giveaways.GiveawaysForGuild(ctx.Guild.Id);
         if (gways.Count == 0)
         {
             await ctx.Channel.SendErrorAsync("There have been no giveaways here, so no stats!", Config)
@@ -275,8 +275,8 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
     [SlashCommand("list", "View current giveaways!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GList()
     {
-        await using var uow = db.GetDbContext();
-        var gways = uow.Giveaways.GiveawaysForGuild(ctx.Guild.Id).Where(x => x.Ended == 0);
+
+        var gways = dbContext.Giveaways.GiveawaysForGuild(ctx.Guild.Id).Where(x => x.Ended == 0);
         if (!gways.Any())
         {
             await ctx.Channel.SendErrorAsync("No active giveaways", Config).ConfigureAwait(false);
@@ -321,8 +321,8 @@ public class SlashGiveaways(DbService db, InteractiveService interactiveService,
      SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GEnd(ulong messageid)
     {
-        await using var uow = db.GetDbContext();
-        var gway = uow.Giveaways
+
+        var gway = dbContext.Giveaways
             .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
         {

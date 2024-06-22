@@ -13,7 +13,7 @@ namespace Mewdeko.Modules.UserProfile.Services;
 /// </summary>
 public partial class UserProfileService : INService
 {
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
     private readonly Regex fcRegex = MyRegex();
     private readonly HttpClient http;
     private readonly List<string> zodiacList;
@@ -23,9 +23,9 @@ public partial class UserProfileService : INService
     /// </summary>
     /// <param name="db">The database service for accessing user data.</param>
     /// <param name="http">The HTTP client used for making external API calls.</param>
-    public UserProfileService(DbService db, HttpClient http)
+    public UserProfileService(MewdekoContext dbContext, HttpClient http)
     {
-        this.db = db;
+        this.dbContext = dbContext;
         this.http = http;
         zodiacList =
         [
@@ -54,8 +54,8 @@ public partial class UserProfileService : INService
     /// </remarks>
     public async Task<PronounSearchResult> GetPronounsOrUnspecifiedAsync(ulong discordId)
     {
-        await using var uow = db.GetDbContext();
-        var user = await uow.DiscordUser.FirstOrDefaultAsync(x => x.UserId == discordId).ConfigureAwait(false);
+
+        var user = await dbContext.DiscordUser.FirstOrDefaultAsync(x => x.UserId == discordId).ConfigureAwait(false);
         if (!string.IsNullOrWhiteSpace(user?.Pronouns)) return new PronounSearchResult(user.Pronouns, false);
         var result = await http.GetStringAsync($"https://pronoundb.org/api/v1/lookup?platform=discord&id={user.UserId}")
             .ConfigureAwait(false);
@@ -63,7 +63,7 @@ public partial class UserProfileService : INService
         // if (pronouns.Pronouns != "unspecified")
         // {
         //     user.PndbCache = pronouns.Pronouns;
-        //     await uow.SaveChangesAsync();
+        //     await dbContext.SaveChangesAsync();
         // }
 
         return new PronounSearchResult((pronouns?.Pronouns ?? "unspecified") switch
@@ -104,8 +104,8 @@ public partial class UserProfileService : INService
     /// </remarks>
     public async Task<(bool, ZodiacResult)> GetZodiacInfo(ulong discordId)
     {
-        await using var uow = db.GetDbContext();
-        var user = await uow.DiscordUser.FirstOrDefaultAsync(x => x.UserId == discordId).ConfigureAwait(false);
+
+        var user = await dbContext.DiscordUser.FirstOrDefaultAsync(x => x.UserId == discordId).ConfigureAwait(false);
         if (string.IsNullOrWhiteSpace(user.ZodiacSign))
             return (false, null);
         var client = new HttpClient();
@@ -122,8 +122,8 @@ public partial class UserProfileService : INService
     /// <returns>The biography as a string, or an empty string if not set.</returns>
     public async Task<string?> GetBio(IUser user)
     {
-        await using var uow = db.GetDbContext();
-        var dbUser = await uow.GetOrCreateUser(user);
+
+        var dbUser = await dbContext.GetOrCreateUser(user);
         return dbUser.Bio ?? string.Empty;
     }
 
@@ -134,11 +134,11 @@ public partial class UserProfileService : INService
     /// <param name="bio">The biography text to set.</param>
     public async Task SetBio(IUser user, string bio)
     {
-        await using var uow = db.GetDbContext();
-        var dbUser = await uow.GetOrCreateUser(user);
+
+        var dbUser = await dbContext.GetOrCreateUser(user);
         dbUser.Bio = bio;
-        uow.DiscordUser.Update(dbUser);
-        await uow.SaveChangesAsync();
+        dbContext.DiscordUser.Update(dbUser);
+        await dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -148,8 +148,8 @@ public partial class UserProfileService : INService
     /// <returns>The current privacy setting of the user's profile.</returns>
     public async Task<DiscordUser.ProfilePrivacyEnum> GetProfilePrivacy(IUser user)
     {
-        await using var uow = db.GetDbContext();
-        var dbUser = await uow.GetOrCreateUser(user);
+
+        var dbUser = await dbContext.GetOrCreateUser(user);
         return dbUser.ProfilePrivacy;
     }
 
@@ -161,11 +161,11 @@ public partial class UserProfileService : INService
     /// <param name="privacyEnum">The privacy setting to apply to the user's profile.</param>
     public async Task SetPrivacy(IUser user, DiscordUser.ProfilePrivacyEnum privacyEnum)
     {
-        await using var uow = db.GetDbContext();
-        var dbUser = await uow.GetOrCreateUser(user);
+
+        var dbUser = await dbContext.GetOrCreateUser(user);
         dbUser.ProfilePrivacy = privacyEnum;
-        uow.DiscordUser.Update(dbUser);
-        await uow.SaveChangesAsync();
+        dbContext.DiscordUser.Update(dbUser);
+        await dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -175,11 +175,11 @@ public partial class UserProfileService : INService
     /// <param name="birthdayDisplayModeEnum">The birthday display mode to set.</param>
     public async Task SetBirthdayDisplayMode(IUser user, DiscordUser.BirthdayDisplayModeEnum birthdayDisplayModeEnum)
     {
-        await using var uow = db.GetDbContext();
-        var dbUser = await uow.GetOrCreateUser(user);
+
+        var dbUser = await dbContext.GetOrCreateUser(user);
         dbUser.BirthdayDisplayMode = birthdayDisplayModeEnum;
-        uow.DiscordUser.Update(dbUser);
-        await uow.SaveChangesAsync();
+        dbContext.DiscordUser.Update(dbUser);
+        await dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -189,11 +189,11 @@ public partial class UserProfileService : INService
     /// <param name="time">The birthday date to set.</param>
     public async Task SetBirthday(IUser user, DateTime time)
     {
-        await using var uow = db.GetDbContext();
-        var dbUser = await uow.GetOrCreateUser(user);
+
+        var dbUser = await dbContext.GetOrCreateUser(user);
         dbUser.Birthday = time;
-        uow.DiscordUser.Update(dbUser);
-        await uow.SaveChangesAsync();
+        dbContext.DiscordUser.Update(dbUser);
+        await dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -203,8 +203,8 @@ public partial class UserProfileService : INService
     /// <returns>The zodiac sign of the user.</returns>
     public async Task<string> GetZodiac(IUser user)
     {
-        await using var uow = db.GetDbContext();
-        var dbUser = await uow.GetOrCreateUser(user);
+
+        var dbUser = await dbContext.GetOrCreateUser(user);
         return dbUser.ZodiacSign;
     }
 
@@ -221,11 +221,11 @@ public partial class UserProfileService : INService
     {
         if (!zodiacList.Contains(zodiacSign.ToTitleCase()))
             return false;
-        await using var uow = db.GetDbContext();
-        var dbUser = await uow.GetOrCreateUser(user);
+
+        var dbUser = await dbContext.GetOrCreateUser(user);
         dbUser.ZodiacSign = zodiacSign.ToTitleCase();
-        uow.DiscordUser.Update(dbUser);
-        await uow.SaveChangesAsync();
+        dbContext.DiscordUser.Update(dbUser);
+        await dbContext.SaveChangesAsync();
         return true;
     }
 
@@ -236,11 +236,11 @@ public partial class UserProfileService : INService
     /// <param name="color">The color to set as the user's profile color.</param>
     public async Task SetProfileColor(IUser user, Color color)
     {
-        await using var uow = db.GetDbContext();
-        var dbUser = await uow.GetOrCreateUser(user);
+
+        var dbUser = await dbContext.GetOrCreateUser(user);
         dbUser.ProfileColor = color.RawValue;
-        uow.DiscordUser.Update(dbUser);
-        await uow.SaveChangesAsync();
+        dbContext.DiscordUser.Update(dbUser);
+        await dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -250,11 +250,11 @@ public partial class UserProfileService : INService
     /// <param name="url">The URL of the image to set as the user's profile image.</param>
     public async Task SetProfileImage(IUser user, string url)
     {
-        await using var uow = db.GetDbContext();
-        var dbUser = await uow.GetOrCreateUser(user);
+
+        var dbUser = await dbContext.GetOrCreateUser(user);
         dbUser.ProfileImageUrl = url;
-        uow.DiscordUser.Update(dbUser);
-        await uow.SaveChangesAsync();
+        dbContext.DiscordUser.Update(dbUser);
+        await dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -270,11 +270,11 @@ public partial class UserProfileService : INService
     {
         if (fc.Length != 0 && !fcRegex.IsMatch(fc))
             return false;
-        await using var uow = db.GetDbContext();
-        var dbUser = await uow.GetOrCreateUser(user);
+
+        var dbUser = await dbContext.GetOrCreateUser(user);
         dbUser.SwitchFriendCode = fc;
-        uow.DiscordUser.Update(dbUser);
-        await uow.SaveChangesAsync();
+        dbContext.DiscordUser.Update(dbUser);
+        await dbContext.SaveChangesAsync();
         return true;
     }
 
@@ -285,11 +285,11 @@ public partial class UserProfileService : INService
     /// <returns>True if the user is now opted out; otherwise, false.</returns>
     public async Task<bool> ToggleOptOut(IUser user)
     {
-        await using var uow = db.GetDbContext();
-        var dbUser = await uow.GetOrCreateUser(user);
+
+        var dbUser = await dbContext.GetOrCreateUser(user);
         dbUser.StatsOptOut = !dbUser.StatsOptOut;
-        uow.DiscordUser.Update(dbUser);
-        await uow.SaveChangesAsync();
+        dbContext.DiscordUser.Update(dbUser);
+        await dbContext.SaveChangesAsync();
         return dbUser.StatsOptOut;
     }
 
@@ -300,12 +300,12 @@ public partial class UserProfileService : INService
     /// <returns>True if data was found and deleted; otherwise, false.</returns>
     public async Task<bool> DeleteStatsData(IUser user)
     {
-        await using var uow = db.GetDbContext();
-        var toRemove = uow.CommandStats.Where(x => x.UserId == user.Id).ToList();
+
+        var toRemove = dbContext.CommandStats.Where(x => x.UserId == user.Id).ToList();
         if (!toRemove.Any())
             return false;
-        uow.CommandStats.RemoveRange(toRemove);
-        await uow.SaveChangesAsync();
+        dbContext.CommandStats.RemoveRange(toRemove);
+        await dbContext.SaveChangesAsync();
         return true;
     }
 
@@ -321,8 +321,8 @@ public partial class UserProfileService : INService
     public async Task<Embed?> GetProfileEmbed(IUser user, IUser profileCaller)
     {
         var eb = new EmbedBuilder().WithTitle($"Profile for {user}");
-        await using var uow = db.GetDbContext();
-        var dbUser = await uow.GetOrCreateUser(user);
+
+        var dbUser = await dbContext.GetOrCreateUser(user);
         if (dbUser.ProfilePrivacy == DiscordUser.ProfilePrivacyEnum.Private && user.Id != profileCaller.Id)
             return null;
         if (dbUser.ProfileColor.HasValue && dbUser.ProfileColor.Value is not 0)

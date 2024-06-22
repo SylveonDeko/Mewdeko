@@ -18,7 +18,7 @@ namespace Mewdeko.Modules.Moderation;
 [Group("moderation", "Do all your moderation stuffs here!"), CheckPermissions]
 public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
 {
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
     private readonly InteractiveService interactivity;
     private readonly NekosBestApi nekos;
 
@@ -28,13 +28,13 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
     /// <param name="db">The database provider</param>
     /// <param name="serv">The service used for embed pagination</param>
     /// <param name="nekos">The service used to get anime gifs from the nekos.best api</param>
-    public SlashPunishCommands(DbService db,
+    public SlashPunishCommands(MewdekoContext dbContext,
         InteractiveService serv,
         NekosBestApi nekos)
     {
         interactivity = serv;
         this.nekos = nekos;
-        this.db = db;
+        this.dbContext = dbContext;
     }
 
     /// <summary>
@@ -190,8 +190,8 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
         await ctx.Interaction.RespondAsync(embed: embed.Build());
         if (await Service.GetWarnlogChannel(ctx.Guild.Id) != 0)
         {
-            var uow = db.GetDbContext();
-            var warnings = uow.Warnings
+
+            var warnings = dbContext.Warnings
                 .ForId(ctx.Guild.Id, user.Id)
                 .Count(w => !w.Forgiven && w.UserId == user.Id);
             var condition = punishment != null;

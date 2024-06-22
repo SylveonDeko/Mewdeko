@@ -14,17 +14,17 @@ namespace Mewdeko.Modules.Highlights;
 public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
 {
     private readonly InteractiveService interactivity;
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
 
     /// <summary>
     /// Initializes a new instance of <see cref="SlashHighlights"/>.
     /// </summary>
     /// <param name="interactivity">Embed pagination service</param>
     /// <param name="db">The database provider</param>
-    public SlashHighlights(InteractiveService interactivity, DbService db)
+    public SlashHighlights(InteractiveService interactivity, MewdekoContext dbContext)
     {
         this.interactivity = interactivity;
-        this.db = db;
+        this.dbContext = dbContext;
     }
 
     /// <summary>
@@ -34,8 +34,8 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
     [SlashCommand("add", "Add new highlights."), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task AddHighlight([Summary("words", "Words to highlight.")] string words)
     {
-        await using var uow = db.GetDbContext();
-        var highlights = uow.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
+
+        var highlights = dbContext.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
         if (string.IsNullOrWhiteSpace(words))
         {
             await ctx.Interaction.SendErrorAsync("You need to specify a phrase to highlight.", Config)
@@ -61,8 +61,8 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
     [SlashCommand("list", "List your current highlights."), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task ListHighlights()
     {
-        await using var uow = db.GetDbContext();
-        var highlightsForUser = uow.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
+
+        var highlightsForUser = dbContext.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
 
         if (highlightsForUser.Count == 0)
         {
@@ -108,8 +108,8 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
             return;
         }
 
-        await using var uow = db.GetDbContext();
-        var highlightsForUser = uow.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
+
+        var highlightsForUser = dbContext.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
 
         if (highlightsForUser.Count == 0)
         {
@@ -160,8 +160,8 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
             return;
         }
 
-        await using var uow = db.GetDbContext();
-        var highlightsForUser = uow.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
+
+        var highlightsForUser = dbContext.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
 
         var matched = highlightsForUser.Where(x => words.ToLower().Contains(x.Word.ToLower()));
         if (!matched.Any())

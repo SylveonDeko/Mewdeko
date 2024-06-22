@@ -199,7 +199,7 @@ public class NewLogCommandService : INService
 
     private readonly IDataCache cache;
     private readonly DiscordShardedClient client;
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
 
 
     /// <summary>
@@ -210,10 +210,10 @@ public class NewLogCommandService : INService
     /// <param name="client">The Discord client.</param>
     /// <param name="handler">The event handler.</param>
     /// <param name="muteService">The mute service.</param>
-    public NewLogCommandService(DbService db, IDataCache cache, DiscordShardedClient client, EventHandler handler,
+    public NewLogCommandService(MewdekoContext dbContext, IDataCache cache, DiscordShardedClient client, EventHandler handler,
         MuteService muteService)
     {
-        this.db = db;
+        this.dbContext = dbContext;
         this.cache = cache;
         this.client = client;
 
@@ -245,9 +245,9 @@ public class NewLogCommandService : INService
         muteService.UserUnmuted += OnUserUnmuted;
 
         // Load guild configurations from the database
-        using var uow = db.GetDbContext();
+
         var guildIds = client.Guilds.Select(x => x.Id).ToList();
-        var configs = uow.GuildConfigs
+        var configs = dbContext.GuildConfigs
             .AsQueryable()
             .Include(gc => gc.LogSetting)
             .ThenInclude(ls => ls.IgnoredChannels)
@@ -1608,8 +1608,8 @@ public class NewLogCommandService : INService
     /// <param name="type">The type of log to set the channel for.</param>
     public async Task SetLogChannel(ulong guildId, ulong channelId, LogType type)
     {
-        await using var uow = db.GetDbContext();
-        var logSetting = (await uow.LogSettingsFor(guildId)).LogSetting;
+
+        var logSetting = (await dbContext.LogSettingsFor(guildId)).LogSetting;
         switch (type)
         {
             case LogType.Other:
@@ -1691,8 +1691,8 @@ public class NewLogCommandService : INService
 
         try
         {
-            uow.LogSettings.Update(logSetting);
-            await uow.SaveChangesAsync();
+            dbContext.LogSettings.Update(logSetting);
+            await dbContext.SaveChangesAsync();
             GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
         }
         catch (Exception e)
@@ -1709,8 +1709,8 @@ public class NewLogCommandService : INService
     /// <param name="categoryTypes">The category of logs to set the channel for.</param>
     public async Task LogSetByType(ulong guildId, ulong channelId, LogCategoryTypes categoryTypes)
     {
-        await using var uow = db.GetDbContext();
-        var logSetting = (await uow.LogSettingsFor(guildId)).LogSetting;
+
+        var logSetting = (await dbContext.LogSettingsFor(guildId)).LogSetting;
         switch (categoryTypes)
         {
             case LogCategoryTypes.All:
@@ -1811,7 +1811,7 @@ public class NewLogCommandService : INService
                 break;
         }
 
-        await uow.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
         GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
     }
 }

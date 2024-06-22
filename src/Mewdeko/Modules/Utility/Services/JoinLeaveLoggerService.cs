@@ -17,7 +17,7 @@ public class JoinLeaveLoggerService : INService
 {
     private readonly IDataCache cache;
     private readonly IBotCredentials credentials;
-    private readonly DbService dbContext;
+    private readonly MewdekoContext dbContext;
     private readonly Timer flushTimer;
 
     /// <summary>
@@ -27,10 +27,10 @@ public class JoinLeaveLoggerService : INService
     /// <param name="cache">Data cache for storing join and leave logs.</param>
     /// <param name="db">Database service for storing join and leave logs.</param>
     /// <param name="credentials">Bot credentials for accessing the Redis database.</param>
-    public JoinLeaveLoggerService(EventHandler eventHandler, IDataCache cache, DbService db,
+    public JoinLeaveLoggerService(EventHandler eventHandler, IDataCache cache, MewdekoContext dbContext,
         IBotCredentials credentials)
     {
-        dbContext = db;
+        dbContext = dbContext;
         this.credentials = credentials;
         this.cache = cache;
 
@@ -119,8 +119,7 @@ public class JoinLeaveLoggerService : INService
     {
         var redisDatabase = cache.Redis.GetDatabase();
         var redisKey = GetRedisKey(guildId);
-        await using var db = dbContext.GetDbContext();
-        var config = await db.ForGuildId(guildId);
+        var config = await dbContext.ForGuildId(guildId);
 
         var joinLogs = await GetJoinLeaveLogsAsync(redisDatabase, redisKey);
         var groupLogs = joinLogs.Where(log => log.IsJoin)
@@ -270,8 +269,7 @@ public class JoinLeaveLoggerService : INService
     {
         var redisDatabase = cache.Redis.GetDatabase();
         var redisKey = GetRedisKey(guildId);
-        await using var db = dbContext.GetDbContext();
-        var config = await db.ForGuildId(guildId);
+        var config = await dbContext.ForGuildId(guildId);
 
         var joinLogs = await GetJoinLeaveLogsAsync(redisDatabase, redisKey);
         var groupLogs = joinLogs.Where(log => !log.IsJoin)
@@ -419,12 +417,12 @@ public class JoinLeaveLoggerService : INService
     private async Task LoadDataFromSqliteToRedisAsync()
     {
         var redisDatabase = cache.Redis.GetDatabase();
-        await using var uow = dbContext.GetDbContext();
-        var guildIds = uow.JoinLeaveLogs.Select(e => e.GuildId).Distinct().ToList();
+
+        var guildIds = dbContext.JoinLeaveLogs.Select(e => e.GuildId).Distinct().ToList();
 
         foreach (var guildId in guildIds)
         {
-            var joinLeaveLogs = await uow.JoinLeaveLogs
+            var joinLeaveLogs = await dbContext.JoinLeaveLogs
                 .Where(e => e.GuildId == guildId)
                 .ToListAsync();
 
@@ -439,9 +437,9 @@ public class JoinLeaveLoggerService : INService
     private async Task FlushDataToSqliteAsync()
     {
         Log.Information("Flushing join/leave logs to DB....");
-        await using var uow = dbContext.GetDbContext();
+
         var redisDatabase = cache.Redis.GetDatabase();
-        var guildIds = uow.JoinLeaveLogs.Select(e => e.GuildId).Distinct().ToList();
+        var guildIds = dbContext.JoinLeaveLogs.Select(e => e.GuildId).Distinct().ToList();
 
         foreach (var redisKey in guildIds.Select(GetRedisKey))
         {
@@ -453,11 +451,11 @@ public class JoinLeaveLoggerService : INService
                     break;
 
                 var log = JsonSerializer.Deserialize<JoinLeaveLogs>(serializedEvent.ToString());
-                uow.JoinLeaveLogs.Add(log);
+                dbContext.JoinLeaveLogs.Add(log);
             }
         }
 
-        await uow.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
         Log.Information("Flushing join/leave logs to DB completed");
     }
 
@@ -468,11 +466,10 @@ public class JoinLeaveLoggerService : INService
     /// <param name="guildId">The ID of the guild.</param>
     public async Task SetJoinColor(uint color, ulong guildId)
     {
-        await using var db = dbContext.GetDbContext();
-        var config = await db.ForGuildId(guildId);
+        var config = await dbContext.ForGuildId(guildId);
         config.JoinGraphColor = color;
-        db.Update(config);
-        await db.SaveChangesAsync();
+        dbContext.Update(config);
+        await dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -482,10 +479,9 @@ public class JoinLeaveLoggerService : INService
     /// <param name="guildId">The ID of the guild.</param>
     public async Task SetLeaveColor(uint color, ulong guildId)
     {
-        await using var db = dbContext.GetDbContext();
-        var config = await db.ForGuildId(guildId);
+        var config = await dbContext.ForGuildId(guildId);
         config.LeaveGraphColor = color;
-        db.Update(config);
-        await db.SaveChangesAsync();
+        dbContext.Update(config);
+        await dbContext.SaveChangesAsync();
     }
 }

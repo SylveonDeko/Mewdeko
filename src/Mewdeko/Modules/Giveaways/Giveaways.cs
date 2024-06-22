@@ -17,7 +17,7 @@ namespace Mewdeko.Modules.Giveaways;
 /// <param name="interactiveService"></param>
 /// <param name="guildSettings"></param>
 public partial class Giveaways(
-    DbService db,
+    MewdekoContext dbContext,
     IServiceProvider servs,
     InteractiveService interactiveService,
     GuildSettingsService guildSettings)
@@ -209,8 +209,8 @@ public partial class Giveaways(
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GReroll(ulong messageid)
     {
-        await using var uow = db.GetDbContext();
-        var gway = uow.Giveaways
+
+        var gway = dbContext.Giveaways
             .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
         {
@@ -236,7 +236,7 @@ public partial class Giveaways(
     public async Task GStats()
     {
         var eb = new EmbedBuilder().WithOkColor();
-        var gways = db.GetDbContext().Giveaways.GiveawaysForGuild(ctx.Guild.Id);
+        var gways = dbContext.Giveaways.GiveawaysForGuild(ctx.Guild.Id);
         if (gways.Count == 0)
         {
             await ctx.Channel.SendErrorAsync("There have been no giveaways here, so no stats!", Config)
@@ -571,8 +571,8 @@ public partial class Giveaways(
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GList()
     {
-        await using var uow = db.GetDbContext();
-        var gways = uow.Giveaways.GiveawaysForGuild(ctx.Guild.Id).Where(x => x.Ended == 0);
+
+        var gways = dbContext.Giveaways.GiveawaysForGuild(ctx.Guild.Id).Where(x => x.Ended == 0);
         if (!gways.Any())
         {
             await ctx.Channel.SendErrorAsync("No active giveaways", Config).ConfigureAwait(false);
@@ -616,8 +616,8 @@ public partial class Giveaways(
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
     public async Task GEnd(ulong messageid)
     {
-        await using var uow = db.GetDbContext();
-        var gway = uow.Giveaways
+
+        var gway = dbContext.Giveaways
             .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
         if (gway is null)
         {

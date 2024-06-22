@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Database;
 
-public class MewdekoContext : DbContext
+public class MewdekoContext(DbContextOptions options) : DbContext(options)
 {
     public DbSet<GlobalUserBalance> GlobalUserBalances { get; set; }
 
@@ -97,7 +97,6 @@ public class MewdekoContext : DbContext
     public DbSet<WarningPunishment> WarningPunishments { get; set; }
 
     public DbSet<WarningPunishment2> WarningPunishments2 { get; set; }
-
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

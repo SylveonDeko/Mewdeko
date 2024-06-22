@@ -22,7 +22,7 @@ public class ChatterBotService : INService
     private readonly DiscordShardedClient client;
     private readonly BotConfig config;
     private readonly IBotCredentials creds;
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
     private readonly GuildSettingsService guildSettings;
     private readonly IHttpClientFactory httpFactory;
 
@@ -38,11 +38,11 @@ public class ChatterBotService : INService
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="config">Bot config service</param>
     public ChatterBotService(DiscordShardedClient client, IHttpClientFactory factory,
-        IBotCredentials creds, DbService db,
+        IBotCredentials creds, MewdekoContext dbContext,
         BlacklistService blacklistService,
         GuildSettingsService guildSettings, EventHandler eventHandler, BotConfig config)
     {
-        this.db = db;
+        this.dbContext = dbContext;
         this.blacklistService = blacklistService;
         this.guildSettings = guildSettings;
         this.config = config;
@@ -70,8 +70,8 @@ public class ChatterBotService : INService
     /// <param name="id">The ID of the channel.</param>
     public async Task SetCleverbotChannel(IGuild guild, ulong id)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.CleverbotChannel = id;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }

@@ -15,7 +15,7 @@ public partial class Utility
     /// Allows for setting up automated messages that can be repeated at specified intervals.
     /// </summary>
     [Group]
-    public class RepeatCommands(DiscordShardedClient client, DbService db) : MewdekoSubmodule<MessageRepeaterService>
+    public class RepeatCommands(DiscordShardedClient client, MewdekoContext dbContext) : MewdekoSubmodule<MessageRepeaterService>
     {
         /// <summary>
         /// Invokes a repeater immediately by its index.
@@ -94,19 +94,19 @@ public partial class Utility
             var description = GetRepeaterInfoString(runner);
             runner.Stop();
 
-            var uow = db.GetDbContext();
-            await using (uow.ConfigureAwait(false))
+
+            await using (dbContext.ConfigureAwait(false))
             {
-                var guildConfig = await uow.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
+                var guildConfig = await dbContext.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
 
                 var item = guildConfig.GuildRepeaters.Find(r => r.Id == value.Repeater.Id);
                 if (item != null)
                 {
                     guildConfig.GuildRepeaters.Remove(item);
-                    uow.Remove(item);
+                    dbContext.Remove(item);
                 }
 
-                await uow.SaveChangesAsync().ConfigureAwait(false);
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
 
             await ctx.Channel.EmbedAsync(new EmbedBuilder()
@@ -146,15 +146,15 @@ public partial class Utility
             var repeater = repeaterList[index].Value.Repeater;
             repeater.NoRedundant = !repeater.NoRedundant;
 
-            await using var uow = db.GetDbContext();
 
-            var guildConfig = await uow.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
+
+            var guildConfig = await dbContext.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
 
             var item = guildConfig.GuildRepeaters.Find(r => r.Id == repeater.Id);
             if (item != null)
             {
                 item.NoRedundant = !item.NoRedundant;
-                await uow.SaveChangesAsync().ConfigureAwait(false);
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
 
             if (repeater.NoRedundant)
@@ -244,14 +244,14 @@ public partial class Utility
                     StartTimeOfDay = startTimeOfDay?.ToString()
                 };
 
-                var uow = db.GetDbContext();
-                await using (uow.ConfigureAwait(false))
+
+                await using (dbContext.ConfigureAwait(false))
                 {
-                    var gc = await uow.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.GuildRepeaters));
+                    var gc = await dbContext.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.GuildRepeaters));
                     gc.GuildRepeaters.Add(toAdd);
                     try
                     {
-                        await uow.SaveChangesAsync().ConfigureAwait(false);
+                        await dbContext.SaveChangesAsync().ConfigureAwait(false);
                     }
                     catch (Exception e)
                     {
@@ -357,9 +357,9 @@ public partial class Utility
             repeater.Message = ((IGuildUser)ctx.User).GuildPermissions.MentionEveryone
                 ? text
                 : text.SanitizeMentions(true);
-            var uow = db.GetDbContext();
-            await using var _ = uow.ConfigureAwait(false);
-            var guildConfig = await uow.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
+
+            await using var _ = dbContext.ConfigureAwait(false);
+            var guildConfig = await dbContext.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
             var item = guildConfig.GuildRepeaters.Find(r => r.Id == repeater.Id);
             if (item != null)
             {
@@ -368,7 +368,7 @@ public partial class Utility
                     : text.SanitizeMentions(true);
             }
 
-            await uow.SaveChangesAsync().ConfigureAwait(false);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             await ReplyConfirmLocalizedAsync("repeater_msg_update", text).ConfigureAwait(false);
         }
@@ -400,12 +400,12 @@ public partial class Utility
 
             var repeater = repeaterList[index].Value.Repeater;
             repeater.ChannelId = textChannel.Id;
-            var uow = db.GetDbContext();
-            await using var _ = uow.ConfigureAwait(false);
-            var guildConfig = await uow.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
+
+            await using var _ = dbContext.ConfigureAwait(false);
+            var guildConfig = await dbContext.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
             var item = guildConfig.GuildRepeaters.Find(r => r.Id == repeater.Id);
             if (item != null) item.ChannelId = textChannel.Id;
-            await uow.SaveChangesAsync().ConfigureAwait(false);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             await ReplyConfirmLocalizedAsync("repeater_channel_update", textChannel.Mention).ConfigureAwait(false);
         }

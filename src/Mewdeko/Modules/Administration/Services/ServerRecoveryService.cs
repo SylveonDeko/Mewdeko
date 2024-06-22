@@ -10,15 +10,15 @@ public class ServerRecoveryService : INService
     /// <summary>
     /// The database service.
     /// </summary>
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ServerRecoveryService"/> class.
     /// </summary>
     /// <param name="db">The database service.</param>
-    public ServerRecoveryService(DbService db)
+    public ServerRecoveryService(MewdekoContext dbContext)
     {
-        this.db = db;
+        this.dbContext = dbContext;
     }
 
     /// <summary>
@@ -28,9 +28,9 @@ public class ServerRecoveryService : INService
     /// <returns>A task that represents the asynchronous operation and contains a boolean indicating whether recovery is set up and the server recovery store.</returns>
     public async Task<(bool, ServerRecoveryStore)> RecoveryIsSetup(ulong guildId)
     {
-        await using var uow = db.GetDbContext();
 
-        var store = await uow.ServerRecoveryStore.FirstOrDefaultAsync(x => x.GuildId == guildId);
+
+        var store = await dbContext.ServerRecoveryStore.FirstOrDefaultAsync(x => x.GuildId == guildId);
         return (store != null, store);
     }
 
@@ -43,15 +43,15 @@ public class ServerRecoveryService : INService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetupRecovery(ulong guildId, string recoveryKey, string twoFactorKey)
     {
-        await using var uow = db.GetDbContext();
+
 
         var toAdd = new ServerRecoveryStore
         {
             GuildId = guildId, RecoveryKey = recoveryKey, TwoFactorKey = twoFactorKey
         };
 
-        await uow.ServerRecoveryStore.AddAsync(toAdd);
-        await uow.SaveChangesAsync();
+        await dbContext.ServerRecoveryStore.AddAsync(toAdd);
+        await dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -61,8 +61,8 @@ public class ServerRecoveryService : INService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task ClearRecoverySetup(ServerRecoveryStore serverRecoveryStore)
     {
-        await using var uow = db.GetDbContext();
-        uow.ServerRecoveryStore.Remove(serverRecoveryStore);
-        await uow.SaveChangesAsync();
+
+        dbContext.ServerRecoveryStore.Remove(serverRecoveryStore);
+        await dbContext.SaveChangesAsync();
     }
 }

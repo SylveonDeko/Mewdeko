@@ -8,16 +8,16 @@ namespace Mewdeko.Modules.RoleStates.Services;
 /// </summary>
 public class RoleStatesService : INService
 {
-    private readonly DbService dbService;
+    private readonly MewdekoContext dbContext;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RoleStatesService"/> class.
     /// </summary>
-    /// <param name="dbService">The database service to interact with stored data.</param>
+    /// <param name="dbContext">The database service to interact with stored data.</param>
     /// <param name="eventHandler">The event handler to subscribe to guild member events.</param>
-    public RoleStatesService(DbService dbService, EventHandler eventHandler)
+    public RoleStatesService(MewdekoContext dbContext, EventHandler eventHandler)
     {
-        this.dbService = dbService;
+        this.dbContext = dbContext;
         eventHandler.UserLeft += OnUserLeft;
         eventHandler.UserBanned += OnUserBanned;
         eventHandler.UserJoined += OnUserJoined;
@@ -26,21 +26,20 @@ public class RoleStatesService : INService
     private async Task OnUserBanned(SocketUser args, SocketGuild arsg2)
     {
         if (args is not SocketGuildUser usr) return;
-        await using var db = this.dbService.GetDbContext();
-        var roleStateSettings = await db.RoleStateSettings.FirstOrDefaultAsync(x => x.GuildId == arsg2.Id);
+        var roleStateSettings = await dbContext.RoleStateSettings.FirstOrDefaultAsync(x => x.GuildId == arsg2.Id);
         if (roleStateSettings is null || !roleStateSettings.Enabled || !roleStateSettings.ClearOnBan) return;
 
-        var roleState = await db.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == arsg2.Id && x.UserId == usr.Id);
+        var roleState = await dbContext.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == arsg2.Id && x.UserId == usr.Id);
         if (roleState is null) return;
-        db.Remove(roleState);
-        await db.SaveChangesAsync();
+        dbContext.Remove(roleState);
+        await dbContext.SaveChangesAsync();
     }
 
     private async Task OnUserJoined(IGuildUser usr)
     {
-        await using var db = dbService.GetDbContext();
 
-        var roleStateSettings = await db.RoleStateSettings.FirstOrDefaultAsync(x => x.GuildId == usr.Guild.Id);
+
+        var roleStateSettings = await dbContext.RoleStateSettings.FirstOrDefaultAsync(x => x.GuildId == usr.Guild.Id);
         if (roleStateSettings is null || !roleStateSettings.Enabled) return;
 
         if (roleStateSettings.IgnoreBots && usr.IsBot) return;
@@ -52,7 +51,7 @@ public class RoleStatesService : INService
         if (deniedUsers.Contains(usr.Id)) return;
 
         var roleState =
-            await db.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == usr.Guild.Id && x.UserId == usr.Id);
+            await dbContext.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == usr.Guild.Id && x.UserId == usr.Id);
         if (roleState is null || string.IsNullOrWhiteSpace(roleState.SavedRoles)) return;
 
         var savedRoleIds = roleState.SavedRoles.Split(',').Select(ulong.Parse).ToList();
@@ -74,8 +73,7 @@ public class RoleStatesService : INService
 
     private async Task OnUserLeft(IGuild args, IUser args2)
     {
-        await using var db = this.dbService.GetDbContext();
-        var roleStateSettings = await db.RoleStateSettings.FirstOrDefaultAsync(x => x.GuildId == args.Id);
+        var roleStateSettings = await dbContext.RoleStateSettings.FirstOrDefaultAsync(x => x.GuildId == args.Id);
         if (roleStateSettings is null || !roleStateSettings.Enabled) return;
 
         if (roleStateSettings.IgnoreBots && args2.IsBot) return;
@@ -100,7 +98,7 @@ public class RoleStatesService : INService
 
         if (!rolesToSave.Any()) return;
 
-        var roleState = await db.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == args.Id && x.UserId == usr.Id);
+        var roleState = await dbContext.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == args.Id && x.UserId == usr.Id);
         if (roleState is null)
         {
             var newRoleState = new UserRoleStates
@@ -110,15 +108,15 @@ public class RoleStatesService : INService
                 UserId = usr.Id,
                 SavedRoles = string.Join(",", rolesToSave),
             };
-            await db.UserRoleStates.AddAsync(newRoleState);
+            await dbContext.UserRoleStates.AddAsync(newRoleState);
         }
         else
         {
             roleState.SavedRoles = string.Join(",", rolesToSave);
-            db.Update(roleState);
+            dbContext.Update(roleState);
         }
 
-        await db.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -128,22 +126,21 @@ public class RoleStatesService : INService
     /// <returns>A task that represents the asynchronous operation, containing a boolean indicating the operation success.</returns>
     public async Task<bool> ToggleRoleStates(ulong guildId)
     {
-        await using var db = this.dbService.GetDbContext();
-        var roleStateSettings = await db.RoleStateSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
+        var roleStateSettings = await dbContext.RoleStateSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
         if (roleStateSettings is null)
         {
             var toAdd = new RoleStateSettings
             {
                 GuildId = guildId, Enabled = true,
             };
-            await db.RoleStateSettings.AddAsync(toAdd);
-            await db.SaveChangesAsync();
+            await dbContext.RoleStateSettings.AddAsync(toAdd);
+            await dbContext.SaveChangesAsync();
             return true;
         }
 
         roleStateSettings.Enabled = !roleStateSettings.Enabled;
-        db.RoleStateSettings.Update(roleStateSettings);
-        await db.SaveChangesAsync();
+        dbContext.RoleStateSettings.Update(roleStateSettings);
+        await dbContext.SaveChangesAsync();
         return roleStateSettings.Enabled;
     }
 
@@ -154,8 +151,8 @@ public class RoleStatesService : INService
     /// <returns>A task that represents the asynchronous operation, containing the <see cref="RoleStateSettings"/> or null if not found.</returns>
     public async Task<RoleStateSettings?> GetRoleStateSettings(ulong guildId)
     {
-        await using var db = dbService.GetDbContext();
-        return await db.RoleStateSettings.FirstOrDefaultAsync(x => x.GuildId == guildId) ?? null;
+
+        return await dbContext.RoleStateSettings.FirstOrDefaultAsync(x => x.GuildId == guildId) ?? null;
     }
 
     /// <summary>
@@ -166,8 +163,8 @@ public class RoleStatesService : INService
     /// <returns>A task that represents the asynchronous operation, containing the <see cref="UserRoleStates"/> or null if not found.</returns>
     public async Task<UserRoleStates?> GetUserRoleState(ulong guildId, ulong userId)
     {
-        await using var db = dbService.GetDbContext();
-        return await db.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == userId) ?? null;
+
+        return await dbContext.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == userId) ?? null;
     }
 
     /// <summary>
@@ -177,7 +174,7 @@ public class RoleStatesService : INService
     /// <returns>A task that represents the asynchronous operation, containing a list of <see cref="UserRoleStates"/>.</returns>
     public Task<List<UserRoleStates>> GetAllUserRoleStates(ulong guildId)
     {
-        return dbService.GetDbContext().UserRoleStates.Where(x => x.GuildId == guildId).ToListAsync();
+        return dbContext.UserRoleStates.Where(x => x.GuildId == guildId).ToListAsync();
     }
 
     /// <summary>
@@ -187,9 +184,9 @@ public class RoleStatesService : INService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task UpdateRoleStateSettings(RoleStateSettings roleStateSettings)
     {
-        await using var db = dbService.GetDbContext();
-        db.RoleStateSettings.Update(roleStateSettings);
-        await db.SaveChangesAsync();
+
+        dbContext.RoleStateSettings.Update(roleStateSettings);
+        await dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -199,11 +196,11 @@ public class RoleStatesService : INService
     /// <returns>A task that represents the asynchronous operation, containing a boolean indicating if bots are now ignored.</returns>
     public async Task<bool> ToggleIgnoreBots(RoleStateSettings roleStateSettings)
     {
-        await using var db = dbService.GetDbContext();
+
         roleStateSettings.IgnoreBots = !roleStateSettings.IgnoreBots;
 
-        db.RoleStateSettings.Update(roleStateSettings);
-        await db.SaveChangesAsync();
+        dbContext.RoleStateSettings.Update(roleStateSettings);
+        await dbContext.SaveChangesAsync();
 
         return roleStateSettings.IgnoreBots;
     }
@@ -215,13 +212,13 @@ public class RoleStatesService : INService
     /// <returns>A task that represents the asynchronous operation, containing a boolean indicating if roles are cleared on ban.</returns>
     public async Task<bool> ToggleClearOnBan(RoleStateSettings roleStateSettings)
     {
-        await using var db = dbService.GetDbContext();
+
 
         var previousClearOnBanValue = roleStateSettings.ClearOnBan;
         roleStateSettings.ClearOnBan = !roleStateSettings.ClearOnBan;
 
-        db.RoleStateSettings.Update(roleStateSettings);
-        await db.SaveChangesAsync();
+        dbContext.RoleStateSettings.Update(roleStateSettings);
+        await dbContext.SaveChangesAsync();
 
         return roleStateSettings.ClearOnBan;
     }
@@ -235,9 +232,9 @@ public class RoleStatesService : INService
     /// <returns>A task that represents the asynchronous operation, containing a tuple with a boolean indicating success and an optional error message.</returns>
     public async Task<(bool, string)> AddRolesToUserRoleState(ulong guildId, ulong userId, IEnumerable<ulong> roleIds)
     {
-        await using var db = dbService.GetDbContext();
+
         var userRoleState =
-            await db.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == userId);
+            await dbContext.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == userId);
 
         if (userRoleState == null)
         {
@@ -259,8 +256,8 @@ public class RoleStatesService : INService
         }
 
         userRoleState.SavedRoles = string.Join(",", savedRoleIds);
-        db.Update(userRoleState);
-        await db.SaveChangesAsync();
+        dbContext.Update(userRoleState);
+        await dbContext.SaveChangesAsync();
 
         return (true, "");
     }
@@ -275,9 +272,9 @@ public class RoleStatesService : INService
     public async Task<(bool, string)> RemoveRolesFromUserRoleState(ulong guildId, ulong userId,
         IEnumerable<ulong> roleIds)
     {
-        await using var db = dbService.GetDbContext();
+
         var userRoleState =
-            await db.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == userId);
+            await dbContext.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == userId);
 
         if (userRoleState == null)
         {
@@ -299,8 +296,8 @@ public class RoleStatesService : INService
         }
 
         userRoleState.SavedRoles = string.Join(",", savedRoleIds);
-        db.Update(userRoleState);
-        await db.SaveChangesAsync();
+        dbContext.Update(userRoleState);
+        await dbContext.SaveChangesAsync();
 
         return (true, "");
     }
@@ -313,12 +310,12 @@ public class RoleStatesService : INService
     /// <returns>A task that represents the asynchronous operation, containing a boolean indicating if the operation was successful.</returns>
     public async Task<bool> DeleteUserRoleState(ulong userId, ulong guildId)
     {
-        await using var db = dbService.GetDbContext();
+
         var userRoleState =
-            await db.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == userId);
+            await dbContext.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == userId);
         if (userRoleState is null) return false;
-        db.UserRoleStates.Remove(userRoleState);
-        await db.SaveChangesAsync();
+        dbContext.UserRoleStates.Remove(userRoleState);
+        await dbContext.SaveChangesAsync();
         return true;
     }
 
@@ -331,10 +328,10 @@ public class RoleStatesService : INService
     /// <returns>A task that represents the asynchronous operation, containing a boolean indicating if the operation was successful.</returns>
     public async Task<bool> ApplyUserRoleStateToAnotherUser(ulong sourceUserId, IGuildUser targetUser, ulong guildId)
     {
-        await using var db = dbService.GetDbContext();
+
 
         var sourceUserRoleState =
-            await db.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == sourceUserId);
+            await dbContext.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == sourceUserId);
 
         if (sourceUserRoleState is null || string.IsNullOrWhiteSpace(sourceUserRoleState.SavedRoles)) return false;
 
@@ -364,23 +361,23 @@ public class RoleStatesService : INService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetRoleStateManually(IUser user, ulong guildId, IEnumerable<ulong> roles)
     {
-        await using var db = dbService.GetDbContext();
+
         var userRoleState =
-            await db.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == user.Id);
+            await dbContext.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == user.Id);
         if (userRoleState is null)
         {
             userRoleState = new UserRoleStates
             {
                 GuildId = guildId, UserId = user.Id, UserName = user.ToString(), SavedRoles = string.Join(",", roles)
             };
-            await db.UserRoleStates.AddAsync(userRoleState);
-            await db.SaveChangesAsync();
+            await dbContext.UserRoleStates.AddAsync(userRoleState);
+            await dbContext.SaveChangesAsync();
         }
         else
         {
             userRoleState.SavedRoles = string.Join(",", roles);
-            db.UserRoleStates.Update(userRoleState);
-            await db.SaveChangesAsync();
+            dbContext.UserRoleStates.Update(userRoleState);
+            await dbContext.SaveChangesAsync();
         }
     }
 }

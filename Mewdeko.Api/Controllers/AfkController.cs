@@ -9,7 +9,7 @@ namespace Mewdeko.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]/{guildId}/{userId}")]
-public class AfkController(DbService dbService, RedisCache cache) : Controller
+public class AfkController(MewdekoContext dbContext, RedisCache cache) : Controller
 {
     [HttpGet("")]
     public async Task<IActionResult> GetAfkStatus(ulong guildId, ulong userId)
@@ -28,15 +28,15 @@ public class AfkController(DbService dbService, RedisCache cache) : Controller
         if (string.IsNullOrEmpty(message))
             return BadRequest();
 
-        await using var uow = dbService.GetDbContext();
+
         var toSave = new Afk
         {
             GuildId = guildId, UserId = userId, Message = message
         };
 
         await cache.CacheAfk(guildId, userId, toSave);
-        await uow.Afk.AddAsync(toSave);
-        await uow.SaveChangesAsync();
+        await dbContext.Afk.AddAsync(toSave);
+        await dbContext.SaveChangesAsync();
 
         return Ok();
     }
@@ -44,9 +44,9 @@ public class AfkController(DbService dbService, RedisCache cache) : Controller
     [HttpDelete("")]
     public async Task<IActionResult> DeleteAfkStatus(ulong guildId, ulong userId)
     {
-        await using var uow = dbService.GetDbContext();
 
-        var afkStatus = await uow.Afk.OrderBy(x => x.DateAdded)
+
+        var afkStatus = await dbContext.Afk.OrderBy(x => x.DateAdded)
             .LastOrDefaultAsync(x => x.GuildId == guildId && x.UserId == userId);
 
         if (afkStatus == null || string.IsNullOrEmpty(afkStatus.Message))
@@ -58,8 +58,8 @@ public class AfkController(DbService dbService, RedisCache cache) : Controller
         };
 
         await cache.ClearAfk(guildId, userId);
-        await uow.Afk.AddAsync(toAdd);
-        await uow.SaveChangesAsync();
+        await dbContext.Afk.AddAsync(toAdd);
+        await dbContext.SaveChangesAsync();
 
         return Ok();
     }

@@ -29,7 +29,7 @@ public class SlashRoleMetadataCommands : MewdekoSlashSubmodule
     /// <summary>
     /// The database service.
     /// </summary>
-    public DbService DbService { get; set; }
+    public MewdekoContext dbContext { get; set; }
 
     /// <summary>
     /// Component interaction for entering an auth code.
@@ -99,12 +99,12 @@ public class SlashRoleMetadataCommands : MewdekoSlashSubmodule
             UserId = Context.User.Id
         };
 
-        await using var uow = DbService.GetDbContext();
-        await uow.AuthCodes.AddAsync(mod);
-        await uow.SaveChangesAsync();
+
+        await dbContext.AuthCodes.AddAsync(mod);
+        await dbContext.SaveChangesAsync();
 
         await Task.Delay(1000);
-        await RoleMetadataService.UpdateRoleConnectionData(Context.User.Id, mod.Id, uow, Context.Client.CurrentUser.Id,
+        await RoleMetadataService.UpdateRoleConnectionData(Context.User.Id, mod.Id, dbContext, Context.Client.CurrentUser.Id,
             Credentials.ClientSecret, HttpClient);
 
         var eb = new EmbedBuilder()

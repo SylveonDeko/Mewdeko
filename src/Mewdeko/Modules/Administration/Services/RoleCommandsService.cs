@@ -9,7 +9,7 @@ namespace Mewdeko.Modules.Administration.Services;
 /// </summary>
 public class RoleCommandsService : INService
 {
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
     private readonly GuildSettingsService gss;
 
     /// <summary>
@@ -19,9 +19,9 @@ public class RoleCommandsService : INService
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="bot">The bot.</param>
     /// /// <param name="gss">The guild config service.</param>
-    public RoleCommandsService(DbService db, EventHandler eventHandler, Mewdeko bot, GuildSettingsService gss)
+    public RoleCommandsService(MewdekoContext dbContext, EventHandler eventHandler, Mewdeko bot, GuildSettingsService gss)
     {
-        this.db = db;
+        this.dbContext = dbContext;
         this.gss = gss;
         eventHandler.ReactionAdded += _client_ReactionAdded;
         eventHandler.ReactionRemoved += _client_ReactionRemoved;
@@ -199,8 +199,8 @@ public class RoleCommandsService : INService
     /// <returns>A task that represents the asynchronous operation and contains a boolean indicating whether the operation was successful.</returns>
     public async Task<bool> Add(ulong id, ReactionRoleMessage rrm)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(id, set => set
+
+        var gc = await dbContext.ForGuildId(id, set => set
             .Include(x => x.ReactionRoleMessages)
             .ThenInclude(x => x.ReactionRoles));
         gc.ReactionRoleMessages.Add(rrm);
@@ -216,11 +216,11 @@ public class RoleCommandsService : INService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Remove(ulong id, int index)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(id,
+
+        var gc = await dbContext.ForGuildId(id,
             set => set.Include(x => x.ReactionRoleMessages)
                 .ThenInclude(x => x.ReactionRoles));
-        uow.Set<ReactionRole>()
+        dbContext.Set<ReactionRole>()
             .RemoveRange(gc.ReactionRoleMessages[index].ReactionRoles);
         gc.ReactionRoleMessages.RemoveAt(index);
         await gss.UpdateGuildConfig(id, gc);

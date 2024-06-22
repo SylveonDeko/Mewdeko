@@ -74,11 +74,11 @@ public static class Extensions
     /// <param name="client">The Discord socket client.</param>
     /// <param name="resolvedTrigger">The resolved trigger string.</param>
     /// <param name="containsAnywhere">Boolean value indicating whether the trigger is contained anywhere in the message.</param>
-    /// <param name="uow">Optional: The database context. Default is null.</param>
+    /// <param name="dbContext">Optional: The database context. Default is null.</param>
     /// <param name="triggerId">Optional: The ID of the trigger. Default is 0.</param>
     /// <returns>The resolved response string.</returns>
     private static async Task<string?> ResolveResponseStringAsync(this string? str, IUserMessage ctx,
-        DiscordShardedClient client, string resolvedTrigger, bool containsAnywhere, MewdekoContext uow = null,
+        DiscordShardedClient client, string resolvedTrigger, bool containsAnywhere, MewdekoContext dbContext = null,
         int triggerId = 0)
     {
         // Calculate the index where the substring begins
@@ -109,7 +109,7 @@ public static class Extensions
                 canMentionEveryone
                     ? ctx.Content[substringIndex..].Trim()
                     : ctx.Content[substringIndex..].Trim().SanitizeMentions(true))
-            .WithOverride("%usecount%", () => uow.CommandStats.Count(x => x.NameOrId == $"{triggerId}").ToString())
+            .WithOverride("%usecount%", () => dbContext.CommandStats.Count(x => x.NameOrId == $"{triggerId}").ToString())
             .WithOverride("%targetuser%", () =>
             {
                 var mention = ctx.MentionedUserIds.FirstOrDefault();

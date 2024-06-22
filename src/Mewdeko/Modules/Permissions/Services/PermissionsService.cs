@@ -15,7 +15,7 @@ namespace Mewdeko.Modules.Permissions.Services;
 public class PermissionService : ILateBlocker, INService
 {
     private readonly BotConfig config;
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
 
     private readonly GuildSettingsService guildSettings;
 
@@ -32,12 +32,12 @@ public class PermissionService : ILateBlocker, INService
     /// <param name="guildSettings">The service for managing guild-specific settings.</param>
     /// <param name="client">The discord socket client</param>
     /// <param name="configService">The service for bot-wide configurations.</param>
-    public PermissionService(DbService db,
+    public PermissionService(MewdekoContext dbContext,
         IBotStrings strings,
         GuildSettingsService guildSettings, DiscordShardedClient client, BotConfig configService)
     {
         config = configService;
-        this.db = db;
+        this.dbContext = dbContext;
         Strings = strings;
         this.guildSettings = guildSettings;
         _ = CacheAll(client.Guilds.Select(x => x.Id));
@@ -194,8 +194,8 @@ public class PermissionService : ILateBlocker, INService
 
     private async Task CacheAll(IEnumerable<ulong> guildIds)
     {
-        await using var uow = db.GetDbContext();
-        var configs = await uow.GuildConfigs.ToLinqToDB().AsNoTracking().Include(x => x.Permissions)
+
+        var configs = await dbContext.GuildConfigs.ToLinqToDB().AsNoTracking().Include(x => x.Permissions)
             .Where(x => guildIds.Contains(x.GuildId)).ToListAsync();
         foreach (var config in configs)
         {
@@ -223,12 +223,9 @@ public class PermissionService : ILateBlocker, INService
     {
         if (Cache.TryGetValue(guildId, out var pc))
             return pc;
-        await using (var uow = db.GetDbContext())
-        {
-            var config = await uow.ForGuildId(guildId,
-                set => set.Include(x => x.Permissions));
-            UpdateCache(config);
-        }
+        var config = await dbContext.ForGuildId(guildId,
+            set => set.Include(x => x.Permissions));
+        UpdateCache(config);
 
         Cache.TryGetValue(guildId, out pc);
         return pc ?? null;
@@ -242,8 +239,8 @@ public class PermissionService : ILateBlocker, INService
     /// <remarks>Updates both the database and the in-memory cache.</remarks>
     public async Task AddPermissions(ulong guildId, params Permissionv2[] perms)
     {
-        await using var uow = db.GetDbContext();
-        var config = await uow.GcWithPermissionsv2For(guildId);
+
+        var config = await dbContext.GcWithPermissionsv2For(guildId);
         //var orderedPerms = new PermissionsCollection<Permissionv2>(config.Permissions);
         var max = config.Permissions.Max(x => x.Index); //have to set its index to be the highest
         foreach (var perm in perms)
@@ -252,7 +249,7 @@ public class PermissionService : ILateBlocker, INService
             config.Permissions.Add(perm);
         }
 
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
         UpdateCache(config);
     }
 
@@ -281,10 +278,10 @@ public class PermissionService : ILateBlocker, INService
     /// <remarks>Updates both the database and the in-memory cache.</remarks>
     public async Task Reset(ulong guildId)
     {
-        await using var uow = db.GetDbContext();
-        var config = await uow.GcWithPermissionsv2For(guildId);
+
+        var config = await dbContext.GcWithPermissionsv2For(guildId);
         config.Permissions = Permissionv2.GetDefaultPermlist;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
         UpdateCache(config);
     }
 
@@ -314,15 +311,15 @@ public class PermissionService : ILateBlocker, INService
     /// <remarks>Updates both the database and the in-memory cache.</remarks>
     public async Task RemovePerm(ulong guildId, int index)
     {
-        await using var uow = db.GetDbContext();
 
-        var config = await uow.GcWithPermissionsv2For(guildId);
+
+        var config = await dbContext.GcWithPermissionsv2For(guildId);
         var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
 
         var p = permsCol[index];
         permsCol.RemoveAt(index);
-        uow.Remove(p);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        dbContext.Remove(p);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
         UpdateCache(config);
     }
 
@@ -335,15 +332,15 @@ public class PermissionService : ILateBlocker, INService
     /// <remarks>Updates both the database and the in-memory cache.</remarks>
     public async Task UpdatePerm(ulong guildId, int index, bool state)
     {
-        await using var uow = db.GetDbContext();
 
-        var config = await uow.GcWithPermissionsv2For(guildId);
+
+        var config = await dbContext.GcWithPermissionsv2For(guildId);
         var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
 
         var p = permsCol[index];
         p.State = state;
-        uow.Update(p);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        dbContext.Update(p);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
         UpdateCache(config);
     }
 
@@ -356,9 +353,9 @@ public class PermissionService : ILateBlocker, INService
     /// <remarks>Updates both the database and the in-memory cache.</remarks>
     public async Task UnsafeMovePerm(ulong guildId, int from, int to)
     {
-        await using var uow = db.GetDbContext();
 
-        var config = await uow.GcWithPermissionsv2For(guildId);
+
+        var config = await dbContext.GcWithPermissionsv2For(guildId);
         var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
 
         var fromFound = from < permsCol.Count;
@@ -373,7 +370,7 @@ public class PermissionService : ILateBlocker, INService
 
         permsCol.RemoveAt(from);
         permsCol.Insert(to, fromPerm);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
         UpdateCache(config);
     }
 }

@@ -7,16 +7,16 @@ namespace Mewdeko.Modules.Administration.Services;
 /// </summary>
 public class AutoBanRoleService : INService
 {
-    private readonly DbService dbService;
+    private readonly MewdekoContext dbContext;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AutoBanRoleService"/> class.
     /// </summary>
     /// <param name="handler">The event handler</param>
     /// <param name="db">The database handler</param>
-    public AutoBanRoleService(EventHandler handler, DbService db)
+    public AutoBanRoleService(EventHandler handler, MewdekoContext dbContext)
     {
-        dbService = db;
+        dbContext = dbContext;
         handler.GuildMemberUpdated += OnGuildMemberUpdated;
     }
 
@@ -26,8 +26,8 @@ public class AutoBanRoleService : INService
         var addedRoles = arsg2.Roles.Except(args.Value.Roles);
         if (!addedRoles.Any()) return;
 
-        await using var uow = dbService.GetDbContext();
-        var autoBanRoles = await uow.AutoBanRoles.AsQueryable().Where(x => x.GuildId == arsg2.Guild.Id).ToListAsync();
+
+        var autoBanRoles = await dbContext.AutoBanRoles.AsQueryable().Where(x => x.GuildId == arsg2.Guild.Id).ToListAsync();
         var roles = autoBanRoles.Select(x => x.RoleId).ToHashSet();
         if (!addedRoles.Any(x => roles.Contains(x.Id))) return;
 
@@ -49,16 +49,16 @@ public class AutoBanRoleService : INService
     /// <returns>A bool depending on whether the role was removed</returns>
     public async Task<bool> AddAutoBanRole(ulong guildId, ulong roleId)
     {
-        await using var uow = dbService.GetDbContext();
-        var autoBanRole = await uow.AutoBanRoles.AsQueryable()
+
+        var autoBanRole = await dbContext.AutoBanRoles.AsQueryable()
             .FirstOrDefaultAsync(x => x.GuildId == guildId && x.RoleId == roleId);
         if (autoBanRole != null) return false;
 
-        await uow.AutoBanRoles.AddAsync(new AutoBanRoles
+        await dbContext.AutoBanRoles.AddAsync(new AutoBanRoles
         {
             GuildId = guildId, RoleId = roleId
         });
-        await uow.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
         return true;
     }
 
@@ -70,13 +70,13 @@ public class AutoBanRoleService : INService
     /// <returns>A bool depending on whether the role was removed</returns>
     public async Task<bool> RemoveAutoBanRole(ulong guildId, ulong roleId)
     {
-        await using var uow = dbService.GetDbContext();
-        var autoBanRole = await uow.AutoBanRoles.AsQueryable()
+
+        var autoBanRole = await dbContext.AutoBanRoles.AsQueryable()
             .FirstOrDefaultAsync(x => x.GuildId == guildId && x.RoleId == roleId);
         if (autoBanRole == null) return false;
 
-        uow.AutoBanRoles.Remove(autoBanRole);
-        await uow.SaveChangesAsync();
+        dbContext.AutoBanRoles.Remove(autoBanRole);
+        await dbContext.SaveChangesAsync();
         return true;
     }
 }
