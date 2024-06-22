@@ -11,7 +11,7 @@ namespace Mewdeko.Services
     /// </summary>
     public class GuildSettingsService(
 
-        DbService db,
+        MewdekoContext dbContext,
         IConfigService? bss,
         IServiceProvider services,
         IFusionCache cache)
@@ -61,24 +61,31 @@ namespace Mewdeko.Services
         /// </summary>
         public async Task<GuildConfig> GetGuildConfig(ulong guildId)
         {
-            var sw = new Stopwatch();
-            sw.Start();
-            var configExists = await cache.TryGetAsync<GuildConfig>($"guildconfig_{guildId}");
-            if (configExists.HasValue)
-                return configExists;
-
-            await using var uow = db.GetDbContext();
-            var toLoad = uow.GuildConfigs.FirstOrDefault(x => x.GuildId == guildId);
-            if (toLoad is null)
+            try
             {
-                await uow.ForGuildId(guildId);
-                toLoad = uow.GuildConfigs.FirstOrDefault(x => x.GuildId == guildId);
-            }
+                var sw = new Stopwatch();
+                sw.Start();
+                var configExists = await cache.TryGetAsync<GuildConfig>($"guildconfig_{guildId}");
+                if (configExists.HasValue)
+                    return configExists;
 
-            await cache.SetAsync($"guildconfig_{guildId}", toLoad);
-            sw.Stop();
-            Log.Information($"GuildConfig Get for {guildId} took {sw.Elapsed}");
-            return toLoad;
+                var toLoad = dbContext.GuildConfigs.FirstOrDefault(x => x.GuildId == guildId);
+                if (toLoad is null)
+                {
+                    await dbContext.ForGuildId(guildId);
+                    toLoad = dbContext.GuildConfigs.FirstOrDefault(x => x.GuildId == guildId);
+                }
+
+                await cache.SetAsync($"guildconfig_{guildId}", toLoad);
+                sw.Stop();
+                Log.Information($"GuildConfig Get for {guildId} took {sw.Elapsed}");
+                return toLoad;
+            }
+            catch (Exception e)
+            {
+                Log.Information(e, "Failed to get guild config");
+                throw;
+            }
         }
 
         /// <summary>
@@ -90,8 +97,7 @@ namespace Mewdeko.Services
             sw.Start();
             try
             {
-                await using var uow = db.GetDbContext();
-                var config = uow.GuildConfigs.FirstOrDefault(x => x.Id == toUpdate.Id);
+                var config = dbContext.GuildConfigs.FirstOrDefault(x => x.Id == toUpdate.Id);
                     if (config != null)
                     {
                         var properties = typeof(GuildConfig).GetProperties();
@@ -107,8 +113,8 @@ namespace Mewdeko.Services
                         }
 
                         await cache.SetAsync($"guildconfig_{guildId}", config);
-                        uow.GuildConfigs.Update(config);
-                        await uow.SaveChangesAsync();
+                        dbContext.GuildConfigs.Update(config);
+                        await dbContext.SaveChangesAsync();
                         sw.Stop();
                         Log.Information($"GuildConfig Set for {guildId} took {sw.Elapsed}");
                     }

@@ -8,7 +8,7 @@ namespace Mewdeko.Modules.Utility.Services;
 /// <summary>
 /// Manages the scheduling and execution of repeating messages across guilds.
 /// </summary>
-public class MessageRepeaterService(DiscordShardedClient client, DbService db, Mewdeko bot, GuildSettingsService gss)
+public class MessageRepeaterService(DiscordShardedClient client, MewdekoContext dbContext, Mewdeko bot, GuildSettingsService gss)
     : INService, IReadyExecutor
 {
     /// <summary>
@@ -28,7 +28,7 @@ public class MessageRepeaterService(DiscordShardedClient client, DbService db, M
         Log.Information($"Starting {this.GetType()} Cache");
         await bot.Ready.Task.ConfigureAwait(false);
         Log.Information("Loading message repeaters");
-        await using var uow = db.GetDbContext();
+
 
         var repeaters = new Dictionary<ulong, ConcurrentDictionary<int, RepeatRunner>>();
         foreach (var gc in client.Guilds)
@@ -61,12 +61,12 @@ public class MessageRepeaterService(DiscordShardedClient client, DbService db, M
     /// <param name="r">The repeater configuration to remove.</param>
     public async Task RemoveRepeater(Repeater r)
     {
-        await using var uow = db.GetDbContext();
-        var gr = (await uow.ForGuildId(r.GuildId, x => x.Include(y => y.GuildRepeaters))).GuildRepeaters;
+
+        var gr = (await dbContext.ForGuildId(r.GuildId, x => x.Include(y => y.GuildRepeaters))).GuildRepeaters;
         var toDelete = gr.Find(x => x.Id == r.Id);
         if (toDelete != null)
-            uow.Set<Repeater>().Remove(toDelete);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+            dbContext.Set<Repeater>().Remove(toDelete);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -76,8 +76,8 @@ public class MessageRepeaterService(DiscordShardedClient client, DbService db, M
     /// <param name="lastMsgId">The ID of the last message sent by the repeater.</param>
     public void SetRepeaterLastMessage(int repeaterId, ulong lastMsgId)
     {
-        using var uow = db.GetDbContext();
-        uow.Database.ExecuteSqlInterpolated($@"UPDATE GuildRepeater SET
+
+        dbContext.Database.ExecuteSqlInterpolated($@"UPDATE GuildRepeater SET
                     LastMessageId={lastMsgId} WHERE Id={repeaterId}");
     }
 }

@@ -17,7 +17,7 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
 {
     private readonly Mewdeko bot;
     private readonly BlacklistService bss;
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
 
     /// <summary>
     /// Initializes a new instance of the SlashUserProfile class, setting up dependencies for database and blacklist services.
@@ -25,9 +25,9 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     /// <param name="db">The database service instance.</param>
     /// <param name="bot">The bot instance.</param>
     /// <param name="bss">The blacklist service instance.</param>
-    public SlashUserProfile(DbService db, Mewdeko bot, BlacklistService bss)
+    public SlashUserProfile(MewdekoContext dbContext, Mewdeko bot, BlacklistService bss)
     {
-        this.db = db;
+        this.dbContext = dbContext;
         this.bot = bot;
         this.bss = bss;
     }
@@ -225,11 +225,11 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     [ComponentInteraction("pronouns_overwrite_clear", true)]
     public async Task ClearPronounsOverwrite()
     {
-        await using var uow = db.GetDbContext();
-        var user = await uow.GetOrCreateUser(ctx.User).ConfigureAwait(false);
+
+        var user = await dbContext.GetOrCreateUser(ctx.User).ConfigureAwait(false);
         if (await PronounsDisabled(user).ConfigureAwait(false)) return;
         user.Pronouns = "";
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
         await ConfirmLocalizedAsync("pronouns_cleared_self").ConfigureAwait(false);
     }
 
@@ -240,11 +240,11 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     [ModalInteraction("pronouns_overwrite_modal", true)]
     public async Task PronounsOverwriteModal(PronounsModal modal)
     {
-        await using var uow = db.GetDbContext();
-        var user = await uow.GetOrCreateUser(ctx.User).ConfigureAwait(false);
+
+        var user = await dbContext.GetOrCreateUser(ctx.User).ConfigureAwait(false);
         if (await PronounsDisabled(user).ConfigureAwait(false)) return;
         user.Pronouns = modal.Pronouns;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
         await ConfirmLocalizedAsync("pronouns_internal_update", user.Pronouns).ConfigureAwait(false);
     }
 
@@ -255,13 +255,13 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     [ComponentInteraction("pronouns_report.*;", true)]
     public async Task ReportPronouns(string sId)
     {
-        await using var uow = db.GetDbContext();
-        var reporter = await uow.GetOrCreateUser(ctx.User).ConfigureAwait(false);
+
+        var reporter = await dbContext.GetOrCreateUser(ctx.User).ConfigureAwait(false);
 
         if (await PronounsDisabled(reporter).ConfigureAwait(false)) return;
 
         var id = ulong.Parse(sId);
-        var user = await uow.DiscordUser.FirstOrDefaultAsync(x => x.UserId == id).ConfigureAwait(false);
+        var user = await dbContext.DiscordUser.FirstOrDefaultAsync(x => x.UserId == id).ConfigureAwait(false);
         if (string.IsNullOrWhiteSpace(user?.Pronouns)) return;
 
         var channel = await ctx.Client.GetChannelAsync(bot.Credentials.PronounAbuseReportChannelId)
@@ -356,12 +356,12 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         PronounsFcbModal modal)
     {
         var userId = ulong.Parse(sId);
-        await using var uow = db.GetDbContext();
-        var user = await uow.DiscordUser.AsQueryable().FirstAsync(x => x.UserId == userId).ConfigureAwait(false);
+
+        var user = await dbContext.DiscordUser.AsQueryable().FirstAsync(x => x.UserId == userId).ConfigureAwait(false);
         user.Pronouns = "";
         user.PronounsDisabled = sPronounsDisable;
         user.PronounsClearedReason = modal.FcbReason;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
         if (bool.TryParse(sBlacklist, out var blacklist) && blacklist)
             bss.Blacklist(BlacklistType.User, user.UserId, modal.FcbReason);
         await RespondAsync("completed moderation actions.").ConfigureAwait(false);
@@ -383,8 +383,8 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     [UserCommand("Pronouns")]
     public async Task Pronouns(IUser? user)
     {
-        await using var uow = db.GetDbContext();
-        var dbUser = await uow.GetOrCreateUser(user).ConfigureAwait(false);
+
+        var dbUser = await dbContext.GetOrCreateUser(user).ConfigureAwait(false);
         if (await PronounsDisabled(dbUser).ConfigureAwait(false)) return;
         var pronouns = await Service.GetPronounsOrUnspecifiedAsync(user.Id).ConfigureAwait(false);
         var cb = new ComponentBuilder();
@@ -405,8 +405,8 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     [SlashCommand("setpronouns", "Override your default pronouns"), CheckPermissions]
     public async Task SetPronouns(string? pronouns = null)
     {
-        await using var uow = db.GetDbContext();
-        var user = await uow.GetOrCreateUser(ctx.User).ConfigureAwait(false);
+
+        var user = await dbContext.GetOrCreateUser(ctx.User).ConfigureAwait(false);
         if (await PronounsDisabled(user).ConfigureAwait(false)) return;
         if (string.IsNullOrWhiteSpace(pronouns))
         {
@@ -425,7 +425,7 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
         }
 
         user.Pronouns = pronouns;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
         await ConfirmLocalizedAsync("pronouns_internal_update", user.Pronouns).ConfigureAwait(false);
     }
 

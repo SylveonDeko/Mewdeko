@@ -15,7 +15,7 @@ namespace Mewdeko.Modules.Permissions;
 /// <param name="db">The database service.</param>
 /// <param name="inter">The interactive service.</param>
 /// <param name="guildSettings">The guild settings service.</param>
-public partial class Permissions(DbService db, InteractiveService inter, GuildSettingsService guildSettings)
+public partial class Permissions(MewdekoContext dbContext, InteractiveService inter, GuildSettingsService guildSettings)
     : MewdekoModuleBase<PermissionService>
 {
     /// <summary>
@@ -47,13 +47,13 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Verbose(PermissionAction? action = null)
     {
-        var uow = db.GetDbContext();
-        await using (uow.ConfigureAwait(false))
+
+        await using (dbContext.ConfigureAwait(false))
         {
-            var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
+            var config = await dbContext.GcWithPermissionsv2For(ctx.Guild.Id);
             action ??= new PermissionAction(config.VerbosePermissions);
             config.VerbosePermissions = action.Value;
-            await uow.SaveChangesAsync().ConfigureAwait(false);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             Service.UpdateCache(config);
         }
 
@@ -91,12 +91,12 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
             return;
         }
 
-        var uow = db.GetDbContext();
-        await using (uow.ConfigureAwait(false))
+
+        await using (dbContext.ConfigureAwait(false))
         {
-            var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
+            var config = await dbContext.GcWithPermissionsv2For(ctx.Guild.Id);
             config.PermissionRole = role.Id.ToString();
-            await uow.SaveChangesAsync().ConfigureAwait(false);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             Service.UpdateCache(config);
         }
 
@@ -111,12 +111,12 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
      UserPerm(GuildPermission.Administrator), Priority(1)]
     public async Task PermRole(Reset _)
     {
-        var uow = db.GetDbContext();
-        await using (uow.ConfigureAwait(false))
+
+        await using (dbContext.ConfigureAwait(false))
         {
-            var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
+            var config = await dbContext.GcWithPermissionsv2For(ctx.Guild.Id);
             config.PermissionRole = null;
-            await uow.SaveChangesAsync().ConfigureAwait(false);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             Service.UpdateCache(config);
         }
 
@@ -170,15 +170,15 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
         try
         {
             Permissionv2 p;
-            var uow = db.GetDbContext();
-            await using (uow.ConfigureAwait(false))
+
+            await using (dbContext.ConfigureAwait(false))
             {
-                var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
+                var config = await dbContext.GcWithPermissionsv2For(ctx.Guild.Id);
                 var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
                 p = permsCol[index];
                 permsCol.RemoveAt(index);
-                uow.Remove(p);
-                await uow.SaveChangesAsync().ConfigureAwait(false);
+                dbContext.Remove(p);
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
                 Service.UpdateCache(config);
             }
 
@@ -208,10 +208,10 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
             try
             {
                 Permissionv2 fromPerm;
-                var uow = db.GetDbContext();
-                await using (uow.ConfigureAwait(false))
+
+                await using (dbContext.ConfigureAwait(false))
                 {
-                    var config = await uow.GcWithPermissionsv2For(ctx.Guild.Id);
+                    var config = await dbContext.GcWithPermissionsv2For(ctx.Guild.Id);
                     var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
 
                     var fromFound = from < permsCol.Count;
@@ -233,7 +233,7 @@ public partial class Permissions(DbService db, InteractiveService inter, GuildSe
 
                     permsCol.RemoveAt(from);
                     permsCol.Insert(to, fromPerm);
-                    await uow.SaveChangesAsync().ConfigureAwait(false);
+                    await dbContext.SaveChangesAsync().ConfigureAwait(false);
                     Service.UpdateCache(config);
                 }
 

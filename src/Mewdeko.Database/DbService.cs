@@ -9,19 +9,20 @@ using Mewdeko.Database.Extensions;
 using Mewdeko.Database.Models;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Serilog;
 
 namespace Mewdeko.Database;
 
-public class DbService
+public class dbContext
 {
-    private readonly string connectionString;
     private readonly int shardCount;
     private readonly string token;
+    private readonly PooledDbContextFactory<MewdekoContext> dbContextFactory;
 
-    public DbService(string? token, string psqlConnection,
-        bool migrate = false)
+    public dbContext(string? token, string psqlConnection, bool migrate = false)
     {
         this.token = token ?? "";
         LinqToDBForEFTools.Initialize();
@@ -31,7 +32,11 @@ public class DbService
             throw new ArgumentException("PostgreSQL connection string must be provided.");
         }
 
-        connectionString = psqlConnection;
+
+        var builder = new DbContextOptionsBuilder()
+            .UseNpgsql(psqlConnection)
+            .EnableDetailedErrors()
+            .EnableSensitiveDataLogging();
 
         if (migrate)
         {
@@ -74,7 +79,7 @@ public class DbService
     private async Task MigrateDataAsync()
     {
         // Initialize destination context
-        await using var destCont = GetDbContext();
+        await using var destCont = dbContextFactory.CreateDbContext();
         var destinationContext = destCont.CreateLinqToDBConnection();
 
         await using var sourceContext = new MewdekoSqLiteContext(BuildSqliteConnectionString(shardCount, token));
@@ -86,11 +91,11 @@ public class DbService
         };
         Log.Information("Starting Data Migration...");
         await destinationContext.ExecuteAsync("SET session_replication_role = replica;");
-        var gc = sourceContext.GuildConfigs.IncludeEverything().AsNoTracking();
-        Log.Information("Copying {Count} entries of {Type} to the new Db...", gc.Count(), gc.GetType());
+        //var gc = sourceContext.GuildConfigs.IncludeEverything().AsNoTracking();
+        //Log.Information("Copying {Count} entries of {Type} to the new Db...", gc.Count(), gc.GetType());
         var guildConfig = destinationContext.GetTable<GuildConfig>();
         await guildConfig.DeleteAsync();
-        await guildConfig.BulkCopyAsync(options, gc);
+        //await guildConfig.BulkCopyAsync(options, gc);
 
         await TransferEntityDataAsync<Afk, Afk>(sourceContext, destinationContext, x => x);
         await TransferEntityDataAsync<AntiRaidSetting, AntiRaidSetting>(sourceContext, destinationContext, x => x);
@@ -165,8 +170,7 @@ public class DbService
             "Copy Complete. Please make sure to set MigrateToPsql to false in credentials to make sure your data wont get overwritten");
     }
 
-    private static async Task TransferEntityDataAsync<T, T2>(DbContext sourceContext, IDataContext destinationContext,
-        Func<T, T2> thing)
+    private static async Task TransferEntityDataAsync<T, T2>(DbContext sourceContext, IDataContext destinationContext, Func<T, T2> thing)
         where T : class
     {
         var entities = await sourceContext.Set<T>().AsNoTracking()
@@ -184,7 +188,7 @@ public class DbService
 
     public async Task ApplyMigrations(DbContext? context = null)
     {
-        context ??= GetDbContext();
+        context ??= dbContextFactory.CreateDbContext();
         var toApply = (await context.Database.GetPendingMigrationsAsync().ConfigureAwait(false)).ToList();
         if (toApply.Count != 0)
         {
@@ -199,9 +203,7 @@ public class DbService
                 var pmhToRuns = pmhs.Where(pmh => pmh.GetCustomAttribute<MigrationAttribute>()?.Id == id).ToList();
                 foreach (var pmh in pmhToRuns)
                 {
-                    pmh.GetMethod("PostMigrationHandler")?.Invoke(null, [
-                        id, context
-                    ]);
+                    pmh.GetMethod("PostMigrationHandler")?.Invoke(null, new object[] { id, context });
                 }
             }
         }
@@ -209,5 +211,5 @@ public class DbService
         await context.SaveChangesAsync();
     }
 
-    public MewdekoContext GetDbContext() => new MewdekoPostgresContext(connectionString);
+
 }

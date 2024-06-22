@@ -18,7 +18,7 @@ public partial class Moderation
     /// <param name="db"></param>
     /// <param name="serv"></param>
     [Group]
-    public class UserPunishCommands2(DbService db, InteractiveService serv) : MewdekoSubmodule<UserPunishService2>
+    public class UserPunishCommands2(MewdekoContext dbContext, InteractiveService serv) : MewdekoSubmodule<UserPunishService2>
     {
         /// <summary>
         /// The addrole thing used for punishments
@@ -122,8 +122,8 @@ public partial class Moderation
 
             if (await Service.GetMWarnlogChannel(ctx.Guild.Id) != 0)
             {
-                var uow = db.GetDbContext();
-                var warnings = uow.Warnings2
+
+                var warnings = dbContext.Warnings2
                     .ForId(ctx.Guild.Id, user.Id)
                     .Count(w => !w.Forgiven && w.UserId == user.Id);
                 var condition = punishment != null;

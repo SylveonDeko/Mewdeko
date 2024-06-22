@@ -28,7 +28,7 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     private IDataCache cache;
     private IMessageChannel channel;
     private DiscordShardedClient client;
-    private DbService dbService;
+    private MewdekoContext dbContext;
     private IBotStrings strings;
 
     /// <summary>
@@ -43,7 +43,7 @@ public sealed class MewdekoPlayer : LavalinkPlayer
         creds = properties.ServiceProvider.GetRequiredService<IBotCredentials>();
         channel = properties.Options.Value.Channel;
         client = properties.ServiceProvider.GetRequiredService<DiscordShardedClient>();
-        dbService = properties.ServiceProvider.GetRequiredService<DbService>();
+        dbContext = properties.ServiceProvider.GetRequiredService<MewdekoContext>();
         cache = properties.ServiceProvider.GetRequiredService<IDataCache>();
         strings = properties.ServiceProvider.GetRequiredService<IBotStrings>();
     }
@@ -152,8 +152,8 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     public async Task<IMessageChannel?> GetMusicChannel()
     {
         var guildId = base.GuildId;
-        await using var uow = dbService.GetDbContext();
-        var settings = await uow.MusicPlayerSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
+
+        var settings = await dbContext.MusicPlayerSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
         if (settings is null)
         {
             return channel;
@@ -170,22 +170,22 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     public async Task SetMusicChannelAsync(ulong channelId)
     {
         var guildId = base.GuildId;
-        await using var uow = dbService.GetDbContext();
-        var settings = await uow.MusicPlayerSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
+
+        var settings = await dbContext.MusicPlayerSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
         if (settings is null)
         {
             settings = new MusicPlayerSettings
             {
                 GuildId = base.GuildId, MusicChannelId = channelId
             };
-            await uow.MusicPlayerSettings.AddAsync(settings);
+            await dbContext.MusicPlayerSettings.AddAsync(settings);
         }
         else
         {
             settings.MusicChannelId = channelId;
         }
 
-        await uow.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -320,8 +320,8 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     public async Task<int> GetVolume()
     {
         var guildId = base.GuildId;
-        await using var uow = dbService.GetDbContext();
-        var settings = await uow.MusicPlayerSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
+
+        var settings = await dbContext.MusicPlayerSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
         return settings?.Volume ?? 100;
     }
 
@@ -333,22 +333,22 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     public async Task SetGuildVolumeAsync(int volume)
     {
         var guildId = base.GuildId;
-        await using var uow = dbService.GetDbContext();
-        var settings = await uow.MusicPlayerSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
+
+        var settings = await dbContext.MusicPlayerSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
         if (settings is null)
         {
             settings = new MusicPlayerSettings
             {
                 GuildId = base.GuildId, Volume = volume
             };
-            await uow.MusicPlayerSettings.AddAsync(settings);
+            await dbContext.MusicPlayerSettings.AddAsync(settings);
         }
         else
         {
             settings.Volume = volume;
         }
 
-        await uow.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -358,8 +358,8 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     public async Task<PlayerRepeatType> GetRepeatType()
     {
         var guildId = base.GuildId;
-        await using var uow = dbService.GetDbContext();
-        var settings = await uow.MusicPlayerSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
+
+        var settings = await dbContext.MusicPlayerSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
         return settings?.PlayerRepeat ?? PlayerRepeatType.Queue;
     }
 
@@ -371,22 +371,22 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     public async Task SetRepeatTypeAsync(PlayerRepeatType repeatType)
     {
         var guildId = base.GuildId;
-        await using var uow = dbService.GetDbContext();
-        var settings = await uow.MusicPlayerSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
+
+        var settings = await dbContext.MusicPlayerSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
         if (settings is null)
         {
             settings = new MusicPlayerSettings
             {
                 GuildId = base.GuildId, PlayerRepeat = repeatType
             };
-            await uow.MusicPlayerSettings.AddAsync(settings);
+            await dbContext.MusicPlayerSettings.AddAsync(settings);
         }
         else
         {
             settings.PlayerRepeat = repeatType;
         }
 
-        await uow.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -395,8 +395,8 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     public async Task<int> GetAutoPlay()
     {
         var guildId = base.GuildId;
-        await using var uow = dbService.GetDbContext();
-        var settings = await uow.MusicPlayerSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
+
+        var settings = await dbContext.MusicPlayerSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
         return settings?.AutoPlay ?? 0;
     }
 
@@ -407,22 +407,22 @@ public sealed class MewdekoPlayer : LavalinkPlayer
     public async Task SetAutoPlay(int autoPlay)
     {
         var guildId = base.GuildId;
-        await using var uow = dbService.GetDbContext();
-        var settings = await uow.MusicPlayerSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
+
+        var settings = await dbContext.MusicPlayerSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
         if (settings is null)
         {
             settings = new MusicPlayerSettings
             {
                 GuildId = base.GuildId, AutoPlay = autoPlay
             };
-            await uow.MusicPlayerSettings.AddAsync(settings);
+            await dbContext.MusicPlayerSettings.AddAsync(settings);
         }
         else
         {
             settings.AutoPlay = autoPlay;
         }
 
-        await uow.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
     }
 
     private async Task<SpotifyClient> GetSpotifyClient()

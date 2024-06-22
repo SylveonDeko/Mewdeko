@@ -15,7 +15,7 @@ namespace Mewdeko.Modules.Giveaways.Services;
 /// <param name="guildSettings">Guild Settings Service</param>
 public class GiveawayService(
     DiscordShardedClient client,
-    DbService db,
+    MewdekoContext dbContext,
     IBotCredentials creds,
     GuildSettingsService guildSettings,
     BotConfig config)
@@ -70,8 +70,8 @@ public class GiveawayService(
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task SetGiveawayEmote(IGuild guild, string emote)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.GiveawayEmote = emote;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -91,10 +91,10 @@ public class GiveawayService(
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     private async Task UpdateGiveaways(List<Database.Models.Giveaways> g)
     {
-        await using var uow = db.GetDbContext();
+
         foreach (var i in g)
         {
-            var toupdate = await uow.Giveaways.FindAsync(i.Id);
+            var toupdate = await dbContext.Giveaways.FindAsync(i.Id);
             if (toupdate == null) continue;
             toupdate.When = i.When;
             toupdate.BlacklistRoles = i.BlacklistRoles;
@@ -107,9 +107,9 @@ public class GiveawayService(
             toupdate.UserId = i.UserId;
             toupdate.Winners = i.Winners;
             toupdate.Emote = i.Emote;
+            dbContext.Giveaways.Update(toupdate);
         }
-
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
 
@@ -120,11 +120,11 @@ public class GiveawayService(
     /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="Database.Models.Giveaways"/>.</returns>
     private IEnumerable<Database.Models.Giveaways> GetGiveawaysBeforeAsync(DateTime now)
     {
-        using var uow = db.GetDbContext();
+
 
         IEnumerable<Database.Models.Giveaways> giveaways =
             // Linq to db queries because npgsql is special, again.
-            uow.Giveaways
+            dbContext.Giveaways
                 .ToLinqToDB()
                 .Where(x => x.Ended != 1 && x.When < now).ToList();
 
@@ -247,11 +247,11 @@ public class GiveawayService(
         if (!string.IsNullOrWhiteSpace(reqroles))
             rem.RestrictTo = reqroles;
 
-        var uow = db.GetDbContext();
-        await using (uow.ConfigureAwait(false))
+
+        await using (dbContext.ConfigureAwait(false))
         {
-            uow.Giveaways.Add(rem);
-            await uow.SaveChangesAsync().ConfigureAwait(false);
+            dbContext.Giveaways.Add(rem);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
         if (interaction is not null)
@@ -303,7 +303,7 @@ public class GiveawayService(
 
         var prefix = await guildSettings.GetPrefix(guild.Id).ConfigureAwait(false);
 
-        await using var uow = db.GetDbContext();
+
         var emote = r.Emote.ToIEmote();
         if (emote.Name == null)
         {
@@ -343,8 +343,8 @@ public class GiveawayService(
                 x.Content = null;
             }).ConfigureAwait(false);
             r.Ended = 1;
-            uow.Giveaways.Update(r);
-            await uow.SaveChangesAsync().ConfigureAwait(false);
+            dbContext.Giveaways.Update(r);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
         else
         {
@@ -479,8 +479,8 @@ public class GiveawayService(
                             $"{user.Mention} won the giveaway for [{r.Item}](https://discord.com/channels/{r.ServerId}/{r.ChannelId}/{r.MessageId})! \n\n- (Hosted by: <@{r.UserId}>)\n- Reroll: `{prefix}reroll {r.MessageId}`")
                         .Build()).ConfigureAwait(false);
                 r.Ended = 1;
-                uow.Giveaways.Update(r);
-                await uow.SaveChangesAsync().ConfigureAwait(false);
+                dbContext.Giveaways.Update(r);
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
             else
             {
@@ -553,8 +553,8 @@ public class GiveawayService(
                 }
 
                 r.Ended = 1;
-                uow.Giveaways.Update(r);
-                await uow.SaveChangesAsync().ConfigureAwait(false);
+                dbContext.Giveaways.Update(r);
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
     }

@@ -18,10 +18,10 @@ public class RequireDragonAttribute : PreconditionAttribute
     public override async Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command,
         IServiceProvider services)
     {
-        var db = services.GetRequiredService(typeof(DbService)) as DbService;
+        var db = services.GetRequiredService<MewdekoContext>();
         var guildConfigService = services.GetRequiredService(typeof(GuildSettingsService)) as GuildSettingsService;
-        await using var ctx = db.GetDbContext();
-        var user = await ctx.GetOrCreateUser(context.User);
+
+        var user = await db.GetOrCreateUser(context.User);
         return user.IsDragon
             ? PreconditionResult.FromSuccess()
             : PreconditionResult.FromError("Your meek human arms could never push the 10,000 pound rock blocking the " +

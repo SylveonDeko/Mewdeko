@@ -21,6 +21,8 @@ using Mewdeko.Modules.Nsfw;
 using Mewdeko.Modules.Searches.Services;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.Settings;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using NekosBestApiNet;
 using Newtonsoft.Json;
@@ -38,7 +40,6 @@ namespace Mewdeko;
 /// </summary>
 public class Mewdeko
 {
-    private readonly DbService db;
 
     /// <summary>
     ///     Initializes a new instance of the Mewdeko bot with a specific shard ID.
@@ -54,10 +55,7 @@ public class Mewdeko
 
         Credentials = new BotCredentials();
         Cache = new RedisCache(Credentials, shardId);
-        db = new DbService(Credentials.Token,
-            Credentials.PsqlConnectionString, Credentials.MigrateToPsql);
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-        db.ApplyMigrations();
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
 
@@ -127,19 +125,23 @@ public class Mewdeko
         var sw = Stopwatch.StartNew();
         var gs2 = Stopwatch.StartNew();
         var bot = Client.CurrentUser;
-        await using var uow = db.GetDbContext();
 
-        await uow.EnsureUserCreated(bot.Id, bot.Username, bot.Discriminator, bot.AvatarId);
         gs2.Stop();
         Log.Information("Guild Configs cached in {ElapsedTotalSeconds}s", gs2.Elapsed.TotalSeconds);
 
         var s = new ServiceCollection();
 
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
         s.AddFusionCache();
         s.AddScoped<INsfwSpy, NsfwSpy>()
             .AddSingleton<FontProvider>()
             .AddSingleton<IBotCredentials>(Credentials)
-            .AddSingleton(db)
+            //Wahoo
+            .AddDbContextPool<MewdekoContext>(builder => builder
+                .UseNpgsql(Credentials.PsqlConnectionString)
+            .EnableDetailedErrors()
+            .EnableSensitiveDataLogging())
             .AddSingleton(Client)
             .AddSingleton(new EventHandler(Client))
             .AddSingleton(CommandService)
@@ -341,15 +343,13 @@ public class Mewdeko
     {
         _ = Task.Run(async () =>
         {
+            var dbContext = Services.GetRequiredService<MewdekoContext>();
             await arg.DownloadUsersAsync().ConfigureAwait(false);
             Log.Information("Joined server: {0} [{1}]", arg.Name, arg.Id);
 
             GuildConfig gc;
-            var uow = db.GetDbContext();
-            await using (uow.ConfigureAwait(false))
-            {
-                gc = await uow.ForGuildId(arg.Id);
-            }
+
+                gc = await dbContext.ForGuildId(arg.Id);
 
             await JoinedGuild.Invoke(gc).ConfigureAwait(false);
             var chan =
@@ -380,6 +380,8 @@ public class Mewdeko
         try
         {
             await AddServices();
+            var dbContext = Services.GetRequiredService<MewdekoContext>();
+            await dbContext.EnsureUserCreated(Client.CurrentUser.Id, Client.CurrentUser.Username, Client.CurrentUser.Discriminator, Client.CurrentUser.AvatarId);
         }
         catch (Exception ex)
         {

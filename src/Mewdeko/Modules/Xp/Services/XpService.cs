@@ -29,7 +29,7 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     private readonly DiscordShardedClient client;
     private readonly CommandHandler cmd;
     private readonly IBotCredentials creds;
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
     private readonly EventHandler eventHandler;
     private readonly GuildSettingsService guildSettings;
     private readonly IImageCache images;
@@ -53,7 +53,7 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     public XpService(
         DiscordShardedClient client,
         CommandHandler cmd,
-        DbService db,
+        MewdekoContext dbContext,
         IBotStrings strings,
         IBotCredentials creds,
         XpConfigService xpConfig,
@@ -62,7 +62,7 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
         GuildSettingsService guildSettings,
         IFusionCache cache)
     {
-        this.db = db;
+        this.dbContext = dbContext;
         this.cmd = cmd;
         images = null;
         this.strings = strings;
@@ -110,15 +110,15 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
                 var group = toAddTo.GroupBy(x => (GuildId: x.Guild.Id, x.User));
                 if (toAddTo.Count == 0) continue;
 
-                var uow = db.GetDbContext();
-                await using (uow.ConfigureAwait(false))
+
+                await using (dbContext.ConfigureAwait(false))
                 {
                     foreach (var item in group)
                     {
                         var xp = item.Sum(x => x.XpAmount);
 
-                        var usr = await uow.UserXpStats.GetOrCreateUser(item.Key.GuildId, item.Key.User.Id);
-                        var du = await uow.GetOrCreateUser(item.Key.User).ConfigureAwait(false);
+                        var usr = await dbContext.UserXpStats.GetOrCreateUser(item.Key.GuildId, item.Key.User.Id);
+                        var du = await dbContext.GetOrCreateUser(item.Key.User).ConfigureAwait(false);
 
                         var globalXp = du.TotalXp;
                         var oldGlobalLevelData = new LevelStats(globalXp);
@@ -155,7 +155,7 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
 
                             if (!settings.HasValue)
                             {
-                                var config = await uow.ForGuildId(usr.GuildId, x => x.Include(x => x.XpSettings)
+                                var config = await dbContext.ForGuildId(usr.GuildId, x => x.Include(x => x.XpSettings)
                                     .ThenInclude(x => x.RoleRewards)
                                     .Include(x => x.XpSettings)
                                     .ThenInclude(x => x.CurrencyRewards)
@@ -193,7 +193,7 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
                         }
                     }
 
-                    await uow.SaveChangesAsync().ConfigureAwait(false);
+                    await dbContext.SaveChangesAsync().ConfigureAwait(false);
                 }
 
                 await Task.WhenAll(toNotify.Select(async x =>
@@ -253,9 +253,9 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     {
         var sw = new Stopwatch();
         sw.Start();
-        await using var uow = db.GetDbContext();
+
         Log.Information("Starting to cache xp");
-        var guildConfigs = uow.GuildConfigs.ToLinqToDB().AsNoTracking()
+        var guildConfigs = dbContext.GuildConfigs.ToLinqToDB().AsNoTracking()
             .Include(x => x.XpSettings)
             .ThenInclude(x => x.RoleRewards)
             .Include(x => x.XpSettings)
@@ -290,8 +290,8 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     {
         var settings = await GetOrAddCacheItem($"XpSettings_{id}", async () =>
         {
-            await using var uow = db.GetDbContext();
-            var config = await uow.ForGuildId(id, x => x.Include(x => x.XpSettings)
+
+            var config = await dbContext.ForGuildId(id, x => x.Include(x => x.XpSettings)
                 .ThenInclude(x => x.RoleRewards)
                 .Include(x => x.XpSettings)
                 .ThenInclude(x => x.CurrencyRewards)
@@ -311,15 +311,15 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     /// <param name="roleId">The role ID to assign as a reward, or null to remove the reward.</param>
     public async void SetRoleReward(ulong guildId, int level, ulong? roleId)
     {
-        await using var uow = db.GetDbContext();
-        var settings = await uow.XpSettingsFor(guildId);
+
+        var settings = await dbContext.XpSettingsFor(guildId);
 
         if (roleId == null)
         {
             var toRemove = settings.RoleRewards.FirstOrDefault(x => x.Level == level);
             if (toRemove != null)
             {
-                uow.Remove(toRemove);
+                dbContext.Remove(toRemove);
                 settings.RoleRewards.Remove(toRemove);
             }
         }
@@ -336,7 +336,7 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
                 });
         }
 
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
         await cache.SetAsync($"XpSettings_{guildId}", settings);
     }
 
@@ -347,8 +347,8 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     /// <param name="page">The page number.</param>
     public async Task<List<UserXpStats>> GetUserXps(ulong guildId, int page)
     {
-        await using var uow = db.GetDbContext();
-        return await uow.UserXpStats.GetUsersFor(guildId, page);
+
+        return await dbContext.UserXpStats.GetUsersFor(guildId, page);
     }
 
     /// <summary>
@@ -357,8 +357,8 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     /// <param name="guildId">The guild ID.</param>
     public async Task<List<UserXpStats>> GetTopUserXps(ulong guildId)
     {
-        await using var uow = db.GetDbContext();
-        return await uow.UserXpStats.GetTopUserXps(guildId);
+
+        return await dbContext.UserXpStats.GetTopUserXps(guildId);
     }
 
     /// <summary>
@@ -367,8 +367,8 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     /// <param name="page">The page number.</param>
     public DiscordUser[] GetUserXps(int page)
     {
-        using var uow = db.GetDbContext();
-        return uow.DiscordUser.GetUsersXpLeaderboardFor(page);
+
+        return dbContext.DiscordUser.GetUsersXpLeaderboardFor(page);
     }
 
     /// <summary>
@@ -379,10 +379,10 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     /// <param name="type">The notification type.</param>
     public async Task ChangeNotificationType(ulong userId, ulong guildId, XpNotificationLocation type)
     {
-        await using var uow = db.GetDbContext();
-        var user = await uow.UserXpStats.GetOrCreateUser(guildId, userId);
+
+        var user = await dbContext.UserXpStats.GetOrCreateUser(guildId, userId);
         user.NotifyOnLevelUp = type;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
         await cache.RemoveAsync($"XpSettings_{guildId}");
     }
 
@@ -393,8 +393,8 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     /// <param name="guildId">The guild ID.</param>
     public async Task<XpNotificationLocation> GetNotificationType(ulong userId, ulong guildId)
     {
-        await using var uow = db.GetDbContext();
-        var user = await uow.UserXpStats.GetOrCreateUser(guildId, userId);
+
+        var user = await dbContext.UserXpStats.GetOrCreateUser(guildId, userId);
         return user.NotifyOnLevelUp;
     }
 
@@ -404,8 +404,8 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     /// <param name="user">The user instance.</param>
     public async Task<XpNotificationLocation> GetNotificationType(IUser user)
     {
-        await using var uow = db.GetDbContext();
-        return (await uow.GetOrCreateUser(user).ConfigureAwait(false)).NotifyOnLevelUp;
+
+        return (await dbContext.GetOrCreateUser(user).ConfigureAwait(false)).NotifyOnLevelUp;
     }
 
     /// <summary>
@@ -415,10 +415,10 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     /// <param name="type">The notification type.</param>
     public async Task ChangeNotificationType(IUser user, XpNotificationLocation type)
     {
-        await using var uow = db.GetDbContext();
-        var du = await uow.GetOrCreateUser(user).ConfigureAwait(false);
+
+        var du = await dbContext.GetOrCreateUser(user).ConfigureAwait(false);
         du.NotifyOnLevelUp = type;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     private Task Client_OnGuildAvailable(SocketGuild guild)
@@ -580,8 +580,8 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     {
         var settings = await GetOrAddCacheItem($"XpSettings_{guildId}", async () =>
         {
-            await using var uow = db.GetDbContext();
-            var config = await uow.ForGuildId(guildId, x => x.Include(x => x.XpSettings)
+
+            var config = await dbContext.ForGuildId(guildId, x => x.Include(x => x.XpSettings)
                 .ThenInclude(x => x.RoleRewards)
                 .Include(x => x.XpSettings)
                 .ThenInclude(x => x.CurrencyRewards)
@@ -597,8 +597,8 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     {
         var settings = await GetOrAddCacheItem($"XpSettings_{user.Guild.Id}", async () =>
         {
-            await using var uow = db.GetDbContext();
-            var config = await uow.ForGuildId(user.Guild.Id, x => x.Include(x => x.XpSettings)
+
+            var config = await dbContext.ForGuildId(user.Guild.Id, x => x.Include(x => x.XpSettings)
                 .ThenInclude(x => x.RoleRewards)
                 .Include(x => x.XpSettings)
                 .ThenInclude(x => x.CurrencyRewards)
@@ -676,12 +676,12 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     /// <param name="amount">The amount of XP to add.</param>
     public async Task AddXp(ulong userId, ulong guildId, int amount)
     {
-        await using var uow = db.GetDbContext();
-        var usr = await uow.UserXpStats.GetOrCreateUser(guildId, userId);
+
+        var usr = await dbContext.UserXpStats.GetOrCreateUser(guildId, userId);
 
         usr.AwardedXp += amount;
 
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
         await cache.RemoveAsync($"XpSettings_{guildId}");
     }
 
@@ -692,8 +692,8 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     /// <param name="num">The XP rate value.</param>
     public async Task XpTxtRateSet(IGuild guild, int num)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.XpTxtRate = num;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
         await cache.RemoveAsync($"XpSettings_{guild.Id}");
@@ -706,8 +706,8 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     /// <param name="num">The XP timeout value.</param>
     public async Task XpTxtTimeoutSet(IGuild guild, int num)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.XpTxtTimeout = num;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
         await cache.RemoveAsync($"XpSettings_{guild.Id}");
@@ -720,8 +720,8 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     /// <param name="num">The XP rate value.</param>
     public async Task XpVoiceRateSet(IGuild guild, int num)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.XpVoiceRate = num;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
         await cache.RemoveAsync($"XpSettings_{guild.Id}");
@@ -734,8 +734,8 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     /// <param name="num">The XP timeout value.</param>
     public async Task XpVoiceTimeoutSet(IGuild guild, int num)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.XpVoiceTimeout = num;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
         await cache.RemoveAsync($"XpSettings_{guild.Id}");
@@ -749,8 +749,8 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     {
         var settings = await GetOrAddCacheItem($"XpSettings_{id}", async () =>
         {
-            await using var uow = db.GetDbContext();
-            var config = await uow.ForGuildId(id, x => x.Include(x => x.XpSettings)
+
+            var config = await dbContext.ForGuildId(id, x => x.Include(x => x.XpSettings)
                 .ThenInclude(x => x.RoleRewards)
                 .Include(x => x.XpSettings)
                 .ThenInclude(x => x.CurrencyRewards)
@@ -770,8 +770,8 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     {
         var settings = await GetOrAddCacheItem($"XpSettings_{id}", async () =>
         {
-            await using var uow = db.GetDbContext();
-            var config = await uow.ForGuildId(id, x => x.Include(x => x.XpSettings)
+
+            var config = await dbContext.ForGuildId(id, x => x.Include(x => x.XpSettings)
                 .ThenInclude(x => x.RoleRewards)
                 .Include(x => x.XpSettings)
                 .ThenInclude(x => x.CurrencyRewards)
@@ -792,8 +792,8 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     {
         var settings = await GetOrAddCacheItem($"XpSettings_{id}", async () =>
         {
-            await using var uow = db.GetDbContext();
-            var config = await uow.ForGuildId(id, x => x.Include(x => x.XpSettings)
+
+            var config = await dbContext.ForGuildId(id, x => x.Include(x => x.XpSettings)
                 .ThenInclude(x => x.RoleRewards)
                 .Include(x => x.XpSettings)
                 .ThenInclude(x => x.CurrencyRewards)
@@ -815,13 +815,13 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
         DiscordUser du;
         UserXpStats stats;
         int guildRank;
-        var uow = db.GetDbContext();
-        await using (uow.ConfigureAwait(false))
+
+        await using (dbContext.ConfigureAwait(false))
         {
-            du = await uow.GetOrCreateUser(user).ConfigureAwait(false);
-            guildRank = uow.UserXpStats.GetUserGuildRanking(user.Id, user.GuildId);
-            stats = await uow.UserXpStats.GetOrCreateUser(user.GuildId, user.Id);
-            await uow.SaveChangesAsync().ConfigureAwait(false);
+            du = await dbContext.GetOrCreateUser(user).ConfigureAwait(false);
+            guildRank = dbContext.UserXpStats.GetUserGuildRanking(user.Id, user.GuildId);
+            stats = await dbContext.UserXpStats.GetOrCreateUser(user.GuildId, user.Id);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
         return new FullUserStats(du, stats, new LevelStats(stats.Xp + stats.AwardedXp), guildRank);
@@ -835,8 +835,8 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     {
         var settings = await GetOrAddCacheItem($"XpSettings_{id}", async () =>
         {
-            await using var uow = db.GetDbContext();
-            var config = await uow.ForGuildId(id, x => x.Include(x => x.XpSettings)
+
+            var config = await dbContext.ForGuildId(id, x => x.Include(x => x.XpSettings)
                 .ThenInclude(x => x.RoleRewards)
                 .Include(x => x.XpSettings)
                 .ThenInclude(x => x.CurrencyRewards)
@@ -848,9 +848,9 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
         if (settings != null)
         {
             settings.ServerExcluded = !settings.ServerExcluded;
-            await using var uow = db.GetDbContext();
-            uow.Update(settings);
-            await uow.SaveChangesAsync();
+
+            dbContext.Update(settings);
+            await dbContext.SaveChangesAsync();
             await cache.SetAsync($"XpSettings_{id}", settings);
             return settings.ServerExcluded;
         }
@@ -868,8 +868,8 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     {
         var settings = await GetOrAddCacheItem($"XpSettings_{guildId}", async () =>
         {
-            await using var uow = db.GetDbContext();
-            var config = await uow.ForGuildId(guildId, x => x.Include(x => x.XpSettings)
+
+            var config = await dbContext.ForGuildId(guildId, x => x.Include(x => x.XpSettings)
                 .ThenInclude(x => x.RoleRewards)
                 .Include(x => x.XpSettings)
                 .ThenInclude(x => x.CurrencyRewards)
@@ -893,9 +893,9 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
                 });
             }
 
-            await using var uow = db.GetDbContext();
-            uow.Update(settings);
-            await uow.SaveChangesAsync();
+
+            dbContext.Update(settings);
+            await dbContext.SaveChangesAsync();
             await cache.SetAsync($"XpSettings_{guildId}", settings);
             return excluded.Select(x => x.ItemId).Contains(rId);
         }
@@ -923,8 +923,8 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     {
         var settings = await GetOrAddCacheItem($"XpSettings_{guildId}", async () =>
         {
-            await using var uow = db.GetDbContext();
-            var config = await uow.ForGuildId(guildId, x => x.Include(x => x.XpSettings)
+
+            var config = await dbContext.ForGuildId(guildId, x => x.Include(x => x.XpSettings)
                 .ThenInclude(x => x.RoleRewards)
                 .Include(x => x.XpSettings)
                 .ThenInclude(x => x.CurrencyRewards)
@@ -948,9 +948,9 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
                 });
             }
 
-            await using var uow = db.GetDbContext();
-            uow.Update(settings);
-            await uow.SaveChangesAsync();
+
+            dbContext.Update(settings);
+            await dbContext.SaveChangesAsync();
             await cache.SetAsync($"XpSettings_{guildId}", settings);
             return excluded.Select(x => x.ItemId).Contains(chId);
         }
@@ -1172,8 +1172,8 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     /// <param name="guildId">The guild ID.</param>
     public async Task<Template> GetTemplate(ulong guildId)
     {
-        await using var uow = db.GetDbContext();
-        var template = uow.Templates
+
+        var template = dbContext.Templates
             .Include(x => x.TemplateUser)
             .Include(x => x.TemplateBar)
             .Include(x => x.TemplateClub)
@@ -1189,9 +1189,9 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
             TemplateGuild = new TemplateGuild(),
             TemplateUser = new TemplateUser()
         };
-        uow.Templates.Add(toAdd);
-        await uow.SaveChangesAsync();
-        return uow.Templates.FirstOrDefault(x => x.GuildId == guildId);
+        dbContext.Templates.Add(toAdd);
+        await dbContext.SaveChangesAsync();
+        return dbContext.Templates.FirstOrDefault(x => x.GuildId == guildId);
     }
 
     private string GetTimeSpent(DateTime time)
@@ -1207,9 +1207,9 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     /// <param name="userId">The user ID.</param>
     public void XpReset(ulong guildId, ulong userId)
     {
-        using var uow = db.GetDbContext();
-        uow.UserXpStats.ResetGuildUserXp(userId, guildId);
-        uow.SaveChanges();
+
+        dbContext.UserXpStats.ResetGuildUserXp(userId, guildId);
+        dbContext.SaveChanges();
     }
 
     /// <summary>
@@ -1218,9 +1218,9 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     /// <param name="guildId">The guild ID.</param>
     public void XpReset(ulong guildId)
     {
-        using var uow = db.GetDbContext();
-        uow.UserXpStats.ResetGuildXp(guildId);
-        uow.SaveChanges();
+
+        dbContext.UserXpStats.ResetGuildXp(guildId);
+        dbContext.SaveChanges();
     }
 
     /// <summary>
@@ -1230,11 +1230,11 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     /// <param name="imageUrl">The image URL.</param>
     public async Task SetImageUrl(ulong guildId, string imageUrl)
     {
-        await using var uow = db.GetDbContext();
-        var set = await uow.ForGuildId(guildId);
+
+        var set = await dbContext.ForGuildId(guildId);
         set.XpImgUrl = imageUrl;
-        uow.GuildConfigs.Update(set);
-        await uow.SaveChangesAsync();
+        dbContext.GuildConfigs.Update(set);
+        await dbContext.SaveChangesAsync();
         await guildSettings.UpdateGuildConfig(guildId, set);
     }
 

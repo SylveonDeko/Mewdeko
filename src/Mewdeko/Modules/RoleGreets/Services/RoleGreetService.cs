@@ -9,7 +9,7 @@ namespace Mewdeko.Modules.RoleGreets.Services;
 public class RoleGreetService : INService
 {
     private readonly DiscordShardedClient client;
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RoleGreetService"/> class.
@@ -17,10 +17,10 @@ public class RoleGreetService : INService
     /// <param name="db">The database service for accessing role greet configurations.</param>
     /// <param name="client">The Discord socket client to interact with the Discord API.</param>
     /// <param name="eventHandler">The event handler to subscribe to guild member update events.</param>
-    public RoleGreetService(DbService db, DiscordShardedClient client, EventHandler eventHandler)
+    public RoleGreetService(MewdekoContext dbContext, DiscordShardedClient client, EventHandler eventHandler)
     {
         this.client = client;
-        this.db = db;
+        this.dbContext = dbContext;
         eventHandler.GuildMemberUpdated += DoRoleGreet;
     }
 
@@ -30,7 +30,7 @@ public class RoleGreetService : INService
     /// <param name="roleId">The unique identifier of the role.</param>
     /// <returns>An array of <see cref="RoleGreet"/> objects.</returns>
     public async Task<RoleGreet[]> GetGreets(ulong roleId) =>
-        await db.GetDbContext().RoleGreets.ForRoleId(roleId) ?? Array.Empty<RoleGreet>();
+        await dbContext.RoleGreets.ForRoleId(roleId) ?? Array.Empty<RoleGreet>();
 
     /// <summary>
     /// Retrieves a list of <see cref="RoleGreet"/> configurations for a specific guild.
@@ -38,7 +38,7 @@ public class RoleGreetService : INService
     /// <param name="guildId">The unique identifier of the guild.</param>
     /// <returns>An array of <see cref="RoleGreet"/> objects if any are found; otherwise, null.</returns>
     public RoleGreet[]? GetListGreets(ulong guildId) =>
-        db.GetDbContext().RoleGreets.Where(x => x.GuildId == guildId).ToArray();
+        dbContext.RoleGreets.Where(x => x.GuildId == guildId).ToArray();
 
     /// <summary>
     /// Handles the role greet functionality when a guild member's roles are updated.
@@ -253,9 +253,9 @@ public class RoleGreetService : INService
         {
             ChannelId = channelId, GuildId = guildId, RoleId = roleId
         };
-        var uow = db.GetDbContext();
-        uow.RoleGreets.Add(toadd);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+
+        dbContext.RoleGreets.Add(toadd);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
         return true;
     }
 
@@ -266,10 +266,10 @@ public class RoleGreetService : INService
     /// <param name="code">The new message content.</param>
     public async Task ChangeMgMessage(RoleGreet greet, string code)
     {
-        var uow = db.GetDbContext();
+
         greet.Message = code;
-        uow.RoleGreets.Update(greet);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        dbContext.RoleGreets.Update(greet);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -279,10 +279,10 @@ public class RoleGreetService : INService
     /// <param name="disabled">Specifies whether the greet should be disabled.</param>
     public async Task RoleGreetDisable(RoleGreet greet, bool disabled)
     {
-        var uow = db.GetDbContext();
+
         greet.Disabled = disabled;
-        uow.RoleGreets.Update(greet);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        dbContext.RoleGreets.Update(greet);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -292,10 +292,10 @@ public class RoleGreetService : INService
     /// <param name="howlong">The time in seconds after which the greet message should be deleted.</param>
     public async Task ChangeRgDelete(RoleGreet greet, int howlong)
     {
-        var uow = db.GetDbContext();
+
         greet.DeleteTime = howlong;
-        uow.RoleGreets.Update(greet);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        dbContext.RoleGreets.Update(greet);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -305,10 +305,10 @@ public class RoleGreetService : INService
     /// <param name="webhookurl">The new webhook URL.</param>
     public async Task ChangeMgWebhook(RoleGreet greet, string webhookurl)
     {
-        var uow = db.GetDbContext();
+
         greet.WebhookUrl = webhookurl;
-        uow.Update(greet);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        dbContext.Update(greet);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -318,10 +318,10 @@ public class RoleGreetService : INService
     /// <param name="enabled">Specifies whether bots should be greeted.</param>
     public async Task ChangeRgGb(RoleGreet greet, bool enabled)
     {
-        var uow = db.GetDbContext();
+
         greet.GreetBots = enabled;
-        uow.Update(greet);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        dbContext.Update(greet);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -330,9 +330,9 @@ public class RoleGreetService : INService
     /// <param name="greet">The role greet configuration to remove.</param>
     public async Task RemoveRoleGreetInternal(RoleGreet greet)
     {
-        var uow = db.GetDbContext();
-        uow.RoleGreets.Remove(greet);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+
+        dbContext.RoleGreets.Remove(greet);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -341,8 +341,8 @@ public class RoleGreetService : INService
     /// <param name="greet">An array of role greet configurations to remove.</param>
     public async Task MultiRemoveRoleGreetInternal(RoleGreet[] greet)
     {
-        var uow = db.GetDbContext();
-        uow.RoleGreets.RemoveRange(greet);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+
+        dbContext.RoleGreets.RemoveRange(greet);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 }

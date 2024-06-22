@@ -9,7 +9,7 @@ namespace Mewdeko.Modules.Utility.Services;
 /// </summary>
 public class AutoPublishService : INService
 {
-    private readonly DbService dbService;
+    private readonly MewdekoContext dbContext;
     private readonly DiscordShardedClient client;
 
     /// <summary>
@@ -18,10 +18,10 @@ public class AutoPublishService : INService
     /// <param name="service">The database service for accessing and storing configuration.</param>
     /// <param name="handler">The event handler for subscribing to message received events.</param>
     /// <param name="client">The Discord client for interacting with the Discord API.</param>
-    public AutoPublishService(DbService service, EventHandler handler, DiscordShardedClient client)
+    public AutoPublishService(MewdekoContext service, EventHandler handler, DiscordShardedClient client)
     {
         this.client = client;
-        dbService = service;
+        dbContext = service;
         handler.MessageReceived += AutoPublish;
     }
 
@@ -47,12 +47,12 @@ public class AutoPublishService : INService
             return;
 
 
-        await using var uow = dbService.GetDbContext();
-        var autoPublish = await uow.AutoPublish.FirstAsyncEF(x => x.ChannelId == channel.Id);
+
+        var autoPublish = await dbContext.AutoPublish.FirstAsyncEF(x => x.ChannelId == channel.Id);
         if (autoPublish is null)
             return;
 
-        var blacklistedWords = uow.PublishWordBlacklists.Where(x => x.ChannelId == channel.Id);
+        var blacklistedWords = dbContext.PublishWordBlacklists.Where(x => x.ChannelId == channel.Id);
         if (blacklistedWords.Any())
         {
             if (blacklistedWords.Any(i => args.Content.ToLower().Contains(i.Word)))
@@ -61,7 +61,7 @@ public class AutoPublishService : INService
             }
         }
 
-        var userBlacklists = uow.PublishUserBlacklists.Where(x => x.ChannelId == channel.Id);
+        var userBlacklists = dbContext.PublishUserBlacklists.Where(x => x.ChannelId == channel.Id);
 
         if (userBlacklists.Any())
         {
@@ -89,8 +89,8 @@ public class AutoPublishService : INService
     /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> AddAutoPublish(ulong guildId, ulong channelId)
     {
-        await using var uow = dbService.GetDbContext();
-        var autoPublish = await uow.AutoPublish.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId);
+
+        var autoPublish = await dbContext.AutoPublish.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId);
         if (autoPublish != null)
         {
             // AutoPublish already exists for the channel
@@ -101,8 +101,8 @@ public class AutoPublishService : INService
         {
             GuildId = guildId, ChannelId = channelId
         };
-        uow.AutoPublish.Add(autoPublish);
-        await uow.SaveChangesAsync();
+        dbContext.AutoPublish.Add(autoPublish);
+        await dbContext.SaveChangesAsync();
         return true;
     }
 
@@ -114,14 +114,14 @@ public class AutoPublishService : INService
     public async Task<List<(AutoPublish?, List<PublishUserBlacklist?>, List<PublishWordBlacklist?>)>>
         GetAutoPublishes(ulong guildId)
     {
-        await using var uow = dbService.GetDbContext();
-        var autoPublishes = uow.AutoPublish.Where(x => x.GuildId == guildId).ToHashSet();
+
+        var autoPublishes = dbContext.AutoPublish.Where(x => x.GuildId == guildId).ToHashSet();
 
         return !autoPublishes.Any()
             ? [(null, null, null)]
             : (from i in autoPublishes
-                let userBlacklists = uow.PublishUserBlacklists.Where(x => x.ChannelId == i.ChannelId).ToList()
-                let wordBlacklists = uow.PublishWordBlacklists.Where(x => x.ChannelId == i.ChannelId).ToList()
+                let userBlacklists = dbContext.PublishUserBlacklists.Where(x => x.ChannelId == i.ChannelId).ToList()
+                let wordBlacklists = dbContext.PublishWordBlacklists.Where(x => x.ChannelId == i.ChannelId).ToList()
                 select (i, userBlacklists, wordBlacklists)).ToList();
     }
 
@@ -148,15 +148,15 @@ public class AutoPublishService : INService
     /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> RemoveAutoPublish(ulong guildId, ulong channelId)
     {
-        await using var uow = dbService.GetDbContext();
-        var autoPublish = await uow.AutoPublish.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId);
+
+        var autoPublish = await dbContext.AutoPublish.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId);
         if (autoPublish == null)
         {
             return false;
         }
 
-        uow.AutoPublish.Remove(autoPublish);
-        await uow.SaveChangesAsync();
+        dbContext.AutoPublish.Remove(autoPublish);
+        await dbContext.SaveChangesAsync();
         return true;
     }
 
@@ -168,9 +168,9 @@ public class AutoPublishService : INService
     /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> AddUserToBlacklist(ulong channelId, ulong userId)
     {
-        await using var uow = dbService.GetDbContext();
+
         var userBlacklist =
-            await uow.PublishUserBlacklists.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId && x.User == userId);
+            await dbContext.PublishUserBlacklists.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId && x.User == userId);
         if (userBlacklist != null)
         {
             // User is already blacklisted in the channel
@@ -181,8 +181,8 @@ public class AutoPublishService : INService
         {
             ChannelId = channelId, User = userId
         };
-        uow.PublishUserBlacklists.Add(userBlacklist);
-        await uow.SaveChangesAsync();
+        dbContext.PublishUserBlacklists.Add(userBlacklist);
+        await dbContext.SaveChangesAsync();
         return true;
     }
 
@@ -194,17 +194,17 @@ public class AutoPublishService : INService
     /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> RemoveUserFromBlacklist(ulong channelId, ulong userId)
     {
-        await using var uow = dbService.GetDbContext();
+
         var userBlacklist =
-            await uow.PublishUserBlacklists.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId && x.User == userId);
+            await dbContext.PublishUserBlacklists.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId && x.User == userId);
         if (userBlacklist == null)
         {
             // User is not blacklisted in the channel
             return false;
         }
 
-        uow.PublishUserBlacklists.Remove(userBlacklist);
-        await uow.SaveChangesAsync();
+        dbContext.PublishUserBlacklists.Remove(userBlacklist);
+        await dbContext.SaveChangesAsync();
         return true;
     }
 
@@ -216,9 +216,9 @@ public class AutoPublishService : INService
     /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> AddWordToBlacklist(ulong channelId, string word)
     {
-        await using var uow = dbService.GetDbContext();
+
         var wordBlacklist =
-            await uow.PublishWordBlacklists.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId && x.Word == word);
+            await dbContext.PublishWordBlacklists.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId && x.Word == word);
         if (wordBlacklist != null)
         {
             // Word is already blacklisted in the channel
@@ -229,8 +229,8 @@ public class AutoPublishService : INService
         {
             ChannelId = channelId, Word = word
         };
-        uow.PublishWordBlacklists.Add(wordBlacklist);
-        await uow.SaveChangesAsync();
+        dbContext.PublishWordBlacklists.Add(wordBlacklist);
+        await dbContext.SaveChangesAsync();
         return true;
     }
 
@@ -242,17 +242,17 @@ public class AutoPublishService : INService
     /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> RemoveWordFromBlacklist(ulong channelId, string word)
     {
-        await using var uow = dbService.GetDbContext();
+
         var wordBlacklist =
-            await uow.PublishWordBlacklists.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId && x.Word == word);
+            await dbContext.PublishWordBlacklists.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId && x.Word == word);
         if (wordBlacklist == null)
         {
             // Word is not blacklisted in the channel
             return false;
         }
 
-        uow.PublishWordBlacklists.Remove(wordBlacklist);
-        await uow.SaveChangesAsync();
+        dbContext.PublishWordBlacklists.Remove(wordBlacklist);
+        await dbContext.SaveChangesAsync();
         return true;
     }
 
@@ -263,7 +263,7 @@ public class AutoPublishService : INService
     /// <returns>True if an auto-publish configuration exists, false otherwise.</returns>
     public async Task<bool> CheckIfExists(ulong channelId)
     {
-        await using var uow = dbService.GetDbContext();
-        return (await uow.AutoPublish.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId)) is null;
+
+        return (await dbContext.AutoPublish.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId)) is null;
     }
 }

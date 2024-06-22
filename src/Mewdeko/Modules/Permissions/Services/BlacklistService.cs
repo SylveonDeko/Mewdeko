@@ -17,7 +17,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     private readonly TypedKey<BlacklistEntry[]> blPubKey = new("blacklist.reload");
     private readonly DiscordShardedClient client;
     private readonly BotConfig config;
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
     private readonly IPubSub pubSub;
 
     /// <summary>
@@ -37,10 +37,10 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     /// <remarks>
     /// The service subscribes to relevant events to automatically enforce blacklist rules upon guild join events or when the bot starts.
     /// </remarks>
-    public BlacklistService(DbService db, IPubSub pubSub, EventHandler handler, DiscordShardedClient client,
+    public BlacklistService(MewdekoContext dbContext, IPubSub pubSub, EventHandler handler, DiscordShardedClient client,
         BotConfig config)
     {
-        this.db = db;
+        this.dbContext = dbContext;
         this.pubSub = pubSub;
         this.client = client;
         this.config = config;
@@ -237,8 +237,8 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     /// <param name="publish">Whether to publish a notification about the blacklist reload.</param>
     public void Reload(bool publish = true)
     {
-        using var uow = db.GetDbContext();
-        var toPublish = uow.Blacklist.AsNoTracking().ToArray();
+
+        var toPublish = dbContext.Blacklist.AsNoTracking().ToArray();
         BlacklistEntries = toPublish.ToList();
         if (publish) pubSub.Pub(blPubKey, toPublish);
     }
@@ -254,13 +254,13 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     /// </remarks>
     public void Blacklist(BlacklistType type, ulong id, string? reason)
     {
-        using var uow = db.GetDbContext();
+
         var item = new BlacklistEntry
         {
             ItemId = id, Type = type, Reason = reason ?? "No reason provided."
         };
-        uow.Blacklist.Add(item);
-        uow.SaveChanges();
+        dbContext.Blacklist.Add(item);
+        dbContext.SaveChanges();
 
         Reload();
     }
@@ -275,14 +275,14 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     /// </remarks>
     public void UnBlacklist(BlacklistType type, ulong id)
     {
-        using var uow = db.GetDbContext();
-        var toRemove = uow.Blacklist
+
+        var toRemove = dbContext.Blacklist
             .FirstOrDefault(bi => bi.ItemId == id && bi.Type == type);
 
         if (toRemove is not null)
-            uow.Blacklist.Remove(toRemove);
+            dbContext.Blacklist.Remove(toRemove);
 
-        uow.SaveChanges();
+        dbContext.SaveChanges();
 
         Reload();
     }
@@ -296,10 +296,10 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     /// </remarks>
     public async void BlacklistUsers(IEnumerable<ulong> toBlacklist)
     {
-        var uow = db.GetDbContext();
-        await using (uow.ConfigureAwait(false))
+
+        await using (dbContext.ConfigureAwait(false))
         {
-            var bc = uow.Blacklist;
+            var bc = dbContext.Blacklist;
             //blacklist the users
             bc.AddRange(toBlacklist.Select(x =>
                 new BlacklistEntry
@@ -308,7 +308,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
                 }));
 
             //clear their currencies
-            await uow.SaveChangesAsync().ConfigureAwait(false);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
         Reload();

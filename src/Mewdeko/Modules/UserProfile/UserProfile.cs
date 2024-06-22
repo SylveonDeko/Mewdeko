@@ -9,7 +9,7 @@ namespace Mewdeko.Modules.UserProfile;
 /// <summary>
 /// Handles text commands for user profiles, providing functionalities to view and manage user profile details.
 /// </summary>
-public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
+public class UserProfile(MewdekoContext dbContext) : MewdekoModuleBase<UserProfileService>
 {
     /// <summary>
     /// Shows the user's profile or another user's profile if specified.
@@ -184,9 +184,9 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
     public async Task Pronouns(IUser? user = null)
     {
         user ??= ctx.User;
-        var uow = db.GetDbContext();
-        await using var _ = uow.ConfigureAwait(false);
-        var dbUser = await uow.GetOrCreateUser(user).ConfigureAwait(false);
+
+        await using var _ = dbContext.ConfigureAwait(false);
+        var dbUser = await dbContext.GetOrCreateUser(user).ConfigureAwait(false);
         if (await PronounsDisabled(dbUser).ConfigureAwait(false)) return;
         var pronouns = await Service.GetPronounsOrUnspecifiedAsync(user.Id).ConfigureAwait(false);
         var cb = new ComponentBuilder();
@@ -207,9 +207,9 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
     [Cmd, Aliases]
     public async Task SetPronouns([Remainder] string? pronouns = null)
     {
-        var uow = db.GetDbContext();
-        await using var _ = uow.ConfigureAwait(false);
-        var user = await uow.GetOrCreateUser(ctx.User).ConfigureAwait(false);
+
+        await using var _ = dbContext.ConfigureAwait(false);
+        var user = await dbContext.GetOrCreateUser(ctx.User).ConfigureAwait(false);
         if (await PronounsDisabled(user).ConfigureAwait(false)) return;
         if (string.IsNullOrWhiteSpace(pronouns))
         {
@@ -227,7 +227,7 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
         }
 
         user.Pronouns = pronouns;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
         await ConfirmLocalizedAsync("pronouns_internal_update", user.Pronouns).ConfigureAwait(false);
     }
 
@@ -247,12 +247,12 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
     [Cmd, Aliases, OwnerOnly]
     public async Task PronounsForceClear(IUser? user, bool pronounsDisabledAbuse, [Remainder] string reason)
     {
-        var uow = db.GetDbContext();
-        await using var _ = uow.ConfigureAwait(false);
-        var dbUser = await uow.GetOrCreateUser(user).ConfigureAwait(false);
+
+        await using var _ = dbContext.ConfigureAwait(false);
+        var dbUser = await dbContext.GetOrCreateUser(user).ConfigureAwait(false);
         dbUser.PronounsDisabled = pronounsDisabledAbuse;
         dbUser.PronounsClearedReason = reason;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
         await ConfirmLocalizedAsync(pronounsDisabledAbuse ? "pronouns_disabled_user" : "pronouns_cleared")
             .ConfigureAwait(false);
     }
@@ -266,12 +266,12 @@ public class UserProfile(DbService db) : MewdekoModuleBase<UserProfileService>
     [Cmd, Aliases, OwnerOnly]
     public async Task PronounsForceClear(ulong user, bool pronounsDisabledAbuse, [Remainder] string reason)
     {
-        var uow = db.GetDbContext();
-        await using var _ = uow.ConfigureAwait(false);
-        var dbUser = await uow.DiscordUser.AsQueryable().FirstAsync(x => x.UserId == user).ConfigureAwait(false);
+
+        await using var _ = dbContext.ConfigureAwait(false);
+        var dbUser = await dbContext.DiscordUser.AsQueryable().FirstAsync(x => x.UserId == user).ConfigureAwait(false);
         dbUser.PronounsDisabled = pronounsDisabledAbuse;
         dbUser.PronounsClearedReason = reason;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
         await ConfirmLocalizedAsync(pronounsDisabledAbuse ? "pronouns_disabled_user" : "pronouns_cleared")
             .ConfigureAwait(false);
     }

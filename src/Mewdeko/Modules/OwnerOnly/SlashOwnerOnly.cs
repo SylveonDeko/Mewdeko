@@ -43,7 +43,7 @@ public class SlashOwnerOnly(
     DiscordShardedClient client,
     IBotStrings strings,
     InteractiveService serv,
-    DbService db,
+    MewdekoContext dbContext,
     IDataCache cache,
     GuildSettingsService guildSettings,
     CommandHandler commandHandler,
@@ -146,8 +146,8 @@ public class SlashOwnerOnly(
     {
         if (!await PromptUserConfirmAsync("Are you sure you want to execute this??", ctx.User.Id).ConfigureAwait(false))
             return;
-        await using var uow = db.GetDbContext();
-        var affected = await uow.Database.ExecuteSqlRawAsync(sql).ConfigureAwait(false);
+
+        var affected = await dbContext.Database.ExecuteSqlRawAsync(sql).ConfigureAwait(false);
         await ctx.Interaction.SendErrorAsync($"Affected {affected} rows.", botConfigService).ConfigureAwait(false);
     }
 
@@ -202,7 +202,7 @@ public class SlashOwnerOnly(
     [SlashCommand("commandstats", "Get stats about commands")]
     public async Task CommandStats()
     {
-        var commandStatsTable = db.GetDbContext().CommandStats;
+        var commandStatsTable = dbContext.CommandStats;
         var topCommandTask = commandStatsTable
             .Where(x => !x.Trigger)
             .GroupBy(q => q.NameOrId)

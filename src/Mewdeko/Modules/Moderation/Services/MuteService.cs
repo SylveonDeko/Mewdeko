@@ -58,7 +58,7 @@ public class MuteService : INService
             attachFiles: PermValue.Deny, sendMessagesInThreads: PermValue.Deny, createPublicThreads: PermValue.Deny);
 
     private readonly DiscordShardedClient client;
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
 
     private readonly GuildSettingsService guildSettings;
 
@@ -75,17 +75,17 @@ public class MuteService : INService
     /// <param name="guildSettings">Service for retrieving guildconfigs</param>
     /// <param name="eventHandler">Handler for async events (Hear that dnet? ASYNC, not GATEWAY THREAD)</param>
     /// <param name="bot">The bot</param>
-    public MuteService(DiscordShardedClient client, DbService db, GuildSettingsService guildSettings,
+    public MuteService(DiscordShardedClient client, MewdekoContext dbContext, GuildSettingsService guildSettings,
         EventHandler eventHandler, Mewdeko bot)
     {
         this.client = client;
-        this.db = db;
+        this.dbContext = dbContext;
         this.guildSettings = guildSettings;
 
         var max = TimeSpan.FromDays(49);
 
-        using var uow = db.GetDbContext();
-        var guilds = uow.GuildConfigs.ToLinqToDB().AsNoTracking().Include(x => x.MutedUsers)
+
+        var guilds = dbContext.GuildConfigs.ToLinqToDB().AsNoTracking().Include(x => x.MutedUsers)
             .Include(x => x.UnmuteTimers)
             .Include(x => x.UnbanTimer)
             .Include(x => x.UnroleTimer).ToList();
@@ -224,11 +224,11 @@ public class MuteService : INService
     /// <param name="name">The name of the role (What in your right fucking mind possessed you to make it this way kwoth???)</param>
     public async Task SetMuteRoleAsync(ulong guildId, string name)
     {
-        await using var uow = db.GetDbContext();
-        var config = await uow.ForGuildId(guildId, set => set);
+
+        var config = await dbContext.ForGuildId(guildId, set => set);
         config.MuteRoleName = name;
         GuildMuteRoles.AddOrUpdate(guildId, name, (_, _) => name);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -254,9 +254,9 @@ public class MuteService : INService
                     // ignored
                 }
 
-                var uow = db.GetDbContext();
-                await using var _ = uow.ConfigureAwait(false);
-                var config = await uow.ForGuildId(usr.Guild.Id,
+
+                await using var _ = dbContext.ConfigureAwait(false);
+                var config = await dbContext.ForGuildId(usr.Guild.Id,
                     set => set.Include(gc => gc.MutedUsers).Include(gc => gc.UnmuteTimers));
                 var roles = usr.GetRoles().Where(p => p.Tags == null).Except(new[]
                 {
@@ -278,7 +278,7 @@ public class MuteService : INService
 
                 config.UnmuteTimers.RemoveWhere(x => x.UserId == usr.Id);
 
-                await uow.SaveChangesAsync().ConfigureAwait(false);
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
                 var muteRole = await GetMuteRole(usr.Guild).ConfigureAwait(false);
                 if (!usr.RoleIds.Contains(muteRole.Id))
                 {
@@ -329,7 +329,7 @@ public class MuteService : INService
     public async Task Removeonmute(IGuild guild, string yesnt)
     {
         var yesno = -1;
-        await using var uow = db.GetDbContext();
+
         yesno = yesnt switch
         {
             "y" => 1,
@@ -337,7 +337,7 @@ public class MuteService : INService
             _ => yesno
         };
 
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.removeroles = yesno;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -359,10 +359,10 @@ public class MuteService : INService
             case MuteType.All:
             {
                 StopTimer(guildId, usrId, TimerType.Mute);
-                var uow = db.GetDbContext();
-                await using (uow.ConfigureAwait(false))
+
+                await using (dbContext.ConfigureAwait(false))
                 {
-                    var config = await uow.ForGuildId(guildId, set => set.Include(gc => gc.MutedUsers)
+                    var config = await dbContext.ForGuildId(guildId, set => set.Include(gc => gc.MutedUsers)
                         .Include(gc => gc.UnmuteTimers));
                     if (usr != null && await GetRemoveOnMute(usr.Guild.Id) == 1)
                     {
@@ -399,13 +399,13 @@ public class MuteService : INService
                     };
                     var toRemove = config.MutedUsers.FirstOrDefault(x => x.Equals(match));
 
-                    if (toRemove != null) uow.Remove(toRemove);
+                    if (toRemove != null) dbContext.Remove(toRemove);
                     if (MutedUsers.TryGetValue(guildId, out var muted))
                         muted.TryRemove(usrId);
 
                     config.UnmuteTimers.RemoveWhere(x => x.UserId == usrId);
 
-                    await uow.SaveChangesAsync().ConfigureAwait(false);
+                    await dbContext.SaveChangesAsync().ConfigureAwait(false);
                 }
 
                 if (usr != null)
@@ -527,15 +527,15 @@ public class MuteService : INService
     {
         await MuteUser(user, mod, muteType, reason)
             .ConfigureAwait(false); // mute the user. This will also remove any previous unmute timers
-        var uow = db.GetDbContext();
-        await using (uow.ConfigureAwait(false))
+
+        await using (dbContext.ConfigureAwait(false))
         {
-            var config = await uow.ForGuildId(user.GuildId, set => set.Include(x => x.UnmuteTimers));
+            var config = await dbContext.ForGuildId(user.GuildId, set => set.Include(x => x.UnmuteTimers));
             config.UnmuteTimers.Add(new UnmuteTimer
             {
                 UserId = user.Id, UnmuteAt = DateTime.UtcNow + after
             }); // add teh unmute timer to the database
-            await uow.SaveChangesAsync().ConfigureAwait(false);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
         StartUn_Timer(user.GuildId, user.Id, after, TimerType.Mute); // start the timer
@@ -555,15 +555,15 @@ public class MuteService : INService
         {
             AuditLogReason = reason
         }).ConfigureAwait(false);
-        var uow = db.GetDbContext();
-        await using (uow.ConfigureAwait(false))
+
+        await using (dbContext.ConfigureAwait(false))
         {
-            var config = await uow.ForGuildId(guild.Id, set => set.Include(x => x.UnbanTimer));
+            var config = await dbContext.ForGuildId(guild.Id, set => set.Include(x => x.UnbanTimer));
             config.UnbanTimer.Add(new UnbanTimer
             {
                 UserId = user.Id, UnbanAt = DateTime.UtcNow + after
             }); // add teh unmute timer to the database
-            await uow.SaveChangesAsync().ConfigureAwait(false);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
         StartUn_Timer(guild.Id, user.Id, after, TimerType.Ban); // start the timer
@@ -579,15 +579,15 @@ public class MuteService : INService
     public async Task TimedRole(IGuildUser user, TimeSpan after, string reason, IRole role)
     {
         await user.AddRoleAsync(role).ConfigureAwait(false);
-        var uow = db.GetDbContext();
-        await using (uow.ConfigureAwait(false))
+
+        await using (dbContext.ConfigureAwait(false))
         {
-            var config = await uow.ForGuildId(user.GuildId, set => set.Include(x => x.UnroleTimer));
+            var config = await dbContext.ForGuildId(user.GuildId, set => set.Include(x => x.UnroleTimer));
             config.UnroleTimer.Add(new UnroleTimer
             {
                 UserId = user.Id, UnbanAt = DateTime.UtcNow + after, RoleId = role.Id
             }); // add teh unmute timer to the database
-            await uow.SaveChangesAsync().ConfigureAwait(false);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
         StartUn_Timer(user.GuildId, user.Id, after, TimerType.AddRole, role.Id); // start the timer
@@ -687,20 +687,20 @@ public class MuteService : INService
 
     private async Task RemoveTimerFromDb(ulong guildId, ulong userId, TimerType type)
     {
-        await using var uow = db.GetDbContext();
+
         object toDelete;
         if (type == TimerType.Mute)
         {
-            var config = await uow.ForGuildId(guildId, set => set.Include(x => x.UnmuteTimers));
+            var config = await dbContext.ForGuildId(guildId, set => set.Include(x => x.UnmuteTimers));
             toDelete = config.UnmuteTimers.FirstOrDefault(x => x.UserId == userId);
         }
         else
         {
-            var config = await uow.ForGuildId(guildId, set => set.Include(x => x.UnbanTimer));
+            var config = await dbContext.ForGuildId(guildId, set => set.Include(x => x.UnbanTimer));
             toDelete = config.UnbanTimer.FirstOrDefault(x => x.UserId == userId);
         }
 
-        if (toDelete != null) uow.Remove(toDelete);
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        if (toDelete != null) dbContext.Remove(toDelete);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 }

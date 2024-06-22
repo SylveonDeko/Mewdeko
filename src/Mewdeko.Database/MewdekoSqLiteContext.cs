@@ -9,7 +9,7 @@ public sealed class MewdekoSqLiteContext : MewdekoContext
 {
     private readonly string connectionString;
 
-    public MewdekoSqLiteContext(string connectionString = "Data Source=data/Mewdeko.db", int commandTimeout = 60)
+    public MewdekoSqLiteContext(string connectionString = "Data Source=data/Mewdeko.db", int commandTimeout = 60) : base(new DbContextOptions<MewdekoPostgresContext>())
     {
         this.connectionString = connectionString;
         Database.SetCommandTimeout(commandTimeout);

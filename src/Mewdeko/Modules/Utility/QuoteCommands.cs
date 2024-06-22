@@ -9,7 +9,7 @@ public partial class Utility
     /// Provides commands for managing and displaying quotes within a guild. I dont know why you would use this when chat triggers exist.
     /// </summary>
     [Group]
-    public class QuoteCommands(DbService db) : MewdekoSubmodule
+    public class QuoteCommands(MewdekoContext dbContext) : MewdekoSubmodule
     {
         /// <summary>
         /// Lists quotes in the guild. Quotes can be ordered by keyword or date added.
@@ -33,10 +33,10 @@ public partial class Utility
                 return;
 
             IEnumerable<Quote> quotes;
-            var uow = db.GetDbContext();
-            await using (uow.ConfigureAwait(false))
+
+            await using (dbContext.ConfigureAwait(false))
             {
-                quotes = uow.Quotes.GetGroup(ctx.Guild.Id, page, order);
+                quotes = dbContext.Quotes.GetGroup(ctx.Guild.Id, page, order);
             }
 
             var enumerable = quotes as Quote[] ?? quotes.ToArray();
@@ -68,10 +68,10 @@ public partial class Utility
             keyword = keyword.ToUpperInvariant();
 
             Quote quote;
-            var uow = db.GetDbContext();
-            await using (uow.ConfigureAwait(false))
+
+            await using (dbContext.ConfigureAwait(false))
             {
-                quote = await uow.Quotes.GetRandomQuoteByKeywordAsync(ctx.Guild.Id, keyword).ConfigureAwait(false);
+                quote = await dbContext.Quotes.GetRandomQuoteByKeywordAsync(ctx.Guild.Id, keyword).ConfigureAwait(false);
             }
 
             if (quote == null)
@@ -104,10 +104,10 @@ public partial class Utility
         public async Task QuoteShow(int id)
         {
             Quote quote;
-            var uow = db.GetDbContext();
-            await using (uow.ConfigureAwait(false))
+
+            await using (dbContext.ConfigureAwait(false))
             {
-                quote = await uow.Quotes.GetById(id);
+                quote = await dbContext.Quotes.GetById(id);
                 if (quote.GuildId != Context.Guild.Id)
                     quote = null;
             }
@@ -147,10 +147,10 @@ public partial class Utility
             keyword = keyword.ToUpperInvariant();
 
             Quote keywordquote;
-            var uow = db.GetDbContext();
-            await using (uow.ConfigureAwait(false))
+
+            await using (dbContext.ConfigureAwait(false))
             {
-                keywordquote = await uow.Quotes.SearchQuoteKeywordTextAsync(ctx.Guild.Id, keyword, text)
+                keywordquote = await dbContext.Quotes.SearchQuoteKeywordTextAsync(ctx.Guild.Id, keyword, text)
                     .ConfigureAwait(false);
             }
 
@@ -178,10 +178,10 @@ public partial class Utility
                 .WithDefault(Context)
                 .Build();
 
-            var uow = db.GetDbContext();
-            await using (uow.ConfigureAwait(false))
+
+            await using (dbContext.ConfigureAwait(false))
             {
-                quote = await uow.Quotes.GetById(id);
+                quote = await dbContext.Quotes.GetById(id);
             }
 
             if (quote is null || quote.GuildId != ctx.Guild.Id)
@@ -222,10 +222,10 @@ public partial class Utility
             keyword = keyword.ToUpperInvariant();
 
             Quote q;
-            var uow = db.GetDbContext();
-            await using (uow.ConfigureAwait(false))
+
+            await using (dbContext.ConfigureAwait(false))
             {
-                uow.Quotes.Add(q = new Quote
+                dbContext.Quotes.Add(q = new Quote
                 {
                     AuthorId = ctx.Message.Author.Id,
                     AuthorName = ctx.Message.Author.Username,
@@ -233,7 +233,7 @@ public partial class Utility
                     Keyword = keyword,
                     Text = text
                 });
-                await uow.SaveChangesAsync().ConfigureAwait(false);
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
 
             await ReplyConfirmLocalizedAsync("quote_added_new", Format.Code(q.Id.ToString())).ConfigureAwait(false);
@@ -251,10 +251,10 @@ public partial class Utility
 
             var success = false;
             string? response;
-            var uow = db.GetDbContext();
-            await using (uow.ConfigureAwait(false))
+
+            await using (dbContext.ConfigureAwait(false))
             {
-                var q = await uow.Quotes.GetById(id);
+                var q = await dbContext.Quotes.GetById(id);
 
                 if (q?.GuildId != ctx.Guild.Id || (!isAdmin && q.AuthorId != ctx.Message.Author.Id))
                 {
@@ -262,8 +262,8 @@ public partial class Utility
                 }
                 else
                 {
-                    uow.Quotes.Remove(q);
-                    await uow.SaveChangesAsync().ConfigureAwait(false);
+                    dbContext.Quotes.Remove(q);
+                    await dbContext.SaveChangesAsync().ConfigureAwait(false);
                     success = true;
                     response = GetText("quote_deleted", id);
                 }
@@ -289,12 +289,12 @@ public partial class Utility
 
             keyword = keyword.ToUpperInvariant();
 
-            var uow = db.GetDbContext();
-            await using (uow.ConfigureAwait(false))
-            {
-                uow.Quotes.RemoveAllByKeyword(ctx.Guild.Id, keyword.ToUpperInvariant());
 
-                await uow.SaveChangesAsync().ConfigureAwait(false);
+            await using (dbContext.ConfigureAwait(false))
+            {
+                dbContext.Quotes.RemoveAllByKeyword(ctx.Guild.Id, keyword.ToUpperInvariant());
+
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
 
             await ReplyConfirmLocalizedAsync("quotes_deleted", Format.Bold(keyword.SanitizeAllMentions()))

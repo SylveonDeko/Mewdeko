@@ -12,7 +12,7 @@ public class StatusRolesService : INService, IReadyExecutor
 {
     private readonly IFusionCache cache;
     private readonly DiscordShardedClient client;
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StatusRolesService"/> class.
@@ -21,10 +21,10 @@ public class StatusRolesService : INService, IReadyExecutor
     /// <param name="db">The database service.</param>
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="cache">The data cache service.</param>
-    public StatusRolesService(DiscordShardedClient client, DbService db, EventHandler eventHandler, IFusionCache cache)
+    public StatusRolesService(DiscordShardedClient client, MewdekoContext dbContext, EventHandler eventHandler, IFusionCache cache)
     {
         this.client = client;
-        this.db = db;
+        this.dbContext = dbContext;
         this.cache = cache;
         eventHandler.PresenceUpdated += EventHandlerOnPresenceUpdated;
     }
@@ -33,8 +33,8 @@ public class StatusRolesService : INService, IReadyExecutor
     public async Task OnReadyAsync()
     {
         Log.Information($"Starting {this.GetType()} Cache");
-        await using var uow = db.GetDbContext();
-        var statusRoles = uow.StatusRoles.ToList();
+
+        var statusRoles = dbContext.StatusRoles.ToList();
 
         await cache.SetAsync("statusRoles", statusRoles);
 
@@ -49,8 +49,8 @@ public class StatusRolesService : INService, IReadyExecutor
             return cacheResult.Value;
         }
 
-        await using var uow = db.GetDbContext();
-        var statusRoles = uow.StatusRoles.ToList();
+
+        var statusRoles = dbContext.StatusRoles.ToList();
         await cache.SetAsync("statusRoles", statusRoles);
 
         return statusRoles;
@@ -220,15 +220,15 @@ public class StatusRolesService : INService, IReadyExecutor
     /// <returns>True if the configuration was successfully added; otherwise, false.</returns>
     public async Task<bool> AddStatusRoleConfig(string status, ulong guildId)
     {
-        await using var uow = db.GetDbContext();
+
         var toAdd = new StatusRolesTable
         {
             Status = status, GuildId = guildId
         };
-        if (uow.StatusRoles.Where(x => x.GuildId == guildId).Any(x => x.Status == status))
+        if (dbContext.StatusRoles.Where(x => x.GuildId == guildId).Any(x => x.Status == status))
             return false;
-        uow.StatusRoles.Add(toAdd);
-        await uow.SaveChangesAsync();
+        dbContext.StatusRoles.Add(toAdd);
+        await dbContext.SaveChangesAsync();
         var statusRoles = await GetStatusRolesAsync();
         statusRoles.Add(toAdd);
         await cache.SetAsync("statusRoles", statusRoles);
@@ -242,12 +242,12 @@ public class StatusRolesService : INService, IReadyExecutor
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task RemoveStatusRoleConfig(int index)
     {
-        await using var uow = db.GetDbContext();
-        var status = uow.StatusRoles.FirstOrDefault(x => x.Id == index);
+
+        var status = dbContext.StatusRoles.FirstOrDefault(x => x.Id == index);
         if (status is null)
             return;
-        uow.StatusRoles.Remove(status);
-        await uow.SaveChangesAsync();
+        dbContext.StatusRoles.Remove(status);
+        await dbContext.SaveChangesAsync();
         var statusRoles = await GetStatusRolesAsync();
         var toremove = statusRoles.FirstOrDefault(x => x.Id == index);
         if (toremove is not null)
@@ -264,9 +264,9 @@ public class StatusRolesService : INService, IReadyExecutor
     {
         try
         {
-            await using var uow = db.GetDbContext();
-            uow.StatusRoles.Remove(status);
-            await uow.SaveChangesAsync();
+
+            dbContext.StatusRoles.Remove(status);
+            await dbContext.SaveChangesAsync();
             var statusRoles = await GetStatusRolesAsync();
             var toremove = statusRoles.FirstOrDefault(x => x.Id == status.Id);
             if (toremove is not null)
@@ -304,10 +304,10 @@ public class StatusRolesService : INService, IReadyExecutor
     /// <returns>True if the roles were successfully set; otherwise, false.</returns>
     public async Task<bool> SetAddRoles(StatusRolesTable status, string toAdd)
     {
-        await using var uow = db.GetDbContext();
+
         status.ToAdd = toAdd;
-        uow.StatusRoles.Update(status);
-        await uow.SaveChangesAsync();
+        dbContext.StatusRoles.Update(status);
+        await dbContext.SaveChangesAsync();
         var statusRoles = await GetStatusRolesAsync();
         var listIndex = statusRoles.FindIndex(x => x.Id == status.Id);
         statusRoles[listIndex] = status;
@@ -323,10 +323,10 @@ public class StatusRolesService : INService, IReadyExecutor
     /// <returns>True if the roles were successfully set; otherwise, false.</returns>
     public async Task<bool> SetRemoveRoles(StatusRolesTable status, string toRemove)
     {
-        await using var uow = db.GetDbContext();
+
         status.ToRemove = toRemove;
-        uow.StatusRoles.Update(status);
-        await uow.SaveChangesAsync();
+        dbContext.StatusRoles.Update(status);
+        await dbContext.SaveChangesAsync();
         var statusRoles = await GetStatusRolesAsync();
         var listIndex = statusRoles.FindIndex(x => x.Id == status.Id);
         statusRoles[listIndex] = status;
@@ -342,10 +342,10 @@ public class StatusRolesService : INService, IReadyExecutor
     /// <returns>True if the channel was successfully set; otherwise, false.</returns>
     public async Task<bool> SetStatusChannel(StatusRolesTable status, ulong channelId)
     {
-        await using var uow = db.GetDbContext();
+
         status.StatusChannelId = channelId;
-        uow.StatusRoles.Update(status);
-        await uow.SaveChangesAsync();
+        dbContext.StatusRoles.Update(status);
+        await dbContext.SaveChangesAsync();
         var statusRoles = await GetStatusRolesAsync();
         var listIndex = statusRoles.FindIndex(x => x.Id == status.Id);
         statusRoles[listIndex] = status;
@@ -361,10 +361,10 @@ public class StatusRolesService : INService, IReadyExecutor
     /// <returns>True if the embed text was successfully set; otherwise, false.</returns>
     public async Task<bool> SetStatusEmbed(StatusRolesTable status, string embedText)
     {
-        await using var uow = db.GetDbContext();
+
         status.StatusEmbed = embedText;
-        uow.StatusRoles.Update(status);
-        await uow.SaveChangesAsync();
+        dbContext.StatusRoles.Update(status);
+        await dbContext.SaveChangesAsync();
         var statusRoles = await GetStatusRolesAsync();
         var listIndex = statusRoles.FindIndex(x => x.Id == status.Id);
         statusRoles[listIndex] = status;
@@ -379,10 +379,10 @@ public class StatusRolesService : INService, IReadyExecutor
     /// <returns>True if the toggle was successful; otherwise, false.</returns>
     public async Task<bool> ToggleRemoveAdded(StatusRolesTable status)
     {
-        await using var uow = db.GetDbContext();
+
         status.RemoveAdded = !status.RemoveAdded;
-        uow.StatusRoles.Update(status);
-        await uow.SaveChangesAsync();
+        dbContext.StatusRoles.Update(status);
+        await dbContext.SaveChangesAsync();
         var statusRoles = await GetStatusRolesAsync();
         var listIndex = statusRoles.FindIndex(x => x.Id == status.Id);
         statusRoles[listIndex] = status;
@@ -397,10 +397,10 @@ public class StatusRolesService : INService, IReadyExecutor
     /// <returns>True if the toggle was successful; otherwise, false.</returns>
     public async Task<bool> ToggleAddRemoved(StatusRolesTable status)
     {
-        await using var uow = db.GetDbContext();
+
         status.ReaddRemoved = !status.ReaddRemoved;
-        uow.StatusRoles.Update(status);
-        await uow.SaveChangesAsync();
+        dbContext.StatusRoles.Update(status);
+        await dbContext.SaveChangesAsync();
         var statusRoles = await GetStatusRolesAsync();
         var listIndex = statusRoles.FindIndex(x => x.Id == status.Id);
         statusRoles[listIndex] = status;

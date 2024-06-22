@@ -10,7 +10,7 @@ namespace Mewdeko.Modules.Votes.Services;
 /// </summary>
 public class VoteService : INService
 {
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
     private readonly DiscordShardedClient client;
     private readonly MuteService muteService;
 
@@ -21,10 +21,10 @@ public class VoteService : INService
     /// <param name="db">The database service for data access.</param>
     /// <param name="client">The Discord client for interacting with the Discord API.</param>
     /// <param name="muteService">The service for managing mutes within the bot.</param>
-    public VoteService(IPubSub pubSub, DbService db, DiscordShardedClient client,
+    public VoteService(IPubSub pubSub, MewdekoContext dbContext, DiscordShardedClient client,
         MuteService muteService)
     {
-        this.db = db;
+        this.dbContext = dbContext;
         this.client = client;
         this.muteService = muteService;
         var typedKey = new TypedKey<CompoundVoteModal>("uservoted");
@@ -33,9 +33,9 @@ public class VoteService : INService
 
     private async ValueTask RunVoteStuff(CompoundVoteModal voteModal)
     {
-        await using var uow = db.GetDbContext();
+
         var potentialVoteConfig =
-            await uow.GuildConfigs.FirstOrDefaultAsyncEF(x => x.VotesPassword == voteModal.Password);
+            await dbContext.GuildConfigs.FirstOrDefaultAsyncEF(x => x.VotesPassword == voteModal.Password);
         if (potentialVoteConfig is null)
             return;
         var guild = client.GetGuild(potentialVoteConfig.GuildId);
@@ -46,8 +46,8 @@ public class VoteService : INService
         {
             UserId = user.Id, GuildId = guild.Id
         };
-        await uow.Votes.AddAsync(newVote);
-        await uow.SaveChangesAsync();
+        await dbContext.Votes.AddAsync(newVote);
+        await dbContext.SaveChangesAsync();
         if (string.IsNullOrEmpty(potentialVoteConfig.VoteEmbed))
         {
             if (potentialVoteConfig.VotesChannel is 0)
@@ -56,7 +56,7 @@ public class VoteService : INService
             if (guild.GetTextChannel(potentialVoteConfig.VotesChannel) is not ITextChannel channel)
                 return;
 
-            var votes = await uow.Votes.CountAsyncEF(x => x.UserId == user.Id && x.GuildId == guild.Id);
+            var votes = await dbContext.Votes.CountAsyncEF(x => x.UserId == user.Id && x.GuildId == guild.Id);
             var eb = new EmbedBuilder()
                 .WithTitle($"Thanks for voting for {guild.Name}")
                 .WithDescription($"You have voted a total of {votes} times!")
@@ -65,9 +65,9 @@ public class VoteService : INService
 
             await channel.SendMessageAsync(user.Mention, embed: eb.Build());
 
-            if (!await uow.VoteRoles.AnyAsyncEF(x => x.GuildId == guild.Id))
+            if (!await dbContext.VoteRoles.AnyAsyncEF(x => x.GuildId == guild.Id))
                 return;
-            var split = uow.VoteRoles.Where(x => x.GuildId == guild.Id);
+            var split = dbContext.VoteRoles.Where(x => x.GuildId == guild.Id);
             if (!split.Any())
                 return;
             foreach (var i in split)
@@ -93,7 +93,7 @@ public class VoteService : INService
                 return;
             if (potentialVoteConfig.VotesChannel is 0)
                 return;
-            var votes = uow.Votes.Where(x => x.UserId == user.Id && x.GuildId == guild.Id);
+            var votes = dbContext.Votes.Where(x => x.UserId == user.Id && x.GuildId == guild.Id);
             var rep = new ReplacementBuilder()
                 .WithDefault(user, null, guild, client)
                 .WithOverride("%votestotalcount%", () => votes.Count().ToString())
@@ -110,9 +110,9 @@ public class VoteService : INService
                 await channel.SendMessageAsync(rep.Replace(potentialVoteConfig.VoteEmbed).SanitizeMentions());
             }
 
-            if (!await uow.VoteRoles.AnyAsyncEF(x => x.GuildId == guild.Id))
+            if (!await dbContext.VoteRoles.AnyAsyncEF(x => x.GuildId == guild.Id))
                 return;
-            var split = uow.VoteRoles.Where(x => x.GuildId == guild.Id);
+            var split = dbContext.VoteRoles.Where(x => x.GuildId == guild.Id);
             if (!split.Any())
                 return;
             foreach (var i in split)
@@ -145,11 +145,11 @@ public class VoteService : INService
     {
         if (roleId == guildId)
             return (false, "Unable to add the everyone role you dumdum");
-        await using var uow = db.GetDbContext();
-        if (await uow.VoteRoles.CountAsyncEF(x => x.GuildId == guildId) >= 10)
+
+        if (await dbContext.VoteRoles.CountAsyncEF(x => x.GuildId == guildId) >= 10)
             return (false, "Reached maximum of 10 VoteRoles");
 
-        if (await uow.VoteRoles.Select(x => x.RoleId).ContainsAsyncEF(roleId))
+        if (await dbContext.VoteRoles.Select(x => x.RoleId).ContainsAsyncEF(roleId))
             return (false, "Role is already set as a VoteRole.");
 
         var voteRole = new VoteRoles
@@ -157,8 +157,8 @@ public class VoteService : INService
             RoleId = roleId, GuildId = guildId, Timer = seconds
         };
 
-        await uow.VoteRoles.AddAsync(voteRole);
-        await uow.SaveChangesAsync();
+        await dbContext.VoteRoles.AddAsync(voteRole);
+        await dbContext.SaveChangesAsync();
         return (true, null);
     }
 
@@ -172,15 +172,15 @@ public class VoteService : INService
     {
         if (roleId == guildId)
             return (false, "Unable to add the everyone role you dumdum");
-        await using var uow = db.GetDbContext();
-        if (!await uow.VoteRoles.AnyAsyncEF(x => x.GuildId == guildId))
+
+        if (!await dbContext.VoteRoles.AnyAsyncEF(x => x.GuildId == guildId))
             return (false, "You don't have any VoteRoles");
-        var voteRole = await uow.VoteRoles.FirstOrDefaultAsyncEF(x => x.RoleId == roleId);
+        var voteRole = await dbContext.VoteRoles.FirstOrDefaultAsyncEF(x => x.RoleId == roleId);
         if (voteRole is null)
             return (false, "Role is not a VoteRole.");
 
-        uow.VoteRoles.Remove(voteRole);
-        await uow.SaveChangesAsync();
+        dbContext.VoteRoles.Remove(voteRole);
+        await dbContext.SaveChangesAsync();
         return (true, null);
     }
 
@@ -192,15 +192,15 @@ public class VoteService : INService
     /// <returns>A tuple indicating success status and an optional error message.</returns>
     public async Task<(bool, string)> UpdateTimer(ulong roleId, int seconds)
     {
-        await using var uow = db.GetDbContext();
-        var voteRole = await uow.VoteRoles.FirstOrDefaultAsyncEF(x => x.RoleId == roleId);
+
+        var voteRole = await dbContext.VoteRoles.FirstOrDefaultAsyncEF(x => x.RoleId == roleId);
         if (voteRole is null)
             return (false, "Role to update is not added as a VoteRole.");
         if (voteRole.Timer == seconds)
             return (false, "VoteRole timer is already set to that value.");
         voteRole.Timer = seconds;
-        uow.VoteRoles.Update(voteRole);
-        await uow.SaveChangesAsync();
+        dbContext.VoteRoles.Update(voteRole);
+        await dbContext.SaveChangesAsync();
         return (true, null);
     }
 
@@ -211,8 +211,8 @@ public class VoteService : INService
     /// <returns>A list of vote roles.</returns>
     public async Task<IList<VoteRoles>> GetVoteRoles(ulong guildId)
     {
-        await using var uow = db.GetDbContext();
-        return await uow.VoteRoles.Where(x => x.GuildId == guildId)?.ToListAsyncEF() ?? new List<VoteRoles>();
+
+        return await dbContext.VoteRoles.Where(x => x.GuildId == guildId)?.ToListAsyncEF() ?? new List<VoteRoles>();
     }
 
     /// <summary>
@@ -222,8 +222,8 @@ public class VoteService : INService
     /// <returns>The custom vote message, if any.</returns>
     public async Task<string> GetVoteMessage(ulong guildId)
     {
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guildId);
+
+        var gc = await dbContext.ForGuildId(guildId);
         return gc.VoteEmbed;
     }
 
@@ -234,12 +234,12 @@ public class VoteService : INService
     /// <returns>A tuple indicating success status and an optional error message.</returns>
     public async Task<(bool, string)> ClearVoteRoles(ulong guildId)
     {
-        await using var uow = db.GetDbContext();
-        var voteRoles = uow.VoteRoles.Where(x => x.GuildId == guildId);
+
+        var voteRoles = dbContext.VoteRoles.Where(x => x.GuildId == guildId);
         if (!await voteRoles.AnyAsyncEF())
             return (false, "There are no VoteRoles set.");
-        uow.VoteRoles.RemoveRange(voteRoles);
-        await uow.SaveChangesAsync();
+        dbContext.VoteRoles.RemoveRange(voteRoles);
+        await dbContext.SaveChangesAsync();
         return (true, null);
     }
 
@@ -251,10 +251,10 @@ public class VoteService : INService
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SetVoteMessage(ulong guildId, string message)
     {
-        await using var uow = db.GetDbContext();
-        var config = await uow.ForGuildId(guildId, set => set);
+
+        var config = await dbContext.ForGuildId(guildId, set => set);
         config.VoteEmbed = message;
-        await uow.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -265,10 +265,10 @@ public class VoteService : INService
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SetVotePassword(ulong guildId, string password)
     {
-        await using var uow = db.GetDbContext();
-        var config = await uow.ForGuildId(guildId, set => set);
+
+        var config = await dbContext.ForGuildId(guildId, set => set);
         config.VotesPassword = password;
-        await uow.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -279,10 +279,10 @@ public class VoteService : INService
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SetVoteChannel(ulong guildId, ulong channel)
     {
-        await using var uow = db.GetDbContext();
-        var config = await uow.ForGuildId(guildId, set => set);
+
+        var config = await dbContext.ForGuildId(guildId, set => set);
         config.VotesChannel = channel;
-        await uow.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -293,8 +293,8 @@ public class VoteService : INService
     /// <returns>A list of votes.</returns>
     public async Task<List<Database.Models.Votes>> GetVotes(ulong guildId, ulong userId)
     {
-        await using var uow = db.GetDbContext();
-        return await uow.Votes.Where(x => x.GuildId == guildId && x.UserId == userId).ToListAsyncEF();
+
+        return await dbContext.Votes.Where(x => x.GuildId == guildId && x.UserId == userId).ToListAsyncEF();
     }
 
     /// <summary>
@@ -304,8 +304,8 @@ public class VoteService : INService
     /// <returns>A list of votes.</returns>
     public async Task<List<Database.Models.Votes>> GetVotes(ulong guildId)
     {
-        await using var uow = db.GetDbContext();
-        return await uow.Votes.Where(x => x.GuildId == guildId).ToListAsyncEF();
+
+        return await dbContext.Votes.Where(x => x.GuildId == guildId).ToListAsyncEF();
     }
 
     /// <summary>
@@ -316,10 +316,10 @@ public class VoteService : INService
     /// <returns>An embed builder populated with vote statistics.</returns>
     public async Task<EmbedBuilder> GetTotalVotes(IUser user, IGuild guild)
     {
-        await using var uow = db.GetDbContext();
-        var thisMonth = await uow.Votes.CountAsyncEF(x =>
+
+        var thisMonth = await dbContext.Votes.CountAsyncEF(x =>
             x.DateAdded.Value.Month == DateTime.UtcNow.Month && x.UserId == user.Id && x.GuildId == guild.Id);
-        var total = await uow.Votes.CountAsyncEF(x => x.GuildId == guild.Id && x.UserId == user.Id);
+        var total = await dbContext.Votes.CountAsyncEF(x => x.GuildId == guild.Id && x.UserId == user.Id);
         if (total is 0)
             return new EmbedBuilder().WithErrorColor().WithDescription("You do not have any votes.");
         return new EmbedBuilder()

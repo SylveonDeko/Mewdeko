@@ -23,7 +23,7 @@ public class SlashUtility(
     IBotCredentials creds,
     MuteService muteService,
     BotConfigService config,
-    DbService db) : MewdekoSlashModuleBase<UtilityService>
+    MewdekoContext dbContext) : MewdekoSlashModuleBase<UtilityService>
 {
     /// <summary>
     /// Displays the avatar of a user. This can either be their global Discord avatar or their server-specific avatar if available.
@@ -213,9 +213,9 @@ public class SlashUtility(
      SlashUserPerm(GuildPermission.SendMessages)]
     public async Task Stats()
     {
-        await using var uow = db.GetDbContext();
+
         var time = DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(5));
-        var commandStats = uow.CommandStats.Count(x => x.DateAdded.Value >= time);
+        var commandStats = dbContext.CommandStats.Count(x => x.DateAdded.Value >= time);
         var users = new[]
         {
             await client.Rest.GetUserAsync(280835732728184843).ConfigureAwait(false),

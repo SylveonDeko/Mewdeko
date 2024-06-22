@@ -12,7 +12,7 @@ public partial class Utility
     /// Provides commands for managing reminders.
     /// </summary>
     [Group]
-    public class RemindCommands(DbService db, GuildTimezoneService tz) : MewdekoSubmodule<RemindService>
+    public class RemindCommands(MewdekoContext dbContext, GuildTimezoneService tz) : MewdekoSubmodule<RemindService>
     {
         /// <summary>
         /// Determines whether the reminder should be sent to the user directly or to the channel.
@@ -100,10 +100,10 @@ public partial class Utility
                 .WithTitle(GetText("reminder_list"));
 
             List<Reminder> rems;
-            var uow = db.GetDbContext();
-            await using (uow.ConfigureAwait(false))
+
+            await using (dbContext.ConfigureAwait(false))
             {
-                rems = uow.Reminders.RemindersFor(ctx.User.Id, page)
+                rems = dbContext.Reminders.RemindersFor(ctx.User.Id, page)
                     .ToList();
             }
 
@@ -142,17 +142,17 @@ public partial class Utility
                 return;
 
             Reminder? rem = null;
-            var uow = db.GetDbContext();
-            await using (uow.ConfigureAwait(false))
+
+            await using (dbContext.ConfigureAwait(false))
             {
-                var rems = uow.Reminders.RemindersFor(ctx.User.Id, index / 10)
+                var rems = dbContext.Reminders.RemindersFor(ctx.User.Id, index / 10)
                     .ToList();
                 var pageIndex = index % 10;
                 if (rems.Count > pageIndex)
                 {
                     rem = rems[pageIndex];
-                    uow.Reminders.Remove(rem);
-                    await uow.SaveChangesAsync().ConfigureAwait(false);
+                    dbContext.Reminders.Remove(rem);
+                    await dbContext.SaveChangesAsync().ConfigureAwait(false);
                 }
             }
 
@@ -185,11 +185,11 @@ public partial class Utility
                 ServerId = ctx.Guild?.Id ?? 0
             };
 
-            var uow = db.GetDbContext();
-            await using (uow.ConfigureAwait(false))
+
+            await using (dbContext.ConfigureAwait(false))
             {
-                uow.Reminders.Add(rem);
-                await uow.SaveChangesAsync().ConfigureAwait(false);
+                dbContext.Reminders.Add(rem);
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
 
             var gTime = ctx.Guild == null

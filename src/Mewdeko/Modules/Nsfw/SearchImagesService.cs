@@ -43,7 +43,7 @@ public record UrlReply
 public class SearchImagesService : ISearchImagesService, INService
 {
     private readonly SearchImageCacher cache;
-    private readonly DbService db;
+    private readonly MewdekoContext dbContext;
     private readonly HttpClient http;
     private readonly GuildSettingsService service;
 
@@ -59,15 +59,15 @@ public class SearchImagesService : ISearchImagesService, INService
     public SearchImagesService(
         IHttpClientFactory http,
         SearchImageCacher cacher,
-        DbService db,
+        MewdekoContext dbContext,
         GuildSettingsService service)
     {
         this.http = http.CreateClient();
         this.http.AddFakeHeaders();
         cache = cacher;
-        this.db = db;
+        this.dbContext = dbContext;
         this.service = service;
-        using var uow = db.GetDbContext();
+
     }
 
     /// <summary>
@@ -244,8 +244,8 @@ public class SearchImagesService : ISearchImagesService, INService
         };
 
         bool added;
-        await using var uow = db.GetDbContext();
-        var gc = await uow.ForGuildId(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
+
+        var gc = await dbContext.ForGuildId(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
         if (gc.NsfwBlacklistedTags.Add(tagObj))
         {
             added = true;
@@ -255,7 +255,7 @@ public class SearchImagesService : ISearchImagesService, INService
             gc.NsfwBlacklistedTags.Remove(tagObj);
             var toRemove = gc.NsfwBlacklistedTags.FirstOrDefault(x => x.Equals(tagObj));
             if (toRemove != null)
-                uow.Remove(toRemove);
+                dbContext.Remove(toRemove);
             added = false;
         }
 
