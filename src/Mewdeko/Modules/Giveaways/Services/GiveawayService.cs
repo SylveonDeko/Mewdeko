@@ -36,7 +36,7 @@ public class GiveawayService(
             try
             {
                 var now = DateTime.UtcNow;
-                var giveawaysEnumerable = GetGiveawaysBeforeAsync(now);
+                var giveawaysEnumerable = await GetGiveawaysBeforeAsync(now);
                 if (!giveawaysEnumerable.Any())
                     continue;
 
@@ -118,15 +118,13 @@ public class GiveawayService(
     /// </summary>
     /// <param name="now">The current time.</param>
     /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="Database.Models.Giveaways"/>.</returns>
-    private IEnumerable<Database.Models.Giveaways> GetGiveawaysBeforeAsync(DateTime now)
+    private async Task<IEnumerable<Database.Models.Giveaways>> GetGiveawaysBeforeAsync(DateTime now)
     {
-
-
-        IEnumerable<Database.Models.Giveaways> giveaways =
+        var giveaways =
             // Linq to db queries because npgsql is special, again.
-            dbContext.Giveaways
+            await dbContext.Giveaways
                 .ToLinqToDB()
-                .Where(x => x.Ended != 1 && x.When < now).ToList();
+                .Where(x => x.Ended != 1 && x.When < now).ToListAsyncEF();
 
         return giveaways;
     }

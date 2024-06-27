@@ -1,4 +1,5 @@
 using System.Threading;
+using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.TypeReaders.Models;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -26,9 +27,6 @@ public class UserPunishService2 : INService
         this.mute = mute;
         this.dbContext = dbContext;
         this.guildSettings = guildSettings;
-
-        _ = new Timer(async _ => await CheckAllWarnExpiresAsync().ConfigureAwait(false), null,
-            TimeSpan.FromSeconds(0), TimeSpan.FromHours(12));
     }
 
     /// <summary>
@@ -219,7 +217,7 @@ public class UserPunishService2 : INService
 // For 'cleared' part
         var relevantGuildConfigsForClear = await dbContext.GuildConfigs
             .Where(gc => gc.WarnExpireHours > 0 && gc.WarnExpireAction == 0)
-            .ToListAsync();
+            .ToListAsyncEF();
 
         var cleared = 0;
 
@@ -228,7 +226,7 @@ public class UserPunishService2 : INService
             var expireTime = DateTime.Now.AddHours(-gc.WarnExpireHours);
             var warningsToClear = await dbContext.Warnings2
                 .Where(w => w.GuildId == gc.GuildId && w.Forgiven && w.DateAdded < expireTime)
-                .ToListAsync();
+                .ToListAsyncEF();
 
             foreach (var warning in warningsToClear)
             {
@@ -240,9 +238,8 @@ public class UserPunishService2 : INService
         }
 
 // For 'deleted' part
-        var relevantGuildConfigsForDelete = await dbContext.GuildConfigs
-            .Where(gc => gc.WarnExpireHours > 0 && gc.WarnExpireAction == WarnExpireAction.Delete)
-            .ToListAsync();
+        var relevantGuildConfigsForDelete = (await dbContext.GuildConfigs.ToListAsyncEF())
+            .Where(gc => gc.WarnExpireHours > 0 && gc.WarnExpireAction == WarnExpireAction.Delete);
 
         var deleted = 0;
 
@@ -251,7 +248,7 @@ public class UserPunishService2 : INService
             var expireTime = DateTime.Now.AddHours(-gc.WarnExpireHours);
             var warningsToDelete = await dbContext.Warnings2
                 .Where(w => w.GuildId == gc.GuildId && w.DateAdded < expireTime)
-                .ToListAsync();
+                .ToListAsyncEF();
 
             foreach (var warning in warningsToDelete)
             {
@@ -286,7 +283,7 @@ public class UserPunishService2 : INService
         {
             case WarnExpireAction.Clear:
                 var warningsToForgive =
-                    dbContext.Warnings2.Where(w => w.GuildId == guildId && !w.Forgiven && w.DateAdded < expiryDate);
+                    await dbContext.Warnings2.Where(w => w.GuildId == guildId && !w.Forgiven && w.DateAdded < expiryDate).ToListAsync();
                 foreach (var warning in warningsToForgive)
                 {
                     warning.Forgiven = true;
@@ -295,7 +292,7 @@ public class UserPunishService2 : INService
 
                 break;
             case WarnExpireAction.Delete:
-                var warningsToDelete = dbContext.Warnings2.Where(w => w.GuildId == guildId && w.DateAdded < expiryDate);
+                var warningsToDelete = await dbContext.Warnings2.Where(w => w.GuildId == guildId && w.DateAdded < expiryDate).ToListAsync();
                 dbContext.Warnings2.RemoveRange(warningsToDelete);
                 break;
         }

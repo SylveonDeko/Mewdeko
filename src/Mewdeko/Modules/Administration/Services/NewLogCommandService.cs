@@ -1,4 +1,6 @@
 ﻿using Discord.Rest;
+using LinqToDB.EntityFrameworkCore;
+using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Moderation.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -8,7 +10,7 @@ namespace Mewdeko.Modules.Administration.Services;
 /// <summary>
 /// Service for managing log commands.
 /// </summary>
-public class NewLogCommandService : INService
+public class NewLogCommandService : INService, IReadyExecutor
 {
     /// <summary>
     /// Log category types.
@@ -245,14 +247,18 @@ public class NewLogCommandService : INService
         muteService.UserUnmuted += OnUserUnmuted;
 
         // Load guild configurations from the database
+    }
 
+    /// <inheritdoc />
+    public async Task OnReadyAsync()
+    {
         var guildIds = client.Guilds.Select(x => x.Id).ToList();
-        var configs = dbContext.GuildConfigs
+        var configs = await dbContext.GuildConfigs
             .AsQueryable()
             .Include(gc => gc.LogSetting)
             .ThenInclude(ls => ls.IgnoredChannels)
             .Where(x => guildIds.Contains(x.GuildId))
-            .ToList();
+            .ToListAsyncEF();
 
         // Store the log settings in a concurrent dictionary for fast access
         GuildLogSettings = configs
@@ -263,7 +269,7 @@ public class NewLogCommandService : INService
     /// <summary>
     /// Dictionary of log settings for each guild.
     /// </summary>
-    public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; }
+    public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; set; }
 
     /// <summary>
     /// Handles the creation of audit logs.

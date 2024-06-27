@@ -1,4 +1,5 @@
-﻿using Mewdeko.Modules.Administration.Common;
+﻿using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Moderation.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -8,7 +9,7 @@ namespace Mewdeko.Modules.Administration.Services;
 /// <summary>
 /// Provides anti-alt, anti-raid, and antispam protection services.
 /// </summary>
-public class ProtectionService : INService
+public class ProtectionService : INService, IReadyExecutor
 {
     private readonly ConcurrentDictionary<ulong, AntiAltStats> antiAltGuilds
         = new();
@@ -56,13 +57,6 @@ public class ProtectionService : INService
         this.dbContext = dbContext;
         this.punishService = punishService;
         this.gss = gss;
-        Parallel.ForEachAsync(client.Guilds, new ParallelOptions
-        {
-            MaxDegreeOfParallelism = 4
-        }, async (gc, _) =>
-        {
-            await Initialize(gc.Id);
-        }).ConfigureAwait(false);
 
         eventHandler.MessageReceived += HandleAntiSpam;
         eventHandler.UserJoined += HandleUserJoined;
@@ -617,5 +611,12 @@ public class ProtectionService : INService
         gc.AntiAltSetting = null;
         await dbContext.SaveChangesAsync().ConfigureAwait(false);
         return true;
+    }
+
+    /// <inheritdoc />
+    public async Task OnReadyAsync()
+    {
+        foreach (var i in client.Guilds)
+            await Initialize(i.Id);
     }
 }

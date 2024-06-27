@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
+using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Services.Settings;
@@ -517,8 +518,9 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
 
         autoCommands =
-            dbContext.AutoCommands
+            (await dbContext.AutoCommands
                 .AsNoTracking()
+                .ToListAsyncEF())
                 .Where(x => x.Interval >= 5)
                 .AsEnumerable()
                 .GroupBy(x => x.GuildId)
@@ -539,26 +541,26 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             }
         }
 
-            var channels = await Task.WhenAll(creds.OwnerIds.Select(id =>
-            {
-                var user = client.GetUser(id);
-                return user == null ? Task.FromResult<IDMChannel?>(null) : user.CreateDMChannelAsync();
-            })).ConfigureAwait(false);
+        var channels = await Task.WhenAll(creds.OwnerIds.Select(id =>
+        {
+            var user = client.GetUser(id);
+            return user == null ? Task.FromResult<IDMChannel?>(null) : user.CreateDMChannelAsync();
+        })).ConfigureAwait(false);
 
-            ownerChannels = channels.Where(x => x is not null)
-                .ToDictionary(x => x.Recipient.Id, x => x)
-                .ToImmutableDictionary();
+        ownerChannels = channels.Where(x => x is not null)
+            .ToDictionary(x => x.Recipient.Id, x => x)
+            .ToImmutableDictionary();
 
-            if (ownerChannels.Count == 0)
-            {
-                Log.Warning(
-                    "No owner channels created! Make sure you've specified the correct OwnerId in the credentials.json file and invited the bot to a Discord server");
-            }
-            else
-            {
-                Log.Information(
-                    $"Created {ownerChannels.Count} out of {creds.OwnerIds.Length} owner message channels.");
-            }
+        if (ownerChannels.Count == 0)
+        {
+            Log.Warning(
+                "No owner channels created! Make sure you've specified the correct OwnerId in the credentials.json file and invited the bot to a Discord server");
+        }
+        else
+        {
+            Log.Information(
+                $"Created {ownerChannels.Count} out of {creds.OwnerIds.Length} owner message channels.");
+        }
     }
 
     private async Task RotatingStatuses()
@@ -570,12 +572,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             {
                 if (!bss.Data.RotateStatuses) continue;
 
-                IReadOnlyList<RotatingPlayingStatus> rotatingStatuses;
-
-                await using (dbContext.ConfigureAwait(false))
-                {
-                    rotatingStatuses = dbContext.RotatingStatus.AsNoTracking().OrderBy(x => x.Id).ToList();
-                }
+                IReadOnlyList<RotatingPlayingStatus> rotatingStatuses = await dbContext.RotatingStatus.AsNoTracking().OrderBy(x => x.Id).ToListAsyncEF();
 
                 if (rotatingStatuses.Count == 0)
                     continue;

@@ -1,3 +1,4 @@
+using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database.Common;
 using Mewdeko.Modules.Games.Common;
 using Serilog;
@@ -8,7 +9,7 @@ namespace Mewdeko.Modules.Games.Services
     /// <summary>
     /// Service for managing polls in a guild.
     /// </summary>
-    public class PollService : INService
+    public class PollService : INService, IReadyExecutor
     {
         private readonly MewdekoContext dbContext;
 
@@ -19,9 +20,12 @@ namespace Mewdeko.Modules.Games.Services
         public PollService(MewdekoContext dbContext)
         {
             this.dbContext = dbContext;
+        }
 
-
-            ActivePolls = dbContext.Poll.GetAllPolls()
+        /// <inheritdoc />
+        public async Task OnReadyAsync()
+        {
+            ActivePolls = (await dbContext.Poll.GetAllPolls())
                 .ToDictionary(x => x.GuildId, x => new PollRunner(this.dbContext, x))
                 .ToConcurrent();
         }
@@ -29,7 +33,7 @@ namespace Mewdeko.Modules.Games.Services
         /// <summary>
         /// Gets the active polls in the guilds.
         /// </summary>
-        public ConcurrentDictionary<ulong, PollRunner> ActivePolls { get; }
+        public ConcurrentDictionary<ulong, PollRunner> ActivePolls { get; set; }
 
         /// <summary>
         /// Tries to vote in the specified poll for the user.
@@ -93,13 +97,13 @@ namespace Mewdeko.Modules.Games.Services
         /// </summary>
         /// <param name="p">The poll to start.</param>
         /// <returns>True if the poll started successfully, otherwise false.</returns>
-        public bool StartPoll(Poll p)
+        public async Task<bool> StartPoll(Poll p)
         {
             var pr = new PollRunner(dbContext, p);
             if (!ActivePolls.TryAdd(p.GuildId, pr)) return false;
 
             dbContext.Poll.Add(p);
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
             return true;
         }
 

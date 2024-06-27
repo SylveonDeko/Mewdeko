@@ -76,7 +76,7 @@ public partial class Administration
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
         public async Task DiscordPermOverrideList()
         {
-            var overrides = Service.GetAllOverrides(Context.Guild.Id);
+            var overrides = await Service.GetAllOverrides(Context.Guild.Id);
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)
                 .WithPageFactory(PageFactory)
