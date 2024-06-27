@@ -12,12 +12,13 @@ namespace Mewdeko.Modules.Permissions.Services;
 /// <summary>
 /// Manages permissions for commands and interactions within the guilds, allowing dynamic updates and checks.
 /// </summary>
-public class PermissionService : ILateBlocker, INService
+public class PermissionService : ILateBlocker, INService, IReadyExecutor
 {
     private readonly BotConfig config;
     private readonly MewdekoContext dbContext;
 
     private readonly GuildSettingsService guildSettings;
+    private readonly DiscordShardedClient client;
 
     /// <summary>
     /// Service for accessing localized bot strings.
@@ -40,7 +41,7 @@ public class PermissionService : ILateBlocker, INService
         this.dbContext = dbContext;
         Strings = strings;
         this.guildSettings = guildSettings;
-        _ = CacheAll(client.Guilds.Select(x => x.Id));
+        this.client = client;
     }
 
     /// <summary>
@@ -192,9 +193,10 @@ public class PermissionService : ILateBlocker, INService
         return true;
     }
 
-    private async Task CacheAll(IEnumerable<ulong> guildIds)
+    /// <inheritdoc />
+    public async Task OnReadyAsync()
     {
-
+        var guildIds = client.Guilds.Select(x => x.Id);
         var configs = await dbContext.GuildConfigs.ToLinqToDB().AsNoTracking().Include(x => x.Permissions)
             .Where(x => guildIds.Contains(x.GuildId)).ToListAsync();
         foreach (var config in configs)

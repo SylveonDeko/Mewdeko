@@ -146,7 +146,7 @@ public class AdministrationService : INService
     {
         if (msg.Channel is not ITextChannel channel)
             return;
-        var config = guildSettings.GetGuildConfig(channel.Guild.Id).GetAwaiter().GetResult();
+        var config = await guildSettings.GetGuildConfig(channel.Guild.Id);
 
         var exists = config.DelMsgOnCmdChannels.FirstOrDefault(x => x.ChannelId == channel.Id);
         if (exists is not null)

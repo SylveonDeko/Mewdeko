@@ -34,11 +34,11 @@ public static class GuildConfigExtensions
     /// <param name="ctx">The database context.</param>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns>The reaction role messages for the guild.</returns>
-    public static IndexedCollection<ReactionRoleMessage> GetReactionRoles(this MewdekoContext ctx, ulong guildId)
-        => ctx.GuildConfigs
+    public async static Task<IndexedCollection<ReactionRoleMessage>> GetReactionRoles(this MewdekoContext ctx, ulong guildId)
+        => (await ctx.GuildConfigs
             .Include(x => x.ReactionRoleMessages)
             .ThenInclude(x => x.ReactionRoles)
-            .FirstOrDefault(x => x.GuildId == guildId)?.ReactionRoleMessages;
+            .FirstOrDefaultAsyncEF(x => x.GuildId == guildId))?.ReactionRoleMessages;
 
     /// <summary>
     /// Retrieves or creates a GuildConfig for a specific guild.
@@ -56,7 +56,7 @@ public static class GuildConfigExtensions
         {
             config = await ctx
                 .GuildConfigs
-                .FirstOrDefaultAsyncEF(c => c.GuildId == guildId);
+                .FirstOrDefaultAsync(c => c.GuildId == guildId);
         }
         else
         {
@@ -90,7 +90,7 @@ public static class GuildConfigExtensions
     /// <param name="totalShards">The total number of shards.</param>
     /// <param name="shardId">The ID of the shard.</param>
     /// <returns>A collection of GuildConfig entities.</returns>
-    public static IEnumerable<GuildConfig> Permissionsv2ForAll(this DbSet<GuildConfig> configs, int totalShards,
+    public async static Task<IEnumerable<GuildConfig>> Permissionsv2ForAll(this DbSet<GuildConfig> configs, int totalShards,
         int shardId)
     {
         var query = configs
@@ -99,7 +99,7 @@ public static class GuildConfigExtensions
             .AsQueryable()
             .Where(x => (int)(x.GuildId / (ulong)Math.Pow(2, 22) % (ulong)totalShards) == shardId);
 
-        return query.ToList();
+        return await query.ToListAsyncEF();
     }
 
     /// <summary>
@@ -206,17 +206,6 @@ public static class GuildConfigExtensions
 
         return config;
     }
-
-    /// <summary>
-    /// Retrieves the Cleverbot channel for a specific guild.
-    /// </summary>
-    /// <param name="set">The DbSet of GuildConfig entities.</param>
-    /// <param name="guildid">The ID of the guild.</param>
-    /// <returns>The ID of the Cleverbot channel.</returns>
-    public static ulong GetCleverbotChannel(this DbSet<GuildConfig> set, ulong guildid) =>
-        set.AsQueryable()
-            .Where(x => x.GuildId == guildid)
-            .Select(x => x.CleverbotChannel).Single();
 
     /// <summary>
     /// Includes all related entities for the GuildConfig.

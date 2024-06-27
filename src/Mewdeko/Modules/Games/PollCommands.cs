@@ -64,7 +64,7 @@ public partial class Games
             }
 
             // Attempts to start the poll
-            if (Service.StartPoll(poll))
+            if (await Service.StartPoll(poll))
             {
                 // Constructs an embed for the poll
                 var eb = new EmbedBuilder().WithOkColor().WithTitle(GetText("poll_created", ctx.User.ToString()))

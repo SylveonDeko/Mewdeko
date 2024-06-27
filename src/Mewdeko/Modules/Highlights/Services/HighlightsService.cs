@@ -44,8 +44,8 @@ public class HighlightsService : INService, IReadyExecutor
     {
         Log.Information($"Starting {this.GetType()} Cache");
 
-        var allHighlights = dbContext.Highlights.AllHighlights();
-        var allHighlightSettings = dbContext.HighlightSettings.AllHighlightSettings();
+        var allHighlights = await dbContext.Highlights.AllHighlights();
+        var allHighlightSettings = await dbContext.HighlightSettings.AllHighlightSettings();
         foreach (var i in client.Guilds)
         {
             var highlights = allHighlights.Where(x => x.GuildId == i.Id).ToList();

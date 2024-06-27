@@ -65,7 +65,7 @@ public class Highlights(InteractiveService interactivity, IServiceProvider svcs,
     public async Task Highlight(HighlightActions action, [Remainder] string words = null)
     {
 
-        var highlights = dbContext.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
+        var highlights = (await dbContext.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id)).ToList();
         switch (action)
         {
             case HighlightActions.Add:

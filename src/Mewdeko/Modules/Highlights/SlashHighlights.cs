@@ -35,7 +35,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
     public async Task AddHighlight([Summary("words", "Words to highlight.")] string words)
     {
 
-        var highlights = dbContext.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
+        var highlights = (await dbContext.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id)).ToList();
         if (string.IsNullOrWhiteSpace(words))
         {
             await ctx.Interaction.SendErrorAsync("You need to specify a phrase to highlight.", Config)
@@ -62,7 +62,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
     public async Task ListHighlights()
     {
 
-        var highlightsForUser = dbContext.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
+        var highlightsForUser = (await dbContext.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id)).ToList();
 
         if (highlightsForUser.Count == 0)
         {
@@ -109,7 +109,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
         }
 
 
-        var highlightsForUser = dbContext.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
+        var highlightsForUser = (await dbContext.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id));
 
         if (highlightsForUser.Count == 0)
         {
@@ -161,7 +161,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
         }
 
 
-        var highlightsForUser = dbContext.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id).ToList();
+        var highlightsForUser = await dbContext.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id);
 
         var matched = highlightsForUser.Where(x => words.ToLower().Contains(x.Word.ToLower()));
         if (!matched.Any())

@@ -118,7 +118,7 @@ public class AfkService : INService, IReadyExecutor
                 // Get the current time in UTC
                 var now = DateTime.UtcNow;
                 // Get the list of timed AFKs that occurred before the current time
-                var afks = GetAfkBeforeAsync(now);
+                var afks = await GetAfkBeforeAsync(now);
                 // If there are no timed AFKs, continue to the next iteration
                 if (!afks.Any())
                     continue;
@@ -144,15 +144,15 @@ public class AfkService : INService, IReadyExecutor
     /// </summary>
     /// <param name="now">The current time.</param>
     /// <returns>A collection of timed AFKs.</returns>
-    private IEnumerable<Database.Models.Afk> GetAfkBeforeAsync(DateTime now)
+    private async Task<IEnumerable<Database.Models.Afk>> GetAfkBeforeAsync(DateTime now)
     {
 
 
         IEnumerable<Database.Models.Afk> afks =
-            dbContext.Afk
+            await dbContext.Afk
                 .ToLinqToDB()
                 .Where(x => x.When < now && x.WasTimed)
-                .ToList();
+                .ToListAsyncEF();
 
         return afks;
     }

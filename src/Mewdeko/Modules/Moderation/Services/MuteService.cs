@@ -1,6 +1,7 @@
 using System.Threading;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.Collections;
+using Mewdeko.Common.ModuleBehaviors;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -30,7 +31,7 @@ public enum MuteType
 /// <summary>
 /// Service for managing mutes.
 /// </summary>
-public class MuteService : INService
+public class MuteService : INService, IReadyExecutor
 {
     /// <summary>
     /// The type of timer for punishment.
@@ -81,18 +82,49 @@ public class MuteService : INService
         this.client = client;
         this.dbContext = dbContext;
         this.guildSettings = guildSettings;
+        eventHandler.UserJoined += Client_UserJoined;
+        UserMuted += OnUserMuted;
+        UserUnmuted += OnUserUnmuted;
+    }
 
+    /// <summary>
+    /// Guild mute roles cache.
+    /// </summary>
+    public ConcurrentDictionary<ulong, string> GuildMuteRoles { get; } = new();
+
+    /// <summary>
+    /// Muted users cache.
+    /// </summary>
+    public ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> MutedUsers { get; set; }
+
+    /// <summary>
+    /// Unmute timers cache.
+    /// </summary>
+    public ConcurrentDictionary<ulong, ConcurrentDictionary<(ulong, TimerType), Timer>> UnTimers { get; }
+        = new();
+
+    /// <summary>
+    /// Event for when a user is muted.
+    /// </summary>
+    public event EventHandler.AsyncEventHandler<IGuildUser, IUser, MuteType, string> UserMuted;
+
+    /// <summary>
+    /// Event for when a user is unmuted.
+    /// </summary>
+    public event EventHandler.AsyncEventHandler<IGuildUser, IUser, MuteType, string> UserUnmuted;
+
+    /// <inheritdoc />
+    public async Task OnReadyAsync()
+    {
         var max = TimeSpan.FromDays(49);
-
-
-        var guilds = dbContext.GuildConfigs.ToLinqToDB().AsNoTracking().Include(x => x.MutedUsers)
+        var guilds = await dbContext.GuildConfigs.ToLinqToDB().AsNoTracking().Include(x => x.MutedUsers)
             .Include(x => x.UnmuteTimers)
             .Include(x => x.UnbanTimer)
-            .Include(x => x.UnroleTimer).ToList();
+            .Include(x => x.UnroleTimer).ToListAsyncEF();
 
         MutedUsers = new ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>>(
             guilds.ToDictionary(x => x.GuildId, x => new ConcurrentHashSet<ulong>(x.MutedUsers.Select(y => y.UserId))));
-        Parallel.ForEach(guilds, conf =>
+        foreach (var conf in guilds)
         {
             foreach (var x in conf.UnmuteTimers)
             {
@@ -141,39 +173,8 @@ public class MuteService : INService
 
                 StartUn_Timer(conf.GuildId, x.UserId, after, TimerType.AddRole, x.RoleId);
             }
-        });
-
-        eventHandler.UserJoined += Client_UserJoined;
-
-        UserMuted += OnUserMuted;
-        UserUnmuted += OnUserUnmuted;
+        }
     }
-
-    /// <summary>
-    /// Guild mute roles cache.
-    /// </summary>
-    public ConcurrentDictionary<ulong, string> GuildMuteRoles { get; } = new();
-
-    /// <summary>
-    /// Muted users cache.
-    /// </summary>
-    public ConcurrentDictionary<ulong, ConcurrentHashSet<ulong>> MutedUsers { get; }
-
-    /// <summary>
-    /// Unmute timers cache.
-    /// </summary>
-    public ConcurrentDictionary<ulong, ConcurrentDictionary<(ulong, TimerType), Timer>> UnTimers { get; }
-        = new();
-
-    /// <summary>
-    /// Event for when a user is muted.
-    /// </summary>
-    public event EventHandler.AsyncEventHandler<IGuildUser, IUser, MuteType, string> UserMuted;
-
-    /// <summary>
-    /// Event for when a user is unmuted.
-    /// </summary>
-    public event EventHandler.AsyncEventHandler<IGuildUser, IUser, MuteType, string> UserUnmuted;
 
     private static async Task OnUserMuted(IGuildUser user, IUser mod, MuteType type, string reason)
     {
@@ -703,4 +704,6 @@ public class MuteService : INService
         if (toDelete != null) dbContext.Remove(toDelete);
         await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
+
+
 }

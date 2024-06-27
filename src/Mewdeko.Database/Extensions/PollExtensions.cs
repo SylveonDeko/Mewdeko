@@ -6,10 +6,10 @@ namespace Mewdeko.Database.Extensions;
 
 public static class PollExtensions
 {
-    public static IEnumerable<Poll> GetAllPolls(this DbSet<Poll> set) =>
-        set.Include(x => x.Answers)
+    public async static Task<IEnumerable<Poll>> GetAllPolls(this DbSet<Poll> set) =>
+        await set.Include(x => x.Answers)
             .Include(x => x.Votes)
-            .ToArray();
+            .ToArrayAsyncEF();
 
     public static async Task RemovePoll(this MewdekoContext ctx, int id)
     {

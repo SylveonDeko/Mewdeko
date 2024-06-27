@@ -67,8 +67,8 @@ public static class DiscordUserExtensions
     /// <param name="ctx">The database context.</param>
     /// <param name="original">The IUser instance representing the Discord user.</param>
     /// <returns>The Discord user entity.</returns>
-    public static Task<DiscordUser> GetOrCreateUser(this MewdekoContext ctx, IUser original) =>
-        ctx.GetOrCreateUser(original.Id, original.Username, original.Discriminator, original.AvatarId);
+    public async static Task<DiscordUser> GetOrCreateUser(this MewdekoContext ctx, IUser original) =>
+        await ctx.GetOrCreateUser(original.Id, original.Username, original.Discriminator, original.AvatarId);
 
     /// <summary>
     /// Retrieves the global rank of a Discord user based on their total XP.
@@ -88,6 +88,6 @@ public static class DiscordUserExtensions
     /// <param name="users">The DbSet of DiscordUser entities.</param>
     /// <param name="page">The page number of the leaderboard.</param>
     /// <returns>An array of DiscordUser entities sorted by total XP.</returns>
-    public static DiscordUser[] GetUsersXpLeaderboardFor(this DbSet<DiscordUser> users, int page) =>
-        users.AsQueryable().OrderByDescending(x => x.TotalXp).Skip(page * 9).Take(9).AsEnumerable().ToArray();
+    public async static Task<DiscordUser[]> GetUsersXpLeaderboardFor(this DbSet<DiscordUser> users, int page) =>
+        (await users.ToListAsyncEF()).OrderByDescending(x => x.TotalXp).Skip(page * 9).Take(9).ToArray();
 }

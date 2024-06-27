@@ -336,17 +336,23 @@ public class UserPunishService : INService
     /// </summary>
     private async Task CheckAllWarnExpiresAsync()
     {
-        var warningsToClear = await dbContext.Warnings
-            .Join(dbContext.GuildConfigs,
-                w => w.GuildId,
-                g => g.GuildId,
-                (w, g) => new { Warning = w, GuildConfig = g })
-            .Where(wg => wg.GuildConfig.WarnExpireHours > 0 &&
-                         wg.GuildConfig.WarnExpireAction == 0 &&
-                         !wg.Warning.Forgiven &&
-                         wg.Warning.DateAdded < DateTime.UtcNow.AddHours(-wg.GuildConfig.WarnExpireHours))
-            .Select(wg => wg.Warning)
-            .ToListAsyncEF();
+        var allWarnings = await dbContext.Warnings.ToListAsyncEF();
+        var allGuildConfigs = await dbContext.GuildConfigs.ToListAsyncEF();
+
+        var warningsToClear = new List<Warning>();
+
+        foreach (var warning in allWarnings)
+        {
+            var guildConfig = allGuildConfigs.FirstOrDefault(g => g.GuildId == warning.GuildId);
+
+            if (guildConfig is { WarnExpireHours: > 0, WarnExpireAction: 0 } &&
+                !warning.Forgiven &&
+                warning.DateAdded < DateTime.UtcNow.AddHours(-guildConfig.WarnExpireHours))
+            {
+                warningsToClear.Add(warning);
+            }
+        }
+
 
         foreach (var warning in warningsToClear)
         {
@@ -357,16 +363,18 @@ public class UserPunishService : INService
         dbContext.Warnings.UpdateRange(warningsToClear);
         var cleared = await dbContext.SaveChangesAsync();
 
-        var warningsToDelete = await dbContext.Warnings
-            .Join(dbContext.GuildConfigs,
-                w => w.GuildId,
-                g => g.GuildId,
-                (w, g) => new { Warning = w, GuildConfig = g })
-            .Where(wg => wg.GuildConfig.WarnExpireHours > 0 &&
-                         wg.GuildConfig.WarnExpireAction == WarnExpireAction.Delete &&
-                         wg.Warning.DateAdded < DateTime.UtcNow.AddHours(-wg.GuildConfig.WarnExpireHours))
-            .Select(wg => wg.Warning)
-            .ToListAsyncEF();
+        var warningsToDelete = new List<Warning>();
+
+        foreach (var warning in allWarnings)
+        {
+            var guildConfig = allGuildConfigs.FirstOrDefault(g => g.GuildId == warning.GuildId);
+
+            if (guildConfig is { WarnExpireHours: > 0, WarnExpireAction: WarnExpireAction.Delete } &&
+                warning.DateAdded < DateTime.UtcNow.AddHours(-guildConfig.WarnExpireHours))
+            {
+                warningsToDelete.Add(warning);
+            }
+        }
 
         dbContext.Warnings.RemoveRange(warningsToDelete);
         var deleted = await dbContext.SaveChangesAsync();

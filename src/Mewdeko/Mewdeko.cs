@@ -24,6 +24,7 @@ using Mewdeko.Services.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NekosBestApiNet;
 using Newtonsoft.Json;
 using NsfwSpyNS;
@@ -139,7 +140,7 @@ public class Mewdeko
             .AddSingleton<IBotCredentials>(Credentials)
             //Wahoo
             .AddDbContextPool<MewdekoContext>(builder => builder
-                .UseNpgsql(Credentials.PsqlConnectionString)
+                .UseNpgsql(Credentials.PsqlConnectionString, x => x.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))
             .EnableDetailedErrors()
             .EnableSensitiveDataLogging())
             .AddSingleton(Client)
@@ -172,7 +173,7 @@ public class Mewdeko
             })
             .AddScoped<ISearchImagesService, SearchImagesService>()
             .AddSingleton<ToneTagService>()
-            .AddSingleton<GuildSettingsService>();
+            .AddScoped<GuildSettingsService>();
         if (Credentials.UseGlobalCurrency)
         {
             s.AddTransient<ICurrencyService, GlobalCurrencyService>();
@@ -191,7 +192,6 @@ public class Mewdeko
             AllowAutoRedirect = false
         });
 
-        Log.Information("Passed Coord");
 
         s.Scan(scan => scan.FromAssemblyOf<IReadyExecutor>()
             .AddClasses(classes => classes.AssignableToAny(
@@ -203,7 +203,7 @@ public class Mewdeko
                 typeof(IInputTransformer),
                 typeof(ILateExecutor)))
             .AsSelfWithInterfaces()
-            .WithSingletonLifetime()
+            .WithScopedLifetime()
         );
 
         Log.Information("Passed Interface Scanner");

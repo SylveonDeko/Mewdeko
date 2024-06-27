@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Discord.Net;
+using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Common.Exceptions;
@@ -10,11 +11,12 @@ namespace Mewdeko.Modules.Utility.Services;
 /// <summary>
 /// Manages stream role assignments based on user streaming status and additional configurable conditions within guilds.
 /// </summary>
-public class StreamRoleService : INService, IUnloadableService
+public class StreamRoleService : INService, IUnloadableService, IReadyExecutor
 {
     private readonly MewdekoContext dbContext;
     private readonly EventHandler eventHandler;
     private readonly GuildSettingsService gss;
+    private readonly DiscordShardedClient client;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StreamRoleService"/>.
@@ -26,24 +28,13 @@ public class StreamRoleService : INService, IUnloadableService
     public StreamRoleService(DiscordShardedClient client, MewdekoContext dbContext, EventHandler eventHandler,
         GuildSettingsService gss)
     {
+        this.client = client;
         this.dbContext = dbContext;
         this.eventHandler = eventHandler;
         this.gss = gss;
 
 
         eventHandler.GuildMemberUpdated += Client_GuildMemberUpdated;
-
-        _ = Task.Run(async () =>
-        {
-            try
-            {
-                await Task.WhenAll(client.Guilds.Select(RescanUsers)).ConfigureAwait(false);
-            }
-            catch
-            {
-                // ignored
-            }
-        });
     }
 
     /// <summary>
@@ -53,6 +44,22 @@ public class StreamRoleService : INService, IUnloadableService
     {
         eventHandler.GuildMemberUpdated -= Client_GuildMemberUpdated;
         return Task.CompletedTask;
+    }
+
+    /// <inheritdoc />
+    public async Task OnReadyAsync()
+    {
+        try
+        {
+            foreach (var i in client.Guilds)
+            {
+                await RescanUsers(i);
+            }
+        }
+        catch
+        {
+            // ignored
+        }
     }
 
     private async Task Client_GuildMemberUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser after)

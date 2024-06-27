@@ -78,13 +78,6 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
         eventHandler.UserVoiceStateUpdated += Client_OnUserVoiceStateUpdated;
 
         this.client.GuildAvailable += Client_OnGuildAvailable;
-        _ = Task.Run(async () =>
-        {
-            foreach (var guild in this.client.Guilds)
-                await Client_OnGuildAvailable(guild);
-        });
-
-        _ = Task.Run(UpdateLoop);
     }
 
 
@@ -255,13 +248,13 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
         sw.Start();
 
         Log.Information("Starting to cache xp");
-        var guildConfigs = dbContext.GuildConfigs.ToLinqToDB().AsNoTracking()
+        var guildConfigs = await dbContext.GuildConfigs.ToLinqToDB().AsNoTracking()
             .Include(x => x.XpSettings)
             .ThenInclude(x => x.RoleRewards)
             .Include(x => x.XpSettings)
             .ThenInclude(x => x.CurrencyRewards)
             .Include(x => x.XpSettings)
-            .ThenInclude(x => x.ExclusionList);
+            .ThenInclude(x => x.ExclusionList).ToListAsyncEF();
 
         sw.Stop();
         Log.Information($"Xp Settings cached in {sw.Elapsed}");
@@ -270,16 +263,22 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
         {
             await cache.SetAsync($"XpSettings_{config.GuildId}", config.XpSettings);
         }
+
+        foreach (var guild in this.client.Guilds)
+            await Client_OnGuildAvailable(guild);
+
+        await UpdateLoop();
     }
 
-    private async Task<T> GetOrAddCacheItem<T>(string key, Func<Task<T>> factory)
+    private async Task<T?> GetOrAddCacheItem<T>(string key, Func<Task<T>> factory)
     {
-        // var sw = new Stopwatch();
-        // sw.Start();
+        var sw = new Stopwatch();
+        sw.Start();
+        Log.Information($"Cache save/get started for {key} in {sw.Elapsed}");
         var fu = await cache.GetOrSetAsync(key, factory);
-        // sw.Stop();
-        // Log.Information($"Cache save/get completed for {key} in {sw.Elapsed}");
-        return await fu.Invoke();
+        sw.Stop();
+        Log.Information($"Cache save/get completed for {key} in {sw.Elapsed}");
+        return await fu?.Invoke();
     }
 
     /// <summary>
@@ -365,10 +364,10 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     ///     Retrieves the user XP leaderboard for a specific page.
     /// </summary>
     /// <param name="page">The page number.</param>
-    public DiscordUser[] GetUserXps(int page)
+    public async Task<DiscordUser[]> GetUserXps(int page)
     {
 
-        return dbContext.DiscordUser.GetUsersXpLeaderboardFor(page);
+        return await dbContext.DiscordUser.GetUsersXpLeaderboardFor(page);
     }
 
     /// <summary>
@@ -1173,12 +1172,12 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
     public async Task<Template> GetTemplate(ulong guildId)
     {
 
-        var template = dbContext.Templates
+        var template = await dbContext.Templates
             .Include(x => x.TemplateUser)
             .Include(x => x.TemplateBar)
             .Include(x => x.TemplateClub)
             .Include(x => x.TemplateGuild)
-            .FirstOrDefault(x => x.GuildId == guildId);
+            .FirstOrDefaultAsyncEF(x => x.GuildId == guildId);
 
         if (template != null) return template;
         var toAdd = new Template
@@ -1191,7 +1190,7 @@ public class XpService : INService, IUnloadableService, IReadyExecutor
         };
         dbContext.Templates.Add(toAdd);
         await dbContext.SaveChangesAsync();
-        return dbContext.Templates.FirstOrDefault(x => x.GuildId == guildId);
+        return await dbContext.Templates.FirstOrDefaultAsyncEF(x => x.GuildId == guildId);
     }
 
     private string GetTimeSpent(DateTime time)
