@@ -1,4 +1,5 @@
-﻿using Mewdeko.Common.ModuleBehaviors;
+﻿using LinqToDB.EntityFrameworkCore;
+using Mewdeko.Common.ModuleBehaviors;
 using Serilog;
 using ZiggyCreatures.Caching.Fusion;
 using Embed = Discord.Embed;
@@ -34,7 +35,7 @@ public class StatusRolesService : INService, IReadyExecutor
     {
         Log.Information($"Starting {this.GetType()} Cache");
 
-        var statusRoles = dbContext.StatusRoles.ToList();
+        var statusRoles = await dbContext.StatusRoles.ToListAsyncEF();
 
         await cache.SetAsync("statusRoles", statusRoles);
 

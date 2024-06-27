@@ -51,7 +51,7 @@ public class FeedsService : INService
         foreach(var serverId in serverIds)
         {
             await Task.CompletedTask;
-            var feeds = GetFeeds(serverId);
+            var feeds = await GetFeeds(serverId);
             foreach (var feed in feeds)
             {
                 subs.AddOrUpdate(feed.Url.ToLower(), [feed], (_, old) =>
@@ -308,7 +308,7 @@ public class FeedsService : INService
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns>A list of feed subscriptions.</returns>
-    public List<FeedSub?> GetFeeds(ulong guildId)
+    public async Task<List<FeedSub?>> GetFeeds(ulong guildId)
     {
 
         return dbContext.ForGuildId(guildId,
