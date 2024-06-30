@@ -47,7 +47,7 @@ public class AfkService : INService, IReadyExecutor
         eventHandler.MessageReceived += MessageReceived;
         eventHandler.MessageUpdated += MessageUpdated;
         eventHandler.UserIsTyping += UserTyping;
-        _ = Task.Run(StartTimedAfkLoop);
+        _ = StartTimedAfkLoop();
     }
 
     /// <summary>

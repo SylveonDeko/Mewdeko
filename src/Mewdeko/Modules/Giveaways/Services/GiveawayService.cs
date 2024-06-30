@@ -9,18 +9,33 @@ namespace Mewdeko.Modules.Giveaways.Services;
 /// <summary>
 /// Service for handling giveaways.
 /// </summary>
-/// <param name="client">The discord client.</param>
-/// <param name="db">The database.</param>
-/// <param name="creds">The bot credentials.</param>
-/// <param name="guildSettings">Guild Settings Service</param>
-public class GiveawayService(
-    DiscordShardedClient client,
-    MewdekoContext dbContext,
-    IBotCredentials creds,
-    GuildSettingsService guildSettings,
-    BotConfig config)
-    : INService, IReadyExecutor
+public class GiveawayService : INService
 {
+    private readonly DiscordShardedClient client1;
+    private readonly MewdekoContext dbContext1;
+    private readonly GuildSettingsService guildSettings1;
+    private readonly BotConfig config1;
+
+    /// <summary>
+    /// Service for handling giveaways.
+    /// </summary>
+    /// <param name="client">The discord client.</param>
+    /// <param name="db">The database.</param>
+    /// <param name="creds">The bot credentials.</param>
+    /// <param name="guildSettings">Guild Settings Service</param>
+    public GiveawayService(DiscordShardedClient client,
+        MewdekoContext dbContext,
+        IBotCredentials creds,
+        GuildSettingsService guildSettings,
+        BotConfig config)
+    {
+        client1 = client;
+        dbContext1 = dbContext;
+        guildSettings1 = guildSettings;
+        config1 = config;
+        _ = OnReadyAsync();
+    }
+
     /// <summary>
     /// Asynchronous method to handle the execution of the giveaway loop when the bot is ready.
     /// This method continuously checks for active giveaways and processes them.
@@ -30,8 +45,6 @@ public class GiveawayService(
     {
         Log.Information($"Starting {this.GetType()} Ready Loop");
         Log.Information("Giveaway Loop Started");
-        _ = Task.Run(async () =>
-        {
             while (true)
             {
                 await Task.Delay(2000).ConfigureAwait(false);
@@ -61,7 +74,6 @@ public class GiveawayService(
                     Log.Warning(ex.ToString());
                 }
             }
-        });
     }
 
 
@@ -74,9 +86,9 @@ public class GiveawayService(
     public async Task SetGiveawayEmote(IGuild guild, string emote)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+        var gc = await dbContext1.ForGuildId(guild.Id, set => set);
         gc.GiveawayEmote = emote;
-        await guildSettings.UpdateGuildConfig(guild.Id, gc);
+        await guildSettings1.UpdateGuildConfig(guild.Id, gc);
     }
 
     /// <summary>
@@ -85,7 +97,7 @@ public class GiveawayService(
     /// <param name="id">The ID of the guild.</param>
     /// <returns>The emote used for giveaways.</returns>
     public async Task<string> GetGiveawayEmote(ulong id)
-        => (await guildSettings.GetGuildConfig(id)).GiveawayEmote;
+        => (await guildSettings1.GetGuildConfig(id)).GiveawayEmote;
 
     /// <summary>
     /// Asynchronously updates the database with the provided list of giveaways.
@@ -97,7 +109,7 @@ public class GiveawayService(
 
         foreach (var i in g)
         {
-            var toupdate = await dbContext.Giveaways.FindAsync(i.Id);
+            var toupdate = await dbContext1.Giveaways.FindAsync(i.Id);
             if (toupdate == null) continue;
             toupdate.When = i.When;
             toupdate.BlacklistRoles = i.BlacklistRoles;
@@ -110,9 +122,9 @@ public class GiveawayService(
             toupdate.UserId = i.UserId;
             toupdate.Winners = i.Winners;
             toupdate.Emote = i.Emote;
-            dbContext.Giveaways.Update(toupdate);
+            dbContext1.Giveaways.Update(toupdate);
         }
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext1.SaveChangesAsync().ConfigureAwait(false);
     }
 
 
@@ -125,7 +137,7 @@ public class GiveawayService(
     {
         var giveaways =
             // Linq to db queries because npgsql is special, again.
-            await dbContext.Giveaways
+            await dbContext1.Giveaways
                 .ToLinqToDB()
                 .Where(x => x.Ended != 1 && x.When < now).ToListAsyncEF();
 
@@ -156,7 +168,7 @@ public class GiveawayService(
         string? blacklistroles = null, IDiscordInteraction? interaction = null, string banner = null,
         IRole pingROle = null)
     {
-        var gconfig = await guildSettings.GetGuildConfig(serverId).ConfigureAwait(false);
+        var gconfig = await guildSettings1.GetGuildConfig(serverId).ConfigureAwait(false);
         IRole role = null;
         if (gconfig.GiveawayPingRole != 0)
         {
@@ -249,10 +261,10 @@ public class GiveawayService(
             rem.RestrictTo = reqroles;
 
 
-        await using (dbContext.ConfigureAwait(false))
+        await using (dbContext1.ConfigureAwait(false))
         {
-            dbContext.Giveaways.Add(rem);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            dbContext1.Giveaways.Add(rem);
+            await dbContext1.SaveChangesAsync().ConfigureAwait(false);
         }
 
         if (interaction is not null)
@@ -278,7 +290,7 @@ public class GiveawayService(
     public async Task GiveawayTimerAction(Database.Models.Giveaways r, IGuild? inputguild = null,
         ITextChannel? inputchannel = null)
     {
-        var dclient = client as IDiscordClient;
+        var dclient = client1 as IDiscordClient;
         var guild = inputguild ?? await dclient.GetGuildAsync(r.ServerId);
         if (guild is null)
             return;
@@ -302,7 +314,7 @@ public class GiveawayService(
             return;
         }
 
-        var prefix = await guildSettings.GetPrefix(guild.Id).ConfigureAwait(false);
+        var prefix = await guildSettings1.GetPrefix(guild.Id).ConfigureAwait(false);
 
 
         var emote = r.Emote.ToIEmote();
@@ -310,7 +322,7 @@ public class GiveawayService(
         {
             await ch.Channel
                 .SendErrorAsync($"[This Giveaway]({ch.GetJumpUrl()}) failed because the emote used for it is invalid!",
-                    config)
+                    config1)
                 .ConfigureAwait(false);
             return;
         }
@@ -324,7 +336,7 @@ public class GiveawayService(
             {
                 await ch.Channel
                     .SendErrorAsync(
-                        $"[This Giveaway]({ch.GetJumpUrl()}) failed because the emote used for it is invalid!", config)
+                        $"[This Giveaway]({ch.GetJumpUrl()}) failed because the emote used for it is invalid!", config1)
                     .ConfigureAwait(false);
                 return;
             }
@@ -344,8 +356,8 @@ public class GiveawayService(
                 x.Content = null;
             }).ConfigureAwait(false);
             r.Ended = 1;
-            dbContext.Giveaways.Update(r);
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            dbContext1.Giveaways.Update(r);
+            await dbContext1.SaveChangesAsync().ConfigureAwait(false);
         }
         else
         {
@@ -398,15 +410,15 @@ public class GiveawayService(
                 var rand = new Random();
                 var index = rand.Next(users.Count);
                 var user = users.ToList()[index];
-                var gset = await guildSettings.GetGuildConfig(guild.Id);
+                var gset = await guildSettings1.GetGuildConfig(guild.Id);
                 if (gset.DmOnGiveawayWin)
                 {
                     if (!string.IsNullOrEmpty(gset.GiveawayEndMessage))
                     {
                         var rep = new ReplacementBuilder()
                             .WithChannel(channel)
-                            .WithClient(client)
-                            .WithServer(client, guild as SocketGuild)
+                            .WithClient(client1)
+                            .WithServer(client1, guild as SocketGuild)
                             .WithUser(user);
 
                         rep.WithOverride("%messagelink%",
@@ -480,8 +492,8 @@ public class GiveawayService(
                             $"{user.Mention} won the giveaway for [{r.Item}](https://discord.com/channels/{r.ServerId}/{r.ChannelId}/{r.MessageId})! \n\n- (Hosted by: <@{r.UserId}>)\n- Reroll: `{prefix}reroll {r.MessageId}`")
                         .Build()).ConfigureAwait(false);
                 r.Ended = 1;
-                dbContext.Giveaways.Update(r);
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
+                dbContext1.Giveaways.Update(r);
+                await dbContext1.SaveChangesAsync().ConfigureAwait(false);
             }
             else
             {
@@ -554,8 +566,8 @@ public class GiveawayService(
                 }
 
                 r.Ended = 1;
-                dbContext.Giveaways.Update(r);
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
+                dbContext1.Giveaways.Update(r);
+                await dbContext1.SaveChangesAsync().ConfigureAwait(false);
             }
         }
     }
