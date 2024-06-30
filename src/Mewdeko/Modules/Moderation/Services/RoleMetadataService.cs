@@ -2,6 +2,7 @@ using System.Net.Http;
 using System.Text.Json;
 using Discord.Rest;
 using Mewdeko.Common.ModuleBehaviors;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace Mewdeko.Modules.Moderation.Services;
@@ -13,7 +14,7 @@ namespace Mewdeko.Modules.Moderation.Services;
 /// <param name="client">The Discord client</param>
 /// <param name="botCredentials">The bot credentials</param>
 public class RoleMetadataService(MewdekoContext dbContext, DiscordShardedClient client, IBotCredentials botCredentials)
-    : INService, IReadyExecutor
+    : INService
 {
     private IBotCredentials botCredentials = botCredentials;
 
@@ -25,36 +26,6 @@ public class RoleMetadataService(MewdekoContext dbContext, DiscordShardedClient 
         new(RoleConnectionMetadataType.DateTimeGreaterOrEqual, "earliest_use", "First Command",
             "Days since this user's first command after we started keeping track")
     ];
-
-    /// <summary>
-    /// Initializes a new instance of <see cref="RoleMetadataService"/>.
-    /// </summary>
-    public async Task OnReadyAsync()
-    {
-        Log.Information($"Starting {this.GetType()} Cache");
-        // keys
-        // total/min => int
-        // earliest/latest => date
-        // has/hasnt => bool
-
-        await client.Rest.ModifyRoleConnectionMetadataRecordsAsync(props);
-
-
-        var cachedValues = new Dictionary<ulong, int>();
-        var htclient = new HttpClient();
-        while (true)
-        {
-            var authedUsers = dbContext.AuthCodes
-                .Where(x => x.Scopes.Contains("role_connections.write"))
-                .AsEnumerable()
-                .Distinct(x => x.UserId);
-
-            // async void LUpdate(RoleConnectionAuthStorage x) => await UpdateRoleConnectionData(x.UserId, x.Id, dbContext, _client.CurrentUser.Id, _botCredentials.ClientSecret, client);
-
-            // authedUsers.ForEach(LUpdate);
-            await Task.Delay(TimeSpan.FromHours(1));
-        }
-    }
 
     /// <summary>
     /// Updates the role connection data for a user.

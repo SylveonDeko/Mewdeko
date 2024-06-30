@@ -30,6 +30,7 @@ using Newtonsoft.Json;
 using NsfwSpyNS;
 using Serilog;
 using StackExchange.Redis;
+using ZiggyCreatures.Caching.Fusion;
 using RunMode = Discord.Commands.RunMode;
 using TypeReader = Discord.Commands.TypeReader;
 
@@ -63,7 +64,7 @@ public class Mewdeko
         Client = new DiscordShardedClient(new DiscordSocketConfig
         {
             MessageCacheSize = 15,
-            LogLevel = LogSeverity.Debug,
+            LogLevel = LogSeverity.Critical,
             ConnectionTimeout = int.MaxValue,
             AlwaysDownloadUsers = true,
             GatewayIntents = GatewayIntents.All,
@@ -124,17 +125,10 @@ public class Mewdeko
         }
 
         var sw = Stopwatch.StartNew();
-        var gs2 = Stopwatch.StartNew();
-        var bot = Client.CurrentUser;
-
-        gs2.Stop();
-        Log.Information("Guild Configs cached in {ElapsedTotalSeconds}s", gs2.Elapsed.TotalSeconds);
-
         var s = new ServiceCollection();
 
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
-        s.AddFusionCache();
         s.AddScoped<INsfwSpy, NsfwSpy>()
             .AddSingleton<FontProvider>()
             .AddSingleton<IBotCredentials>(Credentials)
@@ -174,6 +168,7 @@ public class Mewdeko
             .AddScoped<ISearchImagesService, SearchImagesService>()
             .AddSingleton<ToneTagService>()
             .AddScoped<GuildSettingsService>();
+        s.AddFusionCache().TryWithAutoSetup();
         if (Credentials.UseGlobalCurrency)
         {
             s.AddTransient<ICurrencyService, GlobalCurrencyService>();
@@ -407,15 +402,15 @@ public class Mewdeko
 
 
         _ = Task.Run(HandleStatusChanges);
-        _ = Task.Run(ExecuteReadySubscriptions);
+        _ = Task.Run(async () => await ExecuteReadySubscriptions());
         Ready.TrySetResult(true);
         Log.Information("Ready.");
     }
 
-    private Task ExecuteReadySubscriptions()
+    private async Task ExecuteReadySubscriptions()
     {
         var readyExecutors = Services.GetServices<IReadyExecutor>();
-        var tasks = readyExecutors.Select(async toExec =>
+        foreach (var toExec in readyExecutors)
         {
             try
             {
@@ -426,9 +421,7 @@ public class Mewdeko
                 Log.Error(ex, "Failed running OnReadyAsync method on {Type} type: {Message}", toExec.GetType().Name,
                     ex.Message);
             }
-        });
-
-        return tasks.WhenAll();
+        }
     }
 
     private static Task Client_Log(LogMessage arg)
