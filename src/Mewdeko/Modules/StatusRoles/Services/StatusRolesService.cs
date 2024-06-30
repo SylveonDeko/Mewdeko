@@ -1,5 +1,6 @@
 ﻿using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.ModuleBehaviors;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using ZiggyCreatures.Caching.Fusion;
 using Embed = Discord.Embed;
@@ -35,7 +36,7 @@ public class StatusRolesService : INService, IReadyExecutor
     {
         Log.Information($"Starting {this.GetType()} Cache");
 
-        var statusRoles = await dbContext.StatusRoles.ToListAsyncEF();
+        var statusRoles = await dbContext.StatusRoles.ToLinqToDB().ToListAsyncEF();
 
         await cache.SetAsync("statusRoles", statusRoles);
 
@@ -51,7 +52,7 @@ public class StatusRolesService : INService, IReadyExecutor
         }
 
 
-        var statusRoles = dbContext.StatusRoles.ToList();
+        var statusRoles = await dbContext.StatusRoles.ToListAsync();
         await cache.SetAsync("statusRoles", statusRoles);
 
         return statusRoles;

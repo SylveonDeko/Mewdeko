@@ -369,7 +369,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// Handles tasks to be executed when the bot is ready.
     /// </summary>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public Task OnReadyAsync() => ReloadInternal(client.Guilds.Select(x => x.Id).ToList());
+    public async Task OnReadyAsync() => await ReloadInternal(client.Guilds.Select(x => x.Id).ToList());
 
 
     /// <summary>
@@ -657,7 +657,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         // Retrieve chat trigger items for the current shard from the database
         var guildItems = await dbContext.ChatTriggers
-            .ToLinqToDB().AsNoTracking().ToListAsyncLinqToDB();
+            .ToListAsync();
 
         // Update the new guild reactions dictionary with the retrieved items
         newGuildReactions = guildItems
@@ -671,13 +671,10 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                 }).ToArray())
             .ToConcurrent();
 
-        // Update the global reactions array with items from the database
-        lock (gcrWriteLock)
-        {
-            globalReactions = dbContext.ChatTriggers
+            globalReactions = (await dbContext.ChatTriggers
                 .AsNoTracking()
                 .Where(x => x.GuildId == null || x.GuildId == 0)
-                .AsEnumerable()
+                .ToListAsync())
                 .Select(x =>
                 {
                     // Replace mention placeholder with the bot's mention in the trigger
@@ -685,7 +682,6 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     return x;
                 })
                 .ToArray();
-        }
 
         // Set the ready flag to true, indicating that the reload operation is complete
         ready = true;

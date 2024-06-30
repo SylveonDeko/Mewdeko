@@ -211,6 +211,16 @@ public class EventHandler
     /// </summary>
     public event AsyncEventHandler<DiscordShardedClient>? Ready;
 
+    /// <summary>
+    /// Occurs when a guild is available
+    /// </summary>
+    public event AsyncEventHandler<SocketGuild>? GuildAvailable;
+
+    /// <summary>
+    /// Occurs when the bot leaves a server.
+    /// </summary>
+    public event AsyncEventHandler<SocketGuild>? LeftGuild;
+
     #endregion
 
     private readonly DiscordShardedClient client;
@@ -255,6 +265,22 @@ public class EventHandler
         client.ThreadMemberJoined += ClientOnThreadMemberJoined;
         client.ThreadMemberLeft += ClientOnThreadMemberLeft;
         client.AuditLogCreated += ClientOnAuditLogCreated;
+        client.GuildAvailable += ClientOnGuildAvailable;
+        client.LeftGuild += ClientOnLeftGuild;
+    }
+
+    private Task ClientOnLeftGuild(SocketGuild arg)
+    {
+        if (LeftGuild is not null)
+            _ = LeftGuild(arg);
+        return Task.CompletedTask;
+    }
+
+    private Task ClientOnGuildAvailable(SocketGuild arg)
+    {
+        if (GuildAvailable is not null)
+            _ = GuildAvailable(arg);
+        return Task.CompletedTask;
     }
 
     #region Event Handlers

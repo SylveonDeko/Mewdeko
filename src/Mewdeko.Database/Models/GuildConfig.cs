@@ -173,7 +173,7 @@ public class GuildConfig : DbEntity
     public HashSet<FollowedStream> FollowedStreams { get; set; } = new();
 
     //permissions
-    public List<Permissionv2> Permissions { get; set; }
+    public List<Permissionv2>? Permissions { get; set; }
     public bool VerbosePermissions { get; set; } = true;
     public string? PermissionRole { get; set; } = null;
 

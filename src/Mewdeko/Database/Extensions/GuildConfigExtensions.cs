@@ -90,14 +90,12 @@ public static class GuildConfigExtensions
     /// <param name="totalShards">The total number of shards.</param>
     /// <param name="shardId">The ID of the shard.</param>
     /// <returns>A collection of GuildConfig entities.</returns>
-    public async static Task<IEnumerable<GuildConfig>> Permissionsv2ForAll(this DbSet<GuildConfig> configs, int totalShards,
-        int shardId)
+    public async static Task<IEnumerable<GuildConfig>> Permissionsv2ForAll(this DbSet<GuildConfig> configs)
     {
         var query = configs
             .Include(gc => gc.Permissions)
             .ToLinqToDB()
-            .AsQueryable()
-            .Where(x => (int)(x.GuildId / (ulong)Math.Pow(2, 22) % (ulong)totalShards) == shardId);
+            .AsQueryable();
 
         return await query.ToListAsyncEF();
     }
@@ -165,7 +163,10 @@ public static class GuildConfigExtensions
                 .Include(x => x.XpSettings)
                 .ThenInclude(x => x.ExclusionList));
 
-        return gc.XpSettings ?? (gc.XpSettings = new XpSettings());
+        if (gc.XpSettings is not null)
+            return gc.XpSettings;
+        gc.XpSettings = new XpSettings();
+        return gc.XpSettings;
     }
 
     /// <summary>
