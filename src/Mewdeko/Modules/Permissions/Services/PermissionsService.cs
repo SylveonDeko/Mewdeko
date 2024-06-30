@@ -196,23 +196,20 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
     /// <inheritdoc />
     public async Task OnReadyAsync()
     {
-        var guildIds = client.Guilds.Select(x => x.Id);
-        var configs = await dbContext.GuildConfigs.ToLinqToDB().AsNoTracking().Include(x => x.Permissions)
-            .Where(x => guildIds.Contains(x.GuildId)).ToListAsync();
-        foreach (var config in configs)
+        foreach (var x in await dbContext.GuildConfigs.Permissionsv2ForAll())
         {
-            Cache.AddOrUpdate(config.GuildId, new PermissionCache
+            if (x.Permissions is null)
             {
-                Permissions = new PermissionsCollection<Permissionv2>(config.Permissions),
-                PermRole = config.PermissionRole,
-                Verbose = config.VerbosePermissions
-            }, (_, old) =>
-            {
-                old.Permissions = new PermissionsCollection<Permissionv2>(config.Permissions);
-                old.PermRole = config.PermissionRole;
-                old.Verbose = config.VerbosePermissions;
-                return old;
-            });
+                x.Permissions = Permissionv2.GetDefaultPermlist;
+                await dbContext.SaveChangesAsync();
+            }
+            Cache.TryAdd(x.GuildId,
+                new PermissionCache
+                {
+                    Verbose = x.VerbosePermissions,
+                    PermRole = x.PermissionRole,
+                    Permissions = new PermissionsCollection<Permissionv2>(x.Permissions)
+                });
         }
     }
 

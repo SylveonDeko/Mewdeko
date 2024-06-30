@@ -14,7 +14,7 @@ namespace Mewdeko.Services.Impl
     /// <summary>
     /// Service for collecting and posting statistics about the bot.
     /// </summary>
-    public class StatsService : IStatsService, IReadyExecutor, IDisposable
+    public class StatsService : IStatsService, IDisposable
     {
         /// <summary>
         /// The version of the bot. I should make this set from commits somehow idk
@@ -50,6 +50,7 @@ namespace Mewdeko.Services.Impl
             started = DateTime.UtcNow;
 
             _ = Task.Run(async () => await PostToTopGg());
+            _ = OnReadyAsync();
         }
 
         /// <summary>
@@ -74,7 +75,7 @@ namespace Mewdeko.Services.Impl
                         Log.Information("Updating top guilds");
                         var guilds = await client.Rest.GetGuildsAsync(true);
                         var servers = guilds.OrderByDescending(x => x.ApproximateMemberCount.Value)
-                            .Where(x => !x.Name.ToLower().Contains("botlist")).Take(11).Select(x =>
+                            .Where(x => !x.Name.Contains("botlist", StringComparison.CurrentCultureIgnoreCase)).Take(11).Select(x =>
                                 new MewdekoPartialGuild
                                 {
                                     IconUrl = x.IconId.StartsWith("a_") ? x.IconUrl.Replace(".jpg", ".gif") : x.IconUrl,
@@ -87,9 +88,9 @@ namespace Mewdeko.Services.Impl
                             .ConfigureAwait(false);
                         Log.Information("Updated top guilds");
                     }
-                    catch (Exception e)
+                    catch
                     {
-                        Log.Error("Failed to update top guilds: {0}", e);
+                        Log.Error("Failed to update top guilds: {0}");
                     }
                 } while (await periodicTimer.WaitForNextTickAsync());
             });

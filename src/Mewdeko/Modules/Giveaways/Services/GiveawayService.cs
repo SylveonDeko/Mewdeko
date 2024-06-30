@@ -30,35 +30,38 @@ public class GiveawayService(
     {
         Log.Information($"Starting {this.GetType()} Ready Loop");
         Log.Information("Giveaway Loop Started");
-        while (true)
+        _ = Task.Run(async () =>
         {
-            await Task.Delay(2000).ConfigureAwait(false);
-            try
+            while (true)
             {
-                var now = DateTime.UtcNow;
-                var giveawaysEnumerable = await GetGiveawaysBeforeAsync(now);
-                if (!giveawaysEnumerable.Any())
-                    continue;
-
-                Log.Information("Executing {Count} giveaways", giveawaysEnumerable.Count());
-
-                // make groups of 5, with 1.5 second inbetween each one to ensure against ratelimits
-                var i = 0;
-                foreach (var group in giveawaysEnumerable
-                             .GroupBy(_ => ++i / ((giveawaysEnumerable.Count() / 5) + 1)))
+                await Task.Delay(2000).ConfigureAwait(false);
+                try
                 {
-                    var executedGiveaways = group.ToList();
-                    await Task.WhenAll(executedGiveaways.Select(x => GiveawayTimerAction(x))).ConfigureAwait(false);
-                    await UpdateGiveaways(executedGiveaways).ConfigureAwait(false);
-                    await Task.Delay(1500).ConfigureAwait(false);
+                    var now = DateTime.UtcNow;
+                    var giveawaysEnumerable = await GetGiveawaysBeforeAsync(now);
+                    if (!giveawaysEnumerable.Any())
+                        continue;
+
+                    Log.Information("Executing {Count} giveaways", giveawaysEnumerable.Count());
+
+                    // make groups of 5, with 1.5 second inbetween each one to ensure against ratelimits
+                    var i = 0;
+                    foreach (var group in giveawaysEnumerable
+                                 .GroupBy(_ => ++i / ((giveawaysEnumerable.Count() / 5) + 1)))
+                    {
+                        var executedGiveaways = group.ToList();
+                        await Task.WhenAll(executedGiveaways.Select(x => GiveawayTimerAction(x))).ConfigureAwait(false);
+                        await UpdateGiveaways(executedGiveaways).ConfigureAwait(false);
+                        await Task.Delay(1500).ConfigureAwait(false);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Warning("Error in Giveaway loop: {ExMessage}", ex.Message);
+                    Log.Warning(ex.ToString());
                 }
             }
-            catch (Exception ex)
-            {
-                Log.Warning("Error in Giveaway loop: {ExMessage}", ex.Message);
-                Log.Warning(ex.ToString());
-            }
-        }
+        });
     }
 
 

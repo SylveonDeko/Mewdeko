@@ -1,8 +1,8 @@
-using System.Data.Entity;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Services.Settings;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using ZiggyCreatures.Caching.Fusion;
@@ -64,18 +64,17 @@ namespace Mewdeko.Services
         {
             try
             {
-                Log.Information($"Executing from {callerName} at {filePath}");
                 var sw = new Stopwatch();
                 sw.Start();
                 var configExists = await cache.TryGetAsync<GuildConfig>($"guildconfig_{guildId}");
                 if (configExists.HasValue)
                     return configExists;
 
-                var toLoad = await dbContext.GuildConfigs.FirstOrDefaultAsyncEF(x => x.GuildId == guildId);
+                var toLoad = await dbContext.GuildConfigs.FirstOrDefaultAsync(x => x.GuildId == guildId);
                 if (toLoad is null)
                 {
                     await dbContext.ForGuildId(guildId);
-                    toLoad = await dbContext.GuildConfigs.FirstOrDefaultAsyncEF(x => x.GuildId == guildId);
+                    toLoad = await dbContext.GuildConfigs.FirstOrDefaultAsync(x => x.GuildId == guildId);
                 }
 
                 await cache.SetAsync($"guildconfig_{guildId}", toLoad);
@@ -85,7 +84,8 @@ namespace Mewdeko.Services
             }
             catch (Exception e)
             {
-                Log.Information("Failed to get guild config");
+                Log.Information($"Executing from {callerName} at {filePath}");
+                Log.Information(e.Message, "Failed to get guild config");
                 throw;
             }
         }
@@ -99,7 +99,7 @@ namespace Mewdeko.Services
             sw.Start();
             try
             {
-                var config = await dbContext.GuildConfigs.FirstOrDefaultAsyncEF(x => x.Id == toUpdate.Id);
+                var config = await dbContext.GuildConfigs.FirstOrDefaultAsync(x => x.Id == toUpdate.Id);
                     if (config != null)
                     {
                         var properties = typeof(GuildConfig).GetProperties();

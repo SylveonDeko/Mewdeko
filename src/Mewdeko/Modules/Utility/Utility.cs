@@ -1774,7 +1774,7 @@ public partial class Utility(
                     .AddField(GetText("command_count"), cmdServ.Commands.DistinctBy(x => x.Name).Count())
                     .AddField("Library", stats.Library)
                     .AddField(GetText("owner_ids"), string.Join("\n", creds.OwnerIds.Select(x => $"<@{x}>")))
-                    .AddField(GetText("shard"), $"#{client.GetShardFor(ctx.Guild)} / {creds.TotalShards}")
+                    .AddField(GetText("shard"), $"#{client.GetShardFor(ctx.Guild).ShardId} / {creds.TotalShards}")
                     .AddField(GetText("memory"), $"{stats.Heap} MB")
                     .AddField(GetText("uptime"), stats.GetUptimeString("\n"))
                     .AddField("Servers", $"{client.Guilds.Count} Servers"))

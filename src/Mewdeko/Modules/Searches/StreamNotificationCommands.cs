@@ -182,7 +182,9 @@ public partial class Searches
             if (--index < 0)
                 return;
 
-            if (!Service.SetStreamMessage(ctx.Guild.Id, index, message, out var fs))
+            var (followed, fs) = await Service.SetStreamMessage(ctx.Guild.Id, index, message);
+
+            if (!followed)
             {
                 await ReplyConfirmLocalizedAsync("stream_not_following").ConfigureAwait(false);
                 return;

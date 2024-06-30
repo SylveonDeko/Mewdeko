@@ -7,7 +7,7 @@ namespace Mewdeko.Services;
 /// <summary>
 /// Provides services for managing greeting settings and executing greetings and farewells in guilds.
 /// </summary>
-public class GreetSettingsService : INService, IReadyExecutor
+public class GreetSettingsService : INService
 {
     private readonly BotConfigService bss;
     private readonly DiscordShardedClient client;
@@ -36,7 +36,7 @@ public class GreetSettingsService : INService, IReadyExecutor
     /// Event handlers are set up to listen for specific Discord events, allowing the service to respond to user and guild activities such as joining, leaving, or boosting.
     /// </remarks>
     public GreetSettingsService(DiscordShardedClient client, GuildSettingsService gss, MewdekoContext dbContext,
-        BotConfigService bss, EventHandler eventHandler, Mewdeko bot)
+        BotConfigService bss, EventHandler eventHandler)
     {
         this.dbContext = dbContext;
         this.client = client;
@@ -46,12 +46,12 @@ public class GreetSettingsService : INService, IReadyExecutor
         eventHandler.UserJoined += UserJoined;
         eventHandler.UserLeft += UserLeft;
         eventHandler.GuildMemberUpdated += ClientOnGuildMemberUpdated;
+        _ = RunGreetLoop();
     }
 
-    /// <inheritdoc />
-    public async Task OnReadyAsync()
+
+    private async Task<bool> RunGreetLoop()
     {
-        Log.Information($"Starting {this.GetType()} Cache");
         while (true)
         {
             try
@@ -59,7 +59,6 @@ public class GreetSettingsService : INService, IReadyExecutor
                 var (conf, user, compl) = await greetDmQueue.Reader.ReadAsync();
                 var res = await GreetDmUserInternal(conf, user);
                 compl.TrySetResult(res);
-                await Task.Delay(5000);
             }
             catch
             {
