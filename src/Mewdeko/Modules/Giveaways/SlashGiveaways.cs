@@ -2,6 +2,7 @@
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.InteractionCommands;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Giveaways.Services;
 using SkiaSharp;
 
@@ -14,7 +15,7 @@ namespace Mewdeko.Modules.Giveaways;
 /// <param name="interactiveService">The service used to make paginated embeds</param>
 /// <param name="guildSettings">Service for getting guild configs</param>
 [Group("giveaways", "Create or manage giveaways!")]
-public class SlashGiveaways(MewdekoContext dbContext, InteractiveService interactiveService, GuildSettingsService guildSettings)
+public class SlashGiveaways(DbContextProvider dbProvider, InteractiveService interactiveService, GuildSettingsService guildSettings)
     : MewdekoSlashModuleBase<GiveawayService>
 {
     /// <summary>
@@ -161,6 +162,7 @@ public class SlashGiveaways(MewdekoContext dbContext, InteractiveService interac
     [SlashCommand("reroll", "Rerolls a giveaway!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GReroll(ulong messageid)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var gway = dbContext.Giveaways
             .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
@@ -187,6 +189,8 @@ public class SlashGiveaways(MewdekoContext dbContext, InteractiveService interac
     [SlashCommand("stats", "View giveaway stats!"), CheckPermissions]
     public async Task GStats()
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var eb = new EmbedBuilder().WithOkColor();
         var gways = dbContext.Giveaways.GiveawaysForGuild(ctx.Guild.Id);
         if (gways.Count == 0)
@@ -275,6 +279,7 @@ public class SlashGiveaways(MewdekoContext dbContext, InteractiveService interac
     [SlashCommand("list", "View current giveaways!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GList()
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var gways = dbContext.Giveaways.GiveawaysForGuild(ctx.Guild.Id).Where(x => x.Ended == 0);
         if (!gways.Any())
@@ -321,6 +326,7 @@ public class SlashGiveaways(MewdekoContext dbContext, InteractiveService interac
      SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GEnd(ulong messageid)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var gway = dbContext.Giveaways
             .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);

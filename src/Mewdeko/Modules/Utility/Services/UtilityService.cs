@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Utility.Common;
 using VirusTotalNet;
 using VirusTotalNet.Results;
@@ -12,7 +13,7 @@ public partial class UtilityService : INService
 {
     private readonly IDataCache cache;
     private readonly DiscordShardedClient client;
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly GuildSettingsService guildSettings;
 
     /// <summary>
@@ -24,7 +25,7 @@ public partial class UtilityService : INService
     /// <param name="eventHandler">The event handler service.</param>
     /// <param name="client">The Discord client.</param>
     public UtilityService(
-        MewdekoContext dbContext,
+        DbContextProvider dbProvider,
         IDataCache cache,
         GuildSettingsService guildSettings,
         EventHandler eventHandler,
@@ -34,7 +35,7 @@ public partial class UtilityService : INService
         eventHandler.MessageUpdated += MsgStore2;
         eventHandler.MessageReceived += MsgReciev;
         eventHandler.MessagesBulkDeleted += BulkMsgStore;
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.cache = cache;
         this.guildSettings = guildSettings;
         this.client = client;
@@ -62,8 +63,9 @@ public partial class UtilityService : INService
     /// <param name="yesnt">A string indicating whether to enable or disable link previewing.</param>
     public async Task PreviewLinks(IGuild guild, string yesnt)
     {
+
         var yesno = -1;
-        await using (dbContext.ConfigureAwait(false))
+        await using var dbContext = await dbProvider.GetContextAsync();
         {
             yesno = yesnt switch
             {
@@ -73,13 +75,9 @@ public partial class UtilityService : INService
             };
         }
 
-
-        await using (dbContext.ConfigureAwait(false))
-        {
-            var gc = await dbContext.ForGuildId(guild.Id, set => set);
-            gc.PreviewLinks = yesno;
-            await guildSettings.UpdateGuildConfig(guild.Id, gc);
-        }
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+        gc.PreviewLinks = yesno;
+        await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     /// <summary>
@@ -97,6 +95,8 @@ public partial class UtilityService : INService
     /// <param name="enabled">A boolean indicating whether to enable or disable snipe set.</param>
     public async Task SnipeSet(IGuild guild, bool enabled)
     {
+
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.snipeset = enabled; // Converting bool to long

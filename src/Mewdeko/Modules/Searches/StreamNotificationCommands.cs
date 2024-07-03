@@ -2,6 +2,7 @@
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Searches.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +14,7 @@ public partial class Searches
     /// Contains commands for managing stream notifications within a Discord guild.
     /// </summary>
     [Group]
-    public class StreamNotificationCommands(MewdekoContext dbContext, InteractiveService serv)
+    public class StreamNotificationCommands(DbContextProvider dbProvider, InteractiveService serv)
         : MewdekoSubmodule<StreamNotificationService>
     {
         /// <summary>
@@ -92,22 +93,20 @@ public partial class Searches
         {
             var streams = new List<FollowedStream>();
 
-            await using (dbContext.ConfigureAwait(false))
-            {
-                var all = (await dbContext
+            await using var dbContext = await dbProvider.GetContextAsync();
+            var all = (await dbContext
                         .ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.FollowedStreams)))
                     .FollowedStreams
                     .OrderBy(x => x.Id)
                     .ToList();
 
-                for (var index = all.Count - 1; index >= 0; index--)
-                {
-                    var fs = all[index];
-                    if (((SocketGuild)ctx.Guild).GetTextChannel(fs.ChannelId) is null)
-                        await Service.UnfollowStreamAsync(fs.GuildId, index).ConfigureAwait(false);
-                    else
-                        streams.Insert(0, fs);
-                }
+            for (var index = all.Count - 1; index >= 0; index--)
+            {
+                var fs = all[index];
+                if (((SocketGuild)ctx.Guild).GetTextChannel(fs.ChannelId) is null)
+                    await Service.UnfollowStreamAsync(fs.GuildId, index).ConfigureAwait(false);
+                else
+                    streams.Insert(0, fs);
             }
 
             var paginator = new LazyPaginatorBuilder()

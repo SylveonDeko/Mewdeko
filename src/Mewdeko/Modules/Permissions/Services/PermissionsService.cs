@@ -3,6 +3,7 @@ using Discord.Interactions;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,7 @@ namespace Mewdeko.Modules.Permissions.Services;
 public class PermissionService : ILateBlocker, INService, IReadyExecutor
 {
     private readonly BotConfig config;
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
 
     private readonly GuildSettingsService guildSettings;
     private readonly DiscordShardedClient client;
@@ -33,12 +34,12 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
     /// <param name="guildSettings">The service for managing guild-specific settings.</param>
     /// <param name="client">The discord socket client</param>
     /// <param name="configService">The service for bot-wide configurations.</param>
-    public PermissionService(MewdekoContext dbContext,
+    public PermissionService(DbContextProvider dbProvider,
         IBotStrings strings,
         GuildSettingsService guildSettings, DiscordShardedClient client, BotConfig configService)
     {
         config = configService;
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         Strings = strings;
         this.guildSettings = guildSettings;
         this.client = client;
@@ -196,6 +197,8 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
     /// <inheritdoc />
     public async Task OnReadyAsync()
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         foreach (var x in await dbContext.GuildConfigs.Permissionsv2ForAll())
         {
             if (x.Permissions is null)
@@ -220,6 +223,8 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
     /// <returns>The permission cache for the guild.</returns>
     public async Task<PermissionCache?> GetCacheFor(ulong guildId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         if (Cache.TryGetValue(guildId, out var pc))
             return pc;
         var config = await dbContext.ForGuildId(guildId,
@@ -238,6 +243,7 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
     /// <remarks>Updates both the database and the in-memory cache.</remarks>
     public async Task AddPermissions(ulong guildId, params Permissionv2[] perms)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var config = await dbContext.GcWithPermissionsv2For(guildId);
         //var orderedPerms = new PermissionsCollection<Permissionv2>(config.Permissions);
@@ -277,6 +283,7 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
     /// <remarks>Updates both the database and the in-memory cache.</remarks>
     public async Task Reset(ulong guildId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var config = await dbContext.GcWithPermissionsv2For(guildId);
         config.Permissions = Permissionv2.GetDefaultPermlist;
@@ -310,6 +317,7 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
     /// <remarks>Updates both the database and the in-memory cache.</remarks>
     public async Task RemovePerm(ulong guildId, int index)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
 
         var config = await dbContext.GcWithPermissionsv2For(guildId);
@@ -332,6 +340,7 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
     public async Task UpdatePerm(ulong guildId, int index, bool state)
     {
 
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var config = await dbContext.GcWithPermissionsv2For(guildId);
         var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
@@ -353,6 +362,7 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
     public async Task UnsafeMovePerm(ulong guildId, int from, int to)
     {
 
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var config = await dbContext.GcWithPermissionsv2For(guildId);
         var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);

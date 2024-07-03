@@ -14,6 +14,7 @@ using Mewdeko.Common.Autocompleters;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Common.Modals;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.OwnerOnly.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
@@ -43,7 +44,7 @@ public class SlashOwnerOnly(
     DiscordShardedClient client,
     IBotStrings strings,
     InteractiveService serv,
-    MewdekoContext dbContext,
+    DbContextProvider dbProvider,
     IDataCache cache,
     GuildSettingsService guildSettings,
     CommandHandler commandHandler,
@@ -144,6 +145,8 @@ public class SlashOwnerOnly(
     [SlashCommand("sqlexec", "Run a sql command")]
     public async Task SqlExec([Remainder] string sql)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         if (!await PromptUserConfirmAsync("Are you sure you want to execute this??", ctx.User.Id).ConfigureAwait(false))
             return;
 
@@ -202,6 +205,8 @@ public class SlashOwnerOnly(
     [SlashCommand("commandstats", "Get stats about commands")]
     public async Task CommandStats()
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var commandStatsTable = dbContext.CommandStats;
         var topCommandTask = commandStatsTable
             .Where(x => !x.Trigger)
@@ -870,7 +875,7 @@ public class SlashOwnerOnly(
                     return;
             }
 
-            var count = Service.GetAutoCommands().Where(x => x.GuildId == ctx.Guild.Id);
+            var count = (await Service.GetAutoCommands()).Where(x => x.GuildId == ctx.Guild.Id);
 
             if (count.Count() == 15)
                 return;
@@ -910,7 +915,7 @@ public class SlashOwnerOnly(
             if (page-- < 1)
                 return;
 
-            var scmds = Service.GetStartupCommands()
+            var scmds = (await Service.GetStartupCommands())
                 .Skip(page * 5)
                 .Take(5)
                 .ToList();
@@ -951,7 +956,7 @@ public class SlashOwnerOnly(
             if (page-- < 1)
                 return;
 
-            var scmds = Service.GetAutoCommands()
+            var scmds = (await Service.GetAutoCommands())
                 .Skip(page * 5)
                 .Take(5)
                 .ToList();
@@ -992,7 +997,7 @@ public class SlashOwnerOnly(
          SlashUserPerm(GuildPermission.Administrator)]
         public async Task AutoCommandRemove([Remainder] int index)
         {
-            if (!Service.RemoveAutoCommand(--index, out _))
+            if (!await Service.RemoveAutoCommand(--index))
             {
                 await ReplyErrorLocalizedAsync("acrm_fail").ConfigureAwait(false);
                 return;
@@ -1012,11 +1017,14 @@ public class SlashOwnerOnly(
         /// </remarks>
         [SlashCommand("startupcommandremove", "Removes a startup command"),
          Discord.Interactions.RequireContext(ContextType.Guild)]
-        public Task StartupCommandRemove([Remainder] int index)
+        public async Task StartupCommandRemove([Remainder] int index)
         {
-            if (!Service.RemoveStartupCommand(--index, out _))
-                return ReplyErrorLocalizedAsync("scrm_fail");
-            return ReplyConfirmLocalizedAsync("scrm");
+            if (!await Service.RemoveStartupCommand(--index))
+            {
+                await ReplyErrorLocalizedAsync("scrm_fail");
+                return;
+            }
+            await ReplyConfirmLocalizedAsync("scrm");
         }
 
         /// <summary>
@@ -1029,11 +1037,11 @@ public class SlashOwnerOnly(
         [SlashCommand("startupcommandsclear", "Clears all startup commands"),
          Discord.Interactions.RequireContext(ContextType.Guild),
          SlashUserPerm(GuildPermission.Administrator)]
-        public Task StartupCommandsClear()
+        public async Task StartupCommandsClear()
         {
-            Service.ClearStartupCommands();
+            await Service.ClearStartupCommands();
 
-            return ReplyConfirmLocalizedAsync("startcmds_cleared");
+            await ReplyConfirmLocalizedAsync("startcmds_cleared");
         }
 
         /// <summary>
@@ -1294,17 +1302,17 @@ public class SlashOwnerOnly(
         /// Sends a reply with a numbered list of all statuses in the rotation. If no statuses are set, sends an error message.
         /// </remarks>
         [SlashCommand("listplaying", "Lists all rotating statuses")]
-        public Task ListPlaying()
+        public async Task ListPlaying()
         {
-            var statuses = Service.GetRotatingStatuses();
+            var statuses = await Service.GetRotatingStatuses();
 
             if (statuses.Count == 0)
             {
-                return ReplyErrorLocalizedAsync("ropl_not_set");
+                await ReplyErrorLocalizedAsync("ropl_not_set");
             }
 
             var i = 1;
-            return ReplyConfirmLocalizedAsync("ropl_list",
+            await  ReplyConfirmLocalizedAsync("ropl_list",
                 string.Join("\n\t", statuses.Select(rs => $"`{i++}.` *{rs.Type}* {rs.Status}")));
         }
 

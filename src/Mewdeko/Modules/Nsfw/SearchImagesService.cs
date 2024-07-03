@@ -1,5 +1,6 @@
 using System.Net.Http;
 using System.Threading;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Nsfw.Common;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -43,7 +44,7 @@ public record UrlReply
 public class SearchImagesService : ISearchImagesService, INService
 {
     private readonly SearchImageCacher cache;
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly HttpClient http;
     private readonly GuildSettingsService service;
 
@@ -59,13 +60,13 @@ public class SearchImagesService : ISearchImagesService, INService
     public SearchImagesService(
         IHttpClientFactory http,
         SearchImageCacher cacher,
-        MewdekoContext dbContext,
+        DbContextProvider dbProvider,
         GuildSettingsService service)
     {
         this.http = http.CreateClient();
         this.http.AddFakeHeaders();
         cache = cacher;
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.service = service;
 
     }
@@ -245,7 +246,8 @@ public class SearchImagesService : ISearchImagesService, INService
 
         bool added;
 
-        var gc = await dbContext.ForGuildId(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
         if (gc.NsfwBlacklistedTags.Add(tagObj))
         {
             added = true;
@@ -255,7 +257,7 @@ public class SearchImagesService : ISearchImagesService, INService
             gc.NsfwBlacklistedTags.Remove(tagObj);
             var toRemove = gc.NsfwBlacklistedTags.FirstOrDefault(x => x.Equals(tagObj));
             if (toRemove != null)
-                dbContext.Remove(toRemove);
+                db.Remove(toRemove);
             added = false;
         }
 

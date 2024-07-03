@@ -1,4 +1,5 @@
 ﻿using Discord.Commands;
+using Mewdeko.Database.DbContextStuff;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Administration.Services;
@@ -8,7 +9,7 @@ namespace Mewdeko.Modules.Administration.Services;
 /// </summary>
 public class AdministrationService : INService
 {
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly GuildSettingsService guildSettings;
 
     /// <summary>
@@ -18,7 +19,7 @@ public class AdministrationService : INService
     /// <param name="db">The database service.</param>
     /// <param name="guildSettings">The guild settings service.</param>
     /// <param name="bot">The bot instance.</param>
-    public AdministrationService(CommandHandler cmdHandler, MewdekoContext dbContext,
+    public AdministrationService(CommandHandler cmdHandler, DbContextProvider dbProvider,
         GuildSettingsService guildSettings, Mewdeko bot)
     {
         // Get all guild configurations from the bot
@@ -28,7 +29,7 @@ public class AdministrationService : INService
 
 
         // Assign the database service and guild settings service
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.guildSettings = guildSettings;
 
         // Subscribe to the CommandExecuted event of the command handler
@@ -44,9 +45,9 @@ public class AdministrationService : INService
     public async Task StaffRoleSet(IGuild guild, ulong role)
     {
         // Create a new database context
-
+        await using var db = await dbProvider.GetContextAsync();
         // Get the guild configuration for the given guild ID
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+        var gc = await db.ForGuildId(guild.Id, set => set);
 
         // Set the staff role
         gc.StaffRole = role;
@@ -66,7 +67,8 @@ public class AdministrationService : INService
 
 
         // Get the guild configuration for the given guild ID
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
 
         // Toggle the opt-out status
         gc.StatsOptOut = !gc.StatsOptOut;
@@ -86,7 +88,7 @@ public class AdministrationService : INService
     /// <returns>A boolean indicating whether any data was deleted.</returns>
     public async Task<bool> DeleteStatsData(IGuild guild)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var toRemove = dbContext.CommandStats.Where(x => x.GuildId == guild.Id).AsEnumerable();
         if (!toRemove.Any())
             return false;
@@ -103,7 +105,8 @@ public class AdministrationService : INService
     public async Task MemberRoleSet(IGuild guild, ulong role)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.MemberRole = role;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -129,7 +132,7 @@ public class AdministrationService : INService
     /// <returns>A tuple containing a boolean indicating the DeleteMessageOnCommand status and a collection of channels.</returns>
     public async Task<(bool DelMsgOnCmd, IEnumerable<DelMsgOnCmdChannel> channels)> GetDelMsgOnCmdData(ulong guildId)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var conf = await dbContext.ForGuildId(guildId,
             set => set.Include(x => x.DelMsgOnCmdChannels));
 
@@ -185,7 +188,7 @@ public class AdministrationService : INService
     /// <returns>A boolean indicating the new state of the DeleteMessageOnCommand setting.</returns>
     public async Task<bool> ToggleDeleteMessageOnCommand(ulong guildId)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var conf = await dbContext.ForGuildId(guildId, set => set);
 
         // Toggle the value using a ternary operator
@@ -208,7 +211,7 @@ public class AdministrationService : INService
     {
         // Create a new database context
 
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         // Get the guild configuration for the given guild ID, including the DeleteMessageOnCommand channels
         var conf = await dbContext.ForGuildId(guildId,
             set => set.Include(x => x.DelMsgOnCmdChannels));

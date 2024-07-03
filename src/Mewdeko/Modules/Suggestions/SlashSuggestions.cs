@@ -178,7 +178,7 @@ public partial class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsServic
     public async Task SuggestClear()
     {
         await DeferAsync().ConfigureAwait(false);
-        var suggests = Service.Suggestions(ctx.Guild.Id);
+        var suggests = await Service.Suggestions(ctx.Guild.Id);
         if (suggests.Count == 0)
         {
             await ctx.Interaction.SendErrorFollowupAsync("There are no suggestions to clear.", Config)

@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Database.DbContextStuff;
 using Serilog;
 using ZiggyCreatures.Caching.Fusion;
 
@@ -12,7 +13,7 @@ public class HighlightsService : INService, IReadyExecutor
 {
     private readonly IFusionCache cache;
     private readonly DiscordShardedClient client;
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
 
     private readonly Channel<(SocketMessage, TaskCompletionSource<bool>)> highlightQueue =
         Channel.CreateBounded<(SocketMessage, TaskCompletionSource<bool>)>(new BoundedChannelOptions(60)
@@ -26,11 +27,11 @@ public class HighlightsService : INService, IReadyExecutor
     /// <param name="client">The discord client</param>
     /// <param name="cache">Fusion cache</param>
     /// <param name="db">The database provider</param>
-    public HighlightsService(DiscordShardedClient client, IFusionCache cache, MewdekoContext dbContext)
+    public HighlightsService(DiscordShardedClient client, IFusionCache cache, DbContextProvider dbProvider)
     {
         this.client = client;
         this.cache = cache;
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.client.MessageReceived += StaggerHighlights;
         this.client.UserIsTyping += AddHighlightTimer;
         _ = HighlightLoop();
@@ -43,6 +44,7 @@ public class HighlightsService : INService, IReadyExecutor
     public async Task OnReadyAsync()
     {
         Log.Information($"Starting {this.GetType()} Cache");
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var allHighlights = await dbContext.Highlights.AllHighlights();
         var allHighlightSettings = await dbContext.HighlightSettings.AllHighlightSettings();
@@ -184,6 +186,7 @@ public class HighlightsService : INService, IReadyExecutor
         {
             UserId = userId, GuildId = guildId, Word = word
         };
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         dbContext.Highlights.Add(toadd);
         await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -200,6 +203,7 @@ public class HighlightsService : INService, IReadyExecutor
     /// <param name="enabled">Whether its enabled or disabled</param>
     public async Task ToggleHighlights(ulong guildId, ulong userId, bool enabled)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var toupdate = dbContext.HighlightSettings.FirstOrDefault(x => x.UserId == userId && x.GuildId == guildId);
         if (toupdate is null)
@@ -239,6 +243,7 @@ public class HighlightsService : INService, IReadyExecutor
     public async Task<bool> ToggleIgnoredChannel(ulong guildId, ulong userId, string channelId)
     {
         var ignored = true;
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var toupdate = dbContext.HighlightSettings.FirstOrDefault(x => x.UserId == userId && x.GuildId == guildId);
         if (toupdate is null)
@@ -292,6 +297,7 @@ public class HighlightsService : INService, IReadyExecutor
     public async Task<bool> ToggleIgnoredUser(ulong guildId, ulong userId, string userToIgnore)
     {
         var ignored = true;
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var toupdate = dbContext.HighlightSettings.FirstOrDefault(x => x.UserId == userId && x.GuildId == guildId);
         if (toupdate is null)
@@ -341,6 +347,7 @@ public class HighlightsService : INService, IReadyExecutor
     /// <param name="toremove">The db record to remove</param>
     public async Task RemoveHighlight(Database.Models.Highlights? toremove)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         dbContext.Highlights.Remove(toremove);
         await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -355,6 +362,8 @@ public class HighlightsService : INService, IReadyExecutor
 
     private async Task<List<Database.Models.Highlights?>> GetForGuild(ulong guildId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var highlightsForGuild = await cache.GetOrSetAsync($"highlights_{guildId}", async _ =>
         {
 
@@ -365,6 +374,8 @@ public class HighlightsService : INService, IReadyExecutor
 
     private async Task<IEnumerable<HighlightSettings?>> GetSettingsForGuild(ulong guildId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var highlightSettingsForGuild = await cache.GetOrSetAsync($"highlightSettings_{guildId}", async _ =>
         {
 

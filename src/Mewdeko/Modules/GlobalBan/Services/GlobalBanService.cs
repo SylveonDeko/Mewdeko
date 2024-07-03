@@ -4,10 +4,10 @@
 //
 // public class GlobalBanService
 // {
-//     private readonly MewdekoContext dbContext;
-//     public GlobalBanService(EventHandler handler, MewdekoContext dbContext)
+//     private readonly DbContextProvider dbProvider;
+//     public GlobalBanService(EventHandler handler, DbContextProvider dbProvider)
 //     {
-//         this.dbContext = dbContext;
+//         this.dbProvider = dbProvider;
 //         handler.UserJoined += OnUserJoined;
 //     }
 //

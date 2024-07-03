@@ -48,7 +48,7 @@ public static class GuildConfigExtensions
     /// <param name="includes">Optional function to include related entities.</param>
     /// <returns>The GuildConfig for the guild.</returns>
     public static async Task<GuildConfig> ForGuildId(this MewdekoContext ctx, ulong guildId,
-        Func<DbSet<GuildConfig>, IQueryable<GuildConfig>> includes = null)
+        Func<DbSet<GuildConfig>, IQueryable<GuildConfig>>? includes = null)
     {
         GuildConfig config;
 

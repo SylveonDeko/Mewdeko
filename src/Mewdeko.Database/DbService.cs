@@ -16,13 +16,13 @@ using Serilog;
 
 namespace Mewdeko.Database;
 
-public class dbContext
+public class DbService
 {
     private readonly int shardCount;
     private readonly string token;
     private readonly PooledDbContextFactory<MewdekoContext> dbContextFactory;
 
-    public dbContext(string? token, string psqlConnection, bool migrate = false)
+    public DbService(string? token, string psqlConnection, bool migrate = false)
     {
         this.token = token ?? "";
         LinqToDBForEFTools.Initialize();
@@ -79,7 +79,7 @@ public class dbContext
     private async Task MigrateDataAsync()
     {
         // Initialize destination context
-        await using var destCont = dbContextFactory.CreateDbContext();
+        await using var destCont = await dbContextFactory.CreateDbContextAsync();
         var destinationContext = destCont.CreateLinqToDBConnection();
 
         await using var sourceContext = new MewdekoSqLiteContext(BuildSqliteConnectionString(shardCount, token));

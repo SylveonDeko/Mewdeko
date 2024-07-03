@@ -1,6 +1,7 @@
 using Discord.Interactions;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Modals;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Utility.Services;
 using Swan;
@@ -11,7 +12,7 @@ namespace Mewdeko.Modules.Utility;
 /// Handles commands for setting, viewing, and managing reminders.
 /// </summary>
 [Group("remind", "remind")]
-public class SlashRemindCommands(MewdekoContext dbContext, GuildTimezoneService tz) : MewdekoSlashModuleBase<RemindService>
+public class SlashRemindCommands(DbContextProvider dbProvider, GuildTimezoneService tz) : MewdekoSlashModuleBase<RemindService>
 {
     /// <summary>
     /// Sends a reminder to the user invoking the command.
@@ -149,7 +150,7 @@ public class SlashRemindCommands(MewdekoContext dbContext, GuildTimezoneService 
         };
 
 
-        await using (dbContext.ConfigureAwait(false))
+        await using var dbContext = await dbProvider.GetContextAsync();
         {
             dbContext.Reminders.Add(rem);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -193,7 +194,7 @@ public class SlashRemindCommands(MewdekoContext dbContext, GuildTimezoneService 
 
         List<Reminder> rems;
 
-        await using (dbContext.ConfigureAwait(false))
+        await using var dbContext = await dbProvider.GetContextAsync();
         {
             rems = dbContext.Reminders.RemindersFor(ctx.User.Id, page)
                 .ToList();
@@ -237,7 +238,7 @@ public class SlashRemindCommands(MewdekoContext dbContext, GuildTimezoneService 
 
         Reminder? rem = null;
 
-        await using (dbContext.ConfigureAwait(false))
+        await using var dbContext = await dbProvider.GetContextAsync();
         {
             var rems = dbContext.Reminders.RemindersFor(ctx.User.Id, index / 10)
                 .ToList();

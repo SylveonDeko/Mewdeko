@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Mewdeko.Database.DbContextStuff;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -10,15 +11,15 @@ public class ServerRecoveryService : INService
     /// <summary>
     /// The database service.
     /// </summary>
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ServerRecoveryService"/> class.
     /// </summary>
     /// <param name="db">The database service.</param>
-    public ServerRecoveryService(MewdekoContext dbContext)
+    public ServerRecoveryService(DbContextProvider dbProvider)
     {
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
     }
 
     /// <summary>
@@ -29,7 +30,7 @@ public class ServerRecoveryService : INService
     public async Task<(bool, ServerRecoveryStore)> RecoveryIsSetup(ulong guildId)
     {
 
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var store = await dbContext.ServerRecoveryStore.FirstOrDefaultAsync(x => x.GuildId == guildId);
         return (store != null, store);
     }
@@ -44,7 +45,7 @@ public class ServerRecoveryService : INService
     public async Task SetupRecovery(ulong guildId, string recoveryKey, string twoFactorKey)
     {
 
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var toAdd = new ServerRecoveryStore
         {
             GuildId = guildId, RecoveryKey = recoveryKey, TwoFactorKey = twoFactorKey
@@ -61,7 +62,7 @@ public class ServerRecoveryService : INService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task ClearRecoverySetup(ServerRecoveryStore serverRecoveryStore)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         dbContext.ServerRecoveryStore.Remove(serverRecoveryStore);
         await dbContext.SaveChangesAsync();
     }

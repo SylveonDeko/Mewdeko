@@ -2,6 +2,7 @@
 using Discord.Net;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.TypeReaders;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Common.Exceptions;
 using Serilog;
@@ -13,7 +14,7 @@ namespace Mewdeko.Modules.Utility.Services;
 /// </summary>
 public class StreamRoleService : INService, IUnloadableService, IReadyExecutor
 {
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly EventHandler eventHandler;
     private readonly GuildSettingsService gss;
     private readonly DiscordShardedClient client;
@@ -25,11 +26,11 @@ public class StreamRoleService : INService, IUnloadableService, IReadyExecutor
     /// <param name="db">The database service for storing and retrieving stream role settings.</param>
     /// <param name="eventHandler">Event handler for capturing and responding to guild member updates.</param>
     /// <param name="gss">The guild settings service for retrieving guild-specific settings.</param>
-    public StreamRoleService(DiscordShardedClient client, MewdekoContext dbContext, EventHandler eventHandler,
+    public StreamRoleService(DiscordShardedClient client, DbContextProvider dbProvider, EventHandler eventHandler,
         GuildSettingsService gss)
     {
         this.client = client;
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.eventHandler = eventHandler;
         this.gss = gss;
 
@@ -86,7 +87,7 @@ public class StreamRoleService : INService, IUnloadableService, IReadyExecutor
 
         var success = false;
 
-        await using (dbContext.ConfigureAwait(false))
+        await using var dbContext = await dbProvider.GetContextAsync();
         {
             var streamRoleSettings = await dbContext.GetStreamRoleSettings(guild.Id);
 
@@ -151,7 +152,7 @@ public class StreamRoleService : INService, IUnloadableService, IReadyExecutor
         keyword = keyword?.Trim().ToLowerInvariant();
 
 
-        await using (dbContext.ConfigureAwait(false))
+        await using var dbContext = await dbProvider.GetContextAsync();
         {
             var streamRoleSettings = await dbContext.GetStreamRoleSettings(guild.Id);
 
@@ -177,7 +178,7 @@ public class StreamRoleService : INService, IUnloadableService, IReadyExecutor
 
         StreamRoleSettings setting;
 
-        await using (dbContext.ConfigureAwait(false))
+        await using var dbContext = await dbProvider.GetContextAsync();
         {
             var streamRoleSettings = await dbContext.GetStreamRoleSettings(fromRole.Guild.Id);
 
@@ -205,6 +206,7 @@ public class StreamRoleService : INService, IUnloadableService, IReadyExecutor
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task StopStreamRole(IGuild guild)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         await using var disposable = dbContext.ConfigureAwait(false);
         var streamRoleSettings = await dbContext.GetStreamRoleSettings(guild.Id);

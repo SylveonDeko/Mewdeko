@@ -3,6 +3,7 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Permissions.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +15,7 @@ public partial class Permissions
     /// Provides commands for managing word filters and automatic bans within guilds.
     /// </summary>
     [Group]
-    public class FilterCommands(MewdekoContext dbContext, InteractiveService serv, GuildSettingsService gss)
+    public class FilterCommands(DbContextProvider dbProvider, InteractiveService serv, GuildSettingsService gss)
         : MewdekoSubmodule<FilterService>
     {
         /// <summary>
@@ -36,6 +37,7 @@ public partial class Permissions
         [RequireContext(ContextType.Guild)]
         public async Task AutoBanWord([Remainder] string word)
         {
+            await using var dbContext = await dbProvider.GetContextAsync();
 
             var blacklist = dbContext.AutoBanWords;
             if (blacklist.Count(x => x.Word == word && x.GuildId == ctx.Guild.Id) == 1)
@@ -69,6 +71,7 @@ public partial class Permissions
         [RequireContext(ContextType.Guild)]
         public async Task AutoBanWordList()
         {
+            await using var dbContext = await dbProvider.GetContextAsync();
 
             var words = dbContext.AutoBanWords.ToLinqToDB().Where(x => x.GuildId == ctx.Guild.Id);
             if (!words.Any())
@@ -199,6 +202,7 @@ public partial class Permissions
         {
             var channel = (ITextChannel)ctx.Channel;
 
+            await using var dbContext = await dbProvider.GetContextAsync();
 
             await using var disposable = dbContext.ConfigureAwait(false);
             var config = await dbContext.ForGuildId(channel.Guild.Id, set => set);
@@ -234,24 +238,20 @@ public partial class Permissions
         {
             var channel = (ITextChannel)ctx.Channel;
 
-            FilterInvitesChannelIds removed;
-
-            await using (dbContext.ConfigureAwait(false))
-            {
-                var config = await dbContext.ForGuildId(channel.Guild.Id,
+            await using var dbContext = await dbProvider.GetContextAsync();
+            var config = await dbContext.ForGuildId(channel.Guild.Id,
                     set => set.Include(gc => gc.FilterInvitesChannelIds));
-                var match = new FilterInvitesChannelIds
-                {
-                    ChannelId = channel.Id
-                };
-                removed = config.FilterInvitesChannelIds.FirstOrDefault(fc => fc.Equals(match));
+            var match = new FilterInvitesChannelIds
+            {
+                ChannelId = channel.Id
+            };
+            var removed = config.FilterInvitesChannelIds.FirstOrDefault(fc => fc.Equals(match));
 
-                if (removed == null)
-                    config.FilterInvitesChannelIds.Add(match);
-                else
-                    dbContext.Remove(removed);
-                await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
-            }
+            if (removed == null)
+                config.FilterInvitesChannelIds.Add(match);
+            else
+                dbContext.Remove(removed);
+            await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
 
             if (removed == null)
             {
@@ -280,6 +280,7 @@ public partial class Permissions
         public async Task SrvrFilterLin()
         {
             var channel = (ITextChannel)ctx.Channel;
+            await using var dbContext = await dbProvider.GetContextAsync();
 
             await using var disposable = dbContext.ConfigureAwait(false);
             var config = await dbContext.ForGuildId(channel.Guild.Id, set => set);
@@ -314,24 +315,20 @@ public partial class Permissions
         {
             var channel = (ITextChannel)ctx.Channel;
 
-            FilterLinksChannelId removed;
-
-            await using (dbContext.ConfigureAwait(false))
-            {
-                var config = await dbContext.ForGuildId(channel.Guild.Id,
+            await using var dbContext = await dbProvider.GetContextAsync();
+            var config = await dbContext.ForGuildId(channel.Guild.Id,
                     set => set.Include(gc => gc.FilterLinksChannelIds));
-                var match = new FilterLinksChannelId
-                {
-                    ChannelId = channel.Id
-                };
-                removed = config.FilterLinksChannelIds.FirstOrDefault(fc => fc.Equals(match));
+            var match = new FilterLinksChannelId
+            {
+                ChannelId = channel.Id
+            };
+            var removed = config.FilterLinksChannelIds.FirstOrDefault(fc => fc.Equals(match));
 
-                if (removed == null)
-                    config.FilterLinksChannelIds.Add(match);
-                else
-                    dbContext.Remove(removed);
-                await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
-            }
+            if (removed == null)
+                config.FilterLinksChannelIds.Add(match);
+            else
+                dbContext.Remove(removed);
+            await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
 
             if (removed == null)
             {
@@ -361,6 +358,7 @@ public partial class Permissions
         {
             var channel = (ITextChannel)ctx.Channel;
 
+            await using var dbContext = await dbProvider.GetContextAsync();
 
             var config = await dbContext.ForGuildId(channel.Guild.Id, set => set);
             config.FilterWords = !config.FilterWords;
@@ -394,24 +392,20 @@ public partial class Permissions
         {
             var channel = (ITextChannel)ctx.Channel;
 
-            FilterWordsChannelIds removed;
-
-            await using (dbContext.ConfigureAwait(false))
-            {
-                var config = await dbContext.ForGuildId(channel.Guild.Id,
+            await using var dbContext = await dbProvider.GetContextAsync();
+            var config = await dbContext.ForGuildId(channel.Guild.Id,
                     set => set.Include(gc => gc.FilterWordsChannelIds));
 
-                var match = new FilterWordsChannelIds
-                {
-                    ChannelId = channel.Id
-                };
-                removed = config.FilterWordsChannelIds.FirstOrDefault(fc => fc.Equals(match));
-                if (removed == null)
-                    config.FilterWordsChannelIds.Add(match);
-                else
-                    dbContext.Remove(removed);
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
+            var match = new FilterWordsChannelIds
+            {
+                ChannelId = channel.Id
+            };
+            var removed = config.FilterWordsChannelIds.FirstOrDefault(fc => fc.Equals(match));
+            if (removed == null)
+                config.FilterWordsChannelIds.Add(match);
+            else
+                dbContext.Remove(removed);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             if (removed == null)
             {
@@ -448,24 +442,20 @@ public partial class Permissions
             if (string.IsNullOrWhiteSpace(word))
                 return;
 
-            FilteredWord removed;
+            await using var dbContext = await dbProvider.GetContextAsync();
+            var config = await dbContext.ForGuildId(channel.Guild.Id, set => set.Include(gc => gc.FilteredWords));
 
-            await using (dbContext.ConfigureAwait(false))
-            {
-                var config = await dbContext.ForGuildId(channel.Guild.Id, set => set.Include(gc => gc.FilteredWords));
+            var removed = config.FilteredWords.FirstOrDefault(fw => fw.Word.Trim().ToLowerInvariant() == word);
 
-                removed = config.FilteredWords.FirstOrDefault(fw => fw.Word.Trim().ToLowerInvariant() == word);
+            if (removed == null)
+                config.FilteredWords.Add(new FilteredWord
+                {
+                    Word = word
+                });
+            else
+                dbContext.Remove(removed);
 
-                if (removed == null)
-                    config.FilteredWords.Add(new FilteredWord
-                    {
-                        Word = word
-                    });
-                else
-                    dbContext.Remove(removed);
-
-                await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
-            }
+            await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
 
             if (removed == null)
             {

@@ -101,7 +101,7 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
     public async Task SuggestClear()
     {
-        var suggests = Service.Suggestions(ctx.Guild.Id);
+        var suggests = await Service.Suggestions(ctx.Guild.Id);
         if (suggests.Count == 0)
         {
             await ctx.Channel.SendErrorAsync("There are no suggestions to clear.", Config).ConfigureAwait(false);

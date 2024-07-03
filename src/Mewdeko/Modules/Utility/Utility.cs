@@ -9,6 +9,7 @@ using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.JsonSettings;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Services;
 using Mewdeko.Services.Impl;
@@ -42,7 +43,7 @@ public partial class Utility(
     GuildSettingsService guildSettings,
     HttpClient httpClient,
     BotConfigService config,
-    MewdekoContext dbContext,
+    DbContextProvider dbProvider,
     IDataCache cache, CryptoService cryptoService)
     : MewdekoModuleBase<UtilityService>
 {
@@ -1756,6 +1757,7 @@ public partial class Utility(
     [Cmd, Aliases]
     public async Task Stats()
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var time = DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(5));
         var commandStats = dbContext.CommandStats.Count(x => x.DateAdded.Value >= time);

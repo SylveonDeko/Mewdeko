@@ -1,5 +1,6 @@
 ﻿using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.PubSub;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Votes.Common;
 
@@ -10,7 +11,7 @@ namespace Mewdeko.Modules.Votes.Services;
 /// </summary>
 public class VoteService : INService
 {
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly DiscordShardedClient client;
     private readonly MuteService muteService;
 
@@ -21,10 +22,10 @@ public class VoteService : INService
     /// <param name="db">The database service for data access.</param>
     /// <param name="client">The Discord client for interacting with the Discord API.</param>
     /// <param name="muteService">The service for managing mutes within the bot.</param>
-    public VoteService(IPubSub pubSub, MewdekoContext dbContext, DiscordShardedClient client,
+    public VoteService(IPubSub pubSub, DbContextProvider dbProvider, DiscordShardedClient client,
         MuteService muteService)
     {
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.client = client;
         this.muteService = muteService;
         var typedKey = new TypedKey<CompoundVoteModal>("uservoted");
@@ -33,6 +34,7 @@ public class VoteService : INService
 
     private async ValueTask RunVoteStuff(CompoundVoteModal voteModal)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var potentialVoteConfig =
             await dbContext.GuildConfigs.FirstOrDefaultAsyncEF(x => x.VotesPassword == voteModal.Password);
@@ -145,6 +147,7 @@ public class VoteService : INService
     {
         if (roleId == guildId)
             return (false, "Unable to add the everyone role you dumdum");
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         if (await dbContext.VoteRoles.CountAsyncEF(x => x.GuildId == guildId) >= 10)
             return (false, "Reached maximum of 10 VoteRoles");
@@ -172,6 +175,7 @@ public class VoteService : INService
     {
         if (roleId == guildId)
             return (false, "Unable to add the everyone role you dumdum");
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         if (!await dbContext.VoteRoles.AnyAsyncEF(x => x.GuildId == guildId))
             return (false, "You don't have any VoteRoles");
@@ -192,6 +196,7 @@ public class VoteService : INService
     /// <returns>A tuple indicating success status and an optional error message.</returns>
     public async Task<(bool, string)> UpdateTimer(ulong roleId, int seconds)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var voteRole = await dbContext.VoteRoles.FirstOrDefaultAsyncEF(x => x.RoleId == roleId);
         if (voteRole is null)
@@ -211,6 +216,7 @@ public class VoteService : INService
     /// <returns>A list of vote roles.</returns>
     public async Task<IList<VoteRoles>> GetVoteRoles(ulong guildId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         return await dbContext.VoteRoles.Where(x => x.GuildId == guildId)?.ToListAsyncEF() ?? new List<VoteRoles>();
     }
@@ -223,7 +229,8 @@ public class VoteService : INService
     public async Task<string> GetVoteMessage(ulong guildId)
     {
 
-        var gc = await dbContext.ForGuildId(guildId);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guildId);
         return gc.VoteEmbed;
     }
 
@@ -234,6 +241,7 @@ public class VoteService : INService
     /// <returns>A tuple indicating success status and an optional error message.</returns>
     public async Task<(bool, string)> ClearVoteRoles(ulong guildId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var voteRoles = dbContext.VoteRoles.Where(x => x.GuildId == guildId);
         if (!await voteRoles.AnyAsyncEF())
@@ -251,6 +259,7 @@ public class VoteService : INService
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SetVoteMessage(ulong guildId, string message)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var config = await dbContext.ForGuildId(guildId, set => set);
         config.VoteEmbed = message;
@@ -265,6 +274,7 @@ public class VoteService : INService
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SetVotePassword(ulong guildId, string password)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var config = await dbContext.ForGuildId(guildId, set => set);
         config.VotesPassword = password;
@@ -279,6 +289,7 @@ public class VoteService : INService
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SetVoteChannel(ulong guildId, ulong channel)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var config = await dbContext.ForGuildId(guildId, set => set);
         config.VotesChannel = channel;
@@ -293,6 +304,7 @@ public class VoteService : INService
     /// <returns>A list of votes.</returns>
     public async Task<List<Database.Models.Votes>> GetVotes(ulong guildId, ulong userId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         return await dbContext.Votes.Where(x => x.GuildId == guildId && x.UserId == userId).ToListAsyncEF();
     }
@@ -304,6 +316,7 @@ public class VoteService : INService
     /// <returns>A list of votes.</returns>
     public async Task<List<Database.Models.Votes>> GetVotes(ulong guildId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         return await dbContext.Votes.Where(x => x.GuildId == guildId).ToListAsyncEF();
     }
@@ -316,6 +329,7 @@ public class VoteService : INService
     /// <returns>An embed builder populated with vote statistics.</returns>
     public async Task<EmbedBuilder> GetTotalVotes(IUser user, IGuild guild)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var thisMonth = await dbContext.Votes.CountAsyncEF(x =>
             x.DateAdded.Value.Month == DateTime.UtcNow.Month && x.UserId == user.Id && x.GuildId == guild.Id);

@@ -1,4 +1,5 @@
 using LinqToDB.EntityFrameworkCore;
+using Mewdeko.Database.DbContextStuff;
 using Serilog;
 
 namespace Mewdeko.Modules.Utility.Services;
@@ -9,7 +10,7 @@ namespace Mewdeko.Modules.Utility.Services;
 /// </summary>
 public class AutoPublishService : INService
 {
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly DiscordShardedClient client;
 
     /// <summary>
@@ -18,10 +19,10 @@ public class AutoPublishService : INService
     /// <param name="service">The database service for accessing and storing configuration.</param>
     /// <param name="handler">The event handler for subscribing to message received events.</param>
     /// <param name="client">The Discord client for interacting with the Discord API.</param>
-    public AutoPublishService(MewdekoContext service, EventHandler handler, DiscordShardedClient client)
+    public AutoPublishService(DbContextProvider dbProvider, EventHandler handler, DiscordShardedClient client)
     {
         this.client = client;
-        dbContext = service;
+        this.dbProvider = dbProvider;
         handler.MessageReceived += AutoPublish;
     }
 
@@ -47,6 +48,7 @@ public class AutoPublishService : INService
             return;
 
 
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var autoPublish = await dbContext.AutoPublish.FirstAsyncEF(x => x.ChannelId == channel.Id);
         if (autoPublish is null)
@@ -89,6 +91,7 @@ public class AutoPublishService : INService
     /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> AddAutoPublish(ulong guildId, ulong channelId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var autoPublish = await dbContext.AutoPublish.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId);
         if (autoPublish != null)
@@ -114,6 +117,7 @@ public class AutoPublishService : INService
     public async Task<List<(AutoPublish?, List<PublishUserBlacklist?>, List<PublishWordBlacklist?>)>>
         GetAutoPublishes(ulong guildId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var autoPublishes = dbContext.AutoPublish.Where(x => x.GuildId == guildId).ToHashSet();
 
@@ -148,6 +152,7 @@ public class AutoPublishService : INService
     /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> RemoveAutoPublish(ulong guildId, ulong channelId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var autoPublish = await dbContext.AutoPublish.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId);
         if (autoPublish == null)
@@ -168,6 +173,7 @@ public class AutoPublishService : INService
     /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> AddUserToBlacklist(ulong channelId, ulong userId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var userBlacklist =
             await dbContext.PublishUserBlacklists.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId && x.User == userId);
@@ -194,6 +200,7 @@ public class AutoPublishService : INService
     /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> RemoveUserFromBlacklist(ulong channelId, ulong userId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var userBlacklist =
             await dbContext.PublishUserBlacklists.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId && x.User == userId);
@@ -216,6 +223,7 @@ public class AutoPublishService : INService
     /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> AddWordToBlacklist(ulong channelId, string word)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var wordBlacklist =
             await dbContext.PublishWordBlacklists.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId && x.Word == word);
@@ -242,6 +250,7 @@ public class AutoPublishService : INService
     /// <returns>True if the operation was successful, false otherwise.</returns>
     public async Task<bool> RemoveWordFromBlacklist(ulong channelId, string word)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var wordBlacklist =
             await dbContext.PublishWordBlacklists.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId && x.Word == word);
@@ -263,6 +272,7 @@ public class AutoPublishService : INService
     /// <returns>True if an auto-publish configuration exists, false otherwise.</returns>
     public async Task<bool> CheckIfExists(ulong channelId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         return (await dbContext.AutoPublish.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId)) is null;
     }

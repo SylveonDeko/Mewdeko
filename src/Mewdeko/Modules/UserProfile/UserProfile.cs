@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.UserProfile.Services;
 using Microsoft.EntityFrameworkCore;
 using SkiaSharp;
@@ -9,7 +10,7 @@ namespace Mewdeko.Modules.UserProfile;
 /// <summary>
 /// Handles text commands for user profiles, providing functionalities to view and manage user profile details.
 /// </summary>
-public class UserProfile(MewdekoContext dbContext) : MewdekoModuleBase<UserProfileService>
+public class UserProfile(DbContextProvider dbProvider) : MewdekoModuleBase<UserProfileService>
 {
     /// <summary>
     /// Shows the user's profile or another user's profile if specified.
@@ -184,6 +185,7 @@ public class UserProfile(MewdekoContext dbContext) : MewdekoModuleBase<UserProfi
     public async Task Pronouns(IUser? user = null)
     {
         user ??= ctx.User;
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         await using var _ = dbContext.ConfigureAwait(false);
         var dbUser = await dbContext.GetOrCreateUser(user).ConfigureAwait(false);
@@ -207,6 +209,7 @@ public class UserProfile(MewdekoContext dbContext) : MewdekoModuleBase<UserProfi
     [Cmd, Aliases]
     public async Task SetPronouns([Remainder] string? pronouns = null)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         await using var _ = dbContext.ConfigureAwait(false);
         var user = await dbContext.GetOrCreateUser(ctx.User).ConfigureAwait(false);
@@ -247,6 +250,7 @@ public class UserProfile(MewdekoContext dbContext) : MewdekoModuleBase<UserProfi
     [Cmd, Aliases, OwnerOnly]
     public async Task PronounsForceClear(IUser? user, bool pronounsDisabledAbuse, [Remainder] string reason)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         await using var _ = dbContext.ConfigureAwait(false);
         var dbUser = await dbContext.GetOrCreateUser(user).ConfigureAwait(false);
@@ -266,6 +270,7 @@ public class UserProfile(MewdekoContext dbContext) : MewdekoModuleBase<UserProfi
     [Cmd, Aliases, OwnerOnly]
     public async Task PronounsForceClear(ulong user, bool pronounsDisabledAbuse, [Remainder] string reason)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         await using var _ = dbContext.ConfigureAwait(false);
         var dbUser = await dbContext.DiscordUser.AsQueryable().FirstAsync(x => x.UserId == user).ConfigureAwait(false);

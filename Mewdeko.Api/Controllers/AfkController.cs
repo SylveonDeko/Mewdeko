@@ -9,7 +9,7 @@ namespace Mewdeko.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]/{guildId}/{userId}")]
-public class AfkController(MewdekoContext dbContext, RedisCache cache) : Controller
+public class AfkController(DbContextProvider dbProvider, RedisCache cache) : Controller
 {
     [HttpGet("")]
     public async Task<IActionResult> GetAfkStatus(ulong guildId, ulong userId)

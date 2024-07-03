@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Games.Common.ChatterBot;
 using Mewdeko.Modules.Permissions.Services;
 using Serilog;
@@ -22,7 +23,7 @@ public class ChatterBotService : INService
     private readonly DiscordShardedClient client;
     private readonly BotConfig config;
     private readonly IBotCredentials creds;
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly GuildSettingsService guildSettings;
     private readonly IHttpClientFactory httpFactory;
 
@@ -38,11 +39,11 @@ public class ChatterBotService : INService
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="config">Bot config service</param>
     public ChatterBotService(DiscordShardedClient client, IHttpClientFactory factory,
-        IBotCredentials creds, MewdekoContext dbContext,
+        IBotCredentials creds, DbContextProvider dbProvider,
         BlacklistService blacklistService,
         GuildSettingsService guildSettings, EventHandler eventHandler, BotConfig config)
     {
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.blacklistService = blacklistService;
         this.guildSettings = guildSettings;
         this.config = config;
@@ -71,7 +72,8 @@ public class ChatterBotService : INService
     public async Task SetCleverbotChannel(IGuild guild, ulong id)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.CleverbotChannel = id;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }

@@ -1,6 +1,7 @@
 ﻿using Discord.Rest;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Moderation.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -201,7 +202,7 @@ public class NewLogCommandService : INService, IReadyExecutor
 
     private readonly IDataCache cache;
     private readonly DiscordShardedClient client;
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
 
 
     /// <summary>
@@ -212,10 +213,10 @@ public class NewLogCommandService : INService, IReadyExecutor
     /// <param name="client">The Discord client.</param>
     /// <param name="handler">The event handler.</param>
     /// <param name="muteService">The mute service.</param>
-    public NewLogCommandService(MewdekoContext dbContext, IDataCache cache, DiscordShardedClient client, EventHandler handler,
+    public NewLogCommandService(DbContextProvider dbProvider, IDataCache cache, DiscordShardedClient client, EventHandler handler,
         MuteService muteService)
     {
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.cache = cache;
         this.client = client;
 
@@ -252,6 +253,7 @@ public class NewLogCommandService : INService, IReadyExecutor
     /// <inheritdoc />
     public async Task OnReadyAsync()
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
         var guildIds = client.Guilds.Select(x => x.Id).ToList();
         var configs = await dbContext.GuildConfigs
             .AsQueryable()
@@ -1614,7 +1616,7 @@ public class NewLogCommandService : INService, IReadyExecutor
     /// <param name="type">The type of log to set the channel for.</param>
     public async Task SetLogChannel(ulong guildId, ulong channelId, LogType type)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var logSetting = (await dbContext.LogSettingsFor(guildId)).LogSetting;
         switch (type)
         {
@@ -1715,7 +1717,7 @@ public class NewLogCommandService : INService, IReadyExecutor
     /// <param name="categoryTypes">The category of logs to set the channel for.</param>
     public async Task LogSetByType(ulong guildId, ulong channelId, LogCategoryTypes categoryTypes)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var logSetting = (await dbContext.LogSettingsFor(guildId)).LogSetting;
         switch (categoryTypes)
         {

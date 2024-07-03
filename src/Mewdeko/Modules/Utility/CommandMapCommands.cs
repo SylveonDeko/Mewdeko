@@ -2,6 +2,7 @@
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Utility.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +16,7 @@ public partial class Utility
     /// <param name="db">The database service.</param>
     /// <param name="serv">The interactive service.</param>
     [Group]
-    public class CommandMapCommands(MewdekoContext dbContext, InteractiveService serv, GuildSettingsService service)
+    public class CommandMapCommands(DbContextProvider dbProvider, InteractiveService serv, GuildSettingsService service)
         : MewdekoSubmodule<CommandMapService>
     {
         /// <summary>
@@ -44,6 +45,8 @@ public partial class Utility
 
             trigger = trigger.Trim().ToLowerInvariant();
 
+            await using var dbContext = await dbProvider.GetContextAsync();
+
             if (string.IsNullOrWhiteSpace(mapping))
             {
                 var cachedConfig = await service.GetGuildConfig(ctx.Guild.Id);
@@ -55,8 +58,6 @@ public partial class Utility
                     return;
                 }
 
-
-                await using (dbContext.ConfigureAwait(false))
                 {
                     var config = await dbContext.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
                     var tr = config.CommandAliases.FirstOrDefault(x => x.Trigger == trigger);
@@ -70,10 +71,9 @@ public partial class Utility
                 return;
             }
 
-            await using (dbContext.ConfigureAwait(false))
+
             {
-                var config = dbContext.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases)).GetAwaiter()
-                    .GetResult();
+                var config = await dbContext.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.CommandAliases));
                 config.CommandAliases.Add(new CommandAlias
                 {
                     Mapping = mapping, Trigger = trigger

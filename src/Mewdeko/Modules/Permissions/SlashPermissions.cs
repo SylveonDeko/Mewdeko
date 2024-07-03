@@ -6,6 +6,7 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Autocompleters;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
@@ -51,7 +52,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
     private readonly CommandService cmdServe;
 
 
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly DiscordPermOverrideService dpoS;
     private readonly GuildSettingsService guildSettings;
     private readonly InteractiveService interactivity;
@@ -70,12 +71,12 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
     /// Each service parameter provided plays a crucial role in the operation and customization
     /// of the bot's functionality, especially in the context of permissions and settings management.
     /// </remarks>
-    public SlashPermissions(MewdekoContext dbContext, InteractiveService inter, GuildSettingsService guildSettings,
+    public SlashPermissions(DbContextProvider dbProvider, InteractiveService inter, GuildSettingsService guildSettings,
         DiscordPermOverrideService dpoS, CommandService cmdServe)
     {
         interactivity = inter;
         this.guildSettings = guildSettings;
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.dpoS = dpoS;
         this.cmdServe = cmdServe;
     }
@@ -109,7 +110,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
     public async Task Verbose(PermissionSlash? action = null)
     {
 
-        await using (dbContext.ConfigureAwait(false))
+        await using var dbContext = await dbProvider.GetContextAsync();
         {
             var config = await dbContext.GcWithPermissionsv2For(ctx.Guild.Id);
             config.VerbosePermissions = action.Value.ToBoolean();
@@ -141,6 +142,8 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             return;
 
 
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         if (role == null)
         {
             var config = await dbContext.GcWithPermissionsv2For(ctx.Guild.Id);
@@ -151,13 +154,10 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         }
         else
         {
-            await using (dbContext.ConfigureAwait(false))
-            {
-                var config = await dbContext.GcWithPermissionsv2For(ctx.Guild.Id);
-                config.PermissionRole = role.Id.ToString();
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-                Service.UpdateCache(config);
-            }
+            var config = await dbContext.GcWithPermissionsv2For(ctx.Guild.Id);
+            config.PermissionRole = role.Id.ToString();
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            Service.UpdateCache(config);
 
             await ReplyConfirmLocalizedAsync("permrole_changed", Format.Bold(role.Name)).ConfigureAwait(false);
         }
@@ -233,18 +233,14 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         try
         {
-            Permissionv2 p;
-
-            await using (dbContext.ConfigureAwait(false))
-            {
-                var config = await dbContext.GcWithPermissionsv2For(ctx.Guild.Id);
-                var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
-                p = permsCol[index];
-                permsCol.RemoveAt(index);
-                dbContext.Remove(p);
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-                Service.UpdateCache(config);
-            }
+            await using var dbContext = await dbProvider.GetContextAsync();
+            var config = await dbContext.GcWithPermissionsv2For(ctx.Guild.Id);
+            var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
+            var p = permsCol[index];
+            permsCol.RemoveAt(index);
+            dbContext.Remove(p);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            Service.UpdateCache(config);
 
             await ReplyConfirmLocalizedAsync("removed",
                     index + 1,
@@ -1156,6 +1152,8 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
 
         if (sc is null)
         {
+            await using var dbContext = await dbProvider.GetContextAsync();
+
             await Service.AddPermissions(ctx.Guild.Id, new Permissionv2
             {
                 GuildConfigId = dbContext.ForGuildId(ctx.Guild.Id).Id,

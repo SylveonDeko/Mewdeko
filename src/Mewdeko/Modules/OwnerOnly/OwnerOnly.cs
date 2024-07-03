@@ -10,6 +10,7 @@ using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.DiscordImplementations;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.OwnerOnly.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
@@ -44,7 +45,7 @@ public class OwnerOnly(
     IBotStrings strings,
     InteractiveService serv,
     IEnumerable<IConfigService> settingServices,
-    MewdekoContext dbContext,
+    DbContextProvider dbProvider,
     IDataCache cache,
     CommandService commandService,
     IServiceProvider services,
@@ -320,6 +321,8 @@ public class OwnerOnly(
     [Cmd, Aliases]
     public async Task SqlExec([Remainder] string sql)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         if (!await PromptUserConfirmAsync("Are you sure you want to execute this??", ctx.User.Id).ConfigureAwait(false))
             return;
 
@@ -378,6 +381,8 @@ public class OwnerOnly(
     [Cmd, Aliases]
     public async Task CommandStats()
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var commandStatsTable = dbContext.CommandStats;
         var topCommandTask = commandStatsTable
             .Where(x => !x.Trigger)
@@ -613,7 +618,7 @@ public class OwnerOnly(
     [Cmd, Aliases]
     public async Task ListPlaying()
     {
-        var statuses = Service.GetRotatingStatuses();
+        var statuses = await Service.GetRotatingStatuses();
 
         if (statuses.Count == 0)
         {
@@ -774,7 +779,7 @@ public class OwnerOnly(
                 return;
         }
 
-        var count = Service.GetAutoCommands().Where(x => x.GuildId == ctx.Guild.Id);
+        var count = (await Service.GetAutoCommands()).Where(x => x.GuildId == ctx.Guild.Id);
 
         if (count.Count() == 15)
             return;
@@ -813,7 +818,7 @@ public class OwnerOnly(
         if (page-- < 1)
             return;
 
-        var scmds = Service.GetStartupCommands()
+        var scmds = (await Service.GetStartupCommands())
             .Skip(page * 5)
             .Take(5)
             .ToList();
@@ -854,7 +859,7 @@ public class OwnerOnly(
         if (page-- < 1)
             return;
 
-        var scmds = Service.GetAutoCommands()
+        var scmds = (await Service.GetAutoCommands())
             .Skip(page * 5)
             .Take(5)
             .ToList();
@@ -929,7 +934,7 @@ public class OwnerOnly(
      UserPerm(GuildPermission.Administrator), OwnerOnly]
     public async Task AutoCommandRemove([Remainder] int index)
     {
-        if (!Service.RemoveAutoCommand(--index, out _))
+        if (!await Service.RemoveAutoCommand(--index))
         {
             await ReplyErrorLocalizedAsync("acrm_fail").ConfigureAwait(false);
             return;
@@ -950,7 +955,7 @@ public class OwnerOnly(
     [Cmd, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
     public async Task StartupCommandRemove([Remainder] int index)
     {
-        if (!Service.RemoveStartupCommand(--index, out _))
+        if (!await Service.RemoveStartupCommand(--index))
             await ReplyErrorLocalizedAsync("scrm_fail").ConfigureAwait(false);
         else
             await ReplyConfirmLocalizedAsync("scrm").ConfigureAwait(false);

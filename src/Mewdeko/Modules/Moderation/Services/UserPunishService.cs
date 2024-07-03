@@ -3,6 +3,7 @@ using Discord.Commands;
 using LinqToDB;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Permissions.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -18,7 +19,7 @@ public class UserPunishService : INService
 {
     private readonly BlacklistService blacklistService;
     private readonly DiscordShardedClient client;
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly GuildSettingsService guildSettings;
     private readonly Dictionary<ulong, MassNick> massNicks = new();
     private readonly MuteService mute;
@@ -31,12 +32,12 @@ public class UserPunishService : INService
     /// <param name="blacklistService">An instance of the BlacklistService class.</param>
     /// <param name="client">An instance of the DiscordShardedClient class.</param>
     /// <param name="guildSettings">An instance of the GuildSettingsService class.</param>
-    public UserPunishService(MuteService mute, MewdekoContext dbContext, BlacklistService blacklistService,
+    public UserPunishService(MuteService mute, DbContextProvider dbProvider, BlacklistService blacklistService,
         DiscordShardedClient client,
         GuildSettingsService guildSettings)
     {
         this.mute = mute;
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.blacklistService = blacklistService;
         this.client = client;
         this.guildSettings = guildSettings;
@@ -129,8 +130,8 @@ public class UserPunishService : INService
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SetWarnlogChannelId(IGuild guild, ITextChannel channel)
     {
-
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.WarnlogChannelId = channel.Id;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -163,24 +164,21 @@ public class UserPunishService : INService
         };
 
         var warnings = 1;
-        List<WarningPunishment> ps;
 
-        await using (dbContext.ConfigureAwait(false))
-        {
-            // Get the list of punishments for the guild
-            ps = (await dbContext.ForGuildId(guildId, set => set.Include(x => x.WarnPunishments)))
-                .WarnPunishments;
+        await using var dbContext = await dbProvider.GetContextAsync();
+        // Get the list of punishments for the guild
+        var ps = (await dbContext.ForGuildId(guildId, set => set.Include(x => x.WarnPunishments)))
+            .WarnPunishments;
 
-            // Count the number of warnings for the user
-            warnings += dbContext.Warnings
-                .ForId(guildId, userId)
-                .Count(w => !w.Forgiven && w.UserId == userId);
+        // Count the number of warnings for the user
+        warnings += dbContext.Warnings
+            .ForId(guildId, userId)
+            .Count(w => !w.Forgiven && w.UserId == userId);
 
-            // Add the new warning to the database
-            dbContext.Warnings.Add(warn);
+        // Add the new warning to the database
+        dbContext.Warnings.Add(warn);
 
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
         // Find a punishment that matches the number of warnings
         var p = ps.Find(x => x.Count == warnings);
@@ -336,6 +334,7 @@ public class UserPunishService : INService
     /// </summary>
     private async Task CheckAllWarnExpiresAsync()
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
         var allWarnings = await dbContext.Warnings.ToListAsyncEF();
         var allGuildConfigs = await dbContext.GuildConfigs.ToListAsyncEF();
 
@@ -390,6 +389,7 @@ public class UserPunishService : INService
     private async Task CheckWarnExpiresAsync(ulong guildId)
     {
 
+        await using var dbContext = await dbProvider.GetContextAsync();
         var config = await dbContext.ForGuildId(guildId, inc => inc);
 
         if (config.WarnExpireHours == 0)
@@ -429,18 +429,16 @@ public class UserPunishService : INService
         try
         {
 
-            await using (dbContext.ConfigureAwait(false))
-            {
-                var config = await dbContext.ForGuildId(guildId, inc => inc);
+            await using var dbContext = await dbProvider.GetContextAsync();
+            var config = await dbContext.ForGuildId(guildId, inc => inc);
 
-                config.WarnExpireHours = days * 24;
-                config.WarnExpireAction = action;
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            config.WarnExpireHours = days * 24;
+            config.WarnExpireAction = action;
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
-                // no need to check for warn expires
-                if (config.WarnExpireHours == 0)
+            // no need to check for warn expires
+            if (config.WarnExpireHours == 0)
                     return;
-            }
 
             await CheckWarnExpiresAsync(guildId).ConfigureAwait(false);
         }
@@ -458,7 +456,7 @@ public class UserPunishService : INService
     /// <returns></returns>
     public async Task<IGrouping<ulong, Warning>[]> WarnlogAll(ulong gid)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         return (await dbContext.Warnings.GetForGuild(gid)).GroupBy(x => x.UserId).ToArray();
     }
 
@@ -468,9 +466,9 @@ public class UserPunishService : INService
     /// <param name="gid">The ID of the guild.</param>
     /// <param name="userId">The ID of the user.</param>
     /// <returns></returns>
-    public Warning[] UserWarnings(ulong gid, ulong userId)
+    public async Task<Warning[]> UserWarnings(ulong gid, ulong userId)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         return dbContext.Warnings.ForId(gid, userId);
     }
 
@@ -484,6 +482,7 @@ public class UserPunishService : INService
     /// <returns></returns>
     public async Task<bool> WarnClearAsync(ulong guildId, ulong userId, int index, string moderator)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
         var toReturn = true;
 
         if (index == 0)
@@ -514,6 +513,7 @@ public class UserPunishService : INService
             return false;
 
 
+        await using var dbContext = await dbProvider.GetContextAsync();
         var ps = (await dbContext.ForGuildId(guildId, set => set.Include(x => x.WarnPunishments))).WarnPunishments;
         var toDelete = ps.Where(x => x.Count == number);
 
@@ -542,7 +542,7 @@ public class UserPunishService : INService
         if (number <= 0)
             return false;
 
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var ps = (await dbContext.ForGuildId(guildId, set => set.Include(x => x.WarnPunishments))).WarnPunishments;
         var p = ps.Find(x => x.Count == number);
 
@@ -562,7 +562,7 @@ public class UserPunishService : INService
     /// <returns></returns>
     public async Task<WarningPunishment[]> WarnPunishList(ulong guildId)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         return (await dbContext.ForGuildId(guildId, gc => gc.Include(x => x.WarnPunishments)))
             .WarnPunishments
             .OrderBy(x => x.Count)
@@ -618,9 +618,9 @@ public class UserPunishService : INService
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns></returns>
-    public string? GetBanTemplate(ulong guildId)
+    public async Task<string?> GetBanTemplate(ulong guildId)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var template = dbContext.BanTemplates
             .AsQueryable()
             .FirstOrDefault(x => x.GuildId == guildId);
@@ -633,9 +633,9 @@ public class UserPunishService : INService
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="text">The message to set.</param>
-    public void SetBanTemplate(ulong guildId, string? text)
+    public async Task SetBanTemplate(ulong guildId, string? text)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var template = dbContext.BanTemplates
             .AsQueryable()
             .FirstOrDefault(x => x.GuildId == guildId);
@@ -659,7 +659,7 @@ public class UserPunishService : INService
             template.Text = text;
         }
 
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -715,11 +715,11 @@ public class UserPunishService : INService
     /// <param name="banReason">The reason for the ban.</param>
     /// <param name="duration">The duration of the ban.</param>
     /// <returns></returns>
-    public Task<(Embed[], string?, ComponentBuilder?)> GetBanUserDmEmbed(DiscordShardedClient DiscordShardedClient,
+    public async Task<(Embed[], string?, ComponentBuilder?)> GetBanUserDmEmbed(DiscordShardedClient DiscordShardedClient,
         SocketGuild guild,
         IGuildUser moderator, IGuildUser target, string? defaultMessage, string? banReason, TimeSpan? duration)
     {
-        var template = GetBanTemplate(guild.Id);
+        var template = await GetBanTemplate(guild.Id);
 
         banReason = string.IsNullOrWhiteSpace(banReason)
             ? "-"
@@ -755,21 +755,21 @@ public class UserPunishService : INService
         // if template is set to "-" do not dm the user
         else if (template == "-")
         {
-            return Task.FromResult<(Embed[], string, ComponentBuilder)>((null, null, null));
+            return (null, null, null);
         }
         // otherwise, treat template as a regular string with replacements
         else
         {
             if (SmartEmbed.TryParse(replacer.Replace(template), guild?.Id, out embed, out plainText, out components)
                 && (embed is not null || components is not null || plainText is not null))
-                return Task.FromResult((embed, plainText, components));
-            return Task.FromResult<(Embed[], string?, ComponentBuilder?)>((
+                return (embed, plainText, components);
+            return (
             [
                 new EmbedBuilder().WithErrorColor().WithDescription(replacer.Replace(template)).Build()
-            ], null, null));
+            ], null, null);
         }
 
-        return Task.FromResult((embed, plainText, components));
+        return (embed, plainText, components);
     }
 
     /// <summary>

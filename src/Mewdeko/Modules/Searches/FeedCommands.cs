@@ -74,7 +74,7 @@ public partial class Searches
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
         public async Task FeedRemove(int index)
         {
-            if (Service.RemoveFeed(ctx.Guild.Id, --index))
+            if (await Service.RemoveFeed(ctx.Guild.Id, --index))
                 await ReplyConfirmLocalizedAsync("feed_removed").ConfigureAwait(false);
             else
                 await ReplyErrorLocalizedAsync("feed_out_of_range").ConfigureAwait(false);

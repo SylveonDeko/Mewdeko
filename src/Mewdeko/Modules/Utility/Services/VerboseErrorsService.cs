@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using Mewdeko.Common.DiscordImplementations;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
@@ -15,7 +16,7 @@ public class VerboseErrorsService : INService, IUnloadableService
 {
     private readonly BotConfigService botConfigService;
     private readonly CommandHandler ch;
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly GuildSettingsService guildSettings;
     private readonly IServiceProvider services;
     private readonly IBotStrings strings;
@@ -30,7 +31,7 @@ public class VerboseErrorsService : INService, IUnloadableService
     /// <param name="services">The service provider.</param>
     /// <param name="botConfigService">The bot configuration service.</param>
     /// <param name="bot">The bot instance.</param>
-    public VerboseErrorsService(MewdekoContext dbContext, CommandHandler ch,
+    public VerboseErrorsService(DbContextProvider dbProvider, CommandHandler ch,
         IBotStrings strings,
         GuildSettingsService guildSettings,
         IServiceProvider services, BotConfigService botConfigService, Mewdeko bot)
@@ -39,7 +40,7 @@ public class VerboseErrorsService : INService, IUnloadableService
         this.guildSettings = guildSettings;
         this.services = services;
         this.botConfigService = botConfigService;
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.ch = ch;
         this.ch.CommandErrored += LogVerboseError;
     }
@@ -109,7 +110,8 @@ public class VerboseErrorsService : INService, IUnloadableService
     public async Task<bool> ToggleVerboseErrors(ulong guildId, bool? enabled = null)
     {
 
-        var gc = await dbContext.ForGuildId(guildId, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guildId, set => set);
         gc.VerboseErrors = !gc.VerboseErrors;
 
         await guildSettings.UpdateGuildConfig(guildId, gc);

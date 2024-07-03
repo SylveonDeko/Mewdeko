@@ -7,7 +7,7 @@ namespace Mewdeko.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class SuggestionsController(MewdekoContext dbContext) : Controller
+public class SuggestionsController(DbContextProvider dbProvider) : Controller
 {
     [HttpGet("{guildId}/{userId?}")]
     public async Task<IActionResult> GetSuggestions(ulong guildId, ulong userId = 0)

@@ -4,6 +4,7 @@ using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Xp.Common;
 using Mewdeko.Modules.Xp.Services;
 using Mewdeko.Services.Settings;
@@ -27,7 +28,7 @@ public partial class Xp(
     XpConfigService xpconfig,
     InteractiveService serv,
     BotConfigService bss,
-    MewdekoContext dbContext)
+    DbContextProvider dbProvider)
     : MewdekoModuleBase<XpService>
 {
     /// <summary>
@@ -822,6 +823,8 @@ public partial class Xp(
                 // Subproperty is specified, set its value
                 if (TryParseValue(propertyInfo.PropertyType, subProperty, out var propertyValue))
                 {
+                    await using var dbContext = await dbProvider.GetContextAsync();
+
                     propertyInfo.SetValue(template, propertyValue);
                     dbContext.Templates.Update(template);
                     await dbContext.SaveChangesAsync();
@@ -891,6 +894,8 @@ public partial class Xp(
                     return;
                 }
             }
+
+            await using var dbContext = await dbProvider.GetContextAsync();
 
             // Save changes to the database
             dbContext.Templates.Update(template);
