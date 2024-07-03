@@ -2,6 +2,7 @@ using System.Net.Http;
 using System.Text.Json;
 using Discord.Rest;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Database.DbContextStuff;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -13,7 +14,7 @@ namespace Mewdeko.Modules.Moderation.Services;
 /// <param name="dbContext">The database service</param>
 /// <param name="client">The Discord client</param>
 /// <param name="botCredentials">The bot credentials</param>
-public class RoleMetadataService(MewdekoContext dbContext, DiscordShardedClient client, IBotCredentials botCredentials)
+public class RoleMetadataService(DbContextProvider dbProvider, DiscordShardedClient client, IBotCredentials botCredentials)
     : INService
 {
     private IBotCredentials botCredentials = botCredentials;
@@ -37,8 +38,10 @@ public class RoleMetadataService(MewdekoContext dbContext, DiscordShardedClient 
     /// <param name="dbContext">The unit of work service</param>
     /// <returns></returns>
     public static async Task<string> RefreshUserToken(int tokenId, ulong clientId, string clientSecret,
-        HttpClient client, MewdekoContext dbContext)
+        HttpClient client, DbContextProvider dbProvider)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var val = await dbContext.AuthCodes.GetById(tokenId);
         var resp = await client.PostAsync("https://discord.com/api/v10/oauth2/token",
             new FormUrlEncodedContent(new Dictionary<string, string>
@@ -75,9 +78,11 @@ public class RoleMetadataService(MewdekoContext dbContext, DiscordShardedClient 
     /// <param name="clientId">The client id</param>
     /// <param name="clientSecret">The client secret</param>
     /// <param name="client">The HTTP client</param>
-    public static async Task UpdateRoleConnectionData(ulong userId, int tokenId, MewdekoContext dbContext, ulong clientId,
+    public static async Task UpdateRoleConnectionData(ulong userId, int tokenId, DbContextProvider dbProvider, ulong clientId,
         string clientSecret, HttpClient client)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var tokenData = await dbContext.AuthCodes.GetById(tokenId);
         var cmds = dbContext.CommandStats.Where(x => x.UserId == userId).ToList();
         var count = cmds.Count;
@@ -86,7 +91,7 @@ public class RoleMetadataService(MewdekoContext dbContext, DiscordShardedClient 
 
         var token = tokenData.Token;
         if (tokenData.ExpiresAt <= DateTime.UtcNow)
-            token = await RefreshUserToken(tokenId, clientId, clientSecret, client, dbContext);
+            token = await RefreshUserToken(tokenId, clientId, clientSecret, client, dbProvider);
 
         await using var dClient = new DiscordRestClient();
 

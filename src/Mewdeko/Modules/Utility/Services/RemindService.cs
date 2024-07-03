@@ -1,4 +1,6 @@
 ﻿using System.Text.RegularExpressions;
+using System.Threading;
+using Mewdeko.Database.DbContextStuff;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -11,10 +13,10 @@ public partial class RemindService : INService
 {
     private readonly DiscordShardedClient client;
     private readonly IBotCredentials creds;
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
+    private readonly ConcurrentDictionary<int, Timer> reminderTimers;
 
-    private readonly Regex regex =
-        MyRegex();
+    private readonly Regex regex = MyRegex();
 
     /// <summary>
     /// Initializes the reminder service, starting the background task to check for and execute reminders.
@@ -22,59 +24,109 @@ public partial class RemindService : INService
     /// <param name="client">The Discord client used for sending reminder notifications.</param>
     /// <param name="db">The database service for managing reminders.</param>
     /// <param name="creds">The bot's credentials, used for shard management and distribution of tasks.</param>
-    public RemindService(DiscordShardedClient client, MewdekoContext dbContext, IBotCredentials creds)
+    public RemindService(DiscordShardedClient client, DbContextProvider dbProvider, IBotCredentials creds)
     {
         this.client = client;
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.creds = creds;
-        _ = StartReminderLoop();
+        this.reminderTimers = new ConcurrentDictionary<int, Timer>();
+        _ = InitializeRemindersAsync();
     }
 
-    private async Task StartReminderLoop()
+    /// <summary>
+    /// Initializes the reminders by loading them from the database and setting timers.
+    /// </summary>
+    private async Task InitializeRemindersAsync()
     {
-        while (true)
+        var now = DateTime.UtcNow;
+        var reminders = await GetRemindersBeforeAsync(now);
+
+        foreach (var reminder in reminders)
         {
-            await Task.Delay(15000).ConfigureAwait(false);
-            try
-            {
-                var now = DateTime.UtcNow;
-                var reminders = await GetRemindersBeforeAsync(now).ConfigureAwait(false);
-                if (reminders.Count == 0)
-                    continue;
-
-                Log.Information($"Executing {reminders.Count} reminders.");
-
-                // make groups of 5, with 1.5 second inbetween each one to ensure against ratelimits
-                var i = 0;
-                foreach (var group in reminders
-                             .GroupBy(_ => ++i / (reminders.Count / 5 + 1)))
-                {
-                    var executedReminders = group.ToList();
-                    await Task.WhenAll(executedReminders.Select(ReminderTimerAction)).ConfigureAwait(false);
-                    await RemoveReminders(executedReminders).ConfigureAwait(false);
-                    await Task.Delay(1500).ConfigureAwait(false);
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Warning($"Error in reminder loop: {ex.Message}");
-                Log.Warning(ex.ToString());
-            }
+            ScheduleReminder(reminder);
         }
     }
 
-    private async Task RemoveReminders(List<Reminder> reminders)
+    /// <summary>
+    /// Schedules a reminder by setting a timer.
+    /// </summary>
+    /// <param name="reminder">The reminder to be scheduled.</param>
+    private void ScheduleReminder(Reminder reminder)
     {
+        var timeToGo = reminder.When - DateTime.UtcNow;
+        if (timeToGo <= TimeSpan.Zero)
+        {
+            timeToGo = TimeSpan.Zero;
+        }
 
-        dbContext.Set<Reminder>()
-            .RemoveRange(reminders);
+        var timer = new Timer(async _ => await ExecuteReminderAsync(reminder), null, timeToGo, Timeout.InfiniteTimeSpan);
+        reminderTimers[reminder.Id] = timer;
+    }
 
+    /// <summary>
+    /// Executes the reminder action.
+    /// </summary>
+    /// <param name="reminder">The reminder to be executed.</param>
+    private async Task ExecuteReminderAsync(Reminder reminder)
+    {
+        try
+        {
+            IMessageChannel ch;
+            if (reminder.IsPrivate)
+            {
+                var user = client.GetUser(reminder.ChannelId);
+                if (user == null)
+                    return;
+                ch = await user.CreateDMChannelAsync().ConfigureAwait(false);
+            }
+            else
+                ch = client.GetGuild(reminder.ServerId)?.GetTextChannel(reminder.ChannelId);
+
+            if (ch == null)
+                return;
+
+            await ch.EmbedAsync(new EmbedBuilder()
+                    .WithOkColor()
+                    .WithTitle("Reminder")
+                    .AddField("Created At", reminder.DateAdded.HasValue ? reminder.DateAdded.Value.ToLongDateString() : "?")
+                    .AddField("By",
+                        (await ch.GetUserAsync(reminder.UserId).ConfigureAwait(false))?.ToString() ?? reminder.UserId.ToString()),
+                reminder.Message).ConfigureAwait(false);
+
+            // Remove the executed reminder from the database and timer
+            await RemoveReminder(reminder);
+        }
+        catch (Exception ex)
+        {
+            Log.Information(ex.Message + $"({reminder.Id})");
+        }
+    }
+
+    /// <summary>
+    /// Removes the reminder from the database and disposes of its timer.
+    /// </summary>
+    /// <param name="reminder">The reminder to be removed.</param>
+    private async Task RemoveReminder(Reminder reminder)
+    {
+        if (reminderTimers.TryRemove(reminder.Id, out var timer))
+        {
+            timer.Dispose();
+        }
+
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        dbContext.Set<Reminder>().Remove(reminder);
         await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Retrieves reminders that are scheduled to be executed before the specified time.
+    /// </summary>
+    /// <param name="now">The current time.</param>
+    /// <returns>A list of reminders scheduled before the specified time.</returns>
     private async Task<List<Reminder>> GetRemindersBeforeAsync(DateTime now)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var reminders = await dbContext.Reminders
             .Where(x => x.When < now)
@@ -146,38 +198,6 @@ public partial class RemindService : INService
         };
 
         return true;
-    }
-
-    private async Task ReminderTimerAction(Reminder r)
-    {
-        try
-        {
-            IMessageChannel ch;
-            if (r.IsPrivate)
-            {
-                var user = client.GetUser(r.ChannelId);
-                if (user == null)
-                    return;
-                ch = await user.CreateDMChannelAsync().ConfigureAwait(false);
-            }
-            else
-                ch = client.GetGuild(r.ServerId)?.GetTextChannel(r.ChannelId);
-
-            if (ch == null)
-                return;
-
-            await ch.EmbedAsync(new EmbedBuilder()
-                    .WithOkColor()
-                    .WithTitle("Reminder")
-                    .AddField("Created At", r.DateAdded.HasValue ? r.DateAdded.Value.ToLongDateString() : "?")
-                    .AddField("By",
-                        (await ch.GetUserAsync(r.UserId).ConfigureAwait(false))?.ToString() ?? r.UserId.ToString()),
-                r.Message).ConfigureAwait(false);
-        }
-        catch (Exception ex)
-        {
-            Log.Information(ex.Message + $"({r.Id})");
-        }
     }
 
     [GeneratedRegex(

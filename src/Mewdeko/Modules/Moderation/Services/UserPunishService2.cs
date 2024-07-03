@@ -1,6 +1,7 @@
 using System.Threading;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Database.DbContextStuff;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -11,7 +12,7 @@ namespace Mewdeko.Modules.Moderation.Services;
 /// </summary>
 public class UserPunishService2 : INService
 {
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly GuildSettingsService guildSettings;
     private readonly MuteService mute;
 
@@ -21,11 +22,11 @@ public class UserPunishService2 : INService
     /// <param name="mute">The mute service</param>
     /// <param name="db">The database service</param>
     /// <param name="guildSettings">The guild settings service</param>
-    public UserPunishService2(MuteService mute, MewdekoContext dbContext,
+    public UserPunishService2(MuteService mute, DbContextProvider dbProvider,
         GuildSettingsService guildSettings)
     {
         this.mute = mute;
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.guildSettings = guildSettings;
     }
 
@@ -45,7 +46,8 @@ public class UserPunishService2 : INService
     public async Task SetMWarnlogChannelId(IGuild guild, ITextChannel channel)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.MiniWarnlogChannelId = channel.Id;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -75,7 +77,7 @@ public class UserPunishService2 : INService
         var warnings = 1;
         List<WarningPunishment2> ps;
 
-        await using (dbContext.ConfigureAwait(false))
+        await using var dbContext = await dbProvider.GetContextAsync();
         {
             ps = (await dbContext.ForGuildId(guildId, set => set.Include(x => x.WarnPunishments2)))
                 .WarnPunishments2;
@@ -199,8 +201,9 @@ public class UserPunishService2 : INService
     /// <param name="guild">The guild</param>
     /// <param name="userId">The user ID</param>
     /// <returns></returns>
-    public int GetWarnings(IGuild guild, ulong userId)
+    public async Task<int> GetWarnings(IGuild guild, ulong userId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         return dbContext.Warnings2
             .ForId(guild.Id, userId)
@@ -213,6 +216,7 @@ public class UserPunishService2 : INService
     public async Task CheckAllWarnExpiresAsync()
     {
 
+        await using var dbContext = await dbProvider.GetContextAsync();
 
 // For 'cleared' part
         var relevantGuildConfigsForClear = await dbContext.GuildConfigs
@@ -272,6 +276,8 @@ public class UserPunishService2 : INService
     public async Task CheckWarnExpiresAsync(ulong guildId)
     {
 
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var config = await dbContext.ForGuildId(guildId, inc => inc);
 
         if (config.WarnExpireHours == 0)
@@ -310,7 +316,7 @@ public class UserPunishService2 : INService
     public async Task WarnExpireAsync(ulong guildId, int days, WarnExpireAction delete)
     {
 
-        await using (dbContext.ConfigureAwait(false))
+        await using var dbContext = await dbProvider.GetContextAsync();
         {
             var config = await dbContext.ForGuildId(guildId, inc => inc);
 
@@ -331,8 +337,9 @@ public class UserPunishService2 : INService
     /// </summary>
     /// <param name="gid"></param>
     /// <returns></returns>
-    public IGrouping<ulong, Warning2>[] WarnlogAll(ulong gid)
+    public async Task<IGrouping<ulong, Warning2>[]> WarnlogAll(ulong gid)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         return dbContext.Warnings2.GetForGuild(gid).GroupBy(x => x.UserId).ToArray();
     }
@@ -343,9 +350,10 @@ public class UserPunishService2 : INService
     /// <param name="gid">The guild ID</param>
     /// <param name="userId">The user ID</param>
     /// <returns></returns>
-    public Warning2[] UserWarnings(ulong gid, ulong userId)
+    public async Task<Warning2[]> UserWarnings(ulong gid, ulong userId)
     {
 
+        await using var dbContext = await dbProvider.GetContextAsync();
         return dbContext.Warnings2.ForId(gid, userId);
     }
 
@@ -360,6 +368,8 @@ public class UserPunishService2 : INService
     public async Task<bool> WarnClearAsync(ulong guildId, ulong userId, int index, string moderator)
     {
         var toReturn = true;
+
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         if (index == 0)
             await dbContext.Warnings2.ForgiveAll(guildId, userId, moderator).ConfigureAwait(false);
@@ -389,6 +399,8 @@ public class UserPunishService2 : INService
             return false;
 
 
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var ps = (await dbContext.ForGuildId(guildId, set => set.Include(x => x.WarnPunishments2))).WarnPunishments2;
         var toDelete = ps.Where(x => x.Count == number);
 
@@ -417,6 +429,7 @@ public class UserPunishService2 : INService
         if (number <= 0)
             return false;
 
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var ps = (await dbContext.ForGuildId(guildId, set => set.Include(x => x.WarnPunishments2))).WarnPunishments2;
         var p = ps.Find(x => x.Count == number);
@@ -435,6 +448,7 @@ public class UserPunishService2 : INService
     /// <returns></returns>
     public async Task<WarningPunishment2[]> WarnPunishList(ulong guildId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         return (await dbContext.ForGuildId(guildId, gc => gc.Include(x => x.WarnPunishments2)))
             .WarnPunishments2

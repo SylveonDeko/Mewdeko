@@ -3,6 +3,7 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Autocompleters;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Highlights.Services;
 
 namespace Mewdeko.Modules.Highlights;
@@ -14,17 +15,17 @@ namespace Mewdeko.Modules.Highlights;
 public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
 {
     private readonly InteractiveService interactivity;
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
 
     /// <summary>
     /// Initializes a new instance of <see cref="SlashHighlights"/>.
     /// </summary>
     /// <param name="interactivity">Embed pagination service</param>
     /// <param name="db">The database provider</param>
-    public SlashHighlights(InteractiveService interactivity, MewdekoContext dbContext)
+    public SlashHighlights(InteractiveService interactivity, DbContextProvider dbProvider)
     {
         this.interactivity = interactivity;
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
     }
 
     /// <summary>
@@ -34,6 +35,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
     [SlashCommand("add", "Add new highlights."), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task AddHighlight([Summary("words", "Words to highlight.")] string words)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var highlights = (await dbContext.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id)).ToList();
         if (string.IsNullOrWhiteSpace(words))
@@ -61,6 +63,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
     [SlashCommand("list", "List your current highlights."), RequireContext(ContextType.Guild), CheckPermissions]
     public async Task ListHighlights()
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var highlightsForUser = (await dbContext.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id)).ToList();
 
@@ -108,6 +111,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
             return;
         }
 
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var highlightsForUser = (await dbContext.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id));
 
@@ -160,6 +164,7 @@ public class SlashHighlights : MewdekoSlashModuleBase<HighlightsService>
             return;
         }
 
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var highlightsForUser = await dbContext.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id);
 

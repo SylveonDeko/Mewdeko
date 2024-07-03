@@ -4,6 +4,7 @@ using Fergun.Interactive.Pagination;
 using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Services.Settings;
 using NekosBestApiNet;
@@ -26,7 +27,7 @@ public partial class Moderation : MewdekoModule
     [Group]
     public class UserPunishCommands(
         MuteService mute,
-        MewdekoContext dbContext,
+        DbContextProvider dbProvider,
         InteractiveService serv,
         NekosBestApi nekos,
         BotConfigService config)
@@ -406,6 +407,8 @@ public partial class Moderation : MewdekoModule
             if (await Service.GetWarnlogChannel(ctx.Guild.Id) != 0)
             {
 
+                await using var dbContext = await dbProvider.GetContextAsync();
+
                 var warnings = dbContext.Warnings
                     .ForId(ctx.Guild.Id, user.Id)
                     .Count(w => !w.Forgiven && w.UserId == user.Id);
@@ -480,7 +483,7 @@ public partial class Moderation : MewdekoModule
 
         private async Task InternalWarnlog(ulong userId)
         {
-            var warnings = Service.UserWarnings(ctx.Guild.Id, userId);
+            var warnings = await Service.UserWarnings(ctx.Guild.Id, userId);
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)
                 .WithPageFactory(PageFactory)
@@ -940,7 +943,7 @@ public partial class Moderation : MewdekoModule
         {
             if (message is null)
             {
-                var template = Service.GetBanTemplate(Context.Guild.Id);
+                var template = await Service.GetBanTemplate(Context.Guild.Id);
                 if (template is null)
                 {
                     await ReplyConfirmLocalizedAsync("banmsg_default").ConfigureAwait(false);

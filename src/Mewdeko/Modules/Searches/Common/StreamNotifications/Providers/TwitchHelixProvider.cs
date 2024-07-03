@@ -181,7 +181,8 @@ public class TwitchHelixProvider : Provider
             IsLive = false,
             StreamUrl = $"https://twitch.tv/{user.Login}",
             StreamType = FollowedStream.FType.Twitch,
-            Preview = user.OfflineImageUrl
+            Preview = user.OfflineImageUrl,
+            ChannelId = user.Id
         };
 
     private static StreamData FillStreamData(StreamData partial, HelixStreamsResponse.StreamData apiData)

@@ -1,3 +1,4 @@
+using Mewdeko.Database.DbContextStuff;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -8,16 +9,16 @@ namespace Mewdeko.Modules.RoleStates.Services;
 /// </summary>
 public class RoleStatesService : INService
 {
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RoleStatesService"/> class.
     /// </summary>
     /// <param name="dbContext">The database service to interact with stored data.</param>
     /// <param name="eventHandler">The event handler to subscribe to guild member events.</param>
-    public RoleStatesService(MewdekoContext dbContext, EventHandler eventHandler)
+    public RoleStatesService(DbContextProvider dbProvider, EventHandler eventHandler)
     {
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         eventHandler.UserLeft += OnUserLeft;
         eventHandler.UserBanned += OnUserBanned;
         eventHandler.UserJoined += OnUserJoined;
@@ -25,6 +26,8 @@ public class RoleStatesService : INService
 
     private async Task OnUserBanned(SocketUser args, SocketGuild arsg2)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         if (args is not SocketGuildUser usr) return;
         var roleStateSettings = await dbContext.RoleStateSettings.FirstOrDefaultAsync(x => x.GuildId == arsg2.Id);
         if (roleStateSettings is null || !roleStateSettings.Enabled || !roleStateSettings.ClearOnBan) return;
@@ -38,6 +41,7 @@ public class RoleStatesService : INService
     private async Task OnUserJoined(IGuildUser usr)
     {
 
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var roleStateSettings = await dbContext.RoleStateSettings.FirstOrDefaultAsync(x => x.GuildId == usr.Guild.Id);
         if (roleStateSettings is null || !roleStateSettings.Enabled) return;
@@ -73,6 +77,8 @@ public class RoleStatesService : INService
 
     private async Task OnUserLeft(IGuild args, IUser args2)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var roleStateSettings = await dbContext.RoleStateSettings.FirstOrDefaultAsync(x => x.GuildId == args.Id);
         if (roleStateSettings is null || !roleStateSettings.Enabled) return;
 
@@ -126,6 +132,8 @@ public class RoleStatesService : INService
     /// <returns>A task that represents the asynchronous operation, containing a boolean indicating the operation success.</returns>
     public async Task<bool> ToggleRoleStates(ulong guildId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var roleStateSettings = await dbContext.RoleStateSettings.FirstOrDefaultAsync(x => x.GuildId == guildId);
         if (roleStateSettings is null)
         {
@@ -151,6 +159,7 @@ public class RoleStatesService : INService
     /// <returns>A task that represents the asynchronous operation, containing the <see cref="RoleStateSettings"/> or null if not found.</returns>
     public async Task<RoleStateSettings?> GetRoleStateSettings(ulong guildId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         return await dbContext.RoleStateSettings.FirstOrDefaultAsync(x => x.GuildId == guildId) ?? null;
     }
@@ -163,6 +172,7 @@ public class RoleStatesService : INService
     /// <returns>A task that represents the asynchronous operation, containing the <see cref="UserRoleStates"/> or null if not found.</returns>
     public async Task<UserRoleStates?> GetUserRoleState(ulong guildId, ulong userId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         return await dbContext.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == userId) ?? null;
     }
@@ -172,9 +182,11 @@ public class RoleStatesService : INService
     /// </summary>
     /// <param name="guildId">The unique identifier of the guild.</param>
     /// <returns>A task that represents the asynchronous operation, containing a list of <see cref="UserRoleStates"/>.</returns>
-    public Task<List<UserRoleStates>> GetAllUserRoleStates(ulong guildId)
+    public async Task<List<UserRoleStates>> GetAllUserRoleStates(ulong guildId)
     {
-        return dbContext.UserRoleStates.Where(x => x.GuildId == guildId).ToListAsync();
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        return await dbContext.UserRoleStates.Where(x => x.GuildId == guildId).ToListAsync();
     }
 
     /// <summary>
@@ -184,6 +196,7 @@ public class RoleStatesService : INService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task UpdateRoleStateSettings(RoleStateSettings roleStateSettings)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         dbContext.RoleStateSettings.Update(roleStateSettings);
         await dbContext.SaveChangesAsync();
@@ -196,6 +209,7 @@ public class RoleStatesService : INService
     /// <returns>A task that represents the asynchronous operation, containing a boolean indicating if bots are now ignored.</returns>
     public async Task<bool> ToggleIgnoreBots(RoleStateSettings roleStateSettings)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         roleStateSettings.IgnoreBots = !roleStateSettings.IgnoreBots;
 
@@ -213,6 +227,7 @@ public class RoleStatesService : INService
     public async Task<bool> ToggleClearOnBan(RoleStateSettings roleStateSettings)
     {
 
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var previousClearOnBanValue = roleStateSettings.ClearOnBan;
         roleStateSettings.ClearOnBan = !roleStateSettings.ClearOnBan;
@@ -232,6 +247,7 @@ public class RoleStatesService : INService
     /// <returns>A task that represents the asynchronous operation, containing a tuple with a boolean indicating success and an optional error message.</returns>
     public async Task<(bool, string)> AddRolesToUserRoleState(ulong guildId, ulong userId, IEnumerable<ulong> roleIds)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var userRoleState =
             await dbContext.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == userId);
@@ -272,6 +288,7 @@ public class RoleStatesService : INService
     public async Task<(bool, string)> RemoveRolesFromUserRoleState(ulong guildId, ulong userId,
         IEnumerable<ulong> roleIds)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var userRoleState =
             await dbContext.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == userId);
@@ -310,6 +327,7 @@ public class RoleStatesService : INService
     /// <returns>A task that represents the asynchronous operation, containing a boolean indicating if the operation was successful.</returns>
     public async Task<bool> DeleteUserRoleState(ulong userId, ulong guildId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var userRoleState =
             await dbContext.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == userId);
@@ -328,6 +346,7 @@ public class RoleStatesService : INService
     /// <returns>A task that represents the asynchronous operation, containing a boolean indicating if the operation was successful.</returns>
     public async Task<bool> ApplyUserRoleStateToAnotherUser(ulong sourceUserId, IGuildUser targetUser, ulong guildId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
 
         var sourceUserRoleState =
@@ -361,6 +380,7 @@ public class RoleStatesService : INService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetRoleStateManually(IUser user, ulong guildId, IEnumerable<ulong> roles)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var userRoleState =
             await dbContext.UserRoleStates.FirstOrDefaultAsync(x => x.GuildId == guildId && x.UserId == user.Id);

@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using AngleSharp;
 using AngleSharp.Html.Dom;
+using Mewdeko.Database.DbContextStuff;
 
 namespace Mewdeko.Modules.Chat_Triggers.Extensions;
 
@@ -78,7 +79,7 @@ public static class Extensions
     /// <param name="triggerId">Optional: The ID of the trigger. Default is 0.</param>
     /// <returns>The resolved response string.</returns>
     private static async Task<string?> ResolveResponseStringAsync(this string? str, IUserMessage ctx,
-        DiscordShardedClient client, string resolvedTrigger, bool containsAnywhere, MewdekoContext dbContext = null,
+        DiscordShardedClient client, string resolvedTrigger, bool containsAnywhere, DbContextProvider dbProvider = null,
         int triggerId = 0)
     {
         // Calculate the index where the substring begins
@@ -101,6 +102,7 @@ public static class Extensions
 
         // Check if mentioning everyone is allowed
         var canMentionEveryone = (ctx.Author as IGuildUser)?.GuildPermissions.MentionEveryone ?? true;
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         // Build the replacement dictionary
         var rep = new ReplacementBuilder()
@@ -166,9 +168,9 @@ public static class Extensions
     /// <param name="context">Optional: The database context. Default is null.</param>
     /// <returns>The response string with context.</returns>
     public static Task<string?> ResponseWithContextAsync(this Database.Models.ChatTriggers cr, IUserMessage ctx,
-        DiscordShardedClient client, bool containsAnywhere, MewdekoContext context = null) =>
+        DiscordShardedClient client, bool containsAnywhere, DbContextProvider provider = null) =>
         cr.Response.ResolveResponseStringAsync(ctx, client, cr.Trigger.ResolveTriggerString(client),
-            containsAnywhere, context, cr.Id);
+            containsAnywhere, provider, cr.Id);
 
 
     /// <summary>
@@ -181,7 +183,7 @@ public static class Extensions
     /// <param name="dbContext">Optional: The database context. Default is null.</param>
     /// <returns>The sent user message or null if no response is required.</returns>
     public static async Task<IUserMessage>? Send(this Database.Models.ChatTriggers ct, IUserMessage ctx,
-        DiscordShardedClient client, bool sanitize, MewdekoContext dbContext = null)
+        DiscordShardedClient client, bool sanitize, DbContextProvider dbProvider = null)
     {
         var channel = ct.DmResponse
             ? await ctx.Author.CreateDMChannelAsync().ConfigureAwait(false)
@@ -203,6 +205,7 @@ public static class Extensions
             }
 
             var canMentionEveryone = (ctx.Author as IGuildUser)?.GuildPermissions.MentionEveryone ?? true;
+            await using var dbContext = await dbProvider.GetContextAsync();
 
             var rep = new ReplacementBuilder()
                 .WithDefault(ctx.Author, ctx.Channel, (ctx.Channel as ITextChannel)?.Guild as SocketGuild, client)
@@ -264,7 +267,7 @@ public static class Extensions
                 .ConfigureAwait(false);
         }
 
-        var context = (await ct.ResponseWithContextAsync(ctx, client, ct.ContainsAnywhere, dbContext)
+        var context = (await ct.ResponseWithContextAsync(ctx, client, ct.ContainsAnywhere, dbProvider)
                 .ConfigureAwait(false))
             .SanitizeMentions(sanitize);
         if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
@@ -303,8 +306,10 @@ public static class Extensions
     public static async Task<IUserMessage>? SendInteraction(this Database.Models.ChatTriggers ct,
         SocketInteraction inter,
         DiscordShardedClient client, bool sanitize, IUserMessage fakeMsg, bool ephemeral = false,
-        MewdekoContext dbContext = null, bool followup = false)
+        DbContextProvider dbProvider = null, bool followup = false)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var rep = new ReplacementBuilder()
             .WithDefault(inter.User, inter.Channel, (inter.Channel as ITextChannel)?.Guild as SocketGuild, client)
             .WithOverride("%target%", () => inter switch
@@ -370,8 +375,9 @@ public static class Extensions
                 .ConfigureAwait(false);
         }
 
+
         var context = rep
-            .Replace(await ct.ResponseWithContextAsync(fakeMsg, client, ct.ContainsAnywhere, dbContext)
+            .Replace(await ct.ResponseWithContextAsync(fakeMsg, client, ct.ContainsAnywhere, dbProvider)
                 .ConfigureAwait(false))
             .SanitizeMentions(sanitize);
         if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)

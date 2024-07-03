@@ -58,6 +58,11 @@ public record StreamData
     public string AvatarUrl { get; set; }
 
     /// <summary>
+    /// The id of the users channel
+    /// </summary>
+    public string ChannelId { get; set; }
+
+    /// <summary>
     /// Generates a key for identifying the stream data uniquely.
     /// </summary>
     /// <returns>A <see cref="StreamDataKey"/> composed of the stream type and lowercased unique name.</returns>

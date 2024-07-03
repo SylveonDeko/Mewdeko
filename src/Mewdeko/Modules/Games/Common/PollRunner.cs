@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using Mewdeko.Database.DbContextStuff;
 using Poll = Mewdeko.Database.Models.Poll;
 
 namespace Mewdeko.Modules.Games.Common
@@ -8,7 +9,7 @@ namespace Mewdeko.Modules.Games.Common
     /// </summary>
     public class PollRunner
     {
-        private readonly MewdekoContext dbContext;
+        private readonly DbContextProvider dbProvider;
         private readonly SemaphoreSlim locker = new(1, 1);
 
         /// <summary>
@@ -16,9 +17,9 @@ namespace Mewdeko.Modules.Games.Common
         /// </summary>
         /// <param name="db">The database service.</param>
         /// <param name="poll">The poll to manage.</param>
-        public PollRunner(MewdekoContext dbContext, Poll poll)
+        public PollRunner(DbContextProvider dbProvider, Poll poll)
         {
-            this.dbContext = dbContext;
+            this.dbProvider = dbProvider;
             Poll = poll;
         }
 
@@ -42,6 +43,8 @@ namespace Mewdeko.Modules.Games.Common
             await locker.WaitAsync().ConfigureAwait(false);
             try
             {
+                await using var dbContext = await dbProvider.GetContextAsync();
+
                 voteObj = new PollVote
                 {
                     UserId = user.Id, VoteIndex = num

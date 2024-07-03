@@ -1,4 +1,6 @@
 ﻿using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Database.DbContextStuff;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace Mewdeko.Modules.Starboard.Services;
@@ -9,7 +11,7 @@ namespace Mewdeko.Modules.Starboard.Services;
 public class StarboardService : INService, IReadyExecutor
 {
     private readonly DiscordShardedClient client;
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly GuildSettingsService guildSettings;
 
     private List<StarboardPosts> starboardPosts = new();
@@ -21,11 +23,11 @@ public class StarboardService : INService, IReadyExecutor
     /// <param name="db">The database service.</param>
     /// <param name="bot">The guild settings service.</param>
     /// <param name="eventHandler">The event handler.</param>
-    public StarboardService(DiscordShardedClient client, MewdekoContext dbContext,
+    public StarboardService(DiscordShardedClient client, DbContextProvider dbProvider,
         GuildSettingsService bot, EventHandler eventHandler)
     {
         this.client = client;
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         guildSettings = bot;
         eventHandler.ReactionAdded += OnReactionAddedAsync;
         eventHandler.MessageDeleted += OnMessageDeletedAsync;
@@ -34,21 +36,19 @@ public class StarboardService : INService, IReadyExecutor
     }
 
     /// <inheritdoc />
-    public Task OnReadyAsync()
+    public async Task OnReadyAsync()
     {
         Log.Information($"Starting {this.GetType()} Cache");
-        _ = Task.Run(async () =>
-        {
+            await using var dbContext = await dbProvider.GetContextAsync();
 
-            var all = (await dbContext.Starboard.All()).ToList();
+            var all = await dbContext.Starboard.ToListAsync();
             starboardPosts = all.Count!=0 ? all : [];
             Log.Information("Starboard Posts Cached");
-        });
-        return Task.CompletedTask;
     }
 
     private async Task AddStarboardPost(ulong messageId, ulong postId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var post = starboardPosts.Find(x => x.MessageId == messageId);
         if (post is null)
@@ -76,6 +76,7 @@ public class StarboardService : INService, IReadyExecutor
     private async Task RemoveStarboardPost(ulong messageId)
     {
         var toRemove = starboardPosts.Find(x => x.MessageId == messageId);
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         dbContext.Starboard.Remove(toRemove);
         starboardPosts.Remove(toRemove);
@@ -91,7 +92,8 @@ public class StarboardService : INService, IReadyExecutor
     public async Task SetStarboardChannel(IGuild guild, ulong channel)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.StarboardChannel = channel;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -105,7 +107,8 @@ public class StarboardService : INService, IReadyExecutor
     public async Task SetStarboardAllowBots(IGuild guild, bool enabled)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.StarboardAllowBots = enabled;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -119,7 +122,8 @@ public class StarboardService : INService, IReadyExecutor
     public async Task SetRemoveOnDelete(IGuild guild, bool removeOnDelete)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.StarboardRemoveOnDelete = removeOnDelete;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -133,7 +137,8 @@ public class StarboardService : INService, IReadyExecutor
     public async Task SetRemoveOnClear(IGuild guild, bool removeOnClear)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.StarboardRemoveOnReactionsClear = removeOnClear;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -147,7 +152,8 @@ public class StarboardService : INService, IReadyExecutor
     public async Task SetRemoveOnBelowThreshold(IGuild guild, bool removeOnBelowThreshold)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.StarboardRemoveOnBelowThreshold = removeOnBelowThreshold;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -161,7 +167,8 @@ public class StarboardService : INService, IReadyExecutor
     public async Task SetCheckMode(IGuild guild, bool checkmode)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.UseStarboardBlacklist = checkmode;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -180,11 +187,13 @@ public class StarboardService : INService, IReadyExecutor
         {
             channels.Add(id);
             var joinedchannels = string.Join(" ", channels);
-            var gc = await dbContext.ForGuildId(guild.Id, set => set);
+           await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
             gc.StarboardCheckChannels = joinedchannels;
             await guildSettings.UpdateGuildConfig(guild.Id, gc);
             return false;
         }
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         channels.Remove(id);
         var joinedchannels1 = string.Join(" ", channels);
@@ -204,7 +213,8 @@ public class StarboardService : INService, IReadyExecutor
     public async Task SetStarCount(IGuild guild, int num)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.Stars = num;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -261,7 +271,8 @@ public class StarboardService : INService, IReadyExecutor
     public async Task SetStar(IGuild guild, string emote)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.Star2 = emote;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -275,7 +286,8 @@ public class StarboardService : INService, IReadyExecutor
     public async Task SetRepostThreshold(IGuild guild, int threshold)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.RepostThreshold = threshold;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }

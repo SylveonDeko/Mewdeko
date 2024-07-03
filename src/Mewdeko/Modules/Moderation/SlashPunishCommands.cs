@@ -5,6 +5,7 @@ using Humanizer;
 using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Moderation.Services;
 using NekosBestApiNet;
 using Serilog;
@@ -18,7 +19,7 @@ namespace Mewdeko.Modules.Moderation;
 [Group("moderation", "Do all your moderation stuffs here!"), CheckPermissions]
 public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
 {
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly InteractiveService interactivity;
     private readonly NekosBestApi nekos;
 
@@ -28,13 +29,13 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
     /// <param name="db">The database provider</param>
     /// <param name="serv">The service used for embed pagination</param>
     /// <param name="nekos">The service used to get anime gifs from the nekos.best api</param>
-    public SlashPunishCommands(MewdekoContext dbContext,
+    public SlashPunishCommands(DbContextProvider dbProvider,
         InteractiveService serv,
         NekosBestApi nekos)
     {
         interactivity = serv;
         this.nekos = nekos;
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
     }
 
     /// <summary>
@@ -190,6 +191,7 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
         await ctx.Interaction.RespondAsync(embed: embed.Build());
         if (await Service.GetWarnlogChannel(ctx.Guild.Id) != 0)
         {
+            await using var dbContext = await dbProvider.GetContextAsync();
 
             var warnings = dbContext.Warnings
                 .ForId(ctx.Guild.Id, user.Id)
@@ -259,7 +261,7 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
 
     private async Task InternalWarnlog(ulong userId)
     {
-        var warnings = Service.UserWarnings(ctx.Guild.Id, userId);
+        var warnings = await Service.UserWarnings(ctx.Guild.Id, userId);
         var paginator = new LazyPaginatorBuilder()
             .AddUser(ctx.User)
             .WithPageFactory(PageFactory)

@@ -28,17 +28,17 @@ public class SuggestionAutocompleter : AutocompleteHandler
     /// <param name="parameter">The parameter info.</param>
     /// <param name="services">The service provider.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the autocomplete result.</returns>
-    public override Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context,
+    public override async Task<AutocompletionResult> GenerateSuggestionsAsync(IInteractionContext context,
         IAutocompleteInteraction interaction, IParameterInfo parameter, IServiceProvider services)
     {
         var content = (string)interaction.Data.Current.Value;
-        var suggestions = suggest.Suggestions(context.Guild?.Id ?? 0);
+        var suggestions = await suggest.Suggestions(context.Guild?.Id ?? 0);
 
-        return Task.FromResult(AutocompletionResult.FromSuccess(suggestions
+        return AutocompletionResult.FromSuccess(suggestions
             .Where(x => x.Suggestion.Contains(content) || x.SuggestionId.ToString().Contains(content))
             .OrderByDescending(x => x.Suggestion.StartsWith(content))
             .ThenByDescending(x => x.SuggestionId.ToString().StartsWith(content))
-            .Select(CreateAutocompleteResult)));
+            .Select(CreateAutocompleteResult));
     }
 
     /// <summary>

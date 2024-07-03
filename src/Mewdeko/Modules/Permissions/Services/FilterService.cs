@@ -5,6 +5,7 @@ using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Services.strings;
@@ -23,7 +24,7 @@ public class FilterService : IEarlyBehavior, INService
     private readonly DiscordShardedClient client;
     private readonly BotConfig config;
     private readonly CultureInfo? cultureInfo = new("en-US");
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly GuildSettingsService gss;
     private readonly IPubSub pubSub;
     private readonly UserPunishService upun;
@@ -35,11 +36,11 @@ public class FilterService : IEarlyBehavior, INService
     /// On initialization, this service loads filtering configurations from the database and subscribes to necessary events
     /// for real-time monitoring and filtering of messages across all guilds the bot is part of.
     /// </remarks>
-    public FilterService(DiscordShardedClient client, MewdekoContext dbContext, IPubSub pubSub,
+    public FilterService(DiscordShardedClient client, DbContextProvider dbProvider, IPubSub pubSub,
         UserPunishService upun2, IBotStrings strng, AdministrationService ass,
         GuildSettingsService gss, EventHandler eventHandler, BotConfig config)
     {
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.client = client;
         this.pubSub = pubSub;
         upun = upun2;
@@ -95,15 +96,16 @@ public class FilterService : IEarlyBehavior, INService
     /// </summary>
     /// <param name="id">The word to add to the blacklist.</param>
     /// <param name="id2">The ID of the guild for which the word is blacklisted.</param>
-    public void WordBlacklist(string id, ulong id2)
+    public async Task WordBlacklist(string id, ulong id2)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var item = new AutoBanEntry
         {
             Word = id, GuildId = id2
         };
         dbContext.AutoBanWords.Add(item);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -111,8 +113,9 @@ public class FilterService : IEarlyBehavior, INService
     /// </summary>
     /// <param name="id">The word to remove from the blacklist.</param>
     /// <param name="id2">The ID of the guild from which the word is removed.</param>
-    public async void UnBlacklist(string id, ulong id2)
+    public async Task UnBlacklist(string id, ulong id2)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var toRemove = dbContext.AutoBanWords
             .FirstOrDefault(bi => bi.Word == id && bi.GuildId == id2);
@@ -158,9 +161,10 @@ public class FilterService : IEarlyBehavior, INService
             };
 
 
-        await using (dbContext.ConfigureAwait(false))
+        await using var dbContext = await dbProvider.GetContextAsync();
         {
-            var gc = await dbContext.ForGuildId(guild.Id, set => set);
+           await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
             gc.invwarn = yesno;
             await gss.UpdateGuildConfig(guild.Id, gc);
         }
@@ -189,9 +193,10 @@ public class FilterService : IEarlyBehavior, INService
             };
 
 
-        await using (dbContext.ConfigureAwait(false))
+        await using var dbContext = await dbProvider.GetContextAsync();
         {
-            var gc = await dbContext.ForGuildId(guild.Id, set => set);
+           await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
             gc.fwarn = yesno;
             await gss.UpdateGuildConfig(guild.Id, gc);
         }
@@ -204,7 +209,8 @@ public class FilterService : IEarlyBehavior, INService
     public async Task ClearFilteredWords(ulong guildId)
     {
 
-        var gc = await dbContext.ForGuildId(guildId,
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guildId,
             set => set.Include(x => x.FilteredWords)
                 .Include(x => x.FilterWordsChannelIds));
 
@@ -240,6 +246,8 @@ public class FilterService : IEarlyBehavior, INService
             return false;
         if (msg is null)
             return false;
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var blacklist = dbContext.AutoBanWords.ToLinqToDB().Where(x => x.GuildId == guild.Id);
         foreach (var i in blacklist)
         {
@@ -310,6 +318,8 @@ public class FilterService : IEarlyBehavior, INService
             return false;
         if (usrMsg is null)
             return false;
+
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var filterChannelWords = await FilterChannel(usrMsg.Channel.Id, guild.Id);
         var filteredServerWords = await FilteredWordsForServer(guild.Id);

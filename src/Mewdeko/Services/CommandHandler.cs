@@ -7,6 +7,7 @@ using Discord.Net;
 using Discord.Rest;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Chat_Triggers.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
@@ -38,7 +39,7 @@ public class CommandHandler : INService
     private readonly DiscordShardedClient client;
     private readonly CommandService commandService;
     private readonly IBotCredentials creds;
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly GuildSettingsService gss;
     private readonly InteractionService interactionService;
     private readonly IServiceProvider services;
@@ -63,7 +64,7 @@ public class CommandHandler : INService
     /// <param name="eventHandler">The event handler for discord events.</param>
     /// <param name="creds">The bot credentials.</param>
     /// <param name="cache">The data cache service.</param>
-    public CommandHandler(DiscordShardedClient client, MewdekoContext dbContext, CommandService commandService,
+    public CommandHandler(DiscordShardedClient client, DbContextProvider dbProvider, CommandService commandService,
         BotConfigService bss, Mewdeko bot, IServiceProvider services, IBotStrings strngs,
         InteractionService interactionService,
         GuildSettingsService gss, EventHandler eventHandler, IBotCredentials creds, IDataCache cache)
@@ -77,7 +78,7 @@ public class CommandHandler : INService
         this.commandService = commandService;
         this.bss = bss;
         this.bot = bot;
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.services = services;
         eventHandler.InteractionCreated += TryRunInteraction;
         this.interactionService.SlashCommandExecuted += HandleCommands;
@@ -121,6 +122,8 @@ public class CommandHandler : INService
     {
         _ = Task.Run(async () =>
         {
+            await using var dbContext = await dbProvider.GetContextAsync();
+
             if (ctx.Guild is not null)
             {
                 var gconf = await gss.GetGuildConfig(ctx.Guild.Id);
@@ -254,6 +257,8 @@ public class CommandHandler : INService
     {
         _ = Task.Run(async () =>
         {
+            await using var dbContext = await dbProvider.GetContextAsync();
+
             if (ctx.Guild is not null)
             {
                 var gconf = await gss.GetGuildConfig(ctx.Guild.Id);
@@ -731,6 +736,7 @@ public class CommandHandler : INService
             var gconf = await gss.GetGuildConfig(guild.Id);
             if (!gconf.StatsOptOut && info is not null)
             {
+                await using var dbContext = await dbProvider.GetContextAsync();
 
                 var user = await dbContext.GetOrCreateUser(usrMsg.Author);
                 if (!user.StatsOptOut)
@@ -761,7 +767,8 @@ public class CommandHandler : INService
             await LogErroredExecution(error, usrMsg, channel as ITextChannel, exec2, execTime);
             if (guild != null)
             {
-                var perms = new PermissionService(dbContext, strings, gss, client, bss.Data);
+
+                var perms = new PermissionService(dbProvider, strings, gss, client, bss.Data);
                 var pc = await perms.GetCacheFor(guild.Id);
                 if (pc != null && pc.Permissions.CheckPermissions(usrMsg, info.Name, info.Module.Name, out _))
                     await CommandErrored(info, channel as ITextChannel, error, usrMsg.Author).ConfigureAwait(false);

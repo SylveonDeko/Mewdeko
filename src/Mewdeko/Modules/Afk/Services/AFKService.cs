@@ -7,6 +7,9 @@ using Mewdeko.Services.Settings;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using ZiggyCreatures.Caching.Fusion;
+using System.Timers;
+using Mewdeko.Database.DbContextStuff;
+using Timer = System.Threading.Timer;
 
 namespace Mewdeko.Modules.Afk.Services;
 
@@ -18,8 +21,9 @@ public class AfkService : INService, IReadyExecutor
     private readonly IFusionCache cache;
     private readonly DiscordShardedClient client;
     private readonly BotConfigService config;
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly GuildSettingsService guildSettings;
+    private readonly ConcurrentDictionary<(ulong, ulong), Timer> afkTimers = new();
 
 
     /// <summary>
@@ -32,7 +36,7 @@ public class AfkService : INService, IReadyExecutor
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="config">The bot configuration service.</param>
     public AfkService(
-        MewdekoContext dbContext,
+        DbContextProvider dbProvider,
         DiscordShardedClient client,
         IFusionCache cache,
         GuildSettingsService guildSettings,
@@ -42,12 +46,12 @@ public class AfkService : INService, IReadyExecutor
         this.cache = cache;
         this.guildSettings = guildSettings;
         this.config = config;
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.client = client;
         eventHandler.MessageReceived += MessageReceived;
         eventHandler.MessageUpdated += MessageUpdated;
         eventHandler.UserIsTyping += UserTyping;
-        _ = StartTimedAfkLoop();
+        _ = InitializeTimedAfksAsync();
     }
 
     /// <summary>
@@ -58,7 +62,7 @@ public class AfkService : INService, IReadyExecutor
     {
         Log.Information($"Starting {this.GetType()} Cache");
         // Retrieve all AFK entries from the database
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var allafk = await dbContext.Afk.AsNoTracking().OrderByDescending(afk => afk.DateAdded).ToListAsyncEF();
 
         // Create a dictionary to store the latest AFK entry per user per guild
@@ -99,45 +103,36 @@ public class AfkService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Starts the timed AFK loop asynchronously.
+    /// Initializes all timed AFKs and sets timers.
     /// </summary>
-    /// <remarks>
-    /// This method is used to periodically check for timed AFKs and execute them accordingly.
-    /// </remarks>
-    private async Task StartTimedAfkLoop()
+    /// <returns>A task representing the asynchronous operation.</returns>
+    private async Task InitializeTimedAfksAsync()
     {
-        // Create a timer to trigger the loop every second
-        var timer = new PeriodicTimer(TimeSpan.FromSeconds(1));
-        // Loop until the timer stops
-        while (await timer.WaitForNextTickAsync())
-        {
-            // Delay for 1 second to avoid high CPU usage
-            await Task.Delay(1000).ConfigureAwait(false);
-            try
-            {
-                // Get the current time in UTC
-                var now = DateTime.UtcNow;
-                // Get the list of timed AFKs that occurred before the current time
-                var afks = await GetAfkBeforeAsync(now);
-                // If there are no timed AFKs, continue to the next iteration
-                if (!afks.Any())
-                    continue;
+        var now = DateTime.UtcNow;
+        var afks = await GetAfkBeforeAsync(now);
 
-                // Log the number of timed AFKs being executed
-                Log.Information($"Executing {afks.Count()} timed AFKs.");
-                // Execute each timed AFK asynchronously
-                await Task.WhenAll(afks.Select(TimedAfkFinished)).ConfigureAwait(false);
-                // Delay for a short period to avoid concurrency issues
-                await Task.Delay(1500).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                // Log any errors that occur during the loop
-                Log.Warning($"Error in Timed AFK loop: {ex.Message}");
-                Log.Warning(ex.ToString());
-            }
+        foreach (var afk in afks)
+        {
+            ScheduleTimedAfk(afk);
         }
     }
+
+    /// <summary>
+    /// Schedules a timed AFK by setting a timer.
+    /// </summary>
+    /// <param name="afk">The AFK entry to be scheduled.</param>
+    private void ScheduleTimedAfk(Database.Models.Afk afk)
+    {
+        var timeToGo = afk.When.Value - DateTime.UtcNow;
+        if (timeToGo <= TimeSpan.Zero)
+        {
+            timeToGo = TimeSpan.Zero;
+        }
+
+        var timer = new Timer(async _ => await TimedAfkFinished(afk), null, timeToGo, Timeout.InfiniteTimeSpan);
+        afkTimers[(afk.GuildId, afk.UserId)] = timer;
+    }
+
 
     /// <summary>
     /// Retrieves timed AFKs that occurred before the specified time.
@@ -146,7 +141,7 @@ public class AfkService : INService, IReadyExecutor
     /// <returns>A collection of timed AFKs.</returns>
     private async Task<IEnumerable<Database.Models.Afk>> GetAfkBeforeAsync(DateTime now)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         IEnumerable<Database.Models.Afk> afks =
             await dbContext.Afk
@@ -169,6 +164,8 @@ public class AfkService : INService, IReadyExecutor
         {
             // If not AFK, remove the timed AFK and return
             await RemoveAfk(afk);
+            afkTimers.TryRemove((afk.GuildId, afk.UserId), out var timer);
+            timer?.Dispose();
             return;
         }
 
@@ -191,6 +188,8 @@ public class AfkService : INService, IReadyExecutor
 
         // Remove the timed AFK from the database
         await RemoveAfk(afk);
+        afkTimers.TryRemove((afk.GuildId, afk.UserId), out var timer2);
+        timer2?.Dispose();
     }
 
     /// <summary>
@@ -466,7 +465,7 @@ public class AfkService : INService, IReadyExecutor
     /// <param name="afkMessage">The custom AFK message to set.</param>
     public async Task SetCustomAfkMessage(IGuild guild, string afkMessage)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var guildConfig = await dbContext.ForGuildId(guild.Id, set => set);
         guildConfig.AfkMessage = afkMessage;
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
@@ -511,7 +510,7 @@ public class AfkService : INService, IReadyExecutor
     /// <param name="num">The AFK type to set.</param>
     public async Task AfkTypeSet(IGuild guild, int num)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var guildConfig = await dbContext.ForGuildId(guild.Id, set => set);
         guildConfig.AfkType = num;
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
@@ -525,7 +524,7 @@ public class AfkService : INService, IReadyExecutor
     public async Task AfkDelSet(IGuild guild, int inputNum)
     {
         var num = inputNum.ToString();
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var guildConfig = await dbContext.ForGuildId(guild.Id, set => set);
         guildConfig.AfkDel = num;
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
@@ -538,7 +537,7 @@ public class AfkService : INService, IReadyExecutor
     /// <param name="num">The AFK length to set.</param>
     public async Task AfkLengthSet(IGuild guild, int num)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var guildConfig = await dbContext.ForGuildId(guild.Id, set => set);
         guildConfig.AfkLength = num;
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
@@ -551,7 +550,7 @@ public class AfkService : INService, IReadyExecutor
     /// <param name="num">The AFK timeout to set.</param>
     public async Task AfkTimeoutSet(IGuild guild, int num)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var guildConfig = await dbContext.ForGuildId(guild.Id, set => set);
         guildConfig.AfkTimeout = num;
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
@@ -564,7 +563,7 @@ public class AfkService : INService, IReadyExecutor
     /// <param name="num">The AFK disabled channels to set.</param>
     public async Task AfkDisabledSet(IGuild guild, string num)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var guildConfig = await dbContext.ForGuildId(guild.Id, set => set);
         guildConfig.AfkDisabledChannels = num;
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
@@ -627,6 +626,11 @@ public class AfkService : INService, IReadyExecutor
     /// <param name="when">The time when the AFK was set.</param>
     public async Task AfkSet(ulong guildId, ulong userId, string message, bool timed = false, DateTime when = new())
     {
+        // Immediately remove any existing timer for this user's AFK status in this guild
+        var exists = afkTimers.TryRemove((guildId, userId), out var existingTimer);
+        if (exists)
+            await existingTimer.DisposeAsync();
+
         var afk = new Database.Models.Afk
         {
             GuildId = guildId,
@@ -635,13 +639,21 @@ public class AfkService : INService, IReadyExecutor
             WasTimed = timed,
             When = when
         };
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         dbContext.Afk.Update(afk);
         await dbContext.SaveChangesAsync().ConfigureAwait(false);
         if (string.IsNullOrEmpty(message))
+        {
             await cache.RemoveAsync($"{guildId}:{userId}");
+        }
         else
+        {
             await cache.SetAsync($"{guildId}:{userId}", afk);
+            if (timed)
+            {
+                ScheduleTimedAfk(afk);
+            }
+        }
     }
 
     /// <summary>
@@ -650,10 +662,12 @@ public class AfkService : INService, IReadyExecutor
     /// <param name="afk">The AFK entry to remove.</param>
     private async Task RemoveAfk(Database.Models.Afk afk)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
         await cache.RemoveAsync($"{afk.GuildId}:{afk.UserId}");
-
-
         dbContext.Afk.Remove(afk);
         await dbContext.SaveChangesAsync();
+        var exists = afkTimers.TryRemove((afk.GuildId, afk.UserId), out var timer);
+        if (exists)
+            await timer.DisposeAsync();
     }
 }
