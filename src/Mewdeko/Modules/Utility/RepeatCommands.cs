@@ -2,6 +2,7 @@
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Utility.Common;
 using Mewdeko.Modules.Utility.Services;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,7 @@ public partial class Utility
     /// Allows for setting up automated messages that can be repeated at specified intervals.
     /// </summary>
     [Group]
-    public class RepeatCommands(DiscordShardedClient client, MewdekoContext dbContext) : MewdekoSubmodule<MessageRepeaterService>
+    public class RepeatCommands(DiscordShardedClient client, DbContextProvider dbProvider) : MewdekoSubmodule<MessageRepeaterService>
     {
         /// <summary>
         /// Invokes a repeater immediately by its index.
@@ -95,19 +96,17 @@ public partial class Utility
             runner.Stop();
 
 
-            await using (dbContext.ConfigureAwait(false))
+            await using var dbContext = await dbProvider.GetContextAsync();
+            var guildConfig = await dbContext.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
+
+            var item = guildConfig.GuildRepeaters.Find(r => r.Id == value.Repeater.Id);
+            if (item != null)
             {
-                var guildConfig = await dbContext.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
-
-                var item = guildConfig.GuildRepeaters.Find(r => r.Id == value.Repeater.Id);
-                if (item != null)
-                {
-                    guildConfig.GuildRepeaters.Remove(item);
-                    dbContext.Remove(item);
-                }
-
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
+                guildConfig.GuildRepeaters.Remove(item);
+                dbContext.Remove(item);
             }
+
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             await ctx.Channel.EmbedAsync(new EmbedBuilder()
                 .WithOkColor()
@@ -146,6 +145,7 @@ public partial class Utility
             var repeater = repeaterList[index].Value.Repeater;
             repeater.NoRedundant = !repeater.NoRedundant;
 
+            await using var dbContext = await dbProvider.GetContextAsync();
 
 
             var guildConfig = await dbContext.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
@@ -245,19 +245,18 @@ public partial class Utility
                 };
 
 
-                await using (dbContext.ConfigureAwait(false))
+                await using var dbContext = await dbProvider.GetContextAsync();
+                await using var db = await dbProvider.GetContextAsync();
+                var gc = await db.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.GuildRepeaters));
+                gc.GuildRepeaters.Add(toAdd);
+                try
                 {
-                    var gc = await dbContext.ForGuildId(ctx.Guild.Id, set => set.Include(x => x.GuildRepeaters));
-                    gc.GuildRepeaters.Add(toAdd);
-                    try
-                    {
-                        await dbContext.SaveChangesAsync().ConfigureAwait(false);
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                        throw;
-                    }
+                    await dbContext.SaveChangesAsync().ConfigureAwait(false);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
                 }
 
                 var runner = new RepeatRunner(client, (SocketGuild)ctx.Guild, toAdd, Service);
@@ -358,7 +357,8 @@ public partial class Utility
                 ? text
                 : text.SanitizeMentions(true);
 
-            await using var _ = dbContext.ConfigureAwait(false);
+            await using var dbContext = await dbProvider.GetContextAsync();
+
             var guildConfig = await dbContext.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
             var item = guildConfig.GuildRepeaters.Find(r => r.Id == repeater.Id);
             if (item != null)
@@ -401,7 +401,8 @@ public partial class Utility
             var repeater = repeaterList[index].Value.Repeater;
             repeater.ChannelId = textChannel.Id;
 
-            await using var _ = dbContext.ConfigureAwait(false);
+            await using var dbContext = await dbProvider.GetContextAsync();
+
             var guildConfig = await dbContext.ForGuildId(ctx.Guild.Id, set => set.Include(gc => gc.GuildRepeaters));
             var item = guildConfig.GuildRepeaters.Find(r => r.Id == repeater.Id);
             if (item != null) item.ChannelId = textChannel.Id;

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Mewdeko.Database.DbContextStuff;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Currency.Services.Impl
 {
@@ -7,21 +8,21 @@ namespace Mewdeko.Modules.Currency.Services.Impl
     /// </summary>
     public class GlobalCurrencyService : ICurrencyService
     {
-        private readonly MewdekoContext dbContext;
+        private readonly DbContextProvider dbProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GlobalCurrencydbContext"/> class.
         /// </summary>
         /// <param name="dbContext">The database dbContext.</param>
-        public GlobalCurrencyService(MewdekoContext dbContext)
+        public GlobalCurrencyService(DbContextProvider dbProvider)
         {
-            this.dbContext = dbContext;
+            this.dbProvider = dbProvider;
         }
 
         /// <inheritdoc/>
         public async Task AddUserBalanceAsync(ulong userId, long amount, ulong? guildId = null)
         {
-
+            await using var dbContext = await dbProvider.GetContextAsync();
 
             // Check if the user already has a balance entry
             var existingBalance = await dbContext.GlobalUserBalances
@@ -50,7 +51,7 @@ namespace Mewdeko.Modules.Currency.Services.Impl
         /// <inheritdoc/>
         public async Task<long> GetUserBalanceAsync(ulong userId, ulong? guildId = null)
         {
-
+            await using var dbContext = await dbProvider.GetContextAsync();
             // Retrieve user balance from the database
             return await dbContext.GlobalUserBalances
                 .Where(x => x.UserId == userId)
@@ -62,7 +63,7 @@ namespace Mewdeko.Modules.Currency.Services.Impl
         public async Task AddTransactionAsync(ulong userId, long amount, string description, ulong? guildId = null)
         {
 
-
+            await using var dbContext = await dbProvider.GetContextAsync();
             // Create a new transaction entry
             var transaction = new TransactionHistory
             {
@@ -78,7 +79,7 @@ namespace Mewdeko.Modules.Currency.Services.Impl
         public async Task<IEnumerable<TransactionHistory>?> GetTransactionsAsync(ulong userId, ulong? guildId = null)
         {
 
-
+            await using var dbContext = await dbProvider.GetContextAsync();
             // Retrieve user transactions from the database
             return await dbContext.TransactionHistories
                 .Where(x => x.UserId == userId && x.GuildId == 0)?
@@ -89,7 +90,7 @@ namespace Mewdeko.Modules.Currency.Services.Impl
         public async Task<string> GetCurrencyEmote(ulong? guildId = null)
         {
 
-
+            await using var dbContext = await dbProvider.GetContextAsync();
             // Retrieve currency emote from the database
             return await dbContext.OwnerOnly
                 .Select(x => x.CurrencyEmote)
@@ -100,7 +101,7 @@ namespace Mewdeko.Modules.Currency.Services.Impl
         public async Task<IEnumerable<LbCurrency>> GetAllUserBalancesAsync(ulong? _)
         {
 
-
+            await using var dbContext = await dbProvider.GetContextAsync();
             // Retrieve all user balances from the database
             return dbContext.GlobalUserBalances
                 .Select(x => new LbCurrency
@@ -112,7 +113,7 @@ namespace Mewdeko.Modules.Currency.Services.Impl
         /// <inheritdoc/>
         public async Task SetReward(int amount, int seconds, ulong? _)
         {
-
+            await using var dbContext = await dbProvider.GetContextAsync();
             // Update reward configuration in the database
             var config = await dbContext.OwnerOnly.FirstOrDefaultAsync();
             config.RewardAmount = amount;
@@ -124,7 +125,7 @@ namespace Mewdeko.Modules.Currency.Services.Impl
         /// <inheritdoc/>
         public async Task<(int, int)> GetReward(ulong? _)
         {
-
+            await using var dbContext = await dbProvider.GetContextAsync();
             // Retrieve reward configuration from the database
             var config = await dbContext.OwnerOnly.FirstOrDefaultAsync();
             return (config.RewardAmount, config.RewardTimeoutSeconds);

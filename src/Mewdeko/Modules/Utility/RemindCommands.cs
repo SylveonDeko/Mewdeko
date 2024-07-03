@@ -1,5 +1,6 @@
 ﻿using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Utility.Services;
 using Swan;
@@ -12,7 +13,7 @@ public partial class Utility
     /// Provides commands for managing reminders.
     /// </summary>
     [Group]
-    public class RemindCommands(MewdekoContext dbContext, GuildTimezoneService tz) : MewdekoSubmodule<RemindService>
+    public class RemindCommands(DbContextProvider dbProvider, GuildTimezoneService tz) : MewdekoSubmodule<RemindService>
     {
         /// <summary>
         /// Determines whether the reminder should be sent to the user directly or to the channel.
@@ -99,13 +100,9 @@ public partial class Utility
                 .WithOkColor()
                 .WithTitle(GetText("reminder_list"));
 
-            List<Reminder> rems;
-
-            await using (dbContext.ConfigureAwait(false))
-            {
-                rems = dbContext.Reminders.RemindersFor(ctx.User.Id, page)
-                    .ToList();
-            }
+            await using var dbContext = await dbProvider.GetContextAsync();
+            var rems = dbContext.Reminders.RemindersFor(ctx.User.Id, page)
+                .ToList();
 
             if (rems.Count > 0)
             {
@@ -143,17 +140,15 @@ public partial class Utility
 
             Reminder? rem = null;
 
-            await using (dbContext.ConfigureAwait(false))
-            {
-                var rems = dbContext.Reminders.RemindersFor(ctx.User.Id, index / 10)
+            await using var dbContext = await dbProvider.GetContextAsync();
+            var rems = dbContext.Reminders.RemindersFor(ctx.User.Id, index / 10)
                     .ToList();
-                var pageIndex = index % 10;
-                if (rems.Count > pageIndex)
-                {
-                    rem = rems[pageIndex];
-                    dbContext.Reminders.Remove(rem);
-                    await dbContext.SaveChangesAsync().ConfigureAwait(false);
-                }
+            var pageIndex = index % 10;
+            if (rems.Count > pageIndex)
+            {
+                rem = rems[pageIndex];
+                dbContext.Reminders.Remove(rem);
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
 
             if (rem == null)
@@ -186,11 +181,9 @@ public partial class Utility
             };
 
 
-            await using (dbContext.ConfigureAwait(false))
-            {
-                dbContext.Reminders.Add(rem);
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
+            await using var dbContext = await dbProvider.GetContextAsync();
+            dbContext.Reminders.Add(rem);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             var gTime = ctx.Guild == null
                 ? time

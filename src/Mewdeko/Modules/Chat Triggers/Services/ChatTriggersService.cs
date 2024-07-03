@@ -5,6 +5,7 @@ using Mewdeko.Common.DiscordImplementations;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Common.Yml;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Chat_Triggers.Common;
 using Mewdeko.Modules.Chat_Triggers.Extensions;
@@ -116,7 +117,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     private readonly IBotCredentials creds;
     private readonly TypedKey<bool> crsReloadedKey = new("crs.reloaded");
 
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly DiscordPermOverrideService discordPermOverride;
 
     private readonly TypedKey<CTModel> gcrAddedKey = new("gcr.added");
@@ -157,7 +158,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// <param name="creds">The bot credentials.</param>
     public ChatTriggersService(
         PermissionService perms,
-        MewdekoContext dbContext,
+        DbContextProvider dbProvider,
         IBotStrings strings,
         Mewdeko bot,
         DiscordShardedClient client,
@@ -169,7 +170,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         BotConfigService configService,
         IBotCredentials creds)
     {
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.client = client;
         this.perms = perms;
         this.strings = strings;
@@ -272,7 +273,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
             // Update command usage statistics
             var guildConfig = await guildSettings.GetGuildConfig(guild.Id);
-
+            await using var dbContext = await dbProvider.GetContextAsync();
             var dbUser = await dbContext.GetOrCreateUser(msg.Author);
             if (!guildConfig.StatsOptOut && !dbUser.StatsOptOut)
             {
@@ -289,7 +290,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             }
 
             // Send the chat trigger response
-            var sentMsg = await ct.Send(msg, this.client, false, dbContext).ConfigureAwait(false);
+            var sentMsg = await ct.Send(msg, this.client, false, dbProvider).ConfigureAwait(false);
 
             // Add reactions to the response message
             foreach (var reaction in ct.GetReactions())
@@ -462,7 +463,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     var guildConfig = await guildSettings.GetGuildConfig(channel.GuildId);
 
                     // Retrieve or create a user entry in the database.
-
+                    await using var dbContext = await dbProvider.GetContextAsync();
                     var dbUser = await dbContext.GetOrCreateUser(fakeMsg.Author);
 
                     // If stats tracking is enabled for the guild and the user has not opted out, record the command usage.
@@ -481,7 +482,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     }
 
                     var sentMsg = await ct.SendInteraction(inter, this.client, false, fakeMsg,
-                        ct.EphemeralResponse, dbContext, followup).ConfigureAwait(false);
+                        ct.EphemeralResponse, dbProvider, followup).ConfigureAwait(false);
 
                     // Add reactions to the sent message, if any.
                     foreach (var reaction in ct.GetReactions())
@@ -626,7 +627,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
             if (roles.Count > 0 && roles.All(y => user.Guild.GetRole(y).CanManageRole(user)))
                 return false;
-
+            await using var dbContext = await dbProvider.GetContextAsync();
             // Add chat triggers to the database and save changes
             await dbContext.ChatTriggers.AddRangeAsync(triggers).ConfigureAwait(false);
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -654,7 +655,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         Log.Information($"Starting {this.GetType()} Cache");
         // Start a new database context
 
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         // Retrieve chat trigger items for the current shard from the database
         var guildItems = await dbContext.ChatTriggers
             .ToListAsync();
@@ -834,7 +835,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     {
         // Open a database context
 
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         // Retrieve the chat trigger by ID
         var ct = await dbContext.ChatTriggers.GetById(id);
         if (ct is null)
@@ -1015,21 +1016,17 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// <param name="emojis">The emojis to set as reactions.</param>
     public async Task SetCrReactions(ulong? guildId, int id, IEnumerable<string> emojis)
     {
-        CTModel ct;
+        await using var dbContext = await dbProvider.GetContextAsync();
+        // Retrieve the chat trigger by ID
+        var ct = await dbContext.ChatTriggers.GetById(id);
+        if (ct is null)
+            return; // Exit if the chat trigger is not found
 
-        await using (dbContext.ConfigureAwait(false))
-        {
-            // Retrieve the chat trigger by ID
-            ct = await dbContext.ChatTriggers.GetById(id);
-            if (ct is null)
-                return; // Exit if the chat trigger is not found
+        // Set the reactions for the chat trigger
+        ct.Reactions = string.Join("@@@", emojis);
 
-            // Set the reactions for the chat trigger
-            ct.Reactions = string.Join("@@@", emojis);
-
-            // Save changes to the database
-            await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
+        // Save changes to the database
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
         // Update internal representation of chat trigger asynchronously
         await UpdateInternalAsync(guildId, ct).ConfigureAwait(false);
@@ -1062,7 +1059,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             CtField.NoRespond => !ct.NoRespond,
             _ => newVal // Default case: return the current value
         };
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         // Update the chat trigger in the database
         dbContext.ChatTriggers.Update(ct);
         await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -1083,6 +1080,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     public async Task<CTModel?> GetChatTriggers(ulong? guildId, int id)
     {
          // Initialize the database context
+         await using var dbContext = await dbProvider.GetContextAsync();
         var ct = await dbContext.ChatTriggers.GetById(id); // Retrieve the chat trigger by ID
         // Check if the chat trigger is null or does not belong to the specified guild
         if (ct == null || ct.GuildId != guildId)
@@ -1099,6 +1097,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     public async Task<CTModel?> GetGuildOrGlobalTriggers(ulong? guildId, int id)
     {
          // Initialize the database context
+         await using var dbContext = await dbProvider.GetContextAsync();
         var ct = await dbContext.ChatTriggers.GetById(id); // Retrieve the chat trigger by ID
         // Check if the chat trigger is null or does not belong to the specified guild or global context
         if (ct == null || (ct.GuildId != guildId && ct.GuildId is not 0 or null))
@@ -1112,9 +1111,10 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// </summary>
     /// <param name="guildId">The ID of the guild to delete chat triggers from.</param>
     /// <returns>The count of deleted chat triggers.</returns>
-    public int DeleteAllChatTriggers(ulong guildId)
+    public async Task <int> DeleteAllChatTriggers(ulong guildId)
     {
          // Initialize the database context
+         await using var dbContext = await dbProvider.GetContextAsync();
         var count = dbContext.ChatTriggers.ClearFromGuild(guildId); // Delete chat triggers associated with the guild
         dbContext.SaveChanges(); // Save changes to the database
         newGuildReactions.TryRemove(guildId, out _); // Remove guild reactions from the internal representation
@@ -1131,6 +1131,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     public async Task<bool> ReactionExists(ulong? guildId, string input)
     {
          // Initialize the database context
+         await using var dbContext = await dbProvider.GetContextAsync();
         var ct = await dbContext.ChatTriggers.GetByGuildIdAndInput(guildId,
             input); // Retrieve the chat trigger by guild ID and input
         return ct != null; // Return true if the chat trigger exists, otherwise false
@@ -1228,6 +1229,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// <returns>A task representing the asynchronous operation.</returns>
     private async Task OnJoinedGuild(GuildConfig gc)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
          // Initialize the database context
         newGuildReactions[gc.GuildId] = await dbContext // Update the reactions for the guild in the dictionary
             .ChatTriggers
@@ -1257,7 +1259,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             cr.AllowTarget = true; // Enable targeting
 
          // Initialize the database context
-        await using (dbContext.ConfigureAwait(false))
+         await using var dbContext = await dbProvider.GetContextAsync();
         {
             dbContext.ChatTriggers.Add(cr); // Add the chat trigger to the database
             await dbContext.SaveChangesAsync().ConfigureAwait(false); // Save changes
@@ -1280,6 +1282,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     public async Task<CTModel?> EditAsync(ulong? guildId, int id, string? message, bool? regex, string? trigger = null)
     {
          // Initialize the database context
+         await using var dbContext = await dbProvider.GetContextAsync();
         var ct = await dbContext.ChatTriggers.GetById(id); // Retrieve the chat trigger by ID
 
         if (ct == null || ct.GuildId != guildId) // Check if the chat trigger exists or belongs to the guild
@@ -1317,6 +1320,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     public async Task<CTModel?> DeleteAsync(ulong? guildId, int id)
     {
          // Initialize the database context
+         await using var dbContext = await dbProvider.GetContextAsync();
         var toDelete = await dbContext.ChatTriggers.GetById(id); // Retrieve the chat trigger by ID
 
         if (toDelete is null) // Check if the trigger exists
@@ -1343,6 +1347,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     public async Task<CTModel?> SetRoleGrantType(ulong? guildId, int id, CtRoleGrantType type)
     {
          // Initialize the database context
+         await using var dbContext = await dbProvider.GetContextAsync();
         var ct = await dbContext.ChatTriggers.GetById(id); // Retrieve the chat trigger by ID
 
         if (ct == null || ct.GuildId != guildId) // Check if the trigger exists and belongs to the guild
@@ -1365,6 +1370,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     public async Task<CTModel?> SetInteractionType(ulong? guildId, int id, CtApplicationCommandType type)
     {
          // Initialize the database context
+         await using var dbContext = await dbProvider.GetContextAsync();
         var ct = await dbContext.ChatTriggers.GetById(id); // Retrieve the chat trigger by ID
 
         if (ct == null || ct.GuildId != guildId) // Check if the trigger exists and belongs to the guild
@@ -1387,6 +1393,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     public async Task<CTModel?> SetInteractionName(ulong? guildId, int id, string name)
     {
          // Initialize the database context
+         await using var dbContext = await dbProvider.GetContextAsync();
         var ct = await dbContext.ChatTriggers.GetById(id); // Retrieve the chat trigger by ID
 
         if (ct == null || ct.GuildId != guildId) // Check if the trigger exists and belongs to the guild
@@ -1410,6 +1417,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     public async Task<CTModel?> SetInteractionDescription(ulong? guildId, int id, string description)
     {
          // Initialize the database context
+         await using var dbContext = await dbProvider.GetContextAsync();
         var ct = await dbContext.ChatTriggers.GetById(id); // Retrieve the chat trigger by ID
 
         if (ct == null || ct.GuildId != guildId) // Check if the trigger exists and belongs to the guild
@@ -1432,6 +1440,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     public async Task<CTModel?> SetInteractionEphemeral(ulong? guildId, int id, bool ephemeral)
     {
          // Initialize the database context
+         await using var dbContext = await dbProvider.GetContextAsync();
         var ct = await dbContext.ChatTriggers.GetById(id); // Retrieve the chat trigger by ID
 
         if (ct == null || ct.GuildId != guildId) // Check if the trigger exists and belongs to the guild
@@ -1454,6 +1463,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     public async Task<CTModel?> SetPrefixType(ulong? guildId, int id, RequirePrefixType type)
     {
          // Initialize the database context
+         await using var dbContext = await dbProvider.GetContextAsync();
         var ct = await dbContext.ChatTriggers.GetById(id); // Retrieve the chat trigger by ID
 
         if (ct == null || ct.GuildId != guildId) // Check if the trigger exists and belongs to the guild
@@ -1476,6 +1486,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     public async Task<CTModel?> SetPrefix(ulong? guildId, int id, string name)
     {
          // Initialize the database context
+         await using var dbContext = await dbProvider.GetContextAsync();
         var ct = await dbContext.ChatTriggers.GetById(id); // Retrieve the chat trigger by ID
 
         if (ct == null || ct.GuildId != guildId) // Check if the trigger exists and belongs to the guild
@@ -1518,6 +1529,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         }
 
          // Initialize the database context
+         await using var dbContext = await dbProvider.GetContextAsync();
         var ct = await dbContext.ChatTriggers.GetById(id); // Retrieve the chat trigger by ID
 
         if (ct == null || ct.GuildId != guildId) // Check if the trigger exists and belongs to the guild
@@ -1542,6 +1554,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     public async Task<CTModel?> SetCrosspostingChannelId(ulong? guildId, int id, ulong channelId)
     {
          // Initialize the database context
+         await using var dbContext = await dbProvider.GetContextAsync();
         var ct = await dbContext.ChatTriggers.GetById(id); // Retrieve the chat trigger by ID
 
         if (ct == null || ct.GuildId != guildId) // Check if the trigger exists and belongs to the guild
@@ -1566,6 +1579,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     public async Task<CTModel?> SetValidTriggerType(ulong? guildId, int id, ChatTriggerType type, bool enabled)
     {
          // Initialize the database context
+         await using var dbContext = await dbProvider.GetContextAsync();
         var ct = await dbContext.ChatTriggers.GetById(id); // Retrieve the chat trigger by ID
 
         if (ct == null || ct.GuildId != guildId) // Check if the trigger exists and belongs to the guild
@@ -1625,6 +1639,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         else
             roles.RemoveAll(x => x == rId); // Remove the role ID if already present
 
+        await using var dbContext = await dbProvider.GetContextAsync();
         ct.GrantedRoles = string.Join("@@@", roles.Select(x => x.ToString())); // Update the granted roles
         dbContext.ChatTriggers.Update(ct); // Update the chat trigger in the database
         await dbContext.SaveChangesAsync().ConfigureAwait(false); // Save changes
@@ -1647,6 +1662,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         else
             roles.RemoveAll(x => x == rId); // Remove the role ID if already present
 
+        await using var dbContext = await dbProvider.GetContextAsync();
         ct.RemovedRoles = string.Join("@@@", roles.Select(x => x.ToString())); // Update the removed roles
         dbContext.ChatTriggers.Update(ct); // Update the chat trigger in the database
         await dbContext.SaveChangesAsync().ConfigureAwait(false); // Save changes
@@ -1868,7 +1884,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 #endif
 
         // Associate chat trigger IDs with their corresponding application command IDs
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var cts = dbContext.ChatTriggers.Where(x => x.GuildId == guild.Id).ToList();
         cmd.SelectMany(applicationCommand =>
             applicationCommand.GetCtNames().Select(name => (cmd: applicationCommand, name))).ToList().ForEach(x =>

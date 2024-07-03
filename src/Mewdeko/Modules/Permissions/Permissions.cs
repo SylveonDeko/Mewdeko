@@ -4,6 +4,7 @@ using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
 
@@ -15,7 +16,7 @@ namespace Mewdeko.Modules.Permissions;
 /// <param name="db">The database service.</param>
 /// <param name="inter">The interactive service.</param>
 /// <param name="guildSettings">The guild settings service.</param>
-public partial class Permissions(MewdekoContext dbContext, InteractiveService inter, GuildSettingsService guildSettings)
+public partial class Permissions(DbContextProvider dbProvider, InteractiveService inter, GuildSettingsService guildSettings)
     : MewdekoModuleBase<PermissionService>
 {
     /// <summary>
@@ -48,7 +49,7 @@ public partial class Permissions(MewdekoContext dbContext, InteractiveService in
     public async Task Verbose(PermissionAction? action = null)
     {
 
-        await using (dbContext.ConfigureAwait(false))
+        await using var dbContext = await dbProvider.GetContextAsync();
         {
             var config = await dbContext.GcWithPermissionsv2For(ctx.Guild.Id);
             action ??= new PermissionAction(config.VerbosePermissions);
@@ -92,7 +93,7 @@ public partial class Permissions(MewdekoContext dbContext, InteractiveService in
         }
 
 
-        await using (dbContext.ConfigureAwait(false))
+        await using var dbContext = await dbProvider.GetContextAsync();
         {
             var config = await dbContext.GcWithPermissionsv2For(ctx.Guild.Id);
             config.PermissionRole = role.Id.ToString();
@@ -112,7 +113,7 @@ public partial class Permissions(MewdekoContext dbContext, InteractiveService in
     public async Task PermRole(Reset _)
     {
 
-        await using (dbContext.ConfigureAwait(false))
+        await using var dbContext = await dbProvider.GetContextAsync();
         {
             var config = await dbContext.GcWithPermissionsv2For(ctx.Guild.Id);
             config.PermissionRole = null;
@@ -169,18 +170,14 @@ public partial class Permissions(MewdekoContext dbContext, InteractiveService in
             return;
         try
         {
-            Permissionv2 p;
-
-            await using (dbContext.ConfigureAwait(false))
-            {
-                var config = await dbContext.GcWithPermissionsv2For(ctx.Guild.Id);
-                var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
-                p = permsCol[index];
-                permsCol.RemoveAt(index);
-                dbContext.Remove(p);
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-                Service.UpdateCache(config);
-            }
+            await using var dbContext = await dbProvider.GetContextAsync();
+            var config = await dbContext.GcWithPermissionsv2For(ctx.Guild.Id);
+            var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
+            var p = permsCol[index];
+            permsCol.RemoveAt(index);
+            dbContext.Remove(p);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
+            Service.UpdateCache(config);
 
             await ReplyConfirmLocalizedAsync("removed",
                     index + 1,
@@ -207,35 +204,31 @@ public partial class Permissions(MewdekoContext dbContext, InteractiveService in
         {
             try
             {
-                Permissionv2 fromPerm;
+                await using var dbContext = await dbProvider.GetContextAsync();
+                var config = await dbContext.GcWithPermissionsv2For(ctx.Guild.Id);
+                var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
 
-                await using (dbContext.ConfigureAwait(false))
+                var fromFound = from < permsCol.Count;
+                var toFound = to < permsCol.Count;
+
+                if (!fromFound)
                 {
-                    var config = await dbContext.GcWithPermissionsv2For(ctx.Guild.Id);
-                    var permsCol = new PermissionsCollection<Permissionv2>(config.Permissions);
-
-                    var fromFound = from < permsCol.Count;
-                    var toFound = to < permsCol.Count;
-
-                    if (!fromFound)
-                    {
-                        await ReplyErrorLocalizedAsync("not_found", ++from).ConfigureAwait(false);
-                        return;
-                    }
-
-                    if (!toFound)
-                    {
-                        await ReplyErrorLocalizedAsync("not_found", ++to).ConfigureAwait(false);
-                        return;
-                    }
-
-                    fromPerm = permsCol[from];
-
-                    permsCol.RemoveAt(from);
-                    permsCol.Insert(to, fromPerm);
-                    await dbContext.SaveChangesAsync().ConfigureAwait(false);
-                    Service.UpdateCache(config);
+                    await ReplyErrorLocalizedAsync("not_found", ++from).ConfigureAwait(false);
+                    return;
                 }
+
+                if (!toFound)
+                {
+                    await ReplyErrorLocalizedAsync("not_found", ++to).ConfigureAwait(false);
+                    return;
+                }
+
+                var fromPerm = permsCol[from];
+
+                permsCol.RemoveAt(from);
+                permsCol.Insert(to, fromPerm);
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
+                Service.UpdateCache(config);
 
                 await ReplyConfirmLocalizedAsync("moved_permission",
                         Format.Code(fromPerm.GetCommand(await guildSettings.GetPrefix(ctx.Guild),

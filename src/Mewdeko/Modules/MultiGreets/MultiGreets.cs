@@ -44,7 +44,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
     public async Task MultiGreetAdd([Remainder] ITextChannel? channel = null)
     {
         channel ??= ctx.Channel as ITextChannel;
-        var added = Service.AddMultiGreet(ctx.Guild.Id, channel.Id);
+        var added = await Service.AddMultiGreet(ctx.Guild.Id, channel.Id);
         switch (added)
         {
             case true:
@@ -67,7 +67,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task MultiGreetRemove(int id)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
+        var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("No greet with that ID found!", Config).ConfigureAwait(false);
@@ -85,7 +85,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task MultiGreetRemove([Remainder] ITextChannel channel)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).Where(x => x.ChannelId == channel.Id);
+        var greet = (await Service.GetGreets(ctx.Guild.Id)).Where(x => x.ChannelId == channel.Id);
         if (!greet.Any())
         {
             await ctx.Channel.SendErrorAsync("There are no greets in that channel!", Config).ConfigureAwait(false);
@@ -112,7 +112,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
      RequireBotPermission(GuildPermission.ManageMessages)]
     public async Task MultiGreetDelete(int id, StoopidTime time)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
+        var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!", Config).ConfigureAwait(false);
@@ -133,7 +133,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
      RequireBotPermission(GuildPermission.ManageMessages)]
     public async Task MultiGreetDelete(int id, int howlong)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
+        var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!", Config).ConfigureAwait(false);
@@ -157,7 +157,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task MultiGreetDisable(int num, bool enabled)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id)?.ElementAt(num - 1);
+        var greet = (await Service.GetGreets(ctx.Guild.Id))?.ElementAt(num - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("That MultiGreet does not exist!", Config).ConfigureAwait(false);
@@ -200,7 +200,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
     [Cmd, Alias, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
     public async Task MultiGreetGreetBots(int num, bool enabled)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(num - 1);
+        var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(num - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("That MultiGreet does not exist!", Config).ConfigureAwait(false);
@@ -221,7 +221,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
      RequireBotPermission(GuildPermission.ManageWebhooks)]
     public async Task MultiGreetWebhook(int id, string? name = null, string? avatar = null)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
+        var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!", Config).ConfigureAwait(false);
@@ -274,7 +274,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task MultiGreetMessage(int id, [Remainder] string? message = null)
     {
-        var greet = Service.GetGreets(ctx.Guild.Id).ElementAt(id - 1);
+        var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("No MultiGreet found for that Id!", Config).ConfigureAwait(false);
@@ -327,7 +327,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task MultiGreetList()
     {
-        var greets = Service.GetGreets(ctx.Guild.Id);
+        var greets = await Service.GetGreets(ctx.Guild.Id);
         if (!greets.Any())
         {
             await ctx.Channel.SendErrorAsync("No MultiGreets setup!", Config).ConfigureAwait(false);

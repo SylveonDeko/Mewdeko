@@ -4,6 +4,7 @@ using Discord.Interactions;
 using Discord.Rest;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Modals;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Moderation.Services;
 using Mewdeko.Services.Settings;
 
@@ -29,7 +30,7 @@ public class SlashRoleMetadataCommands : MewdekoSlashSubmodule
     /// <summary>
     /// The database service.
     /// </summary>
-    public MewdekoContext dbContext { get; set; }
+    public DbContextProvider dbProvider { get; set; }
 
     /// <summary>
     /// Component interaction for entering an auth code.
@@ -99,12 +100,14 @@ public class SlashRoleMetadataCommands : MewdekoSlashSubmodule
             UserId = Context.User.Id
         };
 
+        await using var dbContext = await dbProvider.GetContextAsync();
+
 
         await dbContext.AuthCodes.AddAsync(mod);
         await dbContext.SaveChangesAsync();
 
         await Task.Delay(1000);
-        await RoleMetadataService.UpdateRoleConnectionData(Context.User.Id, mod.Id, dbContext, Context.Client.CurrentUser.Id,
+        await RoleMetadataService.UpdateRoleConnectionData(Context.User.Id, mod.Id, dbProvider, Context.Client.CurrentUser.Id,
             Credentials.ClientSecret, HttpClient);
 
         var eb = new EmbedBuilder()

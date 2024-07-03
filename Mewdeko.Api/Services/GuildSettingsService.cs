@@ -8,7 +8,7 @@ namespace Mewdeko.Api.Services;
 /// Service for managing guild settings.
 /// </summary>
 public class GuildSettingsService(
-    MewdekoContext dbContext,
+    DbContextProvider dbProvider,
     RedisCache cache)
 {
     /// <summary>

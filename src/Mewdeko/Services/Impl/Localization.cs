@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Services.Settings;
 
 namespace Mewdeko.Services.Impl
@@ -6,7 +7,7 @@ namespace Mewdeko.Services.Impl
     /// <summary>
     /// Provides functionality for managing localization settings and retrieving localized data.
     /// </summary>
-    public class Localization(BotConfigService bss, MewdekoContext dbContext, GuildSettingsService service)
+    public class Localization(BotConfigService bss, DbContextProvider dbProvider, GuildSettingsService service)
         : ILocalization
     {
         /// <inheritdoc/>
@@ -64,7 +65,8 @@ namespace Mewdeko.Services.Impl
             }
 
 
-            var gc = await dbContext.ForGuildId(guildId, set => set);
+           await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guildId, set => set);
             gc.Locale = ci.Name;
             await service.UpdateGuildConfig(guildId, gc);
         }
@@ -76,7 +78,8 @@ namespace Mewdeko.Services.Impl
         private async void RemoveGuildCulture(ulong guildId)
         {
 
-            var gc = await dbContext.ForGuildId(guildId, set => set);
+           await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guildId, set => set);
             gc.Locale = null;
             await service.UpdateGuildConfig(guildId, gc);
         }

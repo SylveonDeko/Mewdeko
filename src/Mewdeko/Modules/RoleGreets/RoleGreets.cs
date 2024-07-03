@@ -46,7 +46,7 @@ public class RoleGreets(InteractiveService interactivity, HttpClient http) : Mew
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task RoleGreetRemove(int id)
     {
-        var greet = Service.GetListGreets(ctx.Guild.Id)?.ElementAt(id - 1);
+        var greet = (await Service.GetListGreets(ctx.Guild.Id))?.ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("No greet with that ID found!", Config).ConfigureAwait(false);
@@ -64,7 +64,7 @@ public class RoleGreets(InteractiveService interactivity, HttpClient http) : Mew
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task RoleGreetRemove([Remainder] IRole role)
     {
-        var greet = Service.GetListGreets(ctx.Guild.Id).Where(x => x.RoleId == role.Id);
+        var greet = (await Service.GetListGreets(ctx.Guild.Id)).Where(x => x.RoleId == role.Id);
         if (!greet.Any())
         {
             await ctx.Channel.SendErrorAsync("There are no greets for that role!", Config).ConfigureAwait(false);
@@ -90,7 +90,7 @@ public class RoleGreets(InteractiveService interactivity, HttpClient http) : Mew
      RequireBotPermission(GuildPermission.ManageMessages)]
     public async Task RoleGreetDelete(int id, StoopidTime time)
     {
-        var greet = Service.GetListGreets(ctx.Guild.Id)?.ElementAt(id - 1);
+        var greet = (await Service.GetListGreets(ctx.Guild.Id))?.ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("No RoleGreet found for that Id!", Config).ConfigureAwait(false);
@@ -112,7 +112,7 @@ public class RoleGreets(InteractiveService interactivity, HttpClient http) : Mew
      RequireBotPermission(GuildPermission.ManageMessages)]
     public async Task RoleGreetDelete(int id, int howlong)
     {
-        var greet = Service.GetListGreets(ctx.Guild.Id)?.ElementAt(id - 1);
+        var greet = (await Service.GetListGreets(ctx.Guild.Id))?.ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("No RoleGreet found for that Id!", Config).ConfigureAwait(false);
@@ -140,7 +140,7 @@ public class RoleGreets(InteractiveService interactivity, HttpClient http) : Mew
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task RoleGreetGreetBots(int num, bool enabled)
     {
-        var greet = Service.GetListGreets(ctx.Guild.Id)?.ElementAt(num - 1);
+        var greet = (await Service.GetListGreets(ctx.Guild.Id))?.ElementAt(num - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("That RoleGreet does not exist!", Config).ConfigureAwait(false);
@@ -159,7 +159,7 @@ public class RoleGreets(InteractiveService interactivity, HttpClient http) : Mew
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task RoleGreetDisable(int num, bool enabled)
     {
-        var greet = Service.GetListGreets(ctx.Guild.Id)?.ElementAt(num - 1);
+        var greet = (await Service.GetListGreets(ctx.Guild.Id))?.ElementAt(num - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("That RoleGreet does not exist!", Config).ConfigureAwait(false);
@@ -180,7 +180,7 @@ public class RoleGreets(InteractiveService interactivity, HttpClient http) : Mew
      RequireBotPermission(GuildPermission.ManageWebhooks)]
     public async Task RoleGreetWebhook(int id, string? name = null, string? avatar = null)
     {
-        var greet = Service.GetListGreets(ctx.Guild.Id)?.ElementAt(id - 1);
+        var greet = (await Service.GetListGreets(ctx.Guild.Id))?.ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("No RoleGreet found for that Id!", Config).ConfigureAwait(false);
@@ -232,7 +232,7 @@ public class RoleGreets(InteractiveService interactivity, HttpClient http) : Mew
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task RoleGreetMessage(int id, [Remainder] string? message = null)
     {
-        var greet = Service.GetListGreets(ctx.Guild.Id)?.ElementAt(id - 1);
+        var greet = (await Service.GetListGreets(ctx.Guild.Id))?.ElementAt(id - 1);
         if (greet is null)
         {
             await ctx.Channel.SendErrorAsync("No RoleGreet found for that Id!", Config).ConfigureAwait(false);
@@ -280,7 +280,7 @@ public class RoleGreets(InteractiveService interactivity, HttpClient http) : Mew
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
     public async Task RoleGreetList()
     {
-        var greets = Service.GetListGreets(ctx.Guild.Id);
+        var greets = await Service.GetListGreets(ctx.Guild.Id);
         if (greets.Length == 0)
         {
             await ctx.Channel.SendErrorAsync("No RoleGreets setup!", Config).ConfigureAwait(false);

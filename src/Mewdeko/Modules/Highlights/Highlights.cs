@@ -2,6 +2,7 @@
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Highlights.Services;
 
 namespace Mewdeko.Modules.Highlights;
@@ -12,7 +13,7 @@ namespace Mewdeko.Modules.Highlights;
 /// <param name="interactivity">The embed pagination service</param>
 /// <param name="svcs"></param>
 /// <param name="db"></param>
-public class Highlights(InteractiveService interactivity, IServiceProvider svcs, MewdekoContext dbContext)
+public class Highlights(InteractiveService interactivity, IServiceProvider svcs, DbContextProvider dbProvider)
     : MewdekoModuleBase<HighlightsService>
 {
     /// <summary>
@@ -64,6 +65,7 @@ public class Highlights(InteractiveService interactivity, IServiceProvider svcs,
     [Cmd, Aliases, RequireContext(ContextType.Guild)]
     public async Task Highlight(HighlightActions action, [Remainder] string words = null)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var highlights = (await dbContext.Highlights.ForUser(ctx.Guild.Id, ctx.User.Id)).ToList();
         switch (action)

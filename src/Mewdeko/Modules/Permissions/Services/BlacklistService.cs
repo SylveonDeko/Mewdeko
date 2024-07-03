@@ -1,6 +1,7 @@
 ﻿using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
+using Mewdeko.Database.DbContextStuff;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -14,10 +15,10 @@ public sealed class BlacklistService : IEarlyBehavior, INService
 {
     private readonly TypedKey<bool> blPrivKey = new("blacklist.reload.priv");
 
-    private readonly TypedKey<BlacklistEntry[]> blPubKey = new("blacklist.reload");
+    private readonly TypedKey<IList<BlacklistEntry>> blPubKey = new("blacklist.reload");
     private readonly DiscordShardedClient client;
     private readonly BotConfig config;
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly IPubSub pubSub;
 
     /// <summary>
@@ -37,30 +38,18 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     /// <remarks>
     /// The service subscribes to relevant events to automatically enforce blacklist rules upon guild join events or when the bot starts.
     /// </remarks>
-    public BlacklistService(MewdekoContext dbContext, IPubSub pubSub, EventHandler handler, DiscordShardedClient client,
+    public BlacklistService(DbContextProvider dbProvider, IPubSub pubSub, EventHandler handler, DiscordShardedClient client,
         BotConfig config)
     {
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.pubSub = pubSub;
         this.client = client;
         this.config = config;
-        Reload(false);
+        _ = Reload(false);
         this.pubSub.Sub(blPubKey, OnReload);
         this.pubSub.Sub(blPrivKey, ManualCheck);
         handler.JoinedGuild += CheckBlacklist;
         _ = CheckAllGuilds();
-        BlacklistEntries.Add(new BlacklistEntry
-        {
-            DateAdded = DateTime.Now, ItemId = 967780813741625344, Type = BlacklistType.User
-        });
-        BlacklistEntries.Add(new BlacklistEntry
-        {
-            DateAdded = DateTime.UtcNow, ItemId = 930096051900280882, Type = BlacklistType.User
-        });
-        BlacklistEntries.Add(new BlacklistEntry
-        {
-            DateAdded = DateTime.UtcNow, ItemId = 767459211373314118, Type = BlacklistType.User
-        });
     }
 
     /// <summary>
@@ -110,10 +99,9 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     /// <remarks>
     /// This method is typically invoked through a pub-sub event to ensure the blacklist is enforced consistently.
     /// </remarks>
-    private ValueTask ManualCheck(bool _)
+    private async ValueTask ManualCheck(bool _)
     {
-        CheckAllGuilds();
-        return default;
+        await CheckAllGuilds();
     }
 
     /// <summary>
@@ -123,10 +111,8 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     /// <remarks>
     /// This method iterates over all guilds, removing the bot from those that are blacklisted.
     /// </remarks>
-    private Task CheckAllGuilds()
+    private async Task CheckAllGuilds()
     {
-        _ = Task.Run(async () =>
-        {
             var guilds = client.Guilds;
             foreach (var guild in guilds)
             {
@@ -135,12 +121,10 @@ public sealed class BlacklistService : IEarlyBehavior, INService
                     await guild.LeaveAsync().ConfigureAwait(false);
                 }
 
-                if (!guild.Name.ToLower().Contains("nigger")) continue;
-                Blacklist(BlacklistType.Server, guild.Id, "Inappropriate Name");
+                if (!guild.Name.Contains("nigger", StringComparison.CurrentCultureIgnoreCase)) continue;
+                await Blacklist(BlacklistType.Server, guild.Id, "Inappropriate Name");
                 await guild.LeaveAsync().ConfigureAwait(false);
             }
-        });
-        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -170,7 +154,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
         var channel = channels.FirstOrDefault(x => x is not IVoiceChannel);
         if (arg.Name.ToLower().Contains("nigger"))
         {
-            Blacklist(BlacklistType.Server, arg.Id, "Inappropriate Name");
+            await Blacklist(BlacklistType.Server, arg.Id, "Inappropriate Name");
             try
             {
                 await channel
@@ -225,7 +209,7 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     /// </summary>
     /// <param name="blacklist">The updated array of blacklist entries to load.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    private ValueTask OnReload(BlacklistEntry[] blacklist)
+    private ValueTask OnReload(IList<BlacklistEntry> blacklist)
     {
         BlacklistEntries = blacklist;
         return default;
@@ -235,12 +219,25 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     /// Reloads the blacklist from the database, optionally publishing a notification about the update.
     /// </summary>
     /// <param name="publish">Whether to publish a notification about the blacklist reload.</param>
-    public void Reload(bool publish = true)
+    private async Task Reload(bool publish = true)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
-        var toPublish = dbContext.Blacklist.AsNoTracking().ToArray();
-        BlacklistEntries = toPublish.ToList();
-        if (publish) pubSub.Pub(blPubKey, toPublish);
+        var toPublish = await dbContext.Blacklist.AsNoTracking().ToListAsync();
+        BlacklistEntries = toPublish;
+        BlacklistEntries.Add(new BlacklistEntry
+        {
+            DateAdded = DateTime.Now, ItemId = 967780813741625344, Type = BlacklistType.User
+        });
+        BlacklistEntries.Add(new BlacklistEntry
+        {
+            DateAdded = DateTime.UtcNow, ItemId = 930096051900280882, Type = BlacklistType.User
+        });
+        BlacklistEntries.Add(new BlacklistEntry
+        {
+            DateAdded = DateTime.UtcNow, ItemId = 767459211373314118, Type = BlacklistType.User
+        });
+        if (publish) await pubSub.Pub(blPubKey, toPublish);
     }
 
     /// <summary>
@@ -252,17 +249,18 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     /// <remarks>
     /// This method adds the entity to the blacklist and reloads the blacklist to ensure the changes are reflected.
     /// </remarks>
-    public void Blacklist(BlacklistType type, ulong id, string? reason)
+    public async Task Blacklist(BlacklistType type, ulong id, string? reason)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var item = new BlacklistEntry
         {
             ItemId = id, Type = type, Reason = reason ?? "No reason provided."
         };
         dbContext.Blacklist.Add(item);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
 
-        Reload();
+        await Reload();
     }
 
     /// <summary>
@@ -273,18 +271,19 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     /// <remarks>
     /// This method removes the specified entity from the blacklist and then reloads the blacklist to ensure the changes are reflected.
     /// </remarks>
-    public void UnBlacklist(BlacklistType type, ulong id)
+    public async Task UnBlacklist(BlacklistType type, ulong id)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
-        var toRemove = dbContext.Blacklist
-            .FirstOrDefault(bi => bi.ItemId == id && bi.Type == type);
+        var toRemove = await dbContext.Blacklist
+            .FirstOrDefaultAsync(bi => bi.ItemId == id && bi.Type == type);
 
         if (toRemove is not null)
             dbContext.Blacklist.Remove(toRemove);
 
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
 
-        Reload();
+        await Reload();
     }
 
     /// <summary>
@@ -294,10 +293,10 @@ public sealed class BlacklistService : IEarlyBehavior, INService
     /// <remarks>
     /// This method adds the specified users to the blacklist, clears their currencies, and then reloads the blacklist to ensure the changes are reflected.
     /// </remarks>
-    public async void BlacklistUsers(IEnumerable<ulong> toBlacklist)
+    public async Task BlacklistUsers(IEnumerable<ulong> toBlacklist)
     {
 
-        await using (dbContext.ConfigureAwait(false))
+        await using var dbContext = await dbProvider.GetContextAsync();
         {
             var bc = dbContext.Blacklist;
             //blacklist the users
@@ -311,6 +310,6 @@ public sealed class BlacklistService : IEarlyBehavior, INService
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
-        Reload();
+        await Reload();
     }
 }

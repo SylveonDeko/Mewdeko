@@ -2,11 +2,13 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Net.Http;
 using Humanizer;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Xp.Common;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using SkiaSharp;
 using StackExchange.Redis;
@@ -31,13 +33,14 @@ public class XpService : INService, IUnloadableService
     private readonly CommandHandler cmd;
     private readonly IBotCredentials creds;
 
-    private readonly MewdekoContext db;
+    private readonly DbContextProvider dbProvider;
     private readonly EventHandler eventHandler;
     private readonly GuildSettingsService guildSettings;
     private readonly IImageCache images;
     private readonly IMemoryCache memoryCache;
     private readonly IBotStrings strings;
     private readonly XpConfigService xpConfig;
+    private readonly IServiceScopeFactory _scopes;
 
 
     /// <summary>
@@ -60,7 +63,7 @@ public class XpService : INService, IUnloadableService
     public XpService(
         DiscordShardedClient client,
         CommandHandler cmd,
-        MewdekoContext db,
+        DbContextProvider dbProvider,
         IBotStrings strings,
         IDataCache cache,
         FontProvider fonts,
@@ -68,9 +71,9 @@ public class XpService : INService, IUnloadableService
         IHttpClientFactory http,
         XpConfigService xpConfig,
         Mewdeko bot,
-        IMemoryCache memoryCache, EventHandler eventHandler, GuildSettingsService guildSettings)
+        IMemoryCache memoryCache, EventHandler eventHandler, GuildSettingsService guildSettings, IServiceScopeFactory scopes)
     {
-        this.db = db;
+        this.dbProvider = dbProvider;
         this.cmd = cmd;
         images = cache.LocalImages;
         this.strings = strings;
@@ -81,6 +84,7 @@ public class XpService : INService, IUnloadableService
         this.memoryCache = memoryCache;
         this.eventHandler = eventHandler;
         this.guildSettings = guildSettings;
+        _scopes = scopes;
         this.client = client;
 
         this.cmd.OnMessageNoTrigger += Cmd_OnMessageNoTrigger;
@@ -123,76 +127,73 @@ public class XpService : INService, IUnloadableService
                 var group = toAddTo.GroupBy(x => (GuildId: x.Guild.Id, x.User));
                 if (toAddTo.Count == 0) continue;
 
-                var uow = db;
-                await using (uow.ConfigureAwait(false))
+                await using var dbContext = await dbProvider.GetContextAsync();
+                foreach (var item in group)
                 {
-                    foreach (var item in group)
+                    var xp = item.Sum(x => x.XpAmount);
+
+                    //1. Mass query discord users and userxpstats and get them from local dict
+                    //2. (better but much harder) Move everything to the database, and get old and new xp
+                    // amounts for every user (in order to give rewards)
+
+                    var usr = await dbContext.UserXpStats.GetOrCreateUser(item.Key.GuildId, item.Key.User.Id);
+                    var du = await dbContext.GetOrCreateUser(item.Key.User).ConfigureAwait(false);
+
+                    var globalXp = du.TotalXp;
+                    var oldGlobalLevelData = new LevelStats(globalXp);
+                    var newGlobalLevelData = new LevelStats(globalXp + xp);
+
+                    var oldGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
+                    usr.Xp += xp;
+                    du.TotalXp += xp;
+                    var newGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
+
+                    if (oldGlobalLevelData.Level < newGlobalLevelData.Level)
                     {
-                        var xp = item.Sum(x => x.XpAmount);
-
-                        //1. Mass query discord users and userxpstats and get them from local dict
-                        //2. (better but much harder) Move everything to the database, and get old and new xp
-                        // amounts for every user (in order to give rewards)
-
-                        var usr = await uow.UserXpStats.GetOrCreateUser(item.Key.GuildId, item.Key.User.Id);
-                        var du = await uow.GetOrCreateUser(item.Key.User).ConfigureAwait(false);
-
-                        var globalXp = du.TotalXp;
-                        var oldGlobalLevelData = new LevelStats(globalXp);
-                        var newGlobalLevelData = new LevelStats(globalXp + xp);
-
-                        var oldGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
-                        usr.Xp += xp;
-                        du.TotalXp += xp;
-                        var newGuildLevelData = new LevelStats(usr.Xp + usr.AwardedXp);
-
-                        if (oldGlobalLevelData.Level < newGlobalLevelData.Level)
+                        du.LastLevelUp = DateTime.UtcNow;
+                        var first = item.First();
+                        if (du.NotifyOnLevelUp != XpNotificationLocation.None)
                         {
-                            du.LastLevelUp = DateTime.UtcNow;
-                            var first = item.First();
-                            if (du.NotifyOnLevelUp != XpNotificationLocation.None)
-                            {
-                                toNotify.Add((first.Guild, first.Channel, first.User, newGlobalLevelData.Level,
-                                    du.NotifyOnLevelUp, NotifOf.Global));
-                            }
-                        }
-
-                        if (oldGuildLevelData.Level >= newGuildLevelData.Level) continue;
-                        {
-                            usr.LastLevelUp = DateTime.UtcNow;
-                            //send level up notification
-                            var first = item.First();
-                            if (usr.NotifyOnLevelUp != XpNotificationLocation.None)
-                            {
-                                toNotify.Add((first.Guild, first.Channel, first.User, newGuildLevelData.Level,
-                                    usr.NotifyOnLevelUp, NotifOf.Server));
-                            }
-
-                            //give role
-                            if (!roleRewards.TryGetValue(usr.GuildId, out var rrews))
-                            {
-                                rrews = (await uow.XpSettingsFor(usr.GuildId)).RoleRewards.ToList();
-                                roleRewards.Add(usr.GuildId, rrews);
-                            }
-
-                            if (!curRewards.TryGetValue(usr.GuildId, out var crews))
-                            {
-                                crews = (await uow.XpSettingsFor(usr.GuildId)).CurrencyRewards.ToList();
-                                curRewards.Add(usr.GuildId, crews);
-                            }
-
-                            for (var i = oldGuildLevelData.Level + 1; i <= newGuildLevelData.Level; i++)
-                            {
-                                var rrew = rrews.Find(x => x.Level == i);
-                                if (rrew == null) continue;
-                                var role = first.User.Guild.GetRole(rrew.RoleId);
-                                if (role is not null) _ = first.User.AddRoleAsync(role);
-                            }
+                            toNotify.Add((first.Guild, first.Channel, first.User, newGlobalLevelData.Level,
+                                du.NotifyOnLevelUp, NotifOf.Global));
                         }
                     }
 
-                    await uow.SaveChangesAsync().ConfigureAwait(false);
+                    if (oldGuildLevelData.Level >= newGuildLevelData.Level) continue;
+                    {
+                        usr.LastLevelUp = DateTime.UtcNow;
+                        //send level up notification
+                        var first = item.First();
+                        if (usr.NotifyOnLevelUp != XpNotificationLocation.None)
+                        {
+                            toNotify.Add((first.Guild, first.Channel, first.User, newGuildLevelData.Level,
+                                usr.NotifyOnLevelUp, NotifOf.Server));
+                        }
+
+                        //give role
+                        if (!roleRewards.TryGetValue(usr.GuildId, out var rrews))
+                        {
+                            rrews = (await dbContext.XpSettingsFor(usr.GuildId)).RoleRewards.ToList();
+                            roleRewards.Add(usr.GuildId, rrews);
+                        }
+
+                        if (!curRewards.TryGetValue(usr.GuildId, out var crews))
+                        {
+                            crews = (await dbContext.XpSettingsFor(usr.GuildId)).CurrencyRewards.ToList();
+                            curRewards.Add(usr.GuildId, crews);
+                        }
+
+                        for (var i = oldGuildLevelData.Level + 1; i <= newGuildLevelData.Level; i++)
+                        {
+                            var rrew = rrews.Find(x => x.Level == i);
+                            if (rrew == null) continue;
+                            var role = first.User.Guild.GetRole(rrew.RoleId);
+                            if (role is not null) _ = first.User.AddRoleAsync(role);
+                        }
+                    }
                 }
+
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
                 await Task.WhenAll(toNotify.Select(async x =>
                 {
@@ -241,8 +242,9 @@ public class XpService : INService, IUnloadableService
     /// <returns>A task that represents the asynchronous operation. The task result contains an enumerable of <see cref="XpRoleReward"/>.</returns>
     public async Task<IEnumerable<XpRoleReward>> GetRoleRewards(ulong id)
     {
-        await using var uow = db;
-        return (await uow.XpSettingsFor(id)).RoleRewards.ToArray();
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        return (await dbContext.XpSettingsFor(id)).RoleRewards.ToArray();
     }
 
     /// <summary>
@@ -257,15 +259,16 @@ public class XpService : INService, IUnloadableService
     /// </remarks>
     public async void SetRoleReward(ulong guildId, int level, ulong? roleId)
     {
-        await using var uow = db;
-        var settings = await uow.XpSettingsFor(guildId);
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        var settings = await dbContext.XpSettingsFor(guildId);
 
         if (roleId == null)
         {
             var toRemove = settings.RoleRewards.FirstOrDefault(x => x.Level == level);
             if (toRemove != null)
             {
-                uow.Remove(toRemove);
+                dbContext.Remove(toRemove);
                 settings.RoleRewards.Remove(toRemove);
             }
         }
@@ -282,7 +285,7 @@ public class XpService : INService, IUnloadableService
                 });
         }
 
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -293,8 +296,9 @@ public class XpService : INService, IUnloadableService
     /// <returns>A task that represents the asynchronous operation. The task result contains a list of <see cref="UserXpStats"/>.</returns>
     public async Task<List<UserXpStats>> GetUserXps(ulong guildId, int page)
     {
-        await using var uow = db;
-        return await uow.UserXpStats.GetUsersFor(guildId, page);
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        return await dbContext.UserXpStats.GetUsersFor(guildId, page);
     }
 
     /// <summary>
@@ -304,8 +308,9 @@ public class XpService : INService, IUnloadableService
     /// <returns>A task that represents the asynchronous operation. The task result contains a list of <see cref="UserXpStats"/>.</returns>
     public async Task<List<UserXpStats>> GetTopUserXps(ulong guildId)
     {
-        await using var uow = db;
-        return await uow.UserXpStats.GetTopUserXps(guildId);
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        return await dbContext.UserXpStats.GetTopUserXps(guildId);
     }
 
     /// <summary>
@@ -317,10 +322,11 @@ public class XpService : INService, IUnloadableService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task ChangeNotificationType(ulong userId, ulong guildId, XpNotificationLocation type)
     {
-        await using var uow = db;
-        var user = await uow.UserXpStats.GetOrCreateUser(guildId, userId);
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        var user = await dbContext.UserXpStats.GetOrCreateUser(guildId, userId);
         user.NotifyOnLevelUp = type;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -331,8 +337,9 @@ public class XpService : INService, IUnloadableService
     /// <returns>A task that represents the asynchronous operation. The task result contains the notification location type.</returns>
     public async Task<XpNotificationLocation> GetNotificationType(ulong userId, ulong guildId)
     {
-        await using var uow = db;
-        var user = await uow.UserXpStats.GetOrCreateUser(guildId, userId);
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        var user = await dbContext.UserXpStats.GetOrCreateUser(guildId, userId);
         return user.NotifyOnLevelUp;
     }
 
@@ -343,8 +350,9 @@ public class XpService : INService, IUnloadableService
     /// <returns>A task that represents the asynchronous operation. The task result contains the notification location type.</returns>
     public async Task<XpNotificationLocation> GetNotificationType(IUser user)
     {
-        await using var uow = db;
-        return (await uow.GetOrCreateUser(user).ConfigureAwait(false)).NotifyOnLevelUp;
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        return (await dbContext.GetOrCreateUser(user).ConfigureAwait(false)).NotifyOnLevelUp;
     }
 
     /// <summary>
@@ -355,10 +363,11 @@ public class XpService : INService, IUnloadableService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task ChangeNotificationType(IUser user, XpNotificationLocation type)
     {
-        await using var uow = db;
-        var du = await uow.GetOrCreateUser(user).ConfigureAwait(false);
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        var du = await dbContext.GetOrCreateUser(user).ConfigureAwait(false);
         du.NotifyOnLevelUp = type;
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     private async Task Client_OnGuildAvailable(SocketGuild guild)
@@ -478,7 +487,8 @@ public class XpService : INService, IUnloadableService
     /// <returns>The voice XP timeout in minutes.</returns>
     public async Task<int> GetVoiceXpTimeout(ulong id)
     {
-        var config = await guildSettings.GetGuildConfig(id);
+        await using var dbContext = await dbProvider.GetContextAsync();
+        var config = await dbContext.ForGuildId(id);
         return config.XpVoiceTimeout;
     }
 
@@ -511,7 +521,9 @@ public class XpService : INService, IUnloadableService
 
     private async Task<bool> ShouldTrackXp(SocketGuildUser user, ulong channelId)
     {
-        var config = await db.XpSettingsFor(user.Guild.Id);
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        var config = await dbContext.XpSettingsFor(user.Guild.Id);
         if (config.ExclusionList.Select(x => x.ItemId).Contains(channelId))
             return false;
         if (config.ExclusionList.Select(x => x.ItemId).Contains(user.Id))
@@ -567,12 +579,13 @@ public class XpService : INService, IUnloadableService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task AddXp(ulong userId, ulong guildId, int amount)
     {
-        await using var uow = db;
-        var usr = await uow.UserXpStats.GetOrCreateUser(guildId, userId);
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        var usr = await dbContext.UserXpStats.GetOrCreateUser(guildId, userId);
 
         usr.AwardedXp += amount;
 
-        await uow.SaveChangesAsync().ConfigureAwait(false);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -583,8 +596,9 @@ public class XpService : INService, IUnloadableService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task XpTxtRateSet(IGuild guild, int num)
     {
-        await using var uow = db;
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.XpTxtRate = num;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -597,8 +611,9 @@ public class XpService : INService, IUnloadableService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task XpTxtTimeoutSet(IGuild guild, int num)
     {
-        await using var uow = db;
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.XpTxtTimeout = num;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -611,8 +626,9 @@ public class XpService : INService, IUnloadableService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task XpVoiceRateSet(IGuild guild, int num)
     {
-        await using var uow = db;
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.XpVoiceRate = num;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -625,8 +641,9 @@ public class XpService : INService, IUnloadableService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task XpVoiceTimeoutSet(IGuild guild, int num)
     {
-        await using var uow = db;
-        var gc = await uow.ForGuildId(guild.Id, set => set);
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.XpVoiceTimeout = num;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -684,17 +701,12 @@ public class XpService : INService, IUnloadableService
     /// </remarks>
     public async Task<FullUserStats> GetUserStatsAsync(IGuildUser user)
     {
-        DiscordUser du;
-        UserXpStats stats;
-        int guildRank;
-        var uow = db;
-        await using (uow.ConfigureAwait(false))
-        {
-            du = await uow.GetOrCreateUser(user).ConfigureAwait(false);
-            guildRank = uow.UserXpStats.GetUserGuildRanking(user.Id, user.GuildId);
-            stats = await uow.UserXpStats.GetOrCreateUser(user.GuildId, user.Id);
-            await uow.SaveChangesAsync().ConfigureAwait(false);
-        }
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        var du = await dbContext.GetOrCreateUser(user).ConfigureAwait(false);
+        var guildRank = dbContext.UserXpStats.GetUserGuildRanking(user.Id, user.GuildId);
+        var stats = await dbContext.UserXpStats.GetOrCreateUser(user.GuildId, user.Id);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
         return new FullUserStats(du, stats, new LevelStats(stats.Xp + stats.AwardedXp),
             guildRank);
@@ -711,8 +723,9 @@ public class XpService : INService, IUnloadableService
     public async Task<bool> ToggleExcludeServer(ulong id)
     {
         var config = await guildSettings.GetGuildConfig(id);
-        await using var uow = db;
-        var xpSetting = await uow.XpSettingsFor(id);
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        var xpSetting = await dbContext.XpSettingsFor(id);
         xpSetting.ServerExcluded = false;
         config.XpSettings.ServerExcluded = false;
         await guildSettings.UpdateGuildConfig(id, config);
@@ -732,17 +745,18 @@ public class XpService : INService, IUnloadableService
     {
         var config = await guildSettings.GetGuildConfig(guildId);
         var excluded = config.XpSettings.ExclusionList;
-        await using var uow = db;
+        await using var dbContext = await dbProvider.GetContextAsync();
+
 
         if (excluded.Select(x => x.ItemId).Contains(rId))
         {
             excluded.Remove(excluded.FirstOrDefault(x => x.ItemId == rId));
             config.XpSettings.ExclusionList = excluded;
             await guildSettings.UpdateGuildConfig(guildId, config);
-            var xpSetting = await uow.XpSettingsFor(guildId);
+            var xpSetting = await dbContext.XpSettingsFor(guildId);
             xpSetting.ExclusionList.RemoveWhere(x => x.ItemId == rId);
-            uow.Update(xpSetting);
-            await uow.SaveChangesAsync().ConfigureAwait(false);
+            dbContext.Update(xpSetting);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             return false;
         }
         else
@@ -754,12 +768,12 @@ public class XpService : INService, IUnloadableService
 
             config.XpSettings.ExclusionList = excluded;
             await guildSettings.UpdateGuildConfig(guildId, config);
-            var xpSetting = await uow.XpSettingsFor(guildId);
+            var xpSetting = await dbContext.XpSettingsFor(guildId);
             xpSetting.ExclusionList.Add(new ExcludedItem
             {
                 ItemId = rId, ItemType = ExcludedItemType.Role
             });
-            await uow.SaveChangesAsync().ConfigureAwait(false);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             return true;
         }
     }
@@ -783,17 +797,18 @@ public class XpService : INService, IUnloadableService
     {
         var config = await guildSettings.GetGuildConfig(guildId);
         var excluded = config.XpSettings.ExclusionList;
-        await using var uow = db;
+        await using var dbContext = await dbProvider.GetContextAsync();
+
 
         if (excluded.Select(x => x.ItemId).Contains(chId))
         {
             excluded.Remove(excluded.FirstOrDefault(x => x.ItemId == chId));
             config.XpSettings.ExclusionList = excluded;
             await guildSettings.UpdateGuildConfig(guildId, config);
-            var xpSetting = await uow.XpSettingsFor(guildId);
+            var xpSetting = await dbContext.XpSettingsFor(guildId);
             xpSetting.ExclusionList.RemoveWhere(x => x.ItemId == chId);
-            uow.Update(xpSetting);
-            await uow.SaveChangesAsync().ConfigureAwait(false);
+            dbContext.Update(xpSetting);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             return false;
         }
         else
@@ -805,12 +820,12 @@ public class XpService : INService, IUnloadableService
 
             config.XpSettings.ExclusionList = excluded;
             await guildSettings.UpdateGuildConfig(guildId, config);
-            var xpSetting = await uow.XpSettingsFor(guildId);
+            var xpSetting = await dbContext.XpSettingsFor(guildId);
             xpSetting.ExclusionList.Add(new ExcludedItem
             {
                 ItemId = chId, ItemType = ExcludedItemType.Channel
             });
-            await uow.SaveChangesAsync().ConfigureAwait(false);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
             return true;
         }
     }
@@ -1056,8 +1071,9 @@ public class XpService : INService, IUnloadableService
     /// </remarks>
     public async Task<Template> GetTemplate(ulong guildId)
     {
-        await using var uow = db;
-        var template = uow.Templates
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        var template = dbContext.Templates
             .Include(x => x.TemplateUser)
             .Include(x => x.TemplateBar)
             .Include(x => x.TemplateClub)
@@ -1073,9 +1089,9 @@ public class XpService : INService, IUnloadableService
             TemplateGuild = new TemplateGuild(),
             TemplateUser = new TemplateUser()
         };
-        uow.Templates.Add(toAdd);
-        await uow.SaveChangesAsync();
-        return uow.Templates.FirstOrDefault(x => x.GuildId == guildId);
+        dbContext.Templates.Add(toAdd);
+        await dbContext.SaveChangesAsync();
+        return dbContext.Templates.FirstOrDefault(x => x.GuildId == guildId);
     }
 
 
@@ -1093,11 +1109,12 @@ public class XpService : INService, IUnloadableService
     /// <remarks>
     /// This action cannot be undone. It clears all XP data for the specified user in the specified guild.
     /// </remarks>
-    public void XpReset(ulong guildId, ulong userId)
+    public async Task XpReset(ulong guildId, ulong userId)
     {
-        using var uow = db;
-        uow.UserXpStats.ResetGuildUserXp(userId, guildId);
-        uow.SaveChanges();
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        dbContext.UserXpStats.ResetGuildUserXp(userId, guildId);
+        await dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -1107,11 +1124,12 @@ public class XpService : INService, IUnloadableService
     /// <remarks>
     /// This action cannot be undone. It clears all XP data for all users in the specified guild.
     /// </remarks>
-    public void XpReset(ulong guildId)
+    public async Task XpReset(ulong guildId)
     {
-        using var uow = db;
-        uow.UserXpStats.ResetGuildXp(guildId);
-        uow.SaveChanges();
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        dbContext.UserXpStats.ResetGuildXp(guildId);
+        await dbContext.SaveChangesAsync();
     }
 
     /// <summary>
@@ -1125,11 +1143,12 @@ public class XpService : INService, IUnloadableService
     /// </remarks>
     public async Task SetImageUrl(ulong guildId, string imageUrl)
     {
-        await using var uow = db;
-        var set = await uow.ForGuildId(guildId);
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        var set = await dbContext.ForGuildId(guildId);
         set.XpImgUrl = imageUrl;
-        uow.GuildConfigs.Update(set);
-        await uow.SaveChangesAsync();
+        dbContext.GuildConfigs.Update(set);
+        await dbContext.SaveChangesAsync();
         await guildSettings.UpdateGuildConfig(guildId, set);
     }
 

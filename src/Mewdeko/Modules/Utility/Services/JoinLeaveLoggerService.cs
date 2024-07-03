@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Text.Json;
 using System.Threading;
+using Mewdeko.Database.DbContextStuff;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using SkiaSharp;
@@ -17,7 +18,7 @@ public class JoinLeaveLoggerService : INService
 {
     private readonly IDataCache cache;
     private readonly IBotCredentials credentials;
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly Timer flushTimer;
 
     /// <summary>
@@ -27,12 +28,13 @@ public class JoinLeaveLoggerService : INService
     /// <param name="cache">Data cache for storing join and leave logs.</param>
     /// <param name="db">Database service for storing join and leave logs.</param>
     /// <param name="credentials">Bot credentials for accessing the Redis database.</param>
-    public JoinLeaveLoggerService(EventHandler eventHandler, IDataCache cache, MewdekoContext dbContext,
+    public JoinLeaveLoggerService(EventHandler eventHandler, IDataCache cache, DbContextProvider dbProvider,
         IBotCredentials credentials)
     {
-        dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.credentials = credentials;
         this.cache = cache;
+        this.dbProvider = dbProvider;
 
         _ = LoadDataFromSqliteToRedisAsync();
         // Create a timer to flush data from Redis to SQLite every 5 minutes
@@ -117,6 +119,8 @@ public class JoinLeaveLoggerService : INService
     /// <returns>A stream containing the graph image and an embed for the graph.</returns>
     public async Task<Tuple<Stream, Embed>> GenerateJoinGraphAsync(ulong guildId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var redisDatabase = cache.Redis.GetDatabase();
         var redisKey = GetRedisKey(guildId);
         var config = await dbContext.ForGuildId(guildId);
@@ -267,6 +271,8 @@ public class JoinLeaveLoggerService : INService
     /// <returns>A stream containing the graph image and an embed for the graph.</returns>
     public async Task<Tuple<Stream, Embed>> GenerateLeaveGraphAsync(ulong guildId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var redisDatabase = cache.Redis.GetDatabase();
         var redisKey = GetRedisKey(guildId);
         var config = await dbContext.ForGuildId(guildId);
@@ -417,6 +423,7 @@ public class JoinLeaveLoggerService : INService
     private async Task LoadDataFromSqliteToRedisAsync()
     {
         var redisDatabase = cache.Redis.GetDatabase();
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var guildIds = dbContext.JoinLeaveLogs.Select(e => e.GuildId).Distinct().ToList();
 
@@ -437,9 +444,10 @@ public class JoinLeaveLoggerService : INService
     private async Task FlushDataToSqliteAsync()
     {
         Log.Information("Flushing join/leave logs to DB....");
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var redisDatabase = cache.Redis.GetDatabase();
-        var guildIds = dbContext.JoinLeaveLogs.Select(e => e.GuildId).Distinct().ToList();
+        var guildIds = await dbContext.JoinLeaveLogs.Select(e => e.GuildId).Distinct().ToListAsync();
 
         foreach (var redisKey in guildIds.Select(GetRedisKey))
         {
@@ -466,6 +474,8 @@ public class JoinLeaveLoggerService : INService
     /// <param name="guildId">The ID of the guild.</param>
     public async Task SetJoinColor(uint color, ulong guildId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var config = await dbContext.ForGuildId(guildId);
         config.JoinGraphColor = color;
         dbContext.Update(config);
@@ -479,6 +489,8 @@ public class JoinLeaveLoggerService : INService
     /// <param name="guildId">The ID of the guild.</param>
     public async Task SetLeaveColor(uint color, ulong guildId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var config = await dbContext.ForGuildId(guildId);
         config.LeaveGraphColor = color;
         dbContext.Update(config);

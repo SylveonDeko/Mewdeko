@@ -1,4 +1,5 @@
 ﻿using Mewdeko.Common.Configs;
+using Mewdeko.Database.DbContextStuff;
 
 namespace Mewdeko.Modules.Confessions.Services;
 
@@ -9,7 +10,7 @@ namespace Mewdeko.Modules.Confessions.Services;
 /// <param name="client"></param>
 /// <param name="guildSettings"></param>
 public class ConfessionService(
-    MewdekoContext dbContext,
+    DbContextProvider dbProvider,
     DiscordShardedClient client,
     GuildSettingsService guildSettings,
     BotConfig config)
@@ -31,7 +32,7 @@ public class ConfessionService(
         string confession,
         IMessageChannel currentChannel, IInteractionContext? ctx = null, string? imageUrl = null)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var confessions = dbContext.Confessions.ForGuild(serverId);
         if (confessions.Count > 0)
         {
@@ -219,7 +220,7 @@ public class ConfessionService(
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SetConfessionChannel(IGuild guild, ulong channelId)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var guildConfig = await dbContext.ForGuildId(guild.Id, set => set);
         guildConfig.ConfessionChannel = channelId;
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);
@@ -241,7 +242,7 @@ public class ConfessionService(
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task ToggleUserBlacklistAsync(ulong guildId, ulong roleId)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var guildConfig = await dbContext.ForGuildId(guildId, set => set);
         var blacklists = guildConfig.GetConfessionBlacklists();
         if (!blacklists.Remove(roleId))
@@ -259,7 +260,7 @@ public class ConfessionService(
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SetConfessionLogChannel(IGuild guild, ulong channelId)
     {
-
+        await using var dbContext = await dbProvider.GetContextAsync();
         var guildConfig = await dbContext.ForGuildId(guild.Id, set => set);
         guildConfig.ConfessionLogChannel = channelId;
         await guildSettings.UpdateGuildConfig(guild.Id, guildConfig);

@@ -4,6 +4,7 @@ using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Giveaways.Services;
 using SkiaSharp;
 
@@ -17,7 +18,7 @@ namespace Mewdeko.Modules.Giveaways;
 /// <param name="interactiveService"></param>
 /// <param name="guildSettings"></param>
 public partial class Giveaways(
-    MewdekoContext dbContext,
+    DbContextProvider dbProvider,
     IServiceProvider servs,
     InteractiveService interactiveService,
     GuildSettingsService guildSettings)
@@ -209,6 +210,7 @@ public partial class Giveaways(
     [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
     public async Task GReroll(ulong messageid)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var gway = dbContext.Giveaways
             .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);
@@ -235,6 +237,8 @@ public partial class Giveaways(
     [Cmd, Aliases]
     public async Task GStats()
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var eb = new EmbedBuilder().WithOkColor();
         var gways = dbContext.Giveaways.GiveawaysForGuild(ctx.Guild.Id);
         if (gways.Count == 0)
@@ -572,6 +576,8 @@ public partial class Giveaways(
     public async Task GList()
     {
 
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var gways = dbContext.Giveaways.GiveawaysForGuild(ctx.Guild.Id).Where(x => x.Ended == 0);
         if (!gways.Any())
         {
@@ -616,6 +622,7 @@ public partial class Giveaways(
     [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
     public async Task GEnd(ulong messageid)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var gway = dbContext.Giveaways
             .GiveawaysForGuild(ctx.Guild.Id).ToList().Find(x => x.MessageId == messageid);

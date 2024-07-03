@@ -2,6 +2,7 @@
 using LinqToDB;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.Configs;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Common;
 using Mewdeko.Modules.Permissions.Services;
@@ -48,7 +49,7 @@ public class SuggestionsService : INService
     private readonly AdministrationService adminserv;
     private readonly DiscordShardedClient client;
     private readonly BotConfig config;
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly GuildSettingsService guildSettings;
     private readonly PermissionService perms;
     private readonly List<ulong> repostChecking;
@@ -65,7 +66,7 @@ public class SuggestionsService : INService
     /// <param name="eventHandler">Event handler for Discord client events.</param>
     /// <param name="config">The bot config service.</param>
     public SuggestionsService(
-        MewdekoContext dbContext,
+        DbContextProvider dbProvider,
         DiscordShardedClient client,
         AdministrationService aserv,
         PermissionService permserv,
@@ -82,7 +83,7 @@ public class SuggestionsService : INService
         eventHandler.ReactionAdded += UpdateCountOnReact;
         eventHandler.ReactionRemoved += UpdateCountOnRemoveReact;
         eventHandler.MessageReceived += RepostButton;
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
     }
 
     private async Task RepostButton(SocketMessage arg)
@@ -196,6 +197,7 @@ public class SuggestionsService : INService
         if (message is null)
             return;
 
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         await using var _ = dbContext.ConfigureAwait(false);
         var maybeSuggest =
@@ -269,7 +271,8 @@ public class SuggestionsService : INService
         if (channel.Id != await GetSuggestionChannel(channel.Guild.Id))
             return;
 
-        await using var _ = dbContext.ConfigureAwait(false);
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var maybeSuggest =
             dbContext.Suggestions.FirstOrDefault(x => x.GuildId == channel.GuildId && x.MessageId == message.Id);
         if (maybeSuggest is null)
@@ -471,7 +474,8 @@ public class SuggestionsService : INService
     public async Task SetButtonType(IGuild guild, int buttonId, int color)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         switch (buttonId)
         {
             case 1:
@@ -522,7 +526,8 @@ public class SuggestionsService : INService
     public async Task SetSuggestionEmotes(IGuild guild, string parsedEmotes)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.SuggestEmotes = parsedEmotes;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
@@ -535,8 +540,10 @@ public class SuggestionsService : INService
     /// <returns>A task that represents the asynchronous operation of setting the button color.</returns>
     public async Task SetSuggestButtonColor(IGuild guild, int colorNum)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.SuggestButtonColor = colorNum;
         await dbContext.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
@@ -551,7 +558,8 @@ public class SuggestionsService : INService
     public async Task SetSuggestionButtonId(IGuild guild, ulong messageId)
     {
 
-        await using var _ = dbContext.ConfigureAwait(false);
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.SuggestButtonMessageId = messageId;
         await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -566,6 +574,8 @@ public class SuggestionsService : INService
     /// <returns>A task that represents the asynchronous operation of setting the suggestion channel ID.</returns>
     public async Task SetSuggestionChannelId(IGuild guild, ulong channel)
     {
+
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.sugchan = channel;
@@ -582,9 +592,10 @@ public class SuggestionsService : INService
     public async Task SetMinLength(IGuild guild, int minLength)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.MinSuggestLength = minLength;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -597,9 +608,10 @@ public class SuggestionsService : INService
     public async Task SetMaxLength(IGuild guild, int maxLength)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.MaxSuggestLength = maxLength;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -634,12 +646,12 @@ public class SuggestionsService : INService
     /// <returns>A task that represents the asynchronous operation of resetting suggestions.</returns>
     public async Task SuggestReset(IGuild guild)
     {
-
-        await dbContext.Suggestions.Where(x => x.GuildId == guild.Id).DeleteAsync().ConfigureAwait(false);
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+       await db.Suggestions.Where(x => x.GuildId == guild.Id).DeleteAsync().ConfigureAwait(false);
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.sugnum = 1;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
     }
 
     /// <summary>
@@ -748,9 +760,10 @@ public class SuggestionsService : INService
     public async Task SetSuggestButtonMessage(IGuild guild, string? message)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.SuggestButtonMessage = message;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -763,9 +776,10 @@ public class SuggestionsService : INService
     public async Task SetSuggestButtonLabel(IGuild guild, string message)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.SuggestButtonName = message;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -778,9 +792,10 @@ public class SuggestionsService : INService
     public async Task SetSuggestionMessage(IGuild guild, string message)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.SuggestMessage = message;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -793,9 +808,10 @@ public class SuggestionsService : INService
     public async Task SetAcceptMessage(IGuild guild, string message)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.AcceptMessage = message;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -808,9 +824,10 @@ public class SuggestionsService : INService
     public async Task SetDenyMessage(IGuild guild, string message)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.DenyMessage = message;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -823,9 +840,10 @@ public class SuggestionsService : INService
     public async Task SetImplementMessage(IGuild guild, string message)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.ImplementMessage = message;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -838,6 +856,7 @@ public class SuggestionsService : INService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task UpdateSuggestState(SuggestionsModel suggestionsModel, int state, ulong stateChangeId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         suggestionsModel.CurrentState = state;
         suggestionsModel.StateChangeUser = stateChangeId;
@@ -854,6 +873,7 @@ public class SuggestionsService : INService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task UpdateStateMessageId(SuggestionsModel suggestionsModel, ulong messageStateId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         suggestionsModel.StateChangeMessageId = messageStateId;
         dbContext.Suggestions.Update(suggestionsModel);
@@ -869,9 +889,10 @@ public class SuggestionsService : INService
     public async Task SetSuggestThreadsType(IGuild guild, int num)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.SuggestionThreadType = num;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -884,9 +905,10 @@ public class SuggestionsService : INService
     public async Task SetConsiderMessage(IGuild guild, string message)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.ConsiderMessage = message;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -899,9 +921,10 @@ public class SuggestionsService : INService
     public async Task Sugnum(IGuild guild, ulong num)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.sugnum = num;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -914,9 +937,10 @@ public class SuggestionsService : INService
     public async Task SetArchiveOnDeny(IGuild guild, bool value)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.ArchiveOnDeny = value;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -929,9 +953,10 @@ public class SuggestionsService : INService
     public async Task SetArchiveOnAccept(IGuild guild, bool value)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.ArchiveOnAccept = value;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -944,9 +969,10 @@ public class SuggestionsService : INService
     public async Task SetArchiveOnConsider(IGuild guild, bool value)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.ArchiveOnConsider = value;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -959,9 +985,10 @@ public class SuggestionsService : INService
     public async Task SetArchiveOnImplement(IGuild guild, bool value)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.ArchiveOnImplement = value;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -974,9 +1001,10 @@ public class SuggestionsService : INService
     public async Task SetEmoteMode(IGuild guild, int mode)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.EmoteMode = mode;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -989,9 +1017,10 @@ public class SuggestionsService : INService
     public async Task SetAcceptChannel(IGuild guild, ulong channelId)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.AcceptChannel = channelId;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -1004,9 +1033,10 @@ public class SuggestionsService : INService
     public async Task SetDenyChannel(IGuild guild, ulong channelId)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.DenyChannel = channelId;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -1019,9 +1049,10 @@ public class SuggestionsService : INService
     public async Task SetConsiderChannel(IGuild guild, ulong channelId)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.ConsiderChannel = channelId;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -1034,9 +1065,10 @@ public class SuggestionsService : INService
     public async Task SetImplementChannel(IGuild guild, ulong channelId)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.ImplementChannel = channelId;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -1049,9 +1081,10 @@ public class SuggestionsService : INService
     public async Task SetSuggestButtonChannel(IGuild guild, ulong channelId)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.SuggestButtonChannel = channelId;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -1064,9 +1097,10 @@ public class SuggestionsService : INService
     public async Task SetSuggestButtonEmote(IGuild guild, string emote)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.SuggestButtonEmote = emote;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        await db.SaveChangesAsync().ConfigureAwait(false);
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
@@ -1079,6 +1113,7 @@ public class SuggestionsService : INService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task UpdateEmoteCount(ulong messageId, int emoteNumber, bool negative = false)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var suggest = dbContext.Suggestions.FirstOrDefault(x => x.MessageId == messageId);
         dbContext.Suggestions.Remove(suggest);
@@ -1141,6 +1176,7 @@ public class SuggestionsService : INService
     /// <returns>The current count of the specified emote for the suggestion.</returns>
     public async Task<int> GetCurrentCount(ulong messageId, int emoteNumber)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var toupdate = dbContext.Suggestions.FirstOrDefault(x => x.MessageId == messageId);
         return emoteNumber switch
@@ -1398,6 +1434,8 @@ public class SuggestionsService : INService
     {
         try
         {
+            await using var dbContext = await dbProvider.GetContextAsync();
+
             var rs = reason ?? "none";
             var suggest = (await Suggestions(guild.Id, suggestion)).FirstOrDefault();
             if (suggest is null)
@@ -1800,6 +1838,8 @@ public class SuggestionsService : INService
         string? reason = null,
         IDiscordInteraction? interaction = null)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var rs = reason ?? "none";
         var suggest = (await Suggestions(guild.Id, suggestion)).FirstOrDefault();
         if (suggest.Suggestion is null)
@@ -2191,6 +2231,8 @@ public class SuggestionsService : INService
         string? reason = null,
         IDiscordInteraction? interaction = null)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var rs = reason ?? "none";
         var suggest = (await Suggestions(guild.Id, suggestion)).FirstOrDefault();
         if (suggest.Suggestion is null)
@@ -2581,6 +2623,8 @@ public class SuggestionsService : INService
         string? reason = null,
         IDiscordInteraction? interaction = null)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var rs = reason ?? "none";
         var suggest = (await Suggestions(guild.Id, suggestion)).FirstOrDefault();
         if (suggest.Suggestion is null)
@@ -3151,7 +3195,8 @@ public class SuggestionsService : INService
         try
         {
 
-            await using var _ = dbContext.ConfigureAwait(false);
+            await using var dbContext = await dbProvider.GetContextAsync();
+
             dbContext.Suggestions.Add(suggest);
 
             await dbContext.SaveChangesAsync().ConfigureAwait(false);
@@ -3171,6 +3216,7 @@ public class SuggestionsService : INService
     /// <returns>An array of <see cref="SuggestionsModel"/> matching the criteria or null if not found.</returns>
     public async Task<SuggestionsModel[]?> Suggestions(ulong gid, ulong sid)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         return await dbContext.Suggestions.ForId(gid, sid);
     }
@@ -3180,8 +3226,9 @@ public class SuggestionsService : INService
     /// </summary>
     /// <param name="gid">The guild ID to retrieve suggestions for.</param>
     /// <returns>A list of all <see cref="SuggestionsModel"/> in the specified guild.</returns>
-    public List<SuggestionsModel> Suggestions(ulong gid)
+    public async Task<List<SuggestionsModel>> Suggestions(ulong gid)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         return dbContext.Suggestions.Where(x => x.GuildId == gid).ToList();
     }
@@ -3193,6 +3240,7 @@ public class SuggestionsService : INService
     /// <returns>The <see cref="SuggestionsModel"/> associated with the message ID.</returns>
     public async Task<SuggestionsModel> GetSuggestByMessage(ulong msgId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         return await dbContext.Suggestions.FirstOrDefaultAsyncEF(x => x.MessageId == msgId);
     }
@@ -3205,6 +3253,7 @@ public class SuggestionsService : INService
     /// <returns>An array of <see cref="SuggestionsModel"/> made by the specified user in the specified guild.</returns>
     public async Task<SuggestionsModel[]> ForUser(ulong guildId, ulong userId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         return await dbContext.Suggestions.ForUser(guildId, userId);
     }
@@ -3217,6 +3266,7 @@ public class SuggestionsService : INService
     /// <returns>The ID of the emote chosen by the user, or 0 if no vote was found.</returns>
     public async Task<int> GetPickedEmote(ulong messageId, ulong userId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var toreturn = dbContext.SuggestVotes.FirstOrDefault(x => x.UserId == userId && x.MessageId == messageId);
         return toreturn?.EmotePicked ?? 0;
@@ -3232,6 +3282,7 @@ public class SuggestionsService : INService
     /// <returns>A Task representing the asynchronous operation of updating or adding the vote.</returns>
     public async Task UpdatePickedEmote(ulong messageId, ulong userId, int emotePicked)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var tocheck = dbContext.SuggestVotes.FirstOrDefault(x => x.MessageId == messageId && x.UserId == userId);
         if (tocheck is null)
@@ -3260,6 +3311,7 @@ public class SuggestionsService : INService
     /// <returns>A Task representing the asynchronous operation of adding the thread channel association.</returns>
     public async Task AddThreadChannel(ulong messageId, ulong threadChannelId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         dbContext.SuggestThreads.Add(new SuggestThreads
         {
@@ -3276,6 +3328,7 @@ public class SuggestionsService : INService
     /// <returns>The ID of the thread channel associated with the message, or 0 if no association exists.</returns>
     public async Task<ulong> GetThreadByMessage(ulong messageId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         return dbContext.SuggestThreads.FirstOrDefault(x => x.MessageId == messageId)?.ThreadChannelId ?? 0;
     }

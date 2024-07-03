@@ -1,4 +1,5 @@
 ﻿using Mewdeko.Database.Common;
+using Mewdeko.Database.DbContextStuff;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -9,7 +10,7 @@ namespace Mewdeko.Modules.Administration.Services;
 /// </summary>
 public class RoleCommandsService : INService
 {
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly GuildSettingsService gss;
 
     /// <summary>
@@ -19,9 +20,9 @@ public class RoleCommandsService : INService
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="bot">The bot.</param>
     /// /// <param name="gss">The guild config service.</param>
-    public RoleCommandsService(MewdekoContext dbContext, EventHandler eventHandler, Mewdeko bot, GuildSettingsService gss)
+    public RoleCommandsService(DbContextProvider dbProvider, EventHandler eventHandler, Mewdeko bot, GuildSettingsService gss)
     {
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.gss = gss;
         eventHandler.ReactionAdded += _client_ReactionAdded;
         eventHandler.ReactionRemoved += _client_ReactionRemoved;
@@ -200,7 +201,8 @@ public class RoleCommandsService : INService
     public async Task<bool> Add(ulong id, ReactionRoleMessage rrm)
     {
 
-        var gc = await dbContext.ForGuildId(id, set => set
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(id, set => set
             .Include(x => x.ReactionRoleMessages)
             .ThenInclude(x => x.ReactionRoles));
         gc.ReactionRoleMessages.Add(rrm);
@@ -217,6 +219,7 @@ public class RoleCommandsService : INService
     public async Task Remove(ulong id, int index)
     {
 
+       await using var dbContext = await dbProvider.GetContextAsync();
         var gc = await dbContext.ForGuildId(id,
             set => set.Include(x => x.ReactionRoleMessages)
                 .ThenInclude(x => x.ReactionRoles));

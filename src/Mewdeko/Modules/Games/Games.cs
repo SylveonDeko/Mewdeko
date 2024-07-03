@@ -1,6 +1,7 @@
 ﻿using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Configs;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Games.Services;
 
 namespace Mewdeko.Modules.Games;
@@ -8,7 +9,7 @@ namespace Mewdeko.Modules.Games;
 public partial class Games : MewdekoModuleBase<GamesService>
 {
     private readonly BotConfig config;
-    private readonly MewdekoContext db;
+    private readonly DbContextProvider dbContextProvider;
     private readonly MewdekoRandom rng = new();
 
     /// <summary>
@@ -17,10 +18,10 @@ public partial class Games : MewdekoModuleBase<GamesService>
     /// <param name="data">The data cache service.</param>
     /// <param name="db">The database service.</param>
     /// <param name="config">Bot config service.</param>
-    public Games(IDataCache data, MewdekoContext dbContext, BotConfig config)
+    public Games(IDataCache data, DbContextProvider dbProvider, BotConfig config)
     {
         this.config = config;
-        (_, this.db) = (data.LocalImages, dbContext);
+        (_, this.dbContextProvider) = (data.LocalImages, dbProvider);
     }
 
     /// <summary>
@@ -92,9 +93,11 @@ There really is a {loonix}, and these people are using it, but it is just a part
     [Cmd, Aliases, HelpDisabled]
     public async Task Dragon()
     {
-        var user = await db.GetOrCreateUser(ctx.User);
+        await using var dbContext = await dbContextProvider.GetContextAsync();
+
+        var user = await dbContext.GetOrCreateUser(ctx.User);
         user.IsDragon = !user.IsDragon;
-        await db.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
         await ReplyConfirmLocalizedAsync(user.IsDragon ? "dragon_set" : "dragon_unset")
             .ConfigureAwait(false);
     }

@@ -1,5 +1,5 @@
-﻿using LinqToDB.EntityFrameworkCore;
-using Mewdeko.Common.ModuleBehaviors;
+﻿using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Database.DbContextStuff;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using ZiggyCreatures.Caching.Fusion;
@@ -10,11 +10,11 @@ namespace Mewdeko.Modules.StatusRoles.Services;
 /// <summary>
 /// Service responsible for managing status-based roles.
 /// </summary>
-public class StatusRolesService : INService, IReadyExecutor
+public class StatusRolesService : INService
 {
     private readonly IFusionCache cache;
     private readonly DiscordShardedClient client;
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StatusRolesService"/> class.
@@ -23,20 +23,22 @@ public class StatusRolesService : INService, IReadyExecutor
     /// <param name="db">The database service.</param>
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="cache">The data cache service.</param>
-    public StatusRolesService(DiscordShardedClient client, MewdekoContext dbContext, EventHandler eventHandler, IFusionCache cache)
+    public StatusRolesService(DiscordShardedClient client, DbContextProvider dbProvider, EventHandler eventHandler, IFusionCache cache)
     {
         this.client = client;
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.cache = cache;
         eventHandler.PresenceUpdated += EventHandlerOnPresenceUpdated;
+        _ = OnReadyAsync();
     }
 
     /// <inheritdoc />
     public async Task OnReadyAsync()
     {
         Log.Information($"Starting {this.GetType()} Cache");
+        await using var dbContext = await dbProvider.GetContextAsync();
 
-        var statusRoles = await dbContext.StatusRoles.ToLinqToDB().ToListAsyncEF();
+        var statusRoles = await dbContext.StatusRoles.ToListAsync();
 
         await cache.SetAsync("statusRoles", statusRoles);
 
@@ -51,6 +53,7 @@ public class StatusRolesService : INService, IReadyExecutor
             return cacheResult.Value;
         }
 
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var statusRoles = await dbContext.StatusRoles.ToListAsync();
         await cache.SetAsync("statusRoles", statusRoles);
@@ -222,6 +225,7 @@ public class StatusRolesService : INService, IReadyExecutor
     /// <returns>True if the configuration was successfully added; otherwise, false.</returns>
     public async Task<bool> AddStatusRoleConfig(string status, ulong guildId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var toAdd = new StatusRolesTable
         {
@@ -244,6 +248,7 @@ public class StatusRolesService : INService, IReadyExecutor
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task RemoveStatusRoleConfig(int index)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var status = dbContext.StatusRoles.FirstOrDefault(x => x.Id == index);
         if (status is null)
@@ -266,6 +271,7 @@ public class StatusRolesService : INService, IReadyExecutor
     {
         try
         {
+            await using var dbContext = await dbProvider.GetContextAsync();
 
             dbContext.StatusRoles.Remove(status);
             await dbContext.SaveChangesAsync();
@@ -306,6 +312,7 @@ public class StatusRolesService : INService, IReadyExecutor
     /// <returns>True if the roles were successfully set; otherwise, false.</returns>
     public async Task<bool> SetAddRoles(StatusRolesTable status, string toAdd)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         status.ToAdd = toAdd;
         dbContext.StatusRoles.Update(status);
@@ -325,6 +332,7 @@ public class StatusRolesService : INService, IReadyExecutor
     /// <returns>True if the roles were successfully set; otherwise, false.</returns>
     public async Task<bool> SetRemoveRoles(StatusRolesTable status, string toRemove)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         status.ToRemove = toRemove;
         dbContext.StatusRoles.Update(status);
@@ -344,6 +352,7 @@ public class StatusRolesService : INService, IReadyExecutor
     /// <returns>True if the channel was successfully set; otherwise, false.</returns>
     public async Task<bool> SetStatusChannel(StatusRolesTable status, ulong channelId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         status.StatusChannelId = channelId;
         dbContext.StatusRoles.Update(status);
@@ -363,6 +372,7 @@ public class StatusRolesService : INService, IReadyExecutor
     /// <returns>True if the embed text was successfully set; otherwise, false.</returns>
     public async Task<bool> SetStatusEmbed(StatusRolesTable status, string embedText)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         status.StatusEmbed = embedText;
         dbContext.StatusRoles.Update(status);
@@ -381,6 +391,7 @@ public class StatusRolesService : INService, IReadyExecutor
     /// <returns>True if the toggle was successful; otherwise, false.</returns>
     public async Task<bool> ToggleRemoveAdded(StatusRolesTable status)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         status.RemoveAdded = !status.RemoveAdded;
         dbContext.StatusRoles.Update(status);
@@ -399,6 +410,7 @@ public class StatusRolesService : INService, IReadyExecutor
     /// <returns>True if the toggle was successful; otherwise, false.</returns>
     public async Task<bool> ToggleAddRemoved(StatusRolesTable status)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         status.ReaddRemoved = !status.ReaddRemoved;
         dbContext.StatusRoles.Update(status);

@@ -1,6 +1,8 @@
-﻿using LinqToDB.EntityFrameworkCore;
+﻿using System.Threading;
+using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Database.DbContextStuff;
 using Serilog;
 using Swan;
 
@@ -12,68 +14,79 @@ namespace Mewdeko.Modules.Giveaways.Services;
 public class GiveawayService : INService
 {
     private readonly DiscordShardedClient client1;
-    private readonly MewdekoContext dbContext1;
+    private readonly DbContextProvider dbProvider;
     private readonly GuildSettingsService guildSettings1;
     private readonly BotConfig config1;
+    private readonly ConcurrentDictionary<int, Timer> giveawayTimers = new();
 
     /// <summary>
     /// Service for handling giveaways.
     /// </summary>
     /// <param name="client">The discord client.</param>
-    /// <param name="db">The database.</param>
-    /// <param name="creds">The bot credentials.</param>
+    /// <param name="dbContext">The database.</param>
     /// <param name="guildSettings">Guild Settings Service</param>
     public GiveawayService(DiscordShardedClient client,
-        MewdekoContext dbContext,
-        IBotCredentials creds,
+        DbContextProvider dbProvider,
         GuildSettingsService guildSettings,
         BotConfig config)
     {
         client1 = client;
-        dbContext1 = dbContext;
+        this.dbProvider = dbProvider;
         guildSettings1 = guildSettings;
         config1 = config;
-        _ = OnReadyAsync();
+        _ = InitializeGiveawaysAsync();
     }
 
     /// <summary>
-    /// Asynchronous method to handle the execution of the giveaway loop when the bot is ready.
-    /// This method continuously checks for active giveaways and processes them.
+    /// Asynchronous method to initialize all giveaways and set timers.
     /// </summary>
     /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    public async Task OnReadyAsync()
+    private async Task InitializeGiveawaysAsync()
     {
-        Log.Information($"Starting {this.GetType()} Ready Loop");
-        Log.Information("Giveaway Loop Started");
-            while (true)
-            {
-                await Task.Delay(2000).ConfigureAwait(false);
-                try
-                {
-                    var now = DateTime.UtcNow;
-                    var giveawaysEnumerable = await GetGiveawaysBeforeAsync(now);
-                    if (!giveawaysEnumerable.Any())
-                        continue;
+        Log.Information($"Initializing Giveaways");
+        var now = DateTime.UtcNow;
+        var giveaways = await GetGiveawaysBeforeAsync(now);
 
-                    Log.Information("Executing {Count} giveaways", giveawaysEnumerable.Count());
+        foreach (var giveaway in giveaways)
+        {
+            await ScheduleGiveaway(giveaway);
+        }
+    }
 
-                    // make groups of 5, with 1.5 second inbetween each one to ensure against ratelimits
-                    var i = 0;
-                    foreach (var group in giveawaysEnumerable
-                                 .GroupBy(_ => ++i / ((giveawaysEnumerable.Count() / 5) + 1)))
-                    {
-                        var executedGiveaways = group.ToList();
-                        await Task.WhenAll(executedGiveaways.Select(x => GiveawayTimerAction(x))).ConfigureAwait(false);
-                        await UpdateGiveaways(executedGiveaways).ConfigureAwait(false);
-                        await Task.Delay(1500).ConfigureAwait(false);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Log.Warning("Error in Giveaway loop: {ExMessage}", ex.Message);
-                    Log.Warning(ex.ToString());
-                }
-            }
+    /// <summary>
+    /// Schedules a giveaway by setting a timer to trigger the action.
+    /// </summary>
+    /// <param name="giveaway">The giveaway to be scheduled.</param>
+    private async Task ScheduleGiveaway(Database.Models.Giveaways giveaway)
+    {
+        var timeToGo = giveaway.When - DateTime.UtcNow;
+        if (timeToGo <= TimeSpan.Zero)
+        {
+            timeToGo = TimeSpan.Zero;
+        }
+
+        var timer = new Timer(async _ => await ProcessGiveawayAsync(giveaway), null, timeToGo, Timeout.InfiniteTimeSpan);
+        giveawayTimers[giveaway.Id] = timer;
+    }
+
+    /// <summary>
+    /// Processes the giveaway when the timer triggers.
+    /// </summary>
+    /// <param name="giveaway">The giveaway to be processed.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    private async Task ProcessGiveawayAsync(Database.Models.Giveaways giveaway)
+    {
+        try
+        {
+            Log.Information("Processing giveaway {GiveawayId}", giveaway.Id);
+            await GiveawayTimerAction(giveaway);
+            giveawayTimers.TryRemove(giveaway.Id, out _);
+        }
+        catch (Exception ex)
+        {
+            Log.Warning("Error processing giveaway {GiveawayId}: {ExMessage}", giveaway.Id, ex.Message);
+            Log.Warning(ex.ToString());
+        }
     }
 
 
@@ -86,7 +99,8 @@ public class GiveawayService : INService
     public async Task SetGiveawayEmote(IGuild guild, string emote)
     {
 
-        var gc = await dbContext1.ForGuildId(guild.Id, set => set);
+        await using var dbContext = await dbProvider.GetContextAsync();
+        var gc = await dbContext.ForGuildId(guild.Id, set => set);
         gc.GiveawayEmote = emote;
         await guildSettings1.UpdateGuildConfig(guild.Id, gc);
     }
@@ -99,34 +113,6 @@ public class GiveawayService : INService
     public async Task<string> GetGiveawayEmote(ulong id)
         => (await guildSettings1.GetGuildConfig(id)).GiveawayEmote;
 
-    /// <summary>
-    /// Asynchronously updates the database with the provided list of giveaways.
-    /// </summary>
-    /// <param name="g">The list of giveaways to update.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    private async Task UpdateGiveaways(List<Database.Models.Giveaways> g)
-    {
-
-        foreach (var i in g)
-        {
-            var toupdate = await dbContext1.Giveaways.FindAsync(i.Id);
-            if (toupdate == null) continue;
-            toupdate.When = i.When;
-            toupdate.BlacklistRoles = i.BlacklistRoles;
-            toupdate.BlacklistUsers = i.BlacklistUsers;
-            toupdate.ChannelId = i.ChannelId;
-            toupdate.Ended = 1;
-            toupdate.MessageId = i.MessageId;
-            toupdate.RestrictTo = i.RestrictTo;
-            toupdate.Item = i.Item;
-            toupdate.UserId = i.UserId;
-            toupdate.Winners = i.Winners;
-            toupdate.Emote = i.Emote;
-            dbContext1.Giveaways.Update(toupdate);
-        }
-        await dbContext1.SaveChangesAsync().ConfigureAwait(false);
-    }
-
 
     /// <summary>
     /// Retrieves the giveaways that have ended before the specified time asynchronously.
@@ -135,9 +121,11 @@ public class GiveawayService : INService
     /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="Database.Models.Giveaways"/>.</returns>
     private async Task<IEnumerable<Database.Models.Giveaways>> GetGiveawaysBeforeAsync(DateTime now)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         var giveaways =
             // Linq to db queries because npgsql is special, again.
-            await dbContext1.Giveaways
+            await dbContext.Giveaways
                 .ToLinqToDB()
                 .Where(x => x.Ended != 1 && x.When < now).ToListAsyncEF();
 
@@ -261,11 +249,9 @@ public class GiveawayService : INService
             rem.RestrictTo = reqroles;
 
 
-        await using (dbContext1.ConfigureAwait(false))
-        {
-            dbContext1.Giveaways.Add(rem);
-            await dbContext1.SaveChangesAsync().ConfigureAwait(false);
-        }
+        await using var dbContext = await dbProvider.GetContextAsync();
+        dbContext.Giveaways.Add(rem);
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
         if (interaction is not null)
             await interaction.SendConfirmFollowupAsync($"Giveaway started in {chan.Mention}").ConfigureAwait(false);
@@ -298,6 +284,8 @@ public class GiveawayService : INService
         var channel = inputchannel ?? await guild.GetTextChannelAsync(r.ChannelId);
         if (channel is null)
             return;
+        await using var dbContext = await dbProvider.GetContextAsync();
+
         IUserMessage ch;
         try
         {
@@ -356,8 +344,8 @@ public class GiveawayService : INService
                 x.Content = null;
             }).ConfigureAwait(false);
             r.Ended = 1;
-            dbContext1.Giveaways.Update(r);
-            await dbContext1.SaveChangesAsync().ConfigureAwait(false);
+            dbContext.Giveaways.Update(r);
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
         }
         else
         {
@@ -492,8 +480,8 @@ public class GiveawayService : INService
                             $"{user.Mention} won the giveaway for [{r.Item}](https://discord.com/channels/{r.ServerId}/{r.ChannelId}/{r.MessageId})! \n\n- (Hosted by: <@{r.UserId}>)\n- Reroll: `{prefix}reroll {r.MessageId}`")
                         .Build()).ConfigureAwait(false);
                 r.Ended = 1;
-                dbContext1.Giveaways.Update(r);
-                await dbContext1.SaveChangesAsync().ConfigureAwait(false);
+                dbContext.Giveaways.Update(r);
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
             else
             {
@@ -566,8 +554,8 @@ public class GiveawayService : INService
                 }
 
                 r.Ended = 1;
-                dbContext1.Giveaways.Update(r);
-                await dbContext1.SaveChangesAsync().ConfigureAwait(false);
+                dbContext.Giveaways.Update(r);
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
             }
         }
     }

@@ -246,7 +246,7 @@ public class RepeatRunner
 
             if (Repeater.NoRedundant)
             {
-                mrs.SetRepeaterLastMessage(Repeater.Id, newMsg.Id);
+                await mrs.SetRepeaterLastMessage(Repeater.Id, newMsg.Id);
                 Repeater.LastMessageId = newMsg.Id;
             }
         }

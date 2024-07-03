@@ -1,4 +1,5 @@
 ﻿using Discord.Net;
+using Mewdeko.Database.DbContextStuff;
 using Serilog;
 
 namespace Mewdeko.Modules.MultiGreets.Services;
@@ -9,7 +10,7 @@ namespace Mewdeko.Modules.MultiGreets.Services;
 public class MultiGreetService : INService
 {
     private readonly DiscordShardedClient client;
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly GuildSettingsService guildSettingsService;
 
 
@@ -20,12 +21,12 @@ public class MultiGreetService : INService
     /// <param name="client">The discord client</param>
     /// <param name="guildSettingsService">The guild settings service</param>
     /// <param name="eventHandler">The event handler that i had to make because dnet has never heard of multithreading events</param>
-    public MultiGreetService(MewdekoContext dbContext, DiscordShardedClient client,
+    public MultiGreetService(DbContextProvider dbProvider, DiscordShardedClient client,
         GuildSettingsService guildSettingsService, EventHandler eventHandler)
     {
         this.client = client;
         this.guildSettingsService = guildSettingsService;
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         eventHandler.UserJoined += DoMultiGreet;
     }
 
@@ -34,14 +35,24 @@ public class MultiGreetService : INService
     /// </summary>
     /// <param name="guildId">The guild id</param>
     /// <returns>An array of <see cref="MultiGreet"/></returns>
-    public MultiGreet?[] GetGreets(ulong guildId) => dbContext.MultiGreets.GetAllGreets(guildId);
+    public async Task<MultiGreet?[]> GetGreets(ulong guildId)
+    {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
-    private MultiGreet?[] GetForChannel(ulong channelId) => dbContext.MultiGreets.GetForChannel(channelId);
+        return dbContext.MultiGreets.GetAllGreets(guildId);
+    }
+
+    private async Task<MultiGreet?[]> GetForChannel(ulong channelId)
+    {
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        return dbContext.MultiGreets.GetForChannel(channelId);
+    }
 
     private async Task DoMultiGreet(IGuildUser user)
     {
-        var greets = GetGreets(user.Guild.Id);
-        if (!greets.Any()) return;
+        var greets = await GetGreets(user.Guild.Id);
+        if (greets.Length==0) return;
         if (await GetMultiGreetType(user.Guild.Id) == 3)
             return;
         if (await GetMultiGreetType(user.Guild.Id) == 1)
@@ -245,7 +256,8 @@ public class MultiGreetService : INService
     public async Task SetMultiGreetType(IGuild guild, int type)
     {
 
-        var gc = await dbContext.ForGuildId(guild.Id, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guild.Id, set => set);
         gc.MultiGreetType = type;
         await guildSettingsService.UpdateGuildConfig(guild.Id, gc);
     }
@@ -264,19 +276,20 @@ public class MultiGreetService : INService
     /// <param name="guildId">The guild id</param>
     /// <param name="channelId">The channel id</param>
     /// <returns>Whether the greet was added</returns>
-    public bool AddMultiGreet(ulong guildId, ulong channelId)
+    public async Task<bool> AddMultiGreet(ulong guildId, ulong channelId)
     {
-        if (GetForChannel(channelId).Length == 5)
+        if ((await GetForChannel(channelId)).Length == 5)
             return false;
-        if (GetGreets(guildId).Length == 30)
+        if ((await GetGreets(guildId)).Length == 30)
             return false;
         var toadd = new MultiGreet
         {
             ChannelId = channelId, GuildId = guildId
         };
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         dbContext.MultiGreets.Add(toadd);
-        dbContext.SaveChangesAsync();
+        await dbContext.SaveChangesAsync();
         return true;
     }
 
@@ -287,6 +300,7 @@ public class MultiGreetService : INService
     /// <param name="code">The new message</param>
     public async Task ChangeMgMessage(MultiGreet greet, string code)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         greet.Message = code;
         dbContext.MultiGreets.Update(greet);
@@ -300,6 +314,7 @@ public class MultiGreetService : INService
     /// <param name="howlong">The new delete time</param>
     public async Task ChangeMgDelete(MultiGreet greet, int howlong)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         greet.DeleteTime = howlong;
         dbContext.MultiGreets.Update(greet);
@@ -313,6 +328,7 @@ public class MultiGreetService : INService
     /// <param name="enabled">Whether to greet bots</param>
     public async Task ChangeMgGb(MultiGreet greet, bool enabled)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         greet.GreetBots = enabled;
         dbContext.MultiGreets.Update(greet);
@@ -326,6 +342,7 @@ public class MultiGreetService : INService
     /// <param name="webhookurl">The new webhook url</param>
     public async Task ChangeMgWebhook(MultiGreet greet, string webhookurl)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         greet.WebhookUrl = webhookurl;
         dbContext.MultiGreets.Update(greet);
@@ -338,8 +355,7 @@ public class MultiGreetService : INService
     /// <param name="greet">The greet to remove</param>
     public async Task RemoveMultiGreetInternal(MultiGreet greet)
     {
-
-        await using var _ = dbContext.ConfigureAwait(false);
+        await using var dbContext = await dbProvider.GetContextAsync();
         dbContext.MultiGreets.Remove(greet);
         await dbContext.SaveChangesAsync().ConfigureAwait(false);
     }
@@ -350,6 +366,7 @@ public class MultiGreetService : INService
     /// <param name="greet">The greets to remove</param>
     public async Task MultiRemoveMultiGreetInternal(MultiGreet[] greet)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         await using var _ = dbContext.ConfigureAwait(false);
         dbContext.MultiGreets.RemoveRange(greet);
@@ -363,6 +380,7 @@ public class MultiGreetService : INService
     /// <param name="disabled">Whether to disable the greet</param>
     public async Task MultiGreetDisable(MultiGreet greet, bool disabled)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         greet.Disabled = disabled;
         dbContext.MultiGreets.Update(greet);

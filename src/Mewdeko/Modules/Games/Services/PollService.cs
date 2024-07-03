@@ -1,5 +1,6 @@
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database.Common;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Games.Common;
 using Serilog;
 using Poll = Mewdeko.Database.Models.Poll;
@@ -11,22 +12,24 @@ namespace Mewdeko.Modules.Games.Services
     /// </summary>
     public class PollService : INService, IReadyExecutor
     {
-        private readonly MewdekoContext dbContext;
+        private readonly DbContextProvider dbProvider;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PollService"/> class.
         /// </summary>
         /// <param name="db">The database service.</param>
-        public PollService(MewdekoContext dbContext)
+        public PollService(DbContextProvider dbProvider)
         {
-            this.dbContext = dbContext;
+            this.dbProvider = dbProvider;
         }
 
         /// <inheritdoc />
         public async Task OnReadyAsync()
         {
+            await using var dbContext = await dbProvider.GetContextAsync();
+
             ActivePolls = (await dbContext.Poll.GetAllPolls())
-                .ToDictionary(x => x.GuildId, x => new PollRunner(this.dbContext, x))
+                .ToDictionary(x => x.GuildId, x => new PollRunner(dbProvider, x))
                 .ToConcurrent();
         }
 
@@ -99,7 +102,9 @@ namespace Mewdeko.Modules.Games.Services
         /// <returns>True if the poll started successfully, otherwise false.</returns>
         public async Task<bool> StartPoll(Poll p)
         {
-            var pr = new PollRunner(dbContext, p);
+            await using var dbContext = await dbProvider.GetContextAsync();
+
+            var pr = new PollRunner(dbProvider, p);
             if (!ActivePolls.TryAdd(p.GuildId, pr)) return false;
 
             dbContext.Poll.Add(p);
@@ -114,6 +119,8 @@ namespace Mewdeko.Modules.Games.Services
         /// <returns>The stopped poll.</returns>
         public async Task<Poll?> StopPoll(ulong guildId)
         {
+            await using var dbContext = await dbProvider.GetContextAsync();
+
             if (!ActivePolls.TryRemove(guildId, out var pr)) return null;
                 await dbContext.RemovePoll(pr.Poll.Id);
                 await dbContext.SaveChangesAsync();

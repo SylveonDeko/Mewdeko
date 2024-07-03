@@ -1,4 +1,5 @@
-﻿using Serilog;
+﻿using Mewdeko.Database.DbContextStuff;
+using Serilog;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -7,7 +8,7 @@ namespace Mewdeko.Modules.Administration.Services;
 /// </summary>
 public class GameVoiceChannelService : INService
 {
-    private readonly MewdekoContext dbContext;
+    private readonly DbContextProvider dbProvider;
     private readonly GuildSettingsService guildSettings;
 
     /// <summary>
@@ -16,10 +17,10 @@ public class GameVoiceChannelService : INService
     /// <param name="db">The database service.</param>
     /// <param name="guildSettings">The guild settings service.</param>
     /// <param name="eventHandler">The event handler.</param>
-    public GameVoiceChannelService(MewdekoContext dbContext,
+    public GameVoiceChannelService(DbContextProvider dbProvider,
         GuildSettingsService guildSettings, EventHandler eventHandler)
     {
-        this.dbContext = dbContext;
+        this.dbProvider = dbProvider;
         this.guildSettings = guildSettings;
 
         eventHandler.UserVoiceStateUpdated += Client_UserVoiceStateUpdated;
@@ -68,7 +69,8 @@ public class GameVoiceChannelService : INService
     {
         ulong? id;
 
-        var gc = await dbContext.ForGuildId(guildId, set => set);
+       await using var db = await dbProvider.GetContextAsync();
+        var gc = await db.ForGuildId(guildId, set => set);
 
         if (gc.GameVoiceChannel == vchId)
         {

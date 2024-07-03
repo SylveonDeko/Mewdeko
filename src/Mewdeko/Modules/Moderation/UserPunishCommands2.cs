@@ -4,6 +4,7 @@ using Fergun.Interactive.Pagination;
 using Humanizer;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Moderation.Services;
 using Serilog;
 using Swan;
@@ -18,7 +19,7 @@ public partial class Moderation
     /// <param name="db"></param>
     /// <param name="serv"></param>
     [Group]
-    public class UserPunishCommands2(MewdekoContext dbContext, InteractiveService serv) : MewdekoSubmodule<UserPunishService2>
+    public class UserPunishCommands2(DbContextProvider dbProvider, InteractiveService serv) : MewdekoSubmodule<UserPunishService2>
     {
         /// <summary>
         /// The addrole thing used for punishments
@@ -122,6 +123,7 @@ public partial class Moderation
 
             if (await Service.GetMWarnlogChannel(ctx.Guild.Id) != 0)
             {
+                await using var dbContext = await dbProvider.GetContextAsync();
 
                 var warnings = dbContext.Warnings2
                     .ForId(ctx.Guild.Id, user.Id)
@@ -222,7 +224,7 @@ public partial class Moderation
         {
             if (page < 0)
                 return;
-            var warnings = Service.UserWarnings(ctx.Guild.Id, userId);
+            var warnings = await Service.UserWarnings(ctx.Guild.Id, userId);
 
             warnings = warnings.Skip(page * 9)
                 .Take(9)
@@ -264,7 +266,7 @@ public partial class Moderation
          UserPerm(GuildPermission.MuteMembers)]
         public async Task MWarnlogAll()
         {
-            var warnings = Service.WarnlogAll(ctx.Guild.Id);
+            var warnings = await Service.WarnlogAll(ctx.Guild.Id);
 
             var paginator = new LazyPaginatorBuilder()
                 .AddUser(ctx.User)

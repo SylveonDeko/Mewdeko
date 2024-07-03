@@ -20,7 +20,7 @@ public class EventPubSub : IPubSub
     /// <param name="key">The key to subscribe to.</param>
     /// <param name="action">The action to execute when the key is published.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public Task Sub<TData>(TypedKey<TData> key, Func<TData, ValueTask> action)
+    public async Task Sub<TData>(TypedKey<TData> key, Func<TData, ValueTask> action)
         where TData : notnull
     {
         var keyActions = actions.GetOrAdd(key.Key,
@@ -32,7 +32,7 @@ public class EventPubSub : IPubSub
             sameActions.Add(LocalAction);
         }
 
-        return Task.CompletedTask;
+        return;
 
         ValueTask LocalAction(object obj) => action((TData)obj);
     }
@@ -44,18 +44,18 @@ public class EventPubSub : IPubSub
     /// <param name="key">The key to publish.</param>
     /// <param name="data">The data associated with the key.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public Task Pub<TData>(TypedKey<TData> key, TData data) where TData : notnull
+    public async Task Pub<TData>(TypedKey<TData> key, TData data) where TData : notnull
     {
         if (actions.TryGetValue(key.Key, out var dictionary))
         {
-            var tasks = new List<ValueTask>();
+            var tasks = new List<Task>();
             foreach (var kvp in dictionary)
             {
                 foreach (var action in kvp.Value)
                 {
                     try
                     {
-                        tasks.Add(action(data));
+                        tasks.Add(action(data).AsTask());
                     }
                     catch (Exception ex)
                     {
@@ -64,10 +64,8 @@ public class EventPubSub : IPubSub
                 }
             }
 
-            return Task.WhenAll(tasks.Select(vt => vt.AsTask()));
+            await Task.WhenAll(tasks);
         }
-
-        return Task.CompletedTask;
     }
 
     /// <summary>

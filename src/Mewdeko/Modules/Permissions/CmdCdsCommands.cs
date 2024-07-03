@@ -4,6 +4,7 @@ using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Collections;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Common.TypeReaders.Models;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Permissions.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +18,7 @@ public partial class Permissions
     /// <param name="service">The command cooldown service</param>
     /// <param name="db">The database service</param>
     [Group]
-    public class CmdCdsCommands(CmdCdService service, MewdekoContext dbContext, GuildSettingsService settingsService)
+    public class CmdCdsCommands(CmdCdService service, DbContextProvider dbProvider, GuildSettingsService settingsService)
         : MewdekoSubmodule
     {
         private ConcurrentDictionary<ulong, ConcurrentHashSet<ActiveCooldown>> ActiveCooldowns
@@ -50,23 +51,21 @@ public partial class Permissions
 
             var name = command.Name.ToLowerInvariant();
 
-            await using (dbContext.ConfigureAwait(false))
-            {
-                var gConfig = await settingsService.GetGuildConfig(channel.Guild.Id);
-                var config = await dbContext.ForGuildId(channel.Guild.Id, set => set.Include(gc => gc.CommandCooldowns));
+            await using var dbContext = await dbProvider.GetContextAsync();
+            var gConfig = await settingsService.GetGuildConfig(channel.Guild.Id);
+            var config = await dbContext.ForGuildId(channel.Guild.Id, set => set.Include(gc => gc.CommandCooldowns));
 
-                var toDelete = config.CommandCooldowns.FirstOrDefault(cc => cc.CommandName == name);
-                if (toDelete != null)
-                    dbContext.CommandCooldown.Remove(toDelete);
-                if (time.Time.TotalSeconds != 0)
+            var toDelete = config.CommandCooldowns.FirstOrDefault(cc => cc.CommandName == name);
+            if (toDelete != null)
+                dbContext.CommandCooldown.Remove(toDelete);
+            if (time.Time.TotalSeconds != 0)
+            {
+                var cc = new CommandCooldown
                 {
-                    var cc = new CommandCooldown
-                    {
-                        CommandName = name, Seconds = Convert.ToInt32(time.Time.TotalSeconds)
-                    };
-                    config.CommandCooldowns.Add(cc);
-                    await settingsService.UpdateGuildConfig(ctx.Guild.Id, gConfig).ConfigureAwait(false);
-                }
+                    CommandName = name, Seconds = Convert.ToInt32(time.Time.TotalSeconds)
+                };
+                config.CommandCooldowns.Add(cc);
+                await settingsService.UpdateGuildConfig(ctx.Guild.Id, gConfig).ConfigureAwait(false);
             }
 
             if (time.Time.TotalSeconds == 0)

@@ -1,5 +1,6 @@
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
+using Mewdeko.Database.DbContextStuff;
 
 namespace Mewdeko.Modules.Utility;
 
@@ -9,7 +10,7 @@ public partial class Utility
     /// Provides commands for managing and displaying quotes within a guild. I dont know why you would use this when chat triggers exist.
     /// </summary>
     [Group]
-    public class QuoteCommands(MewdekoContext dbContext) : MewdekoSubmodule
+    public class QuoteCommands(DbContextProvider dbProvider) : MewdekoSubmodule
     {
         /// <summary>
         /// Lists quotes in the guild. Quotes can be ordered by keyword or date added.
@@ -34,7 +35,7 @@ public partial class Utility
 
             IEnumerable<Quote> quotes;
 
-            await using (dbContext.ConfigureAwait(false))
+            await using var dbContext = await dbProvider.GetContextAsync();
             {
                 quotes = dbContext.Quotes.GetGroup(ctx.Guild.Id, page, order);
             }
@@ -67,12 +68,8 @@ public partial class Utility
 
             keyword = keyword.ToUpperInvariant();
 
-            Quote quote;
-
-            await using (dbContext.ConfigureAwait(false))
-            {
-                quote = await dbContext.Quotes.GetRandomQuoteByKeywordAsync(ctx.Guild.Id, keyword).ConfigureAwait(false);
-            }
+            await using var dbContext = await dbProvider.GetContextAsync();
+            var quote = await dbContext.Quotes.GetRandomQuoteByKeywordAsync(ctx.Guild.Id, keyword).ConfigureAwait(false);
 
             if (quote == null)
                 return;
@@ -103,14 +100,10 @@ public partial class Utility
         [Cmd, Aliases, RequireContext(ContextType.Guild)]
         public async Task QuoteShow(int id)
         {
-            Quote quote;
-
-            await using (dbContext.ConfigureAwait(false))
-            {
-                quote = await dbContext.Quotes.GetById(id);
-                if (quote.GuildId != Context.Guild.Id)
+            await using var dbContext = await dbProvider.GetContextAsync();
+            var quote = await dbContext.Quotes.GetById(id);
+            if (quote.GuildId != Context.Guild.Id)
                     quote = null;
-            }
 
             if (quote is null)
             {
@@ -146,13 +139,9 @@ public partial class Utility
 
             keyword = keyword.ToUpperInvariant();
 
-            Quote keywordquote;
-
-            await using (dbContext.ConfigureAwait(false))
-            {
-                keywordquote = await dbContext.Quotes.SearchQuoteKeywordTextAsync(ctx.Guild.Id, keyword, text)
-                    .ConfigureAwait(false);
-            }
+            await using var dbContext = await dbProvider.GetContextAsync();
+            var keywordquote = await dbContext.Quotes.SearchQuoteKeywordTextAsync(ctx.Guild.Id, keyword, text)
+                .ConfigureAwait(false);
 
             if (keywordquote == null)
                 return;
@@ -172,17 +161,13 @@ public partial class Utility
             if (id < 0)
                 return;
 
-            Quote quote;
-
             var rep = new ReplacementBuilder()
                 .WithDefault(Context)
                 .Build();
 
 
-            await using (dbContext.ConfigureAwait(false))
-            {
-                quote = await dbContext.Quotes.GetById(id);
-            }
+            await using var dbContext = await dbProvider.GetContextAsync();
+            var quote = await dbContext.Quotes.GetById(id);
 
             if (quote is null || quote.GuildId != ctx.Guild.Id)
             {
@@ -223,9 +208,8 @@ public partial class Utility
 
             Quote q;
 
-            await using (dbContext.ConfigureAwait(false))
-            {
-                dbContext.Quotes.Add(q = new Quote
+            await using var dbContext = await dbProvider.GetContextAsync();
+            dbContext.Quotes.Add(q = new Quote
                 {
                     AuthorId = ctx.Message.Author.Id,
                     AuthorName = ctx.Message.Author.Username,
@@ -233,8 +217,7 @@ public partial class Utility
                     Keyword = keyword,
                     Text = text
                 });
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             await ReplyConfirmLocalizedAsync("quote_added_new", Format.Code(q.Id.ToString())).ConfigureAwait(false);
         }
@@ -252,21 +235,19 @@ public partial class Utility
             var success = false;
             string? response;
 
-            await using (dbContext.ConfigureAwait(false))
-            {
-                var q = await dbContext.Quotes.GetById(id);
+            await using var dbContext = await dbProvider.GetContextAsync();
+            var q = await dbContext.Quotes.GetById(id);
 
-                if (q?.GuildId != ctx.Guild.Id || (!isAdmin && q.AuthorId != ctx.Message.Author.Id))
-                {
-                    response = GetText("quotes_remove_none");
-                }
-                else
-                {
-                    dbContext.Quotes.Remove(q);
-                    await dbContext.SaveChangesAsync().ConfigureAwait(false);
-                    success = true;
-                    response = GetText("quote_deleted", id);
-                }
+            if (q?.GuildId != ctx.Guild.Id || (!isAdmin && q.AuthorId != ctx.Message.Author.Id))
+            {
+                response = GetText("quotes_remove_none");
+            }
+            else
+            {
+                dbContext.Quotes.Remove(q);
+                await dbContext.SaveChangesAsync().ConfigureAwait(false);
+                success = true;
+                response = GetText("quote_deleted", id);
             }
 
             if (success)
@@ -290,12 +271,10 @@ public partial class Utility
             keyword = keyword.ToUpperInvariant();
 
 
-            await using (dbContext.ConfigureAwait(false))
-            {
-                dbContext.Quotes.RemoveAllByKeyword(ctx.Guild.Id, keyword.ToUpperInvariant());
+            await using var dbContext = await dbProvider.GetContextAsync();
+            dbContext.Quotes.RemoveAllByKeyword(ctx.Guild.Id, keyword.ToUpperInvariant());
 
-                await dbContext.SaveChangesAsync().ConfigureAwait(false);
-            }
+            await dbContext.SaveChangesAsync().ConfigureAwait(false);
 
             await ReplyConfirmLocalizedAsync("quotes_deleted", Format.Bold(keyword.SanitizeAllMentions()))
                 .ConfigureAwait(false);

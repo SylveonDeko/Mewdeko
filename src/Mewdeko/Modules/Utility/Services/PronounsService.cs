@@ -1,4 +1,5 @@
 using System.Net.Http;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.UserProfile.Common;
 using Mewdeko.Modules.Utility.Common;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ namespace Mewdeko.Modules.Utility.Services;
 /// <summary>
 /// Service for fetching and managing user pronouns from an external API.
 /// </summary>
-public class PronounsService(MewdekoContext dbContext, HttpClient http) : INService
+public class PronounsService(DbContextProvider dbProvider, HttpClient http) : INService
 {
     /// <summary>
     /// Asynchronously gets a user's pronouns from the local database or queries an external API if not found.
@@ -18,6 +19,7 @@ public class PronounsService(MewdekoContext dbContext, HttpClient http) : INServ
     /// <returns>A PronounSearchResult object containing the pronouns or indicating if unspecified.</returns>
     public async Task<PronounSearchResult> GetPronounsOrUnspecifiedAsync(ulong discordId)
     {
+        await using var dbContext = await dbProvider.GetContextAsync();
 
         var user = await dbContext.DiscordUser.FirstOrDefaultAsync(x => x.UserId == discordId).ConfigureAwait(false);
         if (!string.IsNullOrWhiteSpace(user?.Pronouns)) return new PronounSearchResult(user.Pronouns, false);

@@ -12,6 +12,7 @@ using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Services.strings;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using SkiaSharp;
 using ModuleInfo = Discord.Commands.ModuleInfo;
@@ -40,6 +41,23 @@ public static partial class Extensions
     /// <param name="f">Mapping function.</param>
     /// <returns>Mapped array.</returns>
     public static TOut[] Map<TIn, TOut>(this TIn[] arr, Func<TIn, TOut> f) => Array.ConvertAll(arr, x => f(x));
+
+    /// <summary>
+    /// Get Scoped Service
+    /// </summary>
+    /// <param name="scopeFactory"></param>
+    /// <param name="service"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public static IServiceScope GetScopedService<T>(this IServiceScopeFactory scopeFactory, out T service) where T : notnull
+    {
+        ArgumentNullException.ThrowIfNull(scopeFactory, nameof(scopeFactory));
+
+        var scope = scopeFactory.CreateScope();
+        service = scope.ServiceProvider.GetRequiredService<T>();
+
+        return scope;
+    }
 
     /// <summary>
     /// Sends a confirmation message asynchronously.
