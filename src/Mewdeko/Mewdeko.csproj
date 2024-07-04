@@ -166,7 +166,6 @@
         <Content Remove="credentials_example.json" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Mewdeko.Database\Mewdeko.Database.csproj" />
         <ProjectReference Include="..\Mewdeko.Votes\Mewdeko.Votes.csproj" />
     </ItemGroup>
 
