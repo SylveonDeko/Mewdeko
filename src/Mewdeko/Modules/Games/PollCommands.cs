@@ -2,7 +2,6 @@
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Games.Services;
-using Poll = Mewdeko.Database.Models.Poll;
 
 namespace Mewdeko.Modules.Games;
 
@@ -122,7 +121,7 @@ public partial class Games
                 return;
 
             // Sends an embed with the current poll statistics to the channel
-            await ctx.Channel.EmbedAsync(GetStats(pr.Poll, GetText("current_poll_results"))).ConfigureAwait(false);
+            await ctx.Channel.EmbedAsync(GetStats(pr.Polls, GetText("current_poll_results"))).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -134,7 +133,7 @@ public partial class Games
          RequireContext(ContextType.Guild)]
         public async Task Pollend()
         {
-            Poll p;
+            Polls p;
             // Stops the current poll in the guild and retrieves its information
             if ((p = await Service.StopPoll(ctx.Guild.Id)) == null)
                 return;
@@ -148,13 +147,13 @@ public partial class Games
         /// <summary>
         /// Generates an embed containing the statistics of a poll.
         /// </summary>
-        /// <param name="poll">The poll to generate statistics for.</param>
+        /// <param name="polls">The poll to generate statistics for.</param>
         /// <param name="title">The title of the embed.</param>
         /// <returns>The embed containing the poll statistics.</returns>
-        public EmbedBuilder GetStats(Poll poll, string? title)
+        public EmbedBuilder GetStats(Polls polls, string? title)
         {
             // Group the votes by their corresponding answer index and calculate the total votes cast for each answer
-            var results = poll.Votes.GroupBy(kvp => kvp.VoteIndex)
+            var results = polls.Votes.GroupBy(kvp => kvp.VoteIndex)
                 .ToDictionary(x => x.Key, x => x.Sum(_ => 1));
 
             var totalVotesCast = results.Sum(x => x.Value);
@@ -163,11 +162,11 @@ public partial class Games
             var eb = new EmbedBuilder().WithTitle(title);
 
             var sb = new StringBuilder()
-                .AppendLine(Format.Bold(poll.Question))
+                .AppendLine(Format.Bold(polls.Question))
                 .AppendLine();
 
             // Retrieve the statistics for each answer, ordered by the number of votes in descending order
-            var stats = poll.Answers
+            var stats = polls.Answers
                 .Select(x =>
                 {
                     results.TryGetValue(x.Index, out var votes);
