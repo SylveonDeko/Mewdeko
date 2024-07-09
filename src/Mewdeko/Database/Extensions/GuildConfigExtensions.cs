@@ -87,8 +87,6 @@ public static class GuildConfigExtensions
     /// Retrieves GuildConfig entities with Permissionsv2 for a specific shard.
     /// </summary>
     /// <param name="configs">The DbSet of GuildConfig entities.</param>
-    /// <param name="totalShards">The total number of shards.</param>
-    /// <param name="shardId">The ID of the shard.</param>
     /// <returns>A collection of GuildConfig entities.</returns>
     public async static Task<IEnumerable<GuildConfig>> Permissionsv2ForAll(this DbSet<GuildConfig> configs)
     {

@@ -1,8 +1,23 @@
-﻿namespace Mewdeko.Database.Models;
-
-public class SuggestVotes : DbEntity
+﻿namespace Mewdeko.Database.Models
 {
-    public ulong UserId { get; set; }
-    public ulong MessageId { get; set; }
-    public int EmotePicked { get; set; }
+    /// <summary>
+    /// Represents a vote on a suggestion in a guild.
+    /// </summary>
+    public class SuggestVotes : DbEntity
+    {
+        /// <summary>
+        /// Gets or sets the user ID.
+        /// </summary>
+        public ulong UserId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the message ID.
+        /// </summary>
+        public ulong MessageId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the emote picked by the user.
+        /// </summary>
+        public int EmotePicked { get; set; }
+    }
 }

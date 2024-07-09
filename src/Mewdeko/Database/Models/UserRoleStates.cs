@@ -1,9 +1,28 @@
-namespace Mewdeko.Database.Models;
-
-public class UserRoleStates : DbEntity
+namespace Mewdeko.Database.Models
 {
-    public ulong GuildId { get; set; }
-    public ulong UserId { get; set; }
-    public string UserName { get; set; }
-    public string SavedRoles { get; set; }
+    /// <summary>
+    /// Represents the saved role states of a user in a guild.
+    /// </summary>
+    public class UserRoleStates : DbEntity
+    {
+        /// <summary>
+        /// Gets or sets the guild ID.
+        /// </summary>
+        public ulong GuildId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user ID.
+        /// </summary>
+        public ulong UserId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the username.
+        /// </summary>
+        public string UserName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the saved roles.
+        /// </summary>
+        public string SavedRoles { get; set; }
+    }
 }

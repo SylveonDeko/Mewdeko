@@ -1,13 +1,48 @@
-﻿namespace Mewdeko.Database.Models;
-
-public class StatusRolesTable : DbEntity
+﻿namespace Mewdeko.Database.Models
 {
-    public ulong GuildId { get; set; }
-    public string Status { get; set; }
-    public string ToAdd { get; set; }
-    public string ToRemove { get; set; }
-    public string StatusEmbed { get; set; } = null;
-    public bool ReaddRemoved { get; set; } = false;
-    public bool RemoveAdded { get; set; } = true;
-    public ulong StatusChannelId { get; set; }
+    /// <summary>
+    /// Represents a status roles table in a guild.
+    /// </summary>
+    public class StatusRolesTable : DbEntity
+    {
+        /// <summary>
+        /// Gets or sets the guild ID.
+        /// </summary>
+        public ulong GuildId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the status.
+        /// </summary>
+        public string Status { get; set; }
+
+        /// <summary>
+        /// Gets or sets the roles to add.
+        /// </summary>
+        public string ToAdd { get; set; }
+
+        /// <summary>
+        /// Gets or sets the roles to remove.
+        /// </summary>
+        public string ToRemove { get; set; }
+
+        /// <summary>
+        /// Gets or sets the status embed.
+        /// </summary>
+        public string StatusEmbed { get; set; } = null;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to re-add removed roles.
+        /// </summary>
+        public bool ReaddRemoved { get; set; } = false;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to remove added roles.
+        /// </summary>
+        public bool RemoveAdded { get; set; } = true;
+
+        /// <summary>
+        /// Gets or sets the status channel ID.
+        /// </summary>
+        public ulong StatusChannelId { get; set; }
+    }
 }

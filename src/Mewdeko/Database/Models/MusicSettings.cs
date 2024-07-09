@@ -1,55 +1,106 @@
-﻿namespace Mewdeko.Database.Models;
-
-public class MusicPlayerSettings
+﻿namespace Mewdeko.Database.Models
 {
     /// <summary>
-    ///     Auto generated Id
+    /// Represents the settings for the music player.
     /// </summary>
-    public int Id { get; set; }
+    public class MusicPlayerSettings
+    {
+        /// <summary>
+        /// Auto-generated ID.
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the guild ID.
+        /// </summary>
+        public ulong GuildId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the queue repeat type.
+        /// </summary>
+        public PlayerRepeatType PlayerRepeat { get; set; } = PlayerRepeatType.Queue;
+
+        /// <summary>
+        /// Gets or sets the channel ID for music-related messages.
+        /// </summary>
+        public ulong? MusicChannelId { get; set; } = null;
+
+        /// <summary>
+        /// Gets or sets the default volume for the player.
+        /// </summary>
+        public int Volume { get; set; } = 100;
+
+        /// <summary>
+        /// Gets or sets the auto disconnect setting.
+        /// </summary>
+        public AutoDisconnect AutoDisconnect { get; set; } = AutoDisconnect.Voice;
+
+        /// <summary>
+        /// Gets or sets the auto play setting.
+        /// </summary>
+        public int AutoPlay { get; set; } = 0;
+    }
 
     /// <summary>
-    ///     Id of the guild
+    /// Specifies the auto disconnect options.
     /// </summary>
-    public ulong GuildId { get; set; }
+    public enum AutoDisconnect
+    {
+        /// <summary>
+        /// No auto disconnect.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Auto disconnect based on voice activity.
+        /// </summary>
+        Voice,
+
+        /// <summary>
+        /// Auto disconnect when the queue is empty.
+        /// </summary>
+        Queue,
+
+        /// <summary>
+        /// Auto disconnect based on either voice activity or an empty queue.
+        /// </summary>
+        Either
+    }
 
     /// <summary>
-    ///     Queue repeat type
+    /// Specifies the player repeat type.
     /// </summary>
-    public PlayerRepeatType PlayerRepeat { get; set; } = PlayerRepeatType.Queue;
+    public enum PlayerRepeatType
+    {
+        /// <summary>
+        /// No repeat.
+        /// </summary>
+        None,
 
-    /// <summary>
-    ///     Channel id the bot will always try to send track related messages to
-    /// </summary>
-    public ulong? MusicChannelId { get; set; } = null;
+        /// <summary>
+        /// Repeat the current track.
+        /// </summary>
+        Track,
 
-    /// <summary>
-    ///     Default volume player will be created with
-    /// </summary>
-    public int Volume { get; set; } = 100;
+        /// <summary>
+        /// Repeat the entire queue.
+        /// </summary>
+        Queue,
 
-    /// <summary>
-    ///     Whether the bot should auto disconnect from the voice channel once the queue is done
-    ///     This only has effect if
-    /// </summary>
-    public AutoDisconnect AutoDisconnect { get; set; } = AutoDisconnect.Voice;
+        /// <summary>
+        /// Repeat the current song.
+        /// </summary>
+        Song = 1,
 
-    public int AutoPlay { get; set; } = 0;
-}
+        /// <summary>
+        /// Repeat all tracks.
+        /// </summary>
+        All = 2,
 
-public enum AutoDisconnect
-{
-    None,
-    Voice,
-    Queue,
-    Either
-}
+        /// <summary>
+        /// Turn off repeat.
+        /// </summary>
+        Off = 0
+    }
 
-public enum PlayerRepeatType
-{
-    None,
-    Track,
-    Queue,
-    Song = 1,
-    All = 2,
-    Off = 0
 }

@@ -1,13 +1,27 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Mewdeko.Database.Models;
-
-[Table("VcRoleInfo")]
-public class VcRoleInfo : DbEntity
+namespace Mewdeko.Database.Models
 {
-    [ForeignKey("GuildConfigId")]
-    public int GuildConfigId { get; set; }
+    /// <summary>
+    /// Represents information about voice channel roles in a guild.
+    /// </summary>
+    [Table("VcRoleInfo")]
+    public class VcRoleInfo : DbEntity
+    {
+        /// <summary>
+        /// Gets or sets the guild configuration ID.
+        /// </summary>
+        [ForeignKey("GuildConfigId")]
+        public int GuildConfigId { get; set; }
 
-    public ulong VoiceChannelId { get; set; }
-    public ulong RoleId { get; set; }
+        /// <summary>
+        /// Gets or sets the voice channel ID.
+        /// </summary>
+        public ulong VoiceChannelId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the role ID.
+        /// </summary>
+        public ulong RoleId { get; set; }
+    }
 }
