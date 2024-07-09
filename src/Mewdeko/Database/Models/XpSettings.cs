@@ -1,65 +1,179 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Mewdeko.Database.Models;
-
-public class XpSettings : DbEntity
+namespace Mewdeko.Database.Models
 {
-    [ForeignKey("GuildConfigId")]
-    public int GuildConfigId { get; set; }
+    /// <summary>
+    /// Represents the XP settings for a guild.
+    /// </summary>
+    public class XpSettings : DbEntity
+    {
+        /// <summary>
+        /// Gets or sets the guild configuration ID.
+        /// </summary>
+        [ForeignKey("GuildConfigId")]
+        public int GuildConfigId { get; set; }
 
-    public HashSet<XpRoleReward> RoleRewards { get; set; } = new();
-    public HashSet<XpCurrencyReward> CurrencyRewards { get; set; } = new();
-    public bool XpRoleRewardExclusive { get; set; } = false;
-    public string NotifyMessage { get; set; } = "Congratulations {0}! You have reached level {1}!";
-    public HashSet<ExcludedItem> ExclusionList { get; set; } = new();
-    public bool ServerExcluded { get; set; } = false;
-}
+        /// <summary>
+        /// Gets or sets the role rewards.
+        /// </summary>
+        public HashSet<XpRoleReward> RoleRewards { get; set; } = new();
 
-public enum ExcludedItemType
-{
-    Channel,
-    Role
-}
+        /// <summary>
+        /// Gets or sets the currency rewards.
+        /// </summary>
+        public HashSet<XpCurrencyReward> CurrencyRewards { get; set; } = new();
 
-public class XpRoleReward : DbEntity
-{
-    [ForeignKey("XpSettingsId")]
-    public int XpSettingsId { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether XP role rewards are exclusive.
+        /// </summary>
+        public bool XpRoleRewardExclusive { get; set; } = false;
 
-    public XpSettings XpSettings { get; set; }
+        /// <summary>
+        /// Gets or sets the notification message for level up.
+        /// </summary>
+        public string NotifyMessage { get; set; } = "Congratulations {0}! You have reached level {1}!";
 
-    public int Level { get; set; }
-    public ulong RoleId { get; set; }
+        /// <summary>
+        /// Gets or sets the exclusion list for XP rewards.
+        /// </summary>
+        public HashSet<ExcludedItem> ExclusionList { get; set; } = new();
 
-    public override int GetHashCode() => Level.GetHashCode() ^ XpSettingsId.GetHashCode();
+        /// <summary>
+        /// Gets or sets a value indicating whether the server is excluded from XP rewards.
+        /// </summary>
+        public bool ServerExcluded { get; set; } = false;
+    }
 
-    public override bool Equals(object obj) =>
-        obj is XpRoleReward xrr && xrr.Level == Level && xrr.XpSettingsId == XpSettingsId;
-}
+    /// <summary>
+    /// Specifies the type of item to exclude.
+    /// </summary>
+    public enum ExcludedItemType
+    {
+        /// <summary>
+        /// Exclude a channel.
+        /// </summary>
+        Channel,
 
-public class XpCurrencyReward : DbEntity
-{
-    public int XpSettingsId { get; set; }
-    public XpSettings XpSettings { get; set; }
+        /// <summary>
+        /// Exclude a role.
+        /// </summary>
+        Role
+    }
 
-    public int Level { get; set; }
-    public int Amount { get; set; }
+    /// <summary>
+    /// Represents an XP role reward in a guild.
+    /// </summary>
+    public class XpRoleReward : DbEntity
+    {
+        /// <summary>
+        /// Gets or sets the XP settings ID.
+        /// </summary>
+        [ForeignKey("XpSettingsId")]
+        public int XpSettingsId { get; set; }
 
-    public override int GetHashCode() => Level.GetHashCode() ^ XpSettingsId.GetHashCode();
+        /// <summary>
+        /// Gets or sets the XP settings.
+        /// </summary>
+        public XpSettings XpSettings { get; set; }
 
-    public override bool Equals(object obj) =>
-        obj is XpCurrencyReward xrr && xrr.Level == Level && xrr.XpSettingsId == XpSettingsId;
-}
+        /// <summary>
+        /// Gets or sets the level for the reward.
+        /// </summary>
+        public int Level { get; set; }
 
-public class ExcludedItem : DbEntity
-{
-    public ulong ItemId { get; set; }
-    public ExcludedItemType ItemType { get; set; }
+        /// <summary>
+        /// Gets or sets the role ID for the reward.
+        /// </summary>
+        public ulong RoleId { get; set; }
 
-    [ForeignKey("XpSettingsId")]
-    public int XpSettingsId { get; set; }
+        /// <summary>
+        /// Returns the hash code for this instance.
+        /// </summary>
+        /// <returns>A hash code for the current object.</returns>
+        public override int GetHashCode() => Level.GetHashCode() ^ XpSettingsId.GetHashCode();
 
-    public override int GetHashCode() => ItemId.GetHashCode() ^ ItemType.GetHashCode();
+        /// <summary>
+        /// Determines whether the specified object is equal to the current object.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current object.</param>
+        /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
+        public override bool Equals(object obj) =>
+            obj is XpRoleReward xrr && xrr.Level == Level && xrr.XpSettingsId == XpSettingsId;
+    }
 
-    public override bool Equals(object obj) => obj is ExcludedItem ei && ei.ItemId == ItemId && ei.ItemType == ItemType;
+    /// <summary>
+    /// Represents an XP currency reward in a guild.
+    /// </summary>
+    public class XpCurrencyReward : DbEntity
+    {
+        /// <summary>
+        /// Gets or sets the XP settings ID.
+        /// </summary>
+        public int XpSettingsId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the XP settings.
+        /// </summary>
+        public XpSettings XpSettings { get; set; }
+
+        /// <summary>
+        /// Gets or sets the level for the reward.
+        /// </summary>
+        public int Level { get; set; }
+
+        /// <summary>
+        /// Gets or sets the amount of the reward.
+        /// </summary>
+        public int Amount { get; set; }
+
+        /// <summary>
+        /// Returns the hash code for this instance.
+        /// </summary>
+        /// <returns>A hash code for the current object.</returns>
+        public override int GetHashCode() => Level.GetHashCode() ^ XpSettingsId.GetHashCode();
+
+        /// <summary>
+        /// Determines whether the specified object is equal to the current object.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current object.</param>
+        /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
+        public override bool Equals(object obj) =>
+            obj is XpCurrencyReward xrr && xrr.Level == Level && xrr.XpSettingsId == XpSettingsId;
+    }
+
+    /// <summary>
+    /// Represents an excluded item in a guild.
+    /// </summary>
+    public class ExcludedItem : DbEntity
+    {
+        /// <summary>
+        /// Gets or sets the item ID.
+        /// </summary>
+        public ulong ItemId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of the item.
+        /// </summary>
+        public ExcludedItemType ItemType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the XP settings ID.
+        /// </summary>
+        [ForeignKey("XpSettingsId")]
+        public int XpSettingsId { get; set; }
+
+        /// <summary>
+        /// Returns the hash code for this instance.
+        /// </summary>
+        /// <returns>A hash code for the current object.</returns>
+        public override int GetHashCode() => ItemId.GetHashCode() ^ ItemType.GetHashCode();
+
+        /// <summary>
+        /// Determines whether the specified object is equal to the current object.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current object.</param>
+        /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
+        public override bool Equals(object obj) =>
+            obj is ExcludedItem ei && ei.ItemId == ItemId && ei.ItemType == ItemType;
+    }
 }

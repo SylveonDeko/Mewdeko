@@ -206,6 +206,14 @@ public class Mewdeko
         Log.Information("Passed Interface Scanner");
         //initialize Services
         Services = s.BuildServiceProvider();
+
+        var migrationService = new MigrationService(
+            Services.GetRequiredService<DbContextProvider>(),
+            Credentials.Token,
+            Credentials.PsqlConnectionString, Credentials.MigrateToPsql);
+
+        migrationService.ApplyMigrations();
+
         var commandHandler = Services.GetService<CommandHandler>();
         commandHandler.AddServices(s);
         _ = Task.Run(() => LoadTypeReaders(typeof(Mewdeko).Assembly));

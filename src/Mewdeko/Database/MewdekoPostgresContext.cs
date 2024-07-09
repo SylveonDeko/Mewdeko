@@ -8,6 +8,10 @@ namespace Mewdeko.Database
     /// </summary>
     public class MewdekoPostgresContext : MewdekoContext
     {
+        /// <summary>
+        /// Context use for psql
+        /// </summary>
+        /// <param name="options"></param>
         public MewdekoPostgresContext(DbContextOptions<MewdekoPostgresContext> options) : base(options)
         {
 

@@ -67,4 +67,23 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
+
+    // Thanks Kotz!
+    /// <summary>
+    /// Gets a scoped or transient service of type <typeparamref name="T"/> from this <see cref="IServiceScopeFactory"/>.
+    /// </summary>
+    /// <typeparam name="T">The type of the service.</typeparam>
+    /// <param name="scopeFactory">The IoC's scope factory.</param>
+    /// <param name="service">The requested scoped service. It will be <see langword="null"/> if <typeparamref name="T"/> is not registered.</param>
+    /// <returns>An <see cref="IServiceScope"/> to be disposed after use.</returns>
+    /// <exception cref="InvalidOperationException">Occurs when the service of type <typeparamref name="T"/> is not found.</exception>
+    public static IServiceScope GetScopedService<T>(this IServiceScopeFactory scopeFactory, out T service) where T : notnull
+    {
+        ArgumentNullException.ThrowIfNull(scopeFactory, nameof(scopeFactory));
+
+        var scope = scopeFactory.CreateScope();
+        service = scope.ServiceProvider.GetRequiredService<T>();
+
+        return scope;
+    }
 }

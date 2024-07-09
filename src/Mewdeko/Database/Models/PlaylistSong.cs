@@ -1,26 +1,78 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Mewdeko.Database.Models;
-
-[Table("PlaylistSong")]
-public class PlaylistSong : DbEntity
+namespace Mewdeko.Database.Models
 {
-    [ForeignKey("MusicPlaylistId")]
-    public int MusicPlaylistId { get; set; }
+    /// <summary>
+    /// Represents a song in a music playlist.
+    /// </summary>
+    [Table("PlaylistSong")]
+    public class PlaylistSong : DbEntity
+    {
+        /// <summary>
+        /// Gets or sets the music playlist ID.
+        /// </summary>
+        [ForeignKey("MusicPlaylistId")]
+        public int MusicPlaylistId { get; set; }
 
-    public string Provider { get; set; }
-    public Platform ProviderType { get; set; }
-    public string Title { get; set; }
-    public string Uri { get; set; }
-    public string Query { get; set; }
-}
+        /// <summary>
+        /// Gets or sets the provider of the song.
+        /// </summary>
+        public string Provider { get; set; }
 
-public enum Platform
-{
-    Youtube,
-    Spotify,
-    Soundcloud,
-    Url,
-    File,
-    Twitch
+        /// <summary>
+        /// Gets or sets the provider type of the song.
+        /// </summary>
+        public Platform ProviderType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the title of the song.
+        /// </summary>
+        public string Title { get; set; }
+
+        /// <summary>
+        /// Gets or sets the URI of the song.
+        /// </summary>
+        public string Uri { get; set; }
+
+        /// <summary>
+        /// Gets or sets the query for the song.
+        /// </summary>
+        public string Query { get; set; }
+    }
+
+    /// <summary>
+    /// Specifies the platform type.
+    /// </summary>
+    public enum Platform
+    {
+        /// <summary>
+        /// YouTube platform.
+        /// </summary>
+        Youtube,
+
+        /// <summary>
+        /// Spotify platform.
+        /// </summary>
+        Spotify,
+
+        /// <summary>
+        /// SoundCloud platform.
+        /// </summary>
+        Soundcloud,
+
+        /// <summary>
+        /// URL platform.
+        /// </summary>
+        Url,
+
+        /// <summary>
+        /// File platform.
+        /// </summary>
+        File,
+
+        /// <summary>
+        /// Twitch platform.
+        /// </summary>
+        Twitch
+    }
 }
