@@ -1,12 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Mewdeko.Database.Models;
-
-[Table("FilteredWord")]
-public class FilteredWord : DbEntity
+namespace Mewdeko.Database.Models
 {
-    public string Word { get; set; }
+    /// <summary>
+    /// Represents a word that is filtered in a guild.
+    /// </summary>
+    [Table("FilteredWord")]
+    public class FilteredWord : DbEntity
+    {
+        /// <summary>
+        /// Gets or sets the word to be filtered.
+        /// </summary>
+        public string Word { get; set; }
 
-    [ForeignKey("GuildConfigId")]
-    public int GuildConfigId { get; set; }
+        /// <summary>
+        /// Gets or sets the guild configuration ID.
+        /// </summary>
+        [ForeignKey("GuildConfigId")]
+        public int GuildConfigId { get; set; }
+    }
 }

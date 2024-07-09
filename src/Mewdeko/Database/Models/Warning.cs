@@ -1,11 +1,38 @@
-﻿namespace Mewdeko.Database.Models;
-
-public class Warning : DbEntity
+﻿namespace Mewdeko.Database.Models
 {
-    public ulong GuildId { get; set; }
-    public ulong UserId { get; set; }
-    public string Reason { get; set; }
-    public bool Forgiven { get; set; } = false;
-    public string ForgivenBy { get; set; }
-    public string Moderator { get; set; }
+    /// <summary>
+    /// Represents a warning in a guild.
+    /// </summary>
+    public class Warning : DbEntity
+    {
+        /// <summary>
+        /// Gets or sets the guild ID.
+        /// </summary>
+        public ulong GuildId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user ID.
+        /// </summary>
+        public ulong UserId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reason for the warning.
+        /// </summary>
+        public string Reason { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the warning is forgiven.
+        /// </summary>
+        public bool Forgiven { get; set; } = false;
+
+        /// <summary>
+        /// Gets or sets the username of the person who forgave the warning.
+        /// </summary>
+        public string ForgivenBy { get; set; }
+
+        /// <summary>
+        /// Gets or sets the username of the moderator who issued the warning.
+        /// </summary>
+        public string Moderator { get; set; }
+    }
 }

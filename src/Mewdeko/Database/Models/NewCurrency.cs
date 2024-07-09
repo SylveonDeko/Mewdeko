@@ -1,27 +1,70 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Mewdeko.Database.Models;
-
-[Table("GlobalUserBalance")]
-public class GlobalUserBalance : DbEntity
+namespace Mewdeko.Database.Models
 {
-    public ulong UserId { get; set; }
-    public long Balance { get; set; }
-}
+    /// <summary>
+    /// Represents the global balance of a user.
+    /// </summary>
+    [Table("GlobalUserBalance")]
+    public class GlobalUserBalance : DbEntity
+    {
+        /// <summary>
+        /// Gets or sets the user ID.
+        /// </summary>
+        public ulong UserId { get; set; }
 
-[Table("GuildUserBalance")]
-public class GuildUserBalance : DbEntity
-{
-    public ulong GuildId { get; set; }
-    public ulong UserId { get; set; }
-    public long Balance { get; set; }
-}
+        /// <summary>
+        /// Gets or sets the balance.
+        /// </summary>
+        public long Balance { get; set; }
+    }
 
-[Table("TransactionHistory")]
-public class TransactionHistory : DbEntity
-{
-    public ulong GuildId { get; set; }
-    public ulong? UserId { get; set; } = 0;
-    public long Amount { get; set; }
-    public string Description { get; set; }
+    /// <summary>
+    /// Represents the balance of a user in a guild.
+    /// </summary>
+    [Table("GuildUserBalance")]
+    public class GuildUserBalance : DbEntity
+    {
+        /// <summary>
+        /// Gets or sets the guild ID.
+        /// </summary>
+        public ulong GuildId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user ID.
+        /// </summary>
+        public ulong UserId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the balance.
+        /// </summary>
+        public long Balance { get; set; }
+    }
+
+    /// <summary>
+    /// Represents the transaction history of a user in a guild.
+    /// </summary>
+    [Table("TransactionHistory")]
+    public class TransactionHistory : DbEntity
+    {
+        /// <summary>
+        /// Gets or sets the guild ID.
+        /// </summary>
+        public ulong GuildId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user ID.
+        /// </summary>
+        public ulong? UserId { get; set; } = 0;
+
+        /// <summary>
+        /// Gets or sets the transaction amount.
+        /// </summary>
+        public long Amount { get; set; }
+
+        /// <summary>
+        /// Gets or sets the transaction description.
+        /// </summary>
+        public string Description { get; set; }
+    }
 }

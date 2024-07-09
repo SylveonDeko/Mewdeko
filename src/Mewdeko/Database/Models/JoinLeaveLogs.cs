@@ -1,8 +1,23 @@
-﻿namespace Mewdeko.Database.Models;
-
-public class JoinLeaveLogs : DbEntity
+﻿namespace Mewdeko.Database.Models
 {
-    public ulong GuildId { get; set; }
-    public ulong UserId { get; set; }
-    public bool IsJoin { get; set; }
+    /// <summary>
+    /// Represents the logs for user join and leave events in a guild.
+    /// </summary>
+    public class JoinLeaveLogs : DbEntity
+    {
+        /// <summary>
+        /// Gets or sets the guild ID.
+        /// </summary>
+        public ulong GuildId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user ID.
+        /// </summary>
+        public ulong UserId { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the event is a join event.
+        /// </summary>
+        public bool IsJoin { get; set; }
+    }
 }
