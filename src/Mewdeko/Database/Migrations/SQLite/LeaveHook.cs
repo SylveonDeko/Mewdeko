@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mewdeko.Database.Migrations.SQLite;
-
+/// <inheritdoc />
 public partial class LeaveHook : Migration
 {
+    /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.AddColumn<string>(
@@ -21,6 +22,7 @@ public partial class LeaveHook : Migration
         migrationBuilder.RenameColumn("WebhookURL", "GuildConfigs", "GreetHook");
     }
 
+    /// <inheritdoc />
     protected override void Down(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.DropColumn(

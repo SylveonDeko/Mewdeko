@@ -8,6 +8,8 @@ namespace Mewdeko.Database.Migrations.SQLite;
 [Migration("AddAutoBanRole")]
 partial class AddAutoBanRole
 {
+    /// <inheritdoc />
+    /// <inheritdoc />
     protected override void BuildTargetModel(ModelBuilder modelBuilder)
     {
         // required for reasons

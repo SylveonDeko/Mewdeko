@@ -2,8 +2,11 @@
 
 namespace Mewdeko.Database.Migrations.SQLite;
 
+/// <inheritdoc />
 public partial class AddAutoBanRole : Migration
 {
+    /// <inheritdoc />
+    /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.CreateTable(

@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mewdeko.Database.Migrations.SQLite;
-
+/// <inheritdoc />
 public partial class AddMultiGreets : Migration
 {
+    /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.CreateTable(
@@ -23,5 +24,6 @@ public partial class AddMultiGreets : Migration
         migrationBuilder.AddColumn<int>("MultiGreetType", "GuildConfigs", defaultValue: 0);
     }
 
+    /// <inheritdoc />
     protected override void Down(MigrationBuilder migrationBuilder) => migrationBuilder.DropTable("MultiGreets");
 }

@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mewdeko.Database.Migrations.SQLite;
-
+/// <inheritdoc />
 public partial class NewGenCurrency : Migration
 {
+    /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         // Adding CurrencyName and CurrencyEmoji to GuildConfigs
@@ -71,6 +72,7 @@ public partial class NewGenCurrency : Migration
             });
     }
 
+    /// <inheritdoc />
     protected override void Down(MigrationBuilder migrationBuilder)
     {
         // Code to reverse the migrations

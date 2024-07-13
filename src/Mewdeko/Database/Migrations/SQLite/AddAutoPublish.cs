@@ -2,8 +2,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mewdeko.Database.Migrations.SQLite;
 
+/// <inheritdoc />
 public partial class AddAutoPublish : Migration
 {
+    /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.CreateTable(
@@ -52,7 +54,7 @@ public partial class AddAutoPublish : Migration
                 table.PrimaryKey("PK_AutoPublish", x => x.Id);
             });
     }
-
+    /// <inheritdoc />
     protected override void Down(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.DropTable("PublishUserBlacklist");
