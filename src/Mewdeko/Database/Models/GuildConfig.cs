@@ -70,12 +70,12 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the name of the guild currency.
         /// </summary>
-        public string CurrencyName { get; set; } = "Coins";
+        public string? CurrencyName { get; set; } = "Coins";
 
         /// <summary>
         /// Gets or sets the emoji used for the guild currency.
         /// </summary>
-        public string CurrencyEmoji { get; set; } = "💰";
+        public string? CurrencyEmoji { get; set; } = "💰";
 
         /// <summary>
         /// Gets or sets the reward amount for certain actions.
@@ -90,17 +90,17 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the URL for the giveaway banner.
         /// </summary>
-        public string GiveawayBanner { get; set; } = "";
+        public string? GiveawayBanner { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the color for the giveaway embed.
         /// </summary>
-        public string GiveawayEmbedColor { get; set; } = "";
+        public string? GiveawayEmbedColor { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the color for the giveaway win embed.
         /// </summary>
-        public string GiveawayWinEmbedColor { get; set; } = "";
+        public string? GiveawayWinEmbedColor { get; set; } = "";
 
         /// <summary>
         /// Gets or sets a value indicating whether to send a direct message to the winner of a giveaway.
@@ -110,7 +110,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the end message for giveaways.
         /// </summary>
-        public string GiveawayEndMessage { get; set; } = "";
+        public string? GiveawayEndMessage { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the role to ping for giveaways.
