@@ -129,7 +129,6 @@ public class CommandHandler : INService
                 var gconf = await gss.GetGuildConfig(ctx.Guild.Id);
                 if (!gconf.StatsOptOut)
                 {
-
                     var user = await dbContext.GetOrCreateUser(ctx.User);
                     if (!user.StatsOptOut)
                     {
@@ -264,7 +263,6 @@ public class CommandHandler : INService
                 var gconf = await gss.GetGuildConfig(ctx.Guild.Id);
                 if (!gconf.StatsOptOut)
                 {
-
                     var user = await dbContext.GetOrCreateUser(ctx.User);
                     if (!user.StatsOptOut)
                     {
@@ -391,50 +389,58 @@ public class CommandHandler : INService
 
     private async Task TryRunInteraction(SocketInteraction interaction)
     {
-        var blacklistService = services.GetService<BlacklistService>();
-        var cb = new ComponentBuilder().WithButton("Support Server", null, ButtonStyle.Link,
-            url: "https://discord.gg/mewdeko").Build();
-        foreach (var bl in blacklistService.BlacklistEntries)
+        try
         {
-            if ((interaction.Channel as IGuildChannel)?.Guild != null && bl.Type == BlacklistType.Server &&
-                bl.ItemId == (interaction.Channel as IGuildChannel)?.Guild?.Id)
+            var blacklistService = services.GetService<BlacklistService>();
+            var cb = new ComponentBuilder().WithButton("Support Server", null, ButtonStyle.Link,
+                url: "https://discord.gg/mewdeko").Build();
+            foreach (var bl in blacklistService.BlacklistEntries)
             {
-                await interaction.RespondAsync(
-                    $"*This guild is blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*",
-                    components: cb).ConfigureAwait(false);
-                return;
+                if ((interaction.Channel as IGuildChannel)?.Guild != null && bl.Type == BlacklistType.Server &&
+                    bl.ItemId == (interaction.Channel as IGuildChannel)?.Guild?.Id)
+                {
+                    await interaction.RespondAsync(
+                        $"*This guild is blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*",
+                        components: cb).ConfigureAwait(false);
+                    return;
+                }
+
+                if (bl.Type == BlacklistType.User && bl.ItemId == interaction.User.Id)
+                {
+                    await interaction.RespondAsync(
+                        $"*You are blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*",
+                        ephemeral: true, components: cb).ConfigureAwait(false);
+                    return;
+                }
             }
 
-            if (bl.Type == BlacklistType.User && bl.ItemId == interaction.User.Id)
+            if (interaction.Type == InteractionType.ApplicationCommand)
             {
-                await interaction.RespondAsync(
-                    $"*You are blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*",
-                    ephemeral: true, components: cb).ConfigureAwait(false);
-                return;
+                var ctS = services.GetService<ChatTriggersService>();
+                var triggers = ctS.GetChatTriggersFor((interaction.Channel as IGuildChannel)?.Guild?.Id);
+                var trigger = triggers.FirstOrDefault(x => x.RealName == interaction.GetRealName());
+                if (trigger is not null)
+                {
+                    await ctS.RunInteractionTrigger(interaction, trigger).ConfigureAwait(false);
+                    return;
+                }
             }
-        }
+            // i hate discord
+            // if (interaction is IComponentInteraction compInter
+            //     && compInter.Message.Author.IsWebhook
+            //     && !compInter.Data.CustomId.StartsWith("trigger.")) return;
 
-        if (interaction.Type == InteractionType.ApplicationCommand)
-        {
-            var ctS = services.GetService<ChatTriggersService>();
-            var triggers = ctS.GetChatTriggersFor((interaction.Channel as IGuildChannel)?.Guild?.Id);
-            var trigger = triggers.FirstOrDefault(x => x.RealName == interaction.GetRealName());
-            if (trigger is not null)
-            {
-                await ctS.RunInteractionTrigger(interaction, trigger).ConfigureAwait(false);
-                return;
-            }
-        }
-        // i hate discord
-        // if (interaction is IComponentInteraction compInter
-        //     && compInter.Message.Author.IsWebhook
-        //     && !compInter.Data.CustomId.StartsWith("trigger.")) return;
-
-        var ctx = new ShardedInteractionContext(client, interaction);
-        var result = await interactionService.ExecuteCommandAsync(ctx, services).ConfigureAwait(false);
+            var ctx = new ShardedInteractionContext(client, interaction);
+            var result = await interactionService.ExecuteCommandAsync(ctx, services).ConfigureAwait(false);
 #if DEBUG
-        Log.Information($"Button was executed:{result.IsSuccess}\nReason:{result.ErrorReason}");
+            Log.Information($"Button was executed:{result.IsSuccess}\nReason:{result.ErrorReason}");
 #endif
+        }
+        catch (Exception e)
+        {
+            Log.Error(e, "Interaction failed to execute");
+            throw;
+        }
     }
 
 
@@ -767,7 +773,6 @@ public class CommandHandler : INService
             await LogErroredExecution(error, usrMsg, channel as ITextChannel, exec2, execTime);
             if (guild != null)
             {
-
                 var perms = new PermissionService(dbProvider, strings, gss, client, bss.Data);
                 var pc = await perms.GetCacheFor(guild.Id);
                 if (pc != null && pc.Permissions.CheckPermissions(usrMsg, info.Name, info.Module.Name, out _))
