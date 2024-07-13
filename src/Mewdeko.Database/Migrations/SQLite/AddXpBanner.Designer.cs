@@ -10,7 +10,8 @@ namespace Mewdeko.Database.Migrations.SQLite
     [Migration("AddXpBanner")]
     partial class AddXpBanner
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+    protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             // required for reasons
         }

@@ -9,6 +9,7 @@ namespace Mewdeko.Database.Migrations.SQLite;
 partial class AddProperUsernameLogging
 
 {
+    /// <inheritdoc />
     protected override void BuildTargetModel(ModelBuilder modelBuilder)
     {
         // just a template

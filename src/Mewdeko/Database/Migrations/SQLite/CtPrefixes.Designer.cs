@@ -10,7 +10,8 @@ namespace Mewdeko.Database.Migrations.SQLite
     [Migration("CtPrefixes")]
     partial class CtPrefixes
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+    protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             // required for reasons
         }

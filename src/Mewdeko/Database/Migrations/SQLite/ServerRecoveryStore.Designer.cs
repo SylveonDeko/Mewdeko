@@ -8,6 +8,7 @@ namespace Mewdeko.Database.Migrations.SQLite;
 [Migration("AddServerRecoveryStore")]
 partial class AddServerRecoveryStore
 {
+    /// <inheritdoc />
     protected override void BuildTargetModel(ModelBuilder modelBuilder)
     {
         // just a template

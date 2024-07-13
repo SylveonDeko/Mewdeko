@@ -10,7 +10,8 @@ namespace Mewdeko.Database.Migrations.SQLite
     [Migration("CleanAndRemakePolls")]
     partial class CleanAndRemakePolls
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+    protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

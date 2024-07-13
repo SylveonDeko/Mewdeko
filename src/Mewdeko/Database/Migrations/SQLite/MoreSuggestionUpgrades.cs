@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mewdeko.Database.Migrations.SQLite;
-
+/// <inheritdoc />
 public partial class MoreSuggestionUpgrades : Migration
 {
+    /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.AddColumn<ulong>("EmoteCount1", "Suggestions", defaultValue: 0);

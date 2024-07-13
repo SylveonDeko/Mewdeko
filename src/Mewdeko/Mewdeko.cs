@@ -58,8 +58,6 @@ public class Mewdeko
 
         Credentials = new BotCredentials();
         Cache = new RedisCache(Credentials, shardId);
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
 
         Client = new DiscordShardedClient(new DiscordSocketConfig
@@ -119,6 +117,16 @@ public class Mewdeko
 
     private async Task AddServices()
     {
+        var migrationService = new MigrationService(
+            null,
+            Credentials.Token,
+            Credentials.PsqlConnectionString, Credentials.MigrateToPsql);
+
+        await migrationService.ApplyMigrations(new MewdekoPostgresContext(new DbContextOptions<MewdekoPostgresContext>()));
+
+        Log.Information("Waiting 5 seconds for migrations, if any...");
+        await Task.Delay(5000);
+
         if (!Uri.TryCreate(Credentials.LavalinkUrl, UriKind.Absolute, out _))
         {
             Log.Error("The Lavalink URL is invalid! Please check the Lavalink URL in the configuration");
@@ -206,13 +214,6 @@ public class Mewdeko
         Log.Information("Passed Interface Scanner");
         //initialize Services
         Services = s.BuildServiceProvider();
-
-        var migrationService = new MigrationService(
-            Services.GetRequiredService<DbContextProvider>(),
-            Credentials.Token,
-            Credentials.PsqlConnectionString, Credentials.MigrateToPsql);
-
-        migrationService.ApplyMigrations();
 
         var commandHandler = Services.GetService<CommandHandler>();
         commandHandler.AddServices(s);

@@ -155,8 +155,6 @@
         <None Remove="DiscordChatExporter\DiscordChatExporter.Cli.deps.json" />
         <None Remove="DiscordChatExporter\CliFx.dll" />
       <None Remove="data\http.txt"/>
-      <Compile Remove="Database\Migrations\**" />
-      <None Remove="Database\Migrations\**" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -169,9 +167,6 @@
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Mewdeko.Votes\Mewdeko.Votes.csproj" />
-    </ItemGroup>
-    <ItemGroup>
-      <EmbeddedResource Remove="Database\Migrations\**" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
