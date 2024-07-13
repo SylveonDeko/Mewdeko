@@ -8,6 +8,7 @@ namespace Mewdeko.Database.Migrations.SQLite;
 [Migration("LogImprovements")]
 partial class LogImprovements
 {
+    /// <inheritdoc />
     protected override void BuildTargetModel(ModelBuilder modelBuilder)
     {
         // just a template

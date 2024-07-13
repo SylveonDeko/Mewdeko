@@ -30,7 +30,7 @@ public class MigrationService
     /// <summary>
     /// Initializes a new instance of the <see cref="MigrationService"/> class.
     /// </summary>
-    public MigrationService(DbContextProvider provider, string? token, string psqlConnection, bool migrate = false)
+    public MigrationService(DbContextProvider? provider, string? token, string psqlConnection, bool migrate = false)
     {
         this.provider = provider;
         this.token = token ?? "";

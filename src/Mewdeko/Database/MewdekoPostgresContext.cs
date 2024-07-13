@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Mewdeko.Services.Impl;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace Mewdeko.Database
@@ -15,6 +16,17 @@ namespace Mewdeko.Database
         public MewdekoPostgresContext(DbContextOptions<MewdekoPostgresContext> options) : base(options)
         {
 
+        }
+
+        /// <inheritdoc />
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            var credentials = new BotCredentials();
+            optionsBuilder
+                .UseNpgsql(credentials.PsqlConnectionString,
+                    x => x.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))
+                .EnableDetailedErrors()
+                .EnableSensitiveDataLogging();
         }
     }
 }

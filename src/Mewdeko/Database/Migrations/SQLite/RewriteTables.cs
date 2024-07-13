@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mewdeko.Database.Migrations.SQLite;
-
+/// <inheritdoc />
 public partial class RewriteTables : Migration
 {
+    /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.CreateTable(
@@ -90,6 +91,7 @@ public partial class RewriteTables : Migration
             unique: false);
     }
 
+    /// <inheritdoc />
     protected override void Down(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.DropTable(
