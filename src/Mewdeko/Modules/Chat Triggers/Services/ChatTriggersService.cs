@@ -563,10 +563,10 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// </summary>
     /// <param name="guildId">The ID of the guild for which to export chat triggers. If null, exports for all guilds.</param>
     /// <returns>A string containing the exported chat triggers data.</returns>
-    public string ExportCrs(ulong? guildId)
+    public async Task<string> ExportCrs(ulong? guildId)
     {
         // Retrieve chat triggers for the specified guild or all guilds
-        var crs = GetChatTriggersFor(guildId);
+        var crs = await GetChatTriggersFor(guildId);
 
         // Group the chat triggers by trigger string and convert them to a dictionary
         var crsDict = crs
@@ -854,25 +854,25 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// <param name="maybeGuildId">The optional guild ID.</param>
     /// <param name="ct">The chat trigger model to update.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    private Task UpdateInternalAsync(ulong? maybeGuildId, CTModel ct)
+    private async Task UpdateInternalAsync(ulong? maybeGuildId, CTModel ct)
     {
         // Check if the guild ID is provided
         if (maybeGuildId is { } guildId)
-            UpdateInternal(guildId, ct); // Update internally based on guild ID
+            await UpdateInternal(guildId, ct); // Update internally based on guild ID
         else
         {
             // Publish the chat trigger edited event
             _ = pubSub.Pub(gcrEditedKey, ct);
-            return Task.CompletedTask; // Return completed task
+            return; // Return completed task
         }
 
         // Handle interaction updates
         if (ct.ApplicationCommandType == CtApplicationCommandType.None)
-            return Task.CompletedTask; // Return completed task if no application command type
+            return; // Return completed task if no application command type
 
         // Get the guild by guild ID
         var guild = client.GetGuild(guildId);
-        return RegisterTriggersToGuildAsync(guild); // Register triggers to the guild asynchronously
+        await RegisterTriggersToGuildAsync(guild); // Register triggers to the guild asynchronously
     }
 
     /// <summary>
@@ -880,8 +880,9 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// </summary>
     /// <param name="maybeGuildId">The optional guild ID.</param>
     /// <param name="ct">The chat trigger model to update.</param>
-    private void UpdateInternal(ulong? maybeGuildId, CTModel ct)
+    private async Task UpdateInternal(ulong? maybeGuildId, CTModel ct)
     {
+        await Task.CompletedTask;
         // Check if the guild ID is provided
         if (maybeGuildId is { } guildId)
         {
@@ -903,16 +904,12 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
         }
         else
         {
-            // Update global reactions
-            lock (gcrWriteLock)
-            {
                 var crs = globalReactions;
                 for (var i = 0; i < crs.Length; i++)
                 {
                     if (crs[i].Id == ct.Id)
                         crs[i] = ct; // Update the chat trigger in the array
                 }
-            }
         }
     }
 
@@ -953,29 +950,23 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// <param name="maybeGuildId">The optional guild ID.</param>
     /// <param name="id">The ID of the chat trigger to delete.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    private Task DeleteInternalAsync(ulong? maybeGuildId, int id)
+    private async Task DeleteInternalAsync(ulong? maybeGuildId, int id)
     {
         // Check if the guild ID is provided
         if (maybeGuildId is { } guildId)
         {
             // Add or update the chat trigger in the newGuildReactions dictionary
             newGuildReactions.AddOrUpdate(guildId,
-                Array.Empty<CTModel>(),
-                (_, old) => DeleteInternal(old, id));
+                [],
+                (_, old) => DeleteInternal(old, id).GetAwaiter().GetResult());
 
-            return Task.CompletedTask; // Return completed task
+            return; // Return completed task
         }
-
-        // Lock the globalReactions array
-        lock (gcrWriteLock)
-        {
             // Find the chat trigger to delete
             var cr = Array.Find(globalReactions, item => item.Id == id);
             if (cr is not null)
-                return pubSub.Pub(gcrDeletedkey, cr.Id); // Publish the chat trigger deleted event
-        }
+                await pubSub.Pub(gcrDeletedkey, cr.Id); // Publish the chat trigger deleted event
 
-        return Task.CompletedTask; // Return completed task
     }
 
     /// <summary>
@@ -984,8 +975,9 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// <param name="cts">The list of chat triggers to delete from.</param>
     /// <param name="id">The ID of the chat trigger to delete.</param>
     /// <returns>The updated list of chat triggers.</returns>
-    private static CTModel[] DeleteInternal(IReadOnlyList<CTModel>? cts, int id)
+    private async static Task<CTModel[]> DeleteInternal(IReadOnlyList<CTModel>? cts, int id)
     {
+        await Task.CompletedTask;
         // Check if the list of chat triggers is null or empty
         if (cts is null || cts.Count == 0)
             return cts as CTModel[] ?? cts?.ToArray(); // Return the list as is
@@ -1149,19 +1141,15 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// </summary>
     /// <param name="c">The chat trigger model that was added.</param>
     /// <returns>A value task representing the asynchronous operation.</returns>
-    private ValueTask OnGcrAdded(CTModel c)
+    private async ValueTask OnGcrAdded(CTModel c)
     {
-        lock (gcrWriteLock)
-        {
+        await Task.CompletedTask;
             var newGlobalReactions =
                 new CTModel[globalReactions.Length + 1]; // Create a new array with increased length
             Array.Copy(globalReactions, newGlobalReactions,
                 globalReactions.Length); // Copy existing global reactions to the new array
             newGlobalReactions[globalReactions.Length] = c; // Add the new chat trigger to the end of the new array
             globalReactions = newGlobalReactions; // Update the global reactions array
-        }
-
-        return default; // Return a completed value task
     }
 
     /// <summary>
@@ -1169,23 +1157,20 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// </summary>
     /// <param name="c">The chat trigger model that was edited.</param>
     /// <returns>A value task representing the asynchronous operation.</returns>
-    private ValueTask OnGcrEdited(CTModel c)
+    private async ValueTask OnGcrEdited(CTModel c)
     {
-        lock (gcrWriteLock)
         {
             for (var i = 0; i < globalReactions.Length; i++)
             {
                 if (globalReactions[i].Id != c.Id) // Check if the chat trigger ID does not match
                     continue;
                 globalReactions[i] = c; // Update the chat trigger in the global reactions array
-                return default; // Return a completed value task
+                return; // Return a completed value task
             }
 
             // If edited chat trigger is not found, add it
-            OnGcrAdded(c); // Call the method to handle the addition of the chat trigger
+            await OnGcrAdded(c); // Call the method to handle the addition of the chat trigger
         }
-
-        return default; // Return a completed value task
     }
 
     /// <summary>
@@ -1193,15 +1178,10 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// </summary>
     /// <param name="id">The ID of the chat trigger that was deleted.</param>
     /// <returns>A value task representing the asynchronous operation.</returns>
-    private ValueTask OnGcrDeleted(int id)
+    private async ValueTask OnGcrDeleted(int id)
     {
-        lock (gcrWriteLock)
-        {
             globalReactions =
-                DeleteInternal(globalReactions, id); // Delete the chat trigger from the global reactions array
-        }
-
-        return default; // Return a completed value task
+                await DeleteInternal(globalReactions, id); // Delete the chat trigger from the global reactions array
     }
 
 
@@ -1607,19 +1587,18 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// <param name="maybeGuildId">The ID of the guild to retrieve triggers for.</param>
     /// <returns>An array of chat triggers for the specified guild.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public CTModel[] GetChatTriggersFor(ulong? maybeGuildId)
+    public async Task<CTModel[]> GetChatTriggersFor(ulong? maybeGuildId)
     {
+        await Task.CompletedTask.ConfigureAwait(false);
         if (maybeGuildId is { } guildId and not 0) // Check if a valid guild ID is provided
         {
             return newGuildReactions.TryGetValue(guildId, out var cts) // Retrieve triggers for the guild
                 ? cts
-                : Array.Empty<CTModel>(); // Return an empty array if no triggers found
+                : []; // Return an empty array if no triggers found
         }
 
-        lock (gcrWriteLock) // Lock for thread safety
-        {
-            return globalReactions; // Return global triggers if no guild ID specified
-        }
+
+        return globalReactions; // Return global triggers if no guild ID specified
     }
 
 
@@ -1738,11 +1717,11 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns>A list of application command properties.</returns>
-    public List<ApplicationCommandProperties> GetApplicationCommandProperties(ulong guildId)
+    public async Task<List<ApplicationCommandProperties>> GetApplicationCommandProperties(ulong guildId)
     {
         var props = new List<ApplicationCommandProperties>();
 
-        var triggers = GetChatTriggersFor(guildId);
+        var triggers = await GetChatTriggersFor(guildId);
 
         if (GetAcctErrors(triggers)?.Any() ?? false)
         {
@@ -1848,17 +1827,18 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="props">When this method returns, contains the application command properties for the guild, if they exist; otherwise, null.</param>
     /// <returns><see langword="true"/> if the application command properties were successfully retrieved; otherwise, <see langword="false"/>.</returns>
-    public bool TryGetApplicationCommandProperties(ulong guildId, out List<ApplicationCommandProperties>? props)
+    public async Task<(bool, List<ApplicationCommandProperties>? props)> TryGetApplicationCommandProperties(ulong guildId)
     {
+        var props = new List<ApplicationCommandProperties>();
         try
         {
-            props = GetApplicationCommandProperties(guildId);
-            return true;
+            props = await GetApplicationCommandProperties(guildId);
+            return (true, props);
         }
         catch
         {
             props = null;
-            return false;
+            return (false, props);
         }
     }
 
@@ -1869,17 +1849,18 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task RegisterTriggersToGuildAsync(IGuild guild)
     {
+        var result = await TryGetApplicationCommandProperties(guild.Id);
         // Try to get the application command properties for the guild
-        if (!TryGetApplicationCommandProperties(guild.Id, out var props) || props is null)
+        if (!result.Item1|| result.props is null)
             return;
 
         // Create or overwrite application commands based on the debug mode
 #if DEBUG
         var cmd = new List<IApplicationCommand>();
-        foreach (var prop in props)
+        foreach (var prop in result.props)
             cmd.Add(await guild.CreateApplicationCommandAsync(prop));
 #else
-    var cmd = await guild.BulkOverwriteApplicationCommandsAsync(props.ToArray()).ConfigureAwait(false);
+    var cmd = await guild.BulkOverwriteApplicationCommandsAsync(result.props.ToArray()).ConfigureAwait(false);
     if (cmd is null) return;
 #endif
 
@@ -1911,8 +1892,8 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns>A list of errors related to chat trigger interactions, if any; otherwise, <see langword="null"/>.</returns>
-    public List<ChatTriggersInteractionError>? GetAcctErrors(ulong? guildId) =>
-        GetAcctErrors(GetChatTriggersFor(guildId));
+    public async Task<List<ChatTriggersInteractionError>?> GetAcctErrors(ulong? guildId) =>
+        GetAcctErrors(await GetChatTriggersFor(guildId));
 
 
     /// <summary>

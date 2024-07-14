@@ -400,7 +400,7 @@ public class CommandHandler : INService
                     bl.ItemId == (interaction.Channel as IGuildChannel)?.Guild?.Id)
                 {
                     await interaction.RespondAsync(
-                        $"*This guild is blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*",
+                        $"*This guild is blacklist      ed from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*",
                         components: cb).ConfigureAwait(false);
                     return;
                 }
@@ -417,7 +417,7 @@ public class CommandHandler : INService
             if (interaction.Type == InteractionType.ApplicationCommand)
             {
                 var ctS = services.GetService<ChatTriggersService>();
-                var triggers = ctS.GetChatTriggersFor((interaction.Channel as IGuildChannel)?.Guild?.Id);
+                var triggers = await ctS.GetChatTriggersFor((interaction.Channel as IGuildChannel)?.Guild?.Id);
                 var trigger = triggers.FirstOrDefault(x => x.RealName == interaction.GetRealName());
                 if (trigger is not null)
                 {
