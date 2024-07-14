@@ -160,8 +160,8 @@ public class DiscordUser : DbEntity
     public override int GetHashCode() => UserId.GetHashCode();
 
     /// <summary>
-    /// Returns a string that represents the current object.
+    /// Returns a string? that represents the current object.
     /// </summary>
-    /// <returns>A string that represents the current object.</returns>
+    /// <returns>A string? that represents the current object.</returns>
     public override string ToString() => $"{Username}#{Discriminator}";
 }

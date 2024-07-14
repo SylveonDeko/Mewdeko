@@ -22,12 +22,12 @@ public class FeedSub : DbEntity
     /// <summary>
     /// Gets or sets the URL of the feed.
     /// </summary>
-    public string Url { get; set; }
+    public string? Url { get; set; }
 
     /// <summary>
     /// Gets or sets the message template for feed updates.
     /// </summary>
-    public string Message { get; set; } = "-";
+    public string? Message { get; set; } = "-";
 
     /// <summary>
     /// Returns the hash code for this instance.
