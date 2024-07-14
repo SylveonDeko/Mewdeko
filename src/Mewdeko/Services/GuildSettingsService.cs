@@ -69,9 +69,7 @@ namespace Mewdeko.Services
 
                 var sw = new Stopwatch();
                 sw.Start();
-                Log.Information($"Executing from {callerName} at {filePath}");
                 var toLoad = await dbContext.ForGuildId(guildId, includes);
-                Log.Information($"GuildConfig Get for {guildId} took {sw.Elapsed}");
                 return toLoad;
             }
             catch (Exception e)
@@ -84,7 +82,7 @@ namespace Mewdeko.Services
         /// <summary>
         /// Updates the guild configuration.
         /// </summary>
-        public async Task UpdateGuildConfig(ulong guildId, GuildConfig toUpdate)
+        public async Task UpdateGuildConfig(ulong guildId, GuildConfig toUpdate, [CallerMemberName] string callerName = "", [CallerFilePath] string filePath = "")
         {
             await using var dbContext = await dbProvider.GetContextAsync();
 
@@ -98,6 +96,7 @@ namespace Mewdeko.Services
             catch (Exception e)
             {
                 sw.Stop();
+                Log.Error($"Executed from {callerName} in {filePath}");
                 Log.Error(e, "There was an issue updating a GuildConfig");
             }
         }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mewdeko.Database.Models
 {
@@ -17,6 +18,7 @@ namespace Mewdeko.Database.Models
         /// Gets or sets the date and time when the entity was added.
         /// Defaults to the current UTC date and time.
         /// </summary>
-        public DateTime? DateAdded { get; set; } = DateTime.UtcNow;
+        [Column(TypeName = "timestamp without time zone")]
+        public DateTime? DateAdded { get; set; } = DateTime.Now;
     }
 }
