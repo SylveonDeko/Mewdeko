@@ -94,7 +94,7 @@ public static class ChatTriggersExtensions
     /// <param name="guildId">The ID of the guild to search in.</param>
     /// <param name="input">The input trigger to search for.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the matching ChatTriggers instance, or null if not found.</returns>
-    public static Task<ChatTriggers> GetByGuildIdAndInput(this DbSet<ChatTriggers> crs, ulong? guildId, string input) =>
-        AsyncExtensions.FirstOrDefaultAsync(crs,
+    public static async Task<ChatTriggers> GetByGuildIdAndInput(this DbSet<ChatTriggers> crs, ulong? guildId, string input) =>
+        await crs.FirstOrDefaultAsyncLinqToDB(
             x => x.GuildId == guildId && x.Trigger.Equals(input, StringComparison.CurrentCultureIgnoreCase));
 }
