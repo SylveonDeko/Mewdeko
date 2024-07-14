@@ -1,4 +1,6 @@
-﻿namespace Mewdeko.Database.Models
+﻿using System.ComponentModel;
+
+namespace Mewdeko.Database.Models
 {
     /// <summary>
     /// Represents a giveaway in the database.
@@ -48,21 +50,22 @@
         /// <summary>
         /// Gets or sets the roles restricted to participate in the giveaway.
         /// </summary>
-        public string RestrictTo { get; set; }
+        public string? RestrictTo { get; set; }
 
         /// <summary>
         /// Gets or sets the list of users blacklisted from the giveaway.
         /// </summary>
-        public string BlacklistUsers { get; set; }
+        public string? BlacklistUsers { get; set; }
 
         /// <summary>
         /// Gets or sets the list of roles blacklisted from the giveaway.
         /// </summary>
-        public string BlacklistRoles { get; set; }
+        public string? BlacklistRoles { get; set; }
 
         /// <summary>
         /// Gets or sets the emote used for the giveaway.
         /// </summary>
-        public string Emote { get; set; } = "<a:HaneMeow:914307922287276052>";
+        [DefaultValue("<a:HaneMeow:914307922287276052")]
+        public string? Emote { get; set; } = "<a:HaneMeow:914307922287276052>";
     }
 }

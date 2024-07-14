@@ -18,12 +18,12 @@
         /// <summary>
         /// Gets or sets the ignored channels for highlights.
         /// </summary>
-        public string IgnoredChannels { get; set; }
+        public string? IgnoredChannels { get; set; }
 
         /// <summary>
         /// Gets or sets the ignored users for highlights.
         /// </summary>
-        public string IgnoredUsers { get; set; }
+        public string? IgnoredUsers { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether highlights are enabled.
