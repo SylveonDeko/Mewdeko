@@ -24,7 +24,7 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     {
         await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
 
-        var serialized = Service.ExportCrs(ctx.Guild?.Id);
+        var serialized = await Service.ExportCrs(ctx.Guild?.Id);
         var stream = await serialized.ToStream().ConfigureAwait(false);
         await using var a = stream.ConfigureAwait(false);
         await ctx.Channel.SendFileAsync(stream, "crs-export.yml").ConfigureAwait(false);
@@ -143,7 +143,7 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     [Cmd, Aliases, Priority(1), UserPerm(GuildPermission.Administrator)]
     public async Task ListChatTriggers()
     {
-        var chatTriggers = Service.GetChatTriggersFor(ctx.Guild?.Id);
+        var chatTriggers = await Service.GetChatTriggersFor(ctx.Guild?.Id);
 
         var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
             .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
@@ -182,7 +182,7 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
     public async Task ListChatTriggersGroup()
     {
-        var chatTriggers = Service.GetChatTriggersFor(ctx.Guild?.Id);
+        var chatTriggers = await Service.GetChatTriggersFor(ctx.Guild?.Id);
 
         if (!chatTriggers.Any())
         {
@@ -704,7 +704,7 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     [Cmd, Alias, UserPerm(GuildPermission.Administrator)]
     public async Task CtInterErrors()
     {
-        var errors = Service.GetAcctErrors(ctx.Guild?.Id);
+        var errors = await Service.GetAcctErrors(ctx.Guild?.Id);
         var eb = new EmbedBuilder();
         var cb = new ComponentBuilder().WithButton("Support Server", style: ButtonStyle.Link,
             url: "https://discord.gg/Mewdeko",
@@ -777,7 +777,7 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     /// </summary>
     public async Task FollowupWithTriggerStatus()
     {
-        var errors = Service.GetAcctErrors(ctx.Guild?.Id);
+        var errors = await Service.GetAcctErrors(ctx.Guild?.Id);
         if (!(errors?.Any() ?? false))
             return;
         var embed = new EmbedBuilder()

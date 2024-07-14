@@ -43,7 +43,7 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
     {
         await DeferAsync().ConfigureAwait(false);
 
-        var serialized = Service.ExportCrs(ctx.Guild?.Id);
+        var serialized = await Service.ExportCrs(ctx.Guild?.Id);
         var stream = await serialized.ToStream().ConfigureAwait(false);
         await using var _ = stream.ConfigureAwait(false);
         await FollowupWithFileAsync(stream, "cts-export.yml").ConfigureAwait(false);
@@ -247,7 +247,7 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task ListChatTriggers()
     {
-        var chatTriggers = Service.GetChatTriggersFor(ctx.Guild?.Id);
+        var chatTriggers = await Service.GetChatTriggersFor(ctx.Guild?.Id);
 
         var paginator = new LazyPaginatorBuilder()
             .AddUser(ctx.User)
@@ -298,7 +298,7 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
      SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
     public async Task ListChatTriggersGroup()
     {
-        var chatTriggers = Service.GetChatTriggersFor(ctx.Guild?.Id);
+        var chatTriggers = await Service.GetChatTriggersFor(ctx.Guild?.Id);
 
         if (!chatTriggers.Any())
         {
@@ -567,7 +567,7 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
     /// </summary>
     private async Task FollowupWithTriggerStatus()
     {
-        var errors = Service.GetAcctErrors(ctx.Guild?.Id);
+        var errors = await Service.GetAcctErrors(ctx.Guild?.Id);
         if (!(errors?.Any() ?? false))
             return;
         var embed = new EmbedBuilder()
@@ -668,7 +668,7 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
         /// </summary>
         private async Task FollowupWithTriggerStatus()
         {
-            var errors = Service.GetAcctErrors(ctx.Guild?.Id);
+            var errors = await Service.GetAcctErrors(ctx.Guild?.Id);
             if (!(errors?.Any() ?? false))
                 return;
             var embed = new EmbedBuilder()
@@ -821,7 +821,7 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
         /// </summary>
         private async Task FollowupWithTriggerStatus()
         {
-            var errors = Service.GetAcctErrors(ctx.Guild?.Id);
+            var errors = await Service.GetAcctErrors(ctx.Guild?.Id);
             if (!(errors?.Any() ?? false))
                 return;
             var embed = new EmbedBuilder()
@@ -973,7 +973,7 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
 
         private async Task FollowupWithTriggerStatus()
         {
-            var errors = Service.GetAcctErrors(ctx.Guild?.Id);
+            var errors = await Service.GetAcctErrors(ctx.Guild?.Id);
             if (!(errors?.Any() ?? false))
                 return;
             var embed = new EmbedBuilder()
@@ -990,9 +990,9 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
         [SlashCommand("errors", "Check for errors in your interaction chat triggers."), CheckPermissions,
          SlashUserPerm(GuildPermission.Administrator)]
 // ReSharper disable once UnusedMember.Local
-        public Task CtInterErrors()
+        public async Task CtInterErrors()
         {
-            var errors = Service.GetAcctErrors(ctx.Guild?.Id);
+            var errors = await Service.GetAcctErrors(ctx.Guild?.Id);
             var eb = new EmbedBuilder();
             var cb = new ComponentBuilder().WithButton("Support Server", style: ButtonStyle.Link,
                 url: "https://discord.gg/Mewdeko",
@@ -1011,7 +1011,7 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
                     .WithDescription(GetText("ct_interaction_errors_none_desc"));
             }
 
-            return RespondAsync(embed: eb.Build(), components: cb.Build());
+            await RespondAsync(embed: eb.Build(), components: cb.Build());
         }
     }
 }
