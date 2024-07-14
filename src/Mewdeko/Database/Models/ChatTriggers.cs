@@ -28,12 +28,12 @@ public class ChatTriggers : DbEntity
     /// <summary>
     /// Gets or sets the response to be sent when the trigger is activated.
     /// </summary>
-    public string Response { get; set; }
+    public string? Response { get; set; }
 
     /// <summary>
     /// Gets or sets the trigger text or pattern.
     /// </summary>
-    public string Trigger { get; set; }
+    public string? Trigger { get; set; }
 
     /// <summary>
     /// Gets or sets the prefix requirement type for this trigger.
@@ -43,7 +43,7 @@ public class ChatTriggers : DbEntity
     /// <summary>
     /// Gets or sets the custom prefix for this trigger.
     /// </summary>
-    public string CustomPrefix { get; set; } = "";
+    public string? CustomPrefix { get; set; } = "";
 
     /// <summary>
     /// Gets or sets a value indicating whether the triggering message should be automatically deleted.
@@ -78,17 +78,17 @@ public class ChatTriggers : DbEntity
     /// <summary>
     /// Gets or sets the reactions to be added when the trigger is activated.
     /// </summary>
-    public string Reactions { get; set; }
+    public string? Reactions { get; set; }
 
     /// <summary>
     /// Gets or sets the roles to be granted when the trigger is activated.
     /// </summary>
-    public string GrantedRoles { get; set; } = "";
+    public string? GrantedRoles { get; set; } = "";
 
     /// <summary>
     /// Gets or sets the roles to be removed when the trigger is activated.
     /// </summary>
-    public string RemovedRoles { get; set; } = "";
+    public string? RemovedRoles { get; set; } = "";
 
     /// <summary>
     /// Gets or sets the type of role grant for this trigger.
@@ -108,12 +108,12 @@ public class ChatTriggers : DbEntity
     /// <summary>
     /// Gets or sets the name of the associated application command.
     /// </summary>
-    public string ApplicationCommandName { get; set; } = "";
+    public string? ApplicationCommandName { get; set; } = "";
 
     /// <summary>
     /// Gets or sets the description of the associated application command.
     /// </summary>
-    public string ApplicationCommandDescription { get; set; } = "";
+    public string? ApplicationCommandDescription { get; set; } = "";
 
     /// <summary>
     /// Gets or sets the type of the associated application command.
@@ -133,20 +133,20 @@ public class ChatTriggers : DbEntity
     /// <summary>
     /// Gets or sets the webhook URL for crossposting.
     /// </summary>
-    public string CrosspostingWebhookUrl { get; set; } = "";
+    public string? CrosspostingWebhookUrl { get; set; } = "";
 
     /// <summary>
     /// Gets the real name of the trigger, which is either the application command name or the trigger text.
     /// </summary>
-    public string RealName => (string.IsNullOrEmpty(ApplicationCommandName) ? Trigger : ApplicationCommandName).Trim();
+    public string? RealName => (string.IsNullOrEmpty(ApplicationCommandName) ? Trigger : ApplicationCommandName).Trim();
 
     /// <summary>
     /// Gets an array of reactions associated with this trigger.
     /// </summary>
-    /// <returns>An array of reaction strings.</returns>
-    public string[] GetReactions() =>
+    /// <returns>An array of reaction string?s.</returns>
+    public string?[] GetReactions() =>
         string.IsNullOrWhiteSpace(Reactions)
-            ? Array.Empty<string>()
+            ? Array.Empty<string?>()
             : Reactions.Split("@@@");
 
     /// <summary>
@@ -169,7 +169,7 @@ public class ReactionResponse : DbEntity
     /// <summary>
     /// Gets or sets the text response for this reaction.
     /// </summary>
-    public string Text { get; set; }
+    public string? Text { get; set; }
 }
 
 /// <summary>
