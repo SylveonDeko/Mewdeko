@@ -1,6 +1,5 @@
 ﻿using LinqToDB;
 using LinqToDB.EntityFrameworkCore;
-using Mewdeko.Database;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mewdeko.Api.Controllers;
