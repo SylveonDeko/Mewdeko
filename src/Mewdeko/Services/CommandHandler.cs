@@ -86,6 +86,7 @@ public class CommandHandler : INService
         clearUsersOnShortCooldown = new Timer(_ => UsersOnShortCooldown.Clear(), null, GlobalCommandsCooldown,
             GlobalCommandsCooldown);
         eventHandler.MessageReceived += MessageReceivedHandler;
+        _ = InitializeServices();
     }
 
     /// <summary>
@@ -448,28 +449,16 @@ public class CommandHandler : INService
     /// Adds services to the handler for command processing.
     /// </summary>
     /// <param name="services">The collection of service descriptors.</param>
-    public void AddServices(IServiceCollection services)
+    private Task InitializeServices()
     {
-        lateBlockers = services
-            .Where(x => x.ImplementationType?.GetInterfaces().Contains(typeof(ILateBlocker)) ?? false)
-            .Select(x => this.services.GetService(x.ImplementationType) as ILateBlocker)
+        lateBlockers = services.GetServices<ILateBlocker>()
             .OrderByDescending(x => x.Priority)
             .ToArray();
 
-        lateExecutors = services.Where(x =>
-                x.ImplementationType?.GetInterfaces().Contains(typeof(ILateExecutor)) ?? false)
-            .Select(x => this.services.GetService(x.ImplementationType) as ILateExecutor)
-            .ToArray();
-
-        inputTransformers = services.Where(x =>
-                x.ImplementationType?.GetInterfaces().Contains(typeof(IInputTransformer)) ?? false)
-            .Select(x => this.services.GetService(x.ImplementationType) as IInputTransformer)
-            .ToArray();
-
-        earlyBehaviors = services.Where(x =>
-                x.ImplementationType?.GetInterfaces().Contains(typeof(IEarlyBehavior)) ?? false)
-            .Select(x => this.services.GetService(x.ImplementationType) as IEarlyBehavior)
-            .ToArray();
+        lateExecutors = services.GetServices<ILateExecutor>().ToArray();
+        inputTransformers = services.GetServices<IInputTransformer>().ToArray();
+        earlyBehaviors = services.GetServices<IEarlyBehavior>().ToArray();
+        return Task.CompletedTask;
     }
 
     /// <summary>
