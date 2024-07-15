@@ -1,239 +1,86 @@
 ﻿using System.Diagnostics;
-using System.Net.Http;
 using System.Reflection;
 using Discord.Commands;
 using Discord.Interactions;
 using Discord.Net;
 using Discord.Rest;
-using Fergun.Interactive;
 using Figgle;
 using Lavalink4NET;
-using Lavalink4NET.Extensions;
-using MartineApiNet;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Common.PubSub;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Common.TypeReaders.Interactions;
 using Mewdeko.Database.DbContextStuff;
-using Mewdeko.Modules.Currency.Services;
-using Mewdeko.Modules.Currency.Services.Impl;
-using Mewdeko.Modules.Nsfw;
-using Mewdeko.Modules.Searches.Services;
 using Mewdeko.Services.Impl;
-using Mewdeko.Services.Settings;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using NekosBestApiNet;
 using Newtonsoft.Json;
-using NsfwSpyNS;
 using Serilog;
 using StackExchange.Redis;
-using ZiggyCreatures.Caching.Fusion;
-using RunMode = Discord.Commands.RunMode;
 using TypeReader = Discord.Commands.TypeReader;
 
 namespace Mewdeko;
 
 /// <summary>
-///     The main class for Mewdeko, responsible for initializing services, handling events, and managing the bot's
-///     lifecycle.
+/// The main class for the Mewdeko bot, responsible for initializing services, handling events, and managing the bot's lifecycle.
 /// </summary>
 public class Mewdeko
 {
-
     /// <summary>
-    ///     Initializes a new instance of the Mewdeko bot with a specific shard ID.
-    /// </summary>
-    /// <param name="shardId">
-    ///     The ID of the shard this instance will operate on. If set to nothing it will act as if its
-    ///     unsharded.
-    /// </param>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown if the shard ID is negative.</exception>
-    public Mewdeko(int shardId)
-    {
-        ArgumentOutOfRangeException.ThrowIfNegative(shardId);
-
-        Credentials = new BotCredentials();
-        Cache = new RedisCache(Credentials, shardId);
-
-
-        Client = new DiscordShardedClient(new DiscordSocketConfig
-        {
-            MessageCacheSize = 15,
-            LogLevel = LogSeverity.Critical,
-            ConnectionTimeout = int.MaxValue,
-            AlwaysDownloadUsers = true,
-            GatewayIntents = GatewayIntents.All,
-            FormatUsersInBidirectionalUnicode = false,
-            LogGatewayIntentWarnings = false,
-            DefaultRetryMode = RetryMode.RetryRatelimit
-        });
-        CommandService = new CommandService(new CommandServiceConfig
-        {
-            CaseSensitiveCommands = false, DefaultRunMode = RunMode.Async
-        });
-    }
-
-    /// <summary>
-    ///     Gets the credentials used by the bot.
+    /// Gets the credentials used by the bot.
     /// </summary>
     public BotCredentials Credentials { get; }
 
     private int ReadyCount { get; set; }
 
     /// <summary>
-    ///     Gets the Discord client used by the bot.
+    /// Gets the Discord client used by the bot.
     /// </summary>
     public DiscordShardedClient Client { get; }
 
     private CommandService CommandService { get; }
 
     /// <summary>
-    ///     Gets the color used for successful operations.
+    /// Gets or sets the color used for successful operations.
     /// </summary>
     public static Color OkColor { get; set; }
 
     /// <summary>
-    ///     Gets the color used for error operations.
+    /// Gets or sets the color used for error operations.
     /// </summary>
     public static Color ErrorColor { get; set; }
 
     /// <summary>
-    ///     Used to tell other services in the bot if its done initializing.
+    /// Gets a TaskCompletionSource that completes when the bot is ready.
     /// </summary>
     public TaskCompletionSource<bool> Ready { get; } = new();
-
-    private IServiceProvider Services { get; set; }
+    private IServiceProvider Services { get; }
     private IDataCache Cache { get; }
 
     /// <summary>
-    ///     Occurs when the bot joins a guild.
+    /// Event that occurs when the bot joins a guild.
     /// </summary>
     public event Func<GuildConfig, Task> JoinedGuild = delegate { return Task.CompletedTask; };
 
 
-    private async Task AddServices()
+    /// <summary>
+    /// Initializes a new instance of the Mewdeko class.
+    /// </summary>
+    /// <param name="services">The service provider for dependency injection.</param>
+
+    public Mewdeko(IServiceProvider services)
     {
-        var migrationService = new MigrationService(
-            null,
-            Credentials.Token,
-            Credentials.PsqlConnectionString, Credentials.MigrateToPsql);
-
-        await migrationService.ApplyMigrations(new MewdekoPostgresContext(new DbContextOptions<MewdekoPostgresContext>()));
-
-        Log.Information("Waiting 5 seconds for migrations, if any...");
-        await Task.Delay(5000);
-
-        if (!Uri.TryCreate(Credentials.LavalinkUrl, UriKind.Absolute, out _))
-        {
-            Log.Error("The Lavalink URL is invalid! Please check the Lavalink URL in the configuration");
-            Helpers.ReadErrorAndExit(5);
-        }
-
-        var sw = Stopwatch.StartNew();
-        var s = new ServiceCollection();
-
-        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-
-        s.AddScoped<INsfwSpy, NsfwSpy>()
-            .AddSingleton<FontProvider>()
-            .AddSingleton<IBotCredentials>(Credentials)
-            //Wahoo
-            .AddPooledDbContextFactory<MewdekoContext>(builder => builder
-                .UseNpgsql(Credentials.PsqlConnectionString, x => x.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))
-            .EnableDetailedErrors()
-            .EnableSensitiveDataLogging())
-            .AddSingleton<DbContextProvider>()
-            .AddSingleton(Client)
-            .AddScoped<EventHandler>()
-            .AddSingleton(CommandService)
-            .AddSingleton(this)
-            .AddSingleton(Cache)
-            .AddSingleton(new MartineApi())
-            .AddSingleton(Cache.Redis)
-            .AddTransient<ISeria, JsonSeria>()
-            .AddTransient<IPubSub, RedisPubSub>()
-            .AddTransient<IConfigSeria, YamlSeria>()
-            .AddSingleton(new InteractiveService(Client, new InteractiveConfig
-            {
-                ReturnAfterSendingPaginator = true
-            }))
-            .AddSingleton(new NekosBestApi())
-            .AddSingleton(new InteractionService(Client.Rest))
-            .AddSingleton<Localization>()
-            .AddSingleton<BotConfigService>()
-            .AddSingleton<BotConfig>()
-            .AddConfigServices()
-            .AddBotStringsServices(Credentials.TotalShards)
-            .AddMemoryCache()
-            .AddLavalink()
-            .ConfigureLavalink(x =>
-            {
-                x.Passphrase = "Hope4a11";
-                x.BaseAddress = new Uri(Credentials.LavalinkUrl);
-            })
-            .AddScoped<ISearchImagesService, SearchImagesService>()
-            .AddSingleton<ToneTagService>()
-            .AddTransient<GuildSettingsService>();
-        s.AddFusionCache().TryWithAutoSetup();
-        if (Credentials.UseGlobalCurrency)
-        {
-            s.AddTransient<ICurrencyService, GlobalCurrencyService>();
-        }
-        else
-        {
-            s.AddTransient<ICurrencyService, GuildCurrencyService>();
-        }
-
-
-        Log.Information("Passed Singletons");
-
-        s.AddHttpClient();
-        s.AddHttpClient("memelist").ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
-        {
-            AllowAutoRedirect = false
-        });
-
-
-        s.Scan(scan => scan.FromAssemblyOf<IReadyExecutor>()
-            .AddClasses(classes => classes.AssignableToAny(
-                // services
-                typeof(INService),
-                // behaviours
-                typeof(IEarlyBehavior),
-                typeof(ILateBlocker),
-                typeof(IInputTransformer),
-                typeof(ILateExecutor)))
-            .AsSelfWithInterfaces()
-            .WithScopedLifetime()
-        );
-
-        Log.Information("Passed Interface Scanner");
-        //initialize Services
-        Services = s.BuildServiceProvider();
-
-        var commandHandler = Services.GetService<CommandHandler>();
-        commandHandler.AddServices(s);
-        _ = Task.Run(() => LoadTypeReaders(typeof(Mewdeko).Assembly));
-        var cache = Services.GetService<IDataCache>();
-        var audioService = Services.GetService<IAudioService>();
-        try
-        {
-            await audioService.StartAsync();
-        }
-        catch (Exception e)
-        {
-            Log.Error("Unable to start audio service: {Message}", e.Message);
-        }
-
-        sw.Stop();
-        Log.Information($"All services loaded in {sw.Elapsed.TotalSeconds:F2}s");
+        Services = services;
+        Credentials = Services.GetRequiredService<BotCredentials>();
+        Cache = Services.GetRequiredService<IDataCache>();
+        Client = Services.GetRequiredService<DiscordShardedClient>();
+        CommandService = Services.GetRequiredService<CommandService>();
     }
 
-    private IEnumerable<object> LoadTypeReaders(Assembly assembly)
+    /// <summary>
+    /// Loads type readers from the specified assembly.
+    /// </summary>
+    /// <param name="assembly">The assembly to load type readers from.</param>
+    private void LoadTypeReaders(Assembly assembly)
     {
         var sw = new Stopwatch();
         sw.Start();
@@ -246,7 +93,7 @@ public class Mewdeko
         catch (ReflectionTypeLoadException ex)
         {
             Log.Warning(ex.LoaderExceptions[0], "Error getting types");
-            return Enumerable.Empty<object>();
+            return;
         }
 
         var filteredTypes = allTypes
@@ -276,7 +123,6 @@ public class Mewdeko
 
         sw.Stop();
         Log.Information("TypeReaders loaded in {ElapsedTotalSeconds}s", sw.Elapsed.TotalSeconds);
-        return toReturn;
     }
 
     private async Task LoginAsync(string token)
@@ -294,11 +140,10 @@ public class Mewdeko
             return Task.CompletedTask;
         }
 
-        //connect
         Log.Information("Logging in...");
         try
         {
-            await Client.LoginAsync(TokenType.Bot, token).ConfigureAwait(false);
+            await Client.LoginAsync(TokenType.Bot, token.Trim()).ConfigureAwait(false);
             await Client.StartAsync().ConfigureAwait(false);
         }
         catch (HttpException ex)
@@ -374,16 +219,44 @@ public class Mewdeko
         return Task.CompletedTask;
     }
 
-    private async Task RunAsync()
+    /// <summary>
+    /// Runs the bot, initializing all necessary components and services.
+    /// </summary>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public async Task RunAsync()
     {
         var sw = Stopwatch.StartNew();
+
+        var circularDependencies = FindCircularDependencies();
+
+        if (circularDependencies.Count > 0)
+        {
+            Console.WriteLine("Circular dependencies found:");
+            foreach (var dependency in circularDependencies)
+            {
+                Console.WriteLine(dependency);
+            }
+        }
+        else
+        {
+            Console.WriteLine("No circular dependencies found.");
+        }
 
         await LoginAsync(Credentials.Token).ConfigureAwait(false);
 
         Log.Information("Loading Services...");
         try
         {
-            await AddServices();
+            LoadTypeReaders(typeof(Mewdeko).Assembly);
+            var audioService = Services.GetService<IAudioService>();
+            try
+            {
+                await audioService.StartAsync();
+            }
+            catch (Exception e)
+            {
+                Log.Error("Unable to start audio service: {Message}", e.Message);
+            }
             var dbProvider = Services.GetRequiredService<DbContextProvider>();
             await using var dbContext = await dbProvider.GetContextAsync();
             await dbContext.EnsureUserCreated(Client.CurrentUser.Id, Client.CurrentUser.Username, Client.CurrentUser.Discriminator, Client.CurrentUser.AvatarId);
@@ -397,24 +270,36 @@ public class Mewdeko
         sw.Stop();
         Log.Information("Connected in {Elapsed:F2}s", sw.Elapsed.TotalSeconds);
         var commandService = Services.GetService<CommandService>();
+        commandService.Log += LogCommandsService;
         var interactionService = Services.GetRequiredService<InteractionService>();
-        await commandService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
-            .ConfigureAwait(false);
-        await interactionService.AddModulesAsync(GetType().GetTypeInfo().Assembly, Services)
-            .ConfigureAwait(false);
+        try
+        {
+            await commandService.AddModulesAsync(Assembly.GetExecutingAssembly(), Services);
+            await interactionService.AddModulesAsync(Assembly.GetExecutingAssembly(), Services);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
 #if !DEBUG
-            await interactionService.RegisterCommandsGloballyAsync().ConfigureAwait(false);
+        await interactionService.RegisterCommandsGloballyAsync().ConfigureAwait(false);
 #endif
 #if DEBUG
         if (Client.Guilds.Select(x => x.Id).Contains(Credentials.DebugGuildId))
             await interactionService.RegisterCommandsToGuildAsync(Credentials.DebugGuildId);
 #endif
 
-
         _ = Task.Run(HandleStatusChanges);
         _ = Task.Run(async () => await ExecuteReadySubscriptions());
         Ready.TrySetResult(true);
         Log.Information("Ready.");
+    }
+
+    private Task LogCommandsService(LogMessage arg)
+    {
+        Log.Information(arg.ToString());
+        return Task.CompletedTask;
     }
 
     private async Task ExecuteReadySubscriptions()
@@ -445,26 +330,17 @@ public class Mewdeko
         return Task.CompletedTask;
     }
 
-    /// <summary>
-    ///     Runs the bot and blocks the calling thread until the bot is stopped.
-    /// </summary>
-    public async Task RunAndBlockAsync()
-    {
-        await RunAsync().ConfigureAwait(false);
-        await Task.Delay(-1).ConfigureAwait(false);
-    }
-
     private void HandleStatusChanges()
     {
         var sub = Services.GetService<IDataCache>().Redis.GetSubscriber();
-        // ReSharper disable once AsyncVoidLambda
         sub.Subscribe($"{Client.CurrentUser.Id}_status.game_set", async (_, game) =>
         {
             try
             {
                 var obj = new
                 {
-                    Name = default(string), Activity = ActivityType.Playing
+                    Name = default(string),
+                    Activity = ActivityType.Playing
                 };
                 obj = JsonConvert.DeserializeAnonymousType(game, obj);
                 await Client.SetGameAsync(obj.Name, type: obj.Activity).ConfigureAwait(false);
@@ -475,14 +351,14 @@ public class Mewdeko
             }
         }, CommandFlags.FireAndForget);
 
-        // ReSharper disable once AsyncVoidLambda
         sub.Subscribe($"{Client.CurrentUser.Id}_status.stream_set", async (_, streamData) =>
         {
             try
             {
                 var obj = new
                 {
-                    Name = "", Url = ""
+                    Name = "",
+                    Url = ""
                 };
                 obj = JsonConvert.DeserializeAnonymousType(streamData, obj);
                 await Client.SetGameAsync(obj?.Name, obj!.Url, ActivityType.Streaming).ConfigureAwait(false);
@@ -495,18 +371,70 @@ public class Mewdeko
     }
 
     /// <summary>
-    ///     Sets the bot's status to the specified game.
+    /// Sets the bot's game status.
     /// </summary>
     /// <param name="game">The name of the game to set.</param>
     /// <param name="type">The type of activity.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SetGameAsync(string? game, ActivityType type)
     {
         var obj = new
         {
-            Name = game, Activity = type
+            Name = game,
+            Activity = type
         };
         var sub = Services.GetService<IDataCache>().Redis.GetSubscriber();
         await sub.PublishAsync($"{Client.CurrentUser.Id}_status.game_set", JsonConvert.SerializeObject(obj))
             .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Self explanatory
+    /// </summary>
+    /// <returns></returns>
+    private static List<string> FindCircularDependencies()
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+        var types = assembly.GetTypes();
+
+        return (from type in types
+            let path = new HashSet<Type>
+            {
+                type
+            }
+            where HasCircularDependency(type, path)
+            select string.Join(" -> ", path.Select(t => t.Name))).ToList();
+    }
+
+    private static bool HasCircularDependency(Type type, HashSet<Type> path)
+    {
+        var constructors = type.GetConstructors();
+
+        foreach (var constructor in constructors)
+        {
+            var parameters = constructor.GetParameters();
+
+            foreach (var parameter in parameters)
+            {
+                var parameterType = parameter.ParameterType;
+
+                if (path.Contains(parameterType))
+                {
+                    path.Add(parameterType);
+                    return true;
+                }
+
+                if (parameterType.Assembly != type.Assembly) continue;
+
+                path.Add(parameterType);
+                if (HasCircularDependency(parameterType, path))
+                {
+                    return true;
+                }
+                path.Remove(parameterType);
+            }
+        }
+
+        return false;
     }
 }

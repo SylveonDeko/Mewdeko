@@ -1,7 +1,6 @@
 using Mewdeko.Api.Middleware;
 using Mewdeko.Api.Services;
 using Mewdeko.Api.Services.Impl;
-using Mewdeko.Database;
 using Npgsql;
 using Serilog;
 
@@ -38,11 +37,6 @@ catch
     Log.Error("Invalid connection string provided. Exiting...");
     Environment.Exit(1);
 }
-
-
-var db = new dbContext(null, connectString);
-
-await db.ApplyMigrations();
 
 builder.Services.AddSingleton(db);
 

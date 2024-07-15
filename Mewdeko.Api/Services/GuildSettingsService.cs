@@ -1,84 +1,103 @@
-﻿using Mewdeko.Database;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
+﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using LinqToDB.EntityFrameworkCore;
+using Mewdeko.Database.DbContextStuff;
+using Mewdeko.Services.Settings;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Serilog;
+using ZiggyCreatures.Caching.Fusion;
 
-namespace Mewdeko.Api.Services;
-
-/// <summary>
-/// Service for managing guild settings.
-/// </summary>
-public class GuildSettingsService(
-    DbContextProvider dbProvider,
-    RedisCache cache)
+namespace Mewdeko.Services
 {
     /// <summary>
-    /// Gets the guild configuration for the specified guild ID.
+    /// Service for managing guild settings.
     /// </summary>
-    public async Task<GuildConfig> GetGuildConfig(ulong guildId)
+    public class GuildSettingsService(
+
+        DbContextProvider dbProvider,
+        IConfigService? bss,
+        IServiceProvider services,
+        IFusionCache cache)
     {
-        var configExists = await cache.GetGuildConfigCache(guildId);
-        if (configExists != null)
-            return configExists;
 
-
-        var toLoad = dbContext.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.GuildId == guildId);
-        if (toLoad is null)
+        /// <summary>
+        /// Sets the prefix for the specified guild.
+        /// </summary>
+        public async Task<string> SetPrefix(IGuild guild, string prefix)
         {
-            await dbContext.ForGuildId(guildId);
-            toLoad = dbContext.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.GuildId == guildId);
+            if (string.IsNullOrWhiteSpace(prefix))
+                throw new ArgumentNullException(nameof(prefix));
+            ArgumentNullException.ThrowIfNull(guild);
+
+            var config = await GetGuildConfig(guild.Id);
+            config.Prefix = prefix;
+            await UpdateGuildConfig(guild.Id, config);
+            return prefix;
         }
 
-        await cache.SetGuildConfigCache(guildId, toLoad!);
-        return toLoad!;
-    }
+        /// <summary>
+        /// Gets the prefix for the specified guild.
+        /// </summary>
+        public async Task<string?> GetPrefix(IGuild? guild) => await GetPrefix(guild?.Id);
 
-    /// <summary>
-    /// Updates the guild configuration.
-    /// </summary>
-    public async Task UpdateGuildConfig(ulong guildId, GuildConfig toUpdate)
-    {
-
-        var exists = await cache.GetGuildConfigCache(guildId);
-
-        if (exists is not null)
+        /// <summary>
+        /// Gets the prefix for the guild with the specified ID.
+        /// </summary>
+        public async Task<string?> GetPrefix(ulong? id)
         {
-            var properties = typeof(GuildConfig).GetProperties();
-            foreach (var property in properties)
-            {
-                var oldValue = property.GetValue(exists);
-                var newValue = property.GetValue(toUpdate);
+            bss = services.GetRequiredService<BotConfigService>();
+            if (!id.HasValue)
+                return bss.GetSetting("prefix");
+            var prefix = (await GetGuildConfig(id.Value)).Prefix;
+            return string.IsNullOrWhiteSpace(prefix) ? bss.GetSetting("prefix") : prefix;
+        }
 
-                if (newValue != null && !newValue.Equals(oldValue))
-                {
-                    property.SetValue(exists, newValue);
-                }
+        /// <summary>
+        /// Gets the default prefix.
+        /// </summary>
+        public Task<string?> GetPrefix() => Task.FromResult(bss.GetSetting("prefix"));
+
+        /// <summary>
+        /// Gets the guild configuration for the specified guild ID.
+        /// </summary>
+        public async Task<GuildConfig> GetGuildConfig(ulong guildId, Func<DbSet<GuildConfig>, IQueryable<GuildConfig>>? includes = null, [CallerMemberName] string callerName = "", [CallerFilePath] string filePath = "")
+        {
+            try
+            {
+                await using var dbContext = await dbProvider.GetContextAsync();
+
+                var sw = new Stopwatch();
+                sw.Start();
+                var toLoad = await dbContext.ForGuildId(guildId, includes);
+                return toLoad;
             }
-
-            await cache.SetGuildConfigCache(guildId, exists);
-            dbContext.GuildConfigs.Update(exists);
-            await dbContext.SaveChangesAsync();
-        }
-        else
-        {
-            var config = dbContext.GuildConfigs.IncludeEverything().FirstOrDefault(x => x.Id == toUpdate.Id);
-
-            if (config != null)
+            catch (Exception e)
             {
-                var properties = typeof(GuildConfig).GetProperties();
-                foreach (var property in properties)
-                {
-                    var oldValue = property.GetValue(config);
-                    var newValue = property.GetValue(toUpdate);
+                Log.Information(e.Message, "Failed to get guild config");
+                throw;
+            }
+        }
 
-                    if (newValue != null && !newValue.Equals(oldValue))
-                    {
-                        property.SetValue(config, newValue);
-                    }
-                }
+        /// <summary>
+        /// Updates the guild configuration.
+        /// </summary>
+        public async Task UpdateGuildConfig(ulong guildId, GuildConfig toUpdate, [CallerMemberName] string callerName = "", [CallerFilePath] string filePath = "")
+        {
+            await using var dbContext = await dbProvider.GetContextAsync();
 
-                await cache.SetGuildConfigCache(guildId, config);
-                dbContext.GuildConfigs.Update(config);
+            var sw = new Stopwatch();
+            sw.Start();
+            try
+            {
+                dbContext.GuildConfigs.Update(toUpdate);
                 await dbContext.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                sw.Stop();
+                Log.Error($"Executed from {callerName} in {filePath}");
+                Log.Error(e, "There was an issue updating a GuildConfig");
             }
         }
     }

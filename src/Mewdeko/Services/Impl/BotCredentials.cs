@@ -101,6 +101,11 @@ public class BotCredentials : IBotCredentials
     public bool UseGlobalCurrency { get; set; }
 
     /// <summary>
+    /// Used for Mewdekos Api for dashboard requests.
+    /// </summary>
+    public string? ApiKey { get; set; } = "";
+
+    /// <summary>
     /// Gets or sets the URL for votes.
     /// </summary>
     public string VotesUrl { get; set; }
@@ -321,6 +326,7 @@ public class BotCredentials : IBotCredentials
             PsqlConnectionString = data[nameof(PsqlConnectionString)];
             CsrfToken = data[nameof(CsrfToken)];
             MigrateToPsql = bool.Parse(data[nameof(MigrateToPsql)] ?? "false");
+            ApiKey = data[nameof(ApiKey)];
             UserAgent = data[nameof(UserAgent)];
             CfClearance = data[nameof(CfClearance)];
             LastFmApiKey = data[nameof(LastFmApiKey)];
@@ -438,6 +444,8 @@ public class BotCredentials : IBotCredentials
         public string VotesUrl { get; set; }
         public string PsqlConnectionString { get; set; }  =
             "Server=ServerIp;Database=DatabaseName;Port=PsqlPort;UID=PsqlUser;Password=UserPassword";
+
+        public string ApiKey { get; set; }
 
         public string CoinmarketcapApiKey { get; set; }
 

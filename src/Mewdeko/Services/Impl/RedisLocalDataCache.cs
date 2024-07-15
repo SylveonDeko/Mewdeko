@@ -21,12 +21,11 @@ namespace Mewdeko.Services.Impl
         /// <param name="con">The connection multiplexer for Redis.</param>
         /// <param name="creds">The bot credentials.</param>
         /// <param name="shardId">The shard ID.</param>
-        public RedisLocalDataCache(ConnectionMultiplexer con, IBotCredentials creds, int shardId)
+        public RedisLocalDataCache(ConnectionMultiplexer con, IBotCredentials creds)
         {
             this.con = con;
             this.creds = creds;
 
-            if (shardId != 0) return;
             try
             {
                 TriviaQuestions = JsonConvert.DeserializeObject<TriviaQuestion[]>(File.ReadAllText(QuestionsFile));
