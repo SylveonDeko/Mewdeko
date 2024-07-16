@@ -8,12 +8,12 @@
         /// <summary>
         /// Gets or sets the name of the playlist.
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Gets or sets the author of the playlist.
         /// </summary>
-        public string Author { get; set; }
+        public string? Author { get; set; }
 
         /// <summary>
         /// Gets or sets the author ID of the playlist.
