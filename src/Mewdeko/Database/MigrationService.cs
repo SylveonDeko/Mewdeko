@@ -97,11 +97,11 @@ public class MigrationService
         };
         Log.Information("Starting Data Migration...");
         await destinationContext.ExecuteAsync("SET session_replication_role = replica;");
-        //var gc = sourceContext.GuildConfigs.IncludeEverything().AsNoTracking();
-        //Log.Information("Copying {Count} entries of {Type} to the new Db...", gc.Count(), gc.GetType());
+        var gc = sourceContext.GuildConfigs.IncludeEverything().AsNoTracking();
+        Log.Information("Copying {Count} entries of {Type} to the new Db...", gc.Count(), gc.GetType());
         var guildConfig = destinationContext.GetTable<GuildConfig>();
         await guildConfig.DeleteAsync();
-        //await guildConfig.BulkCopyAsync(options, gc);
+        await guildConfig.BulkCopyAsync(options, gc);
 
         await TransferEntityDataAsync<Afk, Afk>(sourceContext, destinationContext, x => x);
         await TransferEntityDataAsync<AntiRaidSetting, AntiRaidSetting>(sourceContext, destinationContext, x => x);
