@@ -17,7 +17,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the provider of the song.
         /// </summary>
-        public string Provider { get; set; }
+        public string? Provider { get; set; }
 
         /// <summary>
         /// Gets or sets the provider type of the song.
@@ -27,17 +27,17 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the title of the song.
         /// </summary>
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         /// <summary>
         /// Gets or sets the URI of the song.
         /// </summary>
-        public string Uri { get; set; }
+        public string? Uri { get; set; }
 
         /// <summary>
         /// Gets or sets the query for the song.
         /// </summary>
-        public string Query { get; set; }
+        public string? Query { get; set; }
     }
 
     /// <summary>
