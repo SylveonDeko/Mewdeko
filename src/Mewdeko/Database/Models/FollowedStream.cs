@@ -54,7 +54,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the username of the stream.
         /// </summary>
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the stream.
@@ -64,7 +64,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the message associated with the followed stream.
         /// </summary>
-        public string Message { get; set; }
+        public string? Message { get; set; }
 
         /// <summary>
         /// Determines whether the specified object is equal to the current object.

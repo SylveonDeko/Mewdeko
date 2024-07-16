@@ -13,17 +13,17 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the scopes for the role connection.
         /// </summary>
-        public string Scopes { get; set; }
+        public string? Scopes { get; set; }
 
         /// <summary>
         /// Gets or sets the token for the role connection.
         /// </summary>
-        public string Token { get; set; }
+        public string? Token { get; set; }
 
         /// <summary>
         /// Gets or sets the refresh token for the role connection.
         /// </summary>
-        public string RefreshToken { get; set; }
+        public string? RefreshToken { get; set; }
 
         /// <summary>
         /// Gets or sets the expiration date and time of the token.

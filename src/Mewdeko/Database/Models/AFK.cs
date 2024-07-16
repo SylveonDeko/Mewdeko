@@ -21,7 +21,7 @@ public class Afk : DbEntity
     /// <summary>
     /// Gets or sets the AFK message.
     /// </summary>
-    public string Message { get; set; }
+    public string? Message { get; set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether this AFK status was timed.

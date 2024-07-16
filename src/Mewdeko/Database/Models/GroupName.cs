@@ -21,6 +21,6 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the name of the group.
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 }

@@ -65,6 +65,6 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the transaction description.
         /// </summary>
-        public string Description { get; set; }
+        public string? Description { get; set; }
     }
 }

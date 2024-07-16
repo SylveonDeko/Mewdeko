@@ -13,11 +13,11 @@
         /// <summary>
         /// Gets or sets the recovery key.
         /// </summary>
-        public string RecoveryKey { get; set; }
+        public string? RecoveryKey { get; set; }
 
         /// <summary>
         /// Gets or sets the two-factor key.
         /// </summary>
-        public string TwoFactorKey { get; set; }
+        public string? TwoFactorKey { get; set; }
     }
 }

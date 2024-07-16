@@ -20,5 +20,5 @@ public class DiscordPermOverride : DbEntity
     /// <summary>
     /// Gets or sets the command this override applies to.
     /// </summary>
-    public string Command { get; set; }
+    public string? Command { get; set; }
 }

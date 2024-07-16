@@ -18,11 +18,11 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the username.
         /// </summary>
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
         /// <summary>
         /// Gets or sets the saved roles.
         /// </summary>
-        public string SavedRoles { get; set; }
+        public string? SavedRoles { get; set; }
     }
 }

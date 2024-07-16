@@ -22,7 +22,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the poll question.
         /// </summary>
-        public string Question { get; set; }
+        public string? Question { get; set; }
 
         /// <summary>
         /// Gets or sets the answers for the poll.
@@ -49,7 +49,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the text of the answer.
         /// </summary>
-        public string Text { get; set; }
+        public string? Text { get; set; }
 
         /// <summary>
         /// Gets or sets the index of the answer.

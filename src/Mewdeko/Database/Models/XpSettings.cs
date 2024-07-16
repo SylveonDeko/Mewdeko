@@ -31,7 +31,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the notification message for level up.
         /// </summary>
-        public string NotifyMessage { get; set; } = "Congratulations {0}! You have reached level {1}!";
+        public string? NotifyMessage { get; set; } = "Congratulations {0}! You have reached level {1}!";
 
         /// <summary>
         /// Gets or sets the exclusion list for XP rewards.

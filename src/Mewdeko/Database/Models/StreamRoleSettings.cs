@@ -31,7 +31,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the keyword for the streaming status.
         /// </summary>
-        public string Keyword { get; set; }
+        public string? Keyword { get; set; }
 
         /// <summary>
         /// Gets or sets the collection of whitelisted users' IDs.
@@ -57,7 +57,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the username.
         /// </summary>
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         /// <summary>
         /// Gets or sets the stream role settings ID.
@@ -104,7 +104,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the username.
         /// </summary>
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         /// <summary>
         /// Determines whether the specified object is equal to the current object.

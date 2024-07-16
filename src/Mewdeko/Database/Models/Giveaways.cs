@@ -45,7 +45,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the item being given away.
         /// </summary>
-        public string Item { get; set; }
+        public string? Item { get; set; }
 
         /// <summary>
         /// Gets or sets the roles restricted to participate in the giveaway.
