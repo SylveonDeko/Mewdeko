@@ -85,7 +85,7 @@ public class MigrationService
     private async Task MigrateDataAsync()
     {
         // Initialize destination context
-        await using var destCont = await provider.GetContextAsync();
+        await using var destCont = new MewdekoPostgresContext(new DbContextOptions<MewdekoPostgresContext>());
         var destinationContext = destCont.CreateLinqToDBConnection();
 
         await using var sourceContext = new MewdekoSqLiteContext(BuildSqliteConnectionString(token));
