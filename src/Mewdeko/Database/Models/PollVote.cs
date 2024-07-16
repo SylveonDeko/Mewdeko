@@ -19,6 +19,11 @@ namespace Mewdeko.Database.Models
         public int VoteIndex { get; set; }
 
         /// <summary>
+        /// No idea why honestly.
+        /// </summary>
+        public int PollId { get; set; }
+
+        /// <summary>
         /// Returns the hash code for this instance.
         /// </summary>
         /// <returns>A hash code for the current object.</returns>
