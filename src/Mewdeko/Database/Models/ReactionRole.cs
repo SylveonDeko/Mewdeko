@@ -47,7 +47,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the name of the emote.
         /// </summary>
-        public string EmoteName { get; set; }
+        public string? EmoteName { get; set; }
 
         /// <summary>
         /// Gets or sets the role ID.

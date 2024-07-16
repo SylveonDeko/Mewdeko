@@ -37,7 +37,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the name of the secondary target.
         /// </summary>
-        public string SecondaryTargetName { get; set; }
+        public string? SecondaryTargetName { get; set; }
 
         /// <summary>
         /// Gets or sets the state of the permission.
@@ -75,7 +75,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the name of the secondary target.
         /// </summary>
-        public string SecondaryTargetName { get; set; }
+        public string? SecondaryTargetName { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether this is a custom command.

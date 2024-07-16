@@ -16,13 +16,13 @@ namespace Mewdeko.Database.Models
         /// Gets or sets the keyword for the quote.
         /// </summary>
         [Required]
-        public string Keyword { get; set; }
+        public string? Keyword { get; set; }
 
         /// <summary>
         /// Gets or sets the author name of the quote.
         /// </summary>
         [Required]
-        public string AuthorName { get; set; }
+        public string? AuthorName { get; set; }
 
         /// <summary>
         /// Gets or sets the author ID of the quote.
@@ -33,7 +33,7 @@ namespace Mewdeko.Database.Models
         /// Gets or sets the text of the quote.
         /// </summary>
         [Required]
-        public string Text { get; set; }
+        public string? Text { get; set; }
 
         /// <summary>
         /// Gets or sets the use count of the quote.

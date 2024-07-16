@@ -11,7 +11,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the word to be filtered.
         /// </summary>
-        public string Word { get; set; }
+        public string? Word { get; set; }
 
         /// <summary>
         /// Gets or sets the guild configuration ID.

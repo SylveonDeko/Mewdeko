@@ -8,7 +8,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the username.
         /// </summary>
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         /// <summary>
         /// Gets or sets the user ID.

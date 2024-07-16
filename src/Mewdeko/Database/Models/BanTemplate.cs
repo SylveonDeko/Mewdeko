@@ -13,5 +13,5 @@ public class BanTemplate : DbEntity
     /// <summary>
     /// Gets or sets the text of the ban template.
     /// </summary>
-    public string Text { get; set; }
+    public string? Text { get; set; }
 }

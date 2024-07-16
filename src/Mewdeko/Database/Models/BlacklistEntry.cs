@@ -18,7 +18,7 @@ public class BlacklistEntry : DbEntity
     /// <summary>
     /// Gets or sets the reason for the blacklist entry.
     /// </summary>
-    public string Reason { get; set; } = "No reason provided.";
+    public string? Reason { get; set; } = "No reason provided.";
 }
 
 /// <summary>

@@ -19,7 +19,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the greeting message.
         /// </summary>
-        public string Message { get; set; } = "Welcome %user%";
+        public string? Message { get; set; } = "Welcome %user%";
 
         /// <summary>
         /// Gets or sets a value indicating whether to greet bots.

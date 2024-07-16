@@ -8,7 +8,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the star emote.
         /// </summary>
-        public string Star { get; set; } = "⭐";
+        public string? Star { get; set; } = "⭐";
 
         /// <summary>
         /// Gets or sets the guild ID.
@@ -58,6 +58,6 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the channels to check for the starboard.
         /// </summary>
-        public string StarboardCheckChannels { get; set; } = "0";
+        public string? StarboardCheckChannels { get; set; } = "0";
     }
 }

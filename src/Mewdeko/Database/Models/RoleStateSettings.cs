@@ -28,11 +28,11 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the denied roles.
         /// </summary>
-        public string DeniedRoles { get; set; } = "";
+        public string? DeniedRoles { get; set; } = "";
 
         /// <summary>
         /// Gets or sets the denied users.
         /// </summary>
-        public string DeniedUsers { get; set; } = "";
+        public string? DeniedUsers { get; set; } = "";
     }
 }
