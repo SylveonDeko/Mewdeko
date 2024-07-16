@@ -18,7 +18,7 @@ public sealed class MewdekoSqLiteContext : MewdekoContext
     /// </summary>
     /// <param name="connectionString"></param>
     /// <param name="commandTimeout"></param>
-    public MewdekoSqLiteContext(string connectionString = "Data Source=data/Mewdeko.db", int commandTimeout = 60) : base(new DbContextOptions<MewdekoPostgresContext>())
+    public MewdekoSqLiteContext(string connectionString = "Data Source=data/Mewdeko.db", int commandTimeout = 60) : base(new DbContextOptions<MewdekoSqLiteContext>())
     {
         this.connectionString = connectionString;
         Database.SetCommandTimeout(commandTimeout);
