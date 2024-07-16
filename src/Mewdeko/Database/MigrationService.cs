@@ -136,8 +136,6 @@ public class MigrationService
         await TransferEntityDataAsync<GuildUserBalance, GuildUserBalance>(sourceContext, destinationContext, x => x);
         await TransferEntityDataAsync<OwnerOnly, OwnerOnly>(sourceContext, destinationContext, x => x);
         await TransferEntityDataAsync<PlaylistSong, PlaylistSong>(sourceContext, destinationContext, x => x);
-        await TransferEntityDataAsync<Polls, Polls>(sourceContext, destinationContext, x => x);
-        await TransferEntityDataAsync<PollVote, PollVote>(sourceContext, destinationContext, x => x);
         await TransferEntityDataAsync<PublishUserBlacklist, PublishUserBlacklist>(sourceContext, destinationContext,
             x => x);
         await TransferEntityDataAsync<PublishWordBlacklist, PublishWordBlacklist>(sourceContext, destinationContext,
