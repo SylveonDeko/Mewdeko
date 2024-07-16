@@ -70,7 +70,7 @@
             var client = new DiscordShardedClient(new DiscordSocketConfig
             {
                 MessageCacheSize = 15,
-                LogLevel = LogSeverity.Debug,
+                LogLevel = LogSeverity.Info,
                 ConnectionTimeout = int.MaxValue,
                 AlwaysDownloadUsers = true,
                 GatewayIntents = GatewayIntents.All,
