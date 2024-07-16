@@ -26,7 +26,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the time on level format.
         /// </summary>
-        public string TimeOnLevelFormat { get; set; } = "{0}d{1}h{2}m";
+        public string? TimeOnLevelFormat { get; set; } = "{0}d{1}h{2}m";
 
         /// <summary>
         /// Gets or sets the time on level X.
@@ -46,7 +46,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the time on level color.
         /// </summary>
-        public string TimeOnLevelColor { get; set; } = "FF000000";
+        public string? TimeOnLevelColor { get; set; } = "FF000000";
 
         /// <summary>
         /// Gets or sets a value indicating whether to show time on level.
@@ -71,7 +71,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the awarded color.
         /// </summary>
-        public string AwardedColor { get; set; } = "ffffffff";
+        public string? AwardedColor { get; set; } = "ffffffff";
 
         /// <summary>
         /// Gets or sets a value indicating whether to show awarded.
@@ -111,7 +111,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the text color.
         /// </summary>
-        public string TextColor { get; set; } = "FF000000";
+        public string? TextColor { get; set; } = "FF000000";
 
         /// <summary>
         /// Gets or sets the font size.
@@ -167,7 +167,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the guild level color.
         /// </summary>
-        public string GuildLevelColor { get; set; } = "FF000000";
+        public string? GuildLevelColor { get; set; } = "FF000000";
 
         /// <summary>
         /// Gets or sets the guild level font size.
@@ -192,7 +192,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the guild rank color.
         /// </summary>
-        public string GuildRankColor { get; set; } = "FF000000";
+        public string? GuildRankColor { get; set; } = "FF000000";
 
         /// <summary>
         /// Gets or sets the guild rank font size.
@@ -248,7 +248,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the club name color.
         /// </summary>
-        public string ClubNameColor { get; set; } = "FF000000";
+        public string? ClubNameColor { get; set; } = "FF000000";
 
         /// <summary>
         /// Gets or sets the club name font size.
@@ -279,7 +279,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the bar color.
         /// </summary>
-        public string BarColor { get; set; } = "FF000000";
+        public string? BarColor { get; set; } = "FF000000";
 
         /// <summary>
         /// Gets or sets the bar point A X.

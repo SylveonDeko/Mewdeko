@@ -18,6 +18,6 @@
         /// <summary>
         /// Gets or sets the word to highlight.
         /// </summary>
-        public string Word { get; set; }
+        public string? Word { get; set; }
     }
 }

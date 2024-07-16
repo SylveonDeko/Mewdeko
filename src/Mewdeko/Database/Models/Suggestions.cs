@@ -18,7 +18,7 @@
         /// <summary>
         /// Gets or sets the suggestion text.
         /// </summary>
-        public string Suggestion { get; set; }
+        public string? Suggestion { get; set; }
 
         /// <summary>
         /// Gets or sets the message ID.

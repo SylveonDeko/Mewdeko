@@ -28,7 +28,7 @@
         /// <summary>
         /// Gets or sets the reminder message.
         /// </summary>
-        public string Message { get; set; }
+        public string? Message { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the reminder is private.

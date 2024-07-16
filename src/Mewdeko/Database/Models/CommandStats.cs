@@ -10,7 +10,7 @@ public class CommandStats : DbEntity
     /// <summary>
     /// Gets or sets the name or ID of the command.
     /// </summary>
-    public string NameOrId { get; set; } = "";
+    public string? NameOrId { get; set; } = "";
 
     /// <summary>
     /// Gets or sets the module the command belongs to.

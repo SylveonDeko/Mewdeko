@@ -28,7 +28,7 @@
         /// <summary>
         /// Gets or sets the greeting message.
         /// </summary>
-        public string Message { get; set; } = "Welcome %user%";
+        public string? Message { get; set; } = "Welcome %user%";
 
         /// <summary>
         /// Gets or sets the time in minutes after which the message is deleted.
@@ -38,7 +38,7 @@
         /// <summary>
         /// Gets or sets the webhook URL for sending the greeting message.
         /// </summary>
-        public string WebhookUrl { get; set; }
+        public string? WebhookUrl { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the greeting is disabled.

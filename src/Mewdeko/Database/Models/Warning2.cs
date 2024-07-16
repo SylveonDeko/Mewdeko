@@ -18,7 +18,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the reason for the warning.
         /// </summary>
-        public string Reason { get; set; }
+        public string? Reason { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the warning is forgiven.
@@ -28,11 +28,11 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the username of the person who forgave the warning.
         /// </summary>
-        public string ForgivenBy { get; set; }
+        public string? ForgivenBy { get; set; }
 
         /// <summary>
         /// Gets or sets the username of the moderator who issued the warning.
         /// </summary>
-        public string Moderator { get; set; }
+        public string? Moderator { get; set; }
     }
 }

@@ -131,7 +131,7 @@ public class AntiAltSetting
     /// <summary>
     /// Gets or sets the minimum age requirement for accounts.
     /// </summary>
-    public string MinAge { get; set; }
+    public string? MinAge { get; set; }
 
     /// <summary>
     /// Gets or sets the action to be taken when anti-alt measures are triggered.

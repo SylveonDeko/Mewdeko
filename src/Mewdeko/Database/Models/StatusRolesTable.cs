@@ -13,22 +13,22 @@
         /// <summary>
         /// Gets or sets the status.
         /// </summary>
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         /// <summary>
         /// Gets or sets the roles to add.
         /// </summary>
-        public string ToAdd { get; set; }
+        public string? ToAdd { get; set; }
 
         /// <summary>
         /// Gets or sets the roles to remove.
         /// </summary>
-        public string ToRemove { get; set; }
+        public string? ToRemove { get; set; }
 
         /// <summary>
         /// Gets or sets the status embed.
         /// </summary>
-        public string StatusEmbed { get; set; } = null;
+        public string? StatusEmbed { get; set; } = null;
 
         /// <summary>
         /// Gets or sets a value indicating whether to re-add removed roles.

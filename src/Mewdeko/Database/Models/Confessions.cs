@@ -33,5 +33,5 @@ public class Confessions : DbEntity
     /// <summary>
     /// Gets or sets the content of the confession.
     /// </summary>
-    public string Confession { get; set; }
+    public string? Confession { get; set; }
 }

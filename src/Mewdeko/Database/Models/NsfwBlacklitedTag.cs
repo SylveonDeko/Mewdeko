@@ -16,7 +16,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the tag.
         /// </summary>
-        public string Tag { get; set; }
+        public string? Tag { get; set; }
 
         /// <summary>
         /// Returns the hash code for this instance.

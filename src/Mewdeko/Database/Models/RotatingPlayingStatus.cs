@@ -12,7 +12,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the status.
         /// </summary>
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         /// <summary>
         /// Gets or sets the activity type.

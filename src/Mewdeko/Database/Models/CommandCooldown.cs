@@ -21,5 +21,5 @@ public class CommandCooldown : DbEntity
     /// <summary>
     /// Gets or sets the name of the command this cooldown applies to.
     /// </summary>
-    public string CommandName { get; set; }
+    public string? CommandName { get; set; }
 }

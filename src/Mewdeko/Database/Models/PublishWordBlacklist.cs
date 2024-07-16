@@ -16,6 +16,6 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the word to be blacklisted.
         /// </summary>
-        public string Word { get; set; }
+        public string? Word { get; set; }
     }
 }

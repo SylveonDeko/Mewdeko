@@ -34,12 +34,12 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the message to repeat.
         /// </summary>
-        public string Message { get; set; }
+        public string? Message { get; set; }
 
         /// <summary>
         /// Gets or sets the interval for repeating the message.
         /// </summary>
-        public string Interval { get; set; }
+        public string? Interval { get; set; }
 
         /// <summary>
         /// Gets or sets the start time of day for repeating the message.
