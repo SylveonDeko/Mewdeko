@@ -1,4 +1,4 @@
-﻿#nullable enable
+﻿                                                        #nullable enable
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Mewdeko.Database.Models
