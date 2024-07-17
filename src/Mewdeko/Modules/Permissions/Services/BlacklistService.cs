@@ -49,7 +49,6 @@ public sealed class BlacklistService : IEarlyBehavior, INService
         this.pubSub.Sub(blPubKey, OnReload);
         this.pubSub.Sub(blPrivKey, ManualCheck);
         handler.JoinedGuild += CheckBlacklist;
-        _ = CheckAllGuilds();
     }
 
     /// <summary>

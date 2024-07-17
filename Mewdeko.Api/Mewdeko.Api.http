@@ -1,6 +1,0 @@
-@Mewdeko.Api_HostAddress = http://localhost:5064
-
-GET {{Mewdeko.Api_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

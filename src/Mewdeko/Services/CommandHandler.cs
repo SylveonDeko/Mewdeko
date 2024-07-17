@@ -44,10 +44,6 @@ public class CommandHandler : INService
     private readonly InteractionService interactionService;
     private readonly IServiceProvider services;
     private readonly IBotStrings strings;
-    private IEnumerable<IEarlyBehavior> earlyBehaviors;
-    private IEnumerable<IInputTransformer> inputTransformers;
-    private IEnumerable<ILateBlocker> lateBlockers;
-    private IEnumerable<ILateExecutor> lateExecutors;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="CommandHandler" /> class.
@@ -86,7 +82,6 @@ public class CommandHandler : INService
         clearUsersOnShortCooldown = new Timer(_ => UsersOnShortCooldown.Clear(), null, GlobalCommandsCooldown,
             GlobalCommandsCooldown);
         eventHandler.MessageReceived += MessageReceivedHandler;
-        _ = InitializeServices();
     }
 
     /// <summary>
@@ -401,7 +396,7 @@ public class CommandHandler : INService
                     bl.ItemId == (interaction.Channel as IGuildChannel)?.Guild?.Id)
                 {
                     await interaction.RespondAsync(
-                        $"*This guild is blacklist      ed from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*",
+                        $"*This guild is blacklisted from Mewdeko for **{bl.Reason}**! You can visit the support server below to try and resolve this.*",
                         components: cb).ConfigureAwait(false);
                     return;
                 }
@@ -444,23 +439,6 @@ public class CommandHandler : INService
         }
     }
 
-
-    /// <summary>
-    /// Adds services to the handler for command processing.
-    /// </summary>
-    /// <param name="services">The collection of service descriptors.</param>
-    private Task InitializeServices()
-    {
-        lateBlockers = services.GetServices<ILateBlocker>()
-            .OrderByDescending(x => x.Priority)
-            .ToArray();
-
-        lateExecutors = services.GetServices<ILateExecutor>().ToArray();
-        inputTransformers = services.GetServices<IInputTransformer>().ToArray();
-        earlyBehaviors = services.GetServices<IEarlyBehavior>().ToArray();
-        return Task.CompletedTask;
-    }
-
     /// <summary>
     /// Executes an external command within a specific guild and channel context.
     /// </summary>
@@ -492,89 +470,87 @@ public class CommandHandler : INService
         }
     }
 
-    private Task LogSuccessfulExecution(IMessage usrMsg, IGuildChannel? channel, params int[] execPoints)
+    private async Task LogSuccessfulExecution(IMessage usrMsg, IGuildChannel? channel, params int[] execPoints)
     {
-        _ = Task.Run(async () =>
+        Log.Information(
+            "Command Executed after "
+            + string.Join("/", execPoints.Select(x => (x * OneThousandth).ToString("F3")))
+            + "s\n\t"
+            + "User: {0}\n\t"
+            + "Server: {1}\n\t"
+            + "Channel: {2}\n\t"
+            + "Message: {3}", $"{usrMsg.Author} [{usrMsg.Author.Id}]", // {0}
+            channel == null ? "PRIVATE" : $"{channel.Guild.Name} [{channel.Guild.Id}]", // {1}
+            channel == null ? "PRIVATE" : $"{channel.Name} [{channel.Id}]", // {2}
+            usrMsg.Content); // {3}
+        if (bss.Data.CommandLogChannel < 1)
+            return;
+
+        var toFetch = await client.Rest.GetChannelAsync(bss.Data.CommandLogChannel).ConfigureAwait(false);
+        if (toFetch is RestTextChannel restChannel)
         {
-            Log.Information(
-                "Command Executed after "
-                + string.Join("/", execPoints.Select(x => (x * OneThousandth).ToString("F3")))
-                + "s\n\t"
-                + "User: {0}\n\t"
-                + "Server: {1}\n\t"
-                + "Channel: {2}\n\t"
-                + "Message: {3}", $"{usrMsg.Author} [{usrMsg.Author.Id}]", // {0}
-                channel == null ? "PRIVATE" : $"{channel.Guild.Name} [{channel.Guild.Id}]", // {1}
-                channel == null ? "PRIVATE" : $"{channel.Name} [{channel.Id}]", // {2}
-                usrMsg.Content); // {3}
-            var toFetch = await client.Rest.GetChannelAsync(bss.Data.CommandLogChannel).ConfigureAwait(false);
-            if (toFetch is RestTextChannel restChannel)
-            {
-                var eb = new EmbedBuilder()
-                    .WithOkColor()
-                    .WithTitle("Text Command Executed")
-                    .AddField("Executed Time",
-                        string.Join("/", execPoints.Select(x => (x * OneThousandth).ToString("F3"))))
-                    .AddField("User", $"{usrMsg.Author.Mention} {usrMsg.Author} {usrMsg.Author.Id}")
-                    .AddField("Guild", channel == null ? "PRIVATE" : $"{channel.Guild.Name} `{channel.Guild.Id}`")
-                    .AddField("Channel", channel == null ? "PRIVATE" : $"{channel.Name} `{channel.Id}`")
-                    .AddField("Message", usrMsg.Content.TrimTo(1000));
+            var eb = new EmbedBuilder()
+                .WithOkColor()
+                .WithTitle("Text Command Executed")
+                .AddField("Executed Time",
+                    string.Join("/", execPoints.Select(x => (x * OneThousandth).ToString("F3"))))
+                .AddField("User", $"{usrMsg.Author.Mention} {usrMsg.Author} {usrMsg.Author.Id}")
+                .AddField("Guild", channel == null ? "PRIVATE" : $"{channel.Guild.Name} `{channel.Guild.Id}`")
+                .AddField("Channel", channel == null ? "PRIVATE" : $"{channel.Name} `{channel.Id}`")
+                .AddField("Message", usrMsg.Content.TrimTo(1000));
 
-                await restChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
-            }
+            await restChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+        }
 
-            if (channel?.Guild is null)
-                return;
-            var guildChannel = (await gss.GetGuildConfig(channel.Guild.Id)).CommandLogChannel;
-            if (guildChannel == 0)
-                return;
-            var toSend = await client.Rest.GetChannelAsync(guildChannel).ConfigureAwait(false);
-            if (toSend is RestTextChannel restTextChannel)
-            {
-                var eb = new EmbedBuilder()
-                    .WithOkColor()
-                    .WithTitle("Text Command Executed")
-                    .AddField("Executed Time",
-                        string.Join("/", execPoints.Select(x => (x * OneThousandth).ToString("F3"))))
-                    .AddField("User", $"{usrMsg.Author.Mention} {usrMsg.Author} {usrMsg.Author.Id}")
-                    .AddField("Channel", channel == null ? "PRIVATE" : $"{channel.Name} `{channel.Id}`")
-                    .AddField("Message", usrMsg.Content.TrimTo(1000));
+        if (channel?.Guild is null)
+            return;
+        var guildChannel = (await gss.GetGuildConfig(channel.Guild.Id)).CommandLogChannel;
+        if (guildChannel == 0)
+            return;
+        var toSend = await client.Rest.GetChannelAsync(guildChannel).ConfigureAwait(false);
+        if (toSend is RestTextChannel restTextChannel)
+        {
+            var eb = new EmbedBuilder()
+                .WithOkColor()
+                .WithTitle("Text Command Executed")
+                .AddField("Executed Time",
+                    string.Join("/", execPoints.Select(x => (x * OneThousandth).ToString("F3"))))
+                .AddField("User", $"{usrMsg.Author.Mention} {usrMsg.Author} {usrMsg.Author.Id}")
+                .AddField("Channel", channel == null ? "PRIVATE" : $"{channel.Name} `{channel.Id}`")
+                .AddField("Message", usrMsg.Content.TrimTo(1000));
 
-                await restTextChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
-            }
-        });
-        return Task.CompletedTask;
+            await restTextChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+        }
     }
 
-    private Task LogErroredExecution(string errorMessage, IMessage usrMsg, IGuildChannel? channel,
+    private async Task LogErroredExecution(string errorMessage, IMessage usrMsg, IGuildChannel? channel,
         params int[] execPoints)
     {
-        _ = Task.Run(async () =>
+        var errorafter = string.Join("/", execPoints.Select(x => (x * OneThousandth).ToString("F3")));
+        Log.Warning(
+            $"Command Errored after {errorafter}\n\t" + "User: {0}\n\t" + "Server: {1}\n\t" + "Channel: {2}\n\t" +
+            "Message: {3}\n\t" + "Error: {4}",
+            $"{usrMsg.Author} [{usrMsg.Author.Id}]", // {0}
+            channel == null ? "PRIVATE" : $"{channel.Guild.Name} [{channel.Guild.Id}]", // {1}
+            channel == null ? "PRIVATE" : $"{channel.Name} [{channel.Id}]", // {2}
+            usrMsg.Content, errorMessage);
+
+        if (bss.Data.CommandLogChannel < 1)
+            return;
+
+        var toFetch = await client.Rest.GetChannelAsync(bss.Data.CommandLogChannel).ConfigureAwait(false);
+        if (toFetch is RestTextChannel restChannel)
         {
-            var errorafter = string.Join("/", execPoints.Select(x => (x * OneThousandth).ToString("F3")));
-            Log.Warning(
-                $"Command Errored after {errorafter}\n\t" + "User: {0}\n\t" + "Server: {1}\n\t" + "Channel: {2}\n\t" +
-                "Message: {3}\n\t" + "Error: {4}",
-                $"{usrMsg.Author} [{usrMsg.Author.Id}]", // {0}
-                channel == null ? "PRIVATE" : $"{channel.Guild.Name} [{channel.Guild.Id}]", // {1}
-                channel == null ? "PRIVATE" : $"{channel.Name} [{channel.Id}]", // {2}
-                usrMsg.Content, errorMessage);
+            var eb = new EmbedBuilder().WithOkColor().WithTitle("Text Command Errored")
+                .AddField("Error Reason", errorMessage)
+                .AddField("Errored Time", execPoints.Select(x => (x * OneThousandth).ToString("F3")))
+                .AddField("User", $"{usrMsg.Author} {usrMsg.Author.Id}")
+                .AddField("Guild", channel == null ? "PRIVATE" : $"{channel.Guild.Name} `{channel.Guild.Id}`")
+                .AddField("Channel", channel == null ? "PRIVATE" : $"{channel.Name} `{channel.Id}`")
+                .AddField("Message", usrMsg.Content.TrimTo(1000));
 
-            var toFetch = await client.Rest.GetChannelAsync(bss.Data.CommandLogChannel).ConfigureAwait(false);
-            if (toFetch is RestTextChannel restChannel)
-            {
-                var eb = new EmbedBuilder().WithOkColor().WithTitle("Text Command Errored")
-                    .AddField("Error Reason", errorMessage)
-                    .AddField("Errored Time", execPoints.Select(x => (x * OneThousandth).ToString("F3")))
-                    .AddField("User", $"{usrMsg.Author} {usrMsg.Author.Id}")
-                    .AddField("Guild", channel == null ? "PRIVATE" : $"{channel.Guild.Name} `{channel.Guild.Id}`")
-                    .AddField("Channel", channel == null ? "PRIVATE" : $"{channel.Name} `{channel.Id}`")
-                    .AddField("Message", usrMsg.Content.TrimTo(1000));
-
-                await restChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
-            }
-        });
-        return Task.CompletedTask;
+            await restChannel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+        }
     }
 
     private async Task MessageReceivedHandler(IMessage msg)
@@ -657,6 +633,13 @@ public class CommandHandler : INService
     private async Task TryRunCommand(IGuild? guild, IChannel channel, IUserMessage usrMsg)
     {
         var execTime = Environment.TickCount;
+
+        var lateExecutors = services.GetServices<ILateExecutor>();
+
+        var inputTransformers = services.GetServices<IInputTransformer>();
+
+        var earlyBehaviors = services.GetServices<IEarlyBehavior>()
+            .ToArray();
 
         foreach (var beh in earlyBehaviors)
         {
@@ -787,6 +770,8 @@ public class CommandHandler : INService
         string input,
         MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
     {
+        var lateBlockers = services.GetServices<ILateBlocker>()
+            .OrderByDescending(x => x.Priority);
         var searchResult = commandService.Search(context, input);
         if (!searchResult.IsSuccess)
             return (false, null, null);
