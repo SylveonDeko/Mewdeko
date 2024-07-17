@@ -287,7 +287,7 @@ public class StreamRoleService : INService, IUnloadableService, IReadyExecutor
         var config = await gss.GetGuildConfig(guild.Id);
         var setting = config.StreamRole;
 
-        if (!setting.Enabled)
+        if (setting is null || !setting.Enabled)
             return;
 
         var addRole = guild.GetRole(setting.AddRoleId);

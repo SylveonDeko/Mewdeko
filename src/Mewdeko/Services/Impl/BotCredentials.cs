@@ -289,6 +289,19 @@ public class BotCredentials : IBotCredentials
     /// Gets or sets the Genius API key.
     /// </summary>
     public string GeniusKey { get; set; }
+    /// <summary>
+    /// The http port for the api
+    /// </summary>
+    public int ApiPortHttp { get; set; }
+    /// <summary>
+    /// The https port for the api
+    /// </summary>
+    public int ApiPortHttps { get; set; }
+
+    /// <summary>
+    /// Used for debugging the mewdeko api and not needing a key every time
+    /// </summary>
+    public bool SkipApiKey { get; set; }
 
     /// <summary>
     /// Gets or sets the ID of the channel where confession reports are sent.
@@ -329,12 +342,15 @@ public class BotCredentials : IBotCredentials
             ApiKey = data[nameof(ApiKey)];
             UserAgent = data[nameof(UserAgent)];
             CfClearance = data[nameof(CfClearance)];
+            ApiPortHttps = int.Parse(data[nameof(ApiPortHttps)]);
+            ApiPortHttp = int.Parse(data[nameof(ApiPortHttp)]);
             LastFmApiKey = data[nameof(LastFmApiKey)];
             LastFmApiSecret = data[nameof(LastFmApiSecret)];
             MashapeKey = data[nameof(MashapeKey)];
             OsuApiKey = data[nameof(OsuApiKey)];
             TwitchClientId = data[nameof(TwitchClientId)];
             TwitchClientSecret = data[nameof(TwitchClientSecret)];
+            SkipApiKey = bool.Parse(data[nameof(SkipApiKey)]);
             LavalinkUrl = data[nameof(LavalinkUrl)];
             TrovoClientId = data[nameof(TrovoClientId)];
             ShardRunCommand = data[nameof(ShardRunCommand)];

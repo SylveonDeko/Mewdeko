@@ -184,7 +184,10 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
     private async Task CheckUpdateTimer()
     {
-        using var timer = new PeriodicTimer(TimeSpan.FromHours(bss.Data.CheckUpdateInterval));
+        var interval = bss.Data.CheckUpdateInterval;
+        if (interval < 1)
+            return;
+        using var timer = new PeriodicTimer(TimeSpan.FromHours(interval));
         do
         {
             var github = new GitHubClient(new ProductHeaderValue("Mewdeko"));

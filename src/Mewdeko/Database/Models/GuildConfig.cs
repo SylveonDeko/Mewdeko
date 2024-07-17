@@ -811,7 +811,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the stream role settings for the guild.
         /// </summary>
-        public StreamRoleSettings StreamRole { get; set; }
+        public StreamRoleSettings? StreamRole { get; set; }
 
         /// <summary>
         /// Gets or sets the XP settings for the guild.
