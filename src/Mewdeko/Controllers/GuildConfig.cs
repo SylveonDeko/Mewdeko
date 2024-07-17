@@ -21,7 +21,7 @@ public class GuildConfigController(GuildSettingsService service) : Controller
     {
         try
         {
-            var config = await service.GetGuildConfig(guildId);
+            var config = await service.GetGuildConfig(guildId, x => x.IncludeEverything());
             return Ok(config);
         }
         catch (Exception e)
