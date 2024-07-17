@@ -662,6 +662,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
         // Update the new guild reactions dictionary with the retrieved items
         newGuildReactions = guildItems
+            .Where(x => x.GuildId is not null)
             .GroupBy(k => k.GuildId!.Value)
             .ToDictionary(g => g.Key,
                 g => g.Select(x =>
