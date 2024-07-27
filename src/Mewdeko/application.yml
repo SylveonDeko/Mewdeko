@@ -1,0 +1,81 @@
+server: # REST and WS server
+  port: 2334
+  address: 127.0.0.1
+lavalink:
+  plugins:
+    - dependency: "com.github.topi314.lavasearch:lavasearch-plugin:1.0.0"
+      snapshot: false # set to true if you want to use snapshot builds (see below)
+    - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.0.1"
+    - dependency: "dev.lavalink.youtube:youtube-plugin:1.4.0"
+  server:
+    password: "Hope4a11"
+    sources:
+      youtube: false
+      bandcamp: true
+      soundcloud: true
+      twitch: true
+      vimeo: true
+      http: true
+      local: false
+    bufferDurationMs: 700 # The duration of the NAS buffer. Higher values fare better against longer GC pauses
+    opusEncodingQuality: 10
+    resamplingQuality: HIGH
+    frameBufferDurationMs: 1000 # How many milliseconds of audio to keep buffered
+    youtubePlaylistLoadLimit: 6 # Number of pages at 100 each
+    playerUpdateInterval: 1 # How frequently to send player updates to clients, in seconds
+    youtubeSearchEnabled: true
+    soundcloudSearchEnabled: true
+    gc-warnings: true
+    #ratelimit:
+      #ipBlocks: ["***REMOVED***"] # list of ip blocks
+      #excludedIps: ["...", "..."] # ips which should be explicit excluded from usage by lavalink
+      #strategy: "LoadBalance" # RotateOnBan | LoadBalance | NanoSwitch | RotatingNanoSwitch
+      #searchTriggersFail: true # Whether a search 429 should trigger marking the ip as failing
+      #retryLimit: -1 # -1 = use default lavaplayer value | 0 = infinity | >0 = retry will happen this numbers 
+
+metrics:
+  prometheus:
+    enabled: false
+    endpoint: /metrics
+
+sentry:
+  dsn: ""
+  environment: ""
+#  tags:
+#    some_key: some_value
+#    another_key: another_value
+
+logging:
+  file:
+    path: ./logs/
+  level:
+    # Set this to DEBUG to enable more detailed logging. Please note that this will log probably spam your console.
+    root: DEBUG
+    # Set this to DEBUG to enable more detailed logging from Lavalink
+    lavalink: DEBUG
+    # Set this to TRACE to see all WebSocket messages
+    lavalink.server.io.SocketContext: TRACE
+    # Log all track exceptions (COMMON, SUSPICIOUS & FAULT)
+    com.sedmelluq.discord.lavaplayer.tools.ExceptionTools: DEBUG
+
+plugins:
+  lavaSrc:
+    sources:
+      spotify: false # Enable Spotify source
+      applemusic: false # Enable Apple Music source
+      deezer: false # Enable Deezer source
+      yandexmusic: false # Enable Yandex Music source
+      flowerytts: false # Enable Flowery TTS source
+      youtube: false
+  youtube:
+    enabled: true # Whether this source can be used.
+    allowSearch: true # Whether "ytsearch:" and "ytmsearch:" can be used.
+    allowDirectVideoIds: true # Whether just video IDs can match. If false, only complete URLs will be loaded.
+    allowDirectPlaylistIds: true # Whether just playlist IDs can match. If false, only complete URLs will be loaded.
+    # The clients to use for track loading. See below for a list of valid clients.
+    # Clients are queried in the order they are given (so the first client is queried first and so on...)
+    clients:
+      - MUSIC
+      - ANDROID_TESTSUITE
+      - WEB
+      - TVHTML5EMBEDDED
