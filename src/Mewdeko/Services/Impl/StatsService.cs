@@ -58,7 +58,9 @@ namespace Mewdeko.Services.Impl
         /// </summary>
         public void Dispose()
         {
-            topGgTimer.Dispose();
+            topGgTimer?.Dispose();
+
+
         }
 
         /// <inheritdoc/>

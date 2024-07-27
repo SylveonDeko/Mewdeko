@@ -1,4 +1,7 @@
+using System.Diagnostics;
+using System.Reflection;
 using Discord.Commands;
+using Mewdeko.Common.Attributes.ASPNET;
 using Mewdeko.Services.Impl;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,18 +23,69 @@ public class BotStatus(DiscordShardedClient client, StatsService statsService, C
     {
         var toReturn = new BotStatusModel
         {
+            BotName = client.CurrentUser.GlobalName ?? client.CurrentUser.Username,
+            BotAvatar = client.CurrentUser.GetAvatarUrl(size: 2048),
+            BotBanner = client.CurrentUser.BannerId,
             BotLatency = client.Latency,
             BotVersion = StatsService.BotVersion,
-            CommandsCount = commandService.Commands.Count(),
+            CommandsCount = commandService.Commands.Distinct(x => x.Name).Count(),
             ModulesCount = commandService.Modules.Count(x => !x.IsSubmodule),
             DNetVersion = statsService.Library,
             BotStatus = client.Status.ToString(),
-            UserCount = client.Guilds.Select(x => x.Users).Distinct().Count()
+            UserCount = client.Guilds.Select(x => x.Users).Distinct().Count(),
+            CommitHash = GetCommitHash()
         };
 
         return Ok(toReturn);
     }
 
+    /// <summary>
+    /// Gets a list of guildIds for the bot
+    /// </summary>
+    /// <returns>A list of guildIds for the bot</returns>
+    [HttpGet("guilds")]
+    public async Task<IActionResult> GetGuilds()
+    {
+        await Task.CompletedTask;
+        return Ok(client.Guilds.Select(x => x.Id));
+    }
+
+    private string GetCommitHash()
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+        var gitHashAttribute = assembly.GetCustomAttribute<GitHashAttribute>();
+
+        if (gitHashAttribute != null)
+        {
+            return gitHashAttribute.Hash;
+        }
+
+        // Fallback method if attribute is not available
+        try
+        {
+            var process = new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = "git",
+                    Arguments = "rev-parse HEAD",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true
+                }
+            };
+
+            process.Start();
+            string output = process.StandardOutput.ReadToEnd().Trim();
+            process.WaitForExit();
+
+            return output.Length == 40 ? output : "Unknown";
+        }
+        catch
+        {
+            return "Unknown";
+        }
+    }
 
 
 
@@ -46,9 +100,29 @@ public class BotStatus(DiscordShardedClient client, StatsService statsService, C
         public string BotVersion { get; set; }
 
         /// <summary>
+        /// The current commit hash of the bot
+        /// </summary>
+        public string CommitHash { get; set; }
+
+        /// <summary>
         /// The latency to discord
         /// </summary>
         public int BotLatency { get; set; }
+
+        /// <summary>
+        /// The name of the bot
+        /// </summary>
+        public string BotName { get; set; }
+
+        /// <summary>
+        /// The bots avatar.
+        /// </summary>
+        public string BotAvatar { get; set; }
+
+        /// <summary>
+        /// The bots banner, if any
+        /// </summary>
+        public string BotBanner { get; set; }
 
         /// <summary>
         /// The number of commands
