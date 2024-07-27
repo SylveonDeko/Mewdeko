@@ -208,7 +208,7 @@ public partial class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsServic
     public Task Deny(
         [Summary(description: "The number of the suggestion.")] [Autocomplete(typeof(SuggestionAutocompleter))]
         ulong suggestid, string? reason = null) =>
-        Service.SendDenyEmbed(ctx.Guild, ctx.Client as DiscordShardedClient, ctx.User, suggestid,
+        Service.SendDenyEmbed(ctx.Guild, ctx.User, suggestid,
             ctx.Channel as ITextChannel, reason.EscapeWeirdStuff(), ctx.Interaction);
 
     /// <summary>
@@ -225,7 +225,7 @@ public partial class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsServic
     public Task Accept(
         [Summary(description: "The number of the suggestion.")] [Autocomplete(typeof(SuggestionAutocompleter))]
         ulong suggestid, string? reason = null) =>
-        Service.SendAcceptEmbed(ctx.Guild, ctx.Client as DiscordShardedClient, ctx.User, suggestid,
+        Service.SendAcceptEmbed(ctx.Guild, ctx.User, suggestid,
             ctx.Channel as ITextChannel, reason.EscapeWeirdStuff(), ctx.Interaction);
 
     /// <summary>
@@ -242,7 +242,7 @@ public partial class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsServic
     public Task Implemented(
         [Summary(description: "The number of the suggestion.")] [Autocomplete(typeof(SuggestionAutocompleter))]
         ulong suggestid, string? reason = null) =>
-        Service.SendImplementEmbed(ctx.Guild, ctx.Client as DiscordShardedClient, ctx.User, suggestid,
+        Service.SendImplementEmbed(ctx.Guild, ctx.User, suggestid,
             ctx.Channel as ITextChannel, reason.EscapeWeirdStuff(), ctx.Interaction);
 
     /// <summary>
@@ -259,6 +259,6 @@ public partial class SlashSuggestions : MewdekoSlashModuleBase<SuggestionsServic
     public Task Consider(
         [Summary(description: "The number of the suggestion.")] [Autocomplete(typeof(SuggestionAutocompleter))]
         ulong suggestid, string? reason = null) =>
-        Service.SendConsiderEmbed(ctx.Guild, ctx.Client as DiscordShardedClient, ctx.User, suggestid,
+        Service.SendConsiderEmbed(ctx.Guild, ctx.User, suggestid,
             ctx.Channel as ITextChannel, reason.EscapeWeirdStuff(), ctx.Interaction);
 }
