@@ -171,7 +171,7 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
     public Task Deny(ulong sid, [Remainder] string? reason = null) =>
-        Service.SendDenyEmbed(ctx.Guild, ctx.Client as DiscordShardedClient, ctx.User, sid,
+        Service.SendDenyEmbed(ctx.Guild, ctx.User, sid,
             ctx.Channel as ITextChannel, reason.EscapeWeirdStuff());
 
     /// <summary>
@@ -185,7 +185,7 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
     public Task Accept(ulong sid, [Remainder] string? reason = null) =>
-        Service.SendAcceptEmbed(ctx.Guild, ctx.Client as DiscordShardedClient, ctx.User, sid,
+        Service.SendAcceptEmbed(ctx.Guild, ctx.User, sid,
             ctx.Channel as ITextChannel, reason.EscapeWeirdStuff());
 
     /// <summary>
@@ -199,7 +199,7 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
     public Task Implemented(ulong sid, [Remainder] string? reason = null) =>
-        Service.SendImplementEmbed(ctx.Guild, ctx.Client as DiscordShardedClient, ctx.User, sid,
+        Service.SendImplementEmbed(ctx.Guild, ctx.User, sid,
             ctx.Channel as ITextChannel, reason.EscapeWeirdStuff());
 
     /// <summary>
@@ -213,6 +213,6 @@ public partial class Suggestions : MewdekoModuleBase<SuggestionsService>
     [Cmd, Aliases, RequireContext(ContextType.Guild),
      UserPerm(GuildPermission.ManageMessages)]
     public Task Consider(ulong sid, [Remainder] string? reason = null) =>
-        Service.SendConsiderEmbed(ctx.Guild, ctx.Client as DiscordShardedClient, ctx.User, sid,
+        Service.SendConsiderEmbed(ctx.Guild, ctx.User, sid,
             ctx.Channel as ITextChannel, reason.EscapeWeirdStuff());
 }
