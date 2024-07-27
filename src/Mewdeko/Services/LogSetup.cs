@@ -20,7 +20,7 @@ public static class LogSetup
         var logger = Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
             .MinimumLevel.Override("System", LogEventLevel.Information)
-            .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Information)
+            .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Debug)
             .Enrich.FromLogContext()
             .WriteTo.Console(LogEventLevel.Information,
                 theme: AnsiConsoleTheme.Code,

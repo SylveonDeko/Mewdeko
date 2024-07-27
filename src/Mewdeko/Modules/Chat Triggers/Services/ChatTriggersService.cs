@@ -205,6 +205,69 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
 
 
     /// <summary>
+    /// Updates a trigger. Used only by the api
+    /// </summary>
+    /// <param name="guildId">The guild to update the trigger for</param>
+    /// <param name="toUpdate">The updated trigger</param>
+    public async Task UpdateTrigger(ulong guildId, CTModel toUpdate)
+    {
+        try
+        {
+            if (newGuildReactions.TryGetValue(guildId, out var triggers))
+            {
+                var updatedTriggers = triggers.ToList();
+                var index = updatedTriggers.FindIndex(x => x.Id == toUpdate.Id);
+
+                if (index != -1)
+                {
+                    updatedTriggers[index] = toUpdate;
+                    newGuildReactions.TryUpdate(guildId, updatedTriggers.ToArray(), triggers);
+                    var db = await dbProvider.GetContextAsync();
+                    db.ChatTriggers.Update(toUpdate);
+                    await db.SaveChangesAsync();
+                }
+            }
+        }
+        catch (Exception e)
+        {
+           Log.Error(e, "Error updating trigger");
+            throw;
+        }
+    }
+
+    /// <summary>
+    /// Adds a trigger then returns the added trigger, only used by the api
+    /// </summary>
+    /// <param name="guildId">The guild id of the trigger to add</param>
+    /// <param name="toAdd">The trigger to add</param>
+    /// <returns></returns>
+    public async Task<CTModel> AddTrigger(ulong guildId, CTModel toAdd)
+    {
+        try
+        {
+            var db = await dbProvider.GetContextAsync();
+            var added = db.ChatTriggers.Add(toAdd);
+            await db.SaveChangesAsync();
+            newGuildReactions.AddOrUpdate(
+                guildId,
+                new CTModel[] { added.Entity },
+                (key, existingTriggers) =>
+                {
+                    var updatedTriggers = new List<CTModel>(existingTriggers)
+                        { added.Entity };
+                    return updatedTriggers.ToArray();
+                }
+            );
+            return added.Entity;
+        }
+        catch (Exception e)
+        {
+            Log.Error(e, "error adding trigger");
+            throw;
+        }
+    }
+
+    /// <summary>
     /// Executes the behavior associated with the chat triggers in response to a user message.
     /// </summary>
     /// <param name="socketClient">The Discord socket client.</param>
@@ -855,7 +918,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
     /// <param name="maybeGuildId">The optional guild ID.</param>
     /// <param name="ct">The chat trigger model to update.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    private async Task UpdateInternalAsync(ulong? maybeGuildId, CTModel ct)
+    public async Task UpdateInternalAsync(ulong? maybeGuildId, CTModel ct)
     {
         // Check if the guild ID is provided
         if (maybeGuildId is { } guildId)
