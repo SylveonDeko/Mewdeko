@@ -617,41 +617,63 @@ public class AfkService : INService, IReadyExecutor
     private async Task<int> GetAfkTimeout(ulong id) => (await guildSettings.GetGuildConfig(id)).AfkTimeout;
 
     /// <summary>
-    /// Sets the AFK status for the specified user in the specified guild.
+    /// Sets or removes the AFK status for the specified user in the specified guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="userId">The ID of the user.</param>
-    /// <param name="message">The AFK message.</param>
+    /// <param name="message">The AFK message. If empty, removes all AFK statuses for the user.</param>
     /// <param name="timed">Whether the AFK is timed.</param>
     /// <param name="when">The time when the AFK was set.</param>
     public async Task AfkSet(ulong guildId, ulong userId, string message, bool timed = false, DateTime when = new())
     {
-        // Immediately remove any existing timer for this user's AFK status in this guild
-        var exists = afkTimers.TryRemove((guildId, userId), out var existingTimer);
-        if (exists)
-            await existingTimer.DisposeAsync();
-
-        var afk = new Database.Models.Afk
+        // Remove any existing timer for this user's AFK status in this guild
+        if (afkTimers.TryRemove((guildId, userId), out var existingTimer))
         {
-            GuildId = guildId,
-            UserId = userId,
-            Message = message,
-            WasTimed = timed,
-            When = when
-        };
+            await existingTimer.DisposeAsync();
+        }
+
         await using var dbContext = await dbProvider.GetContextAsync();
-        dbContext.Afk.Update(afk);
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+
+        // Remove all existing AFK entries for this user in this guild
+        var existingAfks = await dbContext.Afk
+            .Where(a => a.GuildId == guildId && a.UserId == userId)
+            .ToListAsync();
+
+        var anyAfks = dbContext.Afk.Any(a => a.UserId == userId);
+
+        if (existingAfks.Count!=0)
+        {
+            dbContext.Afk.RemoveRange(existingAfks);
+        }
+
         if (string.IsNullOrEmpty(message))
         {
+            // If message is empty, just remove the AFK status
+            await dbContext.SaveChangesAsync();
             await cache.RemoveAsync($"{guildId}:{userId}");
         }
         else
         {
-            await cache.SetAsync($"{guildId}:{userId}", afk);
+            // Create and add new AFK entry
+            var newAfk = new Database.Models.Afk
+            {
+                GuildId = guildId,
+                UserId = userId,
+                Message = message,
+                WasTimed = timed,
+                When = when == default ? DateTime.UtcNow : when
+            };
+
+            dbContext.Afk.Add(newAfk);
+            await dbContext.SaveChangesAsync();
+
+            // Update cache
+            await cache.SetAsync($"{guildId}:{userId}", newAfk);
+
+            // Schedule timed AFK if necessary
             if (timed)
             {
-                ScheduleTimedAfk(afk);
+                ScheduleTimedAfk(newAfk);
             }
         }
     }

@@ -1,10 +1,8 @@
-﻿using LinqToDB;
-using LinqToDB.EntityFrameworkCore;
-using Mewdeko.Database.DbContextStuff;
+﻿using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Suggestions.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Mewdeko.Api.Controllers;
+namespace Mewdeko.Controllers;
 
 /// <summary>
 /// Service for managing suggestions for guilds

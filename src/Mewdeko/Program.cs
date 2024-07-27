@@ -1,3 +1,4 @@
+        using System.IO;
         using System.Net.Http;
         using Discord.Commands;
         using Discord.Interactions;
@@ -85,6 +86,7 @@
                 });
                 builder.Logging.ClearProviders();
                 builder.Logging.AddSerilog(log);
+                builder.Logging.AddDebug();
                 services.AddSingleton(client);
 
                 services.AddSingleton(credentials);
@@ -162,33 +164,37 @@
 
                 services.AddSingleton<Mewdeko>()
                     .AddHostedService<MewdekoService>();
-                services.AddControllers();
+                services.AddControllers(options =>
+                {
+                    options.Filters.Add(typeof(ValidateModelAttribute));
+                });
                 services.AddEndpointsApiExplorer();
                 services.AddAuthorization();
-                services.AddSwaggerGen();
                 services.AddTransient<IApiKeyValidation, ApiKeyValidation>();
 
-                builder.WebHost.UseUrls($"http://localhost:{credentials.ApiPortHttp}", $"https://localhost:{credentials.ApiPortHttps}");
+                builder.WebHost.UseUrls($"http://localhost:{credentials.ApiPortHttp}");
+                builder.Services.AddProblemDetails();
 
                 var app = builder.Build();
 
     // Configure the HTTP request pipeline.
-                if (builder.Environment.IsDevelopment())
-                {
-                    app.UseSwagger();
-                    app.UseSwaggerUI();
-                }
 
                 if (!credentials.SkipApiKey)
                 {
                     app.UseMiddleware<ApiKeyMiddleware>();
                 }
 
-                app.UseHttpsRedirection();
-
                 app.UseAuthorization();
 
                 app.MapControllers();
+
+                app.Use(async (context, next) =>
+                {
+                    var logger = context.RequestServices.GetRequiredService<ILogger<Mewdeko>>();
+                    logger.LogInformation($"Request received: {context.Request.Method} {context.Request.Path}");
+                    logger.LogInformation($"Request body: {await new StreamReader(context.Request.Body).ReadToEndAsync()}");
+                    await next();
+                });
 
                 foreach (var address in app.Urls)
                 {
