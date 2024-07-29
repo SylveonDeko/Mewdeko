@@ -9,6 +9,8 @@ api/
 src/Mewdeko/Command Errors*.txt
 bot.yml
 
+*.jar
+
 src/Mewdeko/credentials.json
 # these 2 are used for migrations1
 Mewdeko.Core/credentials.json
