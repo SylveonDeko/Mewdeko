@@ -9,6 +9,8 @@ api/
 src/Mewdeko/Command Errors*.txt
 bot.yml
 
+application.yml
+
 *.jar
 
 src/Mewdeko/credentials.json
