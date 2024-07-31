@@ -21,11 +21,13 @@ public class BotStatus(DiscordShardedClient client, StatsService statsService, C
     [HttpGet]
     public async Task<IActionResult> GetStatus()
     {
+        var rest = client.Rest;
+        var curUser = await rest.GetUserAsync(client.CurrentUser.Id);
         var toReturn = new BotStatusModel
         {
             BotName = client.CurrentUser.GlobalName ?? client.CurrentUser.Username,
             BotAvatar = client.CurrentUser.GetAvatarUrl(size: 2048),
-            BotBanner = client.CurrentUser.BannerId,
+            BotBanner = curUser.GetBannerUrl(size: 4096),
             BotLatency = client.Latency,
             BotVersion = StatsService.BotVersion,
             CommandsCount = commandService.Commands.Distinct(x => x.Name).Count(),
@@ -33,7 +35,8 @@ public class BotStatus(DiscordShardedClient client, StatsService statsService, C
             DNetVersion = statsService.Library,
             BotStatus = client.Status.ToString(),
             UserCount = client.Guilds.Select(x => x.Users).Distinct().Count(),
-            CommitHash = GetCommitHash()
+            CommitHash = GetCommitHash(),
+            BotId = client.CurrentUser.Id
         };
 
         return Ok(toReturn);
@@ -148,5 +151,10 @@ public class BotStatus(DiscordShardedClient client, StatsService statsService, C
         /// The number of users in every guild (separated by distinct)
         /// </summary>
         public int UserCount { get; set; }
+
+        /// <summary>
+        /// The bots userId
+        /// </summary>
+        public ulong BotId { get; set; }
     }
 }

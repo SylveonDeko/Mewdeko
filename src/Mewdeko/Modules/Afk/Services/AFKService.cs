@@ -592,7 +592,7 @@ public class AfkService : INService, IReadyExecutor
     /// </summary>
     /// <param name="id">The ID of the guild.</param>
     /// <returns>The AFK type.</returns>
-    private async Task<int> GetAfkType(ulong id) => (await guildSettings.GetGuildConfig(id)).AfkType;
+    public async Task<int> GetAfkType(ulong id) => (await guildSettings.GetGuildConfig(id)).AfkType;
 
     /// <summary>
     /// Retrieves the AFK length for the specified guild.
@@ -614,7 +614,7 @@ public class AfkService : INService, IReadyExecutor
     /// </summary>
     /// <param name="id">The ID of the guild.</param>
     /// <returns>The AFK timeout.</returns>
-    private async Task<int> GetAfkTimeout(ulong id) => (await guildSettings.GetGuildConfig(id)).AfkTimeout;
+    public async Task<int> GetAfkTimeout(ulong id) => (await guildSettings.GetGuildConfig(id)).AfkTimeout;
 
     /// <summary>
     /// Sets or removes the AFK status for the specified user in the specified guild.
