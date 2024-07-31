@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System.Net.Http;
 using System.Threading;
+using System.Xml;
+using System.Globalization;
 using Mewdeko.Modules.Utility.Common;
 using Newtonsoft.Json;
 using StackExchange.Redis;
@@ -13,7 +15,6 @@ namespace Mewdeko.Modules.Utility.Services;
 public class ConverterService : INService, IUnloadableService
 {
     private readonly IDataCache cache;
-
     private readonly Timer currencyUpdater;
     private readonly IHttpClientFactory httpFactory;
     private readonly TimeSpan updateInterval = new(12, 0, 0);
@@ -24,16 +25,15 @@ public class ConverterService : INService, IUnloadableService
     /// <param name="client">The Discord client, used for identifying the primary shard.</param>
     /// <param name="cache">The cache service for storing conversion units.</param>
     /// <param name="factory">The HTTP client factory for fetching currency conversion rates.</param>
-    public ConverterService(DiscordShardedClient client,
-        IDataCache cache, IHttpClientFactory factory)
+    public ConverterService(DiscordShardedClient client, IDataCache cache, IHttpClientFactory factory)
     {
         this.cache = cache;
         httpFactory = factory;
-            currencyUpdater = new Timer(
-                async shouldLoad => await UpdateCurrency((bool)shouldLoad).ConfigureAwait(false),
-                true,
-                TimeSpan.Zero,
-                updateInterval);
+        currencyUpdater = new Timer(
+            async shouldLoad => await UpdateCurrency((bool)shouldLoad).ConfigureAwait(false),
+            true,
+            TimeSpan.Zero,
+            updateInterval);
     }
 
     /// <summary>
@@ -58,8 +58,36 @@ public class ConverterService : INService, IUnloadableService
     private async Task<Rates> GetCurrencyRates()
     {
         using var http = httpFactory.CreateClient();
-        var res = await http.GetStringAsync("https://convertapi.nadeko.bot/latest").ConfigureAwait(false);
-        return JsonConvert.DeserializeObject<Rates>(res);
+        var res = await http.GetStringAsync("https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml").ConfigureAwait(false);
+
+        var xmlDoc = new XmlDocument();
+        xmlDoc.LoadXml(res);
+
+        var nsmgr = new XmlNamespaceManager(xmlDoc.NameTable);
+        nsmgr.AddNamespace("gesmes", "http://www.gesmes.org/xml/2002-08-01");
+        nsmgr.AddNamespace("ecb", "http://www.ecb.int/vocabulary/2002-08-01/eurofxref");
+
+        var rates = new Dictionary<string, decimal>();
+        var cubes = xmlDoc.SelectNodes("//ecb:Cube[@currency]", nsmgr);
+
+        if (cubes == null)
+            return new Rates
+            {
+                Base = "EUR", Date = DateTime.UtcNow, ConversionRates = rates
+            };
+        foreach (XmlNode cube in cubes)
+        {
+            var currency = cube.Attributes["currency"].Value;
+            var rate = decimal.Parse(cube.Attributes["rate"].Value, CultureInfo.InvariantCulture);
+            rates[currency] = rate;
+        }
+
+        return new Rates
+        {
+            Base = "EUR",
+            Date = DateTime.UtcNow,
+            ConversionRates = rates
+        };
     }
 
     private async Task UpdateCurrency(bool shouldLoad)
@@ -72,26 +100,20 @@ public class ConverterService : INService, IUnloadableService
                 var currencyRates = await GetCurrencyRates().ConfigureAwait(false);
                 var baseType = new ConvertUnit
                 {
-                    Triggers =
-                    [
-                        currencyRates.Base
-                    ],
+                    Triggers = [ currencyRates.Base ],
                     Modifier = decimal.One,
                     UnitType = unitTypeString
                 };
                 var range = currencyRates.ConversionRates.Select(u => new ConvertUnit
                 {
-                    Triggers =
-                    [
-                        u.Key
-                    ],
+                    Triggers = [ u.Key ],
                     Modifier = u.Value,
                     UnitType = unitTypeString
                 }).ToArray();
 
                 var fileData = (JsonConvert.DeserializeObject<ConvertUnit[]>(
                                     await File.ReadAllTextAsync("data/units.json").ConfigureAwait(false)) ??
-                                Array.Empty<ConvertUnit>())
+                                [])
                     .Where(x => x.UnitType != "currency");
 
                 var data = JsonConvert.SerializeObject(range.Append(baseType).Concat(fileData).ToList());

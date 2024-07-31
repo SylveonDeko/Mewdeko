@@ -12,9 +12,9 @@ public sealed class Hangman : IDisposable
 
     private readonly SemaphoreSlim locker = new(1, 1);
 
-    private readonly HashSet<char> previousGuesses = new();
+    private readonly HashSet<char> previousGuesses = [];
 
-    private readonly HashSet<ulong> recentUsers = new();
+    private readonly HashSet<ulong> recentUsers = [];
 
     private Phase currentPhase = Phase.Active;
 
@@ -82,7 +82,7 @@ public sealed class Hangman : IDisposable
     /// <summary>
     /// Gets the previous guesses made during the game.
     /// </summary>
-    public ImmutableArray<char> PreviousGuesses => previousGuesses.ToImmutableArray();
+    public ImmutableArray<char> PreviousGuesses => [..previousGuesses];
 
     /// <summary>
     /// Gets the task representing the end of the Hangman game.

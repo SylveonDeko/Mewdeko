@@ -105,7 +105,7 @@ namespace Mewdeko.Database.Models
         /// Gets the default permission list.
         /// </summary>
         public static List<Permissionv2> GetDefaultPermlist =>
-            new() { AllowAllPerm };
+            [AllowAllPerm];
 
         /// <summary>
         /// Gets or sets the index of the permission.

@@ -333,8 +333,7 @@ public class BotCredentials : IBotCredentials
                 Helpers.ReadErrorAndExit(5);
             }
 
-            OwnerIds = data.GetSection("OwnerIds").GetChildren().Select(c => ulong.Parse(c.Value))
-                .ToImmutableArray();
+            OwnerIds = [..data.GetSection("OwnerIds").GetChildren().Select(c => ulong.Parse(c.Value))];
             GoogleApiKey = data[nameof(GoogleApiKey)];
             PsqlConnectionString = data[nameof(PsqlConnectionString)];
             CsrfToken = data[nameof(CsrfToken)];

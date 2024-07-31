@@ -208,7 +208,7 @@ public sealed class FusionImagesCache : IImageCache, IReadyExecutor, INService
             {
                 return await File.ReadAllBytesAsync(filePath);
             }
-            return Array.Empty<byte>();
+            return [];
         }, TimeSpan.FromDays(1)).Result;
     }
 

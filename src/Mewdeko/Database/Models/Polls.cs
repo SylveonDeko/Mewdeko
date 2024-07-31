@@ -37,7 +37,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the votes for the poll.
         /// </summary>
-        public List<PollVote> Votes { get; set; } = new();
+        public List<PollVote> Votes { get; set; } = [];
     }
 
     /// <summary>

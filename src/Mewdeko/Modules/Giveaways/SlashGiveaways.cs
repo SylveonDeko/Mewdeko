@@ -200,7 +200,7 @@ public class SlashGiveaways(DbContextProvider dbProvider, InteractiveService int
         }
         else
         {
-            List<ITextChannel> gchans = new();
+            List<ITextChannel> gchans = [];
             foreach (var i in gways)
             {
                 var chan = await ctx.Guild.GetTextChannelAsync(i.ChannelId).ConfigureAwait(false);

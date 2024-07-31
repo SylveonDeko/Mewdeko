@@ -264,8 +264,8 @@ public class BlockedConfig
     /// </summary>
     public BlockedConfig()
     {
-        Modules = new HashSet<string?>();
-        Commands = new HashSet<string?>();
+        Modules = [];
+        Commands = [];
     }
 
     /// <summary>

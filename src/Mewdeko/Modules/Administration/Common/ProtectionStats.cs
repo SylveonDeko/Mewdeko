@@ -47,7 +47,7 @@ namespace Mewdeko.Modules.Administration.Common
         /// <summary>
         /// Gets or sets the set of users involved in the raid.
         /// </summary>
-        public ConcurrentHashSet<IGuildUser> RaidUsers { get; set; } = new();
+        public ConcurrentHashSet<IGuildUser> RaidUsers { get; set; } = [];
     }
 
     /// <summary>

@@ -33,7 +33,7 @@ public sealed class AcrophobiaGame : IDisposable
 
     private readonly MewdekoRandom rng;
 
-    private readonly HashSet<ulong> usersWhoVoted = new();
+    private readonly HashSet<ulong> usersWhoVoted = [];
     private readonly SemaphoreSlim locker = new(1, 1);
 
     private readonly Dictionary<AcrophobiaUser, int> submissions = new();
@@ -117,17 +117,17 @@ public sealed class AcrophobiaGame : IDisposable
             {
                 case 0:
                     CurrentPhase = Phase.Ended;
-                    await OnVotingStarted(this, ImmutableArray.Create<KeyValuePair<AcrophobiaUser, int>>())
+                    await OnVotingStarted(this, [])
                         .ConfigureAwait(false);
                     return;
                 case 1:
                     CurrentPhase = Phase.Ended;
-                    await OnVotingStarted(this, submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
+                    await OnVotingStarted(this, [..submissions.ToArray()]).ConfigureAwait(false);
                     return;
                 default:
                     CurrentPhase = Phase.Voting;
 
-                    await OnVotingStarted(this, submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
+                    await OnVotingStarted(this, [..submissions.ToArray()]).ConfigureAwait(false);
                     break;
             }
         }
@@ -141,7 +141,7 @@ public sealed class AcrophobiaGame : IDisposable
         try
         {
             CurrentPhase = Phase.Ended;
-            await OnEnded(this, submissions.ToArray().ToImmutableArray()).ConfigureAwait(false);
+            await OnEnded(this, [..submissions.ToArray()]).ConfigureAwait(false);
         }
         finally
         {
@@ -162,7 +162,7 @@ public sealed class AcrophobiaGame : IDisposable
             lettersArr[i] = randChar == 'X' ? (char)rng.Next(65, 88) : randChar;
         }
 
-        StartingLetters = lettersArr.ToImmutableArray();
+        StartingLetters = [..lettersArr];
     }
 
     /// <summary>

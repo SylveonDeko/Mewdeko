@@ -7,8 +7,8 @@ namespace Mewdeko.Modules.Currency.Services;
 /// </summary>
 public class BlackjackService : INService
 {
-    private static readonly string[] Suits = { "♠️", "♥️", "♦️", "♣️" };
-    private static readonly string[] Ranks = { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
+    private static readonly string[] Suits = ["♠️", "♥️", "♦️", "♣️"];
+    private static readonly string[] Ranks = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
     private static readonly Dictionary<string, int> RankValues = new()
     {
         { "A", 11 }, { "2", 2 }, { "3", 3 }, { "4", 4 }, { "5", 5 }, { "6", 6 },

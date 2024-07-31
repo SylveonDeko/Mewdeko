@@ -65,7 +65,7 @@ public class TriviaGame
     /// <summary>
     /// Gets the set of old trivia questions asked during the game.
     /// </summary>
-    public HashSet<TriviaQuestion> OldQuestions { get; } = new();
+    public HashSet<TriviaQuestion> OldQuestions { get; } = [];
 
     /// <summary>
     /// Gets the dictionary of users participating in the trivia game and their scores.

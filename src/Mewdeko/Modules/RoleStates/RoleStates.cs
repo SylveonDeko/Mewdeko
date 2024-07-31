@@ -79,11 +79,11 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity) 
         else
         {
             var deniedUsers = string.IsNullOrWhiteSpace(roleStateSettings.DeniedUsers)
-                ? new List<ulong>()
+                ? []
                 : roleStateSettings.DeniedUsers.Split(',').Select(ulong.Parse).ToList();
 
             var deniedRoles = string.IsNullOrWhiteSpace(roleStateSettings.DeniedRoles)
-                ? new List<ulong>()
+                ? []
                 : roleStateSettings.DeniedRoles.Split(',').Select(ulong.Parse).ToList();
 
 
@@ -138,7 +138,7 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity) 
                 foreach (var userRoleState in roleStatesToShow)
                 {
                     var savedRoles = string.IsNullOrWhiteSpace(userRoleState.SavedRoles)
-                        ? new List<ulong>()
+                        ? []
                         : userRoleState.SavedRoles.Split(',').Select(ulong.Parse).ToList();
 
                     eb.AddField($"{userRoleState.UserName} ({userRoleState.UserId})",
@@ -183,7 +183,7 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity) 
         }
 
         var deniedRoles = string.IsNullOrWhiteSpace(roleStateSettings.DeniedRoles)
-            ? new List<ulong>()
+            ? []
             : roleStateSettings.DeniedRoles.Split(',').Select(ulong.Parse).ToList();
 
         var addedCount = 0;
@@ -219,7 +219,7 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity) 
         }
 
         var deniedRoles = string.IsNullOrWhiteSpace(roleStateSettings.DeniedRoles)
-            ? new List<ulong>()
+            ? []
             : roleStateSettings.DeniedRoles.Split(',').Select(ulong.Parse).ToList();
 
         var removedCount = 0;
@@ -255,7 +255,7 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity) 
         }
 
         var deniedUsers = string.IsNullOrWhiteSpace(roleStateSettings.DeniedUsers)
-            ? new List<ulong>()
+            ? []
             : roleStateSettings.DeniedUsers.Split(',').Select(ulong.Parse).ToList();
 
         var addedCount = 0;
@@ -291,7 +291,7 @@ public class RoleStates(BotConfigService bss, InteractiveService interactivity) 
         }
 
         var deniedUsers = string.IsNullOrWhiteSpace(roleStateSettings.DeniedUsers)
-            ? new List<ulong>()
+            ? []
             : roleStateSettings.DeniedUsers.Split(',').Select(ulong.Parse).ToList();
 
         var removedCount = 0;

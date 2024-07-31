@@ -38,7 +38,7 @@ namespace Mewdeko.Modules.Games.Services
             {
                 // Log a warning if loading typing articles fails
                 Log.Warning("Error while loading typing articles {0}", ex.ToString());
-                TypingArticles = new List<TypingArticle>();
+                TypingArticles = [];
             }
         }
 

@@ -81,11 +81,10 @@ namespace Mewdeko.Modules.Games.Common.ChatterBot
         public async Task<string> Think(string input)
         {
             using var http = httpFactory.CreateClient();
-            using var msg = new FormUrlEncodedContent(new[]
-            {
+            using var msg = new FormUrlEncodedContent([
                 new KeyValuePair<string, string>("user", user), new KeyValuePair<string, string>("key", key),
                 new KeyValuePair<string, string>("nick", await nick), new KeyValuePair<string, string>("text", input)
-            });
+            ]);
             using var data = await http.PostAsync(askEndpoint, msg).ConfigureAwait(false);
             var str = await data.Content.ReadAsStringAsync().ConfigureAwait(false);
             var obj = JsonConvert.DeserializeObject<CleverbotIoAskResponse>(str);
@@ -98,10 +97,9 @@ namespace Mewdeko.Modules.Games.Common.ChatterBot
         private async Task<string> GetNick()
         {
             using var http = httpFactory.CreateClient();
-            using var msg = new FormUrlEncodedContent(new[]
-            {
+            using var msg = new FormUrlEncodedContent([
                 new KeyValuePair<string, string>("user", user), new KeyValuePair<string, string>("key", key)
-            });
+            ]);
             using var data = await http.PostAsync(createEndpoint, msg).ConfigureAwait(false);
             var str = await data.Content.ReadAsStringAsync().ConfigureAwait(false);
             var obj = JsonConvert.DeserializeObject<CleverbotIoCreateResponse>(str);

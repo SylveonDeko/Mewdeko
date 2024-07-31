@@ -25,7 +25,7 @@ public class EventPubSub : IPubSub
     {
         var keyActions = actions.GetOrAdd(key.Key,
             _ => new ConcurrentDictionary<Delegate, List<Func<object, ValueTask>>>());
-        var sameActions = keyActions.GetOrAdd(action, _ => new List<Func<object, ValueTask>>());
+        var sameActions = keyActions.GetOrAdd(action, _ => []);
 
         lock (sameActions) // Lock the list since List<T> is not thread-safe
         {

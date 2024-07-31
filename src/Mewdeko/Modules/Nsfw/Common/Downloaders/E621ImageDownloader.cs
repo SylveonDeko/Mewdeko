@@ -36,7 +36,7 @@ namespace Mewdeko.Modules.Nsfw.Common.Downloaders
 
             var data = await res.Content.ReadFromJsonAsync<E621Response>(SerializerOptions, cancel);
             if (data?.Posts is null)
-                return new List<E621Object>();
+                return [];
 
             return data.Posts.Where(x => !string.IsNullOrWhiteSpace(x.File?.Url)).ToList();
         }

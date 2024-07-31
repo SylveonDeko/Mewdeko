@@ -67,7 +67,7 @@ public class MuteService : INService, IReadyExecutor
     /// <summary>
     /// Roles to remove on mute.
     /// </summary>
-    public string[] Uroles = Array.Empty<string>();
+    public string[] Uroles = [];
 
     /// <summary>
     /// Initializes a new instance of <see cref="MuteService"/>.
@@ -262,10 +262,9 @@ public class MuteService : INService, IReadyExecutor
                 await using var dbContext = await dbProvider.GetContextAsync();
                 var config = await dbContext.ForGuildId(usr.Guild.Id,
                     set => set.Include(gc => gc.MutedUsers).Include(gc => gc.UnmuteTimers));
-                var roles = usr.GetRoles().Where(p => p.Tags == null).Except(new[]
-                {
+                var roles = usr.GetRoles().Where(p => p.Tags == null).Except([
                     usr.Guild.EveryoneRole
-                });
+                ]);
                 var enumerable = roles as IRole[] ?? roles.ToArray();
                 var uroles = string.Join(" ", enumerable.Select(x => x.Id));
                 if (await GetRemoveOnMute(usr.Guild.Id) == 0)

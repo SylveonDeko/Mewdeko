@@ -70,7 +70,7 @@ public partial class Permissions
 
             if (time.Time.TotalSeconds == 0)
             {
-                var activeCds = ActiveCooldowns.GetOrAdd(channel.Guild.Id, new ConcurrentHashSet<ActiveCooldown>());
+                var activeCds = ActiveCooldowns.GetOrAdd(channel.Guild.Id, []);
                 activeCds.RemoveWhere(ac => ac.Command == name);
                 await ReplyConfirmLocalizedAsync("cmdcd_cleared",
                     Format.Bold(name)).ConfigureAwait(false);

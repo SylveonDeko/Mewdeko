@@ -40,7 +40,7 @@ public static class CommandNameLoadHelper
         LazyCommandAliases.Value.TryGetValue(methodName.ToLowerInvariant(), out var aliases) &&
         aliases.Length > 1
             ? aliases.Skip(1).ToArray()
-            : Array.Empty<string>();
+            : [];
 
     /// <summary>
     /// Gets the command name for a given method name.

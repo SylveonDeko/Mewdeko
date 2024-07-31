@@ -31,7 +31,7 @@ namespace Mewdeko.Modules.Nsfw.Common.Downloaders
             using var http = Http.CreateClient();
             var imageObjects = await http.GetFromJsonAsync<DapiImageObject[]>(uri, SerializerOptions, cancel);
             if (imageObjects is null)
-                return new();
+                return [];
             return imageObjects.Where(x => x.FileUrl is not null).ToList();
         }
     }

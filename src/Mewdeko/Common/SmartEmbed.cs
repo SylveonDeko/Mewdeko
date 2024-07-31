@@ -65,10 +65,9 @@ namespace Mewdeko.Common
 
                 if (newEmbed.Embed is not null)
                 {
-                    embeds = NewEmbed.ToEmbedArray(new[]
-                    {
+                    embeds = NewEmbed.ToEmbedArray([
                         newEmbed.Embed
-                    });
+                    ]);
                 }
                 else if (newEmbed.Embeds is not null && newEmbed.Embeds.Any())
                 {

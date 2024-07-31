@@ -159,7 +159,7 @@ public class RedisCache : IDataCache
         var result = await db.StringGetAsync($"{redisKey}_statusroles");
         return result.HasValue
             ? JsonConvert.DeserializeObject<List<StatusRolesTable>>(result)
-            : new List<StatusRolesTable>();
+            : [];
     }
 
     /// <summary>

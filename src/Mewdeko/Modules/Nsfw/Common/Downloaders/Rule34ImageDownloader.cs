@@ -40,7 +40,7 @@ namespace Mewdeko.Modules.Nsfw.Common.Downloaders
             var images = await http.GetFromJsonAsync<List<Rule34Object>>(uri, SerializerOptions, cancel);
 
             return images is null
-                ? new List<Rule34Object>()
+                ? []
                 : images.Where(img => !string.IsNullOrWhiteSpace(img.Image)).ToList();
         }
     }

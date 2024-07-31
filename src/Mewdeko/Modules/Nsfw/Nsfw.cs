@@ -31,8 +31,8 @@ public class Nsfw(
     IBotCredentials credentials)
     : MewdekoModuleBase<ISearchImagesService>
 {
-    private static readonly ConcurrentHashSet<ulong> HentaiBombBlacklist = new();
-    private static readonly ConcurrentHashSet<ulong> PornBombBlacklist = new();
+    private static readonly ConcurrentHashSet<ulong> HentaiBombBlacklist = [];
+    private static readonly ConcurrentHashSet<ulong> PornBombBlacklist = [];
     private readonly MewdekoRandom rng = new();
 
 

@@ -89,7 +89,7 @@ namespace Mewdeko.Modules.Games.Services
                 Question = data[0],
                 ChannelId = channelId,
                 GuildId = guildId,
-                Votes = new List<PollVote>(),
+                Votes = [],
                 PollType = type
             };
         }

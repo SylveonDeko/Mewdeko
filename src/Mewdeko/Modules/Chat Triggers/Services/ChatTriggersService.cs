@@ -250,7 +250,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             await db.SaveChangesAsync();
             newGuildReactions.AddOrUpdate(
                 guildId,
-                new CTModel[] { added.Entity },
+                [added.Entity],
                 (key, existingTriggers) =>
                 {
                     var updatedTriggers = new List<CTModel>(existingTriggers)
@@ -1807,10 +1807,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                         .Add(new(x.RealName.Split(' ').Last(), x, null));
                 else
                     groups.Add(new(x.RealName.Split(' ').First(), null,
-                        new List<TriggerChildGrouping>
-                        {
-                            new(x.RealName.Split(' ').Last(), x, null)
-                        }));
+                        [new(x.RealName.Split(' ').Last(), x, null)]));
             });
 
         triggers.Where(x =>
@@ -1824,7 +1821,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
             else
             {
                 groups.Add(new TriggerChildGrouping(x.RealName.Split(' ').First(), null,
-                    new List<TriggerChildGrouping>()));
+                    []));
                 group = groups.First(y => y.Name == x.RealName.Split(' ').First());
             }
 
@@ -1853,7 +1850,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     ? "description"
                     : x.Triggers!.ApplicationCommandDescription)
                 .AddOptions(x.Triggers is not null
-                    ? Array.Empty<SlashCommandOptionBuilder>()
+                    ? []
                     : x.Children.Select(y => new SlashCommandOptionBuilder
                         {
                             Options = []
@@ -1866,7 +1863,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                             ? ApplicationCommandOptionType.SubCommandGroup
                             : ApplicationCommandOptionType.SubCommand)
                         .AddOptions(y.Children is null
-                            ? Array.Empty<SlashCommandOptionBuilder>()
+                            ? []
                             : y.Children.Select(z => new SlashCommandOptionBuilder()
                                 .WithName(z.Name.Split(' ')[2])
                                 .WithDescription(z.Triggers?.ApplicationCommandDescription.IsNullOrWhiteSpace() ?? true

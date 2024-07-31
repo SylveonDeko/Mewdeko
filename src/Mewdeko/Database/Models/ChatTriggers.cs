@@ -146,7 +146,7 @@
             /// <returns>An array of reaction string?s.</returns>
             public string?[] GetReactions() =>
                 string.IsNullOrWhiteSpace(Reactions)
-                    ? Array.Empty<string?>()
+                    ? []
                     : Reactions.Split("@@@");
 
             /// <summary>

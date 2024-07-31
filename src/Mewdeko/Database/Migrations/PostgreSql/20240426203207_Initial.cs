@@ -2207,10 +2207,10 @@ namespace Mewdeko.Database.Migrations.PostgreSql
             migrationBuilder.CreateIndex(
                 name: "IX_DiscordPermOverrides_GuildId_Command",
                 table: "DiscordPermOverrides",
-                columns: new[]
-                {
+                columns:
+                [
                     "GuildId", "Command"
-                },
+                ],
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -2256,10 +2256,10 @@ namespace Mewdeko.Database.Migrations.PostgreSql
             migrationBuilder.CreateIndex(
                 name: "IX_GroupName_GuildConfigId_Number",
                 table: "GroupName",
-                columns: new[]
-                {
+                columns:
+                [
                     "GuildConfigId", "Number"
-                },
+                ],
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -2364,10 +2364,10 @@ namespace Mewdeko.Database.Migrations.PostgreSql
             migrationBuilder.CreateIndex(
                 name: "IX_SelfAssignableRoles_GuildId_RoleId",
                 table: "SelfAssignableRoles",
-                columns: new[]
-                {
+                columns:
+                [
                     "GuildId", "RoleId"
-                },
+                ],
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -2439,10 +2439,10 @@ namespace Mewdeko.Database.Migrations.PostgreSql
             migrationBuilder.CreateIndex(
                 name: "IX_UserXpStats_UserId_GuildId",
                 table: "UserXpStats",
-                columns: new[]
-                {
+                columns:
+                [
                     "UserId", "GuildId"
-                },
+                ],
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -2488,10 +2488,10 @@ namespace Mewdeko.Database.Migrations.PostgreSql
             migrationBuilder.CreateIndex(
                 name: "IX_XpRoleReward_XpSettingsId_Level",
                 table: "XpRoleReward",
-                columns: new[]
-                {
+                columns:
+                [
                     "XpSettingsId", "Level"
-                },
+                ],
                 unique: true);
 
             migrationBuilder.CreateIndex(

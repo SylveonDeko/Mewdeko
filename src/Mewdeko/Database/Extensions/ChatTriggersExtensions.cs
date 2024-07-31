@@ -16,7 +16,7 @@ public static class ChatTriggersExtensions
     /// <param name="trigger">The ChatTriggers instance.</param>
     /// <returns>A list of ulong values representing granted role IDs.</returns>
     public static List<ulong> GetGrantedRoles(this ChatTriggers trigger)
-        => ParseUlongs(trigger.GrantedRoles) ?? new List<ulong>();
+        => ParseUlongs(trigger.GrantedRoles) ?? [];
 
     /// <summary>
     /// Gets the list of removed role IDs from a ChatTriggers instance.
@@ -24,7 +24,7 @@ public static class ChatTriggersExtensions
     /// <param name="trigger">The ChatTriggers instance.</param>
     /// <returns>A list of ulong values representing removed role IDs.</returns>
     public static List<ulong> GetRemovedRoles(this ChatTriggers trigger)
-        => ParseUlongs(trigger.RemovedRoles) ?? new List<ulong>();
+        => ParseUlongs(trigger.RemovedRoles) ?? [];
 
     /// <summary>
     /// Parses a string of ulong values separated by "@@@" into a list of ulong values.

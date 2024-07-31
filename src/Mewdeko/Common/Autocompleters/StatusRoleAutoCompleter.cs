@@ -36,7 +36,7 @@ public class StatusRoleAutocompleter : AutocompleteHandler
             async _ => []);
 
         if (statusRoles == null)
-            return AutocompletionResult.FromSuccess(Enumerable.Empty<AutocompleteResult>());
+            return AutocompletionResult.FromSuccess([]);
 
         var results = statusRoles
             .Where(x => x.GuildId == context.Guild.Id)

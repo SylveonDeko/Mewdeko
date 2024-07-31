@@ -200,7 +200,7 @@ public class StatusRolesService : INService
                 if (SmartEmbed.TryParse(rep.Replace(i.StatusEmbed), user.Guild.Id, out var embeds, out var plainText,
                         out var components))
                 {
-                    await channel.SendMessageAsync(plainText ?? null, embeds: embeds ?? Array.Empty<Embed>(),
+                    await channel.SendMessageAsync(plainText ?? null, embeds: embeds ?? [],
                         components: components?.Build());
                 }
                 else
@@ -299,9 +299,9 @@ public class StatusRolesService : INService
         if (statusRoles.Count
 
  == 0)
-            return new HashSet<StatusRolesTable>();
+            return [];
         var statusList = statusRoles.Where(x => x.GuildId == guildId).ToHashSet();
-        return statusList.Count != 0 ? statusList : new HashSet<StatusRolesTable>();
+        return statusList.Count != 0 ? statusList : [];
     }
 
     /// <summary>

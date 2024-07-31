@@ -280,10 +280,9 @@ public partial class ReplacementBuilder
     /// <returns>The ReplacementBuilder instance.</returns>
     public ReplacementBuilder WithUser(IUser user)
     {
-        WithManyUsers(new[]
-        {
+        WithManyUsers([
             user
-        });
+        ]);
         return this;
     }
 

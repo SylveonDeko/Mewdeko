@@ -136,10 +136,10 @@ public static class MessageChannelExtensions
     /// <param name="text">The text content of the confirmation message.</param>
     /// <returns>A task representing the asynchronous operation, returning the ID of the sent message.</returns>
     public static Task<ulong> SendConfirmAsync(this DiscordWebhookClient msg, string? text) =>
-        msg.SendMessageAsync(embeds: new[]
-        {
+        msg.SendMessageAsync(embeds:
+        [
             new EmbedBuilder().WithOkColor().WithDescription(text).Build()
-        });
+        ]);
 
 
     /// <summary>

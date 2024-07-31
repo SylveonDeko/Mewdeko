@@ -55,10 +55,9 @@ public partial class Utility
                 .GetMethods()
                 .Distinct(new MethodInfoEqualityComparer())
                 .Select(x => x.Name)
-                .Except(new[]
-                {
+                .Except([
                     "ToString", "Equals", "GetHashCode", "GetType"
-                });
+                ]);
             await ctx.Channel.SendConfirmAsync(GetText("calcops", await guildSettings.GetPrefix(ctx.Guild)),
                     string.Join(", ", selection))
                 .ConfigureAwait(false);

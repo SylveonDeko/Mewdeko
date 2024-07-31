@@ -8,7 +8,7 @@
         /// <summary>
         /// Gets or sets the channels that are ignored for logging.
         /// </summary>
-        public HashSet<IgnoredLogChannel> IgnoredChannels { get; set; } = new();
+        public HashSet<IgnoredLogChannel> IgnoredChannels { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the ID for logging other events.

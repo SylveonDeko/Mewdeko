@@ -262,10 +262,9 @@ public partial class Utility
                 var runner = new RepeatRunner(client, (SocketGuild)ctx.Guild, toAdd, Service);
 
                 Service.Repeaters.AddOrUpdate(ctx.Guild.Id,
-                    new ConcurrentDictionary<int, RepeatRunner>(new[]
-                    {
+                    new ConcurrentDictionary<int, RepeatRunner>([
                         new KeyValuePair<int, RepeatRunner>(toAdd.Id, runner)
-                    }), (_, old) =>
+                    ]), (_, old) =>
                     {
                         old.TryAdd(runner.Repeater.Id, runner);
                         return old;

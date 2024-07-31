@@ -165,10 +165,9 @@ public class GreetSettingsService : INService
             // if group is newly created, greet that user right away,
             // but any user which joins in the next 5 seconds will
             // be greeted in a group greet
-            await ByeUsers(conf, channel, new[]
-            {
+            await ByeUsers(conf, channel, [
                 user
-            }).ConfigureAwait(false);
+            ]).ConfigureAwait(false);
         }
         catch
         {
@@ -318,10 +317,9 @@ public class GreetSettingsService : INService
     public async Task<string> GetLeaveHook(ulong? gid)
         => (await gss.GetGuildConfig(gid.Value)).LeaveHook;
 
-    private Task ByeUsers(GreetSettings conf, ITextChannel channel, IUser user) => ByeUsers(conf, channel, new[]
-    {
+    private Task ByeUsers(GreetSettings conf, ITextChannel channel, IUser user) => ByeUsers(conf, channel, [
         user
-    });
+    ]);
 
     private async Task ByeUsers(GreetSettings conf, ITextChannel channel, IEnumerable<IUser> users)
     {
@@ -397,10 +395,9 @@ public class GreetSettingsService : INService
     }
 
     private Task GreetUsers(GreetSettings conf, ITextChannel channel, IGuildUser user) => GreetUsers(conf, channel,
-        new[]
-        {
-            user
-        });
+    [
+        user
+    ]);
 
     private async Task GreetUsers(GreetSettings conf, ITextChannel channel, IEnumerable<IGuildUser> users)
     {
@@ -532,10 +529,9 @@ public class GreetSettingsService : INService
                         .ConfigureAwait(false);
                     if (channel != null)
                     {
-                        await GreetUsers(conf, channel, new[]
-                        {
+                        await GreetUsers(conf, channel, [
                             user
-                        }).ConfigureAwait(false);
+                        ]).ConfigureAwait(false);
                     }
                 }
 

@@ -14,7 +14,7 @@ public class StarboardService : INService, IReadyExecutor
     private readonly DbContextProvider dbProvider;
     private readonly GuildSettingsService guildSettings;
 
-    private List<StarboardPosts> starboardPosts = new();
+    private List<StarboardPosts> starboardPosts = [];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StarboardService"/> class.

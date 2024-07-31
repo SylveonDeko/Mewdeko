@@ -54,10 +54,10 @@ namespace Mewdeko.Modules.Nsfw.Common.Downloaders
             CancellationToken cancel = default)
         {
             if (tags.Length > 2)
-                return new List<DapiImageObject>();
+                return [];
 
             if (!await AllTagsValid(tags, cancel))
-                return new List<DapiImageObject>();
+                return [];
 
             var tagString = ImageDownloaderHelper.GetTagString(tags, isExplicit);
             var uri = $"{BaseUrl}/posts.json?limit=200&tags={tagString}&page={page}";
@@ -65,7 +65,7 @@ namespace Mewdeko.Modules.Nsfw.Common.Downloaders
             using var http = Http.CreateClient();
             var imageObjects = await http.GetFromJsonAsync<DapiImageObject[]>(uri, SerializerOptions, cancel);
             return imageObjects is null
-                ? new List<DapiImageObject>()
+                ? []
                 : imageObjects.Where(x => x.FileUrl is not null).ToList();
         }
     }

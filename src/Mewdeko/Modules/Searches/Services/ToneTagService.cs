@@ -45,8 +45,8 @@ public class ToneTagService
     private ParseResult ParseTags(IReadOnlyCollection<string> rawTags)
     {
         var tags = rawTags.DistinctBy(x => x.ToLower());
-        List<ToneTag> success = new();
-        List<string> fails = new();
+        List<ToneTag> success = [];
+        List<string> fails = [];
 
         tags.ForEach(s =>
         {

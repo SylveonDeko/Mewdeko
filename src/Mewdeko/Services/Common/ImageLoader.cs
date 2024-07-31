@@ -13,7 +13,7 @@ namespace Mewdeko.Services.Common
     {
         private readonly ConnectionMultiplexer con;
         private readonly HttpClient http;
-        private readonly List<Task<KeyValuePair<RedisKey, RedisValue>>> uriTasks = new();
+        private readonly List<Task<KeyValuePair<RedisKey, RedisValue>>> uriTasks = [];
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageLoader"/> class.

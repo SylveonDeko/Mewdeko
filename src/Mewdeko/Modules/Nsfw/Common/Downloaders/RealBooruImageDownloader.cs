@@ -28,7 +28,7 @@ namespace Mewdeko.Modules.Nsfw.Common.Downloaders
 
             using var http = Http.CreateClient();
             var images = await http.GetFromJsonAsync<List<RealBooruElement>>(uri, SerializerOptions, cancel);
-            return images ?? new List<RealBooruElement>();
+            return images ?? [];
         }
     }
 }

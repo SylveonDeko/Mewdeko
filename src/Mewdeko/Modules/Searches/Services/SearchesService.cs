@@ -185,12 +185,12 @@ public class SearchesService : INService, IUnloadableService
     /// <summary>
     /// Gets the collection of WOW jokes.
     /// </summary>
-    public List<WoWJoke> WowJokes { get; } = new();
+    public List<WoWJoke> WowJokes { get; } = [];
 
     /// <summary>
     /// Gets the collection of magic items.
     /// </summary>
-    public List<MagicItem> MagicItems { get; } = new();
+    public List<MagicItem> MagicItems { get; } = [];
 
     /// <summary>
     /// Gets the collection of auto hentai timers.
@@ -684,11 +684,11 @@ public class SearchesService : INService, IUnloadableService
 
         var responseObject = JsonConvert.DeserializeObject<MtgResponse>(response);
         if (responseObject == null)
-            return Array.Empty<MtgData>();
+            return [];
 
         var cards = responseObject.Cards.Take(5).ToArray();
         if (cards.Length == 0)
-            return Array.Empty<MtgData>();
+            return [];
 
         var tasks = new List<Task<MtgData>>(cards.Length);
         tasks.AddRange(cards.Select(GetMtgDataAsync));

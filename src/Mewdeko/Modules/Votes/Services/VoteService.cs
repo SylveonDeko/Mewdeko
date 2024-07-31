@@ -218,7 +218,7 @@ public class VoteService : INService
     {
         await using var dbContext = await dbProvider.GetContextAsync();
 
-        return await dbContext.VoteRoles.Where(x => x.GuildId == guildId)?.ToListAsyncEF() ?? new List<VoteRoles>();
+        return await dbContext.VoteRoles.Where(x => x.GuildId == guildId)?.ToListAsyncEF() ?? [];
     }
 
     /// <summary>

@@ -310,7 +310,7 @@ public sealed class AutoAssignRoleService : INService
     public async Task<IEnumerable<ulong>> TryGetNormalRoles(ulong guildId)
     {
         var tocheck = (await guildSettings.GetGuildConfig(guildId)).AutoAssignRoleId;
-        return string.IsNullOrWhiteSpace(tocheck) ? new List<ulong>() : tocheck.Split(" ").Select(ulong.Parse).ToList();
+        return string.IsNullOrWhiteSpace(tocheck) ? [] : tocheck.Split(" ").Select(ulong.Parse).ToList();
     }
 
     /// <summary>
@@ -321,7 +321,7 @@ public sealed class AutoAssignRoleService : INService
     public async Task<IEnumerable<ulong>> TryGetBotRoles(ulong guildId)
     {
         var tocheck = (await guildSettings.GetGuildConfig(guildId)).AutoBotRoleIds;
-        return string.IsNullOrWhiteSpace(tocheck) ? new List<ulong>() : tocheck.Split(" ").Select(ulong.Parse).ToList();
+        return string.IsNullOrWhiteSpace(tocheck) ? [] : tocheck.Split(" ").Select(ulong.Parse).ToList();
     }
 }
 
@@ -337,7 +337,7 @@ public static class GuildConfigExtensions
     /// <returns>A list of role IDs that are currently set to auto-assign in the guild configuration.</returns>
     public static List<ulong> GetAutoAssignableRoles(this GuildConfig gc)
         => string.IsNullOrWhiteSpace(gc.AutoAssignRoleId)
-            ? new List<ulong>()
+            ? []
             : gc.AutoAssignRoleId.Split(" ").Select(ulong.Parse).ToList();
 
     /// <summary>
@@ -355,7 +355,7 @@ public static class GuildConfigExtensions
     /// <returns>A list of role IDs that are currently set to auto-assign bot roles in the guild configuration.</returns>
     public static List<ulong> GetAutoAssignableBotRoles(this GuildConfig gc)
         => string.IsNullOrWhiteSpace(gc.AutoBotRoleIds)
-            ? new List<ulong>()
+            ? []
             : gc.AutoBotRoleIds.Split(" ").Select(ulong.Parse).ToList();
 
     /// <summary>

@@ -17,7 +17,7 @@ public class FontProvider
         NotoSans = SKTypeface.FromFile(Path.Combine(fontsFolder, "NotoSans-Bold.ttf"));
         UniSans = SKTypeface.FromFile(Path.Combine(fontsFolder, "Uni Sans.ttf"));
 
-        FallBackFonts = new List<SKTypeface>();
+        FallBackFonts = [];
 
         // Try loading some fallback fonts
         if (Environment.OSVersion.Platform == PlatformID.Win32NT)

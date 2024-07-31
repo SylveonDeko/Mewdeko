@@ -138,7 +138,7 @@ public partial class UtilityService : INService
         if (!msgs.Any())
             return;
 
-        var snipes = await cache.GetSnipesForGuild(chan.Guild.Id).ConfigureAwait(false) ?? new List<SnipeStore>();
+        var snipes = await cache.GetSnipesForGuild(chan.Guild.Id).ConfigureAwait(false) ?? [];
         if (snipes.Count == 0)
         {
             var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));
@@ -172,7 +172,7 @@ public partial class UtilityService : INService
             Edited = false,
             DateAdded = DateTime.UtcNow
         };
-        var snipes = await cache.GetSnipesForGuild(channel.Guild.Id).ConfigureAwait(false) ?? new List<SnipeStore>();
+        var snipes = await cache.GetSnipesForGuild(channel.Guild.Id).ConfigureAwait(false) ?? [];
         if (snipes.Count == 0)
         {
             var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));
@@ -205,7 +205,7 @@ public partial class UtilityService : INService
             Edited = true,
             DateAdded = DateTime.UtcNow
         };
-        var snipes = await cache.GetSnipesForGuild(channel.Guild.Id).ConfigureAwait(false) ?? new List<SnipeStore>();
+        var snipes = await cache.GetSnipesForGuild(channel.Guild.Id).ConfigureAwait(false) ?? [];
         if (snipes.Count == 0)
         {
             var todelete = snipes.Where(x => DateTime.UtcNow.Subtract(x.DateAdded) >= TimeSpan.FromDays(3));

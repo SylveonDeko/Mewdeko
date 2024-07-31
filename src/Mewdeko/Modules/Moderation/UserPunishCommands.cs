@@ -1174,7 +1174,7 @@ public partial class Moderation : MewdekoModule
         public async Task MassKick(params IUser[] usersUnp)
         {
             var users = usersUnp.Cast<IGuildUser>();
-            List<ulong> succ = new(), fail = new();
+            List<ulong> succ = [], fail = [];
 
             var options = new RequestOptions
             {

@@ -36,12 +36,12 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the collection of whitelisted users' IDs.
         /// </summary>
-        public HashSet<StreamRoleWhitelistedUser> Whitelist { get; set; } = new();
+        public HashSet<StreamRoleWhitelistedUser> Whitelist { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the collection of blacklisted users' IDs.
         /// </summary>
-        public HashSet<StreamRoleBlacklistedUser> Blacklist { get; set; } = new();
+        public HashSet<StreamRoleBlacklistedUser> Blacklist { get; set; } = [];
     }
 
     /// <summary>

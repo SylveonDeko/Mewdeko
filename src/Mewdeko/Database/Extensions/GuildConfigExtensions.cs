@@ -14,17 +14,18 @@ public static class GuildConfigExtensions
     {
         get
         {
-            return new List<WarningPunishment>
-            {
+            return
+            [
                 new WarningPunishment
                 {
                     Count = 3, Punishment = PunishmentAction.Kick
                 },
+
                 new WarningPunishment
                 {
                     Count = 5, Punishment = PunishmentAction.Ban
                 }
-            };
+            ];
         }
     }
 

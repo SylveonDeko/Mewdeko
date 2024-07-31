@@ -35,7 +35,7 @@ public record UrlReply
     /// <summary>
     /// Gets the list of tags associated with the URL.
     /// </summary>
-    public List<string> Tags { get; } = new();
+    public List<string> Tags { get; } = [];
 }
 
 /// <summary>
@@ -282,7 +282,7 @@ public class SearchImagesService : ISearchImagesService, INService
     private Task<UrlReply?> GetNsfwImageAsync(ulong? guildId, bool forceExplicit, string[]? tags, Booru dapi,
         CancellationToken cancel = default)
     {
-        return GetNsfwImageAsync(guildId ?? 0, tags ?? Array.Empty<string>(), forceExplicit, dapi, cancel);
+        return GetNsfwImageAsync(guildId ?? 0, tags ?? [], forceExplicit, dapi, cancel);
     }
 
     private static bool IsValidTag(string tag)

@@ -1535,10 +1535,9 @@ public partial class Utility(
 
         if (target != null)
         {
-            var roles = target.GetRoles().Except(new[]
-            {
+            var roles = target.GetRoles().Except([
                 guild.EveryoneRole
-            }).OrderBy(r => -r.Position);
+            ]).OrderBy(r => -r.Position);
             if (!roles.Any())
             {
                 await ReplyErrorLocalizedAsync("no_roles_on_page").ConfigureAwait(false);
@@ -1568,10 +1567,9 @@ public partial class Utility(
         }
         else
         {
-            var roles = guild.Roles.Except(new[]
-            {
+            var roles = guild.Roles.Except([
                 guild.EveryoneRole
-            }).OrderBy(r => -r.Position);
+            ]).OrderBy(r => -r.Position);
             if (!roles.Any())
             {
                 await ReplyErrorLocalizedAsync("no_roles_on_page").ConfigureAwait(false);

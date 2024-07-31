@@ -37,7 +37,7 @@ namespace Mewdeko.Modules.Nsfw.Common.Downloaders
 
             var container = await res.Content.ReadFromJsonAsync<DerpiContainer>(SerializerOptions, cancel);
             return container?.Images is null
-                ? new List<DerpiImageObject>()
+                ? []
                 : container.Images.Where(x => !string.IsNullOrWhiteSpace(x.ViewUrl)).ToList();
         }
     }

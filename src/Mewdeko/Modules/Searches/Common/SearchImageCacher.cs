@@ -174,7 +174,7 @@ namespace Mewdeko.Modules.Searches.Common
 
 
                         return (JsonConvert.DeserializeObject<DapiImageObject[]>(data) ??
-                                Array.Empty<DapiImageObject>())
+                                [])
                             .Where(x => x.FileUrl != null)
                             .Select(x => new ImageCacherObject(x, type))
                             .ToArray();
@@ -216,7 +216,7 @@ namespace Mewdeko.Modules.Searches.Common
             catch (Exception ex)
             {
                 Log.Warning(ex, "Error downloading an image: {Message}", ex.Message);
-                return Array.Empty<ImageCacherObject>();
+                return [];
             }
         }
 

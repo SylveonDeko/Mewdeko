@@ -41,11 +41,11 @@ namespace Mewdeko.Modules.Nsfw.Common.Downloaders
 
             var resString = await res.Content.ReadAsStringAsync(cancel);
             if (string.IsNullOrWhiteSpace(resString))
-                return new List<DapiImageObject>();
+                return [];
 
             var images = JsonSerializer.Deserialize<GelbooruResponse>(resString, SerializerOptions);
             if (images is null || images.Post is null)
-                return new List<DapiImageObject>();
+                return [];
 
             return images.Post.Where(x => x.FileUrl is not null).ToList();
         }

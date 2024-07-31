@@ -94,7 +94,7 @@ public class CommandHandler : INService
     /// </summary>
     private NonBlocking.ConcurrentDictionary<ulong, bool> CommandParseLock { get; } = new();
 
-    private ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = new();
+    private ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = [];
 
     /// <summary>
     /// Event that occurs when a command is executed.

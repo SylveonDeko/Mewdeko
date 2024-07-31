@@ -8,7 +8,7 @@ namespace Mewdeko.Modules.Moderation.Services;
 public class PurgeService : INService
 {
     //channelids where Purges are currently occuring
-    private readonly ConcurrentHashSet<ulong> pruningGuilds = new();
+    private readonly ConcurrentHashSet<ulong> pruningGuilds = [];
 
     private readonly TimeSpan twoWeeks = TimeSpan.FromDays(14);
 

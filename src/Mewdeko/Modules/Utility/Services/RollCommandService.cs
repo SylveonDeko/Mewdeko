@@ -49,7 +49,7 @@ public partial class RollCommandService : INService
                     for (var i = 0; i < d.Count; i++)
                     {
                         var value = random.Next(d.Sides) + 1;
-                        var dict = result.Results.GetValueOrDefault(d, new List<int>());
+                        var dict = result.Results.GetValueOrDefault(d, []);
                         dict.Add(value);
                         result.Results[d] = dict;
                         result.Total += value;

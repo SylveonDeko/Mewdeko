@@ -16,12 +16,12 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the role rewards.
         /// </summary>
-        public HashSet<XpRoleReward> RoleRewards { get; set; } = new();
+        public HashSet<XpRoleReward> RoleRewards { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the currency rewards.
         /// </summary>
-        public HashSet<XpCurrencyReward> CurrencyRewards { get; set; } = new();
+        public HashSet<XpCurrencyReward> CurrencyRewards { get; set; } = [];
 
         /// <summary>
         /// Gets or sets a value indicating whether XP role rewards are exclusive.
@@ -36,7 +36,7 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Gets or sets the exclusion list for XP rewards.
         /// </summary>
-        public HashSet<ExcludedItem> ExclusionList { get; set; } = new();
+        public HashSet<ExcludedItem> ExclusionList { get; set; } = [];
 
         /// <summary>
         /// Gets or sets a value indicating whether the server is excluded from XP rewards.

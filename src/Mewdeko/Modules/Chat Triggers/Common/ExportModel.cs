@@ -8,7 +8,7 @@ namespace Mewdeko.Modules.Chat_Triggers.Common
         /// <summary>
         /// Gets or sets the roles to be added by the trigger.
         /// </summary>
-        public List<ulong> ARole = new();
+        public List<ulong> ARole = [];
 
         /// <summary>
         /// Gets or sets the reactions associated with the trigger.
@@ -18,7 +18,7 @@ namespace Mewdeko.Modules.Chat_Triggers.Common
         /// <summary>
         /// Gets or sets the roles to be removed by the trigger.
         /// </summary>
-        public List<ulong> RRole = new();
+        public List<ulong> RRole = [];
 
         // Properties for backwards compatibility with NadekoBot
 

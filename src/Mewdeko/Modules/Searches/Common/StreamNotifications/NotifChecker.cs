@@ -55,7 +55,7 @@ public class NotifChecker
             //     FollowedStream.FType.Youtube, new YouTubeProvider(credsProvider)
             // }
         };
-        offlineBuffer = new HashSet<(FollowedStream.FType, string)>();
+        offlineBuffer = [];
         if (isMaster)
             CacheClearAllData();
     }

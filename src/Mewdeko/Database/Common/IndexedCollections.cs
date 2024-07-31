@@ -18,7 +18,7 @@ public class IndexedCollection<T> : IList<T> where T : class, IIndexed
     /// <summary>
     /// Initializes a new instance of the IndexedCollection<T> class with an empty list.
     /// </summary>
-    public IndexedCollection() => Source = new List<T>();
+    public IndexedCollection() => Source = [];
 
     /// <summary>
     /// Initializes a new instance of the IndexedCollection<T> class with the specified source collection.

@@ -50,7 +50,7 @@
                 /// <summary>
                 /// Gets or sets the channels where messages are deleted after a command is issued.
                 /// </summary>
-                public HashSet<DelMsgOnCmdChannel> DelMsgOnCmdChannels { get; set; } = new();
+                public HashSet<DelMsgOnCmdChannel> DelMsgOnCmdChannels { get; set; } = [];
 
                 /// <summary>
                 /// Gets or sets the role ID to auto-assign to new members.
@@ -485,7 +485,7 @@
                 /// <summary>
                 /// Gets or sets the warning punishments.
                 /// </summary>
-                public List<WarningPunishment2> WarnPunishments2 { get; set; } = new();
+                public List<WarningPunishment2> WarnPunishments2 { get; set; } = [];
 
                 /// <summary>
                 /// Gets or sets the number of stars for the guild.
@@ -661,7 +661,7 @@
                 /// <summary>
                 /// Gets or sets the followed streams for the guild.
                 /// </summary>
-                public HashSet<FollowedStream> FollowedStreams { get; set; } = new();
+                public HashSet<FollowedStream> FollowedStreams { get; set; } = [];
 
                 /// <summary>
                 /// Gets or sets the permissions for the guild.
@@ -681,7 +681,7 @@
                 /// <summary>
                 /// Gets or sets the command cooldowns for the guild.
                 /// </summary>
-                public HashSet<CommandCooldown> CommandCooldowns { get; set; } = new();
+                public HashSet<CommandCooldown> CommandCooldowns { get; set; } = [];
 
                 /// <summary>
                 /// Gets or sets a value indicating whether to filter invites.
@@ -696,12 +696,12 @@
                 /// <summary>
                 /// Gets or sets the channel IDs for filtering invites.
                 /// </summary>
-                public HashSet<FilterInvitesChannelIds> FilterInvitesChannelIds { get; set; } = new();
+                public HashSet<FilterInvitesChannelIds> FilterInvitesChannelIds { get; set; } = [];
 
                 /// <summary>
                 /// Gets or sets the channel IDs for filtering links.
                 /// </summary>
-                public HashSet<FilterLinksChannelId> FilterLinksChannelIds { get; set; } = new();
+                public HashSet<FilterLinksChannelId> FilterLinksChannelIds { get; set; } = [];
 
                 /// <summary>
                 /// Gets or sets a value indicating whether to filter words.
@@ -711,17 +711,17 @@
                 /// <summary>
                 /// Gets or sets the words to be filtered.
                 /// </summary>
-                public HashSet<FilteredWord> FilteredWords { get; set; } = new();
+                public HashSet<FilteredWord> FilteredWords { get; set; } = [];
 
                 /// <summary>
                 /// Gets or sets the channel IDs for filtering words.
                 /// </summary>
-                public HashSet<FilterWordsChannelIds> FilterWordsChannelIds { get; set; } = new();
+                public HashSet<FilterWordsChannelIds> FilterWordsChannelIds { get; set; } = [];
 
                 /// <summary>
                 /// Gets or sets the muted users for the guild.
                 /// </summary>
-                public HashSet<MutedUserId> MutedUsers { get; set; } = new();
+                public HashSet<MutedUserId> MutedUsers { get; set; } = [];
 
                 /// <summary>
                 /// Gets or sets the name of the mute role.
@@ -736,7 +736,7 @@
                 /// <summary>
                 /// Gets or sets the repeaters for the guild.
                 /// </summary>
-                public List<Repeater> GuildRepeaters { get; set; } = new();
+                public List<Repeater> GuildRepeaters { get; set; } = [];
 
                 /// <summary>
                 /// Gets or sets the anti-raid settings for the guild.
@@ -761,17 +761,17 @@
                 /// <summary>
                 /// Gets or sets the unmute timers for the guild.
                 /// </summary>
-                public HashSet<UnmuteTimer> UnmuteTimers { get; set; } = new();
+                public HashSet<UnmuteTimer> UnmuteTimers { get; set; } = [];
 
                 /// <summary>
                 /// Gets or sets the unban timers for the guild.
                 /// </summary>
-                public HashSet<UnbanTimer> UnbanTimer { get; set; } = new();
+                public HashSet<UnbanTimer> UnbanTimer { get; set; } = [];
 
                 /// <summary>
                 /// Gets or sets the unrole timers for the guild.
                 /// </summary>
-                public HashSet<UnroleTimer> UnroleTimer { get; set; } = new();
+                public HashSet<UnroleTimer> UnroleTimer { get; set; } = [];
 
                 /// <summary>
                 /// Gets or sets the voice channel role information for the guild.
@@ -781,12 +781,12 @@
                 /// <summary>
                 /// Gets or sets the command aliases for the guild.
                 /// </summary>
-                public HashSet<CommandAlias> CommandAliases { get; set; } = new();
+                public HashSet<CommandAlias> CommandAliases { get; set; } = [];
 
                 /// <summary>
                 /// Gets or sets the warning punishments for the guild.
                 /// </summary>
-                public List<WarningPunishment> WarnPunishments { get; set; } = new();
+                public List<WarningPunishment> WarnPunishments { get; set; } = [];
 
                 /// <summary>
                 /// Gets or sets a value indicating whether warnings have been initialized.
@@ -796,7 +796,7 @@
                 /// <summary>
                 /// Gets or sets the NSFW blacklisted tags for the guild.
                 /// </summary>
-                public HashSet<NsfwBlacklitedTag> NsfwBlacklistedTags { get; set; } = new();
+                public HashSet<NsfwBlacklitedTag> NsfwBlacklistedTags { get; set; } = [];
 
                 /// <summary>
                 /// Gets or sets the game voice channel ID.
@@ -821,12 +821,12 @@
                 /// <summary>
                 /// Gets or sets the feed subscriptions for the guild.
                 /// </summary>
-                public List<FeedSub> FeedSubs { get; set; } = new();
+                public List<FeedSub> FeedSubs { get; set; } = [];
 
                 /// <summary>
                 /// Gets or sets the reaction role messages for the guild.
                 /// </summary>
-                public IndexedCollection<ReactionRoleMessage> ReactionRoleMessages { get; set; } = new();
+                public IndexedCollection<ReactionRoleMessage> ReactionRoleMessages { get; set; } = [];
 
                 /// <summary>
                 /// Gets or sets a value indicating whether to notify when the stream goes offline.

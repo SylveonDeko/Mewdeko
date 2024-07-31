@@ -204,7 +204,7 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         var usersToBan = users.Where(x => x.RoleIds.Contains(role.Id)).ToList();
         if (usersToBan.Count == 0)
         {
-            await ctx.Channel.SendErrorAsync(GetText("no_users_found"), Config).ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync(GetText("ban_in_role_no_users"), Config).ConfigureAwait(false);
             return;
         }
 
@@ -219,7 +219,7 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         {
             try
             {
-                await ctx.Guild.AddBanAsync(i, 0, reason ?? $"{ctx.User} | {ctx.User.Id} used baninrole")
+                await ctx.Guild.AddBanAsync(i, 0, reason ?? GetText("ban_in_role_default_reason", ctx.User, ctx.User.Id))
                     .ConfigureAwait(false);
             }
             catch
@@ -229,14 +229,14 @@ public partial class Administration(InteractiveService serv, BotConfigService co
         }
 
         if (failedUsers == 0)
-            await ctx.Channel.SendConfirmAsync(GetText("ban_in_role_done", usersToBan.Count, role.Mention))
+            await ctx.Channel.SendConfirmAsync(GetText("ban_in_role_success", usersToBan.Count, role.Mention))
                 .ConfigureAwait(false);
         else if (failedUsers == usersToBan.Count)
-            await ctx.Channel.SendErrorAsync(GetText("ban_in_role_fail", users.Count, role.Mention), Config)
+            await ctx.Channel.SendErrorAsync(GetText("ban_in_role_all_failed", users.Count, role.Mention), Config)
                 .ConfigureAwait(false);
         else
             await ctx.Channel
-                .SendConfirmAsync(GetText("ban_in_role_failed_some", usersToBan.Count - failedUsers, role.Mention,
+                .SendConfirmAsync(GetText("ban_in_role_partial_success", usersToBan.Count - failedUsers, role.Mention,
                     failedUsers)).ConfigureAwait(false);
     }
 
@@ -263,96 +263,93 @@ public partial class Administration(InteractiveService serv, BotConfigService co
     /// <example>.nameban name</example>
     /// <example>.nameban ^[a-z]{3,16}$</example>
     [Cmd, Aliases, UserPerm(GuildPermission.Administrator), BotPerm(GuildPermission.BanMembers)]
-    public async Task NameBan([Remainder] string name)
+   public async Task NameBan([Remainder] string name)
+{
+    var regex = new Regex(name, RegexOptions.Compiled, matchTimeout: TimeSpan.FromMilliseconds(200));
+    var users = await ctx.Guild.GetUsersAsync();
+    users = users.Where(x => regex.IsMatch(x.Username.ToLower())).ToList();
+    if (!users.Any())
     {
-        var regex = new Regex(name, RegexOptions.Compiled, matchTimeout: TimeSpan.FromMilliseconds(200));
-        var users = await ctx.Guild.GetUsersAsync();
-        users = users.Where(x => regex.IsMatch(x.Username.ToLower())).ToList();
-        if (!users.Any())
-        {
-            await ctx.Channel.SendErrorAsync($"{configService.Data.ErrorEmote} {GetText("no_users_found_nameban")}",
-                Config);
-            return;
-        }
-
-        await ctx.Channel.SendConfirmAsync(GetText("nameban_message_delete"));
-        var deleteString = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
-        if (deleteString == null)
-        {
-            await ctx.Channel.SendErrorAsync($"{configService.Data.ErrorEmote} {GetText("nameban_cancelled")}", Config);
-            return;
-        }
-
-        if (!int.TryParse(deleteString, out var _))
-        {
-            await ctx.Channel.SendErrorAsync($"{configService.Data.ErrorEmote} {GetText("invalid_input_number")}",
-                Config);
-            return;
-        }
-
-        var deleteCount = int.Parse(deleteString);
-        var components = new ComponentBuilder()
-            .WithButton(GetText("preview"), "previewbans")
-            .WithButton(GetText("execute"), "executeorder66", ButtonStyle.Success)
-            .WithButton(GetText("cancel"), "cancel", ButtonStyle.Danger);
-        var eb = new EmbedBuilder()
-            .WithDescription(GetText("preview_or_execute"))
-            .WithOkColor();
-        var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: components.Build());
-        var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
-        switch (input)
-        {
-            case "cancel":
-                await ctx.Channel.SendErrorAsync($"{configService.Data.ErrorEmote} {GetText("nameban_cancelled")}",
-                    Config);
-                break;
-            case "previewbans":
-                var paginator = new LazyPaginatorBuilder()
-                    .AddUser(ctx.User)
-                    .WithPageFactory(PageFactory)
-                    .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                    .WithMaxPageIndex(users.Count / 20)
-                    .WithDefaultCanceledPage()
-                    .WithDefaultEmotes()
-                    .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
-                await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
-                    .ConfigureAwait(false);
-
-                break;
-
-                async Task<PageBuilder> PageFactory(int page)
-                {
-                    await Task.CompletedTask.ConfigureAwait(false);
-                    return new PageBuilder().WithTitle(GetText("nameban_preview_count", users.Count, name.ToLower()))
-                        .WithDescription(string.Join("\n", users.Skip(page * 20).Take(20)));
-                }
-            case "executeorder66":
-                if (await PromptUserConfirmAsync(GetText("nameban_confirm", users.Count), ctx.User.Id))
-                {
-                    var failedUsers = 0;
-                    await SuccessLocalizedAsync("nameban_processing", users.Count);
-                    foreach (var i in users)
-                    {
-                        try
-                        {
-                            await ctx.Guild.AddBanAsync(i, deleteCount, options: new RequestOptions
-                            {
-                                AuditLogReason = GetText("mass_ban_requested_by", ctx.User)
-                            });
-                        }
-                        catch
-                        {
-                            failedUsers++;
-                        }
-                    }
-
-                    await ctx.Channel.SendConfirmAsync(
-                        $"{configService.Data.SuccessEmote} executed order 66 on {users.Count - failedUsers} users. Failed to ban {failedUsers} users (Probably due to bad role heirarchy).");
-                }
-
-                break;
-        }
+        await ctx.Channel.SendErrorAsync(GetText("nameban_no_users_found"), Config);
+        return;
     }
+
+    await ctx.Channel.SendConfirmAsync(GetText("nameban_message_delete"));
+    var deleteString = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id);
+    if (deleteString == null)
+    {
+        await ctx.Channel.SendErrorAsync(GetText("nameban_cancelled"), Config);
+        return;
+    }
+
+    if (!int.TryParse(deleteString, out var _))
+    {
+        await ctx.Channel.SendErrorAsync(GetText("invalid_input_number"), Config);
+        return;
+    }
+
+    var deleteCount = int.Parse(deleteString);
+    var components = new ComponentBuilder()
+        .WithButton(GetText("preview"), "previewbans")
+        .WithButton(GetText("execute"), "executeorder66", ButtonStyle.Success)
+        .WithButton(GetText("cancel"), "cancel", ButtonStyle.Danger);
+    var eb = new EmbedBuilder()
+        .WithDescription(GetText("preview_or_execute"))
+        .WithOkColor();
+    var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: components.Build());
+    var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
+    switch (input)
+    {
+        case "cancel":
+            await ctx.Channel.SendErrorAsync(GetText("nameban_cancelled"), Config);
+            break;
+        case "previewbans":
+            var paginator = new LazyPaginatorBuilder()
+                .AddUser(ctx.User)
+                .WithPageFactory(PageFactory)
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(users.Count / 20)
+                .WithDefaultCanceledPage()
+                .WithDefaultEmotes()
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
+            await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
+                .ConfigureAwait(false);
+
+            break;
+
+            async Task<PageBuilder> PageFactory(int page)
+            {
+                await Task.CompletedTask.ConfigureAwait(false);
+                return new PageBuilder().WithTitle(GetText("nameban_preview_count", users.Count, name.ToLower()))
+                    .WithDescription(string.Join("\n", users.Skip(page * 20).Take(20)));
+            }
+        case "executeorder66":
+            if (await PromptUserConfirmAsync(GetText("nameban_confirm", users.Count), ctx.User.Id))
+            {
+                var failedUsers = 0;
+                await SuccessLocalizedAsync("nameban_processing", users.Count);
+                foreach (var i in users)
+                {
+                    try
+                    {
+                        await ctx.Guild.AddBanAsync(i, deleteCount, options: new RequestOptions
+                        {
+                            AuditLogReason = GetText("mass_ban_requested_by", ctx.User)
+                        });
+                    }
+                    catch
+                    {
+                        failedUsers++;
+                    }
+                }
+
+                await ctx.Channel.SendConfirmAsync(GetText("nameban_success", users.Count - failedUsers, failedUsers));
+            }
+
+            break;
+    }
+}
+
 
     /// <summary>
     /// Allows you to ban users that have been in the server for a certain amount of time.
@@ -571,10 +568,10 @@ public partial class Administration(InteractiveService serv, BotConfigService co
             {
                 ctx.Guild.GetRole(await Service.GetMemberRole(ctx.Guild.Id));
                 var toprune = await ctx.Guild.PruneUsersAsync(time.Time.Days, true,
-                    includeRoleIds: new[]
-                    {
+                    includeRoleIds:
+                    [
                         await Service.GetMemberRole(ctx.Guild.Id)
-                    }).ConfigureAwait(false);
+                    ]).ConfigureAwait(false);
                 if (toprune == 0)
                 {
                     await ErrorLocalizedAsync("prune_no_members").ConfigureAwait(false);
@@ -593,10 +590,10 @@ public partial class Administration(InteractiveService serv, BotConfigService co
                 {
                     var msg = await ConfirmLocalizedAsync("pruning_members", toprune).ConfigureAwait(false);
                     await ctx.Guild.PruneUsersAsync(time.Time.Days,
-                        includeRoleIds: new[]
-                        {
+                        includeRoleIds:
+                        [
                             await Service.GetMemberRole(ctx.Guild.Id)
-                        });
+                        ]);
                     var ebi = new EmbedBuilder
                     {
                         Description = GetText("pruned_members", toprune), Color = Mewdeko.OkColor

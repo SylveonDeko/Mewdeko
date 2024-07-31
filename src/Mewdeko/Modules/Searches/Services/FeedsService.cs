@@ -302,7 +302,7 @@ public class FeedsService : INService
         ulong guildId)
         => SmartEmbed.TryParse(message, guildId, out var embed, out var content, out var components)
             ? Task.FromResult((embed, content, components))
-            : Task.FromResult<(Embed[], string, ComponentBuilder)>((Array.Empty<Embed>(), message, null));
+            : Task.FromResult<(Embed[], string, ComponentBuilder)>(([], message, null));
 
 
     /// <summary>

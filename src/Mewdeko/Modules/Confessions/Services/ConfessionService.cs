@@ -287,7 +287,7 @@ public static class ConfessionExtensions
     /// <returns>The list of role IDs that are blacklisted for confessions.</returns>
     public static List<ulong> GetConfessionBlacklists(this GuildConfig gc)
         => string.IsNullOrWhiteSpace(gc.ConfessionBlacklist)
-            ? new List<ulong>()
+            ? []
             : gc.ConfessionBlacklist.Split(' ').Select(ulong.Parse).ToList();
 
     /// <summary>

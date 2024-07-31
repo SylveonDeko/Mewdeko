@@ -37,7 +37,7 @@ public class SettingsServicePropAutoCompleter : AutocompleteHandler
         var firstOption = autocompleteInteraction.Data.Options.FirstOrDefault(x => x.Name == "name");
         var setting = settingServices.FirstOrDefault(x => x.Name == (string)firstOption.Value);
         if (setting is null)
-            return Task.FromResult(AutocompletionResult.FromSuccess(Enumerable.Empty<AutocompleteResult>()));
+            return Task.FromResult(AutocompletionResult.FromSuccess([]));
         {
             var propNames = GetPropsAndValuesString(setting, setting.GetSettableProps());
             var dict = setting.GetSettableProps().Zip(propNames).ToDictionary(x => x.First, x => x.Second);

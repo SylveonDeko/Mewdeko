@@ -89,7 +89,7 @@ public class CmdCdService(GuildSettingsService gss) : ILateBlocker, INService
         CommandCooldown cdRule;
         if ((cdRule = cmdcds.FirstOrDefault(cc => cc.CommandName == commandName)) == null)
             return false;
-        var activeCdsForGuild = ActiveCooldowns.GetOrAdd(guild.Id, new ConcurrentHashSet<ActiveCooldown>());
+        var activeCdsForGuild = ActiveCooldowns.GetOrAdd(guild.Id, []);
         if (activeCdsForGuild.FirstOrDefault(ac => ac.UserId == user.Id && ac.Command == commandName) != null)
             return true;
 

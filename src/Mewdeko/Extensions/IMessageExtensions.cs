@@ -42,7 +42,7 @@ namespace Mewdeko.Extensions
             {
                 var eb = new NewEmbed
                 {
-                    Embeds = new List<Embed>(), Components = new List<NewEmbed.NewEmbedComponent>()
+                    Embeds = [], Components = []
                 };
                 var embedList = new List<Embed>();
                 var componentList = new List<NewEmbed.NewEmbedComponent>();
@@ -53,7 +53,7 @@ namespace Mewdeko.Extensions
                         continue;
                     var e = new Embed
                     {
-                        Fields = new List<Field>()
+                        Fields = []
                     };
                     if (i.Title != null)
                         e.Title = i.Title;
@@ -143,7 +143,7 @@ namespace Mewdeko.Extensions
                                     IsSelect = true,
                                     DisplayName = select.Placeholder,
                                     Id = select.CustomId,
-                                    Options = new List<NewEmbed.NewEmbedSelectOption>()
+                                    Options = []
                                 };
 
                                 var optionList = select.Options.Select(option => new NewEmbed.NewEmbedSelectOption

@@ -36,7 +36,7 @@ public class HighlightAutocompleter : AutocompleteHandler
     {
         var content = (string)interaction.Data.Current.Value;
         var highlights = await cache.GetOrSetAsync<List<Database.Models.Highlights>>($"highlights_{context.Guild.Id}",
-            async _ => new List<Highlights>());
+            async _ => []);
 
         var results = highlights
             .Where(x => x.UserId == context.User.Id && x.GuildId == context.Guild.Id)

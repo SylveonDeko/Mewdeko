@@ -49,7 +49,7 @@ public class RoleStatesService : INService
         if (roleStateSettings.IgnoreBots && usr.IsBot) return;
 
         var deniedUsers = string.IsNullOrWhiteSpace(roleStateSettings.DeniedUsers)
-            ? new List<ulong>()
+            ? []
             : roleStateSettings.DeniedUsers.Split(',').Select(ulong.Parse).ToList();
 
         if (deniedUsers.Contains(usr.Id)) return;
@@ -85,11 +85,11 @@ public class RoleStatesService : INService
         if (roleStateSettings.IgnoreBots && args2.IsBot) return;
 
         var deniedRoles = string.IsNullOrWhiteSpace(roleStateSettings.DeniedRoles)
-            ? new List<ulong>()
+            ? []
             : roleStateSettings.DeniedRoles.Split(',').Select(ulong.Parse).ToList();
 
         var deniedUsers = string.IsNullOrWhiteSpace(roleStateSettings.DeniedUsers)
-            ? new List<ulong>()
+            ? []
             : roleStateSettings.DeniedUsers.Split(',').Select(ulong.Parse).ToList();
 
         if (deniedUsers.Contains(args2.Id)) return;

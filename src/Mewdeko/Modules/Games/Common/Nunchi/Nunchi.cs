@@ -52,7 +52,7 @@ public sealed class NunchiGame : IDisposable
     /// <summary>
     /// HashSet containing the participants who have already passed in the game.
     /// </summary>
-    private readonly HashSet<(ulong Id, string Name)> passed = new();
+    private readonly HashSet<(ulong Id, string Name)> passed = [];
 
     /// <summary>
     /// Timer to handle forcibly ending the game.
@@ -62,7 +62,7 @@ public sealed class NunchiGame : IDisposable
     /// <summary>
     /// HashSet containing the participants of the game.
     /// </summary>
-    private HashSet<(ulong Id, string Name)> participants = new();
+    private HashSet<(ulong Id, string Name)> participants = [];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="NunchiGame"/> class.
@@ -84,7 +84,7 @@ public sealed class NunchiGame : IDisposable
     /// <summary>
     /// Gets the participants of the game as an immutable array.
     /// </summary>
-    public ImmutableArray<(ulong Id, string Name)> Participants => participants.ToImmutableArray();
+    public ImmutableArray<(ulong Id, string Name)> Participants => [..participants];
 
     /// <summary>
     /// Gets the count of participants in the game.

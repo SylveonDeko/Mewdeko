@@ -295,10 +295,9 @@ public partial class ServerManagement(IHttpClientFactory factory, BotConfigServi
         {
             Description = $"{config.Data.LoadingEmote} Adding Emotes to {role.Mention}...", Color = Mewdeko.OkColor
         };
-        var list = new Optional<IEnumerable<IRole>>(new[]
-        {
+        var list = new Optional<IEnumerable<IRole>>([
             role
-        });
+        ]);
         var errored = new List<string>();
         var emotes = new List<string>();
         var tags = ctx.Message.Tags.Where(t => t.Type == TagType.Emoji).Select(x => (Emote)x.Value).Distinct();

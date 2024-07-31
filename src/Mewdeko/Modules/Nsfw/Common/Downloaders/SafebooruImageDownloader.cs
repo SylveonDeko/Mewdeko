@@ -29,7 +29,7 @@ namespace Mewdeko.Modules.Nsfw.Common.Downloaders
             using var http = Http.CreateClient();
             var images = await http.GetFromJsonAsync<List<SafebooruElement>>(uri, SerializerOptions, cancel);
             if (images is null)
-                return new();
+                return [];
 
             return images;
         }

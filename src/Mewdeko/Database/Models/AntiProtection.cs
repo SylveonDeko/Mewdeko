@@ -71,7 +71,7 @@ public class AntiSpamSetting : DbEntity
     /// <summary>
     /// Gets or sets the collection of ignored channels for anti-spam measures.
     /// </summary>
-    public HashSet<AntiSpamIgnore> IgnoredChannels { get; set; } = new();
+    public HashSet<AntiSpamIgnore> IgnoredChannels { get; set; } = [];
 }
 
 /// <summary>
@@ -108,7 +108,7 @@ public class AntiMassMentionSetting : DbEntity
     /// <summary>
     /// Gets or sets the collection of ignored channels for anti-mass mention measures.
     /// </summary>
-    public HashSet<AntiSpamIgnore> IgnoredChannels { get; set; } = new();
+    public HashSet<AntiSpamIgnore> IgnoredChannels { get; set; } = [];
 }
 
 /// <summary>

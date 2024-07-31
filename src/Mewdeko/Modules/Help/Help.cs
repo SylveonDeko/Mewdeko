@@ -62,7 +62,7 @@ public class Help(
                         BotVersion = StatsService.BotVersion,
                         CommandName = j.Aliases.Any() ? j.Aliases[0] : j.Name,
                         Description = j.RealSummary(strings, ctx.Guild.Id, prefix),
-                        Example = j.RealRemarksArr(strings, ctx.Guild.Id, prefix).ToList() ?? new List<string>(),
+                        Example = j.RealRemarksArr(strings, ctx.Guild.Id, prefix).ToList() ?? [],
                         GuildUserPermissions =
                             userPerm?.UserPermissionAttribute.GuildPermission != null
                                 ? userPerm.UserPermissionAttribute.GuildPermission.ToString()
