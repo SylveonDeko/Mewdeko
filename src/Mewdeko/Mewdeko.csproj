@@ -27,13 +27,13 @@
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.2-dev-00341" />
     <PackageReference Include="ZiggyCreatures.FusionCache" Version="1.2.0" />
   </ItemGroup>
-  
+
 
     <ItemGroup>
       <PackageReference Include="AngleSharp" Version="1.2.0-beta.423" />
       <PackageReference Include="Anilist4Net" Version="1.5.0"/>
       <PackageReference Include="AWSSDK.S3" Version="3.7.309.4" />
-        <PackageReference Include="CodeHollow.FeedReader" Version="1.2.6" />
+      <PackageReference Include="CodeHollow.FeedReader" Version="1.2.6" />
       <PackageReference Include="CommandLineParser" Version="2.9.1"/>
       <PackageReference Include="CoreCLR-NCalc" Version="3.1.251" />
       <PackageReference Include="DiscordBotsList.Api.Adapter.Discord.Net" Version="1.4.5"/>
@@ -63,6 +63,8 @@
       <PackageReference Include="MathNet.Numerics" Version="6.0.0-beta1"/>
       <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0-2.final" />
       <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.11.0-2.final" />
+      <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.11.0-2.final"/>
+      <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.11.0-2.final          "/>
       <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.11.0-2.final" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
