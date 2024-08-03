@@ -10,7 +10,7 @@ namespace Mewdeko.Controllers;
 /// </summary>
 /// <param name="service"></param>
 [ApiController]
-[Route("api/[controller]/{guildId}")]
+[Route("botapi/[controller]/{guildId}")]
 public class GuildConfigController(GuildSettingsService service) : Controller
 {
     /// <summary>

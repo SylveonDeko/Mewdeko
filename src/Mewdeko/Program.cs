@@ -45,10 +45,6 @@ public class Program
     /// <returns>A <see cref="Task" /> representing the asynchronous operation of running the application.</returns>
     public static async Task Main(string[] args)
     {
-        var settings = new HostApplicationBuilderSettings
-        {
-            ApplicationName = "Mewdeko"
-        };
         var builder = WebApplication.CreateBuilder();
         var services = builder.Services;
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
@@ -164,11 +160,18 @@ public class Program
 
         services.AddSingleton<Mewdeko>()
             .AddHostedService<MewdekoService>();
-        services.AddControllers();
+        services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+            });;
         services.AddEndpointsApiExplorer();
-        services.AddAuthorization();
         services.AddSwaggerGen();
-        services.AddTransient<IApiKeyValidation, ApiKeyValidation>();
+        if (!credentials.SkipApiKey)
+        {
+            services.AddTransient<IApiKeyValidation, ApiKeyValidation>();
+            services.AddAuthorization();
+        }
 
         builder.WebHost.UseUrls($"http://localhost:{credentials.ApiPortHttp}");
 
@@ -191,13 +194,13 @@ public class Program
 
         app.MapControllers();
 
-        // app.Use(async (context, next) =>
-        // {
-        //     var logger = context.RequestServices.GetRequiredService<ILogger<Mewdeko>>();
-        //     logger.LogInformation($"Request received: {context.Request.Method} {context.Request.Path}");
-        //     logger.LogInformation($"Request body: {await new StreamReader(context.Request.Body).ReadToEndAsync()}");
-        //     await next();
-        // });
+        app.Use(async (context, next) =>
+        {
+            var logger = context.RequestServices.GetRequiredService<ILogger<Mewdeko>>();
+            logger.LogInformation($"Request received: {context.Request.Method} {context.Request.Path}");
+            logger.LogInformation($"Request body: {await new StreamReader(context.Request.Body).ReadToEndAsync()}");
+            await next();
+        });
 
         foreach (var address in app.Urls)
         {

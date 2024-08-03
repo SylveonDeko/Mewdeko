@@ -7,7 +7,7 @@ namespace Mewdeko.Controllers;
 /// Api endpoint to for chat triggers for guilds
 /// </summary>
 [ApiController]
-[Route("api/[controller]/{guildId}")]
+[Route("botapi/[controller]/{guildId}")]
 public class ChatTriggersController(ChatTriggersService service) : Controller
 {
 

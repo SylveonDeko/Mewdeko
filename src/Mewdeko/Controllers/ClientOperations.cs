@@ -8,7 +8,7 @@
     /// Api endpoint for operations done via the discord client, such as getting roles, users, guilds
     /// </summary>
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("botapi/[controller]")]
     public class ClientOperations(DiscordShardedClient client) : Controller
     {
 

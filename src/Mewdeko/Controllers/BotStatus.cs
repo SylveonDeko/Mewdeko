@@ -11,7 +11,7 @@ namespace Mewdeko.Controllers;
 /// Endpoint for getting status such as guild count, bot version, etc
 /// </summary>
 [ApiController]
-[Route("api/[controller]")]
+[Route("botapi/[controller]")]
 public class BotStatus(DiscordShardedClient client, StatsService statsService, CommandService commandService) : Controller
 {
     /// <summary>

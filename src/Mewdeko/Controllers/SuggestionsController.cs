@@ -9,7 +9,7 @@ namespace Mewdeko.Controllers;
 /// </summary>
 /// <param name="service"></param>
 [ApiController]
-[Route("api/[controller]/{guildId}")]
+[Route("botapi/[controller]/{guildId}")]
 public class SuggestionsController(
     SuggestionsService service,
     DbContextProvider provider,
