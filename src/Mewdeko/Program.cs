@@ -194,13 +194,13 @@ public class Program
 
         app.MapControllers();
 
-        app.Use(async (context, next) =>
-        {
-            var logger = context.RequestServices.GetRequiredService<ILogger<Mewdeko>>();
-            logger.LogInformation($"Request received: {context.Request.Method} {context.Request.Path}");
-            logger.LogInformation($"Request body: {await new StreamReader(context.Request.Body).ReadToEndAsync()}");
-            await next();
-        });
+        // app.Use(async (context, next) =>
+        // {
+        //     var logger = context.RequestServices.GetRequiredService<ILogger<Mewdeko>>();
+        //     logger.LogInformation($"Request received: {context.Request.Method} {context.Request.Path}");
+        //     logger.LogInformation($"Request body: {await new StreamReader(context.Request.Body).ReadToEndAsync()}");
+        //     await next();
+        // });
 
         foreach (var address in app.Urls)
         {
