@@ -38,8 +38,8 @@ public class PermissionsController(PermissionService permissionService, DiscordP
         if (!com.IsSuccess)
             return BadRequest(com);
         var perms = (GuildPermission)request.Permissions;
-        await dpoService.AddOverride(guildId, request.Command, perms);
-        return Ok(dpoService);
+        var over = await dpoService.AddOverride(guildId, request.Command, perms);
+        return Ok(over);
     }
 
     /// <summary>
@@ -48,8 +48,8 @@ public class PermissionsController(PermissionService permissionService, DiscordP
     /// <param name="guildId"></param>
     /// <param name="commandName"></param>
     /// <returns></returns>
-    [HttpDelete("dpo/{guildId}/{commandName}")]
-    public async Task<IActionResult> RemoveDpo(ulong guildId, string commandName)
+    [HttpDelete("dpo/{guildId}")]
+    public async Task<IActionResult> RemoveDpo(ulong guildId, [FromBody] string commandName)
     {
         var com = cmdServ.Search(commandName);
         if (!com.IsSuccess)
@@ -68,17 +68,6 @@ public class PermissionsController(PermissionService permissionService, DiscordP
     {
         var perms = await permissionService.GetCacheFor(guildId);
         return Ok(perms);
-    }
-
-    /// <summary>
-    /// E
-    /// </summary>
-    public class Stupidity
-    {
-        /// <summary>
-        /// E
-        /// </summary>
-        public string Command { get; set; }
     }
 
     /// <summary>

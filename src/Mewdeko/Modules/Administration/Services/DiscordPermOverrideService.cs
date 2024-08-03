@@ -145,7 +145,7 @@ public class DiscordPermOverrideService : INService, ILateBlocker
     /// <param name="commandName">The name of the command.</param>
     /// <param name="perm">The permission to override with.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task AddOverride(ulong guildId, string commandName, GuildPermission perm)
+    public async Task<DiscordPermOverride> AddOverride(ulong guildId, string commandName, GuildPermission perm)
     {
         commandName = commandName.ToLowerInvariant();
 
@@ -170,6 +170,7 @@ public class DiscordPermOverrideService : INService, ILateBlocker
         overrides[(guildId, commandName)] = over;
 
         await dbContext.SaveChangesAsync().ConfigureAwait(false);
+        return over;
     }
 
     /// <summary>
