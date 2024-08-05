@@ -341,6 +341,8 @@ public partial class Giveaways(
         //string blacklistusers;
         IUser host;
         TimeSpan time;
+        bool useCaptcha = false;
+        bool useButton = false;
         var erorrembed = new EmbedBuilder()
             .WithErrorColor()
             .WithDescription("Either something went wrong or you input a value incorrectly! Please start over.")
@@ -534,6 +536,31 @@ public partial class Giveaways(
             }
         }
 
+        if (await PromptUserConfirmAsync(msg, new EmbedBuilder().WithDescription("Would you like to use a button?").WithOkColor(), ctx.User.Id).ConfigureAwait(false))
+        {
+            var buttons = new ComponentBuilder().WithButton("Regular", customId:"regular")
+                .WithButton("Captcha", customId:"captcha").Build();
+
+            await msg.ModifyAsync(x =>
+            {
+                x.Components = buttons;
+                x.Embed = eb.WithDescription("Would you like to use en external website captcha or a regular button?")
+                    .WithOkColor().Build();
+            });
+
+            var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id).ConfigureAwait(false);
+
+            switch (input)
+            {
+                case "regular":
+                    useButton = true;
+                    break;
+                case "captcha":
+                    useCaptcha = true;
+                    break;
+            }
+        }
+
         if (!await PromptUserConfirmAsync(msg,
                 new EmbedBuilder().WithDescription("Would you like to setup role requirements?").WithOkColor(),
                 ctx.User.Id).ConfigureAwait(false))
@@ -566,7 +593,7 @@ public partial class Giveaways(
         var reqroles = string.Join(" ", parsed.Select(x => x.Id));
         await msg.DeleteAsync().ConfigureAwait(false);
         await Service.GiveawaysInternal(chan, time, prize, winners, host.Id, ctx.Guild.Id, ctx.Channel as ITextChannel,
-            ctx.Guild, reqroles, pingROle: pingrole, banner: banner).ConfigureAwait(false);
+            ctx.Guild, reqroles, pingROle: pingrole, banner: banner, useButton: useButton, useCaptcha: useCaptcha).ConfigureAwait(false);
     }
 
     /// <summary>

@@ -18,6 +18,22 @@ namespace Mewdeko.Modules.Giveaways;
 public class SlashGiveaways(DbContextProvider dbProvider, InteractiveService interactiveService, GuildSettingsService guildSettings)
     : MewdekoSlashModuleBase<GiveawayService>
 {
+
+    /// <summary>
+    /// Enters a giveaway via a button
+    /// </summary>
+    /// <param name="giveawayId">The giveaway id</param>
+    [ComponentInteraction("entergiveaway:*", true)]
+    public async Task EnterGiveaway(int giveawayId)
+    {
+        var (successful, reason) = await Service.AddUserToGiveaway(ctx.User.Id, giveawayId);
+        if (!successful)
+        {
+            await ctx.Interaction.SendEphemeralErrorAsync(GetText("giveaway_entry_failed", reason), Config);
+        }
+        await ctx.Interaction.SendEphemeralConfirmAsync(GetText("giveaway_entry_successful"));
+    }
+
     /// <summary>
     /// Sets the giveaway emote
     /// </summary>
@@ -234,10 +250,15 @@ public class SlashGiveaways(DbContextProvider dbProvider, InteractiveService int
     /// <param name="host">The host of the giveaway</param>
     [SlashCommand("start", "Start a giveaway!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
     public async Task GStart(ITextChannel chan, TimeSpan time, int winners, string what, IRole pingRole = null,
-        IAttachment attachment = null, IUser host = null)
+        IAttachment attachment = null, IUser host = null, bool useButton = false, bool useCaptcha = false)
     {
         host ??= ctx.User;
         await ctx.Interaction.DeferAsync().ConfigureAwait(false);
+        if (useButton && useCaptcha)
+        {
+            await ReplyAsync("<:Bruh:1269875636793638965>");
+            return;
+        }
         var emote = (await Service.GetGiveawayEmote(ctx.Guild.Id)).ToIEmote();
         try
         {
@@ -269,8 +290,9 @@ public class SlashGiveaways(DbContextProvider dbProvider, InteractiveService int
             return;
         }
 
+
         await Service.GiveawaysInternal(chan, time, what, winners, host.Id, ctx.Guild.Id,
-            ctx.Channel as ITextChannel, ctx.Guild, banner: attachment?.Url, pingROle: pingRole).ConfigureAwait(false);
+            ctx.Channel as ITextChannel, ctx.Guild, banner: attachment?.Url, pingROle: pingRole, useButton: useButton, useCaptcha: useCaptcha).ConfigureAwait(false);
     }
 
     /// <summary>

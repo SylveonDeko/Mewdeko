@@ -106,6 +106,11 @@ public class BotCredentials : IBotCredentials
     public string? ApiKey { get; set; } = "";
 
     /// <summary>
+    /// Used for turnstile captcha on the dashboard for giveaways, may be used for other stuff, who knows
+    /// </summary>
+    public string TurnstileKey { get; set; } = "";
+
+    /// <summary>
     /// Gets or sets the URL for votes.
     /// </summary>
     public string VotesUrl { get; set; }
@@ -251,6 +256,11 @@ public class BotCredentials : IBotCredentials
     public string ChatSavePath { get; set; }
 
     /// <summary>
+    /// The url used for giveaway captchas
+    /// </summary>
+    public string GiveawayEntryUrl { get; set; }
+
+    /// <summary>
     /// Gets or sets the Twitch client ID.
     /// </summary>
     public string TwitchClientId { get; set; }
@@ -334,6 +344,8 @@ public class BotCredentials : IBotCredentials
             }
 
             OwnerIds = [..data.GetSection("OwnerIds").GetChildren().Select(c => ulong.Parse(c.Value))];
+            TurnstileKey = data[nameof(TurnstileKey)];
+            GiveawayEntryUrl = data[nameof(GiveawayEntryUrl)];
             GoogleApiKey = data[nameof(GoogleApiKey)];
             PsqlConnectionString = data[nameof(PsqlConnectionString)];
             CsrfToken = data[nameof(CsrfToken)];
@@ -454,6 +466,8 @@ public class BotCredentials : IBotCredentials
 
         public string ShardRunCommand { get; } = "";
         public string ShardRunArguments { get; } = "";
+        public string TurnstileKey { get; } = "";
+        public string GiveawayEntryUrl { get; } = "";
 
         public string BotListToken { get; set; }
         public string VotesUrl { get; set; }

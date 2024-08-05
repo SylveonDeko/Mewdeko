@@ -93,6 +93,7 @@ public class Program
             .AddSingleton<INsfwSpy, NsfwSpy>()
             .AddSingleton<FontProvider>()
             .AddSingleton<IBotCredentials>(credentials)
+            .AddDbContext<MewdekoPostgresContext>()
             .AddPooledDbContextFactory<MewdekoContext>(dbContextOptionsBuilder => dbContextOptionsBuilder
                 .UseNpgsql(credentials.PsqlConnectionString,
                     x => x.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))

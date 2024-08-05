@@ -67,5 +67,16 @@ namespace Mewdeko.Database.Models
         /// </summary>
         [DefaultValue("<a:HaneMeow:914307922287276052")]
         public string? Emote { get; set; } = "<a:HaneMeow:914307922287276052>";
+
+        /// <summary>
+        /// Whether this givewaway uses a button to enter
+        /// </summary>
+        public bool UseButton { get; set; }
+
+        /// <summary>
+        /// Whether this giveaway uses web captcha to enter
+        /// </summary>
+        public bool UseCaptcha { get; set; }
+
     }
 }
