@@ -82,7 +82,6 @@ public class Program
         });
         builder.Logging.ClearProviders();
         builder.Logging.AddSerilog(log);
-        builder.Logging.AddDebug();
         services.AddSingleton(client);
 
         services.AddSingleton(credentials);

@@ -19,8 +19,10 @@ public static class LogSetup
     {
         var logger = Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+            .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", Serilog.Events.LogEventLevel.Warning)
             .MinimumLevel.Override("System", LogEventLevel.Information)
             .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Verbose)
+            .MinimumLevel.Override("EntityFramework", LogEventLevel.Information)
             .Enrich.FromLogContext()
             .WriteTo.Console(LogEventLevel.Information,
                 theme: AnsiConsoleTheme.Code,
