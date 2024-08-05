@@ -37,6 +37,8 @@
   "rps_embed_explanation": "Explanation",
   "rps_embed_profit": "Profit",
   "rps_tie": "It's a tie!",
+  "giveaway_entry_failed": "Giveaway entry failed:\n{0}",
+  "giveaway_entry_successful": "Giveaway entry successful!",
   "rps_scissors_paper": "Scissors cuts Paper",
   "rps_paper_rock": "Paper covers Rock",
   "rps_rock_lizard": "Rock crushes Lizard",
