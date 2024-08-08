@@ -1,5 +1,4 @@
-﻿using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Database.DbContextStuff;
+﻿using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Services.Settings;
 using Serilog;
 

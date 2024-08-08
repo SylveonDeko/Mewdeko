@@ -1,6 +1,7 @@
 using Discord.Commands;
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Permissions.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mewdeko.Controllers;
@@ -10,6 +11,7 @@ namespace Mewdeko.Controllers;
 /// </summary>
 [ApiController]
 [Route("botapi/[controller]")]
+[Authorize]
 public class PermissionsController(PermissionService permissionService, DiscordPermOverrideService dpoService, CommandService cmdServ) : Controller
 {
     /// <summary>

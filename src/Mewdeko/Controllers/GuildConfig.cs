@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
@@ -11,6 +11,7 @@ namespace Mewdeko.Controllers;
 /// <param name="service"></param>
 [ApiController]
 [Route("botapi/[controller]/{guildId}")]
+[Authorize]
 public class GuildConfigController(GuildSettingsService service) : Controller
 {
     /// <summary>

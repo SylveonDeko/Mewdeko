@@ -1,5 +1,4 @@
-﻿using Mewdeko.Database.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Database.Extensions;
 

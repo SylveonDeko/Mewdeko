@@ -1,6 +1,5 @@
 using System.Threading;
 using Discord.Commands;
-using LinqToDB;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Database.DbContextStuff;

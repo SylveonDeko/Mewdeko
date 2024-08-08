@@ -1,5 +1,4 @@
 using Discord.Interactions;
-using Mewdeko.Common.Attributes.InteractionCommands;
 using NekosBestApiNet;
 using NekosBestApiNet.Models.Images;
 

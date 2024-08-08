@@ -1,6 +1,5 @@
 ﻿using Mewdeko.Services.Impl;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 
 namespace Mewdeko.Database
 {

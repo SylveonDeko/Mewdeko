@@ -1,5 +1,6 @@
 using Mewdeko.Modules.OwnerOnly.Services;
 using Mewdeko.Services.Impl;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mewdeko.Controllers;
@@ -8,6 +9,7 @@ namespace Mewdeko.Controllers;
 /// Controller for managing botwide configs
 /// </summary>
 [Route("[controller]")]
+[Authorize]
 public class BotConfigController(BotCredentials creds, OwnerOnlyService service) : Controller
 {
     /// <summary>

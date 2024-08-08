@@ -1,10 +1,7 @@
 using System.Net.Http;
 using System.Text.Json;
 using Discord.Rest;
-using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database.DbContextStuff;
-using Microsoft.EntityFrameworkCore;
-using Serilog;
 
 namespace Mewdeko.Modules.Moderation.Services;
 

@@ -1,9 +1,7 @@
 ﻿#nullable enable
-using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using Discord.Commands;
@@ -13,7 +11,6 @@ using Mewdeko.Common.Configs;
 using Mewdeko.Common.TypeReaders;
 using Mewdeko.Services.strings;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog;
 using SkiaSharp;
 using ModuleInfo = Discord.Commands.ModuleInfo;
 using TypeReader = Discord.Commands.TypeReader;

@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using Mewdeko.Common.ModuleBehaviors;
+﻿using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Utility.Common;
 using Microsoft.EntityFrameworkCore;

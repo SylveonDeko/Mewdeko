@@ -1,9 +1,7 @@
-﻿using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Database.DbContextStuff;
+﻿using Mewdeko.Database.DbContextStuff;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using ZiggyCreatures.Caching.Fusion;
-using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.StatusRoles.Services;
 

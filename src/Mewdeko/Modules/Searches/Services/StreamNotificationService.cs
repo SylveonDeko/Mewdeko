@@ -10,7 +10,6 @@ using Mewdeko.Modules.Searches.Common.StreamNotifications.Models;
 using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using StackExchange.Redis;
 
 namespace Mewdeko.Modules.Searches.Services;
 

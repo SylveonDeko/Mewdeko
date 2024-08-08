@@ -2,7 +2,6 @@
 using Mewdeko.Common.PubSub;
 using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Moderation.Services;
-using Mewdeko.Votes.Common;
 
 namespace Mewdeko.Modules.Votes.Services;
 
@@ -28,11 +27,13 @@ public class VoteService : INService
         this.dbProvider = dbProvider;
         this.client = client;
         this.muteService = muteService;
-        var typedKey = new TypedKey<CompoundVoteModal>("uservoted");
-        pubSub.Sub(typedKey, RunVoteStuff);
     }
 
-    private async ValueTask RunVoteStuff(CompoundVoteModal voteModal)
+    /// <summary>
+    /// Vote password and data handler
+    /// </summary>
+    /// <param name="voteModal">The data the api returns</param>
+    public async ValueTask RunVoteStuff(CompoundVoteModal voteModal)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
 

@@ -1,5 +1,6 @@
 ﻿using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Suggestions.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mewdeko.Controllers;
@@ -10,6 +11,7 @@ namespace Mewdeko.Controllers;
 /// <param name="service"></param>
 [ApiController]
 [Route("botapi/[controller]/{guildId}")]
+[Authorize]
 public class SuggestionsController(
     SuggestionsService service,
     DbContextProvider provider,

@@ -3,6 +3,7 @@ using System.Reflection;
 using Discord.Commands;
 using Mewdeko.Common.Attributes.ASPNET;
 using Mewdeko.Services.Impl;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mewdeko.Controllers;
@@ -12,6 +13,7 @@ namespace Mewdeko.Controllers;
 /// </summary>
 [ApiController]
 [Route("botapi/[controller]")]
+[Authorize]
 public class BotStatus(DiscordShardedClient client, StatsService statsService, CommandService commandService) : Controller
 {
     /// <summary>

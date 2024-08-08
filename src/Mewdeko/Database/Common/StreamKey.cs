@@ -1,6 +1,4 @@
-﻿using Mewdeko.Database.Models;
-
-namespace Mewdeko.Database.Common;
+﻿namespace Mewdeko.Database.Common;
 
 /// <summary>
 /// Represents a key for stream data, combining a stream type and name.

@@ -1,5 +1,4 @@
 ﻿#nullable enable
-using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -8,12 +7,8 @@ using LinqToDB.Data;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Database.Common;
 using Mewdeko.Database.DbContextStuff;
-using Mewdeko.Database.Extensions;
-using Mewdeko.Database.Models;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Serilog;
 

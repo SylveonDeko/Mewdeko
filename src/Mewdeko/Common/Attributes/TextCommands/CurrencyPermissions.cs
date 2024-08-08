@@ -2,7 +2,6 @@
 using Mewdeko.Modules.Administration.Services;
 using Mewdeko.Modules.Currency.Services;
 using Mewdeko.Modules.Currency.Services.Impl;
-using Mewdeko.Services.Impl;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Mewdeko.Common.Attributes.TextCommands;

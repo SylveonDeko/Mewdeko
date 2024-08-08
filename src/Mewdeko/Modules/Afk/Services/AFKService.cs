@@ -7,7 +7,6 @@ using Mewdeko.Services.Settings;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using ZiggyCreatures.Caching.Fusion;
-using System.Timers;
 using Mewdeko.Database.DbContextStuff;
 using Timer = System.Threading.Timer;
 

@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Threading;
 using Discord.Commands;
 using Humanizer;
-using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Utility.Services;
 using Serilog;
 using Swan.Formatters;

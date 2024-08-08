@@ -1,4 +1,3 @@
-using System.IO;
 using System.Net.Http;
 using Discord.Commands;
 using Discord.Interactions;
@@ -6,17 +5,19 @@ using Fergun.Interactive;
 using Lavalink4NET.Extensions;
 using MartineApiNet;
 using Mewdeko.Api.Services;
+using Mewdeko.AuthHandlers;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Common.PubSub;
 using Mewdeko.Database.DbContextStuff;
-using Mewdeko.Middleware;
 using Mewdeko.Modules.Currency.Services;
 using Mewdeko.Modules.Currency.Services.Impl;
 using Mewdeko.Modules.Nsfw;
 using Mewdeko.Modules.Searches.Services;
 using Mewdeko.Services.Impl;
 using Mewdeko.Services.Settings;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -164,7 +165,8 @@ public class Program
             .AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-            });;
+            });
+        ;
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         if (!credentials.SkipApiKey)
@@ -175,6 +177,31 @@ public class Program
 
         builder.WebHost.UseUrls($"http://localhost:{credentials.ApiPortHttp}");
 
+        var auth = services.AddAuthentication(options =>
+        {
+            options.DefaultScheme = credentials.SkipApiKey ? "Default" : "ApiKey";
+            options.AddScheme<AuthHandler>(AuthHandler.SchemeName, AuthHandler.SchemeName);
+        });
+
+        if (!credentials.SkipApiKey)
+            auth.AddScheme<AuthenticationSchemeOptions, ApiKeyAuthHandler>("ApiKey", null);
+
+        services.AddAuthorization(options =>
+        {
+            if (!credentials.SkipApiKey)
+            {
+                options.DefaultPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .AddAuthenticationSchemes("ApiKey")
+                    .Build();
+
+                options.AddPolicy("ApiKeyPolicy", policy =>
+                    policy.RequireAuthenticatedUser().AddAuthenticationSchemes("ApiKey"));
+            }
+
+            options.AddPolicy("TopggPolicy", policy =>
+                policy.RequireClaim(AuthHandler.TopggClaim).AddAuthenticationSchemes(AuthHandler.SchemeName));
+        });
 
         var app = builder.Build();
 
@@ -183,11 +210,6 @@ public class Program
         {
             app.UseSwagger();
             app.UseSwaggerUI();
-        }
-
-        if (!credentials.SkipApiKey)
-        {
-            app.UseMiddleware<ApiKeyMiddleware>();
         }
 
         app.UseAuthorization();

@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Services.Settings;
 using Microsoft.EntityFrameworkCore;

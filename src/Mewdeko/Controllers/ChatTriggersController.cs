@@ -1,4 +1,5 @@
 using Mewdeko.Modules.Chat_Triggers.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mewdeko.Controllers;
@@ -8,6 +9,7 @@ namespace Mewdeko.Controllers;
 /// </summary>
 [ApiController]
 [Route("botapi/[controller]/{guildId}")]
+[Authorize]
 public class ChatTriggersController(ChatTriggersService service) : Controller
 {
 

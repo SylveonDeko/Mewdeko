@@ -22,7 +22,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
-using Octokit;
 using Serilog;
 using ContextType = Discord.Interactions.ContextType;
 

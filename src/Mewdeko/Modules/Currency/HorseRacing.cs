@@ -1,8 +1,6 @@
-using Discord;
 using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Currency.Services;
-using System.Threading.Tasks;
 using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.Currency;

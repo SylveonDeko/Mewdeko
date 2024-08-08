@@ -1,6 +1,4 @@
-﻿using Discord;
-
-namespace Mewdeko.Database.Models;
+﻿namespace Mewdeko.Database.Models;
 
 /// <summary>
 /// Represents an override for Discord permissions.

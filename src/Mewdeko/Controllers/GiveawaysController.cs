@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Mewdeko.Modules.Giveaways.Services;
 using Mewdeko.Services.Impl;
+using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 
 namespace Mewdeko.Controllers;
@@ -10,6 +10,7 @@ namespace Mewdeko.Controllers;
 /// <inheritdoc />
 [ApiController]
 [Route("botapi/[controller]")]
+[Authorize]
 public class GiveawaysController(GiveawayService service, BotCredentials creds, HttpClient client) : Controller
 {
 

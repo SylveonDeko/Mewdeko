@@ -1,6 +1,5 @@
 ﻿using Discord.Commands;
 using Discord.Interactions;
-using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.Configs;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database.DbContextStuff;

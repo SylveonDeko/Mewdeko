@@ -1,6 +1,7 @@
 ﻿using Mewdeko.Common.TypeReaders.Models;
 using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Afk.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,7 @@ namespace Mewdeko.Controllers;
 /// <param name="afk">The afk service</param>
 [ApiController]
 [Route("botapi/[controller]/{guildId}")]
+[Authorize]
 public class AfkController(AfkService afk, DiscordShardedClient client, DbContextProvider provider) : Controller
 {
     /// <summary>

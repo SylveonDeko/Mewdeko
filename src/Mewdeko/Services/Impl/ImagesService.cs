@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Net.Http;
 using Mewdeko.Common.ModuleBehaviors;
-using Mewdeko.Common.Yml;
 using Serilog;
 using ZiggyCreatures.Caching.Fusion;
 

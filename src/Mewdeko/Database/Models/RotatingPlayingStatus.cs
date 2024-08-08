@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Discord;
 
 namespace Mewdeko.Database.Models
 {

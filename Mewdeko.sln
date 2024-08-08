@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mewdeko", "src\Mewdeko\Mewd
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mewdeko.Tests", "src\Mewdeko.Tests\Mewdeko.Tests.csproj", "{701E5E12-E25C-42B3-AD19-06658B96EFEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mewdeko.Votes", "src\Mewdeko.Votes\Mewdeko.Votes.csproj", "{F5F920A7-57FD-4CE0-B0E8-695F90F7890D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{701E5E12-E25C-42B3-AD19-06658B96EFEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{701E5E12-E25C-42B3-AD19-06658B96EFEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{701E5E12-E25C-42B3-AD19-06658B96EFEE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F5F920A7-57FD-4CE0-B0E8-695F90F7890D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F5F920A7-57FD-4CE0-B0E8-695F90F7890D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F5F920A7-57FD-4CE0-B0E8-695F90F7890D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F5F920A7-57FD-4CE0-B0E8-695F90F7890D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
