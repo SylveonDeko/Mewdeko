@@ -42,17 +42,17 @@ jobs:
         run: |
           echo "prev_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo '')" >> $GITHUB_ENV
 
-      - name: Get commit messages
+      - name: Get commit messages with links
         id: commit_messages
         run: |
           if [ -z "${{ env.prev_tag }}" ]; then
             echo 'messages<<EOF' >> $GITHUB_ENV
-            git log -1 --pretty=format:'* %s' >> $GITHUB_ENV
+            git log -1 --pretty=format:"* [%h](https://github.com/${{ github.repository }}/commit/%H) %s" >> $GITHUB_ENV
             echo '' >> $GITHUB_ENV
             echo 'EOF' >> $GITHUB_ENV
           else
             echo 'messages<<EOF' >> $GITHUB_ENV
-            git log --pretty=format:'* %s' ${{ env.prev_tag }}..HEAD >> $GITHUB_ENV
+            git log --pretty=format:"* [%h](https://github.com/${{ github.repository }}/commit/%H) %s" ${{ env.prev_tag }}..HEAD >> $GITHUB_ENV
             echo '' >> $GITHUB_ENV
             echo 'EOF' >> $GITHUB_ENV
           fi
