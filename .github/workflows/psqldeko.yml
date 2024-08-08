@@ -9,7 +9,7 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # This ensures all history is fetched
 
@@ -46,13 +46,15 @@ jobs:
         id: commit_messages
         run: |
           if [ -z "${{ env.prev_tag }}" ]; then
-            echo "messages<<EOF" >> $GITHUB_ENV
-            git log --pretty=format:'* %s' >> $GITHUB_ENV
-            echo "EOF" >> $GITHUB_ENV
+            echo 'messages<<EOF' >> $GITHUB_ENV
+            git log -1 --pretty=format:'* %s' >> $GITHUB_ENV
+            echo '' >> $GITHUB_ENV
+            echo 'EOF' >> $GITHUB_ENV
           else
-            echo "messages<<EOF" >> $GITHUB_ENV
+            echo 'messages<<EOF' >> $GITHUB_ENV
             git log --pretty=format:'* %s' ${{ env.prev_tag }}..HEAD >> $GITHUB_ENV
-            echo "EOF" >> $GITHUB_ENV
+            echo '' >> $GITHUB_ENV
+            echo 'EOF' >> $GITHUB_ENV
           fi
 
       - name: Create Release
