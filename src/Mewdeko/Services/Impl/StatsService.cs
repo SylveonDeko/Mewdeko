@@ -145,10 +145,9 @@ namespace Mewdeko.Services.Impl
                     .PostAsync(new Uri($"https://top.gg/api/bots/{client.CurrentUser.Id}/stats"), content)
                     .ConfigureAwait(false);
 
-                if (!response.IsSuccessStatusCode)
-                {
-                    Log.Error("Failed to post stats to Top.gg");
-                }
+                if (response.IsSuccessStatusCode) continue;
+                Log.Error("Failed to post stats to Top.gg");
+                return;
             }
         }
 
