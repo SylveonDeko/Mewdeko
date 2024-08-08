@@ -11,7 +11,7 @@ namespace Mewdeko.Controllers;
 /// </summary>
 [ApiController]
 [Route("botapi/[controller]")]
-[Authorize]
+[Authorize("ApiKeyPolicy")]
 public class PermissionsController(PermissionService permissionService, DiscordPermOverrideService dpoService, CommandService cmdServ) : Controller
 {
     /// <summary>

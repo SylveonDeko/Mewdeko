@@ -10,7 +10,7 @@ namespace Mewdeko.Controllers;
 /// <inheritdoc />
 [ApiController]
 [Route("botapi/[controller]")]
-[Authorize]
+[Authorize("ApiKeyPolicy")]
 public class GiveawaysController(GiveawayService service, BotCredentials creds, HttpClient client) : Controller
 {
 

@@ -9,7 +9,7 @@ namespace Mewdeko.Controllers;
 /// Controller for managing botwide configs
 /// </summary>
 [Route("[controller]")]
-[Authorize]
+[Authorize("ApiKeyPolicy")]
 public class BotConfigController(BotCredentials creds, OwnerOnlyService service) : Controller
 {
     /// <summary>

@@ -9,7 +9,7 @@ namespace Mewdeko.Controllers;
 /// </summary>
 [ApiController]
 [Route("botapi/[controller]/{guildId}")]
-[Authorize]
+[Authorize("ApiKeyPolicy")]
 public class ChatTriggersController(ChatTriggersService service) : Controller
 {
 

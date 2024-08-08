@@ -9,7 +9,7 @@ namespace Mewdeko.Controllers;
 /// </summary>
 [ApiController]
 [Route("botapi/[controller]")]
-[Authorize]
+[Authorize("ApiKeyPolicy")]
 public class ClientOperations(DiscordShardedClient client) : Controller
 {
     private readonly JsonSerializerSettings settings = new()

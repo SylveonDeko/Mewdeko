@@ -13,7 +13,7 @@ namespace Mewdeko.Controllers;
 /// <param name="afk">The afk service</param>
 [ApiController]
 [Route("botapi/[controller]/{guildId}")]
-[Authorize]
+[Authorize("ApiKeyPolicy")]
 public class AfkController(AfkService afk, DiscordShardedClient client, DbContextProvider provider) : Controller
 {
     /// <summary>

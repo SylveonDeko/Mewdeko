@@ -13,7 +13,7 @@ namespace Mewdeko.Controllers;
 /// </summary>
 [ApiController]
 [Route("botapi/[controller]")]
-[Authorize]
+[Authorize("ApiKeyPolicy")]
 public class BotStatus(DiscordShardedClient client, StatsService statsService, CommandService commandService) : Controller
 {
     /// <summary>

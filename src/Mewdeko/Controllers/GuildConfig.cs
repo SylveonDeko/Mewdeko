@@ -11,7 +11,7 @@ namespace Mewdeko.Controllers;
 /// <param name="service"></param>
 [ApiController]
 [Route("botapi/[controller]/{guildId}")]
-[Authorize]
+[Authorize("ApiKeyPolicy")]
 public class GuildConfigController(GuildSettingsService service) : Controller
 {
     /// <summary>
