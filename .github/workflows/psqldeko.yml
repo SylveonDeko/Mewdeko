@@ -10,6 +10,8 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # This ensures all history is fetched
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v2
@@ -19,14 +21,8 @@ jobs:
       - name: Restore dependencies Mewdeko
         run: dotnet restore src/Mewdeko/Mewdeko.csproj
 
-      - name: Restore dependencies Mewdeko.Votes
-        run: dotnet restore src/Mewdeko.Votes/Mewdeko.Votes.csproj
-
       - name: Build Mewdeko
         run: dotnet publish src/Mewdeko/Mewdeko.csproj --no-restore -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=false -p:IncludeNativeLibrariesForSelfExtract=true -p:UseAppHost=true -o output/
-
-      - name: Build Mewdeko.Votes
-        run: dotnet publish src/Mewdeko.Votes/Mewdeko.Votes.csproj --no-restore -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=false -p:IncludeNativeLibrariesForSelfExtract=true -p:UseAppHost=true -o output/
 
       - name: Test
         run: dotnet test --no-restore --verbosity normal
@@ -43,11 +39,21 @@ jobs:
 
       - name: Get previous tag
         id: prev_tag
-        run: echo "prev_tag=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
+        run: |
+          echo "prev_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo '')" >> $GITHUB_ENV
 
       - name: Get commit messages
         id: commit_messages
-        run: echo "messages=$(git log --pretty=format:'* %s' ${{ env.prev_tag }}..HEAD)" >> $GITHUB_ENV
+        run: |
+          if [ -z "${{ env.prev_tag }}" ]; then
+            echo "messages<<EOF" >> $GITHUB_ENV
+            git log --pretty=format:'* %s' >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+          else
+            echo "messages<<EOF" >> $GITHUB_ENV
+            git log --pretty=format:'* %s' ${{ env.prev_tag }}..HEAD >> $GITHUB_ENV
+            echo "EOF" >> $GITHUB_ENV
+          fi
 
       - name: Create Release
         id: create_release
@@ -62,7 +68,7 @@ jobs:
             # WARNING: Mewdeko on PSQL is in early beta and has missing features. If you find bugs please report them.
 
             ## Commits since previous release:
-            - ${{ env.messages }}
+            ${{ env.messages }}
           draft: false
           prerelease: true
 
