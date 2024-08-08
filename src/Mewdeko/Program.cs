@@ -177,7 +177,6 @@ public class Program
 
         var auth = services.AddAuthentication(options =>
         {
-            options.DefaultScheme = credentials.SkipApiKey ? "Default" : "ApiKey";
             options.AddScheme<AuthHandler>(AuthHandler.SchemeName, AuthHandler.SchemeName);
         });
 
