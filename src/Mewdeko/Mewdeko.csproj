@@ -92,7 +92,6 @@
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
       <PackageReference Include="NsfwSpy" Version="3.5.0"/>
       <PackageReference Include="Octokit" Version="12.0.0" />
-      <PackageReference Include="OpenAI" Version="1.11.0" />
       <PackageReference Include="Otp.NET" Version="1.4.0" />
       <PackageReference Include="PokeApiNet" Version="4.0.0"/>
       <PackageReference Include="QRCoder" Version="1.5.1" />

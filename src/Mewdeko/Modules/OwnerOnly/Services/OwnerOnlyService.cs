@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 using System.Diagnostics;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading;
@@ -12,9 +13,6 @@ using Mewdeko.Services.strings;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Octokit;
-using OpenAI_API;
-using OpenAI_API.Chat;
-using OpenAI_API.Models;
 using Serilog;
 using StackExchange.Redis;
 using Embed = Discord.Embed;
@@ -40,7 +38,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     private readonly Replacer rep;
     private readonly IBotStrings strings;
     private readonly GuildSettingsService guildSettings;
-    private readonly ConcurrentDictionary<ulong, Conversation> conversations = new();
+    private static readonly Dictionary<ulong, Conversation> UserConversations = new Dictionary<ulong, Conversation>();
 
 #pragma warning disable CS8714
     private ConcurrentDictionary<ulong?, ConcurrentDictionary<int, Timer>> autoCommands =
@@ -88,16 +86,16 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         httpFactory = factory;
         this.bss = bss;
         handler.MessageReceived += OnMessageReceived;
-            rep = new ReplacementBuilder()
-                .WithClient(client)
-                .WithProviders(phProviders)
-                .Build();
+        rep = new ReplacementBuilder()
+            .WithClient(client)
+            .WithProviders(phProviders)
+            .Build();
 
-            _ = Task.Run(RotatingStatuses);
+        _ = Task.Run(RotatingStatuses);
 
         var sub = redis.GetSubscriber();
-            sub.Subscribe($"{this.creds.RedisKey()}_reload_images",
-                delegate { imgs.Reload(); }, CommandFlags.FireAndForget);
+        sub.Subscribe($"{this.creds.RedisKey()}_reload_images",
+            delegate { imgs.Reload(); }, CommandFlags.FireAndForget);
 
         sub.Subscribe($"{this.creds.RedisKey()}_leave_guild", async (_, v) =>
         {
@@ -315,90 +313,130 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             return;
         if (args is not IUserMessage usrMsg)
             return;
-        try
+        // try
+        // {
+        if (args.Content is "deletesession")
         {
-            var api = new OpenAI_API.OpenAIAPI(bss.Data.ChatGptKey);
-            if (args.Content is "deletesession")
+            if (UserConversations.TryGetValue(args.Author.Id, out _))
             {
-                if (conversations.TryRemove(args.Author.Id, out _))
-                {
-                    await usrMsg.SendConfirmReplyAsync("Session deleted");
-                    return;
-                }
-
-                await usrMsg.SendConfirmReplyAsync("No session to delete");
+                ClearConversation(args.Author.Id);
+                await args.Channel.SendConfirmAsync("Conversation deleted.");
                 return;
             }
 
+            await args.Channel.SendErrorAsync("You dont have a conversation saved.", bss.Data);
+            return;
+        }
 
-            await using var dbContext = await dbProvider.GetContextAsync();
+        await using var dbContext = await dbProvider.GetContextAsync();
 
-            (Database.Models.OwnerOnly actualItem, bool added) toUpdate = dbContext.OwnerOnly.Any()
-                ? (await dbContext.OwnerOnly.FirstOrDefaultAsync(), false)
-                : (new Database.Models.OwnerOnly
-                {
-                    GptTokensUsed = 0
-                }, true);
-
-            if (!conversations.TryGetValue(args.Author.Id, out var conversation))
+        (Database.Models.OwnerOnly actualItem, bool added) toUpdate = dbContext.OwnerOnly.Any()
+            ? (await dbContext.OwnerOnly.FirstOrDefaultAsync(), false)
+            : (new Database.Models.OwnerOnly
             {
-                conversation = StartNewConversation(args.Author, api);
-                conversations.TryAdd(args.Author.Id, conversation);
-            }
+                GptTokensUsed = 0
+            }, true);
 
-            conversation.AppendUserInput(args.Content);
-
-            var loadingMsg = await usrMsg.Channel.SendConfirmAsync($"{bss.Data.LoadingEmote} Awaiting response...");
-            await StreamResponseAndUpdateEmbedAsync(conversation, loadingMsg, dbProvider, toUpdate, args.Author);
-        }
-        catch (Exception e)
-        {
-            Log.Warning(e, "Error in ChatGPT");
-            await usrMsg.SendErrorReplyAsync("Something went wrong, please try again later.");
-        }
+        var loadingMsg = await usrMsg.Channel.SendConfirmAsync($"{bss.Data.LoadingEmote} Awaiting response...");
+        await StreamResponseAndUpdateEmbedAsync(bss.Data.ChatGptKey, bss.Data.ChatGptModel,
+            bss.Data.ChatGptInitPrompt +
+            $"The users name is {args.Author}, you are in the discord server {guildChannel.Guild} and in the channel {guildChannel} and there are {(await guildChannel.GetUsersAsync().FlattenAsync()).Count()} users that can see this channel.",
+            loadingMsg, toUpdate, args.Author, args.Content);
+        //}
+        // catch (Exception e)
+        // {
+        //     Log.Warning(e, "Error in ChatGPT");
+        //     await usrMsg.SendErrorReplyAsync("Something went wrong, please try again later.");
+        // }
     }
 
-    private Conversation StartNewConversation(SocketUser user, IOpenAIAPI api)
+    private static void ClearConversation(ulong userId)
     {
-        var modelToUse = bss.Data.ChatGptModel switch
+        UserConversations.Remove(userId);
+    }
+
+    private async Task StreamResponseAndUpdateEmbedAsync(string apiKey, string model, string systemPrompt,
+        IUserMessage loadingMsg,
+        (Database.Models.OwnerOnly actualItem, bool added) toUpdate, SocketUser author, string userPrompt)
+    {
+        using var httpClient = httpFactory.CreateClient();
+        httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
+
+        // Get or create conversation for this user
+        if (!UserConversations.TryGetValue(author.Id, out var conversation))
         {
-            "gpt-4-0613" => Model.GPT4_32k_Context,
-            "gpt4" or "gpt-4" => Model.GPT4,
-            _ => Model.ChatGPTTurbo
+            conversation = new Conversation();
+            conversation.Messages.Add(new Message
+            {
+                Role = "system", Content = systemPrompt
+            });
+            UserConversations[author.Id] = conversation;
+        }
+
+        // Add user message to conversation
+        conversation.Messages.Add(new Message
+        {
+            Role = "user", Content = userPrompt
+        });
+
+        var requestBody = new
+        {
+            model,
+            messages = conversation.Messages.Select(m => new
+            {
+                role = m.Role, content = m.Content
+            }).ToArray(),
+            stream = true,
+            user = author.Id.ToString()
         };
 
-        var chat = api.Chat.CreateConversation(new ChatRequest
-        {
-            MaxTokens = bss.Data.ChatGptMaxTokens, Temperature = bss.Data.ChatGptTemperature, Model = modelToUse
-        });
-        chat.AppendSystemMessage(bss.Data.ChatGptInitPrompt);
-        chat.AppendSystemMessage($"The user's name is {user}.");
-        return chat;
-    }
+        var content = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestBody), Encoding.UTF8,
+            "application/json");
 
-    private static async Task StreamResponseAndUpdateEmbedAsync(Conversation conversation, IUserMessage loadingMsg,
-        DbContextProvider dbProvider, (Database.Models.OwnerOnly actualItem, bool added) toUpdate, SocketUser author)
-    {
-        await using var dbContext = await dbProvider.GetContextAsync();
+        using var response = await httpClient.PostAsync("https://api.openai.com/v1/chat/completions", content);
+        response.EnsureSuccessStatusCode();
+
+        await using var stream = await response.Content.ReadAsStreamAsync();
+        using var reader = new StreamReader(stream);
 
         var responseBuilder = new StringBuilder();
         var lastUpdate = DateTimeOffset.UtcNow;
+        var totalTokens = 0;
 
-        await conversation.StreamResponseFromChatbotAsync(async partialResponse =>
+        while (!reader.EndOfStream)
         {
-            responseBuilder.Append(partialResponse);
-            if (!((DateTimeOffset.UtcNow - lastUpdate).TotalSeconds >= 1)) return;
+            var line = await reader.ReadLineAsync();
+            if (string.IsNullOrEmpty(line) || line == "data: [DONE]") continue;
+
+            if (!line.StartsWith("data: ")) continue;
+            var json = line[6..];
+            var chatResponse = JsonConvert.DeserializeObject<ChatCompletionChunkResponse>(json);
+
+            if (chatResponse?.Choices is not { Count: > 0 }) continue;
+            var conversationContent = chatResponse.Choices[0].Delta?.Content;
+            if (string.IsNullOrEmpty(conversationContent)) continue;
+            responseBuilder.Append(conversationContent);
+            if (!((DateTimeOffset.UtcNow - lastUpdate).TotalSeconds >= 1)) continue;
             lastUpdate = DateTimeOffset.UtcNow;
-            var embeds = BuildEmbeds(responseBuilder.ToString(), author, toUpdate.actualItem.GptTokensUsed,
-                conversation);
+            var embeds = BuildEmbeds(responseBuilder.ToString(), author,
+                toUpdate.actualItem.GptTokensUsed + totalTokens);
             await loadingMsg.ModifyAsync(m => m.Embeds = embeds.ToArray());
+        }
+
+        // Add assistant's response to the conversation
+        conversation.Messages.Add(new Message
+        {
+            Role = "assistant", Content = responseBuilder.ToString()
         });
 
-        var finalResponse = responseBuilder.ToString();
-        if (conversation.MostRecentApiResult.Usage != null)
+        // Trim conversation history if it gets too long
+        if (conversation.Messages.Count > 10)
         {
-            toUpdate.actualItem.GptTokensUsed += conversation.MostRecentApiResult.Usage.TotalTokens;
+            conversation.Messages = conversation.Messages.Skip(conversation.Messages.Count - 10).ToList();
         }
+
+        await using var dbContext = await dbProvider.GetContextAsync();
+        toUpdate.actualItem.GptTokensUsed += totalTokens;
 
         if (toUpdate.added)
             dbContext.OwnerOnly.Add(toUpdate.actualItem);
@@ -406,12 +444,11 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             dbContext.OwnerOnly.Update(toUpdate.actualItem);
         await dbContext.SaveChangesAsync();
 
-        var finalEmbeds = BuildEmbeds(finalResponse, author, toUpdate.actualItem.GptTokensUsed, conversation);
+        var finalEmbeds = BuildEmbeds(responseBuilder.ToString(), author, toUpdate.actualItem.GptTokensUsed);
         await loadingMsg.ModifyAsync(m => m.Embeds = finalEmbeds.ToArray());
     }
 
-    private static List<Embed> BuildEmbeds(string response, IUser requester, int totalTokensUsed,
-        Conversation conversation)
+    private static List<Embed> BuildEmbeds(string response, IUser requester, int totalTokensUsed)
     {
         var embeds = new List<Embed>();
         var partIndex = 0;
@@ -429,7 +466,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
             if (partIndex + length == response.Length)
                 embedBuilder.WithFooter(
-                    $"Requested by {requester.Username} | Response Tokens: {conversation.MostRecentApiResult.Usage?.TotalTokens} | Total Used: {totalTokensUsed}");
+                    $"Requested by {requester.Username} | Total Tokens Used: {totalTokensUsed}");
 
             embeds.Add(embedBuilder.Build());
             partIndex += length;
@@ -531,13 +568,13 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             (await dbContext.AutoCommands
                 .AsNoTracking()
                 .ToListAsyncEF())
-                .Where(x => x.Interval >= 5)
-                .AsEnumerable()
-                .GroupBy(x => x.GuildId)
-                .ToDictionary(x => x.Key,
-                    y => y.ToDictionary(x => x.Id, TimerFromAutoCommand)
-                        .ToConcurrent())
-                .ToConcurrent();
+            .Where(x => x.Interval >= 5)
+            .AsEnumerable()
+            .GroupBy(x => x.GuildId)
+            .ToDictionary(x => x.Key,
+                y => y.ToDictionary(x => x.Id, TimerFromAutoCommand)
+                    .ToConcurrent())
+            .ToConcurrent();
 
         foreach (var cmd in dbContext.AutoCommands.AsNoTracking().Where(x => x.Interval == 0))
         {
@@ -584,7 +621,8 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
 
                 if (!bss.Data.RotateStatuses) continue;
 
-                IReadOnlyList<RotatingPlayingStatus> rotatingStatuses = await dbContext.RotatingStatus.AsNoTracking().OrderBy(x => x.Id).ToListAsyncEF();
+                IReadOnlyList<RotatingPlayingStatus> rotatingStatuses =
+                    await dbContext.RotatingStatus.AsNoTracking().OrderBy(x => x.Id).ToListAsyncEF();
 
                 if (rotatingStatuses.Count == 0)
                     continue;
@@ -707,8 +745,8 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     {
         await using var dbContext = await dbProvider.GetContextAsync();
 
-            dbContext.AutoCommands.Add(cmd);
-            await dbContext.SaveChangesAsync();
+        dbContext.AutoCommands.Add(cmd);
+        await dbContext.SaveChangesAsync();
 
         if (cmd.Interval >= 5)
         {
@@ -813,7 +851,6 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         dbContext.Remove(cmd);
         await dbContext.SaveChangesAsync();
         return true;
-
     }
 
     /// <summary>
@@ -954,5 +991,58 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         var isToAll = false;
         bss.ModifyConfig(config => isToAll = config.ForwardToAllOwners = !config.ForwardToAllOwners);
         return isToAll;
+    }
+
+    private class Choice
+    {
+        [JsonProperty("index", NullValueHandling = NullValueHandling.Ignore)]
+        public int? Index;
+
+        [JsonProperty("delta", NullValueHandling = NullValueHandling.Ignore)]
+        public Delta Delta;
+
+        [JsonProperty("logprobs", NullValueHandling = NullValueHandling.Ignore)]
+        public object Logprobs;
+
+        [JsonProperty("finish_reason", NullValueHandling = NullValueHandling.Ignore)]
+        public object FinishReason;
+    }
+
+    private class Delta
+    {
+        [JsonProperty("content", NullValueHandling = NullValueHandling.Ignore)]
+        public string Content;
+    }
+
+    private class ChatCompletionChunkResponse
+    {
+        [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
+        public string Id;
+
+        [JsonProperty("object", NullValueHandling = NullValueHandling.Ignore)]
+        public string Object;
+
+        [JsonProperty("created", NullValueHandling = NullValueHandling.Ignore)]
+        public int? Created;
+
+        [JsonProperty("model", NullValueHandling = NullValueHandling.Ignore)]
+        public string Model;
+
+        [JsonProperty("system_fingerprint", NullValueHandling = NullValueHandling.Ignore)]
+        public string SystemFingerprint;
+
+        [JsonProperty("choices", NullValueHandling = NullValueHandling.Ignore)]
+        public List<Choice> Choices;
+    }
+
+    private class Conversation
+    {
+        public List<Message> Messages { get; set; } = new List<Message>();
+    }
+
+    private class Message
+    {
+        public string Role { get; set; }
+        public string Content { get; set; }
     }
 }
