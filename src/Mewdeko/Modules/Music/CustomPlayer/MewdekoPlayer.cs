@@ -107,10 +107,14 @@ public sealed class MewdekoPlayer : LavalinkPlayer
                 break;
             case TrackEndReason.LoadFailed:
                 var failedEmbed = new EmbedBuilder()
-                    .WithDescription($"Failed to load track {item.Track.Title}. Please try again.")
+                    .WithDescription($"Failed to load track {item.Track.Title}. Removing and skipping to the next one.")
                     .WithOkColor()
                     .Build();
                 await musicChannel.SendMessageAsync(embed: failedEmbed);
+                await base.PlayAsync(nextTrack.Track, cancellationToken: token);
+                await cache.SetCurrentTrack(base.GuildId, nextTrack);
+                queue.Remove(currentTrack);
+                await cache.SetMusicQueue(base.GuildId, queue);
                 break;
             case TrackEndReason.Stopped:
                 return;
