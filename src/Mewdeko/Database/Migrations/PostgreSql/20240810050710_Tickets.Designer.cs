@@ -3,6 +3,7 @@ using System;
 using Mewdeko.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Mewdeko.Database.Migrations.PostgreSql
 {
     [DbContext(typeof(MewdekoPostgresContext))]
-    partial class MewdekoPostgresContextModelSnapshot : ModelSnapshot
+    [Migration("20240810050710_Tickets")]
+    partial class Tickets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1457,9 +1460,6 @@ namespace Mewdeko.Database.Migrations.PostgreSql
                     b.Property<string>("TimeZoneId")
                         .HasColumnType("text");
 
-                    b.Property<bool>("UseMessageCount")
-                        .HasColumnType("boolean");
-
                     b.Property<bool>("UseStarboardBlacklist")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -1818,34 +1818,6 @@ namespace Mewdeko.Database.Migrations.PostgreSql
                     b.HasKey("Id");
 
                     b.ToTable("LogSettings");
-                });
-
-            modelBuilder.Entity("Mewdeko.Database.Models.MessageCount", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("ChannelId")
-                        .HasColumnType("numeric(20,0)");
-
-                    b.Property<decimal>("Count")
-                        .HasColumnType("numeric(20,0)");
-
-                    b.Property<DateTime?>("DateAdded")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<decimal>("GuildId")
-                        .HasColumnType("numeric(20,0)");
-
-                    b.Property<decimal>("UserId")
-                        .HasColumnType("numeric(20,0)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MessageCounts");
                 });
 
             modelBuilder.Entity("Mewdeko.Database.Models.MultiGreet", b =>
@@ -3699,10 +3671,15 @@ namespace Mewdeko.Database.Migrations.PostgreSql
                     b.Property<DateTime?>("DateAdded")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<decimal>("GuildId")
                         .HasColumnType("numeric(20,0)");
 
-                    b.Property<string>("MessageJson")
+                    b.Property<string>("Title")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");

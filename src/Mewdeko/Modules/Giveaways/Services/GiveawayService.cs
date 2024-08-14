@@ -2,6 +2,7 @@
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.Configs;
 using Mewdeko.Database.DbContextStuff;
+using Mewdeko.Modules.Utility.Services;
 using Mewdeko.Services.Impl;
 using Serilog;
 using Swan;
@@ -19,6 +20,7 @@ public class GiveawayService : INService
     private readonly BotConfig config1;
     private readonly ConcurrentDictionary<int, Timer> giveawayTimers = new();
     private readonly BotCredentials credentials;
+    private readonly MessageCountService msgCntService;
 
     /// <summary>
     /// Service for handling giveaways.
@@ -29,13 +31,14 @@ public class GiveawayService : INService
     public GiveawayService(DiscordShardedClient client,
         DbContextProvider dbProvider,
         GuildSettingsService guildSettings,
-        BotConfig config, BotCredentials credentials)
+        BotConfig config, BotCredentials credentials, MessageCountService msgCntService)
     {
         client1 = client;
         this.dbProvider = dbProvider;
         guildSettings1 = guildSettings;
         config1 = config;
         this.credentials = credentials;
+        this.msgCntService = msgCntService;
         _ = InitializeGiveawaysAsync();
     }
 
@@ -199,7 +202,7 @@ public class GiveawayService : INService
         ulong serverId, ITextChannel currentChannel, IGuild guild, string? reqroles = null,
         string? blacklistusers = null,
         string? blacklistroles = null, IDiscordInteraction? interaction = null, string banner = null,
-        IRole pingROle = null, bool useButton = false, bool useCaptcha = false)
+        IRole pingROle = null, bool useButton = false, bool useCaptcha = false, ulong messageCount = 0)
     {
         var gconfig = await guildSettings1.GetGuildConfig(serverId).ConfigureAwait(false);
         IRole role = null;
@@ -249,6 +252,11 @@ public class GiveawayService : INService
             }
         }
 
+        if (messageCount > 0)
+        {
+            eb.WithDescription(eb.Description + $"\n{messageCount} Messages Required.");
+        }
+
         if (!string.IsNullOrEmpty(gconfig.GiveawayEmbedColor))
         {
             var colorStr = gconfig.GiveawayEmbedColor;
@@ -294,7 +302,8 @@ public class GiveawayService : INService
             Winners = winners,
             Emote = emote.ToString(),
             UseButton = useButton,
-            UseCaptcha = useCaptcha
+            UseCaptcha = useCaptcha,
+            MessageCountReq = messageCount
         };
         if (!string.IsNullOrWhiteSpace(reqroles))
             rem.RestrictTo = reqroles;
@@ -470,11 +479,24 @@ public class GiveawayService : INService
                     }
                 }
 
+                if (r.MessageCountReq > 0 && users.Count!=0)
+                {
+                    var count = new Dictionary<IGuildUser, ulong>();
+                    foreach (var i in users)
+                    {
+                        var retrieved = await msgCntService.GetMessageCount(MessageCountService.CountQueryType.User,
+                            r.ServerId, i.Id);
+                        count.Add(i, retrieved);
+                    }
+
+                    users = count.Where(x => x.Value >= r.MessageCountReq).Select(x => x.Key).ToList();
+                }
+
                 if (users.Count == 0)
                 {
                     var eb1 = new EmbedBuilder().WithErrorColor()
                         .WithDescription(
-                            "Looks like nobody that actually met the role requirements joined..")
+                            "Looks like nobody that actually met the requirements joined..")
                         .Build();
                     await ch.ModifyAsync(x =>
                     {

@@ -65,7 +65,7 @@ namespace Mewdeko.Common
         public Task ErrorLocalizedAsync(string? textKey, params object?[] args)
         {
             var text = GetText(textKey, args);
-            return ctx.Interaction.SendErrorAsync(text, Config);
+            return !ctx.Interaction.HasResponded ? ctx.Interaction.SendErrorAsync(text, Config) : ctx.Interaction.SendErrorFollowupAsync(text, Config);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Mewdeko.Common
         public Task ReplyErrorLocalizedAsync(string? textKey, params object?[] args)
         {
             var text = GetText(textKey, args);
-            return ctx.Interaction.SendErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}", Config);
+            return !ctx.Interaction.HasResponded ? ctx.Interaction.SendErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}", Config):  ctx.Interaction.SendErrorFollowupAsync($"{Format.Bold(ctx.User.ToString())} {text}", Config);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Mewdeko.Common
         public Task EphemeralReplyErrorLocalizedAsync(string? textKey, params object?[] args)
         {
             var text = GetText(textKey, args);
-            return ctx.Interaction.SendEphemeralErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}", Config);
+            return !ctx.Interaction.HasResponded ?  ctx.Interaction.SendEphemeralFollowupErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}", Config) :  ctx.Interaction.SendEphemeralErrorAsync($"{Format.Bold(ctx.User.ToString())} {text}", Config);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Mewdeko.Common
         public Task ConfirmLocalizedAsync(string? textKey, params object?[] args)
         {
             var text = GetText(textKey, args);
-            return ctx.Interaction.SendConfirmAsync(text);
+            return !ctx.Interaction.HasResponded ? ctx.Interaction.SendConfirmAsync(text) : ctx.Interaction.SendConfirmFollowupAsync(text);
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Mewdeko.Common
         public Task ReplyConfirmLocalizedAsync(string? textKey, params object?[] args)
         {
             var text = GetText(textKey, args);
-            return ctx.Interaction.SendConfirmAsync($"{Format.Bold(ctx.User.ToString())} {text}");
+            return ctx.Interaction.HasResponded ? ctx.Interaction.SendConfirmFollowupAsync($"{Format.Bold(ctx.User.ToString())} {text}") : ctx.Interaction.SendConfirmAsync($"{Format.Bold(ctx.User.ToString())} {text}");
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace Mewdeko.Common
         public Task EphemeralReplyConfirmLocalizedAsync(string? textKey, params object?[] args)
         {
             var text = GetText(textKey, args);
-            return ctx.Interaction.SendEphemeralConfirmAsync($"{Format.Bold(ctx.User.ToString())} {text}");
+            return !ctx.Interaction.HasResponded ? ctx.Interaction.SendEphemeralConfirmAsync($"{Format.Bold(ctx.User.ToString())} {text}") :  ctx.Interaction.SendEphemeralFollowupConfirmAsync($"{Format.Bold(ctx.User.ToString())} {text}");
         }
 
         /// <summary>

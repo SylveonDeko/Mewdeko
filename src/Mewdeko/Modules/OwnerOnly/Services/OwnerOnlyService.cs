@@ -54,7 +54,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
     /// </summary>
     /// <param name="client">The Discord client used for interacting with the Discord API.</param>
     /// <param name="cmdHandler">Handles command processing and execution.</param>
-    /// <param name="db">Provides access to the database for data persistence.</param>
+    /// <param name="dbProvider">Provides access to the database for data persistence.</param>
     /// <param name="strings">Provides access to localized bot strings.</param>
     /// <param name="creds">Contains the bot's credentials and configuration.</param>
     /// <param name="cache">Provides caching functionalities.</param>
@@ -422,7 +422,9 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
             if (!((DateTimeOffset.UtcNow - lastUpdate).TotalSeconds >= 1)) continue;
             lastUpdate = DateTimeOffset.UtcNow;
             var embeds = BuildEmbeds(responseBuilder.ToString(), author,
-                chatResponse.Usage is not null ? toUpdate.actualItem.GptTokensUsed + chatResponse.Usage.TotalTokens : toUpdate.actualItem.GptTokensUsed);
+                chatResponse.Usage is not null
+                    ? toUpdate.actualItem.GptTokensUsed + chatResponse.Usage.TotalTokens
+                    : toUpdate.actualItem.GptTokensUsed);
             if (chatResponse.Usage is not null)
                 totalTokens += chatResponse.Usage.TotalTokens;
             await loadingMsg.ModifyAsync(m => m.Embeds = embeds.ToArray());
@@ -1065,6 +1067,4 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         public string Role { get; set; }
         public string Content { get; set; }
     }
-
-
 }

@@ -339,6 +339,7 @@ public partial class Giveaways(
         IRole pingrole = null;
         //string blacklistroles;
         //string blacklistusers;
+        ulong messageCount = 0;
         IUser host;
         TimeSpan time;
         bool useCaptcha = false;
@@ -449,6 +450,22 @@ public partial class Giveaways(
             catch
             {
                 await msg.ModifyAsync(x => x.Embed = erorrembed).ConfigureAwait(false);
+                return;
+            }
+        }
+        await msg.ModifyAsync(x =>
+            x.Embed = eb.WithDescription("Would you like to set a message requirement?").Build()).ConfigureAwait(false);
+        next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+
+        if (next.ToLower() is "yes" or "y")
+        {
+            await msg.ModifyAsync(x =>
+                x.Embed = eb.WithDescription("How many messages is the user required to send?").Build()).ConfigureAwait(false);
+            next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+            if (!ulong.TryParse(next, out messageCount))
+            {
+                await msg.DeleteAsync();
+                await ctx.Channel.SendErrorAsync("That is not a valid number! Start over.", Config);
                 return;
             }
         }
@@ -593,7 +610,7 @@ public partial class Giveaways(
         var reqroles = string.Join(" ", parsed.Select(x => x.Id));
         await msg.DeleteAsync().ConfigureAwait(false);
         await Service.GiveawaysInternal(chan, time, prize, winners, host.Id, ctx.Guild.Id, ctx.Channel as ITextChannel,
-            ctx.Guild, reqroles, pingROle: pingrole, banner: banner, useButton: useButton, useCaptcha: useCaptcha).ConfigureAwait(false);
+            ctx.Guild, reqroles, pingROle: pingrole, banner: banner, useButton: useButton, useCaptcha: useCaptcha, messageCount: messageCount).ConfigureAwait(false);
     }
 
     /// <summary>

@@ -26,6 +26,11 @@ namespace Mewdeko.Database
         public DbSet<GiveawayUsers> GiveawayUsers { get; set; }
 
         /// <summary>
+        /// Message Counts
+        /// </summary>
+        public DbSet<MessageCount> MessageCounts { get; set; }
+
+        /// <summary>
         /// Gets or sets the anti-alt settings.
         /// </summary>
         public DbSet<AntiAltSetting> AntiAltSettings { get; set; }
@@ -39,6 +44,16 @@ namespace Mewdeko.Database
         /// Gets or sets the anti-raid settings.
         /// </summary>
         public DbSet<AntiRaidSetting> AntiRaidSettings { get; set; }
+
+        /// <summary>
+        /// Gets or sets ticket panels
+        /// </summary>
+        public DbSet<TicketPanel> TicketPanels { get; set; }
+
+        /// <summary>
+        /// Gets or sets ticket buttons
+        /// </summary>
+        public DbSet<TicketButton> TicketButtons { get; set; }
 
         /// <summary>
         /// Gets or sets the anti-spam ignore settings.
@@ -757,6 +772,15 @@ namespace Mewdeko.Database
                     x.GuildId, x.Command
                 })
                 .IsUnique();
+
+            #endregion
+
+            #region Tickets
+
+            modelBuilder.Entity<TicketPanel>()
+                .HasMany(p => p.Buttons)
+                .WithOne()
+                .HasForeignKey(b => b.TicketPanelId);
 
             #endregion
         }

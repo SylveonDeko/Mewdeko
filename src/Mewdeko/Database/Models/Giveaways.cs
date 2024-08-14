@@ -78,5 +78,10 @@ namespace Mewdeko.Database.Models
         /// </summary>
         public bool UseCaptcha { get; set; }
 
+        /// <summary>
+        /// The number of messages required for users before entering a giveaway
+        /// </summary>
+        public ulong MessageCountReq = 0;
+
     }
 }
