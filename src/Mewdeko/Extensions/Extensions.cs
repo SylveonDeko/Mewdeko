@@ -57,6 +57,24 @@ public static partial class Extensions
     }
 
     /// <summary>
+    /// Implementation that should already have existed in c# but doesnt for some reason
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="summer"></param>
+    /// <typeparam name="TSource"></typeparam>
+    /// <returns></returns>
+    public static ulong SumUlong<TSource>(
+        this IEnumerable<TSource> source, Func<TSource, ulong> summer)
+    {
+        ulong total = 0;
+
+        foreach(var item in source)
+            total += summer(item);
+
+        return total;
+    }
+
+    /// <summary>
     /// Sends a confirmation message asynchronously.
     /// </summary>
     /// <param name="interaction">Discord interaction context.</param>

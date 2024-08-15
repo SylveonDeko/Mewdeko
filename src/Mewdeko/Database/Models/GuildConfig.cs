@@ -40,6 +40,11 @@ namespace Mewdeko.Database.Models
         public bool UseMessageCount { get; set; } = true;
 
         /// <summary>
+        /// The minimum length before a message gets counted
+        /// </summary>
+        public int MinMessageLength { get; set; } = 1;
+
+        /// <summary>
         /// Gets or sets the channel ID for command logs.
         /// </summary>
         public ulong CommandLogChannel { get; set; } = 0;

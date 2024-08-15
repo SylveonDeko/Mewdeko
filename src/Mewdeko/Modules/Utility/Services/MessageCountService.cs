@@ -12,9 +12,9 @@ namespace Mewdeko.Modules.Utility.Services;
 /// </summary>
 public class MessageCountService : INService, IReadyExecutor
 {
-
     private HashSet<ulong> countGuilds = [];
     private readonly DbContextProvider dbContext;
+    private readonly ConcurrentDictionary<ulong, int> minCounts = [];
     private ConcurrentDictionary<(ulong GuildId, ulong UserId, ulong ChannelId), MessageCount> messageCounts = new();
     private Timer updateTimer;
 
@@ -31,19 +31,162 @@ public class MessageCountService : INService, IReadyExecutor
     {
         await Task.CompletedTask;
 
-        if (countGuilds.Count == 0 || args.Channel is IDMChannel || args.Channel is not IGuildChannel channel)
+        if (countGuilds.Count == 0 || args.Channel is IDMChannel || args.Channel is not IGuildChannel channel || !countGuilds.Contains(channel.GuildId))
+            return;
+
+        var minLength = minCounts.TryGetValue(channel.GuildId, out var minValue);
+
+        if (args.Content.Length < minValue)
             return;
 
         var key = (channel.GuildId, args.Author.Id, channel.Id);
         messageCounts.AddOrUpdate(
             key,
-            _ => new MessageCount { GuildId = channel.GuildId, UserId = args.Author.Id, ChannelId = channel.Id, Count = 1 },
+            _ => new MessageCount
+            {
+                GuildId = channel.GuildId, UserId = args.Author.Id, ChannelId = channel.Id, Count = 1
+            },
             (_, existingCount) =>
             {
                 existingCount.Count++;
                 return existingCount;
             }
         );
+    }
+
+    /// <summary>
+    /// Toggles the message count system for a specific guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild to toggle in the message count system.</param>
+    /// <returns>
+    /// A task that represents the asynchronous operation. The task result contains a boolean value:
+    /// - true if the guild was added to the message count system.
+    /// - false if the guild was removed from the message count system.
+    /// If an error occurs during the operation, the method returns the original state.
+    /// </returns>
+    /// <remarks>
+    /// This method toggles the guild's presence in the in-memory collections and updates the database
+    /// to enable or disable message counting for the specified guild.
+    /// </remarks>
+    public async Task<bool> ToggleGuildMessageCount(ulong guildId)
+    {
+        var wasAdded = false;
+
+        await using var db = await dbContext.GetContextAsync();
+        try
+        {
+            var guildConfig = await db.GuildConfigs
+                .Where(x => x.GuildId == guildId)
+                .Select(x => new
+                {
+                    x.UseMessageCount, x.MinMessageLength
+                })
+                .FirstOrDefaultAsync();
+
+            if (guildConfig == null)
+            {
+                Log.Warning("Attempted to toggle message count for non-existent guild {GuildId}", guildId);
+                return false;
+            }
+
+            wasAdded = !guildConfig.UseMessageCount;
+
+            if (wasAdded)
+            {
+                // Adding the guild to the system
+                countGuilds.Add(guildId);
+                minCounts[guildId] = guildConfig.MinMessageLength;
+
+                // Load existing message counts for this guild
+                var existingCounts = await db.MessageCounts
+                    .Where(x => x.GuildId == guildId)
+                    .ToListAsync();
+
+                foreach (var count in existingCounts)
+                {
+                    messageCounts[(count.GuildId, count.UserId, count.ChannelId)] = count;
+                }
+            }
+            else
+            {
+                // Removing the guild from the system
+                countGuilds.Remove(guildId);
+                minCounts.TryRemove(guildId, out _);
+
+                // Remove all message counts for this guild from in-memory collection
+                var keysToRemove = messageCounts.Keys
+                    .Where(k => k.GuildId == guildId)
+                    .ToList();
+                foreach (var key in keysToRemove)
+                {
+                    messageCounts.TryRemove(key, out _);
+                }
+            }
+
+            // Update the database
+            await db.GuildConfigs
+                .Where(x => x.GuildId == guildId)
+                .ExecuteUpdateAsync(s => s
+                    .SetProperty(b => b.UseMessageCount, wasAdded));
+
+
+            return wasAdded;
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Failed to toggle message count for guild {GuildId}", guildId);
+
+            // Revert in-memory changes if database operation failed
+            if (wasAdded)
+            {
+                countGuilds.Remove(guildId);
+                minCounts.TryRemove(guildId, out _);
+                var keysToRemove = messageCounts.Keys
+                    .Where(k => k.GuildId == guildId)
+                    .ToList();
+                foreach (var key in keysToRemove)
+                {
+                    messageCounts.TryRemove(key, out _);
+                }
+            }
+            else
+            {
+                countGuilds.Add(guildId);
+            }
+
+            return !wasAdded; // Return the original state
+        }
+    }
+
+    /// <summary>
+    /// Gets an array of messagecounts for the selected type
+    /// </summary>
+    /// <param name="queryType"></param>
+    /// <param name="snowflakeId"></param>
+    /// <param name="guildId"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    public async Task<(MessageCount[], bool)> GetAllCountsForEntity(CountQueryType queryType, ulong snowflakeId,
+        ulong guildId)
+    {
+        await Task.CompletedTask;
+
+        if (!countGuilds.Contains(guildId))
+            return (null, false);
+
+        return queryType switch
+        {
+            CountQueryType.Guild => (messageCounts.Where(x => x.Value.GuildId == snowflakeId)
+                .Select(x => x.Value)
+                .ToArray(), true),
+            CountQueryType.Channel => (messageCounts.Where(x => x.Value.ChannelId == snowflakeId)
+                .Select(x => x.Value)
+                .ToArray(), true),
+            CountQueryType.User => (messageCounts.Where(x => x.Value.GuildId == guildId && x.Value.UserId == snowflakeId)
+                .Select(x => x.Value)
+                .ToArray(), true),
+            _ => throw new ArgumentOutOfRangeException(nameof(queryType), queryType, null)
+        };
     }
 
     /// <summary>
@@ -82,9 +225,22 @@ public class MessageCountService : INService, IReadyExecutor
         Log.Information("Loading Message Count Cache");
         await using var db = await dbContext.GetContextAsync();
         countGuilds = (await db.GuildConfigs
-            .Where(x => x.UseMessageCount)
-            .Select(x => x.GuildId).ToListAsyncEF())
+                .Where(x => x.UseMessageCount)
+                .Select(x => x.GuildId).ToListAsyncEF())
             .ToHashSet();
+
+        var lengthConfigs = await db.GuildConfigs
+            .Where(x => x.UseMessageCount)
+            .Select(x => new
+            {
+                x.GuildId, x.MinMessageLength
+            })
+            .ToListAsyncEF();
+
+        foreach (var config in lengthConfigs)
+        {
+            minCounts[config.GuildId] = config.MinMessageLength;
+        }
 
         var dbMessageCounts = await db.MessageCounts.ToListAsync();
         messageCounts = new ConcurrentDictionary<(ulong GuildId, ulong UserId, ulong ChannelId), MessageCount>(
@@ -108,19 +264,22 @@ public class MessageCountService : INService, IReadyExecutor
 
             await db.BulkMergeAsync(countsToUpdate, options =>
             {
-                options.ColumnPrimaryKeyExpression = c => new { c.GuildId, c.UserId, c.ChannelId };
+                options.ColumnPrimaryKeyExpression = c => new
+                {
+                    c.GuildId, c.UserId, c.ChannelId
+                };
                 options.IgnoreOnMergeUpdateExpression = c => c.Id;
                 options.MergeKeepIdentity = true;
                 options.InsertIfNotExists = true;
                 options.ColumnInputExpression = c => new
                 {
-                    c.GuildId,
-                    c.UserId,
-                    c.ChannelId,
-                    c.Count
+                    c.GuildId, c.UserId, c.ChannelId, c.Count
                 };
                 options.ColumnOutputExpression = c => c.Id;
-                options.ColumnSynchronizeDeleteKeySubsetExpression = c => new { c.GuildId, c.UserId, c.ChannelId };
+                options.ColumnSynchronizeDeleteKeySubsetExpression = c => new
+                {
+                    c.GuildId, c.UserId, c.ChannelId
+                };
             });
 
             Log.Information("Batch update completed. Updated/Added {Count} entries", countsToUpdate.Count);
@@ -140,10 +299,12 @@ public class MessageCountService : INService, IReadyExecutor
         /// Guild
         /// </summary>
         Guild,
+
         /// <summary>
         /// Channel
         /// </summary>
         Channel,
+
         /// <summary>
         /// User
         /// </summary>

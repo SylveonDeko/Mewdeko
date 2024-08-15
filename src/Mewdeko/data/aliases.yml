@@ -21,6 +21,28 @@ purgeuser:
   - pruneuser
 acceptchannel:
   - acceptchannel
+usermessages:
+  - usermessages
+  - usermsg
+  - umsg
+channelmessages:
+  - channelmessages
+  - channelmsg
+  - cmsg
+servermessages:
+  - servermessages
+  - servermsg
+  - smsg
+  - guildmessages
+  - guildmsg
+  - gmsg
+minmessagecountlength:
+  - minmsglength
+  - mmlength
+  - minmlength
+togglemessagecount:
+  - togglemsgcount
+  - togglemessagecount
 gpingrole:
   - gpingrole
   - giveawaypingrole
@@ -142,16 +164,16 @@ dehoistall:
   - dehoistall
   - dehoista
 sanitizeall:
-    - sanitizeall
-    - sanitizea
+  - sanitizeall
+  - sanitizea
 massnickprogress:
-    - massnickprogress
-    - mnickprogress
-    - mnp
+  - massnickprogress
+  - mnickprogress
+  - mnp
 massnickstop:
-    - massnickstop
-    - mnstop
-    - mns
+  - massnickstop
+  - mnstop
+  - mns
 exportrolelist:
   - exportrolelist
   - exportroles
@@ -2179,7 +2201,7 @@ profile:
 setzodiac:
   - setzodiac
 setprofilecolor:
-  -  setprofilecolor
+  - setprofilecolor
 setbirthday:
   - setbirthday
 setbirthdayprivacy:
