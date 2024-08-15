@@ -12,6 +12,25 @@ gpingrole:
     - "roleid"
     - "@role"
   desc: "Sets the role to ping when a giveaway starts"
+usermessages:
+  args:
+    - "user"
+  desc: "Retrieves message statistics for a specific user"
+minmsglength:
+  args:
+    - "20"
+  desc: "Sets the minimum length of a message before its counted"
+togglemsgcount:
+  args:
+    - ""
+  desc: "Toggles whether message counting is enabled/disabled."
+channelmessages:
+  args:
+    - "channel"
+  desc: "Retrieves message statistics for a specific channel"
+servermessages:
+  args: [ ]
+  desc: "Retrieves message statistics for the entire server"
 banbyhash:
   args:
     - "hash"
