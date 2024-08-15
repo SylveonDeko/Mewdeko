@@ -283,7 +283,7 @@ public partial class Utility
                 GetText("busiest_hours_graph_title", ctx.Guild.Name, userTimezone.Id));
         }
 
-        private async Task<TimeZoneInfo> PromptForTimezone()
+        private async Task<TimeZoneInfo?> PromptForTimezone()
         {
             var commonTimeZones = new List<(string Id, string DisplayName)>
             {
@@ -303,7 +303,7 @@ public partial class Utility
                 .WithDescription(GetText("timezone_select_description",
                     string.Join("\n", commonTimeZones.Select((tz, i) => $"{i + 1}. {tz.DisplayName}"))))
                 .WithFooter(GetText("timezone_select_footer"))
-                .WithColor(Color.Blue);
+                .WithOkColor();
 
             await ctx.Channel.SendMessageAsync(embed: eb.Build());
 
@@ -329,33 +329,34 @@ public partial class Utility
                     continue;
                 }
 
-                if (int.TryParse(response, out int index) && index > 0 && index <= commonTimeZones.Count)
+                if (int.TryParse(response, out var index) && index > 0 && index <= commonTimeZones.Count)
                 {
                     return TimeZoneInfo.FindSystemTimeZoneById(commonTimeZones[index - 1].Id);
                 }
 
                 var matchingTimeZones = TimeZoneInfo.GetSystemTimeZones()
                     .Where(tz =>
-                        tz.Id.ToLowerInvariant().Contains(response) ||
-                        tz.DisplayName.ToLowerInvariant().Contains(response))
+                        tz.Id.Contains(response, StringComparison.InvariantCultureIgnoreCase) ||
+                        tz.DisplayName.Contains(response, StringComparison.InvariantCultureIgnoreCase))
                     .ToList();
 
-                if (matchingTimeZones.Count == 1)
+                switch (matchingTimeZones.Count)
                 {
-                    return matchingTimeZones[0];
-                }
-                else if (matchingTimeZones.Count > 1)
-                {
-                    var matchEmbed = new EmbedBuilder()
-                        .WithTitle(GetText("timezone_multiple_matches_title"))
-                        .WithDescription(GetText("timezone_multiple_matches_description",
-                            string.Join("\n", matchingTimeZones.Select(tz => $"{tz.Id}: {tz.DisplayName}"))))
-                        .WithColor(Color.Orange);
-                    await ctx.Channel.SendMessageAsync(embed: matchEmbed.Build());
-                }
-                else
-                {
-                    await ctx.Channel.SendMessageAsync(GetText("timezone_no_match"));
+                    case 1:
+                        return matchingTimeZones[0];
+                    case > 1:
+                    {
+                        var matchEmbed = new EmbedBuilder()
+                            .WithTitle(GetText("timezone_multiple_matches_title"))
+                            .WithDescription(GetText("timezone_multiple_matches_description",
+                                string.Join("\n", matchingTimeZones.Select(tz => $"{tz.Id}: {tz.DisplayName}"))))
+                            .WithColor(Color.Orange);
+                        await ctx.Channel.SendMessageAsync(embed: matchEmbed.Build());
+                        break;
+                    }
+                    default:
+                        await ctx.Channel.SendMessageAsync(GetText("timezone_no_match"));
+                        break;
                 }
             }
         }
@@ -422,15 +423,15 @@ public partial class Utility
                 canvas.DrawText(title, x + width / 2, y + 40, SKTextAlign.Center, titleFont, paint);
             }
 
-            float barWidth = (width - 100) / data.Count;
+            var barWidth = (width - 100) / data.Count;
             float spacing = 5;
             float maxValue = data.Max(d => d.Value);
 
-            for (int i = 0; i < data.Count; i++)
+            for (var i = 0; i < data.Count; i++)
             {
-                float barHeight = (data[i].Value / (float)maxValue) * (height - 120);
-                float barX = x + 50 + i * (barWidth + spacing);
-                float barY = y + height - 60 - barHeight;
+                var barHeight = (data[i].Value / (float)maxValue) * (height - 120);
+                var barX = x + 50 + i * (barWidth + spacing);
+                var barY = y + height - 60 - barHeight;
 
                 // Draw bar
                 using (var barPaint = new SKPaint
