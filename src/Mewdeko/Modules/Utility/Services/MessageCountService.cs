@@ -31,24 +31,29 @@ public class MessageCountService : INService, IReadyExecutor
     {
         await Task.CompletedTask;
 
-        if (countGuilds.Count == 0 || args.Channel is IDMChannel || args.Channel is not IGuildChannel channel || !countGuilds.Contains(channel.GuildId))
+        if (countGuilds.Count == 0 || args.Channel is IDMChannel || args.Channel is not IGuildChannel channel || !countGuilds.Contains(channel.GuildId) || args.Author.IsBot)
             return;
 
-        var minLength = minCounts.TryGetValue(channel.GuildId, out var minValue);
-
-        if (args.Content.Length < minValue)
+        if (!minCounts.TryGetValue(channel.GuildId, out var minValue) || args.Content.Length < minValue)
             return;
 
         var key = (channel.GuildId, args.Author.Id, channel.Id);
+        var timestamp = args.Timestamp.UtcDateTime;
+
         messageCounts.AddOrUpdate(
             key,
             _ => new MessageCount
             {
-                GuildId = channel.GuildId, UserId = args.Author.Id, ChannelId = channel.Id, Count = 1
+                GuildId = channel.GuildId,
+                UserId = args.Author.Id,
+                ChannelId = channel.Id,
+                Count = 1,
+                RecentTimestamps = timestamp.ToString("O")
             },
             (_, existingCount) =>
             {
                 existingCount.Count++;
+                existingCount.AddTimestamp(timestamp);
                 return existingCount;
             }
         );
@@ -257,37 +262,81 @@ public class MessageCountService : INService, IReadyExecutor
     {
         try
         {
-            Log.Information("Starting batch update of message counts");
+            Log.Information("Starting batch update of message counts and timestamps");
             await using var db = await dbContext.GetContextAsync();
 
             var countsToUpdate = messageCounts.Values.ToList();
 
             await db.BulkMergeAsync(countsToUpdate, options =>
             {
-                options.ColumnPrimaryKeyExpression = c => new
-                {
-                    c.GuildId, c.UserId, c.ChannelId
-                };
+                options.ColumnPrimaryKeyExpression = c => new { c.GuildId, c.UserId, c.ChannelId };
                 options.IgnoreOnMergeUpdateExpression = c => c.Id;
                 options.MergeKeepIdentity = true;
                 options.InsertIfNotExists = true;
-                options.ColumnInputExpression = c => new
-                {
-                    c.GuildId, c.UserId, c.ChannelId, c.Count
-                };
+                options.ColumnInputExpression = c => new { c.GuildId, c.UserId, c.ChannelId, c.Count, c.RecentTimestamps };
                 options.ColumnOutputExpression = c => c.Id;
-                options.ColumnSynchronizeDeleteKeySubsetExpression = c => new
-                {
-                    c.GuildId, c.UserId, c.ChannelId
-                };
+                options.ColumnSynchronizeDeleteKeySubsetExpression = c => new { c.GuildId, c.UserId, c.ChannelId };
             });
 
             Log.Information("Batch update completed. Updated/Added {Count} entries", countsToUpdate.Count);
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "Error occurred during batch update of message counts");
+            Log.Error(ex, "Error occurred during batch update of message counts and timestamps");
         }
+    }
+
+    /// <summary>
+    /// Gets the busiest hours for a guild
+    /// </summary>
+    /// <param name="guildId"></param>
+    /// <param name="days"></param>
+    /// <returns></returns>
+    public async Task<IEnumerable<(int Hour, int Count)>> GetBusiestHours(ulong guildId, int days = 7)
+    {
+        await using var db = await dbContext.GetContextAsync();
+        var startDate = DateTime.UtcNow.AddDays(-Math.Min(days, 30));
+
+        var messageCounts = await db.MessageCounts
+            .Where(m => m.GuildId == guildId)
+            .Select(m => new { m.RecentTimestamps })
+            .ToListAsync();
+
+        return messageCounts
+            .SelectMany(m => m.RecentTimestamps.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(DateTime.Parse)
+                .Where(t => t >= startDate))
+            .GroupBy(t => t.Hour)
+            .Select(g => (g.Key, g.Count()))
+            .OrderByDescending(x => x.Item2)
+            .Take(24)
+            .ToList();
+    }
+
+    /// <summary>
+    /// Gets the busiest days in the guild
+    /// </summary>
+    /// <param name="guildId"></param>
+    /// <param name="weeks"></param>
+    /// <returns></returns>
+    public async Task<IEnumerable<(DayOfWeek Day, int Count)>> GetBusiestDays(ulong guildId, int weeks = 4)
+    {
+        await using var db = await dbContext.GetContextAsync();
+        var startDate = DateTime.UtcNow.AddDays(-Math.Min(7 * weeks, 30));
+
+        var messageCounts = await db.MessageCounts
+            .Where(m => m.GuildId == guildId)
+            .Select(m => new { m.RecentTimestamps })
+            .ToListAsync();
+
+        return messageCounts
+            .SelectMany(m => m.RecentTimestamps.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(DateTime.Parse)
+                .Where(t => t >= startDate))
+            .GroupBy(t => t.DayOfWeek)
+            .Select(g => (g.Key, g.Count()))
+            .OrderByDescending(x => x.Item2)
+            .ToList();
     }
 
     /// <summary>
