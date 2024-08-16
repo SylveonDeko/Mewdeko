@@ -16,7 +16,7 @@ public class AutoPublishService : INService
     /// <summary>
     /// Initializes a new instance of the <see cref="AutoPublishService"/> class.
     /// </summary>
-    /// <param name="service">The database service for accessing and storing configuration.</param>
+    /// <param name="dbProvider">The database service for accessing and storing configuration.</param>
     /// <param name="handler">The event handler for subscribing to message received events.</param>
     /// <param name="client">The Discord client for interacting with the Discord API.</param>
     public AutoPublishService(DbContextProvider dbProvider, EventHandler handler, DiscordShardedClient client)

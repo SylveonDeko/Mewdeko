@@ -13,12 +13,13 @@ public class StatusRolesService : INService
     private readonly IFusionCache cache;
     private readonly DiscordShardedClient client;
     private readonly DbContextProvider dbProvider;
+    private readonly ConcurrentDictionary<ulong, HashSet<StatusRolesTable>> guildStatusRoles = new();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="StatusRolesService"/> class.
     /// </summary>
     /// <param name="client">The Discord socket client.</param>
-    /// <param name="db">The database service.</param>
+    /// <param name="dbProvider">The database context provider.</param>
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="cache">The data cache service.</param>
     public StatusRolesService(DiscordShardedClient client, DbContextProvider dbProvider, EventHandler eventHandler, IFusionCache cache)
@@ -30,13 +31,22 @@ public class StatusRolesService : INService
         _ = OnReadyAsync();
     }
 
-    /// <inheritdoc />
-    public async Task OnReadyAsync()
+    /// <summary>
+    /// Initializes the service and caches status roles.
+    /// </summary>
+    private async Task OnReadyAsync()
     {
-        Log.Information($"Starting {this.GetType()} Cache");
+        Log.Information("Starting {Type} Cache", GetType());
         await using var dbContext = await dbProvider.GetContextAsync();
 
         var statusRoles = await dbContext.StatusRoles.ToListAsync();
+
+        foreach (var statusRole in statusRoles)
+        {
+            guildStatusRoles.AddOrUpdate(statusRole.GuildId,
+                [statusRole],
+                (_, set) => { set.Add(statusRole); return set; });
+        }
 
         await cache.SetAsync("statusRoles", statusRoles);
 
@@ -45,173 +55,119 @@ public class StatusRolesService : INService
 
     private async Task<List<StatusRolesTable>> GetStatusRolesAsync()
     {
-        var cacheResult = await cache.TryGetAsync<List<StatusRolesTable>>("statusRoles");
-        if (cacheResult.HasValue)
+        var cacheResult = await cache.GetOrSetAsync("statusRoles", async () =>
         {
-            return cacheResult.Value;
-        }
+            await using var dbContext = await dbProvider.GetContextAsync();
+            return await dbContext.StatusRoles.ToListAsync();
+        });
 
-        await using var dbContext = await dbProvider.GetContextAsync();
-
-        var statusRoles = await dbContext.StatusRoles.ToListAsync();
-        await cache.SetAsync("statusRoles", statusRoles);
-
-        return statusRoles;
+        return await cacheResult.Invoke();
     }
 
     private async Task EventHandlerOnPresenceUpdated(SocketUser args, SocketPresence args2, SocketPresence args3)
     {
+        if (args is not SocketGuildUser user || args3.Activities?.FirstOrDefault() is not CustomStatusGame status)
+            return;
+
+        var beforeStatus = args2?.Activities?.FirstOrDefault() as CustomStatusGame;
+        if (status.State is null && beforeStatus?.State is null || status.State == beforeStatus?.State)
+            return;
+
+        var cachedStatus = await cache.GetOrDefaultAsync<string>($"userStatus_{args.Id}");
+        if (cachedStatus == status.State?.ToBase64())
+            return;
+
+        await cache.SetAsync($"userStatus_{args.Id}", status.State?.ToBase64());
+
+        if (!this.guildStatusRoles.TryGetValue(user.Guild.Id, out var guildStatusRoles))
+            return;
+
+        foreach (var statusRole in guildStatusRoles)
+        {
+            await ProcessStatusRole(user, status, beforeStatus, statusRole);
+        }
+    }
+
+    private async Task ProcessStatusRole(SocketGuildUser user, CustomStatusGame status, CustomStatusGame? beforeStatus, StatusRolesTable? statusRole)
+    {
+        var toAdd = string.IsNullOrWhiteSpace(statusRole.ToAdd) ? [] : statusRole.ToAdd.Split(" ").Select(ulong.Parse).ToList();
+        var toRemove = string.IsNullOrWhiteSpace(statusRole.ToRemove) ? [] : statusRole.ToRemove.Split(" ").Select(ulong.Parse).ToList();
+
+        if (status.State?.Contains(statusRole.Status) != true)
+        {
+            if (beforeStatus?.State?.Contains(statusRole.Status) == true)
+            {
+                await HandleRoleRemoval(user, statusRole, toAdd, toRemove);
+            }
+            return;
+        }
+
+        if (beforeStatus?.State?.Contains(statusRole.Status) == true)
+            return;
+
+        await HandleRoleAddition(user, statusRole, toAdd, toRemove);
+    }
+
+    private async Task HandleRoleRemoval(SocketGuildUser user, StatusRolesTable statusRole, List<ulong> toAdd, List<ulong> toRemove)
+    {
+        if (statusRole.RemoveAdded)
+        {
+            await RemoveRoles(user, toAdd.Where(role => user.Roles.Any(r => r.Id == role)));
+        }
+
+        if (statusRole.ReaddRemoved)
+        {
+            await AddRoles(user, toRemove.Where(role => !user.Roles.Any(r => r.Id == role)));
+        }
+    }
+
+    private async Task HandleRoleAddition(SocketGuildUser user, StatusRolesTable statusRole, List<ulong> toAdd, List<ulong> toRemove)
+    {
+        await RemoveRoles(user, toRemove);
+        await AddRoles(user, toAdd);
+
+        var channel = user.Guild.GetTextChannel(statusRole.StatusChannelId);
+        if (channel != null && !string.IsNullOrWhiteSpace(statusRole.StatusEmbed))
+        {
+            await SendStatusEmbed(user, channel, statusRole.StatusEmbed);
+        }
+    }
+
+    private static async Task RemoveRoles(SocketGuildUser user, IEnumerable<ulong> roleIds)
+    {
         try
         {
-            var statusRoles = await GetStatusRolesAsync();
-
-            if (statusRoles.Count == 0)
-                return;
-
-            if (args is not SocketGuildUser user)
-                return;
-
-            var beforeStatus = args2?.Activities?.FirstOrDefault() as CustomStatusGame;
-            if (args3.Activities?.FirstOrDefault() is not CustomStatusGame status)
-            {
-                return;
-            }
-
-            if (status.State is null && beforeStatus?.State is null || status.State == beforeStatus?.State)
-            {
-                return;
-            }
-
-            var cachedStatus = await cache.TryGetAsync<string>($"userStatus_{args.Id}");
-
-            if (cachedStatus.HasValue && status.State?.ToBase64() == cachedStatus)
-            {
-                return;
-            }
-
-            await cache.SetAsync($"userStatus_{args.Id}", status.State?.ToBase64());
-
-            var statusRolesTables = statusRoles.Where(x => x.GuildId == user.Guild.Id).ToList();
-
-            foreach (var i in statusRolesTables)
-            {
-                var toAdd = new List<ulong>();
-                var toRemove = new List<ulong>();
-                if (!string.IsNullOrWhiteSpace(i.ToAdd))
-                    toAdd = i.ToAdd.Split(" ").Select(ulong.Parse).ToList();
-                if (!string.IsNullOrWhiteSpace(i.ToRemove))
-                    toRemove = i.ToRemove.Split(" ").Select(ulong.Parse).ToList();
-                if (status.State is null || !status.State.Contains(i.Status))
-                {
-                    if (beforeStatus is not null && beforeStatus.State.Contains(i.Status))
-                    {
-                        if (i.RemoveAdded)
-                        {
-                            if (toAdd.Count != 0)
-                            {
-                                foreach (var role in toAdd.Where(socketRole =>
-                                             user.Roles.Select(x => x.Id).Contains(socketRole)))
-                                {
-                                    try
-                                    {
-                                        await user.RemoveRoleAsync(role);
-                                    }
-                                    catch
-                                    {
-                                        Log.Error(
-                                            "Unable to remove added role {Role} for {User} in {UserGuild} due to permission issues",
-                                            role, user, user.Guild);
-                                    }
-                                }
-                            }
-                        }
-
-                        if (i.ReaddRemoved)
-                        {
-                            if (toRemove.Count != 0)
-                            {
-                                foreach (var role in toRemove.Where(socketRole =>
-                                             !user.Roles.Select(x => x.Id).Contains(socketRole)))
-                                {
-                                    try
-                                    {
-                                        await user.AddRoleAsync(role);
-                                    }
-                                    catch
-                                    {
-                                        Log.Error(
-                                            $"Unable to add removed role {role} for {user} in {user.Guild} due to permission issues.");
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                }
-
-                if (beforeStatus is not null && beforeStatus.State.Contains(i.Status))
-                {
-                    continue;
-                }
-
-                if (toRemove.Count != 0)
-                {
-                    try
-                    {
-                        await user.RemoveRolesAsync(toRemove);
-                    }
-                    catch
-                    {
-                        Log.Error($"Unable to remove statusroles in {user.Guild} due to permission issues.");
-                    }
-                }
-
-                if (toAdd.Any())
-                {
-                    try
-                    {
-                        await user.AddRolesAsync(toAdd);
-                    }
-                    catch
-                    {
-                        Log.Error($"Unable to add statusroles in {user.Guild} due to permission issues.");
-                    }
-                }
-
-                var channel = user.Guild.GetTextChannel(i.StatusChannelId);
-
-                if (channel is null)
-                {
-                    continue;
-                }
-
-                if (string.IsNullOrWhiteSpace(i.StatusEmbed))
-                {
-                    continue;
-                }
-
-                var rep = new ReplacementBuilder().WithDefault(user, channel, user.Guild, client).Build();
-
-                if (SmartEmbed.TryParse(rep.Replace(i.StatusEmbed), user.Guild.Id, out var embeds, out var plainText,
-                        out var components))
-                {
-                    await channel.SendMessageAsync(plainText ?? null, embeds: embeds ?? [],
-                        components: components?.Build());
-                }
-                else
-                {
-                    await channel.SendMessageAsync(rep.Replace(i.StatusEmbed));
-                }
-            }
+            await user.RemoveRolesAsync(roleIds);
         }
-        catch (Exception e)
+        catch
         {
-            var status = args3.Activities?.FirstOrDefault() as CustomStatusGame;
-            Log.Error("Error in StatusRolesService. After Status: {Status} args: {Args2} args2: {Args3}\n{Exception}",
-                status.State, args2, args3, e);
+            Log.Error("Unable to remove statusroles in {Guild} due to permission issues", user.Guild);
+        }
+    }
+
+    private static async Task AddRoles(SocketGuildUser user, IEnumerable<ulong> roleIds)
+    {
+        try
+        {
+            await user.AddRolesAsync(roleIds);
+        }
+        catch
+        {
+            Log.Error("Unable to add statusroles in {Guild} due to permission issues", user.Guild);
+        }
+    }
+
+    private async Task SendStatusEmbed(SocketGuildUser user, ITextChannel channel, string embedText)
+    {
+        var rep = new ReplacementBuilder().WithDefault(user, channel, user.Guild, client).Build();
+
+        if (SmartEmbed.TryParse(rep.Replace(embedText), user.Guild.Id, out var embeds, out var plainText, out var components))
+        {
+            await channel.SendMessageAsync(plainText, embeds: embeds, components: components?.Build());
+        }
+        else
+        {
+            await channel.SendMessageAsync(rep.Replace(embedText));
         }
     }
 
@@ -225,17 +181,21 @@ public class StatusRolesService : INService
     {
         await using var dbContext = await dbProvider.GetContextAsync();
 
-        var toAdd = new StatusRolesTable
-        {
-            Status = status, GuildId = guildId
-        };
-        if (dbContext.StatusRoles.Where(x => x.GuildId == guildId).Any(x => x.Status == status))
+        if (await dbContext.StatusRoles.AnyAsync(x => x.GuildId == guildId && x.Status == status))
             return false;
+
+        var toAdd = new StatusRolesTable { Status = status, GuildId = guildId };
         dbContext.StatusRoles.Add(toAdd);
         await dbContext.SaveChangesAsync();
+
+        guildStatusRoles.AddOrUpdate(guildId,
+            [toAdd],
+            (_, set) => { set.Add(toAdd); return set; });
+
         var statusRoles = await GetStatusRolesAsync();
         statusRoles.Add(toAdd);
         await cache.SetAsync("statusRoles", statusRoles);
+
         return true;
     }
 
@@ -243,20 +203,24 @@ public class StatusRolesService : INService
     /// Removes a status role configuration by its index.
     /// </summary>
     /// <param name="index">The index of the status role configuration to remove.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task RemoveStatusRoleConfig(int index)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
 
-        var status = dbContext.StatusRoles.FirstOrDefault(x => x.Id == index);
-        if (status is null)
+        var status = await dbContext.StatusRoles.FirstOrDefaultAsync(x => x.Id == index);
+        if (status == null)
             return;
+
         dbContext.StatusRoles.Remove(status);
         await dbContext.SaveChangesAsync();
+
+        if (guildStatusRoles.TryGetValue(status.GuildId, out var guildSet))
+        {
+            guildSet.RemoveWhere(x => x.Id == index);
+        }
+
         var statusRoles = await GetStatusRolesAsync();
-        var toremove = statusRoles.FirstOrDefault(x => x.Id == index);
-        if (toremove is not null)
-            statusRoles.Remove(toremove);
+        statusRoles.RemoveAll(x => x.Id == index);
         await cache.SetAsync("statusRoles", statusRoles);
     }
 
@@ -264,7 +228,6 @@ public class StatusRolesService : INService
     /// Removes a status role configuration.
     /// </summary>
     /// <param name="status">The status role configuration to remove.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task RemoveStatusRoleConfig(StatusRolesTable status)
     {
         try
@@ -273,16 +236,19 @@ public class StatusRolesService : INService
 
             dbContext.StatusRoles.Remove(status);
             await dbContext.SaveChangesAsync();
+
+            if (guildStatusRoles.TryGetValue(status.GuildId, out var guildSet))
+            {
+                guildSet.Remove(status);
+            }
+
             var statusRoles = await GetStatusRolesAsync();
-            var toremove = statusRoles.FirstOrDefault(x => x.Id == status.Id);
-            if (toremove is not null)
-                statusRoles.Remove(toremove);
+            statusRoles.RemoveAll(x => x.Id == status.Id);
             await cache.SetAsync("statusRoles", statusRoles);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            Log.Error(e, "Error removing status role config");
         }
     }
 
@@ -291,15 +257,9 @@ public class StatusRolesService : INService
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns>The set of status role configurations for the guild.</returns>
-    public async Task<HashSet<StatusRolesTable>> GetStatusRoleConfig(ulong guildId)
+    public Task<HashSet<StatusRolesTable>> GetStatusRoleConfig(ulong guildId)
     {
-        var statusRoles = await GetStatusRolesAsync();
-        if (statusRoles.Count
-
- == 0)
-            return [];
-        var statusList = statusRoles.Where(x => x.GuildId == guildId).ToHashSet();
-        return statusList.Count != 0 ? statusList : [];
+        return Task.FromResult(guildStatusRoles.GetValueOrDefault(guildId, []));
     }
 
     /// <summary>
@@ -310,16 +270,7 @@ public class StatusRolesService : INService
     /// <returns>True if the roles were successfully set; otherwise, false.</returns>
     public async Task<bool> SetAddRoles(StatusRolesTable status, string toAdd)
     {
-        await using var dbContext = await dbProvider.GetContextAsync();
-
-        status.ToAdd = toAdd;
-        dbContext.StatusRoles.Update(status);
-        await dbContext.SaveChangesAsync();
-        var statusRoles = await GetStatusRolesAsync();
-        var listIndex = statusRoles.FindIndex(x => x.Id == status.Id);
-        statusRoles[listIndex] = status;
-        await cache.SetAsync("statusRoles", statusRoles);
-        return true;
+        return await UpdateStatusRoleConfig(status, s => s.ToAdd = toAdd);
     }
 
     /// <summary>
@@ -330,16 +281,7 @@ public class StatusRolesService : INService
     /// <returns>True if the roles were successfully set; otherwise, false.</returns>
     public async Task<bool> SetRemoveRoles(StatusRolesTable status, string toRemove)
     {
-        await using var dbContext = await dbProvider.GetContextAsync();
-
-        status.ToRemove = toRemove;
-        dbContext.StatusRoles.Update(status);
-        await dbContext.SaveChangesAsync();
-        var statusRoles = await GetStatusRolesAsync();
-        var listIndex = statusRoles.FindIndex(x => x.Id == status.Id);
-        statusRoles[listIndex] = status;
-        await cache.SetAsync("statusRoles", statusRoles);
-        return true;
+        return await UpdateStatusRoleConfig(status, s => s.ToRemove = toRemove);
     }
 
     /// <summary>
@@ -350,16 +292,7 @@ public class StatusRolesService : INService
     /// <returns>True if the channel was successfully set; otherwise, false.</returns>
     public async Task<bool> SetStatusChannel(StatusRolesTable status, ulong channelId)
     {
-        await using var dbContext = await dbProvider.GetContextAsync();
-
-        status.StatusChannelId = channelId;
-        dbContext.StatusRoles.Update(status);
-        await dbContext.SaveChangesAsync();
-        var statusRoles = await GetStatusRolesAsync();
-        var listIndex = statusRoles.FindIndex(x => x.Id == status.Id);
-        statusRoles[listIndex] = status;
-        await cache.SetAsync("statusRoles", statusRoles);
-        return true;
+        return await UpdateStatusRoleConfig(status, s => s.StatusChannelId = channelId);
     }
 
     /// <summary>
@@ -370,16 +303,7 @@ public class StatusRolesService : INService
     /// <returns>True if the embed text was successfully set; otherwise, false.</returns>
     public async Task<bool> SetStatusEmbed(StatusRolesTable status, string embedText)
     {
-        await using var dbContext = await dbProvider.GetContextAsync();
-
-        status.StatusEmbed = embedText;
-        dbContext.StatusRoles.Update(status);
-        await dbContext.SaveChangesAsync();
-        var statusRoles = await GetStatusRolesAsync();
-        var listIndex = statusRoles.FindIndex(x => x.Id == status.Id);
-        statusRoles[listIndex] = status;
-        await cache.SetAsync("statusRoles", statusRoles);
-        return true;
+        return await UpdateStatusRoleConfig(status, s => s.StatusEmbed = embedText);
     }
 
     /// <summary>
@@ -389,16 +313,7 @@ public class StatusRolesService : INService
     /// <returns>True if the toggle was successful; otherwise, false.</returns>
     public async Task<bool> ToggleRemoveAdded(StatusRolesTable status)
     {
-        await using var dbContext = await dbProvider.GetContextAsync();
-
-        status.RemoveAdded = !status.RemoveAdded;
-        dbContext.StatusRoles.Update(status);
-        await dbContext.SaveChangesAsync();
-        var statusRoles = await GetStatusRolesAsync();
-        var listIndex = statusRoles.FindIndex(x => x.Id == status.Id);
-        statusRoles[listIndex] = status;
-        await cache.SetAsync("statusRoles", statusRoles);
-        return status.RemoveAdded;
+        return await UpdateStatusRoleConfig(status, s => s.RemoveAdded = !s.RemoveAdded);
     }
 
     /// <summary>
@@ -408,15 +323,33 @@ public class StatusRolesService : INService
     /// <returns>True if the toggle was successful; otherwise, false.</returns>
     public async Task<bool> ToggleAddRemoved(StatusRolesTable status)
     {
+        return await UpdateStatusRoleConfig(status, s => s.ReaddRemoved = !s.ReaddRemoved);
+    }
+
+    private async Task<bool> UpdateStatusRoleConfig(StatusRolesTable status, Action<StatusRolesTable> updateAction)
+    {
         await using var dbContext = await dbProvider.GetContextAsync();
 
-        status.ReaddRemoved = !status.ReaddRemoved;
-        dbContext.StatusRoles.Update(status);
+        var dbStatus = await dbContext.StatusRoles.FindAsync(status.Id);
+        if (dbStatus == null)
+            return false;
+
+        updateAction(dbStatus);
+        dbContext.StatusRoles.Update(dbStatus);
         await dbContext.SaveChangesAsync();
+
+        if (guildStatusRoles.TryGetValue(status.GuildId, out var guildSet))
+        {
+            guildSet.RemoveWhere(x => x.Id == status.Id);
+            guildSet.Add(dbStatus);
+        }
+
         var statusRoles = await GetStatusRolesAsync();
         var listIndex = statusRoles.FindIndex(x => x.Id == status.Id);
-        statusRoles[listIndex] = status;
+        if (listIndex == -1) return true;
+        statusRoles[listIndex] = dbStatus;
         await cache.SetAsync("statusRoles", statusRoles);
-        return status.ReaddRemoved;
+
+        return true;
     }
 }

@@ -28,7 +28,7 @@ public class AfkService : INService, IReadyExecutor
     /// <summary>
     /// Initializes a new instance of the AfkService class.
     /// </summary>
-    /// <param name="db">The database service.</param>
+    /// <param name="dbProvider">The database service.</param>
     /// <param name="client">The Discord socket client.</param>
     /// <param name="cache">The FusionCache instance.</param>
     /// <param name="guildSettings">The guild settings service.</param>
@@ -59,45 +59,20 @@ public class AfkService : INService, IReadyExecutor
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task OnReadyAsync()
     {
-        Log.Information($"Starting {this.GetType()} Cache");
-        // Retrieve all AFK entries from the database
+        Log.Information("Starting {Type} Cache", GetType());
         await using var dbContext = await dbProvider.GetContextAsync();
-        var allafk = await dbContext.Afk.AsNoTracking().OrderByDescending(afk => afk.DateAdded).ToListAsyncEF();
+        var allAfk = await dbContext.Afk.AsNoTracking().OrderByDescending(afk => afk.DateAdded).ToListAsyncEF();
 
-        // Create a dictionary to store the latest AFK entry per user per guild
-        var latestAfkPerUserPerGuild =
-            new ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, Database.Models.Afk>>();
+        var latestAfkPerUserPerGuild = allAfk
+            .GroupBy(afk => afk.GuildId)
+            .ToDictionary(
+                g => g.Key,
+                g => g.GroupBy(a => a.UserId).ToDictionary(ug => ug.Key, ug => ug.First())
+            );
 
-        // Get unique guild IDs with AFK entries
-        var guildIdsWithAfk = allafk.Select(afk => afk.GuildId).Distinct();
-
-        // Process each guild's AFK entries
-        var tasks = guildIdsWithAfk.Select(guildId =>
-        {
-            var latestAfkPerUser = new ConcurrentDictionary<ulong, Database.Models.Afk>();
-
-            // Get the latest AFK entry for each user in the guild
-            var afkEntriesForGuild = allafk.Where(afk => afk.GuildId == guildId)
-                .GroupBy(afk => afk.UserId)
-                .Select(g => g.First());
-
-            foreach (var afk in afkEntriesForGuild)
-            {
-                latestAfkPerUser.TryAdd(afk.UserId, afk);
-            }
-
-            latestAfkPerUserPerGuild.TryAdd(guildId, latestAfkPerUser);
-            return Task.CompletedTask;
-        });
-
-        // Wait for all tasks to complete
-        await Task.WhenAll(tasks);
-
-        // Cache the latest AFK entries
         await CacheLatestAfks(latestAfkPerUserPerGuild);
 
-        // Set an environment variable to indicate that AFK data is cached
-        Environment.SetEnvironmentVariable($"AFK_CACHED", "1");
+        Environment.SetEnvironmentVariable("AFK_CACHED", "1");
         Log.Information("AFK Cached");
     }
 
@@ -196,7 +171,7 @@ public class AfkService : INService, IReadyExecutor
     /// </summary>
     /// <param name="latestAfks">A dictionary containing the latest AFK entries per user per guild.</param>
     private async Task CacheLatestAfks(
-        ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, Database.Models.Afk>> latestAfks)
+        Dictionary<ulong, Dictionary<ulong, Database.Models.Afk>> latestAfks)
     {
         foreach (var guild in latestAfks)
         {
@@ -434,9 +409,7 @@ public class AfkService : INService, IReadyExecutor
     /// <param name="userId">The ID of the user.</param>
     /// <returns>The AFK entry for the user if found; otherwise, null.</returns>
     public async Task<Database.Models.Afk?> GetAfk(ulong guildId, ulong userId)
-    {
-        return await cache.GetOrDefaultAsync<Database.Models.Afk>($"{guildId}:{userId}");
-    }
+        => await cache.GetOrDefaultAsync<Database.Models.Afk>($"{guildId}:{userId}");
 
     /// <summary>
     /// Gets a list of AFK users in the specified guild.
@@ -445,16 +418,11 @@ public class AfkService : INService, IReadyExecutor
     /// <returns>A list of AFK users in the guild.</returns>
     public async Task<List<IGuildUser>> GetAfkUsers(IGuild guild)
     {
-        var afkUsers = new List<IGuildUser>();
         var users = await guild.GetUsersAsync();
-
-        foreach (var user in users)
-        {
-            if (await IsAfk(guild.Id, user.Id).ConfigureAwait(false))
-                afkUsers.Add(user);
-        }
-
-        return afkUsers;
+        return (await Task.WhenAll(users.Select(async user =>
+                await IsAfk(guild.Id, user.Id) ? user : null)))
+            .Where(user => user != null)
+            .ToList();
     }
 
     /// <summary>
@@ -623,9 +591,8 @@ public class AfkService : INService, IReadyExecutor
     /// <param name="message">The AFK message. If empty, removes all AFK statuses for the user.</param>
     /// <param name="timed">Whether the AFK is timed.</param>
     /// <param name="when">The time when the AFK was set.</param>
-    public async Task AfkSet(ulong guildId, ulong userId, string message, bool timed = false, DateTime when = new())
+    public async Task AfkSet(ulong guildId, ulong userId, string message, bool timed = false, DateTime when = default)
     {
-        // Remove any existing timer for this user's AFK status in this guild
         if (afkTimers.TryRemove((guildId, userId), out var existingTimer))
         {
             await existingTimer.DisposeAsync();
@@ -633,27 +600,16 @@ public class AfkService : INService, IReadyExecutor
 
         await using var dbContext = await dbProvider.GetContextAsync();
 
-        // Remove all existing AFK entries for this user in this guild
-        var existingAfks = await dbContext.Afk
+        await dbContext.Afk
             .Where(a => a.GuildId == guildId && a.UserId == userId)
-            .ToListAsync();
-
-        var anyAfks = dbContext.Afk.Any(a => a.UserId == userId);
-
-        if (existingAfks.Count!=0)
-        {
-            dbContext.Afk.RemoveRange(existingAfks);
-        }
+            .ExecuteDeleteAsync();
 
         if (string.IsNullOrEmpty(message))
         {
-            // If message is empty, just remove the AFK status
-            await dbContext.SaveChangesAsync();
             await cache.RemoveAsync($"{guildId}:{userId}");
         }
         else
         {
-            // Create and add new AFK entry
             var newAfk = new Database.Models.Afk
             {
                 GuildId = guildId,
@@ -666,10 +622,8 @@ public class AfkService : INService, IReadyExecutor
             dbContext.Afk.Add(newAfk);
             await dbContext.SaveChangesAsync();
 
-            // Update cache
             await cache.SetAsync($"{guildId}:{userId}", newAfk);
 
-            // Schedule timed AFK if necessary
             if (timed)
             {
                 ScheduleTimedAfk(newAfk);
