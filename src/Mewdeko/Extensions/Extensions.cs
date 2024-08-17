@@ -686,6 +686,6 @@ public static partial class Extensions
     /// Generates a regular expression for URL validation.
     /// </summary>
     /// <returns>A compiled regular expression for URL validation.</returns>
-    [GeneratedRegex("^(https?|ftp)://(?<path>[^\\s/$.?#].[^\\s]*)$", RegexOptions.Compiled)]
+    [GeneratedRegex(@"(?:(?:https?:\/\/)?(?:www\.)?)?(?<domain>(?!(?:www|http|https)\.)[a-zA-Z0-9_-]+(?:\.[a-zA-Z]{2,6})+)(?<path>\/[^\s]*)?", RegexOptions.Compiled | RegexOptions.IgnoreCase)]
     private static partial Regex MyRegex();
 }

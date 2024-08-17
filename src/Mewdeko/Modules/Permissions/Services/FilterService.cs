@@ -26,8 +26,7 @@ public class FilterService : IEarlyBehavior, INService
     private readonly CultureInfo? cultureInfo = new("en-US");
     private readonly DbContextProvider dbProvider;
     private readonly GuildSettingsService gss;
-    private readonly IPubSub pubSub;
-    private readonly UserPunishService upun;
+    private readonly UserPunishService userPunServ;
 
     /// <summary>
     /// Initializes a new instance of the FilterService with necessary dependencies for filtering operations.
@@ -42,8 +41,7 @@ public class FilterService : IEarlyBehavior, INService
     {
         this.dbProvider = dbProvider;
         this.client = client;
-        this.pubSub = pubSub;
-        upun = upun2;
+        userPunServ = upun2;
         Strings = strng;
         this.ass = ass;
         this.gss = gss;
@@ -240,7 +238,7 @@ public class FilterService : IEarlyBehavior, INService
     /// <param name="guild">The guild in which the message was posted.</param>
     /// <param name="msg">The message to check for banned words.</param>
     /// <returns>True if the message contained banned words and was acted upon; otherwise, false.</returns>
-    public async Task<bool> FilterBannedWords(IGuild? guild, IUserMessage? msg)
+    private async Task<bool> FilterBannedWords(IGuild? guild, IUserMessage? msg)
     {
         if (guild is null)
             return false;
@@ -272,7 +270,7 @@ public class FilterService : IEarlyBehavior, INService
                 await msg.DeleteAsync().ConfigureAwait(false);
                 var defaultMessage = GetText("bandm", Format.Bold(guild.Name),
                     $"Banned for saying autoban word {i}");
-                var embed = await upun.GetBanUserDmEmbed(client, guild as SocketGuild,
+                var embed = await userPunServ.GetBanUserDmEmbed(client, guild as SocketGuild,
                     await guild.GetUserAsync(client.CurrentUser.Id).ConfigureAwait(false), msg.Author as IGuildUser,
                     defaultMessage,
                     $"Banned for saying autoban word {match}", null).ConfigureAwait(false);
@@ -313,93 +311,88 @@ public class FilterService : IEarlyBehavior, INService
     /// <param name="usrMsg">The message to check for specified words.</param>
     /// <returns>True if the message contained specified words and was acted upon; otherwise, false.</returns>
     public async Task<bool> FilterWords(IGuild? guild, IUserMessage? usrMsg)
+{
+    if (guild is null || usrMsg?.Author is null)
+        return false;
+
+    var channelId = usrMsg.Channel.Id;
+    var guildId = guild.Id;
+
+    if (!await ShouldFilterChannel(channelId, guildId))
+        return false;
+
+    var filteredWords = await GetFilteredWordsForServer(guildId);
+    if (filteredWords.Count == 0)
+        return false;
+
+    var lowerContent = usrMsg.Content.ToLower();
+    foreach (var word in filteredWords)
     {
-        if (guild is null)
-            return false;
-        if (usrMsg is null)
-            return false;
-
-        await using var dbContext = await dbProvider.GetContextAsync();
-
-        var filterChannelWords = await FilterChannel(usrMsg.Channel.Id, guild.Id);
-        var filteredServerWords = await FilteredWordsForServer(guild.Id);
-        if (filterChannelWords || filteredServerWords.Count != 0)
+        if (await IsWordMatched(word, lowerContent, guildId))
         {
-            foreach (var word in filteredServerWords)
-            {
-                Regex regex;
-                try
-                {
-                    regex = new Regex(word, RegexOptions.Compiled, TimeSpan.FromMilliseconds(250));
-                }
-                catch
-                {
-                    Log.Error("Invalid regex, removing.: {Word}", word);
-
-                    var config = await dbContext.ForGuildId(guild.Id, set => set.Include(gc => gc.FilteredWords));
-
-                    var removed = config.FilteredWords.FirstOrDefault(fw => fw.Word.Trim().ToLowerInvariant() == word);
-                    if (removed is null)
-                        return false;
-                    dbContext.Remove(removed);
-                    await gss.UpdateGuildConfig(guild.Id, config);
-                    return false;
-                }
-
-                if (!regex.IsMatch(usrMsg.Content.ToLower())) continue;
-                try
-                {
-                    await usrMsg.DeleteAsync().ConfigureAwait(false);
-                    if (await GetFw(guild.Id) != 0)
-                    {
-                        await upun.Warn(guild, usrMsg.Author.Id, client.CurrentUser,
-                            "Warned for Filtered Word").ConfigureAwait(false);
-                        var user = await usrMsg.Author.CreateDMChannelAsync().ConfigureAwait(false);
-                        await user.SendErrorAsync(
-                                $"You have been warned for using the word {Format.Code(regex.Match(usrMsg.Content.ToLower()).Value)}",
-                                config)
-                            .ConfigureAwait(false);
-                    }
-                }
-                catch (HttpException ex)
-                {
-                    Log.Warning(
-                        "I do not have permission to filter words in channel with id " + usrMsg.Channel.Id, ex);
-                }
-
-                return true;
-            }
+            return await HandleFilteredWord(usrMsg, guild, word);
         }
+    }
 
-        foreach (var regex in filteredServerWords
-                     .Select(word => new Regex(word, RegexOptions.Compiled, TimeSpan.FromMilliseconds(250)))
-                     .Where(regex => regex.IsMatch(usrMsg.Content.ToLower())))
-        {
-            try
-            {
-                await usrMsg.DeleteAsync().ConfigureAwait(false);
-                if (await GetFw(guild.Id) != 0)
-                {
-                    await upun.Warn(guild, usrMsg.Author.Id, client.CurrentUser,
-                        "Warned for Filtered Word").ConfigureAwait(false);
-                    var user = await usrMsg.Author.CreateDMChannelAsync().ConfigureAwait(false);
-                    await user.SendErrorAsync(
-                            $"You have been warned for using the word {Format.Code(regex.Match(usrMsg.Content.ToLower()).Value)}",
-                            config)
-                        .ConfigureAwait(false);
-                }
-            }
-            catch (HttpException ex)
-            {
-                Log.Warning(
-                    "I do not have permission to filter words in channel with id " + usrMsg.Channel.Id, ex);
-            }
+    return false;
+}
 
-            return true;
-        }
+private async Task<bool> ShouldFilterChannel(ulong channelId, ulong guildId)
+{
+    var config = await gss.GetGuildConfig(guildId);
+    return config.FilterWordsChannelIds.Any(x => x.ChannelId == channelId);
+}
 
+private async Task<HashSet<string>> GetFilteredWordsForServer(ulong guildId)
+{
+    var config = await gss.GetGuildConfig(guildId);
+    return config.FilteredWords.Select(x => x.Word).ToHashSet();
+}
+
+private async Task<bool> IsWordMatched(string word, string content, ulong guildId)
+{
+    try
+    {
+        var regex = new Regex(word, RegexOptions.Compiled | RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
+        return regex.IsMatch(content);
+    }
+    catch (ArgumentException)
+    {
+        await RemoveInvalidRegex(word, guildId);
         return false;
     }
+}
+
+private async Task RemoveInvalidRegex(string word, ulong guildId)
+{
+    Log.Error("Invalid regex, removing: {Word}", word);
+    await using var dbContext = await dbProvider.GetContextAsync();
+    var config = await dbContext.ForGuildId(guildId, set => set.Include(gc => gc.FilteredWords));
+    var removed = config.FilteredWords.FirstOrDefault(fw => fw.Word.Trim().Equals(word, StringComparison.InvariantCultureIgnoreCase));
+    if (removed != null)
+    {
+        dbContext.Remove(removed);
+        await gss.UpdateGuildConfig(guildId, config);
+    }
+}
+
+private async Task<bool> HandleFilteredWord(IUserMessage usrMsg, IGuild guild, string word)
+{
+    try
+    {
+        await usrMsg.DeleteAsync();
+        if (await GetFw(guild.Id) == 0) return true;
+        await userPunServ.Warn(guild, usrMsg.Author.Id, client.CurrentUser, "Warned for Filtered Word");
+        var user = await usrMsg.Author.CreateDMChannelAsync();
+        await user.SendErrorAsync($"You have been warned for using a filtered word: {Format.Code(word)}", config);
+        return true;
+    }
+    catch (HttpException ex)
+    {
+        Log.Warning(ex, "Failed to filter word in channel {ChannelId}. Possible permission issue", usrMsg.Channel.Id);
+        return false;
+    }
+}
 
     /// <summary>
     /// Filters messages containing invites and takes appropriate action.
@@ -407,67 +400,77 @@ public class FilterService : IEarlyBehavior, INService
     /// <param name="guild">The guild in which the message was posted.</param>
     /// <param name="usrMsg">The message to check for invites.</param>
     /// <returns>True if the message contained invites and was acted upon; otherwise, false.</returns>
-    public async Task<bool> FilterInvites(IGuild? guild, IUserMessage? usrMsg)
+    private async Task<bool> FilterInvites(IGuild? guild, IUserMessage? usrMsg)
     {
-        if (guild is null)
-            return false;
-        if (usrMsg is null)
+        if (guild is null || usrMsg?.Author is null)
             return false;
 
         var servConfig = await gss.GetGuildConfig(guild.Id);
-        if (!servConfig.FilterInvitesChannelIds.Select(x => x.ChannelId).Contains(usrMsg.Channel.Id)
-            && servConfig.FilterInvites
-            || !usrMsg.Content.IsDiscordInvite()) return false;
+
+        var shouldFilter = servConfig.FilterInvites &&
+                           (servConfig.FilterInvitesChannelIds.Count==0 || servConfig.FilterInvitesChannelIds.Select(x => x.ChannelId).Contains(usrMsg.Channel.Id)) &&
+                           usrMsg.Content.IsDiscordInvite();
+
+        if (!shouldFilter)
+            return false;
+
         try
         {
-            await usrMsg.DeleteAsync().ConfigureAwait(false);
+            await usrMsg.DeleteAsync();
+
             if (await GetInvWarn(guild.Id) == 0) return true;
-            await upun.Warn(guild, usrMsg.Author.Id, client.CurrentUser, "Warned for Posting Invite")
-                .ConfigureAwait(false);
-            var user = await usrMsg.Author.CreateDMChannelAsync().ConfigureAwait(false);
-            await user.SendErrorAsync("You have been warned for sending an invite, this is not allowed!", config)
-                .ConfigureAwait(false);
+            await userPunServ.Warn(guild, usrMsg.Author.Id, client.CurrentUser, "Warned for Posting Invite");
+
+            var userDmChannel = await usrMsg.Author.CreateDMChannelAsync();
+            await userDmChannel.SendErrorAsync("You have been warned for sending an invite, this is not allowed!", config);
 
             return true;
         }
         catch (HttpException ex)
         {
-            Log.Warning("I do not have permission to filter invites in channel with id " + usrMsg.Channel.Id,
-                ex);
-            return true;
+            Log.Warning(ex, "Failed to filter invite in channel {ChannelId}. Possible permission issue", usrMsg.Channel.Id);
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Unexpected error while filtering invite in channel {ChannelId}", usrMsg.Channel.Id);
+            return false;
         }
     }
 
     /// <summary>
-    /// Filters messages containing links and takes appropriate action.
+    /// Filters links from messages based on guild configuration.
     /// </summary>
-    /// <param name="guild">The guild in which the message was posted.</param>
-    /// <param name="usrMsg">The message to check for links.</param>
-    /// <returns>True if the message contained links and was acted upon; otherwise, false.</returns>
-    public async Task<bool> FilterLinks(IGuild? guild, IUserMessage? usrMsg)
+    /// <param name="guild">The guild where the message was sent.</param>
+    /// <param name="usrMsg">The user message to check for links.</param>
+    /// <returns>True if a link was filtered, false otherwise.</returns>
+    private async Task<bool> FilterLinks(IGuild? guild, IUserMessage? usrMsg)
     {
-        if (guild is null)
-            return false;
-        if (usrMsg is null)
+        if (guild is null || usrMsg is null)
             return false;
 
         var servConfig = await gss.GetGuildConfig(guild.Id);
-        if ((servConfig.FilterLinksChannelIds.Select(x => x.ChannelId).Contains(usrMsg.Channel.Id)
-             || servConfig.FilterLinks)
-            && usrMsg.Content.TryGetUrlPath(out _))
-        {
-            try
-            {
-                await usrMsg.DeleteAsync().ConfigureAwait(false);
-                return true;
-            }
-            catch
-            {
-                Log.Warning("I do not have permission to filter links in channel with id " + usrMsg.Channel.Id);
-                return true;
-            }
-        }
 
-        return false;
+        var shouldFilter = (servConfig.FilterLinksChannelIds.Any(x => x.ChannelId == usrMsg.Channel.Id) || servConfig.FilterLinks)
+                           && usrMsg.Content.TryGetUrlPath(out _);
+
+        if (!shouldFilter)
+            return false;
+
+        try
+        {
+            await usrMsg.DeleteAsync();
+            return true;
+        }
+        catch (HttpException ex)
+        {
+            Log.Warning(ex, "Failed to delete message containing link in channel {ChannelId}. Possible permission issue", usrMsg.Channel.Id);
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Unexpected error while filtering link in channel {ChannelId}", usrMsg.Channel.Id);
+            return false;
+        }
     }
 }
