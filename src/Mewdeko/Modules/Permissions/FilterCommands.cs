@@ -251,7 +251,7 @@ public partial class Permissions
                 config.FilterInvitesChannelIds.Add(match);
             else
                 dbContext.Remove(removed);
-            await gss.UpdateGuildConfig(ctx.Guild.Id, config).ConfigureAwait(false);
+            await dbContext.SaveChangesAsync();
 
             if (removed == null)
             {

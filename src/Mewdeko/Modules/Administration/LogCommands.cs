@@ -1,7 +1,7 @@
 ﻿using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Administration.Services;
-using LogType = Mewdeko.Modules.Administration.Services.NewLogCommandService.LogType;
+using LogType = Mewdeko.Modules.Administration.Services.LogCommandService.LogType;
 
 namespace Mewdeko.Modules.Administration;
 
@@ -11,7 +11,7 @@ public partial class Administration
     /// Module for logging commands.
     /// </summary>
     [Group]
-    public class LogCommands(GuildSettingsService gss) : MewdekoSubmodule<NewLogCommandService>
+    public class LogCommands(GuildSettingsService gss) : MewdekoSubmodule<LogCommandService>
     {
         /// <summary>
         /// Sets the logging category for a specified type of logs.
@@ -24,7 +24,7 @@ public partial class Administration
         /// <example>.logcategory messages #log-channel</example>
         /// <example>.logcategory messages</example>
         [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(1)]
-        public async Task LogCategory(NewLogCommandService.LogCategoryTypes type, ITextChannel? channel = null)
+        public async Task LogCategory(LogCommandService.LogCategoryTypes type, ITextChannel? channel = null)
         {
             await Service.LogSetByType(ctx.Guild.Id, channel?.Id ?? 0, type);
             if (channel is null)
