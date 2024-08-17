@@ -11,7 +11,7 @@ public partial class Administration
     /// Module for logging commands.
     /// </summary>
     [Group]
-    public class LogCommands : MewdekoSubmodule<NewLogCommandService>
+    public class LogCommands(GuildSettingsService gss) : MewdekoSubmodule<NewLogCommandService>
     {
         /// <summary>
         /// Sets the logging category for a specified type of logs.
@@ -175,19 +175,27 @@ public partial class Administration
         }
 
 
-        // [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
-        // public async Task CommandLogChannel(ITextChannel? channel = null)
-        // {
-        //     if (channel is null)
-        //     {
-        //         await ConfirmLocalizedAsync("command_logging_disabled");
-        //         await Service.UpdateCommandLogChannel(ctx.Guild, 0);
-        //     }
-        //     else
-        //     {
-        //         await ConfirmLocalizedAsync("command_logging_enabled");
-        //         await Service.UpdateCommandLogChannel(ctx.Guild, channel.Id);
-        //     }
-        // }
+        /// <summary>
+        /// Sets a channel to log commands to
+        /// </summary>
+        /// <param name="channel">The channel to log commands to</param>
+        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        public async Task CommandLogChannel(ITextChannel? channel = null)
+        {
+            if (channel is null)
+            {
+                await ConfirmLocalizedAsync("command_logging_disabled");
+                var gc = await gss.GetGuildConfig(ctx.Guild.Id);
+                gc.CommandLogChannel = 0;
+                await gss.UpdateGuildConfig(ctx.Guild.Id, gc);
+            }
+            else
+            {
+                await ConfirmLocalizedAsync("command_logging_enabled");
+                var gc = await gss.GetGuildConfig(ctx.Guild.Id);
+                gc.CommandLogChannel = channel.Id;
+                await gss.UpdateGuildConfig(ctx.Guild.Id, gc);
+            }
+        }
     }
 }

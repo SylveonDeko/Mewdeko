@@ -666,6 +666,7 @@ public class CommandHandler : INService
 
     private async Task LogCommandExecution(IMessage usrMsg, ITextChannel channel, CommandInfo? commandInfo, bool success, int executionTime, string errorMessage = null)
     {
+        var gc = await gss.GetGuildConfig(channel.GuildId);
         var logBuilder = new StringBuilder()
             .AppendLine(success ? "Command Executed" : "Command Errored")
             .AppendLine($"User: {usrMsg.Author} [{usrMsg.Author.Id}]")
@@ -682,25 +683,32 @@ public class CommandHandler : INService
         else
             Log.Warning(logBuilder.ToString());
 
+
+        var embed = new EmbedBuilder()
+            .WithColor(success ? Mewdeko.OkColor : Mewdeko.ErrorColor)
+            .WithTitle(success ? "Command Executed" : "Command Errored")
+            .AddField("User", $"{usrMsg.Author.Mention} {usrMsg.Author} {usrMsg.Author.Id}")
+            .AddField("Guild", channel == null ? "PRIVATE" : $"{channel.Guild.Name} `{channel.Guild.Id}`")
+            .AddField("Channel", channel == null ? "PRIVATE" : $"{channel.Name} `{channel.Id}`")
+            .AddField("Message", usrMsg.Content.TrimTo(1000))
+            .AddField("Execution Time", $"{executionTime}ms");
+
+        if (!success && !string.IsNullOrEmpty(errorMessage))
+            embed.AddField("Error", errorMessage);
+
+        if (commandInfo != null)
+            embed.AddField("Command", $"{commandInfo.Module.Name} | {commandInfo.Name}");
+
         if (bss.Data.CommandLogChannel > 0)
         {
-            var embed = new EmbedBuilder()
-                .WithColor(success ? Mewdeko.OkColor : Mewdeko.ErrorColor)
-                .WithTitle(success ? "Command Executed" : "Command Errored")
-                .AddField("User", $"{usrMsg.Author.Mention} {usrMsg.Author} {usrMsg.Author.Id}")
-                .AddField("Guild", channel == null ? "PRIVATE" : $"{channel.Guild.Name} `{channel.Guild.Id}`")
-                .AddField("Channel", channel == null ? "PRIVATE" : $"{channel.Name} `{channel.Id}`")
-                .AddField("Message", usrMsg.Content.TrimTo(1000))
-                .AddField("Execution Time", $"{executionTime}ms");
-
-            if (!success && !string.IsNullOrEmpty(errorMessage))
-                embed.AddField("Error", errorMessage);
-
-            if (commandInfo != null)
-                embed.AddField("Command", $"{commandInfo.Module.Name} | {commandInfo.Name}");
-
             if (await client.Rest.GetChannelAsync(bss.Data.CommandLogChannel) is ITextChannel logChannel)
                 await logChannel.SendMessageAsync(embed: embed.Build()).ConfigureAwait(false);
+        }
+
+        if (gc.CommandLogChannel != 0)
+        {
+            if (await client.Rest.GetChannelAsync(gc.CommandLogChannel) is ITextChannel commandLogChannel)
+                await commandLogChannel.SendMessageAsync(embed: embed.Build()).ConfigureAwait(false);
         }
     }
 
