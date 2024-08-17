@@ -57,6 +57,8 @@
   "command_fatal_error": "This command had a fatal error. Please notify the bot owner or check your logs if you are selfhosting. If neccesary join the support server below.",
   "ban_by_hash_fail_some": "Banned {0} users by hash {1}, but failed to ban {2} users. Most likely due to heirarchy issues.",
   "ban_by_hash_none": "No users found with hash {0}",
+  "command_logging_enabled": "Command logging has been enabled.",
+  "command_logging_disabled": "Command logging has been disabled.",
   "ban_by_hash_confirm": "Are you sure you want to ban {0} users by hash {1}?",
   "rps_invalid_bet": "Invalid bet amount!",
   "rps_invalid_choice": "Invalid choice! Please choose rock, paper, scissors, lizard, or spock.",
