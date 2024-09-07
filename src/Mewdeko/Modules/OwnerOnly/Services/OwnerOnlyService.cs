@@ -395,7 +395,7 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         var content = new StringContent(System.Text.Json.JsonSerializer.Serialize(requestBody), Encoding.UTF8,
             "application/json");
 
-        using var response = await httpClient.PostAsync("https://api.openai.com/v1/chat/completions", content);
+        using var response = await httpClient.PostAsync("https://api.groq.com/openai/v1/chat/completions", content);
         response.EnsureSuccessStatusCode();
 
         await using var stream = await response.Content.ReadAsStreamAsync();
@@ -443,7 +443,10 @@ public class OwnerOnlyService : ILateExecutor, IReadyExecutor, INService
         }
 
         await using var dbContext = await dbProvider.GetContextAsync();
-        toUpdate.actualItem.GptTokensUsed += lastResponse.Usage.TotalTokens;
+        if (lastResponse.Usage is not null)
+        {
+            toUpdate.actualItem.GptTokensUsed += lastResponse.Usage.TotalTokens;
+        }
 
         if (toUpdate.added)
             dbContext.OwnerOnly.Add(toUpdate.actualItem);
