@@ -26,6 +26,11 @@ namespace Mewdeko.Database
         public DbSet<GiveawayUsers> GiveawayUsers { get; set; }
 
         /// <summary>
+        /// The bots reviews, can be added via dashboard or the bot itself
+        /// </summary>
+        public DbSet<BotReviews> BotReviews { get; set; }
+
+        /// <summary>
         /// Message Counts
         /// </summary>
         public DbSet<MessageCount> MessageCounts { get; set; }

@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
+using LinqToDB;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Giveaways.Services;
 using Mewdeko.Services.Impl;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +13,7 @@ namespace Mewdeko.Controllers;
 [ApiController]
 [Route("botapi/[controller]")]
 [Authorize("ApiKeyPolicy")]
-public class GiveawaysController(GiveawayService service, BotCredentials creds, HttpClient client) : Controller
+public class GiveawaysController(GiveawayService service, BotCredentials creds, HttpClient client, DbContextProvider dbContext) : Controller
 {
 
     /// <summary>
@@ -47,6 +49,70 @@ public class GiveawaysController(GiveawayService service, BotCredentials creds, 
     {
         var giveaway = await service.GetGiveawayById(giveawayId);
         return Ok(giveaway);
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="guildId"></param>
+    /// <returns></returns>
+    [HttpGet]
+    public async Task<IActionResult> GetGiveawaysForGuild(ulong guildId)
+    {
+        try
+        {
+            await using var db = await dbContext.GetContextAsync();
+            // You'll need to implement this method in the GiveawayService
+            var giveaways = await db.Giveaways.Where(x => x.ServerId == guildId).ToListAsync();
+            return Ok(giveaways);
+        }
+        catch
+        {
+            return NotFound();
+        }
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="guildId"></param>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<IActionResult> CreateGiveaway(ulong guildId, [FromBody] Giveaways model)
+    {
+        try
+        {
+            // You'll need to implement this method in the GiveawayService
+            var createdGiveaway = await service.CreateGiveawayFromDashboard(guildId, model);
+            return Ok(createdGiveaway);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="guildId"></param>
+    /// <param name="giveawayId"></param>
+    /// <returns></returns>
+    [HttpPatch("{giveawayId}")]
+    public async Task<IActionResult> EndGiveaway(ulong guildId, int giveawayId)
+    {
+        try
+        {
+            var gway = await service.GetGiveawayById(giveawayId);
+            // You'll need to implement this method in the GiveawayService
+            await service.GiveawayTimerAction(gway);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     private async Task<TurnstileVerificationResponse> VerifyTurnstileToken(string token)
