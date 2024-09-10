@@ -56,7 +56,7 @@ public class GiveawaysController(GiveawayService service, BotCredentials creds, 
     /// </summary>
     /// <param name="guildId"></param>
     /// <returns></returns>
-    [HttpGet]
+    [HttpGet("{guildId}")]
     public async Task<IActionResult> GetGiveawaysForGuild(ulong guildId)
     {
         try
@@ -78,7 +78,7 @@ public class GiveawaysController(GiveawayService service, BotCredentials creds, 
     /// <param name="guildId"></param>
     /// <param name="model"></param>
     /// <returns></returns>
-    [HttpPost]
+    [HttpPost("{guildId}")]
     public async Task<IActionResult> CreateGiveaway(ulong guildId, [FromBody] Giveaways model)
     {
         try
@@ -99,7 +99,7 @@ public class GiveawaysController(GiveawayService service, BotCredentials creds, 
     /// <param name="guildId"></param>
     /// <param name="giveawayId"></param>
     /// <returns></returns>
-    [HttpPatch("{giveawayId}")]
+    [HttpPatch("{guildId}/{giveawayId}")]
     public async Task<IActionResult> EndGiveaway(ulong guildId, int giveawayId)
     {
         try
