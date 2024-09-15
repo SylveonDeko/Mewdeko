@@ -175,6 +175,7 @@ public class MigrationService
             MigrateToPsql = false
         };
         await File.WriteAllTextAsync("../credentials.json", JsonSerializer.Serialize(creds));
+        Helpers.ReadErrorAndExit(0);
     }
 
     /// <summary>
