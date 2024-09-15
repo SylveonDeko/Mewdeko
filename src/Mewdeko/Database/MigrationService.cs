@@ -12,6 +12,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Serilog;
+using ConnectionState = System.Data.ConnectionState;
 
 namespace Mewdeko.Database;
 
@@ -178,51 +179,82 @@ public class MigrationService
     /// <param name="sourceContext">The source context.</param>
     /// <param name="destinationContext">The destination context.</param>
     /// <param name="thing">The transformation function.</param>
-    private static async Task TransferEntityDataAsync<T, T2>(DbContext sourceContext, IDataContext destinationContext, Func<T, T2> thing)
-        where T : class
+    private static async Task TransferEntityDataAsync<T, TKey>(
+    DbContext sourceContext,
+    IDataContext destinationContext,
+    Func<T, TKey> keySelector)
+    where T : class, new()
+{
+    // Get the table name from the entity type
+    var tableNameAttribute = typeof(T).GetCustomAttribute<TableAttribute>();
+    var tableName = tableNameAttribute != null ? tableNameAttribute.Name : typeof(T).Name;
+
+    // Get the list of columns in the source database
+    var sourceColumns = new HashSet<string>();
+    await using (var command = sourceContext.Database.GetDbConnection().CreateCommand())
     {
-        var entities = await sourceContext.Set<T>().AsNoTracking()
-            .ToArrayAsync(cancellationToken: CancellationToken.None);
-        Log.Information("Copying {Count} entries of {Type} to the new Db...", entities.Length, entities.GetType());
-        var destTable = destinationContext.GetTable<T>();
-        var options = new BulkCopyOptions
+        command.CommandText = $"PRAGMA table_info('{tableName}');";
+        await sourceContext.Database.OpenConnectionAsync();
+        await using (var reader = await command.ExecuteReaderAsync())
         {
-            MaxDegreeOfParallelism = 50,
-            MaxBatchSize = 5000,
-            BulkCopyType = BulkCopyType.ProviderSpecific
-        };
-        await destTable.DeleteAsync();
-
-        // Get the properties of the source entity
-        var sourceEntityType = sourceContext.Model.FindEntityType(typeof(T));
-        var sourceProperties = sourceEntityType.GetProperties()
-            .Select(p => p.Name)
-            .ToHashSet();
-
-        // Get the properties of the destination entity
-        var destEntityType = destinationContext.MappingSchema.GetEntityDescriptor(typeof(T));
-        var destProperties = destEntityType.Columns.Select(c => c.MemberName).ToHashSet();
-
-        // Get the common properties
-        var commonProperties = sourceProperties.Intersect(destProperties).ToHashSet();
-
-        // Filter the source entities to only include properties that exist in both source and destination
-        var filteredEntities = entities.Select(e =>
-        {
-            var newEntity = Activator.CreateInstance<T>();
-            foreach (var prop in typeof(T).GetProperties())
+            while (await reader.ReadAsync())
             {
-                if (commonProperties.Contains(prop.Name))
-                {
-                    prop.SetValue(newEntity, prop.GetValue(e));
-                }
+                var columnName = reader.GetString(1); // Column 1 is 'name'
+                sourceColumns.Add(columnName);
             }
-            return newEntity;
-        });
-
-        await destTable.BulkCopyAsync(options, filteredEntities.DistinctBy(thing));
-        Log.Information("Copied");
+        }
+        await sourceContext.Database.CloseConnectionAsync();
     }
+
+    // Get the properties of T that match the source columns
+    var entityProperties = typeof(T).GetProperties()
+        .Where(p => sourceColumns.Contains(p.Name))
+        .ToList();
+
+    // Build a SQL query that selects only the existing columns
+    var columnList = string.Join(", ", sourceColumns);
+    var sql = $"SELECT {columnList} FROM {tableName}";
+
+    var entities = new List<T>();
+    await using (var command = sourceContext.Database.GetDbConnection().CreateCommand())
+    {
+        command.CommandText = sql;
+        if (sourceContext.Database.GetDbConnection().State != ConnectionState.Open)
+            await sourceContext.Database.OpenConnectionAsync();
+
+        await using (var reader = await command.ExecuteReaderAsync())
+        {
+            while (await reader.ReadAsync())
+            {
+                var entity = new T();
+                foreach (var prop in entityProperties)
+                {
+                    var value = reader[prop.Name];
+                    if (value != DBNull.Value)
+                    {
+                        prop.SetValue(entity, value);
+                    }
+                }
+                entities.Add(entity);
+            }
+        }
+        await sourceContext.Database.CloseConnectionAsync();
+    }
+
+    Log.Information("Copying {Count} entries of {Type} to the new Db...", entities.Count, typeof(T).Name);
+    var destTable = destinationContext.GetTable<T>();
+    var options = new BulkCopyOptions
+    {
+        MaxDegreeOfParallelism = 50,
+        MaxBatchSize = 5000,
+        BulkCopyType = BulkCopyType.ProviderSpecific
+    };
+    await destTable.DeleteAsync();
+
+    await destTable.BulkCopyAsync(options, entities.DistinctBy(keySelector));
+    Log.Information("Copied");
+}
+
 
     /// <summary>
     /// Applies migrations to the database context.
