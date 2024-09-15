@@ -171,89 +171,99 @@ public class MigrationService
             "Copy Complete. Please make sure to set MigrateToPsql to false in credentials to make sure your data wont get overwritten");
     }
 
-    /// <summary>
-    /// Transfers entity data asynchronously.
-    /// </summary>
-    /// <typeparam name="T">The source entity type.</typeparam>
-    /// <typeparam name="T2">The destination entity type.</typeparam>
-    /// <param name="sourceContext">The source context.</param>
-    /// <param name="destinationContext">The destination context.</param>
-    /// <param name="thing">The transformation function.</param>
     private static async Task TransferEntityDataAsync<T, TKey>(
-    DbContext sourceContext,
-    IDataContext destinationContext,
-    Func<T, TKey> keySelector)
-    where T : class, new()
-{
-    // Get the table name from the entity type
-    var tableNameAttribute = typeof(T).GetCustomAttribute<TableAttribute>();
-    var tableName = tableNameAttribute != null ? tableNameAttribute.Name : typeof(T).Name;
-
-    // Get the list of columns in the source database
-    var sourceColumns = new HashSet<string>();
-    await using (var command = sourceContext.Database.GetDbConnection().CreateCommand())
+        DbContext sourceContext,
+        IDataContext destinationContext,
+        Func<T, TKey> keySelector)
+        where T : class, new()
     {
-        command.CommandText = $"PRAGMA table_info('{tableName}');";
-        await sourceContext.Database.OpenConnectionAsync();
-        await using (var reader = await command.ExecuteReaderAsync())
+        // Get the table name from the entity type
+        var tableNameAttribute = typeof(T).GetCustomAttribute<TableAttribute>();
+        var tableName = tableNameAttribute != null ? tableNameAttribute.Name : typeof(T).Name;
+
+        // Get the list of columns in the source database
+        var sourceColumns = new HashSet<string>();
+        await using (var command = sourceContext.Database.GetDbConnection().CreateCommand())
         {
-            while (await reader.ReadAsync())
-            {
-                var columnName = reader.GetString(1); // Column 1 is 'name'
-                sourceColumns.Add(columnName);
-            }
-        }
-        await sourceContext.Database.CloseConnectionAsync();
-    }
-
-    // Get the properties of T that match the source columns
-    var entityProperties = typeof(T).GetProperties()
-        .Where(p => sourceColumns.Contains(p.Name))
-        .ToList();
-
-    // Build a SQL query that selects only the existing columns
-    var columnList = string.Join(", ", sourceColumns);
-    var sql = $"SELECT {columnList} FROM {tableName}";
-
-    var entities = new List<T>();
-    await using (var command = sourceContext.Database.GetDbConnection().CreateCommand())
-    {
-        command.CommandText = sql;
-        if (sourceContext.Database.GetDbConnection().State != ConnectionState.Open)
+            command.CommandText = $"PRAGMA table_info('{tableName}');";
             await sourceContext.Database.OpenConnectionAsync();
-
-        await using (var reader = await command.ExecuteReaderAsync())
-        {
-            while (await reader.ReadAsync())
+            await using (var reader = await command.ExecuteReaderAsync())
             {
-                var entity = new T();
-                foreach (var prop in entityProperties)
+                while (await reader.ReadAsync())
                 {
-                    var value = reader[prop.Name];
-                    if (value != DBNull.Value)
-                    {
-                        prop.SetValue(entity, value);
-                    }
+                    var columnName = reader.GetString(1); // Column 1 is 'name'
+                    sourceColumns.Add(columnName);
                 }
-                entities.Add(entity);
             }
+
+            await sourceContext.Database.CloseConnectionAsync();
         }
-        await sourceContext.Database.CloseConnectionAsync();
+
+        // Build a SQL query that selects only the existing columns
+        var columnList = string.Join(", ", sourceColumns);
+        var sql = $"SELECT {columnList} FROM {tableName}";
+
+        var entities = new List<T>();
+        var entityProperties = typeof(T).GetProperties()
+            .Where(p => p.CanWrite)
+            .ToDictionary(p => p.Name, p => p);
+
+        await using (var command = sourceContext.Database.GetDbConnection().CreateCommand())
+        {
+            command.CommandText = sql;
+            if (sourceContext.Database.GetDbConnection().State != ConnectionState.Open)
+                await sourceContext.Database.OpenConnectionAsync();
+
+            await using (var reader = await command.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync())
+                {
+                    // Use a dictionary to store column data dynamically
+                    var data = new Dictionary<string, object>();
+                    for (var i = 0; i < reader.FieldCount; i++)
+                    {
+                        var columnName = reader.GetName(i);
+                        var value = reader.GetValue(i);
+                        if (value != DBNull.Value)
+                        {
+                            data[columnName] = value;
+                        }
+                    }
+
+                    var entity = new T();
+                    foreach (var kvp in data)
+                    {
+                        if (!entityProperties.TryGetValue(kvp.Key, out var prop)) continue;
+                        // Handle type conversion if necessary
+                        try
+                        {
+                            var convertedValue = Convert.ChangeType(kvp.Value, prop.PropertyType);
+                            prop.SetValue(entity, convertedValue);
+                        }
+                        catch
+                        {
+                            // Handle or log the error as needed
+                        }
+                    }
+
+                    entities.Add(entity);
+                }
+            }
+
+            await sourceContext.Database.CloseConnectionAsync();
+        }
+
+        Log.Information("Copying {Count} entries of {Type} to the new Db...", entities.Count, typeof(T).Name);
+        var destTable = destinationContext.GetTable<T>();
+        var options = new BulkCopyOptions
+        {
+            MaxDegreeOfParallelism = 50, MaxBatchSize = 5000, BulkCopyType = BulkCopyType.ProviderSpecific
+        };
+        await destTable.DeleteAsync();
+
+        await destTable.BulkCopyAsync(options, entities.DistinctBy(keySelector));
+        Log.Information("Copied");
     }
-
-    Log.Information("Copying {Count} entries of {Type} to the new Db...", entities.Count, typeof(T).Name);
-    var destTable = destinationContext.GetTable<T>();
-    var options = new BulkCopyOptions
-    {
-        MaxDegreeOfParallelism = 50,
-        MaxBatchSize = 5000,
-        BulkCopyType = BulkCopyType.ProviderSpecific
-    };
-    await destTable.DeleteAsync();
-
-    await destTable.BulkCopyAsync(options, entities.DistinctBy(keySelector));
-    Log.Information("Copied");
-}
 
 
     /// <summary>
