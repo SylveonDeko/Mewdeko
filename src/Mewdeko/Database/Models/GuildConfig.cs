@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using Mewdeko.Common.Attributes.DB;
 using Mewdeko.Database.Common;
 
 #pragma warning disable CS8632 // The annotation for nullable reference types should only be used in code within a '#nullable' annotations context.
@@ -37,11 +38,13 @@ namespace Mewdeko.Database.Models
         /// Whether message counting is enabled in the guild
         /// </summary>
         [DefaultValue(true)]
+        [NewProperty]
         public bool UseMessageCount { get; set; } = true;
 
         /// <summary>
         /// The minimum length before a message gets counted
         /// </summary>
+        [NewProperty]
         public int MinMessageLength { get; set; } = 1;
 
         /// <summary>

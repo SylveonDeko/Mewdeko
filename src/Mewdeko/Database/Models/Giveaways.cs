@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using Mewdeko.Common.Attributes.DB;
 
 namespace Mewdeko.Database.Models
 {
@@ -71,17 +72,20 @@ namespace Mewdeko.Database.Models
         /// <summary>
         /// Whether this givewaway uses a button to enter
         /// </summary>
+        [NewProperty]
         public bool UseButton { get; set; }
 
         /// <summary>
         /// Whether this giveaway uses web captcha to enter
         /// </summary>
+        [NewProperty]
         public bool UseCaptcha { get; set; }
 
         /// <summary>
         /// The number of messages required for users before entering a giveaway
         /// </summary>
-        public ulong MessageCountReq = 0;
+        [NewProperty]
+        public ulong MessageCountReq { get; set; }= 0;
 
     }
 }

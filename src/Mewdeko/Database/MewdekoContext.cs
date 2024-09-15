@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Mewdeko.Common.Attributes.DB;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Database
 {
@@ -382,6 +383,21 @@ namespace Mewdeko.Database
         /// <param name="modelBuilder">The builder being used to construct the model for this context.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            base.OnModelCreating(modelBuilder);
+
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                var newProperties = entityType.ClrType.GetProperties()
+                    .Where(p => Attribute.IsDefined(p, typeof(NewPropertyAttribute)))
+                    .ToList();
+
+                foreach (var prop in newProperties)
+                {
+                    modelBuilder.Entity(entityType.ClrType).Ignore(prop.Name);
+                }
+            }
+
             #region Afk
 
             var afkEntity = modelBuilder.Entity<Afk>();

@@ -265,6 +265,98 @@ public class MigrationService
         Log.Information("Copied");
     }
 
+    private async Task TransferGuildConfigDataAsync(
+    string sourceConnectionString,
+    IDataContext destinationContext)
+    {
+        await using var connection = new SqliteConnection(sourceConnectionString);
+        await connection.OpenAsync();
+
+        const string tableName = "GuildConfigs";
+
+        // Get the list of columns in the source database
+        var sourceColumns = new HashSet<string>();
+        await using (var command = connection.CreateCommand())
+        {
+            command.CommandText = $"PRAGMA table_info('{tableName}');";
+            await using (var reader = await command.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync())
+                {
+                    var columnName = reader.GetString(1); // Column 1 is 'name'
+                    sourceColumns.Add(columnName);
+                }
+            }
+        }
+
+        // Build a SQL query that selects only the existing columns
+        var columnList = string.Join(", ", sourceColumns.Select(c => $"\"{c}\""));
+        var sql = $"SELECT {columnList} FROM \"{tableName}\"";
+
+        var entities = new List<GuildConfig>();
+        var entityProperties = typeof(GuildConfig).GetProperties()
+            .Where(p => p.CanWrite)
+            .ToDictionary(p => p.Name, p => p);
+
+        await using (var command = connection.CreateCommand())
+        {
+            command.CommandText = sql;
+
+            await using (var reader = await command.ExecuteReaderAsync())
+            {
+                while (await reader.ReadAsync())
+                {
+                    var data = new Dictionary<string, object>();
+                    for (var i = 0; i < reader.FieldCount; i++)
+                    {
+                        var columnName = reader.GetName(i);
+                        var value = reader.GetValue(i);
+                        if (value != DBNull.Value)
+                        {
+                            data[columnName] = value;
+                        }
+                    }
+
+                    var entity = new GuildConfig();
+                    foreach (var kvp in data)
+                    {
+                        if (entityProperties.TryGetValue(kvp.Key, out var prop))
+                        {
+                            try
+                            {
+                                var targetType = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
+                                var convertedValue = Convert.ChangeType(kvp.Value, targetType);
+                                prop.SetValue(entity, convertedValue);
+                            }
+                            catch (Exception ex)
+                            {
+                                // Log the error or handle it accordingly
+                                Log.Warning("Could not set property {PropertyName}: {Exception}", prop.Name, ex.Message);
+                            }
+                        }
+                    }
+                    entities.Add(entity);
+                }
+            }
+        }
+
+        await connection.CloseAsync();
+
+        Log.Information("Copying {Count} entries of {Type} to the new Db...", entities.Count, typeof(GuildConfig).Name);
+
+        var destTable = destinationContext.GetTable<GuildConfig>();
+        var options = new BulkCopyOptions
+        {
+            MaxDegreeOfParallelism = 50,
+            MaxBatchSize = 5000,
+            BulkCopyType = BulkCopyType.ProviderSpecific
+        };
+        await destTable.DeleteAsync();
+
+        await destTable.BulkCopyAsync(options, entities);
+        Log.Information("Copied");
+    }
+
 
     /// <summary>
     /// Applies migrations to the database context.
