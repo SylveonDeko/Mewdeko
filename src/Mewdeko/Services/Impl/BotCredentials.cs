@@ -72,6 +72,7 @@ public class BotCredentials : IBotCredentials
         }
 
         UpdateCredentials(null, null);
+        if (MigrateToPsql) return;
         var watcher = new FileSystemWatcher(Directory.GetCurrentDirectory());
         watcher.NotifyFilter = NotifyFilters.LastWrite;
         watcher.Filter = "*.json";
