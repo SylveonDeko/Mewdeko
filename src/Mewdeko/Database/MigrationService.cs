@@ -5,6 +5,7 @@ using System.Threading;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.EntityFrameworkCore;
+using LinqToDB.Mapping;
 using Mewdeko.Database.Common;
 using Mewdeko.Database.DbContextStuff;
 using Microsoft.Data.Sqlite;
@@ -186,10 +187,33 @@ public class MigrationService
         var destTable = destinationContext.GetTable<T>();
         var options = new BulkCopyOptions
         {
-            MaxDegreeOfParallelism = 50, MaxBatchSize = 5000, BulkCopyType = BulkCopyType.ProviderSpecific
+            MaxDegreeOfParallelism = 50,
+            MaxBatchSize = 5000,
+            BulkCopyType = BulkCopyType.ProviderSpecific
         };
         await destTable.DeleteAsync();
-        await destTable.BulkCopyAsync(options, entities.DistinctBy(thing));
+
+        // Get the properties of the destination entity
+        var destProperties = typeof(T).GetProperties()
+            .Where(p => p.GetCustomAttribute<ColumnAttribute>() != null)
+            .Select(p => p.Name)
+            .ToHashSet();
+
+        // Filter the source entities to only include properties that exist in the destination
+        var filteredEntities = entities.Select(e =>
+        {
+            var newEntity = Activator.CreateInstance<T>();
+            foreach (var prop in typeof(T).GetProperties())
+            {
+                if (destProperties.Contains(prop.Name))
+                {
+                    prop.SetValue(newEntity, prop.GetValue(e));
+                }
+            }
+            return newEntity;
+        });
+
+        await destTable.BulkCopyAsync(options, filteredEntities.DistinctBy(thing));
         Log.Information("Copied");
     }
 
