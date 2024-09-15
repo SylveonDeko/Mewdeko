@@ -193,19 +193,26 @@ public class MigrationService
         };
         await destTable.DeleteAsync();
 
-        // Get the properties of the destination entity
-        var destProperties = typeof(T).GetProperties()
-            .Where(p => p.GetCustomAttribute<ColumnAttribute>() != null)
+        // Get the properties of the source entity
+        var sourceEntityType = sourceContext.Model.FindEntityType(typeof(T));
+        var sourceProperties = sourceEntityType.GetProperties()
             .Select(p => p.Name)
             .ToHashSet();
 
-        // Filter the source entities to only include properties that exist in the destination
+        // Get the properties of the destination entity
+        var destEntityType = destinationContext.MappingSchema.GetEntityDescriptor(typeof(T));
+        var destProperties = destEntityType.Columns.Select(c => c.MemberName).ToHashSet();
+
+        // Get the common properties
+        var commonProperties = sourceProperties.Intersect(destProperties).ToHashSet();
+
+        // Filter the source entities to only include properties that exist in both source and destination
         var filteredEntities = entities.Select(e =>
         {
             var newEntity = Activator.CreateInstance<T>();
             foreach (var prop in typeof(T).GetProperties())
             {
-                if (destProperties.Contains(prop.Name))
+                if (commonProperties.Contains(prop.Name))
                 {
                     prop.SetValue(newEntity, prop.GetValue(e));
                 }
