@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Text;
-using System.Text.Json;
+using Newtonsoft.Json;
 using System.Threading;
 using LinqToDB;
 using LinqToDB.Data;
@@ -174,7 +174,7 @@ public class MigrationService
         {
             MigrateToPsql = false
         };
-        await File.WriteAllTextAsync("./credentials.json", JsonSerializer.Serialize(creds));
+        await File.WriteAllTextAsync("./credentials.json", JsonConvert.SerializeObject(creds));
         Helpers.ReadErrorAndExit(0);
     }
 
