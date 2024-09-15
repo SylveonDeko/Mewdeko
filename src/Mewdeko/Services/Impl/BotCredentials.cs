@@ -34,7 +34,7 @@ public class BotCredentials : IBotCredentials
         {
             // ignored
         }
-
+        Log.Information(credsFileName);
         if (!File.Exists(credsFileName))
         {
             Log.Information("credentials.json is missing. Which of the following do you want to do?");

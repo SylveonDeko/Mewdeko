@@ -1,4 +1,5 @@
 ﻿using Mewdeko.Common.Attributes.DB;
+using Mewdeko.Services.Impl;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Database
@@ -8,12 +9,14 @@ namespace Mewdeko.Database
     /// </summary>
     public class MewdekoContext : DbContext
     {
+        private BotCredentials creds;
         /// <summary>
         /// Initializes a new instance of the <see cref="MewdekoContext"/> class.
         /// </summary>
         /// <param name="options">The options to be used by the DbContext.</param>
         public MewdekoContext(DbContextOptions options) : base(options)
         {
+            creds = new BotCredentials();
         }
 
         /// <summary>
@@ -388,7 +391,7 @@ namespace Mewdeko.Database
 
 
 
-            if (base.Database.IsSqlite())
+            if (creds.MigrateToPsql)
             {
                 foreach (var entityType in modelBuilder.Model.GetEntityTypes())
                 {

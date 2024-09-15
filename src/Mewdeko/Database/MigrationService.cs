@@ -1,12 +1,15 @@
 ﻿#nullable enable
+using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using LinqToDB;
 using LinqToDB.Data;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Database.Common;
 using Mewdeko.Database.DbContextStuff;
+using Mewdeko.Services.Impl;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
@@ -166,7 +169,12 @@ public class MigrationService
         await destinationContext.ExecuteAsync("SET session_replication_role = default;");
 
         Log.Warning(
-            "Copy Complete. Please make sure to set MigrateToPsql to false in credentials to make sure your data wont get overwritten");
+            "Copy Complete. Shutting down bot and turning off migration mode...");
+        var creds = new BotCredentials
+        {
+            MigrateToPsql = false
+        };
+        await File.WriteAllTextAsync("../credentials.json", JsonSerializer.Serialize(creds));
     }
 
     /// <summary>
