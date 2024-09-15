@@ -173,7 +173,7 @@ public class Program
             services.AddAuthorization();
         }
 
-        builder.WebHost.UseUrls($"http://localhost:{credentials.ApiPortHttp}");
+        builder.WebHost.UseUrls($"http://localhost:{credentials.ApiPort}");
 
         var auth = services.AddAuthentication(options =>
         {

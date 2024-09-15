@@ -592,6 +592,9 @@ public class CommandHandler : INService
         }
         else if (!string.IsNullOrEmpty(error))
         {
+            if (info is null)
+                return;
+
             await LogCommandExecution(usrMsg, channel as ITextChannel, info, false, execTime, error).ConfigureAwait(false);
             if (guild != null)
             {

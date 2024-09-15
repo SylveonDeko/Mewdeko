@@ -25,6 +25,12 @@ usermessages:
   - usermessages
   - usermsg
   - umsg
+graph:
+  - plot
+  - graphfunction
+symbolic:
+  - sym
+  - symbolicmath
 channelmessages:
   - channelmessages
   - channelmsg

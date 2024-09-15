@@ -1,7 +1,9 @@
 ﻿using System.Collections.Immutable;
 using System.IO;
+using Mewdeko.Modules.Help;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Npgsql;
 using Serilog;
 
 // ReSharper disable UnusedMember.Local
@@ -53,6 +55,7 @@ public class BotCredentials : IBotCredentials
                     var ownersList = string.IsNullOrWhiteSpace(owners)
                         ? []
                         : owners.Split(' ').Select(ulong.Parse).ToList();
+                    Log.Information("Please input your PostgreSQL Connection String.");
                     var model = new CredentialsModel
                     {
                         Token = token, OwnerIds = ownersList
@@ -299,14 +302,11 @@ public class BotCredentials : IBotCredentials
     /// Gets or sets the Genius API key.
     /// </summary>
     public string GeniusKey { get; set; }
+
     /// <summary>
     /// The http port for the api
     /// </summary>
-    public int ApiPortHttp { get; set; }
-    /// <summary>
-    /// The https port for the api
-    /// </summary>
-    public int ApiPortHttps { get; set; }
+    public int ApiPort { get; set; } = 5001;
 
     /// <summary>
     /// Used for debugging the mewdeko api and not needing a key every time
@@ -336,13 +336,6 @@ public class BotCredentials : IBotCredentials
             var data = configBuilder.Build();
 
             Token = data[nameof(Token)];
-            if (string.IsNullOrWhiteSpace(Token))
-            {
-                Log.Error(
-                    "Token is missing from credentials.json or Environment variables. Add it and restart the program");
-                Helpers.ReadErrorAndExit(5);
-            }
-
             OwnerIds = [..data.GetSection("OwnerIds").GetChildren().Select(c => ulong.Parse(c.Value))];
             TurnstileKey = data[nameof(TurnstileKey)];
             GiveawayEntryUrl = data[nameof(GiveawayEntryUrl)];
@@ -353,8 +346,7 @@ public class BotCredentials : IBotCredentials
             ApiKey = data[nameof(ApiKey)];
             UserAgent = data[nameof(UserAgent)];
             CfClearance = data[nameof(CfClearance)];
-            ApiPortHttps = int.Parse(data[nameof(ApiPortHttps)]);
-            ApiPortHttp = int.Parse(data[nameof(ApiPortHttp)]);
+            ApiPort = int.TryParse(data[nameof(ApiPort)], out var port) ? port : 0;
             LastFmApiKey = data[nameof(LastFmApiKey)];
             LastFmApiSecret = data[nameof(LastFmApiSecret)];
             MashapeKey = data[nameof(MashapeKey)];
@@ -433,6 +425,29 @@ public class BotCredentials : IBotCredentials
                 ? pnrepId
                 : 970086914826858547;
             UseGlobalCurrency = bool.TryParse(data[nameof(UseGlobalCurrency)], out var ugc) && ugc;
+
+            if (string.IsNullOrWhiteSpace(Token))
+            {
+                Log.Error(
+                    "Token is missing from credentials.json or Environment variables. Add it and restart the program");
+                Helpers.ReadErrorAndExit(5);
+            }
+
+            if (string.IsNullOrWhiteSpace(PsqlConnectionString))
+            {
+                Log.Error("Postgres connection string is missing. Please add and restart.");
+                Helpers.ReadErrorAndExit(5);
+            }
+
+            if (string.IsNullOrWhiteSpace(RedisConnections))
+            {
+                Log.Error("Redis connection string is missing. Please add and restart.");
+                Helpers.ReadErrorAndExit(5);
+            }
+
+            if (ApiPort is not (0 or < 0)) return;
+            Log.Error("Invalid Api Port specified, Please change and restart.");
+            Helpers.ReadErrorAndExit(5);
         }
         catch (Exception ex)
         {
