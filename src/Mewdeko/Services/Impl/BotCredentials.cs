@@ -446,9 +446,15 @@ public class BotCredentials : IBotCredentials
                 Helpers.ReadErrorAndExit(5);
             }
 
-            if (ApiPort is not (0 or < 0)) return;
-            Log.Error("Invalid Api Port specified, Please change and restart.");
-            Helpers.ReadErrorAndExit(5);
+            if (ApiPort is not (0 or < 0))
+            {
+                Log.Error("Invalid Api Port specified, Please change and restart.");
+
+                Helpers.ReadErrorAndExit(5);
+            }
+
+            if (ApiPort > 65535)
+                Log.Error("Maximum port number is 65535. Lower your port value and restart.");
         }
         catch (Exception ex)
         {
