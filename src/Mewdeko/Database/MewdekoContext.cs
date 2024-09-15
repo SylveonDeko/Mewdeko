@@ -386,15 +386,20 @@ namespace Mewdeko.Database
 
             base.OnModelCreating(modelBuilder);
 
-            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-            {
-                var newProperties = entityType.ClrType.GetProperties()
-                    .Where(p => Attribute.IsDefined(p, typeof(NewPropertyAttribute)))
-                    .ToList();
 
-                foreach (var prop in newProperties)
+
+            if (base.Database.IsSqlite())
+            {
+                foreach (var entityType in modelBuilder.Model.GetEntityTypes())
                 {
-                    modelBuilder.Entity(entityType.ClrType).Ignore(prop.Name);
+                    var newProperties = entityType.ClrType.GetProperties()
+                        .Where(p => Attribute.IsDefined(p, typeof(NewPropertyAttribute)))
+                        .ToList();
+
+                    foreach (var prop in newProperties)
+                    {
+                        modelBuilder.Entity(entityType.ClrType).Ignore(prop.Name);
+                    }
                 }
             }
 
