@@ -1,4 +1,5 @@
-﻿using CommandLine;
+﻿using System.Reflection;
+using CommandLine;
 using Discord.Commands;
 using Discord.Interactions;
 using Mewdeko.Common.Attributes.TextCommands;
@@ -9,6 +10,7 @@ using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
 using Mewdeko.Services.strings;
 using MoreLinq;
+using ModuleInfo = Discord.Commands.ModuleInfo;
 
 namespace Mewdeko.Modules.Help.Services;
 
@@ -256,7 +258,7 @@ public class HelpService : ILateExecutor, INService
     /// <returns>A tuple containing a <see cref="ComponentBuilder"/> and <see cref="EmbedBuilder"/></returns>
     public async Task<(EmbedBuilder, ComponentBuilder)> GetCommandHelp(CommandInfo com, IGuild guild, IGuildUser user)
     {
-        string actualUrl = null;
+        var actualUrl = GenerateDocumentationUrl(com);
         if (com.Attributes.Any(x => x is HelpDisabled))
             return (new EmbedBuilder().WithDescription("Help is disabled for this command."), new());
         var prefix = await guildSettings.GetPrefix(guild);
@@ -413,6 +415,133 @@ public class HelpService : ILateExecutor, INService
 
         return toReturn.ToArray();
     }
+
+    private static string? GenerateDocumentationUrl(CommandInfo com)
+{
+    const string baseUrl = "https://docs.mewdeko.tech/api/";
+
+    // Get the module's type
+    Type moduleType = null;
+    if (com.Module is ModuleInfo moduleInfo)
+    {
+        var assembly = typeof(Mewdeko).Assembly;
+        var possibleTypes = assembly.GetTypes()
+            .Where(t =>
+                t.IsSubclassOf(typeof(MewdekoSubmodule)) || t.IsSubclassOf(typeof(MewdekoModule)))
+            .Where(t => t.Name.Equals(moduleInfo.Name, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        moduleType = possibleTypes.Count switch
+        {
+            1 => possibleTypes[0],
+            > 1 => possibleTypes.FirstOrDefault(t => !t.IsNested) ?? possibleTypes[0],
+            _ => null
+        };
+
+        if (moduleType == null)
+        {
+            // If we still can't find the type, we can't generate the URL
+            return null;
+        }
+    }
+    else
+    {
+        // Fallback to the type of Module if it's not ModuleInfo
+        moduleType = com.Module.GetType();
+    }
+
+    // Get the method name
+    var methodName = com.Name;
+
+    // Get the parameter types
+    var parameterTypes = com.Parameters.Select(p => p.Type).ToArray();
+
+    // Find the MethodInfo
+    var methodInfo = moduleType.GetMethod(
+        methodName,
+        BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic,
+        null,
+        parameterTypes,
+        null);
+
+    if (methodInfo == null)
+    {
+        // Handle method overloads
+        var methods = moduleType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.NonPublic)
+            .Where(m => m.Name.Equals(com.MethodName(), StringComparison.OrdinalIgnoreCase))
+            .ToArray();
+
+        foreach (var method in methods)
+        {
+            var methodParams = method.GetParameters();
+            if (methodParams.Length != parameterTypes.Length) continue;
+            var parametersMatch =
+                !parameterTypes.Where((t, i) => !t.IsAssignableFrom(methodParams[i].ParameterType)).Any();
+            if (!parametersMatch) continue;
+            methodInfo = method;
+            break;
+        }
+    }
+
+    if (methodInfo == null)
+    {
+        // Can't find method info
+        return null;
+    }
+
+    // Adjust the class full name for the URL
+    var classFullNameForUrl = moduleType.FullName.Replace('+', '.');
+
+    // Construct the class URL
+    var classUrl = baseUrl + classFullNameForUrl + ".html";
+
+    // Generate the anchor
+    var typeAnchor = moduleType.FullName.Replace('+', '_').Replace('.', '_');
+    var methodAnchorName = methodInfo.Name;
+    var anchor = $"{typeAnchor}_{methodAnchorName}";
+
+    // Get parameter types for anchor
+    var methodParameterTypes = methodInfo.GetParameters().Select(p => p.ParameterType);
+
+    if (methodParameterTypes.Any())
+    {
+        // Append parameter types to the anchor
+        var parameterAnchor = string.Join("_", methodParameterTypes.Select(FormatParameterType));
+        anchor += $"_{parameterAnchor}_"; // Note the extra underscore at the end
+    }
+
+    // Construct the full URL
+    var actualUrl = $"{classUrl}#{anchor}";
+    return actualUrl;
+}
+
+private static string FormatParameterType(Type type)
+{
+    // Handle arrays
+    if (type.IsArray)
+    {
+        var elementType = type.GetElementType();
+        var formattedElementType = FormatParameterType(elementType);
+        // Use triple underscores for arrays
+        var underscores = new string('_', type.GetArrayRank() * 3);
+        return $"{formattedElementType}{underscores}";
+    }
+
+    // Handle generic types
+    if (type.IsGenericType)
+    {
+        var genericTypeDef = type.GetGenericTypeDefinition();
+        var genericTypeName = genericTypeDef.FullName.Split('`')[0].Replace('+', '.').Replace('.', '_');
+        var genericArgs = string.Join("_", type.GetGenericArguments().Select(FormatParameterType));
+        return $"{genericTypeName}_{genericArgs}";
+    }
+
+    // Handle nested types and replace '+' with '.'
+    var fullName = type.FullName.Replace('+', '.').Replace('.', '_');
+    return fullName;
+}
+
+
 
     private static string GetPreconditionString(ChannelPermission perm) =>
         (perm + " Channel Permission").Replace("Guild", "Server", StringComparison.InvariantCulture);

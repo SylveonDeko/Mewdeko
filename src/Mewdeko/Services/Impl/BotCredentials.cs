@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Npgsql;
 using Serilog;
+using StackExchange.Redis;
 
 // ReSharper disable UnusedMember.Local
 // ReSharper disable UnusedAutoPropertyAccessor.Local
@@ -455,6 +456,16 @@ public class BotCredentials : IBotCredentials
                 case > 65535:
                     Log.Error("Maximum port number is 65535. Lower your port value and restart.");
                     break;
+            }
+
+            try
+            {
+                var connect = ConnectionMultiplexer.Connect(RedisConnections.Split(";")[0]);
+                connect.Close();
+            }
+            catch
+            {
+                Log.Error("Redis is not running! Make sure its installed and running then restart the bot");
             }
         }
         catch (Exception ex)
