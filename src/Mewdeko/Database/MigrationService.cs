@@ -100,6 +100,7 @@ public class MigrationService
         var guildConfig = destinationContext.GetTable<GuildConfig>();
         await guildConfig.DeleteAsync();
         await guildConfig.BulkCopyAsync(options, gc);
+        await ResetIdentitySequenceAsync(destinationContext, "GuildConfig");
 
         await TransferEntityDataAsync<Afk, Afk>(sourceContext, destinationContext, x => x);
         await TransferEntityDataAsync<AntiRaidSetting, AntiRaidSetting>(sourceContext, destinationContext, x => x);
@@ -188,7 +189,7 @@ public class MigrationService
     /// <param name="sourceContext">The source context.</param>
     /// <param name="destinationContext">The destination context.</param>
     /// <param name="thing">The transformation function.</param>
-    private static async Task TransferEntityDataAsync<T, T2>(DbContext sourceContext, IDataContext destinationContext, Func<T, T2> thing)
+    private static async Task TransferEntityDataAsync<T, T2>(DbContext sourceContext, DataConnection destinationContext, Func<T, T2> thing)
         where T : class
     {
         var entities = await sourceContext.Set<T>().AsNoTracking()
@@ -201,8 +202,28 @@ public class MigrationService
         };
         await destTable.DeleteAsync();
         await destTable.BulkCopyAsync(options, entities.DistinctBy(thing));
+        await ResetIdentitySequenceAsync(destinationContext, destTable.TableName);
         Log.Information("Copied");
     }
+
+    private static async Task ResetIdentitySequenceAsync(DataConnection context, string tableName, string idColumnName = "Id")
+    {
+        var sequenceNameQuery = $"SELECT pg_get_serial_sequence('\"{tableName}\"', '{idColumnName}')";
+        var sequenceNames = await context.QueryToListAsync<string>(sequenceNameQuery);
+        var sequenceName = sequenceNames.FirstOrDefault();
+
+        if (!string.IsNullOrEmpty(sequenceName))
+        {
+            var maxIdQuery = $"SELECT COALESCE(MAX(\"{idColumnName}\"), 0) FROM \"{tableName}\"";
+            var maxIds = await context.QueryToListAsync<long>(maxIdQuery);
+            var maxId = maxIds.FirstOrDefault();
+
+            var setValQuery = $"SELECT setval('{sequenceName}', {maxId})";
+            await context.ExecuteAsync(setValQuery);
+        }
+    }
+
+
 
     /// <summary>
     /// Applies migrations to the database context.
