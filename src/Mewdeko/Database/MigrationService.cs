@@ -91,7 +91,7 @@ public class MigrationService
         await ApplyMigrations(destCont);
         var options = new BulkCopyOptions
         {
-            MaxDegreeOfParallelism = 50, MaxBatchSize = 5000, BulkCopyType = BulkCopyType.ProviderSpecific
+            MaxDegreeOfParallelism = 50, MaxBatchSize = 5000, BulkCopyType = BulkCopyType.ProviderSpecific, KeepIdentity = true
         };
         Log.Information("Starting Data Migration...");
         await destinationContext.ExecuteAsync("SET session_replication_role = replica;");
@@ -197,7 +197,7 @@ public class MigrationService
         var destTable = destinationContext.GetTable<T>();
         var options = new BulkCopyOptions
         {
-            MaxDegreeOfParallelism = 50, MaxBatchSize = 5000, BulkCopyType = BulkCopyType.ProviderSpecific
+            MaxDegreeOfParallelism = 50, MaxBatchSize = 5000, BulkCopyType = BulkCopyType.ProviderSpecific, KeepIdentity = true
         };
         await destTable.DeleteAsync();
         await destTable.BulkCopyAsync(options, entities.DistinctBy(thing));
