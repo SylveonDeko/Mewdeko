@@ -100,7 +100,7 @@ public class MigrationService
         var guildConfig = destinationContext.GetTable<GuildConfig>();
         await guildConfig.DeleteAsync();
         await guildConfig.BulkCopyAsync(options, gc);
-        await ResetIdentitySequenceAsync(destinationContext, "GuildConfig");
+        await ResetIdentitySequenceAsync(destinationContext, "GuildConfigs");
 
         await TransferEntityDataAsync<Afk, Afk>(sourceContext, destinationContext, x => x);
         await TransferEntityDataAsync<AntiRaidSetting, AntiRaidSetting>(sourceContext, destinationContext, x => x);
