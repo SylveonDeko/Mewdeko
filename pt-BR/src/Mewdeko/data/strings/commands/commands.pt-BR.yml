@@ -2,16 +2,16 @@ acadd:
   args:
     - 60 {0}Purge 1000
   desc: >-
-    Adds a command to the list of commands which will be executed automatically every X seconds.
+    Adiciona um comando à lista de comandos que serão executados automaticamente a cada X segundos.
 addstatusrole:
   args:
     - "status"
-  desc: Adds a status to be configured with the rest of the statusrole commands
+  desc: Adiciona um status para ser configurado com o resto dos comandos do cargo de status
 gpingrole:
   args:
     - "roleid"
     - "@role"
-  desc: "Sets the role to ping when a giveaway starts"
+  desc: ""
 usermessages:
   args:
     - "user"
