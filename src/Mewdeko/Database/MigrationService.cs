@@ -214,12 +214,24 @@ public class MigrationService
 
         if (!string.IsNullOrEmpty(sequenceName))
         {
-            var maxIdQuery = $"SELECT COALESCE(MAX(\"{idColumnName}\"), 0) FROM \"{tableName}\"";
-            var maxIds = await context.QueryToListAsync<long>(maxIdQuery);
+            var maxIdQuery = $"SELECT MAX(\"{idColumnName}\") FROM \"{tableName}\"";
+            var maxIds = await context.QueryToListAsync<long?>(maxIdQuery);
             var maxId = maxIds.FirstOrDefault();
 
-            var setValQuery = $"SELECT setval('{sequenceName}', {maxId})";
-            await context.ExecuteAsync(setValQuery);
+            if (maxId.HasValue)
+            {
+                // Table has data, set sequence to maxId
+                Log.Information("Resetting sequence {SequenceName} to {MaxId}", sequenceName, maxId.Value);
+                var setValQuery = $"SELECT setval('{sequenceName}', {maxId.Value})";
+                await context.ExecuteAsync(setValQuery);
+            }
+            else
+            {
+                // Table is empty, set sequence to start from 1
+                Log.Information("Resetting sequence {SequenceName} to 1 (table is empty)", sequenceName);
+                var setValQuery = $"SELECT setval('{sequenceName}', 1, false)";
+                await context.ExecuteAsync(setValQuery);
+            }
         }
     }
 
