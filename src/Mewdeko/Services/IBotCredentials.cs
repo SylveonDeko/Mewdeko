@@ -33,11 +33,6 @@ namespace Mewdeko.Services
         ImmutableArray<ulong> OwnerIds { get; }
 
         /// <summary>
-        /// Gets the bot's Genius API key.
-        /// </summary>
-        string GeniusKey { get; }
-
-        /// <summary>
         /// Gets the bot's Statcord key.
         /// </summary>
         string StatcordKey { get; }
@@ -63,11 +58,6 @@ namespace Mewdeko.Services
         string OsuApiKey { get; }
 
         /// <summary>
-        /// Gets the port on which the client coordinator is running.
-        /// </summary>
-        string ShardRunPort { get; }
-
-        /// <summary>
         /// Gets the path where chat logs are saved.
         /// </summary>
         string ChatSavePath { get; }
@@ -88,11 +78,6 @@ namespace Mewdeko.Services
         string TrovoClientId { get; }
 
         /// <summary>
-        /// Gets the bot's Cleverbot API key.
-        /// </summary>
-        string CleverbotApiKey { get; }
-
-        /// <summary>
         /// Gets the command used to restart the bot.
         /// </summary>
         RestartConfig RestartCommand { get; }
@@ -106,11 +91,6 @@ namespace Mewdeko.Services
         /// Gets the bot's Twitch client ID.
         /// </summary>
         string TwitchClientId { get; }
-
-        /// <summary>
-        /// Gets the Redis options.
-        /// </summary>
-        string RedisOptions { get; }
 
         /// <summary>
         /// Gets the LocationIQ API key.
@@ -141,11 +121,6 @@ namespace Mewdeko.Services
         /// Gets the bot's CSRF token used for bypassing Cloudflare.
         /// </summary>
         string CsrfToken { get; }
-
-        /// <summary>
-        /// Lavalink Url
-        /// </summary>
-        string LavalinkUrl { get; }
 
         /// <summary>
         /// Last.fm API key
