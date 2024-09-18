@@ -132,7 +132,14 @@ public class OwnerOnly(
         try
         {
             var repoPath = Directory.GetCurrentDirectory();
-            using var repo = new Repository(repoPath);
+            var discovered = Repository.Discover(repoPath);
+
+            if (string.IsNullOrWhiteSpace(discovered))
+            {
+                throw new Exception("Invalid Git Repo Path.");
+            }
+
+            using var repo = new Repository(discovered);
 
             // Fetch updates
             var remote = repo.Network.Remotes["origin"];
@@ -157,7 +164,7 @@ public class OwnerOnly(
                 }
             };
 
-            var signature = new LibGit2Sharp.Signature(new Identity("Mewdeko", "mewdeko@mewdeko.tech"), DateTimeOffset.Now);
+            var signature = new Signature(new Identity("Mewdeko", "mewdeko@mewdeko.tech"), DateTimeOffset.Now);
             var result = Commands.Pull(repo, signature, options);
 
             // Provide success feedback
