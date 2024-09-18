@@ -6,6 +6,7 @@ using Discord.Net;
 using Discord.Rest;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
+using LibGit2Sharp;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Configs;
@@ -18,7 +19,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Scripting;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.EntityFrameworkCore;
-using Octokit;
 using Serilog;
 
 namespace Mewdeko.Modules.OwnerOnly;
@@ -107,145 +107,87 @@ public class OwnerOnly(
     [Cmd, Aliases]
     public async Task Update()
     {
-        var shell = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "cmd" : "/bin/bash";
-
         var buttons = new ComponentBuilder()
             .WithButton("Stable", "stable")
             .WithButton("Nightly", "nightly", ButtonStyle.Danger);
 
-        var eb = new EmbedBuilder()
-            .WithOkColor()
-            .WithDescription("Which version would you like to check updates against?");
+        var embed = new EmbedBuilder()
+            .WithColor(Color.Orange)
+            .WithDescription("Which version would you like to update to?")
+            .Build();
 
-        var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build(), components: buttons.Build());
-        var result = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
+        var msg = await ReplyAsync(embed: embed, components: buttons.Build());
 
-        if (result is null)
-        {
-            await msg.ModifyAsync(x => x.Embed = new EmbedBuilder()
-                .WithErrorColor()
-                .WithDescription("Timed out.")
-                .Build());
-            return;
-        }
+        // Wait for button interaction
+        var branch = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id);
 
-        var branch = result switch
-        {
-            "stable" => "main",
-            "nightly" => "psqldeko",
-            _ => "main"
-        };
+        // Provide initial feedback
+        var updatingEmbed = new EmbedBuilder()
+            .WithColor(Color.Blue)
+            .WithDescription($"Updating to `{branch}` branch. Please wait...")
+            .Build();
+        await msg.ModifyAsync(x => x.Embed = updatingEmbed);
 
-        var process = Process.Start(new ProcessStartInfo
+        try
         {
-            FileName = shell,
-            Arguments = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-                ? "/c \"git rev-parse --abbrev-ref HEAD\""
-                : "-c \"git rev-parse --abbrev-ref HEAD\"",
-            RedirectStandardOutput = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        });
-        await process.WaitForExitAsync();
-        var text = await process.StandardOutput.ReadToEndAsync();
-        if (text.Replace("\n", "") != branch)
-        {
-            if (await PromptUserConfirmAsync(
-                    "Switching branches can cause issues like database incompatibility," +
-                    " or in the case of going from stable to nightly, " +
-                    "major bugs, ***Are you sure you want to continue?***",
-                    ctx.User.Id))
+            var repoPath = AppDomain.CurrentDomain.BaseDirectory;
+            using var repo = new LibGit2Sharp.Repository(repoPath);
+
+            // Fetch updates
+            var remote = repo.Network.Remotes["origin"];
+            var refSpecs = remote.FetchRefSpecs.Select(x => x.Specification);
+            Commands.Fetch(repo, remote.Name, refSpecs, null, "");
+
+            // Check current branch
+            var currentBranch = repo.Head.FriendlyName;
+            if (currentBranch != branch)
             {
-                await ctx.Channel.SendConfirmAsync("Switching branches and updating, please wait...");
-                var typing = ctx.Channel.EnterTypingState();
-                var sw = Stopwatch.StartNew();
-                var process2 = Process.Start(new ProcessStartInfo
+                // Switch branches
+                Commands.Checkout(repo, branch);
+            }
+
+            // Pull changes
+            var options = new PullOptions
+            {
+                FetchOptions = new FetchOptions(),
+                MergeOptions = new MergeOptions
                 {
-                    FileName = shell,
-                    Arguments = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-                        ? $"/c \"git checkout {branch} && git pull\""
-                        : $"-c \"git checkout {branch} && git pull\"",
-                    RedirectStandardOutput = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true
-                });
-                await process2.WaitForExitAsync();
-                Log.Information("Update Logs: {UpdateLogs}", await process2.StandardOutput.ReadToEndAsync());
-                sw.Stop();
-                var eb2 = new EmbedBuilder()
-                    .WithDescription("Update complete.")
-                    .WithOkColor()
-                    .WithFooter("Time taken: " + sw.Elapsed.ToString("g"));
-                await ctx.Channel.SendMessageAsync(embed: eb2.Build());
-                typing.Dispose();
-            }
-            else
+                    FailOnConflict = true
+                }
+            };
+
+            var signature = new LibGit2Sharp.Signature(new Identity("Mewdeko", "mewdeko@mewdeko.tech"), DateTimeOffset.Now);
+            var result = Commands.Pull(repo, signature, options);
+
+            // Provide success feedback
+            var successEmbed = new EmbedBuilder()
+                .WithColor(Color.Green)
+                .WithDescription("Update completed successfully.")
+                .AddField("Branch", branch, true)
+                .AddField("Status", result.Status, true)
+                .Build();
+            await msg.ModifyAsync(x =>
             {
-                await ctx.Channel.SendErrorAsync("Cancelled.", config);
-            }
-        }
-        else
-        {
-            var getCommit = Process.Start(new ProcessStartInfo
-            {
-                FileName = shell,
-                Arguments = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-                    ? "/c \"git rev-parse HEAD\""
-                    : "-c \"git rev-parse HEAD\"",
-                RedirectStandardOutput = true,
-                CreateNoWindow = true
+                x.Embed = successEmbed;
+                x.Components = null;
             });
-            await getCommit.WaitForExitAsync();
-            var commit = await getCommit.StandardOutput.ReadToEndAsync();
-            var github = new GitHubClient(new ProductHeaderValue("Mewdeko"));
-            var repo = await github.Repository.Branch.Get("sylveondeko", "Mewdeko", branch);
-            if (repo is null)
-            {
-                await ctx.Channel.SendErrorAsync(
-                    "Failed to get repo info. Please create an issue on the repo or join the support server.", config);
-                return;
-            }
 
-            var commitSha = repo.Commit.Sha;
-            if (commitSha != commit.Replace("\n", ""))
-            {
-                if (await PromptUserConfirmAsync(
-                        "Are you sure you want to update?",
-                        ctx.User.Id))
-                {
-                    await ctx.Channel.SendConfirmAsync("Updating, please wait...");
-                    var typing = ctx.Channel.EnterTypingState();
-                    var sw = Stopwatch.StartNew();
-                    var process2 = Process.Start(new ProcessStartInfo
-                    {
-                        FileName = shell,
-                        Arguments = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-                            ? "/c git pull"
-                            : "-c git pull",
-                        RedirectStandardOutput = true,
-                        UseShellExecute = false,
-                        CreateNoWindow = true
-                    });
-                    await process2.WaitForExitAsync();
-                    Log.Information("Update Logs: {UpdateLogs}", await process2.StandardOutput.ReadToEndAsync());
-                    sw.Stop();
-                    var eb2 = new EmbedBuilder()
-                        .WithDescription("Update complete.")
-                        .WithOkColor()
-                        .WithFooter("Time taken: " + sw.Elapsed.ToString("g"));
-                    await ctx.Channel.SendMessageAsync(embed: eb2.Build());
-                    typing.Dispose();
-                }
-                else
-                {
-                    await ctx.Channel.SendErrorAsync("Cancelled.", config);
-                }
-            }
-            else
-            {
-                await ctx.Channel.SendErrorAsync("Already up to date.", config);
-            }
         }
+        catch (Exception ex)
+        {
+            // Handle exceptions and provide error feedback
+            var errorEmbed = new EmbedBuilder()
+                .WithColor(Color.Red)
+                .WithTitle("Update Failed")
+                .WithDescription($"An error occurred during the update process:\n```\n{ex.Message}\n```")
+                .Build();
+            await msg.ModifyAsync(x =>
+            {
+                x.Embed = errorEmbed;
+                x.Components = null;
+            });
+        }
+
     }
 
     /// <summary>
