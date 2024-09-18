@@ -109,8 +109,8 @@ public class OwnerOnly(
     public async Task Update()
     {
         var buttons = new ComponentBuilder()
-            .WithButton("Stable", "stable")
-            .WithButton("Nightly", "nightly", ButtonStyle.Danger);
+            .WithButton("Stable", "main")
+            .WithButton("Nightly", "psqldeko", ButtonStyle.Danger);
 
         var embed = new EmbedBuilder()
             .WithColor(Color.Orange)
