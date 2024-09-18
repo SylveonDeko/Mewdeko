@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Runtime.InteropServices;
 using Discord.Commands;
 using Discord.Net;
@@ -130,8 +131,8 @@ public class OwnerOnly(
 
         try
         {
-            var repoPath = AppDomain.CurrentDomain.BaseDirectory;
-            using var repo = new LibGit2Sharp.Repository(repoPath);
+            var repoPath = Directory.GetCurrentDirectory();
+            using var repo = new Repository(repoPath);
 
             // Fetch updates
             var remote = repo.Network.Remotes["origin"];
