@@ -421,7 +421,7 @@ public class GoogleApiService : IGoogleApiService
 
     private readonly YouTubeService yt;
 
-    private readonly ImageAnnotatorClient visionClient;
+    private readonly ImageAnnotatorClient? visionClient;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GoogleApiService"/> class.
@@ -438,13 +438,21 @@ public class GoogleApiService : IGoogleApiService
             ApplicationName = "Mewdeko Bot", ApiKey = this.creds.GoogleApiKey
         };
 
-        var credential = GoogleCredential.FromFile(Path.Combine(Directory.GetCurrentDirectory(), "gcreds.json"))
-            .CreateScoped(ImageAnnotatorClient.DefaultScopes);
-
-        visionClient = new ImageAnnotatorClientBuilder
+        try
         {
-            ChannelCredentials = credential.ToChannelCredentials()
-        }.Build();
+            var credential = GoogleCredential.FromFile(Path.Combine(Directory.GetCurrentDirectory(), "gcreds.json"))
+                .CreateScoped(ImageAnnotatorClient.DefaultScopes);
+
+            visionClient = new ImageAnnotatorClientBuilder
+            {
+                ChannelCredentials = credential.ToChannelCredentials()
+            }.Build();
+        }
+        catch (Exception e)
+        {
+            Log.Error("Google Cloud Credentials not found. Image command will be unfiltered.");
+            visionClient = null;
+        }
 
         yt = new YouTubeService(bcs);
         sh = new UrlshortenerService(bcs);
@@ -473,6 +481,8 @@ public class GoogleApiService : IGoogleApiService
     /// <exception cref="RpcException">Thrown when there is an error in the Vision API call.</exception>
     public async Task<SafeSearchAnnotation> DetectSafeSearchAsync(string imageUrl)
     {
+        if (visionClient is null)
+            return new SafeSearchAnnotation();
         if (string.IsNullOrWhiteSpace(imageUrl))
             throw new ArgumentNullException(nameof(imageUrl), "Image URL cannot be null or empty.");
 

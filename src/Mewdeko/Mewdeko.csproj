@@ -160,7 +160,7 @@
     </PropertyGroup>
     <ItemGroup>
         <Content Remove="credentials_example.json" />
-        <Content Update="gcreds.json">
+        <Content Update="gcreds1.json">
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
