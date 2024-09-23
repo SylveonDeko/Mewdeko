@@ -46,7 +46,7 @@ public partial class Searches
         /// </example>
         [Cmd, Aliases]
         public async Task Punch(string toShow) =>
-            await SendAction(await nekosBestApi.ActionsApi.Shoot(), "punched", toShow)
+            await SendAction(await nekosBestApi.ActionsApi.Punch(), "punched", toShow)
                 .ConfigureAwait(false);
 
         /// <summary>
@@ -82,7 +82,7 @@ public partial class Searches
         /// </example>
         [Cmd, Aliases]
         public async Task Pat([Remainder] string toShow) =>
-            await SendAction(await nekosBestApi.ActionsApi.Shoot(), "gave pattus to", toShow)
+            await SendAction(await nekosBestApi.ActionsApi.Pat(), "gave pattus to", toShow)
                 .ConfigureAwait(false);
 
         /// <summary>
