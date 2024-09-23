@@ -18,31 +18,52 @@ jobs:
         with:
           dotnet-version: 8.0.300
 
+      - name: Get previous tag
+        id: prev_tag
+        run: |
+          echo "prev_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo '')" >> $GITHUB_ENV
+
+      - name: Get commit count since previous tag
+        id: commit_count
+        run: |
+          if [ -z "${{ env.prev_tag }}" ]; then
+            commit_count=$(git rev-list --count HEAD)
+          else
+            commit_count=$(git rev-list --count ${{ env.prev_tag }}..HEAD)
+          fi
+          echo "commit_count=$commit_count" >> $GITHUB_ENV
+          echo "count=$commit_count" >> $GITHUB_OUTPUT
+
+      - name: Build Skipped
+        if: ${{ steps.commit_count.outputs.count < 20 }}
+        run: echo "Build skipped because there are less than 20 commits since last build."
+
       - name: Restore dependencies Mewdeko
+        if: ${{ steps.commit_count.outputs.count >= 20 }}
         run: dotnet restore src/Mewdeko/Mewdeko.csproj
 
       - name: Build Mewdeko
+        if: ${{ steps.commit_count.outputs.count >= 20 }}
         run: dotnet publish src/Mewdeko/Mewdeko.csproj --no-restore -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=false -p:IncludeNativeLibrariesForSelfExtract=true -p:UseAppHost=true -o output/
 
       - name: Test
+        if: ${{ steps.commit_count.outputs.count >= 20 }}
         run: dotnet test --no-restore --verbosity normal
 
       - name: Zip artifacts
+        if: ${{ steps.commit_count.outputs.count >= 20 }}
         run: |
           cd output
           find . -name "*.pdb" -delete
           zip -r ../MewdekoPsql-win64.zip .
 
       - name: Get current date
+        if: ${{ steps.commit_count.outputs.count >= 20 }}
         id: get_date
         run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
-      - name: Get previous tag
-        id: prev_tag
-        run: |
-          echo "prev_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo '')" >> $GITHUB_ENV
-
       - name: Get commit messages with links
+        if: ${{ steps.commit_count.outputs.count >= 20 }}
         id: commit_messages
         run: |
           if [ -z "${{ env.prev_tag }}" ]; then
@@ -58,6 +79,7 @@ jobs:
           fi
 
       - name: Create Release
+        if: ${{ steps.commit_count.outputs.count >= 20 }}
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -75,6 +97,7 @@ jobs:
           prerelease: true
 
       - name: Upload Release Asset
+        if: ${{ steps.commit_count.outputs.count >= 20 }}
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
