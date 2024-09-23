@@ -1,4 +1,6 @@
 ﻿using Google.Apis.YouTube.v3.Data;
+using Google.Cloud.Vision.V1;
+using Mewdeko.Services.Impl;
 
 namespace Mewdeko.Services
 {
@@ -34,5 +36,23 @@ namespace Mewdeko.Services
         /// <param name="url">The URL to shorten.</param>
         /// <returns>The shortened URL.</returns>
         Task<string> ShortenUrl(string url);
+
+        /// <summary>
+        /// Gets an images safesearch param
+        /// </summary>
+        /// <param name="imageUrl">The image to check</param>
+        /// <returns></returns>
+        Task<SafeSearchAnnotation> DetectSafeSearchAsync(string imageUrl);
+
+        /// <summary>
+        /// Determines whether an image is considered safe based on the likelihoods in the <see cref="SafeSearchAnnotation"/>.
+        /// </summary>
+        /// <param name="annotation">The <see cref="SafeSearchAnnotation"/> containing likelihoods of inappropriate content.</param>
+        /// <returns>
+        /// <c>true</c> if the image is considered safe; otherwise, <c>false</c>.
+        /// An image is considered unsafe if any of the specified content types are likely or very likely.
+        /// </returns>
+        bool IsImageSafe(SafeSearchAnnotation annotation);
+
     }
 }

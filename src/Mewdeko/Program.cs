@@ -24,7 +24,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NekosBestApiNet;
-using NsfwSpyNS;
 using Serilog;
 using ZiggyCreatures.Caching.Fusion;
 using RunMode = Discord.Commands.RunMode;
@@ -89,7 +88,6 @@ public class Program
         services.AddSingleton(Cache.Redis);
 
         services
-            .AddSingleton<INsfwSpy, NsfwSpy>()
             .AddSingleton<FontProvider>()
             .AddSingleton<IBotCredentials>(credentials)
             .AddDbContext<MewdekoPostgresContext>()

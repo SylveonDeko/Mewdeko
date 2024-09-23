@@ -18,7 +18,6 @@ using Mewdeko.Services.Settings;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using NsfwSpyNS;
 using Refit;
 using Serilog;
 using SkiaSharp;
@@ -47,8 +46,7 @@ public partial class Searches(
     InteractiveService serv,
     MartineApi martineApi,
     ToneTagService toneTagService,
-    BotConfigService config,
-    INsfwSpy nsfwSpy)
+    BotConfigService config)
     : MewdekoModuleBase<SearchesService>
 {
     private static readonly ConcurrentDictionary<string, string> CachedShortenedLinks = new();
@@ -466,112 +464,115 @@ public partial class Searches(
     [Cmd, Aliases, Ratelimit(20)]
     public async Task Image([Remainder] string query)
     {
-        using var gscraper = new GoogleScraper();
-        using var dscraper = new DuckDuckGoScraper();
-        var search = await gscraper.GetImagesAsync(query, SafeSearchLevel.Strict).ConfigureAwait(false);
-        search = search.Take(10);
-        if (!search.Any())
+        // Send a message indicating that images are being checked
+        var checkingMessage = await ctx.Channel.SendConfirmAsync(GetText("image_checking")).ConfigureAwait(false);
+
+        IEnumerable<IImageResult> images = null;
+        string sourceName = null;
+        string sourceIconUrl = null;
+
+        // Try to get images from Google
+        using (var gscraper = new GoogleScraper())
         {
-            var search2 = await dscraper.GetImagesAsync(query, SafeSearchLevel.Strict).ConfigureAwait(false);
-            search2 = search2.Take(10);
-            if (!search2.Any())
+            var search = await gscraper.GetImagesAsync(query, SafeSearchLevel.Strict).ConfigureAwait(false);
+            search = search.Take(20);
+
+            if (search.Any())
             {
-                await ctx.Channel.SendErrorAsync("Unable to find that or the image is nsfw!", Config)
-                    .ConfigureAwait(false);
-            }
-            else
-            {
-                var images = search2.ToHashSet();
-                var tasks = images.Select(ClassifyAndFilterImage).ToList();
-
-                await Task.WhenAll(tasks);
-
-                async Task ClassifyAndFilterImage(DuckDuckGoImageResult i)
-                {
-                    try
-                    {
-                        var isNsfw = await nsfwSpy.ClassifyImageAsync(new Uri(i.Url));
-                        if (isNsfw.IsNsfw)
-                        {
-                            lock (images)
-                            {
-                                images.Remove(i);
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        // ignored because 403s
-                    }
-                }
-
-                var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
-                    .WithFooter(
-                        PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                    .WithMaxPageIndex(images.Count)
-                    .WithDefaultEmotes()
-                    .WithActionOnCancellation(ActionOnStop.DeleteMessage).Build();
-                await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
-                    .ConfigureAwait(false);
-
-                async Task<PageBuilder> PageFactory(int page)
-                {
-                    await Task.CompletedTask.ConfigureAwait(false);
-                    var result = images.Skip(page).FirstOrDefault();
-                    return new PageBuilder().WithOkColor().WithDescription(result!.Title)
-                        .WithImageUrl(result.Url)
-                        .WithAuthor(name: "DuckDuckGo Image Result",
-                            iconUrl:
-                            "https://media.discordapp.net/attachments/915770282579484693/941382938547863572/5847f32fcef1014c0b5e4877.png%22");
-                }
+                images = search;
+                sourceName = "Google";
+                sourceIconUrl = "https://www.google.com/favicon.ico";
             }
         }
-        else
+
+        // If Google didn't return any results, try DuckDuckGo
+        if (images == null)
         {
-            var images = search.ToHashSet();
-            var tasks = images.Select(ClassifyAndFilterImage).ToList();
+            using var dscraper = new DuckDuckGoScraper();
+            var search2 = await dscraper.GetImagesAsync(query, SafeSearchLevel.Strict).ConfigureAwait(false);
+            search2 = search2.Take(20);
 
-            await Task.WhenAll(tasks);
-
-            async Task ClassifyAndFilterImage(GoogleImageResult i)
+            if (search2.Any())
             {
-                try
+                images = search2;
+                sourceName = "DuckDuckGo";
+                sourceIconUrl = "https://duckduckgo.com/assets/logo_homepage.normal.v108.svg";
+            }
+        }
+
+        // If no images were found by either scraper
+        if (images == null)
+        {
+            await checkingMessage.DeleteAsync().ConfigureAwait(false);
+            await ctx.Channel.SendErrorAsync(GetText("image_no_results"), Config)
+                .ConfigureAwait(false);
+            return;
+        }
+
+        // Now, filter the images using Safe Search Detection
+        var imagesList = images.ToList(); // Convert to list for indexing
+
+        var filteredImages = new List<IImageResult>();
+        var tasks = imagesList.Select(async image =>
+        {
+            try
+            {
+                var safeSearchResult = await google.DetectSafeSearchAsync(image.Url);
+
+                if (google.IsImageSafe(safeSearchResult))
                 {
-                    var isNsfw = await nsfwSpy.ClassifyImageAsync(new Uri(i.Url));
-                    if (isNsfw.IsNsfw)
+                    lock (filteredImages)
                     {
-                        lock (images)
-                        {
-                            images.Remove(i);
-                        }
+                        filteredImages.Add(image);
                     }
                 }
-                catch
-                {
-                    // ignored because 403s
-                }
             }
-
-            var paginator = new LazyPaginatorBuilder().AddUser(ctx.User).WithPageFactory(PageFactory)
-                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                .WithMaxPageIndex(images.Count)
-                .WithDefaultEmotes()
-                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
-                .Build();
-            await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
-
-            async Task<PageBuilder> PageFactory(int page)
+            catch (Exception ex)
             {
-                await Task.CompletedTask.ConfigureAwait(false);
-                var result = images.Skip(page).FirstOrDefault();
-                return new PageBuilder().WithOkColor().WithDescription(result.Title)
-                    .WithImageUrl(result.Url)
-                    .WithAuthor(name: "Google Image Result",
-                        iconUrl:
-                        "https://media.discordapp.net/attachments/915770282579484693/941383056609144832/superG_v3.max-200x200.png%22");
+                // Handle exceptions (e.g., logging)
+                Console.WriteLine($"Error processing image: {ex.Message}");
             }
+        }).ToList();
+
+        await Task.WhenAll(tasks);
+
+        await checkingMessage.DeleteAsync().ConfigureAwait(false);
+
+        if (filteredImages.Count==0)
+        {
+            await ctx.Channel.SendErrorAsync(GetText("image_no_safe_images"), Config)
+                .ConfigureAwait(false);
+            return;
+        }
+
+        // Proceed with displaying the images using a paginator
+        var paginator = new LazyPaginatorBuilder()
+            .AddUser(ctx.User)
+            .WithPageFactory(PageFactory)
+            .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+            .WithMaxPageIndex(filteredImages.Count - 1)
+            .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+            .Build();
+
+        await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
+            .ConfigureAwait(false);
+        return;
+
+        Task<PageBuilder> PageFactory(int page)
+        {
+            var result = filteredImages.ElementAt(page);
+
+            return Task.FromResult(new PageBuilder()
+                .WithOkColor()
+                .WithDescription(result.Title)
+                .WithImageUrl(result.Url)
+                .WithAuthor(
+                    name: GetText("image_result_source", sourceName), // e.g., "Image Result from Google"
+                    iconUrl: sourceIconUrl));
         }
     }
+
 
     /// <summary>
     /// Generates a Let Me Google That For You (LMGTFY) link for the provided query.

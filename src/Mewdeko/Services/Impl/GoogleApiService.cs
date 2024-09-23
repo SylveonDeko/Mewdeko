@@ -1,13 +1,19 @@
-﻿using System.Net;
+﻿using System.IO;
+using System.Net;
 using System.Net.Http;
 using Google;
+using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
 using Google.Apis.Urlshortener.v1;
 using Google.Apis.Urlshortener.v1.Data;
 using Google.Apis.YouTube.v3;
 using Google.Apis.YouTube.v3.Data;
+using Google.Cloud.Vision.V1;
+using Grpc.Auth;
+using Grpc.Core;
 using Newtonsoft.Json.Linq;
 using Serilog;
+using Image = Google.Cloud.Vision.V1.Image;
 
 namespace Mewdeko.Services.Impl;
 
@@ -18,6 +24,7 @@ public class GoogleApiService : IGoogleApiService
 {
     private readonly IBotCredentials creds;
     private readonly IHttpClientFactory httpFactory;
+
 
     private readonly Dictionary<string?, string> languageDictionary = new()
     {
@@ -414,6 +421,8 @@ public class GoogleApiService : IGoogleApiService
 
     private readonly YouTubeService yt;
 
+    private readonly ImageAnnotatorClient visionClient;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="GoogleApiService"/> class.
     /// </summary>
@@ -429,9 +438,53 @@ public class GoogleApiService : IGoogleApiService
             ApplicationName = "Mewdeko Bot", ApiKey = this.creds.GoogleApiKey
         };
 
+        var credential = GoogleCredential.FromFile(Path.Combine(Directory.GetCurrentDirectory(), "gcreds.json"))
+            .CreateScoped(ImageAnnotatorClient.DefaultScopes);
+
+        visionClient = new ImageAnnotatorClientBuilder
+        {
+            ChannelCredentials = credential.ToChannelCredentials()
+        }.Build();
+
         yt = new YouTubeService(bcs);
         sh = new UrlshortenerService(bcs);
     }
+
+
+    /// <inheritdoc />
+    public bool IsImageSafe(SafeSearchAnnotation annotation)
+    {
+        // Adjust thresholds as needed based on your application's requirements
+        return annotation.Adult != Likelihood.Likely && annotation.Adult != Likelihood.VeryLikely &&
+               annotation.Violence != Likelihood.Likely && annotation.Violence != Likelihood.VeryLikely &&
+               annotation.Racy != Likelihood.Likely && annotation.Racy != Likelihood.VeryLikely;
+    }
+
+
+    /// <summary>
+    /// Performs Safe Search detection on the specified image URL using the Google Cloud Vision API.
+    /// </summary>
+    /// <param name="imageUrl">The URL of the image to analyze.</param>
+    /// <returns>
+    /// A task representing the asynchronous operation. The task result contains a <see cref="SafeSearchAnnotation"/> object
+    /// with the likelihoods of various types of inappropriate content.
+    /// </returns>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="imageUrl"/> is null or empty.</exception>
+    /// <exception cref="RpcException">Thrown when there is an error in the Vision API call.</exception>
+    public async Task<SafeSearchAnnotation> DetectSafeSearchAsync(string imageUrl)
+    {
+        if (string.IsNullOrWhiteSpace(imageUrl))
+            throw new ArgumentNullException(nameof(imageUrl), "Image URL cannot be null or empty.");
+
+        // Create an Image object with the image URL
+        var image = Image.FromUri(imageUrl);
+
+        // Perform Safe Search detection
+        var response = await visionClient.DetectSafeSearchAsync(image);
+
+        return response;
+    }
+
 
     /// <summary>
     /// Gets video links by keyword.
@@ -530,4 +583,5 @@ public class GoogleApiService : IGoogleApiService
         languageDictionary.TryGetValue(language, out var mode);
         return mode;
     }
+
 }

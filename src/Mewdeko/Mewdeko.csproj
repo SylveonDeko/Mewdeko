@@ -24,6 +24,7 @@
     <PackageReference Include="Discord.Net.Interactions" Version="3.15.2" />
     <PackageReference Include="Discord.Net.Commands" Version="3.15.2" />
     <PackageReference Include="Discord.Addons.Hosting" Version="6.1.0" />
+    <PackageReference Include="Google.Cloud.Vision.V1" Version="3.7.0" />
     <PackageReference Include="HarfBuzzSharp" Version="8.3.0-preview.4.1" />
     <PackageReference Include="HarfBuzzSharp.NativeAssets.Linux" Version="8.3.0-preview.4.1" />
     <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
@@ -97,7 +98,6 @@
       <PackageReference Include="NHentaiAPI" Version="1.7.0"/>
       <PackageReference Include="NonBlocking" Version="2.1.2"/>
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
-      <PackageReference Include="NsfwSpy" Version="3.5.0"/>
       <PackageReference Include="Octokit" Version="12.0.0" />
       <PackageReference Include="Otp.NET" Version="1.4.0" />
       <PackageReference Include="PokeApiNet" Version="4.0.0"/>
@@ -113,7 +113,6 @@
       <PackageReference Include="SpotifyAPI.Web.Auth" Version="7.1.1"/>
       <PackageReference Include="StackExchange.Redis" Version="2.7.33"/>
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
-      <PackageReference Include="SciSharp.TensorFlow.Redist" Version="2.3.0"/>
       <PackageReference Include="System.Drawing.Common" Version="9.0.0-preview.5.24306.5" />
       <PackageReference Include="System.IO.FileSystem.Watcher" Version="4.3.0"/>
       <PackageReference Include="System.Threading.Channels" Version="9.0.0-preview.5.24306.7" />
@@ -161,6 +160,9 @@
     </PropertyGroup>
     <ItemGroup>
         <Content Remove="credentials_example.json" />
+        <Content Update="gcreds.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
