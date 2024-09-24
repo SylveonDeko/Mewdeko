@@ -85,7 +85,7 @@ namespace Mewdeko.Database.Models
         /// The number of messages required for users before entering a giveaway
         /// </summary>
         [NewProperty]
-        public ulong MessageCountReq { get; set; }= 0;
+        public ulong MessageCountReq { get; set; } = 0;
 
     }
 }

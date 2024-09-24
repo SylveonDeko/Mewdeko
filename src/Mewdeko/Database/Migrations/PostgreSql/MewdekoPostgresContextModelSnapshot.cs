@@ -1011,6 +1011,9 @@ namespace Mewdeko.Database.Migrations.PostgreSql
                     b.Property<string>("Item")
                         .HasColumnType("text");
 
+                    b.Property<decimal>("MessageCountReq")
+                        .HasColumnType("numeric(20,0)");
+
                     b.Property<decimal>("MessageId")
                         .HasColumnType("numeric(20,0)");
 

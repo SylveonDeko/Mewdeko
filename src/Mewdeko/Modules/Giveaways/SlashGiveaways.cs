@@ -260,27 +260,33 @@ public class SlashGiveaways(DbContextProvider dbProvider, InteractiveService int
             return;
         }
         var emote = (await Service.GetGiveawayEmote(ctx.Guild.Id)).ToIEmote();
-        try
+        if (!useButton && !useCaptcha)
         {
-            var message = await ctx.Interaction.SendConfirmFollowupAsync("Checking emote...").ConfigureAwait(false);
-            await message.AddReactionAsync(emote).ConfigureAwait(false);
-        }
-        catch
-        {
-            await ctx.Interaction.SendErrorFollowupAsync(
-                    "I'm unable to use that emote for giveaways! Most likely because I'm not in a server with it.",
-                    Config)
-                .ConfigureAwait(false);
-            return;
+            try
+            {
+                var message = await ctx.Interaction.SendConfirmFollowupAsync("Checking emote...").ConfigureAwait(false);
+                await message.AddReactionAsync(emote).ConfigureAwait(false);
+            }
+            catch
+            {
+                await ctx.Interaction.SendErrorFollowupAsync(
+                        "I'm unable to use that emote for giveaways! Most likely because I'm not in a server with it.",
+                        Config)
+                    .ConfigureAwait(false);
+                return;
+            }
         }
 
         var user = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id).ConfigureAwait(false);
         var perms = user.GetPermissions(chan);
-        if (!perms.Has(ChannelPermission.AddReactions))
+        if (!useButton && !useCaptcha)
         {
-            await ctx.Interaction.SendErrorFollowupAsync("I cannot add reactions in that channel!", Config)
-                .ConfigureAwait(false);
-            return;
+            if (!perms.Has(ChannelPermission.AddReactions))
+            {
+                await ctx.Interaction.SendErrorFollowupAsync("I cannot add reactions in that channel!", Config)
+                    .ConfigureAwait(false);
+                return;
+            }
         }
 
         if (!perms.Has(ChannelPermission.UseExternalEmojis) && !ctx.Guild.Emotes.Contains(emote))

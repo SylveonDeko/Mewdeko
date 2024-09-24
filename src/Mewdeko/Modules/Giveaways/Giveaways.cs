@@ -11,7 +11,7 @@ using SkiaSharp;
 namespace Mewdeko.Modules.Giveaways;
 
 /// <summary>
-/// Module containing commands for giveaways.
+///     Module containing commands for giveaways.
 /// </summary>
 /// <param name="db"></param>
 /// <param name="servs"></param>
@@ -25,10 +25,12 @@ public partial class Giveaways(
     : MewdekoModuleBase<GiveawayService>
 {
     /// <summary>
-    /// Sets the dm message sent to users when they win a giveaway.
+    ///     Sets the dm message sent to users when they win a giveaway.
     /// </summary>
     /// <param name="message"></param>
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.ManageMessages)]
     public async Task GdmMessage([Remainder] string message = null)
     {
         var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
@@ -79,10 +81,12 @@ public partial class Giveaways(
 
 
     /// <summary>
-    /// Sets the default giveaway banner.
+    ///     Sets the default giveaway banner.
     /// </summary>
     /// <param name="banner"></param>
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.ManageMessages)]
     public async Task GBanner(string banner)
     {
         var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
@@ -100,10 +104,12 @@ public partial class Giveaways(
     }
 
     /// <summary>
-    /// Sets the color for the winning embed.
+    ///     Sets the color for the winning embed.
     /// </summary>
     /// <param name="color">The color in hex.</param>
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.ManageMessages)]
     public async Task GWinEmbedColor(string color)
     {
         var colorVal = StringExtensions.GetHexFromColorName(color);
@@ -132,10 +138,12 @@ public partial class Giveaways(
     }
 
     /// <summary>
-    /// Sets the color of the embed for giveaways.
+    ///     Sets the color of the embed for giveaways.
     /// </summary>
     /// <param name="color">The color in hex.</param>
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.ManageMessages)]
     public async Task GEmbedColor(string color)
     {
         var colorVal = StringExtensions.GetHexFromColorName(color);
@@ -164,9 +172,11 @@ public partial class Giveaways(
     }
 
     /// <summary>
-    /// Sets whether to DM the winner of a giveaway.
+    ///     Sets whether to DM the winner of a giveaway.
     /// </summary>
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.ManageMessages)]
     public async Task GDm()
     {
         var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
@@ -178,10 +188,12 @@ public partial class Giveaways(
     }
 
     /// <summary>
-    /// Sets the emote used for giveaways.
+    ///     Sets the emote used for giveaways.
     /// </summary>
     /// <param name="emote">The emote to set it to.</param>
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.ManageMessages)]
     public async Task GEmote(IEmote emote)
     {
         try
@@ -204,10 +216,12 @@ public partial class Giveaways(
     }
 
     /// <summary>
-    /// Rerolls a giveaway.
+    ///     Rerolls a giveaway.
     /// </summary>
     /// <param name="messageid">The messageid of a giveaway</param>
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.ManageMessages)]
     public async Task GReroll(ulong messageid)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -232,9 +246,10 @@ public partial class Giveaways(
     }
 
     /// <summary>
-    /// Shows the stats for giveaways.
+    ///     Shows the stats for giveaways.
     /// </summary>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task GStats()
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -271,13 +286,15 @@ public partial class Giveaways(
     }
 
     /// <summary>
-    /// Quick start a giveaway.
+    ///     Quick start a giveaway.
     /// </summary>
     /// <param name="chan">The channel to start the giveaway in</param>
     /// <param name="time">The amount of time the giveaway should go on</param>
     /// <param name="winners">The amount of winners</param>
     /// <param name="what">The item to be given away</param>
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.ManageMessages)]
     public async Task GStart(ITextChannel chan, StoopidTime time, int winners, [Remainder] string what)
     {
         var emote = (await Service.GetGiveawayEmote(ctx.Guild.Id)).ToIEmote();
@@ -313,9 +330,11 @@ public partial class Giveaways(
     }
 
     /// <summary>
-    /// More detailed giveaway starting, lets you set a banner, ping role, and more.
+    ///     More detailed giveaway starting, lets you set a banner, ping role, and more.
     /// </summary>
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.ManageMessages)]
     public async Task GStart()
     {
         var emote = (await Service.GetGiveawayEmote(ctx.Guild.Id)).ToIEmote();
@@ -334,292 +353,300 @@ public partial class Giveaways(
 
         var gset = await guildSettings.GetGuildConfig(ctx.Guild.Id);
 
-        int winners;
-        string banner;
-        IRole pingrole = null;
-        //string blacklistroles;
-        //string blacklistusers;
+        var winners = 0;
+        string banner = null;
+        IRole pingRole = null;
         ulong messageCount = 0;
-        IUser host;
+        var host = ctx.User;
         TimeSpan time;
-        bool useCaptcha = false;
-        bool useButton = false;
-        var erorrembed = new EmbedBuilder()
+        var useCaptcha = false;
+        var useButton = false;
+        string prize = null;
+        string requiredRoles = null;
+
+        var errorEmbed = new EmbedBuilder()
             .WithErrorColor()
             .WithDescription("Either something went wrong or you input a value incorrectly! Please start over.")
             .Build();
-        var win0Embed = new EmbedBuilder()
-            .WithErrorColor()
-            .WithDescription("You can't have 0 winners!").Build();
-        var tries = 0;
-        var eb = new EmbedBuilder()
-            .WithOkColor()
-            .WithDescription(
-                "Please say, mention or put the ID of the channel where you want to start a giveaway. (Keep in mind you can cancel this by just leaving this to sit)");
-        var msg = await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
-        var next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
-        var reader = new ChannelTypeReader<ITextChannel>();
-        var e = await reader.ReadAsync(ctx, next, servs).ConfigureAwait(false);
-        if (!e.IsSuccess)
+
+        var promptEmbed = new EmbedBuilder()
+            .WithOkColor();
+
+        // Prompt for Giveaway Channel
+        var msg = await ctx.Channel
+            .SendMessageAsync(embed: promptEmbed
+                .WithDescription("Please mention or provide the ID of the channel where you want to start a giveaway.")
+                .Build()).ConfigureAwait(false);
+        var response = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+        ITextChannel channel = null;
+
+        var channelReader = new ChannelTypeReader<ITextChannel>();
+        var channelResult = await channelReader.ReadAsync(ctx, response, servs).ConfigureAwait(false);
+        if (channelResult.IsSuccess)
         {
-            await msg.ModifyAsync(x => x.Embed = erorrembed).ConfigureAwait(false);
+            channel = (ITextChannel)channelResult.BestMatch;
+        }
+        else
+        {
+            await msg.ModifyAsync(x => x.Embed = errorEmbed).ConfigureAwait(false);
             return;
         }
 
-        var chan = (ITextChannel)e.BestMatch;
-        var user = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id).ConfigureAwait(false);
-        var perms = user.GetPermissions(chan);
-        if (!perms.Has(ChannelPermission.AddReactions))
+        // Check Permissions
+        var botUser = await ctx.Guild.GetUserAsync(ctx.Client.CurrentUser.Id).ConfigureAwait(false);
+        var permissions = botUser.GetPermissions(channel);
+        if (!permissions.Has(ChannelPermission.AddReactions))
         {
             await ctx.Channel.SendErrorAsync("I cannot add reactions in that channel!", Config).ConfigureAwait(false);
             return;
         }
 
-        if (!perms.Has(ChannelPermission.UseExternalEmojis) && !ctx.Guild.Emotes.Contains(emote))
+        if (!permissions.Has(ChannelPermission.UseExternalEmojis) && !ctx.Guild.Emotes.Contains(emote))
         {
             await ctx.Channel.SendErrorAsync("I'm unable to use external emotes!", Config).ConfigureAwait(false);
             return;
         }
 
-        await msg.ModifyAsync(x => x.Embed = eb.WithDescription("How many winners will there be?").Build())
+        // Number of Winners
+        await msg.ModifyAsync(x => x.Embed = promptEmbed.WithDescription("How many winners will there be?").Build())
             .ConfigureAwait(false);
-        next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
-        try
+        response = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+        if (!int.TryParse(response, out winners) || winners <= 0)
         {
-            winners = int.Parse(next);
-        }
-        catch
-        {
-            await msg.ModifyAsync(x => x.Embed = erorrembed).ConfigureAwait(false);
-            // ReSharper disable once RedundantAssignment
-            tries++;
+            await msg.ModifyAsync(x => x.Embed = errorEmbed).ConfigureAwait(false);
             return;
         }
 
-        while (tries > 0)
-        {
-            await msg.ModifyAsync(x => x.Embed = win0Embed).ConfigureAwait(false);
-            next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
-            try
-            {
-                winners = int.Parse(next);
-                tries = 0;
-            }
-            catch
-            {
-                await msg.ModifyAsync(x => x.Embed = erorrembed).ConfigureAwait(false);
-                return;
-            }
-        }
+        // Prize
+        await msg.ModifyAsync(x => x.Embed = promptEmbed.WithDescription("What is the prize/item?").Build())
+            .ConfigureAwait(false);
+        prize = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
 
-        await msg.ModifyAsync(x => x.Embed = eb.WithDescription("What is the prize/item?").Build())
-            .ConfigureAwait(false);
-        var prize = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+        // Duration
         await msg.ModifyAsync(x =>
-                x.Embed = eb.WithDescription("How long will this giveaway last? Use the format 1mo,2d,3m,4s").Build())
-            .ConfigureAwait(false);
-        next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
-        {
-            try
-            {
-                var t = StoopidTime.FromInput(next);
-                time = t.Time;
-            }
-            catch
-            {
-                await msg.ModifyAsync(x => x.Embed = erorrembed).ConfigureAwait(false);
-                return;
-            }
-        }
-        await msg.ModifyAsync(x =>
-            x.Embed = eb
-                .WithDescription(
-                    "Who is the giveaway host? You can mention them or provide an ID, say none/skip to set yourself as the host.")
+            x.Embed = promptEmbed.WithDescription("How long will this giveaway last? Use the format `1mo,2d,3h,4m,5s`.")
                 .Build()).ConfigureAwait(false);
-        next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
-        if (next.ToLower() is "none" or "skip")
-            host = ctx.User;
-        else
+        response = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+        try
         {
-            var reader1 = new UserTypeReader<IUser>();
-            try
-            {
-                var result = await reader1.ReadAsync(ctx, next, servs).ConfigureAwait(false);
-                host = (IUser)result.BestMatch;
-            }
-            catch
-            {
-                await msg.ModifyAsync(x => x.Embed = erorrembed).ConfigureAwait(false);
-                return;
-            }
+            var duration = StoopidTime.FromInput(response);
+            time = duration.Time;
         }
-        await msg.ModifyAsync(x =>
-            x.Embed = eb.WithDescription("Would you like to set a message requirement?").Build()).ConfigureAwait(false);
-        next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
-
-        if (next.ToLower() is "yes" or "y")
+        catch
         {
-            await msg.ModifyAsync(x =>
-                x.Embed = eb.WithDescription("How many messages is the user required to send?").Build()).ConfigureAwait(false);
-            next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
-            if (!ulong.TryParse(next, out messageCount))
-            {
-                await msg.DeleteAsync();
-                await ctx.Channel.SendErrorAsync("That is not a valid number! Start over.", Config);
-                return;
-            }
+            await msg.ModifyAsync(x => x.Embed = errorEmbed).ConfigureAwait(false);
+            return;
         }
 
+        // Host
         await msg.ModifyAsync(x =>
-            x.Embed = eb.WithDescription("Would you like to set a banner?").Build()).ConfigureAwait(false);
-
-        next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
-
-        if (next.ToLower() is "yes" or "y")
+            x.Embed = promptEmbed
+                .WithDescription(
+                    "Who is the giveaway host? You can mention them or provide an ID, or say `none`/`skip` to set yourself as the host.")
+                .Build()).ConfigureAwait(false);
+        response = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+        if (!response.Equals("none", StringComparison.OrdinalIgnoreCase) &&
+            !response.Equals("skip", StringComparison.OrdinalIgnoreCase))
         {
-            await msg.ModifyAsync(x =>
-                x.Embed = eb.WithDescription("Please provide a link to the banner.").Build()).ConfigureAwait(false);
-            var newNext = await NextFullMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
-            if (newNext.Attachments.Any())
+            var userReader = new UserTypeReader<IUser>();
+            var userResult = await userReader.ReadAsync(ctx, response, servs).ConfigureAwait(false);
+            if (userResult.IsSuccess)
             {
-                var attach = newNext.Attachments.First();
-                banner = attach.Url;
+                host = (IUser)userResult.BestMatch;
             }
-            else if (Uri.IsWellFormedUriString(newNext.Content, UriKind.Absolute))
-                banner = newNext.Content;
             else
             {
-                await msg.ModifyAsync(x => x.Embed = erorrembed).ConfigureAwait(false);
+                await msg.ModifyAsync(x => x.Embed = errorEmbed).ConfigureAwait(false);
                 return;
             }
         }
-        else
-            banner = null;
 
+        // Message Requirement
+        await msg.ModifyAsync(x =>
+                x.Embed = promptEmbed.WithDescription("Would you like to set a message requirement? (yes/no)").Build())
+            .ConfigureAwait(false);
+        response = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+        if (response.Equals("yes", StringComparison.OrdinalIgnoreCase) ||
+            response.Equals("y", StringComparison.OrdinalIgnoreCase))
+        {
+            await msg.ModifyAsync(x =>
+                    x.Embed = promptEmbed.WithDescription("How many messages is the user required to send?").Build())
+                .ConfigureAwait(false);
+            response = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+            if (!ulong.TryParse(response, out messageCount))
+            {
+                await msg.ModifyAsync(x => x.Embed = errorEmbed).ConfigureAwait(false);
+                return;
+            }
+        }
+
+        // Banner
+        await msg.ModifyAsync(x =>
+                x.Embed = promptEmbed.WithDescription("Would you like to set a banner? (yes/no)").Build())
+            .ConfigureAwait(false);
+        response = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+        if (response.Equals("yes", StringComparison.OrdinalIgnoreCase) ||
+            response.Equals("y", StringComparison.OrdinalIgnoreCase))
+        {
+            await msg.ModifyAsync(x =>
+                x.Embed = promptEmbed.WithDescription("Please provide a link to the banner or attach an image.")
+                    .Build()).ConfigureAwait(false);
+            var bannerResponse = await NextFullMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+            if (bannerResponse.Attachments.Any())
+            {
+                banner = bannerResponse.Attachments.First().Url;
+            }
+            else if (Uri.IsWellFormedUriString(bannerResponse.Content, UriKind.Absolute))
+            {
+                banner = bannerResponse.Content;
+            }
+            else
+            {
+                await msg.ModifyAsync(x => x.Embed = errorEmbed).ConfigureAwait(false);
+                return;
+            }
+        }
+
+        // Ping Role
         if (gset.GiveawayPingRole != 0)
         {
             await msg.ModifyAsync(x =>
-                    x.Embed = eb.WithDescription("Would you like to override the default ping role in configs?")
+                    x.Embed = promptEmbed
+                        .WithDescription("Would you like to override the default ping role in configs? (yes/no)")
                         .Build())
                 .ConfigureAwait(false);
-
-            next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
-            if (next.ToLower() is "yes" or "y")
+            response = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+            if (response.Equals("yes", StringComparison.OrdinalIgnoreCase) ||
+                response.Equals("y", StringComparison.OrdinalIgnoreCase))
             {
                 await msg.ModifyAsync(x =>
-                    x.Embed = eb.WithDescription("Please provide a role mention.").Build()).ConfigureAwait(false);
-
-                next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
-                var firstparsed = MyRegex()
-                    .Matches(next)
-                    .Select(m => ulong.Parse(m.Value))
-                    .Select(Context.Guild.GetRole)
-                    .FirstOrDefault(x => x is not null);
-
-                if (firstparsed is null)
+                        x.Embed = promptEmbed.WithDescription("Please provide a role mention for the ping role.")
+                            .Build())
+                    .ConfigureAwait(false);
+                response = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+                var role = ParseRole(response);
+                if (role != null)
                 {
-                    await msg.ModifyAsync(x => x.Embed = erorrembed).ConfigureAwait(false);
+                    pingRole = role;
+                }
+                else
+                {
+                    await msg.ModifyAsync(x => x.Embed = errorEmbed).ConfigureAwait(false);
                     return;
                 }
-
-                pingrole = firstparsed;
             }
         }
         else
         {
             await msg.ModifyAsync(x =>
-                x.Embed = eb.WithDescription("Would you like to set a ping role?").Build()).ConfigureAwait(false);
-
-            next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
-            if (next.ToLower() is "yes" or "y")
+                    x.Embed = promptEmbed.WithDescription("Would you like to set a ping role? (yes/no)").Build())
+                .ConfigureAwait(false);
+            response = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+            if (response.Equals("yes", StringComparison.OrdinalIgnoreCase) ||
+                response.Equals("y", StringComparison.OrdinalIgnoreCase))
             {
                 await msg.ModifyAsync(x =>
-                    x.Embed = eb.WithDescription("Please provide a role mention.").Build()).ConfigureAwait(false);
-
-                next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
-                var firstparsed = MyRegex()
-                    .Matches(next)
-                    .Select(m => ulong.Parse(m.Value))
-                    .Select(Context.Guild.GetRole)
-                    .FirstOrDefault(x => x is not null);
-
-                if (firstparsed is null)
+                        x.Embed = promptEmbed.WithDescription("Please provide a role mention for the ping role.")
+                            .Build())
+                    .ConfigureAwait(false);
+                response = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+                var role = ParseRole(response);
+                if (role != null)
                 {
-                    await msg.ModifyAsync(x => x.Embed = erorrembed).ConfigureAwait(false);
+                    pingRole = role;
+                }
+                else
+                {
+                    await msg.ModifyAsync(x => x.Embed = errorEmbed).ConfigureAwait(false);
                     return;
                 }
-
-                pingrole = firstparsed;
             }
         }
 
-        if (await PromptUserConfirmAsync(msg, new EmbedBuilder().WithDescription("Would you like to use a button?").WithOkColor(), ctx.User.Id).ConfigureAwait(false))
-        {
-            var buttons = new ComponentBuilder().WithButton("Regular", customId:"regular")
-                .WithButton("Captcha", customId:"captcha").Build();
-
-            await msg.ModifyAsync(x =>
-            {
-                x.Components = buttons;
-                x.Embed = eb.WithDescription("Would you like to use en external website captcha or a regular button?")
-                    .WithOkColor().Build();
-            });
-
-            var input = await GetButtonInputAsync(ctx.Channel.Id, msg.Id, ctx.User.Id).ConfigureAwait(false);
-
-            switch (input)
-            {
-                case "regular":
-                    useButton = true;
-                    break;
-                case "captcha":
-                    useCaptcha = true;
-                    break;
-            }
-        }
-
-        if (!await PromptUserConfirmAsync(msg,
-                new EmbedBuilder().WithDescription("Would you like to setup role requirements?").WithOkColor(),
-                ctx.User.Id).ConfigureAwait(false))
-        {
-            await Service.GiveawaysInternal(chan, time, prize, winners, host.Id, ctx.Guild.Id,
-                ctx.Channel as ITextChannel,
-                ctx.Guild, banner: banner, pingROle: pingrole).ConfigureAwait(false);
-            await msg.DeleteAsync().ConfigureAwait(false);
-        }
-
+        // Use Button or Captcha
         await msg.ModifyAsync(x =>
-        {
-            x.Embed = eb.WithDescription("Alright! please mention the role(s) that are required for this giveaway!")
-                .Build();
-            x.Components = null;
-        }).ConfigureAwait(false);
-        IReadOnlyCollection<IRole> parsed;
-        while (true)
-        {
-            next = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
-            parsed = MyRegex().Matches(next)
-                .Select(m => ulong.Parse(m.Value))
-                .Select(Context.Guild.GetRole).Where(x => x is not null).ToList();
-            if (parsed.Count > 0) break;
-            await msg.ModifyAsync(x => x.Embed = eb
-                .WithDescription("Looks like those roles were incorrect! Please try again!")
+            x.Embed = promptEmbed
+                .WithDescription("Would you like to use a button or captcha for entry instead of reactions? (yes/no)")
                 .Build()).ConfigureAwait(false);
+        response = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+        if (response.Equals("yes", StringComparison.OrdinalIgnoreCase) ||
+            response.Equals("y", StringComparison.OrdinalIgnoreCase))
+        {
+            await msg.ModifyAsync(x =>
+                    x.Embed = promptEmbed
+                        .WithDescription("Type `button` for a regular button or `captcha` for a captcha entry.")
+                        .Build())
+                .ConfigureAwait(false);
+            response = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+            if (response.Equals("button", StringComparison.OrdinalIgnoreCase))
+            {
+                useButton = true;
+            }
+            else if (response.Equals("captcha", StringComparison.OrdinalIgnoreCase))
+            {
+                useCaptcha = true;
+            }
+            else
+            {
+                await msg.ModifyAsync(x => x.Embed = errorEmbed).ConfigureAwait(false);
+                return;
+            }
         }
 
-        var reqroles = string.Join(" ", parsed.Select(x => x.Id));
+        // Role Requirements
+        await msg.ModifyAsync(x =>
+                x.Embed = promptEmbed.WithDescription("Would you like to set up role requirements? (yes/no)").Build())
+            .ConfigureAwait(false);
+        response = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+        if (response.Equals("yes", StringComparison.OrdinalIgnoreCase) ||
+            response.Equals("y", StringComparison.OrdinalIgnoreCase))
+        {
+            await msg.ModifyAsync(x =>
+                x.Embed = promptEmbed.WithDescription("Please mention the role(s) that are required for this giveaway.")
+                    .Build()).ConfigureAwait(false);
+            response = await NextMessageAsync(ctx.Channel.Id, ctx.User.Id).ConfigureAwait(false);
+            var roles = ParseRoles(response);
+            if (roles.Count > 0)
+            {
+                requiredRoles = string.Join(" ", roles.Select(r => r.Id));
+            }
+            else
+            {
+                await msg.ModifyAsync(x =>
+                    x.Embed = promptEmbed.WithDescription("No valid roles mentioned. Skipping role requirements.")
+                        .Build()).ConfigureAwait(false);
+            }
+        }
+
         await msg.DeleteAsync().ConfigureAwait(false);
-        await Service.GiveawaysInternal(chan, time, prize, winners, host.Id, ctx.Guild.Id, ctx.Channel as ITextChannel,
-            ctx.Guild, reqroles, pingROle: pingrole, banner: banner, useButton: useButton, useCaptcha: useCaptcha, messageCount: messageCount).ConfigureAwait(false);
+
+        // Start the Giveaway
+        await Service.GiveawaysInternal(channel, time, prize, winners, host.Id, ctx.Guild.Id,
+            ctx.Channel as ITextChannel, ctx.Guild, requiredRoles, null, null, null, banner,
+            pingRole, useButton, useCaptcha, messageCount).ConfigureAwait(false);
+    }
+
+// Helper Methods
+    private IRole? ParseRole(string input)
+    {
+        var roleIdMatches = MyRegex1().Matches(input).Select(m => ulong.Parse(m.Value));
+        return roleIdMatches.Select(id => ctx.Guild.GetRole(id)).FirstOrDefault(r => r != null);
+    }
+
+    private List<IRole> ParseRoles(string input)
+    {
+        var roleIdMatches = MyRegex1().Matches(input).Select(m => ulong.Parse(m.Value));
+        return roleIdMatches.Select(id => ctx.Guild.GetRole(id)).Where(r => r != null).ToList();
     }
 
     /// <summary>
-    /// Lists all active giveaways.
+    ///     Lists all active giveaways.
     /// </summary>
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.ManageMessages)]
     public async Task GList()
     {
-
         await using var dbContext = await dbProvider.GetContextAsync();
 
         var gways = dbContext.Giveaways.GiveawaysForGuild(ctx.Guild.Id).Where(x => x.Ended == 0);
@@ -660,10 +687,13 @@ public partial class Giveaways(
     }
 
     /// <summary>
-    /// Ends a giveaway.
+    ///     Ends a giveaway.
     /// </summary>
     /// <param name="messageid">The messageid of the giveaway to end</param>
-    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageMessages)]
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageMessages)]
     public async Task GEnd(ulong messageid)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -689,7 +719,8 @@ public partial class Giveaways(
             await ctx.Channel.SendConfirmAsync("Giveaway ended!").ConfigureAwait(false);
         }
     }
-
-    [GeneratedRegex("(?<=<@&)?[0-9]{17,19}(?=>)?")]
-    private static partial Regex MyRegex();
+    [GeneratedRegex(@"\d+")]
+    private static partial Regex MyRegex1();
+    [GeneratedRegex(@"\d+")]
+    private static partial Regex MyRegex2();
 }

@@ -9,11 +9,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Mewdeko.Migrations
+namespace Mewdeko.Database.Migrations.PostgreSql
 {
-    [DbContext(typeof(MewdekoContext))]
-    [Migration("20240908004700_Reviews")]
-    partial class Reviews
+    [DbContext(typeof(MewdekoPostgresContext))]
+    [Migration("20240924003813_MesReqs")]
+    partial class MesReqs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -338,6 +338,40 @@ namespace Mewdeko.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Blacklist");
+                });
+
+            modelBuilder.Entity("Mewdeko.Database.Models.BotReviews", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AvatarUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("DateAdded")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Review")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Stars")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("UserId")
+                        .HasColumnType("numeric(20,0)");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BotReviews");
                 });
 
             modelBuilder.Entity("Mewdeko.Database.Models.ChatTriggers", b =>
@@ -979,6 +1013,9 @@ namespace Mewdeko.Migrations
 
                     b.Property<string>("Item")
                         .HasColumnType("text");
+
+                    b.Property<decimal>("MessageCountReq")
+                        .HasColumnType("numeric(20,0)");
 
                     b.Property<decimal>("MessageId")
                         .HasColumnType("numeric(20,0)");
