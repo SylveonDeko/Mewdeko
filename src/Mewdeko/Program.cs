@@ -44,8 +44,6 @@ public class Program
     /// <returns>A <see cref="Task" /> representing the asynchronous operation of running the application.</returns>
     public static async Task Main(string[] args)
     {
-        var builder = WebApplication.CreateBuilder();
-        var services = builder.Services;
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         var log = LogSetup.SetupLogger("Mewdeko");
         var credentials = new BotCredentials();
@@ -68,6 +66,97 @@ public class Program
 
         Log.Information("Waiting 5 seconds for migrations, if any...");
         await Task.Delay(5000);
+
+        // Set up the Host or WebApplication based on IsApiEnabled
+
+        if (credentials.IsApiEnabled)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+            var services = builder.Services;
+
+            // Configure logging
+            builder.Logging.ClearProviders();
+            builder.Logging.AddSerilog(log);
+
+            // Configure services
+            ConfigureServices(services, credentials, Cache);
+
+            // Configure web host settings
+            builder.WebHost.UseUrls($"http://localhost:{credentials.ApiPort}");
+
+            if (!credentials.SkipApiKey)
+            {
+                services.AddTransient<IApiKeyValidation, ApiKeyValidation>();
+                services.AddAuthorization();
+            }
+
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                });
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
+
+            var auth = services.AddAuthentication(options =>
+            {
+                options.AddScheme<AuthHandler>(AuthHandler.SchemeName, AuthHandler.SchemeName);
+            });
+
+            if (!credentials.SkipApiKey)
+                auth.AddScheme<AuthenticationSchemeOptions, ApiKeyAuthHandler>("ApiKey", null);
+
+            services.AddAuthorization(options =>
+            {
+                if (!credentials.SkipApiKey)
+                    options.AddPolicy("ApiKeyPolicy", policy =>
+                        policy.RequireAuthenticatedUser().AddAuthenticationSchemes("ApiKey"));
+                options.AddPolicy("TopggPolicy", policy => policy.RequireClaim(AuthHandler.TopggClaim).AddAuthenticationSchemes(AuthHandler.SchemeName));
+            });
+
+            var app = builder.Build();
+
+            // Configure the HTTP request pipeline.
+            if (builder.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.UseAuthorization();
+            app.MapControllers();
+
+            foreach (var address in app.Urls)
+            {
+                Log.Information("Listening on {Address}", address);
+            }
+
+            // Start the app and the bot
+            await app.RunAsync();
+        }
+        else
+        {
+            // Create a generic host when IsApiEnabled is false
+            var host = Host.CreateDefaultBuilder(args)
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.AddSerilog(log);
+                })
+                .ConfigureServices((context, services) =>
+                {
+                    // Configure services without web-specific services
+                    ConfigureServices(services, credentials, Cache);
+                })
+                .Build();
+
+            // Start the bot without hosting any servers
+            await host.RunAsync();
+        }
+    }
+
+    private static void ConfigureServices(IServiceCollection services, BotCredentials credentials, IDataCache cache)
+    {
         var client = new DiscordShardedClient(new DiscordSocketConfig
         {
             MessageCacheSize = 15,
@@ -79,13 +168,11 @@ public class Program
             LogGatewayIntentWarnings = false,
             DefaultRetryMode = RetryMode.RetryRatelimit
         });
-        builder.Logging.ClearProviders();
-        builder.Logging.AddSerilog(log);
-        services.AddSingleton(client);
 
+        services.AddSingleton(client);
         services.AddSingleton(credentials);
-        services.AddSingleton(Cache);
-        services.AddSingleton(Cache.Redis);
+        services.AddSingleton(cache);
+        services.AddSingleton(cache.Redis);
 
         services
             .AddSingleton<FontProvider>()
@@ -158,63 +245,5 @@ public class Program
 
         services.AddSingleton<Mewdeko>()
             .AddHostedService<MewdekoService>();
-        services.AddControllers()
-            .AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-            });;
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
-        if (!credentials.SkipApiKey)
-        {
-            services.AddTransient<IApiKeyValidation, ApiKeyValidation>();
-            services.AddAuthorization();
-        }
-
-        builder.WebHost.UseUrls($"http://localhost:{credentials.ApiPort}");
-
-        var auth = services.AddAuthentication(options =>
-        {
-            options.AddScheme<AuthHandler>(AuthHandler.SchemeName, AuthHandler.SchemeName);
-        });
-
-        if (!credentials.SkipApiKey)
-            auth.AddScheme<AuthenticationSchemeOptions, ApiKeyAuthHandler>("ApiKey", null);
-
-        services.AddAuthorization(options =>
-        {
-            if (!credentials.SkipApiKey)
-                options.AddPolicy("ApiKeyPolicy", policy =>
-                    policy.RequireAuthenticatedUser().AddAuthenticationSchemes("ApiKey"));
-            options.AddPolicy("TopggPolicy", policy => policy.RequireClaim(AuthHandler.TopggClaim).AddAuthenticationSchemes(AuthHandler.SchemeName));
-        });
-
-        var app = builder.Build();
-
-        // Configure the HTTP request pipeline.
-        if (builder.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
-
-        app.UseAuthorization();
-
-        app.MapControllers();
-
-        // app.Use(async (context, next) =>
-        // {
-        //     var logger = context.RequestServices.GetRequiredService<ILogger<Mewdeko>>();
-        //     logger.LogInformation($"Request received: {context.Request.Method} {context.Request.Path}");
-        //     logger.LogInformation($"Request body: {await new StreamReader(context.Request.Body).ReadToEndAsync()}");
-        //     await next();
-        // });
-
-        foreach (var address in app.Urls)
-        {
-            Log.Information("Listening on {Address}", address);
-        }
-
-        await app.RunAsync();
     }
 }

@@ -172,6 +172,11 @@ public class BotCredentials : IBotCredentials
     public string TurnstileKey { get; set; } = "";
 
     /// <summary>
+    /// Gets or sets whether the api is enabled or disabled. When set to disabled, no controllers or urls are added on boot, so theres no way to interact with the api.
+    /// </summary>
+    public bool IsApiEnabled { get; set; } = false;
+
+    /// <summary>
     /// Gets or sets the Redis connection strings, separated by semicolons for multiple connections.
     /// </summary>
     public string RedisConnections { get; set; }
@@ -399,6 +404,7 @@ public class BotCredentials : IBotCredentials
             SpotifyClientSecret = data[nameof(SpotifyClientSecret)];
             StatcordKey = data[nameof(StatcordKey)];
             ChatSavePath = data[nameof(ChatSavePath)];
+            IsApiEnabled = bool.Parse(data[nameof(IsApiEnabled)] ?? "false");
             ClientSecret = data[nameof(ClientSecret)];
 
             RedisOptions = !string.IsNullOrWhiteSpace(data[nameof(RedisOptions)])
@@ -534,6 +540,7 @@ public class BotCredentials : IBotCredentials
         public string CfClearance { get; set; } = "";
         public string UserAgent { get; set; } = "";
         public string CsrfToken { get; set; } = "";
+        public bool IsApiEnabled { get; set; } = false;
         public string LavalinkUrl { get; set; } = "http://localhost:2333";
         public string SpotifyClientId { get; set; } = "";
         public string SpotifyClientSecret { get; set; } = "";
