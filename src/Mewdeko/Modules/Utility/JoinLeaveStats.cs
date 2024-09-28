@@ -64,7 +64,7 @@ public partial class Utility
             }
 
             var color = (uint)Color.FromArgb(r, g, b).ToArgb();
-            await Service.SetJoinColor(color, Context.Guild.Id);
+            await Service.SetJoinColorAsync(color, Context.Guild.Id);
             await ConfirmLocalizedAsync("color_set");
         }
 
@@ -80,7 +80,7 @@ public partial class Utility
         public async Task JoinStatsColor()
         {
             var color = (uint)Color.FromArgb(255, 215, 0).ToArgb();
-            await Service.SetJoinColor(color, Context.Guild.Id);
+            await Service.SetJoinColorAsync(color, Context.Guild.Id);
             await ConfirmLocalizedAsync("color_set");
         }
 
@@ -105,7 +105,7 @@ public partial class Utility
             }
 
             var color = (uint)Color.FromArgb(r, g, b).ToArgb();
-            await Service.SetLeaveColor(color, Context.Guild.Id);
+            await Service.SetLeaveColorAsync(color, Context.Guild.Id);
             await ConfirmLocalizedAsync("color_set");
         }
 
@@ -122,7 +122,7 @@ public partial class Utility
         public async Task LeaveStatsColor()
         {
             var color = (uint)Color.FromArgb(255, 215, 0).ToArgb();
-            await Service.SetLeaveColor(color, Context.Guild.Id);
+            await Service.SetLeaveColorAsync(color, Context.Guild.Id);
             await ConfirmLocalizedAsync("color_set");
         }
     }

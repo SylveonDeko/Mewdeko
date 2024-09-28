@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using SkiaSharp;
 using StackExchange.Redis;
+using Discord;
+using Discord.WebSocket;
 using Embed = Discord.Embed;
 
 namespace Mewdeko.Modules.Utility.Services;
@@ -14,32 +16,34 @@ namespace Mewdeko.Modules.Utility.Services;
 /// Service for logging user join and leave events.
 /// Implements the INService interface.
 /// </summary>
-public class JoinLeaveLoggerService : INService
+public class JoinLeaveLoggerService : INService, IDisposable
 {
     private readonly IDataCache cache;
     private readonly IBotCredentials credentials;
     private readonly DbContextProvider dbProvider;
     private readonly Timer flushTimer;
+    private readonly CancellationTokenSource cancellationTokenSource = new();
 
     /// <summary>
     /// Constructor for the JoinLeaveLoggerService.
     /// </summary>
     /// <param name="eventHandler">Event handler for user join and leave events.</param>
     /// <param name="cache">Data cache for storing join and leave logs.</param>
-    /// <param name="db">Database service for storing join and leave logs.</param>
+    /// <param name="dbProvider">Database service for storing join and leave logs.</param>
     /// <param name="credentials">Bot credentials for accessing the Redis database.</param>
     public JoinLeaveLoggerService(EventHandler eventHandler, IDataCache cache, DbContextProvider dbProvider,
         IBotCredentials credentials)
     {
-        this.dbProvider = dbProvider;
-        this.credentials = credentials;
         this.cache = cache;
+        this.credentials = credentials;
         this.dbProvider = dbProvider;
 
         _ = LoadDataFromSqliteToRedisAsync();
+
         // Create a timer to flush data from Redis to SQLite every 5 minutes
         var flushInterval = TimeSpan.FromMinutes(5);
         flushTimer = new Timer(async _ => await FlushDataToSqliteAsync(), null, flushInterval, flushInterval);
+
         eventHandler.UserJoined += LogUserJoined;
         eventHandler.UserLeft += LogUserLeft;
     }
@@ -50,31 +54,53 @@ public class JoinLeaveLoggerService : INService
     /// <param name="args">The user who joined the guild.</param>
     private async Task LogUserJoined(IGuildUser args)
     {
-        var db = cache.Redis.GetDatabase();
-        var joinEvent = new JoinLeaveLogs
+        try
         {
-            GuildId = args.Guild.Id, UserId = args.Id, IsJoin = true
-        };
+            var redisDatabase = cache.Redis.GetDatabase();
+            var joinEvent = new JoinLeaveLogs
+            {
+                GuildId = args.Guild.Id,
+                UserId = args.Id,
+                IsJoin = true,
+                DateAdded = DateTime.UtcNow
+            };
 
-        var serializedEvent = JsonSerializer.Serialize(joinEvent);
-        await db.ListRightPushAsync(GetRedisKey(args.Guild.Id), serializedEvent);
+            var serializedEvent = JsonSerializer.Serialize(joinEvent);
+            var redisValues = new RedisValue[] { serializedEvent };
+            await redisDatabase.ListRightPushAsync(GetRedisKey(args.Guild.Id), redisValues);
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error logging user join event for Guild ID: {GuildId}", args.Guild.Id);
+        }
     }
 
     /// <summary>
     /// Logs when a user leaves a guild.
     /// </summary>
-    /// <param name="args">The guild the user left.</param>
-    /// <param name="arsg2">The user who left the guild.</param>
-    private async Task LogUserLeft(IGuild args, IUser arsg2)
+    /// <param name="guild">The guild the user left.</param>
+    /// <param name="user">The user who left the guild.</param>
+    private async Task LogUserLeft(IGuild guild, IUser user)
     {
-        var db = cache.Redis.GetDatabase();
-        var leaveEvent = new JoinLeaveLogs
+        try
         {
-            GuildId = args.Id, UserId = arsg2.Id, IsJoin = false
-        };
+            var redisDatabase = cache.Redis.GetDatabase();
+            var leaveEvent = new JoinLeaveLogs
+            {
+                GuildId = guild.Id,
+                UserId = user.Id,
+                IsJoin = false,
+                DateAdded = DateTime.UtcNow
+            };
 
-        var serializedEvent = JsonSerializer.Serialize(leaveEvent);
-        await db.ListRightPushAsync(GetRedisKey(args.Id), serializedEvent);
+            var serializedEvent = JsonSerializer.Serialize(leaveEvent);
+            var redisValues = new RedisValue[] { serializedEvent };
+            await redisDatabase.ListRightPushAsync(GetRedisKey(guild.Id), redisValues);
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error logging user leave event for Guild ID: {GuildId}", guild.Id);
+        }
     }
 
     /// <summary>
@@ -82,75 +108,108 @@ public class JoinLeaveLoggerService : INService
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns>A Redis key for the guild.</returns>
-    private string GetRedisKey(ulong guildId)
-    {
-        return $"{credentials.RedisKey()}:joinLeaveLogs:{guildId}";
-    }
+    private string GetRedisKey(ulong guildId) => $"{credentials.RedisKey()}:joinLeaveLogs:{guildId}";
 
     /// <summary>
     /// Calculates the average number of joins per guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns>The average number of joins per guild.</returns>
-    public double CalculateAverageJoinsPerGuild(ulong guildId)
+    public async Task<double> CalculateAverageJoinsPerGuildAsync(ulong guildId)
     {
         var redisDatabase = cache.Redis.GetDatabase();
         var redisKey = GetRedisKey(guildId);
-        var allEvents = redisDatabase.ListRangeAsync(redisKey).Result;
+        var allEvents = await redisDatabase.ListRangeAsync(redisKey);
 
-        double joinEventsCount = 0;
+        var joinEventsCount = allEvents
+            .Select(log => JsonSerializer.Deserialize<JoinLeaveLogs>(log))
+            .Count(log => log?.IsJoin == true);
 
-        foreach (var eventJson in allEvents)
-        {
-            var eventObj = JsonSerializer.Deserialize<JoinLeaveLogs>(eventJson);
-            if (eventObj.IsJoin)
-            {
-                joinEventsCount++;
-            }
-        }
+        var totalEvents = allEvents.Length;
 
-        return joinEventsCount / allEvents.Length;
+        return totalEvents == 0 ? 0 : joinEventsCount / (double)totalEvents;
     }
 
     /// <summary>
     /// Generates a graph of join events for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
-    /// <returns>A stream containing the graph image and an embed for the graph.</returns>
-    public async Task<Tuple<Stream, Embed>> GenerateJoinGraphAsync(ulong guildId)
+    /// <returns>A tuple containing the graph image stream and an embed for the graph.</returns>
+    public async Task<(Stream ImageStream, Embed Embed)> GenerateJoinGraphAsync(ulong guildId)
     {
-        await using var dbContext = await dbProvider.GetContextAsync();
+        var joinData = await GetGroupedJoinLeaveDataAsync(guildId, isJoin: true);
+        return await GenerateGraphAsync(guildId, joinData, "Join Stats Over the Last 10 Days", "Total Joins");
+    }
 
+    /// <summary>
+    /// Generates a graph of leave events for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <returns>A tuple containing the graph image stream and an embed for the graph.</returns>
+    public async Task<(Stream ImageStream, Embed Embed)> GenerateLeaveGraphAsync(ulong guildId)
+    {
+        var leaveData = await GetGroupedJoinLeaveDataAsync(guildId, isJoin: false);
+        return await GenerateGraphAsync(guildId, leaveData, "Leave Stats Over the Last 10 Days", "Total Leaves");
+    }
+
+    /// <summary>
+    /// Retrieves and groups join or leave logs for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="isJoin">Determines whether to retrieve join or leave logs.</param>
+    /// <returns>A list of date-wise grouped logs.</returns>
+    private async Task<List<DailyLog>> GetGroupedJoinLeaveDataAsync(ulong guildId, bool isJoin)
+    {
         var redisDatabase = cache.Redis.GetDatabase();
         var redisKey = GetRedisKey(guildId);
-        var config = await dbContext.ForGuildId(guildId);
+        var allEvents = await redisDatabase.ListRangeAsync(redisKey);
 
-        var joinLogs = await GetJoinLeaveLogsAsync(redisDatabase, redisKey);
-        var groupLogs = joinLogs.Where(log => log.IsJoin)
-            // ReSharper disable once PossibleInvalidOperationException
-            .GroupBy(log => log.DateAdded.Value.Date)
-            .Select(group => new
+        var filteredLogs = allEvents
+            .Select(log => JsonSerializer.Deserialize<JoinLeaveLogs>(log))
+            .Where(log => log?.IsJoin == isJoin && log.DateAdded.HasValue)
+            .Select(log => log!.DateAdded!.Value.Date)
+            .GroupBy(date => date)
+            .Select(group => new DailyLog
             {
-                Date = group.Key, Count = group.Count()
+                Date = group.Key,
+                Count = group.Count()
             })
-            .OrderBy(x => x.Date)
+            .OrderBy(log => log.Date)
             .ToList();
 
-        var latestDateInLogs = groupLogs.Any() ? groupLogs.Max(log => log.Date) : DateTime.UtcNow.Date;
-        var startDate = latestDateInLogs.AddDays(-10);
+        var latestDate = filteredLogs.Any() ? filteredLogs.Max(log => log.Date) : DateTime.UtcNow.Date;
+        var startDate = latestDate.AddDays(-10);
         var dateRange = Enumerable.Range(0, 11)
-            .Select(i => startDate.AddDays(i));
+            .Select(i => startDate.AddDays(i))
+            .ToList();
 
         var past10DaysData = dateRange
-            .GroupJoin(groupLogs, d => d, log => log.Date, (date, logs) => new
+            .GroupJoin(filteredLogs, d => d, log => log.Date, (date, logs) => new DailyLog
             {
-                Date = date, Count = logs.Sum(log => log.Count)
+                Date = date,
+                Count = logs.Sum(log => log.Count)
             })
             .ToList();
 
-        const int width = 800;
-        const int height = 400;
-        const int padding = 50;
+        return past10DaysData;
+    }
+
+    /// <summary>
+    /// Generates a graph image and embed based on the provided data.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="dailyLogs">The daily logs to plot.</param>
+    /// <param name="title">The title of the embed.</param>
+    /// <param name="totalLabel">The label for the total count in the embed.</param>
+    /// <returns>A tuple containing the graph image stream and an embed for the graph.</returns>
+    private async Task<(Stream ImageStream, Embed Embed)> GenerateGraphAsync(ulong guildId, List<DailyLog> dailyLogs, string title, string totalLabel)
+    {
+        await using var dbContext = await dbProvider.GetContextAsync();
+        var config = await dbContext.ForGuildId(guildId);
+
+        const int width = 1000;
+        const int height = 500;
+        const int padding = 60;
         const int widthWithPadding = width - 2 * padding;
         const int heightWithPadding = height - 2 * padding;
 
@@ -159,312 +218,221 @@ public class JoinLeaveLoggerService : INService
 
         canvas.Clear(new SKColor(38, 50, 56));
 
+        // Create a gradient background for the graph line
+        var shader = SKShader.CreateLinearGradient(
+            new SKPoint(0, 0),
+            new SKPoint(width, 0),
+            new SKColor[] { SKColors.Blue, SKColors.Cyan },
+            null,
+            SKShaderTileMode.Clamp);
+
         var gridPaint = new SKPaint
         {
-            Color = new SKColor(55, 71, 79), Style = SKPaintStyle.Stroke
+            Color = new SKColor(55, 71, 79),
+            Style = SKPaintStyle.Stroke,
+            StrokeWidth = 1,
+            IsAntialias = true
         };
 
-        var paint = new SKPaint
+        var linePaint = new SKPaint
         {
-            Color = new SKColor(config.JoinGraphColor), StrokeWidth = 3, IsAntialias = true
+            Shader = shader,
+            StrokeWidth = 3,
+            IsAntialias = true,
+            Style = SKPaintStyle.Stroke
         };
 
-        var maxCount = past10DaysData.Max(log => (float)log.Count);
-        maxCount = (maxCount < 30) ? 30 : ((maxCount / 50) + 1) * 50;
-        var scaleX = widthWithPadding / (float)Math.Max(1, (past10DaysData.Count - 1));
+        var maxCount = dailyLogs.Max(log => (float)log.Count);
+        maxCount = maxCount < 10 ? 10 : (float)Math.Ceiling(maxCount / 10) * 10;
+        var scaleX = widthWithPadding / (float)(dailyLogs.Count - 1);
+        var scaleY = heightWithPadding / maxCount;
 
         // Draw horizontal grid lines and y-axis labels
-        for (var i = 0; i <= maxCount; i += (maxCount <= 30) ? 5 : 50)
+        var yStep = maxCount <= 30 ? 5 : 10;
+        for (var i = 0; i <= maxCount; i += yStep)
         {
-            var percentage = i / maxCount;
-            var y = height - (padding + percentage * heightWithPadding);
-
+            var y = height - padding - (i * scaleY);
             if (i != 0)
+            {
                 canvas.DrawLine(padding, y, width - padding, y, gridPaint);
+            }
 
             var label = i.ToString();
-            canvas.DrawText(label, padding - 10 - paint.MeasureText(label), y, paint);
+            var textPaint = new SKPaint
+            {
+                Color = SKColors.White,
+                TextSize = 14,
+                IsAntialias = true
+            };
+            var textBounds = new SKRect();
+            textPaint.MeasureText(label, ref textBounds);
+            canvas.DrawText(label, padding - textBounds.Width - 10, y + textBounds.Height / 2, textPaint);
         }
 
         // Draw vertical grid lines and x-axis labels
-        SKPath path = null;
-        for (var i = 0; i < past10DaysData.Count - 1; i++)
+        var xStep = scaleX;
+        for (var i = 0; i < dailyLogs.Count; i++)
         {
-            var countPercentage = past10DaysData[i].Count / maxCount;
-            var x1 = padding + i * scaleX;
-            var y1 = height - padding - (countPercentage * heightWithPadding);
+            var x = padding + i * xStep;
+            canvas.DrawLine(x, padding, x, height - padding, gridPaint);
 
-            // Calculate next point
-            var countPercentageNext = past10DaysData[i + 1].Count / maxCount;
-            var x2 = padding + (i + 1) * scaleX;
-            var y2 = height - padding - (countPercentageNext * heightWithPadding);
-
-            // Calculate control points for a smooth curve
-            var cp1 = new SKPoint(x1 + scaleX / 3, y1);
-            var cp2 = new SKPoint(x2 - scaleX / 3, y2);
-
-            if (i != 0)
-                canvas.DrawLine(x1, padding, x1, height - padding, gridPaint);
-
-            if (path == null)
+            var label = dailyLogs[i].Date.ToString("dd MMM");
+            var textPaint = new SKPaint
             {
-                path = new SKPath();
-                path.MoveTo(x1, y1);
-            }
-            else
-            {
-                path.CubicTo(cp1, cp2, new SKPoint(x2, y2));
-            }
-
-            var label = past10DaysData[i].Date.ToString("dd/MM");
-            canvas.DrawText(label, x1 - (paint.MeasureText(label) / 2), height - (padding / 2), paint);
-
-            // If current index is the penultimate, draw the last label and vertical line
-            if (i != past10DaysData.Count - 2)
-                continue;
-            var lastLabel = past10DaysData[i + 1].Date.ToString("dd/MM");
-            canvas.DrawLine(x2, padding, x2, height - padding, gridPaint);
-            canvas.DrawText(lastLabel, x2 - (paint.MeasureText(lastLabel) / 2), height - (padding / 2), paint);
+                Color = SKColors.White,
+                TextSize = 14,
+                IsAntialias = true
+            };
+            var textBounds = new SKRect();
+            textPaint.MeasureText(label, ref textBounds);
+            canvas.DrawText(label, x - textBounds.Width / 2, height - padding + textBounds.Height + 5, textPaint);
         }
 
-        // Draw border lines for grid (bottom line and left line)
+        // Draw border lines for grid (bottom and left lines)
         canvas.DrawLine(padding, height - padding, width - padding, height - padding, gridPaint);
-        canvas.DrawLine(padding, height - padding, padding, padding, gridPaint);
+        canvas.DrawLine(padding, padding, padding, height - padding, gridPaint);
 
-        paint.Style = SKPaintStyle.Stroke;
-        canvas.DrawPath(path, paint);
-
-        var imageStream = new MemoryStream();
-        using (var image = SKImage.FromBitmap(bitmap))
-        using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
+        // Draw the graph line using a smooth curve
+        using var path = new SKPath();
+        if (dailyLogs.Any())
         {
-            data.SaveTo(imageStream);
+            path.MoveTo(padding, height - padding - (dailyLogs[0].Count * scaleY));
+
+            for (var i = 1; i < dailyLogs.Count; i++)
+            {
+                var prev = dailyLogs[i - 1];
+                var current = dailyLogs[i];
+                var midX = padding + (i - 0.5f) * scaleX;
+                var midY = height - padding - ((prev.Count + current.Count) / 2f * scaleY);
+                path.QuadTo(padding + (i - 1) * scaleX, height - padding - (prev.Count * scaleY), midX, midY);
+                path.QuadTo(padding + i * scaleX, height - padding - (current.Count * scaleY), padding + i * scaleX, height - padding - (current.Count * scaleY));
+            }
         }
 
+        canvas.DrawPath(path, linePaint);
+
+        // Draw data points
+        var pointPaint = new SKPaint
+        {
+            Color = SKColors.Cyan,
+            Style = SKPaintStyle.Fill,
+            IsAntialias = true
+        };
+
+        foreach (var (index, log) in dailyLogs.Select((log, index) => (index, log)))
+        {
+            var x = padding + index * scaleX;
+            var y = height - padding - (log.Count * scaleY);
+            canvas.DrawCircle(x, y, 4, pointPaint);
+        }
+
+        // Generate the image stream
+        using var image = SKImage.FromBitmap(bitmap);
+        using var data = image.Encode(SKEncodedImageFormat.Png, 100);
+        var imageStream = new MemoryStream();
+        data.SaveTo(imageStream);
         imageStream.Position = 0;
+
+        // Build the embed
         var embedBuilder = new EmbedBuilder()
-            .WithTitle("Join Stats Over the Last 10 Days")
-            .WithOkColor() // Assuming JoinGraphColor is a valid color
-            .WithCurrentTimestamp();
+            .WithTitle(title)
+            .WithColor(new Color(0, 204, 255)) // Assuming a nice blue color
+            .WithCurrentTimestamp()
+            .WithImageUrl("attachment://graph.png");
 
-        // Calculate statistics for the embed
-        var totalJoins = past10DaysData.Sum(data => data.Count);
-        var peakDay = past10DaysData.OrderByDescending(data => data.Count).First();
-        var averageJoins = totalJoins / past10DaysData.Count;
+        var total = dailyLogs.Sum(log => log.Count);
+        var peakDay = dailyLogs.OrderByDescending(log => log.Count).FirstOrDefault();
+        var average = dailyLogs.Count > 0 ? dailyLogs.Average(log => log.Count) : 0;
 
-        // Add fields to the embed
-        embedBuilder.AddField("Total Joins", totalJoins, true);
-        embedBuilder.AddField("Average Joins/Day", $"{averageJoins:N2}", true);
-        embedBuilder.AddField("Peak Day", $"{peakDay.Date:dd/MM} ({peakDay.Count} joins)", true);
+        embedBuilder.AddField(totalLabel, total, true);
+        embedBuilder.AddField("Average per Day", $"{average:N2}", true);
+        if (peakDay != null)
+        {
+            embedBuilder.AddField("Peak Day", $"{peakDay.Date:dd MMM} ({peakDay.Count} {totalLabel.ToLower().Replace("total ", "")})", true);
+        }
 
-        // If you have a link for the graph image or it's saved as a file, set the URL
-        embedBuilder.WithImageUrl("attachment://joingraph.png");
-
-        // Return the image stream and the built embed
-        return new Tuple<Stream, Embed>(imageStream, embedBuilder.Build());
+        return (imageStream, embedBuilder.Build());
     }
 
     /// <summary>
-    /// Generates a graph of leave events for a guild.
+    /// Loads data from SQLite to Redis asynchronously.
     /// </summary>
-    /// <param name="guildId">The ID of the guild.</param>
-    /// <returns>A stream containing the graph image and an embed for the graph.</returns>
-    public async Task<Tuple<Stream, Embed>> GenerateLeaveGraphAsync(ulong guildId)
-    {
-        await using var dbContext = await dbProvider.GetContextAsync();
-
-        var redisDatabase = cache.Redis.GetDatabase();
-        var redisKey = GetRedisKey(guildId);
-        var config = await dbContext.ForGuildId(guildId);
-
-        var joinLogs = await GetJoinLeaveLogsAsync(redisDatabase, redisKey);
-        var groupLogs = joinLogs.Where(log => !log.IsJoin)
-            // ReSharper disable once PossibleInvalidOperationException
-            .GroupBy(log => log.DateAdded.Value.Date)
-            .Select(group => new
-            {
-                Date = group.Key, Count = group.Count()
-            })
-            .OrderBy(x => x.Date)
-            .ToList();
-
-        var latestDateInLogs = groupLogs.Any() ? groupLogs.Max(log => log.Date) : DateTime.UtcNow.Date;
-        var startDate = latestDateInLogs.AddDays(-10);
-        var dateRange = Enumerable.Range(0, 11)
-            .Select(i => startDate.AddDays(i));
-
-        var past10DaysData = dateRange
-            .GroupJoin(groupLogs, d => d, log => log.Date, (date, logs) => new
-            {
-                Date = date, Count = logs.Sum(log => log.Count)
-            })
-            .ToList();
-
-        const int width = 800;
-        const int height = 400;
-        const int padding = 50;
-        var widthWithPadding = width - 2 * padding;
-        var heightWithPadding = height - 2 * padding;
-
-        using var bitmap = new SKBitmap(width, height);
-        using var canvas = new SKCanvas(bitmap);
-
-        canvas.Clear(new SKColor(38, 50, 56));
-
-        var gridPaint = new SKPaint
-        {
-            Color = new SKColor(55, 71, 79), Style = SKPaintStyle.Stroke
-        };
-
-        var paint = new SKPaint
-        {
-            Color = new SKColor(config.LeaveGraphColor), StrokeWidth = 3, IsAntialias = true
-        };
-
-        var maxCount = past10DaysData.Max(log => (float)log.Count);
-        maxCount = (maxCount < 30) ? 30 : ((maxCount / 50) + 1) * 50;
-        var scaleX = widthWithPadding / (float)Math.Max(1, (past10DaysData.Count - 1));
-
-        // Draw horizontal grid lines and y-axis labels
-        for (var i = 0; i <= maxCount; i += (maxCount <= 30) ? 5 : 50)
-        {
-            var percentage = i / maxCount;
-            var y = height - (padding + percentage * heightWithPadding);
-
-            if (i != 0)
-                canvas.DrawLine(padding, y, width - padding, y, gridPaint);
-
-            var label = i.ToString();
-            canvas.DrawText(label, padding - 10 - paint.MeasureText(label), y, paint);
-        }
-
-        // Draw vertical grid lines and x-axis labels
-        SKPath path = null;
-        for (var i = 0; i < past10DaysData.Count - 1; i++)
-        {
-            var countPercentage = past10DaysData[i].Count / maxCount;
-            var x1 = padding + i * scaleX;
-            var y1 = height - padding - (countPercentage * heightWithPadding);
-
-            // Calculate next point
-            var countPercentageNext = past10DaysData[i + 1].Count / maxCount;
-            var x2 = padding + (i + 1) * scaleX;
-            var y2 = height - padding - (countPercentageNext * heightWithPadding);
-
-            // Calculate control points for a smooth curve
-            var cp1 = new SKPoint(x1 + scaleX / 3, y1);
-            var cp2 = new SKPoint(x2 - scaleX / 3, y2);
-
-            if (i != 0)
-                canvas.DrawLine(x1, padding, x1, height - padding, gridPaint);
-
-            if (path == null)
-            {
-                path = new SKPath();
-                path.MoveTo(x1, y1);
-            }
-            else
-            {
-                path.CubicTo(cp1, cp2, new SKPoint(x2, y2));
-            }
-
-            var label = past10DaysData[i].Date.ToString("dd/MM");
-            canvas.DrawText(label, x1 - (paint.MeasureText(label) / 2), height - (padding / 2), paint);
-
-            // If current index is the penultimate, draw the last label and vertical line
-            if (i != past10DaysData.Count - 2)
-                continue;
-            var lastLabel = past10DaysData[i + 1].Date.ToString("dd/MM");
-            canvas.DrawLine(x2, padding, x2, height - padding, gridPaint);
-            canvas.DrawText(lastLabel, x2 - (paint.MeasureText(lastLabel) / 2), height - (padding / 2), paint);
-        }
-
-        // Draw border lines for grid (bottom line and left line)
-        canvas.DrawLine(padding, height - padding, width - padding, height - padding, gridPaint);
-        canvas.DrawLine(padding, height - padding, padding, padding, gridPaint);
-
-        paint.Style = SKPaintStyle.Stroke;
-        canvas.DrawPath(path, paint);
-
-        var imageStream = new MemoryStream();
-        using (var image = SKImage.FromBitmap(bitmap))
-        using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
-        {
-            data.SaveTo(imageStream);
-        }
-
-        imageStream.Position = 0;
-
-        var embedBuilder = new EmbedBuilder()
-            .WithTitle("Leave Stats Over the Last 10 Days")
-            .WithOkColor()
-            .WithCurrentTimestamp();
-
-        var totalLeaves = past10DaysData.Sum(data => data.Count);
-        var peakDay = past10DaysData.OrderByDescending(data => data.Count).First();
-        var averageLeaves = totalLeaves / past10DaysData.Count;
-
-        embedBuilder.AddField("Total Leaves", totalLeaves, true);
-        embedBuilder.AddField("Average Leaves/Day", averageLeaves.ToString("N2"), true);
-        embedBuilder.AddField("Peak Day", $"{peakDay.Date:dd/MM} ({peakDay.Count} leaves)", true);
-        embedBuilder.WithImageUrl("attachment://leavegraph.png");
-
-        return new Tuple<Stream, Embed>(imageStream, embedBuilder.Build());
-    }
-
-    private async Task<List<JoinLeaveLogs>> GetJoinLeaveLogsAsync(IDatabase redisDatabase, string redisKey)
-    {
-        var allEvents = await redisDatabase.ListRangeAsync(redisKey);
-
-        return allEvents.Select(log => JsonSerializer.Deserialize<JoinLeaveLogs>(log)).ToList();
-    }
-
-
     private async Task LoadDataFromSqliteToRedisAsync()
     {
-        var redisDatabase = cache.Redis.GetDatabase();
-        await using var dbContext = await dbProvider.GetContextAsync();
-
-        var guildIds = dbContext.JoinLeaveLogs.Select(e => e.GuildId).Distinct().ToList();
-
-        foreach (var guildId in guildIds)
+        try
         {
-            var joinLeaveLogs = await dbContext.JoinLeaveLogs
-                .Where(e => e.GuildId == guildId)
+            var redisDatabase = cache.Redis.GetDatabase();
+            await using var dbContext = await dbProvider.GetContextAsync();
+
+            var guildIds = await dbContext.JoinLeaveLogs
+                .Select(e => e.GuildId)
+                .Distinct()
                 .ToListAsync();
 
-            var redisKey = GetRedisKey(guildId);
-            foreach (var log in joinLeaveLogs)
+            foreach (var guildId in guildIds)
             {
-                await redisDatabase.ListRightPushAsync(redisKey, JsonSerializer.Serialize(log));
+                var joinLeaveLogs = await dbContext.JoinLeaveLogs
+                    .Where(e => e.GuildId == guildId)
+                    .ToListAsync();
+
+                var redisKey = GetRedisKey(guildId);
+                var serializedLogs = joinLeaveLogs.Select(log => JsonSerializer.Serialize(log)).ToArray();
+
+                if (serializedLogs.Any())
+                {
+                    var redisValues = serializedLogs.Select(x => (RedisValue)x).ToArray();
+                    await redisDatabase.ListRightPushAsync(redisKey, redisValues);
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error loading data from SQLite to Redis.");
         }
     }
 
+    /// <summary>
+    /// Flushes data from Redis to SQLite asynchronously.
+    /// </summary>
     private async Task FlushDataToSqliteAsync()
     {
-        Log.Information("Flushing join/leave logs to DB....");
-        await using var dbContext = await dbProvider.GetContextAsync();
+        Log.Information("Flushing join/leave logs to DB...");
 
-        var redisDatabase = cache.Redis.GetDatabase();
-        var guildIds = await dbContext.JoinLeaveLogs.Select(e => e.GuildId).Distinct().ToListAsync();
-
-        foreach (var redisKey in guildIds.Select(GetRedisKey))
+        try
         {
-            while (true)
+            await using var dbContext = await dbProvider.GetContextAsync();
+            var redisDatabase = cache.Redis.GetDatabase();
+            var guildIds = await dbContext.JoinLeaveLogs
+                .Select(e => e.GuildId)
+                .Distinct()
+                .ToListAsync();
+
+            foreach (var guildId in guildIds)
             {
-                var serializedEvent = await redisDatabase.ListLeftPopAsync(redisKey);
+                var redisKey = GetRedisKey(guildId);
 
-                if (serializedEvent.IsNull)
-                    break;
+                while (true)
+                {
+                    var serializedEvent = await redisDatabase.ListLeftPopAsync(redisKey);
 
-                var log = JsonSerializer.Deserialize<JoinLeaveLogs>(serializedEvent.ToString());
-                dbContext.JoinLeaveLogs.Add(log);
+                    if (serializedEvent.IsNullOrEmpty)
+                        break;
+
+                    var log = JsonSerializer.Deserialize<JoinLeaveLogs>(serializedEvent!);
+                    if (log != null)
+                    {
+                        dbContext.JoinLeaveLogs.Add(log);
+                    }
+                }
             }
-        }
 
-        await dbContext.SaveChangesAsync();
-        Log.Information("Flushing join/leave logs to DB completed");
+            await dbContext.SaveChangesAsync();
+            Log.Information("Flushing join/leave logs to DB completed.");
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error flushing data from Redis to SQLite.");
+        }
     }
 
     /// <summary>
@@ -472,14 +440,9 @@ public class JoinLeaveLoggerService : INService
     /// </summary>
     /// <param name="color">The color for the join graph.</param>
     /// <param name="guildId">The ID of the guild.</param>
-    public async Task SetJoinColor(uint color, ulong guildId)
+    public async Task SetJoinColorAsync(uint color, ulong guildId)
     {
-        await using var dbContext = await dbProvider.GetContextAsync();
-
-        var config = await dbContext.ForGuildId(guildId);
-        config.JoinGraphColor = color;
-        dbContext.Update(config);
-        await dbContext.SaveChangesAsync();
+        await UpdateGraphColorAsync(guildId, color, isJoin: true);
     }
 
     /// <summary>
@@ -487,13 +450,58 @@ public class JoinLeaveLoggerService : INService
     /// </summary>
     /// <param name="color">The color for the leave graph.</param>
     /// <param name="guildId">The ID of the guild.</param>
-    public async Task SetLeaveColor(uint color, ulong guildId)
+    public async Task SetLeaveColorAsync(uint color, ulong guildId)
     {
-        await using var dbContext = await dbProvider.GetContextAsync();
+        await UpdateGraphColorAsync(guildId, color, isJoin: false);
+    }
 
-        var config = await dbContext.ForGuildId(guildId);
-        config.LeaveGraphColor = color;
-        dbContext.Update(config);
-        await dbContext.SaveChangesAsync();
+    /// <summary>
+    /// Updates the graph color in the database.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="color">The color to set.</param>
+    /// <param name="isJoin">Determines whether to update join or leave graph color.</param>
+    private async Task UpdateGraphColorAsync(ulong guildId, uint color, bool isJoin)
+    {
+        try
+        {
+            await using var dbContext = await dbProvider.GetContextAsync();
+            var config = await dbContext.ForGuildId(guildId);
+
+            if (isJoin)
+            {
+                config.JoinGraphColor = color;
+            }
+            else
+            {
+                config.LeaveGraphColor = color;
+            }
+
+            dbContext.Update(config);
+            await dbContext.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error updating graph color for Guild ID: {GuildId}", guildId);
+        }
+    }
+
+    /// <summary>
+    /// Disposes resources used by the service.
+    /// </summary>
+    public void Dispose()
+    {
+        flushTimer?.Dispose();
+        cancellationTokenSource.Cancel();
+        cancellationTokenSource.Dispose();
+    }
+
+    /// <summary>
+    /// Represents a daily log with date and count.
+    /// </summary>
+    private record DailyLog
+    {
+        public DateTime Date { get; init; }
+        public int Count { get; init; }
     }
 }

@@ -1,6 +1,7 @@
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Database.DbContextStuff;
 using Serilog;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Modules.Utility.Services;
 
@@ -21,8 +22,8 @@ public class AutoPublishService : INService
     /// <param name="client">The Discord client for interacting with the Discord API.</param>
     public AutoPublishService(DbContextProvider dbProvider, EventHandler handler, DiscordShardedClient client)
     {
-        this.client = client;
         this.dbProvider = dbProvider;
+        this.client = client;
         handler.MessageReceived += AutoPublish;
     }
 
@@ -33,45 +34,36 @@ public class AutoPublishService : INService
     /// <param name="args">The message event arguments.</param>
     private async Task AutoPublish(SocketMessage args)
     {
-        if (args.Channel is not INewsChannel channel)
+        if (args.Channel is not INewsChannel channel || args is not IUserMessage msg)
             return;
 
-        if (args is not IUserMessage msg)
+        var currentUser = await channel.GetUserAsync(client.CurrentUser.Id);
+        var permissions = currentUser.GetPermissions(channel);
+
+        if (!permissions.Has(ChannelPermission.ManageMessages) &&
+            currentUser.GuildPermissions.Has(GuildPermission.ManageMessages))
             return;
-
-        var curuser = await channel.GetUserAsync(client.CurrentUser.Id);
-
-        var perms = curuser.GetPermissions(channel);
-
-        if (!perms.Has(ChannelPermission.ManageMessages) &&
-            curuser.GuildPermissions.Has(GuildPermission.ManageMessages))
-            return;
-
 
         await using var dbContext = await dbProvider.GetContextAsync();
 
-        var autoPublish = await dbContext.AutoPublish.FirstAsyncEF(x => x.ChannelId == channel.Id);
-        if (autoPublish is null)
+        var autoPublishConfig = await dbContext.AutoPublish.FirstOrDefaultAsyncEF(x => x.ChannelId == channel.Id);
+        if (autoPublishConfig is null)
             return;
 
-        var blacklistedWords = dbContext.PublishWordBlacklists.Where(x => x.ChannelId == channel.Id);
-        if (blacklistedWords.Any())
-        {
-            if (blacklistedWords.Any(i => args.Content.ToLower().Contains(i.Word)))
-            {
-                return;
-            }
-        }
+        var blacklistedWords = await dbContext.PublishWordBlacklists
+            .Where(x => x.ChannelId == channel.Id)
+            .Select(x => x.Word.ToLower())
+            .ToListAsync();
 
-        var userBlacklists = dbContext.PublishUserBlacklists.Where(x => x.ChannelId == channel.Id);
+        if (blacklistedWords.Any(word => args.Content.Contains(word, StringComparison.CurrentCultureIgnoreCase)))
+            return;
 
-        if (userBlacklists.Any())
-        {
-            if (userBlacklists.Any(i => args.Author.Id == i.User))
-            {
-                return;
-            }
-        }
+        var userBlacklists = await dbContext.PublishUserBlacklists
+            .Where(x => x.ChannelId == channel.Id && x.User == args.Author.Id)
+            .AnyAsync();
+
+        if (userBlacklists)
+            return;
 
         try
         {
@@ -93,16 +85,17 @@ public class AutoPublishService : INService
     {
         await using var dbContext = await dbProvider.GetContextAsync();
 
-        var autoPublish = await dbContext.AutoPublish.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId);
-        if (autoPublish != null)
+        var existingConfig = await dbContext.AutoPublish.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId);
+        if (existingConfig != null)
         {
             // AutoPublish already exists for the channel
             return false;
         }
 
-        autoPublish = new AutoPublish
+        var autoPublish = new AutoPublish
         {
-            GuildId = guildId, ChannelId = channelId
+            GuildId = guildId,
+            ChannelId = channelId
         };
         dbContext.AutoPublish.Add(autoPublish);
         await dbContext.SaveChangesAsync();
@@ -114,19 +107,37 @@ public class AutoPublishService : INService
     /// </summary>
     /// <param name="guildId">The ID of the guild to retrieve configurations for.</param>
     /// <returns>A list of configurations for auto-publishing.</returns>
-    public async Task<List<(AutoPublish?, List<PublishUserBlacklist?>, List<PublishWordBlacklist?>)>>
+    public async Task<List<(AutoPublish? AutoPublish, List<PublishUserBlacklist?> UserBlacklists, List<PublishWordBlacklist?> WordBlacklists)>>
         GetAutoPublishes(ulong guildId)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
 
-        var autoPublishes = dbContext.AutoPublish.Where(x => x.GuildId == guildId).ToHashSet();
+        var autoPublishes = await dbContext.AutoPublish
+            .Where(x => x.GuildId == guildId)
+            .ToListAsyncEF();
 
-        return !autoPublishes.Any()
-            ? [(null, null, null)]
-            : (from i in autoPublishes
-                let userBlacklists = dbContext.PublishUserBlacklists.Where(x => x.ChannelId == i.ChannelId).ToList()
-                let wordBlacklists = dbContext.PublishWordBlacklists.Where(x => x.ChannelId == i.ChannelId).ToList()
-                select (i, userBlacklists, wordBlacklists)).ToList();
+        if (!autoPublishes.Any())
+            return new List<(AutoPublish?, List<PublishUserBlacklist?>, List<PublishWordBlacklist?>)>
+            {
+                (null, [], [])
+            };
+
+        var result = new List<(AutoPublish?, List<PublishUserBlacklist?>, List<PublishWordBlacklist?>)>();
+
+        foreach (var publish in autoPublishes)
+        {
+            var userBlacklists = await dbContext.PublishUserBlacklists
+                .Where(x => x.ChannelId == publish.ChannelId)
+                .ToListAsyncEF();
+
+            var wordBlacklists = await dbContext.PublishWordBlacklists
+                .Where(x => x.ChannelId == publish.ChannelId)
+                .ToListAsyncEF();
+
+            result.Add((publish, userBlacklists, wordBlacklists));
+        }
+
+        return result;
     }
 
     /// <summary>
@@ -136,12 +147,11 @@ public class AutoPublishService : INService
     /// <returns>True if the bot has the necessary permissions, false otherwise.</returns>
     public async Task<bool> PermCheck(INewsChannel channel)
     {
-        var curuser = await channel.GetUserAsync(client.CurrentUser.Id);
+        var currentUser = await channel.GetUserAsync(client.CurrentUser.Id);
+        var permissions = currentUser.GetPermissions(channel);
 
-        var perms = curuser.GetPermissions(channel);
-
-        return perms.Has(ChannelPermission.ManageMessages) ||
-               !curuser.GuildPermissions.Has(GuildPermission.ManageMessages);
+        return permissions.Has(ChannelPermission.ManageMessages) ||
+               currentUser.GuildPermissions.Has(GuildPermission.ManageMessages);
     }
 
     /// <summary>
@@ -156,9 +166,7 @@ public class AutoPublishService : INService
 
         var autoPublish = await dbContext.AutoPublish.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId);
         if (autoPublish == null)
-        {
             return false;
-        }
 
         dbContext.AutoPublish.Remove(autoPublish);
         await dbContext.SaveChangesAsync();
@@ -175,17 +183,18 @@ public class AutoPublishService : INService
     {
         await using var dbContext = await dbProvider.GetContextAsync();
 
-        var userBlacklist =
-            await dbContext.PublishUserBlacklists.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId && x.User == userId);
-        if (userBlacklist != null)
+        var existingBlacklist = await dbContext.PublishUserBlacklists
+            .FirstOrDefaultAsyncEF(x => x.ChannelId == channelId && x.User == userId);
+        if (existingBlacklist != null)
         {
             // User is already blacklisted in the channel
             return false;
         }
 
-        userBlacklist = new PublishUserBlacklist
+        var userBlacklist = new PublishUserBlacklist
         {
-            ChannelId = channelId, User = userId
+            ChannelId = channelId,
+            User = userId
         };
         dbContext.PublishUserBlacklists.Add(userBlacklist);
         await dbContext.SaveChangesAsync();
@@ -202,8 +211,8 @@ public class AutoPublishService : INService
     {
         await using var dbContext = await dbProvider.GetContextAsync();
 
-        var userBlacklist =
-            await dbContext.PublishUserBlacklists.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId && x.User == userId);
+        var userBlacklist = await dbContext.PublishUserBlacklists
+            .FirstOrDefaultAsyncEF(x => x.ChannelId == channelId && x.User == userId);
         if (userBlacklist == null)
         {
             // User is not blacklisted in the channel
@@ -225,17 +234,18 @@ public class AutoPublishService : INService
     {
         await using var dbContext = await dbProvider.GetContextAsync();
 
-        var wordBlacklist =
-            await dbContext.PublishWordBlacklists.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId && x.Word == word);
-        if (wordBlacklist != null)
+        var existingWordBlacklist = await dbContext.PublishWordBlacklists
+            .FirstOrDefaultAsyncEF(x => x.ChannelId == channelId && x.Word.Equals(word, StringComparison.CurrentCultureIgnoreCase));
+        if (existingWordBlacklist != null)
         {
             // Word is already blacklisted in the channel
             return false;
         }
 
-        wordBlacklist = new PublishWordBlacklist
+        var wordBlacklist = new PublishWordBlacklist
         {
-            ChannelId = channelId, Word = word
+            ChannelId = channelId,
+            Word = word.ToLower()
         };
         dbContext.PublishWordBlacklists.Add(wordBlacklist);
         await dbContext.SaveChangesAsync();
@@ -252,8 +262,8 @@ public class AutoPublishService : INService
     {
         await using var dbContext = await dbProvider.GetContextAsync();
 
-        var wordBlacklist =
-            await dbContext.PublishWordBlacklists.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId && x.Word == word);
+        var wordBlacklist = await dbContext.PublishWordBlacklists
+            .FirstOrDefaultAsyncEF(x => x.ChannelId == channelId && x.Word.Equals(word, StringComparison.CurrentCultureIgnoreCase));
         if (wordBlacklist == null)
         {
             // Word is not blacklisted in the channel
@@ -274,6 +284,6 @@ public class AutoPublishService : INService
     {
         await using var dbContext = await dbProvider.GetContextAsync();
 
-        return (await dbContext.AutoPublish.FirstOrDefaultAsyncEF(x => x.ChannelId == channelId)) is null;
+        return await dbContext.AutoPublish.AnyAsyncEF(x => x.ChannelId == channelId);
     }
 }
