@@ -717,11 +717,20 @@ public class CommandHandler : INService
 
     private int GetPrefixLength(string content, string prefix)
     {
+        // Check if content starts with the custom prefix
         if (content.StartsWith(prefix, StringComparison.InvariantCulture))
             return prefix.Length;
-        if (content.StartsWith(client.CurrentUser.Mention) || content.StartsWith($"<@!{client.CurrentUser.Id}>"))
-            return content.IndexOf('>') + 1;
-        return 0;
+
+        // Get possible mention formats
+        var mentions = new[]
+        {
+            client.CurrentUser.Mention,                // e.g., "@BotName"
+            $"<@{client.CurrentUser.Id}>",             // e.g., "<@1234567890>"
+            $"<@!{client.CurrentUser.Id}>"             // e.g., "<@!1234567890>" (for nicknames)
+        };
+
+        // Find the longest matching mention at the start
+        return (from mention in mentions where content.StartsWith(mention + " ", StringComparison.InvariantCulture) select mention.Length + 1).FirstOrDefault();
     }
 
     private async Task UpdateCommandStats(IGuild? guild, IChannel channel, IUserMessage usrMsg, CommandInfo? info)
