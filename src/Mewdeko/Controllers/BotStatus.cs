@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Reflection;
 using Discord.Commands;
+using Discord.Rest;
 using Mewdeko.Common.Attributes.ASPNET;
 using Mewdeko.Services.Impl;
 using Microsoft.AspNetCore.Authorization;
@@ -25,6 +26,7 @@ public class BotStatus(DiscordShardedClient client, StatsService statsService, C
     {
         var rest = client.Rest;
         var curUser = await rest.GetUserAsync(client.CurrentUser.Id);
+        var guilds = await rest.GetGuildsAsync();
         var toReturn = new BotStatusModel
         {
             BotName = client.CurrentUser.GlobalName ?? client.CurrentUser.Username,
@@ -36,7 +38,11 @@ public class BotStatus(DiscordShardedClient client, StatsService statsService, C
             ModulesCount = commandService.Modules.Count(x => !x.IsSubmodule),
             DNetVersion = statsService.Library,
             BotStatus = client.Status.ToString(),
-            UserCount = client.Guilds.Select(x => x.Users).Distinct().Count(),
+            UserCount = client.Guilds
+                .SelectMany(guild => guild.Users)
+                .Select(user => user.Id)
+                .Distinct()
+                .Count(),
             CommitHash = GetCommitHash(),
             BotId = client.CurrentUser.Id
         };
