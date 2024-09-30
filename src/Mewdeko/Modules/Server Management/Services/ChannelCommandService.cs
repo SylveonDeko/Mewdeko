@@ -1,8 +1,9 @@
 ﻿using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database.DbContextStuff;
-using Mewdeko.Modules.Server_Management;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
+
+namespace Mewdeko.Modules.Server_Management.Services;
 
 /// <summary>
 ///     Service for managing channel commands and lockdowns, accounting for various channel types such as text, voice, and
@@ -22,6 +23,8 @@ public class ChannelCommandService : INService, IReadyExecutor
     /// </summary>
     /// <param name="dataCache">The data cache for accessing Redis.</param>
     /// <param name="handler">The event handler.</param>
+    /// <param name="dbContext">The databse connection provider</param>
+    /// <param name="client">The discord client</param>
     public ChannelCommandService(IDataCache dataCache, EventHandler handler, DbContextProvider dbContext,
         DiscordShardedClient client)
     {
@@ -194,21 +197,31 @@ public class ChannelCommandService : INService, IReadyExecutor
 
             foreach (var overwrite in permissionOverrides)
             {
-                // Remove permission overrides for both roles and users
-                if (overwrite.TargetType == PermissionTarget.Role)
+                if (overwrite.TargetId == guild.EveryoneRole.Id)
+                    continue;
+
+                switch (overwrite.TargetType)
                 {
-                    var role = guild.GetRole(overwrite.TargetId);
-                    if (role != null)
+                    // Remove permission overrides for both roles and users
+                    case PermissionTarget.Role:
                     {
-                        await channel.RemovePermissionOverwriteAsync(role).ConfigureAwait(false);
+                        var role = guild.GetRole(overwrite.TargetId);
+                        if (role != null)
+                        {
+                            await channel.RemovePermissionOverwriteAsync(role).ConfigureAwait(false);
+                        }
+
+                        break;
                     }
-                }
-                else if (overwrite.TargetType == PermissionTarget.User)
-                {
-                    var user = await guild.GetUserAsync(overwrite.TargetId);
-                    if (user != null)
+                    case PermissionTarget.User:
                     {
-                        await channel.RemovePermissionOverwriteAsync(user).ConfigureAwait(false);
+                        var user = await guild.GetUserAsync(overwrite.TargetId);
+                        if (user != null)
+                        {
+                            await channel.RemovePermissionOverwriteAsync(user).ConfigureAwait(false);
+                        }
+
+                        break;
                     }
                 }
             }
@@ -225,38 +238,40 @@ public class ChannelCommandService : INService, IReadyExecutor
     public async Task ApplyLockdown(IGuild guild)
     {
         await StoreOriginalPermissions(guild); // Store all permissions first
-        await RemovePermissions(guild); // Remove all permissions from the channels
+        await RemovePermissions(guild); // Remove all permissions from the channels, including @everyone
 
         var everyoneRole = guild.EveryoneRole;
         var channels = await guild.GetChannelsAsync();
+
+        await using var context = await dbContext.GetContextAsync();
 
         foreach (var channel in channels)
         {
             if (!IsRelevantChannel(channel)) continue;
 
-            OverwritePermissions lockdownPerms;
+            // Retrieve the stored permissions for the @everyone role from the database
+            var storedPerm = await context.LockdownChannelPermissions.FirstOrDefaultAsync(p =>
+                p.GuildId == guild.Id && p.ChannelId == channel.Id && p.TargetId == everyoneRole.Id &&
+                p.TargetType == PermissionTarget.Role);
 
-            if (channel is IVoiceChannel)
-            {
-                // For voice channels, deny "Connect" and "Send Messages"
-                lockdownPerms = new OverwritePermissions(connect: PermValue.Deny, sendMessages: PermValue.Deny);
-            }
-            else if (channel is IForumChannel)
-            {
-                // For forum channels, deny "Send Messages" and "Create Threads"
-                lockdownPerms = new OverwritePermissions(sendMessages: PermValue.Deny,
-                    createPublicThreads: PermValue.Deny, createPrivateThreads: PermValue.Deny);
-            }
-            else
-            {
-                // For text channels, deny "Send Messages" and "Create Threads"
-                lockdownPerms = new OverwritePermissions(sendMessages: PermValue.Deny,
-                    createPublicThreads: PermValue.Deny, createPrivateThreads: PermValue.Deny);
-            }
+            var existingPerms =
+                // Reconstruct OverwritePermissions from stored permissions
+                storedPerm != null ? new OverwritePermissions(storedPerm.AllowPermissions, storedPerm.DenyPermissions) :
+                    // No stored permissions; default to InheritAll
+                    OverwritePermissions.InheritAll;
 
-            // Apply lockdown to the @everyone role
-            await ((IGuildChannel)channel).AddPermissionOverwriteAsync(everyoneRole, lockdownPerms)
-                .ConfigureAwait(false);
+            var lockdownPerms = channel switch
+            {
+                // Modify permissions based on channel type
+                IVoiceChannel => existingPerms.Modify(connect: PermValue.Deny, speak: PermValue.Deny),
+                IForumChannel => existingPerms.Modify(sendMessages: PermValue.Deny, createPublicThreads: PermValue.Deny,
+                    createPrivateThreads: PermValue.Deny),
+                _ => existingPerms.Modify(sendMessages: PermValue.Deny, createPublicThreads: PermValue.Deny,
+                    createPrivateThreads: PermValue.Deny)
+            };
+
+            // Apply the modified permissions to the @everyone role
+            await channel.AddPermissionOverwriteAsync(everyoneRole, lockdownPerms).ConfigureAwait(false);
         }
     }
 
@@ -281,24 +296,31 @@ public class ChannelCommandService : INService, IReadyExecutor
 
             foreach (var storedPerm in storedPermissions)
             {
-                if (storedPerm.TargetType == PermissionTarget.Role)
+                switch (storedPerm.TargetType)
                 {
-                    var role = guild.GetRole(storedPerm.TargetId);
-                    if (role != null)
+                    case PermissionTarget.Role:
                     {
-                        var permissions =
-                            new OverwritePermissions(storedPerm.AllowPermissions, storedPerm.DenyPermissions);
-                        await channel.AddPermissionOverwriteAsync(role, permissions).ConfigureAwait(false);
+                        var role = guild.GetRole(storedPerm.TargetId);
+                        if (role != null)
+                        {
+                            var permissions =
+                                new OverwritePermissions(storedPerm.AllowPermissions, storedPerm.DenyPermissions);
+                            await channel.AddPermissionOverwriteAsync(role, permissions).ConfigureAwait(false);
+                        }
+
+                        break;
                     }
-                }
-                else if (storedPerm.TargetType == PermissionTarget.User)
-                {
-                    var user = await guild.GetUserAsync(storedPerm.TargetId);
-                    if (user != null)
+                    case PermissionTarget.User:
                     {
-                        var permissions =
-                            new OverwritePermissions(storedPerm.AllowPermissions, storedPerm.DenyPermissions);
-                        await channel.AddPermissionOverwriteAsync(user, permissions).ConfigureAwait(false);
+                        var user = await guild.GetUserAsync(storedPerm.TargetId);
+                        if (user != null)
+                        {
+                            var permissions =
+                                new OverwritePermissions(storedPerm.AllowPermissions, storedPerm.DenyPermissions);
+                            await channel.AddPermissionOverwriteAsync(user, permissions).ConfigureAwait(false);
+                        }
+
+                        break;
                     }
                 }
             }
@@ -343,21 +365,16 @@ public class ChannelCommandService : INService, IReadyExecutor
             var isInRedis = redisJoinBlockedGuilds.Any(g => g == (RedisValue)guildId.ToString());
             var isInDb = dbLockdownGuilds.Contains(guildId);
 
-            // If the guild is only in Redis, it's in Joins lockdown
-            if (isInRedis && !isInDb)
+            lockdownGuilds[guildId] = isInRedis switch
             {
-                lockdownGuilds[guildId] = (ServerManagement.LockdownType.Joins, null);
-            }
-            // If the guild is only in the database, it's in Readonly lockdown
-            else if (!isInRedis && isInDb)
-            {
-                lockdownGuilds[guildId] = (ServerManagement.LockdownType.Readonly, null);
-            }
-            // If the guild is in both Redis and the database, it's in Full lockdown
-            else if (isInRedis && isInDb)
-            {
-                lockdownGuilds[guildId] = (ServerManagement.LockdownType.Full, null);
-            }
+                // If the guild is only in Redis, it's in Joins lockdown
+                true when !isInDb => (ServerManagement.LockdownType.Joins, null),
+                // If the guild is only in the database, it's in Readonly lockdown
+                false when isInDb => (ServerManagement.LockdownType.Readonly, null),
+                // If the guild is in both Redis and the database, it's in Full lockdown
+                true when isInDb => (ServerManagement.LockdownType.Full, null),
+                _ => lockdownGuilds[guildId]
+            };
         }
 
         // If there are guilds in Redis but not in lockdownGuilds (not recognized during the loop), remove them from Redis
