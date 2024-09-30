@@ -1927,15 +1927,14 @@ lock:
   args:
     - ''
   desc: 'Locks the current channel. '
-lockcheck:
-  args:
-    - ''
-  desc: Checks all roles to make sure they are lockdown compliant
 lockdown:
   args:
-    - ''
-  desc: >-
-    Locks the server, will tell you to run lockcheck if some roles are in the way of lockdown.
+    - "lockdownType (joins/readonly/full), [action (kick/ban)], [overrideCheck]"
+  desc: "Locks down the server based on the specified type (joins, readonly, full). Optionally kicks or bans new users and can override permission checks."
+liftlockdown:
+  args:
+    - "lockdownType (joins/readonly/full)"
+  desc: "Lifts the specified lockdown (joins, readonly, full)."
 log:
   args:
     - userpresence
