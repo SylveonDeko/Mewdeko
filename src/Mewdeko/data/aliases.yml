@@ -29,7 +29,12 @@ antimassmentionignorebots:
   - ammignorebots
   - ignorebotsmassmention
   - massmentionignorebots
-
+lockdown:
+  - lockdown
+  - lockdownserver
+liftlockdown:
+  - liftlockdown
+  - unlockserver
 acceptchannel:
   - acceptchannel
 usermessages:
@@ -1085,10 +1090,6 @@ lock:
   - lockchannel
 lockcheck:
   - lockcheck
-lockdown:
-  - lockdown
-  - lockserver
-  - lockall
 log:
   - log
 logcategory:

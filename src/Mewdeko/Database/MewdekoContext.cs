@@ -25,6 +25,11 @@ namespace Mewdeko.Database
         public DbSet<GlobalUserBalance> GlobalUserBalances { get; set; }
 
         /// <summary>
+        /// Gets or sets the lockdown channel permissions.
+        /// </summary>
+        public DbSet<LockdownChannelPermissions> LockdownChannelPermissions { get; set; }
+
+        /// <summary>
         /// Gets or sets the giveaway users.
         /// </summary>
         public DbSet<GiveawayUsers> GiveawayUsers { get; set; }

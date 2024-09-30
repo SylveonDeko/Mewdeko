@@ -11,83 +11,160 @@ namespace Mewdeko.Modules.Server_Management;
 public partial class ServerManagement
 {
     /// <summary>
-    /// Manages channel-specific operations such as locking, unlocking, and modifying slowmode settings.
+    ///     Manages channel-specific operations such as locking, unlocking, and modifying slowmode settings.
     /// </summary>
     [Group]
-    public class ChannelCommands(BotConfigService config, HttpClient http) : MewdekoSubmodule
+    public class ChannelCommands(BotConfigService config, HttpClient http) : MewdekoSubmodule<ChannelCommandService>
     {
         /// <summary>
-        /// Checks roles for SendMessages permission and modifies them as necessary before a lockdown.
+        ///     Locks down the server based on the specified lockdown type (Joins, Readonly, Full).
         /// </summary>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator)]
-        public async Task LockCheck()
+        /// <param name="lockdownType">
+        ///     The type of lockdown to apply. It can be <see cref="LockdownType.Joins" />,
+        ///     <see cref="LockdownType.Readonly" />, or <see cref="LockdownType.Full" />.
+        /// </param>
+        /// <param name="action">Optional: The action to take against new users who try to join during the lockdown (Kick or Ban).</param>
+        /// <param name="overrideCheck">
+        ///     Optional: Specifies whether to override permission checks and proceed with the lockdown
+        ///     regardless of permission issues.
+        /// </param>
+        /// <returns>A task that represents the asynchronous operation of locking down the server.</returns>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        public async Task Lockdown(LockdownType lockdownType = LockdownType.Readonly,
+            PunishmentAction action = PunishmentAction.Ban,
+            bool overrideCheck = false)
         {
-            var msg = await ctx.Channel.SendMessageAsync(
-                    $"{config.Data.LoadingEmote} Making sure role permissions don't get in the way of lockdown...")
-                .ConfigureAwait(false);
-            var roles = Context.Guild.Roles.ToList().FindAll(x =>
-                x.Id != Context.Guild.Id && x.Permissions.SendMessages && x.Position <
-                ((SocketGuild)ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
-            if (roles.Count > 0)
+            var embed = new EmbedBuilder()
+                .WithDescription(GetText("lockdown_in_progress", config.Data.LoadingEmote))
+                .WithColor(Mewdeko.OkColor);
+
+            var loadingMessage = await ctx.Channel.SendMessageAsync(embed: embed.Build()).ConfigureAwait(false);
+
+            if (lockdownType is LockdownType.Full or LockdownType.Readonly)
             {
-                foreach (var i in roles)
+                var missingPermissions =
+                    await Service.CheckLockdownPermissions(ctx.Guild, overrideCheck).ConfigureAwait(false);
+                if (missingPermissions.Count != 0)
                 {
-                    var perms = i.Permissions;
-                    var newperms = perms.Modify(sendMessages: false);
-                    await i.ModifyAsync(x => x.Permissions = newperms).ConfigureAwait(false);
+                    var missingPermsText = string.Join(", ", missingPermissions);
+                    embed.WithDescription(GetText("lockdown_perm_check_fail",
+                            missingPermsText))
+                        .WithErrorColor();
+                    await loadingMessage.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
+
+                    if (!overrideCheck)
+                        return;
                 }
 
-                await msg.ModifyAsync(x => x.Content =
-                        $"{config.Data.SuccessEmote} Roles checked! You may now run the lockdown command.")
-                    .ConfigureAwait(false);
+                await Service.StoreOriginalPermissions(ctx.Guild).ConfigureAwait(false);
             }
-            else
-            {
-                await msg.ModifyAsync(x => x.Content =
-                        $"{config.Data.SuccessEmote} Roles checked! No roles are in the way of the lockdown command.")
-                    .ConfigureAwait(false);
-            }
-        }
 
-        /// <summary>
-        /// Locks down the server by setting SendMessages permission for @everyone to false.
-        /// </summary>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageChannels)]
-        public async Task LockDown()
-        {
-            var roles = Context.Guild.Roles.ToList().FindAll(x =>
-                x.Id != Context.Guild.Id && x.Permissions.SendMessages && x.Position <
-                ((SocketGuild)ctx.Guild).CurrentUser.GetRoles().Max(r => r.Position));
-            if (roles.Count > 0)
+            var check = await Service.LockdownGuild(ctx.Guild, lockdownType, action);
+            if (check.Item1)
             {
-                await ctx.Channel.SendErrorAsync(
-                        $"{config.Data.ErrorEmote} Please run the Lockcheck command as you have roles that will get in the way of lockdown",
-                        Config)
-                    .ConfigureAwait(false);
+                embed.WithDescription(GetText("lockdown_already_enabled", check.Item2))
+                    .WithErrorColor();
+                await loadingMessage.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
                 return;
             }
 
-            if (!ctx.Guild.EveryoneRole.Permissions.SendMessages)
+
+            switch (lockdownType)
             {
-                await ctx.Channel.SendErrorAsync(
-                    $"{config.Data.ErrorEmote} Server is already in lockdown!", Config).ConfigureAwait(false);
-            }
-            else
-            {
-                var everyonerole = ctx.Guild.EveryoneRole;
-                var newperms = everyonerole.Permissions.Modify(sendMessages: false);
-                await everyonerole.ModifyAsync(x => x.Permissions = newperms).ConfigureAwait(false);
-                await ctx.Channel.SendConfirmAsync("Server has been locked down!").ConfigureAwait(false);
+                case LockdownType.Joins:
+                    embed.WithDescription(GetText("lockdown_joins_enabled", ctx.Guild.Name,
+                            action.ToString()))
+                        .WithColor(Mewdeko.OkColor);
+                    await loadingMessage.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
+                    break;
+
+                case LockdownType.Readonly:
+                    await Service.ApplyLockdown(ctx.Guild).ConfigureAwait(false);
+                    embed.WithDescription(
+                            GetText("lockdown_readonly_enabled", ctx.Guild.Name))
+                        .WithColor(Mewdeko.OkColor);
+                    await loadingMessage.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
+                    break;
+
+                case LockdownType.Full:
+                    await Service.ApplyLockdown(ctx.Guild).ConfigureAwait(false);
+                    embed.WithDescription(GetText("lockdown_full_enabled", ctx.Guild.Name,
+                            action.ToString()))
+                        .WithColor(Mewdeko.OkColor);
+                    await loadingMessage.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
+                    break;
             }
         }
 
         /// <summary>
-        /// Moves the command issuer to a specified voice channel.
+        ///     Lifts the lockdown based on the specified lockdown type (Joins, Readonly, Full).
+        /// </summary>
+        /// <param name="lockdownType">
+        ///     The type of lockdown to lift. It can be <see cref="LockdownType.Joins" />,
+        ///     <see cref="LockdownType.Readonly" />, or <see cref="LockdownType.Full" />.
+        /// </param>
+        /// <returns>A task that represents the asynchronous operation of lifting the lockdown.</returns>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        public async Task LiftLockdown(LockdownType lockdownType = LockdownType.Readonly)
+        {
+            var embed = new EmbedBuilder()
+                .WithDescription(GetText("lockdown_lift_in_progress", config.Data.LoadingEmote))
+                .WithColor(Mewdeko.OkColor);
+
+            var loadingMessage = await ctx.Channel.SendMessageAsync(embed: embed.Build()).ConfigureAwait(false);
+
+            switch (lockdownType)
+            {
+                case LockdownType.Joins:
+                    if (Service.IsGuildInLockdown(ctx.Guild))
+                    {
+                        await Service.LiftLockdown(ctx.Guild);
+                        embed.WithDescription(GetText("lockdown_joins_disabled",
+                                ctx.Guild.Name))
+                            .WithColor(Mewdeko.OkColor);
+                        await loadingMessage.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        embed.WithDescription(GetText("no_lockdown_joins"))
+                            .WithErrorColor();
+                        await loadingMessage.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
+                    }
+
+                    break;
+
+                case LockdownType.Readonly:
+                    await Service.RestoreOriginalPermissions(ctx.Guild).ConfigureAwait(false);
+                    embed.WithDescription(GetText("lockdown_readonly_disabled",
+                            ctx.Guild.Name))
+                        .WithColor(Mewdeko.OkColor);
+                    await loadingMessage.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
+                    break;
+
+                case LockdownType.Full:
+                    await Service.RestoreOriginalPermissions(ctx.Guild).ConfigureAwait(false);
+                    embed.WithDescription(GetText("lockdown_full_disabled", ctx.Guild.Name))
+                        .WithColor(Mewdeko.OkColor);
+                    await loadingMessage.ModifyAsync(x => x.Embed = embed.Build()).ConfigureAwait(false);
+                    await Service.LiftLockdown(ctx.Guild);
+                    break;
+            }
+        }
+
+
+        /// <summary>
+        ///     Moves the command issuer to a specified voice channel.
         /// </summary>
         /// <param name="channel">The target voice channel to move the user to.</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task MoveTo(IVoiceChannel channel)
         {
             var use = ctx.User as IGuildUser;
@@ -105,12 +182,14 @@ public partial class ServerManagement
         }
 
         /// <summary>
-        /// Moves a specified user to a given voice channel.
+        ///     Moves a specified user to a given voice channel.
         /// </summary>
         /// <param name="user">The user to be moved.</param>
         /// <param name="channel">The target voice channel to move the user to.</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageChannels)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageChannels)]
         public async Task MoveUserTo(IGuildUser user, IVoiceChannel channel)
         {
             if (user.VoiceChannel == null)
@@ -126,10 +205,12 @@ public partial class ServerManagement
         }
 
         /// <summary>
-        /// Brings a user to the command issuer's current voice channel.
+        ///     Brings a user to the command issuer's current voice channel.
         /// </summary>
         /// <param name="user">The user to grab and move.</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Grab(IGuildUser user)
         {
             var vc = ((IGuildUser)ctx.User).VoiceChannel;
@@ -153,10 +234,12 @@ public partial class ServerManagement
         }
 
         /// <summary>
-        /// Unlocks the server by allowing @everyone to send messages again.
+        ///     Unlocks the server by allowing @everyone to send messages again.
         /// </summary>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageChannels)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageChannels)]
         public async Task Unlockdown()
         {
             if (ctx.Guild.EveryoneRole.Permissions.SendMessages)
@@ -173,11 +256,13 @@ public partial class ServerManagement
         }
 
         /// <summary>
-        /// Deletes and recreates a text channel, effectively "nuking" it.
+        ///     Deletes and recreates a text channel, effectively "nuking" it.
         /// </summary>
         /// <param name="chan3">Optional parameter to specify a channel to nuke.</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageChannels)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageChannels)]
         public async Task Nuke(ITextChannel? chan3 = null)
         {
             var embed = new EmbedBuilder
@@ -222,11 +307,14 @@ public partial class ServerManagement
         }
 
         /// <summary>
-        /// Enables or disables slowmode in a channel, with customizable duration.
+        ///     Enables or disables slowmode in a channel, with customizable duration.
         /// </summary>
         /// <param name="channel">Optional parameter to specify a channel to apply slowmode.</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageMessages), BotPerm(GuildPermission.ManageMessages)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageMessages)]
+        [BotPerm(GuildPermission.ManageMessages)]
         public async Task Lock(SocketTextChannel? channel = null)
         {
             if (channel == null)
@@ -251,11 +339,13 @@ public partial class ServerManagement
         }
 
         /// <summary>
-        /// Creates a category and the specified channels in a server.
+        ///     Creates a category and the specified channels in a server.
         /// </summary>
         /// <param name="catName">The name of the category to create</param>
         /// <param name="channels">The names of the channels to create</param>
-        [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
+        [Cmd]
+        [Aliases]
+        [UserPerm(GuildPermission.ManageChannels)]
         public async Task CreateCatAndTxtChannels(string catName, params string[] channels)
         {
             var eb = new EmbedBuilder();
@@ -275,11 +365,13 @@ public partial class ServerManagement
         }
 
         /// <summary>
-        /// Creates a category with multiple voice channels in it.
+        ///     Creates a category with multiple voice channels in it.
         /// </summary>
         /// <param name="catName">The name of the category to be created.</param>
         /// <param name="channels">The names of the voice channels to be created within the category.</param>
-        [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
+        [Cmd]
+        [Aliases]
+        [UserPerm(GuildPermission.ManageChannels)]
         public async Task CreateCatAndVcChannels(string catName, params string[] channels)
         {
             var eb = new EmbedBuilder();
@@ -298,11 +390,13 @@ public partial class ServerManagement
         }
 
         /// <summary>
-        /// Adds multiple voice channels to an existing category.
+        ///     Adds multiple voice channels to an existing category.
         /// </summary>
         /// <param name="chan">The target category channel.</param>
         /// <param name="channels">The names of the voice channels to be added.</param>
-        [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
+        [Cmd]
+        [Aliases]
+        [UserPerm(GuildPermission.ManageChannels)]
         public async Task CreateCatVcChans(ICategoryChannel chan, params string[] channels)
         {
             var eb = new EmbedBuilder();
@@ -320,11 +414,13 @@ public partial class ServerManagement
         }
 
         /// <summary>
-        /// Adds multiple text channels to an existing category.
+        ///     Adds multiple text channels to an existing category.
         /// </summary>
         /// <param name="chan">The target category channel.</param>
         /// <param name="channels">The names of the text channels to be added.</param>
-        [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
+        [Cmd]
+        [Aliases]
+        [UserPerm(GuildPermission.ManageChannels)]
         public async Task CreateCatTxtChans(ICategoryChannel chan, params string[] channels)
         {
             var eb = new EmbedBuilder();
@@ -342,11 +438,14 @@ public partial class ServerManagement
         }
 
         /// <summary>
-        /// Unlocks a specific channel, allowing everyone to send messages again.
+        ///     Unlocks a specific channel, allowing everyone to send messages again.
         /// </summary>
         /// <param name="channel">The channel to be unlocked. If null, unlocks the current channel.</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageMessages), BotPerm(GuildPermission.ManageMessages)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageMessages)]
+        [BotPerm(GuildPermission.ManageMessages)]
         public async Task Unlock(SocketTextChannel? channel = null)
         {
             if (channel == null)
@@ -371,55 +470,76 @@ public partial class ServerManagement
         }
 
         /// <summary>
-        /// Applies or removes slowmode settings in a channel.
+        ///     Applies or removes slowmode settings in a channel.
         /// </summary>
         /// <param name="time">The duration for slowmode. Use 0 or omit to toggle or remove slowmode.</param>
         /// <param name="channel">The channel to apply slowmode to. If omitted, applies to the current channel.</param>
         /// <remarks>
-        /// This command allows for detailed control over a channel's slowmode settings, including enabling, disabling, or adjusting the duration.
+        ///     This command allows for detailed control over a channel's slowmode settings, including enabling, disabling, or
+        ///     adjusting the duration.
         /// </remarks>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageChannels)]
-        public Task Slowmode(StoopidTime time, ITextChannel channel) =>
-            InternalSlowmode(channel, (int)time.Time.TotalSeconds);
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageChannels)]
+        public Task Slowmode(StoopidTime time, ITextChannel channel)
+        {
+            return InternalSlowmode(channel, (int)time.Time.TotalSeconds);
+        }
 
         /// <summary>
-        /// Sets the slowmode interval for the current text channel.
+        ///     Sets the slowmode interval for the current text channel.
         /// </summary>
         /// <param name="time">The duration for slowmode, specified in various time formats (e.g., "1m", "30s").</param>
         /// <remarks>
-        /// This command sets a specific slowmode interval for the channel from which the command is invoked.
-        /// It requires the user to have the "Manage Channels" permission.
-        /// The slowmode interval specifies how long each user must wait before sending another message in the channel.
+        ///     This command sets a specific slowmode interval for the channel from which the command is invoked.
+        ///     It requires the user to have the "Manage Channels" permission.
+        ///     The slowmode interval specifies how long each user must wait before sending another message in the channel.
         /// </remarks>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageChannels)]
-        public Task Slowmode(StoopidTime time) =>
-            InternalSlowmode(ctx.Channel as ITextChannel, (int)time.Time.TotalSeconds);
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageChannels)]
+        public Task Slowmode(StoopidTime time)
+        {
+            return InternalSlowmode(ctx.Channel as ITextChannel, (int)time.Time.TotalSeconds);
+        }
 
         /// <summary>
-        /// Sets or removes the slowmode interval for a specified text channel.
+        ///     Sets or removes the slowmode interval for a specified text channel.
         /// </summary>
         /// <param name="channel">The text channel to apply the slowmode settings to.</param>
         /// <remarks>
-        /// This variant of the slowmode command allows specifying a particular text channel by mentioning it or using its ID.
-        /// If the slowmode interval is not specified, this command will remove the slowmode setting from the channel.
-        /// It requires the user to have the "Manage Channels" permission.
+        ///     This variant of the slowmode command allows specifying a particular text channel by mentioning it or using its ID.
+        ///     If the slowmode interval is not specified, this command will remove the slowmode setting from the channel.
+        ///     It requires the user to have the "Manage Channels" permission.
         /// </remarks>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageChannels)]
-        public Task Slowmode(ITextChannel channel) =>
-            InternalSlowmode(channel);
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageChannels)]
+        public Task Slowmode(ITextChannel channel)
+        {
+            return InternalSlowmode(channel);
+        }
 
         /// <summary>
-        /// Toggles the slowmode interval for the current text channel between off and a default interval.
+        ///     Toggles the slowmode interval for the current text channel between off and a default interval.
         /// </summary>
         /// <remarks>
-        /// If the current text channel has slowmode disabled, this command will enable it with a default interval.
-        /// If slowmode is already enabled, it will be disabled.
-        /// This command provides a quick way to toggle slowmode on and off without specifying a duration.
-        /// It requires the user to have the "Manage Channels" permission.
+        ///     If the current text channel has slowmode disabled, this command will enable it with a default interval.
+        ///     If slowmode is already enabled, it will be disabled.
+        ///     This command provides a quick way to toggle slowmode on and off without specifying a duration.
+        ///     It requires the user to have the "Manage Channels" permission.
         /// </remarks>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageChannels)]
-        public Task Slowmode() => InternalSlowmode((ITextChannel)ctx.Channel);
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageChannels)]
+        public Task Slowmode()
+        {
+            return InternalSlowmode((ITextChannel)ctx.Channel);
+        }
 
         private async Task InternalSlowmode(ITextChannel channel, int time = 0)
         {
@@ -457,14 +577,16 @@ public partial class ServerManagement
         }
 
         /// <summary>
-        /// Creates a webhook in a text channel with an optional custom avatar.
+        ///     Creates a webhook in a text channel with an optional custom avatar.
         /// </summary>
         /// <remarks>
-        /// The webhook name and avatar can be customized. If the avatar is omitted, the default avatar is used.
-        /// If an image is attached to the command message, it will be used as the webhook's avatar.
+        ///     The webhook name and avatar can be customized. If the avatar is omitted, the default avatar is used.
+        ///     If an image is attached to the command message, it will be used as the webhook's avatar.
         /// </remarks>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task CreateWebhook(ITextChannel channel, string name, string avatar = null)
         {
             if (ctx.Message.Attachments.Any())
@@ -510,14 +632,38 @@ public partial class ServerManagement
         }
 
         /// <summary>
-        /// Deletes multiple channels at once, use careflly, and dont dpo this to a lower perm. Just plase dont. I am not responsible for your dumbnation.
+        ///     Deletes multiple channels at once, use careflly, and dont dpo this to a lower perm. Just plase dont. I am not
+        ///     responsible for your dumbnation.
         /// </summary>
         /// <param name="channels"></param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
-         BotPerm(ChannelPermission.ManageChannels)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        [BotPerm(ChannelPermission.ManageChannels)]
         public async Task DeleteChannels(params IGuildChannel[] channels)
         {
-
         }
+    }
+
+    /// <summary>
+    ///     Represents the type of lockdown that can be applied to the server.
+    /// </summary>
+    public enum LockdownType
+    {
+        /// <summary>
+        ///     Lockdown to prevent new user joins.
+        /// </summary>
+        Joins,
+
+        /// <summary>
+        ///     Lockdown to make the server read-only by removing send message permissions for @everyone.
+        /// </summary>
+        Readonly,
+
+        /// <summary>
+        ///     Full lockdown: prevent joins and make the server read-only.
+        /// </summary>
+        Full
     }
 }

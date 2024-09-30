@@ -3,6 +3,7 @@ using System;
 using Mewdeko.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Mewdeko.Database.Migrations.PostgreSql
 {
     [DbContext(typeof(MewdekoPostgresContext))]
-    partial class MewdekoPostgresContextModelSnapshot : ModelSnapshot
+    [Migration("20240930044907_Lockdown")]
+    partial class Lockdown
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1780,11 +1783,8 @@ namespace Mewdeko.Database.Migrations.PostgreSql
                     b.Property<decimal>("GuildId")
                         .HasColumnType("numeric(20,0)");
 
-                    b.Property<decimal>("TargetId")
+                    b.Property<decimal>("RoleId")
                         .HasColumnType("numeric(20,0)");
-
-                    b.Property<int>("TargetType")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
