@@ -75,8 +75,9 @@ public class AntiSpamSetting : DbEntity
 }
 
 /// <summary>
-/// Represents settings for anti-mass mention measures in a guild.
+/// Represents settings for anti-mass mention protection in a guild.
 /// </summary>
+[Table("AntiMassMentionSetting")]
 public class AntiMassMentionSetting : DbEntity
 {
     /// <summary>
@@ -91,12 +92,24 @@ public class AntiMassMentionSetting : DbEntity
     public PunishmentAction Action { get; set; }
 
     /// <summary>
-    /// Gets or sets the mention threshold for triggering anti-mass mention measures.
+    /// Gets or sets the maximum number of mentions allowed in a single message before triggering anti-mass mention measures.
     /// </summary>
     public int MentionThreshold { get; set; } = 3;
 
     /// <summary>
+    /// Gets or sets the maximum number of mentions allowed within a specified time window.
+    /// </summary>
+    public int MaxMentionsInTimeWindow { get; set; } = 5;
+
+    /// <summary>
+    /// Gets or sets the time window in seconds in which mentions are tracked.
+    /// If the number of mentions exceeds MaxMentionsInTimeWindow within this time, anti-mass mention actions are triggered.
+    /// </summary>
+    public int TimeWindowSeconds { get; set; } = 60;
+
+    /// <summary>
     /// Gets or sets the mute duration in minutes.
+    /// This is applied when a mute action is chosen as the punishment.
     /// </summary>
     public int MuteTime { get; set; } = 0;
 
@@ -106,10 +119,17 @@ public class AntiMassMentionSetting : DbEntity
     public ulong? RoleId { get; set; }
 
     /// <summary>
+    /// Gets or sets a boolean indicating whether bots should be ignored by anti-mass mention measures.
+    /// </summary>
+    public bool IgnoreBots { get; set; } = true;
+
+    /// <summary>
     /// Gets or sets the collection of ignored channels for anti-mass mention measures.
     /// </summary>
-    public HashSet<AntiSpamIgnore> IgnoredChannels { get; set; } = [];
+    public HashSet<AntiSpamIgnore> IgnoredChannels { get; set; } = new();
 }
+
+
 
 /// <summary>
 /// Represents settings for anti-alt measures in a guild.

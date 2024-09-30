@@ -764,6 +764,11 @@ namespace Mewdeko.Database.Models
         public AntiSpamSetting AntiSpamSetting { get; set; }
 
         /// <summary>
+        /// Gets or sets the anti mass mention settings for the guild.
+        /// </summary>
+        public AntiMassMentionSetting AntiMassMentionSetting { get; set; }
+
+        /// <summary>
         /// Gets or sets the locale for the guild.
         /// </summary>
         public string? Locale { get; set; } = null;

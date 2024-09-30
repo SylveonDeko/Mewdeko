@@ -111,4 +111,70 @@ namespace Mewdeko.Modules.Administration.Common
         /// </summary>
         public void Increment() => Interlocked.Increment(ref counter);
     }
+
+    /// <summary>
+    /// Stores the settings and stats related to anti-mass mention protection.
+    /// </summary>
+    public class AntiMassMentionStats
+    {
+        /// <summary>
+        /// Anti mass Mention Setting
+        /// </summary>
+        public AntiMassMentionSetting AntiMassMentionSettings { get; set; }
+
+        /// <summary>
+        /// Tracks the mention counts per user.
+        /// </summary>
+        public ConcurrentDictionary<ulong, UserMentionStats> UserStats { get; } = new();
+    }
+
+    /// <summary>
+    /// Stores the stats for a user's mentions.
+    /// </summary>
+    public class UserMentionStats : IDisposable
+    {
+        private readonly List<DateTime> mentionTimestamps = new();
+        private readonly int timeFrameSeconds;
+
+        /// <summary>
+        /// User Mention Stats
+        /// </summary>
+        /// <param name="timeFrameSeconds"></param>
+        public UserMentionStats(int timeFrameSeconds)
+        {
+            this.timeFrameSeconds = timeFrameSeconds;
+        }
+
+        /// <summary>
+        /// Adds a mention timestamp and checks whether it exceeds the allowed threshold.
+        /// </summary>
+        /// <param name="mentionCount">The number of mentions in the current message.</param>
+        /// <param name="threshold">The allowed number of mentions over the specified time.</param>
+        /// <returns>True if the mention threshold is exceeded, otherwise false.</returns>
+        public bool AddMentions(int mentionCount, int threshold)
+        {
+            var now = DateTime.UtcNow;
+
+            // Remove old mentions outside of the time window
+            mentionTimestamps.RemoveAll(t => (now - t).TotalSeconds > timeFrameSeconds);
+
+            // Add the current mentions
+            for (int i = 0; i < mentionCount; i++)
+            {
+                mentionTimestamps.Add(now);
+            }
+
+            // Check if the number of mentions exceeds the threshold
+            return mentionTimestamps.Count >= threshold;
+        }
+
+        /// <summary>
+        /// Dispose
+        /// </summary>
+        public void Dispose()
+        {
+            mentionTimestamps.Clear();
+        }
+    }
+
 }

@@ -19,6 +19,17 @@ debugembed:
 purgeuser:
   - purgeuser
   - pruneuser
+antimassmention:
+  - antimassmention
+  - amm
+  - massmention
+  - stopmassmention
+antimassmentionignorebots:
+  - antimassmentionignorebots
+  - ammignorebots
+  - ignorebotsmassmention
+  - massmentionignorebots
+
 acceptchannel:
   - acceptchannel
 usermessages:

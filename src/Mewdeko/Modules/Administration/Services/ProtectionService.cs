@@ -8,7 +8,7 @@ using Serilog;
 namespace Mewdeko.Modules.Administration.Services;
 
 /// <summary>
-/// Provides anti-alt, anti-raid, and antispam protection services.
+///     Provides anti-alt, anti-raid, and antispam protection services.
 /// </summary>
 public class ProtectionService : INService, IReadyExecutor
 {
@@ -21,6 +21,9 @@ public class ProtectionService : INService, IReadyExecutor
     private readonly ConcurrentDictionary<ulong, AntiSpamStats> antiSpamGuilds
         = new();
 
+    private readonly ConcurrentDictionary<ulong, AntiMassMentionStats> antiMassMentionGuilds = new();
+
+
     private readonly DiscordShardedClient client;
     private readonly DbContextProvider dbProvider;
     private readonly GuildSettingsService gss;
@@ -28,7 +31,7 @@ public class ProtectionService : INService, IReadyExecutor
     private readonly UserPunishService punishService;
 
     /// <summary>
-    /// The punish user queue.
+    ///     The punish user queue.
     /// </summary>
     private readonly Channel<PunishQueueItem> punishUserQueue =
         Channel.CreateBounded<PunishQueueItem>(new BoundedChannelOptions(200)
@@ -40,7 +43,7 @@ public class ProtectionService : INService, IReadyExecutor
         });
 
     /// <summary>
-    /// Constructs a new instance of the ProtectionService.
+    ///     Constructs a new instance of the ProtectionService.
     /// </summary>
     /// <param name="client">The Discord client.</param>
     /// <param name="bot">The Mewdeko bot.</param>
@@ -70,13 +73,13 @@ public class ProtectionService : INService, IReadyExecutor
 
 
     /// <summary>
-    /// An event that is triggered when the anti-protection is triggered.
+    ///     An event that is triggered when the anti-protection is triggered.
     /// </summary>
     public event Func<PunishmentAction, ProtectionType, IGuildUser[], Task> OnAntiProtectionTriggered
         = delegate { return Task.CompletedTask; };
 
     /// <summary>
-    /// The task that runs the punish queue.
+    ///     The task that runs the punish queue.
     /// </summary>
     private async Task RunQueue()
     {
@@ -103,7 +106,7 @@ public class ProtectionService : INService, IReadyExecutor
 
 
     /// <summary>
-    /// Handles the event when the bot leaves a guild.
+    ///     Handles the event when the bot leaves a guild.
     /// </summary>
     /// <param name="guild">The guild that the bot has left.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -119,7 +122,7 @@ public class ProtectionService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when the bot joins a guild.
+    ///     Handles the event when the bot joins a guild.
     /// </summary>
     /// <param name="gc">The configuration of the guild that the bot has joined.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -129,7 +132,7 @@ public class ProtectionService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Initializes the anti-raid, anti-spam, and anti-alt settings for a guild.
+    ///     Initializes the anti-raid, anti-spam, and anti-alt settings for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to initialize the settings for.</param>
     private async Task Initialize(ulong guildId)
@@ -158,7 +161,7 @@ public class ProtectionService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a user joins a guild.
+    ///     Handles the event when a user joins a guild.
     /// </summary>
     /// <param name="user">The user that has joined the guild.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -246,7 +249,7 @@ public class ProtectionService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a message is received in a guild for anti-spam protection.
+    ///     Handles the event when a message is received in a guild for anti-spam protection.
     /// </summary>
     /// <param name="arg">The message that was received.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -311,7 +314,7 @@ public class ProtectionService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Punishes a set of users based on the provided punishment action and protection type.
+    ///     Punishes a set of users based on the provided punishment action and protection type.
     /// </summary>
     /// <param name="action">The punishment action to be applied.</param>
     /// <param name="pt">The type of protection triggering the punishment.</param>
@@ -345,14 +348,17 @@ public class ProtectionService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Starts the anti-raid protection for a guild.
+    ///     Starts the anti-raid protection for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to start the protection for.</param>
     /// <param name="userThreshold">The number of users that triggers the anti-raid protection.</param>
     /// <param name="seconds">The time period in seconds in which the user threshold must be reached to trigger the protection.</param>
     /// <param name="action">The punishment action to be applied when the protection is triggered.</param>
     /// <param name="minutesDuration">The duration of the punishment, if applicable.</param>
-    /// <returns>A task that represents the asynchronous operation and contains the anti-raid stats if the protection was successfully started.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation and contains the anti-raid stats if the protection was
+    ///     successfully started.
+    /// </returns>
     public async Task<AntiRaidStats?> StartAntiRaidAsync(ulong guildId, int userThreshold, int seconds,
         PunishmentAction action, int minutesDuration)
     {
@@ -377,7 +383,7 @@ public class ProtectionService : INService, IReadyExecutor
         antiRaidGuilds.AddOrUpdate(guildId, stats, (_, _) => stats);
 
 
-       await using var db = await dbProvider.GetContextAsync();
+        await using var db = await dbProvider.GetContextAsync();
         var gc = await db.ForGuildId(guildId, set => set.Include(x => x.AntiRaidSetting));
 
         gc.AntiRaidSetting = stats.AntiRaidSettings;
@@ -387,10 +393,79 @@ public class ProtectionService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Attempts to stop the anti-raid protection for a guild.
+    ///     Handles the event when a message is received for anti-mass mention protection.
+    /// </summary>
+    /// <param name="arg">The message that was received.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    private async Task HandleAntiMassMention(IMessage arg)
+    {
+        // If the message is not from a user, or the author is a bot, or the author is an administrator, do nothing
+        if (arg is not SocketUserMessage msg || msg.Author is IGuildUser { GuildPermissions.Administrator: true })
+            return;
+
+        // If the message was not sent in a text channel, do nothing
+        if (msg.Channel is not ITextChannel channel)
+            return;
+
+        // Count the mentions in the message
+        var mentionCount = msg.MentionedUsers.Count + msg.MentionedRoles.Count;
+
+        // If there are no mentions, do nothing
+        if (mentionCount == 0)
+            return;
+
+        try
+        {
+            // Check if anti-mass mention settings exist for this guild
+            if (!antiMassMentionGuilds.TryGetValue(channel.Guild.Id, out var massMentionStats))
+                return;
+
+            var settings = massMentionStats.AntiMassMentionSettings;
+
+            if (settings.IgnoreBots && arg.Author.IsBot)
+                return;
+
+            // Check for single message mass mention threshold
+            if (mentionCount >= settings.MentionThreshold)
+            {
+                await PunishUsers(settings.Action, ProtectionType.MassMention, settings.MuteTime, settings.RoleId,
+                        (IGuildUser)msg.Author)
+                    .ConfigureAwait(false);
+                return;
+            }
+
+            // Check for time-based mention threshold
+            var userStats = massMentionStats.UserStats.AddOrUpdate(
+                msg.Author.Id,
+                _ => new UserMentionStats(settings.TimeWindowSeconds),
+                (_, old) => old);
+
+            if (userStats.AddMentions(mentionCount, settings.MaxMentionsInTimeWindow))
+            {
+                await PunishUsers(settings.Action, ProtectionType.MassMention, settings.MuteTime, settings.RoleId,
+                        (IGuildUser)msg.Author)
+                    .ConfigureAwait(false);
+
+                // Dispose the stats after the punishment is applied
+                userStats.Dispose();
+                massMentionStats.UserStats.TryRemove(msg.Author.Id, out _);
+            }
+        }
+        catch
+        {
+            // ignored
+        }
+    }
+
+
+    /// <summary>
+    ///     Attempts to stop the anti-raid protection for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to stop the protection for.</param>
-    /// <returns>A task that represents the asynchronous operation and contains a boolean indicating whether the operation was successful.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation and contains a boolean indicating whether the operation was
+    ///     successful.
+    /// </returns>
     public async Task<bool> TryStopAntiRaid(ulong guildId)
     {
         // If the anti-raid settings for the guild are successfully removed
@@ -399,8 +474,8 @@ public class ProtectionService : INService, IReadyExecutor
             // Get the database context
             await using var dbContext = await dbProvider.GetContextAsync();
             // Get the guild configuration
-           await using var db = await dbProvider.GetContextAsync();
-        var gc = await db.ForGuildId(guildId, set => set.Include(x => x.AntiRaidSetting));
+            await using var db = await dbProvider.GetContextAsync();
+            var gc = await db.ForGuildId(guildId, set => set.Include(x => x.AntiRaidSetting));
 
             // Remove the anti-raid settings
             gc.AntiRaidSetting = null;
@@ -416,10 +491,13 @@ public class ProtectionService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Attempts to stop the anti-spam protection for a guild.
+    ///     Attempts to stop the anti-spam protection for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to stop the protection for.</param>
-    /// <returns>A task that represents the asynchronous operation and contains a boolean indicating whether the operation was successful.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation and contains a boolean indicating whether the operation was
+    ///     successful.
+    /// </returns>
     public async Task<bool> TryStopAntiSpam(ulong guildId)
     {
         // If the anti-spam settings for the guild are successfully removed
@@ -430,8 +508,8 @@ public class ProtectionService : INService, IReadyExecutor
             // Get the database context
             await using var dbContext = await dbProvider.GetContextAsync();
             // Get the guild configuration
-           await using var db = await dbProvider.GetContextAsync();
-        var gc = await db.ForGuildId(guildId, set => set.Include(x => x.AntiSpamSetting)
+            await using var db = await dbProvider.GetContextAsync();
+            var gc = await db.ForGuildId(guildId, set => set.Include(x => x.AntiSpamSetting)
                 .ThenInclude(x => x.IgnoredChannels));
 
             // Remove the anti-spam settings
@@ -448,14 +526,17 @@ public class ProtectionService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Starts the anti-spam protection for a guild.
+    ///     Starts the anti-spam protection for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to start the protection for.</param>
     /// <param name="messageCount">The number of messages that triggers the anti-spam protection.</param>
     /// <param name="action">The punishment action to be applied when the protection is triggered.</param>
     /// <param name="punishDurationMinutes">The duration of the punishment, if applicable.</param>
     /// <param name="roleId">The ID of the role to be added, if applicable.</param>
-    /// <returns>A task that represents the asynchronous operation and contains the anti-spam stats if the protection was successfully started.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation and contains the anti-spam stats if the protection was
+    ///     successfully started.
+    /// </returns>
     public async Task<AntiSpamStats> StartAntiSpamAsync(ulong guildId, int messageCount, PunishmentAction action,
         int punishDurationMinutes, ulong? roleId)
     {
@@ -502,11 +583,75 @@ public class ProtectionService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Ignores a channel for the anti-spam protection in a guild.
+    /// Starts the anti-mass mention protection for a guild with the specified settings.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild to start the protection for.</param>
+    /// <param name="mentionThreshold">The number of mentions allowed in a single message before triggering protection.</param>
+    /// <param name="timeWindowSeconds">The time window in seconds during which mentions are tracked.</param>
+    /// <param name="maxMentionsInTimeWindow">The maximum number of mentions allowed within the specified time window before triggering protection.</param>
+    /// <param name="ignoreBots">Whether to ignore bots.</param>
+    /// <param name="action">The punishment action to be applied when the protection is triggered.</param>
+    /// <param name="muteTime">The duration of the mute punishment in minutes, if applicable.</param>
+    /// <param name="roleId">The ID of the role to be assigned as punishment, if applicable.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public async Task StartAntiMassMentionAsync(ulong guildId, int mentionThreshold, int timeWindowSeconds, int maxMentionsInTimeWindow, bool ignoreBots, PunishmentAction action, int muteTime, ulong? roleId)
+    {
+        var settings = new AntiMassMentionSetting
+        {
+            MentionThreshold = mentionThreshold,
+            TimeWindowSeconds = timeWindowSeconds,
+            MaxMentionsInTimeWindow = maxMentionsInTimeWindow,
+            IgnoreBots = ignoreBots,
+            Action = action,
+            MuteTime = muteTime,
+            RoleId = roleId
+        };
+
+        var stats = new AntiMassMentionStats
+        {
+            AntiMassMentionSettings = settings
+        };
+
+        antiMassMentionGuilds.AddOrUpdate(guildId, stats, (_, _) => stats);
+
+        await using var dbContext = await dbProvider.GetContextAsync();
+        var gc = await dbContext.ForGuildId(guildId, set => set.Include(x => x.AntiMassMentionSetting));
+
+        gc.AntiMassMentionSetting = settings;
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+    }
+
+
+    /// <summary>
+    /// Attempts to stop the anti-mass mention protection for a guild.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild to stop the protection for.</param>
+    /// <returns>A task representing the asynchronous operation. Returns true if the protection was successfully stopped; otherwise, false.</returns>
+    public async Task<bool> TryStopAntiMassMention(ulong guildId)
+    {
+        if (!antiMassMentionGuilds.TryRemove(guildId, out var removed)) return false;
+        removed.UserStats.ForEach(x => x.Value.Dispose());
+
+        await using var dbContext = await dbProvider.GetContextAsync();
+        var gc = await dbContext.ForGuildId(guildId, set => set.Include(x => x.AntiMassMentionSetting));
+
+        gc.AntiMassMentionSetting = null;
+        await dbContext.SaveChangesAsync().ConfigureAwait(false);
+
+        return true;
+    }
+
+
+
+    /// <summary>
+    ///     Ignores a channel for the anti-spam protection in a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to ignore the channel for.</param>
     /// <param name="channelId">The ID of the channel to ignore.</param>
-    /// <returns>A task that represents the asynchronous operation and contains a boolean indicating whether the operation was successful.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation and contains a boolean indicating whether the operation was
+    ///     successful.
+    /// </returns>
     public async Task<bool?> AntiSpamIgnoreAsync(ulong guildId, ulong channelId)
     {
         var obj = new AntiSpamIgnore
@@ -547,26 +692,28 @@ public class ProtectionService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Retrieves the anti-spam, anti-raid, and anti-alt statistics for a guild.
+    ///     Retrieves the anti-spam, anti-raid, and anti-alt statistics for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to retrieve the statistics for.</param>
     /// <returns>A tuple containing the anti-spam, anti-raid, and anti-alt statistics for the guild.</returns>
-    public (AntiSpamStats?, AntiRaidStats?, AntiAltStats?) GetAntiStats(ulong guildId)
+    public (AntiSpamStats?, AntiRaidStats?, AntiAltStats?, AntiMassMentionStats) GetAntiStats(ulong guildId)
     {
         antiRaidGuilds.TryGetValue(guildId, out var antiRaidStats);
         antiSpamGuilds.TryGetValue(guildId, out var antiSpamStats);
         antiAltGuilds.TryGetValue(guildId, out var antiAltStats);
+        antiMassMentionGuilds.TryGetValue(guildId, out var antiMassMentionStats);
 
-        return (antiSpamStats, antiRaidStats, antiAltStats);
+        return (antiSpamStats, antiRaidStats, antiAltStats, antiMassMentionStats);
     }
 
     /// <summary>
-    /// Checks if a duration is allowed for a specific punishment action.
+    ///     Checks if a duration is allowed for a specific punishment action.
     /// </summary>
     /// <param name="action">The punishment action to check.</param>
     /// <returns>A boolean indicating whether a duration is allowed for the punishment action.</returns>
-    public static bool IsDurationAllowed(PunishmentAction action) =>
-        action switch
+    public static bool IsDurationAllowed(PunishmentAction action)
+    {
+        return action switch
         {
             PunishmentAction.Ban => true,
             PunishmentAction.Mute => true,
@@ -576,9 +723,10 @@ public class ProtectionService : INService, IReadyExecutor
             PunishmentAction.Timeout => true,
             _ => false
         };
+    }
 
     /// <summary>
-    /// Starts the anti-alt protection for a guild.
+    ///     Starts the anti-alt protection for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to start the protection for.</param>
     /// <param name="minAgeMinutes">The minimum age of an account to not be considered an alt.</param>
@@ -589,8 +737,7 @@ public class ProtectionService : INService, IReadyExecutor
     public async Task StartAntiAltAsync(ulong guildId, int minAgeMinutes, PunishmentAction action,
         int actionDurationMinutes = 0, ulong? roleId = null)
     {
-
-       await using var dbContext = await dbProvider.GetContextAsync();
+        await using var dbContext = await dbProvider.GetContextAsync();
         var gc = await dbContext.ForGuildId(guildId, set => set.Include(x => x.AntiAltSetting));
         gc.AntiAltSetting = new AntiAltSetting
         {
@@ -605,10 +752,13 @@ public class ProtectionService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Attempts to stop the anti-alt protection for a guild.
+    ///     Attempts to stop the anti-alt protection for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to stop the protection for.</param>
-    /// <returns>A task that represents the asynchronous operation and contains a boolean indicating whether the operation was successful.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation and contains a boolean indicating whether the operation was
+    ///     successful.
+    /// </returns>
     public async Task<bool> TryStopAntiAlt(ulong guildId)
     {
         if (!antiAltGuilds.TryRemove(guildId, out _))

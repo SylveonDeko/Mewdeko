@@ -36,6 +36,13 @@ banbyhash:
   args:
     - "hash"
   desc: "Bans a user by their avatar hash"
+antimassmention:
+  args:
+    - "max-mentions-in-one-message, time-window-in-seconds, max-mentions-in-time-window, punishment, [punishment-duration]"
+  desc: "Configures Anti-Mass-Mention protection for the guild with the specified settings."
+antimassmentionignorebots:
+  args: []
+  desc: "Toggles whether bots are ignored in Anti-Mass-Mention protection."
 autobanroleadd:
   args:
     - "roleid"
