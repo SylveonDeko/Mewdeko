@@ -38,11 +38,7 @@ public class BotStatus(DiscordShardedClient client, StatsService statsService, C
             ModulesCount = commandService.Modules.Count(x => !x.IsSubmodule),
             DNetVersion = statsService.Library,
             BotStatus = client.Status.ToString(),
-            UserCount = client.Guilds
-                .SelectMany(guild => guild.Users)
-                .Select(user => user.Id)
-                .Distinct()
-                .Count(),
+            UserCount = client.Guilds.Select(x => x.Users.Count).Sum(),
             CommitHash = GetCommitHash(),
             BotId = client.CurrentUser.Id
         };
