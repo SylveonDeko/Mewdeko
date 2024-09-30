@@ -24,9 +24,9 @@ public class BotStatus(DiscordShardedClient client, StatsService statsService, C
     [HttpGet]
     public async Task<IActionResult> GetStatus()
     {
+        var clients = client.Shards;
         var rest = client.Rest;
         var curUser = await rest.GetUserAsync(client.CurrentUser.Id);
-        var guilds = await rest.GetGuildsAsync();
         var toReturn = new BotStatusModel
         {
             BotName = client.CurrentUser.GlobalName ?? client.CurrentUser.Username,
@@ -38,7 +38,7 @@ public class BotStatus(DiscordShardedClient client, StatsService statsService, C
             ModulesCount = commandService.Modules.Count(x => !x.IsSubmodule),
             DNetVersion = statsService.Library,
             BotStatus = client.Status.ToString(),
-            UserCount = client.Guilds.Select(x => x.Users.Count).Sum(),
+            UserCount = clients.Select(x => x.Guilds.Sum(g => g.Users.Count)).Sum(),
             CommitHash = GetCommitHash(),
             BotId = client.CurrentUser.Id
         };
