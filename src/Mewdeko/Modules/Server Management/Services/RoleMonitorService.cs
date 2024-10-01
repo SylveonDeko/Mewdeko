@@ -63,7 +63,7 @@ public class RoleMonitorService : INService, IReadyExecutor
             await redisDb.StringSetAsync($"guild:{guildId}:default_punishment", ((int)defaultPunishment).ToString());
 
             var blacklistedRoles = await context.BlacklistedRoles.Where(r => r.GuildId == guildId).ToListAsync();
-            var blacklistedRoleIds = new Dictionary<ulong, PunishmentAction>();
+            var blacklistedRoleIds = new Dictionary<ulong, PunishmentAction?>();
             foreach (var role in blacklistedRoles)
             {
                 var punishment = role.PunishmentAction ?? defaultPunishment;
@@ -74,7 +74,7 @@ public class RoleMonitorService : INService, IReadyExecutor
 
             var blacklistedPermissions =
                 await context.BlacklistedPermissions.Where(p => p.GuildId == guildId).ToListAsync();
-            var blacklistedPermsDict = new Dictionary<GuildPermission, PunishmentAction>();
+            var blacklistedPermsDict = new Dictionary<GuildPermission, PunishmentAction?>();
             foreach (var perm in blacklistedPermissions)
             {
                 var punishment = perm.PunishmentAction ?? defaultPunishment;
@@ -140,6 +140,9 @@ public class RoleMonitorService : INService, IReadyExecutor
         if (user == null)
             return;
 
+        if (await IsUserWhitelistedAsync(guild, user.Id) || await IsRoleWhitelistedAsync(guild.Id, user.RoleIds))
+            return;
+
         var addedRoles = roleUpdate.Roles.Where(x => x.Added)?.Select(x => x.RoleId)?.ToList();
 
         if (addedRoles.Count == 0)
@@ -161,14 +164,15 @@ public class RoleMonitorService : INService, IReadyExecutor
 
         var roleId = roleUpdate.RoleId;
         var role = guild.GetRole(roleId);
+        var user = await guild.GetUserAsync(entry.User.Id);
 
         if (role == null)
             return;
 
-        if (await IsRoleWhitelistedAsync(guild.Id, new[]
-            {
-                roleId
-            }))
+        if (await IsRoleWhitelistedAsync(guild.Id, user.RoleIds))
+            return;
+
+        if (await IsUserWhitelistedAsync(guild, user.Id))
             return;
 
         var beforePermissions = roleUpdate.Before.Permissions;
@@ -184,8 +188,8 @@ public class RoleMonitorService : INService, IReadyExecutor
     /// </summary>
     private async Task<bool> IsUserWhitelistedAsync(IGuild guild, ulong userId)
     {
-        if (guild.OwnerId == userId)
-            return true;
+        // if (guild.OwnerId == userId)
+        //     return true;
         var redisDb = dataCache.Redis.GetDatabase();
         var key = $"guild:{guild.Id}:whitelisted_users";
 
@@ -222,7 +226,7 @@ public class RoleMonitorService : INService, IReadyExecutor
             if (role == null)
                 continue;
 
-            PunishmentAction? punishmentAction = null;
+            PunishmentAction? punishmentAction;
 
             if (guildSettings.BlacklistedRoleIds.TryGetValue(roleId, out var rolePunishment))
             {
@@ -239,6 +243,11 @@ public class RoleMonitorService : INService, IReadyExecutor
                 {
                     punishmentAction = blacklistedPermissions.OrderByDescending(p => p).FirstOrDefault();
                 }
+                else
+                {
+                    // No blacklisted role or permission found, so we continue to the next role
+                    continue;
+                }
             }
 
             punishmentAction ??= guildSettings.DefaultPunishmentAction;
@@ -251,6 +260,7 @@ public class RoleMonitorService : INService, IReadyExecutor
                 }
             }
 
+            // Remove the role only if a blacklisted role or permission was found
             await user.RemoveRoleAsync(role);
         }
     }
@@ -269,29 +279,47 @@ public class RoleMonitorService : INService, IReadyExecutor
             .Where(p => guildSettings.BlacklistedPermissions.ContainsKey(p))
             .Select(p => (Permission: p, Punishment: guildSettings.BlacklistedPermissions[p]));
 
-        if (blacklistedPermissions.Any())
+        if (!blacklistedPermissions.Any())
         {
-            var highestPunishment = blacklistedPermissions
-                .Select(p => p.Punishment)
-                .OrderByDescending(p => p)
-                .FirstOrDefault();
+            // No blacklisted permissions found, return early
+            return;
+        }
 
-            var executor = await guild.GetUserAsync(executorId);
-            if (executor != null && !await IsUserWhitelistedAsync(guild, executor.Id))
+        var highestPunishment = blacklistedPermissions
+            .Select(p => p.Punishment)
+            .OrderByDescending(p => p)
+            .FirstOrDefault();
+
+        if (highestPunishment == null && guildSettings.DefaultPunishmentAction == null)
+        {
+            // No punishment available, return early
+            return;
+        }
+
+        // Use the highest punishment if available, otherwise use the default punishment
+        var punishmentToApply = highestPunishment ?? guildSettings.DefaultPunishmentAction;
+
+        if (punishmentToApply == null)
+        {
+            // This should not happen given the previous check, but added for safety
+            return;
+        }
+
+        var executor = await guild.GetUserAsync(executorId);
+        if (executor != null && !await IsUserWhitelistedAsync(guild, executor.Id))
+        {
+            await role.ModifyAsync(rp => rp.Permissions = beforePermissions);
+
+            var usersWithRole = await guild.GetUsersAsync();
+            foreach (var user in usersWithRole)
             {
-                await role.ModifyAsync(rp => rp.Permissions = beforePermissions);
-
-                var usersWithRole = await guild.GetUsersAsync();
-                foreach (var user in usersWithRole)
+                if (user.RoleIds.Contains(role.Id))
                 {
-                    if (user.RoleIds.Contains(role.Id))
-                    {
-                        await user.RemoveRoleAsync(role);
-                    }
+                    await user.RemoveRoleAsync(role);
                 }
-
-                await ApplyPunishmentAsync(executor, highestPunishment, role, false, true);
             }
+
+            await ApplyPunishmentAsync(executor, punishmentToApply.Value, role, false, true);
         }
     }
 
@@ -299,7 +327,7 @@ public class RoleMonitorService : INService, IReadyExecutor
     /// <summary>
     ///     Applies the specified punishment to the user.
     /// </summary>
-    private async Task ApplyPunishmentAsync(IGuildUser user, PunishmentAction punishmentAction, IRole role,
+    private async Task ApplyPunishmentAsync(IGuildUser user, PunishmentAction? punishmentAction, IRole role,
         bool selfAssigned = false, bool permissionChange = false)
     {
         var guild = user.Guild;
@@ -385,14 +413,14 @@ public class RoleMonitorService : INService, IReadyExecutor
             ? (PunishmentAction)int.Parse(defaultPunishmentValue)
             : PunishmentAction.None;
 
-        var blacklistedRoleIds = new Dictionary<ulong, PunishmentAction>();
+        var blacklistedRoleIds = new Dictionary<ulong, PunishmentAction?>();
         var blacklistedRoles = await redisDb.HashGetAllAsync($"guild:{guildId}:blacklisted_roles");
         foreach (var entry in blacklistedRoles)
         {
             blacklistedRoleIds[ulong.Parse(entry.Name)] = (PunishmentAction)int.Parse(entry.Value);
         }
 
-        var blacklistedPermissions = new Dictionary<GuildPermission, PunishmentAction>();
+        var blacklistedPermissions = new Dictionary<GuildPermission, PunishmentAction?>();
         var blacklistedPerms = await redisDb.HashGetAllAsync($"guild:{guildId}:blacklisted_permissions");
         foreach (var entry in blacklistedPerms)
         {
@@ -582,7 +610,7 @@ public class RoleMonitorService : INService, IReadyExecutor
             guildSettingsCache[guild.Id] = new GuildSettings
             {
                 GuildId = guild.Id,
-                BlacklistedRoleIds = new Dictionary<ulong, PunishmentAction>
+                BlacklistedRoleIds = new Dictionary<ulong, PunishmentAction?>
                 {
                     [role.Id] = punishmentAction.Value
                 }
@@ -664,7 +692,7 @@ public class RoleMonitorService : INService, IReadyExecutor
             guildSettingsCache[guild.Id] = new GuildSettings
             {
                 GuildId = guild.Id,
-                BlacklistedPermissions = new Dictionary<GuildPermission, PunishmentAction>
+                BlacklistedPermissions = new Dictionary<GuildPermission, PunishmentAction?>
                 {
                     [permission] = punishmentAction.Value
                 }
@@ -713,8 +741,8 @@ public class RoleMonitorService : INService, IReadyExecutor
     private class GuildSettings
     {
         public ulong GuildId { get; set; }
-        public PunishmentAction DefaultPunishmentAction { get; set; }
-        public Dictionary<ulong, PunishmentAction> BlacklistedRoleIds { get; set; } = new();
-        public Dictionary<GuildPermission, PunishmentAction> BlacklistedPermissions { get; set; } = new();
+        public PunishmentAction? DefaultPunishmentAction { get; set; }
+        public Dictionary<ulong, PunishmentAction?> BlacklistedRoleIds { get; set; } = new();
+        public Dictionary<GuildPermission, PunishmentAction?> BlacklistedPermissions { get; set; } = new();
     }
 }
