@@ -935,9 +935,9 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
             .WithButton(GetText("perm_quick_options"),
                 "Often I am upset That I cannot fall in love but I guess This avoids the stress of falling out of it",
                 ButtonStyle.Secondary,
-                Emote.Parse("<:IconSettings:778931333459738626>"), disabled: true)
+                Emote.Parse("<:IconSettings:1290522076486041714>"), disabled: true)
             .WithButton(GetText("back"), $"help_component_restore.{commandName}",
-                emote: "<:perms_back_arrow:1085352564943491102>".ToIEmote());
+                emote: "<:perms_back_arrow:1290522013861023848>".ToIEmote());
 
         var quickEmbeds = (Context.Interaction as SocketMessageComponent).Message.Embeds
             .Where(x => x.Footer.GetValueOrDefault().Text != "$$mdk_redperm$$").ToArray();
@@ -976,32 +976,32 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         if (effecting.Any(x => x.PrimaryTarget == PrimaryPermissionType.Server && !x.State))
             cb.WithButton(GetText("perm_quick_options_disable_disabled"), $"command_toggle_disable.{commandName}",
                 ButtonStyle.Success,
-                "<:perms_check:1085356998247317514>".ToIEmote());
+                "<:perms_check:1290520193839140884>".ToIEmote());
         else
             cb.WithButton(GetText("perm_quick_options_disable_enabled"), $"command_toggle_disable.{commandName}",
                 ButtonStyle.Danger,
-                "<:perms_disabled:1085358511900327956>".ToIEmote());
+                "<:perms_disabled:1290520276479643698>".ToIEmote());
 
         if (effecting.Any() || dpoUsed)
             cb.WithButton(GetText("local_perms_reset"), $"local_perms_reset.{commandName}", ButtonStyle.Danger,
-                "<:perms_warning:1085356999824396308>".ToIEmote());
+                "<:perms_warning:1290520381303820372>".ToIEmote());
 
         cb.WithSelectMenu($"cmd_perm_spawner.{commandName}", [
             new SelectMenuOptionBuilder(GetText("cmd_perm_spawner_required_perms"), "dpo",
                 GetText("cmd_perm_spawner_required_perms_desc"),
-                "<:perms_dpo:1085338505464512595>".ToIEmote()),
+                "<:perms_dpo:1290520438706802698>".ToIEmote()),
 
             new SelectMenuOptionBuilder(GetText("cmd_perm_spawner_user_perms"), "usr",
                 GetText("cmd_perm_spawner_user_perms_desc"),
-                "<:perms_user_perms:1085426466818359367>".ToIEmote()),
+                "<:perms_user_perms:1290520494747029600>".ToIEmote()),
 
             new SelectMenuOptionBuilder(GetText("cmd_perm_spawner_role_perms"), "rol",
                 GetText("cmd_perm_spawner_role_perms_desc"),
-                "<:role:808826577785716756>".ToIEmote()),
+                "<:role:1290520559163019304>".ToIEmote()),
 
             new SelectMenuOptionBuilder(GetText("cmd_perm_spawner_channel_perms"), "chn",
                 GetText("cmd_perm_spawner_channel_perms_desc"),
-                "<:ChannelText:779036156175188001>".ToIEmote()),
+                "<:ChannelText:1290520630109798420>".ToIEmote()),
 
             new SelectMenuOptionBuilder(GetText("cmd_perm_spawner_category_perms"), "cat",
                 GetText("cmd_perm_spawner_category_perms_desc"),
@@ -1333,7 +1333,7 @@ public class SlashPermissions : MewdekoSlashModuleBase<PermissionService>
         var cb = new ComponentBuilder()
             .WithRows(selects.Where(x => x.Options.Count > 0).Select(x => new ActionRowBuilder().WithSelectMenu(x)))
             .WithButton(GetText("back"), $"permenu_update.{commandName}",
-                emote: "<:perms_back_arrow:1085352564943491102>".ToIEmote());
+                emote: "<:perms_back_arrow:1290522013861023848>".ToIEmote());
 
         return (ctx.Interaction as SocketMessageComponent).UpdateAsync(x => x.Components = cb.Build());
     }
