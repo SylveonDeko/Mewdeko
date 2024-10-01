@@ -1,4 +1,5 @@
 using System.Threading;
+using EFCore.BulkExtensions;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Database.DbContextStuff;
@@ -266,17 +267,20 @@ public class MessageCountService : INService, IReadyExecutor
             await using var db = await dbContext.GetContextAsync();
 
             var countsToUpdate = messageCounts.Values.ToList();
-
-            await db.BulkMergeAsync(countsToUpdate, options =>
+            var bulkConfig = new BulkConfig
             {
-                options.ColumnPrimaryKeyExpression = c => new { c.GuildId, c.UserId, c.ChannelId };
-                options.IgnoreOnMergeUpdateExpression = c => c.Id;
-                options.MergeKeepIdentity = true;
-                options.InsertIfNotExists = true;
-                options.ColumnInputExpression = c => new { c.GuildId, c.UserId, c.ChannelId, c.Count, c.RecentTimestamps };
-                options.ColumnOutputExpression = c => c.Id;
-                options.ColumnSynchronizeDeleteKeySubsetExpression = c => new { c.GuildId, c.UserId, c.ChannelId };
-            });
+                UpdateByProperties = ["GuildId", "UserId", "ChannelId"],
+
+                PropertiesToExcludeOnUpdate = ["Id"],
+
+                SqlBulkCopyOptions = SqlBulkCopyOptions.KeepIdentity,
+
+                PropertiesToInclude = ["GuildId", "UserId", "ChannelId", "Count", "RecentTimestamps"],
+
+                SetOutputIdentity = true,
+            };
+
+            await db.BulkInsertOrUpdateOrDeleteAsync(countsToUpdate, bulkConfig);
 
             Log.Information("Batch update completed. Updated/Added {Count} entries", countsToUpdate.Count);
         }
@@ -285,6 +289,7 @@ public class MessageCountService : INService, IReadyExecutor
             Log.Error(ex, "Error occurred during batch update of message counts and timestamps");
         }
     }
+
 
     /// <summary>
     /// Gets the busiest hours for a guild
