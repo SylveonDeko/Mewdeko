@@ -25,7 +25,8 @@ using Serilog;
 namespace Mewdeko.Modules.OwnerOnly;
 
 /// <summary>
-/// Initializes a new instance of the <see cref="OwnerOnly"/> class, intended for owner-only operations within the Mewdeko bot framework.
+///     Initializes a new instance of the <see cref="OwnerOnly" /> class, intended for owner-only operations within the
+///     Mewdeko bot framework.
 /// </summary>
 /// <param name="client">The Discord client used to interact with the Discord API.</param>
 /// <param name="bot">The main instance of the Mewdeko bot.</param>
@@ -56,40 +57,41 @@ public class OwnerOnly(
     : MewdekoModuleBase<OwnerOnlyService>
 {
     /// <summary>
-    /// Defines the set of user statuses that can be programmatically assigned.
+    ///     Defines the set of user statuses that can be programmatically assigned.
     /// </summary>
     public enum SettableUserStatus
     {
         /// <summary>
-        /// Indicates the user is online and available.
+        ///     Indicates the user is online and available.
         /// </summary>
         Online,
 
         /// <summary>
-        /// Indicates the user is online but appears as offline or invisible to others.
+        ///     Indicates the user is online but appears as offline or invisible to others.
         /// </summary>
         Invisible,
 
         /// <summary>
-        /// Indicates the user is idle and may be away from their device.
+        ///     Indicates the user is idle and may be away from their device.
         /// </summary>
         Idle,
 
         /// <summary>
-        /// Indicates the user does not wish to be disturbed (Do Not Disturb).
+        ///     Indicates the user does not wish to be disturbed (Do Not Disturb).
         /// </summary>
         Dnd
     }
 
 
     /// <summary>
-    /// Clears the count of used GPT tokens after confirming with the user.
+    ///     Clears the count of used GPT tokens after confirming with the user.
     /// </summary>
     /// <remarks>
-    /// This command prompts the user for confirmation before proceeding to clear the used token count.
-    /// If the user confirms, it clears the count and notifies the user of completion.
+    ///     This command prompts the user for confirmation before proceeding to clear the used token count.
+    ///     If the user confirms, it clears the count and notifies the user of completion.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task ClearUsedTokens()
     {
         // Assuming PromptUserConfirmAsync is a method that prompts the user and waits for a confirmation response.
@@ -103,9 +105,10 @@ public class OwnerOnly(
 
 
     /// <summary>
-    /// Updates the bot to the latest version available on the repository.
+    ///     Updates the bot to the latest version available on the repository.
     /// </summary>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task Update()
     {
         var buttons = new ComponentBuilder()
@@ -179,7 +182,6 @@ public class OwnerOnly(
                 x.Embed = successEmbed;
                 x.Components = null;
             });
-
         }
         catch (Exception ex)
         {
@@ -195,19 +197,19 @@ public class OwnerOnly(
                 x.Components = null;
             });
         }
-
     }
 
     /// <summary>
-    /// Executes a command as if it were sent by the specified guild user.
+    ///     Executes a command as if it were sent by the specified guild user.
     /// </summary>
     /// <param name="user">The guild user to impersonate when executing the command.</param>
     /// <param name="args">The command string to execute, including command name and arguments.</param>
     /// <remarks>
-    /// This method constructs a fake message with the specified user as the author and the given command string,
-    /// then enqueues it for command parsing and execution.
+    ///     This method constructs a fake message with the specified user as the author and the given command string,
+    ///     then enqueues it for command parsing and execution.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task Sudo(IGuildUser user, [Remainder] string args)
     {
         var msg = new MewdekoUserMessage
@@ -220,14 +222,15 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Executes a command as if it were sent by the owner of the guild.
+    ///     Executes a command as if it were sent by the owner of the guild.
     /// </summary>
     /// <param name="args">The command string to execute, including command name and arguments.</param>
     /// <remarks>
-    /// This method constructs a fake message with the guild owner as the author and the given command string,
-    /// then enqueues it for command parsing and execution. Useful for performing actions that require owner permissions.
+    ///     This method constructs a fake message with the guild owner as the author and the given command string,
+    ///     then enqueues it for command parsing and execution. Useful for performing actions that require owner permissions.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task Sudo([Remainder] string args)
     {
         var msg = new MewdekoUserMessage
@@ -243,14 +246,15 @@ public class OwnerOnly(
 
 
     /// <summary>
-    /// Executes a Redis command and returns the result.
+    ///     Executes a Redis command and returns the result.
     /// </summary>
     /// <param name="command">The Redis command to execute.</param>
     /// <remarks>
-    /// This method sends the specified command to Redis through the configured cache connection.
-    /// The result of the command execution is then sent back as a message in the Discord channel.
+    ///     This method sends the specified command to Redis through the configured cache connection.
+    ///     The result of the command execution is then sent back as a message in the Discord channel.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task RedisExec([Remainder] string command)
     {
         var result = await cache.ExecuteRedisCommand(command).ConfigureAwait(false);
@@ -260,15 +264,16 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Executes a raw SQL command against the database.
+    ///     Executes a raw SQL command against the database.
     /// </summary>
     /// <param name="sql">The SQL command to execute.</param>
     /// <remarks>
-    /// Prompts the user for confirmation before executing the SQL command.
-    /// The number of affected rows is sent back as a message in the Discord channel.
-    /// Use with caution, as executing raw SQL can directly affect the database integrity.
+    ///     Prompts the user for confirmation before executing the SQL command.
+    ///     The number of affected rows is sent back as a message in the Discord channel.
+    ///     Use with caution, as executing raw SQL can directly affect the database integrity.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task SqlExec([Remainder] string sql)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -281,13 +286,14 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Lists all servers the bot is currently in.
+    ///     Lists all servers the bot is currently in.
     /// </summary>
     /// <remarks>
-    /// This method creates a paginated list of servers, showing server names, IDs, member counts, online member counts,
-    /// server owners, and creation dates. Pagination allows browsing through the server list if it exceeds the page limit.
+    ///     This method creates a paginated list of servers, showing server names, IDs, member counts, online member counts,
+    ///     server owners, and creation dates. Pagination allows browsing through the server list if it exceeds the page limit.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task ListServers()
     {
         var guilds = client.Guilds;
@@ -320,15 +326,16 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Retrieves and displays statistics on the most used command, module, guild, and user.
+    ///     Retrieves and displays statistics on the most used command, module, guild, and user.
     /// </summary>
     /// <remarks>
-    /// This method calculates and reports the top entities based on their usage count.
-    /// It displays the most frequently used command, the module that's used the most,
-    /// the user who has used commands the most, and the guild with the highest command usage.
-    /// These statistics are presented as an embed in the Discord channel.
+    ///     This method calculates and reports the top entities based on their usage count.
+    ///     It displays the most frequently used command, the module that's used the most,
+    ///     the user who has used commands the most, and the guild with the highest command usage.
+    ///     These statistics are presented as an embed in the Discord channel.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task CommandStats()
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -339,7 +346,7 @@ public class OwnerOnly(
             .GroupBy(q => q.NameOrId)
             .Select(g => new
             {
-                Key = g.Key, Count = g.Count()
+                g.Key, Count = g.Count()
             })
             .OrderByDescending(gc => gc.Count)
             .FirstOrDefaultAsyncLinqToDB();
@@ -349,7 +356,7 @@ public class OwnerOnly(
             .GroupBy(q => q.Module)
             .Select(g => new
             {
-                Key = g.Key, Count = g.Count()
+                g.Key, Count = g.Count()
             })
             .OrderByDescending(gc => gc.Count)
             .FirstOrDefaultAsyncLinqToDB();
@@ -359,7 +366,7 @@ public class OwnerOnly(
             .GroupBy(q => q.GuildId)
             .Select(g => new
             {
-                Key = g.Key, Count = g.Count()
+                g.Key, Count = g.Count()
             })
             .OrderByDescending(gc => gc.Count)
             .FirstOrDefaultAsyncLinqToDB();
@@ -369,7 +376,7 @@ public class OwnerOnly(
             .GroupBy(q => q.UserId)
             .Select(g => new
             {
-                Key = g.Key, Count = g.Count()
+                g.Key, Count = g.Count()
             })
             .OrderByDescending(gc => gc.Count)
             .FirstOrDefaultAsyncLinqToDB();
@@ -396,12 +403,13 @@ public class OwnerOnly(
 
 
     /// <summary>
-    /// Changes yml based config for the bot.
+    ///     Changes yml based config for the bot.
     /// </summary>
     /// <param name="name">The name of the config to change.</param>
     /// <param name="prop">The property of the config to change.</param>
     /// <param name="value">The new value to set for the property.</param>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public new async Task Config(string? name = null, string? prop = null, [Remainder] string? value = null)
     {
         try
@@ -529,12 +537,13 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Toggles the rotation of playing statuses for the bot.
+    ///     Toggles the rotation of playing statuses for the bot.
     /// </summary>
     /// <remarks>
-    /// If rotation is enabled, it will be disabled, and vice versa. Confirmation of the action is sent as a reply.
+    ///     If rotation is enabled, it will be disabled, and vice versa. Confirmation of the action is sent as a reply.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task RotatePlaying()
     {
         if (Service.ToggleRotatePlaying())
@@ -544,14 +553,15 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Adds a new status to the rotation of playing statuses for the bot.
+    ///     Adds a new status to the rotation of playing statuses for the bot.
     /// </summary>
     /// <param name="t">The type of activity (e.g., Playing, Streaming).</param>
     /// <param name="status">The text of the status to add.</param>
     /// <remarks>
-    /// Adds a new status with the specified activity type and text. Confirmation of addition is sent as a reply.
+    ///     Adds a new status with the specified activity type and text. Confirmation of addition is sent as a reply.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task AddPlaying(ActivityType t, [Remainder] string status)
     {
         await Service.AddPlaying(t, status).ConfigureAwait(false);
@@ -560,12 +570,13 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Lists all statuses currently in the rotation.
+    ///     Lists all statuses currently in the rotation.
     /// </summary>
     /// <remarks>
-    /// Sends a reply with a numbered list of all statuses in the rotation. If no statuses are set, sends an error message.
+    ///     Sends a reply with a numbered list of all statuses in the rotation. If no statuses are set, sends an error message.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task ListPlaying()
     {
         var statuses = await Service.GetRotatingStatuses();
@@ -584,14 +595,15 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Sets or displays the default command prefix.
+    ///     Sets or displays the default command prefix.
     /// </summary>
     /// <param name="prefix">The new prefix to set. If null or whitespace, the current prefix is displayed instead.</param>
     /// <remarks>
-    /// Changes the bot's command prefix for the server or displays the current prefix if no new prefix is provided.
-    /// Confirmation of the new prefix or the current prefix is sent as a reply.
+    ///     Changes the bot's command prefix for the server or displays the current prefix if no new prefix is provided.
+    ///     Confirmation of the new prefix or the current prefix is sent as a reply.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task DefPrefix([Remainder] string? prefix = null)
     {
         if (string.IsNullOrWhiteSpace(prefix))
@@ -609,13 +621,14 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Removes a status from the rotating playing statuses by its index.
+    ///     Removes a status from the rotating playing statuses by its index.
     /// </summary>
     /// <param name="index">The one-based index of the status to remove. The actual removal will use zero-based indexing.</param>
     /// <remarks>
-    /// If the status at the provided index exists, it will be removed, and a confirmation message is sent.
+    ///     If the status at the provided index exists, it will be removed, and a confirmation message is sent.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task RemovePlaying(int index)
     {
         index--;
@@ -629,14 +642,18 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Sets the default language for the bot by specifying a culture name.
+    ///     Sets the default language for the bot by specifying a culture name.
     /// </summary>
-    /// <param name="name">The name of the culture to set as the default language. Use "default" to reset to the bot's original default language.</param>
+    /// <param name="name">
+    ///     The name of the culture to set as the default language. Use "default" to reset to the bot's original
+    ///     default language.
+    /// </param>
     /// <remarks>
-    /// This method allows changing the bot's default language or resetting it to its original default.
-    /// A confirmation message will be sent upon successful change.
+    ///     This method allows changing the bot's default language or resetting it to its original default.
+    ///     A confirmation message will be sent upon successful change.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task LanguageSetDefault(string name)
     {
         try
@@ -663,15 +680,18 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Adds a new startup command to be executed when the bot starts.
+    ///     Adds a new startup command to be executed when the bot starts.
     /// </summary>
     /// <param name="cmdText">The text of the command to add, excluding the prefix.</param>
     /// <remarks>
-    /// Requires the user to have Administrator permissions or be the owner of the bot.
-    /// Commands that could potentially restart or shut down the bot are ignored for safety reasons.
+    ///     Requires the user to have Administrator permissions or be the owner of the bot.
+    ///     Commands that could potentially restart or shut down the bot are ignored for safety reasons.
     /// </remarks>
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.Administrator), OwnerOnly]
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
+    [OwnerOnly]
     public async Task StartupCommandAdd([Remainder] string cmdText)
     {
         if (cmdText.StartsWith($"{await guildSettings.GetPrefix(ctx.Guild)}die", StringComparison.InvariantCulture) ||
@@ -703,18 +723,21 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Adds an auto command to be executed periodically in the specified guild.
+    ///     Adds an auto command to be executed periodically in the specified guild.
     /// </summary>
     /// <param name="interval">The interval in seconds at which the command should be executed. Must be 5 seconds or more.</param>
     /// <param name="cmdText">The command text to be executed automatically.</param>
     /// <remarks>
-    /// Requires the user to have Administrator permissions or to be the owner of the bot.
-    /// The command will not be added if it fails any precondition checks,
-    /// if it matches a forbidden command (e.g., a command to shut down the bot),
-    /// or if the maximum number of auto commands (15) for the guild has been reached.
+    ///     Requires the user to have Administrator permissions or to be the owner of the bot.
+    ///     The command will not be added if it fails any precondition checks,
+    ///     if it matches a forbidden command (e.g., a command to shut down the bot),
+    ///     or if the maximum number of auto commands (15) for the guild has been reached.
     /// </remarks>
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.Administrator), OwnerOnly]
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
+    [OwnerOnly]
     public async Task AutoCommandAdd(int interval, [Remainder] string cmdText)
     {
         if (cmdText.StartsWith($"{await guildSettings.GetPrefix(ctx.Guild)}die", StringComparison.InvariantCulture))
@@ -755,14 +778,17 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Lists the startup commands configured for the guild.
+    ///     Lists the startup commands configured for the guild.
     /// </summary>
     /// <param name="page">The page number of the list to display, starting from 1.</param>
     /// <remarks>
-    /// Displays a paginated list of startup commands. Each page shows up to 5 commands.
-    /// Requires the user to be the owner of the bot.
+    ///     Displays a paginated list of startup commands. Each page shows up to 5 commands.
+    ///     Requires the user to be the owner of the bot.
     /// </remarks>
-    [Cmd, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [OwnerOnly]
     public async Task StartupCommandsList(int page = 1)
     {
         if (page-- < 1)
@@ -795,15 +821,18 @@ public class OwnerOnly(
 
 
     /// <summary>
-    /// Lists the auto commands configured for the guild.
+    ///     Lists the auto commands configured for the guild.
     /// </summary>
     /// <param name="page">The page number of the list to display, starting from 1.</param>
     /// <remarks>
-    /// Displays a paginated list of auto commands. Each page shows up to 5 commands.
-    /// Requires the user to be the owner of the bot and the command to be executed in a guild context.
-    /// If there are no auto commands set, an error message is displayed.
+    ///     Displays a paginated list of auto commands. Each page shows up to 5 commands.
+    ///     Requires the user to be the owner of the bot and the command to be executed in a guild context.
+    ///     If there are no auto commands set, an error message is displayed.
     /// </remarks>
-    [Cmd, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [OwnerOnly]
     public async Task AutoCommandsList(int page = 1)
     {
         if (page-- < 1)
@@ -835,22 +864,26 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Provides a formatted text displaying the interval of an auto command.
+    ///     Provides a formatted text displaying the interval of an auto command.
     /// </summary>
     /// <param name="interval">The interval at which the auto command executes.</param>
     /// <returns>A string representing the interval in a readable format.</returns>
-    private string GetIntervalText(int interval) => $"[{GetText("interval")}]: {interval}";
+    private string GetIntervalText(int interval)
+    {
+        return $"[{GetText("interval")}]: {interval}";
+    }
 
     /// <summary>
-    /// Executes a wait command that delays for a specified number of milliseconds.
+    ///     Executes a wait command that delays for a specified number of milliseconds.
     /// </summary>
     /// <param name="miliseconds">The number of milliseconds to delay.</param>
     /// <remarks>
-    /// The command message is immediately deleted, and a new message showing the delay is sent.
-    /// This message is then deleted after the delay period has passed.
-    /// If the provided milliseconds value is less than or equal to 0, the command does nothing.
+    ///     The command message is immediately deleted, and a new message showing the delay is sent.
+    ///     This message is then deleted after the delay period has passed.
+    ///     If the provided milliseconds value is less than or equal to 0, the command does nothing.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task Wait(int miliseconds)
     {
         if (miliseconds <= 0)
@@ -872,16 +905,19 @@ public class OwnerOnly(
 
 
     /// <summary>
-    /// Removes an auto command based on its index.
+    ///     Removes an auto command based on its index.
     /// </summary>
     /// <param name="index">The one-based index of the auto command to remove.</param>
     /// <remarks>
-    /// Requires the user to have Administrator permissions or to be the owner of the bot.
-    /// The command will decrement the index to match zero-based indexing before attempting removal.
-    /// If the removal fails, an error message is sent.
+    ///     Requires the user to have Administrator permissions or to be the owner of the bot.
+    ///     The command will decrement the index to match zero-based indexing before attempting removal.
+    ///     If the removal fails, an error message is sent.
     /// </remarks>
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.Administrator), OwnerOnly]
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
+    [OwnerOnly]
     public async Task AutoCommandRemove([Remainder] int index)
     {
         if (!await Service.RemoveAutoCommand(--index))
@@ -894,15 +930,18 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Removes a startup command based on its index.
+    ///     Removes a startup command based on its index.
     /// </summary>
     /// <param name="index">The one-based index of the startup command to remove.</param>
     /// <remarks>
-    /// Requires the user to be the owner of the bot.
-    /// The command will decrement the index to match zero-based indexing before attempting removal.
-    /// If the removal fails, an error message is sent; otherwise, a confirmation message is sent.
+    ///     Requires the user to be the owner of the bot.
+    ///     The command will decrement the index to match zero-based indexing before attempting removal.
+    ///     If the removal fails, an error message is sent; otherwise, a confirmation message is sent.
     /// </remarks>
-    [Cmd, Aliases, RequireContext(ContextType.Guild), OwnerOnly]
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [OwnerOnly]
     public async Task StartupCommandRemove([Remainder] int index)
     {
         if (!await Service.RemoveStartupCommand(--index))
@@ -912,14 +951,17 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Clears all startup commands for the guild.
+    ///     Clears all startup commands for the guild.
     /// </summary>
     /// <remarks>
-    /// Requires the user to have Administrator permissions or to be the owner of the bot.
-    /// A confirmation message is sent upon successful clearance.
+    ///     Requires the user to have Administrator permissions or to be the owner of the bot.
+    ///     A confirmation message is sent upon successful clearance.
     /// </remarks>
-    [Cmd, Aliases, RequireContext(ContextType.Guild),
-     UserPerm(GuildPermission.Administrator), OwnerOnly]
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
+    [OwnerOnly]
     public async Task StartupCommandsClear()
     {
         Service.ClearStartupCommands();
@@ -928,13 +970,14 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Toggles the forwarding of direct messages to the bot's owner(s).
+    ///     Toggles the forwarding of direct messages to the bot's owner(s).
     /// </summary>
     /// <remarks>
-    /// If message forwarding is enabled, it will be disabled, and vice versa.
-    /// A confirmation message is sent indicating the new state of message forwarding.
+    ///     If message forwarding is enabled, it will be disabled, and vice versa.
+    ///     A confirmation message is sent indicating the new state of message forwarding.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task ForwardMessages()
     {
         var enabled = Service.ForwardMessages();
@@ -946,13 +989,14 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Toggles whether forwarded messages are sent to all of the bot's owners or just the primary owner.
+    ///     Toggles whether forwarded messages are sent to all of the bot's owners or just the primary owner.
     /// </summary>
     /// <remarks>
-    /// If forwarding to all owners is enabled, it will be disabled, and vice versa.
-    /// A confirmation message is sent indicating the new state of this setting.
+    ///     If forwarding to all owners is enabled, it will be disabled, and vice versa.
+    ///     A confirmation message is sent indicating the new state of this setting.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task ForwardToAll()
     {
         var enabled = Service.ForwardToAll();
@@ -965,14 +1009,15 @@ public class OwnerOnly(
 
 
     /// <summary>
-    /// Displays statistics for all shards of the bot, including their statuses, guild counts, and user counts.
+    ///     Displays statistics for all shards of the bot, including their statuses, guild counts, and user counts.
     /// </summary>
     /// <remarks>
-    /// This command aggregates the current status of all shards and displays a summary followed by a detailed
-    /// paginated list of each shard's status, including the time since last update, guild count, and user count.
-    /// The statuses are represented by emojis for quick visual reference.
+    ///     This command aggregates the current status of all shards and displays a summary followed by a detailed
+    ///     paginated list of each shard's status, including the time since last update, guild count, and user count.
+    ///     The statuses are represented by emojis for quick visual reference.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task ShardStats()
     {
         var statuses = client.Shards;
@@ -1029,28 +1074,33 @@ public class OwnerOnly(
         return status switch
         {
             ConnectionState.Connected => "✅",
-            ConnectionState.Disconnected => "🔻",
-
+            ConnectionState.Disconnected => "🔻"
         };
     }
 
     /// <summary>
-    /// Commands the bot to leave a server.
+    ///     Commands the bot to leave a server.
     /// </summary>
     /// <param name="guildStr">The identifier or name of the guild to leave.</param>
     /// <remarks>
-    /// This action is irreversible through bot commands and should be used with caution.
+    ///     This action is irreversible through bot commands and should be used with caution.
     /// </remarks>
-    [Cmd, Aliases]
-    public Task LeaveServer([Remainder] string guildStr) => Service.LeaveGuild(guildStr);
+    [Cmd]
+    [Aliases]
+    public Task LeaveServer([Remainder] string guildStr)
+    {
+        return Service.LeaveGuild(guildStr);
+    }
 
     /// <summary>
-    /// Initiates a shutdown of the bot.
+    ///     Initiates a shutdown of the bot.
     /// </summary>
     /// <remarks>
-    /// Before shutting down, the bot attempts to send a confirmation message. Delays for a short period before triggering the shutdown sequence.
+    ///     Before shutting down, the bot attempts to send a confirmation message. Delays for a short period before triggering
+    ///     the shutdown sequence.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task Die()
     {
         try
@@ -1070,13 +1120,15 @@ public class OwnerOnly(
 
 
     /// <summary>
-    /// Changes the bot's username to the specified new name.
+    ///     Changes the bot's username to the specified new name.
     /// </summary>
     /// <param name="newName">The new username for the bot.</param>
     /// <remarks>
-    /// Does nothing if the new name is empty or whitespace. If a change is attempted and ratelimited, logs a warning message.
+    ///     Does nothing if the new name is empty or whitespace. If a change is attempted and ratelimited, logs a warning
+    ///     message.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task SetName([Remainder] string newName)
     {
         if (string.IsNullOrWhiteSpace(newName))
@@ -1096,13 +1148,14 @@ public class OwnerOnly(
 
 
     /// <summary>
-    /// Sets the bot's online status.
+    ///     Sets the bot's online status.
     /// </summary>
     /// <param name="status">The new status to set.</param>
     /// <remarks>
-    /// Changes the bot's presence status to one of the specified options: Online, Idle, Do Not Disturb, or Invisible.
+    ///     Changes the bot's presence status to one of the specified options: Online, Idle, Do Not Disturb, or Invisible.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task SetStatus([Remainder] SettableUserStatus status)
     {
         await client.SetStatusAsync(SettableUserStatusToUserStatus(status)).ConfigureAwait(false);
@@ -1111,13 +1164,17 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Sets the bot's avatar.
+    ///     Sets the bot's avatar.
     /// </summary>
-    /// <param name="img">The URL of the new avatar image. If null, the command may default to removing the current avatar or doing nothing, based on implementation.</param>
+    /// <param name="img">
+    ///     The URL of the new avatar image. If null, the command may default to removing the current avatar or
+    ///     doing nothing, based on implementation.
+    /// </param>
     /// <remarks>
-    /// Attempts to change the bot's avatar to the image found at the specified URL. Confirmation is sent upon success.
+    ///     Attempts to change the bot's avatar to the image found at the specified URL. Confirmation is sent upon success.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task SetAvatar([Remainder] string? img = null)
     {
         var success = await Service.SetAvatar(img).ConfigureAwait(false);
@@ -1127,14 +1184,16 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Sets the bot's currently playing game.
+    ///     Sets the bot's currently playing game.
     /// </summary>
     /// <param name="type">The type of activity (e.g., Playing, Streaming).</param>
     /// <param name="game">The name of the game or activity. If null, might clear the current game.</param>
     /// <remarks>
-    /// This method updates the bot's "Playing" status. The actual displayed status will depend on the provided activity type.
+    ///     This method updates the bot's "Playing" status. The actual displayed status will depend on the provided activity
+    ///     type.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task SetGame(ActivityType type, [Remainder] string? game = null)
     {
         var rep = new ReplacementBuilder()
@@ -1147,14 +1206,16 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Sets the bot's streaming status.
+    ///     Sets the bot's streaming status.
     /// </summary>
     /// <param name="url">The URL of the stream.</param>
     /// <param name="name">The name of the stream. If null, might use a default name or no name.</param>
     /// <remarks>
-    /// Changes the bot's activity to streaming, using the provided URL and name for the stream. Useful for when the bot is used to indicate live streams.
+    ///     Changes the bot's activity to streaming, using the provided URL and name for the stream. Useful for when the bot is
+    ///     used to indicate live streams.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task SetStream(string url, [Remainder] string? name = null)
     {
         name ??= "";
@@ -1165,25 +1226,29 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Sends a message to a specified channel or user.
+    ///     Sends a message to a specified channel or user.
     /// </summary>
     /// <param name="whereOrTo">The ID of the channel or user to send the message to.</param>
     /// <param name="msg">The message to send.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    [Cmd, Aliases]
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    [Cmd]
+    [Aliases]
     public Task Send(ulong whereOrTo, [Remainder] string msg)
-        => Send(whereOrTo, 0, msg);
+    {
+        return Send(whereOrTo, 0, msg);
+    }
 
     /// <summary>
-    /// Sends a message to a specified channel or user.
+    ///     Sends a message to a specified channel or user.
     /// </summary>
     /// <param name="whereOrTo">The ID of the channel or user to send the message to.</param>
     /// <param name="to">The ID of the user to send the message to.</param>
     /// <param name="msg">The message to send.</param>
     /// <remarks>
-    /// If the first ID is a server, the second ID is a channel, and the message is sent to that channel.
+    ///     If the first ID is a server, the second ID is a channel, and the message is sent to that channel.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task Send(ulong whereOrTo, ulong to = 0, [Remainder] string? msg = null)
     {
         var rep = new ReplacementBuilder().WithDefault(Context).Build();
@@ -1268,13 +1333,15 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Initiates the reloading of images used by the bot.
+    ///     Initiates the reloading of images used by the bot.
     /// </summary>
     /// <remarks>
-    /// This command triggers a process to reload all images, ensuring that any updates to image resources are reflected without restarting the bot.
-    /// A confirmation message is sent upon the start of the reload process.
+    ///     This command triggers a process to reload all images, ensuring that any updates to image resources are reflected
+    ///     without restarting the bot.
+    ///     A confirmation message is sent upon the start of the reload process.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task ImagesReload()
     {
         Service.ReloadImages();
@@ -1282,21 +1349,24 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Initiates the reloading of bot strings (localizations).
+    ///     Initiates the reloading of bot strings (localizations).
     /// </summary>
     /// <remarks>
-    /// This command triggers a process to reload all localized strings, ensuring that any updates to text resources are applied without restarting the bot.
-    /// A confirmation message is sent upon successful reloading of bot strings.
+    ///     This command triggers a process to reload all localized strings, ensuring that any updates to text resources are
+    ///     applied without restarting the bot.
+    ///     A confirmation message is sent upon successful reloading of bot strings.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task StringsReload()
     {
         strings.Reload();
         await ReplyConfirmLocalizedAsync("bot_strings_reloaded").ConfigureAwait(false);
     }
 
-    private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus) =>
-        sus switch
+    private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus)
+    {
+        return sus switch
         {
             SettableUserStatus.Online => UserStatus.Online,
             SettableUserStatus.Invisible => UserStatus.Invisible,
@@ -1304,15 +1374,19 @@ public class OwnerOnly(
             SettableUserStatus.Dnd => UserStatus.DoNotDisturb,
             _ => UserStatus.Online
         };
+    }
 
     /// <summary>
-    /// Executes a bash command. Depending on the platform, the command is executed in either bash or PowerShell.
+    ///     Executes a bash command. Depending on the platform, the command is executed in either bash or PowerShell.
     /// </summary>
     /// <param name="message">The command to execute.</param>
     /// <remarks>
-    /// The command is executed in a new process, and the output is sent as a paginated message. If the process hangs, it is terminated. The command has a timeout of 2 hours. The output is split into chunks of 1988 characters to avoid Discord message limits.
+    ///     The command is executed in a new process, and the output is sent as a paginated message. If the process hangs, it
+    ///     is terminated. The command has a timeout of 2 hours. The output is split into chunks of 1988 characters to avoid
+    ///     Discord message limits.
     /// </remarks>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task Bash([Remainder] string message)
     {
         using var process = new Process();
@@ -1406,14 +1480,17 @@ public class OwnerOnly(
     }
 
     /// <summary>
-    /// Evaluates a C# code snippet.
+    ///     Evaluates a C# code snippet.
     /// </summary>
     /// <param name="code">The C# code to evaluate.</param>
     /// <remarks>
-    /// The code is compiled and executed in a sandboxed environment. The result is displayed in an embed, including the return value, compilation time, and execution time.
+    ///     The code is compiled and executed in a sandboxed environment. The result is displayed in an embed, including the
+    ///     return value, compilation time, and execution time.
     /// </remarks>
     /// <exception cref="ArgumentException"></exception>
-    [Cmd, Aliases, OwnerOnly]
+    [Cmd]
+    [Aliases]
+    [OwnerOnly]
     public async Task Evaluate([Remainder] string code)
     {
         var cs1 = code.IndexOf("```", StringComparison.Ordinal) + 3;
@@ -1516,17 +1593,17 @@ public class OwnerOnly(
 }
 
 /// <summary>
-/// Represents an environment encapsulating common entities used during command evaluation.
+///     Represents an environment encapsulating common entities used during command evaluation.
 /// </summary>
 /// <remarks>
-/// This class provides quick access to frequently needed Discord entities such as the message,
-/// channel, guild, user, and client related to the current command context. It's designed to
-/// simplify command handling by centralizing access to these entities.
+///     This class provides quick access to frequently needed Discord entities such as the message,
+///     channel, guild, user, and client related to the current command context. It's designed to
+///     simplify command handling by centralizing access to these entities.
 /// </remarks>
 public sealed class EvaluationEnvironment
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="EvaluationEnvironment"/> class with the specified command context.
+    ///     Initializes a new instance of the <see cref="EvaluationEnvironment" /> class with the specified command context.
     /// </summary>
     /// <param name="ctx">The command context associated with the current command execution.</param>
     public EvaluationEnvironment(CommandContext ctx)
@@ -1535,37 +1612,74 @@ public sealed class EvaluationEnvironment
     }
 
     /// <summary>
-    /// Gets the command context associated with the current command execution.
+    ///     Gets the command context associated with the current command execution.
     /// </summary>
     public CommandContext Ctx { get; }
 
     /// <summary>
-    /// Gets the message that triggered the current command execution.
+    ///     Gets the message that triggered the current command execution.
     /// </summary>
-    public IUserMessage Message => Ctx.Message;
+    public IUserMessage Message
+    {
+        get
+        {
+            return Ctx.Message;
+        }
+    }
 
     /// <summary>
-    /// Gets the channel in which the current command was executed.
+    ///     Gets the channel in which the current command was executed.
     /// </summary>
-    public IMessageChannel Channel => Ctx.Channel;
+    public IMessageChannel Channel
+    {
+        get
+        {
+            return Ctx.Channel;
+        }
+    }
 
     /// <summary>
-    /// Gets the guild in which the current command was executed. May be null for commands executed in direct messages.
+    ///     Gets the guild in which the current command was executed. May be null for commands executed in direct messages.
     /// </summary>
-    public IGuild Guild => Ctx.Guild;
+    public IGuild Guild
+    {
+        get
+        {
+            return Ctx.Guild;
+        }
+    }
 
     /// <summary>
-    /// Gets the user who executed the current command.
+    ///     Gets the user who executed the current command.
     /// </summary>
-    public IUser User => Ctx.User;
+    public IUser User
+    {
+        get
+        {
+            return Ctx.User;
+        }
+    }
 
     /// <summary>
-    /// Gets the guild member who executed the current command. This is a convenience property for accessing the user as an IGuildUser.
+    ///     Gets the guild member who executed the current command. This is a convenience property for accessing the user as an
+    ///     IGuildUser.
     /// </summary>
-    public IGuildUser Member => (IGuildUser)Ctx.User;
+    public IGuildUser Member
+    {
+        get
+        {
+            return (IGuildUser)Ctx.User;
+        }
+    }
 
     /// <summary>
-    /// Gets the Discord client instance associated with the current command execution.
+    ///     Gets the Discord client instance associated with the current command execution.
     /// </summary>
-    public DiscordShardedClient Client => Ctx.Client as DiscordShardedClient;
+    public DiscordShardedClient Client
+    {
+        get
+        {
+            return Ctx.Client as DiscordShardedClient;
+        }
+    }
 }

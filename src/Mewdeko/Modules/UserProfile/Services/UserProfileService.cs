@@ -10,7 +10,9 @@ using Embed = Discord.Embed;
 namespace Mewdeko.Modules.UserProfile.Services;
 
 /// <summary>
-/// Provides services for managing user profiles, including operations such as retrieving and setting user pronouns, zodiac information, biographies, and privacy settings. It interacts with external services for some functionalities, like fetching pronouns from PronounDB.
+///     Provides services for managing user profiles, including operations such as retrieving and setting user pronouns,
+///     zodiac information, biographies, and privacy settings. It interacts with external services for some
+///     functionalities, like fetching pronouns from PronounDB.
 /// </summary>
 public partial class UserProfileService : INService
 {
@@ -20,7 +22,8 @@ public partial class UserProfileService : INService
     private readonly List<string> zodiacList;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="UserProfileService"/> class with specified database and HTTP services.
+    ///     Initializes a new instance of the <see cref="UserProfileService" /> class with specified database and HTTP
+    ///     services.
     /// </summary>
     /// <param name="db">The database service for accessing user data.</param>
     /// <param name="http">The HTTP client used for making external API calls.</param>
@@ -46,12 +49,14 @@ public partial class UserProfileService : INService
     }
 
     /// <summary>
-    /// Asynchronously retrieves the pronouns for a given Discord user ID, either from the local database or PronounDB if unspecified.
+    ///     Asynchronously retrieves the pronouns for a given Discord user ID, either from the local database or PronounDB if
+    ///     unspecified.
     /// </summary>
     /// <param name="discordId">The Discord user ID to retrieve pronouns for.</param>
-    /// <returns>A <see cref="PronounSearchResult"/> object containing the pronouns or a default value if unspecified.</returns>
+    /// <returns>A <see cref="PronounSearchResult" /> object containing the pronouns or a default value if unspecified.</returns>
     /// <remarks>
-    /// This method first attempts to find the user's pronouns in the local database. If not found or unspecified, it then queries PronounDB's API.
+    ///     This method first attempts to find the user's pronouns in the local database. If not found or unspecified, it then
+    ///     queries PronounDB's API.
     /// </remarks>
     public async Task<PronounSearchResult> GetPronounsOrUnspecifiedAsync(ulong discordId)
     {
@@ -97,12 +102,12 @@ public partial class UserProfileService : INService
 
 
     /// <summary>
-    /// Asynchronously fetches zodiac information for a given Discord user ID.
+    ///     Asynchronously fetches zodiac information for a given Discord user ID.
     /// </summary>
     /// <param name="discordId">The Discord user ID to retrieve zodiac information for.</param>
-    /// <returns>A tuple containing a boolean indicating success, and a <see cref="ZodiacResult"/> object if successful.</returns>
+    /// <returns>A tuple containing a boolean indicating success, and a <see cref="ZodiacResult" /> object if successful.</returns>
     /// <remarks>
-    /// The zodiac information is retrieved from an external API and requires the user's zodiac sign to be previously set.
+    ///     The zodiac information is retrieved from an external API and requires the user's zodiac sign to be previously set.
     /// </remarks>
     public async Task<(bool, ZodiacResult)> GetZodiacInfo(ulong discordId)
     {
@@ -119,7 +124,7 @@ public partial class UserProfileService : INService
     }
 
     /// <summary>
-    /// Asynchronously retrieves the biography of a given user.
+    ///     Asynchronously retrieves the biography of a given user.
     /// </summary>
     /// <param name="user">The user to retrieve the biography for.</param>
     /// <returns>The biography as a string, or an empty string if not set.</returns>
@@ -132,7 +137,7 @@ public partial class UserProfileService : INService
     }
 
     /// <summary>
-    /// Asynchronously sets the biography for a given user.
+    ///     Asynchronously sets the biography for a given user.
     /// </summary>
     /// <param name="user">The user to set the biography for.</param>
     /// <param name="bio">The biography text to set.</param>
@@ -147,7 +152,7 @@ public partial class UserProfileService : INService
     }
 
     /// <summary>
-    /// Asynchronously gets the privacy setting of a user's profile.
+    ///     Asynchronously gets the privacy setting of a user's profile.
     /// </summary>
     /// <param name="user">The user to retrieve the privacy setting for.</param>
     /// <returns>The current privacy setting of the user's profile.</returns>
@@ -161,7 +166,7 @@ public partial class UserProfileService : INService
 
 
     /// <summary>
-    /// Asynchronously sets the privacy setting for a given user's profile.
+    ///     Asynchronously sets the privacy setting for a given user's profile.
     /// </summary>
     /// <param name="user">The user to set the privacy for.</param>
     /// <param name="privacyEnum">The privacy setting to apply to the user's profile.</param>
@@ -176,7 +181,7 @@ public partial class UserProfileService : INService
     }
 
     /// <summary>
-    /// Asynchronously sets the display mode for a user's birthday.
+    ///     Asynchronously sets the display mode for a user's birthday.
     /// </summary>
     /// <param name="user">The user to set the birthday display mode for.</param>
     /// <param name="birthdayDisplayModeEnum">The birthday display mode to set.</param>
@@ -191,7 +196,7 @@ public partial class UserProfileService : INService
     }
 
     /// <summary>
-    /// Asynchronously sets the birthday for a given user.
+    ///     Asynchronously sets the birthday for a given user.
     /// </summary>
     /// <param name="user">The user to set the birthday for.</param>
     /// <param name="time">The birthday date to set.</param>
@@ -206,7 +211,7 @@ public partial class UserProfileService : INService
     }
 
     /// <summary>
-    /// Asynchronously retrieves the zodiac sign of a given user.
+    ///     Asynchronously retrieves the zodiac sign of a given user.
     /// </summary>
     /// <param name="user">The user to retrieve the zodiac sign for.</param>
     /// <returns>The zodiac sign of the user.</returns>
@@ -219,13 +224,13 @@ public partial class UserProfileService : INService
     }
 
     /// <summary>
-    /// Asynchronously sets the zodiac sign for a given user.
+    ///     Asynchronously sets the zodiac sign for a given user.
     /// </summary>
     /// <param name="user">The user to set the zodiac sign for.</param>
     /// <param name="zodiacSign">The zodiac sign to set.</param>
     /// <returns>True if the zodiac sign was successfully set; otherwise, false.</returns>
     /// <remarks>
-    /// The method checks if the provided zodiac sign is within a predefined list of valid signs before setting it.
+    ///     The method checks if the provided zodiac sign is within a predefined list of valid signs before setting it.
     /// </remarks>
     public async Task<bool> SetZodiac(IUser user, string zodiacSign)
     {
@@ -241,7 +246,7 @@ public partial class UserProfileService : INService
     }
 
     /// <summary>
-    /// Asynchronously sets the profile color for a given user.
+    ///     Asynchronously sets the profile color for a given user.
     /// </summary>
     /// <param name="user">The user to set the profile color for.</param>
     /// <param name="color">The color to set as the user's profile color.</param>
@@ -256,7 +261,7 @@ public partial class UserProfileService : INService
     }
 
     /// <summary>
-    /// Asynchronously sets the profile image URL for a given user.
+    ///     Asynchronously sets the profile image URL for a given user.
     /// </summary>
     /// <param name="user">The user to set the profile image for.</param>
     /// <param name="url">The URL of the image to set as the user's profile image.</param>
@@ -271,13 +276,13 @@ public partial class UserProfileService : INService
     }
 
     /// <summary>
-    /// Asynchronously sets the Nintendo Switch friend code for a given user.
+    ///     Asynchronously sets the Nintendo Switch friend code for a given user.
     /// </summary>
     /// <param name="user">The user to set the friend code for.</param>
     /// <param name="fc">The friend code to set.</param>
     /// <returns>True if the friend code was successfully set; otherwise, false.</returns>
     /// <remarks>
-    /// Validates the friend code format before setting it. Friend codes must match the pattern "SW-XXXX-XXXX-XXXX".
+    ///     Validates the friend code format before setting it. Friend codes must match the pattern "SW-XXXX-XXXX-XXXX".
     /// </remarks>
     public async Task<bool> SetSwitchFc(IUser user, string fc)
     {
@@ -293,7 +298,7 @@ public partial class UserProfileService : INService
     }
 
     /// <summary>
-    /// Toggles the opt-out setting for a user's participation in statistics gathering.
+    ///     Toggles the opt-out setting for a user's participation in statistics gathering.
     /// </summary>
     /// <param name="user">The user to toggle the opt-out setting for.</param>
     /// <returns>True if the user is now opted out; otherwise, false.</returns>
@@ -309,7 +314,7 @@ public partial class UserProfileService : INService
     }
 
     /// <summary>
-    /// Asynchronously deletes statistical data for a given user.
+    ///     Asynchronously deletes statistical data for a given user.
     /// </summary>
     /// <param name="user">The user to delete statistical data for.</param>
     /// <returns>True if data was found and deleted; otherwise, false.</returns>
@@ -326,13 +331,17 @@ public partial class UserProfileService : INService
     }
 
     /// <summary>
-    /// Asynchronously generates an embed for displaying a user's profile information.
+    ///     Asynchronously generates an embed for displaying a user's profile information.
     /// </summary>
     /// <param name="user">The user to generate the profile embed for.</param>
     /// <param name="profileCaller">The user requesting the profile view, for privacy considerations.</param>
-    /// <returns>An <see cref="Embed"/> object containing the user's profile information, or null if privacy settings prevent displaying it.</returns>
+    /// <returns>
+    ///     An <see cref="Embed" /> object containing the user's profile information, or null if privacy settings prevent
+    ///     displaying it.
+    /// </returns>
     /// <remarks>
-    /// The profile embed includes information such as pronouns, zodiac sign, birthday, and other personalization settings, considering the privacy settings.
+    ///     The profile embed includes information such as pronouns, zodiac sign, birthday, and other personalization settings,
+    ///     considering the privacy settings.
     /// </remarks>
     public async Task<Embed?> GetProfileEmbed(IUser user, IUser profileCaller)
     {

@@ -6,7 +6,7 @@ using Serilog;
 namespace Mewdeko.Modules.Administration.Services;
 
 /// <summary>
-/// The voice channel role service. Pain.
+///     The voice channel role service. Pain.
 /// </summary>
 public class VcRoleService : INService
 {
@@ -15,14 +15,15 @@ public class VcRoleService : INService
     private readonly GuildSettingsService guildSettingsService;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VcRoleService"/> class.
+    ///     Initializes a new instance of the <see cref="VcRoleService" /> class.
     /// </summary>
     /// <param name="client">The Discord client.</param>
     /// <param name="bot">The bot instance.</param>
     /// <param name="db">The database service.</param>
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="guildSettingsService">The guild settings service.</param>
-    public VcRoleService(DiscordShardedClient client, Mewdeko bot, DbContextProvider dbProvider, EventHandler eventHandler,
+    public VcRoleService(DiscordShardedClient client, Mewdeko bot, DbContextProvider dbProvider,
+        EventHandler eventHandler,
         GuildSettingsService guildSettingsService)
     {
         // Assigning the database service and the Discord client
@@ -90,18 +91,19 @@ public class VcRoleService : INService
     }
 
     /// <summary>
-    /// A dictionary that maps guild IDs to another dictionary, which maps voice channel IDs to roles.
+    ///     A dictionary that maps guild IDs to another dictionary, which maps voice channel IDs to roles.
     /// </summary>
     public NonBlocking.ConcurrentDictionary<ulong, NonBlocking.ConcurrentDictionary<ulong, IRole>> VcRoles { get; } =
         new();
 
     /// <summary>
-    /// A dictionary that maps guild IDs to a queue of tuples, each containing a boolean indicating whether to add or remove a role, a guild user, and a role.
+    ///     A dictionary that maps guild IDs to a queue of tuples, each containing a boolean indicating whether to add or
+    ///     remove a role, a guild user, and a role.
     /// </summary>
     private NonBlocking.ConcurrentDictionary<ulong, ConcurrentQueue<(bool, IGuildUser, IRole)>> ToAssign { get; }
 
     /// <summary>
-    /// Event handler for when the bot joins a guild. Initializes voice channel roles for the guild.
+    ///     Event handler for when the bot joins a guild. Initializes voice channel roles for the guild.
     /// </summary>
     /// <param name="arg">The guild configuration.</param>
     private async Task Bot_JoinedGuild(GuildConfig arg)
@@ -117,7 +119,7 @@ public class VcRoleService : INService
     }
 
     /// <summary>
-    /// Event handler for when the bot leaves a guild. Removes voice channel roles for the guild.
+    ///     Event handler for when the bot leaves a guild. Removes voice channel roles for the guild.
     /// </summary>
     /// <param name="arg">The guild.</param>
     private Task _client_LeftGuild(SocketGuild arg)
@@ -128,7 +130,7 @@ public class VcRoleService : INService
     }
 
     /// <summary>
-    /// Initializes voice channel roles for a guild.
+    ///     Initializes voice channel roles for a guild.
     /// </summary>
     /// <param name="gconf">The guild configuration.</param>
     private async Task InitializeVcRole(GuildConfig gconf)
@@ -155,7 +157,6 @@ public class VcRoleService : INService
 
         if (missingRoles.Count > 0)
         {
-
             await using var dbContext = await dbProvider.GetContextAsync();
             Log.Warning("Removing {MissingRolesCount} missing roles from {VcRoleServiceName}", missingRoles.Count,
                 nameof(VcRoleService));
@@ -165,7 +166,7 @@ public class VcRoleService : INService
     }
 
     /// <summary>
-    /// Adds a voice channel role to a guild.
+    ///     Adds a voice channel role to a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to add the role to.</param>
     /// <param name="role">The role to add.</param>
@@ -190,11 +191,14 @@ public class VcRoleService : INService
     }
 
     /// <summary>
-    /// Removes a voice channel role from a guild.
+    ///     Removes a voice channel role from a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to remove the role from.</param>
     /// <param name="vcId">The ID of the voice channel to disassociate the role from.</param>
-    /// <returns>A task that represents the asynchronous operation and contains a boolean indicating whether the operation was successful.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation and contains a boolean indicating whether the operation was
+    ///     successful.
+    /// </returns>
     public async Task<bool> RemoveVcRole(ulong guildId, ulong vcId)
     {
         if (!VcRoles.TryGetValue(guildId, out var guildVcRoles))
@@ -213,7 +217,8 @@ public class VcRoleService : INService
     }
 
     /// <summary>
-    /// Event handler for when a user's voice state is updated. Assigns or removes roles based on the user's new voice state.
+    ///     Event handler for when a user's voice state is updated. Assigns or removes roles based on the user's new voice
+    ///     state.
     /// </summary>
     /// <param name="usr">The user whose voice state was updated.</param>
     /// <param name="oldState">The user's old voice state.</param>
@@ -250,7 +255,7 @@ public class VcRoleService : INService
     }
 
     /// <summary>
-    /// Assigns a role to a user in a guild.
+    ///     Assigns a role to a user in a guild.
     /// </summary>
     /// <param name="v">A boolean indicating whether to add or remove the role.</param>
     /// <param name="gusr">The user in the guild.</param>

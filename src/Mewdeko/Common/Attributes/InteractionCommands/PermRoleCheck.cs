@@ -5,13 +5,13 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Mewdeko.Common.Attributes.InteractionCommands;
 
 /// <summary>
-/// Attribute to check if a user has the required role to execute a command or method.
+///     Attribute to check if a user has the required role to execute a command or method.
 /// </summary>
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
 public class PermRoleCheck : PreconditionAttribute
 {
     /// <summary>
-    /// Checks the requirements before executing a command or method.
+    ///     Checks the requirements before executing a command or method.
     /// </summary>
     /// <param name="context">The interaction context.</param>
     /// <param name="executingCommand">The command being executed.</param>

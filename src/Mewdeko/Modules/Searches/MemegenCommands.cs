@@ -12,7 +12,7 @@ namespace Mewdeko.Modules.Searches;
 public partial class Searches
 {
     /// <summary>
-    /// Module for generating memes using the memegen API.
+    ///     Module for generating memes using the memegen API.
     /// </summary>
     [Group]
     public class MemegenCommands(IHttpClientFactory factory, InteractiveService serv) : MewdekoSubmodule
@@ -46,15 +46,17 @@ public partial class Searches
         }.ToImmutableDictionary();
 
         /// <summary>
-        /// Lists available meme templates.
+        ///     Lists available meme templates.
         /// </summary>
         /// <remarks>
-        /// This command retrieves a list of available meme templates from the memegen API and displays them in a paginated embed.
+        ///     This command retrieves a list of available meme templates from the memegen API and displays them in a paginated
+        ///     embed.
         /// </remarks>
         /// <example>
-        /// <code>.memelist</code>
+        ///     <code>.memelist</code>
         /// </example>
-        [Cmd, Aliases]
+        [Cmd]
+        [Aliases]
         public async Task Memelist()
         {
             using var http = factory.CreateClient("memelist");
@@ -89,17 +91,18 @@ public partial class Searches
 
 
         /// <summary>
-        /// Generates a meme with the specified template and text.
+        ///     Generates a meme with the specified template and text.
         /// </summary>
         /// <remarks>
-        /// This command generates a meme using the specified template and text and sends it to the channel.
+        ///     This command generates a meme using the specified template and text and sends it to the channel.
         /// </remarks>
         /// <param name="meme">The name of the meme template.</param>
         /// <param name="memeText">The text to include in the meme (optional).</param>
         /// <example>
-        /// <code>.memegen spongebob "this is a meme;with text"</code>
+        ///     <code>.memegen spongebob "this is a meme;with text"</code>
         /// </example>
-        [Cmd, Aliases]
+        [Cmd]
+        [Aliases]
         public async Task Memegen(string meme, [Remainder] string? memeText = null)
         {
             var memeUrl = $"https://api.memegen.link/{meme}";

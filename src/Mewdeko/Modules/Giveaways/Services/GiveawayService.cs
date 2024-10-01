@@ -15,11 +15,11 @@ namespace Mewdeko.Modules.Giveaways.Services;
 public class GiveawayService : INService
 {
     private readonly DiscordShardedClient client1;
-    private readonly DbContextProvider dbProvider;
-    private readonly GuildSettingsService guildSettings1;
     private readonly BotConfig config1;
-    private readonly ConcurrentDictionary<int, Timer> giveawayTimers = new();
     private readonly BotCredentials credentials;
+    private readonly DbContextProvider dbProvider;
+    private readonly ConcurrentDictionary<int, Timer> giveawayTimers = new();
+    private readonly GuildSettingsService guildSettings1;
     private readonly MessageCountService msgCntService;
 
     /// <summary>

@@ -4,23 +4,37 @@ using Discord.Commands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Modules.Utility.Services;
 using SkiaSharp;
-using Swan;
 
 namespace Mewdeko.Modules.Utility;
 
 public partial class Utility
 {
     /// <summary>
-    /// Commands for message counts
+    ///     Commands for message counts
     /// </summary>
     public class MessageCountCommands(GuildSettingsService guildSettingsService) : MewdekoSubmodule<MessageCountService>
     {
         /// <summary>
-        /// Retrieves message statistics for a specific user.
+        /// </summary>
+        public enum GraphType
+        {
+            /// <summary>
+            /// </summary>
+            Days,
+
+            /// <summary>
+            /// </summary>
+            Hours
+        }
+
+        /// <summary>
+        ///     Retrieves message statistics for a specific user.
         /// </summary>
         /// <param name="user">The user to get message statistics for. If null, uses the command invoker.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task UserMessages(IUser? user = null)
         {
             user ??= ctx.User;
@@ -48,11 +62,13 @@ public partial class Utility
         }
 
         /// <summary>
-        /// Retrieves message statistics for a specific channel.
+        ///     Retrieves message statistics for a specific channel.
         /// </summary>
         /// <param name="channel">The channel to get message statistics for. If null, uses the current channel.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task ChannelMessages(IGuildChannel? channel = null)
         {
             channel ??= ctx.Channel as IGuildChannel;
@@ -81,10 +97,12 @@ public partial class Utility
         }
 
         /// <summary>
-        /// Retrieves message statistics for the entire server.
+        ///     Retrieves message statistics for the entire server.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task ServerMessages()
         {
             var (cnt, enabled) = await Service.GetAllCountsForEntity(MessageCountService.CountQueryType.Guild,
@@ -132,10 +150,12 @@ public partial class Utility
         }
 
         /// <summary>
-        /// Displays a leaderboard of the top 10 users by message count.
+        ///     Displays a leaderboard of the top 10 users by message count.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task TopUsers()
         {
             var (cnt, enabled) = await Service.GetAllCountsForEntity(MessageCountService.CountQueryType.Guild,
@@ -178,10 +198,13 @@ public partial class Utility
         }
 
         /// <summary>
-        /// Sets the minimum length for a message to count
+        ///     Sets the minimum length for a message to count
         /// </summary>
         /// <param name="minLength"></param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
         public async Task MinMessageCountLength(int minLength = 0)
         {
             var config = await guildSettingsService.GetGuildConfig(ctx.Guild.Id);
@@ -203,10 +226,12 @@ public partial class Utility
         }
 
         /// <summary>
-        /// Displays a graph of the busiest hours and days in the server.
+        ///     Displays a graph of the busiest hours and days in the server.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task ActivityGraph(GraphType graphType = GraphType.Days)
         {
             switch (graphType)
@@ -224,9 +249,12 @@ public partial class Utility
 
 
         /// <summary>
-        /// Toggles message counting in the server
+        ///     Toggles message counting in the server
         /// </summary>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task ToggleMessageCount()
         {
             var toggled = await Service.ToggleGuildMessageCount(ctx.Guild.Id);
@@ -385,7 +413,7 @@ public partial class Utility
             {
                 Color = SKColors.White, IsAntialias = true
             };
-            using var font = new SKFont(SKTypeface.Default, 12);
+            using var font = new SKFont(SKTypeface.Default);
 
             var data = busiestDays.Select(d => (d.Day.ToString().Substring(0, 3), d.Count)).ToList();
             DrawBarGraph(canvas, data, "Busiest Days of the Week", 0, 0, width, height, paint, font);
@@ -406,7 +434,7 @@ public partial class Utility
             {
                 Color = SKColors.White, IsAntialias = true
             };
-            using var font = new SKFont(SKTypeface.Default, 12);
+            using var font = new SKFont(SKTypeface.Default);
 
             var data = busiestHours.Select(h => (h.Hour.ToString("D2") + ":00", h.Count)).ToList();
             DrawBarGraph(canvas, data, "Busiest Hours of the Day", 0, 0, width, height, paint, font);
@@ -429,7 +457,7 @@ public partial class Utility
 
             for (var i = 0; i < data.Count; i++)
             {
-                var barHeight = (data[i].Value / (float)maxValue) * (height - 120);
+                var barHeight = data[i].Value / maxValue * (height - 120);
                 var barX = x + 50 + i * (barWidth + spacing);
                 var barY = y + height - 60 - barHeight;
 
@@ -453,22 +481,6 @@ public partial class Utility
             // Draw axes
             canvas.DrawLine(x + 45, y + 60, x + 45, y + height - 40, paint);
             canvas.DrawLine(x + 45, y + height - 40, x + width - 5, y + height - 40, paint);
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        public enum GraphType
-        {
-            /// <summary>
-            ///
-            /// </summary>
-            Days,
-
-            /// <summary>
-            ///
-            /// </summary>
-            Hours
         }
     }
 }

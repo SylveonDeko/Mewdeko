@@ -3,12 +3,12 @@
 namespace Mewdeko.Common.JsonConverters;
 
 /// <summary>
-/// Provides a converter for converting string to int and vice versa for JSON operations.
+///     Provides a converter for converting string to int and vice versa for JSON operations.
 /// </summary>
 public class StringToIntConverter : JsonConverter
 {
     /// <summary>
-    /// Determines whether this instance can convert the specified object type.
+    ///     Determines whether this instance can convert the specified object type.
     /// </summary>
     /// <param name="objectType">Type of the object.</param>
     /// <returns>true if this instance can convert the specified object type; otherwise, false.</returns>
@@ -18,7 +18,7 @@ public class StringToIntConverter : JsonConverter
     }
 
     /// <summary>
-    /// Writes the JSON representation of the object.
+    ///     Writes the JSON representation of the object.
     /// </summary>
     /// <param name="writer">The JsonWriter to write to.</param>
     /// <param name="value">The value to write.</param>
@@ -36,7 +36,7 @@ public class StringToIntConverter : JsonConverter
     }
 
     /// <summary>
-    /// Reads the JSON representation of the object.
+    ///     Reads the JSON representation of the object.
     /// </summary>
     /// <param name="reader">The JsonReader to read from.</param>
     /// <param name="objectType">Type of the object.</param>

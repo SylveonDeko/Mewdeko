@@ -10,17 +10,9 @@ namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 /// <inheritdoc />
 public class TwitchHelixProvider : Provider
 {
-    private readonly IHttpClientFactory httpClientFactory;
-
-    private static Regex Regex { get; } = new(@"twitch.tv/(?<name>[\w\d\-_]+)/?",
-        RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-    /// <inheritdoc />
-    public override FollowedStream.FType Platform
-        => FollowedStream.FType.Twitch;
-
     private readonly Lazy<TwitchAPI> api;
     private readonly string clientId;
+    private readonly IHttpClientFactory httpClientFactory;
 
     /// <inheritdoc />
     public TwitchHelixProvider(IHttpClientFactory httpClientFactory, IBotCredentials credsProvider)
@@ -42,8 +34,22 @@ public class TwitchHelixProvider : Provider
         });
     }
 
+    private static Regex Regex { get; } = new(@"twitch.tv/(?<name>[\w\d\-_]+)/?",
+        RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+    /// <inheritdoc />
+    public override FollowedStream.FType Platform
+    {
+        get
+        {
+            return FollowedStream.FType.Twitch;
+        }
+    }
+
     private async Task<string?> EnsureTokenValidAsync()
-        => await api.Value.Auth.GetAccessTokenAsync().ConfigureAwait(false);
+    {
+        return await api.Value.Auth.GetAccessTokenAsync().ConfigureAwait(false);
+    }
 
     /// <inheritdoc />
     public override Task<bool> IsValidUrl(string url)
@@ -173,7 +179,8 @@ public class TwitchHelixProvider : Provider
     }
 
     private static StreamData UserToStreamData(HelixUsersResponse.User user)
-        => new()
+    {
+        return new StreamData
         {
             UniqueName = user.Login,
             Name = user.DisplayName,
@@ -184,9 +191,11 @@ public class TwitchHelixProvider : Provider
             Preview = user.OfflineImageUrl,
             ChannelId = user.Id
         };
+    }
 
     private static StreamData FillStreamData(StreamData partial, HelixStreamsResponse.StreamData apiData)
-        => partial with
+    {
+        return partial with
         {
             StreamType = FollowedStream.FType.Twitch,
             Viewers = apiData.ViewerCount,
@@ -197,4 +206,5 @@ public class TwitchHelixProvider : Provider
                 .Replace("{height}", "480"),
             Game = apiData.GameName
         };
+    }
 }

@@ -5,12 +5,12 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Mewdeko.Common.Attributes.TextCommands;
 
 /// <summary>
-/// Attribute to require a user to be in dragon mode to execute a command or method.
+///     Attribute to require a user to be in dragon mode to execute a command or method.
 /// </summary>
 public class RequireDragonAttribute : PreconditionAttribute
 {
     /// <summary>
-    /// Checks the permissions of the command or method before execution.
+    ///     Checks the permissions of the command or method before execution.
     /// </summary>
     /// <param name="context">The command context.</param>
     /// <param name="command">The command being executed.</param>

@@ -6,7 +6,7 @@ using Mewdeko.Services.Settings;
 namespace Mewdeko.Modules.Xp.Services;
 
 /// <summary>
-/// Provides services for managing XP configuration settings.
+///     Provides services for managing XP configuration settings.
 /// </summary>
 public sealed class XpConfigService : ConfigServiceBase<XpConfig>
 {
@@ -14,7 +14,7 @@ public sealed class XpConfigService : ConfigServiceBase<XpConfig>
     private static readonly TypedKey<XpConfig> ChangeKey = new("config.xp.updated");
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="XpConfigService"/> class.
+    ///     Initializes a new instance of the <see cref="XpConfigService" /> class.
     /// </summary>
     /// <param name="serializer">The configuration serializer.</param>
     /// <param name="pubSub">The pub/sub system for configuration changes.</param>
@@ -33,7 +33,7 @@ public sealed class XpConfigService : ConfigServiceBase<XpConfig>
 
 
     /// <summary>
-    /// Gets the name of the configuration.
+    ///     Gets the name of the configuration.
     /// </summary>
     public override string Name { get; } = "xp";
 }

@@ -7,14 +7,14 @@ using Mewdeko.Services.strings;
 namespace Mewdeko.Modules.Games.Common;
 
 /// <summary>
-/// Represents a Tic-Tac-Toe game.
+///     Represents a Tic-Tac-Toe game.
 /// </summary>
 public class TicTacToe
 {
     private readonly ITextChannel channel;
     private readonly DiscordShardedClient client;
-    private readonly SemaphoreSlim moveLock;
     private readonly BotConfig config;
+    private readonly SemaphoreSlim moveLock;
 
     private readonly string[] numbers =
     [
@@ -34,7 +34,8 @@ public class TicTacToe
     private IGuildUser? winner;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="TicTacToe"/> class with the specified strings, client, channel, first user, and options.
+    ///     Initializes a new instance of the <see cref="TicTacToe" /> class with the specified strings, client, channel, first
+    ///     user, and options.
     /// </summary>
     /// <param name="strings">Localization Strings</param>
     /// <param name="client">Discord Client</param>
@@ -73,15 +74,17 @@ public class TicTacToe
     }
 
     /// <summary>
-    /// Represents the event that occurs when the game ends.
+    ///     Represents the event that occurs when the game ends.
     /// </summary>
     public event Action<TicTacToe> OnEnded;
 
-    private string? GetText(string? key, params object?[] replacements) =>
-        strings.GetText(key, channel.GuildId, replacements);
+    private string? GetText(string? key, params object?[] replacements)
+    {
+        return strings.GetText(key, channel.GuildId, replacements);
+    }
 
     /// <summary>
-    /// Gets the current state of the game.
+    ///     Gets the current state of the game.
     /// </summary>
     public string GetState()
     {
@@ -90,7 +93,7 @@ public class TicTacToe
         {
             for (var j = 0; j < state.GetLength(1); j++)
             {
-                sb.Append(state[i, j] == null ? numbers[(i * 3) + j] : GetIcon(state[i, j]));
+                sb.Append(state[i, j] == null ? numbers[i * 3 + j] : GetIcon(state[i, j]));
                 if (j < state.GetLength(1) - 1)
                     sb.Append('┃');
             }
@@ -103,7 +106,7 @@ public class TicTacToe
     }
 
     /// <summary>
-    /// Gets the embed of the game.
+    ///     Gets the embed of the game.
     /// </summary>
     /// <param name="title"></param>
     /// <returns>EmbedBuilder object</returns>
@@ -132,8 +135,9 @@ public class TicTacToe
         return embed;
     }
 
-    private static string GetIcon(int? val) =>
-        val switch
+    private static string GetIcon(int? val)
+    {
+        return val switch
         {
             0 => "❌",
             1 => "⭕",
@@ -141,9 +145,10 @@ public class TicTacToe
             3 => "🅾",
             _ => "⬛"
         };
+    }
 
     /// <summary>
-    /// Starts the game with the specified user.
+    ///     Starts the game with the specified user.
     /// </summary>
     /// <param name="user"></param>
     public async Task Start(IGuildUser? user)
@@ -339,18 +344,18 @@ public class TicTacToe
     }
 
     /// <summary>
-    /// Options for configuring a Tic-Tac-Toe game.
+    ///     Options for configuring a Tic-Tac-Toe game.
     /// </summary>
     public class Options : IMewdekoCommandOptions
     {
         /// <summary>
-        /// Gets or sets the turn timer in seconds.
+        ///     Gets or sets the turn timer in seconds.
         /// </summary>
         [Option('t', "turn-timer", Required = false, Default = 15, HelpText = "Turn time in seconds. Default 15.")]
         public int TurnTimer { get; set; } = 15;
 
         /// <summary>
-        /// Normalizes the Tic-Tac-Toe game options.
+        ///     Normalizes the Tic-Tac-Toe game options.
         /// </summary>
         public void NormalizeOptions()
         {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mewdeko.Database.Migrations.SQLite;
+
 /// <inheritdoc />
 public partial class GlobalBan : Migration
 {
@@ -32,7 +33,9 @@ public partial class GlobalBan : Migration
     }
 
     /// <inheritdoc />
-    protected override void Down(MigrationBuilder migrationBuilder) =>
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
         migrationBuilder.DropTable(
             "GlobalBan");
+    }
 }

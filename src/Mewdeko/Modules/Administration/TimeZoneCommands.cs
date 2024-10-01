@@ -9,17 +9,19 @@ namespace Mewdeko.Modules.Administration;
 public partial class Administration
 {
     /// <summary>
-    /// Handles commands related to time zones.
+    ///     Handles commands related to time zones.
     /// </summary>
     /// <param name="serv"></param>
     [Group]
     public class TimeZoneCommands(InteractiveService serv) : MewdekoSubmodule<GuildTimezoneService>
     {
         /// <summary>
-        /// List all available time zones.
+        ///     List all available time zones.
         /// </summary>
         /// <example>.timezones</example>
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Timezones()
         {
             var timezones = TimeZoneInfo.GetSystemTimeZones()
@@ -65,20 +67,26 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Shows the time zone of the guild if set.
+        ///     Shows the time zone of the guild if set.
         /// </summary>
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
-        public async Task Timezone() =>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Timezone()
+        {
             await ReplyConfirmLocalizedAsync("timezone_guild", Service.GetTimeZoneOrUtc(ctx.Guild.Id))
                 .ConfigureAwait(false);
+        }
 
         /// <summary>
-        /// Gets info about a time zone.
+        ///     Gets info about a time zone.
         /// </summary>
         /// <param name="id">The timezone ID.</param>
         /// <example>.timezone UTC</example>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task Timezone([Remainder] string id)
         {
             TimeZoneInfo tz;

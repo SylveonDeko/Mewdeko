@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mewdeko.Database.Migrations.SQLite;
+
 /// <inheritdoc />
 public partial class AddTemplates : Migration
 {
@@ -8,8 +9,8 @@ public partial class AddTemplates : Migration
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.CreateTable(
-            name: "TemplateUser",
-            columns: table => new
+            "TemplateUser",
+            table => new
             {
                 Id = table.Column<int>(nullable: false)
                     .Annotation("Sqlite:Autoincrement", true),
@@ -31,8 +32,8 @@ public partial class AddTemplates : Migration
             });
 
         migrationBuilder.CreateTable(
-            name: "TemplateGuild",
-            columns: table => new
+            "TemplateGuild",
+            table => new
             {
                 Id = table.Column<int>(nullable: false)
                     .Annotation("Sqlite:Autoincrement", true),
@@ -54,8 +55,8 @@ public partial class AddTemplates : Migration
             });
 
         migrationBuilder.CreateTable(
-            name: "TemplateClub",
-            columns: table => new
+            "TemplateClub",
+            table => new
             {
                 Id = table.Column<int>(nullable: false)
                     .Annotation("Sqlite:Autoincrement", true),
@@ -77,8 +78,8 @@ public partial class AddTemplates : Migration
             });
 
         migrationBuilder.CreateTable(
-            name: "TemplateBar",
-            columns: table => new
+            "TemplateBar",
+            table => new
             {
                 Id = table.Column<int>(nullable: false)
                     .Annotation("Sqlite:Autoincrement", true),
@@ -99,8 +100,8 @@ public partial class AddTemplates : Migration
             });
 
         migrationBuilder.CreateTable(
-            name: "Template",
-            columns: table => new
+            "Template",
+            table => new
             {
                 Id = table.Column<int>(nullable: false)
                     .Annotation("Sqlite:Autoincrement", true),
@@ -128,28 +129,28 @@ public partial class AddTemplates : Migration
             {
                 table.PrimaryKey("PK_Template", x => x.Id);
                 table.ForeignKey(
-                    name: "FK_Template_TemplateUser_TemplateUserId",
-                    column: x => x.TemplateUserId,
-                    principalTable: "TemplateUser",
-                    principalColumn: "Id",
+                    "FK_Template_TemplateUser_TemplateUserId",
+                    x => x.TemplateUserId,
+                    "TemplateUser",
+                    "Id",
                     onDelete: ReferentialAction.Restrict);
                 table.ForeignKey(
-                    name: "FK_Template_TemplateGuild_TemplateGuildId",
-                    column: x => x.TemplateGuildId,
-                    principalTable: "TemplateGuild",
-                    principalColumn: "Id",
+                    "FK_Template_TemplateGuild_TemplateGuildId",
+                    x => x.TemplateGuildId,
+                    "TemplateGuild",
+                    "Id",
                     onDelete: ReferentialAction.Restrict);
                 table.ForeignKey(
-                    name: "FK_Template_TemplateClub_TemplateClubId",
-                    column: x => x.TemplateClubId,
-                    principalTable: "TemplateClub",
-                    principalColumn: "Id",
+                    "FK_Template_TemplateClub_TemplateClubId",
+                    x => x.TemplateClubId,
+                    "TemplateClub",
+                    "Id",
                     onDelete: ReferentialAction.Restrict);
                 table.ForeignKey(
-                    name: "FK_Template_TemplateBar_TemplateBarId",
-                    column: x => x.TemplateBarId,
-                    principalTable: "TemplateBar",
-                    principalColumn: "Id",
+                    "FK_Template_TemplateBar_TemplateBarId",
+                    x => x.TemplateBarId,
+                    "TemplateBar",
+                    "Id",
                     onDelete: ReferentialAction.Restrict);
             });
     }
@@ -158,18 +159,18 @@ public partial class AddTemplates : Migration
     protected override void Down(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.DropTable(
-            name: "Template");
+            "Template");
 
         migrationBuilder.DropTable(
-            name: "TemplateUser");
+            "TemplateUser");
 
         migrationBuilder.DropTable(
-            name: "TemplateGuild");
+            "TemplateGuild");
 
         migrationBuilder.DropTable(
-            name: "TemplateClub");
+            "TemplateClub");
 
         migrationBuilder.DropTable(
-            name: "TemplateBar");
+            "TemplateBar");
     }
 }

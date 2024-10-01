@@ -11,18 +11,25 @@ namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 /// <inheritdoc />
 public class PicartoProvider : Provider
 {
+    private readonly IHttpClientFactory httpClientFactory;
+
+    /// <inheritdoc />
+    public PicartoProvider(IHttpClientFactory httpClientFactory)
+    {
+        this.httpClientFactory = httpClientFactory;
+    }
+
     private static Regex Regex { get; } = new("picarto.tv/(?<name>.+[^/])/?",
         RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
     /// <inheritdoc />
     public override FollowedStream.FType Platform
-        => FollowedStream.FType.Picarto;
-
-    private readonly IHttpClientFactory httpClientFactory;
-
-    /// <inheritdoc />
-    public PicartoProvider(IHttpClientFactory httpClientFactory)
-        => this.httpClientFactory = httpClientFactory;
+    {
+        get
+        {
+            return FollowedStream.FType.Picarto;
+        }
+    }
 
     /// <inheritdoc />
     public override Task<bool> IsValidUrl(string url)
@@ -92,7 +99,8 @@ public class PicartoProvider : Provider
     }
 
     private static StreamData ToStreamData(PicartoChannelResponse stream)
-        => new()
+    {
+        return new StreamData
         {
             StreamType = FollowedStream.FType.Picarto,
             Name = stream.Name,
@@ -105,4 +113,5 @@ public class PicartoProvider : Provider
             StreamUrl = $"https://picarto.tv/{stream.Name}",
             AvatarUrl = stream.Avatar
         };
+    }
 }

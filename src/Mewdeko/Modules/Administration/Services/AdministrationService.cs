@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Mewdeko.Modules.Administration.Services;
 
 /// <summary>
-/// Service responsible for providing data to the admin module.
+///     Service responsible for providing data to the admin module.
 /// </summary>
 public class AdministrationService : INService
 {
@@ -13,7 +13,7 @@ public class AdministrationService : INService
     private readonly GuildSettingsService guildSettings;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AdministrationService"/> class with the specified dependencies.
+    ///     Initializes a new instance of the <see cref="AdministrationService" /> class with the specified dependencies.
     /// </summary>
     /// <param name="cmdHandler">The command handler.</param>
     /// <param name="db">The database service.</param>
@@ -38,7 +38,7 @@ public class AdministrationService : INService
 
 
     /// <summary>
-    /// Sets the staff role for a given guild.
+    ///     Sets the staff role for a given guild.
     /// </summary>
     /// <param name="guild">The guild to set the staff role for.</param>
     /// <param name="role">The role to set as the staff role.</param>
@@ -57,7 +57,7 @@ public class AdministrationService : INService
     }
 
     /// <summary>
-    /// Toggles the opt-out status for a given guild.
+    ///     Toggles the opt-out status for a given guild.
     /// </summary>
     /// <param name="guild">The guild to toggle the opt-out status for.</param>
     /// <returns>A boolean indicating the new opt-out status.</returns>
@@ -67,7 +67,7 @@ public class AdministrationService : INService
 
 
         // Get the guild configuration for the given guild ID
-       await using var db = await dbProvider.GetContextAsync();
+        await using var db = await dbProvider.GetContextAsync();
         var gc = await db.ForGuildId(guild.Id, set => set);
 
         // Toggle the opt-out status
@@ -82,7 +82,7 @@ public class AdministrationService : INService
 
 
     /// <summary>
-    /// Deletes the statistics data for a given guild.
+    ///     Deletes the statistics data for a given guild.
     /// </summary>
     /// <param name="guild">The guild to delete the statistics data for.</param>
     /// <returns>A boolean indicating whether any data was deleted.</returns>
@@ -98,35 +98,40 @@ public class AdministrationService : INService
     }
 
     /// <summary>
-    /// Sets the member role for a given guild.
+    ///     Sets the member role for a given guild.
     /// </summary>
     /// <param name="guild">The guild to set the member role for.</param>
     /// <param name="role">The role to set as the member role.</param>
     public async Task MemberRoleSet(IGuild guild, ulong role)
     {
-
-       await using var db = await dbProvider.GetContextAsync();
+        await using var db = await dbProvider.GetContextAsync();
         var gc = await db.ForGuildId(guild.Id, set => set);
         gc.MemberRole = role;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     /// <summary>
-    /// Gets the staff role for a given guild.
+    ///     Gets the staff role for a given guild.
     /// </summary>
     /// <param name="id">The ID of the guild to get the staff role for.</param>
     /// <returns>The ID of the staff role.</returns>
-    public async Task<ulong> GetStaffRole(ulong id) => (await guildSettings.GetGuildConfig(id)).StaffRole;
+    public async Task<ulong> GetStaffRole(ulong id)
+    {
+        return (await guildSettings.GetGuildConfig(id)).StaffRole;
+    }
 
     /// <summary>
-    /// Gets the member role for a given guild.
+    ///     Gets the member role for a given guild.
     /// </summary>
     /// <param name="id">The ID of the guild to get the member role for.</param>
     /// <returns>The ID of the member role.</returns>
-    public async Task<ulong> GetMemberRole(ulong id) => (await guildSettings.GetGuildConfig(id)).MemberRole;
+    public async Task<ulong> GetMemberRole(ulong id)
+    {
+        return (await guildSettings.GetGuildConfig(id)).MemberRole;
+    }
 
     /// <summary>
-    /// Gets the DeleteMessageOnCommand data for a given guild.
+    ///     Gets the DeleteMessageOnCommand data for a given guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to get the data for.</param>
     /// <returns>A tuple containing a boolean indicating the DeleteMessageOnCommand status and a collection of channels.</returns>
@@ -140,7 +145,7 @@ public class AdministrationService : INService
     }
 
     /// <summary>
-    /// Handles the deletion of messages on command execution.
+    ///     Handles the deletion of messages on command execution.
     /// </summary>
     /// <param name="msg">The user message that triggered the command.</param>
     /// <param name="cmd">The executed command.</param>
@@ -182,7 +187,7 @@ public class AdministrationService : INService
     }
 
     /// <summary>
-    /// Toggles the DeleteMessageOnCommand setting for a given guild.
+    ///     Toggles the DeleteMessageOnCommand setting for a given guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to toggle the setting for.</param>
     /// <returns>A boolean indicating the new state of the DeleteMessageOnCommand setting.</returns>
@@ -201,7 +206,7 @@ public class AdministrationService : INService
 
 
     /// <summary>
-    /// Sets the DeleteMessageOnCommand state for a specific channel in a guild.
+    ///     Sets the DeleteMessageOnCommand state for a specific channel in a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to set the state for.</param>
     /// <param name="chId">The ID of the channel to set the state for.</param>
@@ -249,9 +254,12 @@ public class AdministrationService : INService
 
 
     /// <summary>
-    /// Sets the deafen status for a list of users in a guild.
+    ///     Sets the deafen status for a list of users in a guild.
     /// </summary>
-    /// <param name="value">The deafen status to set. If true, the users will be deafened. If false, the users will be undeafened.</param>
+    /// <param name="value">
+    ///     The deafen status to set. If true, the users will be deafened. If false, the users will be
+    ///     undeafened.
+    /// </param>
     /// <param name="users">The users to set the deafen status for.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public static async Task DeafenUsers(bool value, params IGuildUser[] users)
@@ -272,7 +280,7 @@ public class AdministrationService : INService
     }
 
     /// <summary>
-    /// Edits a message in a text channel.
+    ///     Edits a message in a text channel.
     /// </summary>
     /// <param name="context">The command context.</param>
     /// <param name="chanl">The text channel where the message is located.</param>

@@ -9,17 +9,20 @@ namespace Mewdeko.Modules.Utility;
 public partial class Utility
 {
     /// <summary>
-    /// Commands for managing auto-publishing of messages in announcement channels.
+    ///     Commands for managing auto-publishing of messages in announcement channels.
     /// </summary>
     /// <param name="interactiveService">The interactive service.</param>
     public class AutoPublish(InteractiveService interactiveService) : MewdekoSubmodule<AutoPublishService>
     {
         /// <summary>
-        /// Enables auto-publishing for a specified news channel within the guild.
+        ///     Enables auto-publishing for a specified news channel within the guild.
         /// </summary>
         /// <param name="channel">The news channel to enable auto-publishing for.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task AddAutoPublish(ITextChannel channel)
         {
             if (channel is not INewsChannel chan)
@@ -42,12 +45,15 @@ public partial class Utility
         }
 
         /// <summary>
-        /// Adds a user to the auto-publish blacklist for a specified channel.
+        ///     Adds a user to the auto-publish blacklist for a specified channel.
         /// </summary>
         /// <param name="user">The user to blacklist.</param>
         /// <param name="channel">The channel for which to apply the blacklist.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task AddPublishBlacklist(IUser user, ITextChannel channel)
         {
             if (await Service.CheckIfExists(channel.Id))
@@ -76,12 +82,15 @@ public partial class Utility
         }
 
         /// <summary>
-        /// Adds a word to the auto-publish blacklist for a specified channel.
+        ///     Adds a word to the auto-publish blacklist for a specified channel.
         /// </summary>
         /// <param name="channel">The channel for which to apply the blacklist.</param>
         /// <param name="word">The word to blacklist.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task AddPublishBlacklist(ITextChannel channel, [Remainder] string word)
         {
             if (await Service.CheckIfExists(channel.Id))
@@ -116,12 +125,15 @@ public partial class Utility
         }
 
         /// <summary>
-        /// Removes a user from the auto-publish blacklist for a specified channel.
+        ///     Removes a user from the auto-publish blacklist for a specified channel.
         /// </summary>
         /// <param name="user">The user to unblacklist.</param>
         /// <param name="channel">The channel for which to remove the blacklist.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task RemovePublishBlacklist(IUser user, ITextChannel channel)
         {
             if (await Service.CheckIfExists(channel.Id))
@@ -139,12 +151,15 @@ public partial class Utility
         }
 
         /// <summary>
-        /// Removes a word from the auto-publish blacklist for a specified channel.
+        ///     Removes a word from the auto-publish blacklist for a specified channel.
         /// </summary>
         /// <param name="channel">The channel for which to remove the blacklist.</param>
         /// <param name="word">The word to unblacklist.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task RemovePublishBlacklist(ITextChannel channel, [Remainder] string word)
         {
             if (await Service.CheckIfExists(channel.Id))
@@ -162,11 +177,14 @@ public partial class Utility
         }
 
         /// <summary>
-        /// Disables auto-publishing for a specified news channel within the guild.
+        ///     Disables auto-publishing for a specified news channel within the guild.
         /// </summary>
         /// <param name="channel">The news channel to disable auto-publishing for.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task RemoveAutoPublish(ITextChannel channel)
         {
             if (channel is not INewsChannel)
@@ -183,10 +201,13 @@ public partial class Utility
         }
 
         /// <summary>
-        /// Displays a list of channels with auto-publish enabled and their associated blacklists.
+        ///     Displays a list of channels with auto-publish enabled and their associated blacklists.
         /// </summary>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task GetAutoPublishes()
         {
             var autoPublishes = await Service.GetAutoPublishes(ctx.Guild.Id);

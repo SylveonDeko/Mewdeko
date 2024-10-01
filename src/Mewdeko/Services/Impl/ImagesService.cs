@@ -7,21 +7,71 @@ using ZiggyCreatures.Caching.Fusion;
 namespace Mewdeko.Services.Impl;
 
 /// <summary>
-/// Service for caching images in FusionCache.
+///     Service for caching images in FusionCache.
 /// </summary>
 public sealed class FusionImagesCache : IImageCache, IReadyExecutor, INService
 {
-    private readonly IFusionCache cache;
-    private readonly HttpClient http;
-    private readonly string imagesPath;
+    /// <summary>
+    ///     Enum representing the keys for the images. Used to retrieve images from the cache.
+    /// </summary>
+    public enum ImageKeys
+    {
+        /// <summary>
+        ///     Coin heads image key.
+        /// </summary>
+        CoinHeads,
+
+        /// <summary>
+        ///     Coin tails image key.
+        /// </summary>
+        CoinTails,
+
+        /// <summary>
+        ///     Dice image key.
+        /// </summary>
+        Dice,
+
+        /// <summary>
+        ///     Slot machine background image key.
+        /// </summary>
+        SlotBg,
+
+        /// <summary>
+        ///     Slot machine emojis image key.
+        /// </summary>
+        SlotEmojis,
+
+        /// <summary>
+        ///     Currency image key.
+        /// </summary>
+        Currency,
+
+        /// <summary>
+        ///     Rip overlay image key.
+        /// </summary>
+        RipOverlay,
+
+        /// <summary>
+        ///     Rip background image key.
+        /// </summary>
+        RipBg,
+
+        /// <summary>
+        ///     XP background image key.
+        /// </summary>
+        XpBg
+    }
 
     private const string BasePath = "data/images/";
     private const string CardsPath = BasePath + "cards/";
     private const string CoinPath = BasePath + "coin/";
     private const string EmojiPath = BasePath + "emoji/";
+    private readonly IFusionCache cache;
+    private readonly HttpClient http;
+    private readonly string imagesPath;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="FusionImagesCache"/> class.
+    ///     Initializes a new instance of the <see cref="FusionImagesCache" /> class.
     /// </summary>
     /// <param name="cache">The FusionCache instance.</param>
     /// <param name="creds">The bot credentials.</param>
@@ -32,99 +82,56 @@ public sealed class FusionImagesCache : IImageCache, IReadyExecutor, INService
     }
 
     /// <summary>
-    /// Image URLs.
+    ///     Image URLs.
     /// </summary>
-    public ImageUrls ImageUrls { get; private set; }
+    public ImageUrls ImageUrls { get; }
 
     /// <summary>
-    /// Enum representing the keys for the images. Used to retrieve images from the cache.
+    ///     Retrieves a byte array representing the background image for the XP system.
     /// </summary>
-    public enum ImageKeys
+    public byte[] XpBackground
     {
-        /// <summary>
-        /// Coin heads image key.
-        /// </summary>
-        CoinHeads,
-
-        /// <summary>
-        /// Coin tails image key.
-        /// </summary>
-        CoinTails,
-
-        /// <summary>
-        /// Dice image key.
-        /// </summary>
-        Dice,
-
-        /// <summary>
-        /// Slot machine background image key.
-        /// </summary>
-        SlotBg,
-
-        /// <summary>
-        /// Slot machine emojis image key.
-        /// </summary>
-        SlotEmojis,
-
-        /// <summary>
-        /// Currency image key.
-        /// </summary>
-        Currency,
-
-        /// <summary>
-        /// Rip overlay image key.
-        /// </summary>
-        RipOverlay,
-
-        /// <summary>
-        /// Rip background image key.
-        /// </summary>
-        RipBg,
-
-        /// <summary>
-        /// XP background image key.
-        /// </summary>
-        XpBg
+        get
+        {
+            return GetByteData(ImageKeys.XpBg, BasePath + "xp-background/", "xp.png");
+        }
     }
 
     /// <summary>
-    /// Retrieves a byte array representing the background image for the XP system.
+    ///     Retrieves a byte array representing the RIP background image.
     /// </summary>
-    public byte[] XpBackground => GetByteData(ImageKeys.XpBg, BasePath + "xp-background/", "xp.png");
+    public byte[] Rip
+    {
+        get
+        {
+            return GetByteData(ImageKeys.RipBg, EmojiPath, "rip-bg.png");
+        }
+    }
 
     /// <summary>
-    /// Retrieves a byte array representing the RIP background image.
+    ///     Retrieves a byte array representing the RIP overlay image.
     /// </summary>
-    public byte[] Rip => GetByteData(ImageKeys.RipBg, EmojiPath, "rip-bg.png");
+    public byte[] RipOverlay
+    {
+        get
+        {
+            return GetByteData(ImageKeys.RipOverlay, EmojiPath, "rip-overlay.png");
+        }
+    }
+
 
     /// <summary>
-    /// Retrieves a byte array representing the RIP overlay image.
-    /// </summary>
-    public byte[] RipOverlay => GetByteData(ImageKeys.RipOverlay, EmojiPath, "rip-overlay.png");
-
-
-    /// <summary>
-    /// Retrieves a card image byte array based on the provided key.
+    ///     Retrieves a card image byte array based on the provided key.
     /// </summary>
     /// <param name="key">The key of the card image.</param>
     /// <returns>The byte array representing the card image.</returns>
-    public byte[] GetCard(string key) =>
-        File.ReadAllBytes(Path.Join(CardsPath, $"{key}.jpg"));
-
-    /// <summary>
-    /// Called when the bot is ready. Checks if all required keys exist in the cache and reloads them if necessary.
-    /// </summary>
-    public async Task OnReadyAsync()
+    public byte[] GetCard(string key)
     {
-        Log.Information($"Starting {this.GetType()} Cache");
-        if (await AllKeysExist().ConfigureAwait(false))
-            return;
-
-        await Reload().ConfigureAwait(false);
+        return File.ReadAllBytes(Path.Join(CardsPath, $"{key}.jpg"));
     }
 
     /// <summary>
-    /// Reloads all image data from the specified sources.
+    ///     Reloads all image data from the specified sources.
     /// </summary>
     public async Task Reload()
     {
@@ -133,6 +140,18 @@ public sealed class FusionImagesCache : IImageCache, IReadyExecutor, INService
         await Load(ImageKeys.Dice, Directory.GetFiles(BasePath, "dice*.png")).ConfigureAwait(false);
         await Load(ImageKeys.SlotEmojis, Directory.GetFiles(EmojiPath)).ConfigureAwait(false);
         await Load(ImageKeys.XpBg, Directory.GetFiles(BasePath + "xp-background/", "xp.png")).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Called when the bot is ready. Checks if all required keys exist in the cache and reloads them if necessary.
+    /// </summary>
+    public async Task OnReadyAsync()
+    {
+        Log.Information($"Starting {GetType()} Cache");
+        if (await AllKeysExist().ConfigureAwait(false))
+            return;
+
+        await Reload().ConfigureAwait(false);
     }
 
     private async Task Load(ImageKeys key, string path)
@@ -184,9 +203,10 @@ public sealed class FusionImagesCache : IImageCache, IReadyExecutor, INService
     }
 
 
-
-    private static IEnumerable<ImageKeys> GetAllKeys() =>
-        Enum.GetValues<ImageKeys>();
+    private static IEnumerable<ImageKeys> GetAllKeys()
+    {
+        return Enum.GetValues<ImageKeys>();
+    }
 
     private IReadOnlyList<byte[]> GetByteArrayData(ImageKeys key, string path, string pattern)
     {
@@ -207,9 +227,13 @@ public sealed class FusionImagesCache : IImageCache, IReadyExecutor, INService
             {
                 return await File.ReadAllBytesAsync(filePath);
             }
+
             return [];
         }, TimeSpan.FromDays(1)).Result;
     }
 
-   private string GetCacheKey(ImageKeys key) => $"{key}";
+    private string GetCacheKey(ImageKeys key)
+    {
+        return $"{key}";
+    }
 }

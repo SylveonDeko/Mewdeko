@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 namespace Mewdeko.Modules.Utility.Services;
 
 /// <summary>
-/// Manages the transformation of input commands based on alias mappings, allowing customization of command triggers.
+///     Manages the transformation of input commands based on alias mappings, allowing customization of command triggers.
 /// </summary>
 public class CommandMapService(DbContextProvider dbProvider, GuildSettingsService gss) : IInputTransformer, INService
 {
     /// <summary>
-    /// Transforms an input command based on alias mappings for the specific guild.
+    ///     Transforms an input command based on alias mappings for the specific guild.
     /// </summary>
     /// <param name="guild">The guild where the command was issued.</param>
     /// <param name="channel">The channel where the command was issued.</param>
@@ -60,7 +60,7 @@ public class CommandMapService(DbContextProvider dbProvider, GuildSettingsServic
     }
 
     /// <summary>
-    /// Clears all command aliases for a specified guild.
+    ///     Clears all command aliases for a specified guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild for which to clear aliases.</param>
     /// <returns>The number of aliases cleared.</returns>
@@ -73,7 +73,7 @@ public class CommandMapService(DbContextProvider dbProvider, GuildSettingsServic
         config.CommandAliases.Clear();
 
 
-       await using var db = await dbProvider.GetContextAsync();
+        await using var db = await dbProvider.GetContextAsync();
         var gc = await db.ForGuildId(guildId, set => set.Include(x => x.CommandAliases));
         var count = gc.CommandAliases.Count;
         gc.CommandAliases.Clear();
@@ -85,23 +85,30 @@ public class CommandMapService(DbContextProvider dbProvider, GuildSettingsServic
 }
 
 /// <summary>
-/// This class provides a way to compare two CommandAlias objects.
-/// It implements the IEqualityComparer interface which defines methods to support the comparison of objects for equality.
+///     This class provides a way to compare two CommandAlias objects.
+///     It implements the IEqualityComparer interface which defines methods to support the comparison of objects for
+///     equality.
 /// </summary>
 public class CommandAliasEqualityComparer : IEqualityComparer<CommandAlias>
 {
     /// <summary>
-    /// Determines whether the specified CommandAlias objects are equal.
+    ///     Determines whether the specified CommandAlias objects are equal.
     /// </summary>
     /// <param name="x">The first CommandAlias object to compare.</param>
     /// <param name="y">The second CommandAlias object to compare.</param>
     /// <returns>true if the specified CommandAlias objects are equal; otherwise, false.</returns>
-    public bool Equals(CommandAlias? x, CommandAlias? y) => x?.Trigger == y?.Trigger;
+    public bool Equals(CommandAlias? x, CommandAlias? y)
+    {
+        return x?.Trigger == y?.Trigger;
+    }
 
     /// <summary>
-    /// Returns a hash code for the specified CommandAlias object.
+    ///     Returns a hash code for the specified CommandAlias object.
     /// </summary>
     /// <param name="obj">The CommandAlias object for which a hash code is to be returned.</param>
     /// <returns>A hash code for the specified CommandAlias object.</returns>
-    public int GetHashCode(CommandAlias obj) => obj.Trigger.GetHashCode(StringComparison.InvariantCulture);
+    public int GetHashCode(CommandAlias obj)
+    {
+        return obj.Trigger.GetHashCode(StringComparison.InvariantCulture);
+    }
 }

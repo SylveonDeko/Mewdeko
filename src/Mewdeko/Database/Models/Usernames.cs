@@ -1,18 +1,17 @@
-namespace Mewdeko.Database.Models
+namespace Mewdeko.Database.Models;
+
+/// <summary>
+///     Represents a username associated with a user ID.
+/// </summary>
+public class Usernames : DbEntity
 {
     /// <summary>
-    /// Represents a username associated with a user ID.
+    ///     Gets or sets the username.
     /// </summary>
-    public class Usernames : DbEntity
-    {
-        /// <summary>
-        /// Gets or sets the username.
-        /// </summary>
-        public string? Username { get; set; }
+    public string? Username { get; set; }
 
-        /// <summary>
-        /// Gets or sets the user ID.
-        /// </summary>
-        public ulong UserId { get; set; }
-    }
+    /// <summary>
+    ///     Gets or sets the user ID.
+    /// </summary>
+    public ulong UserId { get; set; }
 }

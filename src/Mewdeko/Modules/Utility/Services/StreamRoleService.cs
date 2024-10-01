@@ -10,17 +10,18 @@ using Serilog;
 namespace Mewdeko.Modules.Utility.Services;
 
 /// <summary>
-/// Manages stream role assignments based on user streaming status and additional configurable conditions within guilds.
+///     Manages stream role assignments based on user streaming status and additional configurable conditions within
+///     guilds.
 /// </summary>
 public class StreamRoleService : INService, IUnloadableService, IReadyExecutor
 {
+    private readonly DiscordShardedClient client;
     private readonly DbContextProvider dbProvider;
     private readonly EventHandler eventHandler;
     private readonly GuildSettingsService gss;
-    private readonly DiscordShardedClient client;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="StreamRoleService"/>.
+    ///     Initializes a new instance of the <see cref="StreamRoleService" />.
     /// </summary>
     /// <param name="client">The Discord client used to access guild and user information.</param>
     /// <param name="db">The database service for storing and retrieving stream role settings.</param>
@@ -36,15 +37,6 @@ public class StreamRoleService : INService, IUnloadableService, IReadyExecutor
 
 
         eventHandler.GuildMemberUpdated += Client_GuildMemberUpdated;
-    }
-
-    /// <summary>
-    /// Unloads the service, detaching event handlers to stop listening to guild member updates.
-    /// </summary>
-    public Task Unload()
-    {
-        eventHandler.GuildMemberUpdated -= Client_GuildMemberUpdated;
-        return Task.CompletedTask;
     }
 
     /// <inheritdoc />
@@ -63,6 +55,15 @@ public class StreamRoleService : INService, IUnloadableService, IReadyExecutor
         }
     }
 
+    /// <summary>
+    ///     Unloads the service, detaching event handlers to stop listening to guild member updates.
+    /// </summary>
+    public Task Unload()
+    {
+        eventHandler.GuildMemberUpdated -= Client_GuildMemberUpdated;
+        return Task.CompletedTask;
+    }
+
     private async Task Client_GuildMemberUpdated(Cacheable<SocketGuildUser, ulong> cacheable, SocketGuildUser after)
     {
         var config = await gss.GetGuildConfig(after.Guild.Id);
@@ -72,7 +73,8 @@ public class StreamRoleService : INService, IUnloadableService, IReadyExecutor
     }
 
     /// <summary>
-    /// Adds or removes a user to/from a whitelist or blacklist for stream role management, and rescans users if successful.
+    ///     Adds or removes a user to/from a whitelist or blacklist for stream role management, and rescans users if
+    ///     successful.
     /// </summary>
     /// <param name="listType">Specifies whether to modify the whitelist or blacklist.</param>
     /// <param name="guild">The guild where the action is taking place.</param>
@@ -200,7 +202,7 @@ public class StreamRoleService : INService, IUnloadableService, IReadyExecutor
     }
 
     /// <summary>
-    /// Stops the stream role management in a guild.
+    ///     Stops the stream role management in a guild.
     /// </summary>
     /// <param name="guild">The guild to stop stream role management in.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>

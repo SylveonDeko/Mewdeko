@@ -5,16 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace Mewdeko.Controllers;
 
 /// <summary>
-/// Api endpoint to for chat triggers for guilds
+///     Api endpoint to for chat triggers for guilds
 /// </summary>
 [ApiController]
 [Route("botapi/[controller]/{guildId}")]
 [Authorize("ApiKeyPolicy")]
 public class ChatTriggersController(ChatTriggersService service) : Controller
 {
-
     /// <summary>
-    /// Retrieves chat triggers for a guild id
+    ///     Retrieves chat triggers for a guild id
     /// </summary>
     /// <param name="guildId">The guildid to get triggers for</param>
     /// <returns>Either a 404 if none are found or a CtModel array of triggers.</returns>
@@ -33,7 +32,7 @@ public class ChatTriggersController(ChatTriggersService service) : Controller
     }
 
     /// <summary>
-    /// Updates the provided trigger for a guild
+    ///     Updates the provided trigger for a guild
     /// </summary>
     /// <param name="guildId">The guild id to update a trigger for</param>
     /// <param name="toUpdate">The updated trigger info</param>
@@ -46,7 +45,7 @@ public class ChatTriggersController(ChatTriggersService service) : Controller
     }
 
     /// <summary>
-    /// Adds a trigger to a guild
+    ///     Adds a trigger to a guild
     /// </summary>
     /// <param name="guildId">The guild id to add the triggers for</param>
     /// <param name="toAdd">The trigger to add</param>
@@ -59,7 +58,7 @@ public class ChatTriggersController(ChatTriggersService service) : Controller
     }
 
     /// <summary>
-    /// Remove a trigger
+    ///     Remove a trigger
     /// </summary>
     /// <param name="guildId">The guild to remove it from</param>
     /// <param name="id">The id of the trigger</param>
@@ -70,5 +69,4 @@ public class ChatTriggersController(ChatTriggersService service) : Controller
         await service.DeleteAsync(guildId, id);
         return Ok();
     }
-
 }

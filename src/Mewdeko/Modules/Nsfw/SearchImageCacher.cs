@@ -8,13 +8,10 @@ using Serilog;
 namespace Mewdeko.Modules.Nsfw;
 
 /// <summary>
-/// Caches images from various boorus.
+///     Caches images from various boorus.
 /// </summary>
 public class SearchImageCacher : INService
 {
-    private readonly IHttpClientFactory httpFactory;
-    private readonly Random rng;
-
     private static readonly ISet<string> DefaultTagBlacklist = new HashSet<string>
     {
         "loli",
@@ -24,12 +21,17 @@ public class SearchImageCacher : INService
         "cub"
     };
 
+    private readonly IMemoryCache cache;
+    private readonly IHttpClientFactory httpFactory;
+
+    private readonly ConcurrentDictionary<(Booru, string), int> maxPages = new();
+    private readonly Random rng;
+
     private readonly Dictionary<Booru, object> typeLocks = new();
     private readonly Dictionary<Booru, HashSet<string>> usedTags = new();
-    private readonly IMemoryCache cache;
 
     /// <summary>
-    /// Initializes a new instance of the SearchImageCacher class.
+    ///     Initializes a new instance of the SearchImageCacher class.
     /// </summary>
     /// <param name="httpFactory">The factory to create HttpClient instances.</param>
     /// <param name="cache">The memory cache implementation for caching search results.</param>
@@ -48,10 +50,12 @@ public class SearchImageCacher : INService
     }
 
     private static string Key(Booru boory, string tag)
-        => $"booru:{boory}__tag:{tag}";
+    {
+        return $"booru:{boory}__tag:{tag}";
+    }
 
     /// <summary>
-    /// Download images of the specified type, and cache them.
+    ///     Download images of the specified type, and cache them.
     /// </summary>
     /// <param name="tags">Required tags</param>
     /// <param name="forceExplicit">Whether images will be forced to be explicit</param>
@@ -204,7 +208,7 @@ public class SearchImageCacher : INService
     }
 
     /// <summary>
-    /// Asynchronously retrieves a new image based on the provided tags, preferences, and booru type.
+    ///     Asynchronously retrieves a new image based on the provided tags, preferences, and booru type.
     /// </summary>
     /// <param name="tags">An array of tags to search for.</param>
     /// <param name="forceExplicit">A boolean indicating whether to force explicit content.</param>
@@ -212,7 +216,8 @@ public class SearchImageCacher : INService
     /// <param name="blacklistedTags">A set of blacklisted tags.</param>
     /// <param name="cancel">A cancellation token to cancel the operation.</param>
     /// <returns>
-    /// A task representing the asynchronous operation. The task result is either the retrieved image data or null if no image is found.
+    ///     A task representing the asynchronous operation. The task result is either the retrieved image data or null if no
+    ///     image is found.
     /// </returns>
     public async Task<ImageData?> GetImageNew(string?[] tags, bool forceExplicit, Booru type,
         HashSet<string> blacklistedTags, CancellationToken cancel)
@@ -250,10 +255,8 @@ public class SearchImageCacher : INService
         return !success ? default : QueryLocal(tags, type, blacklistedTags);
     }
 
-    private readonly ConcurrentDictionary<(Booru, string), int> maxPages = new();
-
     /// <summary>
-    /// Asynchronously downloads images based on the provided tags, preferences, and booru type.
+    ///     Asynchronously downloads images based on the provided tags, preferences, and booru type.
     /// </summary>
     /// <param name="tags">An array of tags to search for.</param>
     /// <param name="isExplicit">A boolean indicating whether explicit content is allowed.</param>
@@ -298,7 +301,8 @@ public class SearchImageCacher : INService
     }
 
     private IImageDownloader GetImageDownloader(Booru booru)
-        => booru switch
+    {
+        return booru switch
         {
             Booru.Danbooru => new DanbooruImageDownloader(httpFactory),
             Booru.Yandere => new YandereImageDownloader(httpFactory),
@@ -312,6 +316,7 @@ public class SearchImageCacher : INService
             Booru.Realbooru => new RealbooruImageDownloader(httpFactory),
             _ => throw new NotImplementedException($"{booru} downloader not implemented.")
         };
+    }
 
 
     private async Task<List<ImageData>> DownloadImagesAsync(string[] tags, bool isExplicit, Booru type, int page,

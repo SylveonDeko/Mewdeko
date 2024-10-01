@@ -6,31 +6,37 @@ namespace Mewdeko.Modules.Server_Management;
 public partial class ServerManagement
 {
     /// <summary>
-    /// Contains commands for managing channel permission overrides for roles and users.
+    ///     Contains commands for managing channel permission overrides for roles and users.
     /// </summary>
     public class PermControls : MewdekoSubmodule
     {
         /// <summary>
-        /// Computes the raw value of a set of channel permissions by aggregating their bitwise representations.
+        ///     Computes the raw value of a set of channel permissions by aggregating their bitwise representations.
         /// </summary>
         /// <param name="permissions">A collection of channel permissions.</param>
         /// <returns>The aggregated raw permission value.</returns>
         private static ulong GetRawPermissionValue(IEnumerable<ChannelPermission> permissions)
-            => permissions.Aggregate<ChannelPermission, ulong>(0, (current, permission) => current | (ulong)permission);
+        {
+            return permissions.Aggregate<ChannelPermission, ulong>(0,
+                (current, permission) => current | (ulong)permission);
+        }
 
         /// <summary>
-        /// Modifies channel permissions for a specified role according to the provided permissions and action.
+        ///     Modifies channel permissions for a specified role according to the provided permissions and action.
         /// </summary>
         /// <param name="channel">The channel for which permissions are being modified.</param>
         /// <param name="perm">The action to perform (Allow, Deny, Inherit).</param>
         /// <param name="role">The role to which the permissions modifications apply.</param>
         /// <param name="perms">A set of permissions to be modified.</param>
         /// <remarks>
-        /// Allows, denies, or resets (inherit) specific channel permissions for a role.
-        /// Notifies the channel of the modifications made.
+        ///     Allows, denies, or resets (inherit) specific channel permissions for a role.
+        ///     Notifies the channel of the modifications made.
         /// </remarks>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageChannels), Priority(1)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageChannels)]
+        [Priority(1)]
         public async Task PermControl(SocketGuildChannel channel, PermValue perm, IRole role,
             params ChannelPermission[] perms)
         {
@@ -96,18 +102,21 @@ public partial class ServerManagement
         }
 
         /// <summary>
-        /// Modifies channel permissions for a specified user according to the provided permissions and action.
+        ///     Modifies channel permissions for a specified user according to the provided permissions and action.
         /// </summary>
         /// <param name="channel">The channel for which permissions are being modified.</param>
         /// <param name="perm">The action to perform (Allow, Deny, Inherit).</param>
         /// <param name="user">The user to which the permissions modifications apply.</param>
         /// <param name="perms">A set of permissions to be modified.</param>
         /// <remarks>
-        /// Allows, denies, or resets (inherit) specific channel permissions for a user.
-        /// Notifies the channel of the modifications made.
+        ///     Allows, denies, or resets (inherit) specific channel permissions for a user.
+        ///     Notifies the channel of the modifications made.
         /// </remarks>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageChannels), Priority(1)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageChannels)]
+        [Priority(1)]
         public async Task PermControl(SocketGuildChannel channel, PermValue perm, IUser user,
             params ChannelPermission[] perms)
         {

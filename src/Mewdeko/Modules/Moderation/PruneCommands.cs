@@ -7,7 +7,7 @@ namespace Mewdeko.Modules.Moderation;
 public partial class Moderation
 {
     /// <summary>
-    /// Module for purging messages.
+    ///     Module for purging messages.
     /// </summary>
     /// <param name="client"></param>
     [Group]
@@ -16,11 +16,13 @@ public partial class Moderation
         private static readonly TimeSpan TwoWeeks = TimeSpan.FromDays(14);
 
         /// <summary>
-        /// Purges messages from the current channel.
+        ///     Purges messages from the current channel.
         /// </summary>
         /// <param name="parameter">The parameters to use</param>
-        [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages),
-         RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [UserPerm(GuildPermission.ManageMessages)]
+        [RequireContext(ContextType.Guild)]
         public async Task Purge(string? parameter = null)
         {
             var user = await ctx.Guild.GetCurrentUserAsync().ConfigureAwait(false);
@@ -42,10 +44,9 @@ public partial class Moderation
 
         // Purge x
         /// <summary>
-        /// Purges messages from the current channel with the specific amount and parameters.
-        ///
-        /// The options are:
-        /// <code>
+        ///     Purges messages from the current channel with the specific amount and parameters.
+        ///     The options are:
+        ///     <code>
         /// -s, --safe: Purge messages that are not pinned
         /// -nb, --nobots: Purge messages that are not from bots
         /// -ob, --onlybots: Purge messages that are from bots
@@ -58,8 +59,12 @@ public partial class Moderation
         /// </summary>
         /// <param name="count">The amount of messages to purge</param>
         /// <param name="parameters">The parameters to use</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(1)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(ChannelPermission.ManageMessages)]
+        [BotPerm(ChannelPermission.ManageMessages)]
+        [Priority(1)]
         public async Task Purge(ulong count, string? parameters = null)
         {
             if (await client.Rest.GetUserAsync(count) is not null)
@@ -134,32 +139,45 @@ public partial class Moderation
             await Service.PurgeWhere((ITextChannel)ctx.Channel, count, CombinedPredicate).ConfigureAwait(false);
             return;
 
-            bool CombinedPredicate(IMessage m) => options.All(p => p(m));
+            bool CombinedPredicate(IMessage m)
+            {
+                return options.All(p => p(m));
+            }
         }
 
         //Purge @user [x]
         /// <summary>
-        /// Purges messages from the current channel with the specific user and amount.
+        ///     Purges messages from the current channel with the specific user and amount.
         /// </summary>
         /// <param name="user">The user to purge messages from</param>
         /// <param name="count">The amount of messages to purge</param>
         /// <param name="parameter">The parameter to use</param>
         /// <returns></returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(0)]
-        public Task Purge(IGuildUser user, ulong count = 100, string? parameter = null) =>
-            Purge(user.Id, count, parameter);
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(ChannelPermission.ManageMessages)]
+        [BotPerm(ChannelPermission.ManageMessages)]
+        [Priority(0)]
+        public Task Purge(IGuildUser user, ulong count = 100, string? parameter = null)
+        {
+            return Purge(user.Id, count, parameter);
+        }
 
         //Purge userid [x]
         /// <summary>
-        /// Purges messages from the current channel with the specific user id and amount.
+        ///     Purges messages from the current channel with the specific user id and amount.
         /// </summary>
         /// <param name="userId">The user id to purge messages from</param>
         /// <param name="count">The amount of messages to purge</param>
         /// <param name="parameter">The parameter to use</param>
         /// <returns></returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(ChannelPermission.ManageMessages), BotPerm(ChannelPermission.ManageMessages), Priority(0)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(ChannelPermission.ManageMessages)]
+        [BotPerm(ChannelPermission.ManageMessages)]
+        [Priority(0)]
         public Task Purge(ulong userId, ulong count = 100, string? parameter = null)
         {
             if (userId == ctx.User.Id)
@@ -185,11 +203,14 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Purges all messages from accesible channels for a user.
+        ///     Purges all messages from accesible channels for a user.
         /// </summary>
         /// <param name="user">The user who's messages to purge</param>
         /// <param name="messageCount">The count of messages to search</param>
-        [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages), BotPerm(GuildPermission.ManageMessages)]
+        [Cmd]
+        [Aliases]
+        [UserPerm(GuildPermission.ManageMessages)]
+        [BotPerm(GuildPermission.ManageMessages)]
         public async Task PurgeUser(IUser user, int messageCount)
         {
             if (messageCount is > 1000 or < 1)

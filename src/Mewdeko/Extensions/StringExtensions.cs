@@ -7,12 +7,12 @@ using Newtonsoft.Json;
 namespace Mewdeko.Extensions;
 
 /// <summary>
-/// Extension methods for many, MANY things used in the bot related to strings.
+///     Extension methods for many, MANY things used in the bot related to strings.
 /// </summary>
 public static partial class StringExtensions
 {
     /// <summary>
-    /// Represents a collection of letters and digits.
+    ///     Represents a collection of letters and digits.
     /// </summary>
     private static readonly HashSet<char> LettersAndDigits =
     [
@@ -23,25 +23,25 @@ public static partial class StringExtensions
     ];
 
     /// <summary>
-    /// Invites are filtered using this regex pattern.
+    ///     Invites are filtered using this regex pattern.
     /// </summary>
     private static readonly Regex FilterRegex =
         MyRegex1();
 
     /// <summary>
-    /// Unicode code points are matched using this regex pattern.
+    ///     Unicode code points are matched using this regex pattern.
     /// </summary>
     private static readonly Regex CodePointRegex
         = MyRegex2();
 
     /// <summary>
-    /// User mentions are matched using this regex pattern.
+    ///     User mentions are matched using this regex pattern.
     /// </summary>
     public static readonly Regex UserMentionsRegex = MyRegex();
 
 
     /// <summary>
-    /// Mapping of color names to hexadecimal color codes.
+    ///     Mapping of color names to hexadecimal color codes.
     /// </summary>
     private static readonly Dictionary<string, string> ColorNameHexMapping = new()
     {
@@ -471,8 +471,8 @@ public static partial class StringExtensions
     };
 
     /// <summary>
-    /// Retrieves the hexadecimal color code corresponding to the given color name.
-    /// Returns null if the color name is not found in the mapping.
+    ///     Retrieves the hexadecimal color code corresponding to the given color name.
+    ///     Returns null if the color name is not found in the mapping.
     /// </summary>
     /// <param name="colorName">The name of the color to retrieve the hexadecimal code for.</param>
     /// <returns>The hexadecimal color code, or null if not found.</returns>
@@ -482,7 +482,7 @@ public static partial class StringExtensions
     }
 
     /// <summary>
-    /// Generates a secure string of the specified length using alphanumeric characters.
+    ///     Generates a secure string of the specified length using alphanumeric characters.
     /// </summary>
     /// <param name="length">The length of the secure string to generate.</param>
     /// <returns>A secure string of the specified length.</returns>
@@ -503,14 +503,17 @@ public static partial class StringExtensions
     }
 
     /// <summary>
-    /// Indicates whether the specified string is null, empty, or consists only of white-space characters.
+    ///     Indicates whether the specified string is null, empty, or consists only of white-space characters.
     /// </summary>
     /// <param name="str">The string to check.</param>
     /// <returns>True if the string is null, empty, or contains only white-space characters; otherwise, false.</returns>
-    public static bool IsNullOrWhiteSpace(this string str) => string.IsNullOrWhiteSpace(str);
+    public static bool IsNullOrWhiteSpace(this string str)
+    {
+        return string.IsNullOrWhiteSpace(str);
+    }
 
     /// <summary>
-    /// Pads both sides of the string to make it centered within the specified length.
+    ///     Pads both sides of the string to make it centered within the specified length.
     /// </summary>
     /// <param name="str">The string to pad.</param>
     /// <param name="length">The total length of the padded string.</param>
@@ -523,35 +526,40 @@ public static partial class StringExtensions
     }
 
     /// <summary>
-    /// Replaces Unicode code point placeholders in the string with their corresponding characters.
+    ///     Replaces Unicode code point placeholders in the string with their corresponding characters.
     /// </summary>
     /// <param name="input">The string containing Unicode code point placeholders.</param>
     /// <returns>The string with Unicode code point placeholders replaced by their corresponding characters.</returns>
-    public static string UnescapeUnicodeCodePoints(this string input) =>
-        CodePointRegex.Replace(input, me =>
+    public static string UnescapeUnicodeCodePoints(this string input)
+    {
+        return CodePointRegex.Replace(input, me =>
         {
             var str = me.Groups["code"].Value;
             return YamlHelper.UnescapeUnicodeCodePoint(str);
         });
+    }
 
     /// <summary>
-    /// Checks if the specified string represents an image file based on its file extension.
+    ///     Checks if the specified string represents an image file based on its file extension.
     /// </summary>
     /// <param name="input">The string representing the file name or path.</param>
     /// <returns>True if the string represents an image file; otherwise, false.</returns>
-    public static bool IsImage(this string input) =>
-        input.EndsWith(".png") ||
-        input.EndsWith(".gif") ||
-        input.EndsWith(".jpg") ||
-        input.EndsWith(".jpeg");
+    public static bool IsImage(this string input)
+    {
+        return input.EndsWith(".png") ||
+               input.EndsWith(".gif") ||
+               input.EndsWith(".jpg") ||
+               input.EndsWith(".jpeg");
+    }
 
     /// <summary>
-    /// Checks if the specified string represents a music file URL based on its file extension.
+    ///     Checks if the specified string represents a music file URL based on its file extension.
     /// </summary>
     /// <param name="input">The string representing the URL.</param>
     /// <returns>True if the string represents a music file URL; otherwise, false.</returns>
-    public static bool CheckIfMusicUrl(this string input) =>
-        input.EndsWith(".mp4") switch
+    public static bool CheckIfMusicUrl(this string input)
+    {
+        return input.EndsWith(".mp4") switch
         {
             false when input.EndsWith(".mp3") => true,
             false when input.EndsWith(".flac") => true,
@@ -562,35 +570,44 @@ public static partial class StringExtensions
             false => false,
             _ => true
         };
+    }
 
 
     /// <summary>
-    /// Checks if the specified string represents a file format that cannot be embedded in a message.
+    ///     Checks if the specified string represents a file format that cannot be embedded in a message.
     /// </summary>
     /// <param name="input">The string representing the file name or format.</param>
     /// <returns>True if the string represents a non-embeddable file format; otherwise, false.</returns>
     public static bool CheckIfNotEmbeddable(this string input)
-        => input.EndsWith("gifv") || input.EndsWith("mp4") || !input.EndsWith(".png") && !input.EndsWith(".jpg") &&
+    {
+        return input.EndsWith("gifv") || input.EndsWith("mp4") || !input.EndsWith(".png") && !input.EndsWith(".jpg") &&
             !input.EndsWith(".jpeg") || !input.EndsWith(".gif");
+    }
 
     /// <summary>
-    /// Deserializes a JSON string into an object of the specified type.
+    ///     Deserializes a JSON string into an object of the specified type.
     /// </summary>
     /// <typeparam name="T">The type of object to deserialize into.</typeparam>
     /// <param name="str">The JSON string to deserialize.</param>
     /// <returns>The deserialized object.</returns>
-    public static T MapJson<T>(this string str) => JsonConvert.DeserializeObject<T>(str);
+    public static T MapJson<T>(this string str)
+    {
+        return JsonConvert.DeserializeObject<T>(str);
+    }
 
     /// <summary>
-    /// Removes HTML tags from the specified input string.
+    ///     Removes HTML tags from the specified input string.
     /// </summary>
     /// <param name="input">The input string containing HTML tags.</param>
     /// <returns>The input string with HTML tags removed.</returns>
-    public static string StripHtml(this string input) => Regex.Replace(input, "<.*?>", string.Empty);
+    public static string StripHtml(this string input)
+    {
+        return Regex.Replace(input, "<.*?>", string.Empty);
+    }
 
 
     /// <summary>
-    /// Converts the input string to title case.
+    ///     Converts the input string to title case.
     /// </summary>
     /// <param name="str">The input string to convert.</param>
     /// <returns>The input string converted to title case.</returns>
@@ -612,7 +629,7 @@ public static partial class StringExtensions
     }
 
     /// <summary>
-    /// Removes trailing 'S' or 'ES' (if specified) on the given string if the number is 1.
+    ///     Removes trailing 'S' or 'ES' (if specified) on the given string if the number is 1.
     /// </summary>
     /// <param name="str">The input string.</param>
     /// <param name="num">The number associated with the string.</param>
@@ -630,7 +647,7 @@ public static partial class StringExtensions
 
 
     /// <summary>
-    /// Calculates the Levenshtein distance between two strings.
+    ///     Calculates the Levenshtein distance between two strings.
     /// </summary>
     /// <param name="s">The first string.</param>
     /// <param name="t">The second string.</param>
@@ -672,7 +689,7 @@ public static partial class StringExtensions
 
 
     /// <summary>
-    /// Converts a string to a stream.
+    ///     Converts a string to a stream.
     /// </summary>
     /// <param name="str">The string to convert.</param>
     /// <returns>A stream containing the string data.</returns>
@@ -687,14 +704,17 @@ public static partial class StringExtensions
     }
 
     /// <summary>
-    /// Checks if the string contains a Discord invite link.
+    ///     Checks if the string contains a Discord invite link.
     /// </summary>
     /// <param name="str">The string to check.</param>
     /// <returns>True if the string contains a Discord invite link, false otherwise.</returns>
-    public static bool IsDiscordInvite(this string str) => FilterRegex.IsMatch(str);
+    public static bool IsDiscordInvite(this string str)
+    {
+        return FilterRegex.IsMatch(str);
+    }
 
     /// <summary>
-    /// Sanitizes mentions in the string.
+    ///     Sanitizes mentions in the string.
     /// </summary>
     /// <param name="str">The string to sanitize.</param>
     /// <param name="sanitizeRoleMentions">A flag indicating whether to sanitize role mentions.</param>
@@ -710,39 +730,50 @@ public static partial class StringExtensions
     }
 
     /// <summary>
-    /// Sanitizes role mentions in the string.
+    ///     Sanitizes role mentions in the string.
     /// </summary>
     /// <param name="str">The string to sanitize.</param>
     /// <returns>The sanitized string.</returns>
-    public static string SanitizeRoleMentions(this string? str) =>
-        str.Replace("<@&", "<ම&", StringComparison.InvariantCultureIgnoreCase);
+    public static string SanitizeRoleMentions(this string? str)
+    {
+        return str.Replace("<@&", "<ම&", StringComparison.InvariantCultureIgnoreCase);
+    }
 
     /// <summary>
-    /// Removes user mentions from the string.
+    ///     Removes user mentions from the string.
     /// </summary>
     /// <param name="str">The string to process.</param>
     /// <returns>The string with user mentions removed.</returns>
-    public static string RemoveUserMentions(this string str) => UserMentionsRegex.Replace(str, "");
+    public static string RemoveUserMentions(this string str)
+    {
+        return UserMentionsRegex.Replace(str, "");
+    }
 
 
     /// <summary>
-    /// Retrieves user mentions from the string.
+    ///     Retrieves user mentions from the string.
     /// </summary>
     /// <param name="str">The string to search for user mentions.</param>
     /// <returns>An enumerable collection of user IDs.</returns>
-    public static IEnumerable<ulong> GetUserMentions(this string str) => UserMentionsRegex.Matches(str)
-        .Select(x => ulong.TryParse(x.Value, out var u) ? u : 0)
-        .Where(x => x is not 0).Distinct();
+    public static IEnumerable<ulong> GetUserMentions(this string str)
+    {
+        return UserMentionsRegex.Matches(str)
+            .Select(x => ulong.TryParse(x.Value, out var u) ? u : 0)
+            .Where(x => x is not 0).Distinct();
+    }
 
     /// <summary>
-    /// Sanitizes all mentions in the string, including user and role mentions.
+    ///     Sanitizes all mentions in the string, including user and role mentions.
     /// </summary>
     /// <param name="str">The string to sanitize.</param>
     /// <returns>The sanitized string.</returns>
-    public static string SanitizeAllMentions(this string? str) => str.SanitizeMentions().SanitizeRoleMentions();
+    public static string SanitizeAllMentions(this string? str)
+    {
+        return str.SanitizeMentions().SanitizeRoleMentions();
+    }
 
     /// <summary>
-    /// Converts the string to its Base64 representation.
+    ///     Converts the string to its Base64 representation.
     /// </summary>
     /// <param name="plainText">The plain text string to encode.</param>
     /// <returns>The Base64-encoded string.</returns>
@@ -753,37 +784,48 @@ public static partial class StringExtensions
     }
 
     /// <summary>
-    /// Extracts initials from the string.
+    ///     Extracts initials from the string.
     /// </summary>
     /// <param name="txt">The input string.</param>
     /// <param name="glue">The glue string used to join the initials.</param>
     /// <returns>The extracted initials.</returns>
-    public static string GetInitials(this string txt, string glue = "") =>
-        string.Join(glue, txt.Split(' ').Select(x => x.FirstOrDefault()));
+    public static string GetInitials(this string txt, string glue = "")
+    {
+        return string.Join(glue, txt.Split(' ').Select(x => x.FirstOrDefault()));
+    }
 
     /// <summary>
-    /// Determines whether the string is alphanumeric.
+    ///     Determines whether the string is alphanumeric.
     /// </summary>
     /// <param name="txt">The string to check.</param>
     /// <returns>True if the string is alphanumeric, otherwise false.</returns>
-    public static bool IsAlphaNumeric(this string txt) => txt.All(c => LettersAndDigits.Contains(c));
+    public static bool IsAlphaNumeric(this string txt)
+    {
+        return txt.All(c => LettersAndDigits.Contains(c));
+    }
 
     /// <summary>
-    /// Removes URLs from the string.
+    ///     Removes URLs from the string.
     /// </summary>
     /// <param name="txt">The string to process.</param>
     /// <returns>The string with URLs removed.</returns>
-    public static string RemoveUrls(this string txt) => Extensions.UrlRegex.Replace(txt, "");
+    public static string RemoveUrls(this string txt)
+    {
+        return Extensions.UrlRegex.Replace(txt, "");
+    }
 
     /// <summary>
-    /// Escapes special characters in the string.
+    ///     Escapes special characters in the string.
     /// </summary>
     /// <param name="txt">The input string.</param>
     /// <returns>The escaped string.</returns>
-    public static string EscapeWeirdStuff(this string txt) => txt.Replace(@"\", @"\\").Replace("\"", "\\\"");
+    public static string EscapeWeirdStuff(this string txt)
+    {
+        return txt.Replace(@"\", @"\\").Replace("\"", "\\\"");
+    }
 
     /// <summary>
-    /// Tries to format a string with the provided arguments.
+    ///     Tries to format a string with the provided arguments.
     /// </summary>
     /// <param name="data">The format string.</param>
     /// <param name="args">An array of objects to format.</param>

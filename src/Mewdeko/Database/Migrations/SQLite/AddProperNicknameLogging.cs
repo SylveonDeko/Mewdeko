@@ -1,11 +1,13 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mewdeko.Database.Migrations.SQLite;
+
 /// <inheritdoc />
 public partial class AddProperNicknameLogging : Migration
 {
     /// <inheritdoc />
-    protected override void Up(MigrationBuilder migrationBuilder) =>
+    protected override void Up(MigrationBuilder migrationBuilder)
+    {
         migrationBuilder.CreateTable("Nicknames",
             builder => new
             {
@@ -15,4 +17,5 @@ public partial class AddProperNicknameLogging : Migration
                 UserId = builder.Column<ulong>(),
                 DateAdded = builder.Column<DateTime>(nullable: true)
             }, constraints: table => table.PrimaryKey("PK_Nicknames", x => x.Id));
+    }
 }

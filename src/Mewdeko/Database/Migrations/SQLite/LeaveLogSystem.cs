@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mewdeko.Database.Migrations.SQLite;
+
 /// <inheritdoc />
 public partial class CreateJoinLeaveLogsSystemThingie : Migration
 {
@@ -8,15 +9,15 @@ public partial class CreateJoinLeaveLogsSystemThingie : Migration
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.CreateTable(
-            name: "JoinLeaveLogs",
-            columns: table => new
+            "JoinLeaveLogs",
+            table => new
             {
-                Id = table.Column<int>(type: "INTEGER", nullable: false)
+                Id = table.Column<int>("INTEGER", nullable: false)
                     .Annotation("Sqlite:Autoincrement", true),
-                GuildId = table.Column<ulong>(type: "INTEGER", nullable: false),
-                UserId = table.Column<ulong>(type: "INTEGER", nullable: false),
-                IsJoin = table.Column<bool>(type: "INTEGER", nullable: false),
-                DateAdded = table.Column<DateTime>(type: "TEXT", nullable: false)
+                GuildId = table.Column<ulong>("INTEGER", nullable: false),
+                UserId = table.Column<ulong>("INTEGER", nullable: false),
+                IsJoin = table.Column<bool>("INTEGER", nullable: false),
+                DateAdded = table.Column<DateTime>("TEXT", nullable: false)
             },
             constraints: table =>
             {
@@ -28,6 +29,6 @@ public partial class CreateJoinLeaveLogsSystemThingie : Migration
     protected override void Down(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.DropTable(
-            name: "JoinLeaveLogs");
+            "JoinLeaveLogs");
     }
 }

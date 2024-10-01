@@ -14,30 +14,34 @@ namespace Mewdeko.Modules.Moderation;
 public partial class Moderation
 {
     /// <summary>
-    /// Module for managing mini warnings.
+    ///     Module for managing mini warnings.
     /// </summary>
     /// <param name="db"></param>
     /// <param name="serv"></param>
     [Group]
-    public class UserPunishCommands2(DbContextProvider dbProvider, InteractiveService serv) : MewdekoSubmodule<UserPunishService2>
+    public class UserPunishCommands2(DbContextProvider dbProvider, InteractiveService serv)
+        : MewdekoSubmodule<UserPunishService2>
     {
         /// <summary>
-        /// The addrole thing used for punishments
+        ///     The addrole thing used for punishments
         /// </summary>
         public enum AddRole
         {
             /// <summary>
-            /// Add a role
+            ///     Add a role
             /// </summary>
             AddRole
         }
 
         /// <summary>
-        /// Sets the mini warnlog channel.
+        ///     Sets the mini warnlog channel.
         /// </summary>
         /// <param name="channel">The channel to set</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator), Priority(0)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        [Priority(0)]
         public async Task SetMWarnChannel([Remainder] ITextChannel channel)
         {
             if (string.IsNullOrWhiteSpace(channel.Name))
@@ -68,12 +72,14 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Mini Warns a user.
+        ///     Mini Warns a user.
         /// </summary>
         /// <param name="user">The user to warn</param>
         /// <param name="reason">The reason for the warning</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.MuteMembers)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.MuteMembers)]
         public async Task MWarn(IGuildUser user, [Remainder] string? reason = null)
         {
             if (ctx.User.Id != user.Guild.OwnerId
@@ -144,12 +150,15 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Sets the mini warn expire time.
+        ///     Sets the mini warn expire time.
         /// </summary>
         /// <param name="days">The number of days to set</param>
         /// <param name="action">The action to take when a warn expires</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator), Priority(2)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        [Priority(2)]
         public async Task MWarnExpire(int days, WarnExpireAction action = WarnExpireAction.Clear)
         {
             if (days is < 0 or > 366)
@@ -177,21 +186,30 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Gets the mini warnlog for a user.
+        ///     Gets the mini warnlog for a user.
         /// </summary>
         /// <param name="page">The page number</param>
         /// <param name="user">The user to get the warnlog for</param>
         /// <returns></returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.MuteMembers), Priority(2)]
-        public Task MWarnlog(int page, IGuildUser user) => MWarnlog(page, user.Id);
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.MuteMembers)]
+        [Priority(2)]
+        public Task MWarnlog(int page, IGuildUser user)
+        {
+            return MWarnlog(page, user.Id);
+        }
 
         /// <summary>
-        /// Gets the mini warnlog for a user.
+        ///     Gets the mini warnlog for a user.
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(3)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [Priority(3)]
         public Task MWarnlog(IGuildUser? user = null)
         {
             if (user == null)
@@ -202,23 +220,35 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Gets the mini warnlog for a user.
+        ///     Gets the mini warnlog for a user.
         /// </summary>
         /// <param name="page">The page number</param>
         /// <param name="userId">The user id to get the warnlog for</param>
         /// <returns></returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.MuteMembers), Priority(0)]
-        public Task MWarnlog(int page, ulong userId) => InternalWarnlog(userId, page - 1);
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.MuteMembers)]
+        [Priority(0)]
+        public Task MWarnlog(int page, ulong userId)
+        {
+            return InternalWarnlog(userId, page - 1);
+        }
 
         /// <summary>
-        /// Gets the mini warnlog for a user.
+        ///     Gets the mini warnlog for a user.
         /// </summary>
         /// <param name="userId">The user id to get the warnlog for</param>
         /// <returns></returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.MuteMembers), Priority(1)]
-        public Task MWarnlog(ulong userId) => InternalWarnlog(userId, 0);
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.MuteMembers)]
+        [Priority(1)]
+        public Task MWarnlog(ulong userId)
+        {
+            return InternalWarnlog(userId, 0);
+        }
 
         private async Task InternalWarnlog(ulong userId, int page)
         {
@@ -260,10 +290,12 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Gets the mini warnlog for all users.
+        ///     Gets the mini warnlog for all users.
         /// </summary>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.MuteMembers)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.MuteMembers)]
         public async Task MWarnlogAll()
         {
             var warnings = await Service.WarnlogAll(ctx.Guild.Id);
@@ -303,22 +335,29 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Clears a user's mini warnings. If index is specified, clears only that warning.
+        ///     Clears a user's mini warnings. If index is specified, clears only that warning.
         /// </summary>
         /// <param name="user">The user to clear the warnings for</param>
         /// <param name="index">The index of the warning to clear</param>
         /// <returns></returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator)]
-        public Task MWarnclear(IGuildUser user, int index = 0) => MWarnclear(user.Id, index);
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        public Task MWarnclear(IGuildUser user, int index = 0)
+        {
+            return MWarnclear(user.Id, index);
+        }
 
         /// <summary>
-        /// Clears a user's mini warnings. If index is specified, clears only that warning.
+        ///     Clears a user's mini warnings. If index is specified, clears only that warning.
         /// </summary>
         /// <param name="userId">The user id to clear the warnings for</param>
         /// <param name="index">The index of the warning to clear</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task MWarnclear(ulong userId, int index = 0)
         {
             if (index < 0)
@@ -345,14 +384,17 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Sets the mini warn punishment.
+        ///     Sets the mini warn punishment.
         /// </summary>
         /// <param name="number">The number of warnings</param>
         /// <param name="_">The addrole thing</param>
         /// <param name="role">The role to add (used only if addrole is specified)</param>
         /// <param name="time">The time to do the punishment for</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator), Priority(1)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        [Priority(1)]
         public async Task MWarnPunish(int number, AddRole _, IRole role, StoopidTime? time = null)
         {
             const PunishmentAction punish = PunishmentAction.AddRole;
@@ -377,13 +419,15 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Sets the mini warn punishment.
+        ///     Sets the mini warn punishment.
         /// </summary>
         /// <param name="number">The number of warnings</param>
         /// <param name="punish">The punishment to set</param>
         /// <param name="time">The time to do the punishment for</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task MWarnPunish(int number, PunishmentAction punish, StoopidTime? time = null)
         {
             // this should never happen. Addrole has its own method with higher priority
@@ -411,11 +455,13 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Removes a mini warn punishment.
+        ///     Removes a mini warn punishment.
         /// </summary>
         /// <param name="number">The number of warnings</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task MWarnPunish(int number)
         {
             if (!await Service.WarnPunishRemove(ctx.Guild.Id, number)) return;
@@ -425,9 +471,11 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Lists mini warn punishments.
+        ///     Lists mini warn punishments.
         /// </summary>
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task MWarnPunishList()
         {
             var ps = await Service.WarnPunishList(ctx.Guild.Id);

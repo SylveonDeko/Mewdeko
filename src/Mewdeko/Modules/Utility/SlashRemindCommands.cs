@@ -9,13 +9,14 @@ using Swan;
 namespace Mewdeko.Modules.Utility;
 
 /// <summary>
-/// Handles commands for setting, viewing, and managing reminders.
+///     Handles commands for setting, viewing, and managing reminders.
 /// </summary>
 [Group("remind", "remind")]
-public class SlashRemindCommands(DbContextProvider dbProvider, GuildTimezoneService tz) : MewdekoSlashModuleBase<RemindService>
+public class SlashRemindCommands(DbContextProvider dbProvider, GuildTimezoneService tz)
+    : MewdekoSlashModuleBase<RemindService>
 {
     /// <summary>
-    /// Sends a reminder to the user invoking the command.
+    ///     Sends a reminder to the user invoking the command.
     /// </summary>
     /// <param name="time">When the reminder should trigger.</param>
     /// <param name="reminder">The message for the reminder. If empty, prompts the user to input the reminder text.</param>
@@ -40,7 +41,7 @@ public class SlashRemindCommands(DbContextProvider dbProvider, GuildTimezoneServ
     }
 
     /// <summary>
-    /// Sends a reminder to the channel where the command was invoked.
+    ///     Sends a reminder to the channel where the command was invoked.
     /// </summary>
     /// <param name="time">When the reminder should trigger.</param>
     /// <param name="reminder">The message for the reminder. If empty, prompts the user to input the reminder text.</param>
@@ -70,14 +71,14 @@ public class SlashRemindCommands(DbContextProvider dbProvider, GuildTimezoneServ
     }
 
     /// <summary>
-    /// Sends a reminder to a specified channel.
+    ///     Sends a reminder to a specified channel.
     /// </summary>
     /// <param name="channel">The target channel for the reminder.</param>
     /// <param name="time">When the reminder should trigger.</param>
     /// <param name="reminder">The message for the reminder. If empty, prompts the user to input the reminder text.</param>
     /// <returns>A task that represents the asynchronous operation of adding a reminder to a specific channel.</returns>
-    [SlashCommand("channel", "Send a reminder to this channel."),
-     UserPerm(ChannelPermission.ManageMessages)]
+    [SlashCommand("channel", "Send a reminder to this channel.")]
+    [UserPerm(ChannelPermission.ManageMessages)]
     public async Task Channel
     (
         [Summary("channel", "where should the reminder be sent?")]
@@ -109,7 +110,7 @@ public class SlashRemindCommands(DbContextProvider dbProvider, GuildTimezoneServ
     }
 
     /// <summary>
-    /// Handles the modal interaction for creating a reminder.
+    ///     Handles the modal interaction for creating a reminder.
     /// </summary>
     /// <param name="sId">The target ID for the reminder, either a user or a channel.</param>
     /// <param name="sPri">Indicates if the reminder is private.</param>
@@ -176,7 +177,7 @@ public class SlashRemindCommands(DbContextProvider dbProvider, GuildTimezoneServ
     }
 
     /// <summary>
-    /// Lists the current reminders set by the user.
+    ///     Lists the current reminders set by the user.
     /// </summary>
     /// <param name="page">The page of reminders to display, starting at 1.</param>
     /// <returns>A task that represents the asynchronous operation of listing reminders.</returns>
@@ -208,9 +209,9 @@ public class SlashRemindCommands(DbContextProvider dbProvider, GuildTimezoneServ
                 var when = rem.When;
                 var diff = when - DateTime.UtcNow;
                 embed.AddField(
-                    $"#{++i + (page * 10)} {rem.When:HH:mm yyyy-MM-dd} UTC (in {(int)diff.TotalHours}h {diff.Minutes}m)",
+                    $"#{++i + page * 10} {rem.When:HH:mm yyyy-MM-dd} UTC (in {(int)diff.TotalHours}h {diff.Minutes}m)",
                     $"""
-                     `Target:` {((rem.IsPrivate) ? "DM" : "Channel")}
+                     `Target:` {(rem.IsPrivate ? "DM" : "Channel")}
                      `TargetId:` {rem.ChannelId}
                      `Message:` {rem.Message?.TrimTo(50)}
                      """);
@@ -226,7 +227,7 @@ public class SlashRemindCommands(DbContextProvider dbProvider, GuildTimezoneServ
     }
 
     /// <summary>
-    /// Deletes a specific reminder.
+    ///     Deletes a specific reminder.
     /// </summary>
     /// <param name="index">The index of the reminder to delete, as displayed in the reminder list.</param>
     /// <returns>A task that represents the asynchronous operation of deleting a reminder.</returns>

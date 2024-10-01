@@ -15,13 +15,13 @@ public class ProtectionService : INService, IReadyExecutor
     private readonly ConcurrentDictionary<ulong, AntiAltStats> antiAltGuilds
         = new();
 
+    private readonly ConcurrentDictionary<ulong, AntiMassMentionStats> antiMassMentionGuilds = new();
+
     private readonly ConcurrentDictionary<ulong, AntiRaidStats> antiRaidGuilds
         = new();
 
     private readonly ConcurrentDictionary<ulong, AntiSpamStats> antiSpamGuilds
         = new();
-
-    private readonly ConcurrentDictionary<ulong, AntiMassMentionStats> antiMassMentionGuilds = new();
 
 
     private readonly DiscordShardedClient client;
@@ -69,6 +69,13 @@ public class ProtectionService : INService, IReadyExecutor
         this.client.LeftGuild += _client_LeftGuild;
 
         _ = Task.Run(RunQueue);
+    }
+
+    /// <inheritdoc />
+    public async Task OnReadyAsync()
+    {
+        foreach (var i in client.Guilds)
+            await Initialize(i.Id);
     }
 
 
@@ -583,18 +590,22 @@ public class ProtectionService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Starts the anti-mass mention protection for a guild with the specified settings.
+    ///     Starts the anti-mass mention protection for a guild with the specified settings.
     /// </summary>
     /// <param name="guildId">The ID of the guild to start the protection for.</param>
     /// <param name="mentionThreshold">The number of mentions allowed in a single message before triggering protection.</param>
     /// <param name="timeWindowSeconds">The time window in seconds during which mentions are tracked.</param>
-    /// <param name="maxMentionsInTimeWindow">The maximum number of mentions allowed within the specified time window before triggering protection.</param>
+    /// <param name="maxMentionsInTimeWindow">
+    ///     The maximum number of mentions allowed within the specified time window before
+    ///     triggering protection.
+    /// </param>
     /// <param name="ignoreBots">Whether to ignore bots.</param>
     /// <param name="action">The punishment action to be applied when the protection is triggered.</param>
     /// <param name="muteTime">The duration of the mute punishment in minutes, if applicable.</param>
     /// <param name="roleId">The ID of the role to be assigned as punishment, if applicable.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public async Task StartAntiMassMentionAsync(ulong guildId, int mentionThreshold, int timeWindowSeconds, int maxMentionsInTimeWindow, bool ignoreBots, PunishmentAction action, int muteTime, ulong? roleId)
+    public async Task StartAntiMassMentionAsync(ulong guildId, int mentionThreshold, int timeWindowSeconds,
+        int maxMentionsInTimeWindow, bool ignoreBots, PunishmentAction action, int muteTime, ulong? roleId)
     {
         var settings = new AntiMassMentionSetting
         {
@@ -623,10 +634,13 @@ public class ProtectionService : INService, IReadyExecutor
 
 
     /// <summary>
-    /// Attempts to stop the anti-mass mention protection for a guild.
+    ///     Attempts to stop the anti-mass mention protection for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to stop the protection for.</param>
-    /// <returns>A task representing the asynchronous operation. Returns true if the protection was successfully stopped; otherwise, false.</returns>
+    /// <returns>
+    ///     A task representing the asynchronous operation. Returns true if the protection was successfully stopped;
+    ///     otherwise, false.
+    /// </returns>
     public async Task<bool> TryStopAntiMassMention(ulong guildId)
     {
         if (!antiMassMentionGuilds.TryRemove(guildId, out var removed)) return false;
@@ -640,7 +654,6 @@ public class ProtectionService : INService, IReadyExecutor
 
         return true;
     }
-
 
 
     /// <summary>
@@ -770,12 +783,5 @@ public class ProtectionService : INService, IReadyExecutor
         gc.AntiAltSetting = null;
         await dbContext.SaveChangesAsync().ConfigureAwait(false);
         return true;
-    }
-
-    /// <inheritdoc />
-    public async Task OnReadyAsync()
-    {
-        foreach (var i in client.Guilds)
-            await Initialize(i.Id);
     }
 }

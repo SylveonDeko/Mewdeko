@@ -9,18 +9,20 @@ using SkiaSharp;
 namespace Mewdeko.Modules.Giveaways;
 
 /// <summary>
-/// Slash commands for giveaways.
+///     Slash commands for giveaways.
 /// </summary>
 /// <param name="db">The database service</param>
 /// <param name="interactiveService">The service used to make paginated embeds</param>
 /// <param name="guildSettings">Service for getting guild configs</param>
 [Group("giveaways", "Create or manage giveaways!")]
-public class SlashGiveaways(DbContextProvider dbProvider, InteractiveService interactiveService, GuildSettingsService guildSettings)
+public class SlashGiveaways(
+    DbContextProvider dbProvider,
+    InteractiveService interactiveService,
+    GuildSettingsService guildSettings)
     : MewdekoSlashModuleBase<GiveawayService>
 {
-
     /// <summary>
-    /// Enters a giveaway via a button
+    ///     Enters a giveaway via a button
     /// </summary>
     /// <param name="giveawayId">The giveaway id</param>
     [ComponentInteraction("entergiveaway:*", true)]
@@ -31,14 +33,17 @@ public class SlashGiveaways(DbContextProvider dbProvider, InteractiveService int
         {
             await ctx.Interaction.SendEphemeralErrorAsync(GetText("giveaway_entry_failed", reason), Config);
         }
+
         await ctx.Interaction.SendEphemeralConfirmAsync(GetText("giveaway_entry_successful"));
     }
 
     /// <summary>
-    /// Sets the giveaway emote
+    ///     Sets the giveaway emote
     /// </summary>
     /// <param name="maybeEmote">The emote to set</param>
-    [SlashCommand("emote", "Set the giveaway emote!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
+    [SlashCommand("emote", "Set the giveaway emote!")]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    [CheckPermissions]
     public async Task GEmote(string maybeEmote)
     {
         await DeferAsync().ConfigureAwait(false);
@@ -70,10 +75,11 @@ public class SlashGiveaways(DbContextProvider dbProvider, InteractiveService int
     }
 
     /// <summary>
-    /// Sets the giveaway banner
+    ///     Sets the giveaway banner
     /// </summary>
     /// <param name="banner">The url of the banner to set</param>
-    [SlashCommand("banner", "Allows you to set a banner for giveaways!"), SlashUserPerm(GuildPermission.ManageMessages)]
+    [SlashCommand("banner", "Allows you to set a banner for giveaways!")]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
     public async Task GBanner(string banner)
     {
         var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
@@ -92,11 +98,11 @@ public class SlashGiveaways(DbContextProvider dbProvider, InteractiveService int
     }
 
     /// <summary>
-    /// Sets the giveaway embed color for winning users
+    ///     Sets the giveaway embed color for winning users
     /// </summary>
     /// <param name="color">The color in hex</param>
-    [SlashCommand("winembedcolor", "Allows you to set the win embed color!"),
-     SlashUserPerm(GuildPermission.ManageMessages)]
+    [SlashCommand("winembedcolor", "Allows you to set the win embed color!")]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
     public async Task GWinEmbedColor(string color)
     {
         var colorVal = StringExtensions.GetHexFromColorName(color);
@@ -125,11 +131,11 @@ public class SlashGiveaways(DbContextProvider dbProvider, InteractiveService int
     }
 
     /// <summary>
-    /// Sets the giveaway embed color
+    ///     Sets the giveaway embed color
     /// </summary>
     /// <param name="color">The color in hex</param>
-    [SlashCommand("embedcolor", "Allows you to set the regular embed color!"),
-     SlashUserPerm(GuildPermission.ManageMessages)]
+    [SlashCommand("embedcolor", "Allows you to set the regular embed color!")]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
     public async Task GEmbedColor(string color)
     {
         var colorVal = StringExtensions.GetHexFromColorName(color);
@@ -158,9 +164,10 @@ public class SlashGiveaways(DbContextProvider dbProvider, InteractiveService int
     }
 
     /// <summary>
-    /// Toggles whether winners get dmed
+    ///     Toggles whether winners get dmed
     /// </summary>
-    [SlashCommand("dm", "Toggles whether winners get dmed!"), SlashUserPerm(GuildPermission.ManageMessages)]
+    [SlashCommand("dm", "Toggles whether winners get dmed!")]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
     public async Task GDm()
     {
         var gc = await guildSettings.GetGuildConfig(Context.Guild.Id);
@@ -172,10 +179,12 @@ public class SlashGiveaways(DbContextProvider dbProvider, InteractiveService int
     }
 
     /// <summary>
-    /// Rerolls a giveaway
+    ///     Rerolls a giveaway
     /// </summary>
     /// <param name="messageid">The messageid of the giveaway to reroll</param>
-    [SlashCommand("reroll", "Rerolls a giveaway!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
+    [SlashCommand("reroll", "Rerolls a giveaway!")]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    [CheckPermissions]
     public async Task GReroll(ulong messageid)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -200,9 +209,10 @@ public class SlashGiveaways(DbContextProvider dbProvider, InteractiveService int
     }
 
     /// <summary>
-    /// View giveaway stats
+    ///     View giveaway stats
     /// </summary>
-    [SlashCommand("stats", "View giveaway stats!"), CheckPermissions]
+    [SlashCommand("stats", "View giveaway stats!")]
+    [CheckPermissions]
     public async Task GStats()
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -239,7 +249,7 @@ public class SlashGiveaways(DbContextProvider dbProvider, InteractiveService int
     }
 
     /// <summary>
-    /// Starts a giveaway faster than just .gstart
+    ///     Starts a giveaway faster than just .gstart
     /// </summary>
     /// <param name="chan">The channel to start the giveaway in</param>
     /// <param name="time">The amount of time the giveaway should last</param>
@@ -248,7 +258,9 @@ public class SlashGiveaways(DbContextProvider dbProvider, InteractiveService int
     /// <param name="pingRole">The role to ping when starting the giveaway</param>
     /// <param name="attachment">The banner to use for the giveaway</param>
     /// <param name="host">The host of the giveaway</param>
-    [SlashCommand("start", "Start a giveaway!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
+    [SlashCommand("start", "Start a giveaway!")]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    [CheckPermissions]
     public async Task GStart(ITextChannel chan, TimeSpan time, int winners, string what, IRole pingRole = null,
         IAttachment attachment = null, IUser host = null, bool useButton = false, bool useCaptcha = false)
     {
@@ -259,6 +271,7 @@ public class SlashGiveaways(DbContextProvider dbProvider, InteractiveService int
             await ReplyAsync("<:Bruh:1269875636793638965>");
             return;
         }
+
         var emote = (await Service.GetGiveawayEmote(ctx.Guild.Id)).ToIEmote();
         if (!useButton && !useCaptcha)
         {
@@ -298,13 +311,16 @@ public class SlashGiveaways(DbContextProvider dbProvider, InteractiveService int
 
 
         await Service.GiveawaysInternal(chan, time, what, winners, host.Id, ctx.Guild.Id,
-            ctx.Channel as ITextChannel, ctx.Guild, banner: attachment?.Url, pingROle: pingRole, useButton: useButton, useCaptcha: useCaptcha).ConfigureAwait(false);
+            ctx.Channel as ITextChannel, ctx.Guild, banner: attachment?.Url, pingROle: pingRole, useButton: useButton,
+            useCaptcha: useCaptcha).ConfigureAwait(false);
     }
 
     /// <summary>
-    /// View current giveaways
+    ///     View current giveaways
     /// </summary>
-    [SlashCommand("list", "View current giveaways!"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
+    [SlashCommand("list", "View current giveaways!")]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    [CheckPermissions]
     public async Task GList()
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -347,11 +363,13 @@ public class SlashGiveaways(DbContextProvider dbProvider, InteractiveService int
     }
 
     /// <summary>
-    /// End a giveaway
+    ///     End a giveaway
     /// </summary>
     /// <param name="messageid"></param>
-    [SlashCommand("end", "End a giveaway!"), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
+    [SlashCommand("end", "End a giveaway!")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    [CheckPermissions]
     public async Task GEnd(ulong messageid)
     {
         await using var dbContext = await dbProvider.GetContextAsync();

@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 namespace Mewdeko.Modules.Utility.Services;
 
 /// <summary>
-/// Service for parsing and processing dice roll commands.
+///     Service for parsing and processing dice roll commands.
 /// </summary>
 public partial class RollCommandService : INService
 {
@@ -16,7 +16,7 @@ public partial class RollCommandService : INService
 
 
     /// <summary>
-    /// Parses a dice roll command string into individual rolls and modifiers, then executes the rolls.
+    ///     Parses a dice roll command string into individual rolls and modifiers, then executes the rolls.
     /// </summary>
     /// <param name="roll">The command string representing the dice roll.</param>
     /// <returns>A RollResult object containing the outcomes of the rolls and total result.</returns>

@@ -7,7 +7,7 @@ using Serilog;
 namespace Mewdeko.Modules.Moderation.Services;
 
 /// <summary>
-/// Secondary service for user punishment.
+///     Secondary service for user punishment.
 /// </summary>
 public class UserPunishService2 : INService
 {
@@ -16,7 +16,7 @@ public class UserPunishService2 : INService
     private readonly MuteService mute;
 
     /// <summary>
-    /// Initializes a new instance of <see cref="UserPunishService2"/>.
+    ///     Initializes a new instance of <see cref="UserPunishService2" />.
     /// </summary>
     /// <param name="mute">The mute service</param>
     /// <param name="db">The database service</param>
@@ -30,29 +30,30 @@ public class UserPunishService2 : INService
     }
 
     /// <summary>
-    /// Gets the channel ID for the mini warnlog.
+    ///     Gets the channel ID for the mini warnlog.
     /// </summary>
     /// <param name="id">The guild ID</param>
     /// <returns>ulong of the warnlog channel</returns>
     public async Task<ulong> GetMWarnlogChannel(ulong id)
-        => (await guildSettings.GetGuildConfig(id)).MiniWarnlogChannelId;
+    {
+        return (await guildSettings.GetGuildConfig(id)).MiniWarnlogChannelId;
+    }
 
     /// <summary>
-    /// Sets the channel ID for the mini warnlog.
+    ///     Sets the channel ID for the mini warnlog.
     /// </summary>
     /// <param name="guild">The guild</param>
     /// <param name="channel">The channel</param>
     public async Task SetMWarnlogChannelId(IGuild guild, ITextChannel channel)
     {
-
-       await using var db = await dbProvider.GetContextAsync();
+        await using var db = await dbProvider.GetContextAsync();
         var gc = await db.ForGuildId(guild.Id, set => set);
         gc.MiniWarnlogChannelId = channel.Id;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     /// <summary>
-    /// Warns a user.
+    ///     Warns a user.
     /// </summary>
     /// <param name="guild">The guild</param>
     /// <param name="userId">The user ID</param>
@@ -195,7 +196,7 @@ public class UserPunishService2 : INService
     }
 
     /// <summary>
-    /// Gets the number of warnings for a user.
+    ///     Gets the number of warnings for a user.
     /// </summary>
     /// <param name="guild">The guild</param>
     /// <param name="userId">The user ID</param>
@@ -210,11 +211,10 @@ public class UserPunishService2 : INService
     }
 
     /// <summary>
-    /// Checks all warnings for expiry.
+    ///     Checks all warnings for expiry.
     /// </summary>
     public async Task CheckAllWarnExpiresAsync()
     {
-
         await using var dbContext = await dbProvider.GetContextAsync();
 
 // For 'cleared' part
@@ -269,12 +269,11 @@ public class UserPunishService2 : INService
     }
 
     /// <summary>
-    /// Checks the expiry of warnings for a guild.
+    ///     Checks the expiry of warnings for a guild.
     /// </summary>
     /// <param name="guildId">The guild ID</param>
     public async Task CheckWarnExpiresAsync(ulong guildId)
     {
-
         await using var dbContext = await dbProvider.GetContextAsync();
 
         var config = await dbContext.ForGuildId(guildId, inc => inc);
@@ -288,7 +287,8 @@ public class UserPunishService2 : INService
         {
             case WarnExpireAction.Clear:
                 var warningsToForgive =
-                    await dbContext.Warnings2.Where(w => w.GuildId == guildId && !w.Forgiven && w.DateAdded < expiryDate).ToListAsync();
+                    await dbContext.Warnings2
+                        .Where(w => w.GuildId == guildId && !w.Forgiven && w.DateAdded < expiryDate).ToListAsync();
                 foreach (var warning in warningsToForgive)
                 {
                     warning.Forgiven = true;
@@ -297,7 +297,8 @@ public class UserPunishService2 : INService
 
                 break;
             case WarnExpireAction.Delete:
-                var warningsToDelete = await dbContext.Warnings2.Where(w => w.GuildId == guildId && w.DateAdded < expiryDate).ToListAsync();
+                var warningsToDelete = await dbContext.Warnings2
+                    .Where(w => w.GuildId == guildId && w.DateAdded < expiryDate).ToListAsync();
                 dbContext.Warnings2.RemoveRange(warningsToDelete);
                 break;
         }
@@ -307,14 +308,13 @@ public class UserPunishService2 : INService
 
 
     /// <summary>
-    /// Checks the expiry of warnings for a guild.
+    ///     Checks the expiry of warnings for a guild.
     /// </summary>
     /// <param name="guildId">The guild ID</param>
     /// <param name="days">The number of days</param>
     /// <param name="delete">Whether to delete the warnings</param>
     public async Task WarnExpireAsync(ulong guildId, int days, WarnExpireAction delete)
     {
-
         await using var dbContext = await dbProvider.GetContextAsync();
         {
             var config = await dbContext.ForGuildId(guildId, inc => inc);
@@ -332,7 +332,7 @@ public class UserPunishService2 : INService
     }
 
     /// <summary>
-    /// Gets the amount of warnings every user has.
+    ///     Gets the amount of warnings every user has.
     /// </summary>
     /// <param name="gid"></param>
     /// <returns></returns>
@@ -344,20 +344,19 @@ public class UserPunishService2 : INService
     }
 
     /// <summary>
-    /// Gets the warnings for a user.
+    ///     Gets the warnings for a user.
     /// </summary>
     /// <param name="gid">The guild ID</param>
     /// <param name="userId">The user ID</param>
     /// <returns></returns>
     public async Task<Warning2[]> UserWarnings(ulong gid, ulong userId)
     {
-
         await using var dbContext = await dbProvider.GetContextAsync();
         return dbContext.Warnings2.ForId(gid, userId);
     }
 
     /// <summary>
-    /// Clears a warning. If index is 0, clears all warnings.
+    ///     Clears a warning. If index is 0, clears all warnings.
     /// </summary>
     /// <param name="guildId">The guild ID</param>
     /// <param name="userId">The user ID</param>
@@ -380,7 +379,7 @@ public class UserPunishService2 : INService
     }
 
     /// <summary>
-    /// Sets what each warning count should do.
+    ///     Sets what each warning count should do.
     /// </summary>
     /// <param name="guildId">The guild ID</param>
     /// <param name="number">The number of warnings</param>
@@ -394,7 +393,7 @@ public class UserPunishService2 : INService
         // these 3 don't make sense with time
         if (punish is PunishmentAction.Softban or PunishmentAction.Kick or PunishmentAction.RemoveRoles && time != null)
             return false;
-        if (number <= 0 || (time != null && time.Time > TimeSpan.FromDays(49)))
+        if (number <= 0 || time != null && time.Time > TimeSpan.FromDays(49))
             return false;
 
 
@@ -418,7 +417,7 @@ public class UserPunishService2 : INService
     }
 
     /// <summary>
-    /// Removes a warning punishment.
+    ///     Removes a warning punishment.
     /// </summary>
     /// <param name="guildId">The guild ID to remove the punishment from</param>
     /// <param name="number">The number of warnings</param>
@@ -441,7 +440,7 @@ public class UserPunishService2 : INService
     }
 
     /// <summary>
-    /// Gets the warning punishments for a guild.
+    ///     Gets the warning punishments for a guild.
     /// </summary>
     /// <param name="guildId">The guild ID</param>
     /// <returns></returns>

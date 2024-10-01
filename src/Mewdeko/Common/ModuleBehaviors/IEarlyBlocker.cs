@@ -21,7 +21,10 @@ public interface IEarlyBehavior
     /// <param name="socketClient">The Discord client.</param>
     /// <param name="guild">The guild in which the message was sent.</param>
     /// <param name="msg">The message that triggered the module.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains a boolean indicating whether the module blocked the execution.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains a boolean indicating whether the
+    ///     module blocked the execution.
+    /// </returns>
     Task<bool> RunBehavior(DiscordShardedClient socketClient, IGuild guild, IUserMessage msg);
 }
 

@@ -17,7 +17,7 @@ namespace Mewdeko.Database.Migrations.PostgreSql
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -383,6 +383,56 @@ namespace Mewdeko.Database.Migrations.PostgreSql
                     b.HasKey("Id");
 
                     b.ToTable("Blacklist");
+                });
+
+            modelBuilder.Entity("Mewdeko.Database.Models.BlacklistedPermission", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("DateAdded")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<decimal>("GuildId")
+                        .HasColumnType("numeric(20,0)");
+
+                    b.Property<decimal>("Permission")
+                        .HasColumnType("numeric(20,0)");
+
+                    b.Property<int?>("PunishmentAction")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BlacklistedPermissions");
+                });
+
+            modelBuilder.Entity("Mewdeko.Database.Models.BlacklistedRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("DateAdded")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<decimal>("GuildId")
+                        .HasColumnType("numeric(20,0)");
+
+                    b.Property<int?>("PunishmentAction")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("RoleId")
+                        .HasColumnType("numeric(20,0)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("BlacklistedRoles");
                 });
 
             modelBuilder.Entity("Mewdeko.Database.Models.BotReviews", b =>
@@ -2657,6 +2707,28 @@ namespace Mewdeko.Database.Migrations.PostgreSql
                     b.ToTable("RoleGreets");
                 });
 
+            modelBuilder.Entity("Mewdeko.Database.Models.RoleMonitoringSettings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("DateAdded")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("DefaultPunishmentAction")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("GuildId")
+                        .HasColumnType("numeric(20,0)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RoleMonitoringSettings");
+                });
+
             modelBuilder.Entity("Mewdeko.Database.Models.RoleStateSettings", b =>
                 {
                     b.Property<int>("Id")
@@ -3687,6 +3759,50 @@ namespace Mewdeko.Database.Migrations.PostgreSql
                     b.HasIndex("GuildConfigId");
 
                     b.ToTable("WarningPunishment2");
+                });
+
+            modelBuilder.Entity("Mewdeko.Database.Models.WhitelistedRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("DateAdded")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<decimal>("GuildId")
+                        .HasColumnType("numeric(20,0)");
+
+                    b.Property<decimal>("RoleId")
+                        .HasColumnType("numeric(20,0)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WhitelistedRoles");
+                });
+
+            modelBuilder.Entity("Mewdeko.Database.Models.WhitelistedUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("DateAdded")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<decimal>("GuildId")
+                        .HasColumnType("numeric(20,0)");
+
+                    b.Property<decimal>("UserId")
+                        .HasColumnType("numeric(20,0)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WhitelistedUsers");
                 });
 
             modelBuilder.Entity("Mewdeko.Database.Models.XpCurrencyReward", b =>

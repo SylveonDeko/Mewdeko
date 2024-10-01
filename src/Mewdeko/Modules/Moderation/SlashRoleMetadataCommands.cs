@@ -11,37 +11,40 @@ using Mewdeko.Services.Settings;
 namespace Mewdeko.Modules.Moderation;
 
 /// <summary>
-/// Module for managing role metadata.
+///     Module for managing role metadata.
 /// </summary>
 public class SlashRoleMetadataCommands : MewdekoSlashSubmodule
 {
     private static readonly HttpClient HttpClient = new();
 
     /// <summary>
-    /// The bot credentials.
+    ///     The bot credentials.
     /// </summary>
     public IBotCredentials Credentials { get; set; }
 
     /// <summary>
-    /// The config service for yml bot config.
+    ///     The config service for yml bot config.
     /// </summary>
     public BotConfigService ConfigService { get; set; }
 
     /// <summary>
-    /// The database service.
+    ///     The database service.
     /// </summary>
     public DbContextProvider dbProvider { get; set; }
 
     /// <summary>
-    /// Component interaction for entering an auth code.
+    ///     Component interaction for entering an auth code.
     /// </summary>
     /// <returns></returns>
-    [ComponentInteraction("auth_code.enter", true), RequireDragon]
+    [ComponentInteraction("auth_code.enter", true)]
+    [RequireDragon]
     public Task HandleAuthStepTwo()
-        => RespondWithModalAsync<AuthHandshakeStepTwoModal>("auth_code.handshake");
+    {
+        return RespondWithModalAsync<AuthHandshakeStepTwoModal>("auth_code.handshake");
+    }
 
     /// <summary>
-    /// Modal for entering an auth code.
+    ///     Modal for entering an auth code.
     /// </summary>
     /// <param name="modal"></param>
     [ModalInteraction("auth_code.handshake", true)]
@@ -107,7 +110,8 @@ public class SlashRoleMetadataCommands : MewdekoSlashSubmodule
         await dbContext.SaveChangesAsync();
 
         await Task.Delay(1000);
-        await RoleMetadataService.UpdateRoleConnectionData(Context.User.Id, mod.Id, dbProvider, Context.Client.CurrentUser.Id,
+        await RoleMetadataService.UpdateRoleConnectionData(Context.User.Id, mod.Id, dbProvider,
+            Context.Client.CurrentUser.Id,
             Credentials.ClientSecret, HttpClient);
 
         var eb = new EmbedBuilder()
@@ -123,32 +127,32 @@ public class SlashRoleMetadataCommands : MewdekoSlashSubmodule
     }
 
     /// <summary>
-    /// The response discord gives us when we authorize.
+    ///     The response discord gives us when we authorize.
     /// </summary>
     public class AuthResponce
     {
         /// <summary>
-        /// The access token.
+        ///     The access token.
         /// </summary>
         public string access_token { get; set; }
 
         /// <summary>
-        /// The token type.
+        ///     The token type.
         /// </summary>
         public string token_type { get; set; }
 
         /// <summary>
-        /// When the access token expires.
+        ///     When the access token expires.
         /// </summary>
         public int expires_in { get; set; }
 
         /// <summary>
-        /// The refresh token.
+        ///     The refresh token.
         /// </summary>
         public string refresh_token { get; set; }
 
         /// <summary>
-        /// The scope the access token has.
+        ///     The scope the access token has.
         /// </summary>
         public string scope { get; set; }
     }

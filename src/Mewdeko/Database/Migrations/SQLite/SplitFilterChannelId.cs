@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mewdeko.Database.Migrations.SQLite;
+
 /// <inheritdoc />
 public partial class SplitFilterChannelId : Migration
 {
@@ -8,44 +9,44 @@ public partial class SplitFilterChannelId : Migration
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.CreateTable(
-            name: "FilterInvitesChannelIds",
-            columns: table => new
+            "FilterInvitesChannelIds",
+            table => new
             {
-                Id = table.Column<int>(type: "INTEGER", nullable: false)
+                Id = table.Column<int>("INTEGER", nullable: false)
                     .Annotation("Sqlite:Autoincrement", true),
-                ChannelId = table.Column<ulong>(type: "INTEGER", nullable: false),
-                GuildConfigId = table.Column<int>(type: "INTEGER", nullable: false),
-                DateAdded = table.Column<DateTime>(type: "TEXT", nullable: true)
+                ChannelId = table.Column<ulong>("INTEGER", nullable: false),
+                GuildConfigId = table.Column<int>("INTEGER", nullable: false),
+                DateAdded = table.Column<DateTime>("TEXT", nullable: true)
             },
             constraints: table =>
             {
                 table.PrimaryKey("PK_FilterInvitesChannelIds", x => x.Id);
                 table.ForeignKey(
-                    name: "FK_FilterInvitesChannelIds_GuildConfigs_GuildConfigId",
-                    column: x => x.GuildConfigId,
-                    principalTable: "GuildConfigs",
-                    principalColumn: "Id",
+                    "FK_FilterInvitesChannelIds_GuildConfigs_GuildConfigId",
+                    x => x.GuildConfigId,
+                    "GuildConfigs",
+                    "Id",
                     onDelete: ReferentialAction.Cascade);
             });
 
         migrationBuilder.CreateTable(
-            name: "FilterWordsChannelIds",
-            columns: table => new
+            "FilterWordsChannelIds",
+            table => new
             {
-                Id = table.Column<int>(type: "INTEGER", nullable: false)
+                Id = table.Column<int>("INTEGER", nullable: false)
                     .Annotation("Sqlite:Autoincrement", true),
-                ChannelId = table.Column<ulong>(type: "INTEGER", nullable: false),
-                GuildConfigId = table.Column<int>(type: "INTEGER", nullable: false),
-                DateAdded = table.Column<DateTime>(type: "TEXT", nullable: true)
+                ChannelId = table.Column<ulong>("INTEGER", nullable: false),
+                GuildConfigId = table.Column<int>("INTEGER", nullable: false),
+                DateAdded = table.Column<DateTime>("TEXT", nullable: true)
             },
             constraints: table =>
             {
                 table.PrimaryKey("PK_FilterWordsChannelIds", x => x.Id);
                 table.ForeignKey(
-                    name: "FK_FilterWordsChannelIds_GuildConfigs_GuildConfigId",
-                    column: x => x.GuildConfigId,
-                    principalTable: "GuildConfigs",
-                    principalColumn: "Id",
+                    "FK_FilterWordsChannelIds_GuildConfigs_GuildConfigId",
+                    x => x.GuildConfigId,
+                    "GuildConfigs",
+                    "Id",
                     onDelete: ReferentialAction.Cascade);
             });
 
@@ -59,7 +60,7 @@ public partial class SplitFilterChannelId : Migration
 
         // Drop the old table
         migrationBuilder.DropTable(
-            name: "FilterChannelId");
+            "FilterChannelId");
     }
 
     /// <inheritdoc />
@@ -67,11 +68,11 @@ public partial class SplitFilterChannelId : Migration
     {
         // Recreate the old table
         migrationBuilder.CreateTable(
-            name: "FilterChannelId",
-            columns: table => new
+            "FilterChannelId",
+            table => new
             {
-                ChannelId = table.Column<ulong>(type: "INTEGER", nullable: false),
-                GuildConfigId = table.Column<int>(type: "INTEGER", nullable: false)
+                ChannelId = table.Column<ulong>("INTEGER", nullable: false),
+                GuildConfigId = table.Column<int>("INTEGER", nullable: false)
             },
             constraints: table =>
             {
@@ -80,10 +81,10 @@ public partial class SplitFilterChannelId : Migration
                     x.GuildConfigId, x.ChannelId
                 });
                 table.ForeignKey(
-                    name: "FK_FilterChannelId_GuildConfigs_GuildConfigId",
-                    column: x => x.GuildConfigId,
-                    principalTable: "GuildConfigs",
-                    principalColumn: "Id",
+                    "FK_FilterChannelId_GuildConfigs_GuildConfigId",
+                    x => x.GuildConfigId,
+                    "GuildConfigs",
+                    "Id",
                     onDelete: ReferentialAction.Cascade);
             });
 
@@ -99,9 +100,9 @@ public partial class SplitFilterChannelId : Migration
 
         // Drop the new tables
         migrationBuilder.DropTable(
-            name: "FilterInvitesChannelIds");
+            "FilterInvitesChannelIds");
 
         migrationBuilder.DropTable(
-            name: "FilterWordsChannelIds");
+            "FilterWordsChannelIds");
     }
 }

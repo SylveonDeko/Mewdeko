@@ -6,12 +6,12 @@ using Serilog;
 namespace Mewdeko.Modules.Utility.Services;
 
 /// <summary>
-/// Provides functionality to check the version of a DLL file in the application's directory.
+///     Provides functionality to check the version of a DLL file in the application's directory.
 /// </summary>
 public class DllVersionChecker
 {
     /// <summary>
-    /// Gets the version of a specified DLL file.
+    ///     Gets the version of a specified DLL file.
     /// </summary>
     /// <param name="dllName">The name of the DLL file. If null, checks the version of 'Discord.Net.WebSocket.dll'.</param>
     /// <returns>The version of the DLL file as a string, or null if the version cannot be found.</returns>

@@ -4,144 +4,149 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using StackExchange.Redis;
 
-namespace Mewdeko.Services.Common
+namespace Mewdeko.Services.Common;
+
+/// <summary>
+///     Loads images from URIs into Redis.
+/// </summary>
+public class ImageLoader
 {
+    private readonly ConnectionMultiplexer con;
+    private readonly HttpClient http;
+    private readonly List<Task<KeyValuePair<RedisKey, RedisValue>>> uriTasks = [];
+
     /// <summary>
-    /// Loads images from URIs into Redis.
+    ///     Initializes a new instance of the <see cref="ImageLoader" /> class.
     /// </summary>
-    public class ImageLoader
+    /// <param name="http">The HTTP client.</param>
+    /// <param name="con">The Redis connection multiplexer.</param>
+    /// <param name="getKey">The function to get the Redis key.</param>
+    public ImageLoader(HttpClient http, ConnectionMultiplexer con, Func<string, RedisKey> getKey)
     {
-        private readonly ConnectionMultiplexer con;
-        private readonly HttpClient http;
-        private readonly List<Task<KeyValuePair<RedisKey, RedisValue>>> uriTasks = [];
+        this.http = http;
+        this.con = con;
+        GetKey = getKey;
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ImageLoader"/> class.
-        /// </summary>
-        /// <param name="http">The HTTP client.</param>
-        /// <param name="con">The Redis connection multiplexer.</param>
-        /// <param name="getKey">The function to get the Redis key.</param>
-        public ImageLoader(HttpClient http, ConnectionMultiplexer con, Func<string, RedisKey> getKey)
+    /// <summary>
+    ///     Gets the function to get the Redis key.
+    /// </summary>
+    public Func<string, RedisKey> GetKey { get; }
+
+    private IDatabase Db
+    {
+        get
         {
-            this.http = http;
-            this.con = con;
-            GetKey = getKey;
+            return con.GetDatabase();
         }
+    }
 
-        /// <summary>
-        /// Gets the function to get the Redis key.
-        /// </summary>
-        public Func<string, RedisKey> GetKey { get; }
-
-        private IDatabase Db => con.GetDatabase();
-
-        private async Task<byte[]>? GetImageData(Uri uri)
+    private async Task<byte[]>? GetImageData(Uri uri)
+    {
+        if (!uri.IsFile) return await http.GetByteArrayAsync(uri).ConfigureAwait(false);
+        try
         {
-            if (!uri.IsFile) return await http.GetByteArrayAsync(uri).ConfigureAwait(false);
-            try
-            {
-                return await File.ReadAllBytesAsync(uri.LocalPath).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Log.Warning(ex, "Failed reading image bytes");
-                return null;
-            }
+            return await File.ReadAllBytesAsync(uri.LocalPath).ConfigureAwait(false);
         }
-
-        private async Task? HandleJArray(JArray arr, string key)
+        catch (Exception ex)
         {
-            var tasks = arr.Where(x => x.Type == JTokenType.String)
-                .Select(async x =>
+            Log.Warning(ex, "Failed reading image bytes");
+            return null;
+        }
+    }
+
+    private async Task? HandleJArray(JArray arr, string key)
+    {
+        var tasks = arr.Where(x => x.Type == JTokenType.String)
+            .Select(async x =>
+            {
+                try
                 {
-                    try
-                    {
-                        return await GetImageData((Uri)x).ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                        Log.Error("Error retrieving image for key {Key}: {Data}", key, x);
-                        return null;
-                    }
-                });
-
-            var vals = await Task.WhenAll(tasks).ConfigureAwait(false);
-            if (vals.Any(x => x == null))
-                vals = vals.Where(x => x != null).ToArray();
-
-            await Db.KeyDeleteAsync(GetKey(key)).ConfigureAwait(false);
-            await Db.ListRightPushAsync(GetKey(key), vals.Where(x => x != null).Select(x => (RedisValue)x).ToArray())
-                .ConfigureAwait(false);
-
-            if (arr.Count != vals.Length)
-            {
-                Log.Information(
-                    "{2}/{1} URIs for the key '{0}' have been loaded. Some of the supplied URIs are either unavailable or invalid.",
-                    key, arr.Count, vals.Length);
-            }
-        }
-
-        private async Task<KeyValuePair<RedisKey, RedisValue>> HandleUri(Uri uri, string key)
-        {
-            try
-            {
-                RedisValue data = await GetImageData(uri).ConfigureAwait(false);
-                return new KeyValuePair<RedisKey, RedisValue>(GetKey(key), data);
-            }
-            catch
-            {
-                Log.Information("Setting '{0}' image failed. The URI you provided is either unavailable or invalid.",
-                    key.ToLowerInvariant());
-                return new KeyValuePair<RedisKey, RedisValue>("", "");
-            }
-        }
-
-        private Task HandleJObject(JObject obj, string parent = "")
-        {
-            string GetParentString()
-            {
-                return string.IsNullOrWhiteSpace(parent) ? "" : $"{parent}_";
-            }
-
-            var tasks = new List<Task>();
-            // go through all of the kvps in the object
-            foreach (var kvp in obj)
-            {
-                Task t;
-                switch (kvp.Value.Type)
-                {
-                    // if it's a JArray, resolve it using the JArray method which will
-                    // return task<byte[][]> aka an array of all images' bytes
-                    case JTokenType.Array:
-                        t = HandleJArray((JArray)kvp.Value, GetParentString() + kvp.Key);
-                        tasks.Add(t);
-                        break;
-                    case JTokenType.String:
-                    {
-                        var uriTask = HandleUri((Uri)kvp.Value, GetParentString() + kvp.Key);
-                        uriTasks.Add(uriTask);
-                        break;
-                    }
-                    case JTokenType.Object:
-                        t = HandleJObject((JObject)kvp.Value, GetParentString() + kvp.Key);
-                        tasks.Add(t);
-                        break;
+                    return await GetImageData((Uri)x).ConfigureAwait(false);
                 }
-            }
+                catch
+                {
+                    Log.Error("Error retrieving image for key {Key}: {Data}", key, x);
+                    return null;
+                }
+            });
 
-            return Task.WhenAll(tasks);
-        }
+        var vals = await Task.WhenAll(tasks).ConfigureAwait(false);
+        if (vals.Any(x => x == null))
+            vals = vals.Where(x => x != null).ToArray();
 
-        /// <summary>
-        /// Loads images asynchronously.
-        /// </summary>
-        /// <param name="obj">The JSON object containing the image URIs.</param>
-        public async Task LoadAsync(JObject obj)
+        await Db.KeyDeleteAsync(GetKey(key)).ConfigureAwait(false);
+        await Db.ListRightPushAsync(GetKey(key), vals.Where(x => x != null).Select(x => (RedisValue)x).ToArray())
+            .ConfigureAwait(false);
+
+        if (arr.Count != vals.Length)
         {
-            await HandleJObject(obj).ConfigureAwait(false);
-            var results = await Task.WhenAll(uriTasks).ConfigureAwait(false);
-            await Db.StringSetAsync(results.Where(x => !string.IsNullOrEmpty(x.Key)).ToArray(),
-                flags: CommandFlags.FireAndForget).ConfigureAwait(false);
+            Log.Information(
+                "{2}/{1} URIs for the key '{0}' have been loaded. Some of the supplied URIs are either unavailable or invalid.",
+                key, arr.Count, vals.Length);
         }
+    }
+
+    private async Task<KeyValuePair<RedisKey, RedisValue>> HandleUri(Uri uri, string key)
+    {
+        try
+        {
+            RedisValue data = await GetImageData(uri).ConfigureAwait(false);
+            return new KeyValuePair<RedisKey, RedisValue>(GetKey(key), data);
+        }
+        catch
+        {
+            Log.Information("Setting '{0}' image failed. The URI you provided is either unavailable or invalid.",
+                key.ToLowerInvariant());
+            return new KeyValuePair<RedisKey, RedisValue>("", "");
+        }
+    }
+
+    private Task HandleJObject(JObject obj, string parent = "")
+    {
+        string GetParentString()
+        {
+            return string.IsNullOrWhiteSpace(parent) ? "" : $"{parent}_";
+        }
+
+        var tasks = new List<Task>();
+        // go through all of the kvps in the object
+        foreach (var kvp in obj)
+        {
+            Task t;
+            switch (kvp.Value.Type)
+            {
+                // if it's a JArray, resolve it using the JArray method which will
+                // return task<byte[][]> aka an array of all images' bytes
+                case JTokenType.Array:
+                    t = HandleJArray((JArray)kvp.Value, GetParentString() + kvp.Key);
+                    tasks.Add(t);
+                    break;
+                case JTokenType.String:
+                {
+                    var uriTask = HandleUri((Uri)kvp.Value, GetParentString() + kvp.Key);
+                    uriTasks.Add(uriTask);
+                    break;
+                }
+                case JTokenType.Object:
+                    t = HandleJObject((JObject)kvp.Value, GetParentString() + kvp.Key);
+                    tasks.Add(t);
+                    break;
+            }
+        }
+
+        return Task.WhenAll(tasks);
+    }
+
+    /// <summary>
+    ///     Loads images asynchronously.
+    /// </summary>
+    /// <param name="obj">The JSON object containing the image URIs.</param>
+    public async Task LoadAsync(JObject obj)
+    {
+        await HandleJObject(obj).ConfigureAwait(false);
+        var results = await Task.WhenAll(uriTasks).ConfigureAwait(false);
+        await Db.StringSetAsync(results.Where(x => !string.IsNullOrEmpty(x.Key)).ToArray(),
+            flags: CommandFlags.FireAndForget).ConfigureAwait(false);
     }
 }

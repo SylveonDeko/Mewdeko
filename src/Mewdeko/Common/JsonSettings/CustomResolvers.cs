@@ -4,12 +4,12 @@ using Newtonsoft.Json.Serialization;
 namespace Mewdeko.Common.JsonSettings;
 
 /// <summary>
-/// Provides a contract resolver that orders properties alphabetically.
+///     Provides a contract resolver that orders properties alphabetically.
 /// </summary>
 public class OrderedResolver : DefaultContractResolver
 {
     /// <summary>
-    /// Creates properties for the specified <see cref="JsonContract"/>.
+    ///     Creates properties for the specified <see cref="JsonContract" />.
     /// </summary>
     /// <param name="type">The type to create properties for.</param>
     /// <param name="memberSerialization">The member serialization.</param>
@@ -22,12 +22,12 @@ public class OrderedResolver : DefaultContractResolver
 }
 
 /// <summary>
-/// Provides a contract resolver that resolves property names to lowercase.
+///     Provides a contract resolver that resolves property names to lowercase.
 /// </summary>
 public class LowercaseContractResolver : DefaultContractResolver
 {
     /// <summary>
-    /// Resolves the property name to lowercase.
+    ///     Resolves the property name to lowercase.
     /// </summary>
     /// <param name="propertyName">The property name to resolve.</param>
     /// <returns>The resolved property name.</returns>

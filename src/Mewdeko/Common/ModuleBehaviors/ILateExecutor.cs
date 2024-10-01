@@ -1,12 +1,12 @@
 ﻿namespace Mewdeko.Common.ModuleBehaviors;
 
 /// <summary>
-/// Interface to be implemented by modules that execute last and do not block further executions.
+///     Interface to be implemented by modules that execute last and do not block further executions.
 /// </summary>
 public interface ILateExecutor
 {
     /// <summary>
-    /// Executes the module's behavior.
+    ///     Executes the module's behavior.
     /// </summary>
     /// <param name="DiscordShardedClient">The Discord client.</param>
     /// <param name="guild">The guild in which the message was sent.</param>

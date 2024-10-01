@@ -13,7 +13,7 @@ public partial class Games : MewdekoModuleBase<GamesService>
     private readonly MewdekoRandom rng = new();
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Games"/> class.
+    ///     Initializes a new instance of the <see cref="Games" /> class.
     /// </summary>
     /// <param name="data">The data cache service.</param>
     /// <param name="db">The database service.</param>
@@ -21,15 +21,16 @@ public partial class Games : MewdekoModuleBase<GamesService>
     public Games(IDataCache data, DbContextProvider dbProvider, BotConfig config)
     {
         this.config = config;
-        (_, this.dbContextProvider) = (data.LocalImages, dbProvider);
+        (_, dbContextProvider) = (data.LocalImages, dbProvider);
     }
 
     /// <summary>
-    /// Command to choose randomly from a list of options.
+    ///     Command to choose randomly from a list of options.
     /// </summary>
     /// <param name="list">The list of options separated by semicolons.</param>
     /// <example>.choose option1; option2; option3</example>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task Choose([Remainder] string? list = null)
     {
         if (string.IsNullOrWhiteSpace(list))
@@ -41,11 +42,12 @@ public partial class Games : MewdekoModuleBase<GamesService>
     }
 
     /// <summary>
-    /// Command to consult the magic 8-ball for an answer.
+    ///     Command to consult the magic 8-ball for an answer.
     /// </summary>
     /// <param name="question">The question to ask.</param>
     /// <example>.8ball Will I win the lottery?</example>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task EightBall([Remainder] string? question = null)
     {
         if (string.IsNullOrWhiteSpace(question))
@@ -59,10 +61,12 @@ public partial class Games : MewdekoModuleBase<GamesService>
     }
 
     /// <summary>
-    /// Command that used to exist. Called trans people a slur in NadekoBot. Here as a memory and a fuck you to NadekoBot.
+    ///     Command that used to exist. Called trans people a slur in NadekoBot. Here as a memory and a fuck you to NadekoBot.
     /// </summary>
     /// <example>Terrible command. Dont use it.</example>
-    [Cmd, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
     public async Task RateGirl()
     {
         await ctx.Channel.SendErrorAsync(
@@ -71,13 +75,15 @@ public partial class Games : MewdekoModuleBase<GamesService>
     }
 
     /// <summary>
-    /// Funni interjecting linux command
+    ///     Funni interjecting linux command
     /// </summary>
     /// <param name="guhnoo">The name to replace "GNU".</param>
     /// <param name="loonix">The name to replace "Linux".</param>
     /// <example>.linux guhnoo loonix</example>
-    [Cmd, Aliases]
-    public async Task Linux(string guhnoo, string loonix) =>
+    [Cmd]
+    [Aliases]
+    public async Task Linux(string guhnoo, string loonix)
+    {
         await ctx.Channel.SendConfirmAsync(
             $@"I'd just like to interject for moment. What you're refering to as {loonix}, is in fact, {guhnoo}/{loonix}, or as I've recently taken to calling it, {guhnoo} plus {loonix}. {loonix} is not an operating system unto itself, but rather another free component of a fully functioning {guhnoo} system made useful by the {guhnoo} corelibs, shell utilities and vital system components comprising a full OS as defined by POSIX.
 
@@ -85,12 +91,15 @@ Many computer users run a modified version of the {guhnoo} system every day, wit
 
 There really is a {loonix}, and these people are using it, but it is just a part of the system they use. {loonix} is the kernel: the program in the system that allocates the machine's resources to the other programs that you run. The kernel is an essential part of an operating system, but useless by itself; it can only function in the context of a complete operating system. {loonix} is normally used in combination with the {guhnoo} operating system: the whole system is basically {guhnoo} with {loonix} added, or {guhnoo}/{loonix}. All the so-called {loonix} distributions are really distributions of {guhnoo}/{loonix}."
         ).ConfigureAwait(false);
+    }
 
     /// <summary>
-    /// Command to toggle the user's dragon status. Usually used for beta commands.
+    ///     Command to toggle the user's dragon status. Usually used for beta commands.
     /// </summary>
     /// <example>.dragon</example>
-    [Cmd, Aliases, HelpDisabled]
+    [Cmd]
+    [Aliases]
+    [HelpDisabled]
     public async Task Dragon()
     {
         await using var dbContext = await dbContextProvider.GetContextAsync();

@@ -9,36 +9,63 @@ using Poll = Discord.Poll;
 namespace Mewdeko.Common.DiscordImplementations;
 
 /// <summary>
-/// Class used for faking messages for commands like Sudo
+///     Class used for faking messages for commands like Sudo
 /// </summary>
 public class MewdekoUserMessage : IUserMessage
 {
     /// <inheritdoc />
-    public ulong Id => 0;
+    public ulong Id
+    {
+        get
+        {
+            return 0;
+        }
+    }
 
     /// <inheritdoc />
-    public DateTimeOffset CreatedAt => DateTime.Now;
+    public DateTimeOffset CreatedAt
+    {
+        get
+        {
+            return DateTime.Now;
+        }
+    }
 
     /// <inheritdoc />
-    public Task DeleteAsync(RequestOptions options = null) => throw new NotImplementedException();
-
-    /// <inheritdoc />
-    public Task AddReactionAsync(IEmote emote, RequestOptions options = null) => throw new NotImplementedException();
-
-    /// <inheritdoc />
-    public Task RemoveReactionAsync(IEmote emote, IUser user, RequestOptions options = null) =>
+    public Task DeleteAsync(RequestOptions options = null)
+    {
         throw new NotImplementedException();
+    }
 
     /// <inheritdoc />
-    public Task RemoveReactionAsync(IEmote emote, ulong userId, RequestOptions options = null) =>
+    public Task AddReactionAsync(IEmote emote, RequestOptions options = null)
+    {
         throw new NotImplementedException();
+    }
 
     /// <inheritdoc />
-    public Task RemoveAllReactionsAsync(RequestOptions options = null) => throw new NotImplementedException();
-
-    /// <inheritdoc />
-    public Task RemoveAllReactionsForEmoteAsync(IEmote emote, RequestOptions options = null) =>
+    public Task RemoveReactionAsync(IEmote emote, IUser user, RequestOptions options = null)
+    {
         throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
+    public Task RemoveReactionAsync(IEmote emote, ulong userId, RequestOptions options = null)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
+    public Task RemoveAllReactionsAsync(RequestOptions options = null)
+    {
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc />
+    public Task RemoveAllReactionsForEmoteAsync(IEmote emote, RequestOptions options = null)
+    {
+        throw new NotImplementedException();
+    }
 
     /// <inheritdoc />
     public IAsyncEnumerable<IReadOnlyCollection<IUser>> GetReactionUsersAsync(IEmote emoji, int limit,
@@ -49,19 +76,49 @@ public class MewdekoUserMessage : IUserMessage
     }
 
     /// <inheritdoc />
-    public MessageType Type => MessageType.Default;
+    public MessageType Type
+    {
+        get
+        {
+            return MessageType.Default;
+        }
+    }
 
     /// <inheritdoc />
-    public MessageSource Source => MessageSource.User;
+    public MessageSource Source
+    {
+        get
+        {
+            return MessageSource.User;
+        }
+    }
 
     /// <inheritdoc />
-    public bool IsTTS => false;
+    public bool IsTTS
+    {
+        get
+        {
+            return false;
+        }
+    }
 
     /// <inheritdoc />
-    public bool IsPinned => false;
+    public bool IsPinned
+    {
+        get
+        {
+            return false;
+        }
+    }
 
     /// <inheritdoc />
-    public bool IsSuppressed => false;
+    public bool IsSuppressed
+    {
+        get
+        {
+            return false;
+        }
+    }
 
     /// <inheritdoc />
     public string Content { get; set; }
@@ -70,10 +127,22 @@ public class MewdekoUserMessage : IUserMessage
     public string CleanContent { get; set; }
 
     /// <inheritdoc />
-    public DateTimeOffset Timestamp => DateTimeOffset.Now;
+    public DateTimeOffset Timestamp
+    {
+        get
+        {
+            return DateTimeOffset.Now;
+        }
+    }
 
     /// <inheritdoc />
-    public DateTimeOffset? EditedTimestamp => DateTimeOffset.Now;
+    public DateTimeOffset? EditedTimestamp
+    {
+        get
+        {
+            return DateTimeOffset.Now;
+        }
+    }
 
     /// <inheritdoc />
     public IMessageChannel Channel { get; set; }
@@ -127,17 +196,28 @@ public class MewdekoUserMessage : IUserMessage
     public IMessageInteraction Interaction { get; set; }
 
     /// <inheritdoc />
-    public Task ModifyAsync(Action<MessageProperties> func, RequestOptions options = null) =>
+    public Task ModifyAsync(Action<MessageProperties> func, RequestOptions options = null)
+    {
         throw new NotImplementedException();
+    }
 
     /// <inheritdoc />
-    public Task PinAsync(RequestOptions options = null) => throw new NotImplementedException();
+    public Task PinAsync(RequestOptions options = null)
+    {
+        throw new NotImplementedException();
+    }
 
     /// <inheritdoc />
-    public Task UnpinAsync(RequestOptions options = null) => throw new NotImplementedException();
+    public Task UnpinAsync(RequestOptions options = null)
+    {
+        throw new NotImplementedException();
+    }
 
     /// <inheritdoc />
-    public Task CrosspostAsync(RequestOptions options = null) => throw new NotImplementedException();
+    public Task CrosspostAsync(RequestOptions options = null)
+    {
+        throw new NotImplementedException();
+    }
 
     /// <inheritdoc />
     public string Resolve(
@@ -145,17 +225,20 @@ public class MewdekoUserMessage : IUserMessage
         TagHandling channelHandling = TagHandling.Name,
         TagHandling roleHandling = TagHandling.Name,
         TagHandling everyoneHandling = TagHandling.Ignore,
-        TagHandling emojiHandling = TagHandling.Name) =>
+        TagHandling emojiHandling = TagHandling.Name)
+    {
         throw new NotImplementedException();
+    }
 
-   /// <inheritdoc/>
+    /// <inheritdoc />
     public Task EndPollAsync(RequestOptions options)
     {
         throw new NotImplementedException();
     }
 
-    /// <inheritdoc/>
-    public IAsyncEnumerable<IReadOnlyCollection<IUser>> GetPollAnswerVotersAsync(uint answerId, int? limit = null, ulong? afterId = null,
+    /// <inheritdoc />
+    public IAsyncEnumerable<IReadOnlyCollection<IUser>> GetPollAnswerVotersAsync(uint answerId, int? limit = null,
+        ulong? afterId = null,
         RequestOptions options = null)
     {
         throw new NotImplementedException();
@@ -170,14 +253,29 @@ public class MewdekoUserMessage : IUserMessage
     /// <inheritdoc />
     public IMessageInteractionMetadata InteractionMetadata { get; }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
+    public IReadOnlyCollection<MessageSnapshot> ForwardedMessages { get; }
+
+    /// <inheritdoc />
     public Poll? Poll { get; }
 
     /// <inheritdoc />
-    public IThreadChannel Thread => throw new NotImplementedException();
+    public IThreadChannel Thread
+    {
+        get
+        {
+            throw new NotImplementedException();
+        }
+    }
 
     /// <inheritdoc />
-    public MessageRoleSubscriptionData RoleSubscriptionData => throw new NotImplementedException();
+    public MessageRoleSubscriptionData RoleSubscriptionData
+    {
+        get
+        {
+            throw new NotImplementedException();
+        }
+    }
 
     /// <inheritdoc />
     public PurchaseNotification PurchaseNotification { get; }

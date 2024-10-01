@@ -1,41 +1,64 @@
 ﻿using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
-namespace Mewdeko.Common.Yml
+namespace Mewdeko.Common.Yml;
+
+/// <summary>
+///     Represents an object descriptor with associated comments during YAML serialization.
+/// </summary>
+public sealed class CommentsObjectDescriptor : IObjectDescriptor
 {
+    private readonly IObjectDescriptor innerDescriptor;
+
     /// <summary>
-    /// Represents an object descriptor with associated comments during YAML serialization.
+    ///     Initializes a new instance of the <see cref="CommentsObjectDescriptor" /> class.
     /// </summary>
-    public sealed class CommentsObjectDescriptor : IObjectDescriptor
+    /// <param name="innerDescriptor">The inner object descriptor.</param>
+    /// <param name="comment">The comment associated with the object.</param>
+    public CommentsObjectDescriptor(IObjectDescriptor innerDescriptor, string comment)
     {
-        private readonly IObjectDescriptor innerDescriptor;
+        this.innerDescriptor = innerDescriptor;
+        Comment = comment;
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CommentsObjectDescriptor"/> class.
-        /// </summary>
-        /// <param name="innerDescriptor">The inner object descriptor.</param>
-        /// <param name="comment">The comment associated with the object.</param>
-        public CommentsObjectDescriptor(IObjectDescriptor innerDescriptor, string comment)
+    /// <summary>
+    ///     Gets the comment associated with the object.
+    /// </summary>
+    public string Comment { get; }
+
+    /// <inheritdoc />
+    public object Value
+    {
+        get
         {
-            this.innerDescriptor = innerDescriptor;
-            Comment = comment;
+            return innerDescriptor.Value;
         }
+    }
 
-        /// <summary>
-        /// Gets the comment associated with the object.
-        /// </summary>
-        public string Comment { get; }
+    /// <inheritdoc />
+    public Type Type
+    {
+        get
+        {
+            return innerDescriptor.Type;
+        }
+    }
 
-        /// <inheritdoc/>
-        public object Value => innerDescriptor.Value;
+    /// <inheritdoc />
+    public Type StaticType
+    {
+        get
+        {
+            return innerDescriptor.StaticType;
+        }
+    }
 
-        /// <inheritdoc/>
-        public Type Type => innerDescriptor.Type;
-
-        /// <inheritdoc/>
-        public Type StaticType => innerDescriptor.StaticType;
-
-        /// <inheritdoc/>
-        public ScalarStyle ScalarStyle => innerDescriptor.ScalarStyle;
+    /// <inheritdoc />
+    public ScalarStyle ScalarStyle
+    {
+        get
+        {
+            return innerDescriptor.ScalarStyle;
+        }
     }
 }

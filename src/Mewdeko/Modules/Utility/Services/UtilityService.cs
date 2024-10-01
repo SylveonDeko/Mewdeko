@@ -7,7 +7,8 @@ using VirusTotalNet.Results;
 namespace Mewdeko.Modules.Utility.Services;
 
 /// <summary>
-/// Provides various utility functionalities including message sniping, link previews, reaction management, and URL checking.
+///     Provides various utility functionalities including message sniping, link previews, reaction management, and URL
+///     checking.
 /// </summary>
 public partial class UtilityService : INService
 {
@@ -17,7 +18,7 @@ public partial class UtilityService : INService
     private readonly GuildSettingsService guildSettings;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="UtilityService"/> class.
+    ///     Initializes a new instance of the <see cref="UtilityService" /> class.
     /// </summary>
     /// <param name="db">The database service.</param>
     /// <param name="cache">The data cache service.</param>
@@ -42,28 +43,35 @@ public partial class UtilityService : INService
     }
 
     /// <summary>
-    /// Retrieves sniped messages for a specific guild.
+    ///     Retrieves sniped messages for a specific guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to retrieve sniped messages for.</param>
     /// <returns>A task that represents the asynchronous operation, containing a list of sniped messages.</returns>
-    public Task<List<SnipeStore>> GetSnipes(ulong guildId) =>
-        cache.GetSnipesForGuild(guildId);
+    public Task<List<SnipeStore>> GetSnipes(ulong guildId)
+    {
+        return cache.GetSnipesForGuild(guildId);
+    }
 
     /// <summary>
-    /// Checks whether link previewing is enabled for a specific guild.
+    ///     Checks whether link previewing is enabled for a specific guild.
     /// </summary>
     /// <param name="id">The ID of the guild to check.</param>
-    /// <returns>A task that represents the asynchronous operation, containing a boolean indicating if link previewing is enabled.</returns>
-    public async Task<int> GetPLinks(ulong id) => (await guildSettings.GetGuildConfig(id)).PreviewLinks;
+    /// <returns>
+    ///     A task that represents the asynchronous operation, containing a boolean indicating if link previewing is
+    ///     enabled.
+    /// </returns>
+    public async Task<int> GetPLinks(ulong id)
+    {
+        return (await guildSettings.GetGuildConfig(id)).PreviewLinks;
+    }
 
     /// <summary>
-    /// Toggles link previewing for a specific guild.
+    ///     Toggles link previewing for a specific guild.
     /// </summary>
     /// <param name="guild">The guild to toggle link previewing for.</param>
     /// <param name="yesnt">A string indicating whether to enable or disable link previewing.</param>
     public async Task PreviewLinks(IGuild guild, string yesnt)
     {
-
         var yesno = -1;
         await using var dbContext = await dbProvider.GetContextAsync();
         {
@@ -81,21 +89,22 @@ public partial class UtilityService : INService
     }
 
     /// <summary>
-    /// Retrieves the snipe set status for a specific guild.
+    ///     Retrieves the snipe set status for a specific guild.
     /// </summary>
     /// <param name="id">The ID of the guild to check.</param>
     /// <returns>A task that represents the asynchronous operation, containing a boolean indicating if snipe set is enabled.</returns>
-    public async Task<bool> GetSnipeSet(ulong id) =>
-        (await guildSettings.GetGuildConfig(id)).snipeset;
+    public async Task<bool> GetSnipeSet(ulong id)
+    {
+        return (await guildSettings.GetGuildConfig(id)).snipeset;
+    }
 
     /// <summary>
-    /// Sets the snipe set status for a specific guild.
+    ///     Sets the snipe set status for a specific guild.
     /// </summary>
     /// <param name="guild">The guild to set the snipe set status for.</param>
     /// <param name="enabled">A boolean indicating whether to enable or disable snipe set.</param>
     public async Task SnipeSet(IGuild guild, bool enabled)
     {
-
         await using var dbContext = await dbProvider.GetContextAsync();
 
         var gc = await dbContext.ForGuildId(guild.Id, set => set);
@@ -218,7 +227,7 @@ public partial class UtilityService : INService
     }
 
     /// <summary>
-    /// Checks a URL for malware and other security threats.
+    ///     Checks a URL for malware and other security threats.
     /// </summary>
     /// <param name="url">The URL to check.</param>
     /// <returns>A task that represents the asynchronous operation, containing a report on the URL's security status.</returns>

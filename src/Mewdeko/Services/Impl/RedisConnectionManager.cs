@@ -3,14 +3,26 @@
 namespace Mewdeko.Services.Impl;
 
 /// <summary>
-/// Manages pooled redis connections
+///     Manages pooled redis connections
 /// </summary>
 public static class RedisConnectionManager
 {
     private static ConnectionMultiplexer? _connection;
 
     /// <summary>
-    /// Initializes the connections used for redis
+    ///     The actual connection used for redis
+    /// </summary>
+    /// <exception cref="InvalidOperationException">Oops!</exception>
+    public static ConnectionMultiplexer Connection
+    {
+        get
+        {
+            return _connection ?? throw new InvalidOperationException("RedisConnectionManager is not initialized.");
+        }
+    }
+
+    /// <summary>
+    ///     Initializes the connections used for redis
     /// </summary>
     /// <param name="redisConnections">; Seperated connection IPs</param>
     public static void Initialize(string redisConnections)
@@ -32,10 +44,4 @@ public static class RedisConnectionManager
 
         _connection = ConnectionMultiplexer.Connect(configurationOptions);
     }
-
-    /// <summary>
-    /// The actual connection used for redis
-    /// </summary>
-    /// <exception cref="InvalidOperationException">Oops!</exception>
-    public static ConnectionMultiplexer Connection => _connection ?? throw new InvalidOperationException("RedisConnectionManager is not initialized.");
 }

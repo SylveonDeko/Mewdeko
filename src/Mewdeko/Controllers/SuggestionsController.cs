@@ -610,31 +610,31 @@ public class SuggestionsController(
         return Ok();
     }
 
-        /// <summary>
-        ///     Gets the suggest emotes for a guild
-        /// </summary>
-        /// <param name="guildId">The ID of the guild</param>
-        /// <returns>The suggest emotes</returns>
-        [HttpGet("suggestEmotes")]
-        public async Task<IActionResult> GetSuggestEmotes(ulong guildId)
-        {
-            var emotes = await service.GetEmotes(guildId);
-            return Ok(emotes);
-        }
+    /// <summary>
+    ///     Gets the suggest emotes for a guild
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <returns>The suggest emotes</returns>
+    [HttpGet("suggestEmotes")]
+    public async Task<IActionResult> GetSuggestEmotes(ulong guildId)
+    {
+        var emotes = await service.GetEmotes(guildId);
+        return Ok(emotes);
+    }
 
-        /// <summary>
-        ///  Sets the suggest emotes for a guild
-        /// </summary>
-        /// <param name="guildId">The ID of the guild</param>
-        /// <param name="emotes">The new suggest emotes</param>
-        /// <returns>An IActionResult indicating the result of the operation</returns>
-        [HttpPost("suggestEmotes")]
-        public async Task<IActionResult> SetSuggestEmotes(ulong guildId, [FromBody] string emotes)
-        {
-            var guild = client.GetGuild(guildId);
-            await service.SetSuggestionEmotes(guild, emotes);
-            return Ok("");
-        }
+    /// <summary>
+    ///     Sets the suggest emotes for a guild
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="emotes">The new suggest emotes</param>
+    /// <returns>An IActionResult indicating the result of the operation</returns>
+    [HttpPost("suggestEmotes")]
+    public async Task<IActionResult> SetSuggestEmotes(ulong guildId, [FromBody] string emotes)
+    {
+        var guild = client.GetGuild(guildId);
+        await service.SetSuggestionEmotes(guild, emotes);
+        return Ok("");
+    }
 
     /// <summary>
     /// </summary>

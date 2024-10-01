@@ -7,13 +7,13 @@ using ZiggyCreatures.Caching.Fusion;
 namespace Mewdeko.Common.Attributes.InteractionCommands;
 
 /// <summary>
-/// Attribute to apply a rate limit to an interaction command.
+///     Attribute to apply a rate limit to an interaction command.
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]
 public sealed class InteractionRatelimitAttribute : PreconditionAttribute
 {
     /// <summary>
-    /// Initializes a new instance of the InteractionRatelimitAttribute class.
+    ///     Initializes a new instance of the InteractionRatelimitAttribute class.
     /// </summary>
     /// <param name="seconds">The rate limit duration in seconds.</param>
     public InteractionRatelimitAttribute(int seconds)
@@ -23,12 +23,12 @@ public sealed class InteractionRatelimitAttribute : PreconditionAttribute
     }
 
     /// <summary>
-    /// Gets the rate limit duration in seconds.
+    ///     Gets the rate limit duration in seconds.
     /// </summary>
     private int Seconds { get; }
 
     /// <summary>
-    /// Checks the requirements before executing a command or method.
+    ///     Checks the requirements before executing a command or method.
     /// </summary>
     /// <param name="context">The interaction context.</param>
     /// <param name="commandInfo">The command being executed.</param>
@@ -67,7 +67,8 @@ public sealed class InteractionRatelimitAttribute : PreconditionAttribute
 
     private async Task<TimeSpan?> TryAddRatelimitAsync(IFusionCache cache, string cacheKey, int expireIn)
     {
-        var existingRatelimit = await cache.GetOrSetAsync<TimeSpan?>(cacheKey, async _ => TimeSpan.FromSeconds(expireIn), options => options.SetDuration(TimeSpan.FromSeconds(expireIn)));
+        var existingRatelimit = await cache.GetOrSetAsync<TimeSpan?>(cacheKey,
+            async _ => TimeSpan.FromSeconds(expireIn), options => options.SetDuration(TimeSpan.FromSeconds(expireIn)));
 
         return existingRatelimit == TimeSpan.FromSeconds(expireIn) ? null : existingRatelimit;
     }

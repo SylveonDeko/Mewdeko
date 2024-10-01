@@ -8,38 +8,38 @@ using Serilog;
 namespace Mewdeko.Modules.Nsfw;
 
 /// <summary>
-/// Represents a response containing information about a URL.
+///     Represents a response containing information about a URL.
 /// </summary>
 public record UrlReply
 {
     /// <summary>
-    /// Gets or initializes the error message, if any.
+    ///     Gets or initializes the error message, if any.
     /// </summary>
     public string Error { get; init; }
 
     /// <summary>
-    /// Gets or initializes the URL.
+    ///     Gets or initializes the URL.
     /// </summary>
     public string Url { get; init; }
 
     /// <summary>
-    /// Gets or initializes the rating associated with the URL.
+    ///     Gets or initializes the rating associated with the URL.
     /// </summary>
     public string Rating { get; init; }
 
     /// <summary>
-    /// Gets or initializes the provider of the URL.
+    ///     Gets or initializes the provider of the URL.
     /// </summary>
     public string Provider { get; init; }
 
     /// <summary>
-    /// Gets the list of tags associated with the URL.
+    ///     Gets the list of tags associated with the URL.
     /// </summary>
     public List<string> Tags { get; } = [];
 }
 
 /// <summary>
-/// Represents a service for searching images.
+///     Represents a service for searching images.
 /// </summary>
 public class SearchImagesService : ISearchImagesService, INService
 {
@@ -51,7 +51,7 @@ public class SearchImagesService : ISearchImagesService, INService
     private readonly object taglock = new();
 
     /// <summary>
-    /// Initializes a new instance of the SearchImagesService class.
+    ///     Initializes a new instance of the SearchImagesService class.
     /// </summary>
     /// <param name="http">The HTTP client factory for creating HttpClient instances.</param>
     /// <param name="cacher">The search image cacher.</param>
@@ -68,7 +68,6 @@ public class SearchImagesService : ISearchImagesService, INService
         cache = cacher;
         this.dbProvider = dbProvider;
         this.service = service;
-
     }
 
     /// <summary>
@@ -87,107 +86,127 @@ public class SearchImagesService : ISearchImagesService, INService
     public ConcurrentDictionary<ulong, Timer> AutoButtTimers { get; } = new();
 
     /// <summary>
-    /// Retrieves an NSFW image URL from Gelbooru.
+    ///     Retrieves an NSFW image URL from Gelbooru.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="forceExplicit">A boolean value indicating whether to force explicit content.</param>
     /// <param name="tags">An array of tags used to filter the image.</param>
     /// <returns>A task representing the asynchronous operation, containing the URL reply if successful; otherwise, null.</returns>
     public Task<UrlReply?> Gelbooru(ulong? guildId, bool forceExplicit, string[] tags)
-        => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Gelbooru);
+    {
+        return GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Gelbooru);
+    }
 
     /// <summary>
-    /// Retrieves an NSFW image URL from Danbooru.
+    ///     Retrieves an NSFW image URL from Danbooru.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="forceExplicit">A boolean value indicating whether to force explicit content.</param>
     /// <param name="tags">An array of tags used to filter the image.</param>
     /// <returns>A task representing the asynchronous operation, containing the URL reply if successful; otherwise, null.</returns>
     public Task<UrlReply?> Danbooru(ulong? guildId, bool forceExplicit, string[] tags)
-        => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Danbooru);
+    {
+        return GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Danbooru);
+    }
 
     /// <summary>
-    /// Retrieves an NSFW image URL from Konachan.
+    ///     Retrieves an NSFW image URL from Konachan.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="forceExplicit">A boolean value indicating whether to force explicit content.</param>
     /// <param name="tags">An array of tags used to filter the image.</param>
     /// <returns>A task representing the asynchronous operation, containing the URL reply if successful; otherwise, null.</returns>
     public Task<UrlReply?> Konachan(ulong? guildId, bool forceExplicit, string[] tags)
-        => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Konachan);
+    {
+        return GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Konachan);
+    }
 
     /// <summary>
-    /// Retrieves an NSFW image URL from Yandere.
+    ///     Retrieves an NSFW image URL from Yandere.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="forceExplicit">A boolean value indicating whether to force explicit content.</param>
     /// <param name="tags">An array of tags used to filter the image.</param>
     /// <returns>A task representing the asynchronous operation, containing the URL reply if successful; otherwise, null.</returns>
     public Task<UrlReply?> Yandere(ulong? guildId, bool forceExplicit, string[] tags)
-        => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Yandere);
+    {
+        return GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Yandere);
+    }
 
     /// <summary>
-    /// Retrieves an NSFW image URL from Rule34.
+    ///     Retrieves an NSFW image URL from Rule34.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="forceExplicit">A boolean value indicating whether to force explicit content.</param>
     /// <param name="tags">An array of tags used to filter the image.</param>
     /// <returns>A task representing the asynchronous operation, containing the URL reply if successful; otherwise, null.</returns>
     public Task<UrlReply?> Rule34(ulong? guildId, bool forceExplicit, string[] tags)
-        => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Rule34);
+    {
+        return GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Rule34);
+    }
 
     /// <summary>
-    /// Retrieves an NSFW image URL from E621.
+    ///     Retrieves an NSFW image URL from E621.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="forceExplicit">A boolean value indicating whether to force explicit content.</param>
     /// <param name="tags">An array of tags used to filter the image.</param>
     /// <returns>A task representing the asynchronous operation, containing the URL reply if successful; otherwise, null.</returns>
     public Task<UrlReply?> E621(ulong? guildId, bool forceExplicit, string[] tags)
-        => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.E621);
+    {
+        return GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.E621);
+    }
 
     /// <summary>
-    /// Retrieves an NSFW image URL from DerpiBooru.
+    ///     Retrieves an NSFW image URL from DerpiBooru.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="forceExplicit">A boolean value indicating whether to force explicit content.</param>
     /// <param name="tags">An array of tags used to filter the image.</param>
     /// <returns>A task representing the asynchronous operation, containing the URL reply if successful; otherwise, null.</returns>
     public Task<UrlReply?> DerpiBooru(ulong? guildId, bool forceExplicit, string[] tags)
-        => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Derpibooru);
+    {
+        return GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Derpibooru);
+    }
 
     /// <summary>
-    /// Retrieves an NSFW image URL from SafeBooru.
+    ///     Retrieves an NSFW image URL from SafeBooru.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="forceExplicit">A boolean value indicating whether to force explicit content.</param>
     /// <param name="tags">An array of tags used to filter the image.</param>
     /// <returns>A task representing the asynchronous operation, containing the URL reply if successful; otherwise, null.</returns>
     public Task<UrlReply?> SafeBooru(ulong? guildId, bool forceExplicit, string[] tags)
-        => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Safebooru);
+    {
+        return GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Safebooru);
+    }
 
     /// <summary>
-    /// Retrieves an NSFW image URL from Sankaku.
+    ///     Retrieves an NSFW image URL from Sankaku.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="forceExplicit">A boolean value indicating whether to force explicit content.</param>
     /// <param name="tags">An array of tags used to filter the image.</param>
     /// <returns>A task representing the asynchronous operation, containing the URL reply if successful; otherwise, null.</returns>
     public Task<UrlReply?> Sankaku(ulong? guildId, bool forceExplicit, string[] tags)
-        => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Sankaku);
+    {
+        return GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Sankaku);
+    }
 
     /// <summary>
-    /// Retrieves an NSFW image URL from RealBooru.
+    ///     Retrieves an NSFW image URL from RealBooru.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="forceExplicit">A boolean value indicating whether to force explicit content.</param>
     /// <param name="tags">An array of tags used to filter the image.</param>
     /// <returns>A task representing the asynchronous operation, containing the URL reply if successful; otherwise, null.</returns>
     public Task<UrlReply?> RealBooru(ulong? guildId, bool forceExplicit, string[] tags)
-        => GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Realbooru);
+    {
+        return GetNsfwImageAsync(guildId, forceExplicit, tags, Booru.Realbooru);
+    }
 
     /// <summary>
-    /// Retrieves an NSFW image URL from multiple providers, including Danbooru, Konachan, Gelbooru, and Yandere.
+    ///     Retrieves an NSFW image URL from multiple providers, including Danbooru, Konachan, Gelbooru, and Yandere.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="forceExplicit">A boolean value indicating whether to force explicit content.</param>
@@ -232,11 +251,14 @@ public class SearchImagesService : ISearchImagesService, INService
     }
 
     /// <summary>
-    /// Toggles the blacklisting of a tag for the specified guild.
+    ///     Toggles the blacklisting of a tag for the specified guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="tag">The tag to toggle.</param>
-    /// <returns>A task representing the asynchronous operation, containing a boolean value indicating whether the tag was added or removed.</returns>
+    /// <returns>
+    ///     A task representing the asynchronous operation, containing a boolean value indicating whether the tag was
+    ///     added or removed.
+    /// </returns>
     public async ValueTask<bool> ToggleBlacklistTag(ulong guildId, string tag)
     {
         var tagObj = new NsfwBlacklitedTag
@@ -246,7 +268,7 @@ public class SearchImagesService : ISearchImagesService, INService
 
         bool added;
 
-       await using var db = await dbProvider.GetContextAsync();
+        await using var db = await dbProvider.GetContextAsync();
         var gc = await db.ForGuildId(guildId, set => set.Include(y => y.NsfwBlacklistedTags));
         if (gc.NsfwBlacklistedTags.Add(tagObj))
         {
@@ -267,7 +289,7 @@ public class SearchImagesService : ISearchImagesService, INService
     }
 
     /// <summary>
-    /// Gets the list of blacklisted tags for the specified guild.
+    ///     Gets the list of blacklisted tags for the specified guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns>A task representing the asynchronous operation, containing an array of blacklisted tags.</returns>

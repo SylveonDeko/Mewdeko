@@ -6,16 +6,17 @@ using Mewdeko.Database.DbContextStuff;
 namespace Mewdeko.Modules.Moderation.Services;
 
 /// <summary>
-/// Service for managing role connection metadata.
+///     Service for managing role connection metadata.
 /// </summary>
 /// <param name="dbContext">The database service</param>
 /// <param name="client">The Discord client</param>
 /// <param name="botCredentials">The bot credentials</param>
-public class RoleMetadataService(DbContextProvider dbProvider, DiscordShardedClient client, IBotCredentials botCredentials)
+public class RoleMetadataService(
+    DbContextProvider dbProvider,
+    DiscordShardedClient client,
+    IBotCredentials botCredentials)
     : INService
 {
-    private IBotCredentials botCredentials = botCredentials;
-
     private readonly List<RoleConnectionMetadataProperties> props =
     [
         new(RoleConnectionMetadataType.IntegerGreaterOrEqual, "total_cmds", "Total Commands",
@@ -25,8 +26,10 @@ public class RoleMetadataService(DbContextProvider dbProvider, DiscordShardedCli
             "Days since this user's first command after we started keeping track")
     ];
 
+    private IBotCredentials botCredentials = botCredentials;
+
     /// <summary>
-    /// Updates the role connection data for a user.
+    ///     Updates the role connection data for a user.
     /// </summary>
     /// <param name="tokenId">The token id</param>
     /// <param name="clientId">The client id</param>
@@ -67,7 +70,7 @@ public class RoleMetadataService(DbContextProvider dbProvider, DiscordShardedCli
     }
 
     /// <summary>
-    /// Updates the role connection data for a user.
+    ///     Updates the role connection data for a user.
     /// </summary>
     /// <param name="userId">The user id</param>
     /// <param name="tokenId">The token id</param>
@@ -75,7 +78,8 @@ public class RoleMetadataService(DbContextProvider dbProvider, DiscordShardedCli
     /// <param name="clientId">The client id</param>
     /// <param name="clientSecret">The client secret</param>
     /// <param name="client">The HTTP client</param>
-    public static async Task UpdateRoleConnectionData(ulong userId, int tokenId, DbContextProvider dbProvider, ulong clientId,
+    public static async Task UpdateRoleConnectionData(ulong userId, int tokenId, DbContextProvider dbProvider,
+        ulong clientId,
         string clientSecret, HttpClient client)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -96,7 +100,7 @@ public class RoleMetadataService(DbContextProvider dbProvider, DiscordShardedCli
         try
         {
             await dClient.ModifyUserApplicationRoleConnectionAsync(clientId, new RoleConnectionProperties("Mewdeko",
-                $"User #{(dbu?.Id.ToString() ?? "unknown")}", new Dictionary<string, string>
+                $"User #{dbu?.Id.ToString() ?? "unknown"}", new Dictionary<string, string>
                 {
                     {
                         "total_cmds", count.ToString()

@@ -10,7 +10,7 @@ using StackExchange.Redis;
 namespace Mewdeko.Services.Impl;
 
 /// <summary>
-/// Service for caching data in Redis.
+///     Service for caching data in Redis.
 /// </summary>
 public class RedisCache : IDataCache
 {
@@ -19,10 +19,10 @@ public class RedisCache : IDataCache
         ReferenceLoopHandling = ReferenceLoopHandling.Ignore
     };
 
-    private string redisKey;
+    private readonly string redisKey;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RedisCache"/> class.
+    ///     Initializes a new instance of the <see cref="RedisCache" /> class.
     /// </summary>
     /// <param name="creds">The bot credentials.</param>
     /// <param name="shardId">The shard ID.</param>
@@ -34,17 +34,23 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// The Redis connection multiplexer.
+    ///     The Redis connection multiplexer.
     /// </summary>
-    public ConnectionMultiplexer Redis => RedisConnectionManager.Connection;
+    public ConnectionMultiplexer Redis
+    {
+        get
+        {
+            return RedisConnectionManager.Connection;
+        }
+    }
 
     /// <summary>
-    /// The local image cache.
+    ///     The local image cache.
     /// </summary>
     public IImageCache LocalImages { get; set; }
 
     /// <summary>
-    /// The local data cache.
+    ///     The local data cache.
     /// </summary>
     public ILocalDataCache LocalData { get; set; }
 
@@ -54,15 +60,15 @@ public class RedisCache : IDataCache
     // which are hosted on the same PC
     // can re-use the same image/anime data
     /// <summary>
-    /// Tries to get image data from the cache.
+    ///     Tries to get image data from the cache.
     /// </summary>
     /// <param name="key">The key to get the image data for.</param>
     /// <returns>A tuple containing a boolean indicating whether the operation was successful and the image data.</returns>
     /// <remarks>
-    /// things here so far don't need the bot id
-    /// because it's a good thing if different bots
-    /// which are hosted on the same PC
-    /// can re-use the same image/anime data
+    ///     things here so far don't need the bot id
+    ///     because it's a good thing if different bots
+    ///     which are hosted on the same PC
+    ///     can re-use the same image/anime data
     /// </remarks>
     public async Task<(bool Success, byte[] Data)> TryGetImageDataAsync(Uri key)
     {
@@ -72,7 +78,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Caaches a users afk status.
+    ///     Caaches a users afk status.
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
     /// <param name="userId">The user ID.</param>
@@ -92,7 +98,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Retrieves a users afk status.
+    ///     Retrieves a users afk status.
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
     /// <param name="userId">The user ID.</param>
@@ -105,7 +111,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Clears a users afk status.
+    ///     Clears a users afk status.
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
     /// <param name="userId">The user ID.</param>
@@ -140,7 +146,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Caches all status roles.
+    ///     Caches all status roles.
     /// </summary>
     /// <param name="statusRoles">The status roles to cache.</param>
     public async Task SetStatusRoleCache(List<StatusRolesTable> statusRoles)
@@ -150,7 +156,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Retrieves all status roles.
+    ///     Retrieves all status roles.
     /// </summary>
     /// <returns>The status roles.</returns>
     public async Task<List<StatusRolesTable>> GetStatusRoleCache()
@@ -163,7 +169,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Sets a users status cache.
+    ///     Sets a users status cache.
     /// </summary>
     /// <param name="id">The user ID.</param>
     /// <param name="base64">The base64 string of users status.</param>
@@ -186,7 +192,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Caches highlights for a user.
+    ///     Caches highlights for a user.
     /// </summary>
     /// <param name="id">The user ID.</param>
     /// <param name="objectList">The list of highlights.</param>
@@ -203,7 +209,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Sets the music queue for a guild.
+    ///     Sets the music queue for a guild.
     /// </summary>
     /// <param name="id">The server ID.</param>
     /// <param name="tracks">The list of tracks.</param>
@@ -215,7 +221,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Gets the music queue for a guild.
+    ///     Gets the music queue for a guild.
     /// </summary>
     /// <param name="id">The server ID.</param>
     /// <returns>A list of tracks.</returns>
@@ -227,7 +233,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Sets the current track for a guild.
+    ///     Sets the current track for a guild.
     /// </summary>
     /// <param name="id">The server ID.</param>
     /// <param name="track">The track to set.</param>
@@ -242,7 +248,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Gets the current track for a guild.
+    ///     Gets the current track for a guild.
     /// </summary>
     /// <param name="id">The server ID.</param>
     /// <returns>The current track.</returns>
@@ -254,7 +260,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Caches highlight settings for a user.
+    ///     Caches highlight settings for a user.
     /// </summary>
     /// <param name="id">The user ID.</param>
     /// <param name="objectList">The list of highlight settings.</param>
@@ -271,7 +277,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Adds a snipe to the cache
+    ///     Adds a snipe to the cache
     /// </summary>
     /// <param name="id">The guild ID.</param>
     /// <param name="newSnipes">The list of snipes.</param>
@@ -285,7 +291,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Adds a users highlights to the cache.
+    ///     Adds a users highlights to the cache.
     /// </summary>
     /// <param name="id">The user ID.</param>
     /// <param name="newHighlight">The list of highlights.</param>
@@ -299,7 +305,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Executes a Redis command.
+    ///     Executes a Redis command.
     /// </summary>
     /// <param name="command">The command to execute.</param>
     /// <returns></returns>
@@ -310,7 +316,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Tries to add a highlight stagger. Used to prevent spamming highlights.
+    ///     Tries to add a highlight stagger. Used to prevent spamming highlights.
     /// </summary>
     /// <param name="userId">The user ID.</param>
     /// <returns></returns>
@@ -318,11 +324,11 @@ public class RedisCache : IDataCache
     {
         var db = Redis.GetDatabase();
         return Task.FromResult(db.StringSet($"{redisKey}_hstagger_{userId}", 0, TimeSpan.FromMinutes(2),
-            when: When.NotExists, flags: CommandFlags.FireAndForget));
+            When.NotExists, CommandFlags.FireAndForget));
     }
 
     /// <summary>
-    /// Removes a highlight from a users cache.
+    ///     Removes a highlight from a users cache.
     /// </summary>
     /// <param name="id">The user ID.</param>
     /// <param name="newHighlight">The list of highlights.</param>
@@ -336,7 +342,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Adds a highlight setting to the cache.
+    ///     Adds a highlight setting to the cache.
     /// </summary>
     /// <param name="id">The user ID.</param>
     /// <param name="newHighlight">The list of highlight settings.</param>
@@ -350,7 +356,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Gets all snipes for a guild.
+    ///     Gets all snipes for a guild.
     /// </summary>
     /// <param name="id">The guild ID.</param>
     /// <returns></returns>
@@ -361,7 +367,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Gets all highlights for a guild.
+    ///     Gets all highlights for a guild.
     /// </summary>
     /// <param name="id">The guild ID.</param>
     /// <returns></returns>
@@ -372,7 +378,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Gets all highlight settings for a guild.
+    ///     Gets all highlight settings for a guild.
     /// </summary>
     /// <param name="id">The guild ID.</param>
     /// <returns></returns>
@@ -383,7 +389,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Sets the image data in the cache.
+    ///     Sets the image data in the cache.
     /// </summary>
     /// <param name="key">The key to set the image data for.</param>
     /// <param name="data">The image data.</param>
@@ -394,7 +400,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Tries to add a highlight stagger. Used to prevent spamming highlights.
+    ///     Tries to add a highlight stagger. Used to prevent spamming highlights.
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
     /// <param name="userId">The user ID.</param>
@@ -403,11 +409,11 @@ public class RedisCache : IDataCache
     {
         var db = Redis.GetDatabase();
         return Task.FromResult(db.StringSet($"{redisKey}_hstagger_{guildId}_{userId}", 0, TimeSpan.FromMinutes(3),
-            when: When.NotExists, flags: CommandFlags.FireAndForget));
+            When.NotExists, CommandFlags.FireAndForget));
     }
 
     /// <summary>
-    /// Gets a highlight stagger.
+    ///     Gets a highlight stagger.
     /// </summary>
     /// <param name="guildId">The guild ID.</param>
     /// <param name="userId">The user ID.</param>
@@ -419,7 +425,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Trues to add a rate limit for commands.
+    ///     Trues to add a rate limit for commands.
     /// </summary>
     /// <param name="id">The user ID.</param>
     /// <param name="name">The name of the command.</param>
@@ -431,13 +437,13 @@ public class RedisCache : IDataCache
         return db.StringSet($"{redisKey}_ratelimit_{id}_{name}",
             0, // i don't use the value
             TimeSpan.FromSeconds(expireIn),
-            when: When.NotExists)
+            When.NotExists)
             ? null
             : db.KeyTimeToLive($"{redisKey}_ratelimit_{id}_{name}");
     }
 
     /// <summary>
-    /// Sets ship data in the cache.
+    ///     Sets ship data in the cache.
     /// </summary>
     /// <param name="user1">The first user ID.</param>
     /// <param name="user2">The second user ID.</param>
@@ -450,11 +456,11 @@ public class RedisCache : IDataCache
             User1 = user1, User2 = user2, Score = score
         };
         await db.StringSetAsync($"{redisKey}_shipcache:{user1}:{user2}", JsonConvert.SerializeObject(toCache),
-            expiry: TimeSpan.FromHours(12));
+            TimeSpan.FromHours(12));
     }
 
     /// <summary>
-    /// Gets ship data from the cache.
+    ///     Gets ship data from the cache.
     /// </summary>
     /// <param name="user1">The first user ID.</param>
     /// <param name="user2">The second user ID.</param>
@@ -467,7 +473,7 @@ public class RedisCache : IDataCache
     }
 
     /// <summary>
-    /// Dynamically gets or adds cached data.
+    ///     Dynamically gets or adds cached data.
     /// </summary>
     /// <param name="key">The key to get the data for.</param>
     /// <param name="factory">The factory to create the data.</param>

@@ -10,37 +10,40 @@ using Mewdeko.Modules.MultiGreets.Services;
 namespace Mewdeko.Modules.MultiGreets;
 
 /// <summary>
-/// Module for MultiGreets.
+///     Module for MultiGreets.
 /// </summary>
 /// <param name="interactivity"></param>
 public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<MultiGreetService>
 {
     /// <summary>
-    /// The types of MultiGreets.
+    ///     The types of MultiGreets.
     /// </summary>
     public enum MultiGreetTypes
     {
         /// <summary>
-        /// Executes all MultiGreets.
+        ///     Executes all MultiGreets.
         /// </summary>
         MultiGreet,
 
         /// <summary>
-        /// Executes a random MultiGreet.
+        ///     Executes a random MultiGreet.
         /// </summary>
         RandomGreet,
 
         /// <summary>
-        /// Disables MultiGreets.
+        ///     Disables MultiGreets.
         /// </summary>
         Off
     }
 
     /// <summary>
-    /// Adds a MultiGreet channel.
+    ///     Adds a MultiGreet channel.
     /// </summary>
     /// <param name="channel">The channel to add</param>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    [RequireContext(ContextType.Guild)]
     public async Task MultiGreetAdd([Remainder] ITextChannel? channel = null)
     {
         channel ??= ctx.Channel as ITextChannel;
@@ -61,10 +64,13 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
     }
 
     /// <summary>
-    /// Removes a MultiGreet channel.
+    ///     Removes a MultiGreet channel.
     /// </summary>
     /// <param name="id">The id of the MultiGreet to remove</param>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    [RequireContext(ContextType.Guild)]
     public async Task MultiGreetRemove(int id)
     {
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(id - 1);
@@ -79,10 +85,13 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
     }
 
     /// <summary>
-    /// Removes all MultiGreets from a channel.
+    ///     Removes all MultiGreets from a channel.
     /// </summary>
     /// <param name="channel">The channel to remove MultiGreets from</param>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    [RequireContext(ContextType.Guild)]
     public async Task MultiGreetRemove([Remainder] ITextChannel channel)
     {
         var greet = (await Service.GetGreets(ctx.Guild.Id)).Where(x => x.ChannelId == channel.Id);
@@ -104,12 +113,15 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
     }
 
     /// <summary>
-    /// Changes the delete time for a MultiGreet message.
+    ///     Changes the delete time for a MultiGreet message.
     /// </summary>
     /// <param name="id">The id of the MultiGreet to change</param>
     /// <param name="time">The time to delete the message after</param>
-    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
-     RequireBotPermission(GuildPermission.ManageMessages)]
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
+    [RequireBotPermission(GuildPermission.ManageMessages)]
     public async Task MultiGreetDelete(int id, StoopidTime time)
     {
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(id - 1);
@@ -125,12 +137,15 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
     }
 
     /// <summary>
-    /// Changes the delete time for a MultiGreet message in seconds.
+    ///     Changes the delete time for a MultiGreet message in seconds.
     /// </summary>
     /// <param name="id">The id of the MultiGreet to change</param>
     /// <param name="howlong">The time to delete the message after in seconds</param>
-    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
-     RequireBotPermission(GuildPermission.ManageMessages)]
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
+    [RequireBotPermission(GuildPermission.ManageMessages)]
     public async Task MultiGreetDelete(int id, int howlong)
     {
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(id - 1);
@@ -150,11 +165,14 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
     }
 
     /// <summary>
-    /// Disables a MultiGreet.
+    ///     Disables a MultiGreet.
     /// </summary>
     /// <param name="num">The id of the MultiGreet to disable</param>
     /// <param name="enabled">Whether to disable the MultiGreet</param>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    [RequireContext(ContextType.Guild)]
     public async Task MultiGreetDisable(int num, bool enabled)
     {
         var greet = (await Service.GetGreets(ctx.Guild.Id))?.ElementAt(num - 1);
@@ -169,10 +187,13 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
     }
 
     /// <summary>
-    /// Changes the type of MultiGreet.
+    ///     Changes the type of MultiGreet.
     /// </summary>
     /// <param name="types">The type of MultiGreet to set</param>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    [RequireContext(ContextType.Guild)]
     public async Task MultiGreetType(MultiGreetTypes types)
     {
         switch (types)
@@ -193,11 +214,14 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
     }
 
     /// <summary>
-    /// Changes whether a MultiGreet greets bots.
+    ///     Changes whether a MultiGreet greets bots.
     /// </summary>
     /// <param name="num">The id of the MultiGreet to change</param>
     /// <param name="enabled">Whether to greet bots</param>
-    [Cmd, Alias, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Alias]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task MultiGreetGreetBots(int num, bool enabled)
     {
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(num - 1);
@@ -212,13 +236,16 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
     }
 
     /// <summary>
-    /// Changes the webhook for a MultiGreet.
+    ///     Changes the webhook for a MultiGreet.
     /// </summary>
     /// <param name="id">The id of the MultiGreet to change</param>
     /// <param name="name">The name of the webhook</param>
     /// <param name="avatar">The avatar of the webhook</param>
-    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator),
-     RequireBotPermission(GuildPermission.ManageWebhooks)]
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
+    [RequireBotPermission(GuildPermission.ManageWebhooks)]
     public async Task MultiGreetWebhook(int id, string? name = null, string? avatar = null)
     {
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(id - 1);
@@ -267,11 +294,14 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
     }
 
     /// <summary>
-    /// Changes the message for a MultiGreet.
+    ///     Changes the message for a MultiGreet.
     /// </summary>
     /// <param name="id">The id of the MultiGreet to change</param>
     /// <param name="message">The message to set</param>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    [RequireContext(ContextType.Guild)]
     public async Task MultiGreetMessage(int id, [Remainder] string? message = null)
     {
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(id - 1);
@@ -322,9 +352,12 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
     }
 
     /// <summary>
-    /// Lists all MultiGreets.
+    ///     Lists all MultiGreets.
     /// </summary>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    [RequireContext(ContextType.Guild)]
     public async Task MultiGreetList()
     {
         var greets = await Service.GetGreets(ctx.Guild.Id);

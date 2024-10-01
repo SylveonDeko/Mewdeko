@@ -9,7 +9,7 @@ namespace Mewdeko.Modules.Games;
 public partial class Games
 {
     /// <summary>
-    /// A module containing TicTacToe commands.
+    ///     A module containing TicTacToe commands.
     /// </summary>
     /// <param name="client"></param>
     [Group]
@@ -18,12 +18,14 @@ public partial class Games
         private readonly SemaphoreSlim sem = new(1, 1);
 
         /// <summary>
-        /// Starts a game of TicTacToe.
+        ///     Starts a game of TicTacToe.
         /// </summary>
         /// <param name="args">Options for ttt</param>
         /// <example>.ttt</example>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         MewdekoOptions(typeof(TicTacToe.Options))]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [MewdekoOptions(typeof(TicTacToe.Options))]
         public async Task TicTacToe(params string[] args)
         {
             var (options, _) = OptionsParser.ParseFrom(new TicTacToe.Options(), args);

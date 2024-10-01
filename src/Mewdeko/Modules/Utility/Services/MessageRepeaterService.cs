@@ -7,25 +7,29 @@ using Serilog;
 namespace Mewdeko.Modules.Utility.Services;
 
 /// <summary>
-/// Manages the scheduling and execution of repeating messages across guilds.
+///     Manages the scheduling and execution of repeating messages across guilds.
 /// </summary>
-public class MessageRepeaterService(DiscordShardedClient client, DbContextProvider dbProvider, Mewdeko bot, GuildSettingsService gss)
+public class MessageRepeaterService(
+    DiscordShardedClient client,
+    DbContextProvider dbProvider,
+    Mewdeko bot,
+    GuildSettingsService gss)
     : INService, IReadyExecutor
 {
     /// <summary>
-    /// A collection of repeaters organized by guild ID and then by repeater ID.
+    ///     A collection of repeaters organized by guild ID and then by repeater ID.
     /// </summary>
     public ConcurrentDictionary<ulong, ConcurrentDictionary<int, RepeatRunner>> Repeaters { get; set; }
 
     /// <summary>
-    /// Indicates whether the repeater service has finished initializing and loading all repeaters.
+    ///     Indicates whether the repeater service has finished initializing and loading all repeaters.
     /// </summary>
     public bool RepeaterReady { get; private set; }
 
     /// <inheritdoc />
     public async Task OnReadyAsync()
     {
-        Log.Information($"Starting {this.GetType()} Cache");
+        Log.Information($"Starting {GetType()} Cache");
         await bot.Ready.Task.ConfigureAwait(false);
         Log.Information("Loading message repeaters");
 
@@ -56,7 +60,7 @@ public class MessageRepeaterService(DiscordShardedClient client, DbContextProvid
     }
 
     /// <summary>
-    /// Removes a specific repeater from the database.
+    ///     Removes a specific repeater from the database.
     /// </summary>
     /// <param name="r">The repeater configuration to remove.</param>
     public async Task RemoveRepeater(Repeater r)
@@ -72,7 +76,7 @@ public class MessageRepeaterService(DiscordShardedClient client, DbContextProvid
 
 
     /// <summary>
-    /// Sets the ID of the last message sent by a repeater, updating the database with this new value.
+    ///     Sets the ID of the last message sent by a repeater, updating the database with this new value.
     /// </summary>
     /// <param name="repeaterId">The ID of the repeater.</param>
     /// <param name="lastMsgId">The ID of the last message sent by the repeater.</param>

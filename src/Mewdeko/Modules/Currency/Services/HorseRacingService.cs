@@ -1,16 +1,16 @@
 namespace Mewdeko.Modules.Currency.Services;
 
 /// <summary>
-/// Service for managing horse racing games.
+///     Service for managing horse racing games.
 /// </summary>
 public class HorseRacingService : INService
 {
+    private static readonly string[] Animals = ["🐎", "🐪", "🦏", "🦛", "🐘", "🦒", "🦘", "🐅", "🐆", "🦓"];
     private readonly ICurrencyService cs;
     private readonly ConcurrentDictionary<ulong, RaceData> races = new();
-    private static readonly string[] Animals = ["🐎", "🐪", "🦏", "🦛", "🐘", "🦒", "🦘", "🐅", "🐆", "🦓"];
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="HorseRacingService"/> class.
+    ///     Initializes a new instance of the <see cref="HorseRacingService" /> class.
     /// </summary>
     /// <param name="cs">The currency service.</param>
     public HorseRacingService(ICurrencyService cs)
@@ -19,20 +19,21 @@ public class HorseRacingService : INService
     }
 
     /// <summary>
-    /// Allows a user to join a race or starts a new race if none exists.
+    ///     Allows a user to join a race or starts a new race if none exists.
     /// </summary>
     /// <param name="userId">The ID of the user joining the race.</param>
     /// <param name="guildId">The ID of the guild where the race is taking place.</param>
     /// <param name="betAmount">The amount of currency the user is betting.</param>
     /// <returns>A tuple indicating the success of joining, a message, and whether the race has started.</returns>
     /// <summary>
-    /// Allows a user to join a race or starts a new race if none exists.
+    ///     Allows a user to join a race or starts a new race if none exists.
     /// </summary>
     /// <param name="user">The user joining the race.</param>
     /// <param name="guildId">The ID of the guild where the race is taking place.</param>
     /// <param name="betAmount">The amount of currency the user is betting.</param>
     /// <returns>A tuple indicating the success of joining, a message, and whether the race has started.</returns>
-    public async Task<(bool Success, string Message, bool RaceStarted)> JoinRace(IUser user, ulong guildId, int betAmount)
+    public async Task<(bool Success, string Message, bool RaceStarted)> JoinRace(IUser user, ulong guildId,
+        int betAmount)
     {
         var race = races.GetOrAdd(guildId, _ => new RaceData());
 
@@ -63,14 +64,14 @@ public class HorseRacingService : INService
     }
 
     /// <summary>
-    /// Adds AI players to the race if needed after 10 seconds.
+    ///     Adds AI players to the race if needed after 10 seconds.
     /// </summary>
     /// <param name="guildId">The ID of the guild where the race is taking place.</param>
     private async Task AddAiPlayersIfNeeded(ulong guildId)
     {
         if (races.TryGetValue(guildId, out var race))
         {
-            var rand  = new Random();
+            var rand = new Random();
             lock (race)
             {
                 if (race.Participants.Count < 5 && !race.IsActive)
@@ -78,10 +79,12 @@ public class HorseRacingService : INService
                     var aiPlayersToAdd = 5 - race.Participants.Count;
                     for (var i = 0; i < aiPlayersToAdd; i++)
                     {
-                        var aiId = ulong.MaxValue - (ulong)i;  // Use high ulong values for AI players
-                        var betAmount = rand.Next(10, 101);  // Random bet between 10 and 100
-                        race.Participants.Add(new Racer(aiId, betAmount, Animals[race.Participants.Count], $"AI Player {i + 1}"));
+                        var aiId = ulong.MaxValue - (ulong)i; // Use high ulong values for AI players
+                        var betAmount = rand.Next(10, 101); // Random bet between 10 and 100
+                        race.Participants.Add(new Racer(aiId, betAmount, Animals[race.Participants.Count],
+                            $"AI Player {i + 1}"));
                     }
+
                     race.IsActive = true;
                 }
             }
@@ -89,7 +92,7 @@ public class HorseRacingService : INService
     }
 
     /// <summary>
-    /// Updates the progress of all racers in a given race.
+    ///     Updates the progress of all racers in a given race.
     /// </summary>
     /// <param name="guildId">The ID of the guild where the race is taking place.</param>
     /// <returns>A list of updated racer progress.</returns>
@@ -109,7 +112,7 @@ public class HorseRacingService : INService
     }
 
     /// <summary>
-    /// Finishes a race and calculates the winners and their winnings.
+    ///     Finishes a race and calculates the winners and their winnings.
     /// </summary>
     /// <param name="guildId">The ID of the guild where the race is taking place.</param>
     /// <returns>The final result of the race, including winners and final positions.</returns>
@@ -144,10 +147,11 @@ public class HorseRacingService : INService
                     break;
             }
 
-            if (racer.UserId < ulong.MaxValue - 4)  // Only process transactions for real players
+            if (racer.UserId < ulong.MaxValue - 4) // Only process transactions for real players
             {
-                await cs.AddTransactionAsync(racer.UserId, winnings - racer.BetAmount, new("Horse Race"));
+                await cs.AddTransactionAsync(racer.UserId, winnings - racer.BetAmount, new string("Horse Race"));
             }
+
             finalPositions.Add(new FinalPosition(i + 1, racer.UserId, racer.Animal, winnings, racer.Username));
         }
 
@@ -155,55 +159,33 @@ public class HorseRacingService : INService
     }
 
     /// <summary>
-    /// Represents the data for a single race.
+    ///     Represents the data for a single race.
     /// </summary>
     private class RaceData
     {
         /// <summary>
-        /// Gets the list of participants in the race.
+        ///     Gets the list of participants in the race.
         /// </summary>
         public List<Racer> Participants { get; } = [];
 
         /// <summary>
-        /// Gets the start time of the race.
+        ///     Gets the start time of the race.
         /// </summary>
         public DateTime StartTime { get; } = DateTime.UtcNow;
 
         /// <summary>
-        /// Gets or sets a value indicating whether the race is active.
+        ///     Gets or sets a value indicating whether the race is active.
         /// </summary>
         public bool IsActive { get; set; }
     }
 
     /// <summary>
-    /// Represents a single racer in the race.
+    ///     Represents a single racer in the race.
     /// </summary>
     private class Racer
     {
         /// <summary>
-        /// Gets the ID of the user participating in the race.
-        /// </summary>
-        public ulong UserId { get; }
-
-        /// <summary>
-        /// Gets the amount of currency the user bet on the race.
-        /// </summary>
-        public int BetAmount { get; }
-
-        /// <summary>
-        /// Gets the animal emoji representing the racer.
-        /// </summary>
-        public string Animal { get; }
-
-        /// <summary>
-        /// Gets or sets the current progress of the racer.
-        /// </summary>
-        public int Progress { get; set; }
-
-        public string Username { get; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Racer"/> class.
+        ///     Initializes a new instance of the <see cref="Racer" /> class.
         /// </summary>
         /// <param name="userId">The ID of the user participating in the race.</param>
         /// <param name="betAmount">The amount of currency the user bet on the race.</param>
@@ -215,36 +197,38 @@ public class HorseRacingService : INService
             Animal = animal;
             Username = username;
         }
+
+        /// <summary>
+        ///     Gets the ID of the user participating in the race.
+        /// </summary>
+        public ulong UserId { get; }
+
+        /// <summary>
+        ///     Gets the amount of currency the user bet on the race.
+        /// </summary>
+        public int BetAmount { get; }
+
+        /// <summary>
+        ///     Gets the animal emoji representing the racer.
+        /// </summary>
+        public string Animal { get; }
+
+        /// <summary>
+        ///     Gets or sets the current progress of the racer.
+        /// </summary>
+        public int Progress { get; set; }
+
+        public string Username { get; }
     }
 }
 
 /// <summary>
-/// Represents the progress of a racer during the race.
+///     Represents the progress of a racer during the race.
 /// </summary>
 public record RacerProgress
 {
     /// <summary>
-    /// Gets the ID of the user.
-    /// </summary>
-    public ulong UserId { get; init; }
-
-    /// <summary>
-    /// Gets the animal emoji representing the racer.
-    /// </summary>
-    public string Animal { get; init; }
-
-    /// <summary>
-    /// Gets the current progress of the racer.
-    /// </summary>
-    public int Progress { get; init; }
-
-    /// <summary>
-    /// Username
-    /// </summary>
-    public string Username { get; init; }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RacerProgress"/> class.
+    ///     Initializes a new instance of the <see cref="RacerProgress" /> class.
     /// </summary>
     /// <param name="userId">The ID of the user.</param>
     /// <param name="animal">The animal emoji representing the racer.</param>
@@ -256,30 +240,35 @@ public record RacerProgress
         Progress = progress;
         Username = username;
     }
-}
 
-/// <summary>
-/// Represents a winner of the race.
-/// </summary>
-public record RaceWinner
-{
     /// <summary>
-    /// Gets the ID of the winning user.
+    ///     Gets the ID of the user.
     /// </summary>
     public ulong UserId { get; init; }
 
     /// <summary>
-    /// Gets the amount of currency won.
+    ///     Gets the animal emoji representing the racer.
     /// </summary>
-    public int Winnings { get; init; }
+    public string Animal { get; init; }
 
     /// <summary>
-    /// Username
+    ///     Gets the current progress of the racer.
+    /// </summary>
+    public int Progress { get; init; }
+
+    /// <summary>
+    ///     Username
     /// </summary>
     public string Username { get; init; }
+}
 
+/// <summary>
+///     Represents a winner of the race.
+/// </summary>
+public record RaceWinner
+{
     /// <summary>
-    /// Initializes a new instance of the <see cref="RaceWinner"/> class.
+    ///     Initializes a new instance of the <see cref="RaceWinner" /> class.
     /// </summary>
     /// <param name="userId">The ID of the winning user.</param>
     /// <param name="winnings">The amount of currency won.</param>
@@ -289,40 +278,30 @@ public record RaceWinner
         Winnings = winnings;
         Username = username;
     }
-}
-
-/// <summary>
-/// Represents the final position of a racer in the race.
-/// </summary>
-public record FinalPosition
-{
-    /// <summary>
-    /// Gets the final position of the racer.
-    /// </summary>
-    public int Position { get; init; }
 
     /// <summary>
-    /// Gets the ID of the user.
+    ///     Gets the ID of the winning user.
     /// </summary>
     public ulong UserId { get; init; }
 
     /// <summary>
-    /// Gets the animal emoji representing the racer.
-    /// </summary>
-    public string Animal { get; init; }
-
-    /// <summary>
-    /// Gets the amount of currency won (or lost if negative).
+    ///     Gets the amount of currency won.
     /// </summary>
     public int Winnings { get; init; }
 
     /// <summary>
-    /// Username
+    ///     Username
     /// </summary>
     public string Username { get; init; }
+}
 
+/// <summary>
+///     Represents the final position of a racer in the race.
+/// </summary>
+public record FinalPosition
+{
     /// <summary>
-    /// Initializes a new instance of the <see cref="FinalPosition"/> class.
+    ///     Initializes a new instance of the <see cref="FinalPosition" /> class.
     /// </summary>
     /// <param name="position">The final position of the racer.</param>
     /// <param name="userId">The ID of the user.</param>
@@ -336,25 +315,40 @@ public record FinalPosition
         Winnings = winnings;
         Username = username;
     }
+
+    /// <summary>
+    ///     Gets the final position of the racer.
+    /// </summary>
+    public int Position { get; init; }
+
+    /// <summary>
+    ///     Gets the ID of the user.
+    /// </summary>
+    public ulong UserId { get; init; }
+
+    /// <summary>
+    ///     Gets the animal emoji representing the racer.
+    /// </summary>
+    public string Animal { get; init; }
+
+    /// <summary>
+    ///     Gets the amount of currency won (or lost if negative).
+    /// </summary>
+    public int Winnings { get; init; }
+
+    /// <summary>
+    ///     Username
+    /// </summary>
+    public string Username { get; init; }
 }
 
 /// <summary>
-/// Represents the final result of a race.
+///     Represents the final result of a race.
 /// </summary>
 public record RaceResult
 {
     /// <summary>
-    /// Gets the list of winners in the race.
-    /// </summary>
-    public List<RaceWinner> Winners { get; init; }
-
-    /// <summary>
-    /// Gets the list of final positions for all racers.
-    /// </summary>
-    public List<FinalPosition> FinalPositions { get; init; }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RaceResult"/> class.
+    ///     Initializes a new instance of the <see cref="RaceResult" /> class.
     /// </summary>
     /// <param name="winners">The list of winners in the race.</param>
     /// <param name="finalPositions">The list of final positions for all racers.</param>
@@ -363,4 +357,14 @@ public record RaceResult
         Winners = winners;
         FinalPositions = finalPositions;
     }
+
+    /// <summary>
+    ///     Gets the list of winners in the race.
+    /// </summary>
+    public List<RaceWinner> Winners { get; init; }
+
+    /// <summary>
+    ///     Gets the list of final positions for all racers.
+    /// </summary>
+    public List<FinalPosition> FinalPositions { get; init; }
 }

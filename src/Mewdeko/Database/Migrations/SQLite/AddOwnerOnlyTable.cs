@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mewdeko.Database.Migrations.SQLite;
+
 /// <inheritdoc />
 public partial class AddOwnerOnlyTable : Migration
 {
@@ -8,14 +9,14 @@ public partial class AddOwnerOnlyTable : Migration
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.CreateTable(
-            name: "OwnerOnly",
-            columns: table => new
+            "OwnerOnly",
+            table => new
             {
-                Id = table.Column<int>(type: "INTEGER", nullable: false)
+                Id = table.Column<int>("INTEGER", nullable: false)
                     .Annotation("Sqlite:Autoincrement", true),
-                Owners = table.Column<string>(type: "TEXT", nullable: true),
-                GptTokensUsed = table.Column<string>(type: "TEXT", nullable: true),
-                DateAdded = table.Column<DateTime>(type: "TEXT", nullable: false)
+                Owners = table.Column<string>("TEXT", nullable: true),
+                GptTokensUsed = table.Column<string>("TEXT", nullable: true),
+                DateAdded = table.Column<DateTime>("TEXT", nullable: false)
             },
             constraints: table =>
             {
@@ -27,6 +28,6 @@ public partial class AddOwnerOnlyTable : Migration
     protected override void Down(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.DropTable(
-            name: "OwnerOnly");
+            "OwnerOnly");
     }
 }

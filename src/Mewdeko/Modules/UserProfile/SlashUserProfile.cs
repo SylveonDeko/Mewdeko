@@ -10,8 +10,8 @@ using SkiaSharp;
 namespace Mewdeko.Modules.UserProfile;
 
 /// <summary>
-/// Provides slash commands for viewing and managing user profiles within the Mewdeko bot framework.
-/// Includes functionality for viewing profiles, setting biographical information, privacy settings, and more.
+///     Provides slash commands for viewing and managing user profiles within the Mewdeko bot framework.
+///     Includes functionality for viewing profiles, setting biographical information, privacy settings, and more.
 /// </summary>
 [Group("userprofile", "Commands to view and manage your user profile")]
 public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
@@ -21,7 +21,8 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     private readonly DbContextProvider dbProvider;
 
     /// <summary>
-    /// Initializes a new instance of the SlashUserProfile class, setting up dependencies for database and blacklist services.
+    ///     Initializes a new instance of the SlashUserProfile class, setting up dependencies for database and blacklist
+    ///     services.
     /// </summary>
     /// <param name="db">The database service instance.</param>
     /// <param name="bot">The bot instance.</param>
@@ -34,7 +35,7 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     }
 
     /// <summary>
-    /// Displays the profile of the specified user or the command caller if no user is specified.
+    ///     Displays the profile of the specified user or the command caller if no user is specified.
     /// </summary>
     /// <param name="user">The user whose profile to display, optional.</param>
     [SlashCommand("profile", "Shows your or another users profile")]
@@ -50,10 +51,11 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
 
 
     /// <summary>
-    /// Sets the biography in the user's profile.
+    ///     Sets the biography in the user's profile.
     /// </summary>
     /// <param name="bio">The biography text to set.</param>
-    [SlashCommand("setbio", "Set's the description in your user profile"), CheckPermissions]
+    [SlashCommand("setbio", "Set's the description in your user profile")]
+    [CheckPermissions]
     public async Task SetBio(string bio)
     {
         if (bio.Length > 2048)
@@ -67,7 +69,7 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     }
 
     /// <summary>
-    /// Toggles the command statistics collection opt-in/out for the user.
+    ///     Toggles the command statistics collection opt-in/out for the user.
     /// </summary>
     [SlashCommand("statsoptout", "Opts you out/in on command stats collection.")]
     public async Task UserStatsOptOut()
@@ -81,9 +83,10 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     }
 
     /// <summary>
-    /// Deletes the user's command statistics data.
+    ///     Deletes the user's command statistics data.
     /// </summary>
-    [SlashCommand("deletestatsdata", "Deletes your stats data, irreversible."), InteractionRatelimit(3600)]
+    [SlashCommand("deletestatsdata", "Deletes your stats data, irreversible.")]
+    [InteractionRatelimit(3600)]
     public async Task DeleteStatsData()
     {
         if (await PromptUserConfirmAsync(
@@ -97,10 +100,11 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     }
 
     /// <summary>
-    /// Sets the zodiac sign in the user's profile.
+    ///     Sets the zodiac sign in the user's profile.
     /// </summary>
     /// <param name="zodiac">The zodiac sign to set.</param>
-    [SlashCommand("setzodiac", "Set's the zodiac in your user profile"), CheckPermissions]
+    [SlashCommand("setzodiac", "Set's the zodiac in your user profile")]
+    [CheckPermissions]
     public async Task SetZodiac(string zodiac)
     {
         var result = await Service.SetZodiac(ctx.User, zodiac);
@@ -111,10 +115,11 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     }
 
     /// <summary>
-    /// Sets the profile color based on input string, accepting hex and regular color names.
+    ///     Sets the profile color based on input string, accepting hex and regular color names.
     /// </summary>
     /// <param name="input">The color input as a string.</param>
-    [SlashCommand("setcolor", "Set's the color in your user profile"), CheckPermissions]
+    [SlashCommand("setcolor", "Set's the color in your user profile")]
+    [CheckPermissions]
     public async Task SetProfileColor([Summary("color", "Accepts hex and regular color names.")] string input)
     {
         if (!SKColor.TryParse(input, out var inputColor))
@@ -129,10 +134,11 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     }
 
     /// <summary>
-    /// Sets the user's birthday in the profile.
+    ///     Sets the user's birthday in the profile.
     /// </summary>
     /// <param name="timeInput">The birthday date input as a string.</param>
-    [SlashCommand("setbirthday", "Set's the color in your user profile"), CheckPermissions]
+    [SlashCommand("setbirthday", "Set's the color in your user profile")]
+    [CheckPermissions]
     public async Task SetBirthday(string timeInput)
     {
         if (!DateTime.TryParse(timeInput, out var dateTime))
@@ -146,10 +152,11 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     }
 
     /// <summary>
-    /// Sets the privacy setting for how the user's birthday is displayed in their profile.
+    ///     Sets the privacy setting for how the user's birthday is displayed in their profile.
     /// </summary>
     /// <param name="birthdayDisplayModeEnum">The birthday display mode to set.</param>
-    [SlashCommand("setbirthdayprivacy", "Sets how your birthday is displayed in your profile"), CheckPermissions]
+    [SlashCommand("setbirthdayprivacy", "Sets how your birthday is displayed in your profile")]
+    [CheckPermissions]
     public async Task SetBirthdayPrivacy(DiscordUser.BirthdayDisplayModeEnum birthdayDisplayModeEnum)
     {
         await Service.SetBirthdayDisplayMode(ctx.User, birthdayDisplayModeEnum);
@@ -158,13 +165,15 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     }
 
     /// <summary>
-    /// Displays or updates the Nintendo Switch friend code on the user's profile.
+    ///     Displays or updates the Nintendo Switch friend code on the user's profile.
     /// </summary>
     /// <param name="switchFc">The Nintendo Switch friend code to set. Must match the format SW-XXXX-XXXX-XXXX.</param>
-    [SlashCommand("setswitchfriendcode", "Display your switch friend code on your user profile"), CheckPermissions]
+    [SlashCommand("setswitchfriendcode", "Display your switch friend code on your user profile")]
+    [CheckPermissions]
     public async Task SetSwitchFc(
-        [Summary("friend-code", "your switch friend code, in the format sw-XXXX-XXXX-XXXX"), MinLength(17),
-         MaxLength(17)]
+        [Summary("friend-code", "your switch friend code, in the format sw-XXXX-XXXX-XXXX")]
+        [MinLength(17)]
+        [MaxLength(17)]
         string switchFc = "")
     {
         if (!await Service.SetSwitchFc(ctx.User, switchFc))
@@ -182,10 +191,11 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     }
 
     /// <summary>
-    /// Sets the profile image for the user's profile.
+    ///     Sets the profile image for the user's profile.
     /// </summary>
     /// <param name="url">The URL of the image to be used as the profile image.</param>
-    [SlashCommand("setprofileimage", "Set's the image used in your profile"), CheckPermissions]
+    [SlashCommand("setprofileimage", "Set's the image used in your profile")]
+    [CheckPermissions]
     public async Task SetProfileImage(string url)
     {
         if (!url.IsImage())
@@ -203,10 +213,11 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     }
 
     /// <summary>
-    /// Sets the privacy level of the user's profile.
+    ///     Sets the privacy level of the user's profile.
     /// </summary>
     /// <param name="privacyEnum">The privacy setting to apply.</param>
-    [SlashCommand("setprivacy", "Set's the privacy of your user profile"), CheckPermissions]
+    [SlashCommand("setprivacy", "Set's the privacy of your user profile")]
+    [CheckPermissions]
     public async Task SetPrivacy(DiscordUser.ProfilePrivacyEnum privacyEnum)
     {
         await Service.SetPrivacy(ctx.User, privacyEnum);
@@ -214,14 +225,16 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     }
 
     /// <summary>
-    /// Handles the component interaction for overwriting pronouns.
+    ///     Handles the component interaction for overwriting pronouns.
     /// </summary>
     [ComponentInteraction("pronouns_overwrite", true)]
-    public Task OverwritePronouns() =>
-        RespondWithModalAsync<PronounsModal>("pronouns_overwrite_modal");
+    public Task OverwritePronouns()
+    {
+        return RespondWithModalAsync<PronounsModal>("pronouns_overwrite_modal");
+    }
 
     /// <summary>
-    /// Clears pronouns for a user.
+    ///     Clears pronouns for a user.
     /// </summary>
     [ComponentInteraction("pronouns_overwrite_clear", true)]
     public async Task ClearPronounsOverwrite()
@@ -236,7 +249,7 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     }
 
     /// <summary>
-    /// Handles the modal interaction for setting pronouns.
+    ///     Handles the modal interaction for setting pronouns.
     /// </summary>
     /// <param name="modal">The modal containing the user's pronouns input.</param>
     [ModalInteraction("pronouns_overwrite_modal", true)]
@@ -252,7 +265,7 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     }
 
     /// <summary>
-    /// Reports incorrect or abusive pronoun usage.
+    ///     Reports incorrect or abusive pronoun usage.
     /// </summary>
     /// <param name="sId">The user ID of the person being reported.</param>
     [ComponentInteraction("pronouns_report.*;", true)]
@@ -301,43 +314,53 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     }
 
     /// <summary>
-    /// Clears the pronouns for a specified user, optionally disabling pronoun functionality.
+    ///     Clears the pronouns for a specified user, optionally disabling pronoun functionality.
     /// </summary>
     /// <param name="sId">The user ID whose pronouns should be cleared.</param>
     /// <param name="sDisable">Indicates whether to disable pronoun functionality for this user.</param>
     /// <remarks>This operation is reserved for server owners and requires confirmation through a modal interaction.</remarks>
-    [ComponentInteraction("pronouns_clear:*,*", true), SlashOwnerOnly]
-    public Task ClearPronouns(string sId, string sDisable) =>
-        Context.Interaction.RespondWithModalAsync<PronounsFcbModal>($"pronouns_fc_action:{sId},{sDisable},false",
+    [ComponentInteraction("pronouns_clear:*,*", true)]
+    [SlashOwnerOnly]
+    public Task ClearPronouns(string sId, string sDisable)
+    {
+        return Context.Interaction.RespondWithModalAsync<PronounsFcbModal>($"pronouns_fc_action:{sId},{sDisable},false",
             null, x => x.WithTitle("Clear Pronouns"));
+    }
 
     /// <summary>
-    /// Initiates the process to blacklist a user from using pronouns, clearing their current pronouns in the process.
+    ///     Initiates the process to blacklist a user from using pronouns, clearing their current pronouns in the process.
     /// </summary>
     /// <param name="sId">The user ID to be blacklisted.</param>
     /// <remarks>This operation is reserved for server owners and requires confirmation through a modal interaction.</remarks>
-    [ComponentInteraction("pronouns_blacklist:*", true), SlashOwnerOnly]
-    public Task BlacklistPronouns(string sId) =>
-        ctx.Interaction.RespondWithModalAsync<PronounsFcbModal>($"pronouns_fc_action:{sId},true,true", null,
+    [ComponentInteraction("pronouns_blacklist:*", true)]
+    [SlashOwnerOnly]
+    public Task BlacklistPronouns(string sId)
+    {
+        return ctx.Interaction.RespondWithModalAsync<PronounsFcbModal>($"pronouns_fc_action:{sId},true,true", null,
             x => x.WithTitle("Blacklist User and Clear Pronouns"));
+    }
 
     /// <summary>
-    /// Initiates the process to blacklist a guild from using pronouns functionality.
+    ///     Initiates the process to blacklist a guild from using pronouns functionality.
     /// </summary>
     /// <param name="sId">The guild ID to be blacklisted.</param>
     /// <remarks>This operation is reserved for server owners and requires confirmation through a modal interaction.</remarks>
-    [ComponentInteraction("pronouns_blacklist_guild:*", true), SlashOwnerOnly]
-    public Task BlacklistGuildPronouns(string sId) =>
-        ctx.Interaction
+    [ComponentInteraction("pronouns_blacklist_guild:*", true)]
+    [SlashOwnerOnly]
+    public Task BlacklistGuildPronouns(string sId)
+    {
+        return ctx.Interaction
             .RespondWithModalAsync<PronounsFcbModal>($"pronouns_fcb_g:{sId}", null,
                 x => x.WithTitle("Blacklist Guild"));
+    }
 
     /// <summary>
-    /// Handles the blacklisting of a guild, preventing its members from using pronouns functionality.
+    ///     Handles the blacklisting of a guild, preventing its members from using pronouns functionality.
     /// </summary>
     /// <param name="sId">The guild ID to be blacklisted.</param>
     /// <param name="modal">The modal containing the reason for blacklisting.</param>
-    [ModalInteraction("pronouns_fcb_g:*", true), SlashOwnerOnly]
+    [ModalInteraction("pronouns_fcb_g:*", true)]
+    [SlashOwnerOnly]
     public Task PronounsGuildBlacklist(string sId, PronounsFcbModal modal)
     {
         var id = ulong.Parse(sId);
@@ -346,13 +369,14 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     }
 
     /// <summary>
-    /// Performs moderation actions related to pronouns, such as clearing them or blacklisting users.
+    ///     Performs moderation actions related to pronouns, such as clearing them or blacklisting users.
     /// </summary>
     /// <param name="sId">The user ID to perform actions on.</param>
     /// <param name="sPronounsDisable">Indicates whether pronouns functionality should be disabled for the user.</param>
     /// <param name="sBlacklist">Indicates whether the user should be blacklisted from using pronouns.</param>
     /// <param name="modal">The modal containing additional information for the action.</param>
-    [ModalInteraction("pronouns_fc_action:*,*,*", true), SlashOwnerOnly]
+    [ModalInteraction("pronouns_fc_action:*,*,*", true)]
+    [SlashOwnerOnly]
     public async Task PronounsFcAction(
         string sId,
         bool sPronounsDisable,
@@ -380,11 +404,12 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     }
 
     /// <summary>
-    /// Checks if pronouns functionality is disabled for a user and informs them if it is.
+    ///     Checks if pronouns functionality is disabled for a user and informs them if it is.
     /// </summary>
     /// <param name="user">The user to check.</param>
     /// <returns>True if pronouns functionality is disabled for the user, otherwise false.</returns>
-    [SlashCommand("pronouns", "Get a user's pronouns!"), CheckPermissions]
+    [SlashCommand("pronouns", "Get a user's pronouns!")]
+    [CheckPermissions]
     [UserCommand("Pronouns")]
     public async Task Pronouns(IUser? user)
     {
@@ -405,10 +430,11 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
     }
 
     /// <summary>
-    /// Allows a user to set or override their pronouns.
+    ///     Allows a user to set or override their pronouns.
     /// </summary>
     /// <param name="pronouns">The pronouns to set or override. If blank, clears any existing overrides.</param>
-    [SlashCommand("setpronouns", "Override your default pronouns"), CheckPermissions]
+    [SlashCommand("setpronouns", "Override your default pronouns")]
+    [CheckPermissions]
     public async Task SetPronouns(string? pronouns = null)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -438,20 +464,24 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
 
 
     /// <summary>
-    /// Initiates a direct message to a user who was reported for pronoun abuse. Or the owner.
+    ///     Initiates a direct message to a user who was reported for pronoun abuse. Or the owner.
     /// </summary>
     /// <param name="uIdStr">The user ID of the person to message.</param>
-    [ComponentInteraction("pronouns_reportdm:*", true), SlashOwnerOnly]
-    public Task DmUser(string uIdStr) =>
-        ctx.Interaction
+    [ComponentInteraction("pronouns_reportdm:*", true)]
+    [SlashOwnerOnly]
+    public Task DmUser(string uIdStr)
+    {
+        return ctx.Interaction
             .RespondWithModalAsync<DmUserModal>($"pronouns_reportdm_modal:{uIdStr}", null, x => x.WithTitle("dm user"));
+    }
 
     /// <summary>
-    /// Handles sending a direct message to a user after moderation action.
+    ///     Handles sending a direct message to a user after moderation action.
     /// </summary>
     /// <param name="uIdStr">The user ID of the person to message.</param>
     /// <param name="modal">The modal containing the message to be sent.</param>
-    [ModalInteraction("pronouns_reportdm_modal:*", true), SlashOwnerOnly]
+    [ModalInteraction("pronouns_reportdm_modal:*", true)]
+    [SlashOwnerOnly]
     public async Task DmUserModal(string uIdStr, DmUserModal modal)
     {
         try

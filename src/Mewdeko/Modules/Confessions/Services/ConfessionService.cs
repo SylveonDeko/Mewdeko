@@ -4,7 +4,7 @@ using Mewdeko.Database.DbContextStuff;
 namespace Mewdeko.Modules.Confessions.Services;
 
 /// <summary>
-/// Service for managing confessions.
+///     Service for managing confessions.
 /// </summary>
 /// <param name="db"></param>
 /// <param name="client"></param>
@@ -17,7 +17,7 @@ public class ConfessionService(
     : INService
 {
     /// <summary>
-    /// Sends a confession message to the confession channel.
+    ///     Sends a confession message to the confession channel.
     /// </summary>
     /// <param name="serverId">The ID of the server where the confession is sent.</param>
     /// <param name="user">The user who confessed.</param>
@@ -213,7 +213,7 @@ public class ConfessionService(
     }
 
     /// <summary>
-    /// Sets the confession channel for a guild.
+    ///     Sets the confession channel for a guild.
     /// </summary>
     /// <param name="guild">The guild to set the confession channel for.</param>
     /// <param name="channelId">The ID of the confession channel.</param>
@@ -227,15 +227,17 @@ public class ConfessionService(
     }
 
     /// <summary>
-    /// Gets the confession channel for a guild.
+    ///     Gets the confession channel for a guild.
     /// </summary>
     /// <param name="id">The ID of the guild.</param>
     /// <returns>The ID of the confession channel.</returns>
     private async Task<ulong> GetConfessionChannel(ulong id)
-        => (await guildSettings.GetGuildConfig(id)).ConfessionChannel;
+    {
+        return (await guildSettings.GetGuildConfig(id)).ConfessionChannel;
+    }
 
     /// <summary>
-    /// Toggles the user blacklist asynchronously.
+    ///     Toggles the user blacklist asynchronously.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="roleId">The ID of the role to toggle the blacklist for.</param>
@@ -253,7 +255,7 @@ public class ConfessionService(
     }
 
     /// <summary>
-    /// Sets the confession log channel for a guild.
+    ///     Sets the confession log channel for a guild.
     /// </summary>
     /// <param name="guild">The guild to set the confession log channel for.</param>
     /// <param name="channelId">The ID of the confession log channel.</param>
@@ -267,34 +269,40 @@ public class ConfessionService(
     }
 
     /// <summary>
-    /// Gets the confession log channel for a guild.
+    ///     Gets the confession log channel for a guild.
     /// </summary>
     /// <param name="id">The ID of the guild.</param>
     /// <returns>The ID of the confession log channel.</returns>
     private async Task<ulong> GetConfessionLogChannel(ulong id)
-        => (await guildSettings.GetGuildConfig(id)).ConfessionLogChannel;
+    {
+        return (await guildSettings.GetGuildConfig(id)).ConfessionLogChannel;
+    }
 }
 
 /// <summary>
-/// Extension methods for <see cref="GuildConfig"/>, and <see cref="ConfessionService"/> related classes.
+///     Extension methods for <see cref="GuildConfig" />, and <see cref="ConfessionService" /> related classes.
 /// </summary>
 public static class ConfessionExtensions
 {
     /// <summary>
-    /// Gets the confession blacklists from the guild configuration.
+    ///     Gets the confession blacklists from the guild configuration.
     /// </summary>
     /// <param name="gc">The guild configuration.</param>
     /// <returns>The list of role IDs that are blacklisted for confessions.</returns>
     public static List<ulong> GetConfessionBlacklists(this GuildConfig gc)
-        => string.IsNullOrWhiteSpace(gc.ConfessionBlacklist)
+    {
+        return string.IsNullOrWhiteSpace(gc.ConfessionBlacklist)
             ? []
             : gc.ConfessionBlacklist.Split(' ').Select(ulong.Parse).ToList();
+    }
 
     /// <summary>
-    /// Sets the confession blacklists in the guild configuration.
+    ///     Sets the confession blacklists in the guild configuration.
     /// </summary>
     /// <param name="gc">The guild configuration.</param>
     /// <param name="blacklists">The list of role IDs to set as blacklisted for confessions.</param>
-    public static void SetConfessionBlacklists(this GuildConfig gc, IEnumerable<ulong> blacklists) =>
+    public static void SetConfessionBlacklists(this GuildConfig gc, IEnumerable<ulong> blacklists)
+    {
         gc.ConfessionBlacklist = blacklists.JoinWith(' ');
+    }
 }

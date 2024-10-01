@@ -11,7 +11,7 @@ namespace Mewdeko.Modules.Administration;
 public partial class SlashAdministration
 {
     /// <summary>
-    /// The module for server recovery. Allows you to recover your server access level if the owner account is lost.
+    ///     The module for server recovery. Allows you to recover your server access level if the owner account is lost.
     /// </summary>
     [Group("serverrecovery", "Server recovery stuffs")]
     public class SlashServerRecovery : MewdekoSlashModuleBase<ServerRecoveryService>
@@ -20,7 +20,7 @@ public partial class SlashAdministration
         private readonly IBotCredentials credentials;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SlashServerRecovery"/> class.
+        ///     Initializes a new instance of the <see cref="SlashServerRecovery" /> class.
         /// </summary>
         /// <param name="cache">The FusionCache instance</param>
         /// <param name="credentials">The bot credentials</param>
@@ -31,10 +31,10 @@ public partial class SlashAdministration
         }
 
         /// <summary>
-        /// Clears data for server recovery.
+        ///     Clears data for server recovery.
         /// </summary>
         /// <remarks>
-        /// This command clears data related to server recovery.
+        ///     This command clears data related to server recovery.
         /// </remarks>
         [SlashCommand("clear-server-recover", "Clears data for server recovery")]
         public async Task ClearServerRecover()
@@ -56,10 +56,12 @@ public partial class SlashAdministration
         }
 
         /// <summary>
-        /// Initiates a server recovery, or starts recovery setup.
+        ///     Initiates a server recovery, or starts recovery setup.
         /// </summary>
         /// <remarks>
-        /// This command initiates a server recovery or starts the recovery setup process. If the recovery setup has not been done yet, it generates a random secret key and recovery key, sends the recovery key to the user's DM, and displays a QR code for 2FA setup. Otherwise, it prompts the user to enter the recovery key.
+        ///     This command initiates a server recovery or starts the recovery setup process. If the recovery setup has not been
+        ///     done yet, it generates a random secret key and recovery key, sends the recovery key to the user's DM, and displays
+        ///     a QR code for 2FA setup. Otherwise, it prompts the user to enter the recovery key.
         /// </remarks>
         [SlashCommand("server-recover", "Initiates a server recovery, or starts recovery setup.")]
         public async Task ServerRecover()
@@ -96,7 +98,7 @@ public partial class SlashAdministration
                 await cache.SetAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}", base32Secret);
                 await cache.SetAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}", secureString);
 
-                var component = new ComponentBuilder().WithButton("Click to enter 2fa", customId: "2fa-verify-setup")
+                var component = new ComponentBuilder().WithButton("Click to enter 2fa", "2fa-verify-setup")
                     .WithButton("Download Authy (iOS)", style: ButtonStyle.Link,
                         url: "https://apps.apple.com/us/app/twilio-authy/id494168017")
                     .WithButton("Download Authy (Android)", style: ButtonStyle.Link,
@@ -141,15 +143,17 @@ public partial class SlashAdministration
         }
 
         /// <summary>
-        /// Handles the interaction when the user clicks on the "Recovery Key" button.
+        ///     Handles the interaction when the user clicks on the "Recovery Key" button.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
         [ComponentInteraction("recoverykey", true)]
         public Task SendRecoveryKeyModal()
-            => RespondWithModalAsync<RecoveryKeyModal>("recoverykeymodal");
+        {
+            return RespondWithModalAsync<RecoveryKeyModal>("recoverykeymodal");
+        }
 
         /// <summary>
-        /// Handles the interaction when the user submits the recovery key modal.
+        ///     Handles the interaction when the user submits the recovery key modal.
         /// </summary>
         /// <param name="modal">The recovery key modal.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
@@ -177,16 +181,18 @@ public partial class SlashAdministration
         }
 
         /// <summary>
-        /// Handles the interaction when the user clicks on a 2FA verification button.
+        ///     Handles the interaction when the user clicks on a 2FA verification button.
         /// </summary>
         /// <param name="type">The type of 2FA verification.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         [ComponentInteraction("2fa-verify-*", true)]
         public Task SendTwoFactorModal(string type)
-            => RespondWithModalAsync<TwoFactorModal>($"twofactormodal-{type}");
+        {
+            return RespondWithModalAsync<TwoFactorModal>($"twofactormodal-{type}");
+        }
 
         /// <summary>
-        /// Handles the interaction when the user submits the 2FA modal.
+        ///     Handles the interaction when the user submits the 2FA modal.
         /// </summary>
         /// <param name="type">The type of 2FA verification.</param>
         /// <param name="modal">The 2FA modal.</param>
@@ -210,7 +216,7 @@ public partial class SlashAdministration
                         await ctx.Interaction.SendConfirmAsync(GetText("recoverysetupcomplete"));
 
 
- await cache.RemoveAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
+                        await cache.RemoveAsync($"{credentials.RedisKey()}_rescuekey_{ctx.User.Id}");
                         await cache.RemoveAsync($"{credentials.RedisKey()}_2fa_{ctx.User.Id}");
                     }
                     else

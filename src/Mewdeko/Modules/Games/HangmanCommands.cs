@@ -9,7 +9,7 @@ namespace Mewdeko.Modules.Games;
 public partial class Games
 {
     /// <summary>
-    /// A module containing Hangman commands.
+    ///     A module containing Hangman commands.
     /// </summary>
     /// <param name="client">The discord client</param>
     /// <param name="guildSettings">The guild settings service</param>
@@ -18,22 +18,28 @@ public partial class Games
         : MewdekoSubmodule<GamesService>
     {
         /// <summary>
-        /// Lists the available hangman types in the current guild.
+        ///     Lists the available hangman types in the current guild.
         /// </summary>
         /// <example>.hangmanlist</example>
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
-        public async Task Hangmanlist() =>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task Hangmanlist()
+        {
             await ctx.Channel
                 .SendConfirmAsync(
                     $"{Format.Code(GetText("hangman_types", await guildSettings.GetPrefix(ctx.Guild.Id)))}\n{string.Join("\n", Service.TermPool.Data.Keys)}")
                 .ConfigureAwait(false);
+        }
 
         /// <summary>
-        /// Starts a hangman game with the specified type.
+        ///     Starts a hangman game with the specified type.
         /// </summary>
         /// <param name="type">The type of hangman game to start.</param>
         /// <example>.hangman countries</example>
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Hangman([Remainder] string type = "random")
         {
             Hangman hm;
@@ -89,7 +95,7 @@ public partial class Games
         }
 
         /// <summary>
-        /// Handles the event when the hangman game ends.
+        ///     Handles the event when the hangman game ends.
         /// </summary>
         /// <param name="game">The hangman game that ended.</param>
         /// <param name="winner">The winner of the hangman game. Null if no winner.</param>
@@ -122,43 +128,51 @@ public partial class Games
         }
 
         /// <summary>
-        /// Handles the event when a letter is already used in the hangman game.
+        ///     Handles the event when a letter is already used in the hangman game.
         /// </summary>
         /// <param name="game">The hangman game.</param>
         /// <param name="user">The user who attempted to guess the letter.</param>
         /// <param name="guess">The letter that was guessed.</param>
-        private Task Hm_OnLetterAlreadyUsed(Hangman game, string user, char guess) =>
-            ctx.Channel.SendErrorAsync($"Hangman Game ({game.TermType})",
+        private Task Hm_OnLetterAlreadyUsed(Hangman game, string user, char guess)
+        {
+            return ctx.Channel.SendErrorAsync($"Hangman Game ({game.TermType})",
                 $"{user} Letter `{guess}` has already been used. You can guess again in 3 seconds.\n{game.ScrambledWord}\n{game.GetHangman()}",
                 footer: string.Join(" ", game.PreviousGuesses));
+        }
 
         /// <summary>
-        /// Handles the event when a guess in the hangman game is successful.
+        ///     Handles the event when a guess in the hangman game is successful.
         /// </summary>
         /// <param name="game">The hangman game.</param>
         /// <param name="user">The user who made the successful guess.</param>
         /// <param name="guess">The letter that was guessed.</param>
-        private Task Hm_OnGuessSucceeded(Hangman game, string user, char guess) =>
-            ctx.Channel.SendConfirmAsync($"Hangman Game ({game.TermType})",
+        private Task Hm_OnGuessSucceeded(Hangman game, string user, char guess)
+        {
+            return ctx.Channel.SendConfirmAsync($"Hangman Game ({game.TermType})",
                 $"{user} guessed a letter `{guess}`!\n{game.ScrambledWord}\n{game.GetHangman()}",
                 footer: string.Join(" ", game.PreviousGuesses));
+        }
 
         /// <summary>
-        /// Handles the event when a guess in the hangman game fails.
+        ///     Handles the event when a guess in the hangman game fails.
         /// </summary>
         /// <param name="game">The hangman game.</param>
         /// <param name="user">The user who made the unsuccessful guess.</param>
         /// <param name="guess">The letter that was guessed.</param>
-        private Task Hm_OnGuessFailed(Hangman game, string user, char guess) =>
-            ctx.Channel.SendErrorAsync($"Hangman Game ({game.TermType})",
+        private Task Hm_OnGuessFailed(Hangman game, string user, char guess)
+        {
+            return ctx.Channel.SendErrorAsync($"Hangman Game ({game.TermType})",
                 $"{user} Letter `{guess}` does not exist. You can guess again in 3 seconds.\n{game.ScrambledWord}\n{game.GetHangman()}",
                 footer: string.Join(" ", game.PreviousGuesses));
+        }
 
         /// <summary>
-        /// Stops the currently running hangman game in the current channel.
+        ///     Stops the currently running hangman game in the current channel.
         /// </summary>
         /// <example>.hangmanstop</example>
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task HangmanStop()
         {
             if (Service.HangmanGames.TryRemove(ctx.Channel.Id, out var removed))

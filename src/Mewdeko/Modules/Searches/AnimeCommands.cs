@@ -20,7 +20,7 @@ namespace Mewdeko.Modules.Searches;
 public partial class Searches
 {
     /// <summary>
-    /// Group of commands related to anime.
+    ///     Group of commands related to anime.
     /// </summary>
     [Group]
     public class AnimeCommands(
@@ -32,18 +32,19 @@ public partial class Searches
         : MewdekoSubmodule<SearchesService>
     {
         /// <summary>
-        /// Sends a ship image based on compatibility between two users.
+        ///     Sends a ship image based on compatibility between two users.
         /// </summary>
         /// <param name="user">The first user to be compared.</param>
         /// <param name="user2">The second user to be compared.</param>
         /// <remarks>
-        /// This command calculates the compatibility score between two users and sends a ship image
-        /// with a message based on the score.
+        ///     This command calculates the compatibility score between two users and sends a ship image
+        ///     with a message based on the score.
         /// </remarks>
         /// <example>
-        /// <code>.ship @user1 @user2</code>
+        ///     <code>.ship @user1 @user2</code>
         /// </example>
-        [Cmd, Aliases]
+        [Cmd]
+        [Aliases]
         public async Task Ship(IUser user, IUser user2)
         {
             var random = new Random().Next(0, 101);
@@ -93,30 +94,34 @@ public partial class Searches
         }
 
         /// <summary>
-        /// Sends a ship image based on compatibility between the current user and another user.
+        ///     Sends a ship image based on compatibility between the current user and another user.
         /// </summary>
         /// <param name="user">The user to be compared with the current user.</param>
         /// <remarks>
-        /// This command calculates the compatibility score between the current user and another user
-        /// and sends a ship image with a message based on the score.
+        ///     This command calculates the compatibility score between the current user and another user
+        ///     and sends a ship image with a message based on the score.
         /// </remarks>
         /// <example>
-        /// <code>.ship @user</code>
+        ///     <code>.ship @user</code>
         /// </example>
-        [Cmd, Aliases]
+        [Cmd]
+        [Aliases]
         public Task Ship(IUser user)
-            => Ship(ctx.User, user);
+        {
+            return Ship(ctx.User, user);
+        }
 
         /// <summary>
-        /// Sends a random neko image.
+        ///     Sends a random neko image.
         /// </summary>
         /// <remarks>
-        /// This command retrieves a random neko image from the API and sends it in the channel.
+        ///     This command retrieves a random neko image from the API and sends it in the channel.
         /// </remarks>
         /// <example>
-        /// <code>.randomneko</code>
+        ///     <code>.randomneko</code>
         /// </example>
-        [Cmd, Aliases]
+        [Cmd]
+        [Aliases]
         public async Task RandomNeko()
         {
             var req = await nekosBestApi.CategoryApi.Neko().ConfigureAwait(false);
@@ -130,15 +135,16 @@ public partial class Searches
         }
 
         /// <summary>
-        /// Sends a random kitsune image.
+        ///     Sends a random kitsune image.
         /// </summary>
         /// <remarks>
-        /// This command retrieves a random kitsune image from the API and sends it in the channel.
+        ///     This command retrieves a random kitsune image from the API and sends it in the channel.
         /// </remarks>
         /// <example>
-        /// <code>.randomkitsune</code>
+        ///     <code>.randomkitsune</code>
         /// </example>
-        [Cmd, Aliases]
+        [Cmd]
+        [Aliases]
         public async Task RandomKitsune()
         {
             var req = await nekosBestApi.CategoryApi.Kitsune().ConfigureAwait(false);
@@ -152,15 +158,16 @@ public partial class Searches
         }
 
         /// <summary>
-        /// Sends a random waifu image.
+        ///     Sends a random waifu image.
         /// </summary>
         /// <remarks>
-        /// This command retrieves a random waifu image from the API and sends it in the channel.
+        ///     This command retrieves a random waifu image from the API and sends it in the channel.
         /// </remarks>
         /// <example>
-        /// <code>.randomwaifu</code>
+        ///     <code>.randomwaifu</code>
         /// </example>
-        [Cmd, Aliases]
+        [Cmd]
+        [Aliases]
         public async Task RandomWaifu()
         {
             var req = await nekosBestApi.CategoryApi.Waifu().ConfigureAwait(false);
@@ -174,17 +181,18 @@ public partial class Searches
         }
 
         /// <summary>
-        /// Retrieves and displays information about a MyAnimeList profile.
+        ///     Retrieves and displays information about a MyAnimeList profile.
         /// </summary>
         /// <param name="name">The username of the MyAnimeList profile.</param>
         /// <remarks>
-        /// This command fetches and displays various statistics and information about a MyAnimeList profile,
-        /// including watching, completed, on hold, dropped, and plan to watch anime lists, as well as other details.
+        ///     This command fetches and displays various statistics and information about a MyAnimeList profile,
+        ///     including watching, completed, on hold, dropped, and plan to watch anime lists, as well as other details.
         /// </remarks>
         /// <example>
-        /// <code>.mal username</code>
+        ///     <code>.mal username</code>
         /// </example>
-        [Cmd, Aliases]
+        [Cmd]
+        [Aliases]
         [Priority(0)]
         public async Task Mal([Remainder] string? name)
         {
@@ -280,31 +288,39 @@ public partial class Searches
         }
 
         /// <summary>
-        /// Retrieves and displays information about a MyAnimeList profile for a specified user in the current guild.
+        ///     Retrieves and displays information about a MyAnimeList profile for a specified user in the current guild.
         /// </summary>
         /// <param name="usr">The user for whom to retrieve the MyAnimeList profile information.</param>
         /// <remarks>
-        /// This command fetches and displays various statistics and information about the MyAnimeList profile of a specified user
-        /// within the current guild, including watching, completed, on hold, dropped, and plan to watch anime lists, as well as other details.
+        ///     This command fetches and displays various statistics and information about the MyAnimeList profile of a specified
+        ///     user
+        ///     within the current guild, including watching, completed, on hold, dropped, and plan to watch anime lists, as well
+        ///     as other details.
         /// </remarks>
         /// <example>
-        /// <code>.mal @username</code>
+        ///     <code>.mal @username</code>
         /// </example>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(1)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [Priority(1)]
         public Task Mal(IGuildUser usr)
-            => Mal(usr.Username);
+        {
+            return Mal(usr.Username);
+        }
 
         /// <summary>
-        /// Finds anime information based on an image.
+        ///     Finds anime information based on an image.
         /// </summary>
         /// <param name="e">The image URL or an attached image to use for searching.</param>
         /// <remarks>
-        /// This command finds anime information based on an image using the Trace.moe API and displays relevant details.
+        ///     This command finds anime information based on an image using the Trace.moe API and displays relevant details.
         /// </remarks>
         /// <example>
-        /// <code>.findanime image_url</code>
+        ///     <code>.findanime image_url</code>
         /// </example>
-        [Cmd, Aliases]
+        [Cmd]
+        [Aliases]
         public async Task FindAnime(string? e = null)
         {
             var t = string.Empty;
@@ -375,17 +391,18 @@ public partial class Searches
         }
 
         /// <summary>
-        /// Retrieves and displays information about a character.
+        ///     Retrieves and displays information about a character.
         /// </summary>
         /// <param name="chara">The name of the character to search for.</param>
         /// <remarks>
-        /// This command retrieves and displays information about a character, including their full name,
-        /// alternative names, native name, description/backstory, and an image.
+        ///     This command retrieves and displays information about a character, including their full name,
+        ///     alternative names, native name, description/backstory, and an image.
         /// </remarks>
         /// <example>
-        /// <code>.charinfo character_name</code>
+        ///     <code>.charinfo character_name</code>
         /// </example>
-        [Cmd, Aliases]
+        [Cmd]
+        [Aliases]
         public async Task CharInfo([Remainder] string chara)
         {
             var anilist = new Client();
@@ -408,17 +425,18 @@ public partial class Searches
         }
 
         /// <summary>
-        /// Searches for anime and displays information about the search results.
+        ///     Searches for anime and displays information about the search results.
         /// </summary>
         /// <param name="query">The query to search for.</param>
         /// <remarks>
-        /// This command searches for anime based on the provided query and displays relevant information
-        /// about the search results, including titles, genres, episodes, scores, and more.
+        ///     This command searches for anime based on the provided query and displays relevant information
+        ///     about the search results, including titles, genres, episodes, scores, and more.
         /// </remarks>
         /// <example>
-        /// <code>.anime search_query</code>
+        ///     <code>.anime search_query</code>
         /// </example>
-        [Cmd, Aliases]
+        [Cmd]
+        [Aliases]
         public async Task Anime([Remainder] string query)
         {
             var client = new Jikan();
@@ -499,17 +517,19 @@ public partial class Searches
         }
 
         /// <summary>
-        /// Searches for manga and displays information about the search results.
+        ///     Searches for manga and displays information about the search results.
         /// </summary>
         /// <param name="query">The query to search for.</param>
         /// <remarks>
-        /// This command searches for manga based on the provided query and displays relevant information
-        /// about the search results, including titles, publish dates, volumes, scores, and more.
+        ///     This command searches for manga based on the provided query and displays relevant information
+        ///     about the search results, including titles, publish dates, volumes, scores, and more.
         /// </remarks>
         /// <example>
-        /// <code>.manga search_query</code>
+        ///     <code>.manga search_query</code>
         /// </example>
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Manga([Remainder] string query)
         {
             var msg = await ctx.Channel.SendConfirmAsync(

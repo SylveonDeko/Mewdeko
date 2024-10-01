@@ -12,7 +12,7 @@ using Embed = Discord.Embed;
 namespace Mewdeko.Modules.Moderation.Services;
 
 /// <summary>
-/// Service for user punishments.
+///     Service for user punishments.
 /// </summary>
 public class UserPunishService : INService
 {
@@ -24,7 +24,7 @@ public class UserPunishService : INService
     private readonly MuteService mute;
 
     /// <summary>
-    /// Constructs a new instance of the UserPunishService class.
+    ///     Constructs a new instance of the UserPunishService class.
     /// </summary>
     /// <param name="mute">An instance of the MuteService class.</param>
     /// <param name="db">An instance of the dbContext class.</param>
@@ -46,13 +46,16 @@ public class UserPunishService : INService
     }
 
     /// <summary>
-    /// Adds a new MassNick to the collection if it doesn't already exist for the given guild.
+    ///     Adds a new MassNick to the collection if it doesn't already exist for the given guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="user">The user who started the operation.</param>
     /// <param name="total">The total number of operations to be performed.</param>
     /// <param name="operationType">The type of operation to be performed.</param>
-    /// <param name="returnMassNick">The MassNick object that was added to the collection. If a MassNick already exists for the guild, this will be null.</param>
+    /// <param name="returnMassNick">
+    ///     The MassNick object that was added to the collection. If a MassNick already exists for the
+    ///     guild, this will be null.
+    /// </param>
     /// <returns>True if a new MassNick was added to the collection, false otherwise.</returns>
     public bool AddMassNick(ulong guildId, IUser user, int total, string operationType, out MassNick returnMassNick)
     {
@@ -72,7 +75,7 @@ public class UserPunishService : INService
     }
 
     /// <summary>
-    /// Retrieves the MassNick object associated with the specified guild ID.
+    ///     Retrieves the MassNick object associated with the specified guild ID.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns>The MassNick object if found; otherwise, null.</returns>
@@ -82,7 +85,7 @@ public class UserPunishService : INService
     }
 
     /// <summary>
-    /// Removes the MassNick object associated with the specified guild ID.
+    ///     Removes the MassNick object associated with the specified guild ID.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns>True if the MassNick object was successfully removed; otherwise, false.</returns>
@@ -92,7 +95,7 @@ public class UserPunishService : INService
     }
 
     /// <summary>
-    /// Updates the MassNick object associated with the specified guild ID.
+    ///     Updates the MassNick object associated with the specified guild ID.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="failed">Indicates whether the operation failed.</param>
@@ -114,29 +117,31 @@ public class UserPunishService : INService
     }
 
     /// <summary>
-    /// Retrieves the ID of the Warnlog channel for the specified guild.
+    ///     Retrieves the ID of the Warnlog channel for the specified guild.
     /// </summary>
     /// <param name="id">The ID of the guild.</param>
     /// <returns>The ID of the Warnlog channel.</returns>
-    public async Task<ulong> GetWarnlogChannel(ulong id) =>
-        (await guildSettings.GetGuildConfig(id)).WarnlogChannelId;
+    public async Task<ulong> GetWarnlogChannel(ulong id)
+    {
+        return (await guildSettings.GetGuildConfig(id)).WarnlogChannelId;
+    }
 
     /// <summary>
-    /// Sets the ID of the Warnlog channel for the specified guild.
+    ///     Sets the ID of the Warnlog channel for the specified guild.
     /// </summary>
     /// <param name="guild">The guild for which to set the Warnlog channel.</param>
     /// <param name="channel">The channel to set as the Warnlog channel.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task SetWarnlogChannelId(IGuild guild, ITextChannel channel)
     {
-       await using var db = await dbProvider.GetContextAsync();
+        await using var db = await dbProvider.GetContextAsync();
         var gc = await db.ForGuildId(guild.Id, set => set);
         gc.WarnlogChannelId = channel.Id;
         await guildSettings.UpdateGuildConfig(guild.Id, gc);
     }
 
     /// <summary>
-    /// Issues a warning to a user in a guild.
+    ///     Issues a warning to a user in a guild.
     /// </summary>
     /// <param name="guild">The guild where the warning is issued.</param>
     /// <param name="userId">The ID of the user to be warned.</param>
@@ -198,7 +203,7 @@ public class UserPunishService : INService
     }
 
     /// <summary>
-    /// Applies a punishment to a user in a guild.
+    ///     Applies a punishment to a user in a guild.
     /// </summary>
     /// <param name="guild">The guild where the punishment is applied.</param>
     /// <param name="user">The user to be punished.</param>
@@ -329,7 +334,7 @@ public class UserPunishService : INService
     }
 
     /// <summary>
-    /// Checks all warnings for expiry.
+    ///     Checks all warnings for expiry.
     /// </summary>
     private async Task CheckAllWarnExpiresAsync()
     {
@@ -378,16 +383,16 @@ public class UserPunishService : INService
         var deleted = await dbContext.SaveChangesAsync();
 
         if (cleared > 0 || deleted > 0)
-            Log.Information("Cleared {Cleared} warnings and deleted {Deleted} warnings due to expiry", cleared, deleted);
+            Log.Information("Cleared {Cleared} warnings and deleted {Deleted} warnings due to expiry", cleared,
+                deleted);
     }
 
     /// <summary>
-    /// Checks the expiry of warnings for a guild.
+    ///     Checks the expiry of warnings for a guild.
     /// </summary>
     /// <param name="guildId"></param>
     private async Task CheckWarnExpiresAsync(ulong guildId)
     {
-
         await using var dbContext = await dbProvider.GetContextAsync();
         var config = await dbContext.ForGuildId(guildId, inc => inc);
 
@@ -418,7 +423,7 @@ public class UserPunishService : INService
 
 
     /// <summary>
-    /// Sets the expiry of warnings for a guild.
+    ///     Sets the expiry of warnings for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="days">The number of days before warnings expire.</param>
@@ -427,7 +432,6 @@ public class UserPunishService : INService
     {
         try
         {
-
             await using var dbContext = await dbProvider.GetContextAsync();
             var config = await dbContext.ForGuildId(guildId, inc => inc);
 
@@ -437,7 +441,7 @@ public class UserPunishService : INService
 
             // no need to check for warn expires
             if (config.WarnExpireHours == 0)
-                    return;
+                return;
 
             await CheckWarnExpiresAsync(guildId).ConfigureAwait(false);
         }
@@ -449,7 +453,7 @@ public class UserPunishService : INService
     }
 
     /// <summary>
-    /// Retrieves the warnings for a guild.
+    ///     Retrieves the warnings for a guild.
     /// </summary>
     /// <param name="gid">The ID of the guild.</param>
     /// <returns></returns>
@@ -460,7 +464,7 @@ public class UserPunishService : INService
     }
 
     /// <summary>
-    /// Retrieves the warnings for a user in a guild.
+    ///     Retrieves the warnings for a user in a guild.
     /// </summary>
     /// <param name="gid">The ID of the guild.</param>
     /// <param name="userId">The ID of the user.</param>
@@ -472,7 +476,7 @@ public class UserPunishService : INService
     }
 
     /// <summary>
-    /// Clears all warnings or a specific warning for a user in a guild.
+    ///     Clears all warnings or a specific warning for a user in a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="userId">The ID of the user.</param>
@@ -494,7 +498,7 @@ public class UserPunishService : INService
     }
 
     /// <summary>
-    /// Sets what each warn number should do.
+    ///     Sets what each warn number should do.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="number">The number of warnings.</param>
@@ -508,7 +512,7 @@ public class UserPunishService : INService
         // these 3 don't make sense with time
         if (punish is PunishmentAction.Softban or PunishmentAction.Kick or PunishmentAction.RemoveRoles && time != null)
             return false;
-        if (number <= 0 || (time != null && time.Time > TimeSpan.FromDays(49)))
+        if (number <= 0 || time != null && time.Time > TimeSpan.FromDays(49))
             return false;
 
 
@@ -531,7 +535,7 @@ public class UserPunishService : INService
     }
 
     /// <summary>
-    /// Removes a warning punishment.
+    ///     Removes a warning punishment.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="number">The number of warnings.</param>
@@ -555,7 +559,7 @@ public class UserPunishService : INService
     }
 
     /// <summary>
-    /// Retrieves the list of warning punishments for a guild.
+    ///     Retrieves the list of warning punishments for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns></returns>
@@ -569,7 +573,7 @@ public class UserPunishService : INService
     }
 
     /// <summary>
-    /// Mass bans users from a guild. And blacklists them.
+    ///     Mass bans users from a guild. And blacklists them.
     /// </summary>
     /// <param name="guild">The guild to ban users from.</param>
     /// <param name="people">The list of users to ban.</param>
@@ -613,7 +617,7 @@ public class UserPunishService : INService
     }
 
     /// <summary>
-    /// Gets the dm ban message for a guild.
+    ///     Gets the dm ban message for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns></returns>
@@ -628,7 +632,7 @@ public class UserPunishService : INService
 
 
     /// <summary>
-    /// Sets the dm ban message for a guild.
+    ///     Sets the dm ban message for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="text">The message to set.</param>
@@ -662,7 +666,7 @@ public class UserPunishService : INService
     }
 
     /// <summary>
-    /// Gets the dm ban embed for a user.
+    ///     Gets the dm ban embed for a user.
     /// </summary>
     /// <param name="context">The context of the command.</param>
     /// <param name="target">The user to ban.</param>
@@ -672,8 +676,9 @@ public class UserPunishService : INService
     /// <returns></returns>
     public Task<(Embed[]?, string?, ComponentBuilder?)> GetBanUserDmEmbed(ICommandContext context, IGuildUser target,
         string? defaultMessage,
-        string? banReason, TimeSpan? duration) =>
-        GetBanUserDmEmbed(
+        string? banReason, TimeSpan? duration)
+    {
+        return GetBanUserDmEmbed(
             (DiscordShardedClient)context.Client,
             (SocketGuild)context.Guild,
             (IGuildUser)context.User,
@@ -681,9 +686,10 @@ public class UserPunishService : INService
             defaultMessage,
             banReason,
             duration);
+    }
 
     /// <summary>
-    /// Gets the dm ban embed for a user.
+    ///     Gets the dm ban embed for a user.
     /// </summary>
     /// <param name="context">The context of the command.</param>
     /// <param name="target">The user to ban.</param>
@@ -693,8 +699,9 @@ public class UserPunishService : INService
     /// <returns></returns>
     public Task<(Embed[]?, string?, ComponentBuilder?)> GetBanUserDmEmbed(IInteractionContext context,
         IGuildUser target, string? defaultMessage,
-        string? banReason, TimeSpan? duration) =>
-        GetBanUserDmEmbed(
+        string? banReason, TimeSpan? duration)
+    {
+        return GetBanUserDmEmbed(
             (DiscordShardedClient)context.Client,
             (SocketGuild)context.Guild,
             (IGuildUser)context.User,
@@ -702,9 +709,10 @@ public class UserPunishService : INService
             defaultMessage,
             banReason,
             duration);
+    }
 
     /// <summary>
-    /// Gets the dm ban embed for a user.
+    ///     Gets the dm ban embed for a user.
     /// </summary>
     /// <param name="DiscordShardedClient">The DiscordShardedClient instance.</param>
     /// <param name="guild">The guild where the ban is issued.</param>
@@ -714,7 +722,8 @@ public class UserPunishService : INService
     /// <param name="banReason">The reason for the ban.</param>
     /// <param name="duration">The duration of the ban.</param>
     /// <returns></returns>
-    public async Task<(Embed[], string?, ComponentBuilder?)> GetBanUserDmEmbed(DiscordShardedClient DiscordShardedClient,
+    public async Task<(Embed[], string?, ComponentBuilder?)> GetBanUserDmEmbed(
+        DiscordShardedClient DiscordShardedClient,
         SocketGuild guild,
         IGuildUser moderator, IGuildUser target, string? defaultMessage, string? banReason, TimeSpan? duration)
     {
@@ -772,42 +781,42 @@ public class UserPunishService : INService
     }
 
     /// <summary>
-    /// The massnick object for the list of massnicks.
+    ///     The massnick object for the list of massnicks.
     /// </summary>
     public class MassNick
     {
         /// <summary>
-        /// The user who started the operation.
+        ///     The user who started the operation.
         /// </summary>
         public IUser StartedBy { get; set; }
 
         /// <summary>
-        /// The number of successful changes.
+        ///     The number of successful changes.
         /// </summary>
         public int Changed { get; set; }
 
         /// <summary>
-        /// The number of failed changes.
+        ///     The number of failed changes.
         /// </summary>
         public int Failed { get; set; }
 
         /// <summary>
-        /// The total number of operations to be performed.
+        ///     The total number of operations to be performed.
         /// </summary>
         public int Total { get; set; }
 
         /// <summary>
-        /// Indicates whether the operation was stopped.
+        ///     Indicates whether the operation was stopped.
         /// </summary>
         public bool Stopped { get; set; }
 
         /// <summary>
-        /// The time the operation started.
+        ///     The time the operation started.
         /// </summary>
         public DateTime StartedAt { get; set; }
 
         /// <summary>
-        /// The type of operation to be performed.
+        ///     The type of operation to be performed.
         /// </summary>
         public string OperationType { get; set; }
     }

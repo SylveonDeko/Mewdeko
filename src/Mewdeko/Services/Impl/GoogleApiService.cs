@@ -18,7 +18,7 @@ using Image = Google.Cloud.Vision.V1.Image;
 namespace Mewdeko.Services.Impl;
 
 /// <summary>
-/// Google API service.
+///     Google API service.
 /// </summary>
 public class GoogleApiService : IGoogleApiService
 {
@@ -419,12 +419,12 @@ public class GoogleApiService : IGoogleApiService
 
     private readonly UrlshortenerService sh;
 
-    private readonly YouTubeService yt;
-
     private readonly ImageAnnotatorClient? visionClient;
 
+    private readonly YouTubeService yt;
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="GoogleApiService"/> class.
+    ///     Initializes a new instance of the <see cref="GoogleApiService" /> class.
     /// </summary>
     /// <param name="creds">Bot credentials.</param>
     /// <param name="factory">HTTP client factory.</param>
@@ -470,14 +470,15 @@ public class GoogleApiService : IGoogleApiService
 
 
     /// <summary>
-    /// Performs Safe Search detection on the specified image URL using the Google Cloud Vision API.
+    ///     Performs Safe Search detection on the specified image URL using the Google Cloud Vision API.
     /// </summary>
     /// <param name="imageUrl">The URL of the image to analyze.</param>
     /// <returns>
-    /// A task representing the asynchronous operation. The task result contains a <see cref="SafeSearchAnnotation"/> object
-    /// with the likelihoods of various types of inappropriate content.
+    ///     A task representing the asynchronous operation. The task result contains a <see cref="SafeSearchAnnotation" />
+    ///     object
+    ///     with the likelihoods of various types of inappropriate content.
     /// </returns>
-    /// <exception cref="ArgumentNullException">Thrown if <paramref name="imageUrl"/> is null or empty.</exception>
+    /// <exception cref="ArgumentNullException">Thrown if <paramref name="imageUrl" /> is null or empty.</exception>
     /// <exception cref="RpcException">Thrown when there is an error in the Vision API call.</exception>
     public async Task<SafeSearchAnnotation> DetectSafeSearchAsync(string imageUrl)
     {
@@ -497,7 +498,7 @@ public class GoogleApiService : IGoogleApiService
 
 
     /// <summary>
-    /// Gets video links by keyword.
+    ///     Gets video links by keyword.
     /// </summary>
     /// <param name="keywords">The keywords.</param>
     /// <returns>Array of search results.</returns>
@@ -519,7 +520,7 @@ public class GoogleApiService : IGoogleApiService
 
 
     /// <summary>
-    /// Shortens a given url.
+    ///     Shortens a given url.
     /// </summary>
     /// <param name="url">The URL to shorten.</param>
     /// <returns>The shortened URL.</returns>
@@ -553,12 +554,18 @@ public class GoogleApiService : IGoogleApiService
     }
 
     /// <summary>
-    /// Gets the list of supported languages.
+    ///     Gets the list of supported languages.
     /// </summary>
-    public IEnumerable<string?> Languages => languageDictionary.Keys.OrderBy(x => x);
+    public IEnumerable<string?> Languages
+    {
+        get
+        {
+            return languageDictionary.Keys.OrderBy(x => x);
+        }
+    }
 
     /// <summary>
-    /// Translates the given text.
+    ///     Translates the given text.
     /// </summary>
     /// <param name="sourceText">The source text.</param>
     /// <param name="sourceLanguage">The source language.</param>
@@ -593,5 +600,4 @@ public class GoogleApiService : IGoogleApiService
         languageDictionary.TryGetValue(language, out var mode);
         return mode;
     }
-
 }

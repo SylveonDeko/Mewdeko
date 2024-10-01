@@ -10,23 +10,23 @@ using Microsoft.EntityFrameworkCore;
 namespace Mewdeko.Modules.Permissions.Services;
 
 /// <summary>
-/// Manages permissions for commands and interactions within the guilds, allowing dynamic updates and checks.
+///     Manages permissions for commands and interactions within the guilds, allowing dynamic updates and checks.
 /// </summary>
 public class PermissionService : ILateBlocker, INService, IReadyExecutor
 {
+    private readonly DiscordShardedClient client;
     private readonly BotConfig config;
     private readonly DbContextProvider dbProvider;
 
     private readonly GuildSettingsService guildSettings;
-    private readonly DiscordShardedClient client;
 
     /// <summary>
-    /// Service for accessing localized bot strings.
+    ///     Service for accessing localized bot strings.
     /// </summary>
     public readonly IBotStrings Strings;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="PermissionService"/> class.
+    ///     Initializes a new instance of the <see cref="PermissionService" /> class.
     /// </summary>
     /// <param name="db">The database service for accessing permission settings.</param>
     /// <param name="strings">The service for localized bot strings.</param>
@@ -45,17 +45,17 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
     }
 
     /// <summary>
-    /// The cache of permissions for quick access.
+    ///     The cache of permissions for quick access.
     /// </summary>
     public ConcurrentDictionary<ulong, PermissionCache> Cache { get; } = new();
 
     /// <summary>
-    /// The priority order in which the early behavior should run, with lower numbers indicating higher priority.
+    ///     The priority order in which the early behavior should run, with lower numbers indicating higher priority.
     /// </summary>
     public int Priority { get; } = 0;
 
     /// <summary>
-    /// Attempts to block a command execution based on the permissions configured for the guild.
+    ///     Attempts to block a command execution based on the permissions configured for the guild.
     /// </summary>
     /// <param name="client">The Discord client.</param>
     /// <param name="ctx">The context of the command.</param>
@@ -157,12 +157,13 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Attempts to block a slash command execution based on the permissions configured for the guild.
+    ///     Attempts to block a slash command execution based on the permissions configured for the guild.
     /// </summary>
     /// <param name="client">The Discord client.</param>
     /// <param name="ctx">The interaction context.</param>
     /// <param name="command">The slash command information.</param>
-    /// <returns>True if the slash command execution should be blocked, otherwise false.</returns>*
+    /// <returns>True if the slash command execution should be blocked, otherwise false.</returns>
+    /// *
     public async Task<bool> TryBlockLate(DiscordShardedClient client, IInteractionContext ctx, ICommandInfo command)
     {
         var guild = ctx.Guild;
@@ -205,6 +206,7 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
                 x.Permissions = Permissionv2.GetDefaultPermlist;
                 await dbContext.SaveChangesAsync();
             }
+
             Cache.TryAdd(x.GuildId,
                 new PermissionCache
                 {
@@ -216,7 +218,7 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Retrieves the permission cache for a specific guild.
+    ///     Retrieves the permission cache for a specific guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns>The permission cache for the guild.</returns>
@@ -235,7 +237,7 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Adds new permissions to a guild's configuration.
+    ///     Adds new permissions to a guild's configuration.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="perms">The permissions to add.</param>
@@ -258,10 +260,11 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Updates the in-memory cache with the latest permissions from the database for a guild.
+    ///     Updates the in-memory cache with the latest permissions from the database for a guild.
     /// </summary>
     /// <param name="config">The guild configuration containing the permissions.</param>
-    public void UpdateCache(GuildConfig config) =>
+    public void UpdateCache(GuildConfig config)
+    {
         Cache.AddOrUpdate(config.GuildId, new PermissionCache
         {
             Permissions = new PermissionsCollection<Permissionv2>(config.Permissions),
@@ -274,9 +277,10 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
             old.Verbose = config.VerbosePermissions;
             return old;
         });
+    }
 
     /// <summary>
-    /// Resets all permissions for a guild to their default values.
+    ///     Resets all permissions for a guild to their default values.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <remarks>Updates both the database and the in-memory cache.</remarks>
@@ -291,13 +295,14 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Generates a mention string for a permission based on its type.
+    ///     Generates a mention string for a permission based on its type.
     /// </summary>
     /// <param name="t">The type of the permission.</param>
     /// <param name="id">The ID associated with the permission type.</param>
     /// <returns>A mention string for the permission.</returns>
     public static string MentionPerm(PrimaryPermissionType t, ulong id)
-        => t switch
+    {
+        return t switch
         {
             PrimaryPermissionType.User => $"<@{id}>",
             PrimaryPermissionType.Channel => $"<#{id}>",
@@ -307,9 +312,10 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
             _ =>
                 "An unexpected type input error occurred in `PermissionsService.cs#MentionPerm(PrimaryPermissionType, ulong)`. Please contact a developer at https://discord.gg/mewdeko with a screenshot of this message for more information."
         };
+    }
 
     /// <summary>
-    /// Removes a specific permission from a guild's configuration.
+    ///     Removes a specific permission from a guild's configuration.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="index">The index of the permission to remove.</param>
@@ -330,7 +336,7 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Updates the state of a specific permission in a guild's configuration.
+    ///     Updates the state of a specific permission in a guild's configuration.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="index">The index of the permission to update.</param>
@@ -338,7 +344,6 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
     /// <remarks>Updates both the database and the in-memory cache.</remarks>
     public async Task UpdatePerm(ulong guildId, int index, bool state)
     {
-
         await using var dbContext = await dbProvider.GetContextAsync();
 
         var config = await dbContext.GcWithPermissionsv2For(guildId);
@@ -352,7 +357,7 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Moves a permission within the list, changing its order of evaluation.
+    ///     Moves a permission within the list, changing its order of evaluation.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="from">The current index of the permission.</param>
@@ -360,7 +365,6 @@ public class PermissionService : ILateBlocker, INService, IReadyExecutor
     /// <remarks>Updates both the database and the in-memory cache.</remarks>
     public async Task UnsafeMovePerm(ulong guildId, int from, int to)
     {
-
         await using var dbContext = await dbProvider.GetContextAsync();
 
         var config = await dbContext.GcWithPermissionsv2For(guildId);

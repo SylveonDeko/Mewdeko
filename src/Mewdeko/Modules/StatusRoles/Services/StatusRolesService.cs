@@ -6,7 +6,7 @@ using ZiggyCreatures.Caching.Fusion;
 namespace Mewdeko.Modules.StatusRoles.Services;
 
 /// <summary>
-/// Service responsible for managing status-based roles.
+///     Service responsible for managing status-based roles.
 /// </summary>
 public class StatusRolesService : INService
 {
@@ -16,13 +16,14 @@ public class StatusRolesService : INService
     private readonly ConcurrentDictionary<ulong, HashSet<StatusRolesTable>> guildStatusRoles = new();
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="StatusRolesService"/> class.
+    ///     Initializes a new instance of the <see cref="StatusRolesService" /> class.
     /// </summary>
     /// <param name="client">The Discord socket client.</param>
     /// <param name="dbProvider">The database context provider.</param>
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="cache">The data cache service.</param>
-    public StatusRolesService(DiscordShardedClient client, DbContextProvider dbProvider, EventHandler eventHandler, IFusionCache cache)
+    public StatusRolesService(DiscordShardedClient client, DbContextProvider dbProvider, EventHandler eventHandler,
+        IFusionCache cache)
     {
         this.client = client;
         this.dbProvider = dbProvider;
@@ -32,7 +33,7 @@ public class StatusRolesService : INService
     }
 
     /// <summary>
-    /// Initializes the service and caches status roles.
+    ///     Initializes the service and caches status roles.
     /// </summary>
     private async Task OnReadyAsync()
     {
@@ -45,7 +46,11 @@ public class StatusRolesService : INService
         {
             guildStatusRoles.AddOrUpdate(statusRole.GuildId,
                 [statusRole],
-                (_, set) => { set.Add(statusRole); return set; });
+                (_, set) =>
+                {
+                    set.Add(statusRole);
+                    return set;
+                });
         }
 
         await cache.SetAsync("statusRoles", statusRoles);
@@ -88,10 +93,15 @@ public class StatusRolesService : INService
         }
     }
 
-    private async Task ProcessStatusRole(SocketGuildUser user, CustomStatusGame status, CustomStatusGame? beforeStatus, StatusRolesTable? statusRole)
+    private async Task ProcessStatusRole(SocketGuildUser user, CustomStatusGame status, CustomStatusGame? beforeStatus,
+        StatusRolesTable? statusRole)
     {
-        var toAdd = string.IsNullOrWhiteSpace(statusRole.ToAdd) ? [] : statusRole.ToAdd.Split(" ").Select(ulong.Parse).ToList();
-        var toRemove = string.IsNullOrWhiteSpace(statusRole.ToRemove) ? [] : statusRole.ToRemove.Split(" ").Select(ulong.Parse).ToList();
+        var toAdd = string.IsNullOrWhiteSpace(statusRole.ToAdd)
+            ? []
+            : statusRole.ToAdd.Split(" ").Select(ulong.Parse).ToList();
+        var toRemove = string.IsNullOrWhiteSpace(statusRole.ToRemove)
+            ? []
+            : statusRole.ToRemove.Split(" ").Select(ulong.Parse).ToList();
 
         if (status.State?.Contains(statusRole.Status) != true)
         {
@@ -99,6 +109,7 @@ public class StatusRolesService : INService
             {
                 await HandleRoleRemoval(user, statusRole, toAdd, toRemove);
             }
+
             return;
         }
 
@@ -108,7 +119,8 @@ public class StatusRolesService : INService
         await HandleRoleAddition(user, statusRole, toAdd, toRemove);
     }
 
-    private async Task HandleRoleRemoval(SocketGuildUser user, StatusRolesTable statusRole, List<ulong> toAdd, List<ulong> toRemove)
+    private async Task HandleRoleRemoval(SocketGuildUser user, StatusRolesTable statusRole, List<ulong> toAdd,
+        List<ulong> toRemove)
     {
         if (statusRole.RemoveAdded)
         {
@@ -121,7 +133,8 @@ public class StatusRolesService : INService
         }
     }
 
-    private async Task HandleRoleAddition(SocketGuildUser user, StatusRolesTable statusRole, List<ulong> toAdd, List<ulong> toRemove)
+    private async Task HandleRoleAddition(SocketGuildUser user, StatusRolesTable statusRole, List<ulong> toAdd,
+        List<ulong> toRemove)
     {
         await RemoveRoles(user, toRemove);
         await AddRoles(user, toAdd);
@@ -161,7 +174,8 @@ public class StatusRolesService : INService
     {
         var rep = new ReplacementBuilder().WithDefault(user, channel, user.Guild, client).Build();
 
-        if (SmartEmbed.TryParse(rep.Replace(embedText), user.Guild.Id, out var embeds, out var plainText, out var components))
+        if (SmartEmbed.TryParse(rep.Replace(embedText), user.Guild.Id, out var embeds, out var plainText,
+                out var components))
         {
             await channel.SendMessageAsync(plainText, embeds: embeds, components: components?.Build());
         }
@@ -172,7 +186,7 @@ public class StatusRolesService : INService
     }
 
     /// <summary>
-    /// Adds a new status role configuration for a guild.
+    ///     Adds a new status role configuration for a guild.
     /// </summary>
     /// <param name="status">The status for which the role should be added.</param>
     /// <param name="guildId">The ID of the guild.</param>
@@ -184,13 +198,20 @@ public class StatusRolesService : INService
         if (await dbContext.StatusRoles.AnyAsync(x => x.GuildId == guildId && x.Status == status))
             return false;
 
-        var toAdd = new StatusRolesTable { Status = status, GuildId = guildId };
+        var toAdd = new StatusRolesTable
+        {
+            Status = status, GuildId = guildId
+        };
         dbContext.StatusRoles.Add(toAdd);
         await dbContext.SaveChangesAsync();
 
         guildStatusRoles.AddOrUpdate(guildId,
             [toAdd],
-            (_, set) => { set.Add(toAdd); return set; });
+            (_, set) =>
+            {
+                set.Add(toAdd);
+                return set;
+            });
 
         var statusRoles = await GetStatusRolesAsync();
         statusRoles.Add(toAdd);
@@ -200,7 +221,7 @@ public class StatusRolesService : INService
     }
 
     /// <summary>
-    /// Removes a status role configuration by its index.
+    ///     Removes a status role configuration by its index.
     /// </summary>
     /// <param name="index">The index of the status role configuration to remove.</param>
     public async Task RemoveStatusRoleConfig(int index)
@@ -225,7 +246,7 @@ public class StatusRolesService : INService
     }
 
     /// <summary>
-    /// Removes a status role configuration.
+    ///     Removes a status role configuration.
     /// </summary>
     /// <param name="status">The status role configuration to remove.</param>
     public async Task RemoveStatusRoleConfig(StatusRolesTable status)
@@ -253,7 +274,7 @@ public class StatusRolesService : INService
     }
 
     /// <summary>
-    /// Retrieves the status role configurations for a guild.
+    ///     Retrieves the status role configurations for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns>The set of status role configurations for the guild.</returns>
@@ -263,7 +284,7 @@ public class StatusRolesService : INService
     }
 
     /// <summary>
-    /// Sets the roles to be added when a specific status is detected.
+    ///     Sets the roles to be added when a specific status is detected.
     /// </summary>
     /// <param name="status">The status role configuration.</param>
     /// <param name="toAdd">The IDs of the roles to add.</param>
@@ -274,7 +295,7 @@ public class StatusRolesService : INService
     }
 
     /// <summary>
-    /// Sets the roles to be removed when a specific status is detected.
+    ///     Sets the roles to be removed when a specific status is detected.
     /// </summary>
     /// <param name="status">The status role configuration.</param>
     /// <param name="toRemove">The IDs of the roles to remove.</param>
@@ -285,7 +306,7 @@ public class StatusRolesService : INService
     }
 
     /// <summary>
-    /// Sets the channel where status-based messages should be sent.
+    ///     Sets the channel where status-based messages should be sent.
     /// </summary>
     /// <param name="status">The status role configuration.</param>
     /// <param name="channelId">The ID of the channel.</param>
@@ -296,7 +317,7 @@ public class StatusRolesService : INService
     }
 
     /// <summary>
-    /// Sets the embed text for status-based messages.
+    ///     Sets the embed text for status-based messages.
     /// </summary>
     /// <param name="status">The status role configuration.</param>
     /// <param name="embedText">The embed text to set.</param>
@@ -307,7 +328,7 @@ public class StatusRolesService : INService
     }
 
     /// <summary>
-    /// Toggles whether to remove roles that were added based on status.
+    ///     Toggles whether to remove roles that were added based on status.
     /// </summary>
     /// <param name="status">The status role configuration.</param>
     /// <returns>True if the toggle was successful; otherwise, false.</returns>
@@ -317,7 +338,7 @@ public class StatusRolesService : INService
     }
 
     /// <summary>
-    /// Toggles whether to add roles that were removed based on status.
+    ///     Toggles whether to add roles that were removed based on status.
     /// </summary>
     /// <param name="status">The status role configuration.</param>
     /// <returns>True if the toggle was successful; otherwise, false.</returns>

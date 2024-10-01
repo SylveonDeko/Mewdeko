@@ -6,35 +6,50 @@ using Mewdeko.Services.Settings;
 namespace Mewdeko.Modules.Permissions.Services;
 
 /// <summary>
-/// Provides a service for managing global permissions, allowing for the blocking of specific commands and modules.
+///     Provides a service for managing global permissions, allowing for the blocking of specific commands and modules.
 /// </summary>
 public class GlobalPermissionService : ILateBlocker, INService
 {
     private readonly BotConfigService bss;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GlobalPermissionService"/> class.
+    ///     Initializes a new instance of the <see cref="GlobalPermissionService" /> class.
     /// </summary>
     /// <param name="bss">The bot configuration service.</param>
-    public GlobalPermissionService(BotConfigService bss) => this.bss = bss;
+    public GlobalPermissionService(BotConfigService bss)
+    {
+        this.bss = bss;
+    }
 
     /// <summary>
-    /// Gets a collection of blocked command names.
+    ///     Gets a collection of blocked command names.
     /// </summary>
-    public HashSet<string> BlockedCommands => bss.Data.Blocked.Commands;
+    public HashSet<string> BlockedCommands
+    {
+        get
+        {
+            return bss.Data.Blocked.Commands;
+        }
+    }
 
     /// <summary>
-    /// Gets a collection of blocked module names.
+    ///     Gets a collection of blocked module names.
     /// </summary>
-    public HashSet<string> BlockedModules => bss.Data.Blocked.Modules;
+    public HashSet<string> BlockedModules
+    {
+        get
+        {
+            return bss.Data.Blocked.Modules;
+        }
+    }
 
     /// <summary>
-    /// Gets the priority of the service in the execution pipeline.
+    ///     Gets the priority of the service in the execution pipeline.
     /// </summary>
     public int Priority { get; } = 0;
 
     /// <summary>
-    /// Attempts to block the execution of a command based on global permissions settings.
+    ///     Attempts to block the execution of a command based on global permissions settings.
     /// </summary>
     /// <param name="client">The Discord client instance.</param>
     /// <param name="ctx">The command context.</param>
@@ -54,7 +69,7 @@ public class GlobalPermissionService : ILateBlocker, INService
     }
 
     /// <summary>
-    /// Attempts to block the execution of a slash command based on global permissions settings.
+    ///     Attempts to block the execution of a slash command based on global permissions settings.
     /// </summary>
     /// <param name="client">The Discord client instance.</param>
     /// <param name="ctx">The interaction context.</param>
@@ -72,7 +87,7 @@ public class GlobalPermissionService : ILateBlocker, INService
     }
 
     /// <summary>
-    /// Toggles the blocking status of a module. If the module is currently blocked, it will be unblocked, and vice versa.
+    ///     Toggles the blocking status of a module. If the module is currently blocked, it will be unblocked, and vice versa.
     /// </summary>
     /// <param name="moduleName">The name of the module to toggle, in lowercase.</param>
     /// <returns>True if the module was added to the blocked list, false if it was removed.</returns>
@@ -97,7 +112,8 @@ public class GlobalPermissionService : ILateBlocker, INService
     }
 
     /// <summary>
-    /// Toggles the blocking status of a command. If the command is currently blocked, it will be unblocked, and vice versa.
+    ///     Toggles the blocking status of a command. If the command is currently blocked, it will be unblocked, and vice
+    ///     versa.
     /// </summary>
     /// <param name="commandName">The name of the command to toggle, in lowercase.</param>
     /// <returns>True if the command was added to the blocked list, false if it was removed.</returns>
@@ -122,7 +138,7 @@ public class GlobalPermissionService : ILateBlocker, INService
     }
 
     /// <summary>
-    /// Resets all global permissions, clearing both the command and module block lists.
+    ///     Resets all global permissions, clearing both the command and module block lists.
     /// </summary>
     public Task Reset()
     {

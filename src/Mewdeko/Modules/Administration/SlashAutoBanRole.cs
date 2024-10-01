@@ -7,13 +7,13 @@ public partial class SlashAdministration
 
 {
     /// <summary>
-    /// Slash command group for managing the AutoBanRole feature.
+    ///     Slash command group for managing the AutoBanRole feature.
     /// </summary>
     [Group("autobanrole", "Allows you to set or remove a role from autobanning a user when they add it.")]
     public class SlashAutoBanRole : MewdekoSlashSubmodule<AutoBanRoleService>
     {
         /// <summary>
-        /// Adds a role to the list of AutoBanRoles.
+        ///     Adds a role to the list of AutoBanRoles.
         /// </summary>
         /// <param name="role">The role to add</param>
         [SlashCommand("add", "Add a role to the list of AutoBanRoles")]
@@ -31,7 +31,7 @@ public partial class SlashAdministration
         }
 
         /// <summary>
-        /// Removes a role from the list of AutoBanRoles.
+        ///     Removes a role from the list of AutoBanRoles.
         /// </summary>
         /// <param name="role">The role to remove</param>
         [SlashCommand("remove", "Remove a role from the list of AutoBanRoles")]

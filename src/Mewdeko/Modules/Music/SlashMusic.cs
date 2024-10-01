@@ -15,7 +15,7 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 namespace Mewdeko.Modules.Music;
 
 /// <summary>
-/// Slash commands for music and button handling for music.
+///     Slash commands for music and button handling for music.
 /// </summary>
 [Group("music", "Commands for playing music!")]
 public class SlashMusic(
@@ -25,11 +25,12 @@ public class SlashMusic(
     GuildSettingsService guildSettingsService) : MewdekoSlashCommandModule
 {
     /// <summary>
-    /// Handling track selection for the play command select menu.
+    ///     Handling track selection for the play command select menu.
     /// </summary>
     /// <param name="userId">The original user who summoned the select menu</param>
     /// <param name="selectedValue">The selected track.</param>
-    [ComponentInteraction("track_select:*", true), CheckPermissions]
+    [ComponentInteraction("track_select:*", true)]
+    [CheckPermissions]
     public async Task TrackSelect(ulong userId, string[] selectedValue)
     {
         await DeferAsync();
@@ -77,7 +78,7 @@ public class SlashMusic(
                 .Build();
 
             await interactivity.SendPaginatorAsync(paginator, ctx.Interaction, TimeSpan.FromMinutes(5),
-                responseType: InteractionResponseType.DeferredChannelMessageWithSource);
+                InteractionResponseType.DeferredChannelMessageWithSource);
 
             async Task<PageBuilder> PageFactory(int index)
             {
@@ -118,7 +119,7 @@ public class SlashMusic(
             ? PlayerChannelBehavior.Join
             : PlayerChannelBehavior.None;
 
-        var retrieveOptions = new PlayerRetrieveOptions(ChannelBehavior: channelBehavior);
+        var retrieveOptions = new PlayerRetrieveOptions(channelBehavior);
 
         var options = new MewdekoPlayerOptions
         {

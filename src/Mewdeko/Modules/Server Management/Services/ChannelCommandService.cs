@@ -11,8 +11,8 @@ namespace Mewdeko.Modules.Server_Management.Services;
 /// </summary>
 public class ChannelCommandService : INService, IReadyExecutor
 {
-    private readonly IDataCache dataCache;
     private readonly DiscordShardedClient client;
+    private readonly IDataCache dataCache;
     private readonly DbContextProvider dbContext;
 
     private readonly ConcurrentDictionary<ulong, (ServerManagement.LockdownType, PunishmentAction?)> lockdownGuilds =
@@ -32,6 +32,52 @@ public class ChannelCommandService : INService, IReadyExecutor
         this.dbContext = dbContext;
         this.client = client;
         handler.UserJoined += HandleUserJoinDuringLockdown;
+    }
+
+    /// <summary>
+    ///     Called when the bot is ready. Updates the list of join-blocked guilds from Redis and checks the database for
+    ///     additional lockdowns.
+    ///     Determines whether the guild is in Joins, Readonly, or Full lockdown based on Redis and database information.
+    /// </summary>
+    public async Task OnReadyAsync()
+    {
+        var redisDb = dataCache.Redis.GetDatabase();
+        var redisJoinBlockedGuilds = await redisDb.SetMembersAsync("join-blocked-guilds").ConfigureAwait(false);
+
+        await using var context = await dbContext.GetContextAsync();
+
+        // Fetch all guilds from the database that have lockdown channel permissions stored
+        var dbLockdownGuilds = await context.LockdownChannelPermissions
+            .Select(p => p.GuildId)
+            .Distinct()
+            .ToListAsync();
+
+        foreach (var guild in client.Guilds)
+        {
+            var guildId = guild.Id;
+            var isInRedis = redisJoinBlockedGuilds.Any(g => g == (RedisValue)guildId.ToString());
+            var isInDb = dbLockdownGuilds.Contains(guildId);
+
+            lockdownGuilds[guildId] = isInRedis switch
+            {
+                // If the guild is only in Redis, it's in Joins lockdown
+                true when !isInDb => (ServerManagement.LockdownType.Joins, null),
+                // If the guild is only in the database, it's in Readonly lockdown
+                false when isInDb => (ServerManagement.LockdownType.Readonly, null),
+                // If the guild is in both Redis and the database, it's in Full lockdown
+                true when isInDb => (ServerManagement.LockdownType.Full, null),
+                _ => lockdownGuilds[guildId]
+            };
+        }
+
+        // If there are guilds in Redis but not in lockdownGuilds (not recognized during the loop), remove them from Redis
+        foreach (var guildId in redisJoinBlockedGuilds.Select(g => (ulong)g))
+        {
+            if (!lockdownGuilds.ContainsKey(guildId))
+            {
+                await redisDb.SetRemoveAsync("join-blocked-guilds", guildId).ConfigureAwait(false);
+            }
+        }
     }
 
     /// <summary>
@@ -256,7 +302,9 @@ public class ChannelCommandService : INService, IReadyExecutor
 
             var existingPerms =
                 // Reconstruct OverwritePermissions from stored permissions
-                storedPerm != null ? new OverwritePermissions(storedPerm.AllowPermissions, storedPerm.DenyPermissions) :
+                storedPerm != null
+                    ? new OverwritePermissions(storedPerm.AllowPermissions, storedPerm.DenyPermissions)
+                    :
                     // No stored permissions; default to InheritAll
                     OverwritePermissions.InheritAll;
 
@@ -339,52 +387,6 @@ public class ChannelCommandService : INService, IReadyExecutor
     private static bool IsRelevantChannel(IGuildChannel channel)
     {
         return channel is ITextChannel or IVoiceChannel or IForumChannel;
-    }
-
-    /// <summary>
-    ///     Called when the bot is ready. Updates the list of join-blocked guilds from Redis and checks the database for
-    ///     additional lockdowns.
-    ///     Determines whether the guild is in Joins, Readonly, or Full lockdown based on Redis and database information.
-    /// </summary>
-    public async Task OnReadyAsync()
-    {
-        var redisDb = dataCache.Redis.GetDatabase();
-        var redisJoinBlockedGuilds = await redisDb.SetMembersAsync("join-blocked-guilds").ConfigureAwait(false);
-
-        await using var context = await dbContext.GetContextAsync();
-
-        // Fetch all guilds from the database that have lockdown channel permissions stored
-        var dbLockdownGuilds = await context.LockdownChannelPermissions
-            .Select(p => p.GuildId)
-            .Distinct()
-            .ToListAsync();
-
-        foreach (var guild in client.Guilds)
-        {
-            var guildId = guild.Id;
-            var isInRedis = redisJoinBlockedGuilds.Any(g => g == (RedisValue)guildId.ToString());
-            var isInDb = dbLockdownGuilds.Contains(guildId);
-
-            lockdownGuilds[guildId] = isInRedis switch
-            {
-                // If the guild is only in Redis, it's in Joins lockdown
-                true when !isInDb => (ServerManagement.LockdownType.Joins, null),
-                // If the guild is only in the database, it's in Readonly lockdown
-                false when isInDb => (ServerManagement.LockdownType.Readonly, null),
-                // If the guild is in both Redis and the database, it's in Full lockdown
-                true when isInDb => (ServerManagement.LockdownType.Full, null),
-                _ => lockdownGuilds[guildId]
-            };
-        }
-
-        // If there are guilds in Redis but not in lockdownGuilds (not recognized during the loop), remove them from Redis
-        foreach (var guildId in redisJoinBlockedGuilds.Select(g => (ulong)g))
-        {
-            if (!lockdownGuilds.ContainsKey(guildId))
-            {
-                await redisDb.SetRemoveAsync("join-blocked-guilds", guildId).ConfigureAwait(false);
-            }
-        }
     }
 
 

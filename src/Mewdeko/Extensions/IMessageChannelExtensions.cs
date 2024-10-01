@@ -4,26 +4,28 @@ using Mewdeko.Common.Configs;
 namespace Mewdeko.Extensions;
 
 /// <summary>
-/// Extensions for IMessageChannel objects. Used a lot throughout the bot.
+///     Extensions for IMessageChannel objects. Used a lot throughout the bot.
 /// </summary>
 public static class MessageChannelExtensions
 {
     /// <summary>
-    /// Sends an embed message to the message channel asynchronously.
+    ///     Sends an embed message to the message channel asynchronously.
     /// </summary>
     /// <param name="ch">The message channel to send the message to.</param>
     /// <param name="embed">The embed builder containing the embed message.</param>
     /// <param name="msg">The optional message content to include.</param>
     /// <returns>A task representing the asynchronous operation, returning the sent user message.</returns>
-    public static Task<IUserMessage> EmbedAsync(this IMessageChannel ch, EmbedBuilder embed, string? msg = "") =>
-        ch.SendMessageAsync(msg, embed: embed.Build(),
+    public static Task<IUserMessage> EmbedAsync(this IMessageChannel ch, EmbedBuilder embed, string? msg = "")
+    {
+        return ch.SendMessageAsync(msg, embed: embed.Build(),
             options: new RequestOptions
             {
                 RetryMode = RetryMode.AlwaysRetry
             });
+    }
 
     /// <summary>
-    /// Sends an error message to the message channel asynchronously.
+    ///     Sends an error message to the message channel asynchronously.
     /// </summary>
     /// <param name="ch">The message channel to send the message to.</param>
     /// <param name="title">The optional title of the error message.</param>
@@ -44,7 +46,7 @@ public static class MessageChannelExtensions
     }
 
     /// <summary>
-    /// Sends an error message to the message channel asynchronously.
+    ///     Sends an error message to the message channel asynchronously.
     /// </summary>
     /// <param name="ch">The message channel to send the message to.</param>
     /// <param name="error">The error message content.</param>
@@ -63,14 +65,14 @@ public static class MessageChannelExtensions
         return ch.SendMessageAsync(embed: eb.Build(),
             components: config.ShowInviteButton
                 ? new ComponentBuilder()
-                    .WithButton(label: "Support Server", style: ButtonStyle.Link, url: "https://discord.gg/mewdeko")
-                    .WithButton(label: "Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/Mewdeko").Build()
+                    .WithButton("Support Server", style: ButtonStyle.Link, url: "https://discord.gg/mewdeko")
+                    .WithButton("Support Us!", style: ButtonStyle.Link, url: "https://ko-fi.com/Mewdeko").Build()
                 : null);
     }
 
 
     /// <summary>
-    /// Sends a confirmation message to the message channel asynchronously.
+    ///     Sends a confirmation message to the message channel asynchronously.
     /// </summary>
     /// <param name="ch">The message channel to send the message to.</param>
     /// <param name="title">The optional title of the confirmation message.</param>
@@ -91,7 +93,7 @@ public static class MessageChannelExtensions
     }
 
     /// <summary>
-    /// Sends a confirmation message to the interaction asynchronously.
+    ///     Sends a confirmation message to the interaction asynchronously.
     /// </summary>
     /// <param name="ch">The interaction to send the message to.</param>
     /// <param name="title">The optional title of the confirmation message.</param>
@@ -112,72 +114,84 @@ public static class MessageChannelExtensions
     }
 
     /// <summary>
-    /// Sends a confirmation message to the message channel asynchronously.
+    ///     Sends a confirmation message to the message channel asynchronously.
     /// </summary>
     /// <param name="ch">The message channel to send the message to.</param>
     /// <param name="text">The text content of the confirmation message.</param>
     /// <returns>A task representing the asynchronous operation, returning the sent user message.</returns>
-    public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string? text) =>
-        ch.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build());
+    public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string? text)
+    {
+        return ch.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build());
+    }
 
     /// <summary>
-    /// Sends a confirmation reply message to the original message asynchronously.
+    ///     Sends a confirmation reply message to the original message asynchronously.
     /// </summary>
     /// <param name="msg">The original message to reply to.</param>
     /// <param name="text">The text content of the confirmation reply message.</param>
     /// <returns>A task representing the asynchronous operation, returning the sent user message.</returns>
-    public static Task<IUserMessage> SendConfirmReplyAsync(this IUserMessage msg, string? text) =>
-        msg.ReplyAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build());
+    public static Task<IUserMessage> SendConfirmReplyAsync(this IUserMessage msg, string? text)
+    {
+        return msg.ReplyAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build());
+    }
 
     /// <summary>
-    /// Sends a confirmation message to the webhook client asynchronously.
+    ///     Sends a confirmation message to the webhook client asynchronously.
     /// </summary>
     /// <param name="msg">The webhook client to send the message to.</param>
     /// <param name="text">The text content of the confirmation message.</param>
     /// <returns>A task representing the asynchronous operation, returning the ID of the sent message.</returns>
-    public static Task<ulong> SendConfirmAsync(this DiscordWebhookClient msg, string? text) =>
-        msg.SendMessageAsync(embeds:
+    public static Task<ulong> SendConfirmAsync(this DiscordWebhookClient msg, string? text)
+    {
+        return msg.SendMessageAsync(embeds:
         [
             new EmbedBuilder().WithOkColor().WithDescription(text).Build()
         ]);
+    }
 
 
     /// <summary>
-    /// Sends an error reply message to the original message asynchronously.
+    ///     Sends an error reply message to the original message asynchronously.
     /// </summary>
     /// <param name="msg">The original message to reply to.</param>
     /// <param name="text">The text content of the error reply message.</param>
     /// <returns>A task representing the asynchronous operation, returning the sent user message.</returns>
-    public static Task<IUserMessage> SendErrorReplyAsync(this IUserMessage msg, string? text) =>
-        msg.ReplyAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(text).Build());
+    public static Task<IUserMessage> SendErrorReplyAsync(this IUserMessage msg, string? text)
+    {
+        return msg.ReplyAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(text).Build());
+    }
 
     /// <summary>
-    /// Sends a confirmation message to the text channel asynchronously.
+    ///     Sends a confirmation message to the text channel asynchronously.
     /// </summary>
     /// <param name="ch">The text channel to send the message to.</param>
     /// <param name="text">The text content of the confirmation message.</param>
     /// <param name="builder">The optional component builder for interactive components.</param>
     /// <returns>A task representing the asynchronous operation, returning the sent user message.</returns>
     public static Task<IUserMessage> SendConfirmAsync(this ITextChannel ch, string? text,
-        ComponentBuilder? builder = null) =>
-        ch.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build(),
+        ComponentBuilder? builder = null)
+    {
+        return ch.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build(),
             components: builder?.Build());
+    }
 
     /// <summary>
-    /// Sends a confirmation message to the message channel asynchronously.
+    ///     Sends a confirmation message to the message channel asynchronously.
     /// </summary>
     /// <param name="ch">The message channel to send the message to.</param>
     /// <param name="text">The text content of the confirmation message.</param>
     /// <param name="builder">The optional component builder for interactive components.</param>
     /// <returns>A task representing the asynchronous operation, returning the sent user message.</returns>
     public static Task<IUserMessage> SendConfirmAsync(this IMessageChannel ch, string? text,
-        ComponentBuilder? builder = null) =>
-        ch.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build(),
+        ComponentBuilder? builder = null)
+    {
+        return ch.SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build(),
             components: builder?.Build());
+    }
 
 
     /// <summary>
-    /// Sends a table message asynchronously to the message channel.
+    ///     Sends a table message asynchronously to the message channel.
     /// </summary>
     /// <typeparam name="T">The type of items in the table.</typeparam>
     /// <param name="ch">The message channel to send the table message to.</param>
@@ -197,7 +211,7 @@ public static class MessageChannelExtensions
     }
 
     /// <summary>
-    /// Sends a table message asynchronously to the message channel.
+    ///     Sends a table message asynchronously to the message channel.
     /// </summary>
     /// <typeparam name="T">The type of items in the table.</typeparam>
     /// <param name="ch">The message channel to send the table message to.</param>
@@ -206,27 +220,38 @@ public static class MessageChannelExtensions
     /// <param name="columns">The number of columns in the table (default is 3).</param>
     /// <returns>A task representing the asynchronous operation, returning the sent user message.</returns>
     public static Task<IUserMessage> SendTableAsync<T>(this IMessageChannel ch, IEnumerable<T> items,
-        Func<T, string> howToPrint, int columns = 3) =>
-        ch.SendTableAsync("", items, howToPrint, columns);
+        Func<T, string> howToPrint, int columns = 3)
+    {
+        return ch.SendTableAsync("", items, howToPrint, columns);
+    }
 
     /// <summary>
-    /// Adds a checkmark reaction to the message asynchronously.
+    ///     Adds a checkmark reaction to the message asynchronously.
     /// </summary>
     /// <param name="ctx">The command context.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public static Task OkAsync(this ICommandContext ctx) => ctx.Message.AddReactionAsync(new Emoji("✅"));
+    public static Task OkAsync(this ICommandContext ctx)
+    {
+        return ctx.Message.AddReactionAsync(new Emoji("✅"));
+    }
 
     /// <summary>
-    /// Adds a cross mark reaction to the message asynchronously.
+    ///     Adds a cross mark reaction to the message asynchronously.
     /// </summary>
     /// <param name="ctx">The command context.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public static Task ErrorAsync(this ICommandContext ctx) => ctx.Message.AddReactionAsync(new Emoji("❌"));
+    public static Task ErrorAsync(this ICommandContext ctx)
+    {
+        return ctx.Message.AddReactionAsync(new Emoji("❌"));
+    }
 
     /// <summary>
-    /// Adds a warning sign reaction to the message asynchronously.
+    ///     Adds a warning sign reaction to the message asynchronously.
     /// </summary>
     /// <param name="ctx">The command context.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public static Task WarningAsync(this ICommandContext ctx) => ctx.Message.AddReactionAsync(new Emoji("⚠"));
+    public static Task WarningAsync(this ICommandContext ctx)
+    {
+        return ctx.Message.AddReactionAsync(new Emoji("⚠"));
+    }
 }

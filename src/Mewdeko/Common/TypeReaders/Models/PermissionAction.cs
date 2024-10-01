@@ -1,33 +1,48 @@
 ﻿namespace Mewdeko.Common.TypeReaders.Models;
 
 /// <summary>
-/// Represents an action that can be performed on a permission.
+///     Represents an action that can be performed on a permission.
 /// </summary>
 public class PermissionAction
 {
     /// <summary>
-    /// Initializes a new instance of the PermissionAction class.
+    ///     Initializes a new instance of the PermissionAction class.
     /// </summary>
     /// <param name="value">The value of the action.</param>
-    public PermissionAction(bool value) => Value = value;
+    public PermissionAction(bool value)
+    {
+        Value = value;
+    }
 
     /// <summary>
-    /// Gets an instance of the PermissionAction class that represents enabling a permission.
+    ///     Gets an instance of the PermissionAction class that represents enabling a permission.
     /// </summary>
-    public static PermissionAction Enable => new(true);
+    public static PermissionAction Enable
+    {
+        get
+        {
+            return new PermissionAction(true);
+        }
+    }
 
     /// <summary>
-    /// Gets an instance of the PermissionAction class that represents disabling a permission.
+    ///     Gets an instance of the PermissionAction class that represents disabling a permission.
     /// </summary>
-    public static PermissionAction Disable => new(false);
+    public static PermissionAction Disable
+    {
+        get
+        {
+            return new PermissionAction(false);
+        }
+    }
 
     /// <summary>
-    /// Gets the value of the action.
+    ///     Gets the value of the action.
     /// </summary>
     public bool Value { get; }
 
     /// <summary>
-    /// Determines whether the specified object is equal to the current object.
+    ///     Determines whether the specified object is equal to the current object.
     /// </summary>
     /// <param name="obj">The object to compare with the current object.</param>
     /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
@@ -39,8 +54,11 @@ public class PermissionAction
     }
 
     /// <summary>
-    /// Serves as the default hash function.
+    ///     Serves as the default hash function.
     /// </summary>
     /// <returns>A hash code for the current object.</returns>
-    public override int GetHashCode() => Value.GetHashCode();
+    public override int GetHashCode()
+    {
+        return Value.GetHashCode();
+    }
 }

@@ -6,12 +6,12 @@ using Serilog;
 namespace Mewdeko.Modules.Administration.Services;
 
 /// <summary>
-/// Service for automatically assigning roles to users in a guild.
+///     Service for automatically assigning roles to users in a guild.
 /// </summary>
 public sealed class AutoAssignRoleService : INService
 {
     /// <summary>
-    /// A queue of users to assign roles to.
+    ///     A queue of users to assign roles to.
     /// </summary>
     private readonly Channel<IGuildUser> assignQueue = Channel.CreateBounded<IGuildUser>(
         new BoundedChannelOptions(int.MaxValue)
@@ -23,7 +23,7 @@ public sealed class AutoAssignRoleService : INService
     private readonly GuildSettingsService guildSettings;
 
     /// <summary>
-    /// Constructs a new instance of the AutoAssignRoleService.
+    ///     Constructs a new instance of the AutoAssignRoleService.
     /// </summary>
     /// <param name="db">The database service.</param>
     /// <param name="guildSettings">The guild settings service.</param>
@@ -138,7 +138,7 @@ public sealed class AutoAssignRoleService : INService
     }
 
     /// <summary>
-    /// Event handler for when a guild member is updated.
+    ///     Event handler for when a guild member is updated.
     /// </summary>
     /// <param name="args">The cached user.</param>
     /// <param name="arsg2">The updated user.</param>
@@ -151,7 +151,7 @@ public sealed class AutoAssignRoleService : INService
     }
 
     /// <summary>
-    /// Event handler for when a role is deleted in a guild.
+    ///     Event handler for when a role is deleted in a guild.
     /// </summary>
     /// <param name="role">The role that was deleted.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -177,7 +177,7 @@ public sealed class AutoAssignRoleService : INService
     }
 
     /// <summary>
-    /// Event handler for when a user joins a guild.
+    ///     Event handler for when a user joins a guild.
     /// </summary>
     /// <param name="user">The user that joined.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -202,15 +202,14 @@ public sealed class AutoAssignRoleService : INService
 
 
     /// <summary>
-    /// Toggles the auto-assign role for a given guild and role.
+    ///     Toggles the auto-assign role for a given guild and role.
     /// </summary>
     /// <param name="guildId">The ID of the guild to toggle the auto-assign role for.</param>
     /// <param name="roleId">The ID of the role to toggle.</param>
     /// <returns>A list of role IDs that are currently set to auto-assign in the guild.</returns>
     public async Task<IReadOnlyList<ulong>> ToggleAarAsync(ulong guildId, ulong roleId)
     {
-
-       await using var db = await dbProvider.GetContextAsync();
+        await using var db = await dbProvider.GetContextAsync();
         var gc = await db.ForGuildId(guildId, set => set);
         var roles = gc.GetAutoAssignableRoles();
         if (!roles.Remove(roleId) && roles.Count < 10)
@@ -223,45 +222,41 @@ public sealed class AutoAssignRoleService : INService
     }
 
     /// <summary>
-    /// Disables the auto-assign role feature for a given guild.
+    ///     Disables the auto-assign role feature for a given guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to disable the auto-assign role feature for.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     private async Task DisableAarAsync(ulong guildId)
     {
-
-       await using var db = await dbProvider.GetContextAsync();
+        await using var db = await dbProvider.GetContextAsync();
         var gc = await db.ForGuildId(guildId, set => set);
         gc.AutoAssignRoleId = "";
         await guildSettings.UpdateGuildConfig(guildId, gc);
     }
 
     /// <summary>
-    /// Sets the auto-assign bot roles for a given guild.
+    ///     Sets the auto-assign bot roles for a given guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to set the auto-assign bot roles for.</param>
     /// <param name="newRoles">The new roles to set as auto-assign bot roles.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetAabrRolesAsync(ulong guildId, IEnumerable<ulong> newRoles)
     {
-
-
-       await using var db = await dbProvider.GetContextAsync();
+        await using var db = await dbProvider.GetContextAsync();
         var gc = await db.ForGuildId(guildId, set => set);
         gc.SetAutoAssignableBotRoles(newRoles);
         await guildSettings.UpdateGuildConfig(guildId, gc);
     }
 
     /// <summary>
-    /// Toggles the auto-assign bot role for a given guild and role.
+    ///     Toggles the auto-assign bot role for a given guild and role.
     /// </summary>
     /// <param name="guildId">The ID of the guild to toggle the auto-assign bot role for.</param>
     /// <param name="roleId">The ID of the role to toggle.</param>
     /// <returns>A list of role IDs that are currently set to auto-assign bot roles in the guild.</returns>
     public async Task<IReadOnlyList<ulong>> ToggleAabrAsync(ulong guildId, ulong roleId)
     {
-
-       await using var db = await dbProvider.GetContextAsync();
+        await using var db = await dbProvider.GetContextAsync();
         var gc = await db.ForGuildId(guildId, set => set);
         var roles = gc.GetAutoAssignableBotRoles();
         if (!roles.Remove(roleId) && roles.Count < 10)
@@ -274,36 +269,34 @@ public sealed class AutoAssignRoleService : INService
     }
 
     /// <summary>
-    /// Disables the auto-assign bot role feature for a given guild.
+    ///     Disables the auto-assign bot role feature for a given guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to disable the auto-assign bot role feature for.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task DisableAabrAsync(ulong guildId)
     {
-
-       await using var db = await dbProvider.GetContextAsync();
+        await using var db = await dbProvider.GetContextAsync();
         var gc = await db.ForGuildId(guildId, set => set);
         gc.AutoBotRoleIds = " ";
         await guildSettings.UpdateGuildConfig(guildId, gc);
     }
 
     /// <summary>
-    /// Sets the auto-assign roles for a given guild.
+    ///     Sets the auto-assign roles for a given guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to set the auto-assign roles for.</param>
     /// <param name="newRoles">The new roles to set as auto-assign roles.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetAarRolesAsync(ulong guildId, IEnumerable<ulong> newRoles)
     {
-
-       await using var db = await dbProvider.GetContextAsync();
+        await using var db = await dbProvider.GetContextAsync();
         var gc = await db.ForGuildId(guildId, set => set);
         gc.SetAutoAssignableRoles(newRoles);
         await guildSettings.UpdateGuildConfig(guildId, gc);
     }
 
     /// <summary>
-    /// Retrieves the list of normal roles that are set to auto-assign for a given guild.
+    ///     Retrieves the list of normal roles that are set to auto-assign for a given guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to retrieve the auto-assign roles for.</param>
     /// <returns>A list of role IDs that are currently set to auto-assign in the guild.</returns>
@@ -314,7 +307,7 @@ public sealed class AutoAssignRoleService : INService
     }
 
     /// <summary>
-    /// Retrieves the list of bot roles that are set to auto-assign for a given guild.
+    ///     Retrieves the list of bot roles that are set to auto-assign for a given guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to retrieve the auto-assign bot roles for.</param>
     /// <returns>A list of role IDs that are currently set to auto-assign bot roles in the guild.</returns>
@@ -326,43 +319,51 @@ public sealed class AutoAssignRoleService : INService
 }
 
 /// <summary>
-/// Extension methods for the GuildConfig class.
+///     Extension methods for the GuildConfig class.
 /// </summary>
 public static class GuildConfigExtensions
 {
     /// <summary>
-    /// Retrieves the list of roles that are set to auto-assign for a given guild configuration.
+    ///     Retrieves the list of roles that are set to auto-assign for a given guild configuration.
     /// </summary>
     /// <param name="gc">The guild configuration to retrieve the auto-assign roles for.</param>
     /// <returns>A list of role IDs that are currently set to auto-assign in the guild configuration.</returns>
     public static List<ulong> GetAutoAssignableRoles(this GuildConfig gc)
-        => string.IsNullOrWhiteSpace(gc.AutoAssignRoleId)
+    {
+        return string.IsNullOrWhiteSpace(gc.AutoAssignRoleId)
             ? []
             : gc.AutoAssignRoleId.Split(" ").Select(ulong.Parse).ToList();
+    }
 
     /// <summary>
-    /// Sets the auto-assign roles for a given guild configuration.
+    ///     Sets the auto-assign roles for a given guild configuration.
     /// </summary>
     /// <param name="gc">The guild configuration to set the auto-assign roles for.</param>
     /// <param name="roles">The new roles to set as auto-assign roles.</param>
-    public static void SetAutoAssignableRoles(this GuildConfig gc, IEnumerable<ulong> roles) =>
+    public static void SetAutoAssignableRoles(this GuildConfig gc, IEnumerable<ulong> roles)
+    {
         gc.AutoAssignRoleId = roles.JoinWith(" ");
+    }
 
     /// <summary>
-    /// Retrieves the list of bot roles that are set to auto-assign for a given guild configuration.
+    ///     Retrieves the list of bot roles that are set to auto-assign for a given guild configuration.
     /// </summary>
     /// <param name="gc">The guild configuration to retrieve the auto-assign bot roles for.</param>
     /// <returns>A list of role IDs that are currently set to auto-assign bot roles in the guild configuration.</returns>
     public static List<ulong> GetAutoAssignableBotRoles(this GuildConfig gc)
-        => string.IsNullOrWhiteSpace(gc.AutoBotRoleIds)
+    {
+        return string.IsNullOrWhiteSpace(gc.AutoBotRoleIds)
             ? []
             : gc.AutoBotRoleIds.Split(" ").Select(ulong.Parse).ToList();
+    }
 
     /// <summary>
-    /// Sets the auto-assign bot roles for a given guild configuration.
+    ///     Sets the auto-assign bot roles for a given guild configuration.
     /// </summary>
     /// <param name="gc">The guild configuration to set the auto-assign bot roles for.</param>
     /// <param name="roles">The new roles to set as auto-assign bot roles.</param>
-    public static void SetAutoAssignableBotRoles(this GuildConfig gc, IEnumerable<ulong> roles) =>
+    public static void SetAutoAssignableBotRoles(this GuildConfig gc, IEnumerable<ulong> roles)
+    {
         gc.AutoBotRoleIds = roles.JoinWith(" ");
+    }
 }

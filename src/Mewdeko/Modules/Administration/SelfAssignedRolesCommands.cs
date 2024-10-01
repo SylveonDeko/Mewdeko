@@ -10,7 +10,7 @@ namespace Mewdeko.Modules.Administration;
 public partial class Administration
 {
     /// <summary>
-    /// Module for managing self-assigned roles.
+    ///     Module for managing self-assigned roles.
     /// </summary>
     /// <param name="serv">Embed pagination service.</param>
     /// <param name="guildSettings">The guild settings service.</param>
@@ -19,15 +19,18 @@ public partial class Administration
         : MewdekoSubmodule<SelfAssignedRolesService>
     {
         /// <summary>
-        /// Toggles the auto delete of server advertisement messages.
+        ///     Toggles the auto delete of server advertisement messages.
         /// </summary>
         /// <remarks>
-        /// This command allows users to toggle the automatic deletion of server advertisement messages.
-        /// It requires the Manage Messages permission for the user.
+        ///     This command allows users to toggle the automatic deletion of server advertisement messages.
+        ///     It requires the Manage Messages permission for the user.
         /// </remarks>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageMessages), BotPerm(GuildPermission.ManageMessages)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageMessages)]
+        [BotPerm(GuildPermission.ManageMessages)]
         public async Task AdSarm()
         {
             var newVal = await Service.ToggleAdSarm(ctx.Guild.Id);
@@ -41,31 +44,42 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Adds the specified role to the auto-self-assignable role list.
+        ///     Adds the specified role to the auto-self-assignable role list.
         /// </summary>
         /// <remarks>
-        /// This command allows administrators to add a role to the auto-self-assignable role list,
-        /// optionally specifying a group number for organization.
-        /// It requires the Manage Roles permission for the user.
+        ///     This command allows administrators to add a role to the auto-self-assignable role list,
+        ///     optionally specifying a group number for organization.
+        ///     It requires the Manage Roles permission for the user.
         /// </remarks>
         /// <param name="role">The role to add to the auto-self-assignable role list.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles), Priority(1)]
-        public Task Asar([Remainder] IRole role) => Asar(0, role);
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageRoles)]
+        [BotPerm(GuildPermission.ManageRoles)]
+        [Priority(1)]
+        public Task Asar([Remainder] IRole role)
+        {
+            return Asar(0, role);
+        }
 
         /// <summary>
-        /// Adds the specified role to the auto-self-assignable role list within the specified group.
+        ///     Adds the specified role to the auto-self-assignable role list within the specified group.
         /// </summary>
         /// <remarks>
-        /// This command allows administrators to add a role to the auto-self-assignable role list within a specific group.
-        /// It requires the Manage Roles permission for the user.
+        ///     This command allows administrators to add a role to the auto-self-assignable role list within a specific group.
+        ///     It requires the Manage Roles permission for the user.
         /// </remarks>
         /// <param name="group">The group number for organization.</param>
         /// <param name="role">The role to add to the auto-self-assignable role list.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles), Priority(0)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageRoles)]
+        [BotPerm(GuildPermission.ManageRoles)]
+        [Priority(0)]
         public async Task Asar(int group, [Remainder] IRole role)
         {
             var guser = (IGuildUser)ctx.User;
@@ -87,17 +101,21 @@ public partial class Administration
 
 
         /// <summary>
-        /// Sets or removes the name for the specified group of auto-self-assignable roles.
+        ///     Sets or removes the name for the specified group of auto-self-assignable roles.
         /// </summary>
         /// <remarks>
-        /// This command allows administrators to set or remove the name for a group of auto-self-assignable roles.
-        /// It requires the Manage Roles permission for the user.
+        ///     This command allows administrators to set or remove the name for a group of auto-self-assignable roles.
+        ///     It requires the Manage Roles permission for the user.
         /// </remarks>
         /// <param name="group">The group number for which to set or remove the name.</param>
         /// <param name="name">The name to set for the group. If not provided, the name for the group will be removed.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles), Priority(0)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageRoles)]
+        [BotPerm(GuildPermission.ManageRoles)]
+        [Priority(0)]
         public async Task Sargn(int group, [Remainder] string? name = null)
         {
             var set = await Service.SetNameAsync(ctx.Guild.Id, group, name).ConfigureAwait(false);
@@ -115,16 +133,18 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Removes the specified role from the auto-self-assignable roles list.
+        ///     Removes the specified role from the auto-self-assignable roles list.
         /// </summary>
         /// <remarks>
-        /// This command allows administrators to remove a role from the auto-self-assignable roles list.
-        /// It requires the Manage Roles permission for the user.
+        ///     This command allows administrators to remove a role from the auto-self-assignable roles list.
+        ///     It requires the Manage Roles permission for the user.
         /// </remarks>
         /// <param name="role">The role to remove from the auto-self-assignable roles list.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageRoles)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageRoles)]
         public async Task Rsar([Remainder] IRole role)
         {
             var guser = (IGuildUser)ctx.User;
@@ -139,13 +159,15 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Lists the auto-self-assignable roles configured for the guild.
+        ///     Lists the auto-self-assignable roles configured for the guild.
         /// </summary>
         /// <remarks>
-        /// This command allows users to list the auto-self-assignable roles configured for the guild.
+        ///     This command allows users to list the auto-self-assignable roles configured for the guild.
         /// </remarks>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Lsar()
         {
             var (exclusive, roles, groups) = await Service.GetRoles(ctx.Guild);
@@ -206,14 +228,17 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Toggles the exclusivity of auto-self-assignable roles.
+        ///     Toggles the exclusivity of auto-self-assignable roles.
         /// </summary>
         /// <remarks>
-        /// This command allows users to toggle the exclusivity of auto-self-assignable roles.
+        ///     This command allows users to toggle the exclusivity of auto-self-assignable roles.
         /// </remarks>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageRoles)]
+        [BotPerm(GuildPermission.ManageRoles)]
         public async Task Togglexclsar()
         {
             var areExclusive = await Service.ToggleEsar(ctx.Guild.Id);
@@ -224,13 +249,16 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Sets the level requirement for an auto-self-assignable role.
+        ///     Sets the level requirement for an auto-self-assignable role.
         /// </summary>
         /// <param name="level">The level required to obtain the role.</param>
         /// <param name="role">The role to set the level requirement for.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageRoles), BotPerm(GuildPermission.ManageRoles)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageRoles)]
+        [BotPerm(GuildPermission.ManageRoles)]
         public async Task RoleLevelReq(int level, [Remainder] IRole role)
         {
             if (level < 0)
@@ -250,14 +278,16 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Grants a user a self-assignable role.
+        ///     Grants a user a self-assignable role.
         /// </summary>
         /// <remarks>
-        /// This command allows users to assign themselves a self-assignable role.
+        ///     This command allows users to assign themselves a self-assignable role.
         /// </remarks>
         /// <param name="role">The role to be assigned to the user.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Iam([Remainder] IRole role)
         {
             var guildUser = (IGuildUser)ctx.User;
@@ -289,14 +319,16 @@ public partial class Administration
 
 
         /// <summary>
-        /// Removes a self-assigned role from the user.
+        ///     Removes a self-assigned role from the user.
         /// </summary>
         /// <remarks>
-        /// This command allows users to remove a self-assigned role from themselves.
+        ///     This command allows users to remove a self-assigned role from themselves.
         /// </remarks>
         /// <param name="role">The role to be removed from the user.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Iamnot([Remainder] IRole role)
         {
             var guildUser = (IGuildUser)ctx.User;

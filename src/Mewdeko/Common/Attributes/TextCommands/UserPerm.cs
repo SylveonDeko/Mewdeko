@@ -5,32 +5,36 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Mewdeko.Common.Attributes.TextCommands;
 
 /// <summary>
-/// Attribute to define user permissions for a command or method.
+///     Attribute to define user permissions for a command or method.
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]
 public class UserPermAttribute : PreconditionAttribute
 {
     /// <summary>
-    /// Initializes a new instance of the UserPermAttribute class with a specified guild permission.
+    ///     Initializes a new instance of the UserPermAttribute class with a specified guild permission.
     /// </summary>
     /// <param name="permission">The guild permission required to execute the command or method.</param>
-    public UserPermAttribute(GuildPermission permission) =>
+    public UserPermAttribute(GuildPermission permission)
+    {
         UserPermissionAttribute = new RequireUserPermissionAttribute(permission);
+    }
 
     /// <summary>
-    /// Initializes a new instance of the UserPermAttribute class with a specified channel permission.
+    ///     Initializes a new instance of the UserPermAttribute class with a specified channel permission.
     /// </summary>
     /// <param name="permission">The channel permission required to execute the command or method.</param>
-    public UserPermAttribute(ChannelPermission permission) =>
+    public UserPermAttribute(ChannelPermission permission)
+    {
         UserPermissionAttribute = new RequireUserPermissionAttribute(permission);
+    }
 
     /// <summary>
-    /// Gets the user permission attribute.
+    ///     Gets the user permission attribute.
     /// </summary>
     public RequireUserPermissionAttribute UserPermissionAttribute { get; }
 
     /// <summary>
-    /// Checks the permissions of the command or method before execution.
+    ///     Checks the permissions of the command or method before execution.
     /// </summary>
     /// <param name="context">The command context.</param>
     /// <param name="command">The command being executed.</param>

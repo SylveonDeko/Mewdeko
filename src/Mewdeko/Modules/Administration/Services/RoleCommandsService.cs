@@ -6,7 +6,7 @@ using Serilog;
 namespace Mewdeko.Modules.Administration.Services;
 
 /// <summary>
-/// Service for managing role commands.
+///     Service for managing role commands.
 /// </summary>
 public class RoleCommandsService : INService
 {
@@ -14,13 +14,15 @@ public class RoleCommandsService : INService
     private readonly GuildSettingsService gss;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RoleCommandsService"/> class.
+    ///     Initializes a new instance of the <see cref="RoleCommandsService" /> class.
     /// </summary>
     /// <param name="db">The database service.</param>
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="bot">The bot.</param>
-    /// /// <param name="gss">The guild config service.</param>
-    public RoleCommandsService(DbContextProvider dbProvider, EventHandler eventHandler, Mewdeko bot, GuildSettingsService gss)
+    /// ///
+    /// <param name="gss">The guild config service.</param>
+    public RoleCommandsService(DbContextProvider dbProvider, EventHandler eventHandler, Mewdeko bot,
+        GuildSettingsService gss)
     {
         this.dbProvider = dbProvider;
         this.gss = gss;
@@ -29,7 +31,7 @@ public class RoleCommandsService : INService
     }
 
     /// <summary>
-    /// Handles the ReactionAdded event of the client.
+    ///     Handles the ReactionAdded event of the client.
     /// </summary>
     /// <param name="msg">The message.</param>
     /// <param name="chan">The channel.</param>
@@ -118,7 +120,7 @@ public class RoleCommandsService : INService
     }
 
     /// <summary>
-    /// Handles the ReactionRemoved event of the client.
+    ///     Handles the ReactionRemoved event of the client.
     /// </summary>
     /// <param name="msg">The message.</param>
     /// <param name="chan">The channel.</param>
@@ -173,7 +175,7 @@ public class RoleCommandsService : INService
     }
 
     /// <summary>
-    /// Gets the reaction role messages for a guild.
+    ///     Gets the reaction role messages for a guild.
     /// </summary>
     /// <param name="id">The guild ID.</param>
     /// <returns>A boolean indicating whether the operation was successful.</returns>
@@ -191,15 +193,17 @@ public class RoleCommandsService : INService
     }
 
     /// <summary>
-    /// Adds a reaction role message to a guild.
+    ///     Adds a reaction role message to a guild.
     /// </summary>
     /// <param name="id">The guild ID.</param>
     /// <param name="rrm">The reaction role message.</param>
-    /// <returns>A task that represents the asynchronous operation and contains a boolean indicating whether the operation was successful.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation and contains a boolean indicating whether the operation was
+    ///     successful.
+    /// </returns>
     public async Task<bool> Add(ulong id, ReactionRoleMessage rrm)
     {
-
-       await using var db = await dbProvider.GetContextAsync();
+        await using var db = await dbProvider.GetContextAsync();
         var gc = await db.ForGuildId(id, set => set
             .Include(x => x.ReactionRoleMessages)
             .ThenInclude(x => x.ReactionRoles));
@@ -209,15 +213,14 @@ public class RoleCommandsService : INService
     }
 
     /// <summary>
-    /// Removes a reaction role message from a guild.
+    ///     Removes a reaction role message from a guild.
     /// </summary>
     /// <param name="id">The guild ID.</param>
     /// <param name="index">The index of the reaction role message to remove.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Remove(ulong id, int index)
     {
-
-       await using var dbContext = await dbProvider.GetContextAsync();
+        await using var dbContext = await dbProvider.GetContextAsync();
         var gc = await dbContext.ForGuildId(id,
             set => set.Include(x => x.ReactionRoleMessages)
                 .ThenInclude(x => x.ReactionRoles));

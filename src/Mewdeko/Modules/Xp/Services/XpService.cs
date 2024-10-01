@@ -16,14 +16,16 @@ using StackExchange.Redis;
 namespace Mewdeko.Modules.Xp.Services;
 
 /// <summary>
-/// The shitty service meant for handling xp that i have yet to refactor.
+///     The shitty service meant for handling xp that i have yet to refactor.
 /// </summary>
 public class XpService : INService, IUnloadableService
 {
     /// <summary>
-    /// Constant defining the required XP for level 1.
+    ///     Constant defining the required XP for level 1.
     /// </summary>
     public const int XpRequiredLvl1 = 36;
+
+    private readonly IServiceScopeFactory _scopes;
 
     private readonly ConcurrentQueue<UserCacheItem> addMessageXp = new();
     private readonly Mewdeko bot;
@@ -40,11 +42,11 @@ public class XpService : INService, IUnloadableService
     private readonly IMemoryCache memoryCache;
     private readonly IBotStrings strings;
     private readonly XpConfigService xpConfig;
-    private readonly IServiceScopeFactory _scopes;
 
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="XpService"/> class, setting up dependencies necessary for XP management.
+    ///     Initializes a new instance of the <see cref="XpService" /> class, setting up dependencies necessary for XP
+    ///     management.
     /// </summary>
     /// <param name="client">The Discord client.</param>
     /// <param name="cmd">The command handler.</param>
@@ -71,7 +73,8 @@ public class XpService : INService, IUnloadableService
         IHttpClientFactory http,
         XpConfigService xpConfig,
         Mewdeko bot,
-        IMemoryCache memoryCache, EventHandler eventHandler, GuildSettingsService guildSettings, IServiceScopeFactory scopes)
+        IMemoryCache memoryCache, EventHandler eventHandler, GuildSettingsService guildSettings,
+        IServiceScopeFactory scopes)
     {
         this.dbProvider = dbProvider;
         this.cmd = cmd;
@@ -96,7 +99,7 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Unloads the service, detaching from event handlers and performing cleanup tasks.
+    ///     Unloads the service, detaching from event handlers and performing cleanup tasks.
     /// </summary>
     /// <returns>A task that represents the asynchronous unload operation.</returns>
     public Task Unload()
@@ -109,7 +112,7 @@ public class XpService : INService, IUnloadableService
 
     private async Task UpdateLoop()
     {
-        foreach (var guild in this.client.Guilds) await Client_OnGuildAvailable(guild);
+        foreach (var guild in client.Guilds) await Client_OnGuildAvailable(guild);
         while (true)
         {
             await Task.Delay(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
@@ -236,10 +239,13 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Retrieves a list of all role rewards for a specified guild.
+    ///     Retrieves a list of all role rewards for a specified guild.
     /// </summary>
     /// <param name="id">The unique identifier for the guild.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains an enumerable of <see cref="XpRoleReward"/>.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains an enumerable of
+    ///     <see cref="XpRoleReward" />.
+    /// </returns>
     public async Task<IEnumerable<XpRoleReward>> GetRoleRewards(ulong id)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -248,14 +254,17 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Sets a role reward for reaching a specified level within a guild.
+    ///     Sets a role reward for reaching a specified level within a guild.
     /// </summary>
     /// <param name="guildId">The unique identifier for the guild.</param>
     /// <param name="level">The level at which the reward is given.</param>
-    /// <param name="roleId">The unique identifier for the role to be awarded. If null, existing rewards for the level will be removed.</param>
+    /// <param name="roleId">
+    ///     The unique identifier for the role to be awarded. If null, existing rewards for the level will be
+    ///     removed.
+    /// </param>
     /// <remarks>
-    /// This method sets or updates the role that is awarded to a user when they reach a specified level.
-    /// If the roleId is null, any existing reward for the specified level is removed.
+    ///     This method sets or updates the role that is awarded to a user when they reach a specified level.
+    ///     If the roleId is null, any existing reward for the specified level is removed.
     /// </remarks>
     public async void SetRoleReward(ulong guildId, int level, ulong? roleId)
     {
@@ -289,11 +298,14 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Retrieves a list of users with their XP statistics for a specified guild and page number.
+    ///     Retrieves a list of users with their XP statistics for a specified guild and page number.
     /// </summary>
     /// <param name="guildId">The unique identifier for the guild.</param>
     /// <param name="page">The page number of users to retrieve.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains a list of <see cref="UserXpStats"/>.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains a list of
+    ///     <see cref="UserXpStats" />.
+    /// </returns>
     public async Task<List<UserXpStats>> GetUserXps(ulong guildId, int page)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -302,10 +314,13 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Retrieves a list of top users based on XP in a specified guild.
+    ///     Retrieves a list of top users based on XP in a specified guild.
     /// </summary>
     /// <param name="guildId">The unique identifier for the guild.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains a list of <see cref="UserXpStats"/>.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains a list of
+    ///     <see cref="UserXpStats" />.
+    /// </returns>
     public async Task<List<UserXpStats>> GetTopUserXps(ulong guildId)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -314,7 +329,7 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Changes the notification type for when a user levels up in a specified guild.
+    ///     Changes the notification type for when a user levels up in a specified guild.
     /// </summary>
     /// <param name="userId">The unique identifier for the user.</param>
     /// <param name="guildId">The unique identifier for the guild.</param>
@@ -330,7 +345,7 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Gets the notification type for when a user levels up in a specified guild.
+    ///     Gets the notification type for when a user levels up in a specified guild.
     /// </summary>
     /// <param name="userId">The unique identifier for the user.</param>
     /// <param name="guildId">The unique identifier for the guild.</param>
@@ -344,7 +359,7 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Gets the global notification type for when the specified user levels up.
+    ///     Gets the global notification type for when the specified user levels up.
     /// </summary>
     /// <param name="user">The user whose notification type is to be retrieved.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the notification location type.</returns>
@@ -356,10 +371,13 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Changes the global notification type for when the specified user levels up.
+    ///     Changes the global notification type for when the specified user levels up.
     /// </summary>
     /// <param name="user">The user for whom to change the notification type.</param>
-    /// <param name="type">The notification location type, determining where the user will be notified about leveling up globally.</param>
+    /// <param name="type">
+    ///     The notification location type, determining where the user will be notified about leveling up
+    ///     globally.
+    /// </param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task ChangeNotificationType(IUser user, XpNotificationLocation type)
     {
@@ -429,11 +447,15 @@ public class XpService : INService, IUnloadableService
             await UserLeftVoiceChannel(user, channel);
     }
 
-    private static bool ShouldTrackVoiceChannel(SocketGuildChannel channel) =>
-        channel.Users.Where(x => !x.IsBot && UserParticipatingInVoiceChannel(x)).Take(2).Count() >= 2;
+    private static bool ShouldTrackVoiceChannel(SocketGuildChannel channel)
+    {
+        return channel.Users.Where(x => !x.IsBot && UserParticipatingInVoiceChannel(x)).Take(2).Count() >= 2;
+    }
 
-    private static bool UserParticipatingInVoiceChannel(IVoiceState user) =>
-        !user.IsDeafened && !user.IsMuted && !user.IsSelfDeafened && !user.IsSelfMuted;
+    private static bool UserParticipatingInVoiceChannel(IVoiceState user)
+    {
+        return !user.IsDeafened && !user.IsMuted && !user.IsSelfDeafened && !user.IsSelfMuted;
+    }
 
     private async Task UserJoinedVoiceChannel(SocketGuildUser user)
     {
@@ -448,7 +470,7 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Retrieves the text XP timeout for a specified guild.
+    ///     Retrieves the text XP timeout for a specified guild.
     /// </summary>
     /// <param name="id">The unique identifier of the guild.</param>
     /// <returns>The text XP timeout in minutes.</returns>
@@ -459,7 +481,7 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Retrieves the text XP rate for messages sent in a specified guild.
+    ///     Retrieves the text XP rate for messages sent in a specified guild.
     /// </summary>
     /// <param name="id">The unique identifier of the guild.</param>
     /// <returns>The XP amount awarded for text messages.</returns>
@@ -470,7 +492,7 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Retrieves the voice XP rate for voice channel participation in a specified guild.
+    ///     Retrieves the voice XP rate for voice channel participation in a specified guild.
     /// </summary>
     /// <param name="id">The unique identifier of the guild.</param>
     /// <returns>The XP rate per minute for voice channel participation.</returns>
@@ -481,7 +503,7 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Retrieves the voice XP timeout for a specified guild.
+    ///     Retrieves the voice XP timeout for a specified guild.
     /// </summary>
     /// <param name="id">The unique identifier of the guild.</param>
     /// <returns>The voice XP timeout in minutes.</returns>
@@ -552,13 +574,14 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Adds XP directly to a user for their activity in a guild.
+    ///     Adds XP directly to a user for their activity in a guild.
     /// </summary>
     /// <param name="user">The user to whom XP will be added.</param>
     /// <param name="channel">The channel where the activity occurred.</param>
     /// <param name="amount">The amount of XP to add.</param>
     /// <remarks>
-    /// The amount must be greater than 0. This method does not check whether the user should receive XP based on cooldowns or exclusions.
+    ///     The amount must be greater than 0. This method does not check whether the user should receive XP based on cooldowns
+    ///     or exclusions.
     /// </remarks>
     public void AddXpDirectly(IGuildUser user, IMessageChannel channel, int amount)
     {
@@ -571,7 +594,7 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Adds XP to a user in a guild, considering awarded XP.
+    ///     Adds XP to a user in a guild, considering awarded XP.
     /// </summary>
     /// <param name="userId">The unique identifier of the user.</param>
     /// <param name="guildId">The unique identifier of the guild.</param>
@@ -589,7 +612,7 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Sets the XP rate for text messages in a guild.
+    ///     Sets the XP rate for text messages in a guild.
     /// </summary>
     /// <param name="guild">The guild object.</param>
     /// <param name="num">The XP rate to be set.</param>
@@ -604,7 +627,7 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Sets the XP timeout for text messages in a guild.
+    ///     Sets the XP timeout for text messages in a guild.
     /// </summary>
     /// <param name="guild">The guild object.</param>
     /// <param name="num">The XP timeout to be set, in minutes.</param>
@@ -619,7 +642,7 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Sets the XP rate for voice channel participation in a guild.
+    ///     Sets the XP rate for voice channel participation in a guild.
     /// </summary>
     /// <param name="guild">The guild object.</param>
     /// <param name="num">The XP rate to be set, per minute.</param>
@@ -634,7 +657,7 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Sets the XP timeout for voice channel participation in a guild.
+    ///     Sets the XP timeout for voice channel participation in a guild.
     /// </summary>
     /// <param name="guild">The guild object.</param>
     /// <param name="num">The XP timeout to be set, in minutes.</param>
@@ -649,7 +672,7 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Checks if a server is excluded from XP gain.
+    ///     Checks if a server is excluded from XP gain.
     /// </summary>
     /// <param name="id">The unique identifier of the guild.</param>
     /// <returns><c>true</c> if the server is excluded; otherwise, <c>false</c>.</returns>
@@ -660,7 +683,7 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Retrieves a collection of role IDs excluded from XP gain in a specified guild.
+    ///     Retrieves a collection of role IDs excluded from XP gain in a specified guild.
     /// </summary>
     /// <param name="id">The unique identifier of the guild.</param>
     /// <returns>An enumerable of role IDs excluded from XP gain.</returns>
@@ -671,7 +694,7 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Retrieves a collection of channel IDs excluded from XP gain in a specified guild.
+    ///     Retrieves a collection of channel IDs excluded from XP gain in a specified guild.
     /// </summary>
     /// <param name="id">The unique identifier of the guild.</param>
     /// <returns>An enumerable of channel IDs excluded from XP gain.</returns>
@@ -688,16 +711,17 @@ public class XpService : INService, IUnloadableService
         var e = await GetXpTimeout(userId.Guild.Id) == 0
             ? xpConfig.Data.MessageXpCooldown
             : await GetXpTimeout(userId.Guild.Id);
-        return r.StringSet(key, true, TimeSpan.FromMinutes(e), when: When.NotExists);
+        return r.StringSet(key, true, TimeSpan.FromMinutes(e), When.NotExists);
     }
 
     /// <summary>
-    /// Retrieves the full user statistics, including Discord user information, XP statistics, and guild ranking.
+    ///     Retrieves the full user statistics, including Discord user information, XP statistics, and guild ranking.
     /// </summary>
     /// <param name="user">The guild user for whom statistics are being retrieved.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the full user statistics.</returns>
     /// <remarks>
-    /// This method aggregates data from various sources to provide a comprehensive view of a user's experience and progress within a guild.
+    ///     This method aggregates data from various sources to provide a comprehensive view of a user's experience and
+    ///     progress within a guild.
     /// </remarks>
     public async Task<FullUserStats> GetUserStatsAsync(IGuildUser user)
     {
@@ -713,12 +737,15 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Toggles the exclusion of a server from XP gain.
+    ///     Toggles the exclusion of a server from XP gain.
     /// </summary>
     /// <param name="id">The unique identifier of the server.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result indicates whether the server is now excluded.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result indicates whether the server is now
+    ///     excluded.
+    /// </returns>
     /// <remarks>
-    /// This method changes the server's exclusion status, which determines whether users in this server can gain XP.
+    ///     This method changes the server's exclusion status, which determines whether users in this server can gain XP.
     /// </remarks>
     public async Task<bool> ToggleExcludeServer(ulong id)
     {
@@ -733,13 +760,13 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Toggles the exclusion of a role from XP gain in a specified guild.
+    ///     Toggles the exclusion of a role from XP gain in a specified guild.
     /// </summary>
     /// <param name="guildId">The unique identifier of the guild.</param>
     /// <param name="rId">The unique identifier of the role.</param>
     /// <returns>A task that represents the asynchronous operation. The task result indicates whether the role is now excluded.</returns>
     /// <remarks>
-    /// Users with excluded roles will not gain XP in the specified guild.
+    ///     Users with excluded roles will not gain XP in the specified guild.
     /// </remarks>
     public async Task<bool> ToggleExcludeRole(ulong guildId, ulong rId)
     {
@@ -785,13 +812,16 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Toggles the exclusion of a channel from XP gain in a specified guild.
+    ///     Toggles the exclusion of a channel from XP gain in a specified guild.
     /// </summary>
     /// <param name="guildId">The unique identifier of the guild.</param>
     /// <param name="chId">The unique identifier of the channel.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result indicates whether the channel is now excluded.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result indicates whether the channel is now
+    ///     excluded.
+    /// </returns>
     /// <remarks>
-    /// Messages sent in excluded channels will not contribute to XP gain.
+    ///     Messages sent in excluded channels will not contribute to XP gain.
     /// </remarks>
     public async Task<bool> ToggleExcludeChannel(ulong guildId, ulong chId)
     {
@@ -831,12 +861,15 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Generates an XP image for a user based on their statistics and a specified template.
+    ///     Generates an XP image for a user based on their statistics and a specified template.
     /// </summary>
     /// <param name="user">The guild user for whom the XP image is generated.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains the generated XP image as a stream.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains the generated XP image as a
+    ///     stream.
+    /// </returns>
     /// <remarks>
-    /// This method creates a visual representation of the user's XP, levels, and other statistics.
+    ///     This method creates a visual representation of the user's XP, levels, and other statistics.
     /// </remarks>
     public async Task<Stream> GenerateXpImageAsync(IGuildUser user)
     {
@@ -872,7 +905,7 @@ public class XpService : INService, IUnloadableService
 
         var textPaint = new SKPaint
         {
-            IsAntialias = true, Style = SKPaintStyle.Fill,
+            IsAntialias = true, Style = SKPaintStyle.Fill
         };
 
         // Draw the username
@@ -989,7 +1022,7 @@ public class XpService : INService, IUnloadableService
 
         var paint = new SKPaint
         {
-            IsAntialias = true,
+            IsAntialias = true
         };
 
         var rect = SKRect.Create(width, height);
@@ -1062,12 +1095,15 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Retrieves or creates a default template for generating XP images in a specified guild.
+    ///     Retrieves or creates a default template for generating XP images in a specified guild.
     /// </summary>
     /// <param name="guildId">The unique identifier of the guild.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains the template used for generating XP images.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains the template used for generating
+    ///     XP images.
+    /// </returns>
     /// <remarks>
-    /// If no custom template is set for the guild, a default template is used.
+    ///     If no custom template is set for the guild, a default template is used.
     /// </remarks>
     public async Task<Template> GetTemplate(ulong guildId)
     {
@@ -1102,12 +1138,12 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Resets the XP statistics for a specific user in a specific guild.
+    ///     Resets the XP statistics for a specific user in a specific guild.
     /// </summary>
     /// <param name="guildId">The unique identifier of the guild.</param>
     /// <param name="userId">The unique identifier of the user.</param>
     /// <remarks>
-    /// This action cannot be undone. It clears all XP data for the specified user in the specified guild.
+    ///     This action cannot be undone. It clears all XP data for the specified user in the specified guild.
     /// </remarks>
     public async Task XpReset(ulong guildId, ulong userId)
     {
@@ -1118,11 +1154,11 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Resets the XP statistics for all users in a specific guild.
+    ///     Resets the XP statistics for all users in a specific guild.
     /// </summary>
     /// <param name="guildId">The unique identifier of the guild.</param>
     /// <remarks>
-    /// This action cannot be undone. It clears all XP data for all users in the specified guild.
+    ///     This action cannot be undone. It clears all XP data for all users in the specified guild.
     /// </remarks>
     public async Task XpReset(ulong guildId)
     {
@@ -1133,13 +1169,13 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Sets a custom image URL for the XP image background in a specified guild.
+    ///     Sets a custom image URL for the XP image background in a specified guild.
     /// </summary>
     /// <param name="guildId">The unique identifier of the guild.</param>
     /// <param name="imageUrl">The URL of the image to be used as the background.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     /// <remarks>
-    /// The specified image will be used as the background for generating XP images in the guild.
+    ///     The specified image will be used as the background for generating XP images in the guild.
     /// </remarks>
     public async Task SetImageUrl(ulong guildId, string imageUrl)
     {
@@ -1153,12 +1189,15 @@ public class XpService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Validates a given image URL for use as a custom XP image background.
+    ///     Validates a given image URL for use as a custom XP image background.
     /// </summary>
     /// <param name="url">The URL of the image to be validated.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains a tuple indicating the validation message and whether the URL is valid.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation. The task result contains a tuple indicating the validation
+    ///     message and whether the URL is valid.
+    /// </returns>
     /// <remarks>
-    /// This method checks the URL format, accessibility, and size constraints of the image.
+    ///     This method checks the URL format, accessibility, and size constraints of the image.
     /// </remarks>
     public static async Task<(string, bool)> ValidateImageUrl(string url)
     {

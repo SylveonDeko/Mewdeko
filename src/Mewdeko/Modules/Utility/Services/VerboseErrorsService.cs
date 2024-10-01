@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Mewdeko.Modules.Utility.Services;
 
 /// <summary>
-/// Service for managing verbose error responses for commands.
+///     Service for managing verbose error responses for commands.
 /// </summary>
 public class VerboseErrorsService : INService, IUnloadableService
 {
@@ -22,7 +22,7 @@ public class VerboseErrorsService : INService, IUnloadableService
     private readonly IBotStrings strings;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VerboseErrorsService"/> class.
+    ///     Initializes a new instance of the <see cref="VerboseErrorsService" /> class.
     /// </summary>
     /// <param name="db">The database service.</param>
     /// <param name="ch">The command handler.</param>
@@ -46,7 +46,7 @@ public class VerboseErrorsService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Unloads the service, detaching event handlers.
+    ///     Unloads the service, detaching event handlers.
     /// </summary>
     public Task Unload()
     {
@@ -55,7 +55,7 @@ public class VerboseErrorsService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Logs a detailed error when a command execution fails, providing additional context to the user.
+    ///     Logs a detailed error when a command execution fails, providing additional context to the user.
     /// </summary>
     private async Task LogVerboseError(CommandInfo cmd, ITextChannel? channel, string reason, IUser user)
     {
@@ -92,7 +92,7 @@ public class VerboseErrorsService : INService, IUnloadableService
                 await channel.SendMessageAsync(embed: embed.Build()).ConfigureAwait(false);
             else
                 await channel.SendMessageAsync(embed: embed.Build(), components: new ComponentBuilder()
-                    .WithButton(label: "Support Server", style: ButtonStyle.Link,
+                    .WithButton("Support Server", style: ButtonStyle.Link,
                         url: botConfigService.Data.SupportServer).Build()).ConfigureAwait(false);
         }
         catch
@@ -102,15 +102,17 @@ public class VerboseErrorsService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Toggles the verbose error functionality for a guild, allowing users to enable or disable detailed command errors.
+    ///     Toggles the verbose error functionality for a guild, allowing users to enable or disable detailed command errors.
     /// </summary>
     /// <param name="guildId">The ID of the guild to toggle verbose errors for.</param>
-    /// <param name="enabled">Optionally specifies whether to enable or disable verbose errors. If null, toggles the current state.</param>
+    /// <param name="enabled">
+    ///     Optionally specifies whether to enable or disable verbose errors. If null, toggles the current
+    ///     state.
+    /// </param>
     /// <returns>True if verbose errors are enabled after the operation; otherwise, false.</returns>
     public async Task<bool> ToggleVerboseErrors(ulong guildId, bool? enabled = null)
     {
-
-       await using var db = await dbProvider.GetContextAsync();
+        await using var db = await dbProvider.GetContextAsync();
         var gc = await db.ForGuildId(guildId, set => set);
         gc.VerboseErrors = !gc.VerboseErrors;
 

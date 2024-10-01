@@ -14,11 +14,10 @@ public class AuthHandler(
     : AuthenticationHandler<AuthenticationSchemeOptions>(options, logger, encoder)
 {
     /// <summary>
-    ///
     /// </summary>
     public const string SchemeName = "AUTHORIZATION_SCHEME";
+
     /// <summary>
-    ///
     /// </summary>
     public const string TopggClaim = "TOPGG_CLAIM";
 
@@ -26,7 +25,9 @@ public class AuthHandler(
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
         var claims = new List<Claim>
-            { new Claim(TopggClaim, "true") };
+        {
+            new(TopggClaim, "true")
+        };
 
         return Task.FromResult(
             AuthenticateResult.Success(new AuthenticationTicket(new ClaimsPrincipal(new ClaimsIdentity(claims)),

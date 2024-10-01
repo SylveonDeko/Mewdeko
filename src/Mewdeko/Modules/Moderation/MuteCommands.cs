@@ -9,32 +9,40 @@ using PermValue = Discord.PermValue;
 namespace Mewdeko.Modules.Moderation;
 
 /// <summary>
-/// Module for moderation commands.
+///     Module for moderation commands.
 /// </summary>
 public partial class Moderation
 {
     /// <summary>
-    /// Module for muting and unmuting users.
+    ///     Module for muting and unmuting users.
     /// </summary>
     [Group]
     public class MuteCommands : MewdekoSubmodule<MuteService>
     {
         /// <summary>
-        /// Whats there not to understand? Shuts a user the fuck up.
+        ///     Whats there not to understand? Shuts a user the fuck up.
         /// </summary>
         /// <param name="time">For how long to shut a user the fuck up for.</param>
         /// <param name="user">The user to shut up</param>
         /// <returns></returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.MuteMembers), Priority(1)]
-        public Task Stfu(StoopidTime time, IGuildUser user) => Stfu(user, time);
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.MuteMembers)]
+        [Priority(1)]
+        public Task Stfu(StoopidTime time, IGuildUser user)
+        {
+            return Stfu(user, time);
+        }
 
         /// <summary>
-        /// Toggles whether to remove roles on mute
+        ///     Toggles whether to remove roles on mute
         /// </summary>
         /// <param name="yesnt">Nosnt</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task RemoveOnMute(string yesnt)
         {
             if (yesnt.StartsWith("n"))
@@ -56,12 +64,15 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Whats there not to understand? Shuts a user the fuck up.
+        ///     Whats there not to understand? Shuts a user the fuck up.
         /// </summary>
         /// <param name="time">For how long to shut a user the fuck up for.</param>
         /// <param name="user">The user to shut up</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.MuteMembers), Priority(0)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.MuteMembers)]
+        [Priority(0)]
         public async Task Stfu(IGuildUser user, StoopidTime? time = null)
         {
             if (!await CheckRoleHierarchy(user))
@@ -92,11 +103,13 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Unmutes all users in the guild. DANGEROUS!!!!!!!!!!!!!!!!
+        ///     Unmutes all users in the guild. DANGEROUS!!!!!!!!!!!!!!!!
         /// </summary>
         /// <param name="reason">The reason you would want to commit such an atrocity!</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task UnmuteAll([Remainder] string? reason = null)
         {
             var users = (await ctx.Guild.GetUsersAsync().ConfigureAwait(false))
@@ -190,11 +203,13 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Unshuts a user up in the channel.
+        ///     Unshuts a user up in the channel.
         /// </summary>
         /// <param name="user">The user to unshut up</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.MuteMembers)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.MuteMembers)]
         public async Task Unstfu(IGuildUser user)
         {
             if (!await CheckRoleHierarchy(user))
@@ -207,11 +222,13 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Sets the mute role for the guild.
+        ///     Sets the mute role for the guild.
         /// </summary>
         /// <param name="role"></param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageRoles)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageRoles)]
         public async Task MuteRole([Remainder] IRole role = null)
         {
             if (role is null)
@@ -234,12 +251,15 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Mutes a user.
+        ///     Mutes a user.
         /// </summary>
         /// <param name="target">The user to mute</param>
         /// <param name="reason">The reason for the mute</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers), Priority(0)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers)]
+        [Priority(0)]
         public async Task Mute(IGuildUser target, [Remainder] string reason = "")
         {
             try
@@ -259,24 +279,33 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Mutes a user for a specified amount of time.
+        ///     Mutes a user for a specified amount of time.
         /// </summary>
         /// <param name="user">The user to mute</param>
         /// <param name="time">The amount of time to mute the user for</param>
         /// <param name="reason">The reason for the mute</param>
         /// <returns></returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers), Priority(2)]
-        public Task Mute(IGuildUser user, StoopidTime time, string reason = "") => Mute(time, user, reason);
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers)]
+        [Priority(2)]
+        public Task Mute(IGuildUser user, StoopidTime time, string reason = "")
+        {
+            return Mute(time, user, reason);
+        }
 
         /// <summary>
-        /// Mutes a user for a specified amount of time.
+        ///     Mutes a user for a specified amount of time.
         /// </summary>
         /// <param name="time">The amount of time to mute the user for</param>
         /// <param name="user">The user to mute</param>
         /// <param name="reason">The reason for the mute</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers), Priority(1)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers)]
+        [Priority(1)]
         public async Task Mute(StoopidTime time, IGuildUser user, [Remainder] string reason = "")
         {
             if (time.Time < TimeSpan.FromMinutes(1) || time.Time > TimeSpan.FromDays(90))
@@ -298,12 +327,14 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Unmutes a user.
+        ///     Unmutes a user.
         /// </summary>
         /// <param name="user">The user to unmute</param>
         /// <param name="reason">The reason for the unmute</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageRoles | GuildPermission.MuteMembers)]
         public async Task Unmute(IGuildUser user, [Remainder] string reason = "")
         {
             try
@@ -321,12 +352,15 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Mutes a user in chat and not voice.
+        ///     Mutes a user in chat and not voice.
         /// </summary>
         /// <param name="user">The user to mute</param>
         /// <param name="reason">The reason for the mute</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageRoles), Priority(0)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageRoles)]
+        [Priority(0)]
         public async Task ChatMute(IGuildUser user, [Remainder] string reason = "")
         {
             try
@@ -346,12 +380,14 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Unmutes a user in chat.
+        ///     Unmutes a user in chat.
         /// </summary>
         /// <param name="user">The user to unmute</param>
         /// <param name="reason">The reason for the unmute</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageRoles)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageRoles)]
         public async Task ChatUnmute(IGuildUser user, [Remainder] string reason = "")
         {
             try
@@ -370,13 +406,16 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Mutes a user in voice and not chat.
+        ///     Mutes a user in voice and not chat.
         /// </summary>
         /// <param name="time">The amount of time to mute the user for</param>
         /// <param name="user">The user to mute</param>
         /// <param name="reason">The reason for the mute</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.MuteMembers), Priority(1)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.MuteMembers)]
+        [Priority(1)]
         public async Task VoiceMute(StoopidTime time, IGuildUser user, [Remainder] string reason = "")
         {
             if (time.Time < TimeSpan.FromMinutes(1) || time.Time > TimeSpan.FromDays(49))
@@ -397,13 +436,16 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Mutes a user in chat and not voice for a specified amount of time.
+        ///     Mutes a user in chat and not voice for a specified amount of time.
         /// </summary>
         /// <param name="time">The amount of time to mute the user for</param>
         /// <param name="user">The user to mute</param>
         /// <param name="reason">The reason for the mute</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.ManageRoles), Priority(1)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageRoles)]
+        [Priority(1)]
         public async Task ChatMute(StoopidTime time, IGuildUser user, [Remainder] string reason = "")
         {
             if (time.Time < TimeSpan.FromMinutes(1) || time.Time > TimeSpan.FromDays(49))
@@ -425,12 +467,15 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Mutes a user in voice and not chat for a specified amount of time.
+        ///     Mutes a user in voice and not chat for a specified amount of time.
         /// </summary>
         /// <param name="user">The user to mute</param>
         /// <param name="reason">The reason for the mute</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.MuteMembers), Priority(1)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.MuteMembers)]
+        [Priority(1)]
         public async Task VoiceMute(IGuildUser user, [Remainder] string reason = "")
         {
             try
@@ -449,12 +494,14 @@ public partial class Moderation
         }
 
         /// <summary>
-        /// Unmutes a user in voice.
+        ///     Unmutes a user in voice.
         /// </summary>
         /// <param name="user">The user to unmute</param>
         /// <param name="reason">The reason for the unmute</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.MuteMembers)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.MuteMembers)]
         public async Task VoiceUnmute(IGuildUser user, [Remainder] string reason = "")
         {
             try

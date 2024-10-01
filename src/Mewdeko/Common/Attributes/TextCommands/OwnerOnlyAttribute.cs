@@ -4,29 +4,32 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Mewdeko.Common.Attributes.TextCommands;
 
 /// <summary>
-/// Attribute to restrict command or method execution to the bot owner.
+///     Attribute to restrict command or method execution to the bot owner.
 /// </summary>
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
 public sealed class OwnerOnlyAttribute : PreconditionAttribute
 {
     /// <summary>
-    /// Gets or sets a value indicating whether the command or method is restricted to the bot owner.
-    /// </summary>
-    public bool IsOwnerOnly { get; set; } = true;
-
-    /// <summary>
-    /// Initializes a new instance of the OwnerOnlyAttribute class with default settings.
+    ///     Initializes a new instance of the OwnerOnlyAttribute class with default settings.
     /// </summary>
     public OwnerOnlyAttribute() { }
 
     /// <summary>
-    /// Initializes a new instance of the OwnerOnlyAttribute class with a specified owner-only setting.
+    ///     Initializes a new instance of the OwnerOnlyAttribute class with a specified owner-only setting.
     /// </summary>
     /// <param name="isOwnerOnly">A value indicating whether the command or method is restricted to the bot owner.</param>
-    public OwnerOnlyAttribute(bool isOwnerOnly) => IsOwnerOnly = isOwnerOnly;
+    public OwnerOnlyAttribute(bool isOwnerOnly)
+    {
+        IsOwnerOnly = isOwnerOnly;
+    }
 
     /// <summary>
-    /// Checks the permissions of the command or method before execution.
+    ///     Gets or sets a value indicating whether the command or method is restricted to the bot owner.
+    /// </summary>
+    public bool IsOwnerOnly { get; set; } = true;
+
+    /// <summary>
+    ///     Checks the permissions of the command or method before execution.
     /// </summary>
     /// <param name="context">The command context.</param>
     /// <param name="executingCommand">The command being executed.</param>

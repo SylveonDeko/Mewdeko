@@ -8,17 +8,19 @@ namespace Mewdeko.Modules.Games;
 public partial class Games
 {
     /// <summary>
-    /// A module containing Nunchi commands.
+    ///     A module containing Nunchi commands.
     /// </summary>
     /// <param name="client"></param>
     [Group]
     public class NunchiCommands(DiscordShardedClient client) : MewdekoSubmodule<GamesService>
     {
         /// <summary>
-        /// Starts or joins a game of Nunchi.
+        ///     Starts or joins a game of Nunchi.
         /// </summary>
         /// <example>.nunchi</example>
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Nunchi()
         {
             var newNunchi = new NunchiGame(ctx.User.Id, ctx.User.ToString());
@@ -99,21 +101,25 @@ public partial class Games
         }
 
         /// <summary>
-        /// Handles the event when a new round starts in the Nunchi game.
+        ///     Handles the event when a new round starts in the Nunchi game.
         /// </summary>
-        private Task Nunchi_OnRoundStarted(NunchiGame arg, int cur) =>
-            ConfirmLocalizedAsync("nunchi_round_started",
+        private Task Nunchi_OnRoundStarted(NunchiGame arg, int cur)
+        {
+            return ConfirmLocalizedAsync("nunchi_round_started",
                 Format.Bold(arg.ParticipantCount.ToString()),
                 Format.Bold(cur.ToString()));
+        }
 
         /// <summary>
-        /// Handles the event when a user guesses the next number in the Nunchi game.
+        ///     Handles the event when a user guesses the next number in the Nunchi game.
         /// </summary>
-        private Task Nunchi_OnUserGuessed(NunchiGame arg) =>
-            ConfirmLocalizedAsync("nunchi_next_number", Format.Bold(arg.CurrentNumber.ToString()));
+        private Task Nunchi_OnUserGuessed(NunchiGame arg)
+        {
+            return ConfirmLocalizedAsync("nunchi_next_number", Format.Bold(arg.CurrentNumber.ToString()));
+        }
 
         /// <summary>
-        /// Handles the event when a round ends in the Nunchi game.
+        ///     Handles the event when a round ends in the Nunchi game.
         /// </summary>
         private Task Nunchi_OnRoundEnded(NunchiGame arg1, (ulong Id, string Name)? arg2)
         {

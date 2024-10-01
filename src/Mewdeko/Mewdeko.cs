@@ -21,52 +21,15 @@ using TypeReader = Discord.Commands.TypeReader;
 namespace Mewdeko;
 
 /// <summary>
-/// The main class for the Mewdeko bot, responsible for initializing services, handling events, and managing the bot's lifecycle.
+///     The main class for the Mewdeko bot, responsible for initializing services, handling events, and managing the bot's
+///     lifecycle.
 /// </summary>
 public class Mewdeko
 {
     /// <summary>
-    /// Gets the credentials used by the bot.
-    /// </summary>
-    public BotCredentials Credentials { get; }
-
-    private int ReadyCount { get; set; }
-
-    /// <summary>
-    /// Gets the Discord client used by the bot.
-    /// </summary>
-    public DiscordShardedClient Client { get; }
-
-    private CommandService CommandService { get; }
-
-    /// <summary>
-    /// Gets or sets the color used for successful operations.
-    /// </summary>
-    public static Color OkColor { get; set; }
-
-    /// <summary>
-    /// Gets or sets the color used for error operations.
-    /// </summary>
-    public static Color ErrorColor { get; set; }
-
-    /// <summary>
-    /// Gets a TaskCompletionSource that completes when the bot is ready.
-    /// </summary>
-    public TaskCompletionSource<bool> Ready { get; } = new();
-    private IServiceProvider Services { get; }
-    private IDataCache Cache { get; }
-
-    /// <summary>
-    /// Event that occurs when the bot joins a guild.
-    /// </summary>
-    public event Func<GuildConfig, Task> JoinedGuild = delegate { return Task.CompletedTask; };
-
-
-    /// <summary>
-    /// Initializes a new instance of the Mewdeko class.
+    ///     Initializes a new instance of the Mewdeko class.
     /// </summary>
     /// <param name="services">The service provider for dependency injection.</param>
-
     public Mewdeko(IServiceProvider services)
     {
         Services = services;
@@ -77,7 +40,44 @@ public class Mewdeko
     }
 
     /// <summary>
-    /// Loads type readers from the specified assembly.
+    ///     Gets the credentials used by the bot.
+    /// </summary>
+    public BotCredentials Credentials { get; }
+
+    private int ReadyCount { get; set; }
+
+    /// <summary>
+    ///     Gets the Discord client used by the bot.
+    /// </summary>
+    public DiscordShardedClient Client { get; }
+
+    private CommandService CommandService { get; }
+
+    /// <summary>
+    ///     Gets or sets the color used for successful operations.
+    /// </summary>
+    public static Color OkColor { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the color used for error operations.
+    /// </summary>
+    public static Color ErrorColor { get; set; }
+
+    /// <summary>
+    ///     Gets a TaskCompletionSource that completes when the bot is ready.
+    /// </summary>
+    public TaskCompletionSource<bool> Ready { get; } = new();
+
+    private IServiceProvider Services { get; }
+    private IDataCache Cache { get; }
+
+    /// <summary>
+    ///     Event that occurs when the bot joins a guild.
+    /// </summary>
+    public event Func<GuildConfig, Task> JoinedGuild = delegate { return Task.CompletedTask; };
+
+    /// <summary>
+    ///     Loads type readers from the specified assembly.
     /// </summary>
     /// <param name="assembly">The assembly to load type readers from.</param>
     private void LoadTypeReaders(Assembly assembly)
@@ -220,7 +220,7 @@ public class Mewdeko
     }
 
     /// <summary>
-    /// Runs the bot, initializing all necessary components and services.
+    ///     Runs the bot, initializing all necessary components and services.
     /// </summary>
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task RunAsync()
@@ -257,9 +257,11 @@ public class Mewdeko
             {
                 Log.Error("Unable to start audio service: {Message}", e.Message);
             }
+
             var dbProvider = Services.GetRequiredService<DbContextProvider>();
             await using var dbContext = await dbProvider.GetContextAsync();
-            await dbContext.EnsureUserCreated(Client.CurrentUser.Id, Client.CurrentUser.Username, Client.CurrentUser.Discriminator, Client.CurrentUser.AvatarId);
+            await dbContext.EnsureUserCreated(Client.CurrentUser.Id, Client.CurrentUser.Username,
+                Client.CurrentUser.Discriminator, Client.CurrentUser.AvatarId);
         }
         catch (Exception ex)
         {
@@ -339,8 +341,7 @@ public class Mewdeko
             {
                 var obj = new
                 {
-                    Name = default(string),
-                    Activity = ActivityType.Playing
+                    Name = default(string), Activity = ActivityType.Playing
                 };
                 obj = JsonConvert.DeserializeAnonymousType(game, obj);
                 await Client.SetGameAsync(obj.Name, type: obj.Activity).ConfigureAwait(false);
@@ -357,8 +358,7 @@ public class Mewdeko
             {
                 var obj = new
                 {
-                    Name = "",
-                    Url = ""
+                    Name = "", Url = ""
                 };
                 obj = JsonConvert.DeserializeAnonymousType(streamData, obj);
                 await Client.SetGameAsync(obj?.Name, obj!.Url, ActivityType.Streaming).ConfigureAwait(false);
@@ -371,7 +371,7 @@ public class Mewdeko
     }
 
     /// <summary>
-    /// Sets the bot's game status.
+    ///     Sets the bot's game status.
     /// </summary>
     /// <param name="game">The name of the game to set.</param>
     /// <param name="type">The type of activity.</param>
@@ -380,8 +380,7 @@ public class Mewdeko
     {
         var obj = new
         {
-            Name = game,
-            Activity = type
+            Name = game, Activity = type
         };
         var sub = Services.GetService<IDataCache>().Redis.GetSubscriber();
         await sub.PublishAsync($"{Client.CurrentUser.Id}_status.game_set", JsonConvert.SerializeObject(obj))
@@ -389,7 +388,7 @@ public class Mewdeko
     }
 
     /// <summary>
-    /// Self explanatory
+    ///     Self explanatory
     /// </summary>
     /// <returns></returns>
     private static List<string> FindCircularDependencies()
@@ -431,6 +430,7 @@ public class Mewdeko
                 {
                     return true;
                 }
+
                 path.Remove(parameterType);
             }
         }

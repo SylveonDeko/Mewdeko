@@ -6,16 +6,17 @@ using Mewdeko.Modules.Moderation.Services;
 namespace Mewdeko.Modules.Votes.Services;
 
 /// <summary>
-/// Manages voting functionality within the bot, handling vote configuration, processing, and reward distribution.
+///     Manages voting functionality within the bot, handling vote configuration, processing, and reward distribution.
 /// </summary>
 public class VoteService : INService
 {
-    private readonly DbContextProvider dbProvider;
     private readonly DiscordShardedClient client;
+    private readonly DbContextProvider dbProvider;
     private readonly MuteService muteService;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="VoteService"/> class, setting up dependencies and subscribing to voting-related pub/sub events.
+    ///     Initializes a new instance of the <see cref="VoteService" /> class, setting up dependencies and subscribing to
+    ///     voting-related pub/sub events.
     /// </summary>
     /// <param name="pubSub">The pub/sub system for event handling.</param>
     /// <param name="db">The database service for data access.</param>
@@ -30,7 +31,7 @@ public class VoteService : INService
     }
 
     /// <summary>
-    /// Vote password and data handler
+    ///     Vote password and data handler
     /// </summary>
     /// <param name="voteModal">The data the api returns</param>
     public async ValueTask RunVoteStuff(CompoundVoteModal voteModal)
@@ -138,11 +139,14 @@ public class VoteService : INService
     }
 
     /// <summary>
-    /// Adds a vote role to the guild configuration, setting a timer for automatic role removal if specified.
+    ///     Adds a vote role to the guild configuration, setting a timer for automatic role removal if specified.
     /// </summary>
     /// <param name="guildId">The ID of the guild where the role is to be added.</param>
     /// <param name="roleId">The ID of the role to be added as a vote role.</param>
-    /// <param name="seconds">The duration in seconds after which the role should be automatically removed. Zero for indefinite.</param>
+    /// <param name="seconds">
+    ///     The duration in seconds after which the role should be automatically removed. Zero for
+    ///     indefinite.
+    /// </param>
     /// <returns>A tuple indicating success status and an optional error message.</returns>
     public async Task<(bool, string)> AddVoteRole(ulong guildId, ulong roleId, int seconds = 0)
     {
@@ -167,7 +171,7 @@ public class VoteService : INService
     }
 
     /// <summary>
-    /// Removes a vote role from the guild configuration.
+    ///     Removes a vote role from the guild configuration.
     /// </summary>
     /// <param name="guildId">The ID of the guild from which the role is to be removed.</param>
     /// <param name="roleId">The ID of the role to be removed from vote roles.</param>
@@ -190,7 +194,7 @@ public class VoteService : INService
     }
 
     /// <summary>
-    /// Updates the timer for automatic role removal for a vote role in the guild configuration.
+    ///     Updates the timer for automatic role removal for a vote role in the guild configuration.
     /// </summary>
     /// <param name="roleId">The ID of the role whose timer is to be updated.</param>
     /// <param name="seconds">The new duration in seconds after which the role should be automatically removed.</param>
@@ -211,7 +215,7 @@ public class VoteService : INService
     }
 
     /// <summary>
-    /// Retrieves all vote roles configured for a guild.
+    ///     Retrieves all vote roles configured for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild for which vote roles are requested.</param>
     /// <returns>A list of vote roles.</returns>
@@ -223,20 +227,19 @@ public class VoteService : INService
     }
 
     /// <summary>
-    /// Gets the custom vote message configured for a guild.
+    ///     Gets the custom vote message configured for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild for which the vote message is requested.</param>
     /// <returns>The custom vote message, if any.</returns>
     public async Task<string> GetVoteMessage(ulong guildId)
     {
-
-       await using var db = await dbProvider.GetContextAsync();
+        await using var db = await dbProvider.GetContextAsync();
         var gc = await db.ForGuildId(guildId);
         return gc.VoteEmbed;
     }
 
     /// <summary>
-    /// Clears all vote roles configured for a guild.
+    ///     Clears all vote roles configured for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild whose vote roles are to be cleared.</param>
     /// <returns>A tuple indicating success status and an optional error message.</returns>
@@ -253,7 +256,7 @@ public class VoteService : INService
     }
 
     /// <summary>
-    /// Sets or updates the custom vote message for a guild.
+    ///     Sets or updates the custom vote message for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild for which the vote message is to be set.</param>
     /// <param name="message">The new custom vote message.</param>
@@ -268,7 +271,7 @@ public class VoteService : INService
     }
 
     /// <summary>
-    /// Sets or updates the password required for vote validation in a guild.
+    ///     Sets or updates the password required for vote validation in a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild for which the vote password is to be set.</param>
     /// <param name="password">The new password for vote validation.</param>
@@ -283,7 +286,7 @@ public class VoteService : INService
     }
 
     /// <summary>
-    /// Sets or updates the channel ID where vote acknowledgements should be sent in a guild.
+    ///     Sets or updates the channel ID where vote acknowledgements should be sent in a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild for which the vote channel is to be set.</param>
     /// <param name="channel">The ID of the channel for vote acknowledgements.</param>
@@ -298,7 +301,7 @@ public class VoteService : INService
     }
 
     /// <summary>
-    /// Retrieves all votes cast by a user in a guild.
+    ///     Retrieves all votes cast by a user in a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="userId">The ID of the user.</param>
@@ -311,7 +314,7 @@ public class VoteService : INService
     }
 
     /// <summary>
-    /// Retrieves all votes cast in a guild.
+    ///     Retrieves all votes cast in a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns>A list of votes.</returns>
@@ -323,7 +326,7 @@ public class VoteService : INService
     }
 
     /// <summary>
-    /// Generates an embed with vote statistics for a user in a guild, including total votes and votes this month.
+    ///     Generates an embed with vote statistics for a user in a guild, including total votes and votes this month.
     /// </summary>
     /// <param name="user">The user for whom vote stats are generated.</param>
     /// <param name="guild">The guild in which the votes were cast.</param>
@@ -349,17 +352,17 @@ public class VoteService : INService
 }
 
 /// <summary>
-/// Represents a custom structure for holding user vote information.
+///     Represents a custom structure for holding user vote information.
 /// </summary>
 public class CustomVoteThingy
 {
     /// <summary>
-    /// Gets or sets the user associated with the vote count.
+    ///     Gets or sets the user associated with the vote count.
     /// </summary>
     public IUser User { get; set; }
 
     /// <summary>
-    /// Gets or sets the total vote count for the user.
+    ///     Gets or sets the total vote count for the user.
     /// </summary>
     public int VoteCount { get; set; }
 }

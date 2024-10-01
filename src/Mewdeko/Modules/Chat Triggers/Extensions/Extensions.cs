@@ -7,14 +7,14 @@ using Mewdeko.Database.DbContextStuff;
 namespace Mewdeko.Modules.Chat_Triggers.Extensions;
 
 /// <summary>
-/// Extension methods for chat triggers.
+///     Extension methods for chat triggers.
 /// </summary>
 public static class Extensions
 {
     private static readonly Regex ImgRegex = new("%(img|image):(?<tag>.*?)%", RegexOptions.Compiled);
 
     /// <summary>
-    /// Dictionary containing regular expressions and corresponding functions to generate string replacements.
+    ///     Dictionary containing regular expressions and corresponding functions to generate string replacements.
     /// </summary>
     private static readonly Dictionary<Regex, Func<Match, Task<string>>> RegexPlaceholders = new()
     {
@@ -58,17 +58,19 @@ public static class Extensions
 
 
     /// <summary>
-    /// Resolves trigger string by replacing %bot.mention% placeholder with the current user's mention.
+    ///     Resolves trigger string by replacing %bot.mention% placeholder with the current user's mention.
     /// </summary>
     /// <param name="str">The trigger string containing the placeholder.</param>
     /// <param name="client">The Discord socket client.</param>
     /// <returns>The trigger string with the placeholder replaced.</returns>
-    private static string ResolveTriggerString(this string str, DiscordShardedClient client) =>
-        str.Replace("%bot.mention%", client.CurrentUser.Mention, StringComparison.Ordinal);
+    private static string ResolveTriggerString(this string str, DiscordShardedClient client)
+    {
+        return str.Replace("%bot.mention%", client.CurrentUser.Mention, StringComparison.Ordinal);
+    }
 
 
     /// <summary>
-    /// Resolves the response string asynchronously by replacing placeholders with dynamic values.
+    ///     Resolves the response string asynchronously by replacing placeholders with dynamic values.
     /// </summary>
     /// <param name="str">The response string containing placeholders.</param>
     /// <param name="ctx">The message context.</param>
@@ -111,7 +113,8 @@ public static class Extensions
                 canMentionEveryone
                     ? ctx.Content[substringIndex..].Trim()
                     : ctx.Content[substringIndex..].Trim().SanitizeMentions(true))
-            .WithOverride("%usecount%", () => dbContext.CommandStats.Count(x => x.NameOrId == $"{triggerId}").ToString())
+            .WithOverride("%usecount%",
+                () => dbContext.CommandStats.Count(x => x.NameOrId == $"{triggerId}").ToString())
             .WithOverride("%targetuser%", () =>
             {
                 var mention = ctx.MentionedUserIds.FirstOrDefault();
@@ -159,7 +162,7 @@ public static class Extensions
 
 
     /// <summary>
-    /// Generates a response string with context asynchronously based on the provided parameters.
+    ///     Generates a response string with context asynchronously based on the provided parameters.
     /// </summary>
     /// <param name="cr">The chat trigger model.</param>
     /// <param name="ctx">The message context.</param>
@@ -168,13 +171,15 @@ public static class Extensions
     /// <param name="context">Optional: The database context. Default is null.</param>
     /// <returns>The response string with context.</returns>
     public static Task<string?> ResponseWithContextAsync(this Database.Models.ChatTriggers cr, IUserMessage ctx,
-        DiscordShardedClient client, bool containsAnywhere, DbContextProvider provider = null) =>
-        cr.Response.ResolveResponseStringAsync(ctx, client, cr.Trigger.ResolveTriggerString(client),
+        DiscordShardedClient client, bool containsAnywhere, DbContextProvider provider = null)
+    {
+        return cr.Response.ResolveResponseStringAsync(ctx, client, cr.Trigger.ResolveTriggerString(client),
             containsAnywhere, provider, cr.Id);
+    }
 
 
     /// <summary>
-    /// Sends a message based on the provided chat trigger asynchronously.
+    ///     Sends a message based on the provided chat trigger asynchronously.
     /// </summary>
     /// <param name="ct">The chat trigger model.</param>
     /// <param name="ctx">The message context.</param>
@@ -292,7 +297,7 @@ public static class Extensions
     }
 
     /// <summary>
-    /// Sends a message based on the provided chat trigger and interaction asynchronously.
+    ///     Sends a message based on the provided chat trigger and interaction asynchronously.
     /// </summary>
     /// <param name="ct">The chat trigger model.</param>
     /// <param name="inter">The socket interaction.</param>
@@ -365,13 +370,13 @@ public static class Extensions
                 return null;
             if (!followup)
             {
-                await inter.RespondAsync(plainText, embeds: crembed, ephemeral: ephemeral,
+                await inter.RespondAsync(plainText, crembed, ephemeral: ephemeral,
                     components: components?.Build()).ConfigureAwait(false);
                 return await inter.GetOriginalResponseAsync().ConfigureAwait(false);
             }
 
             return await inter
-                .FollowupAsync(plainText, embeds: crembed, ephemeral: ephemeral, components: components?.Build())
+                .FollowupAsync(plainText, crembed, ephemeral: ephemeral, components: components?.Build())
                 .ConfigureAwait(false);
         }
 
@@ -406,7 +411,7 @@ public static class Extensions
 
 
     /// <summary>
-    /// Gets the position of a word within a string.
+    ///     Gets the position of a word within a string.
     /// </summary>
     /// <param name="str">The input string.</param>
     /// <param name="word">The word to search for.</param>
@@ -446,11 +451,14 @@ public static class Extensions
 
 
     /// <summary>
-    /// Determines whether the character at the specified index is a valid word divider.
+    ///     Determines whether the character at the specified index is a valid word divider.
     /// </summary>
     /// <param name="str">The input string.</param>
     /// <param name="index">The index of the character to check.</param>
-    /// <returns><see langword="true"/> if the character at the specified index is a valid word divider; otherwise, <see langword="false"/>.</returns>
+    /// <returns>
+    ///     <see langword="true" /> if the character at the specified index is a valid word divider; otherwise,
+    ///     <see langword="false" />.
+    /// </returns>
     private static bool IsValidWordDivider(this in ReadOnlySpan<char> str, int index)
     {
         switch (str[index])
@@ -466,27 +474,27 @@ public static class Extensions
 }
 
 /// <summary>
-/// Enumerates the positions of a word within a string.
+///     Enumerates the positions of a word within a string.
 /// </summary>
 public enum WordPosition
 {
     /// <summary>
-    /// The word is not found or does not have a valid position within the string.
+    ///     The word is not found or does not have a valid position within the string.
     /// </summary>
     None,
 
     /// <summary>
-    /// The word is found at the start of the string.
+    ///     The word is found at the start of the string.
     /// </summary>
     Start,
 
     /// <summary>
-    /// The word is found in the middle of the string.
+    ///     The word is found in the middle of the string.
     /// </summary>
     Middle,
 
     /// <summary>
-    /// The word is found at the end of the string.
+    ///     The word is found at the end of the string.
     /// </summary>
     End
 }

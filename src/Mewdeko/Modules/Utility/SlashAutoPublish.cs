@@ -7,19 +7,20 @@ using Mewdeko.Modules.Utility.Services;
 namespace Mewdeko.Modules.Utility;
 
 /// <summary>
-/// Contains slash commands for managing auto-publish settings in announcement channels.
+///     Contains slash commands for managing auto-publish settings in announcement channels.
 /// </summary>
 [Group("autopublish", "Auto publish stuff in announcement channels!")]
 public class SlashAutoPublish(InteractiveService interactiveService) : MewdekoSlashSubmodule<AutoPublishService>
 {
     /// <summary>
-    /// Adds a channel to the list of channels where messages are auto-published.
-    /// Requires the command invoker to have Administrator permissions in the guild.
+    ///     Adds a channel to the list of channels where messages are auto-published.
+    ///     Requires the command invoker to have Administrator permissions in the guild.
     /// </summary>
     /// <param name="channel">The news channel to be added for auto-publishing.</param>
     /// <returns>A task that represents the asynchronous operation of adding a channel to auto-publish.</returns>
-    [SlashCommand("add", "Adds a channel to be used with auto publish"), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator)]
+    [SlashCommand("add", "Adds a channel to be used with auto publish")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
     public async Task AddAutoPublish(INewsChannel channel)
     {
         if (!await Service.PermCheck(channel))
@@ -36,15 +37,15 @@ public class SlashAutoPublish(InteractiveService interactiveService) : MewdekoSl
     }
 
     /// <summary>
-    /// Blacklists a user from having their messages auto-published in a specified channel.
-    /// Requires the command invoker to have Administrator permissions in the guild.
+    ///     Blacklists a user from having their messages auto-published in a specified channel.
+    ///     Requires the command invoker to have Administrator permissions in the guild.
     /// </summary>
     /// <param name="user">The user to be blacklisted.</param>
     /// <param name="channel">The news channel from which the user is blacklisted.</param>
     /// <returns>A task that represents the asynchronous operation of adding a user to the blacklist.</returns>
-    [SlashCommand("blacklist-user", "Blacklist a user from getting their message auto published"),
-     RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator)]
+    [SlashCommand("blacklist-user", "Blacklist a user from getting their message auto published")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
     public async Task AddPublishBlacklist(IUser user, INewsChannel channel)
     {
         if (await Service.CheckIfExists(channel.Id))
@@ -67,15 +68,15 @@ public class SlashAutoPublish(InteractiveService interactiveService) : MewdekoSl
     }
 
     /// <summary>
-    /// Blacklists a word, preventing messages containing this word from being auto-published in a specified channel.
-    /// Requires the command invoker to have Administrator permissions in the guild.
+    ///     Blacklists a word, preventing messages containing this word from being auto-published in a specified channel.
+    ///     Requires the command invoker to have Administrator permissions in the guild.
     /// </summary>
     /// <param name="word">The word to be blacklisted.</param>
     /// <param name="channel">The news channel where the word is to be blacklisted.</param>
     /// <returns>A task that represents the asynchronous operation of adding a word to the blacklist.</returns>
-    [SlashCommand("blacklist-word", "Blacklist a word to stop a message containing this word getting auto published"),
-     RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator)]
+    [SlashCommand("blacklist-word", "Blacklist a word to stop a message containing this word getting auto published")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
     public async Task AddPublishBlacklist(string word, INewsChannel channel)
     {
         if (await Service.CheckIfExists(channel.Id))
@@ -104,14 +105,15 @@ public class SlashAutoPublish(InteractiveService interactiveService) : MewdekoSl
     }
 
     /// <summary>
-    /// Removes a user from the blacklist, allowing their messages to be auto-published again in a specified channel.
-    /// Requires the command invoker to have Administrator permissions in the guild.
+    ///     Removes a user from the blacklist, allowing their messages to be auto-published again in a specified channel.
+    ///     Requires the command invoker to have Administrator permissions in the guild.
     /// </summary>
     /// <param name="user">The user to be removed from the blacklist.</param>
     /// <param name="channel">The news channel from which the user is removed.</param>
     /// <returns>A task that represents the asynchronous operation of removing a user from the blacklist.</returns>
-    [SlashCommand("unblacklist-user", "Removes a user from the blacklist"), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator)]
+    [SlashCommand("unblacklist-user", "Removes a user from the blacklist")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
     public async Task RemovePublishBlacklist(IUser user, INewsChannel channel)
     {
         if (await Service.CheckIfExists(channel.Id))
@@ -130,14 +132,16 @@ public class SlashAutoPublish(InteractiveService interactiveService) : MewdekoSl
 
 
     /// <summary>
-    /// Removes a word from the blacklist, allowing messages containing this word to be auto-published again in a specified channel.
-    /// Requires the command invoker to have Administrator permissions in the guild.
+    ///     Removes a word from the blacklist, allowing messages containing this word to be auto-published again in a specified
+    ///     channel.
+    ///     Requires the command invoker to have Administrator permissions in the guild.
     /// </summary>
     /// <param name="word">The word to be removed from the blacklist.</param>
     /// <param name="channel">The news channel from which the word is removed.</param>
     /// <returns>A task that represents the asynchronous operation of removing a word from the blacklist.</returns>
-    [SlashCommand("unblacklist-word", "Removes a word from the blacklist"), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator)]
+    [SlashCommand("unblacklist-word", "Removes a word from the blacklist")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
     public async Task RemovePublishBlacklist(string word, INewsChannel channel)
     {
         if (await Service.CheckIfExists(channel.Id))
@@ -155,13 +159,14 @@ public class SlashAutoPublish(InteractiveService interactiveService) : MewdekoSl
     }
 
     /// <summary>
-    /// Removes a channel from the list of auto-publish channels.
-    /// Requires the command invoker to have Administrator permissions in the guild.
+    ///     Removes a channel from the list of auto-publish channels.
+    ///     Requires the command invoker to have Administrator permissions in the guild.
     /// </summary>
     /// <param name="channel">The news channel to be removed from auto-publishing.</param>
     /// <returns>A task that represents the asynchronous operation of removing a channel from auto-publish.</returns>
-    [SlashCommand("remove", "Removes a channel from auto publish"), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator)]
+    [SlashCommand("remove", "Removes a channel from auto publish")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
     public async Task RemoveAutoPublish(INewsChannel channel)
     {
         var removed = await Service.RemoveAutoPublish(ctx.Guild.Id, channel.Id);
@@ -172,12 +177,13 @@ public class SlashAutoPublish(InteractiveService interactiveService) : MewdekoSl
     }
 
     /// <summary>
-    /// Lists all channels and settings related to auto-publishing.
-    /// Requires the command invoker to have Administrator permissions in the guild.
+    ///     Lists all channels and settings related to auto-publishing.
+    ///     Requires the command invoker to have Administrator permissions in the guild.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation of listing all auto-publish channels and settings.</returns>
-    [SlashCommand("list", "Lists all auto publish channels and settings"), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator)]
+    [SlashCommand("list", "Lists all auto publish channels and settings")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
     public async Task GetAutoPublishes()
     {
         var autoPublishes = await Service.GetAutoPublishes(ctx.Guild.Id);

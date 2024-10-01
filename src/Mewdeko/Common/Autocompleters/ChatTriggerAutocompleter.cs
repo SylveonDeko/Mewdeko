@@ -4,7 +4,7 @@ using Mewdeko.Modules.Chat_Triggers.Services;
 namespace Mewdeko.Common.Autocompleters;
 
 /// <summary>
-/// Autocompleter for chat triggers.
+///     Autocompleter for chat triggers.
 /// </summary>
 public class ChatTriggerAutocompleter : AutocompleteHandler
 {
@@ -12,17 +12,7 @@ public class ChatTriggerAutocompleter : AutocompleteHandler
     private const int MaxDescriptionLength = 100;
 
     /// <summary>
-    /// Gets or sets the ChatTriggersService.
-    /// </summary>
-    private ChatTriggersService Triggers { get; set; }
-
-    /// <summary>
-    /// Gets or sets the bot credentials.
-    /// </summary>
-    private IBotCredentials Credentials { get; set; }
-
-    /// <summary>
-    /// Initializes a new instance of the ChatTriggerAutocompleter class.
+    ///     Initializes a new instance of the ChatTriggerAutocompleter class.
     /// </summary>
     /// <param name="triggers">The ChatTriggersService.</param>
     /// <param name="credentials">The bot credentials.</param>
@@ -33,7 +23,17 @@ public class ChatTriggerAutocompleter : AutocompleteHandler
     }
 
     /// <summary>
-    /// Generates suggestions for autocomplete.
+    ///     Gets or sets the ChatTriggersService.
+    /// </summary>
+    private ChatTriggersService Triggers { get; }
+
+    /// <summary>
+    ///     Gets or sets the bot credentials.
+    /// </summary>
+    private IBotCredentials Credentials { get; }
+
+    /// <summary>
+    ///     Generates suggestions for autocomplete.
     /// </summary>
     /// <param name="context">The interaction context.</param>
     /// <param name="autocompleteInteraction">The autocomplete interaction.</param>
@@ -59,7 +59,7 @@ public class ChatTriggerAutocompleter : AutocompleteHandler
     }
 
     /// <summary>
-    /// Checks if the user has permission to view chat triggers.
+    ///     Checks if the user has permission to view chat triggers.
     /// </summary>
     /// <param name="autocompleteInteraction">The autocomplete interaction.</param>
     /// <returns>A boolean indicating whether the user has permission to view chat triggers.</returns>

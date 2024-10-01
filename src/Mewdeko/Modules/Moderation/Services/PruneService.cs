@@ -3,7 +3,7 @@
 namespace Mewdeko.Modules.Moderation.Services;
 
 /// <summary>
-/// Service for purging messages.
+///     Service for purging messages.
 /// </summary>
 public class PurgeService : INService
 {
@@ -13,7 +13,7 @@ public class PurgeService : INService
     private readonly TimeSpan twoWeeks = TimeSpan.FromDays(14);
 
     /// <summary>
-    /// Purges messages from a channel using a predicate
+    ///     Purges messages from a channel using a predicate
     /// </summary>
     /// <param name="channel">The channel to purge messages from</param>
     /// <param name="amount">The amount of messages to purge</param>

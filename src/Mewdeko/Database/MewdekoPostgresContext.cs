@@ -1,31 +1,29 @@
 ﻿using Mewdeko.Services.Impl;
 using Microsoft.EntityFrameworkCore;
 
-namespace Mewdeko.Database
+namespace Mewdeko.Database;
+
+/// <summary>
+///     Represents the database context for Mewdeko using PostgreSQL.
+/// </summary>
+public class MewdekoPostgresContext : MewdekoContext
 {
     /// <summary>
-    /// Represents the database context for Mewdeko using PostgreSQL.
+    ///     Context use for psql
     /// </summary>
-    public class MewdekoPostgresContext : MewdekoContext
+    /// <param name="options"></param>
+    public MewdekoPostgresContext(DbContextOptions<MewdekoPostgresContext> options) : base(options)
     {
-        /// <summary>
-        /// Context use for psql
-        /// </summary>
-        /// <param name="options"></param>
-        public MewdekoPostgresContext(DbContextOptions<MewdekoPostgresContext> options) : base(options)
-        {
+    }
 
-        }
-
-        /// <inheritdoc />
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var credentials = new BotCredentials();
-            optionsBuilder
-                .UseNpgsql(credentials.PsqlConnectionString,
-                    x => x.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))
-                .EnableDetailedErrors()
-                .EnableSensitiveDataLogging();
-        }
+    /// <inheritdoc />
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        var credentials = new BotCredentials();
+        optionsBuilder
+            .UseNpgsql(credentials.PsqlConnectionString,
+                x => x.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery))
+            .EnableDetailedErrors()
+            .EnableSensitiveDataLogging();
     }
 }

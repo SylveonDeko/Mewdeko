@@ -7,7 +7,7 @@ namespace Mewdeko.Modules.Administration;
 public partial class Administration
 {
     /// <summary>
-    /// Handles the greet and bye messages as well as boost settings bfor the server.
+    ///     Handles the greet and bye messages as well as boost settings bfor the server.
     /// </summary>
     /// <param name="fact">Client factory to avoid calling httpclient every time</param>
     /// <param name="guildSettings">The guild setting service</param>
@@ -16,14 +16,17 @@ public partial class Administration
         : MewdekoSubmodule<GreetSettingsService>
     {
         /// <summary>
-        /// Sets the timer for deleting greeting messages.
+        ///     Sets the timer for deleting greeting messages.
         /// </summary>
         /// <remarks>
-        /// This command allows users to set the timer for deleting greeting messages.
+        ///     This command allows users to set the timer for deleting greeting messages.
         /// </remarks>
         /// <param name="timer">The timer in seconds. Must be between 0 and 600.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
         public async Task GreetDel(int timer = 30)
         {
             if (timer is < 0 or > 600)
@@ -38,13 +41,16 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Displays the current boost message.
+        ///     Displays the current boost message.
         /// </summary>
         /// <remarks>
-        /// This command allows users to view the current boost message.
+        ///     This command allows users to view the current boost message.
         /// </remarks>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
         public async Task BoostMsg()
         {
             var boostMessage = await Service.GetBoostMessage(ctx.Guild.Id);
@@ -52,13 +58,16 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Enables or disables boost messages.
+        ///     Enables or disables boost messages.
         /// </summary>
         /// <remarks>
-        /// This command allows users to enable or disable boost messages.
+        ///     This command allows users to enable or disable boost messages.
         /// </remarks>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
         public async Task Boost()
         {
             var enabled = await Service.SetBoost(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
@@ -70,14 +79,17 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Sets the timer for deleting boost messages.
+        ///     Sets the timer for deleting boost messages.
         /// </summary>
         /// <remarks>
-        /// This command allows users to set the timer for deleting boost messages.
+        ///     This command allows users to set the timer for deleting boost messages.
         /// </remarks>
         /// <param name="timer">The timer in seconds. Must be between 0 and 600.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
         public async Task BoostDel(int timer = 30)
         {
             if (timer is < 0 or > 600)
@@ -96,14 +108,17 @@ public partial class Administration
 
 
         /// <summary>
-        /// Sets the boost message for the server.
+        ///     Sets the boost message for the server.
         /// </summary>
         /// <remarks>
-        /// This command allows users to set the boost message for the server.
+        ///     This command allows users to set the boost message for the server.
         /// </remarks>
         /// <param name="text">The new boost message.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
         public async Task BoostMsg([Remainder] string? text)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -121,13 +136,16 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Toggles greeting messages for the server.
+        ///     Toggles greeting messages for the server.
         /// </summary>
         /// <remarks>
-        /// This command allows users to toggle greeting messages for the server.
+        ///     This command allows users to toggle greeting messages for the server.
         /// </remarks>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
         public async Task Greet()
         {
             var enabled = await Service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
@@ -140,17 +158,20 @@ public partial class Administration
 
 
         /// <summary>
-        /// Sets up a webhook for greeting messages with an optional image.
+        ///     Sets up a webhook for greeting messages with an optional image.
         /// </summary>
         /// <remarks>
-        /// This command allows users to set up a webhook for greeting messages with an optional image.
+        ///     This command allows users to set up a webhook for greeting messages with an optional image.
         /// </remarks>
         /// <param name="chan">The text channel to set up the webhook in.</param>
         /// <param name="name">The name of the webhook.</param>
         /// <param name="image">The URL of the image to include in the webhook message.</param>
         /// <param name="text">The text to include in the webhook message.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
         public async Task GreetHook(ITextChannel? chan, string? name, string? image = null, string? text = null)
         {
             if (text?.ToLower() == "disable")
@@ -193,17 +214,20 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Sets up a webhook for leave messages with an optional image.
+        ///     Sets up a webhook for leave messages with an optional image.
         /// </summary>
         /// <remarks>
-        /// This command allows users to set up a webhook for leave messages with an optional image.
+        ///     This command allows users to set up a webhook for leave messages with an optional image.
         /// </remarks>
         /// <param name="chan">The text channel to set up the webhook in.</param>
         /// <param name="name">The name of the webhook.</param>
         /// <param name="image">The URL of the image to include in the webhook message.</param>
         /// <param name="text">The text to include in the webhook message.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
         public async Task LeaveHook(ITextChannel? chan, string? name, string? image = null, string? text = null)
         {
             if (text?.ToLower() == "disable")
@@ -234,35 +258,50 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Sets up a greeting message using the specified text.
+        ///     Sets up a greeting message using the specified text.
         /// </summary>
         /// <remarks>
-        /// This command allows users to set up a greeting message using the specified text.
+        ///     This command allows users to set up a greeting message using the specified text.
         /// </remarks>
         /// <param name="text">The text to include in the greeting message.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
-        public Task GreetHook(string text) => GreetHook(null, null, null, text);
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
+        public Task GreetHook(string text)
+        {
+            return GreetHook(null, null, null, text);
+        }
 
         /// <summary>
-        /// Sets up a leave message using the specified text.
+        ///     Sets up a leave message using the specified text.
         /// </summary>
         /// <remarks>
-        /// This command allows users to set up a leave message using the specified text.
+        ///     This command allows users to set up a leave message using the specified text.
         /// </remarks>
         /// <param name="text">The text to include in the leave message.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
-        public Task LeaveHook(string text) => LeaveHook(null, null, null, text);
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
+        public Task LeaveHook(string text)
+        {
+            return LeaveHook(null, null, null, text);
+        }
 
         /// <summary>
-        /// Displays the current greeting message.
+        ///     Displays the current greeting message.
         /// </summary>
         /// <remarks>
-        /// This command displays the current greeting message set for the guild.
+        ///     This command displays the current greeting message set for the guild.
         /// </remarks>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
         public async Task GreetMsg()
         {
             var greetMsg = await Service.GetGreetMsg(ctx.Guild.Id);
@@ -270,14 +309,17 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Sets the greeting message to the specified text.
+        ///     Sets the greeting message to the specified text.
         /// </summary>
         /// <remarks>
-        /// This command allows users to set the greeting message to the specified text.
+        ///     This command allows users to set the greeting message to the specified text.
         /// </remarks>
         /// <param name="text">The text to set as the greeting message.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
         public async Task GreetMsg([Remainder] string? text)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -296,13 +338,16 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Toggles the sending of greeting messages via direct message.
+        ///     Toggles the sending of greeting messages via direct message.
         /// </summary>
         /// <remarks>
-        /// This command allows users to toggle the sending of greeting messages via direct message.
+        ///     This command allows users to toggle the sending of greeting messages via direct message.
         /// </remarks>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
         public async Task GreetDm()
         {
             if (!ctx.Client.CurrentUser.Flags.HasFlag(UserProperties.VerifiedBot))
@@ -321,13 +366,16 @@ public partial class Administration
 
 
         /// <summary>
-        /// Displays the current direct message greeting message.
+        ///     Displays the current direct message greeting message.
         /// </summary>
         /// <remarks>
-        /// This command displays the current direct message greeting message set for the guild.
+        ///     This command displays the current direct message greeting message set for the guild.
         /// </remarks>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
         public async Task GreetDmMsg()
         {
             var dmGreetMsg = await Service.GetDmGreetMsg(ctx.Guild.Id);
@@ -335,14 +383,17 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Sets the direct message greeting message to the specified text.
+        ///     Sets the direct message greeting message to the specified text.
         /// </summary>
         /// <remarks>
-        /// This command allows users to set the direct message greeting message to the specified text.
+        ///     This command allows users to set the direct message greeting message to the specified text.
         /// </remarks>
         /// <param name="text">The text to set as the direct message greeting message.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
         public async Task GreetDmMsg([Remainder] string? text = null)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -360,13 +411,16 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Toggles the sending of a bye message.
+        ///     Toggles the sending of a bye message.
         /// </summary>
         /// <remarks>
-        /// This command allows users to toggle the sending of a bye message.
+        ///     This command allows users to toggle the sending of a bye message.
         /// </remarks>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
         public async Task Bye()
         {
             var enabled = await Service.SetBye(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
@@ -378,13 +432,16 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Displays the current bye message.
+        ///     Displays the current bye message.
         /// </summary>
         /// <remarks>
-        /// This command displays the current bye message set for the guild.
+        ///     This command displays the current bye message set for the guild.
         /// </remarks>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
         public async Task ByeMsg()
         {
             var byeMsg = await Service.GetByeMessage(ctx.Guild.Id);
@@ -392,14 +449,17 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Sets the bye message to the specified text.
+        ///     Sets the bye message to the specified text.
         /// </summary>
         /// <remarks>
-        /// This command allows users to set the bye message to the specified text.
+        ///     This command allows users to set the bye message to the specified text.
         /// </remarks>
         /// <param name="text">The text to set as the bye message.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
         public async Task ByeMsg([Remainder] string? text)
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -417,14 +477,17 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Sets the timer for deleting bye messages.
+        ///     Sets the timer for deleting bye messages.
         /// </summary>
         /// <remarks>
-        /// This command allows users to set the timer for deleting bye messages.
+        ///     This command allows users to set the timer for deleting bye messages.
         /// </remarks>
         /// <param name="timer">The timer duration in seconds.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
         public async Task ByeDel(int timer = 30)
         {
             await Service.SetByeDel(ctx.Guild.Id, timer).ConfigureAwait(false);
@@ -436,14 +499,18 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Sends a test bye message.
+        ///     Sends a test bye message.
         /// </summary>
         /// <remarks>
-        /// This command allows users to send a test bye message.
+        ///     This command allows users to send a test bye message.
         /// </remarks>
         /// <param name="user">The user to send the test bye message to.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild), Ratelimit(5)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
+        [Ratelimit(5)]
         public async Task ByeTest([Remainder] IGuildUser? user = null)
         {
             user ??= (IGuildUser)Context.User;
@@ -457,14 +524,18 @@ public partial class Administration
 
 
         /// <summary>
-        /// Sends a test message for boosting.
+        ///     Sends a test message for boosting.
         /// </summary>
         /// <remarks>
-        /// This command allows users to send a test message for boosting.
+        ///     This command allows users to send a test message for boosting.
         /// </remarks>
         /// <param name="user">The user to send the test message to.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild), Ratelimit(5)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
+        [Ratelimit(5)]
         public async Task BoostTest([Remainder] IGuildUser? user = null)
         {
             user ??= (IGuildUser)Context.User;
@@ -476,14 +547,18 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Sends a test greet message.
+        ///     Sends a test greet message.
         /// </summary>
         /// <remarks>
-        /// This command allows users to send a test greet message.
+        ///     This command allows users to send a test greet message.
         /// </remarks>
         /// <param name="user">The user to send the test greet message to.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild), Ratelimit(5)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
+        [Ratelimit(5)]
         public async Task GreetTest([Remainder] IGuildUser? user = null)
         {
             user ??= (IGuildUser)Context.User;
@@ -496,14 +571,19 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Sends a test direct message greet.
+        ///     Sends a test direct message greet.
         /// </summary>
         /// <remarks>
-        /// This command allows users to send a test direct message greet. Has a rate limit of 5 seconds to prevent being used for dm spam.
+        ///     This command allows users to send a test direct message greet. Has a rate limit of 5 seconds to prevent being used
+        ///     for dm spam.
         /// </remarks>
         /// <param name="user">The user to send the test direct message greet to.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.ManageGuild), Ratelimit(5)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
+        [Ratelimit(5)]
         public async Task GreetDmTest([Remainder] IGuildUser? user = null)
         {
             user ??= (IGuildUser)Context.User;

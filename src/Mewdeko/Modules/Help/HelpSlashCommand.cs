@@ -14,7 +14,7 @@ using Mewdeko.Services.Settings;
 namespace Mewdeko.Modules.Help;
 
 /// <summary>
-/// Slash command module for help commands.
+///     Slash command module for help commands.
 /// </summary>
 /// <param name="permissionService">The server permission service</param>
 /// <param name="interactivity">The service for embed pagination</param>
@@ -37,9 +37,10 @@ public class HelpSlashCommand(
     private static readonly ConcurrentDictionary<ulong, ulong> HelpMessages = new();
 
     /// <summary>
-    /// Shows all modules as well as additional information.
+    ///     Shows all modules as well as additional information.
     /// </summary>
-    [SlashCommand("help", "Shows help on how to use the bot"), CheckPermissions]
+    [SlashCommand("help", "Shows help on how to use the bot")]
+    [CheckPermissions]
     public async Task Modules()
     {
         var embed = await Service.GetHelpEmbed(false, ctx.Guild, ctx.Channel, ctx.User);
@@ -48,7 +49,7 @@ public class HelpSlashCommand(
     }
 
     /// <summary>
-    /// Handles select menus for the help menu.
+    ///     Handles select menus for the help menu.
     /// </summary>
     /// <param name="unused">Literally unused</param>
     /// <param name="selected">The selected module</param>
@@ -158,10 +159,11 @@ public class HelpSlashCommand(
     }
 
     /// <summary>
-    /// Shows the invite link for the bot.
+    ///     Shows the invite link for the bot.
     /// </summary>
     /// <returns></returns>
-    [SlashCommand("invite", "You should invite me to your server and check all my features!"), CheckPermissions]
+    [SlashCommand("invite", "You should invite me to your server and check all my features!")]
+    [CheckPermissions]
     public Task Invite()
     {
         var eb = new EmbedBuilder()
@@ -174,14 +176,16 @@ public class HelpSlashCommand(
     }
 
     /// <summary>
-    /// ALlows you to search for a command using the autocompleter. Can also show help for the command thats chosen from autocomplete.
+    ///     ALlows you to search for a command using the autocompleter. Can also show help for the command thats chosen from
+    ///     autocomplete.
     /// </summary>
     /// <param name="command">The command to search for or to get help for</param>
-    [SlashCommand("search", "get information on a specific command"), CheckPermissions]
+    [SlashCommand("search", "get information on a specific command")]
+    [CheckPermissions]
     public async Task SearchCommand
     (
-        [Discord.Interactions.Summary("command", "the command to get information about"),
-         Autocomplete(typeof(GenericCommandAutocompleter))]
+        [Discord.Interactions.Summary("command", "the command to get information about")]
+        [Autocomplete(typeof(GenericCommandAutocompleter))]
         string command
     )
     {
@@ -197,7 +201,7 @@ public class HelpSlashCommand(
     }
 
     /// <summary>
-    /// Allows you to run a command from the commands help.
+    ///     Allows you to run a command from the commands help.
     /// </summary>
     /// <param name="command">The command in question</param>
     [ComponentInteraction("runcmd.*", true)]
@@ -218,7 +222,7 @@ public class HelpSlashCommand(
     }
 
     /// <summary>
-    /// A modal that displays if the command has any arguments.
+    ///     A modal that displays if the command has any arguments.
     /// </summary>
     /// <param name="command">The command to run</param>
     /// <param name="modal">The modal itself</param>
@@ -237,7 +241,7 @@ public class HelpSlashCommand(
     }
 
     /// <summary>
-    /// Toggles module descriptions in help.
+    ///     Toggles module descriptions in help.
     /// </summary>
     /// <param name="sDesc">Bool thats parsed to either true or false to show the descriptions</param>
     /// <param name="sId">The server id the button is ran in</param>

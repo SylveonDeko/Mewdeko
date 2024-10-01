@@ -4,24 +4,26 @@ using Mewdeko.Modules.Suggestions.Services;
 namespace Mewdeko.Common.Autocompleters;
 
 /// <summary>
-/// Autocompleter for suggestions.
+///     Autocompleter for suggestions.
 /// </summary>
 public class SuggestionAutocompleter : AutocompleteHandler
 {
     /// <summary>
-    /// Gets the SuggestionsService.
+    ///     Gets the SuggestionsService.
     /// </summary>
     private readonly SuggestionsService suggest;
 
     /// <summary>
-    /// Initializes a new instance of the SuggestionAutocompleter class.
+    ///     Initializes a new instance of the SuggestionAutocompleter class.
     /// </summary>
     /// <param name="suggest">The SuggestionsService.</param>
     public SuggestionAutocompleter(SuggestionsService suggest)
-        => this.suggest = suggest;
+    {
+        this.suggest = suggest;
+    }
 
     /// <summary>
-    /// Generates suggestions for autocomplete.
+    ///     Generates suggestions for autocomplete.
     /// </summary>
     /// <param name="context">The interaction context.</param>
     /// <param name="interaction">The autocomplete interaction.</param>
@@ -42,7 +44,7 @@ public class SuggestionAutocompleter : AutocompleteHandler
     }
 
     /// <summary>
-    /// Creates an autocomplete result from a suggestion model.
+    ///     Creates an autocomplete result from a suggestion model.
     /// </summary>
     /// <param name="x">The suggestion model.</param>
     /// <returns>The autocomplete result.</returns>

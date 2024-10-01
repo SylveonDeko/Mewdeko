@@ -9,18 +9,38 @@ using Serilog;
 namespace Mewdeko.Modules.Utility.Services;
 
 /// <summary>
-/// Service for counting messages
+///     Service for counting messages
 /// </summary>
 public class MessageCountService : INService, IReadyExecutor
 {
-    private HashSet<ulong> countGuilds = [];
+    /// <summary>
+    ///     Whether the query is for a channel, user, or guild
+    /// </summary>
+    public enum CountQueryType
+    {
+        /// <summary>
+        ///     Guild
+        /// </summary>
+        Guild,
+
+        /// <summary>
+        ///     Channel
+        /// </summary>
+        Channel,
+
+        /// <summary>
+        ///     User
+        /// </summary>
+        User
+    }
+
     private readonly DbContextProvider dbContext;
     private readonly ConcurrentDictionary<ulong, int> minCounts = [];
+    private HashSet<ulong> countGuilds = [];
     private ConcurrentDictionary<(ulong GuildId, ulong UserId, ulong ChannelId), MessageCount> messageCounts = new();
     private Timer updateTimer;
 
     /// <summary>
-    ///
     /// </summary>
     public MessageCountService(DbContextProvider dbContext, EventHandler handler)
     {
@@ -28,11 +48,46 @@ public class MessageCountService : INService, IReadyExecutor
         handler.MessageReceived += HandleCount;
     }
 
+    /// <inheritdoc />
+    public async Task OnReadyAsync()
+    {
+        Log.Information("Loading Message Count Cache");
+        await using var db = await dbContext.GetContextAsync();
+        countGuilds = (await db.GuildConfigs
+                .Where(x => x.UseMessageCount)
+                .Select(x => x.GuildId).ToListAsyncEF())
+            .ToHashSet();
+
+        var lengthConfigs = await db.GuildConfigs
+            .Where(x => x.UseMessageCount)
+            .Select(x => new
+            {
+                x.GuildId, x.MinMessageLength
+            })
+            .ToListAsyncEF();
+
+        foreach (var config in lengthConfigs)
+        {
+            minCounts[config.GuildId] = config.MinMessageLength;
+        }
+
+        var dbMessageCounts = await db.MessageCounts.ToListAsync();
+        messageCounts = new ConcurrentDictionary<(ulong GuildId, ulong UserId, ulong ChannelId), MessageCount>(
+            dbMessageCounts.ToDictionary(
+                mc => (mc.GuildId, mc.UserId, mc.ChannelId),
+                mc => mc
+            )
+        );
+
+        updateTimer = new Timer(async _ => await UpdateDatabase(), null, TimeSpan.Zero, TimeSpan.FromSeconds(30));
+    }
+
     private async Task HandleCount(SocketMessage args)
     {
         await Task.CompletedTask;
 
-        if (countGuilds.Count == 0 || args.Channel is IDMChannel || args.Channel is not IGuildChannel channel || !countGuilds.Contains(channel.GuildId) || args.Author.IsBot)
+        if (countGuilds.Count == 0 || args.Channel is IDMChannel || args.Channel is not IGuildChannel channel ||
+            !countGuilds.Contains(channel.GuildId) || args.Author.IsBot)
             return;
 
         if (!minCounts.TryGetValue(channel.GuildId, out var minValue) || args.Content.Length < minValue)
@@ -61,18 +116,18 @@ public class MessageCountService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Toggles the message count system for a specific guild.
+    ///     Toggles the message count system for a specific guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to toggle in the message count system.</param>
     /// <returns>
-    /// A task that represents the asynchronous operation. The task result contains a boolean value:
-    /// - true if the guild was added to the message count system.
-    /// - false if the guild was removed from the message count system.
-    /// If an error occurs during the operation, the method returns the original state.
+    ///     A task that represents the asynchronous operation. The task result contains a boolean value:
+    ///     - true if the guild was added to the message count system.
+    ///     - false if the guild was removed from the message count system.
+    ///     If an error occurs during the operation, the method returns the original state.
     /// </returns>
     /// <remarks>
-    /// This method toggles the guild's presence in the in-memory collections and updates the database
-    /// to enable or disable message counting for the specified guild.
+    ///     This method toggles the guild's presence in the in-memory collections and updates the database
+    ///     to enable or disable message counting for the specified guild.
     /// </remarks>
     public async Task<bool> ToggleGuildMessageCount(ulong guildId)
     {
@@ -165,7 +220,7 @@ public class MessageCountService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Gets an array of messagecounts for the selected type
+    ///     Gets an array of messagecounts for the selected type
     /// </summary>
     /// <param name="queryType"></param>
     /// <param name="snowflakeId"></param>
@@ -188,7 +243,8 @@ public class MessageCountService : INService, IReadyExecutor
             CountQueryType.Channel => (messageCounts.Where(x => x.Value.ChannelId == snowflakeId)
                 .Select(x => x.Value)
                 .ToArray(), true),
-            CountQueryType.User => (messageCounts.Where(x => x.Value.GuildId == guildId && x.Value.UserId == snowflakeId)
+            CountQueryType.User => (messageCounts
+                .Where(x => x.Value.GuildId == guildId && x.Value.UserId == snowflakeId)
                 .Select(x => x.Value)
                 .ToArray(), true),
             _ => throw new ArgumentOutOfRangeException(nameof(queryType), queryType, null)
@@ -196,9 +252,9 @@ public class MessageCountService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Gets a count for the specified type
+    ///     Gets a count for the specified type
     /// </summary>
-    /// <param name="queryType">The type of query, <see cref="CountQueryType"/></param>
+    /// <param name="queryType">The type of query, <see cref="CountQueryType" /></param>
     /// <param name="snowflakeId">The id related to the query type</param>
     /// <returns>AN ulong count</returns>
     /// <exception cref="ArgumentException"></exception>
@@ -225,40 +281,6 @@ public class MessageCountService : INService, IReadyExecutor
         return count;
     }
 
-    /// <inheritdoc />
-    public async Task OnReadyAsync()
-    {
-        Log.Information("Loading Message Count Cache");
-        await using var db = await dbContext.GetContextAsync();
-        countGuilds = (await db.GuildConfigs
-                .Where(x => x.UseMessageCount)
-                .Select(x => x.GuildId).ToListAsyncEF())
-            .ToHashSet();
-
-        var lengthConfigs = await db.GuildConfigs
-            .Where(x => x.UseMessageCount)
-            .Select(x => new
-            {
-                x.GuildId, x.MinMessageLength
-            })
-            .ToListAsyncEF();
-
-        foreach (var config in lengthConfigs)
-        {
-            minCounts[config.GuildId] = config.MinMessageLength;
-        }
-
-        var dbMessageCounts = await db.MessageCounts.ToListAsync();
-        messageCounts = new ConcurrentDictionary<(ulong GuildId, ulong UserId, ulong ChannelId), MessageCount>(
-            dbMessageCounts.ToDictionary(
-                mc => (mc.GuildId, mc.UserId, mc.ChannelId),
-                mc => mc
-            )
-        );
-
-        updateTimer = new Timer(async _ => await UpdateDatabase(), null, TimeSpan.Zero, TimeSpan.FromSeconds(30));
-    }
-
     private async Task UpdateDatabase()
     {
         try
@@ -270,17 +292,13 @@ public class MessageCountService : INService, IReadyExecutor
             var bulkConfig = new BulkConfig
             {
                 UpdateByProperties = ["GuildId", "UserId", "ChannelId"],
-
                 PropertiesToExcludeOnUpdate = ["Id"],
-
                 SqlBulkCopyOptions = SqlBulkCopyOptions.KeepIdentity,
-
                 PropertiesToInclude = ["GuildId", "UserId", "ChannelId", "Count", "RecentTimestamps"],
-
-                SetOutputIdentity = true,
+                SetOutputIdentity = true
             };
 
-            await db.BulkInsertOrUpdateOrDeleteAsync(countsToUpdate, bulkConfig);
+            await db.BulkInsertOrUpdateAsync(countsToUpdate, bulkConfig);
 
             Log.Information("Batch update completed. Updated/Added {Count} entries", countsToUpdate.Count);
         }
@@ -292,7 +310,7 @@ public class MessageCountService : INService, IReadyExecutor
 
 
     /// <summary>
-    /// Gets the busiest hours for a guild
+    ///     Gets the busiest hours for a guild
     /// </summary>
     /// <param name="guildId"></param>
     /// <param name="days"></param>
@@ -304,7 +322,10 @@ public class MessageCountService : INService, IReadyExecutor
 
         var messageCounts = await db.MessageCounts
             .Where(m => m.GuildId == guildId)
-            .Select(m => new { m.RecentTimestamps })
+            .Select(m => new
+            {
+                m.RecentTimestamps
+            })
             .ToListAsync();
 
         return messageCounts
@@ -319,7 +340,7 @@ public class MessageCountService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Gets the busiest days in the guild
+    ///     Gets the busiest days in the guild
     /// </summary>
     /// <param name="guildId"></param>
     /// <param name="weeks"></param>
@@ -331,7 +352,10 @@ public class MessageCountService : INService, IReadyExecutor
 
         var messageCounts = await db.MessageCounts
             .Where(m => m.GuildId == guildId)
-            .Select(m => new { m.RecentTimestamps })
+            .Select(m => new
+            {
+                m.RecentTimestamps
+            })
             .ToListAsync();
 
         return messageCounts
@@ -342,26 +366,5 @@ public class MessageCountService : INService, IReadyExecutor
             .Select(g => (g.Key, g.Count()))
             .OrderByDescending(x => x.Item2)
             .ToList();
-    }
-
-    /// <summary>
-    /// Whether the query is for a channel, user, or guild
-    /// </summary>
-    public enum CountQueryType
-    {
-        /// <summary>
-        /// Guild
-        /// </summary>
-        Guild,
-
-        /// <summary>
-        /// Channel
-        /// </summary>
-        Channel,
-
-        /// <summary>
-        /// User
-        /// </summary>
-        User
     }
 }

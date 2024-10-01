@@ -10,24 +10,25 @@ namespace Mewdeko.Modules.Searches;
 public partial class Searches
 {
     /// <summary>
-    /// Module for interacting with osu! APIs and retrieving user data.
+    ///     Module for interacting with osu! APIs and retrieving user data.
     /// </summary>
     [Group]
     public class OsuCommands(IBotCredentials creds, IHttpClientFactory factory) : MewdekoSubmodule
     {
         /// <summary>
-        /// Retrieves osu! user profile information.
+        ///     Retrieves osu! user profile information.
         /// </summary>
         /// <remarks>
-        /// This command retrieves osu! user profile information from the osu! API and displays it in an embed.
+        ///     This command retrieves osu! user profile information from the osu! API and displays it in an embed.
         /// </remarks>
         /// <param name="user">The osu! username to retrieve information for.</param>
         /// <param name="mode">The game mode (standard, taiko, catch, mania) to retrieve information for (optional).</param>
         /// <example>
-        /// <code>.osu username</code>
-        /// <code>.osu username mode</code>
+        ///     <code>.osu username</code>
+        ///     <code>.osu username mode</code>
         /// </example>
-        [Cmd, Aliases]
+        [Cmd]
+        [Aliases]
         public async Task Osu(string user, [Remainder] string? mode = null)
         {
             if (string.IsNullOrWhiteSpace(user))
@@ -86,18 +87,19 @@ public partial class Searches
         }
 
         /// <summary>
-        /// Retrieves osu!Gatari user profile information.
+        ///     Retrieves osu!Gatari user profile information.
         /// </summary>
         /// <remarks>
-        /// This command retrieves osu!Gatari user profile information from the Gatari API and displays it in an embed.
+        ///     This command retrieves osu!Gatari user profile information from the Gatari API and displays it in an embed.
         /// </remarks>
         /// <param name="user">The osu!Gatari username to retrieve information for.</param>
         /// <param name="mode">The game mode (standard, taiko, catch, mania) to retrieve information for (optional).</param>
         /// <example>
-        /// <code>.gatari username</code>
-        /// <code>.gatari username mode</code>
+        ///     <code>.gatari username</code>
+        ///     <code>.gatari username mode</code>
         /// </example>
-        [Cmd, Aliases]
+        [Cmd]
+        [Aliases]
         public async Task Gatari(string user, [Remainder] string? mode = null)
         {
             using var http = factory.CreateClient();
@@ -139,18 +141,19 @@ public partial class Searches
         }
 
         /// <summary>
-        /// Retrieves the top 5 osu! plays for a user.
+        ///     Retrieves the top 5 osu! plays for a user.
         /// </summary>
         /// <remarks>
-        /// This command retrieves the top 5 osu! plays for a user from the osu! API and displays them in an embed.
+        ///     This command retrieves the top 5 osu! plays for a user from the osu! API and displays them in an embed.
         /// </remarks>
         /// <param name="user">The osu! username to retrieve plays for.</param>
         /// <param name="mode">The game mode (standard, taiko, catch, mania) to retrieve plays for (optional).</param>
         /// <example>
-        /// <code>.osu5 username</code>
-        /// <code>.osu5 username mode</code>
+        ///     <code>.osu5 username</code>
+        ///     <code>.osu5 username mode</code>
         /// </example>
-        [Cmd, Aliases]
+        [Cmd]
+        [Aliases]
         public async Task Osu5(string user, [Remainder] string? mode = null)
         {
             var channel = (ITextChannel)ctx.Channel;
@@ -215,15 +218,15 @@ public partial class Searches
             switch (mode)
             {
                 case 0:
-                    hitPoints = (play.Count50 * 50) +
-                                (play.Count100 * 100) +
-                                (play.Count300 * 300);
+                    hitPoints = play.Count50 * 50 +
+                                play.Count100 * 100 +
+                                play.Count300 * 300;
                     totalHits = play.Count50 + play.Count100 +
                                 play.Count300 + play.Countmiss;
                     totalHits *= 300;
                     break;
                 case 1:
-                    hitPoints = (play.Countmiss * 0) + (play.Count100 * 0.5) + play.Count300;
+                    hitPoints = play.Countmiss * 0 + play.Count100 * 0.5 + play.Count300;
                     totalHits = (play.Countmiss + play.Count100 + play.Count300) * 300;
                     hitPoints *= 300;
                     break;
@@ -233,10 +236,10 @@ public partial class Searches
                                 play.Countkatu;
                     break;
                 default:
-                    hitPoints = (play.Count50 * 50) +
-                                (play.Count100 * 100) +
-                                (play.Countkatu * 200) +
-                                ((play.Count300 + play.Countgeki) * 300);
+                    hitPoints = play.Count50 * 50 +
+                                play.Count100 * 100 +
+                                play.Countkatu * 200 +
+                                (play.Count300 + play.Countgeki) * 300;
 
                     totalHits = (play.Countmiss + play.Count50 + play.Count100 +
                                  play.Countkatu + play.Count300 + play.Countgeki) * 300;
@@ -246,8 +249,9 @@ public partial class Searches
             return Math.Round(hitPoints / totalHits * 100, 2);
         }
 
-        private static int ResolveGameMode(string mode) =>
-            mode.ToUpperInvariant() switch
+        private static int ResolveGameMode(string mode)
+        {
+            return mode.ToUpperInvariant() switch
             {
                 "STD" => 0,
                 "STANDARD" => 0,
@@ -258,9 +262,11 @@ public partial class Searches
                 "OSU!MANIA" => 3,
                 _ => 0
             };
+        }
 
-        private static string ResolveGameMode(int mode) =>
-            mode switch
+        private static string ResolveGameMode(int mode)
+        {
+            return mode switch
             {
                 0 => "Standard",
                 1 => "Taiko",
@@ -268,6 +274,7 @@ public partial class Searches
                 3 => "Mania",
                 _ => "Standard"
             };
+        }
 
         //https://github.com/ppy/osu-api/wiki#mods
         private static string ResolveMods(int mods)
@@ -306,6 +313,9 @@ public partial class Searches
             return modString;
         }
 
-        private static bool IsBitSet(int mods, int pos) => (mods & (1 << pos)) != 0;
+        private static bool IsBitSet(int mods, int pos)
+        {
+            return (mods & (1 << pos)) != 0;
+        }
     }
 }

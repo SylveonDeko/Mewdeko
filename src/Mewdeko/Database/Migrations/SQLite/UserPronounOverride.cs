@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mewdeko.Database.Migrations.SQLite;
+
 /// <inheritdoc />
 public partial class UserPronounOverride : Migration
 {

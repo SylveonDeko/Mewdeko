@@ -9,8 +9,8 @@ public partial class AddAutoPublish : Migration
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.CreateTable(
-            name: "PublishUserBlacklist",
-            columns: table => new
+            "PublishUserBlacklist",
+            table => new
             {
                 Id = table.Column<int>(nullable: false)
                     .Annotation("Sqlite:Autoincrement", true),
@@ -24,8 +24,8 @@ public partial class AddAutoPublish : Migration
             });
 
         migrationBuilder.CreateTable(
-            name: "PublishWordBlacklist",
-            columns: table => new
+            "PublishWordBlacklist",
+            table => new
             {
                 Id = table.Column<int>(nullable: false)
                     .Annotation("Sqlite:Autoincrement", true),
@@ -39,8 +39,8 @@ public partial class AddAutoPublish : Migration
             });
 
         migrationBuilder.CreateTable(
-            name: "AutoPublish",
-            columns: table => new
+            "AutoPublish",
+            table => new
             {
                 Id = table.Column<int>(nullable: false)
                     .Annotation("Sqlite:Autoincrement", true),
@@ -54,6 +54,7 @@ public partial class AddAutoPublish : Migration
                 table.PrimaryKey("PK_AutoPublish", x => x.Id);
             });
     }
+
     /// <inheritdoc />
     protected override void Down(MigrationBuilder migrationBuilder)
     {

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mewdeko.Database.Migrations.SQLite;
+
 /// <inheritdoc />
 public partial class AddUserRoleStatesAndRoleStateSettings : Migration
 {
@@ -8,8 +9,8 @@ public partial class AddUserRoleStatesAndRoleStateSettings : Migration
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.CreateTable(
-            name: "UserRoleStates",
-            columns: table => new
+            "UserRoleStates",
+            table => new
             {
                 Id = table.Column<int>(nullable: false)
                     .Annotation("Sqlite:Autoincrement", true),
@@ -25,8 +26,8 @@ public partial class AddUserRoleStatesAndRoleStateSettings : Migration
             });
 
         migrationBuilder.CreateTable(
-            name: "RoleStateSettings",
-            columns: table => new
+            "RoleStateSettings",
+            table => new
             {
                 Id = table.Column<int>(nullable: false)
                     .Annotation("Sqlite:Autoincrement", true),
@@ -48,9 +49,9 @@ public partial class AddUserRoleStatesAndRoleStateSettings : Migration
     protected override void Down(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.DropTable(
-            name: "UserRoleStates");
+            "UserRoleStates");
 
         migrationBuilder.DropTable(
-            name: "RoleStateSettings");
+            "RoleStateSettings");
     }
 }

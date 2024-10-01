@@ -8,12 +8,12 @@ using Newtonsoft.Json;
 namespace Mewdeko.Modules.Utility.Services;
 
 /// <summary>
-/// Service for fetching and managing user pronouns from an external API.
+///     Service for fetching and managing user pronouns from an external API.
 /// </summary>
 public class PronounsService(DbContextProvider dbProvider, HttpClient http) : INService
 {
     /// <summary>
-    /// Asynchronously gets a user's pronouns from the local database or queries an external API if not found.
+    ///     Asynchronously gets a user's pronouns from the local database or queries an external API if not found.
     /// </summary>
     /// <param name="discordId">The Discord user ID to fetch pronouns for.</param>
     /// <returns>A PronounSearchResult object containing the pronouns or indicating if unspecified.</returns>

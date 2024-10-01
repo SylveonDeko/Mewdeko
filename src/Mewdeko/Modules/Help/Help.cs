@@ -17,7 +17,7 @@ using Swan;
 namespace Mewdeko.Modules.Help;
 
 /// <summary>
-/// A module containing commands for getting help.
+///     A module containing commands for getting help.
 /// </summary>
 /// <param name="perms">The per server permission service</param>
 /// <param name="cmds">The command service</param>
@@ -37,9 +37,11 @@ public class Help(
     : MewdekoModuleBase<HelpService>
 {
     /// <summary>
-    /// Exports all commands to a json file. Used mainly for https://mewdeko.tech/commands
+    ///     Exports all commands to a json file. Used mainly for https://mewdeko.tech/commands
     /// </summary>
-    [Cmd, Aliases, Ratelimit(60)]
+    [Cmd]
+    [Aliases]
+    [Ratelimit(60)]
     public async Task ExportCommandsJson()
     {
         try
@@ -105,10 +107,11 @@ public class Help(
     }
 
     /// <summary>
-    /// Searches for a command by name or description.
+    ///     Searches for a command by name or description.
     /// </summary>
     /// <param name="commandname">The term to search for</param>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task SearchCommand(string commandname)
     {
         var commandInfos = cmds.Commands.Distinct()
@@ -139,9 +142,10 @@ public class Help(
     }
 
     /// <summary>
-    /// Shows a list of all modules. Is basically just a help alias at this point.
+    ///     Shows a list of all modules. Is basically just a help alias at this point.
     /// </summary>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task Modules()
     {
         var embed = await Service.GetHelpEmbed(false, ctx.Guild ?? null, ctx.Channel, ctx.User);
@@ -161,19 +165,23 @@ public class Help(
     }
 
     /// <summary>
-    /// SHows how to support the bot.
+    ///     SHows how to support the bot.
     /// </summary>
-    [Cmd, Aliases]
-    public async Task Donate() =>
+    [Cmd]
+    [Aliases]
+    public async Task Donate()
+    {
         await ctx.Channel.SendConfirmAsync(
                 "If you would like to support the project, here's how:\nKo-Fi: https://ko-fi.com/mewdeko\nI appreciate any donations as they will help improve Mewdeko for the better!")
             .ConfigureAwait(false);
+    }
 
     /// <summary>
-    /// Shows commands for a specific module. If null, is an alias for modules which is an alias for help.
+    ///     Shows commands for a specific module. If null, is an alias for modules which is an alias for help.
     /// </summary>
     /// <param name="module">The module to look at</param>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task Commands([Remainder] string? module = null)
     {
         module = module?.Trim().ToUpperInvariant().Replace(" ", "");
@@ -257,10 +265,12 @@ public class Help(
     }
 
     /// <summary>
-    /// Shows help for a specific command.
+    ///     Shows help for a specific command.
     /// </summary>
     /// <param name="toSearch">The string to search for</param>
-    [Cmd, Aliases, Priority(0)] // Adjusted priority if needed
+    [Cmd]
+    [Aliases]
+    [Priority(0)] // Adjusted priority if needed
     public async Task H([Remainder] string toSearch = null)
     {
         CommandInfo? com = null;
@@ -289,116 +299,135 @@ public class Help(
 
 
     /// <summary>
-    /// Shows the guide for the bot.
+    ///     Shows the guide for the bot.
     /// </summary>
-    [Cmd, Aliases]
-    public async Task Guide() => await ctx.Channel.SendConfirmAsync("You can find the website at https://mewdeko.tech")
-        .ConfigureAwait(false);
+    [Cmd]
+    [Aliases]
+    public async Task Guide()
+    {
+        await ctx.Channel.SendConfirmAsync("You can find the website at https://mewdeko.tech")
+            .ConfigureAwait(false);
+    }
 
     /// <summary>
-    /// Shows the source code link for the bot.
+    ///     Shows the source code link for the bot.
     /// </summary>
-    [Cmd, Aliases]
-    public async Task Source() =>
+    [Cmd]
+    [Aliases]
+    public async Task Source()
+    {
         await ctx.Channel.SendConfirmAsync("https://github.com/SylveonDeko/Mewdeko").ConfigureAwait(false);
+    }
 
     /// <summary>
-    /// Shows a link to vote for mewdeko.
+    ///     Shows a link to vote for mewdeko.
     /// </summary>
-    [Cmd, Aliases, RequireContext(ContextType.Guild)]
-    public async Task Vote() =>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    public async Task Vote()
+    {
         await ctx.Channel.EmbedAsync(new EmbedBuilder().WithOkColor()
                 .WithDescription(
                     "Vote here for Mewdeko!\n[Vote Link](https://top.gg/bot/752236274261426212)\nMake sure to join the support server! \n[Link](https://mewdeko.tech/support)"))
             .ConfigureAwait(false);
+    }
 }
 
 /// <summary>
-/// This class provides a way to compare two CommandInfo objects based on their aliases.
-/// It implements the IEqualityComparer interface for CommandInfo objects.
+///     This class provides a way to compare two CommandInfo objects based on their aliases.
+///     It implements the IEqualityComparer interface for CommandInfo objects.
 /// </summary>
 public class CommandTextEqualityComparer : IEqualityComparer<CommandInfo>
 {
     /// <summary>
-    /// Determines whether the specified CommandInfo objects are equal based on their aliases.
+    ///     Determines whether the specified CommandInfo objects are equal based on their aliases.
     /// </summary>
     /// <param name="x">The first CommandInfo object to compare.</param>
     /// <param name="y">The second CommandInfo object to compare.</param>
     /// <returns>true if the specified CommandInfo objects are equal; otherwise, false.</returns>
-    public bool Equals(CommandInfo? x, CommandInfo? y) => x.Aliases[0] == y.Aliases[0];
+    public bool Equals(CommandInfo? x, CommandInfo? y)
+    {
+        return x.Aliases[0] == y.Aliases[0];
+    }
 
     /// <summary>
-    /// Returns a hash code for the specified CommandInfo object.
+    ///     Returns a hash code for the specified CommandInfo object.
     /// </summary>
     /// <param name="obj">The CommandInfo object for which a hash code is to be returned.</param>
     /// <returns>A hash code for the specified object.</returns>
-    public int GetHashCode(CommandInfo obj) => obj.Aliases[0].GetHashCode(StringComparison.InvariantCulture);
+    public int GetHashCode(CommandInfo obj)
+    {
+        return obj.Aliases[0].GetHashCode(StringComparison.InvariantCulture);
+    }
 }
 
 /// <summary>
-/// Represents a module containing commands. Used only for exporting commands to a json file.
+///     Represents a module containing commands. Used only for exporting commands to a json file.
 /// </summary>
 /// <param name="commands"></param>
 /// <param name="name"></param>
 public class Module(List<Command> commands, string name)
 {
     /// <summary>
-    /// List of commands in the module.
+    ///     List of commands in the module.
     /// </summary>
     public List<Command> Commands { get; } = commands;
 
     /// <summary>
-    /// The name of the module.
+    ///     The name of the module.
     /// </summary>
     public string Name { get; } = name;
 }
 
 /// <summary>
-/// Represents a command. Used only for exporting commands to a json file.
+///     Represents a command. Used only for exporting commands to a json file.
 /// </summary>
 public class Command
 {
     /// <summary>
-    /// The bot version the specified command exists on.
+    ///     The bot version the specified command exists on.
     /// </summary>
     public string BotVersion { get; set; } = StatsService.BotVersion;
+
     /// <summary>
-    /// Gets or sets a value indicating whether the command is a dragon command. Used to indicate if a command is beta only.
+    ///     Gets or sets a value indicating whether the command is a dragon command. Used to indicate if a command is beta
+    ///     only.
     /// </summary>
     public bool IsDragon { get; set; }
 
     /// <summary>
-    /// The name of a command.
+    ///     The name of a command.
     /// </summary>
     public string CommandName { get; set; }
 
     /// <summary>
-    /// The description of a command.
+    ///     The description of a command.
     /// </summary>
     public string Description { get; set; }
 
     /// <summary>
-    /// Example(s) of how to use the command.
+    ///     Example(s) of how to use the command.
     /// </summary>
     public List<string> Example { get; set; }
 
     /// <summary>
-    /// The guild permissions required by the user to use the command.
+    ///     The guild permissions required by the user to use the command.
     /// </summary>
     public string? GuildUserPermissions { get; set; }
 
     /// <summary>
-    /// The channel permissions required by the user to use the command.
+    ///     The channel permissions required by the user to use the command.
     /// </summary>
     public string? ChannelUserPermissions { get; set; }
 
     /// <summary>
-    /// The channel permissions required by the bot to use the command.
+    ///     The channel permissions required by the bot to use the command.
     /// </summary>
     public string? ChannelBotPermissions { get; set; }
 
     /// <summary>
-    /// The guild permissions required by the bot to use the command.
+    ///     The guild permissions required by the bot to use the command.
     /// </summary>
     public string? GuildBotPermissions { get; set; }
 }

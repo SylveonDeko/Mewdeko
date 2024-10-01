@@ -4,12 +4,17 @@ using ZiggyCreatures.Caching.Fusion;
 namespace Mewdeko.Common.Autocompleters;
 
 /// <summary>
-/// Autocompleter for highlights.
+///     Autocompleter for highlights.
 /// </summary>
 public class HighlightAutocompleter : AutocompleteHandler
 {
     /// <summary>
-    /// Initializes a new instance of the HighlightAutocompleter class.
+    ///     Gets the FusionCache instance.
+    /// </summary>
+    private readonly IFusionCache cache;
+
+    /// <summary>
+    ///     Initializes a new instance of the HighlightAutocompleter class.
     /// </summary>
     /// <param name="cache">The FusionCache instance.</param>
     public HighlightAutocompleter(IFusionCache cache)
@@ -18,12 +23,7 @@ public class HighlightAutocompleter : AutocompleteHandler
     }
 
     /// <summary>
-    /// Gets the FusionCache instance.
-    /// </summary>
-    private readonly IFusionCache cache;
-
-    /// <summary>
-    /// Generates suggestions for autocomplete.
+    ///     Generates suggestions for autocomplete.
     /// </summary>
     /// <param name="context">The interaction context.</param>
     /// <param name="interaction">The autocomplete interaction.</param>
@@ -35,7 +35,7 @@ public class HighlightAutocompleter : AutocompleteHandler
         IServiceProvider services)
     {
         var content = (string)interaction.Data.Current.Value;
-        var highlights = await cache.GetOrSetAsync<List<Database.Models.Highlights>>($"highlights_{context.Guild.Id}",
+        var highlights = await cache.GetOrSetAsync<List<Highlights>>($"highlights_{context.Guild.Id}",
             async _ => []);
 
         var results = highlights

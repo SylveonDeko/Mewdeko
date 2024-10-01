@@ -6,24 +6,24 @@ using Serilog;
 namespace Mewdeko.Modules.Games.Common;
 
 /// <summary>
-/// Represents a typing game.
+///     Represents a typing game.
 /// </summary>
 public class TypingGame
 {
     /// <summary>
-    /// The value of a word in the typing game.
+    ///     The value of a word in the typing game.
     /// </summary>
     public const float WordValue = 4.5f;
 
     private readonly DiscordShardedClient client;
+    private readonly List<ulong> finishedUserIds;
     private readonly GamesService games;
     private readonly Options options;
     private readonly string? prefix;
-    private readonly List<ulong> finishedUserIds;
     private readonly Stopwatch sw;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="TypingGame"/> class.
+    ///     Initializes a new instance of the <see cref="TypingGame" /> class.
     /// </summary>
     /// <param name="games">The games service for config grabbing</param>
     /// <param name="client">The discord client</param>
@@ -45,24 +45,27 @@ public class TypingGame
     }
 
     /// <summary>
-    /// Gets the text channel associated with the typing game.
+    ///     Gets the text channel associated with the typing game.
     /// </summary>
     public ITextChannel? Channel { get; }
 
     /// <summary>
-    /// Gets or sets the current sentence being typed in the typing game.
+    ///     Gets or sets the current sentence being typed in the typing game.
     /// </summary>
     public string? CurrentSentence { get; private set; }
 
     /// <summary>
-    /// Gets or sets a value indicating whether the typing game is active.
+    ///     Gets or sets a value indicating whether the typing game is active.
     /// </summary>
     public bool IsActive { get; private set; }
 
     /// <summary>
-    /// Stops the typing game.
+    ///     Stops the typing game.
     /// </summary>
-    /// <returns>A task representing the asynchronous operation. The task result contains a boolean indicating whether the game was successfully stopped.</returns>
+    /// <returns>
+    ///     A task representing the asynchronous operation. The task result contains a boolean indicating whether the game
+    ///     was successfully stopped.
+    /// </returns>
     public async Task<bool> Stop()
     {
         if (!IsActive) return false;
@@ -84,7 +87,7 @@ public class TypingGame
     }
 
     /// <summary>
-    /// Starts the typing game.
+    ///     Starts the typing game.
     /// </summary>
     /// <returns>A task representing the asynchronous operation.</returns>
     public async Task Start()
@@ -148,7 +151,7 @@ public class TypingGame
     }
 
     /// <summary>
-    /// Retrieves a random sentence for the typing game.
+    ///     Retrieves a random sentence for the typing game.
     /// </summary>
     /// <returns>A random sentence for typing, or a message indicating no typing articles were found.</returns>
     public string? GetRandomSentence()
@@ -159,7 +162,10 @@ public class TypingGame
     }
 
 
-    private void HandleAnswers() => client.MessageReceived += AnswerReceived;
+    private void HandleAnswers()
+    {
+        client.MessageReceived += AnswerReceived;
+    }
 
     private Task AnswerReceived(SocketMessage imsg)
     {
@@ -209,22 +215,25 @@ public class TypingGame
         return Task.CompletedTask;
     }
 
-    private static bool Judge(int errors, int textLength) => errors <= textLength / 25;
+    private static bool Judge(int errors, int textLength)
+    {
+        return errors <= textLength / 25;
+    }
 
     /// <summary>
-    /// Represents the options for the typing game.
+    ///     Represents the options for the typing game.
     /// </summary>
     public class Options : IMewdekoCommandOptions
     {
         /// <summary>
-        /// Gets or sets the time in seconds for the race to start.
+        ///     Gets or sets the time in seconds for the race to start.
         /// </summary>
         [Option('s', "start-time", Default = 5, Required = false,
             HelpText = "How long does it take for the race to start. Default 5.")]
         public int StartTime { get; set; } = 5;
 
         /// <summary>
-        /// Normalizes the options, ensuring valid values.
+        ///     Normalizes the options, ensuring valid values.
         /// </summary>
         public void NormalizeOptions()
         {

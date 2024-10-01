@@ -8,22 +8,26 @@ namespace Mewdeko.Modules.Administration;
 public partial class Administration
 {
     /// <summary>
-    /// Module for logging commands.
+    ///     Module for logging commands.
     /// </summary>
     [Group]
     public class LogCommands(GuildSettingsService gss) : MewdekoSubmodule<LogCommandService>
     {
         /// <summary>
-        /// Sets the logging category for a specified type of logs.
+        ///     Sets the logging category for a specified type of logs.
         /// </summary>
         /// <remarks>
-        /// This command is restricted to users with Administrator permissions.
+        ///     This command is restricted to users with Administrator permissions.
         /// </remarks>
         /// <param name="type">The type of logs to set the category for.</param>
         /// <param name="channel">The text channel where the logs will be sent.</param>
         /// <example>.logcategory messages #log-channel</example>
         /// <example>.logcategory messages</example>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(1)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        [Priority(1)]
         public async Task LogCategory(LogCommandService.LogCategoryTypes type, ITextChannel? channel = null)
         {
             await Service.LogSetByType(ctx.Guild.Id, channel?.Id ?? 0, type);
@@ -73,13 +77,16 @@ public partial class Administration
         // }
 
         /// <summary>
-        /// Displays the current logging events configuration for the guild.
+        ///     Displays the current logging events configuration for the guild.
         /// </summary>
         /// <remarks>
-        /// This command is restricted to users with Administrator permissions.
+        ///     This command is restricted to users with Administrator permissions.
         /// </remarks>
         /// <example>.logevents</example>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task LogEvents()
         {
             Service.GuildLogSettings.TryGetValue(ctx.Guild.Id, out var l);
@@ -93,8 +100,9 @@ public partial class Administration
         }
 
 
-        private static ulong? GetLogProperty(LogSetting l, LogType type) =>
-            type switch
+        private static ulong? GetLogProperty(LogSetting l, LogType type)
+        {
+            return type switch
             {
                 LogType.Other => l.LogOtherId,
                 LogType.MessageUpdated => l.MessageUpdatedId,
@@ -126,16 +134,21 @@ public partial class Administration
 
                 _ => null
             };
+        }
 
         /// <summary>
-        /// Sets the logging channel for a specific event type.
+        ///     Sets the logging channel for a specific event type.
         /// </summary>
         /// <param name="type">The type of event to set the logging channel for.</param>
         /// <remarks>
-        /// This command is restricted to users with Administrator permissions.
+        ///     This command is restricted to users with Administrator permissions.
         /// </remarks>
         /// <example>.log UserJoined</example>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(1)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        [Priority(1)]
         public async Task Log(LogType type)
         {
             await Service.SetLogChannel(ctx.Guild.Id, ctx.Channel.Id, type).ConfigureAwait(false);
@@ -143,17 +156,24 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Sets the logging channel for a specific event type.
+        ///     Sets the logging channel for a specific event type.
         /// </summary>
         /// <param name="type">The type of event to set the logging channel for.</param>
         /// <remarks>
-        /// This command is restricted to users with Administrator permissions.
+        ///     This command is restricted to users with Administrator permissions.
         /// </remarks>
-        /// <param name="channel">The channel to set as the logging channel. If not provided, the command will disable logging for the specified event type.</param>
+        /// <param name="channel">
+        ///     The channel to set as the logging channel. If not provided, the command will disable logging for
+        ///     the specified event type.
+        /// </param>
         /// <example>.log UserJoined #log-channel</example>
         /// <example>.log UserLeft</example>
         /// <example>.log UserJoined</example>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator), Priority(0)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
+        [Priority(0)]
         public async Task Log(LogType type, ITextChannel? channel = null)
         {
             try
@@ -176,10 +196,13 @@ public partial class Administration
 
 
         /// <summary>
-        /// Sets a channel to log commands to
+        ///     Sets a channel to log commands to
         /// </summary>
         /// <param name="channel">The channel to log commands to</param>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task CommandLogChannel(ITextChannel? channel = null)
         {
             if (channel is null)

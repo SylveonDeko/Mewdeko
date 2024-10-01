@@ -3,17 +3,20 @@ using Discord.Interactions;
 namespace Mewdeko.Common.TypeReaders.Interactions;
 
 /// <summary>
-/// Class that converts a string to a StatusRolesTable object.
+///     Class that converts a string to a StatusRolesTable object.
 /// </summary>
 public class StatusRolesTypeConverter : TypeConverter<StatusRolesTable>
 {
     /// <summary>
-    /// Returns the Discord type of the option.
+    ///     Returns the Discord type of the option.
     /// </summary>
-    public override ApplicationCommandOptionType GetDiscordType() => ApplicationCommandOptionType.String;
+    public override ApplicationCommandOptionType GetDiscordType()
+    {
+        return ApplicationCommandOptionType.String;
+    }
 
     /// <summary>
-    /// Converts the given string to a StatusRolesTable object.
+    ///     Converts the given string to a StatusRolesTable object.
     /// </summary>
     /// <param name="context">The interaction context.</param>
     /// <param name="input">The string to convert.</param>
@@ -37,7 +40,7 @@ public class StatusRolesTypeConverter : TypeConverter<StatusRolesTable>
     }
 
     /// <summary>
-    /// Writes the properties of the option.
+    ///     Writes the properties of the option.
     /// </summary>
     /// <param name="properties">The properties of the option.</param>
     /// <param name="parameter">The parameter information.</param>

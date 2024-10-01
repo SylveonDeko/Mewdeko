@@ -7,15 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 namespace Mewdeko.Controllers;
 
 /// <summary>
-/// Controller for setting permissions for commands and triggers
+///     Controller for setting permissions for commands and triggers
 /// </summary>
 [ApiController]
 [Route("botapi/[controller]")]
 [Authorize("ApiKeyPolicy")]
-public class PermissionsController(PermissionService permissionService, DiscordPermOverrideService dpoService, CommandService cmdServ) : Controller
+public class PermissionsController(
+    PermissionService permissionService,
+    DiscordPermOverrideService dpoService,
+    CommandService cmdServ) : Controller
 {
     /// <summary>
-    /// Gets all dpos for a guild
+    ///     Gets all dpos for a guild
     /// </summary>
     /// <param name="guildId">the guild to get permissions for</param>
     /// <returns></returns>
@@ -27,7 +30,7 @@ public class PermissionsController(PermissionService permissionService, DiscordP
     }
 
     /// <summary>
-    /// Add a discord permission override
+    ///     Add a discord permission override
     /// </summary>
     /// <param name="guildId"></param>
     /// <param name="commandName"></param>
@@ -45,7 +48,7 @@ public class PermissionsController(PermissionService permissionService, DiscordP
     }
 
     /// <summary>
-    /// Remove a dpo
+    ///     Remove a dpo
     /// </summary>
     /// <param name="guildId"></param>
     /// <param name="commandName"></param>
@@ -61,7 +64,7 @@ public class PermissionsController(PermissionService permissionService, DiscordP
     }
 
     /// <summary>
-    /// Gets regular permissions for a guild
+    ///     Gets regular permissions for a guild
     /// </summary>
     /// <param name="guildId">the guild to get permissions for</param>
     /// <returns></returns>
@@ -73,19 +76,18 @@ public class PermissionsController(PermissionService permissionService, DiscordP
     }
 
     /// <summary>
-    /// E
+    ///     E
     /// </summary>
     public class DpoRequest
     {
         /// <summary>
-        /// e
+        ///     e
         /// </summary>
         public string Command { get; set; }
+
         /// <summary>
-        /// e
+        ///     e
         /// </summary>
         public ulong Permissions { get; set; }
     }
-
-
 }

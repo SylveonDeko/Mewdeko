@@ -1,15 +1,17 @@
-﻿namespace Mewdeko.Services
+﻿namespace Mewdeko.Services;
+
+/// <summary>
+///     Provides standard conversion methods.
+/// </summary>
+public static class StandardConversions
 {
     /// <summary>
-    /// Provides standard conversion methods.
+    ///     Converts temperature from Celsius to Fahrenheit.
     /// </summary>
-    public static class StandardConversions
+    /// <param name="cel">The temperature in Celsius.</param>
+    /// <returns>The equivalent temperature in Fahrenheit.</returns>
+    public static double CelsiusToFahrenheit(double cel)
     {
-        /// <summary>
-        /// Converts temperature from Celsius to Fahrenheit.
-        /// </summary>
-        /// <param name="cel">The temperature in Celsius.</param>
-        /// <returns>The equivalent temperature in Fahrenheit.</returns>
-        public static double CelsiusToFahrenheit(double cel) => (cel * 1.8f) + 32;
+        return cel * 1.8f + 32;
     }
 }

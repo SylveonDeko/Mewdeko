@@ -1,12 +1,12 @@
 ﻿namespace Mewdeko.Database.Extensions;
 
 /// <summary>
-/// Provides extension methods for various operations.
+///     Provides extension methods for various operations.
 /// </summary>
 public static class Extensions
 {
     /// <summary>
-    /// Trims a string to a specified maximum length.
+    ///     Trims a string to a specified maximum length.
     /// </summary>
     /// <param name="str">The string to trim.</param>
     /// <param name="maxLength">The maximum length of the resulting string.</param>

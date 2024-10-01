@@ -5,8 +5,6 @@ VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mewdeko", "src\Mewdeko\Mewdeko.csproj", "{C26A9D03-7B38-4CC9-8FB6-5B4543E873E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mewdeko.Tests", "src\Mewdeko.Tests\Mewdeko.Tests.csproj", "{701E5E12-E25C-42B3-AD19-06658B96EFEE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{C26A9D03-7B38-4CC9-8FB6-5B4543E873E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C26A9D03-7B38-4CC9-8FB6-5B4543E873E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C26A9D03-7B38-4CC9-8FB6-5B4543E873E0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{701E5E12-E25C-42B3-AD19-06658B96EFEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{701E5E12-E25C-42B3-AD19-06658B96EFEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{701E5E12-E25C-42B3-AD19-06658B96EFEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{701E5E12-E25C-42B3-AD19-06658B96EFEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,23 +7,26 @@ using Mewdeko.Modules.Games.Services;
 namespace Mewdeko.Modules.Games;
 
 /// <summary>
-/// A module containing various games.
+///     A module containing various games.
 /// </summary>
 public partial class Games
 {
     /// <summary>
-    /// A module containing Acrophobia commands.
+    ///     A module containing Acrophobia commands.
     /// </summary>
     /// <param name="client">The discord client</param>
     [Group]
     public class AcropobiaCommands(DiscordShardedClient client) : MewdekoSubmodule<GamesService>
     {
         /// <summary>
-        /// Command for starting an Acrophobia game.
+        ///     Command for starting an Acrophobia game.
         /// </summary>
         /// <param name="args">Arguments passed to the command.</param>
         /// <example>.acro</example>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), MewdekoOptions(typeof(AcrophobiaGame.Options))]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [MewdekoOptions(typeof(AcrophobiaGame.Options))]
         public async Task Acrophobia(params string[] args)
         {
             var (options, _) = OptionsParser.ParseFrom(new AcrophobiaGame.Options(), args);
@@ -78,7 +81,7 @@ public partial class Games
         }
 
         /// <summary>
-        /// Event handler for when an Acrophobia game is started.
+        ///     Event handler for when an Acrophobia game is started.
         /// </summary>
         /// <param name="game">The Acrophobia game that has started.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
@@ -93,17 +96,19 @@ public partial class Games
         }
 
         /// <summary>
-        /// Event handler for when a user votes in an Acrophobia game.
+        ///     Event handler for when a user votes in an Acrophobia game.
         /// </summary>
         /// <param name="user">The user who voted.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        private Task Game_OnUserVoted(string user) =>
-            ctx.Channel.SendConfirmAsync(
+        private Task Game_OnUserVoted(string user)
+        {
+            return ctx.Channel.SendConfirmAsync(
                 GetText("acrophobia"),
                 GetText("acro_vote_cast", Format.Bold(user)));
+        }
 
         /// <summary>
-        /// Event handler for when voting starts in an Acrophobia game.
+        ///     Event handler for when voting starts in an Acrophobia game.
         /// </summary>
         /// <param name="game">The Acrophobia game in which voting started.</param>
         /// <param name="submissions">The submissions made by the players.</param>
@@ -139,7 +144,7 @@ public partial class Games
         }
 
         /// <summary>
-        /// Event handler for when an Acrophobia game ends.
+        ///     Event handler for when an Acrophobia game ends.
         /// </summary>
         /// <param name="game">The Acrophobia game that has ended.</param>
         /// <param name="votes">The votes received by the players.</param>

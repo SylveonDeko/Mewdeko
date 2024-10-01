@@ -5,33 +5,39 @@ using Mewdeko.Services.strings;
 namespace Mewdeko.Common.TypeReaders.Interactions;
 
 /// <summary>
-/// Class that converts a string to an array of IEmote objects.
+///     Class that converts a string to an array of IEmote objects.
 /// </summary>
 public class EmoteArrayTypeConverter : MewdekoTypeReader<IEmote[]>
 {
     /// <summary>
-    /// The bot strings service.
-    /// </summary>
-    private IBotStrings Strings { get; set; }
-
-    /// <summary>
-    /// Initializes a new instance of the EmoteArrayTypeConverter class.
+    ///     Initializes a new instance of the EmoteArrayTypeConverter class.
     /// </summary>
     /// <param name="client">The Discord client.</param>
     /// <param name="cmds">The interaction service.</param>
     /// <param name="strings">The bot strings service.</param>
     public EmoteArrayTypeConverter(DiscordShardedClient client, InteractionService cmds, IBotStrings strings) :
-        base(client, cmds) => Strings = strings;
+        base(client, cmds)
+    {
+        Strings = strings;
+    }
 
     /// <summary>
-    /// Checks if the given type can be converted to an array of IEmote objects.
+    ///     The bot strings service.
+    /// </summary>
+    private IBotStrings Strings { get; }
+
+    /// <summary>
+    ///     Checks if the given type can be converted to an array of IEmote objects.
     /// </summary>
     /// <param name="type">The type to check.</param>
     /// <returns>True if the type can be converted to an array of IEmote objects, false otherwise.</returns>
-    public override bool CanConvertTo(Type type) => type.IsArray && type.GetElementType() == typeof(IEmote);
+    public override bool CanConvertTo(Type type)
+    {
+        return type.IsArray && type.GetElementType() == typeof(IEmote);
+    }
 
     /// <summary>
-    /// Converts the given string to an array of IEmote objects.
+    ///     Converts the given string to an array of IEmote objects.
     /// </summary>
     /// <param name="context">The interaction context.</param>
     /// <param name="option">The string to convert.</param>

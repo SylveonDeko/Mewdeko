@@ -4,12 +4,12 @@ using System.Text.RegularExpressions;
 namespace Mewdeko.Extensions;
 
 /// <summary>
-/// Contains extension methods for the IUser interface.
+///     Contains extension methods for the IUser interface.
 /// </summary>
 public static partial class UserExtensions
 {
     /// <summary>
-    /// Dictionary of special characters and their closest normal equivalents.
+    ///     Dictionary of special characters and their closest normal equivalents.
     /// </summary>
     private static readonly Dictionary<string, string> Replacements = new()
     {
@@ -158,18 +158,21 @@ public static partial class UserExtensions
 
 
     /// <summary>
-    /// Sends a confirmation message to the specified user asynchronously.
+    ///     Sends a confirmation message to the specified user asynchronously.
     /// </summary>
     /// <param name="user">The user to send the confirmation message to.</param>
     /// <param name="text">The text of the confirmation message.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
-    public static async Task SendConfirmAsync(this IUser user, string text) =>
+    public static async Task SendConfirmAsync(this IUser user, string text)
+    {
         await (await user.CreateDMChannelAsync().ConfigureAwait(false))
             .SendMessageAsync(embed: new EmbedBuilder().WithOkColor().WithDescription(text).Build())
             .ConfigureAwait(false);
+    }
 
     /// <summary>
-    /// Sanitizes the username of the specified user by removing mentions, replacing special characters, and trimming to a maximum length.
+    ///     Sanitizes the username of the specified user by removing mentions, replacing special characters, and trimming to a
+    ///     maximum length.
     /// </summary>
     /// <param name="user">The user whose username is to be sanitized.</param>
     /// <returns>The sanitized username.</returns>
@@ -193,7 +196,7 @@ public static partial class UserExtensions
     }
 
     /// <summary>
-    /// Replaces special characters in the input string with their closest normal equivalents.
+    ///     Replaces special characters in the input string with their closest normal equivalents.
     /// </summary>
     /// <param name="input">The input string to sanitize.</param>
     /// <returns>The sanitized string with special characters replaced.</returns>
@@ -205,7 +208,7 @@ public static partial class UserExtensions
 
 
     /// <summary>
-    /// Sends a confirmation message with the specified title, text, and URL to the user asynchronously.
+    ///     Sends a confirmation message with the specified title, text, and URL to the user asynchronously.
     /// </summary>
     /// <param name="user">The user to send the confirmation message to.</param>
     /// <param name="title">The title of the confirmation message.</param>
@@ -223,7 +226,7 @@ public static partial class UserExtensions
     }
 
     /// <summary>
-    /// Sends an error message with the specified title, error description, and URL to the user asynchronously.
+    ///     Sends an error message with the specified title, error description, and URL to the user asynchronously.
     /// </summary>
     /// <param name="user">The user to send the error message to.</param>
     /// <param name="title">The title of the error message.</param>
@@ -242,19 +245,21 @@ public static partial class UserExtensions
     }
 
     /// <summary>
-    /// Sends an error message to the user asynchronously.
+    ///     Sends an error message to the user asynchronously.
     /// </summary>
     /// <param name="user">The user to send the error message to.</param>
     /// <param name="error">The error description.</param>
     /// <returns>A task representing the asynchronous operation. The task result contains the sent message.</returns>
-    public static async Task<IUserMessage> SendErrorAsync(this IUser user, string? error) =>
-        await (await user.CreateDMChannelAsync().ConfigureAwait(false))
+    public static async Task<IUserMessage> SendErrorAsync(this IUser user, string? error)
+    {
+        return await (await user.CreateDMChannelAsync().ConfigureAwait(false))
             .SendMessageAsync(embed: new EmbedBuilder().WithErrorColor().WithDescription(error).Build())
             .ConfigureAwait(false);
+    }
 
 
     /// <summary>
-    /// Sends a file asynchronously to the user.
+    ///     Sends a file asynchronously to the user.
     /// </summary>
     /// <param name="user">The user to send the file to.</param>
     /// <param name="filePath">The path to the file to send.</param>
@@ -272,7 +277,7 @@ public static partial class UserExtensions
     }
 
     /// <summary>
-    /// Sends a file stream asynchronously to the user.
+    ///     Sends a file stream asynchronously to the user.
     /// </summary>
     /// <param name="user">The user to send the file to.</param>
     /// <param name="fileStream">The file stream to send.</param>
@@ -281,43 +286,49 @@ public static partial class UserExtensions
     /// <param name="isTts">Specifies whether the message is text-to-speech.</param>
     /// <returns>A task representing the asynchronous operation. The task result contains the sent message.</returns>
     public static async Task<IUserMessage> SendFileAsync(this IUser user, Stream fileStream, string fileName,
-        string? caption = null, bool isTts = false) =>
-        await (await user.CreateDMChannelAsync().ConfigureAwait(false))
+        string? caption = null, bool isTts = false)
+    {
+        return await (await user.CreateDMChannelAsync().ConfigureAwait(false))
             .SendFileAsync(fileStream, fileName, caption, isTts).ConfigureAwait(false);
+    }
 
     /// <summary>
-    /// Gets the real avatar URL of the user.
+    ///     Gets the real avatar URL of the user.
     /// </summary>
     /// <param name="usr">The user to get the avatar URL for.</param>
     /// <param name="size">The desired size of the avatar image.</param>
     /// <returns>The URL of the user's avatar.</returns>
-    public static Uri RealAvatarUrl(this IUser usr, ushort size = 2048) =>
-        usr.AvatarId == null
+    public static Uri RealAvatarUrl(this IUser usr, ushort size = 2048)
+    {
+        return usr.AvatarId == null
             ? new Uri(usr.GetDefaultAvatarUrl())
             : new Uri(usr.GetAvatarUrl(ImageFormat.Auto, size));
+    }
 
     /// <summary>
-    /// Gets the real avatar URL of the Discord user.
+    ///     Gets the real avatar URL of the Discord user.
     /// </summary>
     /// <param name="usr">The Discord user to get the avatar URL for.</param>
     /// <returns>The URL of the user's avatar.</returns>
-    public static Uri? RealAvatarUrl(this DiscordUser usr) =>
-        usr.AvatarId == null
+    public static Uri? RealAvatarUrl(this DiscordUser usr)
+    {
+        return usr.AvatarId == null
             ? null
             : new Uri(usr.AvatarId.StartsWith("a_", StringComparison.InvariantCulture)
                 ? $"{DiscordConfig.CDNUrl}avatars/{usr.UserId}/{usr.AvatarId}.gif?size=2048"
                 : $"{DiscordConfig.CDNUrl}avatars/{usr.UserId}/{usr.AvatarId}.png?size=2048");
+    }
 
 
     /// <summary>
-    /// Gets the regular expression for matching non-alphanumeric and non-whitespace characters.
+    ///     Gets the regular expression for matching non-alphanumeric and non-whitespace characters.
     /// </summary>
     /// <returns>The regular expression for non-alphanumeric and non-whitespace characters.</returns>
     [GeneratedRegex("[^\\w\\s]")]
     private static partial Regex AlphaWhiteRegex();
 
     /// <summary>
-    /// Gets the regular expression for matching mentions in a string.
+    ///     Gets the regular expression for matching mentions in a string.
     /// </summary>
     /// <returns>The regular expression for mentions.</returns>
     [GeneratedRegex("<@!?[0-9]+>")]

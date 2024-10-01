@@ -10,7 +10,6 @@ namespace Mewdeko.Modules.Tickets;
 public class TicketInteractionModule(DbContextProvider dbProvider) : MewdekoSlashModuleBase<TicketService>
 {
     /// <summary>
-    ///
     /// </summary>
     /// <param name="channel"></param>
     /// <param name="title"></param>
@@ -20,11 +19,10 @@ public class TicketInteractionModule(DbContextProvider dbProvider) : MewdekoSlas
     [SlashUserPerm(GuildPermission.ManageGuild)]
     public async Task CreateTicketPanel()
     {
-       //var channel =
+        //var channel =
     }
 
     /// <summary>
-    ///
     /// </summary>
     /// <param name="panelId"></param>
     /// <param name="label"></param>
@@ -34,7 +32,8 @@ public class TicketInteractionModule(DbContextProvider dbProvider) : MewdekoSlas
     [RequireContext(ContextType.Guild)]
     [SlashUserPerm(GuildPermission.ManageGuild)]
     public async Task AddButton(
-        [Summary(description: "The ID of the panel to add the button to")] int panelId,
+        [Summary(description: "The ID of the panel to add the button to")]
+        int panelId,
         string label,
         string emoji,
         string openMessage)
@@ -57,9 +56,7 @@ public class TicketInteractionModule(DbContextProvider dbProvider) : MewdekoSlas
 
         panel.Buttons.Add(new TicketButton
         {
-            Label = label,
-            Emoji = emoji,
-            OpenMessage = openMessage
+            Label = label, Emoji = emoji, OpenMessage = openMessage
         });
 
         await using var db = await dbProvider.GetContextAsync();
@@ -105,13 +102,12 @@ public class TicketInteractionModule(DbContextProvider dbProvider) : MewdekoSlas
     }
 
     /// <summary>
-    ///
     /// </summary>
     /// <param name="buttonId"></param>
     [ComponentInteraction("ticket:*")]
     public async Task HandleTicketButton(string buttonId)
     {
-        await DeferAsync(ephemeral: true);
+        await DeferAsync(true);
 
         var guildUser = (IGuildUser)ctx.User;
         var button = await Service.GetTicketButton(int.Parse(buttonId));
@@ -128,7 +124,6 @@ public class TicketInteractionModule(DbContextProvider dbProvider) : MewdekoSlas
     }
 
     /// <summary>
-    ///
     /// </summary>
     /// <param name="panelId"></param>
     [SlashCommand("deletepanel", "Delete a ticket panel")]

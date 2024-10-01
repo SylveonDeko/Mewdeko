@@ -7,7 +7,7 @@ using Embed = Discord.Embed;
 namespace Mewdeko.Modules.Utility.Services;
 
 /// <summary>
-/// Service that provides information for crypto coins, its finally back after being removed ages ago
+///     Service that provides information for crypto coins, its finally back after being removed ages ago
 /// </summary>
 public class CryptoService(IHttpClientFactory httpFactory) : INService
 {
@@ -25,7 +25,7 @@ public class CryptoService(IHttpClientFactory httpFactory) : INService
     }
 
     /// <summary>
-    /// Generates the actual chart
+    ///     Generates the actual chart
     /// </summary>
     /// <param name="cryptoId">The name of the crypto to return data for</param>
     /// <param name="days">Number of days to fetch data for</param>
@@ -87,15 +87,15 @@ public class CryptoService(IHttpClientFactory httpFactory) : INService
             var x = padding + i * scaleX;
             var date = DateTime.UtcNow.AddDays(-days + i).ToString("dd/MM");
             canvas.DrawLine(x, padding, x, height - padding, gridPaint);
-            canvas.DrawText(date, x - (paint.MeasureText(date) / 2), height - (padding / 2), paint);
+            canvas.DrawText(date, x - paint.MeasureText(date) / 2, height - padding / 2, paint);
         }
 
-        SKPath path = new SKPath();
+        var path = new SKPath();
         for (var i = 0; i < prices.Count; i++)
         {
             var pricePercentage = (prices[i] - minPrice) / priceRange;
             var x = padding + i * scaleX;
-            var y = height - padding - (pricePercentage * heightWithPadding);
+            var y = height - padding - pricePercentage * heightWithPadding;
 
             if (i == 0)
             {
@@ -109,7 +109,7 @@ public class CryptoService(IHttpClientFactory httpFactory) : INService
             if (i > 0)
             {
                 var prevPricePercentage = (prices[i - 1] - minPrice) / priceRange;
-                var prevY = height - padding - (prevPricePercentage * heightWithPadding);
+                var prevY = height - padding - prevPricePercentage * heightWithPadding;
 
                 if (prices[i] > prices[i - 1])
                 {
@@ -150,5 +150,4 @@ public class CryptoService(IHttpClientFactory httpFactory) : INService
 
         return new Tuple<Stream, Embed>(imageStream, embedBuilder.Build());
     }
-
 }

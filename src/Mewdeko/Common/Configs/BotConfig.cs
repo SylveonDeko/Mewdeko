@@ -7,12 +7,12 @@ using YamlDotNet.Serialization;
 namespace Mewdeko.Common.Configs;
 
 /// <summary>
-/// Yml configuration for the bot.
+///     Yml configuration for the bot.
 /// </summary>
 public sealed class BotConfig
 {
     /// <summary>
-    /// Creates a new instance of <see cref="BotConfig"/>. Sets default values.
+    ///     Creates a new instance of <see cref="BotConfig" />. Sets default values.
     /// </summary>
     public BotConfig()
     {
@@ -45,13 +45,13 @@ public sealed class BotConfig
     }
 
     /// <summary>
-    /// Gets or sets the version of the bot configuration.
+    ///     Gets or sets the version of the bot configuration.
     /// </summary>
     [Comment("DO NOT CHANGE")]
     public int Version { get; set; }
 
     /// <summary>
-    /// Gets or sets the color configuration for the bot. Used for embeds. See <see cref="ColorConfig"/>.
+    ///     Gets or sets the color configuration for the bot. Used for embeds. See <see cref="ColorConfig" />.
     /// </summary>
     [Comment(@"Most commands, when executed, have a small colored line
 next to the response. The color depends whether the command
@@ -62,45 +62,45 @@ and copy the hex code fo your selected color (marked as #)")]
     public ColorConfig Color { get; set; }
 
     /// <summary>
-    /// Gets or sets the default locale for the bot.
+    ///     Gets or sets the default locale for the bot.
     /// </summary>
     [Comment("Default bot language. It has to be in the list of supported languages (.langli)")]
     public CultureInfo? DefaultLocale { get; set; }
 
     /// <summary>
-    /// Gets or sets the style in which executed commands will show up in the console.
+    ///     Gets or sets the style in which executed commands will show up in the console.
     /// </summary>
     [Comment(@"Style in which executed commands will show up in the console.
 Allowed values: Simple, Normal, None")]
     public ConsoleOutputType ConsoleOutputType { get; set; }
 
     /// <summary>
-    /// Gets or sets the type of updates the bot will check for.
+    ///     Gets or sets the type of updates the bot will check for.
     /// </summary>
     [Comment(@"For what kind of updates will the bot check.
     Allowed values: Release, Commit, None")]
     public UpdateCheckType CheckForUpdates { get; set; }
 
     /// <summary>
-    /// Gets or sets the interval at which the bot will check for updates, in hours.
+    ///     Gets or sets the interval at which the bot will check for updates, in hours.
     /// </summary>
     [Comment("How often will the bot check for updates, in hours")]
     public int CheckUpdateInterval { get; set; }
 
     /// <summary>
-    /// Gets or sets the branch to check for updates. Default is "main".
+    ///     Gets or sets the branch to check for updates. Default is "main".
     /// </summary>
     [Comment("Set which branch to check for updates")]
     public string UpdateBranch { get; set; }
 
     /// <summary>
-    /// Gets or sets whether messages sent by users in the bot's DM will be forwarded to the owner(s).
+    ///     Gets or sets whether messages sent by users in the bot's DM will be forwarded to the owner(s).
     /// </summary>
     [Comment("Do you want any messages sent by users in Bot's DM to be forwarded to the owner(s)?")]
     public bool ForwardMessages { get; set; }
 
     /// <summary>
-    /// Gets or sets whether messages sent by users in the bot's DM will be forwarded to all owners.
+    ///     Gets or sets whether messages sent by users in the bot's DM will be forwarded to all owners.
     /// </summary>
     [Comment(
         @"Do you want the message to be forwarded only to the first owner specified in the list of owners (in creds.yml),
@@ -108,33 +108,36 @@ or all owners? (this might cause the bot to lag if there's a lot of owners speci
     public bool ForwardToAllOwners { get; set; }
 
     /// <summary>
-    /// Gets or sets the message to send to users who DM the bot with a message that is not a command.
+    ///     Gets or sets the message to send to users who DM the bot with a message that is not a command.
     /// </summary>
     [Comment(@"When a user DMs the bot with a message which is not a command
 they will receive this message. Leave empty for no response. The string which will be sent whenever someone DMs the bot.
-Supports embeds. How it looks: https://puu.sh/B0BLV.png"), YamlMember(ScalarStyle = ScalarStyle.Literal)]
+Supports embeds. How it looks: https://puu.sh/B0BLV.png")]
+    [YamlMember(ScalarStyle = ScalarStyle.Literal)]
     public string? DmHelpText { get; set; }
 
     /// <summary>
-    /// Gets or sets the help text for the .h command. Uses embed code.
+    ///     Gets or sets the help text for the .h command. Uses embed code.
     /// </summary>
-    [Comment("This is the response for the .h command"), YamlMember(ScalarStyle = ScalarStyle.Literal)]
+    [Comment("This is the response for the .h command")]
+    [YamlMember(ScalarStyle = ScalarStyle.Literal)]
     public string HelpText { get; set; }
 
     /// <summary>
-    /// Gets or sets the list of modules and commands that are completely blocked on the bot. See <see cref="BlockedConfig"/>.
+    ///     Gets or sets the list of modules and commands that are completely blocked on the bot. See
+    ///     <see cref="BlockedConfig" />.
     /// </summary>
     [Comment("List of modules and commands completely blocked on the bot")]
     public BlockedConfig? Blocked { get; set; }
 
     /// <summary>
-    /// Gets or sets the default prefix for the bot.
+    ///     Gets or sets the default prefix for the bot.
     /// </summary>
     [Comment("Which string will be used to recognize the commands")]
     public string Prefix { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the bot will group greet/bye messages into a single message every 5 seconds.
+    ///     Gets or sets whether the bot will group greet/bye messages into a single message every 5 seconds.
     /// </summary>
     [Comment(@"Toggles whether your bot will group greet/bye messages into a single message every 5 seconds.
 1st user who joins will get greeted immediately
@@ -148,7 +151,7 @@ note: This setting is primarily used if you're afraid of raids, or you're runnin
     public bool GroupGreets { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the bot will rotate through all specified statuses.
+    ///     Gets or sets whether the bot will rotate through all specified statuses.
     /// </summary>
     [Comment(@"Whether the bot will rotate through all specified statuses.
 This setting can be changed via .rots command.
@@ -156,98 +159,98 @@ See RotatingStatuses submodule in Administration.")]
     public bool RotateStatuses { get; set; }
 
     /// <summary>
-    /// Gets or sets the channel ID for the gloal command log channel.
+    ///     Gets or sets the channel ID for the gloal command log channel.
     /// </summary>
     [Comment("Used for global command logs")]
     public ulong CommandLogChannel { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the bot will support youtube links. (Or hides that it supports them lol)
+    ///     Gets or sets whether the bot will support youtube links. (Or hides that it supports them lol)
     /// </summary>
     [Comment("Enable or disable youtube support")]
     public bool YoutubeSupport { get; set; }
 
     /// <summary>
-    /// Gets or sets the ChatGPT API key.
+    ///     Gets or sets the ChatGPT API key.
     /// </summary>
     [Comment("ChatGPT API Key")]
     public string ChatGptKey { get; set; }
 
     /// <summary>
-    /// Gets or sets the ChatGPT Channel ID.
+    ///     Gets or sets the ChatGPT Channel ID.
     /// </summary>
     [Comment("ChatGPT Channel ID")]
     public ulong ChatGptChannel { get; set; }
 
     /// <summary>
-    /// Gets or sets the ChatGPT Initial prompt when starting a conversation with ChatGPT.
+    ///     Gets or sets the ChatGPT Initial prompt when starting a conversation with ChatGPT.
     /// </summary>
     [Comment("ChatGPT Init Prompt. Used to set how chatgpt will act.")]
     public string ChatGptInitPrompt { get; set; }
 
     /// <summary>
-    /// Gets or sets the maximum number of tokens that ChatGPT can output.
+    ///     Gets or sets the maximum number of tokens that ChatGPT can output.
     /// </summary>
     [Comment("Max tokens that chatgpt can output")]
     public int ChatGptMaxTokens { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the invite and donation button will be shown on some commands.
+    ///     Gets or sets whether the invite and donation button will be shown on some commands.
     /// </summary>
     [Comment("Used to enable or disable showing the invite button on some commands")]
     public bool ShowInviteButton { get; set; }
 
     /// <summary>
-    /// Gets or sets the webhook for ChatGPT.
+    ///     Gets or sets the webhook for ChatGPT.
     /// </summary>
     [Comment("ChatGPT Webhook, used if you want to change the appearance of chatgpt messages.")]
     public string ChatGptWebhook { get; set; }
 
     /// <summary>
-    /// Gets or sets the temperature for ChatGPT.
+    ///     Gets or sets the temperature for ChatGPT.
     /// </summary>
     [Comment("Sets the temperature for ChatGPT")]
     public double ChatGptTemperature { get; set; }
 
     /// <summary>
-    /// Gets or sets the model to use for ChatGPT.
+    ///     Gets or sets the model to use for ChatGPT.
     /// </summary>
     [Comment("The model to use for chatgpt")]
     public string ChatGptModel { get; set; }
 
     /// <summary>
-    /// Gets or sets the redirect url for the auth command.
+    ///     Gets or sets the redirect url for the auth command.
     /// </summary>
     [Comment(
         "The authorization redirect url for the auth command. This MUST be added to your valid redirect urls in the discord developer portal.")]
     public string RedirectUrl { get; set; }
 
     /// <summary>
-    /// Gets or sets the error emote used across the bot.
+    ///     Gets or sets the error emote used across the bot.
     /// </summary>
     [Comment("Used to set the error emote used across the bot.")]
     public string ErrorEmote { get; set; }
 
     /// <summary>
-    /// Gets or sets the success emote used across the bot.
+    ///     Gets or sets the success emote used across the bot.
     /// </summary>
     [Comment("Used to set the success emote used across the bot.")]
     public string SuccessEmote { get; set; }
 
     /// <summary>
-    /// Gets or sets the loading emote used across the bot.
+    ///     Gets or sets the loading emote used across the bot.
     /// </summary>
     [Comment("Used to set the loading emote for the bot.")]
     public string LoadingEmote { get; set; }
 
     /// <summary>
-    /// Gets or sets the support server invite on Mewdeko.
+    ///     Gets or sets the support server invite on Mewdeko.
     /// </summary>
     [Comment("Used to set the support server invite on Mewdeko")]
     public string SupportServer { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the bot will notify the owner when the bot gets quarantined.
+    ///     Gets or sets whether the bot will notify the owner when the bot gets quarantined.
     /// </summary>
     [Comment(
         "Notify the owner of the bot when the bot gets quarantined. Only dms first owner if ForwardMessages is enabled.")]
@@ -255,12 +258,12 @@ See RotatingStatuses submodule in Administration.")]
 }
 
 /// <summary>
-/// Configuration for blocked modules and commands.
+///     Configuration for blocked modules and commands.
 /// </summary>
 public class BlockedConfig
 {
     /// <summary>
-    /// Creates a new instance of <see cref="BlockedConfig"/>. Sets default values.
+    ///     Creates a new instance of <see cref="BlockedConfig" />. Sets default values.
     /// </summary>
     public BlockedConfig()
     {
@@ -269,23 +272,23 @@ public class BlockedConfig
     }
 
     /// <summary>
-    /// Gets or sets the list of blocked commands.
+    ///     Gets or sets the list of blocked commands.
     /// </summary>
     public HashSet<string?>? Commands { get; set; }
 
     /// <summary>
-    /// Gets or sets the list of blocked modules.
+    ///     Gets or sets the list of blocked modules.
     /// </summary>
     public HashSet<string?>? Modules { get; set; }
 }
 
 /// <summary>
-/// Configuration for colors used in the bot.
+///     Configuration for colors used in the bot.
 /// </summary>
 public class ColorConfig
 {
     /// <summary>
-    /// Creates a new instance of <see cref="ColorConfig"/>. Sets default values.
+    ///     Creates a new instance of <see cref="ColorConfig" />. Sets default values.
     /// </summary>
     public ColorConfig()
     {
@@ -295,62 +298,62 @@ public class ColorConfig
     }
 
     /// <summary>
-    /// Gets or sets the color used for embed responses when command successfully executes.
+    ///     Gets or sets the color used for embed responses when command successfully executes.
     /// </summary>
     [Comment("Color used for embed responses when command successfully executes")]
     public SKColor Ok { get; set; }
 
     /// <summary>
-    /// Gets or sets the color used for embed responses when command has an error.
+    ///     Gets or sets the color used for embed responses when command has an error.
     /// </summary>
     [Comment("Color used for embed responses when command has an error")]
     public SKColor Error { get; set; }
 
     /// <summary>
-    /// Gets or sets the color used for embed responses while command is doing work or is in progress.
+    ///     Gets or sets the color used for embed responses while command is doing work or is in progress.
     /// </summary>
     [Comment("Color used for embed responses while command is doing work or is in progress")]
     public SKColor Pending { get; set; }
 }
 
 /// <summary>
-/// Configuration for the bot's console output.
+///     Configuration for the bot's console output.
 /// </summary>
 public enum ConsoleOutputType
 {
     /// <summary>
-    /// Normal console output.
+    ///     Normal console output.
     /// </summary>
     Normal = 0,
 
     /// <summary>
-    /// Simple console output.
+    ///     Simple console output.
     /// </summary>
     Simple = 1,
 
     /// <summary>
-    /// No console output.
+    ///     No console output.
     /// </summary>
     None = 2
 }
 
 /// <summary>
-/// Type of update check to perform.
+///     Type of update check to perform.
 /// </summary>
 public enum UpdateCheckType
 {
     /// <summary>
-    /// Check for release updates.
+    ///     Check for release updates.
     /// </summary>
     Release = 0,
 
     /// <summary>
-    /// Check for commit updates.
+    ///     Check for commit updates.
     /// </summary>
     Commit = 1,
 
     /// <summary>
-    /// Do not check for updates.
+    ///     Do not check for updates.
     /// </summary>
     None = 2
 }

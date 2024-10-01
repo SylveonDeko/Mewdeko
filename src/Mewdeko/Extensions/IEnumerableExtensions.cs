@@ -4,14 +4,14 @@ using Mewdeko.Database.Common;
 namespace Mewdeko.Extensions;
 
 /// <summary>
-/// Extensions for IEnumerable objects.
+///     Extensions for IEnumerable objects.
 /// </summary>
 public static class EnumerableExtensions
 {
     private static readonly Random Random = new();
 
     /// <summary>
-    /// Joins the elements of a sequence into a single string using the specified separator and optional mapping function.
+    ///     Joins the elements of a sequence into a single string using the specified separator and optional mapping function.
     /// </summary>
     /// <typeparam name="T">The type of elements in the sequence.</typeparam>
     /// <param name="data">The sequence to join.</param>
@@ -19,19 +19,23 @@ public static class EnumerableExtensions
     /// <param name="func">An optional mapping function to apply to each element before joining.</param>
     /// <returns>The concatenated string.</returns>
     public static string Join<T>(this IEnumerable<T> data, char separator, Func<T, string>? func = null)
-        => string.Join(separator, data.Select(func ?? (x => x?.ToString() ?? string.Empty)));
+    {
+        return string.Join(separator, data.Select(func ?? (x => x?.ToString() ?? string.Empty)));
+    }
 
     /// <summary>
-    /// Returns a random element from the specified sequence.
+    ///     Returns a random element from the specified sequence.
     /// </summary>
     /// <typeparam name="T">The type of elements in the sequence.</typeparam>
     /// <param name="list">The sequence to select from.</param>
     /// <returns>A randomly selected element from the sequence.</returns>
     public static T GetRandomElement<T>(this IEnumerable<T> list)
-        => !list.Any() ? default(T) : list.ElementAt(Random.Next(list.Count()));
+    {
+        return !list.Any() ? default : list.ElementAt(Random.Next(list.Count()));
+    }
 
     /// <summary>
-    /// Joins the elements of a sequence into a single string using the specified separator and optional mapping function.
+    ///     Joins the elements of a sequence into a single string using the specified separator and optional mapping function.
     /// </summary>
     /// <typeparam name="T">The type of elements in the sequence.</typeparam>
     /// <param name="data">The sequence to join.</param>
@@ -45,7 +49,7 @@ public static class EnumerableExtensions
     }
 
     /// <summary>
-    /// Joins the elements of a sequence into a single string using the specified separator and optional mapping function.
+    ///     Joins the elements of a sequence into a single string using the specified separator and optional mapping function.
     /// </summary>
     /// <typeparam name="T">The type of elements in the sequence.</typeparam>
     /// <param name="data">The sequence to join.</param>
@@ -59,18 +63,20 @@ public static class EnumerableExtensions
     }
 
     /// <summary>
-    /// Returns distinct elements from a sequence by using a specified key selector function.
+    ///     Returns distinct elements from a sequence by using a specified key selector function.
     /// </summary>
     /// <typeparam name="T">The type of elements in the sequence.</typeparam>
     /// <typeparam name="TU">The type of the keys returned by the key selector function.</typeparam>
     /// <param name="data">The sequence to remove duplicate elements from.</param>
     /// <param name="getKey">A function to extract the key for each element.</param>
     /// <returns>An IEnumerable containing distinct elements from the source sequence.</returns>
-    public static IEnumerable<T> Distinct<T, TU>(this IEnumerable<T> data, Func<T, TU> getKey) =>
-        data.GroupBy(getKey).Select(x => x.First());
+    public static IEnumerable<T> Distinct<T, TU>(this IEnumerable<T> data, Func<T, TU> getKey)
+    {
+        return data.GroupBy(getKey).Select(x => x.First());
+    }
 
     /// <summary>
-    /// Moves an item within a list to a new index.
+    ///     Moves an item within a list to a new index.
     /// </summary>
     /// <typeparam name="T">The type of elements in the list.</typeparam>
     /// <param name="list">The list containing the item to move.</param>
@@ -87,7 +93,7 @@ public static class EnumerableExtensions
     }
 
     /// <summary>
-    /// Asynchronously waits for all tasks in the collection to complete and returns their results.
+    ///     Asynchronously waits for all tasks in the collection to complete and returns their results.
     /// </summary>
     /// <typeparam name="T">The type of results returned by the tasks.</typeparam>
     /// <param name="tasks">The collection of tasks to wait for.</param>
@@ -104,7 +110,7 @@ public static class EnumerableExtensions
     }
 
     /// <summary>
-    /// Randomizes the order of elements in the sequence by performing the Fisher-Yates shuffle.
+    ///     Randomizes the order of elements in the sequence by performing the Fisher-Yates shuffle.
     /// </summary>
     /// <typeparam name="T">The type of items in the sequence.</typeparam>
     /// <param name="items">The sequence of items to shuffle.</param>
@@ -116,7 +122,7 @@ public static class EnumerableExtensions
         var n = list.Count;
         while (n > 1)
         {
-            var box = new byte[(n / byte.MaxValue) + 1];
+            var box = new byte[n / byte.MaxValue + 1];
             int boxSum;
             do
             {
@@ -133,7 +139,7 @@ public static class EnumerableExtensions
     }
 
     /// <summary>
-    /// Executes an action on each element in the sequence.
+    ///     Executes an action on each element in the sequence.
     /// </summary>
     /// <typeparam name="T">The type of elements in the sequence.</typeparam>
     /// <param name="elems">The sequence of elements.</param>
@@ -145,7 +151,7 @@ public static class EnumerableExtensions
     }
 
     /// <summary>
-    /// Converts a sequence of key-value pairs into a concurrent dictionary.
+    ///     Converts a sequence of key-value pairs into a concurrent dictionary.
     /// </summary>
     /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
     /// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
@@ -153,16 +159,22 @@ public static class EnumerableExtensions
     /// <returns>A new ConcurrentDictionary containing the key-value pairs from the sequence.</returns>
     public static ConcurrentDictionary<TKey, TValue> ToConcurrent<TKey, TValue>(
         this IEnumerable<KeyValuePair<TKey, TValue>> dict)
-        where TKey : notnull => new(dict);
+        where TKey : notnull
+    {
+        return new ConcurrentDictionary<TKey, TValue>(dict);
+    }
 
     /// <summary>
-    /// Converts a sequence of items into an indexed collection.
+    ///     Converts a sequence of items into an indexed collection.
     /// </summary>
     /// <typeparam name="T">The type of items in the sequence.</typeparam>
     /// <param name="enumerable">The sequence of items to convert.</param>
     /// <returns>An IndexedCollection containing the items from the sequence.</returns>
     public static IndexedCollection<T> ToIndexed<T>(this IEnumerable<T> enumerable)
-        where T : class, IIndexed => new(enumerable);
+        where T : class, IIndexed
+    {
+        return new IndexedCollection<T>(enumerable);
+    }
 
 
     /// <summary>
@@ -173,7 +185,9 @@ public static class EnumerableExtensions
     /// <typeparam name="TResult">The type of the completed task.</typeparam>
     /// <returns>A task that represents the completion of all of the supplied tasks.</returns>
     public static Task<TResult[]> WhenAll<TResult>(this IEnumerable<Task<TResult>> tasks)
-        => Task.WhenAll(tasks);
+    {
+        return Task.WhenAll(tasks);
+    }
 
     /// <summary>
     ///     Creates a task that will complete when all of the <see cref="Task" /> objects in an enumerable
@@ -182,5 +196,7 @@ public static class EnumerableExtensions
     /// <param name="tasks">The tasks to wait on for completion.</param>
     /// <returns>A task that represents the completion of all of the supplied tasks.</returns>
     public static Task WhenAll(this IEnumerable<Task> tasks)
-        => Task.WhenAll(tasks);
+    {
+        return Task.WhenAll(tasks);
+    }
 }

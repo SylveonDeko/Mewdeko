@@ -4,17 +4,17 @@ using Microsoft.EntityFrameworkCore;
 namespace Mewdeko.Modules.Administration.Services;
 
 /// <summary>
-/// Service for managing server recovery.
+///     Service for managing server recovery.
 /// </summary>
 public class ServerRecoveryService : INService
 {
     /// <summary>
-    /// The database service.
+    ///     The database service.
     /// </summary>
     private readonly DbContextProvider dbProvider;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="ServerRecoveryService"/> class.
+    ///     Initializes a new instance of the <see cref="ServerRecoveryService" /> class.
     /// </summary>
     /// <param name="db">The database service.</param>
     public ServerRecoveryService(DbContextProvider dbProvider)
@@ -23,20 +23,22 @@ public class ServerRecoveryService : INService
     }
 
     /// <summary>
-    /// Checks if recovery is set up for a guild.
+    ///     Checks if recovery is set up for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to check.</param>
-    /// <returns>A task that represents the asynchronous operation and contains a boolean indicating whether recovery is set up and the server recovery store.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation and contains a boolean indicating whether recovery is set up
+    ///     and the server recovery store.
+    /// </returns>
     public async Task<(bool, ServerRecoveryStore)> RecoveryIsSetup(ulong guildId)
     {
-
         await using var dbContext = await dbProvider.GetContextAsync();
         var store = await dbContext.ServerRecoveryStore.FirstOrDefaultAsync(x => x.GuildId == guildId);
         return (store != null, store);
     }
 
     /// <summary>
-    /// Sets up recovery for a guild.
+    ///     Sets up recovery for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to set up recovery for.</param>
     /// <param name="recoveryKey">The recovery key.</param>
@@ -44,7 +46,6 @@ public class ServerRecoveryService : INService
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetupRecovery(ulong guildId, string recoveryKey, string twoFactorKey)
     {
-
         await using var dbContext = await dbProvider.GetContextAsync();
         var toAdd = new ServerRecoveryStore
         {
@@ -56,7 +57,7 @@ public class ServerRecoveryService : INService
     }
 
     /// <summary>
-    /// Clears the recovery setup for a server.
+    ///     Clears the recovery setup for a server.
     /// </summary>
     /// <param name="serverRecoveryStore">The server recovery store to clear.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>

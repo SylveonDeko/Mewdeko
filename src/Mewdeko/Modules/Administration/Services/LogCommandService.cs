@@ -11,193 +11,193 @@ using Serilog;
 namespace Mewdeko.Modules.Administration.Services;
 
 /// <summary>
-/// Service for managing log commands.
+///     Service for managing log commands.
 /// </summary>
 public class LogCommandService : INService, IReadyExecutor
 {
     /// <summary>
-    /// Log category types.
+    ///     Log category types.
     /// </summary>
     public enum LogCategoryTypes
     {
         /// <summary>
-        /// All events.
+        ///     All events.
         /// </summary>
         All,
 
         /// <summary>
-        /// All events related to users.
+        ///     All events related to users.
         /// </summary>
         Users,
 
         /// <summary>
-        /// All events related to threads.
+        ///     All events related to threads.
         /// </summary>
         Threads,
 
         /// <summary>
-        /// All events related to roles.
+        ///     All events related to roles.
         /// </summary>
         Roles,
 
         /// <summary>
-        /// All events related to the server.
+        ///     All events related to the server.
         /// </summary>
         Server,
 
         /// <summary>
-        /// All events related to messages.
+        ///     All events related to messages.
         /// </summary>
         Channel,
 
         /// <summary>
-        /// All events related to messages.
+        ///     All events related to messages.
         /// </summary>
         Messages,
 
         /// <summary>
-        /// All events related to moderation.
+        ///     All events related to moderation.
         /// </summary>
         Moderation,
 
         /// <summary>
-        /// Sets all events to none.
+        ///     Sets all events to none.
         /// </summary>
         None
     }
 
     /// <summary>
-    /// Dictionary of log types.
+    ///     Dictionary of log types.
     /// </summary>
     public enum LogType
     {
         /// <summary>
-        /// The log type is custom, like user banned due to antiraid or other anti measures in the bot.
+        ///     The log type is custom, like user banned due to antiraid or other anti measures in the bot.
         /// </summary>
         Other,
 
         /// <summary>
-        /// An event was created in the guild.
+        ///     An event was created in the guild.
         /// </summary>
         EventCreated,
 
         /// <summary>
-        /// A role was updated in the guild.
+        ///     A role was updated in the guild.
         /// </summary>
         RoleUpdated,
 
         /// <summary>
-        /// A role was created in the guild.
+        ///     A role was created in the guild.
         /// </summary>
         RoleCreated,
 
         /// <summary>
-        /// A role was deleted in the guild.
+        ///     A role was deleted in the guild.
         /// </summary>
         RoleDeleted,
 
         /// <summary>
-        /// The guild was updated.
+        ///     The guild was updated.
         /// </summary>
         ServerUpdated,
 
         /// <summary>
-        /// A thread was created in the guild.
+        ///     A thread was created in the guild.
         /// </summary>
         ThreadCreated,
 
         /// <summary>
-        /// A user had a role added to them.
+        ///     A user had a role added to them.
         /// </summary>
         UserRoleAdded,
 
         /// <summary>
-        /// A user had a role removed from them.
+        ///     A user had a role removed from them.
         /// </summary>
         UserRoleRemoved,
 
         /// <summary>
-        /// A user's username was updated.
+        ///     A user's username was updated.
         /// </summary>
         UsernameUpdated,
 
         /// <summary>
-        /// A user's nickname was updated.
+        ///     A user's nickname was updated.
         /// </summary>
         NicknameUpdated,
 
         /// <summary>
-        /// A thread was deleted in the guild.
+        ///     A thread was deleted in the guild.
         /// </summary>
         ThreadDeleted,
 
         /// <summary>
-        /// A thread was updated in the guild.
+        ///     A thread was updated in the guild.
         /// </summary>
         ThreadUpdated,
 
         /// <summary>
-        /// A message was updated in the guild.
+        ///     A message was updated in the guild.
         /// </summary>
         MessageUpdated,
 
         /// <summary>
-        /// A message was deleted in the guild.
+        ///     A message was deleted in the guild.
         /// </summary>
         MessageDeleted,
 
         /// <summary>
-        /// A user joined the guild.
+        ///     A user joined the guild.
         /// </summary>
         UserJoined,
 
         /// <summary>
-        /// A user left the guild.
+        ///     A user left the guild.
         /// </summary>
         UserLeft,
 
         /// <summary>
-        /// A user was updated.
+        ///     A user was updated.
         /// </summary>
         UserBanned,
 
         /// <summary>
-        /// A user was unbanned.
+        ///     A user was unbanned.
         /// </summary>
         UserUnbanned,
 
         /// <summary>
-        /// A user was updated.
+        ///     A user was updated.
         /// </summary>
         UserUpdated,
 
         /// <summary>
-        /// A channel was created in the guild.
+        ///     A channel was created in the guild.
         /// </summary>
         ChannelCreated,
 
         /// <summary>
-        /// A channel was destroyed in the guild.
+        ///     A channel was destroyed in the guild.
         /// </summary>
         ChannelDestroyed,
 
         /// <summary>
-        /// A channel was updated in the guild.
+        ///     A channel was updated in the guild.
         /// </summary>
         ChannelUpdated,
 
         /// <summary>
-        /// A user's voice presence was updated.
+        ///     A user's voice presence was updated.
         /// </summary>
         VoicePresence,
 
         /// <summary>
-        /// A user's used TTS in a voice channel.
+        ///     A user's used TTS in a voice channel.
         /// </summary>
         VoicePresenceTts,
 
         /// <summary>
-        /// A user was muted.
+        ///     A user was muted.
         /// </summary>
         UserMuted
     }
@@ -208,7 +208,7 @@ public class LogCommandService : INService, IReadyExecutor
 
 
     /// <summary>
-    /// Constructs a new instance of the NewLogCommandService.
+    ///     Constructs a new instance of the NewLogCommandService.
     /// </summary>
     /// <param name="db">The database service.</param>
     /// <param name="cache">The data cache.</param>
@@ -253,6 +253,11 @@ public class LogCommandService : INService, IReadyExecutor
         // Load guild configurations from the database
     }
 
+    /// <summary>
+    ///     Dictionary of log settings for each guild.
+    /// </summary>
+    public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; set; }
+
     /// <inheritdoc />
     public async Task OnReadyAsync()
     {
@@ -272,12 +277,7 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Dictionary of log settings for each guild.
-    /// </summary>
-    public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; set; }
-
-    /// <summary>
-    /// Handles the creation of audit logs.
+    ///     Handles the creation of audit logs.
     /// </summary>
     /// <param name="args">The audit log entry.</param>
     /// <param name="arsg2">The guild where the audit log was created.</param>
@@ -298,7 +298,7 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the creation of a role.
+    ///     Handles the creation of a role.
     /// </summary>
     /// <param name="args">The role that was created.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -336,7 +336,7 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a guild is updated.
+    ///     Handles the event when a guild is updated.
     /// </summary>
     /// <param name="args">The updated guild.</param>
     /// <param name="arsg2">The original guild before the update.</param>
@@ -539,7 +539,7 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a role is deleted in a guild.
+    ///     Handles the event when a role is deleted in a guild.
     /// </summary>
     /// <param name="args">The role that was deleted.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -580,7 +580,7 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a role is updated in a guild.
+    ///     Handles the event when a role is updated in a guild.
     /// </summary>
     /// <param name="args">The updated role.</param>
     /// <param name="arsg2">The original role before the update.</param>
@@ -695,7 +695,7 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a new event is created in a guild.
+    ///     Handles the event when a new event is created in a guild.
     /// </summary>
     /// <param name="args">The event that was created.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -736,7 +736,7 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles logging for when a thread is created.
+    ///     Handles logging for when a thread is created.
     /// </summary>
     /// <param name="socketThreadChannel">The created thread channel.</param>
     private async Task OnThreadCreated(SocketThreadChannel socketThreadChannel)
@@ -765,7 +765,7 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a user has a role added to them.
+    ///     Handles the event when a user has a role added to them.
     /// </summary>
     /// <param name="cacheable">The user before the event fired</param>
     /// <param name="arsg2">The user after the event was fired</param>
@@ -802,7 +802,7 @@ public class LogCommandService : INService, IReadyExecutor
 
 
     /// <summary>
-    /// Handles the event where a user has a role removed.
+    ///     Handles the event where a user has a role removed.
     /// </summary>
     /// <param name="cacheable">The user before the removal</param>
     /// <param name="arsg2">The user after the removal</param>
@@ -840,7 +840,7 @@ public class LogCommandService : INService, IReadyExecutor
 
 
     /// <summary>
-    /// Handles the event when a user updates their username.
+    ///     Handles the event when a user updates their username.
     /// </summary>
     /// <param name="args">The user before they updated their username.</param>
     /// <param name="arsg2">The user after they updated their username.</param>
@@ -873,7 +873,7 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a user updates their nickname.
+    ///     Handles the event when a user updates their nickname.
     /// </summary>
     /// <param name="cacheable">The user before they updated their nickname</param>
     /// <param name="arsg2">The user after they updated their nickname</param>
@@ -910,9 +910,9 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a thread gets deleted.
+    ///     Handles the event when a thread gets deleted.
     /// </summary>
-    /// <param name="args">The cached thread. May return null. See <see cref="Cacheable{TEntity,TId}"/></param>
+    /// <param name="args">The cached thread. May return null. See <see cref="Cacheable{TEntity,TId}" /></param>
     private async Task OnThreadDeleted(Cacheable<SocketThreadChannel, ulong> args)
     {
         if (!args.HasValue) return;
@@ -944,9 +944,9 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a thread is updated.
+    ///     Handles the event when a thread is updated.
     /// </summary>
-    /// <param name="cacheable">The cached thread. May return null. See <see cref="Cacheable{TEntity,TId}"/></param>
+    /// <param name="cacheable">The cached thread. May return null. See <see cref="Cacheable{TEntity,TId}" /></param>
     /// <param name="arsg2">The updated thread.</param>
     private async Task OnThreadUpdated(Cacheable<SocketThreadChannel, ulong> cacheable, SocketThreadChannel arsg2)
     {
@@ -995,9 +995,9 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a message is updated.
+    ///     Handles the event when a message is updated.
     /// </summary>
-    /// <param name="cacheable">The cached message. May return null. See <see cref="Cacheable{TEntity,TId}"/></param>
+    /// <param name="cacheable">The cached message. May return null. See <see cref="Cacheable{TEntity,TId}" /></param>
     /// <param name="args2">The new message</param>
     /// <param name="args3">The channel where the message was updated</param>
     private async Task OnMessageUpdated(Cacheable<IMessage, ulong> cacheable, SocketMessage args2,
@@ -1037,9 +1037,9 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a message is deleted.
+    ///     Handles the event when a message is deleted.
     /// </summary>
-    /// <param name="args">The cached message. May return null. See <see cref="Cacheable{TEntity,TId}"/></param>
+    /// <param name="args">The cached message. May return null. See <see cref="Cacheable{TEntity,TId}" /></param>
     /// <param name="arsg2">The channel where the message was deleted</param>
     private async Task OnMessageDeleted(Cacheable<IMessage, ulong> args, Cacheable<IMessageChannel, ulong> arsg2)
     {
@@ -1068,7 +1068,7 @@ public class LogCommandService : INService, IReadyExecutor
                     $"`Deleted By:` {(entry is null ? message.Author.Mention : entry.User.Mention)} | {(entry is null ? message.Author.Id : entry.User.Id)}");
 
             // Handle attachments
-            if (message.Attachments.Count!=0)
+            if (message.Attachments.Count != 0)
             {
                 eb.AddField("Attachments", $"{message.Attachments.Count} attachment(s) were included in this message.");
 
@@ -1116,7 +1116,7 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a user joins a guild.
+    ///     Handles the event when a user joins a guild.
     /// </summary>
     /// <param name="guildUser">The user that joined the guild.</param>
     private async Task OnUserJoined(IGuildUser guildUser)
@@ -1151,7 +1151,7 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a user leaves a guild.
+    ///     Handles the event when a user leaves a guild.
     /// </summary>
     /// <param name="guild">The guild the user left.</param>
     /// <param name="arsg2">The user that left the guild.</param>
@@ -1188,7 +1188,7 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a user is banned from a guild.
+    ///     Handles the event when a user is banned from a guild.
     /// </summary>
     /// <param name="args">The user that was banned.</param>
     /// <param name="arsg2">The guild the user was banned from.</param>
@@ -1227,7 +1227,7 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a user is unbanned from a guild.
+    ///     Handles the event when a user is unbanned from a guild.
     /// </summary>
     /// <param name="args">The user that was unbanned.</param>
     /// <param name="arsg2">The guild the user was unbanned from.</param>
@@ -1264,7 +1264,7 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a user is updated.
+    ///     Handles the event when a user is updated.
     /// </summary>
     /// <param name="args">The user before the update.</param>
     /// <param name="arsg2">The user after the update.</param>
@@ -1303,7 +1303,7 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a channel is created in a guild.
+    ///     Handles the event when a channel is created in a guild.
     /// </summary>
     /// <param name="args">The channel that was created.</param>
     private async Task OnChannelCreated(SocketChannel args)
@@ -1362,7 +1362,7 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a channel is destroyed/deleted in a guild.
+    ///     Handles the event when a channel is destroyed/deleted in a guild.
     /// </summary>
     /// <param name="args">The channel that was destroyed.</param>
     private async Task OnChannelDestroyed(SocketChannel args)
@@ -1421,7 +1421,7 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a channel is updated in a guild.
+    ///     Handles the event when a channel is updated in a guild.
     /// </summary>
     /// <param name="args">The channel before the update.</param>
     /// <param name="arsg2">The channel after the update.</param>
@@ -1541,7 +1541,7 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when voice state is updated.
+    ///     Handles the event when voice state is updated.
     /// </summary>
     /// <param name="args">The user that had their voice state updated.</param>
     /// <param name="args2">The voice state before the update.</param>
@@ -1615,7 +1615,7 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a user says something using tts in a channel. Currently unimplemented.
+    ///     Handles the event when a user says something using tts in a channel. Currently unimplemented.
     /// </summary>
     /// <param name="args">The user that used tts.</param>
     /// <param name="args2">The voice state before the update.</param>
@@ -1628,11 +1628,11 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a user is muted in a guild. Currently unimplemented.
+    ///     Handles the event when a user is muted in a guild. Currently unimplemented.
     /// </summary>
     /// <param name="guildUser">The user that was muted.</param>
     /// <param name="args2">The user that muted the user.</param>
-    /// <param name="args3">Type of mute. <see cref="MuteType"/></param>
+    /// <param name="args3">Type of mute. <see cref="MuteType" /></param>
     /// <param name="args4">The reason the user was muted.</param>
     /// <exception cref="NotImplementedException"></exception>
     private async Task OnUserMuted(IGuildUser guildUser, IUser args2, MuteType args3, string args4)
@@ -1642,11 +1642,11 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a user is unmuted in a guild. Currently unimplemented.
+    ///     Handles the event when a user is unmuted in a guild. Currently unimplemented.
     /// </summary>
     /// <param name="args">The user that was unmuted.</param>
     /// <param name="args2">The user that unmuted the user.</param>
-    /// <param name="args3">Type of mute. <see cref="MuteType"/></param>
+    /// <param name="args3">Type of mute. <see cref="MuteType" /></param>
     /// <param name="args4">The reason the user was unmuted.</param>
     /// <exception cref="NotImplementedException"></exception>
     private async Task OnUserUnmuted(IGuildUser args, IUser args2, MuteType args3, string args4)
@@ -1656,7 +1656,7 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Sets the log channel for a specific type of log.
+    ///     Sets the log channel for a specific type of log.
     /// </summary>
     /// <param name="guildId">The guildId to set the log setting for.</param>
     /// <param name="channelId">The channelId to set the log channel to.</param>
@@ -1757,7 +1757,7 @@ public class LogCommandService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Allows you to set the log channel for a specific category of logs.
+    ///     Allows you to set the log channel for a specific category of logs.
     /// </summary>
     /// <param name="guildId">The guildId to set the logs for.</param>
     /// <param name="channelId">The channelId to set the logs to.</param>

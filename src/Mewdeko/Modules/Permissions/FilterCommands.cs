@@ -12,24 +12,24 @@ namespace Mewdeko.Modules.Permissions;
 public partial class Permissions
 {
     /// <summary>
-    /// Provides commands for managing word filters and automatic bans within guilds.
+    ///     Provides commands for managing word filters and automatic bans within guilds.
     /// </summary>
     [Group]
     public class FilterCommands(DbContextProvider dbProvider, InteractiveService serv, GuildSettingsService gss)
         : MewdekoSubmodule<FilterService>
     {
         /// <summary>
-        /// Toggles a word on or off the automatic ban list for the current guild.
+        ///     Toggles a word on or off the automatic ban list for the current guild.
         /// </summary>
         /// <param name="word">The word to toggle on the auto ban list.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <remarks>
-        /// If the word is currently on the list, this command removes it, effectively unblacklisting the word.
-        /// If the word is not on the list, it adds the word, automatically banning any user who uses it.
-        /// Requires Administrator permission to execute.
+        ///     If the word is currently on the list, this command removes it, effectively unblacklisting the word.
+        ///     If the word is not on the list, it adds the word, automatically banning any user who uses it.
+        ///     Requires Administrator permission to execute.
         /// </remarks>
         /// <example>
-        /// .AutoBanWord "example" - Toggles the word "example" on or off the auto ban list.
+        ///     .AutoBanWord "example" - Toggles the word "example" on or off the auto ban list.
         /// </example>
         [Cmd]
         [Aliases]
@@ -55,15 +55,15 @@ public partial class Permissions
         }
 
         /// <summary>
-        /// Displays a paginated list of all words on the automatic ban list for the current guild.
+        ///     Displays a paginated list of all words on the automatic ban list for the current guild.
         /// </summary>
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <remarks>
-        /// Requires Administrator permission to execute.
-        /// Uses an interactive paginator to navigate through the list of banned words.
+        ///     Requires Administrator permission to execute.
+        ///     Uses an interactive paginator to navigate through the list of banned words.
         /// </remarks>
         /// <example>
-        /// .AutoBanWordList - Shows the paginated list of auto ban words.
+        ///     .AutoBanWordList - Shows the paginated list of auto ban words.
         /// </example>
         [Cmd]
         [Aliases]
@@ -104,16 +104,16 @@ public partial class Permissions
         }
 
         /// <summary>
-        /// Enables or disables warnings for filtered words in the current guild.
+        ///     Enables or disables warnings for filtered words in the current guild.
         /// </summary>
         /// <param name="yesnt">A string indicating whether to enable ("y") or disable ("n") the warning.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <remarks>
-        /// Requires Administrator permission to execute.
+        ///     Requires Administrator permission to execute.
         /// </remarks>
         /// <example>
-        /// .FWarn "y" - Enables warnings for filtered words.
-        /// .FWarn "n" - Disables warnings for filtered words.
+        ///     .FWarn "y" - Enables warnings for filtered words.
+        ///     .FWarn "n" - Disables warnings for filtered words.
         /// </example>
         [Cmd]
         [Aliases]
@@ -134,16 +134,16 @@ public partial class Permissions
         }
 
         /// <summary>
-        /// Enables or disables warnings for invite links posted in the current guild.
+        ///     Enables or disables warnings for invite links posted in the current guild.
         /// </summary>
         /// <param name="yesnt">A string indicating whether to enable ("y") or disable ("n") the warning.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <remarks>
-        /// Requires Administrator permission to execute.
+        ///     Requires Administrator permission to execute.
         /// </remarks>
         /// <example>
-        /// .InvWarn "y" - Enables warnings for invite links.
-        /// .InvWarn "n" - Disables warnings for invite links.
+        ///     .InvWarn "y" - Enables warnings for invite links.
+        ///     .InvWarn "n" - Disables warnings for invite links.
         /// </example>
         [Cmd]
         [Aliases]
@@ -164,15 +164,16 @@ public partial class Permissions
         }
 
         /// <summary>
-        /// Clears all filtered words for the current guild.
+        ///     Clears all filtered words for the current guild.
         /// </summary>
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <remarks>
-        /// This command removes all words from the filtered words list, effectively disabling word filtering until new words are added.
-        /// Requires Administrator permission to execute.
+        ///     This command removes all words from the filtered words list, effectively disabling word filtering until new words
+        ///     are added.
+        ///     Requires Administrator permission to execute.
         /// </remarks>
         /// <example>
-        /// .FwClear - Clears the filtered words list.
+        ///     .FwClear - Clears the filtered words list.
         /// </example>
         [Cmd]
         [Aliases]
@@ -185,15 +186,15 @@ public partial class Permissions
         }
 
         /// <summary>
-        /// Toggles the server-wide invite link filter on or off.
+        ///     Toggles the server-wide invite link filter on or off.
         /// </summary>
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <remarks>
-        /// When enabled, posting invite links to other Discord servers will be automatically blocked.
-        /// Requires Administrator permission to execute.
+        ///     When enabled, posting invite links to other Discord servers will be automatically blocked.
+        ///     Requires Administrator permission to execute.
         /// </remarks>
         /// <example>
-        /// .SrvrFilterInv - Toggles the server-wide invite filter.
+        ///     .SrvrFilterInv - Toggles the server-wide invite filter.
         /// </example>
         [Cmd]
         [Aliases]
@@ -221,15 +222,15 @@ public partial class Permissions
 
 
         /// <summary>
-        /// Toggles the invite link filter for a specific channel on or off.
+        ///     Toggles the invite link filter for a specific channel on or off.
         /// </summary>
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <remarks>
-        /// This command allows you to enable or disable invite link filtering on a per-channel basis.
-        /// Requires Administrator permission to execute.
+        ///     This command allows you to enable or disable invite link filtering on a per-channel basis.
+        ///     Requires Administrator permission to execute.
         /// </remarks>
         /// <example>
-        /// .ChnlFilterInv - Toggles the invite filter for the current channel.
+        ///     .ChnlFilterInv - Toggles the invite filter for the current channel.
         /// </example>
         [Cmd]
         [Aliases]
@@ -240,7 +241,7 @@ public partial class Permissions
 
             await using var dbContext = await dbProvider.GetContextAsync();
             var config = await dbContext.ForGuildId(channel.Guild.Id,
-                    set => set.Include(gc => gc.FilterInvitesChannelIds));
+                set => set.Include(gc => gc.FilterInvitesChannelIds));
             var match = new FilterInvitesChannelIds
             {
                 ChannelId = channel.Id
@@ -264,15 +265,15 @@ public partial class Permissions
         }
 
         /// <summary>
-        /// Toggles the server-wide link filter on or off.
+        ///     Toggles the server-wide link filter on or off.
         /// </summary>
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <remarks>
-        /// When enabled, posting any links will be automatically blocked server-wide.
-        /// Requires Administrator permission to execute.
+        ///     When enabled, posting any links will be automatically blocked server-wide.
+        ///     Requires Administrator permission to execute.
         /// </remarks>
         /// <example>
-        /// .SrvrFilterLin - Toggles the server-wide link filter.
+        ///     .SrvrFilterLin - Toggles the server-wide link filter.
         /// </example>
         [Cmd]
         [Aliases]
@@ -298,15 +299,15 @@ public partial class Permissions
         }
 
         /// <summary>
-        /// Toggles the link filter for a specific channel on or off.
+        ///     Toggles the link filter for a specific channel on or off.
         /// </summary>
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <remarks>
-        /// This command allows you to enable or disable link filtering on a per-channel basis.
-        /// Requires Administrator permission to execute.
+        ///     This command allows you to enable or disable link filtering on a per-channel basis.
+        ///     Requires Administrator permission to execute.
         /// </remarks>
         /// <example>
-        /// .ChnlFilterLin - Toggles the link filter for the current channel.
+        ///     .ChnlFilterLin - Toggles the link filter for the current channel.
         /// </example>
         [Cmd]
         [Aliases]
@@ -317,7 +318,7 @@ public partial class Permissions
 
             await using var dbContext = await dbProvider.GetContextAsync();
             var config = await dbContext.ForGuildId(channel.Guild.Id,
-                    set => set.Include(gc => gc.FilterLinksChannelIds));
+                set => set.Include(gc => gc.FilterLinksChannelIds));
             var match = new FilterLinksChannelId
             {
                 ChannelId = channel.Id
@@ -341,15 +342,15 @@ public partial class Permissions
         }
 
         /// <summary>
-        /// Toggles the server-wide word filter on or off.
+        ///     Toggles the server-wide word filter on or off.
         /// </summary>
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <remarks>
-        /// When enabled, specified words will be automatically blocked server-wide.
-        /// Requires Administrator permission to execute.
+        ///     When enabled, specified words will be automatically blocked server-wide.
+        ///     Requires Administrator permission to execute.
         /// </remarks>
         /// <example>
-        /// .SrvrFilterWords - Toggles the server-wide word filter.
+        ///     .SrvrFilterWords - Toggles the server-wide word filter.
         /// </example>
         [Cmd]
         [Aliases]
@@ -375,15 +376,15 @@ public partial class Permissions
         }
 
         /// <summary>
-        /// Toggles the word filter for a specific channel on or off.
+        ///     Toggles the word filter for a specific channel on or off.
         /// </summary>
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <remarks>
-        /// This command allows you to enable or disable word filtering on a per-channel basis.
-        /// Requires Administrator permission to execute.
+        ///     This command allows you to enable or disable word filtering on a per-channel basis.
+        ///     Requires Administrator permission to execute.
         /// </remarks>
         /// <example>
-        /// .ChnlFilterWords - Toggles the word filter for the current channel.
+        ///     .ChnlFilterWords - Toggles the word filter for the current channel.
         /// </example>
         [Cmd]
         [Aliases]
@@ -394,7 +395,7 @@ public partial class Permissions
 
             await using var dbContext = await dbProvider.GetContextAsync();
             var config = await dbContext.ForGuildId(channel.Guild.Id,
-                    set => set.Include(gc => gc.FilterWordsChannelIds));
+                set => set.Include(gc => gc.FilterWordsChannelIds));
 
             var match = new FilterWordsChannelIds
             {
@@ -418,17 +419,17 @@ public partial class Permissions
         }
 
         /// <summary>
-        /// Adds or removes a word from the filtered words list in the current guild.
+        ///     Adds or removes a word from the filtered words list in the current guild.
         /// </summary>
         /// <param name="word">The word to toggle on the filtered words list.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <remarks>
-        /// If the word is currently on the list, this command removes it, effectively unfiltering the word.
-        /// If the word is not on the list, it adds the word to the list.
-        /// Requires Administrator permission to execute.
+        ///     If the word is currently on the list, this command removes it, effectively unfiltering the word.
+        ///     If the word is not on the list, it adds the word to the list.
+        ///     Requires Administrator permission to execute.
         /// </remarks>
         /// <example>
-        /// .FilterWord "example" - Toggles the word "example" on or off the filtered words list.
+        ///     .FilterWord "example" - Toggles the word "example" on or off the filtered words list.
         /// </example>
         [Cmd]
         [Aliases]
@@ -468,15 +469,15 @@ public partial class Permissions
         }
 
         /// <summary>
-        /// Lists all words currently on the filtered words list for the current guild.
+        ///     Lists all words currently on the filtered words list for the current guild.
         /// </summary>
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <remarks>
-        /// Uses an interactive paginator to navigate through the list of filtered words.
-        /// Requires Administrator permission to execute.
+        ///     Uses an interactive paginator to navigate through the list of filtered words.
+        ///     Requires Administrator permission to execute.
         /// </remarks>
         /// <example>
-        /// .LstFilterWords - Shows the paginated list of filtered words.
+        ///     .LstFilterWords - Shows the paginated list of filtered words.
         /// </example>
         [Cmd]
         [Aliases]

@@ -8,7 +8,7 @@ using Mewdeko.Modules.Chat_Triggers.Services;
 namespace Mewdeko.Modules.Chat_Triggers;
 
 /// <summary>
-/// Module for chat triggers.
+///     Module for chat triggers.
 /// </summary>
 /// <param name="clientFactory"></param>
 /// <param name="serv"></param>
@@ -16,10 +16,13 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     : MewdekoModuleBase<ChatTriggersService>
 {
     /// <summary>
-    /// Exports chat trigger settings for the current guild.
+    ///     Exports chat trigger settings for the current guild.
     /// </summary>
     /// <example>.ctsexport</example>
-    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task CtsExport()
     {
         await ctx.Channel.TriggerTypingAsync().ConfigureAwait(false);
@@ -31,12 +34,15 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     }
 
     /// <summary>
-    /// Imports chat trigger settings for the current guild.
+    ///     Imports chat trigger settings for the current guild.
     /// </summary>
     /// <param name="input">The input containing the custom reaction settings.</param>
     /// <example>.ctsimport url</example>
     /// <example>.ctsimport attachment</example>
-    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task CtsImport([Remainder] string? input = null)
     {
         input = input?.Trim();
@@ -80,12 +86,14 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
 
 
     /// <summary>
-    /// Adds a new chat trigger.
+    ///     Adds a new chat trigger.
     /// </summary>
     /// <param name="key">The key for the chat trigger.</param>
     /// <param name="message">The message associated with the chat trigger.</param>
     /// <example>.act trigger response</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task AddChatTrigger(string key, [Remainder] string? message)
     {
         if (string.IsNullOrWhiteSpace(message) || string.IsNullOrWhiteSpace(key))
@@ -98,12 +106,14 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     }
 
     /// <summary>
-    /// Adds a new chat trigger with regex support.
+    ///     Adds a new chat trigger with regex support.
     /// </summary>
     /// <param name="key">The key for the chat trigger.</param>
     /// <param name="message">The message associated with the chat trigger.</param>
     /// <example>.actr trigger* response</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task AddChatTriggerRegex(string key, [Remainder] string? message)
     {
         if (string.IsNullOrWhiteSpace(message) || string.IsNullOrWhiteSpace(key))
@@ -116,12 +126,14 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     }
 
     /// <summary>
-    /// Edits an existing chat trigger.
+    ///     Edits an existing chat trigger.
     /// </summary>
     /// <param name="id">The ID of the chat trigger to edit.</param>
     /// <param name="message">The new message for the chat trigger.</param>
     /// <example>.ect 9987 Response</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task EditChatTrigger(int id, [Remainder] string? message)
     {
         if (string.IsNullOrWhiteSpace(message) || id < 0)
@@ -137,10 +149,13 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
 
 
     /// <summary>
-    /// Lists all chat triggers.
+    ///     Lists all chat triggers.
     /// </summary>
     /// <example>.lct</example>
-    [Cmd, Aliases, Priority(1), UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Aliases]
+    [Priority(1)]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task ListChatTriggers()
     {
         var chatTriggers = await Service.GetChatTriggersFor(ctx.Guild?.Id);
@@ -176,10 +191,12 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     }
 
     /// <summary>
-    /// Lists all chat triggers grouped by trigger.
+    ///     Lists all chat triggers grouped by trigger.
     /// </summary>
     /// <example>.lctg</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task ListChatTriggersGroup()
     {
         var chatTriggers = await Service.GetChatTriggersFor(ctx.Guild?.Id);
@@ -212,11 +229,13 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     }
 
     /// <summary>
-    /// Shows details of a specific chat trigger.
+    ///     Shows details of a specific chat trigger.
     /// </summary>
     /// <param name="id">The ID of the chat trigger.</param>
     /// <example>.sct 9987</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task ShowChatTrigger(int id)
     {
         var found = await Service.GetChatTriggers(ctx.Guild?.Id, id);
@@ -229,11 +248,13 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
 
 
     /// <summary>
-    /// Deletes a chat trigger by its ID.
+    ///     Deletes a chat trigger by its ID.
     /// </summary>
     /// <param name="id">The ID of the chat trigger to delete.</param>
     /// <example>.dct 9987</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task DeleteChatTrigger(int id)
     {
         var ct = await Service.DeleteAsync(ctx.Guild?.Id, id).ConfigureAwait(false);
@@ -245,12 +266,14 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     }
 
     /// <summary>
-    /// Sets reactions for a chat trigger.
+    ///     Sets reactions for a chat trigger.
     /// </summary>
     /// <param name="id">The ID of the chat trigger.</param>
     /// <param name="emojiStrs">The emoji strings to set as reactions.</param>
     /// <example>.ctr 9987 :sylvhappy: :sylvissadthathehastomakedocs:</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task CtReact(int id, params string[] emojiStrs)
     {
         var cr = await Service.GetChatTriggers(Context.Guild?.Id, id);
@@ -302,61 +325,93 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
 
 
     /// <summary>
-    /// Sets a chat trigger to contain anywhere in the message.
+    ///     Sets a chat trigger to contain anywhere in the message.
     /// </summary>
     /// <param name="id">The ID of the chat trigger to edit.</param>
     /// <example>.ctca 9987</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
-    public Task CtCa(int id) => InternalCtEdit(id, ChatTriggersService.CtField.ContainsAnywhere);
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public Task CtCa(int id)
+    {
+        return InternalCtEdit(id, ChatTriggersService.CtField.ContainsAnywhere);
+    }
 
     /// <summary>
-    /// Sets a chat trigger to react to the trigger.
+    ///     Sets a chat trigger to react to the trigger.
     /// </summary>
     /// <param name="id">The ID of the chat trigger to edit.</param>
     /// <example>.rtt 9987</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
-    public Task Rtt(int id) => InternalCtEdit(id, ChatTriggersService.CtField.ReactToTrigger);
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public Task Rtt(int id)
+    {
+        return InternalCtEdit(id, ChatTriggersService.CtField.ReactToTrigger);
+    }
 
     /// <summary>
-    /// Sets a chat trigger to send a direct message in response.
+    ///     Sets a chat trigger to send a direct message in response.
     /// </summary>
     /// <param name="id">The ID of the chat trigger to edit.</param>
     /// <example>.ctdm 9987</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
-    public Task CtDm(int id) => InternalCtEdit(id, ChatTriggersService.CtField.DmResponse);
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public Task CtDm(int id)
+    {
+        return InternalCtEdit(id, ChatTriggersService.CtField.DmResponse);
+    }
 
     /// <summary>
-    /// Sets a chat trigger to auto-delete after triggering.
+    ///     Sets a chat trigger to auto-delete after triggering.
     /// </summary>
     /// <param name="id">The ID of the chat trigger to edit.</param>
     /// <example>.ctad 9987</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
-    public Task CtAd(int id) => InternalCtEdit(id, ChatTriggersService.CtField.AutoDelete);
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public Task CtAd(int id)
+    {
+        return InternalCtEdit(id, ChatTriggersService.CtField.AutoDelete);
+    }
 
     /// <summary>
-    /// Sets a chat trigger to allow targeting.
+    ///     Sets a chat trigger to allow targeting.
     /// </summary>
     /// <param name="id">The ID of the chat trigger to edit.</param>
     /// <example>.ctat 9987</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
-    public Task CtAt(int id) => InternalCtEdit(id, ChatTriggersService.CtField.AllowTarget);
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public Task CtAt(int id)
+    {
+        return InternalCtEdit(id, ChatTriggersService.CtField.AllowTarget);
+    }
 
     /// <summary>
-    /// Sets a chat trigger to not respond.
+    ///     Sets a chat trigger to not respond.
     /// </summary>
     /// <param name="id">The ID of the chat trigger to edit.</param>
     /// <example>.ctnr 9987</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
-    public Task CtNr(int id) => InternalCtEdit(id, ChatTriggersService.CtField.NoRespond);
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    public Task CtNr(int id)
+    {
+        return InternalCtEdit(id, ChatTriggersService.CtField.NoRespond);
+    }
 
 
     /// <summary>
-    /// Sets the role grant type for a chat trigger.
+    ///     Sets the role grant type for a chat trigger.
     /// </summary>
     /// <param name="id">The ID of the chat trigger.</param>
-    /// <param name="type">The role grant type to set. <see cref="CtRoleGrantType"/></param>
+    /// <param name="type">The role grant type to set. <see cref="CtRoleGrantType" /></param>
     /// <example>.ctrgt 9987</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task ChatTriggerRoleGrantType(int id, CtRoleGrantType type)
     {
         var res = await Service.SetRoleGrantType(ctx.Guild?.Id, id, type).ConfigureAwait(false);
@@ -373,10 +428,12 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     }
 
     /// <summary>
-    /// Reloads chat triggers.
+    ///     Reloads chat triggers.
     /// </summary>
     /// <example>.ctsreload</example>
-    [Cmd, Aliases, OwnerOnly]
+    [Cmd]
+    [Aliases]
+    [OwnerOnly]
     public async Task CtsReload()
     {
         await Service.TriggerReloadChatTriggers().ConfigureAwait(false);
@@ -386,7 +443,7 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
 
 
     /// <summary>
-    /// Toggles a chat trigger option.
+    ///     Toggles a chat trigger option.
     /// </summary>
     /// <param name="id">The ID of the chat trigger.</param>
     /// <param name="option">The option to toggle.</param>
@@ -419,10 +476,13 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     }
 
     /// <summary>
-    /// Clears all chat triggers.
+    ///     Clears all chat triggers.
     /// </summary>
     /// <example>.ctsclear</example>
-    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task CtsClear()
     {
         if (await PromptUserConfirmAsync(
@@ -437,12 +497,15 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     }
 
     /// <summary>
-    /// Toggles role grant for a chat trigger.
+    ///     Toggles role grant for a chat trigger.
     /// </summary>
     /// <param name="id">The ID of the chat trigger.</param>
     /// <param name="role">The role to toggle.</param>
     /// <example>.ctgt 9987 @role</example>
-    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task CtrGrantToggle(int id, IRole role)
     {
         var gUsr = ctx.User as IGuildUser;
@@ -473,12 +536,15 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     }
 
     /// <summary>
-    /// Toggles role removal for a chat trigger.
+    ///     Toggles role removal for a chat trigger.
     /// </summary>
     /// <param name="id">The ID of the chat trigger.</param>
     /// <param name="role">The role to toggle.</param>
     /// <example>.ctrt 9987 @role</example>
-    [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task CtrRemoveToggle(int id, IRole role)
     {
         var gUsr = ctx.User as IGuildUser;
@@ -508,13 +574,15 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     }
 
     /// <summary>
-    /// Sets whether a chat trigger is valid for a specific trigger type.
+    ///     Sets whether a chat trigger is valid for a specific trigger type.
     /// </summary>
     /// <param name="id">The ID of the chat trigger.</param>
-    /// <param name="type">The trigger type to set validity for. <see cref="ChatTriggerType"/></param>
+    /// <param name="type">The trigger type to set validity for. <see cref="ChatTriggerType" /></param>
     /// <param name="enabled">Whether the trigger type should be enabled or disabled.</param>
     /// <example>.chattriggervalidtype 9987 Slash true</example>
-    [Cmd, Alias, UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Alias]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task ChatTriggerValidType(int id, ChatTriggerType type, bool enabled)
     {
         var res = await Service.SetValidTriggerType(ctx.Guild?.Id, id, type, enabled).ConfigureAwait(false);
@@ -534,12 +602,14 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     }
 
     /// <summary>
-    /// Sets the webhook URL for crossposting a chat trigger.
+    ///     Sets the webhook URL for crossposting a chat trigger.
     /// </summary>
     /// <param name="id">The ID of the chat trigger.</param>
     /// <param name="webhookUrl">The webhook URL to set.</param>
     /// <example>.chattriggerscrosspostwebhook 9987 webhookurl</example>
-    [Cmd, Alias, UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Alias]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task CtCpSetWebhook(int id, string webhookUrl)
     {
         var res = await Service.SetCrosspostingWebhookUrl(ctx.Guild?.Id, id, webhookUrl).ConfigureAwait(false);
@@ -562,12 +632,14 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     }
 
     /// <summary>
-    /// Sets the crossposting channel for a chat trigger.
+    ///     Sets the crossposting channel for a chat trigger.
     /// </summary>
     /// <param name="id">The ID of the chat trigger.</param>
     /// <param name="channel">The channel to set for crossposting.</param>
     /// <example>.chattriggerscrosspostchannel 9987 #channel</example>
-    [Cmd, Alias, UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Alias]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task CtCpSetChannel(int id, ITextChannel channel)
     {
         var res = await Service.SetCrosspostingChannelId(ctx.Guild?.Id, id, channel.Id).ConfigureAwait(false);
@@ -585,12 +657,14 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
 
 
     /// <summary>
-    /// Sets the interaction type for a chat trigger.
+    ///     Sets the interaction type for a chat trigger.
     /// </summary>
     /// <param name="id">The ID of the chat trigger.</param>
-    /// <param name="type">The interaction type to set. <see cref="CtApplicationCommandType"/></param>
+    /// <param name="type">The interaction type to set. <see cref="CtApplicationCommandType" /></param>
     /// <example>.setctintertype 9987 Slash</example>
-    [Cmd, Alias, UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Alias]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task SetCtInterType(int id, CtApplicationCommandType type)
     {
         var ct = await Service.GetChatTriggers(ctx.Guild?.Id, id);
@@ -625,12 +699,14 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     }
 
     /// <summary>
-    /// Sets the interaction name for a chat trigger.
+    ///     Sets the interaction name for a chat trigger.
     /// </summary>
     /// <param name="id">The ID of the chat trigger.</param>
     /// <param name="name">The name to set for the interaction.</param>
     /// <example>.setctintername 9987 ihatedocumentation</example>
-    [Cmd, Alias, UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Alias]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task SetCtInterName(int id, string name)
     {
         var res = await Service.SetInteractionName(ctx.Guild?.Id, id, name).ConfigureAwait(false);
@@ -649,12 +725,14 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     }
 
     /// <summary>
-    /// Sets the interaction description for a chat trigger.
+    ///     Sets the interaction description for a chat trigger.
     /// </summary>
     /// <param name="id">The ID of the chat trigger.</param>
     /// <param name="description">The description to set for the interaction.</param>
     /// <example>.setctinterdesc 9987 3591 things to continue documenting....</example>
-    [Cmd, Alias, UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Alias]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task SetCtInterDesc(int id, string description)
     {
         var res = await Service.SetInteractionDescription(ctx.Guild?.Id, id, description).ConfigureAwait(false);
@@ -674,12 +752,15 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
 
 
     /// <summary>
-    /// Sets whether the interaction response should be ephemeral for a chat trigger. To not show others my suffering with docs!
+    ///     Sets whether the interaction response should be ephemeral for a chat trigger. To not show others my suffering with
+    ///     docs!
     /// </summary>
     /// <param name="id">The ID of the chat trigger.</param>
     /// <param name="ephemeral">True if the response should be ephemeral, false otherwise.</param>
     /// <example>.ctca 9987 true/false</example>
-    [Cmd, Alias, UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Alias]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task CtInterEphemeral(int id, bool ephemeral)
     {
         var res = await Service.SetInteractionEphemeral(ctx.Guild?.Id, id, ephemeral).ConfigureAwait(false);
@@ -698,10 +779,12 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     }
 
     /// <summary>
-    /// Displays the interaction errors for chat triggers.
+    ///     Displays the interaction errors for chat triggers.
     /// </summary>
     /// <example>.ctintererrors</example>
-    [Cmd, Alias, UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Alias]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task CtInterErrors()
     {
         var errors = await Service.GetAcctErrors(ctx.Guild?.Id);
@@ -727,12 +810,14 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     }
 
     /// <summary>
-    /// Sets the prefix type for a chat trigger.
+    ///     Sets the prefix type for a chat trigger.
     /// </summary>
     /// <param name="id">The ID of the chat trigger.</param>
-    /// <param name="type">The type of prefix to set. <see cref="RequirePrefixType"/></param>
+    /// <param name="type">The type of prefix to set. <see cref="RequirePrefixType" /></param>
     /// <example>.ctprefixtype 9987 Guild</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task CtPrefixType(int id, RequirePrefixType type)
     {
         var res = await Service.SetPrefixType(ctx.Guild?.Id, id, type).ConfigureAwait(false);
@@ -749,14 +834,16 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     }
 
     /// <summary>
-    /// Sets the prefix for a chat trigger.
+    ///     Sets the prefix for a chat trigger.
     /// </summary>
     /// <param name="id">The ID of the chat trigger.</param>
     /// <param name="prefix">The new prefix to set.</param>
     /// <example>
-    /// .ctprefix 123 !
+    ///     .ctprefix 123 !
     /// </example>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task CtPrefix(int id, string prefix)
     {
         var res = await Service.SetPrefix(ctx.Guild?.Id, id, prefix).ConfigureAwait(false);
@@ -773,7 +860,7 @@ public class ChatTriggers(IHttpClientFactory clientFactory, InteractiveService s
     }
 
     /// <summary>
-    /// Checks for any interaction errors related to chat triggers and sends a follow-up message with their status.
+    ///     Checks for any interaction errors related to chat triggers and sends a follow-up message with their status.
     /// </summary>
     public async Task FollowupWithTriggerStatus()
     {

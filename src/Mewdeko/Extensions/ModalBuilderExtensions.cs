@@ -1,12 +1,12 @@
 namespace Mewdeko.Extensions;
 
 /// <summary>
-/// Contains extension methods for <see cref="ModalBuilder"/>.
+///     Contains extension methods for <see cref="ModalBuilder" />.
 /// </summary>
 public static class ModalBuilderExtensions
 {
     /// <summary>
-    /// Updates a text input component in a modal builder.
+    ///     Updates a text input component in a modal builder.
     /// </summary>
     /// <param name="builder">The modal builder to update.</param>
     /// <param name="customId">The custom ID of the text input component to update.</param>

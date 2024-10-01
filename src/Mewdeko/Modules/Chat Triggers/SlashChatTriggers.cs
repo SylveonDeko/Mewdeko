@@ -11,7 +11,7 @@ using Mewdeko.Modules.Chat_Triggers.Services;
 namespace Mewdeko.Modules.Chat_Triggers;
 
 /// <summary>
-/// Slash Module for managing chat triggers.
+///     Slash Module for managing chat triggers.
 /// </summary>
 [Group("triggers", "Manage chat triggers.")]
 // [RequireUserPermission(GuildPermission.Administrator)] coming soon???
@@ -19,12 +19,13 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
     : MewdekoSlashModuleBase<ChatTriggersService>
 {
     /// <summary>
-    /// Handles triggering run-in interactions.
+    ///     Handles triggering run-in interactions.
     /// </summary>
     /// <param name="triggerId">The ID of the trigger.</param>
     /// <param name="guildId">The ID of the guild where the trigger is executed.</param>
     /// <param name="_">Placeholder parameter.</param>
-    [ComponentInteraction("trigger.*.runin.*$*", true), CheckPermissions]
+    [ComponentInteraction("trigger.*.runin.*$*", true)]
+    [CheckPermissions]
     public async Task TriggerRunInHandler(int triggerId, ulong? guildId, string _)
     {
         guildId ??= 0;
@@ -33,12 +34,13 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
     }
 
     /// <summary>
-    /// Exports Chat Triggers into a .yml file.
+    ///     Exports Chat Triggers into a .yml file.
     /// </summary>
     /// <example>/triggers export</example>
-    [SlashCommand("export", "Exports Chat Triggers into a .yml file."),
-     RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
-     CheckPermissions]
+    [SlashCommand("export", "Exports Chat Triggers into a .yml file.")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task CtsExport()
     {
         await DeferAsync().ConfigureAwait(false);
@@ -52,13 +54,14 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
     }
 
     /// <summary>
-    /// Imports Chat Triggers from a .yml file.
+    ///     Imports Chat Triggers from a .yml file.
     /// </summary>
     /// <param name="file">The yml file to import.</param>
     /// <example>/triggers import</example>
-    [SlashCommand("import", "Imports Chat Triggers from a .yml file."),
-     RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
-     CheckPermissions]
+    [SlashCommand("import", "Imports Chat Triggers from a .yml file.")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task CtsImport(IAttachment file)
     {
         await DeferAsync().ConfigureAwait(false);
@@ -87,22 +90,26 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
 
 
     /// <summary>
-    /// Adds a new chat trigger.
+    ///     Adds a new chat trigger.
     /// </summary>
     /// <param name="regex">Indicates whether the trigger should use regex.</param>
     /// <example>/triggers add</example>
-    [SlashCommand("add", "Add new chat trigger."),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("add", "Add new chat trigger.")]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public Task AddChatTrigger([Summary("regex", "Should the trigger use regex.")] bool regex = false)
-        => RespondWithModalAsync<ChatTriggerModal>($"chat_trigger_add:{regex}");
+    {
+        return RespondWithModalAsync<ChatTriggerModal>($"chat_trigger_add:{regex}");
+    }
 
     /// <summary>
-    /// Handles the modal interaction for adding a chat trigger.
+    ///     Handles the modal interaction for adding a chat trigger.
     /// </summary>
     /// <param name="sRgx">The string representation of the regex.</param>
     /// <param name="modal">The modal containing trigger details.</param>
-    [ModalInteraction("chat_trigger_add:*", true),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [ModalInteraction("chat_trigger_add:*", true)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task AddChatTriggerModal(bool sRgx, ChatTriggerModal modal)
     {
         if (string.IsNullOrWhiteSpace(modal.Trigger) || string.IsNullOrWhiteSpace(modal.Message))
@@ -119,16 +126,17 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
     }
 
     /// <summary>
-    /// Edits a chat trigger.
+    ///     Edits a chat trigger.
     /// </summary>
     /// <param name="id">The ID of the chat trigger to edit.</param>
     /// <param name="regex">Indicates whether the trigger should use regex.</param>
     /// <example>/triggers edit 9987 true/false</example>
-    [SlashCommand("edit", "Edit a chat trigger."),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("edit", "Edit a chat trigger.")]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task EditChatTrigger
     (
-        [Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))]
+        [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
         int id,
         [Summary("regex", "Should the trigger use regex.")]
         bool regex = false
@@ -147,13 +155,14 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
 
 
     /// <summary>
-    /// Handles the modal interaction for editing a chat trigger.
+    ///     Handles the modal interaction for editing a chat trigger.
     /// </summary>
     /// <param name="sId">The string representation of the trigger ID.</param>
     /// <param name="sRgx">The string representation of the regex.</param>
     /// <param name="modal">The modal containing trigger details.</param>
-    [ModalInteraction("chat_trigger_edit:*,*", true),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [ModalInteraction("chat_trigger_edit:*,*", true)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task EditChatTriggerModal(string sId, bool sRgx, ChatTriggerModal modal)
     {
         var id = int.Parse(sId);
@@ -181,16 +190,17 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
     }
 
     /// <summary>
-    /// Sets the type of prefix this chat trigger will use.
+    ///     Sets the type of prefix this chat trigger will use.
     /// </summary>
     /// <param name="id">The chat trigger's id.</param>
-    /// <param name="type">The type of prefix to use. <see cref="RequirePrefixType"/></param>
+    /// <param name="type">The type of prefix to use. <see cref="RequirePrefixType" /></param>
     /// <example>/triggers prefix-type 9987 Guild</example>
-    [SlashCommand("prefix-type", "Sets the type of prefix this chat trigger will use"),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("prefix-type", "Sets the type of prefix this chat trigger will use")]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task CtPrefixType
     (
-        [Summary("id", "The chat trigger's id."), Autocomplete(typeof(ChatTriggerAutocompleter))]
+        [Summary("id", "The chat trigger's id.")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
         int id,
         [Summary("type", "The type of prefix to use.")]
         RequirePrefixType type
@@ -211,16 +221,17 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
 
 
     /// <summary>
-    /// Sets the prefix for a chat trigger when the prefix type is custom.
+    ///     Sets the prefix for a chat trigger when the prefix type is custom.
     /// </summary>
     /// <param name="id">The chat trigger's id.</param>
     /// <param name="prefix">The prefix to use when the prefix type is custom.</param>
     /// <example>/triggers prefix 9987 !</example>
-    [SlashCommand("prefix", "Sets prefix this chat trigger when prefix type is custom"),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("prefix", "Sets prefix this chat trigger when prefix type is custom")]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task CtPrefix
     (
-        [Summary("id", "The chat trigger's id."), Autocomplete(typeof(ChatTriggerAutocompleter))]
+        [Summary("id", "The chat trigger's id.")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
         int id,
         [Summary("prefix", "The prefix to use when prefix type is custom")]
         string prefix)
@@ -240,11 +251,12 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
 
 
     /// <summary>
-    /// Lists chat triggers.
+    ///     Lists chat triggers.
     /// </summary>
     /// <example>/triggers list</example>
-    [SlashCommand("list", "List chat triggers."),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("list", "List chat triggers.")]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task ListChatTriggers()
     {
         var chatTriggers = await Service.GetChatTriggersFor(ctx.Guild?.Id);
@@ -291,11 +303,12 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
 
 
     /// <summary>
-    /// Lists chat triggers grouped by trigger.
+    ///     Lists chat triggers grouped by trigger.
     /// </summary>
     /// <example>/triggers list-group</example>
-    [SlashCommand("list-group", "List chat triggers.."),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("list-group", "List chat triggers..")]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task ListChatTriggersGroup()
     {
         var chatTriggers = await Service.GetChatTriggersFor(ctx.Guild?.Id);
@@ -339,14 +352,15 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
 
 
     /// <summary>
-    /// Shows the response of a chat trigger.
+    ///     Shows the response of a chat trigger.
     /// </summary>
     /// <param name="id">The chat trigger's id.</param>
     /// <example>/triggers show 9987</example>
-    [SlashCommand("show", "Shows the response of a chat trigger."),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("show", "Shows the response of a chat trigger.")]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task ShowChatTrigger(
-        [Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))]
+        [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
         int id)
     {
         var found = await Service.GetChatTriggers(ctx.Guild?.Id, id);
@@ -361,14 +375,15 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
     }
 
     /// <summary>
-    /// Deletes a chat trigger.
+    ///     Deletes a chat trigger.
     /// </summary>
     /// <param name="id">The chat trigger's id.</param>
     /// <example>/triggers delete 9987</example>
-    [SlashCommand("delete", "delete a chat trigger."),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("delete", "delete a chat trigger.")]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task DeleteChatTrigger(
-        [Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))]
+        [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
         int id)
     {
         var ct = await Service.DeleteAsync(ctx.Guild?.Id, id).ConfigureAwait(false);
@@ -392,16 +407,17 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
 
 
     /// <summary>
-    /// Adds reaction to a chat trigger.
+    ///     Adds reaction to a chat trigger.
     /// </summary>
     /// <param name="id">The chat trigger's id.</param>
     /// <param name="emoji">A space-separated list of emojis to react with.</param>
     /// <example>/triggers react 9987 :sylvsad:</example>
-    [SlashCommand("react", "add a reaction chat trigger.."),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("react", "add a reaction chat trigger..")]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task CtReact
     (
-        [Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))]
+        [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
         int id,
         [Summary("emoji", "A space-seperated list of emojis to react with")]
         string emoji
@@ -465,16 +481,17 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
 
 
     /// <summary>
-    /// Edits chat trigger options.
+    ///     Edits chat trigger options.
     /// </summary>
     /// <param name="id">The chat trigger's id.</param>
     /// <param name="option">The option to toggle.</param>
     /// <example>/triggers toggle-option 9987 DmResponse</example>
-    [SlashCommand("toggle-option", "Edit chat trigger options."),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("toggle-option", "Edit chat trigger options.")]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task InternalCtEdit
     (
-        [Summary("id", "The chat trigger's id"), Autocomplete(typeof(ChatTriggerAutocompleter))]
+        [Summary("id", "The chat trigger's id")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
         int id,
         [Summary("option", "The option to toggle")]
         ChatTriggersService.CtField option
@@ -510,16 +527,17 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
     }
 
     /// <summary>
-    /// Changes the valid types of the trigger.
+    ///     Changes the valid types of the trigger.
     /// </summary>
     /// <param name="id">The chat trigger's id.</param>
-    /// <param name="type">The type to enable/disable. <see cref="ChatTriggerType"/></param>
+    /// <param name="type">The type to enable/disable. <see cref="ChatTriggerType" /></param>
     /// <param name="enabled">Should the type be enabled?</param>
     /// <example>/triggers valid-types 9987 Message true</example>
-    [SlashCommand("valid-types", "Change the valid types of the trigger"),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("valid-types", "Change the valid types of the trigger")]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task ChatTriggerValidType(
-        [Summary("trigger", "The chat trigger to edit."), Autocomplete(typeof(ChatTriggerAutocompleter))]
+        [Summary("trigger", "The chat trigger to edit.")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
         int id,
         [Summary("type", "The type to enable/disable.")]
         ChatTriggerType type,
@@ -543,11 +561,12 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
 
 
     /// <summary>
-    /// Clears all chat triggers.
+    ///     Clears all chat triggers.
     /// </summary>
     /// <example>/triggers clear</example>
-    [SlashCommand("clear", "Clear all chat triggers."),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("clear", "Clear all chat triggers.")]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task CtsClear()
     {
         await DeferAsync().ConfigureAwait(false);
@@ -563,7 +582,7 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
     }
 
     /// <summary>
-    /// Follows up with trigger status by checking for errors.
+    ///     Follows up with trigger status by checking for errors.
     /// </summary>
     private async Task FollowupWithTriggerStatus()
     {
@@ -578,7 +597,7 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
     }
 
     /// <summary>
-    /// Handles component interactions related to multitriggers.
+    ///     Handles component interactions related to multitriggers.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="_">The interaction string.</param>
@@ -593,22 +612,23 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
     }
 
     /// <summary>
-    /// Group for crossposting related commands.
+    ///     Group for crossposting related commands.
     /// </summary>
     [Group("crossposting", "crossposting")]
     public class Crossposting : MewdekoSlashModuleBase<ChatTriggersService>
     {
         /// <summary>
-        /// Sets the webhook URL for crossposting triggers.
+        ///     Sets the webhook URL for crossposting triggers.
         /// </summary>
         /// <param name="id">The chat trigger's id.</param>
         /// <param name="webhookUrl">The webhook URL to crosspost messages with.</param>
         /// <example>/triggers crossposting webhook 9987 https://discord.com/api/webhooks/1234567890/abcdefg</example>
-        [SlashCommand("webhook", "crosspost triggers using a webhook"), SlashUserPerm(GuildPermission.Administrator),
-         CheckPermissions]
+        [SlashCommand("webhook", "crosspost triggers using a webhook")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
         public async Task CtCpSetWebhook
         (
-            [Summary("trigger", "The chat trigger to edit."), Autocomplete(typeof(ChatTriggerAutocompleter))]
+            [Summary("trigger", "The chat trigger to edit.")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
             int id,
             [Summary("webhook-url", "What webhook do you want to crosspost messages with?")]
             string webhookUrl
@@ -634,17 +654,18 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
         }
 
         /// <summary>
-        /// Sets the channel for crossposting triggers.
+        ///     Sets the channel for crossposting triggers.
         /// </summary>
         /// <param name="id">The chat trigger's id.</param>
         /// <param name="channel">The channel to crosspost messages to.</param>
         /// <example>/triggers crossposting channel 9987 #crosspost-channel</example>
-        [SlashCommand("channel", "crosspost triggers to a channel"),
-         SlashUserPerm(GuildPermission.Administrator), CheckPermissions,
-         RequireContext(ContextType.Guild)]
+        [SlashCommand("channel", "crosspost triggers to a channel")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
+        [RequireContext(ContextType.Guild)]
         public async Task CtCpSetChannel
         (
-            [Summary("trigger", "The chat trigger to edit."), Autocomplete(typeof(ChatTriggerAutocompleter))]
+            [Summary("trigger", "The chat trigger to edit.")] [Autocomplete(typeof(ChatTriggerAutocompleter))]
             int id,
             [Summary("channel", "What channels do you want to crosspost messages to?")]
             ITextChannel channel
@@ -664,7 +685,7 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
         }
 
         /// <summary>
-        /// Follows up with the status of triggers.
+        ///     Follows up with the status of triggers.
         /// </summary>
         private async Task FollowupWithTriggerStatus()
         {
@@ -681,22 +702,23 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
 
 
     /// <summary>
-    /// Group for role-related commands.
+    ///     Group for role-related commands.
     /// </summary>
     [Group("roles", "roles")]
     public class Roles : MewdekoSlashModuleBase<ChatTriggersService>
     {
         /// <summary>
-        /// Toggles whether running this command will add the role to the user.
+        ///     Toggles whether running this command will add the role to the user.
         /// </summary>
         /// <param name="id">The trigger to add roles to.</param>
         /// <param name="role">The role to toggle.</param>
         /// <example>/triggers roles add 9987 @role</example>
-        [SlashCommand("add", "Toggle whether running this command will add the role to the user."),
-         SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+        [SlashCommand("add", "Toggle whether running this command will add the role to the user.")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
         public async Task CtrGrantToggle
         (
-            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to add roles to.")]
+            [Autocomplete(typeof(ChatTriggerAutocompleter))] [Summary("trigger", "The trigger to add roles to.")]
             int id,
             [Summary("role", "The roll to toggle.")]
             IRole role
@@ -739,16 +761,18 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
         }
 
         /// <summary>
-        /// Toggles whether running this command will remove the role from the user.
+        ///     Toggles whether running this command will remove the role from the user.
         /// </summary>
         /// <param name="id">The trigger to remove roles from.</param>
         /// <param name="role">The role to toggle.</param>
-        /// /// <example>/triggers roles toggle-remove 9987 @role</example>
-        [SlashCommand("toggle-remove", "Toggle whether running this command will remove the role to the user."),
-         SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+        /// ///
+        /// <example>/triggers roles toggle-remove 9987 @role</example>
+        [SlashCommand("toggle-remove", "Toggle whether running this command will remove the role to the user.")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
         public async Task CtrRemoveToggle
         (
-            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to remove roles from.")]
+            [Autocomplete(typeof(ChatTriggerAutocompleter))] [Summary("trigger", "The trigger to remove roles from.")]
             int id,
             [Summary("role", "The roll to toggle.")]
             IRole role
@@ -788,15 +812,16 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
         }
 
         /// <summary>
-        /// Changes the way roles are added to chat triggers.
+        ///     Changes the way roles are added to chat triggers.
         /// </summary>
         /// <param name="id">The trigger to remove roles from.</param>
         /// <param name="type">How should roles be added when the trigger is used.</param>
         /// <example>/triggers roles mode 9987 Sender</example>
-        [SlashCommand("mode", "Changes the way roles are added to chat triggers."), CheckPermissions,
-         SlashUserPerm(GuildPermission.Administrator)]
+        [SlashCommand("mode", "Changes the way roles are added to chat triggers.")]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.Administrator)]
         public async Task ChatTriggerRoleGrantType(
-            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to remove roles from.")]
+            [Autocomplete(typeof(ChatTriggerAutocompleter))] [Summary("trigger", "The trigger to remove roles from.")]
             int id,
             [Summary("mode", "How should roles be added when the trigger is used.")]
             CtRoleGrantType type)
@@ -817,7 +842,7 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
         }
 
         /// <summary>
-        /// Follows up with the status of triggers.
+        ///     Follows up with the status of triggers.
         /// </summary>
         private async Task FollowupWithTriggerStatus()
         {
@@ -833,21 +858,22 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
     }
 
     /// <summary>
-    /// Group for interaction-related commands.
+    ///     Group for interaction-related commands.
     /// </summary>
     [Group("interactions", "interactions")]
     public class Interactions : MewdekoSlashModuleBase<ChatTriggersService>
     {
         /// <summary>
-        /// Sets the type of interaction support (user, message, or slash).
+        ///     Sets the type of interaction support (user, message, or slash).
         /// </summary>
         /// <param name="id">The trigger to update.</param>
         /// <param name="type">The type of command, use 'none' to disable commands in their entirety.</param>
         /// <example>/triggers interactions type 9987 user</example>
-        [SlashCommand("type", "Sets the type of interaction support (user, message, or slash)."),
-         SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+        [SlashCommand("type", "Sets the type of interaction support (user, message, or slash).")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
         public async Task SetCtInterType(
-            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")]
+            [Autocomplete(typeof(ChatTriggerAutocompleter))] [Summary("trigger", "The trigger to update.")]
             int id,
             [Summary("type", "The type of command, use 'none' to disable commands in their entirety.")]
             CtApplicationCommandType type)
@@ -883,15 +909,16 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
         }
 
         /// <summary>
-        /// Sets the name of the interaction.
+        ///     Sets the name of the interaction.
         /// </summary>
         /// <param name="id">The trigger to update.</param>
         /// <param name="name">The name of the interaction.</param>
         /// <example>/triggers interactions name 9987 my-interaction</example>
-        [SlashCommand("name", "Sets the name of the interaction."),
-         SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+        [SlashCommand("name", "Sets the name of the interaction.")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
         public async Task SetCtInterName(
-            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")]
+            [Autocomplete(typeof(ChatTriggerAutocompleter))] [Summary("trigger", "The trigger to update.")]
             int id,
             [Summary("name", "The name of the interaction.")]
             string name)
@@ -913,15 +940,16 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
 
 
         /// <summary>
-        /// Sets the description of the interaction.
+        ///     Sets the description of the interaction.
         /// </summary>
         /// <param name="id">The trigger to update.</param>
         /// <param name="description">The description of the interaction.</param>
         /// <example>/triggers interactions description 9987 my-interaction</example>
-        [SlashCommand("description", "Sets the description of the interaction."),
-         SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+        [SlashCommand("description", "Sets the description of the interaction.")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
         public async Task SetCtInterDesc(
-            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")]
+            [Autocomplete(typeof(ChatTriggerAutocompleter))] [Summary("trigger", "The trigger to update.")]
             int id,
             [Summary("description", "The description of the interaction.")]
             string description)
@@ -942,15 +970,16 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
         }
 
         /// <summary>
-        /// Enables/Disables ephemeral mode.
+        ///     Enables/Disables ephemeral mode.
         /// </summary>
         /// <param name="id">The trigger to update.</param>
         /// <param name="ephemeral">Should the trigger be ephemeral?</param>
         /// <example>/triggers interactions ephemeral 9987 true</example>
-        [SlashCommand("ephemeral", "Enables/Disables ephemeral mode."),
-         SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+        [SlashCommand("ephemeral", "Enables/Disables ephemeral mode.")]
+        [SlashUserPerm(GuildPermission.Administrator)]
+        [CheckPermissions]
         public async Task CtInterEphemeral(
-            [Autocomplete(typeof(ChatTriggerAutocompleter)), Summary("trigger", "The trigger to update.")]
+            [Autocomplete(typeof(ChatTriggerAutocompleter))] [Summary("trigger", "The trigger to update.")]
             int id,
             [Summary("ephemeral", "Should the trigger be ephemeral?")]
             bool ephemeral)
@@ -984,11 +1013,12 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
         }
 
         /// <summary>
-        /// Checks for errors in interaction chat triggers.
+        ///     Checks for errors in interaction chat triggers.
         /// </summary>
         /// <example>/triggers interactions errors</example>
-        [SlashCommand("errors", "Check for errors in your interaction chat triggers."), CheckPermissions,
-         SlashUserPerm(GuildPermission.Administrator)]
+        [SlashCommand("errors", "Check for errors in your interaction chat triggers.")]
+        [CheckPermissions]
+        [SlashUserPerm(GuildPermission.Administrator)]
 // ReSharper disable once UnusedMember.Local
         public async Task CtInterErrors()
         {

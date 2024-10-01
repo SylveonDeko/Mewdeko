@@ -6,13 +6,13 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Mewdeko.Common.Attributes.InteractionCommands;
 
 /// <summary>
-/// Attribute to check permissions before executing a command or method.
+///     Attribute to check permissions before executing a command or method.
 /// </summary>
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
 public sealed class CheckPermissions : PreconditionAttribute
 {
     /// <summary>
-    /// Checks the requirements before executing a command or method.
+    ///     Checks the requirements before executing a command or method.
     /// </summary>
     /// <param name="context">The interaction context.</param>
     /// <param name="executingCommand">The command being executed.</param>

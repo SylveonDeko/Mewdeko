@@ -1,18 +1,17 @@
-﻿namespace Mewdeko.Database.Models
+﻿namespace Mewdeko.Database.Models;
+
+/// <summary>
+///     Specifies the action to take when a warning expires.
+/// </summary>
+public enum WarnExpireAction
 {
     /// <summary>
-    /// Specifies the action to take when a warning expires.
+    ///     Clear the warning.
     /// </summary>
-    public enum WarnExpireAction
-    {
-        /// <summary>
-        /// Clear the warning.
-        /// </summary>
-        Clear,
+    Clear,
 
-        /// <summary>
-        /// Delete the warning.
-        /// </summary>
-        Delete
-    }
+    /// <summary>
+    ///     Delete the warning.
+    /// </summary>
+    Delete
 }

@@ -8,6 +8,11 @@ namespace Mewdeko.Modules.Searches.Common.StreamNotifications.Providers;
 public abstract class Provider
 {
     /// <summary>
+    ///     When was the first time the stream continually had errors while being retrieved
+    /// </summary>
+    protected readonly ConcurrentDictionary<string, DateTime> FailingStreams = new();
+
+    /// <summary>
     ///     Type of the platform.
     /// </summary>
     public abstract FollowedStream.FType Platform { get; }
@@ -18,12 +23,12 @@ public abstract class Provider
     ///     Override to provide a custom implementation
     /// </summary>
     public virtual IReadOnlyDictionary<string, DateTime> FailingStreamsDictionary
-        => FailingStreams;
-
-    /// <summary>
-    ///     When was the first time the stream continually had errors while being retrieved
-    /// </summary>
-    protected readonly ConcurrentDictionary<string, DateTime> FailingStreams = new();
+    {
+        get
+        {
+            return FailingStreams;
+        }
+    }
 
     /// <summary>
     ///     Checks whether the specified url is a valid stream url for this platform.
@@ -54,10 +59,12 @@ public abstract class Provider
     public abstract Task<IReadOnlyCollection<StreamData>> GetStreamDataAsync(List<string> usernames);
 
     /// <summary>
-    /// Unmark the stream as errored. You should override this method
-    /// if you've overridden the <see cref="FailingStreams"/> property.
+    ///     Unmark the stream as errored. You should override this method
+    ///     if you've overridden the <see cref="FailingStreams" /> property.
     /// </summary>
     /// <param name="login"></param>
     public virtual void ClearErrorsFor(string login)
-        => FailingStreams.Clear();
+    {
+        FailingStreams.Clear();
+    }
 }

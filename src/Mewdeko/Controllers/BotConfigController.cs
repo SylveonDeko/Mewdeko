@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace Mewdeko.Controllers;
 
 /// <summary>
-/// Controller for managing botwide configs
+///     Controller for managing botwide configs
 /// </summary>
 [Route("[controller]")]
 [Authorize("ApiKeyPolicy")]
 public class BotConfigController(BotCredentials creds, OwnerOnlyService service) : Controller
 {
     /// <summary>
-    /// Gets a ulong list of bot owners
+    ///     Gets a ulong list of bot owners
     /// </summary>
     /// <returns>A collection of bot owners, ulongs</returns>
     [HttpGet("owners")]
@@ -24,7 +24,7 @@ public class BotConfigController(BotCredentials creds, OwnerOnlyService service)
     }
 
     /// <summary>
-    /// Gets the bots auto executing commands
+    ///     Gets the bots auto executing commands
     /// </summary>
     /// <returns></returns>
     [HttpGet("autocommands")]
@@ -35,7 +35,7 @@ public class BotConfigController(BotCredentials creds, OwnerOnlyService service)
     }
 
     /// <summary>
-    /// Gets the bots startup commands
+    ///     Gets the bots startup commands
     /// </summary>
     /// <returns></returns>
     [HttpGet("startupcommands")]
@@ -44,6 +44,4 @@ public class BotConfigController(BotCredentials creds, OwnerOnlyService service)
         var startupCommands = await service.GetStartupCommands();
         return Ok(startupCommands);
     }
-
-
 }

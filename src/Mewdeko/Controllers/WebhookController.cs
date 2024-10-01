@@ -12,7 +12,7 @@ namespace Mewdeko.Controllers;
 public class WebhookController(VoteService service) : Controller
 {
     /// <summary>
-    /// The vote webhook handler
+    ///     The vote webhook handler
     /// </summary>
     /// <param name="data">The data for the webhook</param>
     /// <returns></returns>

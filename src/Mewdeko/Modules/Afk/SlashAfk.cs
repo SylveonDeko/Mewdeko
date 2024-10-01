@@ -9,7 +9,7 @@ using Mewdeko.Modules.Afk.Services;
 namespace Mewdeko.Modules.Afk;
 
 /// <summary>
-/// Slash commands for setting and managing AFK messages.
+///     Slash commands for setting and managing AFK messages.
 /// </summary>
 [Group("afk", "Set or Manage AFK")]
 public class SlashAfk : MewdekoSlashModuleBase<AfkService>
@@ -18,7 +18,7 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     private readonly InteractiveService interactivity;
 
     /// <summary>
-    /// Initializes a new instance of <see cref="SlashAfk"/>.
+    ///     Initializes a new instance of <see cref="SlashAfk" />.
     /// </summary>
     /// <param name="serv">The interactivity service used for embed pagination.</param>
     /// <param name="client">The discord client.</param>
@@ -29,16 +29,18 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     }
 
     /// <summary>
-    /// Sets the user's AFK status with an optional message.
+    ///     Sets the user's AFK status with an optional message.
     /// </summary>
     /// <param name="message">The AFK message. If not provided, the user's AFK status will be toggled.</param>
     /// <example>.afk</example>
     /// <example>.afk I'm AFK</example>
-    [SlashCommand("set", "Set your afk with an optional message"), RequireContext(ContextType.Guild), CheckPermissions,
-     SlashUserPerm(GuildPermission.SendMessages)]
+    [SlashCommand("set", "Set your afk with an optional message")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    [SlashUserPerm(GuildPermission.SendMessages)]
     public async Task Afk(string? message = null)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ErrorLocalizedAsync("afk_still_starting");
             return;
@@ -97,13 +99,15 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     }
 
     /// <summary>
-    /// Sets a timed AFK status with a custom message.
+    ///     Sets a timed AFK status with a custom message.
     /// </summary>
     /// <param name="time">The duration for the AFK status.</param>
     /// <param name="message">The custom message for the AFK status.</param>
     /// <example>.afk 1h I'm AFK</example>
-    [SlashCommand("timed", "Sets a timed afk that auto removes itself and pings you when it."),
-     RequireContext(ContextType.Guild), CheckPermissions, SlashUserPerm(GuildPermission.SendMessages)]
+    [SlashCommand("timed", "Sets a timed afk that auto removes itself and pings you when it.")]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
+    [SlashUserPerm(GuildPermission.SendMessages)]
     public async Task TimedAfk(string time, string message)
     {
         if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
@@ -133,13 +137,16 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     }
 
     /// <summary>
-    /// Sets a custom AFK embed that will be displayed when a user is AFK. Use "-" to reset to the default embed. Check https://eb.mewdeko.tech for the embed builder and http://mewdeko.tech/placeholders for placeholders.
+    ///     Sets a custom AFK embed that will be displayed when a user is AFK. Use "-" to reset to the default embed. Check
+    ///     https://eb.mewdeko.tech for the embed builder and http://mewdeko.tech/placeholders for placeholders.
     /// </summary>
     /// <param name="embedCode">The custom message to set. Use "-" to reset to the default message.</param>
     /// <example>/afk message -</example>
     /// <example>/afk message embedcode</example>
-    [SlashCommand("message", "Allows you to set a custom embed for AFK messages."), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("message", "Allows you to set a custom embed for AFK messages.")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task CustomAfkMessage(string embedCode)
     {
         if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
@@ -160,10 +167,11 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     }
 
     /// <summary>
-    /// Displays a list of active users who are currently AFK.
+    ///     Displays a list of active users who are currently AFK.
     /// </summary>
     /// <example>./afk listactive</example>
-    [SlashCommand("listactive", "Sends a list of active afk users"), CheckPermissions]
+    [SlashCommand("listactive", "Sends a list of active afk users")]
+    [CheckPermissions]
     public async Task GetActiveAfks()
     {
         if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
@@ -197,12 +205,13 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     }
 
     /// <summary>
-    /// Displays the AFK status of a specific user.
+    ///     Displays the AFK status of a specific user.
     /// </summary>
     /// <param name="user">The user to check the AFK status for.</param>
     /// <example>/afk view @user</example>
-    [SlashCommand("view", "View another user's afk message"), SlashUserPerm(GuildPermission.ManageMessages),
-     CheckPermissions]
+    [SlashCommand("view", "View another user's afk message")]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    [CheckPermissions]
     public async Task AfkView(IGuildUser user)
     {
         if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
@@ -222,11 +231,12 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     }
 
     /// <summary>
-    /// Lists the text channels where the AFK message doesnt display.
+    ///     Lists the text channels where the AFK message doesnt display.
     /// </summary>
     /// <example>/afk disabledlist</example>
-    [SlashCommand("disabledlist", "Shows a list of channels where afk messages are not allowed to display"),
-     SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
+    [SlashCommand("disabledlist", "Shows a list of channels where afk messages are not allowed to display")]
+    [SlashUserPerm(GuildPermission.ManageChannels)]
+    [CheckPermissions]
     public async Task AfkDisabledList()
     {
         if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
@@ -268,12 +278,13 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     }
 
     /// <summary>
-    /// Sets the maximum length of all AFK messages.
+    ///     Sets the maximum length of all AFK messages.
     /// </summary>
     /// <param name="num">The maximum length you want to set.</param>
     /// <example>/afk maxlength 100</example>
-    [SlashCommand("maxlength", "Sets the maximum length of afk messages."),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("maxlength", "Sets the maximum length of afk messages.")]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task AfkLength(int num)
     {
         if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
@@ -294,12 +305,13 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     }
 
     /// <summary>
-    /// Sets the type of AFK behavior for the guild.
+    ///     Sets the type of AFK behavior for the guild.
     /// </summary>
-    /// <param name="afkTypeEnum">The type of AFK behavior to set. <see cref="Afk.AfkTypeEnum"/></param>
+    /// <param name="afkTypeEnum">The type of AFK behavior to set. <see cref="Afk.AfkTypeEnum" /></param>
     /// <example>.afktype 1</example>
-    [SlashCommand("type", "Sets how afk messages are removed. Do @Mewdeko help afktype to see more."),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("type", "Sets how afk messages are removed. Do @Mewdeko help afktype to see more.")]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task AfkType(Afk.AfkTypeEnum afkTypeEnum)
     {
         if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
@@ -313,12 +325,14 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     }
 
     /// <summary>
-    /// Sets the timeout duration before a user is no longer considered afk. Triggers when a user sends a message or types in a channel.
+    ///     Sets the timeout duration before a user is no longer considered afk. Triggers when a user sends a message or types
+    ///     in a channel.
     /// </summary>
     /// <param name="input">The timeout duration for the AFK status.</param>
     /// <example>/afk timeout 1h</example>
-    [SlashCommand("timeout", "Sets after how long mewdeko no longer ignores a user's typing/messages."),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("timeout", "Sets after how long mewdeko no longer ignores a user's typing/messages.")]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task AfkTimeout(string input)
     {
         if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
@@ -345,12 +359,13 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     }
 
     /// <summary>
-    /// Removes the specified channel from the afk message blacklist.
+    ///     Removes the specified channel from the afk message blacklist.
     /// </summary>
     /// <param name="channel">The text channel for which to remove from the afk message blacklist.</param>
     /// <example>/afk undisable #channel</example>
-    [SlashCommand("undisable", "Allows afk messages to be shown in a channel again."),
-     SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
+    [SlashCommand("undisable", "Allows afk messages to be shown in a channel again.")]
+    [SlashUserPerm(GuildPermission.ManageChannels)]
+    [CheckPermissions]
     public async Task AfkUndisable(ITextChannel channel)
     {
         if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
@@ -402,12 +417,13 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     }
 
     /// <summary>
-    /// Sets the channel where the AFK message will not display.
+    ///     Sets the channel where the AFK message will not display.
     /// </summary>
     /// <param name="channel">Channel you want to add to the afk message blacklist.</param>
     /// <example>/afk disable #channel</example>
-    [SlashCommand("disable", "Disables afk messages to be shown in channels you specify."),
-     SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
+    [SlashCommand("disable", "Disables afk messages to be shown in channels you specify.")]
+    [SlashUserPerm(GuildPermission.ManageChannels)]
+    [CheckPermissions]
     public async Task AfkDisable(ITextChannel channel)
     {
         if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
@@ -467,11 +483,13 @@ public class SlashAfk : MewdekoSlashModuleBase<AfkService>
     }
 
     /// <summary>
-    /// Removes the AFK status for a user.
+    ///     Removes the AFK status for a user.
     /// </summary>
     /// <param name="user">The user you want to remove afk from.</param>
     /// <example>/afk remove @user</example>
-    [SlashCommand("remove", "Removes afk from a user"), SlashUserPerm(GuildPermission.ManageMessages), CheckPermissions]
+    [SlashCommand("remove", "Removes afk from a user")]
+    [SlashUserPerm(GuildPermission.ManageMessages)]
+    [CheckPermissions]
     public async Task AfkRemove(IGuildUser user)
     {
         if (!await CheckRoleHierarchy(user))

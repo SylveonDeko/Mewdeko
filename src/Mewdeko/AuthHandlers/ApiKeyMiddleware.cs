@@ -38,7 +38,10 @@ public class ApiKeyAuthHandler : AuthenticationHandler<AuthenticationSchemeOptio
             return Task.FromResult(AuthenticateResult.Fail("Invalid API Key"));
         }
 
-        var claims = new[] { new Claim(ClaimTypes.Name, "ApiUser") };
+        var claims = new[]
+        {
+            new Claim(ClaimTypes.Name, "ApiUser")
+        };
         var identity = new ClaimsIdentity(claims, Scheme.Name);
         var principal = new ClaimsPrincipal(identity);
         var ticket = new AuthenticationTicket(principal, Scheme.Name);

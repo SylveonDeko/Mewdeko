@@ -111,7 +111,9 @@ public class Program
                 if (!credentials.SkipApiKey)
                     options.AddPolicy("ApiKeyPolicy", policy =>
                         policy.RequireAuthenticatedUser().AddAuthenticationSchemes("ApiKey"));
-                options.AddPolicy("TopggPolicy", policy => policy.RequireClaim(AuthHandler.TopggClaim).AddAuthenticationSchemes(AuthHandler.SchemeName));
+                options.AddPolicy("TopggPolicy",
+                    policy => policy.RequireClaim(AuthHandler.TopggClaim)
+                        .AddAuthenticationSchemes(AuthHandler.SchemeName));
             });
 
             var app = builder.Build();

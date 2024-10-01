@@ -5,74 +5,77 @@ using Microsoft.EntityFrameworkCore;
 namespace Mewdeko.Modules.Administration.Services;
 
 /// <summary>
-/// The service for managing self-assigned roles.
+///     The service for managing self-assigned roles.
 /// </summary>
 public class SelfAssignedRolesService(DbContextProvider dbProvider) : INService
 {
     /// <summary>
-    /// Enum representing the possible results of an assign operation.
+    ///     Enum representing the possible results of an assign operation.
     /// </summary>
     public enum AssignResult
     {
         /// <summary>
-        /// The role was successfully assigned.
+        ///     The role was successfully assigned.
         /// </summary>
         Assigned, // successfully removed
 
         /// <summary>
-        /// The role is not assignable.
+        ///     The role is not assignable.
         /// </summary>
         ErrNotAssignable, // not assignable (error)
 
         /// <summary>
-        /// The user already has the role.
+        ///     The user already has the role.
         /// </summary>
         ErrAlreadyHave, // you already have that role (error)
 
         /// <summary>
-        /// The bot doesn't have the necessary permissions.
+        ///     The bot doesn't have the necessary permissions.
         /// </summary>
         ErrNotPerms, // bot doesn't have perms (error)
 
         /// <summary>
-        /// The user does not meet the level requirement.
+        ///     The user does not meet the level requirement.
         /// </summary>
         ErrLvlReq // you are not required level (error)
     }
 
     /// <summary>
-    /// Enum representing the possible results of a remove operation.
+    ///     Enum representing the possible results of a remove operation.
     /// </summary>
     public enum RemoveResult
     {
         /// <summary>
-        /// The role was successfully removed.
+        ///     The role was successfully removed.
         /// </summary>
         Removed, // successfully removed
 
         /// <summary>
-        /// The role is not assignable.
+        ///     The role is not assignable.
         /// </summary>
         ErrNotAssignable, // not assignable (error)
 
         /// <summary>
-        /// The user does not have the role.
+        ///     The user does not have the role.
         /// </summary>
         ErrNotHave, // you don't have a role you want to remove (error)
 
         /// <summary>
-        /// The bot doesn't have the necessary permissions.
+        ///     The bot doesn't have the necessary permissions.
         /// </summary>
         ErrNotPerms // bot doesn't have perms (error)
     }
 
     /// <summary>
-    /// Adds a new self-assignable role to a guild.
+    ///     Adds a new self-assignable role to a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to add the role to.</param>
     /// <param name="role">The role to add.</param>
     /// <param name="group">The group number for the role.</param>
-    /// <returns>A task that represents the asynchronous operation and contains a boolean indicating whether the operation was successful.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation and contains a boolean indicating whether the operation was
+    ///     successful.
+    /// </returns>
     public async Task<bool> AddNew(ulong guildId, IRole role, int group)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -90,10 +93,13 @@ public class SelfAssignedRolesService(DbContextProvider dbProvider) : INService
     }
 
     /// <summary>
-    /// Toggles the auto-deletion of self-assigned role messages for a guild.
+    ///     Toggles the auto-deletion of self-assigned role messages for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to toggle the setting for.</param>
-    /// <returns>A task that represents the asynchronous operation and contains a boolean indicating the new value of the setting.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation and contains a boolean indicating the new value of the
+    ///     setting.
+    /// </returns>
     public async Task<bool> ToggleAdSarm(ulong guildId)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -107,11 +113,15 @@ public class SelfAssignedRolesService(DbContextProvider dbProvider) : INService
     }
 
     /// <summary>
-    /// Assigns a self-assignable role to a guild user.
+    ///     Assigns a self-assignable role to a guild user.
     /// </summary>
     /// <param name="guildUser">The guild user to assign the role to.</param>
     /// <param name="role">The role to assign.</param>
-    /// <returns>A task that represents the asynchronous operation and contains the result of the operation, a boolean indicating whether auto-deletion is enabled, and an extra object containing additional information about the operation.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation and contains the result of the operation, a boolean
+    ///     indicating whether auto-deletion is enabled, and an extra object containing additional information about the
+    ///     operation.
+    /// </returns>
     public async Task<(AssignResult Result, bool AutoDelete, object extra)> Assign(IGuildUser guildUser, IRole role)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -165,17 +175,20 @@ public class SelfAssignedRolesService(DbContextProvider dbProvider) : INService
     }
 
     /// <summary>
-    /// Sets the name of a self-assignable role group in a guild.
+    ///     Sets the name of a self-assignable role group in a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to set the name for.</param>
     /// <param name="group">The group number to set the name for.</param>
     /// <param name="name">The new name for the group.</param>
-    /// <returns>A task that represents the asynchronous operation and contains a boolean indicating whether the operation was successful.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation and contains a boolean indicating whether the operation was
+    ///     successful.
+    /// </returns>
     public async Task<bool> SetNameAsync(ulong guildId, int group, string name)
     {
         var set = false;
 
-       await using var dbContext = await dbProvider.GetContextAsync();
+        await using var dbContext = await dbProvider.GetContextAsync();
         var gc = await dbContext.ForGuildId(guildId, y => y.Include(x => x.SelfAssignableRoleGroupNames));
         var toUpdate = gc.SelfAssignableRoleGroupNames.Find(x => x.Number == group);
 
@@ -204,11 +217,14 @@ public class SelfAssignedRolesService(DbContextProvider dbProvider) : INService
     }
 
     /// <summary>
-    /// Removes a self-assignable role from a guild user.
+    ///     Removes a self-assignable role from a guild user.
     /// </summary>
     /// <param name="guildUser">The guild user to remove the role from.</param>
     /// <param name="role">The role to remove.</param>
-    /// <returns>A task that represents the asynchronous operation and contains the result of the operation and a boolean indicating whether auto-deletion is enabled.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation and contains the result of the operation and a boolean
+    ///     indicating whether auto-deletion is enabled.
+    /// </returns>
     public async Task<(RemoveResult Result, bool AutoDelete)> Remove(IGuildUser guildUser, IRole role)
     {
         var (autoDelete, _, roles) = await GetAdAndRoles(guildUser.Guild.Id);
@@ -229,11 +245,14 @@ public class SelfAssignedRolesService(DbContextProvider dbProvider) : INService
     }
 
     /// <summary>
-    /// Removes a self-assignable role from a guild.
+    ///     Removes a self-assignable role from a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to remove the role from.</param>
     /// <param name="roleId">The ID of the role to remove.</param>
-    /// <returns>A task that represents the asynchronous operation and contains a boolean indicating whether the operation was successful.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation and contains a boolean indicating whether the operation was
+    ///     successful.
+    /// </returns>
     public async Task<bool> RemoveSar(ulong guildId, ulong roleId)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -244,14 +263,17 @@ public class SelfAssignedRolesService(DbContextProvider dbProvider) : INService
     }
 
     /// <summary>
-    /// Retrieves the auto-delete, exclusive, and self-assignable roles for a guild.
+    ///     Retrieves the auto-delete, exclusive, and self-assignable roles for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to retrieve the information for.</param>
-    /// <returns>A task that represents the asynchronous operation and contains a tuple with a boolean indicating whether auto-deletion is enabled, a boolean indicating whether exclusive self-assignable roles are enabled, and a collection of self-assignable roles.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation and contains a tuple with a boolean indicating whether
+    ///     auto-deletion is enabled, a boolean indicating whether exclusive self-assignable roles are enabled, and a
+    ///     collection of self-assignable roles.
+    /// </returns>
     public async Task<(bool AutoDelete, bool Exclusive, IEnumerable<SelfAssignedRole>)> GetAdAndRoles(ulong guildId)
     {
-
-       await using var dbContext = await dbProvider.GetContextAsync();
+        await using var dbContext = await dbProvider.GetContextAsync();
         var gc = await dbContext.ForGuildId(guildId, set => set);
         var roles = await dbContext.SelfAssignableRoles.GetFromGuild(guildId);
 
@@ -259,12 +281,15 @@ public class SelfAssignedRolesService(DbContextProvider dbProvider) : INService
     }
 
     /// <summary>
-    /// Sets the level requirement for a self-assignable role in a guild.
+    ///     Sets the level requirement for a self-assignable role in a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to set the level requirement in.</param>
     /// <param name="role">The role to set the level requirement for.</param>
     /// <param name="level">The new level requirement.</param>
-    /// <returns>A task that represents the asynchronous operation and contains a boolean indicating whether the operation was successful.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation and contains a boolean indicating whether the operation was
+    ///     successful.
+    /// </returns>
     public async Task<bool> SetLevelReq(ulong guildId, IRole role, int level)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -284,10 +309,13 @@ public class SelfAssignedRolesService(DbContextProvider dbProvider) : INService
     }
 
     /// <summary>
-    /// Toggles the exclusive self-assignable roles setting for a guild.
+    ///     Toggles the exclusive self-assignable roles setting for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to toggle the setting for.</param>
-    /// <returns>A task that represents the asynchronous operation and contains a boolean indicating the new value of the setting.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation and contains a boolean indicating the new value of the
+    ///     setting.
+    /// </returns>
     public async Task<bool> ToggleEsar(ulong guildId)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -298,17 +326,20 @@ public class SelfAssignedRolesService(DbContextProvider dbProvider) : INService
     }
 
     /// <summary>
-    /// Retrieves the exclusive setting, self-assignable roles, and group names for a guild.
+    ///     Retrieves the exclusive setting, self-assignable roles, and group names for a guild.
     /// </summary>
     /// <param name="guild">The guild to retrieve the information for.</param>
-    /// <returns>A task that represents the asynchronous operation and contains a tuple with a boolean indicating whether exclusive self-assignable roles are enabled, a collection of tuples containing self-assignable role models and their corresponding roles, and a dictionary mapping group numbers to their names.</returns>
+    /// <returns>
+    ///     A task that represents the asynchronous operation and contains a tuple with a boolean indicating whether
+    ///     exclusive self-assignable roles are enabled, a collection of tuples containing self-assignable role models and
+    ///     their corresponding roles, and a dictionary mapping group numbers to their names.
+    /// </returns>
     public async
         Task<(bool Exclusive, IEnumerable<(SelfAssignedRole Model, IRole Role)> Roles, IDictionary<int, string>
             GroupNames)>
         GetRoles(IGuild guild)
     {
-
-       await using var dbContext = await dbProvider.GetContextAsync();
+        await using var dbContext = await dbProvider.GetContextAsync();
         var gc = await dbContext.ForGuildId(guild.Id, set => set.Include(x => x.SelfAssignableRoleGroupNames));
         IDictionary<int, string> groupNames = gc.SelfAssignableRoleGroupNames.ToDictionary(x => x.Number, x => x.Name);
         var roleModels = await dbContext.SelfAssignableRoles.GetFromGuild(guild.Id);

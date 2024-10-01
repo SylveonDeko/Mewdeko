@@ -6,18 +6,18 @@ using Mewdeko.Modules.Searches.Services;
 namespace Mewdeko.Modules.Searches;
 
 /// <summary>
-/// Provides slash command interactions for searching and retrieving content from various sources.
+///     Provides slash command interactions for searching and retrieving content from various sources.
 /// </summary>
 public class SlashSearches(MartineApi martineApi) : MewdekoSlashModuleBase<SearchesService>
 {
     /// <summary>
-    /// Handles the "meme" component interaction, fetching and showing a random meme.
+    ///     Handles the "meme" component interaction, fetching and showing a random meme.
     /// </summary>
     /// <param name="userid">The Discord user ID who initiated the meme fetch interaction.</param>
     /// <remarks>
-    /// This interaction command fetches a random meme from the configured sources via the Martine API
-    /// and presents it to the user who triggered the interaction.
-    /// The command supports ephemerality, showing the response only to the initiating user.
+    ///     This interaction command fetches a random meme from the configured sources via the Martine API
+    ///     and presents it to the user who triggered the interaction.
+    ///     The command supports ephemerality, showing the response only to the initiating user.
     /// </remarks>
     [ComponentInteraction("meme:*", true)]
     public async Task Meme(string userid)
@@ -50,13 +50,13 @@ public class SlashSearches(MartineApi martineApi) : MewdekoSlashModuleBase<Searc
     }
 
     /// <summary>
-    /// Handles the "randomreddit" component interaction, fetching and displaying a random post from a specified subreddit.
+    ///     Handles the "randomreddit" component interaction, fetching and displaying a random post from a specified subreddit.
     /// </summary>
     /// <param name="subreddit">The subreddit from which to fetch a random post.</param>
     /// <param name="userId">The Discord user ID who initiated the subreddit fetch interaction.</param>
     /// <remarks>
-    /// This interaction command fetches a random post from the specified subreddit via the Martine API.
-    /// It supports ephemerality, allowing the response to be visible only to the user who initiated the interaction.
+    ///     This interaction command fetches a random post from the specified subreddit via the Martine API.
+    ///     It supports ephemerality, allowing the response to be visible only to the user who initiated the interaction.
     /// </remarks>
     [ComponentInteraction("randomreddit:*.*", true)]
     public async Task RandomReddit(string subreddit, string userId)

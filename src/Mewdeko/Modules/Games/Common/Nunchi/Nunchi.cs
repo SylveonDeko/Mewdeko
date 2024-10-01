@@ -4,95 +4,110 @@ using System.Threading;
 namespace Mewdeko.Modules.Games.Common.Nunchi;
 
 /// <summary>
-/// Represents a Nunchi game.
+///     Represents a Nunchi game.
 /// </summary>
 public sealed class NunchiGame : IDisposable
 {
     /// <summary>
-    /// Represents the phase of a Nunchi game.
+    ///     Represents the phase of a Nunchi game.
     /// </summary>
     public enum Phase
     {
         /// <summary>
-        /// Indicates the phase where players are joining the game.
+        ///     Indicates the phase where players are joining the game.
         /// </summary>
         Joining,
 
         /// <summary>
-        /// Indicates the phase where the game is actively being played.
+        ///     Indicates the phase where the game is actively being played.
         /// </summary>
         Playing,
 
         /// <summary>
-        /// Indicates the phase where the game is waiting for the next round to start.
+        ///     Indicates the phase where the game is waiting for the next round to start.
         /// </summary>
         WaitingForNextRound,
 
         /// <summary>
-        /// Indicates the phase where the game has ended.
+        ///     Indicates the phase where the game has ended.
         /// </summary>
         Ended
     }
 
     /// <summary>
-    /// Represents the number of milliseconds after which the game forcibly ends.
+    ///     Represents the number of milliseconds after which the game forcibly ends.
     /// </summary>
     private const int KillTimeout = 20 * 1000;
 
     /// <summary>
-    /// Represents the number of milliseconds after which the next round of the game begins.
+    ///     Represents the number of milliseconds after which the next round of the game begins.
     /// </summary>
     private const int NextRoundTimeout = 5 * 1000;
 
     /// <summary>
-    /// Semaphore to synchronize access to game state.
+    ///     Semaphore to synchronize access to game state.
     /// </summary>
     private readonly SemaphoreSlim locker = new(1, 1);
 
     /// <summary>
-    /// HashSet containing the participants who have already passed in the game.
+    ///     HashSet containing the participants who have already passed in the game.
     /// </summary>
     private readonly HashSet<(ulong Id, string Name)> passed = [];
 
     /// <summary>
-    /// Timer to handle forcibly ending the game.
+    ///     Timer to handle forcibly ending the game.
     /// </summary>
     private Timer killTimer;
 
     /// <summary>
-    /// HashSet containing the participants of the game.
+    ///     HashSet containing the participants of the game.
     /// </summary>
     private HashSet<(ulong Id, string Name)> participants = [];
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="NunchiGame"/> class.
+    ///     Initializes a new instance of the <see cref="NunchiGame" /> class.
     /// </summary>
     /// <param name="creatorId">The ID of the player who created the game.</param>
     /// <param name="creatorName">The name of the player who created the game.</param>
-    public NunchiGame(ulong creatorId, string creatorName) => participants.Add((creatorId, creatorName));
+    public NunchiGame(ulong creatorId, string creatorName)
+    {
+        participants.Add((creatorId, creatorName));
+    }
 
     /// <summary>
-    /// Gets or sets the current number in the game.
+    ///     Gets or sets the current number in the game.
     /// </summary>
     public int CurrentNumber { get; private set; } = new MewdekoRandom().Next(0, 100);
 
     /// <summary>
-    /// Gets or sets the current phase of the game.
+    ///     Gets or sets the current phase of the game.
     /// </summary>
     public Phase CurrentPhase { get; private set; } = Phase.Joining;
 
     /// <summary>
-    /// Gets the participants of the game as an immutable array.
+    ///     Gets the participants of the game as an immutable array.
     /// </summary>
-    public ImmutableArray<(ulong Id, string Name)> Participants => [..participants];
+    public ImmutableArray<(ulong Id, string Name)> Participants
+    {
+        get
+        {
+            return [..participants];
+        }
+    }
 
     /// <summary>
-    /// Gets the count of participants in the game.
+    ///     Gets the count of participants in the game.
     /// </summary>
-    public int ParticipantCount => participants.Count;
+    public int ParticipantCount
+    {
+        get
+        {
+            return participants.Count;
+        }
+    }
 
     /// <summary>
-    /// Disposes resources used by the game.
+    ///     Disposes resources used by the game.
     /// </summary>
     public void Dispose()
     {
@@ -104,32 +119,32 @@ public sealed class NunchiGame : IDisposable
     }
 
     /// <summary>
-    /// Event triggered when the game starts.
+    ///     Event triggered when the game starts.
     /// </summary>
     public event Func<NunchiGame, Task> OnGameStarted;
 
     /// <summary>
-    /// Event triggered when a round of the game starts.
+    ///     Event triggered when a round of the game starts.
     /// </summary>
     public event Func<NunchiGame, int, Task> OnRoundStarted;
 
     /// <summary>
-    /// Event triggered when a user guesses a number.
+    ///     Event triggered when a user guesses a number.
     /// </summary>
     public event Func<NunchiGame, Task> OnUserGuessed;
 
     /// <summary>
-    /// Event triggered when a round of the game ends.
+    ///     Event triggered when a round of the game ends.
     /// </summary>
     public event Func<NunchiGame, (ulong Id, string Name)?, Task> OnRoundEnded; // tuple of the user who failed
 
     /// <summary>
-    /// Event triggered when the game ends.
+    ///     Event triggered when the game ends.
     /// </summary>
     public event Func<NunchiGame, string, Task> OnGameEnded; // name of the user who won
 
     /// <summary>
-    /// Allows a user to join the game.
+    ///     Allows a user to join the game.
     /// </summary>
     /// <param name="userId">The ID of the user joining the game.</param>
     /// <param name="userName">The name of the user joining the game.</param>
@@ -151,7 +166,7 @@ public sealed class NunchiGame : IDisposable
     }
 
     /// <summary>
-    /// Initializes the game, allowing it to start.
+    ///     Initializes the game, allowing it to start.
     /// </summary>
     /// <returns>True if the game was successfully initialized, otherwise false.</returns>
     public async Task<bool> Initialize()
@@ -197,7 +212,7 @@ public sealed class NunchiGame : IDisposable
     }
 
     /// <summary>
-    /// Processes the input of a user during the game.
+    ///     Processes the input of a user during the game.
     /// </summary>
     /// <param name="userId">The ID of the user providing the input.</param>
     /// <param name="userName">The name of the user providing the input.</param>

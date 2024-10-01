@@ -2,7 +2,6 @@
 using System.IO;
 using System.Reflection;
 using System.Text;
-using Newtonsoft.Json;
 using System.Threading;
 using LinqToDB;
 using LinqToDB.Data;
@@ -13,20 +12,21 @@ using Mewdeko.Services.Impl;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Newtonsoft.Json;
 using Serilog;
 
 namespace Mewdeko.Database;
 
 /// <summary>
-/// Service for handling database migrations.
+///     Service for handling database migrations.
 /// </summary>
 public class MigrationService
 {
-    private readonly string token;
     private readonly DbContextProvider provider;
+    private readonly string token;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="MigrationService"/> class.
+    ///     Initializes a new instance of the <see cref="MigrationService" /> class.
     /// </summary>
     public MigrationService(DbContextProvider? provider, string? token, string psqlConnection, bool migrate = false)
     {
@@ -52,7 +52,7 @@ public class MigrationService
     }
 
     /// <summary>
-    /// Builds the SQLite connection string.
+    ///     Builds the SQLite connection string.
     /// </summary>
     /// <param name="token">The token to find the client ID.</param>
     /// <returns>The SQLite connection string.</returns>
@@ -71,11 +71,11 @@ public class MigrationService
         var clientId = Encoding.UTF8.GetString(Convert.FromBase64String(tokenPart));
 
         var builder = new SqliteConnectionStringBuilder("Data Source=data/Mewdeko.db");
-            if (Environment.OSVersion.Platform == PlatformID.Unix)
-                builder.DataSource = builder.DataSource =
-                    folderpath + $"/.local/share/Mewdeko/{clientId}/data/Mewdeko.db";
-            else
-                builder.DataSource = builder.DataSource = folderpath + $"/Mewdeko/{clientId}/data/Mewdeko.db";
+        if (Environment.OSVersion.Platform == PlatformID.Unix)
+            builder.DataSource = builder.DataSource =
+                folderpath + $"/.local/share/Mewdeko/{clientId}/data/Mewdeko.db";
+        else
+            builder.DataSource = builder.DataSource = folderpath + $"/Mewdeko/{clientId}/data/Mewdeko.db";
 
         return builder.ToString();
     }
@@ -91,7 +91,10 @@ public class MigrationService
         await ApplyMigrations(destCont);
         var options = new BulkCopyOptions
         {
-            MaxDegreeOfParallelism = 50, MaxBatchSize = 5000, BulkCopyType = BulkCopyType.ProviderSpecific, KeepIdentity = true
+            MaxDegreeOfParallelism = 50,
+            MaxBatchSize = 5000,
+            BulkCopyType = BulkCopyType.ProviderSpecific,
+            KeepIdentity = true
         };
         Log.Information("Starting Data Migration...");
         await destinationContext.ExecuteAsync("SET session_replication_role = replica;");
@@ -160,7 +163,7 @@ public class MigrationService
             x => (x.UserId, x.GuildId));
         await TransferEntityDataAsync<VcRoleInfo, VcRoleInfo>(sourceContext, destinationContext, x => x);
         await TransferEntityDataAsync<VoteRoles, VoteRoles>(sourceContext, destinationContext, x => x);
-        await TransferEntityDataAsync<Models.Votes, Models.Votes>(sourceContext, destinationContext, x => x);
+        await TransferEntityDataAsync<Votes, Votes>(sourceContext, destinationContext, x => x);
         await TransferEntityDataAsync<Warning, Warning>(sourceContext, destinationContext, x => x);
         await TransferEntityDataAsync<Warning2, Warning2>(sourceContext, destinationContext, x => x);
         await TransferEntityDataAsync<WarningPunishment, WarningPunishment>(sourceContext, destinationContext, x => x);
@@ -182,14 +185,15 @@ public class MigrationService
     }
 
     /// <summary>
-    /// Transfers entity data asynchronously.
+    ///     Transfers entity data asynchronously.
     /// </summary>
     /// <typeparam name="T">The source entity type.</typeparam>
     /// <typeparam name="T2">The destination entity type.</typeparam>
     /// <param name="sourceContext">The source context.</param>
     /// <param name="destinationContext">The destination context.</param>
     /// <param name="thing">The transformation function.</param>
-    private static async Task TransferEntityDataAsync<T, T2>(DbContext sourceContext, DataConnection destinationContext, Func<T, T2> thing)
+    private static async Task TransferEntityDataAsync<T, T2>(DbContext sourceContext, DataConnection destinationContext,
+        Func<T, T2> thing)
         where T : class
     {
         var entities = await sourceContext.Set<T>().AsNoTracking()
@@ -198,7 +202,10 @@ public class MigrationService
         var destTable = destinationContext.GetTable<T>();
         var options = new BulkCopyOptions
         {
-            MaxDegreeOfParallelism = 50, MaxBatchSize = 5000, BulkCopyType = BulkCopyType.ProviderSpecific, KeepIdentity = true
+            MaxDegreeOfParallelism = 50,
+            MaxBatchSize = 5000,
+            BulkCopyType = BulkCopyType.ProviderSpecific,
+            KeepIdentity = true
         };
         await destTable.DeleteAsync();
         await destTable.BulkCopyAsync(options, entities.DistinctBy(thing));
@@ -206,7 +213,8 @@ public class MigrationService
         Log.Information("Copied");
     }
 
-    private static async Task ResetIdentitySequenceAsync(DataConnection context, string tableName, string idColumnName = "Id")
+    private static async Task ResetIdentitySequenceAsync(DataConnection context, string tableName,
+        string idColumnName = "Id")
     {
         var sequenceNameQuery = $"SELECT pg_get_serial_sequence('\"{tableName}\"', '{idColumnName}')";
         var sequenceNames = await context.QueryToListAsync<string>(sequenceNameQuery);
@@ -236,9 +244,8 @@ public class MigrationService
     }
 
 
-
     /// <summary>
-    /// Applies migrations to the database context.
+    ///     Applies migrations to the database context.
     /// </summary>
     /// <param name="context">The database context.</param>
     public async Task ApplyMigrations(DbContext? context = null)
@@ -265,6 +272,4 @@ public class MigrationService
 
         await context.SaveChangesAsync();
     }
-
-
 }

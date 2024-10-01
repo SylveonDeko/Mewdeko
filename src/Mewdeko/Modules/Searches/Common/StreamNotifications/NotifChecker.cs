@@ -10,7 +10,7 @@ using StackExchange.Redis;
 namespace Mewdeko.Modules.Searches.Common.StreamNotifications;
 
 /// <summary>
-/// Checks for online and offline stream notifications across multiple streaming platforms.
+///     Checks for online and offline stream notifications across multiple streaming platforms.
 /// </summary>
 public class NotifChecker
 {
@@ -22,7 +22,7 @@ public class NotifChecker
     private readonly Dictionary<FollowedStream.FType, Provider> streamProviders;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="NotifChecker"/> class.
+    ///     Initializes a new instance of the <see cref="NotifChecker" /> class.
     /// </summary>
     /// <param name="httpClientFactory">The HTTP client factory.</param>
     /// <param name="credsProvider">The credentials provider.</param>
@@ -71,7 +71,7 @@ public class NotifChecker
     public event Func<List<StreamData>, Task> OnStreamsOnline = _ => Task.CompletedTask;
 
     /// <summary>
-    /// Gets all streams that have been failing for more than the provided timespan.
+    ///     Gets all streams that have been failing for more than the provided timespan.
     /// </summary>
     /// <param name="duration">The duration to check for failing streams.</param>
     /// <param name="remove">if set to <c>true</c> removes the failing streams from tracking.</param>
@@ -93,11 +93,12 @@ public class NotifChecker
     }
 
     /// <summary>
-    /// Runs the notification checker loop asynchronously.
+    ///     Runs the notification checker loop asynchronously.
     /// </summary>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
     public Task RunAsync()
-        => Task.Run(async () =>
+    {
+        return Task.Run(async () =>
         {
             while (true)
             {
@@ -201,9 +202,10 @@ public class NotifChecker
                 }
             }
         });
+    }
 
     /// <summary>
-    /// Adds or updates stream data in the cache.
+    ///     Adds or updates stream data in the cache.
     /// </summary>
     /// <param name="streamDataKey">The stream data key.</param>
     /// <param name="data">The stream data.</param>
@@ -212,7 +214,7 @@ public class NotifChecker
     public async Task<bool> CacheAddData(StreamDataKey streamDataKey, StreamData? data, bool replace)
     {
         var db = multi.Redis.GetDatabase();
-        return await db.HashSetAsync(this.key,
+        return await db.HashSetAsync(key,
             JsonConvert.SerializeObject(streamDataKey),
             JsonConvert.SerializeObject(data),
             replace ? When.Always : When.NotExists);
@@ -220,17 +222,17 @@ public class NotifChecker
 
 
     /// <summary>
-    /// Deletes stream data from the cache.
+    ///     Deletes stream data from the cache.
     /// </summary>
     /// <param name="streamdataKey">The stream data key.</param>
     private async Task CacheDeleteData(StreamDataKey streamdataKey)
     {
         var db = multi.Redis.GetDatabase();
-        await db.HashDeleteAsync(this.key, JsonConvert.SerializeObject(streamdataKey));
+        await db.HashDeleteAsync(key, JsonConvert.SerializeObject(streamdataKey));
     }
 
     /// <summary>
-    /// Clears all stream data from the cache.
+    ///     Clears all stream data from the cache.
     /// </summary>
     private async void CacheClearAllData()
     {
@@ -239,7 +241,7 @@ public class NotifChecker
     }
 
     /// <summary>
-    /// Gets all stream data from the cache.
+    ///     Gets all stream data from the cache.
     /// </summary>
     /// <returns>A dictionary containing all cached stream data.</returns>
     private async Task<Dictionary<StreamDataKey, StreamData?>> CacheGetAllData()
@@ -258,7 +260,7 @@ public class NotifChecker
     }
 
     /// <summary>
-    /// Retrieves stream data by its URL asynchronously.
+    ///     Retrieves stream data by its URL asynchronously.
     /// </summary>
     /// <param name="url">The URL of the stream.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the stream data.</returns>
@@ -279,7 +281,7 @@ public class NotifChecker
     }
 
     /// <summary>
-    /// Ensures a stream is being tracked and returns its current data.
+    ///     Ensures a stream is being tracked and returns its current data.
     /// </summary>
     /// <param name="url">The URL of the stream to track.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains the stream data.</returns>
@@ -304,9 +306,11 @@ public class NotifChecker
     // if stream is found, add it to the cache for tracking only if it doesn't already exist
     // because stream will be checked and events will fire in a loop. We don't want to override old state
     /// <summary>
-    /// Removes a stream from tracking.
+    ///     Removes a stream from tracking.
     /// </summary>
     /// <param name="streamDataKey">The stream data key.</param>
     public async Task UntrackStreamByKey(StreamDataKey streamDataKey)
-        => await CacheDeleteData(streamDataKey);
+    {
+        await CacheDeleteData(streamDataKey);
+    }
 }

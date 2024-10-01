@@ -5,7 +5,7 @@ using Serilog;
 namespace Mewdeko.Modules.RoleGreets.Services;
 
 /// <summary>
-/// Provides functionalities related to greeting users with specific roles in a guild.
+///     Provides functionalities related to greeting users with specific roles in a guild.
 /// </summary>
 public class RoleGreetService : INService
 {
@@ -13,7 +13,7 @@ public class RoleGreetService : INService
     private readonly DbContextProvider dbProvider;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="RoleGreetService"/> class.
+    ///     Initializes a new instance of the <see cref="RoleGreetService" /> class.
     /// </summary>
     /// <param name="db">The database service for accessing role greet configurations.</param>
     /// <param name="client">The Discord socket client to interact with the Discord API.</param>
@@ -26,10 +26,10 @@ public class RoleGreetService : INService
     }
 
     /// <summary>
-    /// Retrieves an array of <see cref="RoleGreet"/> configurations for a specific role.
+    ///     Retrieves an array of <see cref="RoleGreet" /> configurations for a specific role.
     /// </summary>
     /// <param name="roleId">The unique identifier of the role.</param>
-    /// <returns>An array of <see cref="RoleGreet"/> objects.</returns>
+    /// <returns>An array of <see cref="RoleGreet" /> objects.</returns>
     public async Task<RoleGreet[]> GetGreets(ulong roleId)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -38,10 +38,10 @@ public class RoleGreetService : INService
     }
 
     /// <summary>
-    /// Retrieves a list of <see cref="RoleGreet"/> configurations for a specific guild.
+    ///     Retrieves a list of <see cref="RoleGreet" /> configurations for a specific guild.
     /// </summary>
     /// <param name="guildId">The unique identifier of the guild.</param>
-    /// <returns>An array of <see cref="RoleGreet"/> objects if any are found; otherwise, null.</returns>
+    /// <returns>An array of <see cref="RoleGreet" /> objects if any are found; otherwise, null.</returns>
     public async Task<RoleGreet[]?> GetListGreets(ulong guildId)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -50,7 +50,7 @@ public class RoleGreetService : INService
     }
 
     /// <summary>
-    /// Handles the role greet functionality when a guild member's roles are updated.
+    ///     Handles the role greet functionality when a guild member's roles are updated.
     /// </summary>
     /// <param name="cacheable">A cacheable representation of the updated guild member.</param>
     /// <param name="socketGuildUser">The updated guild member.</param>
@@ -72,14 +72,20 @@ public class RoleGreetService : INService
                 .Select(x => new DiscordWebhookClient(x.WebhookUrl));
             if (greets.Length > 0)
             {
-                async void Exec(SocketRole x) => await HandleChannelGreets(greets, x, user).ConfigureAwait(false);
+                async void Exec(SocketRole x)
+                {
+                    await HandleChannelGreets(greets, x, user).ConfigureAwait(false);
+                }
 
                 diffRoles.ForEach(Exec);
             }
 
             if (!webhooks.Any()) continue;
             {
-                async void Exec(SocketRole x) => await HandleWebhookGreets(greets, x, user).ConfigureAwait(false);
+                async void Exec(SocketRole x)
+                {
+                    await HandleWebhookGreets(greets, x, user).ConfigureAwait(false);
+                }
 
                 diffRoles.ForEach(Exec);
             }
@@ -87,9 +93,9 @@ public class RoleGreetService : INService
     }
 
     /// <summary>
-    /// Handles the sending of greet messages through channel for roles added to a user.
+    ///     Handles the sending of greet messages through channel for roles added to a user.
     /// </summary>
-    /// <param name="multiGreets">An enumerable of <see cref="RoleGreet"/> configurations.</param>
+    /// <param name="multiGreets">An enumerable of <see cref="RoleGreet" /> configurations.</param>
     /// <param name="role">The role that was added to the user.</param>
     /// <param name="user">The user who received the role.</param>
     private async Task HandleChannelGreets(IEnumerable<RoleGreet> multiGreets, SocketRole role, SocketGuildUser user)
@@ -164,9 +170,9 @@ public class RoleGreetService : INService
     }
 
     /// <summary>
-    /// Handles the sending of greet messages through webhooks for roles added to a user.
+    ///     Handles the sending of greet messages through webhooks for roles added to a user.
     /// </summary>
-    /// <param name="multiGreets">An enumerable of <see cref="RoleGreet"/> configurations.</param>
+    /// <param name="multiGreets">An enumerable of <see cref="RoleGreet" /> configurations.</param>
     /// <param name="role">The role that was added to the user.</param>
     /// <param name="user">The user who received the role.</param>
     private async Task HandleWebhookGreets(IEnumerable<RoleGreet> multiGreets, SocketRole role, SocketGuildUser user)
@@ -248,7 +254,7 @@ public class RoleGreetService : INService
     }
 
     /// <summary>
-    /// Adds a new role greet configuration.
+    ///     Adds a new role greet configuration.
     /// </summary>
     /// <param name="guildId">The unique identifier of the guild.</param>
     /// <param name="channelId">The unique identifier of the channel.</param>
@@ -270,7 +276,7 @@ public class RoleGreetService : INService
     }
 
     /// <summary>
-    /// Updates the message content of a role greet configuration.
+    ///     Updates the message content of a role greet configuration.
     /// </summary>
     /// <param name="greet">The role greet configuration to update.</param>
     /// <param name="code">The new message content.</param>
@@ -284,7 +290,7 @@ public class RoleGreetService : INService
     }
 
     /// <summary>
-    /// Enables or disables a role greet configuration.
+    ///     Enables or disables a role greet configuration.
     /// </summary>
     /// <param name="greet">The role greet configuration to update.</param>
     /// <param name="disabled">Specifies whether the greet should be disabled.</param>
@@ -298,7 +304,7 @@ public class RoleGreetService : INService
     }
 
     /// <summary>
-    /// Updates the deletion time for messages sent by a role greet configuration.
+    ///     Updates the deletion time for messages sent by a role greet configuration.
     /// </summary>
     /// <param name="greet">The role greet configuration to update.</param>
     /// <param name="howlong">The time in seconds after which the greet message should be deleted.</param>
@@ -312,7 +318,7 @@ public class RoleGreetService : INService
     }
 
     /// <summary>
-    /// Updates the webhook URL of a role greet configuration.
+    ///     Updates the webhook URL of a role greet configuration.
     /// </summary>
     /// <param name="greet">The role greet configuration to update.</param>
     /// <param name="webhookurl">The new webhook URL.</param>
@@ -326,7 +332,7 @@ public class RoleGreetService : INService
     }
 
     /// <summary>
-    /// Enables or disables greeting bots for a role greet configuration.
+    ///     Enables or disables greeting bots for a role greet configuration.
     /// </summary>
     /// <param name="greet">The role greet configuration to update.</param>
     /// <param name="enabled">Specifies whether bots should be greeted.</param>
@@ -340,7 +346,7 @@ public class RoleGreetService : INService
     }
 
     /// <summary>
-    /// Removes a specific role greet configuration.
+    ///     Removes a specific role greet configuration.
     /// </summary>
     /// <param name="greet">The role greet configuration to remove.</param>
     public async Task RemoveRoleGreetInternal(RoleGreet greet)
@@ -352,7 +358,7 @@ public class RoleGreetService : INService
     }
 
     /// <summary>
-    /// Removes multiple role greet configurations.
+    ///     Removes multiple role greet configurations.
     /// </summary>
     /// <param name="greet">An array of role greet configurations to remove.</param>
     public async Task MultiRemoveRoleGreetInternal(RoleGreet[] greet)

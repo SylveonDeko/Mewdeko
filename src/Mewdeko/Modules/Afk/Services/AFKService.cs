@@ -1,32 +1,31 @@
-﻿
-using System.Threading;
+﻿using System.Threading;
 using Humanizer;
 using LinqToDB.EntityFrameworkCore;
 using Mewdeko.Common.ModuleBehaviors;
+using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Services.Settings;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using ZiggyCreatures.Caching.Fusion;
-using Mewdeko.Database.DbContextStuff;
 using Timer = System.Threading.Timer;
 
 namespace Mewdeko.Modules.Afk.Services;
 
 /// <summary>
-/// Handles AFK-related commands and events. Was hell to make.
+///     Handles AFK-related commands and events. Was hell to make.
 /// </summary>
 public class AfkService : INService, IReadyExecutor
 {
+    private readonly ConcurrentDictionary<(ulong, ulong), Timer> afkTimers = new();
     private readonly IFusionCache cache;
     private readonly DiscordShardedClient client;
     private readonly BotConfigService config;
     private readonly DbContextProvider dbProvider;
     private readonly GuildSettingsService guildSettings;
-    private readonly ConcurrentDictionary<(ulong, ulong), Timer> afkTimers = new();
 
 
     /// <summary>
-    /// Initializes a new instance of the AfkService class.
+    ///     Initializes a new instance of the AfkService class.
     /// </summary>
     /// <param name="dbProvider">The database service.</param>
     /// <param name="client">The Discord socket client.</param>
@@ -77,7 +76,7 @@ public class AfkService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Initializes all timed AFKs and sets timers.
+    ///     Initializes all timed AFKs and sets timers.
     /// </summary>
     /// <returns>A task representing the asynchronous operation.</returns>
     private async Task InitializeTimedAfksAsync()
@@ -92,7 +91,7 @@ public class AfkService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Schedules a timed AFK by setting a timer.
+    ///     Schedules a timed AFK by setting a timer.
     /// </summary>
     /// <param name="afk">The AFK entry to be scheduled.</param>
     private void ScheduleTimedAfk(Database.Models.Afk afk)
@@ -109,7 +108,7 @@ public class AfkService : INService, IReadyExecutor
 
 
     /// <summary>
-    /// Retrieves timed AFKs that occurred before the specified time.
+    ///     Retrieves timed AFKs that occurred before the specified time.
     /// </summary>
     /// <param name="now">The current time.</param>
     /// <returns>A collection of timed AFKs.</returns>
@@ -127,7 +126,7 @@ public class AfkService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the completion of a timed AFK.
+    ///     Handles the completion of a timed AFK.
     /// </summary>
     /// <param name="afk">The timed AFK to be handled.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
@@ -144,7 +143,7 @@ public class AfkService : INService, IReadyExecutor
         }
 
         // Reset the user's AFK status
-        await AfkSet(afk.GuildId, afk.UserId, "", false);
+        await AfkSet(afk.GuildId, afk.UserId, "");
 
         // Retrieve the guild and user
         var guild = client.GetGuild(afk.GuildId);
@@ -167,7 +166,7 @@ public class AfkService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Caches the latest AFK entries.
+    ///     Caches the latest AFK entries.
     /// </summary>
     /// <param name="latestAfks">A dictionary containing the latest AFK entries per user per guild.</param>
     private async Task CacheLatestAfks(
@@ -187,7 +186,7 @@ public class AfkService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a user starts typing.
+    ///     Handles the event when a user starts typing.
     /// </summary>
     /// <param name="user">The user who started typing.</param>
     /// <param name="chan">The channel where the user started typing.</param>
@@ -206,7 +205,7 @@ public class AfkService : INService, IReadyExecutor
                     afkEntry.WasTimed)
                 {
                     // Disable the user's AFK status
-                    await AfkSet(use.Guild.Id, use.Id, "", false).ConfigureAwait(false);
+                    await AfkSet(use.Guild.Id, use.Id, "").ConfigureAwait(false);
                     //Send a message in the channel indicating the user is back from AFK
                     var msg = await chan.Value
                         .SendMessageAsync(
@@ -231,7 +230,7 @@ public class AfkService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a message is received, and processes AFK-related actions.
+    ///     Handles the event when a message is received, and processes AFK-related actions.
     /// </summary>
     /// <param name="msg">The received message.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
@@ -260,7 +259,7 @@ public class AfkService : INService, IReadyExecutor
                             DateTime.Now.AddSeconds(-await GetAfkTimeout(user.GuildId)) && !afk.WasTimed)
                         {
                             // Disable the user's AFK status
-                            await AfkSet(user.Guild.Id, user.Id, "", false).ConfigureAwait(false);
+                            await AfkSet(user.Guild.Id, user.Id, "").ConfigureAwait(false);
 
                             // Send a message in the channel indicating the user is back from AFK
                             var ms = await msg.Channel
@@ -403,16 +402,18 @@ public class AfkService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Retrieves the AFK entry for the specified user in the guild.
+    ///     Retrieves the AFK entry for the specified user in the guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="userId">The ID of the user.</param>
     /// <returns>The AFK entry for the user if found; otherwise, null.</returns>
     public async Task<Database.Models.Afk?> GetAfk(ulong guildId, ulong userId)
-        => await cache.GetOrDefaultAsync<Database.Models.Afk>($"{guildId}:{userId}");
+    {
+        return await cache.GetOrDefaultAsync<Database.Models.Afk>($"{guildId}:{userId}");
+    }
 
     /// <summary>
-    /// Gets a list of AFK users in the specified guild.
+    ///     Gets a list of AFK users in the specified guild.
     /// </summary>
     /// <param name="guild">The guild to get AFK users from.</param>
     /// <returns>A list of AFK users in the guild.</returns>
@@ -426,7 +427,7 @@ public class AfkService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Sets a custom AFK message for the guild.
+    ///     Sets a custom AFK message for the guild.
     /// </summary>
     /// <param name="guild">The guild to set the custom AFK message for.</param>
     /// <param name="afkMessage">The custom AFK message to set.</param>
@@ -439,7 +440,7 @@ public class AfkService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Checks if the specified user is AFK in the guild.
+    ///     Checks if the specified user is AFK in the guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="userId">The ID of the user.</param>
@@ -451,7 +452,7 @@ public class AfkService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Handles the event when a message is updated.
+    ///     Handles the event when a message is updated.
     /// </summary>
     /// <param name="msg">The updated message.</param>
     /// <param name="msg2">The updated message as a SocketMessage.</param>
@@ -471,7 +472,7 @@ public class AfkService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Sets the AFK type for the guild.
+    ///     Sets the AFK type for the guild.
     /// </summary>
     /// <param name="guild">The guild to set the AFK type for.</param>
     /// <param name="num">The AFK type to set.</param>
@@ -484,7 +485,7 @@ public class AfkService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Sets the AFK deletion for the guild.
+    ///     Sets the AFK deletion for the guild.
     /// </summary>
     /// <param name="guild">The guild to set the AFK deletion for.</param>
     /// <param name="inputNum">The input number representing AFK deletion.</param>
@@ -498,7 +499,7 @@ public class AfkService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Sets the AFK length for the guild.
+    ///     Sets the AFK length for the guild.
     /// </summary>
     /// <param name="guild">The guild to set the AFK length for.</param>
     /// <param name="num">The AFK length to set.</param>
@@ -511,7 +512,7 @@ public class AfkService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Sets the AFK timeout for the guild.
+    ///     Sets the AFK timeout for the guild.
     /// </summary>
     /// <param name="guild">The guild to set the AFK timeout for.</param>
     /// <param name="num">The AFK timeout to set.</param>
@@ -524,7 +525,7 @@ public class AfkService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Sets the AFK disabled channels for the guild.
+    ///     Sets the AFK disabled channels for the guild.
     /// </summary>
     /// <param name="guild">The guild to set the AFK disabled channels for.</param>
     /// <param name="num">The AFK disabled channels to set.</param>
@@ -537,14 +538,17 @@ public class AfkService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Retrieves the custom AFK message for the specified guild.
+    ///     Retrieves the custom AFK message for the specified guild.
     /// </summary>
     /// <param name="id">The ID of the guild.</param>
     /// <returns>The custom AFK message.</returns>
-    public async Task<string> GetCustomAfkMessage(ulong id) => (await guildSettings.GetGuildConfig(id)).AfkMessage;
+    public async Task<string> GetCustomAfkMessage(ulong id)
+    {
+        return (await guildSettings.GetGuildConfig(id)).AfkMessage;
+    }
 
     /// <summary>
-    /// Retrieves the AFK deletion setting for the specified guild.
+    ///     Retrieves the AFK deletion setting for the specified guild.
     /// </summary>
     /// <param name="id">The ID of the guild.</param>
     /// <returns>The AFK deletion setting.</returns>
@@ -555,36 +559,47 @@ public class AfkService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Retrieves the AFK type for the specified guild.
+    ///     Retrieves the AFK type for the specified guild.
     /// </summary>
     /// <param name="id">The ID of the guild.</param>
     /// <returns>The AFK type.</returns>
-    public async Task<int> GetAfkType(ulong id) => (await guildSettings.GetGuildConfig(id)).AfkType;
+    public async Task<int> GetAfkType(ulong id)
+    {
+        return (await guildSettings.GetGuildConfig(id)).AfkType;
+    }
 
     /// <summary>
-    /// Retrieves the AFK length for the specified guild.
+    ///     Retrieves the AFK length for the specified guild.
     /// </summary>
     /// <param name="id">The ID of the guild.</param>
     /// <returns>The AFK length.</returns>
-    public async Task<int> GetAfkLength(ulong id) => (await guildSettings.GetGuildConfig(id)).AfkLength;
+    public async Task<int> GetAfkLength(ulong id)
+    {
+        return (await guildSettings.GetGuildConfig(id)).AfkLength;
+    }
 
     /// <summary>
-    /// Retrieves the disabled AFK channels for the specified guild.
+    ///     Retrieves the disabled AFK channels for the specified guild.
     /// </summary>
     /// <param name="id">The ID of the guild.</param>
     /// <returns>The disabled AFK channels.</returns>
-    public async Task<string?> GetDisabledAfkChannels(ulong id) =>
-        (await guildSettings.GetGuildConfig(id)).AfkDisabledChannels;
+    public async Task<string?> GetDisabledAfkChannels(ulong id)
+    {
+        return (await guildSettings.GetGuildConfig(id)).AfkDisabledChannels;
+    }
 
     /// <summary>
-    /// Retrieves the AFK timeout for the specified guild.
+    ///     Retrieves the AFK timeout for the specified guild.
     /// </summary>
     /// <param name="id">The ID of the guild.</param>
     /// <returns>The AFK timeout.</returns>
-    public async Task<int> GetAfkTimeout(ulong id) => (await guildSettings.GetGuildConfig(id)).AfkTimeout;
+    public async Task<int> GetAfkTimeout(ulong id)
+    {
+        return (await guildSettings.GetGuildConfig(id)).AfkTimeout;
+    }
 
     /// <summary>
-    /// Sets or removes the AFK status for the specified user in the specified guild.
+    ///     Sets or removes the AFK status for the specified user in the specified guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="userId">The ID of the user.</param>
@@ -632,7 +647,7 @@ public class AfkService : INService, IReadyExecutor
     }
 
     /// <summary>
-    /// Removes the specified AFK entry.
+    ///     Removes the specified AFK entry.
     /// </summary>
     /// <param name="afk">The AFK entry to remove.</param>
     private async Task RemoveAfk(Database.Models.Afk afk)

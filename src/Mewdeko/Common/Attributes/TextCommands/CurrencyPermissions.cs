@@ -7,13 +7,14 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Mewdeko.Common.Attributes.TextCommands;
 
 /// <summary>
-/// Checks whether the user has the neccesary permissions to use whatever currency command this attribute is attached to
+///     Checks whether the user has the neccesary permissions to use whatever currency command this attribute is attached
+///     to
 /// </summary>
 public class CurrencyPermissionsAttribute : PreconditionAttribute
 {
-
     /// <inheritdoc />
-    public override async Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command, IServiceProvider services)
+    public override async Task<PreconditionResult> CheckPermissionsAsync(ICommandContext context, CommandInfo command,
+        IServiceProvider services)
     {
         var currencyService = services.GetRequiredService<ICurrencyService>();
         var credService = services.GetRequiredService<IBotCredentials>();

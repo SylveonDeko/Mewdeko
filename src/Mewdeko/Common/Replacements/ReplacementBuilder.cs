@@ -6,39 +6,39 @@ using NekosBestApiNet;
 namespace Mewdeko.Common.Replacements;
 
 /// <summary>
-/// Class that builds replacements for placeholders in text. One of the most useful classes in the bot.
+///     Class that builds replacements for placeholders in text. One of the most useful classes in the bot.
 /// </summary>
 public partial class ReplacementBuilder
 {
     /// <summary>
-    /// Regular expression for matching RNG placeholders.
+    ///     Regular expression for matching RNG placeholders.
     /// </summary>
     private static readonly Regex RngRegex =
         MyRegex();
 
     /// <summary>
-    /// The Discord client.
+    ///     The Discord client.
     /// </summary>
     private readonly DiscordShardedClient client;
 
     /// <summary>
-    /// The NekosBest API client.
+    ///     The NekosBest API client.
     /// </summary>
     private readonly NekosBestApi nekosBestApi;
 
     /// <summary>
-    /// Dictionary of regular expressions and their replacement functions.
+    ///     Dictionary of regular expressions and their replacement functions.
     /// </summary>
     private readonly ConcurrentDictionary<Regex, Func<Match, string>> regex = new();
 
 
     /// <summary>
-    /// Dictionary of placeholder keys and their replacement functions.
+    ///     Dictionary of placeholder keys and their replacement functions.
     /// </summary>
     private readonly ConcurrentDictionary<string, Func<string?>> reps = new();
 
     /// <summary>
-    /// Initializes a new instance of the ReplacementBuilder class.
+    ///     Initializes a new instance of the ReplacementBuilder class.
     /// </summary>
     /// <param name="client">The Discord client.</param>
     public ReplacementBuilder(DiscordShardedClient? client = null)
@@ -49,7 +49,7 @@ public partial class ReplacementBuilder
     }
 
     /// <summary>
-    /// Sets up default replacements for a user, channel, guild, and client.
+    ///     Sets up default replacements for a user, channel, guild, and client.
     /// </summary>
     /// <param name="usr">The user.</param>
     /// <param name="ch">The channel.</param>
@@ -57,37 +57,44 @@ public partial class ReplacementBuilder
     /// <param name="socketClient">The client.</param>
     /// <returns>The ReplacementBuilder instance.</returns>
     public ReplacementBuilder WithDefault(IUser usr, IMessageChannel ch, SocketGuild g,
-        DiscordShardedClient socketClient) =>
-        WithUser(usr)
+        DiscordShardedClient socketClient)
+    {
+        return WithUser(usr)
             .WithChannel(ch)
             .WithServer(socketClient, g)
             .WithClient(socketClient)
             .WithGifs();
+    }
 
     /// <summary>
-    /// Sets up default replacements for a command context.
+    ///     Sets up default replacements for a command context.
     /// </summary>
     /// <param name="ctx">The command context.</param>
     /// <returns>The ReplacementBuilder instance.</returns>
-    public ReplacementBuilder WithDefault(ICommandContext ctx) => WithDefault(ctx.User, ctx.Channel,
-        ctx.Guild as SocketGuild, (DiscordShardedClient)ctx.Client);
+    public ReplacementBuilder WithDefault(ICommandContext ctx)
+    {
+        return WithDefault(ctx.User, ctx.Channel,
+            ctx.Guild as SocketGuild, (DiscordShardedClient)ctx.Client);
+    }
 
     /// <summary>
-    /// Sets up default replacements for an interaction context.
+    ///     Sets up default replacements for an interaction context.
     /// </summary>
     /// <param name="ctx">The interaction context.</param>
     /// <returns>The ReplacementBuilder instance.</returns>
-    public ReplacementBuilder WithDefault(IInteractionContext ctx) => WithDefault(ctx.User, ctx.Channel,
-        ctx.Guild as SocketGuild, (DiscordShardedClient)ctx.Client);
+    public ReplacementBuilder WithDefault(IInteractionContext ctx)
+    {
+        return WithDefault(ctx.User, ctx.Channel,
+            ctx.Guild as SocketGuild, (DiscordShardedClient)ctx.Client);
+    }
 
     /// <summary>
-    /// Sets up replacements for a client.
+    ///     Sets up replacements for a client.
     /// </summary>
     /// <param name="socketClient">The client.</param>
     /// <returns>The ReplacementBuilder instance.</returns>
     public ReplacementBuilder WithClient(DiscordShardedClient socketClient)
     {
-
         /*NEW*/
         reps.TryAdd("%bot.status%", () => socketClient.Status.ToString());
         reps.TryAdd("%bot.latency%", () => socketClient.Latency.ToString());
@@ -104,7 +111,7 @@ public partial class ReplacementBuilder
     }
 
     /// <summary>
-    /// Sets up replacements for a server.
+    ///     Sets up replacements for a server.
     /// </summary>
     /// <param name="socketClient">The client.</param>
     /// <param name="g">The server.</param>
@@ -208,7 +215,7 @@ public partial class ReplacementBuilder
     }
 
     /// <summary>
-    /// Sets up replacements for GIFs.
+    ///     Sets up replacements for GIFs.
     /// </summary>
     /// <returns>The ReplacementBuilder instance.</returns>
     public ReplacementBuilder WithGifs()
@@ -253,7 +260,7 @@ public partial class ReplacementBuilder
     }
 
     /// <summary>
-    /// Sets up replacements for a channel.
+    ///     Sets up replacements for a channel.
     /// </summary>
     /// <param name="ch">The channel.</param>
     /// <returns>The ReplacementBuilder instance.</returns>
@@ -274,7 +281,7 @@ public partial class ReplacementBuilder
     }
 
     /// <summary>
-    /// Sets up replacements for a user.
+    ///     Sets up replacements for a user.
     /// </summary>
     /// <param name="user">The user.</param>
     /// <returns>The ReplacementBuilder instance.</returns>
@@ -287,7 +294,7 @@ public partial class ReplacementBuilder
     }
 
     /// <summary>
-    /// Sets up replacements for multiple users.
+    ///     Sets up replacements for multiple users.
     /// </summary>
     /// <param name="users">The users.</param>
     /// <returns>The ReplacementBuilder instance.</returns>
@@ -328,7 +335,7 @@ public partial class ReplacementBuilder
     }
 
     /// <summary>
-    /// Sets up replacements for RNG placeholders.
+    ///     Sets up replacements for RNG placeholders.
     /// </summary>
     /// <returns>The ReplacementBuilder instance.</returns>
     private void WithStats(DiscordShardedClient c)
@@ -347,7 +354,7 @@ public partial class ReplacementBuilder
     }
 
     /// <summary>
-    /// Sets up replacements for RNG placeholders.
+    ///     Sets up replacements for RNG placeholders.
     /// </summary>
     /// <returns>The ReplacementBuilder instance.</returns>
     public ReplacementBuilder WithRngRegex()
@@ -369,7 +376,7 @@ public partial class ReplacementBuilder
     }
 
     /// <summary>
-    /// Overrides a replacement.
+    ///     Overrides a replacement.
     /// </summary>
     /// <param name="key">The key of the replacement to override.</param>
     /// <param name="output">The new replacement function.</param>
@@ -381,15 +388,17 @@ public partial class ReplacementBuilder
     }
 
     /// <summary>
-    /// Builds a Replacer instance.
+    ///     Builds a Replacer instance.
     /// </summary>
     /// <returns>The built Replacer instance.</returns>
-    public Replacer Build() =>
-        new(reps.Select(x => (x.Key, x.Value)).ToArray(),
+    public Replacer Build()
+    {
+        return new Replacer(reps.Select(x => (x.Key, x.Value)).ToArray(),
             regex.Select(x => (x.Key, x.Value)).ToArray());
+    }
 
     /// <summary>
-    /// Sets up replacements using placeholder providers.
+    ///     Sets up replacements using placeholder providers.
     /// </summary>
     /// <param name="phProviders">The placeholder providers.</param>
     /// <returns>The ReplacementBuilder instance.</returns>
@@ -403,7 +412,7 @@ public partial class ReplacementBuilder
     }
 
     /// <summary>
-    /// Generates a regular expression for matching RNG placeholders.
+    ///     Generates a regular expression for matching RNG placeholders.
     /// </summary>
     /// <returns>A compiled regular expression.</returns>
     [GeneratedRegex("%rng(?:(?<from>(?:-)?\\d+)-(?<to>(?:-)?\\d+))?%", RegexOptions.Compiled)]

@@ -719,8 +719,10 @@ public partial class Giveaways(
             await ctx.Channel.SendConfirmAsync("Giveaway ended!").ConfigureAwait(false);
         }
     }
+
     [GeneratedRegex(@"\d+")]
     private static partial Regex MyRegex1();
+
     [GeneratedRegex(@"\d+")]
     private static partial Regex MyRegex2();
 }

@@ -8,23 +8,23 @@ using Image = Discord.Image;
 namespace Mewdeko.Modules.Server_Management;
 
 /// <summary>
-/// A module for stealing emotes and stickers from messages and adding them to the server.
+///     A module for stealing emotes and stickers from messages and adding them to the server.
 /// </summary>
 public class EmoteStealer(IHttpClientFactory httpFactory, BotConfigService config) : MewdekoSlashCommandModule
 {
     /// <summary>
-    /// Steals emotes from a message and adds them to the server's emote collection.
+    ///     Steals emotes from a message and adds them to the server's emote collection.
     /// </summary>
     /// <param name="message">The message containing emotes to be stolen.</param>
     /// <remarks>
-    /// This command requires the "Manage Emojis and Stickers" permission.
-    /// It goes through all the emotes in the specified message, downloads them, and attempts to add them to the guild.
-    /// Errors are logged, and a summary of successful and failed additions is provided.
+    ///     This command requires the "Manage Emojis and Stickers" permission.
+    ///     It goes through all the emotes in the specified message, downloads them, and attempts to add them to the guild.
+    ///     Errors are logged, and a summary of successful and failed additions is provided.
     /// </remarks>
-    [MessageCommand("Steal Emotes"),
-     RequireBotPermission(GuildPermission.ManageEmojisAndStickers),
-     SlashUserPerm(GuildPermission.ManageEmojisAndStickers),
-     CheckPermissions]
+    [MessageCommand("Steal Emotes")]
+    [RequireBotPermission(GuildPermission.ManageEmojisAndStickers)]
+    [SlashUserPerm(GuildPermission.ManageEmojisAndStickers)]
+    [CheckPermissions]
     public async Task Steal(IMessage message)
     {
         await ctx.Interaction.DeferAsync(true).ConfigureAwait(false);
@@ -76,18 +76,18 @@ public class EmoteStealer(IHttpClientFactory httpFactory, BotConfigService confi
     }
 
     /// <summary>
-    /// Steals stickers from a message and adds them to the server's sticker collection.
+    ///     Steals stickers from a message and adds them to the server's sticker collection.
     /// </summary>
     /// <param name="message">The message containing stickers to be stolen.</param>
     /// <remarks>
-    /// Similar to the emote stealing function, this command requires "Manage Emojis and Stickers" permission.
-    /// It processes all the stickers in the provided message, attempting to add each to the server.
-    /// Successes and failures are reported, with errors logged for troubleshooting.
+    ///     Similar to the emote stealing function, this command requires "Manage Emojis and Stickers" permission.
+    ///     It processes all the stickers in the provided message, attempting to add each to the server.
+    ///     Successes and failures are reported, with errors logged for troubleshooting.
     /// </remarks>
-    [MessageCommand("Steal Sticker"),
-     RequireBotPermission(GuildPermission.ManageEmojisAndStickers),
-     SlashUserPerm(GuildPermission.ManageEmojisAndStickers),
-     CheckPermissions]
+    [MessageCommand("Steal Sticker")]
+    [RequireBotPermission(GuildPermission.ManageEmojisAndStickers)]
+    [SlashUserPerm(GuildPermission.ManageEmojisAndStickers)]
+    [CheckPermissions]
     public async Task StealSticker(IMessage message)
     {
         await ctx.Interaction.DeferAsync(true).ConfigureAwait(false);
@@ -123,7 +123,7 @@ public class EmoteStealer(IHttpClientFactory httpFactory, BotConfigService confi
                             "Mewdeko"
                         ], i.Description)
                         .ConfigureAwait(false);
-                    emotes.Add($"{emote.Name} [Url]({(emote.GetStickerUrl())})");
+                    emotes.Add($"{emote.Name} [Url]({emote.GetStickerUrl()})");
                 }
                 catch (Exception ex)
                 {

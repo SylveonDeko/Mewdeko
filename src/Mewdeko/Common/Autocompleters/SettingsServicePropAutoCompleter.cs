@@ -4,17 +4,17 @@ using Mewdeko.Services.Settings;
 namespace Mewdeko.Common.Autocompleters;
 
 /// <summary>
-/// Autocompleter for settings service properties.
+///     Autocompleter for settings service properties.
 /// </summary>
 public class SettingsServicePropAutoCompleter : AutocompleteHandler
 {
     /// <summary>
-    /// Gets the collection of setting services.
+    ///     Gets the collection of setting services.
     /// </summary>
     private readonly IEnumerable<IConfigService> settingServices;
 
     /// <summary>
-    /// Initializes a new instance of the SettingsServicePropAutoCompleter class.
+    ///     Initializes a new instance of the SettingsServicePropAutoCompleter class.
     /// </summary>
     /// <param name="settingServices">The collection of setting services.</param>
     public SettingsServicePropAutoCompleter(IEnumerable<IConfigService> settingServices)
@@ -23,7 +23,7 @@ public class SettingsServicePropAutoCompleter : AutocompleteHandler
     }
 
     /// <summary>
-    /// Generates suggestions for autocomplete.
+    ///     Generates suggestions for autocomplete.
     /// </summary>
     /// <param name="context">The interaction context.</param>
     /// <param name="autocompleteInteraction">The autocomplete interaction.</param>
@@ -48,7 +48,7 @@ public class SettingsServicePropAutoCompleter : AutocompleteHandler
     }
 
     /// <summary>
-    /// Gets the properties and their values as strings.
+    ///     Gets the properties and their values as strings.
     /// </summary>
     /// <param name="config">The configuration service.</param>
     /// <param name="names">The names of the properties.</param>

@@ -11,7 +11,7 @@ namespace Mewdeko.Modules.Utility;
 public partial class Utility
 {
     /// <summary>
-    /// Commands for managing command aliases.
+    ///     Commands for managing command aliases.
     /// </summary>
     /// <param name="db">The database service.</param>
     /// <param name="serv">The interactive service.</param>
@@ -20,11 +20,13 @@ public partial class Utility
         : MewdekoSubmodule<CommandMapService>
     {
         /// <summary>
-        /// Clears all command aliases for the guild.
+        ///     Clears all command aliases for the guild.
         /// </summary>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild),
-         UserPerm(GuildPermission.Administrator)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task AliasesClear()
         {
             var count = Service.ClearAliases(ctx.Guild.Id);
@@ -32,12 +34,15 @@ public partial class Utility
         }
 
         /// <summary>
-        /// Adds a new alias for a command, or removes an existing alias if no mapping is provided.
+        ///     Adds a new alias for a command, or removes an existing alias if no mapping is provided.
         /// </summary>
         /// <param name="trigger">The trigger word for the alias.</param>
         /// <param name="mapping">The command to map to the alias. If null, the alias will be removed.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [UserPerm(GuildPermission.Administrator)]
+        [RequireContext(ContextType.Guild)]
         public async Task Alias(string trigger, [Remainder] string? mapping = null)
         {
             if (string.IsNullOrWhiteSpace(trigger))
@@ -87,10 +92,12 @@ public partial class Utility
         }
 
         /// <summary>
-        /// Lists all command aliases currently set for the guild.
+        ///     Lists all command aliases currently set for the guild.
         /// </summary>
         /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task AliasList()
         {
             var aliases = await Service.GetCommandMap(ctx.Guild.Id);

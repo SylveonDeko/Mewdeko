@@ -3,7 +3,7 @@
 namespace Mewdeko.Services.Impl;
 
 /// <summary>
-/// Implementation for pai key validation
+///     Implementation for pai key validation
 /// </summary>
 /// <param name="configuration"></param>
 public class ApiKeyValidation(BotCredentials configuration) : IApiKeyValidation

@@ -4,22 +4,24 @@ using Microsoft.EntityFrameworkCore;
 namespace Mewdeko.Database.Extensions;
 
 /// <summary>
-/// Provides extension methods for querying and manipulating Poll entities.
+///     Provides extension methods for querying and manipulating Poll entities.
 /// </summary>
 public static class PollExtensions
 {
     /// <summary>
-    /// Retrieves all Poll entities including their associated Answers and Votes.
+    ///     Retrieves all Poll entities including their associated Answers and Votes.
     /// </summary>
     /// <param name="set">The DbSet of Poll entities to query.</param>
     /// <returns>A task that represents the asynchronous operation. The task result contains an IEnumerable of Poll entities.</returns>
-    public async static Task<IEnumerable<Polls>> GetAllPolls(this DbSet<Polls> set) =>
-        await set.Include(x => x.Answers)
+    public static async Task<IEnumerable<Polls>> GetAllPolls(this DbSet<Polls> set)
+    {
+        return await set.Include(x => x.Answers)
             .Include(x => x.Votes)
             .ToArrayAsyncEF();
+    }
 
     /// <summary>
-    /// Removes a Poll entity and its associated Answers and Votes from the database.
+    ///     Removes a Poll entity and its associated Answers and Votes from the database.
     /// </summary>
     /// <param name="ctx">The MewdekoContext to perform the removal operation.</param>
     /// <param name="id">The ID of the Poll to remove.</param>

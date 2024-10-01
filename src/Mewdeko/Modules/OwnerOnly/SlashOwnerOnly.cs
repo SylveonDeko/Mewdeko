@@ -28,7 +28,8 @@ using ContextType = Discord.Interactions.ContextType;
 namespace Mewdeko.Modules.OwnerOnly;
 
 /// <summary>
-/// Initializes a new instance of the <see cref="SlashOwnerOnly"/> class, intended for slash command based owner-only operations within the Mewdeko bot framework.
+///     Initializes a new instance of the <see cref="SlashOwnerOnly" /> class, intended for slash command based owner-only
+///     operations within the Mewdeko bot framework.
 /// </summary>
 /// <param name="client">The Discord client used to interact with the Discord API.</param>
 /// <param name="strings">Provides access to localized strings within the bot.</param>
@@ -38,7 +39,8 @@ namespace Mewdeko.Modules.OwnerOnly;
 /// <param name="cache">Cache service for storing and retrieving temporary data.</param>
 /// <param name="guildSettings">Service for accessing and modifying guild-specific settings.</param>
 /// <param name="commandHandler">Handler for processing and executing commands received from users.</param>
-[SlashOwnerOnly, Discord.Interactions.Group("owneronly", "Commands only the bot owner can use")]
+[SlashOwnerOnly]
+[Discord.Interactions.Group("owneronly", "Commands only the bot owner can use")]
 public class SlashOwnerOnly(
     DiscordShardedClient client,
     IBotStrings strings,
@@ -51,37 +53,37 @@ public class SlashOwnerOnly(
     : MewdekoSlashModuleBase<OwnerOnlyService>
 {
     /// <summary>
-    /// Defines the set of user statuses that can be programmatically assigned.
+    ///     Defines the set of user statuses that can be programmatically assigned.
     /// </summary>
     public enum SettableUserStatus
     {
         /// <summary>
-        /// Indicates the user is online and available.
+        ///     Indicates the user is online and available.
         /// </summary>
         Online,
 
         /// <summary>
-        /// Indicates the user is online but appears as offline or invisible to others.
+        ///     Indicates the user is online but appears as offline or invisible to others.
         /// </summary>
         Invisible,
 
         /// <summary>
-        /// Indicates the user is idle and may be away from their device.
+        ///     Indicates the user is idle and may be away from their device.
         /// </summary>
         Idle,
 
         /// <summary>
-        /// Indicates the user does not wish to be disturbed (Do Not Disturb).
+        ///     Indicates the user does not wish to be disturbed (Do Not Disturb).
         /// </summary>
         Dnd
     }
 
     /// <summary>
-    /// Clears the count of used GPT tokens after confirming with the user.
+    ///     Clears the count of used GPT tokens after confirming with the user.
     /// </summary>
     /// <remarks>
-    /// This command prompts the user for confirmation before proceeding to clear the used token count.
-    /// If the user confirms, it clears the count and notifies the user of completion.
+    ///     This command prompts the user for confirmation before proceeding to clear the used token count.
+    ///     If the user confirms, it clears the count and notifies the user of completion.
     /// </remarks>
     [SlashCommand("clearusedtokens", "Clears the used gpt tokens count")]
     public async Task ClearUsedTokens()
@@ -94,13 +96,13 @@ public class SlashOwnerOnly(
     }
 
     /// <summary>
-    /// Executes a command as if it were sent by the specified guild user.
+    ///     Executes a command as if it were sent by the specified guild user.
     /// </summary>
     /// <param name="user">The guild user to impersonate when executing the command.</param>
     /// <param name="args">The command string to execute, including command name and arguments.</param>
     /// <remarks>
-    /// This method constructs a fake message with the specified user as the author and the given command string,
-    /// then enqueues it for command parsing and execution.
+    ///     This method constructs a fake message with the specified user as the author and the given command string,
+    ///     then enqueues it for command parsing and execution.
     /// </remarks>
     [SlashCommand("sudo", "Run a command as another user")]
     public async Task Sudo([Remainder] string args, IUser user = null)
@@ -116,12 +118,12 @@ public class SlashOwnerOnly(
     }
 
     /// <summary>
-    /// Executes a Redis command and returns the result.
+    ///     Executes a Redis command and returns the result.
     /// </summary>
     /// <param name="command">The Redis command to execute.</param>
     /// <remarks>
-    /// This method sends the specified command to Redis through the configured cache connection.
-    /// The result of the command execution is then sent back as a message in the Discord channel.
+    ///     This method sends the specified command to Redis through the configured cache connection.
+    ///     The result of the command execution is then sent back as a message in the Discord channel.
     /// </remarks>
     [SlashCommand("redisexec", "Run a redis command")]
     public async Task RedisExec([Remainder] string command)
@@ -133,13 +135,13 @@ public class SlashOwnerOnly(
     }
 
     /// <summary>
-    /// Executes a raw SQL command against the database.
+    ///     Executes a raw SQL command against the database.
     /// </summary>
     /// <param name="sql">The SQL command to execute.</param>
     /// <remarks>
-    /// Prompts the user for confirmation before executing the SQL command.
-    /// The number of affected rows is sent back as a message in the Discord channel.
-    /// Use with caution, as executing raw SQL can directly affect the database integrity.
+    ///     Prompts the user for confirmation before executing the SQL command.
+    ///     The number of affected rows is sent back as a message in the Discord channel.
+    ///     Use with caution, as executing raw SQL can directly affect the database integrity.
     /// </remarks>
     [SlashCommand("sqlexec", "Run a sql command")]
     public async Task SqlExec([Remainder] string sql)
@@ -154,11 +156,11 @@ public class SlashOwnerOnly(
     }
 
     /// <summary>
-    /// Lists all servers the bot is currently in.
+    ///     Lists all servers the bot is currently in.
     /// </summary>
     /// <remarks>
-    /// This method creates a paginated list of servers, showing server names, IDs, member counts, online member counts,
-    /// server owners, and creation dates. Pagination allows browsing through the server list if it exceeds the page limit.
+    ///     This method creates a paginated list of servers, showing server names, IDs, member counts, online member counts,
+    ///     server owners, and creation dates. Pagination allows browsing through the server list if it exceeds the page limit.
     /// </remarks>
     [SlashCommand("listservers", "List all servers the bot is in")]
     public async Task ListServers()
@@ -193,13 +195,13 @@ public class SlashOwnerOnly(
     }
 
     /// <summary>
-    /// Retrieves and displays statistics on the most used command, module, guild, and user.
+    ///     Retrieves and displays statistics on the most used command, module, guild, and user.
     /// </summary>
     /// <remarks>
-    /// This method calculates and reports the top entities based on their usage count.
-    /// It displays the most frequently used command, the module that's used the most,
-    /// the user who has used commands the most, and the guild with the highest command usage.
-    /// These statistics are presented as an embed in the Discord channel.
+    ///     This method calculates and reports the top entities based on their usage count.
+    ///     It displays the most frequently used command, the module that's used the most,
+    ///     the user who has used commands the most, and the guild with the highest command usage.
+    ///     These statistics are presented as an embed in the Discord channel.
     /// </remarks>
     [SlashCommand("commandstats", "Get stats about commands")]
     public async Task CommandStats()
@@ -212,7 +214,7 @@ public class SlashOwnerOnly(
             .GroupBy(q => q.NameOrId)
             .Select(g => new
             {
-                Key = g.Key, Count = g.Count()
+                g.Key, Count = g.Count()
             })
             .OrderByDescending(gc => gc.Count)
             .FirstOrDefaultAsyncLinqToDB();
@@ -222,7 +224,7 @@ public class SlashOwnerOnly(
             .GroupBy(q => q.Module)
             .Select(g => new
             {
-                Key = g.Key, Count = g.Count()
+                g.Key, Count = g.Count()
             })
             .OrderByDescending(gc => gc.Count)
             .FirstOrDefaultAsyncLinqToDB();
@@ -232,7 +234,7 @@ public class SlashOwnerOnly(
             .GroupBy(q => q.GuildId)
             .Select(g => new
             {
-                Key = g.Key, Count = g.Count()
+                g.Key, Count = g.Count()
             })
             .OrderByDescending(gc => gc.Count)
             .FirstOrDefaultAsyncLinqToDB();
@@ -242,7 +244,7 @@ public class SlashOwnerOnly(
             .GroupBy(q => q.UserId)
             .Select(g => new
             {
-                Key = g.Key, Count = g.Count()
+                g.Key, Count = g.Count()
             })
             .OrderByDescending(gc => gc.Count)
             .FirstOrDefaultAsyncLinqToDB();
@@ -269,12 +271,12 @@ public class SlashOwnerOnly(
 
 
     /// <summary>
-    /// Displays statistics for all shards of the bot, including their statuses, guild counts, and user counts.
+    ///     Displays statistics for all shards of the bot, including their statuses, guild counts, and user counts.
     /// </summary>
     /// <remarks>
-    /// This command aggregates the current status of all shards and displays a summary followed by a detailed
-    /// paginated list of each shard's status, including the time since last update, guild count, and user count.
-    /// The statuses are represented by emojis for quick visual reference.
+    ///     This command aggregates the current status of all shards and displays a summary followed by a detailed
+    ///     paginated list of each shard's status, including the time since last update, guild count, and user count.
+    ///     The statuses are represented by emojis for quick visual reference.
     /// </remarks>
     [SlashCommand("shardstats", "Shows the stats for all shards")]
     public async Task ShardStats()
@@ -332,27 +334,30 @@ public class SlashOwnerOnly(
         return status switch
         {
             ConnectionState.Connected => "✅",
-            ConnectionState.Disconnected => "🔻",
-
+            ConnectionState.Disconnected => "🔻"
         };
     }
 
 
     /// <summary>
-    /// Commands the bot to leave a server.
+    ///     Commands the bot to leave a server.
     /// </summary>
     /// <param name="guildStr">The identifier or name of the guild to leave.</param>
     /// <remarks>
-    /// This action is irreversible through bot commands and should be used with caution.
+    ///     This action is irreversible through bot commands and should be used with caution.
     /// </remarks>
     [SlashCommand("leaveserver", "Leaves a server by id or name")]
-    public Task LeaveServer([Remainder] string guildStr) => Service.LeaveGuild(guildStr);
+    public Task LeaveServer([Remainder] string guildStr)
+    {
+        return Service.LeaveGuild(guildStr);
+    }
 
     /// <summary>
-    /// Initiates a shutdown of the bot.
+    ///     Initiates a shutdown of the bot.
     /// </summary>
     /// <remarks>
-    /// Before shutting down, the bot attempts to send a confirmation message. Delays for a short period before triggering the shutdown sequence.
+    ///     Before shutting down, the bot attempts to send a confirmation message. Delays for a short period before triggering
+    ///     the shutdown sequence.
     /// </remarks>
     [SlashCommand("die", "Shuts down the bot")]
     public async Task Die()
@@ -374,13 +379,13 @@ public class SlashOwnerOnly(
 
 
     /// <summary>
-    /// Sends a message to a specified channel or user.
+    ///     Sends a message to a specified channel or user.
     /// </summary>
     /// <param name="whereOrTo">The ID of the channel or user to send the message to.</param>
     /// <param name="to">The ID of the user to send the message to.</param>
     /// <param name="msg">The message to send.</param>
     /// <remarks>
-    /// If the first ID is a server, the second ID is a channel, and the message is sent to that channel.
+    ///     If the first ID is a server, the second ID is a channel, and the message is sent to that channel.
     /// </remarks>
     [SlashCommand("send", "Sends a message to a server or dm")]
     public async Task Send(ulong whereOrTo, ulong to = 0, [Remainder] string? msg = null)
@@ -470,11 +475,12 @@ public class SlashOwnerOnly(
     }
 
     /// <summary>
-    /// Initiates the reloading of images used by the bot.
+    ///     Initiates the reloading of images used by the bot.
     /// </summary>
     /// <remarks>
-    /// This command triggers a process to reload all images, ensuring that any updates to image resources are reflected without restarting the bot.
-    /// A confirmation message is sent upon the start of the reload process.
+    ///     This command triggers a process to reload all images, ensuring that any updates to image resources are reflected
+    ///     without restarting the bot.
+    ///     A confirmation message is sent upon the start of the reload process.
     /// </remarks>
     [SlashCommand("imagesreload", "Recaches and redownloads all images")]
     public Task ImagesReload()
@@ -484,11 +490,12 @@ public class SlashOwnerOnly(
     }
 
     /// <summary>
-    /// Initiates the reloading of bot strings (localizations).
+    ///     Initiates the reloading of bot strings (localizations).
     /// </summary>
     /// <remarks>
-    /// This command triggers a process to reload all localized strings, ensuring that any updates to text resources are applied without restarting the bot.
-    /// A confirmation message is sent upon successful reloading of bot strings.
+    ///     This command triggers a process to reload all localized strings, ensuring that any updates to text resources are
+    ///     applied without restarting the bot.
+    ///     A confirmation message is sent upon successful reloading of bot strings.
     /// </remarks>
     [SlashCommand("stringsreload", "Reloads localized strings")]
     public Task StringsReload()
@@ -497,8 +504,9 @@ public class SlashOwnerOnly(
         return ReplyConfirmLocalizedAsync("bot_strings_reloaded");
     }
 
-    private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus) =>
-        sus switch
+    private static UserStatus SettableUserStatusToUserStatus(SettableUserStatus sus)
+    {
+        return sus switch
         {
             SettableUserStatus.Online => UserStatus.Online,
             SettableUserStatus.Invisible => UserStatus.Invisible,
@@ -506,13 +514,16 @@ public class SlashOwnerOnly(
             SettableUserStatus.Dnd => UserStatus.DoNotDisturb,
             _ => UserStatus.Online
         };
+    }
 
     /// <summary>
-    /// Executes a bash command. Depending on the platform, the command is executed in either bash or PowerShell.
+    ///     Executes a bash command. Depending on the platform, the command is executed in either bash or PowerShell.
     /// </summary>
     /// <param name="message">The command to execute.</param>
     /// <remarks>
-    /// The command is executed in a new process, and the output is sent as a paginated message. If the process hangs, it is terminated. The command has a timeout of 2 hours. The output is split into chunks of 1988 characters to avoid Discord message limits.
+    ///     The command is executed in a new process, and the output is sent as a paginated message. If the process hangs, it
+    ///     is terminated. The command has a timeout of 2 hours. The output is split into chunks of 1988 characters to avoid
+    ///     Discord message limits.
     /// </remarks>
     [SlashCommand("bash", "Executes a bash command on the host machine")]
     public async Task Bash([Remainder] string message)
@@ -612,18 +623,22 @@ public class SlashOwnerOnly(
     }
 
     /// <summary>
-    /// Evaluates a C# code snippet. Launched a modal to do so.
+    ///     Evaluates a C# code snippet. Launched a modal to do so.
     /// </summary>
     /// <remarks>
-    /// The code is compiled and executed in a sandboxed environment. The result is displayed in an embed, including the return value, compilation time, and execution time.
+    ///     The code is compiled and executed in a sandboxed environment. The result is displayed in an embed, including the
+    ///     return value, compilation time, and execution time.
     /// </remarks>
     /// <exception cref="ArgumentException"></exception>
-    [SlashCommand("eval", "Eval C# code"), OwnerOnly]
+    [SlashCommand("eval", "Eval C# code")]
+    [OwnerOnly]
     public Task Evaluate()
-        => ctx.Interaction.RespondWithModalAsync<EvalModal>("evalhandle");
+    {
+        return ctx.Interaction.RespondWithModalAsync<EvalModal>("evalhandle");
+    }
 
     /// <summary>
-    /// The modal interaction handler for evaluating C# code snippets.
+    ///     The modal interaction handler for evaluating C# code snippets.
     /// </summary>
     /// <param name="modal">The modal itself</param>
     [ModalInteraction("evalhandle", true)]
@@ -722,7 +737,7 @@ public class SlashOwnerOnly(
     }
 
     /// <summary>
-    /// Bot configuration command for setting various bot settings.
+    ///     Bot configuration command for setting various bot settings.
     /// </summary>
     /// <param name="guildSettings">Service for accessing and modifying guild-specific settings.</param>
     /// <param name="commandService">Service for bot commands </param>
@@ -739,12 +754,12 @@ public class SlashOwnerOnly(
         : MewdekoSlashModuleBase<OwnerOnlyService>
     {
         /// <summary>
-        /// Sets or displays the default command prefix.
+        ///     Sets or displays the default command prefix.
         /// </summary>
         /// <param name="prefix">The new prefix to set. If null or whitespace, the current prefix is displayed instead.</param>
         /// <remarks>
-        /// Changes the bot's command prefix for the server or displays the current prefix if no new prefix is provided.
-        /// Confirmation of the new prefix or the current prefix is sent as a reply.
+        ///     Changes the bot's command prefix for the server or displays the current prefix if no new prefix is provided.
+        ///     Confirmation of the new prefix or the current prefix is sent as a reply.
         /// </remarks>
         [SlashCommand("defprefix", "Sets the default prefix for the bots text commands")]
         public async Task DefPrefix(string? prefix = null)
@@ -764,12 +779,15 @@ public class SlashOwnerOnly(
         }
 
         /// <summary>
-        /// Sets the default language for the bot by specifying a culture name.
+        ///     Sets the default language for the bot by specifying a culture name.
         /// </summary>
-        /// <param name="name">The name of the culture to set as the default language. Use "default" to reset to the bot's original default language.</param>
+        /// <param name="name">
+        ///     The name of the culture to set as the default language. Use "default" to reset to the bot's original
+        ///     default language.
+        /// </param>
         /// <remarks>
-        /// This method allows changing the bot's default language or resetting it to its original default.
-        /// A confirmation message will be sent upon successful change.
+        ///     This method allows changing the bot's default language or resetting it to its original default.
+        ///     A confirmation message will be sent upon successful change.
         /// </remarks>
         [SlashCommand("langsetdefault", "Sets the default language for the bot")]
         public async Task LanguageSetDefault(string name)
@@ -798,16 +816,16 @@ public class SlashOwnerOnly(
         }
 
         /// <summary>
-        /// Adds a new startup command to be executed when the bot starts.
+        ///     Adds a new startup command to be executed when the bot starts.
         /// </summary>
         /// <param name="cmdText">The text of the command to add, excluding the prefix.</param>
         /// <remarks>
-        /// Requires the user to have Administrator permissions or be the owner of the bot.
-        /// Commands that could potentially restart or shut down the bot are ignored for safety reasons.
+        ///     Requires the user to have Administrator permissions or be the owner of the bot.
+        ///     Commands that could potentially restart or shut down the bot are ignored for safety reasons.
         /// </remarks>
-        [SlashCommand("startupcommandadd", "Adds a command to run in the current channel on startup"),
-         Discord.Interactions.RequireContext(ContextType.Guild),
-         SlashUserPerm(GuildPermission.Administrator)]
+        [SlashCommand("startupcommandadd", "Adds a command to run in the current channel on startup")]
+        [Discord.Interactions.RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.Administrator)]
         public async Task StartupCommandAdd([Remainder] string cmdText)
         {
             if (cmdText.StartsWith($"{await guildSettings.GetPrefix(ctx.Guild)}die",
@@ -841,19 +859,19 @@ public class SlashOwnerOnly(
         }
 
         /// <summary>
-        /// Adds an auto command to be executed periodically in the specified guild.
+        ///     Adds an auto command to be executed periodically in the specified guild.
         /// </summary>
         /// <param name="interval">The interval in seconds at which the command should be executed. Must be 5 seconds or more.</param>
         /// <param name="cmdText">The command text to be executed automatically.</param>
         /// <remarks>
-        /// Requires the user to have Administrator permissions or to be the owner of the bot.
-        /// The command will not be added if it fails any precondition checks,
-        /// if it matches a forbidden command (e.g., a command to shut down the bot),
-        /// or if the maximum number of auto commands (15) for the guild has been reached.
+        ///     Requires the user to have Administrator permissions or to be the owner of the bot.
+        ///     The command will not be added if it fails any precondition checks,
+        ///     if it matches a forbidden command (e.g., a command to shut down the bot),
+        ///     or if the maximum number of auto commands (15) for the guild has been reached.
         /// </remarks>
-        [SlashCommand("autocommandadd", "Adds a command to run at a set interval"),
-         Discord.Interactions.RequireContext(ContextType.Guild),
-         SlashUserPerm(GuildPermission.Administrator)]
+        [SlashCommand("autocommandadd", "Adds a command to run at a set interval")]
+        [Discord.Interactions.RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.Administrator)]
         public async Task AutoCommandAdd(int interval, [Remainder] string cmdText)
         {
             if (cmdText.StartsWith($"{await guildSettings.GetPrefix(ctx.Guild)}die", StringComparison.InvariantCulture))
@@ -900,15 +918,15 @@ public class SlashOwnerOnly(
         }
 
         /// <summary>
-        /// Lists the startup commands configured for the guild.
+        ///     Lists the startup commands configured for the guild.
         /// </summary>
         /// <param name="page">The page number of the list to display, starting from 1.</param>
         /// <remarks>
-        /// Displays a paginated list of startup commands. Each page shows up to 5 commands.
-        /// Requires the user to be the owner of the bot.
+        ///     Displays a paginated list of startup commands. Each page shows up to 5 commands.
+        ///     Requires the user to be the owner of the bot.
         /// </remarks>
-        [SlashCommand("startupcommandslist", "Lists the current startup commands"),
-         Discord.Interactions.RequireContext(ContextType.Guild)]
+        [SlashCommand("startupcommandslist", "Lists the current startup commands")]
+        [Discord.Interactions.RequireContext(ContextType.Guild)]
         public async Task StartupCommandsList(int page = 1)
         {
             if (page-- < 1)
@@ -940,16 +958,16 @@ public class SlashOwnerOnly(
         }
 
         /// <summary>
-        /// Lists the auto commands configured for the guild.
+        ///     Lists the auto commands configured for the guild.
         /// </summary>
         /// <param name="page">The page number of the list to display, starting from 1.</param>
         /// <remarks>
-        /// Displays a paginated list of auto commands. Each page shows up to 5 commands.
-        /// Requires the user to be the owner of the bot and the command to be executed in a guild context.
-        /// If there are no auto commands set, an error message is displayed.
+        ///     Displays a paginated list of auto commands. Each page shows up to 5 commands.
+        ///     Requires the user to be the owner of the bot and the command to be executed in a guild context.
+        ///     If there are no auto commands set, an error message is displayed.
         /// </remarks>
-        [SlashCommand("autocommandslist", "Lists all auto commands"),
-         Discord.Interactions.RequireContext(ContextType.Guild)]
+        [SlashCommand("autocommandslist", "Lists all auto commands")]
+        [Discord.Interactions.RequireContext(ContextType.Guild)]
         public async Task AutoCommandsList(int page = 1)
         {
             if (page-- < 1)
@@ -980,20 +998,23 @@ public class SlashOwnerOnly(
             }
         }
 
-        private string GetIntervalText(int interval) => $"[{GetText("interval")}]: {interval}";
+        private string GetIntervalText(int interval)
+        {
+            return $"[{GetText("interval")}]: {interval}";
+        }
 
         /// <summary>
-        /// Removes an auto command based on its index.
+        ///     Removes an auto command based on its index.
         /// </summary>
         /// <param name="index">The one-based index of the auto command to remove.</param>
         /// <remarks>
-        /// Requires the user to have Administrator permissions or to be the owner of the bot.
-        /// The command will decrement the index to match zero-based indexing before attempting removal.
-        /// If the removal fails, an error message is sent.
+        ///     Requires the user to have Administrator permissions or to be the owner of the bot.
+        ///     The command will decrement the index to match zero-based indexing before attempting removal.
+        ///     If the removal fails, an error message is sent.
         /// </remarks>
-        [SlashCommand("autocommandremove", "Removes an auto command"),
-         Discord.Interactions.RequireContext(ContextType.Guild),
-         SlashUserPerm(GuildPermission.Administrator)]
+        [SlashCommand("autocommandremove", "Removes an auto command")]
+        [Discord.Interactions.RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.Administrator)]
         public async Task AutoCommandRemove([Remainder] int index)
         {
             if (!await Service.RemoveAutoCommand(--index))
@@ -1006,16 +1027,16 @@ public class SlashOwnerOnly(
         }
 
         /// <summary>
-        /// Removes a startup command based on its index.
+        ///     Removes a startup command based on its index.
         /// </summary>
         /// <param name="index">The one-based index of the startup command to remove.</param>
         /// <remarks>
-        /// Requires the user to be the owner of the bot.
-        /// The command will decrement the index to match zero-based indexing before attempting removal.
-        /// If the removal fails, an error message is sent; otherwise, a confirmation message is sent.
+        ///     Requires the user to be the owner of the bot.
+        ///     The command will decrement the index to match zero-based indexing before attempting removal.
+        ///     If the removal fails, an error message is sent; otherwise, a confirmation message is sent.
         /// </remarks>
-        [SlashCommand("startupcommandremove", "Removes a startup command"),
-         Discord.Interactions.RequireContext(ContextType.Guild)]
+        [SlashCommand("startupcommandremove", "Removes a startup command")]
+        [Discord.Interactions.RequireContext(ContextType.Guild)]
         public async Task StartupCommandRemove([Remainder] int index)
         {
             if (!await Service.RemoveStartupCommand(--index))
@@ -1023,19 +1044,20 @@ public class SlashOwnerOnly(
                 await ReplyErrorLocalizedAsync("scrm_fail");
                 return;
             }
+
             await ReplyConfirmLocalizedAsync("scrm");
         }
 
         /// <summary>
-        /// Clears all startup commands for the guild.
+        ///     Clears all startup commands for the guild.
         /// </summary>
         /// <remarks>
-        /// Requires the user to have Administrator permissions or to be the owner of the bot.
-        /// A confirmation message is sent upon successful clearance.
+        ///     Requires the user to have Administrator permissions or to be the owner of the bot.
+        ///     A confirmation message is sent upon successful clearance.
         /// </remarks>
-        [SlashCommand("startupcommandsclear", "Clears all startup commands"),
-         Discord.Interactions.RequireContext(ContextType.Guild),
-         SlashUserPerm(GuildPermission.Administrator)]
+        [SlashCommand("startupcommandsclear", "Clears all startup commands")]
+        [Discord.Interactions.RequireContext(ContextType.Guild)]
+        [SlashUserPerm(GuildPermission.Administrator)]
         public async Task StartupCommandsClear()
         {
             await Service.ClearStartupCommands();
@@ -1044,11 +1066,11 @@ public class SlashOwnerOnly(
         }
 
         /// <summary>
-        /// Toggles the forwarding of direct messages to the bot's owner(s).
+        ///     Toggles the forwarding of direct messages to the bot's owner(s).
         /// </summary>
         /// <remarks>
-        /// If message forwarding is enabled, it will be disabled, and vice versa.
-        /// A confirmation message is sent indicating the new state of message forwarding.
+        ///     If message forwarding is enabled, it will be disabled, and vice versa.
+        ///     A confirmation message is sent indicating the new state of message forwarding.
         /// </remarks>
         [SlashCommand("forwardmessages", "Toggles whether to forward dms to the bot to owner dms")]
         public Task ForwardMessages()
@@ -1061,11 +1083,11 @@ public class SlashOwnerOnly(
         }
 
         /// <summary>
-        /// Toggles whether forwarded messages are sent to all of the bot's owners or just the primary owner.
+        ///     Toggles whether forwarded messages are sent to all of the bot's owners or just the primary owner.
         /// </summary>
         /// <remarks>
-        /// If forwarding to all owners is enabled, it will be disabled, and vice versa.
-        /// A confirmation message is sent indicating the new state of this setting.
+        ///     If forwarding to all owners is enabled, it will be disabled, and vice versa.
+        ///     A confirmation message is sent indicating the new state of this setting.
         /// </remarks>
         [SlashCommand("forwardtoall", "Toggles whether to forward dms to the bot to all bot owners")]
         public Task ForwardToAll()
@@ -1078,11 +1100,12 @@ public class SlashOwnerOnly(
         }
 
         /// <summary>
-        /// Changes the bot's username to the specified new name.
+        ///     Changes the bot's username to the specified new name.
         /// </summary>
         /// <param name="newName">The new username for the bot.</param>
         /// <remarks>
-        /// Does nothing if the new name is empty or whitespace. If a change is attempted and ratelimited, logs a warning message.
+        ///     Does nothing if the new name is empty or whitespace. If a change is attempted and ratelimited, logs a warning
+        ///     message.
         /// </remarks>
         [SlashCommand("setname", "Sets the bots name")]
         public async Task SetName([Remainder] string newName)
@@ -1104,11 +1127,14 @@ public class SlashOwnerOnly(
 
 
         /// <summary>
-        /// Sets the bot's avatar.
+        ///     Sets the bot's avatar.
         /// </summary>
-        /// <param name="img">The URL of the new avatar image. If null, the command may default to removing the current avatar or doing nothing, based on implementation.</param>
+        /// <param name="img">
+        ///     The URL of the new avatar image. If null, the command may default to removing the current avatar or
+        ///     doing nothing, based on implementation.
+        /// </param>
         /// <remarks>
-        /// Attempts to change the bot's avatar to the image found at the specified URL. Confirmation is sent upon success.
+        ///     Attempts to change the bot's avatar to the image found at the specified URL. Confirmation is sent upon success.
         /// </remarks>
         [SlashCommand("setavatar", "Sets the bots avatar")]
         public async Task SetAvatar([Remainder] string? img = null)
@@ -1120,7 +1146,7 @@ public class SlashOwnerOnly(
         }
 
         /// <summary>
-        /// Changes yml based config for the bot.
+        ///     Changes yml based config for the bot.
         /// </summary>
         /// <param name="name">The name of the config to change.</param>
         /// <param name="prop">The property of the config to change.</param>
@@ -1257,7 +1283,7 @@ public class SlashOwnerOnly(
     }
 
     /// <summary>
-    /// Commands to manage the bot's status and presence.
+    ///     Commands to manage the bot's status and presence.
     /// </summary>
     /// <param name="bot">The bot instance to manage.</param>
     /// <param name="client">The Discord client used to interact with the Discord API.</param>
@@ -1265,10 +1291,10 @@ public class SlashOwnerOnly(
     public class StatusCommands(Mewdeko bot, DiscordShardedClient client) : MewdekoSlashModuleBase<OwnerOnlyService>
     {
         /// <summary>
-        /// Toggles the rotation of playing statuses for the bot.
+        ///     Toggles the rotation of playing statuses for the bot.
         /// </summary>
         /// <remarks>
-        /// If rotation is enabled, it will be disabled, and vice versa. Confirmation of the action is sent as a reply.
+        ///     If rotation is enabled, it will be disabled, and vice versa. Confirmation of the action is sent as a reply.
         /// </remarks>
         [SlashCommand("rotateplaying", "Toggles rotating playing status")]
         public Task RotatePlaying()
@@ -1279,12 +1305,12 @@ public class SlashOwnerOnly(
         }
 
         /// <summary>
-        /// Adds a new status to the rotation of playing statuses for the bot.
+        ///     Adds a new status to the rotation of playing statuses for the bot.
         /// </summary>
         /// <param name="t">The type of activity (e.g., Playing, Streaming).</param>
         /// <param name="status">The text of the status to add.</param>
         /// <remarks>
-        /// Adds a new status with the specified activity type and text. Confirmation of addition is sent as a reply.
+        ///     Adds a new status with the specified activity type and text. Confirmation of addition is sent as a reply.
         /// </remarks>
         [SlashCommand("addplaying", "Adds a playing status to the rotating status list")]
         public async Task AddPlaying(ActivityType t, [Remainder] string status)
@@ -1295,10 +1321,10 @@ public class SlashOwnerOnly(
         }
 
         /// <summary>
-        /// Lists all statuses currently in the rotation.
+        ///     Lists all statuses currently in the rotation.
         /// </summary>
         /// <remarks>
-        /// Sends a reply with a numbered list of all statuses in the rotation. If no statuses are set, sends an error message.
+        ///     Sends a reply with a numbered list of all statuses in the rotation. If no statuses are set, sends an error message.
         /// </remarks>
         [SlashCommand("listplaying", "Lists all rotating statuses")]
         public async Task ListPlaying()
@@ -1311,16 +1337,16 @@ public class SlashOwnerOnly(
             }
 
             var i = 1;
-            await  ReplyConfirmLocalizedAsync("ropl_list",
+            await ReplyConfirmLocalizedAsync("ropl_list",
                 string.Join("\n\t", statuses.Select(rs => $"`{i++}.` *{rs.Type}* {rs.Status}")));
         }
 
         /// <summary>
-        /// Removes a status from the rotating playing statuses by its index.
+        ///     Removes a status from the rotating playing statuses by its index.
         /// </summary>
         /// <param name="index">The one-based index of the status to remove. The actual removal will use zero-based indexing.</param>
         /// <remarks>
-        /// If the status at the provided index exists, it will be removed, and a confirmation message is sent.
+        ///     If the status at the provided index exists, it will be removed, and a confirmation message is sent.
         /// </remarks>
         [SlashCommand("removeplaying", "Removes a status from the rotating status list")]
         public async Task RemovePlaying(int index)
@@ -1336,11 +1362,11 @@ public class SlashOwnerOnly(
         }
 
         /// <summary>
-        /// Sets the bot's online status.
+        ///     Sets the bot's online status.
         /// </summary>
         /// <param name="status">The new status to set.</param>
         /// <remarks>
-        /// Changes the bot's presence status to one of the specified options: Online, Idle, Do Not Disturb, or Invisible.
+        ///     Changes the bot's presence status to one of the specified options: Online, Idle, Do Not Disturb, or Invisible.
         /// </remarks>
         [SlashCommand("setstatus", "Sets the bots status (DND, Offline, etc)")]
         public async Task SetStatus([Remainder] SettableUserStatus status)
@@ -1351,12 +1377,13 @@ public class SlashOwnerOnly(
         }
 
         /// <summary>
-        /// Sets the bot's currently playing game.
+        ///     Sets the bot's currently playing game.
         /// </summary>
         /// <param name="type">The type of activity (e.g., Playing, Streaming).</param>
         /// <param name="game">The name of the game or activity. If null, might clear the current game.</param>
         /// <remarks>
-        /// This method updates the bot's "Playing" status. The actual displayed status will depend on the provided activity type.
+        ///     This method updates the bot's "Playing" status. The actual displayed status will depend on the provided activity
+        ///     type.
         /// </remarks>
         [SlashCommand("setgame", "Sets the bots now playing. Disabled rotating status")]
         public async Task SetGame(ActivityType type, [Remainder] string? game = null)
@@ -1371,12 +1398,13 @@ public class SlashOwnerOnly(
         }
 
         /// <summary>
-        /// Sets the bot's streaming status.
+        ///     Sets the bot's streaming status.
         /// </summary>
         /// <param name="url">The URL of the stream.</param>
         /// <param name="name">The name of the stream. If null, might use a default name or no name.</param>
         /// <remarks>
-        /// Changes the bot's activity to streaming, using the provided URL and name for the stream. Useful for when the bot is used to indicate live streams.
+        ///     Changes the bot's activity to streaming, using the provided URL and name for the stream. Useful for when the bot is
+        ///     used to indicate live streams.
         /// </remarks>
         [SlashCommand("setstream", "Sets the stream url (such as Twitch)")]
         public async Task SetStream(string url, [Remainder] string? name = null)
@@ -1391,17 +1419,18 @@ public class SlashOwnerOnly(
 }
 
 /// <summary>
-/// Represents an environment encapsulating common entities used during the evaluation of Discord interactions.
+///     Represents an environment encapsulating common entities used during the evaluation of Discord interactions.
 /// </summary>
 /// <remarks>
-/// This class provides streamlined access to frequently needed Discord entities such as the interaction,
-/// channel, guild, user, and client associated with a specific interaction context. It simplifies handling
-/// of interactions by centralizing access to these entities, making it easier to develop interaction-based commands.
+///     This class provides streamlined access to frequently needed Discord entities such as the interaction,
+///     channel, guild, user, and client associated with a specific interaction context. It simplifies handling
+///     of interactions by centralizing access to these entities, making it easier to develop interaction-based commands.
 /// </remarks>
 public sealed class InteractionEvaluationEnvironment
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="InteractionEvaluationEnvironment"/> class with the specified interaction context.
+    ///     Initializes a new instance of the <see cref="InteractionEvaluationEnvironment" /> class with the specified
+    ///     interaction context.
     /// </summary>
     /// <param name="ctx">The interaction context associated with the current interaction handling.</param>
     public InteractionEvaluationEnvironment(IInteractionContext ctx)
@@ -1410,37 +1439,74 @@ public sealed class InteractionEvaluationEnvironment
     }
 
     /// <summary>
-    /// Gets the interaction context associated with the current interaction handling.
+    ///     Gets the interaction context associated with the current interaction handling.
     /// </summary>
     public IInteractionContext Ctx { get; }
 
     /// <summary>
-    /// Gets the interaction that triggered the current handling.
+    ///     Gets the interaction that triggered the current handling.
     /// </summary>
-    public IDiscordInteraction Interaction => Ctx.Interaction;
+    public IDiscordInteraction Interaction
+    {
+        get
+        {
+            return Ctx.Interaction;
+        }
+    }
 
     /// <summary>
-    /// Gets the channel in which the current interaction was triggered.
+    ///     Gets the channel in which the current interaction was triggered.
     /// </summary>
-    public IMessageChannel Channel => Ctx.Channel;
+    public IMessageChannel Channel
+    {
+        get
+        {
+            return Ctx.Channel;
+        }
+    }
 
     /// <summary>
-    /// Gets the guild in which the current interaction was triggered. May be null for interactions in direct messages.
+    ///     Gets the guild in which the current interaction was triggered. May be null for interactions in direct messages.
     /// </summary>
-    public IGuild Guild => Ctx.Guild;
+    public IGuild Guild
+    {
+        get
+        {
+            return Ctx.Guild;
+        }
+    }
 
     /// <summary>
-    /// Gets the user who initiated the current interaction.
+    ///     Gets the user who initiated the current interaction.
     /// </summary>
-    public IUser User => Ctx.User;
+    public IUser User
+    {
+        get
+        {
+            return Ctx.User;
+        }
+    }
 
     /// <summary>
-    /// Gets the guild member who initiated the current interaction. This is a convenience property for accessing the user as an IGuildUser.
+    ///     Gets the guild member who initiated the current interaction. This is a convenience property for accessing the user
+    ///     as an IGuildUser.
     /// </summary>
-    public IGuildUser Member => (IGuildUser)Ctx.User;
+    public IGuildUser Member
+    {
+        get
+        {
+            return (IGuildUser)Ctx.User;
+        }
+    }
 
     /// <summary>
-    /// Gets the Discord client instance associated with the current interaction handling.
+    ///     Gets the Discord client instance associated with the current interaction handling.
     /// </summary>
-    public DiscordShardedClient Client => Ctx.Client as DiscordShardedClient;
+    public DiscordShardedClient Client
+    {
+        get
+        {
+            return Ctx.Client as DiscordShardedClient;
+        }
+    }
 }

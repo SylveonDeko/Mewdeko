@@ -1,21 +1,20 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Mewdeko.Database.Models
+namespace Mewdeko.Database.Models;
+
+/// <summary>
+///     Represents a user blacklist for publishing in a channel.
+/// </summary>
+[Table("PublishUserBlacklist")]
+public class PublishUserBlacklist : DbEntity
 {
     /// <summary>
-    /// Represents a user blacklist for publishing in a channel.
+    ///     Gets or sets the channel ID.
     /// </summary>
-    [Table("PublishUserBlacklist")]
-    public class PublishUserBlacklist : DbEntity
-    {
-        /// <summary>
-        /// Gets or sets the channel ID.
-        /// </summary>
-        public ulong ChannelId { get; set; }
+    public ulong ChannelId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the user ID.
-        /// </summary>
-        public ulong User { get; set; }
-    }
+    /// <summary>
+    ///     Gets or sets the user ID.
+    /// </summary>
+    public ulong User { get; set; }
 }

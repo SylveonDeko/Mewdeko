@@ -1,32 +1,31 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿#nullable disable
 
-#nullable disable
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Mewdeko.Database.Migrations.PostgreSql
+namespace Mewdeko.Database.Migrations.PostgreSql;
+
+/// <inheritdoc />
+public partial class MessageCountsAddition2 : Migration
 {
     /// <inheritdoc />
-    public partial class MessageCountsAddition2 : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            // Clear all existing data from the MessageCounts table
-            migrationBuilder.Sql("DELETE FROM \"MessageCounts\"");
+        // Clear all existing data from the MessageCounts table
+        migrationBuilder.Sql("DELETE FROM \"MessageCounts\"");
 
-            migrationBuilder.AddColumn<string>(
-                name: "RecentTimestamps",
-                table: "MessageCounts",
-                type: "text",
-                nullable: false,
-                defaultValue: "");
-        }
+        migrationBuilder.AddColumn<string>(
+            "RecentTimestamps",
+            "MessageCounts",
+            "text",
+            nullable: false,
+            defaultValue: "");
+    }
 
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropColumn(
-                name: "RecentTimestamps",
-                table: "MessageCounts");
-        }
+    /// <inheritdoc />
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.DropColumn(
+            "RecentTimestamps",
+            "MessageCounts");
     }
 }

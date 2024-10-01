@@ -9,49 +9,51 @@ using Mewdeko.Modules.Afk.Services;
 namespace Mewdeko.Modules.Afk;
 
 /// <summary>
-/// Module for managing AFK.
+///     Module for managing AFK.
 /// </summary>
 /// <param name="serv">The interactivity service for doing embed pagination.</param>
 /// <param name="client">The discord client.</param>
 public class Afk(InteractiveService serv, DiscordShardedClient client) : MewdekoModuleBase<AfkService>
 {
     /// <summary>
-    /// Enumerates different types of AFK (Away From Keyboard) settings.
+    ///     Enumerates different types of AFK (Away From Keyboard) settings.
     /// </summary>
     public enum AfkTypeEnum
     {
         /// <summary>
-        /// Indicates self-disable AFK.
+        ///     Indicates self-disable AFK.
         /// </summary>
         SelfDisable = 1,
 
         /// <summary>
-        /// Indicates AFK removed on receiving a message.
+        ///     Indicates AFK removed on receiving a message.
         /// </summary>
         OnMessage = 2,
 
         /// <summary>
-        /// Indicates AFK removed on typing.
+        ///     Indicates AFK removed on typing.
         /// </summary>
         OnType = 3,
 
         /// <summary>
-        /// Indicates AFK removed either by receiving a message or typing.
+        ///     Indicates AFK removed either by receiving a message or typing.
         /// </summary>
         Either = 4
     }
 
 
     /// <summary>
-    /// Sets the user's AFK status with an optional message.
+    ///     Sets the user's AFK status with an optional message.
     /// </summary>
     /// <param name="message">The AFK message. If not provided, the user's AFK status will be toggled.</param>
     /// <example>.afk</example>
     /// <example>.afk I'm AFK</example>
-    [Cmd, Aliases, Priority(0)]
+    [Cmd]
+    [Aliases]
+    [Priority(0)]
     public async Task SetAfk([Remainder] string? message = null)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -124,13 +126,16 @@ public class Afk(InteractiveService serv, DiscordShardedClient client) : Mewdeko
 
 
     /// <summary>
-    /// Displays the current auto-deletion duration for AFK messages.
+    ///     Displays the current auto-deletion duration for AFK messages.
     /// </summary>
     /// <example>.afkdel</example>
-    [Cmd, Aliases, Priority(0), UserPerm(GuildPermission.ManageGuild)]
+    [Cmd]
+    [Aliases]
+    [Priority(0)]
+    [UserPerm(GuildPermission.ManageGuild)]
     public async Task AfkDel()
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -148,14 +153,16 @@ public class Afk(InteractiveService serv, DiscordShardedClient client) : Mewdeko
     }
 
     /// <summary>
-    /// Sets the auto-deletion duration for AFK messages.
+    ///     Sets the auto-deletion duration for AFK messages.
     /// </summary>
     /// <param name="num">The duration in seconds. Set to 0 to disable auto-deletion.</param>
     /// <example>.afkdel 60</example>
-    [Cmd, Aliases, Priority(1)]
+    [Cmd]
+    [Aliases]
+    [Priority(1)]
     public async Task AfkDel(int num)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -178,15 +185,17 @@ public class Afk(InteractiveService serv, DiscordShardedClient client) : Mewdeko
 
 
     /// <summary>
-    /// Sets a timed AFK status with a custom message.
+    ///     Sets a timed AFK status with a custom message.
     /// </summary>
     /// <param name="time">The duration for the AFK status.</param>
     /// <param name="message">The custom message for the AFK status.</param>
     /// <example>.afk 1h I'm AFK</example>
-    [Cmd, Aliases, Priority(0)]
+    [Cmd]
+    [Aliases]
+    [Priority(0)]
     public async Task TimedAfk(StoopidTime time, [Remainder] string message)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
         }
@@ -204,12 +213,15 @@ public class Afk(InteractiveService serv, DiscordShardedClient client) : Mewdeko
     }
 
     /// <summary>
-    /// Sets a custom AFK embed that will be displayed when a user is AFK. Use "-" to reset to the default embed. Check https://eb.mewdeko.tech for the embed builder and http://mewdeko.tech/placeholders for placeholders.
+    ///     Sets a custom AFK embed that will be displayed when a user is AFK. Use "-" to reset to the default embed. Check
+    ///     https://eb.mewdeko.tech for the embed builder and http://mewdeko.tech/placeholders for placeholders.
     /// </summary>
     /// <param name="embedCode">The custom message to set. Use "-" to reset to the default message.</param>
     /// <example>.afkmsg -</example>
     /// <example>.afkmsg embedcode</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task CustomAfkMessage([Remainder] string embedCode)
     {
         if (embedCode == "-")
@@ -224,13 +236,15 @@ public class Afk(InteractiveService serv, DiscordShardedClient client) : Mewdeko
     }
 
     /// <summary>
-    /// Displays a list of active users who are currently AFK.
+    ///     Displays a list of active users who are currently AFK.
     /// </summary>
     /// <example>.afklist</example>
-    [Cmd, Aliases, Priority(0)]
+    [Cmd]
+    [Aliases]
+    [Priority(0)]
     public async Task GetActiveAfks()
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -264,16 +278,19 @@ public class Afk(InteractiveService serv, DiscordShardedClient client) : Mewdeko
     }
 
     /// <summary>
-    /// Displays the AFK status of a specific user.
+    ///     Displays the AFK status of a specific user.
     /// </summary>
     /// <param name="user">The user to check the AFK status for.</param>
     /// <example>.afkview @user</example>
-    [Cmd, Aliases, Priority(0), UserPerm(GuildPermission.ManageMessages)]
+    [Cmd]
+    [Aliases]
+    [Priority(0)]
+    [UserPerm(GuildPermission.ManageMessages)]
     public async Task AfkView(IGuildUser user)
     {
         if (!await CheckRoleHierarchy(user))
             return;
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -291,10 +308,13 @@ public class Afk(InteractiveService serv, DiscordShardedClient client) : Mewdeko
 
 
     /// <summary>
-    /// Lists the text channels where the AFK message doesnt display.
+    ///     Lists the text channels where the AFK message doesnt display.
     /// </summary>
     /// <example>.afkdisabledlist</example>
-    [Cmd, Aliases, Priority(0), UserPerm(GuildPermission.ManageChannels)]
+    [Cmd]
+    [Aliases]
+    [Priority(0)]
+    [UserPerm(GuildPermission.ManageChannels)]
     public async Task AfkDisabledList()
     {
         var mentions = new List<string>();
@@ -333,14 +353,17 @@ public class Afk(InteractiveService serv, DiscordShardedClient client) : Mewdeko
     }
 
     /// <summary>
-    /// Sets the maximum length of all AFK messages.
+    ///     Sets the maximum length of all AFK messages.
     /// </summary>
     /// <param name="num">The maximum length you want to set.</param>
     /// <example>.afklength 100</example>
-    [Cmd, Aliases, Priority(0), UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Aliases]
+    [Priority(0)]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task AfkLength(int num)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -358,14 +381,17 @@ public class Afk(InteractiveService serv, DiscordShardedClient client) : Mewdeko
     }
 
     /// <summary>
-    /// Sets the type of AFK behavior for the guild.
+    ///     Sets the type of AFK behavior for the guild.
     /// </summary>
-    /// <param name="afkTypeEnum">The type of AFK behavior to set. <see cref="AfkTypeEnum"/></param>
+    /// <param name="afkTypeEnum">The type of AFK behavior to set. <see cref="AfkTypeEnum" /></param>
     /// <example>.afktype 1</example>
-    [Cmd, Aliases, Priority(1), UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Aliases]
+    [Priority(1)]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task AfkType(AfkTypeEnum afkTypeEnum)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -376,14 +402,17 @@ public class Afk(InteractiveService serv, DiscordShardedClient client) : Mewdeko
     }
 
     /// <summary>
-    /// Sets the timeout duration before a user is no longer considered afk. Triggers when a user sends a message or types in a channel.
+    ///     Sets the timeout duration before a user is no longer considered afk. Triggers when a user sends a message or types
+    ///     in a channel.
     /// </summary>
     /// <param name="time">The timeout duration for the AFK status.</param>
     /// <example>.afktimeout 1h</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
     public async Task AfkTimeout(StoopidTime time)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -401,14 +430,16 @@ public class Afk(InteractiveService serv, DiscordShardedClient client) : Mewdeko
 
 
     /// <summary>
-    /// Removes the specified channels from the afk message blacklist.
+    ///     Removes the specified channels from the afk message blacklist.
     /// </summary>
     /// <param name="chan">The text channels for which to remove from the afk message blacklist.</param>
     /// <example>.afkundisable #channel</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.ManageChannels)]
     public async Task AfkUndisable(params ITextChannel[] chan)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -452,14 +483,16 @@ public class Afk(InteractiveService serv, DiscordShardedClient client) : Mewdeko
     }
 
     /// <summary>
-    /// Sets the channels where the AFK message will not display.
+    ///     Sets the channels where the AFK message will not display.
     /// </summary>
     /// <param name="chan">Channels you want to add to the afk message blacklist.</param>
     /// <example>.afkdisable #channel</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.ManageChannels)]
     public async Task AfkDisable(params ITextChannel[] chan)
     {
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;
@@ -511,11 +544,14 @@ public class Afk(InteractiveService serv, DiscordShardedClient client) : Mewdeko
     }
 
     /// <summary>
-    /// Removes the AFK status for one or more users.
+    ///     Removes the AFK status for one or more users.
     /// </summary>
     /// <param name="user">The user(s) you want to remove afk from.</param>
     /// <example>.afkremove @user</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages), Priority(0)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.ManageMessages)]
+    [Priority(0)]
     public async Task AfkRemove(params IGuildUser[] user)
     {
         foreach (var i in user)
@@ -524,7 +560,7 @@ public class Afk(InteractiveService serv, DiscordShardedClient client) : Mewdeko
                 return;
         }
 
-        if (Environment.GetEnvironmentVariable($"AFK_CACHED") != "1")
+        if (Environment.GetEnvironmentVariable("AFK_CACHED") != "1")
         {
             await ReplyErrorLocalizedAsync("afk_still_starting").ConfigureAwait(false);
             return;

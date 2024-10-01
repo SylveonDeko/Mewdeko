@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore;
 namespace Mewdeko.Modules.Administration.Services;
 
 /// <summary>
-/// Service for automatically banning users who add a specified AutoBanRole.
+///     Service for automatically banning users who add a specified AutoBanRole.
 /// </summary>
 public class AutoBanRoleService : INService
 {
     private readonly DbContextProvider dbProvider;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AutoBanRoleService"/> class.
+    ///     Initializes a new instance of the <see cref="AutoBanRoleService" /> class.
     /// </summary>
     /// <param name="handler">The event handler</param>
     /// <param name="db">The database handler</param>
@@ -28,7 +28,8 @@ public class AutoBanRoleService : INService
         if (!addedRoles.Any()) return;
 
         await using var dbContext = await dbProvider.GetContextAsync();
-        var autoBanRoles = await dbContext.AutoBanRoles.AsQueryable().Where(x => x.GuildId == arsg2.Guild.Id).ToListAsync();
+        var autoBanRoles = await dbContext.AutoBanRoles.AsQueryable().Where(x => x.GuildId == arsg2.Guild.Id)
+            .ToListAsync();
         var roles = autoBanRoles.Select(x => x.RoleId).ToHashSet();
         if (!addedRoles.Any(x => roles.Contains(x.Id))) return;
 
@@ -43,7 +44,7 @@ public class AutoBanRoleService : INService
     }
 
     /// <summary>
-    /// Adds a role to the list of AutoBanRoles.
+    ///     Adds a role to the list of AutoBanRoles.
     /// </summary>
     /// <param name="guildId">The guild id</param>
     /// <param name="roleId">The role to add to autoban</param>
@@ -64,7 +65,7 @@ public class AutoBanRoleService : INService
     }
 
     /// <summary>
-    /// Removes a role from the list of AutoBanRoles.
+    ///     Removes a role from the list of AutoBanRoles.
     /// </summary>
     /// <param name="guildId">The guild id</param>
     /// <param name="roleId">The role to remove</param>

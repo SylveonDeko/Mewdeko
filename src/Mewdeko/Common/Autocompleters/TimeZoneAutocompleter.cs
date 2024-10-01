@@ -3,12 +3,12 @@ using Discord.Interactions;
 namespace Mewdeko.Common.Autocompleters;
 
 /// <summary>
-/// Autocompleter for time zones.
+///     Autocompleter for time zones.
 /// </summary>
 public class TimeZoneAutocompleter : AutocompleteHandler
 {
     /// <summary>
-    /// Generates suggestions for autocomplete.
+    ///     Generates suggestions for autocomplete.
     /// </summary>
     /// <param name="context">The interaction context.</param>
     /// <param name="interaction">The autocomplete interaction.</param>

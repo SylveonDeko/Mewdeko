@@ -5,7 +5,7 @@ using Serilog;
 namespace Mewdeko.Modules.MultiGreets.Services;
 
 /// <summary>
-/// Service for handling multi greets.
+///     Service for handling multi greets.
 /// </summary>
 public class MultiGreetService : INService
 {
@@ -15,7 +15,7 @@ public class MultiGreetService : INService
 
 
     /// <summary>
-    /// Service for handling multi greets.
+    ///     Service for handling multi greets.
     /// </summary>
     /// <param name="db">The database provider</param>
     /// <param name="client">The discord client</param>
@@ -31,10 +31,10 @@ public class MultiGreetService : INService
     }
 
     /// <summary>
-    /// Gets all greets for a guild.
+    ///     Gets all greets for a guild.
     /// </summary>
     /// <param name="guildId">The guild id</param>
-    /// <returns>An array of <see cref="MultiGreet"/></returns>
+    /// <returns>An array of <see cref="MultiGreet" /></returns>
     public async Task<MultiGreet?[]> GetGreets(ulong guildId)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -52,7 +52,7 @@ public class MultiGreetService : INService
     private async Task DoMultiGreet(IGuildUser user)
     {
         var greets = await GetGreets(user.Guild.Id);
-        if (greets.Length==0) return;
+        if (greets.Length == 0) return;
         if (await GetMultiGreetType(user.Guild.Id) == 3)
             return;
         if (await GetMultiGreetType(user.Guild.Id) == 1)
@@ -71,7 +71,7 @@ public class MultiGreetService : INService
     }
 
     /// <summary>
-    /// Handles randomly selected greet.
+    ///     Handles randomly selected greet.
     /// </summary>
     /// <param name="greet">The greet to handle</param>
     /// <param name="user">The user to greet</param>
@@ -166,7 +166,7 @@ public class MultiGreetService : INService
     }
 
     /// <summary>
-    /// Handles channel greets.
+    ///     Handles channel greets.
     /// </summary>
     /// <param name="multiGreets">The greets to handle</param>
     /// <param name="user">The user to greet</param>
@@ -206,7 +206,7 @@ public class MultiGreetService : INService
     }
 
     /// <summary>
-    /// Handles webhook greets.
+    ///     Handles webhook greets.
     /// </summary>
     /// <param name="multiGreets">The greets to handle</param>
     /// <param name="user">The user to greet</param>
@@ -249,29 +249,30 @@ public class MultiGreetService : INService
     }
 
     /// <summary>
-    /// Sets the multi greet type for a guild.
+    ///     Sets the multi greet type for a guild.
     /// </summary>
     /// <param name="guild">The guild</param>
     /// <param name="type">The type to set</param>
     public async Task SetMultiGreetType(IGuild guild, int type)
     {
-
-       await using var db = await dbProvider.GetContextAsync();
+        await using var db = await dbProvider.GetContextAsync();
         var gc = await db.ForGuildId(guild.Id, set => set);
         gc.MultiGreetType = type;
         await guildSettingsService.UpdateGuildConfig(guild.Id, gc);
     }
 
     /// <summary>
-    /// Gets the multi greet type for a guild.
+    ///     Gets the multi greet type for a guild.
     /// </summary>
     /// <param name="id">The guild id</param>
     /// <returns></returns>
-    public async Task<int> GetMultiGreetType(ulong id) =>
-        (await guildSettingsService.GetGuildConfig(id)).MultiGreetType;
+    public async Task<int> GetMultiGreetType(ulong id)
+    {
+        return (await guildSettingsService.GetGuildConfig(id)).MultiGreetType;
+    }
 
     /// <summary>
-    /// Adds a multi greet to a guild.
+    ///     Adds a multi greet to a guild.
     /// </summary>
     /// <param name="guildId">The guild id</param>
     /// <param name="channelId">The channel id</param>
@@ -294,7 +295,7 @@ public class MultiGreetService : INService
     }
 
     /// <summary>
-    /// Sets the message for a multi greet.
+    ///     Sets the message for a multi greet.
     /// </summary>
     /// <param name="greet">The greet to change</param>
     /// <param name="code">The new message</param>
@@ -308,7 +309,7 @@ public class MultiGreetService : INService
     }
 
     /// <summary>
-    /// Sets the delete time for a multi greet message.
+    ///     Sets the delete time for a multi greet message.
     /// </summary>
     /// <param name="greet">The greet to change</param>
     /// <param name="howlong">The new delete time</param>
@@ -322,7 +323,7 @@ public class MultiGreetService : INService
     }
 
     /// <summary>
-    /// Changes whether a multi greet greets bots.
+    ///     Changes whether a multi greet greets bots.
     /// </summary>
     /// <param name="greet">The greet to change</param>
     /// <param name="enabled">Whether to greet bots</param>
@@ -336,7 +337,7 @@ public class MultiGreetService : INService
     }
 
     /// <summary>
-    /// Changes the webhook url for a multi greet.
+    ///     Changes the webhook url for a multi greet.
     /// </summary>
     /// <param name="greet">The greet to change</param>
     /// <param name="webhookurl">The new webhook url</param>
@@ -350,7 +351,7 @@ public class MultiGreetService : INService
     }
 
     /// <summary>
-    /// Removes a multi greet.
+    ///     Removes a multi greet.
     /// </summary>
     /// <param name="greet">The greet to remove</param>
     public async Task RemoveMultiGreetInternal(MultiGreet greet)
@@ -361,7 +362,7 @@ public class MultiGreetService : INService
     }
 
     /// <summary>
-    /// Removes multiple multi greets.
+    ///     Removes multiple multi greets.
     /// </summary>
     /// <param name="greet">The greets to remove</param>
     public async Task MultiRemoveMultiGreetInternal(MultiGreet[] greet)
@@ -374,7 +375,7 @@ public class MultiGreetService : INService
     }
 
     /// <summary>
-    /// Disables or enables a multi greet.
+    ///     Disables or enables a multi greet.
     /// </summary>
     /// <param name="greet">The greet to disable</param>
     /// <param name="disabled">Whether to disable the greet</param>

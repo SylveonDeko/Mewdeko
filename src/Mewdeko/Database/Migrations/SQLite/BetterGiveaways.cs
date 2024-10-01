@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mewdeko.Database.Migrations.SQLite;
+
 /// <inheritdoc />
 public partial class BetterGiveaways : Migration
 {
@@ -8,46 +9,46 @@ public partial class BetterGiveaways : Migration
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.AddColumn<string>(
-            name: "GiveawayEndMessage",
-            table: "GuildConfigs",
-            type: "TEXT",
+            "GiveawayEndMessage",
+            "GuildConfigs",
+            "TEXT",
             nullable: true);
 
         migrationBuilder.AddColumn<ulong>(
-            name: "GiveawayPingRole",
-            table: "GuildConfigs",
-            type: "INTEGER",
+            "GiveawayPingRole",
+            "GuildConfigs",
+            "INTEGER",
             defaultValue: 0,
             nullable: true);
         migrationBuilder.AddColumn<string>(
-            name: "GiveawayBanner",
-            table: "GuildConfigs",
-            type: "TEXT",
+            "GiveawayBanner",
+            "GuildConfigs",
+            "TEXT",
             nullable: true);
 
         migrationBuilder.AddColumn<string>(
-            name: "GiveawayEmbedColor",
-            table: "GuildConfigs",
-            type: "TEXT",
+            "GiveawayEmbedColor",
+            "GuildConfigs",
+            "TEXT",
             nullable: true);
 
         migrationBuilder.AddColumn<string>(
-            name: "GiveawayWinEmbedColor",
-            table: "GuildConfigs",
-            type: "TEXT",
+            "GiveawayWinEmbedColor",
+            "GuildConfigs",
+            "TEXT",
             nullable: true);
 
         migrationBuilder.AddColumn<bool>(
-            name: "DmOnGiveawayWin",
-            table: "GuildConfigs",
-            type: "INTEGER",
+            "DmOnGiveawayWin",
+            "GuildConfigs",
+            "INTEGER",
             defaultValue: false,
             nullable: true);
 
         migrationBuilder.AddColumn<string>(
-            name: "Banner",
-            table: "Giveaways",
-            type: "TEXT",
+            "Banner",
+            "Giveaways",
+            "TEXT",
             nullable: true);
     }
 }

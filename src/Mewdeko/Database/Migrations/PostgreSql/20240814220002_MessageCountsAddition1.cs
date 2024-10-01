@@ -1,29 +1,28 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿#nullable disable
 
-#nullable disable
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Mewdeko.Database.Migrations.PostgreSql
+namespace Mewdeko.Database.Migrations.PostgreSql;
+
+/// <inheritdoc />
+public partial class MessageCountsAddition1 : Migration
 {
     /// <inheritdoc />
-    public partial class MessageCountsAddition1 : Migration
+    protected override void Up(MigrationBuilder migrationBuilder)
     {
-        /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.AddColumn<int>(
-                name: "MinMessageLength",
-                table: "GuildConfigs",
-                type: "integer",
-                nullable: false,
-                defaultValue: 0);
-        }
+        migrationBuilder.AddColumn<int>(
+            "MinMessageLength",
+            "GuildConfigs",
+            "integer",
+            nullable: false,
+            defaultValue: 0);
+    }
 
-        /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropColumn(
-                name: "MinMessageLength",
-                table: "GuildConfigs");
-        }
+    /// <inheritdoc />
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.DropColumn(
+            "MinMessageLength",
+            "GuildConfigs");
     }
 }

@@ -1,12 +1,12 @@
 ﻿namespace Mewdeko.Modules.Searches.Common;
 
 /// <summary>
-/// Represents a search result from Google.
+///     Represents a search result from Google.
 /// </summary>
 public sealed class GoogleSearchResult
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="GoogleSearchResult"/> class.
+    ///     Initializes a new instance of the <see cref="GoogleSearchResult" /> class.
     /// </summary>
     /// <param name="title">The title of the search result.</param>
     /// <param name="link">The link to the search result.</param>
@@ -19,17 +19,17 @@ public sealed class GoogleSearchResult
     }
 
     /// <summary>
-    /// Gets the title of the search result.
+    ///     Gets the title of the search result.
     /// </summary>
     public string Title { get; }
 
     /// <summary>
-    /// Gets the link to the search result.
+    ///     Gets the link to the search result.
     /// </summary>
     public string Link { get; }
 
     /// <summary>
-    /// Gets the text of the search result.
+    ///     Gets the text of the search result.
     /// </summary>
     public string Text { get; }
 }

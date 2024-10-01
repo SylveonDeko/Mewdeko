@@ -12,6 +12,27 @@ namespace Mewdeko.Modules.Server_Management;
 public partial class ServerManagement
 {
     /// <summary>
+    ///     Represents the type of lockdown that can be applied to the server.
+    /// </summary>
+    public enum LockdownType
+    {
+        /// <summary>
+        ///     Lockdown to prevent new user joins.
+        /// </summary>
+        Joins,
+
+        /// <summary>
+        ///     Lockdown to make the server read-only by removing send message permissions for @everyone.
+        /// </summary>
+        Readonly,
+
+        /// <summary>
+        ///     Full lockdown: prevent joins and make the server read-only.
+        /// </summary>
+        Full
+    }
+
+    /// <summary>
     ///     Manages channel-specific operations such as locking, unlocking, and modifying slowmode settings.
     /// </summary>
     [Group]
@@ -633,40 +654,5 @@ public partial class ServerManagement
                     .ConfigureAwait(false);
             }
         }
-
-        /// <summary>
-        ///     Deletes multiple channels at once, use careflly, and dont dpo this to a lower perm. Just plase dont. I am not
-        ///     responsible for your dumbnation.
-        /// </summary>
-        /// <param name="channels"></param>
-        [Cmd]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
-        [BotPerm(ChannelPermission.ManageChannels)]
-        public async Task DeleteChannels(params IGuildChannel[] channels)
-        {
-        }
-    }
-
-    /// <summary>
-    ///     Represents the type of lockdown that can be applied to the server.
-    /// </summary>
-    public enum LockdownType
-    {
-        /// <summary>
-        ///     Lockdown to prevent new user joins.
-        /// </summary>
-        Joins,
-
-        /// <summary>
-        ///     Lockdown to make the server read-only by removing send message permissions for @everyone.
-        /// </summary>
-        Readonly,
-
-        /// <summary>
-        ///     Full lockdown: prevent joins and make the server read-only.
-        /// </summary>
-        Full
     }
 }

@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Reflection;
 using Discord.Commands;
-using Discord.Rest;
 using Mewdeko.Common.Attributes.ASPNET;
 using Mewdeko.Services.Impl;
 using Microsoft.AspNetCore.Authorization;
@@ -10,15 +9,16 @@ using Microsoft.AspNetCore.Mvc;
 namespace Mewdeko.Controllers;
 
 /// <summary>
-/// Endpoint for getting status such as guild count, bot version, etc
+///     Endpoint for getting status such as guild count, bot version, etc
 /// </summary>
 [ApiController]
 [Route("botapi/[controller]")]
 [Authorize("ApiKeyPolicy")]
-public class BotStatus(DiscordShardedClient client, StatsService statsService, CommandService commandService) : Controller
+public class BotStatus(DiscordShardedClient client, StatsService statsService, CommandService commandService)
+    : Controller
 {
     /// <summary>
-    /// Actual definition for getting bot status
+    ///     Actual definition for getting bot status
     /// </summary>
     /// <returns>A BotStatus model</returns>
     [HttpGet]
@@ -47,7 +47,7 @@ public class BotStatus(DiscordShardedClient client, StatsService statsService, C
     }
 
     /// <summary>
-    /// Gets a list of guildIds for the bot
+    ///     Gets a list of guildIds for the bot
     /// </summary>
     /// <returns>A list of guildIds for the bot</returns>
     [HttpGet("guilds")]
@@ -83,7 +83,7 @@ public class BotStatus(DiscordShardedClient client, StatsService statsService, C
             };
 
             process.Start();
-            string output = process.StandardOutput.ReadToEnd().Trim();
+            var output = process.StandardOutput.ReadToEnd().Trim();
             process.WaitForExit();
 
             return output.Length == 40 ? output : "Unknown";
@@ -95,69 +95,68 @@ public class BotStatus(DiscordShardedClient client, StatsService statsService, C
     }
 
 
-
     /// <summary>
-    /// The model defining bot status info
+    ///     The model defining bot status info
     /// </summary>
     public class BotStatusModel
     {
         /// <summary>
-        /// The version of the bot
+        ///     The version of the bot
         /// </summary>
         public string BotVersion { get; set; }
 
         /// <summary>
-        /// The current commit hash of the bot
+        ///     The current commit hash of the bot
         /// </summary>
         public string CommitHash { get; set; }
 
         /// <summary>
-        /// The latency to discord
+        ///     The latency to discord
         /// </summary>
         public int BotLatency { get; set; }
 
         /// <summary>
-        /// The name of the bot
+        ///     The name of the bot
         /// </summary>
         public string BotName { get; set; }
 
         /// <summary>
-        /// The bots avatar.
+        ///     The bots avatar.
         /// </summary>
         public string BotAvatar { get; set; }
 
         /// <summary>
-        /// The bots banner, if any
+        ///     The bots banner, if any
         /// </summary>
         public string BotBanner { get; set; }
 
         /// <summary>
-        /// The number of commands
+        ///     The number of commands
         /// </summary>
         public int CommandsCount { get; set; }
 
         /// <summary>
-        /// The number of modules
+        ///     The number of modules
         /// </summary>
         public int ModulesCount { get; set; }
 
         /// <summary>
-        /// The version of Discord.Net the bot is using
+        ///     The version of Discord.Net the bot is using
         /// </summary>
         public string DNetVersion { get; set; }
 
         /// <summary>
-        /// The bots current status (idle, afk, etc)
+        ///     The bots current status (idle, afk, etc)
         /// </summary>
         public string BotStatus { get; set; }
 
         /// <summary>
-        /// The number of users in every guild (separated by distinct)
+        ///     The number of users in every guild (separated by distinct)
         /// </summary>
         public int UserCount { get; set; }
 
         /// <summary>
-        /// The bots userId
+        ///     The bots userId
         /// </summary>
         public ulong BotId { get; set; }
     }

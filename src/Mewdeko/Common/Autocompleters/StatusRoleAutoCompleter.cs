@@ -4,23 +4,26 @@ using ZiggyCreatures.Caching.Fusion;
 namespace Mewdeko.Common.Autocompleters;
 
 /// <summary>
-/// Autocompleter for status roles.
+///     Autocompleter for status roles.
 /// </summary>
 public class StatusRoleAutocompleter : AutocompleteHandler
 {
     /// <summary>
-    /// Initializes a new instance of the StatusRoleAutocompleter class.
-    /// </summary>
-    /// <param name="cache">The FusionCache instance.</param>
-    public StatusRoleAutocompleter(IFusionCache cache) => this.cache = cache;
-
-    /// <summary>
-    /// Gets the FusionCache instance.
+    ///     Gets the FusionCache instance.
     /// </summary>
     private readonly IFusionCache cache;
 
     /// <summary>
-    /// Generates suggestions for autocomplete.
+    ///     Initializes a new instance of the StatusRoleAutocompleter class.
+    /// </summary>
+    /// <param name="cache">The FusionCache instance.</param>
+    public StatusRoleAutocompleter(IFusionCache cache)
+    {
+        this.cache = cache;
+    }
+
+    /// <summary>
+    ///     Generates suggestions for autocomplete.
     /// </summary>
     /// <param name="context">The interaction context.</param>
     /// <param name="interaction">The autocomplete interaction.</param>

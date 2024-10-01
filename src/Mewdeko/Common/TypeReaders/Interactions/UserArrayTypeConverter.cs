@@ -4,17 +4,20 @@ using Discord.Interactions;
 namespace Mewdeko.Common.TypeReaders.Interactions;
 
 /// <summary>
-/// Class that converts a string to an array of IUser objects.
+///     Class that converts a string to an array of IUser objects.
 /// </summary>
 public partial class UserArrayConverter : TypeConverter<IUser[]>
 {
     /// <summary>
-    /// Returns the Discord type of the option.
+    ///     Returns the Discord type of the option.
     /// </summary>
-    public override ApplicationCommandOptionType GetDiscordType() => ApplicationCommandOptionType.String;
+    public override ApplicationCommandOptionType GetDiscordType()
+    {
+        return ApplicationCommandOptionType.String;
+    }
 
     /// <summary>
-    /// Converts the given string to an array of IUser objects.
+    ///     Converts the given string to an array of IUser objects.
     /// </summary>
     /// <param name="context">The interaction context.</param>
     /// <param name="input">The string to convert.</param>
@@ -53,7 +56,7 @@ public partial class UserArrayConverter : TypeConverter<IUser[]>
     }
 
     /// <summary>
-    /// Writes the properties of the option.
+    ///     Writes the properties of the option.
     /// </summary>
     /// <param name="properties">The properties of the option.</param>
     /// <param name="parameter">The parameter information.</param>
@@ -63,7 +66,7 @@ public partial class UserArrayConverter : TypeConverter<IUser[]>
     }
 
     /// <summary>
-    /// Generates a regular expression for matching user mentions or IDs.
+    ///     Generates a regular expression for matching user mentions or IDs.
     /// </summary>
     /// <returns>A compiled regular expression.</returns>
     [GeneratedRegex("<@!?([0-9]+)>")]

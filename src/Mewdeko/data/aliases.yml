@@ -29,6 +29,56 @@ antimassmentionignorebots:
   - ammignorebots
   - ignorebotsmassmention
   - massmentionignorebots
+setdefaultpunishment:
+  - setdefaultpunishment
+  - sdp
+  - defaultpunishment
+  - setdefpunishment
+addblacklistedrole:
+  - addblacklistedrole
+  - abr
+  - blacklistrole
+  - addbrole
+removeblacklistedrole:
+  - removeblacklistedrole
+  - rbr
+  - unblacklistrole
+  - removebrole
+addblacklistedpermission:
+  - addblacklistedpermission
+  - abp
+  - blacklistpermission
+  - addbpermission
+removeblacklistedpermission:
+  - removeblacklistedpermission
+  - rbp
+  - unblacklistpermission
+  - removebpermission
+addwhitelisteduser:
+  - addwhitelisteduser
+  - awu
+  - whitelistuser
+  - addwuser
+removewhitelisteduser:
+  - removewhitelisteduser
+  - rwu
+  - unwhitelistuser
+  - removewuser
+addwhitelistedrole:
+  - addwhitelistedrole
+  - awr
+  - whitelistrole
+  - addwrole
+removewhitelistedrole:
+  - removewhitelistedrole
+  - rwr
+  - unwhitelistrole
+  - removewrole
+listblacklists:
+  - listblacklists
+  - lbl
+  - blacklists
+  - listbws
 lockdown:
   - lockdown
   - lockdownserver

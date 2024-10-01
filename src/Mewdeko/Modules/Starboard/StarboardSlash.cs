@@ -5,18 +5,19 @@ using Mewdeko.Modules.Starboard.Services;
 namespace Mewdeko.Modules.Starboard;
 
 /// <summary>
-/// Class for managing starboard commands via slash commands.
+///     Class for managing starboard commands via slash commands.
 /// </summary>
 [Group("starboard", "Manage the starboard!")]
 public class StarboardSlash(GuildSettingsService guildSettings) : MewdekoSlashSubmodule<StarboardService>
 {
     /// <summary>
-    /// Sets the starboard channel. Put nothing to disable.
+    ///     Sets the starboard channel. Put nothing to disable.
     /// </summary>
     /// <param name="chn">The channel to set as the starboard channel, or null to disable the starboard feature.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    [SlashCommand("setstarboard", "Set the starboard channel. Put nothing to disable."),
-     SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    [SlashCommand("setstarboard", "Set the starboard channel. Put nothing to disable.")]
+    [SlashUserPerm(GuildPermission.ManageChannels)]
+    [CheckPermissions]
     public async Task SetStarboard(ITextChannel? chn = null)
     {
         if (chn is null)
@@ -31,12 +32,13 @@ public class StarboardSlash(GuildSettingsService guildSettings) : MewdekoSlashSu
     }
 
     /// <summary>
-    /// Set after how many messages Mewdeko reposts a starboard message.
+    ///     Set after how many messages Mewdeko reposts a starboard message.
     /// </summary>
     /// <param name="num">The threshold value for reposting a starboard message.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    [SlashCommand("repostthreshold", "Set after how many messages mewdeko reposts a starboard message"),
-     SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    [SlashCommand("repostthreshold", "Set after how many messages mewdeko reposts a starboard message")]
+    [SlashUserPerm(GuildPermission.ManageChannels)]
+    [CheckPermissions]
     public async Task SetRepostThreshold(int num)
     {
         if (num == 0)
@@ -51,12 +53,13 @@ public class StarboardSlash(GuildSettingsService guildSettings) : MewdekoSlashSu
     }
 
     /// <summary>
-    /// Sets after how many reactions a message gets sent to the starboard.
+    ///     Sets after how many reactions a message gets sent to the starboard.
     /// </summary>
     /// <param name="num">The number of reactions required for a message to be sent to the starboard.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    [SlashCommand("stars", "Sets after how many reactions a message gets sent to the starboard"),
-     SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    [SlashCommand("stars", "Sets after how many reactions a message gets sent to the starboard")]
+    [SlashUserPerm(GuildPermission.ManageChannels)]
+    [CheckPermissions]
     public async Task SetStars(int num)
     {
         var count = await Service.GetStarCount(ctx.Guild.Id);
@@ -67,12 +70,16 @@ public class StarboardSlash(GuildSettingsService guildSettings) : MewdekoSlashSu
     }
 
     /// <summary>
-    /// Sets or gets the current starboard emote.
+    ///     Sets or gets the current starboard emote.
     /// </summary>
-    /// <param name="emoteText">The string representation of the emote to set as the starboard emote, or null to retrieve the current emote.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    [SlashCommand("star", "Sets or gets the current starboard emote"), SlashUserPerm(GuildPermission.ManageChannels),
-     CheckPermissions]
+    /// <param name="emoteText">
+    ///     The string representation of the emote to set as the starboard emote, or null to retrieve the
+    ///     current emote.
+    /// </param>
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    [SlashCommand("star", "Sets or gets the current starboard emote")]
+    [SlashUserPerm(GuildPermission.ManageChannels)]
+    [CheckPermissions]
     public async Task SetStar(string? emoteText = null)
     {
         await ctx.Interaction.DeferAsync().ConfigureAwait(false);
@@ -112,12 +119,13 @@ public class StarboardSlash(GuildSettingsService guildSettings) : MewdekoSlashSu
     }
 
     /// <summary>
-    /// Adds a channel to the whitelist/blacklist for the starboard feature.
+    ///     Adds a channel to the whitelist/blacklist for the starboard feature.
     /// </summary>
     /// <param name="channel">The channel to add to the whitelist/blacklist.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    [SlashCommand("channel-toggle", "Adds a channel to the whitelist/blacklist"),
-     SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    [SlashCommand("channel-toggle", "Adds a channel to the whitelist/blacklist")]
+    [SlashUserPerm(GuildPermission.ManageChannels)]
+    [CheckPermissions]
     public async Task StarboardChToggle(ITextChannel channel)
     {
         if (!await Service.ToggleChannel(ctx.Guild, channel.Id.ToString()).ConfigureAwait(false))
@@ -137,12 +145,12 @@ public class StarboardSlash(GuildSettingsService guildSettings) : MewdekoSlashSu
     }
 
     /// <summary>
-    /// Sets whether starboard is in whitelist or blacklist mode.
+    ///     Sets whether starboard is in whitelist or blacklist mode.
     /// </summary>
     /// <param name="mode">The mode to set for the starboard feature.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    [SlashCommand("whitelist-mode", "Sets wether starboard is in white or blacklist mode"),
-     SlashUserPerm(GuildPermission.ManageChannels)]
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    [SlashCommand("whitelist-mode", "Sets wether starboard is in white or blacklist mode")]
+    [SlashUserPerm(GuildPermission.ManageChannels)]
     public async Task StarboardWlMode(Starboard.WhitelistMode mode)
     {
         if (mode > 0)
@@ -158,12 +166,13 @@ public class StarboardSlash(GuildSettingsService guildSettings) : MewdekoSlashSu
     }
 
     /// <summary>
-    /// Sets whether a post is removed when the source reactions are cleared.
+    ///     Sets whether a post is removed when the source reactions are cleared.
     /// </summary>
     /// <param name="enabled">True to enable the feature, false to disable it.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    [SlashCommand("removeonreactionclear", "Sets wether a post is removed when the source reactions are cleared."),
-     SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    [SlashCommand("removeonreactionclear", "Sets wether a post is removed when the source reactions are cleared.")]
+    [SlashUserPerm(GuildPermission.ManageChannels)]
+    [CheckPermissions]
     public async Task StarboardRemoveOnReactionsCleared(bool enabled)
     {
         await Service.SetRemoveOnClear(ctx.Guild, enabled).ConfigureAwait(false);
@@ -177,12 +186,13 @@ public class StarboardSlash(GuildSettingsService guildSettings) : MewdekoSlashSu
     }
 
     /// <summary>
-    /// Sets whether a post gets removed when the source gets deleted.
+    ///     Sets whether a post gets removed when the source gets deleted.
     /// </summary>
     /// <param name="enabled">True to enable the feature, false to disable it.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    [SlashCommand("removeondelete", "Sets wehter a post gets removed when the source gets deleted."),
-     SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    [SlashCommand("removeondelete", "Sets wehter a post gets removed when the source gets deleted.")]
+    [SlashUserPerm(GuildPermission.ManageChannels)]
+    [CheckPermissions]
     public async Task StarboardRemoveOnDelete(bool enabled)
     {
         await Service.SetRemoveOnDelete(ctx.Guild, enabled).ConfigureAwait(false);
@@ -197,12 +207,13 @@ public class StarboardSlash(GuildSettingsService guildSettings) : MewdekoSlashSu
     }
 
     /// <summary>
-    /// Sets whether a post is removed when it's below the set star count.
+    ///     Sets whether a post is removed when it's below the set star count.
     /// </summary>
     /// <param name="enabled">True to enable the feature, false to disable it.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    [SlashCommand("removeonbelowthreshold", "Sets wether a post is removed when its below the set star count."),
-     SlashUserPerm(GuildPermission.ManageChannels), CheckPermissions]
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    [SlashCommand("removeonbelowthreshold", "Sets wether a post is removed when its below the set star count.")]
+    [SlashUserPerm(GuildPermission.ManageChannels)]
+    [CheckPermissions]
     public async Task StarboardRemoveOnBelowThreshold(bool enabled)
     {
         await Service.SetRemoveOnBelowThreshold(ctx.Guild, enabled).ConfigureAwait(false);
@@ -219,12 +230,13 @@ public class StarboardSlash(GuildSettingsService guildSettings) : MewdekoSlashSu
     }
 
     /// <summary>
-    /// Sets whether starboard ignores bots.
+    ///     Sets whether starboard ignores bots.
     /// </summary>
     /// <param name="enabled">True to enable the feature, false to disable it.</param>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    [SlashCommand("allowbots", "Sets wether starboard ignores bots."), SlashUserPerm(GuildPermission.ManageChannels),
-     CheckPermissions]
+    /// <returns>A <see cref="Task" /> representing the asynchronous operation.</returns>
+    [SlashCommand("allowbots", "Sets wether starboard ignores bots.")]
+    [SlashUserPerm(GuildPermission.ManageChannels)]
+    [CheckPermissions]
     public async Task StarboardAllowBots(bool enabled)
     {
         await Service.SetStarboardAllowBots(ctx.Guild, enabled).ConfigureAwait(false);

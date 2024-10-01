@@ -21,7 +21,8 @@ using IResult = Discord.Interactions.IResult;
 namespace Mewdeko.Services;
 
 /// <summary>
-/// Handles command parsing and execution, integrating with various services to process Discord interactions and messages.
+///     Handles command parsing and execution, integrating with various services to process Discord interactions and
+///     messages.
 /// </summary>
 public class CommandHandler : INService
 {
@@ -83,24 +84,24 @@ public class CommandHandler : INService
     }
 
     /// <summary>
-    /// A thread-safe dictionary mapping channel IDs to command parse queues.
+    ///     A thread-safe dictionary mapping channel IDs to command parse queues.
     /// </summary>
     private NonBlocking.ConcurrentDictionary<ulong, ConcurrentQueue<IUserMessage>> CommandParseQueue { get; } = new();
 
     /// <summary>
-    /// A thread-safe dictionary indicating whether a command parse lock is active for a channel.
+    ///     A thread-safe dictionary indicating whether a command parse lock is active for a channel.
     /// </summary>
     private NonBlocking.ConcurrentDictionary<ulong, bool> CommandParseLock { get; } = new();
 
     private ConcurrentHashSet<ulong> UsersOnShortCooldown { get; } = [];
 
     /// <summary>
-    /// Event that occurs when a command is executed.
+    ///     Event that occurs when a command is executed.
     /// </summary>
     public event Func<IUserMessage, CommandInfo, Task> CommandExecuted = delegate { return Task.CompletedTask; };
 
     /// <summary>
-    /// Event that occurs when a command is errored.w
+    ///     Event that occurs when a command is errored.w
     /// </summary>
     public event Func<CommandInfo, ITextChannel, string, IUser?, Task> CommandErrored = delegate
     {
@@ -108,7 +109,7 @@ public class CommandHandler : INService
     };
 
     /// <summary>
-    /// Used for xp, for some reason.
+    ///     Used for xp, for some reason.
     /// </summary>
     public event Func<IUserMessage, Task> OnMessageNoTrigger = delegate { return Task.CompletedTask; };
 
@@ -438,7 +439,7 @@ public class CommandHandler : INService
     }
 
     /// <summary>
-    /// Executes an external command within a specific guild and channel context.
+    ///     Executes an external command within a specific guild and channel context.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <param name="channelId">The ID of the channel.</param>
@@ -493,21 +494,24 @@ public class CommandHandler : INService
     }
 
     /// <summary>
-    /// Adds a command to the parse queue for a given channel.
+    ///     Adds a command to the parse queue for a given channel.
     /// </summary>
     /// <param name="usrMsg">The user message to add to the queue.</param>
-    public void AddCommandToParseQueue(IUserMessage usrMsg) => CommandParseQueue.AddOrUpdate(usrMsg.Channel.Id,
-        _ => new ConcurrentQueue<IUserMessage>(new List<IUserMessage>
-        {
-            usrMsg
-        }), (_, y) =>
-        {
-            y.Enqueue(usrMsg);
-            return y;
-        });
+    public void AddCommandToParseQueue(IUserMessage usrMsg)
+    {
+        CommandParseQueue.AddOrUpdate(usrMsg.Channel.Id,
+            _ => new ConcurrentQueue<IUserMessage>(new List<IUserMessage>
+            {
+                usrMsg
+            }), (_, y) =>
+            {
+                y.Enqueue(usrMsg);
+                return y;
+            });
+    }
 
     /// <summary>
-    /// Attempts to execute commands in the parse queue for a given channel.
+    ///     Attempts to execute commands in the parse queue for a given channel.
     /// </summary>
     /// <param name="channelId">The ID of the channel.</param>
     /// <returns>A task that represents the asynchronous operation, returning true if commands were executed.</returns>
@@ -564,7 +568,8 @@ public class CommandHandler : INService
         var messageContent = usrMsg.Content;
         foreach (var exec in inputTransformers)
         {
-            messageContent = await exec.TransformInput(guild, usrMsg.Channel, usrMsg.Author, messageContent).ConfigureAwait(false);
+            messageContent = await exec.TransformInput(guild, usrMsg.Channel, usrMsg.Author, messageContent)
+                .ConfigureAwait(false);
             if (messageContent != usrMsg.Content) break;
         }
 
@@ -595,7 +600,8 @@ public class CommandHandler : INService
             if (info is null)
                 return;
 
-            await LogCommandExecution(usrMsg, channel as ITextChannel, info, false, execTime, error).ConfigureAwait(false);
+            await LogCommandExecution(usrMsg, channel as ITextChannel, info, false, execTime, error)
+                .ConfigureAwait(false);
             if (guild != null)
             {
                 var permissionService = services.GetService<PermissionService>();
@@ -612,7 +618,8 @@ public class CommandHandler : INService
     }
 
 
-   private async Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommandAsync(CommandContext context, string input, int argPos, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
+    private async Task<(bool Success, string Error, CommandInfo Info)> ExecuteCommandAsync(CommandContext context,
+        string input, int argPos, MultiMatchHandling multiMatchHandling = MultiMatchHandling.Exception)
     {
         var searchResult = commandService.Search(context, input[argPos..]);
         if (!searchResult.IsSuccess)
@@ -656,18 +663,23 @@ public class CommandHandler : INService
             return (false, "You are on a short cooldown.", cmd);
 
         var chosenOverload = successfulParses[0];
-        var result = await chosenOverload.match.ExecuteAsync(context, chosenOverload.parseResult, services).ConfigureAwait(false);
+        var result = await chosenOverload.match.ExecuteAsync(context, chosenOverload.parseResult, services)
+            .ConfigureAwait(false);
 
         if (result is not ExecuteResult executeResult) return (result.IsSuccess, result.ErrorReason, cmd);
-        if (executeResult.Exception != null && executeResult.Exception is not HttpException { DiscordCode: DiscordErrorCode.InsufficientPermissions })
+        if (executeResult.Exception != null && executeResult.Exception is not HttpException
+            {
+                DiscordCode: DiscordErrorCode.InsufficientPermissions
+            })
         {
             Log.Warning(executeResult.Exception, "Command execution error");
         }
-        return (executeResult.IsSuccess, executeResult.ErrorReason, cmd);
 
+        return (executeResult.IsSuccess, executeResult.ErrorReason, cmd);
     }
 
-    private async Task LogCommandExecution(IMessage usrMsg, ITextChannel channel, CommandInfo? commandInfo, bool success, int executionTime, string errorMessage = null)
+    private async Task LogCommandExecution(IMessage usrMsg, ITextChannel channel, CommandInfo? commandInfo,
+        bool success, int executionTime, string errorMessage = null)
     {
         var gc = await gss.GetGuildConfig(channel.GuildId);
         var logBuilder = new StringBuilder()
@@ -724,13 +736,15 @@ public class CommandHandler : INService
         // Get possible mention formats
         var mentions = new[]
         {
-            client.CurrentUser.Mention,                // e.g., "@BotName"
-            $"<@{client.CurrentUser.Id}>",             // e.g., "<@1234567890>"
-            $"<@!{client.CurrentUser.Id}>"             // e.g., "<@!1234567890>" (for nicknames)
+            client.CurrentUser.Mention, // e.g., "@BotName"
+            $"<@{client.CurrentUser.Id}>", // e.g., "<@1234567890>"
+            $"<@!{client.CurrentUser.Id}>" // e.g., "<@!1234567890>" (for nicknames)
         };
 
         // Find the longest matching mention at the start
-        return (from mention in mentions where content.StartsWith(mention + " ", StringComparison.InvariantCulture) select mention.Length + 1).FirstOrDefault();
+        return (from mention in mentions
+            where content.StartsWith(mention + " ", StringComparison.InvariantCulture)
+            select mention.Length + 1).FirstOrDefault();
     }
 
     private async Task UpdateCommandStats(IGuild? guild, IChannel channel, IUserMessage usrMsg, CommandInfo? info)

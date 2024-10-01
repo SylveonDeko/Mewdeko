@@ -8,31 +8,37 @@ namespace Mewdeko.Modules.Games;
 public partial class Games
 {
     /// <summary>
-    /// A module containing poll commands.
+    ///     A module containing poll commands.
     /// </summary>
     [Group]
     public class PollCommands : MewdekoSubmodule<PollService>
     {
         /// <summary>
-        /// Starts a poll with a single answer type.
+        ///     Starts a poll with a single answer type.
         /// </summary>
         /// <param name="input">The input string for the poll.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <example>.poll "What is your favorite color?";Answer1;2;3;etc</example>
-        [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages),
-         RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [UserPerm(GuildPermission.ManageMessages)]
+        [RequireContext(ContextType.Guild)]
         public Task Poll([Remainder] string input)
-            => Poll(PollType.SingleAnswer, input);
+        {
+            return Poll(PollType.SingleAnswer, input);
+        }
 
         /// <summary>
-        /// Starts a poll with the specified type and input.
+        ///     Starts a poll with the specified type and input.
         /// </summary>
         /// <param name="type">The type of the poll.</param>
         /// <param name="arg">The input string for the poll.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <example>.poll MultiAnswer "What is your favorite color?";Answer1;2;3;etc</example>
-        [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages),
-         RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [UserPerm(GuildPermission.ManageMessages)]
+        [RequireContext(ContextType.Guild)]
         public async Task Poll(PollType type, [Remainder] string arg)
         {
             // Checks if the poll type is set to 'PollEnded'
@@ -108,12 +114,14 @@ public partial class Games
         }
 
         /// <summary>
-        /// Displays the current statistics of the active poll in the guild.
+        ///     Displays the current statistics of the active poll in the guild.
         /// </summary>
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <example>.pollstats</example>
-        [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages),
-         RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [UserPerm(GuildPermission.ManageMessages)]
+        [RequireContext(ContextType.Guild)]
         public async Task PollStats()
         {
             // Tries to get the active poll in the guild
@@ -125,12 +133,14 @@ public partial class Games
         }
 
         /// <summary>
-        /// Ends the current poll in the guild and displays the final statistics.
+        ///     Ends the current poll in the guild and displays the final statistics.
         /// </summary>
         /// <returns>A task representing the asynchronous operation.</returns>
         /// <example>.pollend</example>
-        [Cmd, Aliases, UserPerm(GuildPermission.ManageMessages),
-         RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [UserPerm(GuildPermission.ManageMessages)]
+        [RequireContext(ContextType.Guild)]
         public async Task Pollend()
         {
             Polls p;
@@ -145,7 +155,7 @@ public partial class Games
         }
 
         /// <summary>
-        /// Generates an embed containing the statistics of a poll.
+        ///     Generates an embed containing the statistics of a poll.
         /// </summary>
         /// <param name="polls">The poll to generate statistics for.</param>
         /// <param name="title">The title of the embed.</param>

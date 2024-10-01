@@ -9,7 +9,7 @@ namespace Mewdeko.Modules.Searches;
 public partial class Searches
 {
     /// <summary>
-    /// Provides commands for fetching and displaying XKCD comics.
+    ///     Provides commands for fetching and displaying XKCD comics.
     /// </summary>
     [Group]
     public class XkcdCommands(IHttpClientFactory factory) : MewdekoSubmodule
@@ -17,10 +17,13 @@ public partial class Searches
         private const string XkcdUrl = "https://xkcd.com";
 
         /// <summary>
-        /// Fetches and displays an XKCD comic. If 'latest' is specified, fetches the latest comic; otherwise, fetches a random comic.
+        ///     Fetches and displays an XKCD comic. If 'latest' is specified, fetches the latest comic; otherwise, fetches a random
+        ///     comic.
         /// </summary>
         /// <param name="arg">The comic number to fetch or 'latest' for the latest comic.</param>
-        [Cmd, Aliases, Priority(0)]
+        [Cmd]
+        [Aliases]
+        [Priority(0)]
         public async Task Xkcd(string? arg = null)
         {
             if (arg?.ToLowerInvariant().Trim() == "latest")
@@ -63,10 +66,12 @@ public partial class Searches
         }
 
         /// <summary>
-        /// Fetches and displays an XKCD comic by its number.
+        ///     Fetches and displays an XKCD comic by its number.
         /// </summary>
         /// <param name="num">The number of the XKCD comic to fetch.</param>
-        [Cmd, Aliases, Priority(1)]
+        [Cmd]
+        [Aliases]
+        [Priority(1)]
         public async Task Xkcd(int num)
         {
             if (num < 1)

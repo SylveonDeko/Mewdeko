@@ -5,32 +5,36 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Mewdeko.Common.Attributes.InteractionCommands;
 
 /// <summary>
-/// Attribute to check user permissions before executing a command or method.
+///     Attribute to check user permissions before executing a command or method.
 /// </summary>
 [AttributeUsage(AttributeTargets.Method)]
 public class SlashUserPermAttribute : PreconditionAttribute
 {
     /// <summary>
-    /// Initializes a new instance of the SlashUserPermAttribute class with guild permissions.
+    ///     Initializes a new instance of the SlashUserPermAttribute class with guild permissions.
     /// </summary>
     /// <param name="permission">The required guild permission.</param>
-    public SlashUserPermAttribute(GuildPermission permission) =>
+    public SlashUserPermAttribute(GuildPermission permission)
+    {
         UserPermissionAttribute = new RequireUserPermissionAttribute(permission);
+    }
 
     /// <summary>
-    /// Initializes a new instance of the SlashUserPermAttribute class with channel permissions.
+    ///     Initializes a new instance of the SlashUserPermAttribute class with channel permissions.
     /// </summary>
     /// <param name="permission">The required channel permission.</param>
-    public SlashUserPermAttribute(ChannelPermission permission) =>
+    public SlashUserPermAttribute(ChannelPermission permission)
+    {
         UserPermissionAttribute = new RequireUserPermissionAttribute(permission);
+    }
 
     /// <summary>
-    /// Gets the user permission attribute.
+    ///     Gets the user permission attribute.
     /// </summary>
     public RequireUserPermissionAttribute UserPermissionAttribute { get; }
 
     /// <summary>
-    /// Checks the requirements before executing a command or method.
+    ///     Checks the requirements before executing a command or method.
     /// </summary>
     /// <param name="context">The interaction context.</param>
     /// <param name="command">The command being executed.</param>

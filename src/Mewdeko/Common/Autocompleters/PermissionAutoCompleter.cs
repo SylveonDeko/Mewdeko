@@ -5,23 +5,26 @@ using Mewdeko.Modules.Permissions.Services;
 namespace Mewdeko.Common.Autocompleters;
 
 /// <summary>
-/// Autocompleter for permissions.
+///     Autocompleter for permissions.
 /// </summary>
 public class PermissionAutoCompleter : AutocompleteHandler
 {
     /// <summary>
-    /// Gets the PermissionService.
+    ///     Initializes a new instance of the PermissionAutoCompleter class.
+    /// </summary>
+    /// <param name="perms">The PermissionService.</param>
+    public PermissionAutoCompleter(PermissionService perms)
+    {
+        Perms = perms;
+    }
+
+    /// <summary>
+    ///     Gets the PermissionService.
     /// </summary>
     private PermissionService Perms { get; }
 
     /// <summary>
-    /// Initializes a new instance of the PermissionAutoCompleter class.
-    /// </summary>
-    /// <param name="perms">The PermissionService.</param>
-    public PermissionAutoCompleter(PermissionService perms) => Perms = perms;
-
-    /// <summary>
-    /// Generates suggestions for autocomplete.
+    ///     Generates suggestions for autocomplete.
     /// </summary>
     /// <param name="context">The interaction context.</param>
     /// <param name="autocompleteInteraction">The autocomplete interaction.</param>

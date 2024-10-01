@@ -3,18 +3,18 @@
 namespace Mewdeko.Common.PubSub;
 
 /// <summary>
-/// Class that implements the IPubSub interface for Redis.
+///     Class that implements the IPubSub interface for Redis.
 /// </summary>
 public class EventPubSub : IPubSub
 {
     /// <summary>
-    /// A dictionary to store actions for each key.
+    ///     A dictionary to store actions for each key.
     /// </summary>
     private readonly ConcurrentDictionary<string, ConcurrentDictionary<Delegate, List<Func<object, ValueTask>>>> actions
         = new();
 
     /// <summary>
-    /// Subscribes an action to a specific key.
+    ///     Subscribes an action to a specific key.
     /// </summary>
     /// <typeparam name="TData">The type of data the key represents.</typeparam>
     /// <param name="key">The key to subscribe to.</param>
@@ -34,11 +34,14 @@ public class EventPubSub : IPubSub
 
         return;
 
-        ValueTask LocalAction(object obj) => action((TData)obj);
+        ValueTask LocalAction(object obj)
+        {
+            return action((TData)obj);
+        }
     }
 
     /// <summary>
-    /// Publishes a key with associated data.
+    ///     Publishes a key with associated data.
     /// </summary>
     /// <typeparam name="TData">The type of data the key represents.</typeparam>
     /// <param name="key">The key to publish.</param>
@@ -69,7 +72,7 @@ public class EventPubSub : IPubSub
     }
 
     /// <summary>
-    /// Unsubscribes an action from a specific key.
+    ///     Unsubscribes an action from a specific key.
     /// </summary>
     /// <typeparam name="TData">The type of data the key represents.</typeparam>
     /// <param name="key">The key to unsubscribe from.</param>

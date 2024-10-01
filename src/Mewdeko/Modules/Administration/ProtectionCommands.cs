@@ -410,7 +410,8 @@ public partial class Administration
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.Administrator)]
-        public async Task AntiMassMention(int mentionThreshold, int timeWindowSeconds, int maxMentionsInTimeWindow, bool ignoreBots,
+        public async Task AntiMassMention(int mentionThreshold, int timeWindowSeconds, int maxMentionsInTimeWindow,
+            bool ignoreBots,
             PunishmentAction action, [Remainder] StoopidTime? punishTime = null)
         {
             var punishTimeMinutes = (int?)punishTime?.Time.TotalMinutes ?? 0;
@@ -454,7 +455,8 @@ public partial class Administration
         [Aliases]
         [RequireContext(ContextType.Guild)]
         [UserPerm(GuildPermission.Administrator)]
-        public async Task AntiMassMention(int mentionThreshold, int timeWindowSeconds, int maxMentionsInTimeWindow, bool ignoreBots,
+        public async Task AntiMassMention(int mentionThreshold, int timeWindowSeconds, int maxMentionsInTimeWindow,
+            bool ignoreBots,
             PunishmentAction action, [Remainder] IRole role)
         {
             if (mentionThreshold < 1 || timeWindowSeconds < 1 || maxMentionsInTimeWindow < 1)
@@ -465,7 +467,6 @@ public partial class Administration
 
             await ctx.OkAsync().ConfigureAwait(false);
         }
-
 
 
         /// <summary>

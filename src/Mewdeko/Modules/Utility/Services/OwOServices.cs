@@ -3,14 +3,14 @@ using System.Text.RegularExpressions;
 namespace Mewdeko.Modules.Utility.Services;
 
 /// <summary>
-/// Provides services to "owoify" text inputs, transforming standard text into a whimsical, playful style.
+///     Provides services to "owoify" text inputs, transforming standard text into a whimsical, playful style.
 /// </summary>
 public class OwoServices
 {
     /// <summary>
-    /// A dictionary of default transformations applied to input text to convert to "owo" style.
-    /// some data from https://github.com/aqua-lzma/OwOify/blob/master/owoify.js, all modification logic is my own
-    /// nsfw strings were removed to comply with discords policies, a few were added
+    ///     A dictionary of default transformations applied to input text to convert to "owo" style.
+    ///     some data from https://github.com/aqua-lzma/OwOify/blob/master/owoify.js, all modification logic is my own
+    ///     nsfw strings were removed to comply with discords policies, a few were added
     /// </summary>
     private static readonly Dictionary<string, string> Defaults = new()
     {
@@ -74,7 +74,7 @@ public class OwoServices
     };
 
     /// <summary>
-    /// An array of prefixes that can be randomly prepended to the transformed text for additional whimsy.
+    ///     An array of prefixes that can be randomly prepended to the transformed text for additional whimsy.
     /// </summary>
     public static readonly string[] Prefixes =
     [
@@ -82,7 +82,7 @@ public class OwoServices
     ];
 
     /// <summary>
-    /// An array of suffixes that can be randomly appended to the transformed text for extra flair.
+    ///     An array of suffixes that can be randomly appended to the transformed text for extra flair.
     /// </summary>
     public static readonly string[] Suffixes =
     [
@@ -91,16 +91,16 @@ public class OwoServices
     ];
 
     /// <summary>
-    /// Transforms the provided input text into "owo" style by applying a series of predefined and
-    /// randomized text manipulations.
+    ///     Transforms the provided input text into "owo" style by applying a series of predefined and
+    ///     randomized text manipulations.
     /// </summary>
     /// <param name="input">The original text to be transformed.</param>
     /// <returns>The transformed "owo" style text.</returns>
     /// <remarks>
-    /// The transformation includes replacing words based on the Defaults dictionary,
-    /// adding prefixes or suffixes, altering specific characters, and duplicating letters
-    /// for a stuttering effect, all applied in a manner to preserve the whimsical nature
-    /// of the "owo" style.
+    ///     The transformation includes replacing words based on the Defaults dictionary,
+    ///     adding prefixes or suffixes, altering specific characters, and duplicating letters
+    ///     for a stuttering effect, all applied in a manner to preserve the whimsical nature
+    ///     of the "owo" style.
     /// </remarks>
     public static string OwoIfy(string? input)
     {
@@ -119,9 +119,9 @@ public class OwoServices
         var seed = (uint)input.Sum(char.GetNumericValue);
         // DO NOT WRITE SEED TO THE CONSOLE, I SEE YOU TRYING
         if (seed % 3 is 1)
-            input = $"{Prefixes[(seed % Prefixes.Length)]} {input}";
+            input = $"{Prefixes[seed % Prefixes.Length]} {input}";
         if (seed % 2 is 1)
-            input = $"{input} {Suffixes[(seed % Suffixes.Length)]}";
+            input = $"{input} {Suffixes[seed % Suffixes.Length]}";
         return input;
     }
 }

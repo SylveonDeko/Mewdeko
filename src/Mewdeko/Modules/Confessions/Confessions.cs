@@ -5,18 +5,20 @@ using Mewdeko.Modules.Confessions.Services;
 namespace Mewdeko.Modules.Confessions;
 
 /// <summary>
-/// Module for managing confessions.
+///     Module for managing confessions.
 /// </summary>
 /// <param name="guildSettings">The guild settings service</param>
 public class Confessions(GuildSettingsService guildSettings) : MewdekoModuleBase<ConfessionService>
 {
     /// <summary>
-    /// Allows users to confess anonymously.
+    ///     Allows users to confess anonymously.
     /// </summary>
     /// <param name="serverId">The ID of the server.</param>
     /// <param name="confession">The confession message</param>
     /// <example>.confess 1234567890 falafel.</example>
-    [Cmd, Aliases, RequireContext(ContextType.DM)]
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.DM)]
     public async Task Confess(ulong serverId, string confession)
     {
         var gc = await guildSettings.GetGuildConfig(serverId);
@@ -54,11 +56,14 @@ public class Confessions(GuildSettingsService guildSettings) : MewdekoModuleBase
     }
 
     /// <summary>
-    /// Sets the confession channel for anonymous confessions.
+    ///     Sets the confession channel for anonymous confessions.
     /// </summary>
     /// <param name="channel">The confession channel (optional).</param>
     /// <example>.confessionchannel #confessions</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.ManageChannels)]
+    [RequireContext(ContextType.Guild)]
     public async Task ConfessionChannel(ITextChannel? channel = null)
     {
         if (channel is null)
@@ -81,11 +86,15 @@ public class Confessions(GuildSettingsService guildSettings) : MewdekoModuleBase
 
 
     /// <summary>
-    /// Sets the confession log channel for logging confessions. Misuse of this feature will end up in me being 2m away from your house.
+    ///     Sets the confession log channel for logging confessions. Misuse of this feature will end up in me being 2m away
+    ///     from your house.
     /// </summary>
     /// <param name="channel">The confession log channel (optional).</param>
     /// <example>.confessionlogchannel #confessions</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.Administrator), RequireContext(ContextType.Guild)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.Administrator)]
+    [RequireContext(ContextType.Guild)]
     public async Task ConfessionLogChannel(ITextChannel? channel = null)
     {
         if (channel is null)
@@ -107,11 +116,14 @@ public class Confessions(GuildSettingsService guildSettings) : MewdekoModuleBase
     }
 
     /// <summary>
-    /// Adds or removes a user from the confession blacklist.
+    ///     Adds or removes a user from the confession blacklist.
     /// </summary>
     /// <param name="user">The user to add or remove from the blacklist.</param>
     /// <example>.confessionblacklist @user</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.ManageChannels)]
+    [RequireContext(ContextType.Guild)]
     public async Task ConfessionBlacklist(IUser user)
     {
         var blacklists = (await guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionBlacklist.Split(" ");
@@ -129,11 +141,14 @@ public class Confessions(GuildSettingsService guildSettings) : MewdekoModuleBase
     }
 
     /// <summary>
-    /// Removes a user from the confession blacklist.
+    ///     Removes a user from the confession blacklist.
     /// </summary>
     /// <param name="user">The user to remove from the blacklist.</param>
     /// <example>.confessionunblacklist @user</example>
-    [Cmd, Aliases, UserPerm(GuildPermission.ManageChannels), RequireContext(ContextType.Guild)]
+    [Cmd]
+    [Aliases]
+    [UserPerm(GuildPermission.ManageChannels)]
+    [RequireContext(ContextType.Guild)]
     public async Task ConfessionUnblacklist(IUser user)
     {
         var blacklists = (await guildSettings.GetGuildConfig(ctx.Guild.Id)).ConfessionBlacklist.Split(" ");

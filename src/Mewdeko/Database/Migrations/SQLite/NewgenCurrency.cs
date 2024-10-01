@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Mewdeko.Database.Migrations.SQLite;
+
 /// <inheritdoc />
 public partial class NewGenCurrency : Migration
 {
@@ -9,21 +10,21 @@ public partial class NewGenCurrency : Migration
     {
         // Adding CurrencyName and CurrencyEmoji to GuildConfigs
         migrationBuilder.AddColumn<string>(
-            name: "CurrencyName",
-            table: "GuildConfigs",
+            "CurrencyName",
+            "GuildConfigs",
             nullable: false,
             defaultValue: "Coins");
 
         migrationBuilder.AddColumn<string>(
-            name: "CurrencyEmoji",
-            table: "GuildConfigs",
+            "CurrencyEmoji",
+            "GuildConfigs",
             nullable: false,
             defaultValue: "💰");
 
         // GlobalUserBalance Table
         migrationBuilder.CreateTable(
-            name: "GlobalUserBalance",
-            columns: table => new
+            "GlobalUserBalance",
+            table => new
             {
                 Id = table.Column<int>(nullable: false)
                     .Annotation("Sqlite:Autoincrement", true),
@@ -38,8 +39,8 @@ public partial class NewGenCurrency : Migration
 
         // GuildUserBalance Table
         migrationBuilder.CreateTable(
-            name: "GuildUserBalance",
-            columns: table => new
+            "GuildUserBalance",
+            table => new
             {
                 Id = table.Column<int>(nullable: false)
                     .Annotation("Sqlite:Autoincrement", true),
@@ -55,8 +56,8 @@ public partial class NewGenCurrency : Migration
 
         // TransactionHistory Table
         migrationBuilder.CreateTable(
-            name: "TransactionHistory",
-            columns: table => new
+            "TransactionHistory",
+            table => new
             {
                 Id = table.Column<int>(nullable: false)
                     .Annotation("Sqlite:Autoincrement", true),

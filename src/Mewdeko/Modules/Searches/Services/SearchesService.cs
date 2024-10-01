@@ -16,32 +16,32 @@ using SkiaSharp;
 namespace Mewdeko.Modules.Searches.Services;
 
 /// <summary>
-/// Service for handling search-related commands.
+///     Service for handling search-related commands.
 /// </summary>
 public class SearchesService : INService, IUnloadableService
 {
     /// <summary>
-    /// Represents the type of Image search.
+    ///     Represents the type of Image search.
     /// </summary>
     public enum ImageTag
     {
         /// <summary>
-        /// Represents a search for food images.
+        ///     Represents a search for food images.
         /// </summary>
         Food,
 
         /// <summary>
-        /// Represents a search for dog images.
+        ///     Represents a search for dog images.
         /// </summary>
         Dogs,
 
         /// <summary>
-        /// Represents a search for cat images.
+        ///     Represents a search for cat images.
         /// </summary>
         Cats,
 
         /// <summary>
-        /// Represents a search for bird images.
+        ///     Represents a search for bird images.
         /// </summary>
         Birds
     }
@@ -71,7 +71,7 @@ public class SearchesService : INService, IUnloadableService
     private int yomamaJokeIndex;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SearchesService"/> class.
+    ///     Initializes a new instance of the <see cref="SearchesService" /> class.
     /// </summary>
     /// <param name="client">The Discord client.</param>
     /// <param name="google">The Google API service.</param>
@@ -172,47 +172,47 @@ public class SearchesService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Gets the collection of channels where auto translation is enabled.
+    ///     Gets the collection of channels where auto translation is enabled.
     /// </summary>
     public ConcurrentDictionary<ulong, bool> TranslatedChannels { get; } = new();
 
     // (userId, channelId)
     /// <summary>
-    /// Gets the collection of user languages.
+    ///     Gets the collection of user languages.
     /// </summary>
     public ConcurrentDictionary<(ulong UserId, ulong ChannelId), string> UserLanguages { get; } = new();
 
     /// <summary>
-    /// Gets the collection of WOW jokes.
+    ///     Gets the collection of WOW jokes.
     /// </summary>
     public List<WoWJoke> WowJokes { get; } = [];
 
     /// <summary>
-    /// Gets the collection of magic items.
+    ///     Gets the collection of magic items.
     /// </summary>
     public List<MagicItem> MagicItems { get; } = [];
 
     /// <summary>
-    /// Gets the collection of auto hentai timers.
+    ///     Gets the collection of auto hentai timers.
     /// </summary>
     public ConcurrentDictionary<ulong, Timer> AutoHentaiTimers { get; } = new();
 
     /// <summary>
-    /// Gets the collection of auto boob timers.
+    ///     Gets the collection of auto boob timers.
     /// </summary>
     public ConcurrentDictionary<ulong, Timer> AutoBoobTimers { get; } = new();
 
     /// <summary>
-    /// Gets the collection of auto butt timers.
+    ///     Gets the collection of auto butt timers.
     /// </summary>
     public ConcurrentDictionary<ulong, Timer> AutoButtTimers { get; } = new();
 
     /// <summary>
-    /// Unloads the service, clearing timers and caches.
+    ///     Unloads the service, clearing timers and caches.
     /// </summary>
     /// <returns>A task representing the asynchronous operation.</returns>
     /// <remarks>
-    /// This method should be called when the service is being unloaded to clean up resources.
+    ///     This method should be called when the service is being unloaded to clean up resources.
     /// </remarks>
     public Task Unload()
     {
@@ -228,38 +228,42 @@ public class SearchesService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Sets the relationship score between two users.
+    ///     Sets the relationship score between two users.
     /// </summary>
     /// <param name="user1">The ID of the first user.</param>
     /// <param name="user2">The ID of the second user.</param>
     /// <param name="score">The score indicating the relationship strength.</param>
     /// <returns>A task representing the asynchronous operation.</returns>
     /// <remarks>
-    /// This method sets the relationship score between two users, typically used in a dating context.
+    ///     This method sets the relationship score between two users, typically used in a dating context.
     /// </remarks>
     public Task SetShip(ulong user1, ulong user2, int score)
-        => cache.SetShip(user1, user2, score);
+    {
+        return cache.SetShip(user1, user2, score);
+    }
 
     /// <summary>
-    /// Retrieves the relationship score between two users.
+    ///     Retrieves the relationship score between two users.
     /// </summary>
     /// <param name="user1">The ID of the first user.</param>
     /// <param name="user2">The ID of the second user.</param>
     /// <returns>A task representing the asynchronous operation, returning the relationship score.</returns>
     /// <remarks>
-    /// This method retrieves the relationship score between two users, typically used in a dating context.
+    ///     This method retrieves the relationship score between two users, typically used in a dating context.
     /// </remarks>
     public Task<ShipCache?> GetShip(ulong user1, ulong user2)
-        => cache.GetShip(user1, user2);
+    {
+        return cache.GetShip(user1, user2);
+    }
 
     /// <summary>
-    /// Generates a "rest in peace" image with the provided text and avatar URL.
+    ///     Generates a "rest in peace" image with the provided text and avatar URL.
     /// </summary>
     /// <param name="text">The text to display on the image.</param>
     /// <param name="imgUrl">The URL of the avatar image.</param>
     /// <returns>A stream containing the generated image.</returns>
     /// <remarks>
-    /// This method generates an image with the provided text and an avatar image, typically used in memorial contexts.
+    ///     This method generates an image with the provided text and an avatar image, typically used in memorial contexts.
     /// </remarks>
     public async Task<Stream> GetRipPictureAsync(string text, Uri imgUrl)
     {
@@ -356,14 +360,14 @@ public class SearchesService : INService, IUnloadableService
 
 
     /// <summary>
-    /// Fetches weather data for the specified location.
+    ///     Fetches weather data for the specified location.
     /// </summary>
     /// <param name="query">The location for which to fetch weather data.</param>
     /// <returns>
-    /// A task representing the asynchronous operation, returning the weather data for the specified location.
+    ///     A task representing the asynchronous operation, returning the weather data for the specified location.
     /// </returns>
     /// <remarks>
-    /// This method fetches weather data for the specified location using the OpenWeatherMap API.
+    ///     This method fetches weather data for the specified location using the OpenWeatherMap API.
     /// </remarks>
     public Task<WeatherData?> GetWeatherDataAsync(string query)
     {
@@ -394,19 +398,21 @@ public class SearchesService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Retrieves time data for the specified location.
+    ///     Retrieves time data for the specified location.
     /// </summary>
     /// <param name="arg">The query string specifying the location.</param>
     /// <returns>
-    /// A tuple containing the address, time, and timezone name for the specified location,
-    /// along with any errors encountered during the operation.
+    ///     A tuple containing the address, time, and timezone name for the specified location,
+    ///     along with any errors encountered during the operation.
     /// </returns>
     /// <remarks>
-    /// This method retrieves time data for the specified location by geocoding the query and
-    /// querying the timezone database API.
+    ///     This method retrieves time data for the specified location by geocoding the query and
+    ///     querying the timezone database API.
     /// </remarks>
-    public Task<((string Address, DateTime Time, string TimeZoneName), TimeErrors?)> GetTimeDataAsync(string arg) =>
-        GetTimeDataFactory(arg);
+    public Task<((string Address, DateTime Time, string TimeZoneName), TimeErrors?)> GetTimeDataAsync(string arg)
+    {
+        return GetTimeDataFactory(arg);
+    }
 
     private async Task<((string Address, DateTime Time, string TimeZoneName), TimeErrors?)> GetTimeDataFactory(
         string query)
@@ -464,12 +470,13 @@ public class SearchesService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Generates a random image URL based on the provided tag.
+    ///     Generates a random image URL based on the provided tag.
     /// </summary>
     /// <param name="tag">The tag specifying the category of images.</param>
     /// <returns>A URI representing a randomly selected image.</returns>
     /// <remarks>
-    /// This method generates a random image URL based on the provided tag, typically used for displaying images in various contexts.
+    ///     This method generates a random image URL based on the provided tag, typically used for displaying images in various
+    ///     contexts.
     /// </remarks>
     public Uri GetRandomImageUrl(ImageTag tag)
     {
@@ -488,7 +495,7 @@ public class SearchesService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Automatically translates the input string from one language to another.
+    ///     Automatically translates the input string from one language to another.
     /// </summary>
     /// <param name="str">The string to translate.</param>
     /// <param name="from">The source language code.</param>
@@ -504,7 +511,7 @@ public class SearchesService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Translates the input text to the specified languages.
+    ///     Translates the input text to the specified languages.
     /// </summary>
     /// <param name="langs">A string representing the target languages separated by comma (e.g., "en,fr,de").</param>
     /// <param name="text">The text to translate. If not provided, the method translates the language of the provided text.</param>
@@ -519,7 +526,7 @@ public class SearchesService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Performs a search using the DAPI (Danbooru) API.
+    ///     Performs a search using the DAPI (Danbooru) API.
     /// </summary>
     /// <param name="tag">The tag to search for.</param>
     /// <param name="type">The type of search (e.g., Safe, Explicit).</param>
@@ -558,7 +565,7 @@ public class SearchesService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Retrieves the blacklisted tags for the specified guild.
+    ///     Retrieves the blacklisted tags for the specified guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns>A HashSet containing the blacklisted tags for the guild.</returns>
@@ -571,14 +578,17 @@ public class SearchesService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Checks if a given Reddit is marked as NSFW.
+    ///     Checks if a given Reddit is marked as NSFW.
     /// </summary>
     /// <param name="reddit">The Reddit to check.</param>
     /// <returns>True if the Reddit is marked as NSFW, otherwise false.</returns>
-    public bool NsfwCheck(string reddit) => nsfwreddits.Contains(reddit, StringComparer.OrdinalIgnoreCase);
+    public bool NsfwCheck(string reddit)
+    {
+        return nsfwreddits.Contains(reddit, StringComparer.OrdinalIgnoreCase);
+    }
 
     /// <summary>
-    /// Retrieves a "Yo Mama" joke.
+    ///     Retrieves a "Yo Mama" joke.
     /// </summary>
     /// <returns>A task representing the asynchronous operation, returning the "Yo Mama" joke.</returns>
     public Task<string?> GetYomamaJoke()
@@ -607,9 +617,12 @@ public class SearchesService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Retrieves a random joke.
+    ///     Retrieves a random joke.
     /// </summary>
-    /// <returns>A task representing the asynchronous operation, returning a tuple containing the setup and punchline of the joke.</returns>
+    /// <returns>
+    ///     A task representing the asynchronous operation, returning a tuple containing the setup and punchline of the
+    ///     joke.
+    /// </returns>
     public async Task<(string? Setup, string Punchline)> GetRandomJoke()
     {
         using var http = httpFactory.CreateClient();
@@ -622,7 +635,7 @@ public class SearchesService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Retrieves a Chuck Norris joke.
+    ///     Retrieves a Chuck Norris joke.
     /// </summary>
     /// <returns>A task representing the asynchronous operation, returning the Chuck Norris joke.</returns>
     public async Task<string?> GetChuckNorrisJoke()
@@ -634,7 +647,7 @@ public class SearchesService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Retrieves Magic: The Gathering card data asynchronously.
+    ///     Retrieves Magic: The Gathering card data asynchronously.
     /// </summary>
     /// <param name="search">The search query for the card.</param>
     /// <returns>A task representing the asynchronous operation, returning the Magic: The Gathering card data.</returns>
@@ -697,7 +710,7 @@ public class SearchesService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Retrieves Hearthstone card data asynchronously.
+    ///     Retrieves Hearthstone card data asynchronously.
     /// </summary>
     /// <param name="name">The name of the Hearthstone card.</param>
     /// <returns>A task representing the asynchronous operation, returning the Hearthstone card data.</returns>
@@ -746,7 +759,7 @@ public class SearchesService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Retrieves movie data asynchronously from the OMDB API.
+    ///     Retrieves movie data asynchronously from the OMDB API.
     /// </summary>
     /// <param name="name">The name of the movie.</param>
     /// <returns>A task representing the asynchronous operation, returning the movie data.</returns>
@@ -773,7 +786,7 @@ public class SearchesService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Retrieves the Steam App ID for the specified game name asynchronously.
+    ///     Retrieves the Steam App ID for the specified game name asynchronously.
     /// </summary>
     /// <param name="query">The name of the game to search for.</param>
     /// <returns>A task representing the asynchronous operation, returning the Steam App ID of the game.</returns>
@@ -826,7 +839,7 @@ public class SearchesService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Performs a Google search asynchronously.
+    ///     Performs a Google search asynchronously.
     /// </summary>
     /// <param name="query">The search query.</param>
     /// <returns>A task representing the asynchronous operation, returning the Google search results.</returns>
@@ -888,7 +901,7 @@ public class SearchesService : INService, IUnloadableService
     }
 
     /// <summary>
-    /// Performs a DuckDuckGo search asynchronously.
+    ///     Performs a DuckDuckGo search asynchronously.
     /// </summary>
     /// <param name="query">The search query.</param>
     /// <returns>A task representing the asynchronous operation, returning the DuckDuckGo search results.</returns>
@@ -946,28 +959,28 @@ public class SearchesService : INService, IUnloadableService
 }
 
 /// <summary>
-/// Represents already posted Reddit posts.
+///     Represents already posted Reddit posts.
 /// </summary>
 public record RedditCache
 {
     /// <summary>
-    /// The guild where the post was posted.
+    ///     The guild where the post was posted.
     /// </summary>
     public IGuild Guild { get; set; }
 
     /// <summary>
-    /// The url of the post.
+    ///     The url of the post.
     /// </summary>
     public string Url { get; set; }
 }
 
 /// <summary>
-/// Represents the result data of a Google search operation.
+///     Represents the result data of a Google search operation.
 /// </summary>
 public class GoogleSearchResultData
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="GoogleSearchResultData"/> class.
+    ///     Initializes a new instance of the <see cref="GoogleSearchResultData" /> class.
     /// </summary>
     /// <param name="results">The list of search results.</param>
     /// <param name="fullQueryLink">The full query link used for the search.</param>
@@ -980,62 +993,62 @@ public class GoogleSearchResultData
     }
 
     /// <summary>
-    /// Gets the list of search results.
+    ///     Gets the list of search results.
     /// </summary>
     public IReadOnlyList<GoogleSearchResult> Results { get; }
 
     /// <summary>
-    /// Gets the full query link used for the search.
+    ///     Gets the full query link used for the search.
     /// </summary>
     public string FullQueryLink { get; }
 
     /// <summary>
-    /// Gets the total number of search results.
+    ///     Gets the total number of search results.
     /// </summary>
     public string TotalResults { get; }
 }
 
 /// <summary>
-/// Represents a Steam game ID and its associated name.
+///     Represents a Steam game ID and its associated name.
 /// </summary>
 public class SteamGameId
 {
     /// <summary>
-    /// Gets or sets the name of the Steam game.
+    ///     Gets or sets the name of the Steam game.
     /// </summary>
     [JsonProperty("name")]
     public string Name { get; set; }
 
     /// <summary>
-    /// Gets or sets the Steam App ID of the game.
+    ///     Gets or sets the Steam App ID of the game.
     /// </summary>
     [JsonProperty("appid")]
     public int AppId { get; set; }
 }
 
 /// <summary>
-/// Represents data related to a Steam game.
+///     Represents data related to a Steam game.
 /// </summary>
 public class SteamGameData
 {
     /// <summary>
-    /// Gets or sets the short description of the Steam game.
+    ///     Gets or sets the short description of the Steam game.
     /// </summary>
     public string ShortDescription { get; set; }
 
     /// <summary>
-    /// Represents a container for Steam game data.
+    ///     Represents a container for Steam game data.
     /// </summary>
     public class Container
     {
         /// <summary>
-        /// Gets or sets a value indicating whether the operation was successful.
+        ///     Gets or sets a value indicating whether the operation was successful.
         /// </summary>
         [JsonProperty("success")]
         public bool Success { get; set; }
 
         /// <summary>
-        /// Gets or sets the Steam game data.
+        ///     Gets or sets the Steam game data.
         /// </summary>
         [JsonProperty("data")]
         public SteamGameData Data { get; set; }
@@ -1043,48 +1056,48 @@ public class SteamGameData
 }
 
 /// <summary>
-/// Enumerates the possible time-related errors.
+///     Enumerates the possible time-related errors.
 /// </summary>
 public enum TimeErrors
 {
     /// <summary>
-    /// Invalid input error.
+    ///     Invalid input error.
     /// </summary>
     InvalidInput,
 
     /// <summary>
-    /// API key missing error.
+    ///     API key missing error.
     /// </summary>
     ApiKeyMissing,
 
     /// <summary>
-    /// Not found error.
+    ///     Not found error.
     /// </summary>
     NotFound,
 
     /// <summary>
-    /// Unknown error.
+    ///     Unknown error.
     /// </summary>
     Unknown
 }
 
 /// <summary>
-/// Represents data related to a ship.
+///     Represents data related to a ship.
 /// </summary>
 public class ShipCache
 {
     /// <summary>
-    /// Gets or sets the first user ID.
+    ///     Gets or sets the first user ID.
     /// </summary>
     public ulong User1 { get; set; }
 
     /// <summary>
-    /// Gets or sets the second user ID.
+    ///     Gets or sets the second user ID.
     /// </summary>
     public ulong User2 { get; set; }
 
     /// <summary>
-    /// Gets or sets the score of the ship.
+    ///     Gets or sets the score of the ship.
     /// </summary>
     public int Score { get; set; }
 }

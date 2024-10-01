@@ -1,12 +1,12 @@
 ﻿namespace Mewdeko.Common.ModuleBehaviors;
 
 /// <summary>
-/// Interface to be implemented by modules that transform user input.
+///     Interface to be implemented by modules that transform user input.
 /// </summary>
 public interface IInputTransformer
 {
     /// <summary>
-    /// Transforms the user input.
+    ///     Transforms the user input.
     /// </summary>
     /// <param name="guild">The guild in which the message was sent.</param>
     /// <param name="channel">The channel in which the message was sent.</param>

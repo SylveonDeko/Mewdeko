@@ -8,7 +8,7 @@ namespace Mewdeko.Modules.Games;
 public partial class Games
 {
     /// <summary>
-    /// A module containing Trivia commands.
+    ///     A module containing Trivia commands.
     /// </summary>
     /// <param name="client">The discord client</param>
     /// <param name="cache">Redis cache</param>
@@ -23,16 +23,22 @@ public partial class Games
         : MewdekoSubmodule<GamesService>
     {
         /// <summary>
-        /// Starts a trivia game.
+        ///     Starts a trivia game.
         /// </summary>
         /// <param name="args">Optional arguments for trivia</param>
         /// <example>.trivia</example>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), Priority(0),
-         MewdekoOptions(typeof(TriviaOptions))]
-        public Task Trivia(params string[] args) => InternalTrivia(args);
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [Priority(0)]
+        [MewdekoOptions(typeof(TriviaOptions))]
+        public Task Trivia(params string[] args)
+        {
+            return InternalTrivia(args);
+        }
 
         /// <summary>
-        /// Internal trivia handler.
+        ///     Internal trivia handler.
         /// </summary>
         /// <param name="args">Optional arguments for trivia</param>
         public async Task InternalTrivia(params string[] args)
@@ -65,10 +71,12 @@ public partial class Games
         }
 
         /// <summary>
-        /// Shows the current trivia leaderboard.
+        ///     Shows the current trivia leaderboard.
         /// </summary>
         /// <example>.tl</example>
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Tl()
         {
             var channel = (ITextChannel)ctx.Channel;
@@ -84,10 +92,12 @@ public partial class Games
         }
 
         /// <summary>
-        /// Stops the current trivia game.
+        ///     Stops the current trivia game.
         /// </summary>
         /// <example>.tq</example>
-        [Cmd, Aliases, RequireContext(ContextType.Guild)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
         public async Task Tq()
         {
             var channel = (ITextChannel)ctx.Channel;

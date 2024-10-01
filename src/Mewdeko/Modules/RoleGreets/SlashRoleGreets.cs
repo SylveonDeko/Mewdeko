@@ -9,19 +9,25 @@ using Mewdeko.Modules.RoleGreets.Services;
 namespace Mewdeko.Modules.RoleGreets;
 
 /// <summary>
-/// Provides slash commands for managing role greet messages in a Discord guild. Role greets are messages automatically sent when a user receives a specific role.
+///     Provides slash commands for managing role greet messages in a Discord guild. Role greets are messages automatically
+///     sent when a user receives a specific role.
 /// </summary>
 [Group("rolegreets", "Set or manage RoleGreets.")]
 public class SlashRoleGreets(InteractiveService interactivity, HttpClient httpClient)
     : MewdekoSlashModuleBase<RoleGreetService>
 {
     /// <summary>
-    /// Adds a greet message for a specific role. Optionally, specify a channel where the greet message will be sent.
+    ///     Adds a greet message for a specific role. Optionally, specify a channel where the greet message will be sent.
     /// </summary>
     /// <param name="role">The role to set the greet for.</param>
-    /// <param name="channel">The channel where the greet message will be sent. Defaults to the current channel if not specified.</param>
-    [SlashCommand("add", "Add a role to RoleGreets."), SlashUserPerm(GuildPermission.Administrator),
-     RequireContext(ContextType.Guild), CheckPermissions]
+    /// <param name="channel">
+    ///     The channel where the greet message will be sent. Defaults to the current channel if not
+    ///     specified.
+    /// </param>
+    [SlashCommand("add", "Add a role to RoleGreets.")]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [RequireContext(ContextType.Guild)]
+    [CheckPermissions]
     public async Task RoleGreetAdd(IRole role, ITextChannel? channel = null)
     {
         channel ??= ctx.Channel as ITextChannel;
@@ -41,12 +47,14 @@ public class SlashRoleGreets(InteractiveService interactivity, HttpClient httpCl
     }
 
     /// <summary>
-    /// Sets whether bots will receive greet messages.
+    ///     Sets whether bots will receive greet messages.
     /// </summary>
     /// <param name="num">The ID of the RoleGreet to modify.</param>
     /// <param name="enabled">Whether to greet bots or not.</param>
-    [SlashCommand("greetbots", "Set whether to greet bots when triggered."), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("greetbots", "Set whether to greet bots when triggered.")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task RoleGreetGreetBots(int num, bool enabled)
     {
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(num - 1);
@@ -61,11 +69,13 @@ public class SlashRoleGreets(InteractiveService interactivity, HttpClient httpCl
     }
 
     /// <summary>
-    /// Removes a greet message by its ID.
+    ///     Removes a greet message by its ID.
     /// </summary>
     /// <param name="id">The ID of the RoleGreet to remove.</param>
-    [SlashCommand("remove", "Remove a channel from RoleGreets"), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("remove", "Remove a channel from RoleGreets")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task RoleGreetRemove(int id)
     {
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(id - 1);
@@ -80,11 +90,13 @@ public class SlashRoleGreets(InteractiveService interactivity, HttpClient httpCl
     }
 
     /// <summary>
-    /// Removes all greet messages for a specific role.
+    ///     Removes all greet messages for a specific role.
     /// </summary>
     /// <param name="role">The role for which to remove all greet messages.</param>
-    [SlashCommand("removerole", "Removes all RoleGreets on that channel."), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("removerole", "Removes all RoleGreets on that channel.")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task RoleGreetRemove(IRole role)
     {
         await ctx.Interaction.DeferAsync().ConfigureAwait(false);
@@ -107,13 +119,15 @@ public class SlashRoleGreets(InteractiveService interactivity, HttpClient httpCl
     }
 
     /// <summary>
-    /// Sets the duration after which a greet message will be automatically deleted.
+    ///     Sets the duration after which a greet message will be automatically deleted.
     /// </summary>
     /// <param name="id">The ID of the RoleGreet to modify.</param>
     /// <param name="howlong">The time in seconds after which the message will be deleted.</param>
-    [SlashCommand("delete", "Set how long it takes for a greet to delete"), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator),
-     RequireBotPermission(GuildPermission.ManageMessages), CheckPermissions]
+    [SlashCommand("delete", "Set how long it takes for a greet to delete")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [RequireBotPermission(GuildPermission.ManageMessages)]
+    [CheckPermissions]
     public async Task RoleGreetDelete(int id,
         [Summary("Seconds", "After how long in seconds it should delete.")]
         int howlong)
@@ -139,12 +153,14 @@ public class SlashRoleGreets(InteractiveService interactivity, HttpClient httpCl
     }
 
     /// <summary>
-    /// Enables or disables a RoleGreet.
+    ///     Enables or disables a RoleGreet.
     /// </summary>
     /// <param name="num">The ID of the RoleGreet to modify.</param>
     /// <param name="enabled">Whether to enable or disable the greet.</param>
-    [SlashCommand("disable", "Disable a RoleGreet using its Id"), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("disable", "Disable a RoleGreet using its Id")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task RoleGreetDisable(int num, bool enabled)
     {
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(num - 1);
@@ -159,14 +175,16 @@ public class SlashRoleGreets(InteractiveService interactivity, HttpClient httpCl
     }
 
     /// <summary>
-    /// Configures a webhook for a RoleGreet, allowing for custom name and avatar. Pass null for name to disable.
+    ///     Configures a webhook for a RoleGreet, allowing for custom name and avatar. Pass null for name to disable.
     /// </summary>
     /// <param name="id">The ID of the RoleGreet to configure.</param>
     /// <param name="name">The custom name for the webhook. Null to disable.</param>
     /// <param name="avatar">The URL for the custom avatar for the webhook.</param>
-    [SlashCommand("webhook", "Set a custom name and avatar to use for each RoleGreet"),
-     RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
-     RequireBotPermission(GuildPermission.ManageWebhooks), CheckPermissions]
+    [SlashCommand("webhook", "Set a custom name and avatar to use for each RoleGreet")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [RequireBotPermission(GuildPermission.ManageWebhooks)]
+    [CheckPermissions]
     public async Task RoleGreetWebhook(int id, string? name = null, string? avatar = null)
     {
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(id - 1);
@@ -214,14 +232,16 @@ public class SlashRoleGreets(InteractiveService interactivity, HttpClient httpCl
     }
 
     /// <summary>
-    /// Sets a custom message for a RoleGreet. If no message is specified, options to preview the current message are presented.
+    ///     Sets a custom message for a RoleGreet. If no message is specified, options to preview the current message are
+    ///     presented.
     /// </summary>
     /// <param name="id">The ID of the RoleGreet to modify.</param>
     /// <param name="message">The custom message. Null to present preview options.</param>
     [SlashCommand("message",
-         "Set a custom message for each RoleGreet. https://mewdeko.tech/placeholders https://eb.mewdeko.tech"),
-     RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+        "Set a custom message for each RoleGreet. https://mewdeko.tech/placeholders https://eb.mewdeko.tech")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task RoleGreetMessage(int id, string? message = null)
     {
         await ctx.Interaction.DeferAsync().ConfigureAwait(false);
@@ -250,7 +270,7 @@ public class SlashRoleGreets(InteractiveService interactivity, HttpClient httpCl
                     var content = replacer.Replace(greet.Message);
                     if (SmartEmbed.TryParse(content, ctx.Guild?.Id, out var embedData, out var plainText, out var cb))
                     {
-                        await ctx.Interaction.FollowupAsync(plainText, embeds: embedData, components: cb.Build())
+                        await ctx.Interaction.FollowupAsync(plainText, embedData, components: cb.Build())
                             .ConfigureAwait(false);
                     }
                     else
@@ -272,10 +292,12 @@ public class SlashRoleGreets(InteractiveService interactivity, HttpClient httpCl
     }
 
     /// <summary>
-    /// Lists all current RoleGreets, providing details such as the role, channel, deletion timer, and message.
+    ///     Lists all current RoleGreets, providing details such as the role, channel, deletion timer, and message.
     /// </summary>
-    [SlashCommand("list", "Lists all current RoleGreets"), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("list", "Lists all current RoleGreets")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task RoleGreetList()
     {
         var greets = await Service.GetGreets(ctx.Guild.Id);

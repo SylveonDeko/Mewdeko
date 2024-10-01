@@ -9,46 +9,50 @@ using Mewdeko.Modules.MultiGreets.Services;
 namespace Mewdeko.Modules.MultiGreets;
 
 /// <summary>
-/// Slash commands for MultiGreets.
+///     Slash commands for MultiGreets.
 /// </summary>
 [Group("multigreets", "Set or manage MultiGreets.")]
 public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
 {
-    private InteractiveService interactivity;
-
     /// <summary>
-    /// Initializes a new instance of <see cref="SlashMultiGreets"/>.
-    /// </summary>
-    /// <param name="interactivity">Service used for embed pagination</param>
-    public SlashMultiGreets(InteractiveService interactivity) => this.interactivity = interactivity;
-
-    /// <summary>
-    /// The types of MultiGreets.
+    ///     The types of MultiGreets.
     /// </summary>
     public enum MultiGreetTypes
     {
         /// <summary>
-        /// Executes all MultiGreets.
+        ///     Executes all MultiGreets.
         /// </summary>
         MultiGreet,
 
         /// <summary>
-        /// Executes a random MultiGreet.
+        ///     Executes a random MultiGreet.
         /// </summary>
         RandomGreet,
 
         /// <summary>
-        /// Disables MultiGreets.
+        ///     Disables MultiGreets.
         /// </summary>
         Off
     }
 
+    private readonly InteractiveService interactivity;
+
     /// <summary>
-    /// Adds a MultiGreet channel.
+    ///     Initializes a new instance of <see cref="SlashMultiGreets" />.
+    /// </summary>
+    /// <param name="interactivity">Service used for embed pagination</param>
+    public SlashMultiGreets(InteractiveService interactivity)
+    {
+        this.interactivity = interactivity;
+    }
+
+    /// <summary>
+    ///     Adds a MultiGreet channel.
     /// </summary>
     /// <param name="channel">The channel to add</param>
-    [SlashCommand("add", "Add a channel to MultiGreets."), SlashUserPerm(GuildPermission.Administrator),
-     CheckPermissions]
+    [SlashCommand("add", "Add a channel to MultiGreets.")]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task MultiGreetAdd(ITextChannel? channel = null)
     {
         channel ??= ctx.Channel as ITextChannel;
@@ -63,15 +67,19 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
                     "Seems like you have reached your 5 greets per channel limit or your 30 greets per guild limit! Remove a MultiGreet and try again",
                     Config);
                 break;
-        };
+        }
+
+        ;
     }
 
     /// <summary>
-    /// Removes a MultiGreet channel.
+    ///     Removes a MultiGreet channel.
     /// </summary>
     /// <param name="id">The id of the MultiGreet to remove</param>
-    [SlashCommand("remove", "Remove a channel from MultiGreets"), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("remove", "Remove a channel from MultiGreets")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task MultiGreetRemove(int id)
     {
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(id - 1);
@@ -86,11 +94,13 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
     }
 
     /// <summary>
-    /// Removes all MultiGreets from a channel.
+    ///     Removes all MultiGreets from a channel.
     /// </summary>
     /// <param name="channel">The channel to remove MultiGreets from</param>
-    [SlashCommand("removechannel", "Removes all MultiGreets on that channel."), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("removechannel", "Removes all MultiGreets on that channel.")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task MultiGreetRemove(ITextChannel channel)
     {
         await ctx.Interaction.DeferAsync().ConfigureAwait(false);
@@ -114,13 +124,15 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
     }
 
     /// <summary>
-    /// Changes the delete time for a MultiGreet message.
+    ///     Changes the delete time for a MultiGreet message.
     /// </summary>
     /// <param name="id">The id of the MultiGreet to change</param>
     /// <param name="howlong">The time to delete the message after</param>
-    [SlashCommand("delete", "Set how long it takes for a greet to delete"), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator),
-     RequireBotPermission(GuildPermission.ManageMessages), CheckPermissions]
+    [SlashCommand("delete", "Set how long it takes for a greet to delete")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [RequireBotPermission(GuildPermission.ManageMessages)]
+    [CheckPermissions]
     public async Task MultiGreetDelete(int id,
         [Summary("Seconds", "After how long in seconds it should delete.")]
         int howlong)
@@ -142,12 +154,14 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
     }
 
     /// <summary>
-    /// Disables a MultiGreet.
+    ///     Disables a MultiGreet.
     /// </summary>
     /// <param name="num">The id of the MultiGreet to disable</param>
     /// <param name="enabled">Whether to disable the MultiGreet</param>
-    [SlashCommand("disable", "Disable a MultiGreet using its Id"), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("disable", "Disable a MultiGreet using its Id")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task MultiGreetDisable(int num, bool enabled)
     {
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(num - 1);
@@ -162,12 +176,13 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
     }
 
     /// <summary>
-    /// Changes the type of MultiGreet.
+    ///     Changes the type of MultiGreet.
     /// </summary>
     /// <param name="types">The type of MultiGreet to set</param>
-    [SlashCommand("type", "Enable RandomGreet, MultiGreet, or turn off the entire system."),
-     RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
-     CheckPermissions]
+    [SlashCommand("type", "Enable RandomGreet, MultiGreet, or turn off the entire system.")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task MultiGreetType(MultiGreetTypes types)
     {
         switch (types)
@@ -188,14 +203,16 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
     }
 
     /// <summary>
-    /// Changes the webhook for a MultiGreet.
+    ///     Changes the webhook for a MultiGreet.
     /// </summary>
     /// <param name="id">The id of the MultiGreet to change</param>
     /// <param name="name">The name of the webhook</param>
     /// <param name="avatar">The avatar of the webhook</param>
-    [SlashCommand("webhook", "Set a custom name and avatar to use for each MultiGreet"),
-     RequireContext(ContextType.Guild), SlashUserPerm(GuildPermission.Administrator),
-     RequireBotPermission(GuildPermission.ManageWebhooks), CheckPermissions]
+    [SlashCommand("webhook", "Set a custom name and avatar to use for each MultiGreet")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [RequireBotPermission(GuildPermission.ManageWebhooks)]
+    [CheckPermissions]
     public async Task MultiGreetWebhook(int id, string? name = null, string? avatar = null)
     {
         var greet = (await Service.GetGreets(ctx.Guild.Id)).ElementAt(id - 1);
@@ -244,14 +261,15 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
     }
 
     /// <summary>
-    /// Changes the message for a MultiGreet.
+    ///     Changes the message for a MultiGreet.
     /// </summary>
     /// <param name="id">The id of the MultiGreet to change</param>
     /// <param name="message">The message to set</param>
     [SlashCommand("message",
-         "Set a custom message for each MultiGreet. https://mewdeko.tech/placeholders https://eb.mewdeko.tech"),
-     RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+        "Set a custom message for each MultiGreet. https://mewdeko.tech/placeholders https://eb.mewdeko.tech")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task MultiGreetMessage(int id, string? message = null)
     {
         await ctx.Interaction.DeferAsync().ConfigureAwait(false);
@@ -282,7 +300,7 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
                             out var components2))
                     {
                         await ctx.Interaction
-                            .FollowupAsync(plainText, embeds: embedData, components: components2.Build())
+                            .FollowupAsync(plainText, embedData, components: components2.Build())
                             .ConfigureAwait(false);
                     }
                     else
@@ -304,10 +322,12 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
     }
 
     /// <summary>
-    /// Lists all MultiGreets.
+    ///     Lists all MultiGreets.
     /// </summary>
-    [SlashCommand("list", "Lists all current MultiGreets"), RequireContext(ContextType.Guild),
-     SlashUserPerm(GuildPermission.Administrator), CheckPermissions]
+    [SlashCommand("list", "Lists all current MultiGreets")]
+    [RequireContext(ContextType.Guild)]
+    [SlashUserPerm(GuildPermission.Administrator)]
+    [CheckPermissions]
     public async Task MultiGreetList()
     {
         var greets = await Service.GetGreets(ctx.Guild.Id);

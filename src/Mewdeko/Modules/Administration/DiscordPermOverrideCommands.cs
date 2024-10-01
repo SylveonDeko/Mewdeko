@@ -10,23 +10,27 @@ namespace Mewdeko.Modules.Administration;
 public partial class Administration
 {
     /// <summary>
-    /// Module for managing Discord permission overrides. This module allows administrators to override the required permissions for a command.
+    ///     Module for managing Discord permission overrides. This module allows administrators to override the required
+    ///     permissions for a command.
     /// </summary>
     /// <param name="serv"></param>
     [Group]
     public class DiscordPermOverrideCommands(InteractiveService serv) : MewdekoSubmodule<DiscordPermOverrideService>
     {
         /// <summary>
-        /// Overrides the required permissions for a specific command in the current guild.
+        ///     Overrides the required permissions for a specific command in the current guild.
         /// </summary>
         /// <param name="cmd">The command for which the permissions will be overridden</param>
         /// <param name="perms">The permissions required to execute the command</param>
         /// <remarks>
-        /// If no permissions are provided, the override for the command will be removed.
-        /// This command requires the caller to have GuildPermission.Administrator.
+        ///     If no permissions are provided, the override for the command will be removed.
+        ///     This command requires the caller to have GuildPermission.Administrator.
         /// </remarks>
         /// <example>.discordpermoverride CommandName Permission1 Permission2 ...</example>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task DiscordPermOverride(CommandOrCrInfo cmd, params GuildPermission[]? perms)
         {
             if (perms is null || perms.Length == 0)
@@ -46,13 +50,16 @@ public partial class Administration
 
 
         /// <summary>
-        /// Resets all command permission overrides in the current guild.
+        ///     Resets all command permission overrides in the current guild.
         /// </summary>
         /// <remarks>
-        /// This command requires the caller to have GuildPermission.Administrator.
+        ///     This command requires the caller to have GuildPermission.Administrator.
         /// </remarks>
         /// <example>.discordpermoverridereset</example>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task DiscordPermOverrideReset()
         {
             var result = await PromptUserConfirmAsync(new EmbedBuilder()
@@ -67,13 +74,16 @@ public partial class Administration
         }
 
         /// <summary>
-        /// Lists all command permission overrides in the current guild.
+        ///     Lists all command permission overrides in the current guild.
         /// </summary>
         /// <remarks>
-        /// This command requires the caller to have GuildPermission.Administrator.
+        ///     This command requires the caller to have GuildPermission.Administrator.
         /// </remarks>
         /// <example>.discordpermoverridelist</example>
-        [Cmd, Aliases, RequireContext(ContextType.Guild), UserPerm(GuildPermission.Administrator)]
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.Administrator)]
         public async Task DiscordPermOverrideList()
         {
             var overrides = await Service.GetAllOverrides(Context.Guild.Id);

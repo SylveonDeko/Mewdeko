@@ -1,17 +1,17 @@
 ﻿namespace Mewdeko.Modules.Server_Management.Services;
 
 /// <summary>
-/// A service responsible for managing role assignment and removal jobs within a guild.
+///     A service responsible for managing role assignment and removal jobs within a guild.
 /// </summary>
 public class RoleCommandsService : INService
 {
     /// <summary>
-    /// A list maintaining active and historical role job records.
+    ///     A list maintaining active and historical role job records.
     /// </summary>
     public readonly List<RoleJobs> Jobslist = [];
 
     /// <summary>
-    /// Adds a role job to the list with the specified parameters.
+    ///     Adds a role job to the list with the specified parameters.
     /// </summary>
     /// <param name="guild">The guild where the job is initiated.</param>
     /// <param name="user">The user who initiated the job.</param>
@@ -41,7 +41,7 @@ public class RoleCommandsService : INService
     }
 
     /// <summary>
-    /// Updates the progress count of a specific job.
+    ///     Updates the progress count of a specific job.
     /// </summary>
     /// <param name="guild">The guild where the job is being executed.</param>
     /// <param name="jobId">The identifier of the job to update.</param>
@@ -68,16 +68,18 @@ public class RoleCommandsService : INService
     }
 
     /// <summary>
-    /// Checks the details of a specific job by its identifier.
+    ///     Checks the details of a specific job by its identifier.
     /// </summary>
     /// <param name="guild">The guild where the job is being executed.</param>
     /// <param name="job">The identifier of the job to check.</param>
-    /// <returns>An enumerable of <see cref="RoleJobs"/> that matches the specified job identifier.</returns>
-    public IEnumerable<RoleJobs> JobCheck(IGuild guild, int job) =>
-        Jobslist.Where(x => x.GuildId == guild.Id && x.JobId == job).ToArray();
+    /// <returns>An enumerable of <see cref="RoleJobs" /> that matches the specified job identifier.</returns>
+    public IEnumerable<RoleJobs> JobCheck(IGuild guild, int job)
+    {
+        return Jobslist.Where(x => x.GuildId == guild.Id && x.JobId == job).ToArray();
+    }
 
     /// <summary>
-    /// Stops a specified job and notifies the channel about the stoppage.
+    ///     Stops a specified job and notifies the channel about the stoppage.
     /// </summary>
     /// <param name="ch">The text channel to send the stop notification.</param>
     /// <param name="jobId">The identifier of the job to stop.</param>
@@ -110,7 +112,7 @@ public class RoleCommandsService : INService
     }
 
     /// <summary>
-    /// Removes a specified job from the jobs list.
+    ///     Removes a specified job from the jobs list.
     /// </summary>
     /// <param name="guild">The guild where the job is being executed.</param>
     /// <param name="job">The identifier of the job to remove.</param>
@@ -123,52 +125,52 @@ public class RoleCommandsService : INService
     }
 
     /// <summary>
-    /// Represents a job related to role assignments or removals in a Discord guild.
+    ///     Represents a job related to role assignments or removals in a Discord guild.
     /// </summary>
     public class RoleJobs
     {
         /// <summary>
-        /// The user who initiated the role job.
+        ///     The user who initiated the role job.
         /// </summary>
         public IGuildUser StartedBy { get; set; }
 
         /// <summary>
-        /// The unique identifier of the guild where the role job is being executed.
+        ///     The unique identifier of the guild where the role job is being executed.
         /// </summary>
         public ulong GuildId { get; set; }
 
         /// <summary>
-        /// A unique identifier for the role job, typically used for tracking and management purposes.
+        ///     A unique identifier for the role job, typically used for tracking and management purposes.
         /// </summary>
         public int JobId { get; set; }
 
         /// <summary>
-        /// The number of users that have already been processed by this role job.
+        ///     The number of users that have already been processed by this role job.
         /// </summary>
         public int AddedTo { get; set; }
 
         /// <summary>
-        /// The total number of users targeted by this role job.
+        ///     The total number of users targeted by this role job.
         /// </summary>
         public int TotalUsers { get; set; }
 
         /// <summary>
-        /// Describes the type of job being performed, such as "role addition" or "role removal."
+        ///     Describes the type of job being performed, such as "role addition" or "role removal."
         /// </summary>
         public string JobType { get; set; }
 
         /// <summary>
-        /// The primary role involved in the job, which may be assigned or removed from users.
+        ///     The primary role involved in the job, which may be assigned or removed from users.
         /// </summary>
         public IRole? Role1 { get; set; }
 
         /// <summary>
-        /// An optional secondary role that may also be involved in the job.
+        ///     An optional secondary role that may also be involved in the job.
         /// </summary>
         public IRole? Role2 { get; set; }
 
         /// <summary>
-        /// Indicates whether the job is currently running or has been stopped.
+        ///     Indicates whether the job is currently running or has been stopped.
         /// </summary>
         public string StoppedOrNot { get; set; }
     }

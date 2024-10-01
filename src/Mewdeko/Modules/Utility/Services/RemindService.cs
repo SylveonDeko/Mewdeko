@@ -7,19 +7,19 @@ using Serilog;
 namespace Mewdeko.Modules.Utility.Services;
 
 /// <summary>
-/// Manages and executes reminders for users at specified times.
+///     Manages and executes reminders for users at specified times.
 /// </summary>
 public partial class RemindService : INService
 {
     private readonly DiscordShardedClient client;
     private readonly IBotCredentials creds;
     private readonly DbContextProvider dbProvider;
-    private readonly ConcurrentDictionary<int, Timer> reminderTimers;
 
     private readonly Regex regex = MyRegex();
+    private readonly ConcurrentDictionary<int, Timer> reminderTimers;
 
     /// <summary>
-    /// Initializes the reminder service, starting the background task to check for and execute reminders.
+    ///     Initializes the reminder service, starting the background task to check for and execute reminders.
     /// </summary>
     /// <param name="client">The Discord client used for sending reminder notifications.</param>
     /// <param name="db">The database service for managing reminders.</param>
@@ -29,12 +29,12 @@ public partial class RemindService : INService
         this.client = client;
         this.dbProvider = dbProvider;
         this.creds = creds;
-        this.reminderTimers = new ConcurrentDictionary<int, Timer>();
+        reminderTimers = new ConcurrentDictionary<int, Timer>();
         _ = InitializeRemindersAsync();
     }
 
     /// <summary>
-    /// Initializes the reminders by loading them from the database and setting timers.
+    ///     Initializes the reminders by loading them from the database and setting timers.
     /// </summary>
     private async Task InitializeRemindersAsync()
     {
@@ -48,7 +48,7 @@ public partial class RemindService : INService
     }
 
     /// <summary>
-    /// Schedules a reminder by setting a timer.
+    ///     Schedules a reminder by setting a timer.
     /// </summary>
     /// <param name="reminder">The reminder to be scheduled.</param>
     private void ScheduleReminder(Reminder reminder)
@@ -59,12 +59,13 @@ public partial class RemindService : INService
             timeToGo = TimeSpan.Zero;
         }
 
-        var timer = new Timer(async _ => await ExecuteReminderAsync(reminder), null, timeToGo, Timeout.InfiniteTimeSpan);
+        var timer = new Timer(async _ => await ExecuteReminderAsync(reminder), null, timeToGo,
+            Timeout.InfiniteTimeSpan);
         reminderTimers[reminder.Id] = timer;
     }
 
     /// <summary>
-    /// Executes the reminder action.
+    ///     Executes the reminder action.
     /// </summary>
     /// <param name="reminder">The reminder to be executed.</param>
     private async Task ExecuteReminderAsync(Reminder reminder)
@@ -88,9 +89,11 @@ public partial class RemindService : INService
             await ch.EmbedAsync(new EmbedBuilder()
                     .WithOkColor()
                     .WithTitle("Reminder")
-                    .AddField("Created At", reminder.DateAdded.HasValue ? reminder.DateAdded.Value.ToLongDateString() : "?")
+                    .AddField("Created At",
+                        reminder.DateAdded.HasValue ? reminder.DateAdded.Value.ToLongDateString() : "?")
                     .AddField("By",
-                        (await ch.GetUserAsync(reminder.UserId).ConfigureAwait(false))?.ToString() ?? reminder.UserId.ToString()),
+                        (await ch.GetUserAsync(reminder.UserId).ConfigureAwait(false))?.ToString() ??
+                        reminder.UserId.ToString()),
                 reminder.Message).ConfigureAwait(false);
 
             // Remove the executed reminder from the database and timer
@@ -103,7 +106,7 @@ public partial class RemindService : INService
     }
 
     /// <summary>
-    /// Removes the reminder from the database and disposes of its timer.
+    ///     Removes the reminder from the database and disposes of its timer.
     /// </summary>
     /// <param name="reminder">The reminder to be removed.</param>
     private async Task RemoveReminder(Reminder reminder)
@@ -120,7 +123,7 @@ public partial class RemindService : INService
     }
 
     /// <summary>
-    /// Retrieves reminders that are scheduled to be executed before the specified time.
+    ///     Retrieves reminders that are scheduled to be executed before the specified time.
     /// </summary>
     /// <param name="now">The current time.</param>
     /// <returns>A list of reminders scheduled before the specified time.</returns>
@@ -135,13 +138,13 @@ public partial class RemindService : INService
     }
 
     /// <summary>
-    /// Parses a remind command input and extracts the reminder details.
+    ///     Parses a remind command input and extracts the reminder details.
     /// </summary>
     /// <param name="input">The input string containing the remind command and its parameters.</param>
     /// <param name="obj">When this method returns, contains the reminder object created from the input.</param>
     /// <returns>true if the input could be parsed; otherwise, false.</returns>
     /// <remarks>
-    /// The method uses a regular expression to parse the input and extract reminder details like time and message.
+    ///     The method uses a regular expression to parse the input and extract reminder details like time and message.
     /// </remarks>
     public bool TryParseRemindMessage(string input, out RemindObject obj)
     {
@@ -206,26 +209,28 @@ public partial class RemindService : INService
     private static partial Regex MyRegex();
 
     /// <summary>
-    /// Represents the details of a reminder, including what the reminder is for and the time until the reminder should occur.
+    ///     Represents the details of a reminder, including what the reminder is for and the time until the reminder should
+    ///     occur.
     /// </summary>
     public struct RemindObject
     {
         /// <summary>
-        /// Gets or sets the message or content of the reminder.
+        ///     Gets or sets the message or content of the reminder.
         /// </summary>
         /// <value>
-        /// The content of the reminder, describing what the reminder is for.
+        ///     The content of the reminder, describing what the reminder is for.
         /// </value>
         public string? What { get; set; }
 
         /// <summary>
-        /// Gets or sets the duration of time until the reminder should be triggered.
+        ///     Gets or sets the duration of time until the reminder should be triggered.
         /// </summary>
         /// <value>
-        /// A <see cref="TimeSpan"/> representing the amount of time until the reminder occurs.
+        ///     A <see cref="TimeSpan" /> representing the amount of time until the reminder occurs.
         /// </value>
         /// <remarks>
-        /// This value is used to calculate the specific datetime when the reminder will be triggered, based on the current time plus the TimeSpan.
+        ///     This value is used to calculate the specific datetime when the reminder will be triggered, based on the current
+        ///     time plus the TimeSpan.
         /// </remarks>
         public TimeSpan Time { get; set; }
     }

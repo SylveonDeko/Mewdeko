@@ -3,22 +3,22 @@
 namespace Mewdeko.Common.Replacements;
 
 /// <summary>
-/// Class that replaces placeholders in text with their corresponding values.
+///     Class that replaces placeholders in text with their corresponding values.
 /// </summary>
 public class Replacer
 {
     /// <summary>
-    /// Collection of regular expressions and their corresponding replacement functions.
+    ///     Collection of regular expressions and their corresponding replacement functions.
     /// </summary>
     private readonly IEnumerable<(Regex Regex, Func<Match, string> Replacement)> regex;
 
     /// <summary>
-    /// Collection of placeholder keys and their corresponding replacement functions.
+    ///     Collection of placeholder keys and their corresponding replacement functions.
     /// </summary>
     private readonly IEnumerable<(string Key, Func<string> Text)> replacements;
 
     /// <summary>
-    /// Initializes a new instance of the Replacer class.
+    ///     Initializes a new instance of the Replacer class.
     /// </summary>
     /// <param name="replacements">Collection of placeholder keys and their corresponding replacement functions.</param>
     /// <param name="regex">Collection of regular expressions and their corresponding replacement functions.</param>
@@ -30,7 +30,7 @@ public class Replacer
     }
 
     /// <summary>
-    /// Replaces placeholders in the input string with their corresponding values.
+    ///     Replaces placeholders in the input string with their corresponding values.
     /// </summary>
     /// <param name="input">The input string.</param>
     /// <returns>The input string with placeholders replaced with their corresponding values.</returns>

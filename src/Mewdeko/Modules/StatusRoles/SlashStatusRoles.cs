@@ -9,17 +9,18 @@ using Mewdeko.Services.Settings;
 namespace Mewdeko.Modules.StatusRoles;
 
 /// <summary>
-/// Slash Module for managing roles that are assigned when a user has a specific status.
+///     Slash Module for managing roles that are assigned when a user has a specific status.
 /// </summary>
 [Group("statusroles", "Manage roles that are assigned when a user has a specific status.")]
 public class SlashStatusRoles(BotConfigService bss, InteractiveService interactivity)
     : MewdekoSlashModuleBase<StatusRolesService>
 {
     /// <summary>
-    /// Adds a status to watch for.
+    ///     Adds a status to watch for.
     /// </summary>
     /// <param name="status">The status to add.</param>
-    [SlashCommand("add-status-role", "Adds a status to watch for"), SlashUserPerm(GuildPermission.ManageGuild)]
+    [SlashCommand("add-status-role", "Adds a status to watch for")]
+    [SlashUserPerm(GuildPermission.ManageGuild)]
     public async Task AddStatusRole(string status)
     {
         if (status.Length > 128)
@@ -38,10 +39,11 @@ public class SlashStatusRoles(BotConfigService bss, InteractiveService interacti
     }
 
     /// <summary>
-    /// Removes an existing statusrole.
+    ///     Removes an existing statusrole.
     /// </summary>
     /// <param name="potentialStatusRole">The status role to remove.</param>
-    [SlashCommand("remove-status-role", "Removes an existing statusrole"), SlashUserPerm(GuildPermission.ManageGuild)]
+    [SlashCommand("remove-status-role", "Removes an existing statusrole")]
+    [SlashUserPerm(GuildPermission.ManageGuild)]
     public async Task RemoveStatusRole(
         [Autocomplete(typeof(StatusRoleAutocompleter))]
         StatusRolesTable potentialStatusRole)
@@ -51,12 +53,12 @@ public class SlashStatusRoles(BotConfigService bss, InteractiveService interacti
     }
 
     /// <summary>
-    /// Sets or previews an embed for a specific status role.
+    ///     Sets or previews an embed for a specific status role.
     /// </summary>
     /// <param name="potentialStatusRole">The potential status role to set or preview the embed for.</param>
     /// <param name="embedText">The embed text to set.</param>
-    [SlashCommand("set-embed", "Sets or previews an embed for a specific status role"),
-     SlashUserPerm(GuildPermission.ManageGuild)]
+    [SlashCommand("set-embed", "Sets or previews an embed for a specific status role")]
+    [SlashUserPerm(GuildPermission.ManageGuild)]
     public async Task SetStatusRoleEmbed(
         [Autocomplete(typeof(StatusRoleAutocompleter))]
         StatusRolesTable potentialStatusRole, string embedText = null)
@@ -91,7 +93,7 @@ public class SlashStatusRoles(BotConfigService bss, InteractiveService interacti
                         .WithDefault(ctx).Build();
                     if (SmartEmbed.TryParse(rep.Replace(potentialStatusRole.StatusEmbed), ctx.Guild.Id, out var embeds,
                             out var plainText, out var components))
-                        await ctx.Interaction.FollowupAsync(plainText, embeds: embeds, components: components.Build());
+                        await ctx.Interaction.FollowupAsync(plainText, embeds, components: components.Build());
                     else
                         await ctx.Interaction.FollowupAsync(rep.Replace(potentialStatusRole.StatusEmbed));
                     break;
@@ -111,12 +113,12 @@ public class SlashStatusRoles(BotConfigService bss, InteractiveService interacti
     }
 
     /// <summary>
-    /// Sets the channel the embed will use for this StatusRole.
+    ///     Sets the channel the embed will use for this StatusRole.
     /// </summary>
     /// <param name="potentialStatusRole">The potential status role to set the channel for.</param>
     /// <param name="channel">The channel to set.</param>
-    [SlashCommand("set-channel", "Sets the channel the embed will use for this StatusRole"),
-     SlashUserPerm(GuildPermission.ManageGuild)]
+    [SlashCommand("set-channel", "Sets the channel the embed will use for this StatusRole")]
+    [SlashUserPerm(GuildPermission.ManageGuild)]
     public async Task SetStatusRoleChannel(
         [Autocomplete(typeof(StatusRoleAutocompleter))]
         StatusRolesTable potentialStatusRole, ITextChannel channel)
@@ -134,12 +136,12 @@ public class SlashStatusRoles(BotConfigService bss, InteractiveService interacti
     }
 
     /// <summary>
-    /// Sets the roles to add when a user has the selected status.
+    ///     Sets the roles to add when a user has the selected status.
     /// </summary>
     /// <param name="potentialStatusRole">The potential status role to set the add roles for.</param>
     /// <param name="roles">The roles to add.</param>
-    [SlashCommand("set-add-roles", "Sets the roles to add when a user has the selected status"),
-     SlashUserPerm(GuildPermission.ManageGuild)]
+    [SlashCommand("set-add-roles", "Sets the roles to add when a user has the selected status")]
+    [SlashUserPerm(GuildPermission.ManageGuild)]
     public async Task SetAddRoles([Autocomplete(typeof(StatusRoleAutocompleter))] StatusRolesTable potentialStatusRole,
         IRole[] roles)
     {
@@ -161,12 +163,12 @@ public class SlashStatusRoles(BotConfigService bss, InteractiveService interacti
     }
 
     /// <summary>
-    /// Sets roles to be removed when a user has a certain status.
+    ///     Sets roles to be removed when a user has a certain status.
     /// </summary>
     /// <param name="potentialStatusRole">The potential status role to set the remove roles for.</param>
     /// <param name="roles">The roles to remove.</param>
-    [SlashCommand("set-remove-roles", "Set roles to be removed when a user has a certain status"),
-     SlashUserPerm(GuildPermission.ManageGuild)]
+    [SlashCommand("set-remove-roles", "Set roles to be removed when a user has a certain status")]
+    [SlashUserPerm(GuildPermission.ManageGuild)]
     public async Task SetRemoveRoles(
         [Autocomplete(typeof(StatusRoleAutocompleter))]
         StatusRolesTable potentialStatusRole, IRole[] roles)
@@ -189,12 +191,12 @@ public class SlashStatusRoles(BotConfigService bss, InteractiveService interacti
     }
 
     /// <summary>
-    /// Removes one or more roles from the roles added when a user has a certain status.
+    ///     Removes one or more roles from the roles added when a user has a certain status.
     /// </summary>
     /// <param name="potentialStatusRole">The potential status role to remove the add roles from.</param>
     /// <param name="roles">The roles to remove.</param>
-    [SlashCommand("remove-add-roles", "Remove one or more roles from the roles added when a user has a certain status"),
-     SlashUserPerm(GuildPermission.ManageGuild)]
+    [SlashCommand("remove-add-roles", "Remove one or more roles from the roles added when a user has a certain status")]
+    [SlashUserPerm(GuildPermission.ManageGuild)]
     public async Task RemoveAddRoles(
         [Autocomplete(typeof(StatusRoleAutocompleter))]
         StatusRolesTable potentialStatusRole, IRole[] roles)
@@ -214,13 +216,13 @@ public class SlashStatusRoles(BotConfigService bss, InteractiveService interacti
     }
 
     /// <summary>
-    /// Removes one or more roles from the roles removed when a user has a certain status.
+    ///     Removes one or more roles from the roles removed when a user has a certain status.
     /// </summary>
     /// <param name="potentialStatusRole">The potential status role to remove the remove roles from.</param>
     /// <param name="roles">The roles to remove.</param>
     [SlashCommand("remove-remove-roles",
-         "Remove one or more roles from the roles removed when a user has a certain status"),
-     SlashUserPerm(GuildPermission.ManageGuild)]
+        "Remove one or more roles from the roles removed when a user has a certain status")]
+    [SlashUserPerm(GuildPermission.ManageGuild)]
     public async Task RemoveRemoveRoles(
         [Autocomplete(typeof(StatusRoleAutocompleter))]
         StatusRolesTable potentialStatusRole, params IRole[] roles)
@@ -240,11 +242,11 @@ public class SlashStatusRoles(BotConfigService bss, InteractiveService interacti
     }
 
     /// <summary>
-    /// Toggles whether added roles are removed when a status is removed.
+    ///     Toggles whether added roles are removed when a status is removed.
     /// </summary>
     /// <param name="potentialStatusRole">The potential status role to toggle.</param>
-    [SlashCommand("toggle-remove-added", "Toggles whether added roles are removed when a status is removed"),
-     SlashUserPerm(GuildPermission.ManageGuild)]
+    [SlashCommand("toggle-remove-added", "Toggles whether added roles are removed when a status is removed")]
+    [SlashUserPerm(GuildPermission.ManageGuild)]
     public async Task ToggleRemoveAdded(
         [Autocomplete(typeof(StatusRoleAutocompleter))]
         StatusRolesTable potentialStatusRole)
@@ -254,11 +256,11 @@ public class SlashStatusRoles(BotConfigService bss, InteractiveService interacti
     }
 
     /// <summary>
-    /// Toggles whether removed roles are readded when a status is removed.
+    ///     Toggles whether removed roles are readded when a status is removed.
     /// </summary>
     /// <param name="potentialStatusRole">The potential status role to toggle.</param>
-    [SlashCommand("toggle-readd-removed", "Toggles whether removed roles are readded when a status is removed"),
-     SlashUserPerm(GuildPermission.ManageGuild)]
+    [SlashCommand("toggle-readd-removed", "Toggles whether removed roles are readded when a status is removed")]
+    [SlashUserPerm(GuildPermission.ManageGuild)]
     public async Task ToggleReaddRemoved(
         [Autocomplete(typeof(StatusRoleAutocompleter))]
         StatusRolesTable potentialStatusRole)
@@ -268,10 +270,10 @@ public class SlashStatusRoles(BotConfigService bss, InteractiveService interacti
     }
 
     /// <summary>
-    /// Lists all current status roles with their index.
+    ///     Lists all current status roles with their index.
     /// </summary>
-    [SlashCommand("list", "Lists all current status roles with their index"),
-     SlashUserPerm(GuildPermission.ManageGuild)]
+    [SlashCommand("list", "Lists all current status roles with their index")]
+    [SlashUserPerm(GuildPermission.ManageGuild)]
     public async Task ListStatusRoles()
     {
         var statusRoles = await Service.GetStatusRoleConfig(ctx.Guild.Id);

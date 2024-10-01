@@ -4,13 +4,13 @@ using Microsoft.Extensions.DependencyInjection;
 namespace Mewdeko.Common.Attributes.InteractionCommands;
 
 /// <summary>
-/// Attribute to restrict the execution of a command or method to the bot owner only.
+///     Attribute to restrict the execution of a command or method to the bot owner only.
 /// </summary>
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class)]
 public sealed class SlashOwnerOnlyAttribute : PreconditionAttribute
 {
     /// <summary>
-    /// Checks the requirements before executing a command or method.
+    ///     Checks the requirements before executing a command or method.
     /// </summary>
     /// <param name="context">The interaction context.</param>
     /// <param name="executingCommand">The command being executed.</param>

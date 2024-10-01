@@ -10,8 +10,8 @@ public partial class AddAutoBanRole : Migration
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.CreateTable(
-            name: "AutoBanRoles",
-            columns: table => new
+            "AutoBanRoles",
+            table => new
             {
                 Id = table.Column<int>(nullable: false)
                     .Annotation("Sqlite:Autoincrement", true),

@@ -41,8 +41,47 @@ antimassmention:
     - "max-mentions-in-one-message, time-window-in-seconds, max-mentions-in-time-window, punishment, [punishment-duration]"
   desc: "Configures Anti-Mass-Mention protection for the guild with the specified settings."
 antimassmentionignorebots:
-  args: []
+  args: [ ]
   desc: "Toggles whether bots are ignored in Anti-Mass-Mention protection."
+setdefaultpunishment:
+  args:
+    - "punishmentaction"
+  desc: "Sets the default punishment action for the guild."
+addblacklistedrole:
+  args:
+    - "role, [punishmentaction]"
+  desc: "Adds a role to the blacklist with an optional punishment action."
+removeblacklistedrole:
+  args:
+    - "role"
+  desc: "Removes a role from the blacklist."
+addblacklistedpermission:
+  args:
+    - "permission, [punishmentaction]"
+  desc: "Adds a permission to the blacklist with an optional punishment action."
+removeblacklistedpermission:
+  args:
+    - "permission"
+  desc: "Removes a permission from the blacklist."
+addwhitelisteduser:
+  args:
+    - "user"
+  desc: "Adds a user to the whitelist."
+removewhitelisteduser:
+  args:
+    - "user"
+  desc: "Removes a user from the whitelist."
+addwhitelistedrole:
+  args:
+    - "role"
+  desc: "Adds a role to the whitelist."
+removewhitelistedrole:
+  args:
+    - "role"
+  desc: "Removes a role from the whitelist."
+listblacklists:
+  args: [ ]
+  desc: "Lists all blacklisted and whitelisted roles and permissions."
 autobanroleadd:
   args:
     - "roleid"

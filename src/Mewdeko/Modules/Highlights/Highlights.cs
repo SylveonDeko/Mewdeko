@@ -8,7 +8,7 @@ using Mewdeko.Modules.Highlights.Services;
 namespace Mewdeko.Modules.Highlights;
 
 /// <summary>
-/// Module for managing highlights.
+///     Module for managing highlights.
 /// </summary>
 /// <param name="interactivity">The embed pagination service</param>
 /// <param name="svcs"></param>
@@ -17,52 +17,56 @@ public class Highlights(InteractiveService interactivity, IServiceProvider svcs,
     : MewdekoModuleBase<HighlightsService>
 {
     /// <summary>
-    /// The actions available for the highlight command.
+    ///     The actions available for the highlight command.
     /// </summary>
     public enum HighlightActions
     {
         /// <summary>
-        /// Adds a highlight.
+        ///     Adds a highlight.
         /// </summary>
         Add,
 
         /// <summary>
-        /// Lists current highlights
+        ///     Lists current highlights
         /// </summary>
         List,
 
         /// <summary>
-        /// Deletes a highlight.
+        ///     Deletes a highlight.
         /// </summary>
         Delete,
 
         /// <summary>
-        /// Removes a highlight.
+        ///     Removes a highlight.
         /// </summary>
         Remove,
 
         /// <summary>
-        /// Attempts to match a highlight to a phrase
+        ///     Attempts to match a highlight to a phrase
         /// </summary>
         Match,
 
         /// <summary>
-        /// Toggles whether highlights ignore a user or channel
+        ///     Toggles whether highlights ignore a user or channel
         /// </summary>
         ToggleIgnore,
 
         /// <summary>
-        /// Toggles whether highlights are enabled
+        ///     Toggles whether highlights are enabled
         /// </summary>
         Toggle
     }
 
     /// <summary>
-    /// Adds, lists, removes, or matches highlights.
+    ///     Adds, lists, removes, or matches highlights.
     /// </summary>
-    /// <param name="action"><see cref="HighlightActions"/></param>
+    /// <param name="action">
+    ///     <see cref="HighlightActions" />
+    /// </param>
     /// <param name="words">Parameters for the selected action</param>
-    [Cmd, Aliases, RequireContext(ContextType.Guild)]
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
     public async Task Highlight(HighlightActions action, [Remainder] string words = null)
     {
         await using var dbContext = await dbProvider.GetContextAsync();

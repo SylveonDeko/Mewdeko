@@ -1,182 +1,184 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-    <PropertyGroup>
-      <TargetFramework>net8.0</TargetFramework>
-      <LangVersion>12</LangVersion>
-        <RunWorkingDirectory>$(MSBuildProjectDirectory)</RunWorkingDirectory>
-        <OutputType>exe</OutputType>
-      <RuntimeIdentifiers>win-x86;win-x64;linux-x64;linux-arm</RuntimeIdentifiers>
-        <Nullable>annotations</Nullable>
-        <EnablePreviewFeatures>True</EnablePreviewFeatures>
-        <ApplicationIcon>Mewdeko.ico</ApplicationIcon>
-      <GenerateDocumentationFile>True</GenerateDocumentationFile>
-      <WarningsAsErrors>CS1591</WarningsAsErrors>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>12</LangVersion>
+    <RunWorkingDirectory>$(MSBuildProjectDirectory)</RunWorkingDirectory>
+    <OutputType>exe</OutputType>
+    <RuntimeIdentifiers>win-x86;win-x64;linux-x64;linux-arm</RuntimeIdentifiers>
+    <Nullable>annotations</Nullable>
+    <EnablePreviewFeatures>True</EnablePreviewFeatures>
+    <ApplicationIcon>Mewdeko.ico</ApplicationIcon>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <WarningsAsErrors>CS1591</WarningsAsErrors>
+  </PropertyGroup>
 
 
-    <!--    DO NOT DELETE   -->
-    <!--    happy pride 🏳️‍⚧️ 🏳️‍🌈-->
+  <!--    DO NOT DELETE   -->
+  <!--    happy pride 🏳️‍⚧️ 🏳️‍🌈-->
 
   <ItemGroup>
-    <PackageReference Include="Discord.Net.WebSocket" Version="3.15.2" />
-    <PackageReference Include="Discord.Net.Rest" Version="3.15.2" />
-    <PackageReference Include="Discord.Net.Webhook" Version="3.15.2" />
-    <PackageReference Include="Discord.Net.Interactions" Version="3.15.2" />
-    <PackageReference Include="Discord.Net.Commands" Version="3.15.2" />
-    <PackageReference Include="Discord.Addons.Hosting" Version="6.1.0" />
-    <PackageReference Include="EFCore.BulkExtensions" Version="8.1.1" />
-    <PackageReference Include="Google.Cloud.Vision.V1" Version="3.7.0" />
-    <PackageReference Include="HarfBuzzSharp" Version="8.3.0-preview.4.1" />
-    <PackageReference Include="HarfBuzzSharp.NativeAssets.Linux" Version="8.3.0-preview.4.1" />
-    <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
-    <PackageReference Include="MathNet.Symbolics" Version="0.25.0" />
-    <PackageReference Include="OxyPlot.Core" Version="2.2.0" />
-    <PackageReference Include="OxyPlot.SkiaSharp" Version="2.2.0" />
-    <PackageReference Include="Serilog.AspNetCore" Version="8.0.2-dev-00341" />
-    <PackageReference Include="ZiggyCreatures.FusionCache" Version="1.2.0" />
+    <PackageReference Include="Discord.Net.WebSocket" Version="3.16.0"/>
+    <PackageReference Include="Discord.Net.Rest" Version="3.16.0"/>
+    <PackageReference Include="Discord.Net.Webhook" Version="3.16.0"/>
+    <PackageReference Include="Discord.Net.Interactions" Version="3.16.0"/>
+    <PackageReference Include="Discord.Net.Commands" Version="3.16.0"/>
+    <PackageReference Include="Discord.Addons.Hosting" Version="6.1.0"/>
+    <PackageReference Include="EFCore.BulkExtensions" Version="8.1.1"/>
+    <PackageReference Include="Google.Cloud.Vision.V1" Version="3.7.0"/>
+    <PackageReference Include="HarfBuzzSharp" Version="8.3.0-preview.4.1"/>
+    <PackageReference Include="HarfBuzzSharp.NativeAssets.Linux" Version="8.3.0-preview.4.1"/>
+    <PackageReference Include="LibGit2Sharp" Version="0.30.0"/>
+    <PackageReference Include="MathNet.Symbolics" Version="0.25.0"/>
+    <PackageReference Include="OxyPlot.Core" Version="2.2.0"/>
+    <PackageReference Include="OxyPlot.SkiaSharp" Version="2.2.0"/>
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.2-dev-00341"/>
+    <PackageReference Include="ZiggyCreatures.FusionCache" Version="1.2.0"/>
   </ItemGroup>
 
 
-    <ItemGroup>
-      <PackageReference Include="AngleSharp" Version="1.2.0-beta.423" />
-      <PackageReference Include="Anilist4Net" Version="1.5.0"/>
-      <PackageReference Include="AWSSDK.S3" Version="3.7.309.4" />
-      <PackageReference Include="CodeHollow.FeedReader" Version="1.2.6" />
-      <PackageReference Include="CommandLineParser" Version="2.9.1"/>
-      <PackageReference Include="CoreCLR-NCalc" Version="3.1.251" />
-      <PackageReference Include="DiscordBotsList.Api.Adapter.Discord.Net" Version="1.4.5"/>
-      <PackageReference Include="Fergun.Interactive" Version="1.7.7" />
-      <PackageReference Include="Figgle" Version="0.5.1"/>
-      <PackageReference Include="Genius.NET" Version="4.0.1"/>
-      <PackageReference Include="GScraper" Version="1.1.3"/>
-      <PackageReference Include="GTranslate" Version="2.2.0" />
-      <PackageReference Include="Html2Markdown" Version="6.2.1.4" />
-      <PackageReference Include="Humanizer" Version="3.0.0-beta.54" />
-      <PackageReference Include="JikanDotNet" Version="2.7.0"/>
-      <PackageReference Include="Google.Apis.Urlshortener.v1" Version="1.41.1.138"/>
-      <PackageReference Include="Google.Apis.YouTube.v3" Version="1.68.0.3421" />
-      <PackageReference Include="Google.Apis.Customsearch.v1" Version="1.49.0.2084"/>
-      <PackageReference Include="Google.Protobuf" Version="3.27.1" />
-      <PackageReference Include="Grpc.Net.ClientFactory" Version="2.63.0" />
-      <PackageReference Include="Grpc.Tools" Version="2.64.0">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Include="Lavalink4NET.Discord.NET" Version="4.0.19-beta.6"/>
-      <PackageReference Include="Lavalink4NET.Integrations.Lavasearch" Version="4.0.19-beta.6"/>
-      <PackageReference Include="Lavalink4NET.Integrations.Lavasrc" Version="4.0.19-beta.6"/>
-      <PackageReference Include="LazyCache" Version="2.4.0" />
-      <PackageReference Include="linq2db.EntityFrameworkCore" Version="8.1.0"/>
-      <PackageReference Include="MartineApiNet" Version="1.0.14"/>
-      <PackageReference Include="MathNet.Numerics" Version="6.0.0-beta1"/>
-      <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0-2.final" />
-      <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.11.0-2.final" />
-      <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.11.0-2.final"/>
-      <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.11.0-2.final          "/>
-      <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.11.0-2.final" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.4" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0-preview.5.24306.7" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="9.0.0-preview.5.24306.7" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0-preview.5.24306.7" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0-preview.5.24306.7" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0-preview.5.24306.7" />
-      <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.0-preview.5.24306.7" />
-      <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.0-preview.5.24306.7" />
-      <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0-preview.5.24306.7" />
-      <PackageReference Include="morelinq" Version="4.1.0" />
-      <PackageReference Include="NekosBestApiNet" Version="1.0.6"/>
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
-      <PackageReference Include="NHentaiAPI" Version="1.7.0"/>
-      <PackageReference Include="NonBlocking" Version="2.1.2"/>
-      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
-      <PackageReference Include="Octokit" Version="12.0.0" />
-      <PackageReference Include="Otp.NET" Version="1.4.0" />
-      <PackageReference Include="PokeApiNet" Version="4.0.0"/>
-      <PackageReference Include="QRCoder" Version="1.5.1" />
-      <PackageReference Include="Scrutor" Version="4.2.2"/>
-      <PackageReference Include="Serilog" Version="4.0.0" />
-      <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
-      <PackageReference Include="Serilog.Sinks.Seq" Version="8.0.0" />
-      <PackageReference Include="ServiceCollectionExtensions" Version="1.0.2"/>
-      <PackageReference Include="SkiaSharp" Version="3.0.0-preview.3.1" />
-      <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.0.0-preview.3.1" />
-      <PackageReference Include="SpotifyAPI.Web" Version="7.1.1"/>
-      <PackageReference Include="SpotifyAPI.Web.Auth" Version="7.1.1"/>
-      <PackageReference Include="StackExchange.Redis" Version="2.7.33"/>
-      <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
-      <PackageReference Include="System.Drawing.Common" Version="9.0.0-preview.5.24306.5" />
-      <PackageReference Include="System.IO.FileSystem.Watcher" Version="4.3.0"/>
-      <PackageReference Include="System.Threading.Channels" Version="9.0.0-preview.5.24306.7" />
-      <PackageReference Include="System.ValueTuple" Version="4.5.0"/>
-      <PackageReference Include="TwitchLib.Api" Version="3.10.0-preview-e47ba7f"/>
-      <PackageReference Include="VirusTotalNet" Version="2.2.0"/>
-      <PackageReference Include="YamlDotNet" Version="15.1.6" />
-    </ItemGroup>
-    <ItemGroup>
-        <Compile Remove="credentials.json" />
-        <None Include="..\..\.editorconfig" Link=".editorconfig" />
-        <None Update="data\**\*">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="_strings\**">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="data\tags.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-        <None Update="external\**\*">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="credentials.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Remove="DiscordChatExporter\Superpower.dll" />
-        <None Remove="DiscordChatExporter\Spectre.Console.dll" />
-        <None Remove="DiscordChatExporter\Polly.dll" />
-        <None Remove="DiscordChatExporter\MiniRazor.Runtime.dll" />
-        <None Remove="DiscordChatExporter\JsonExtensions.dll" />
-        <None Remove="DiscordChatExporter\Gress.dll" />
-        <None Remove="DiscordChatExporter\DiscordChatExporter.Core.dll" />
-        <None Remove="DiscordChatExporter\DiscordChatExporter.Cli.runtimeconfig.json" />
-        <None Remove="DiscordChatExporter\DiscordChatExporter.Cli.exe" />
-        <None Remove="DiscordChatExporter\DiscordChatExporter.Cli.dll" />
-        <None Remove="DiscordChatExporter\DiscordChatExporter.Cli.deps.json" />
-        <None Remove="DiscordChatExporter\CliFx.dll" />
-      <None Remove="data\http.txt"/>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AngleSharp" Version="1.2.0-beta.423"/>
+    <PackageReference Include="Anilist4Net" Version="1.5.0"/>
+    <PackageReference Include="AWSSDK.S3" Version="3.7.309.4"/>
+    <PackageReference Include="CodeHollow.FeedReader" Version="1.2.6"/>
+    <PackageReference Include="CommandLineParser" Version="2.9.1"/>
+    <PackageReference Include="CoreCLR-NCalc" Version="3.1.251"/>
+    <PackageReference Include="DiscordBotsList.Api.Adapter.Discord.Net" Version="1.4.5"/>
+    <PackageReference Include="Fergun.Interactive" Version="1.7.7"/>
+    <PackageReference Include="Figgle" Version="0.5.1"/>
+    <PackageReference Include="Genius.NET" Version="4.0.1"/>
+    <PackageReference Include="GScraper" Version="1.1.3"/>
+    <PackageReference Include="GTranslate" Version="2.2.0"/>
+    <PackageReference Include="Html2Markdown" Version="6.2.1.4"/>
+    <PackageReference Include="Humanizer" Version="3.0.0-beta.54"/>
+    <PackageReference Include="JikanDotNet" Version="2.7.0"/>
+    <PackageReference Include="Google.Apis.Urlshortener.v1" Version="1.41.1.138"/>
+    <PackageReference Include="Google.Apis.YouTube.v3" Version="1.68.0.3421"/>
+    <PackageReference Include="Google.Apis.Customsearch.v1" Version="1.49.0.2084"/>
+    <PackageReference Include="Google.Protobuf" Version="3.27.1"/>
+    <PackageReference Include="Grpc.Net.ClientFactory" Version="2.63.0"/>
+    <PackageReference Include="Grpc.Tools" Version="2.64.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Lavalink4NET.Discord.NET" Version="4.0.19-beta.6"/>
+    <PackageReference Include="Lavalink4NET.Integrations.Lavasearch" Version="4.0.19-beta.6"/>
+    <PackageReference Include="Lavalink4NET.Integrations.Lavasrc" Version="4.0.19-beta.6"/>
+    <PackageReference Include="LazyCache" Version="2.4.0"/>
+    <PackageReference Include="linq2db.EntityFrameworkCore" Version="8.1.0"/>
+    <PackageReference Include="MartineApiNet" Version="1.0.14"/>
+    <PackageReference Include="MathNet.Numerics" Version="6.0.0-beta1"/>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0-2.final"/>
+    <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.11.0-2.final"/>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.11.0-2.final"/>
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.11.0-2.final          "/>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.11.0-2.final"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.4"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0-preview.5.24306.7"/>
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="9.0.0-preview.5.24306.7"/>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0-preview.5.24306.7"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0-preview.5.24306.7"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0-preview.5.24306.7"/>
+    <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.0-preview.5.24306.7"/>
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.0-preview.5.24306.7"/>
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0-preview.5.24306.7"/>
+    <PackageReference Include="morelinq" Version="4.1.0"/>
+    <PackageReference Include="NekosBestApiNet" Version="1.0.6"/>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+    <PackageReference Include="NHentaiAPI" Version="1.7.0"/>
+    <PackageReference Include="NonBlocking" Version="2.1.2"/>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.8"/>
+    <PackageReference Include="Octokit" Version="12.0.0"/>
+    <PackageReference Include="Otp.NET" Version="1.4.0"/>
+    <PackageReference Include="PokeApiNet" Version="4.0.0"/>
+    <PackageReference Include="QRCoder" Version="1.5.1"/>
+    <PackageReference Include="Scrutor" Version="4.2.2"/>
+    <PackageReference Include="Serilog" Version="4.0.0"/>
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0"/>
+    <PackageReference Include="Serilog.Sinks.Seq" Version="8.0.0"/>
+    <PackageReference Include="ServiceCollectionExtensions" Version="1.0.2"/>
+    <PackageReference Include="SkiaSharp" Version="3.0.0-preview.3.1"/>
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.0.0-preview.3.1"/>
+    <PackageReference Include="SpotifyAPI.Web" Version="7.1.1"/>
+    <PackageReference Include="SpotifyAPI.Web.Auth" Version="7.1.1"/>
+    <PackageReference Include="StackExchange.Redis" Version="2.7.33"/>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
+    <PackageReference Include="System.Drawing.Common" Version="9.0.0-preview.5.24306.5"/>
+    <PackageReference Include="System.IO.FileSystem.Watcher" Version="4.3.0"/>
+    <PackageReference Include="System.Threading.Channels" Version="9.0.0-preview.5.24306.7"/>
+    <PackageReference Include="System.ValueTuple" Version="4.5.0"/>
+    <PackageReference Include="TwitchLib.Api" Version="3.10.0-preview-e47ba7f"/>
+    <PackageReference Include="VirusTotalNet" Version="2.2.0"/>
+    <PackageReference Include="YamlDotNet" Version="15.1.6"/>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="credentials.json"/>
+    <None Include="..\..\.editorconfig" Link=".editorconfig"/>
+    <None Update="data\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="_strings\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="data\tags.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="external\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="credentials.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Remove="DiscordChatExporter\Superpower.dll"/>
+    <None Remove="DiscordChatExporter\Spectre.Console.dll"/>
+    <None Remove="DiscordChatExporter\Polly.dll"/>
+    <None Remove="DiscordChatExporter\MiniRazor.Runtime.dll"/>
+    <None Remove="DiscordChatExporter\JsonExtensions.dll"/>
+    <None Remove="DiscordChatExporter\Gress.dll"/>
+    <None Remove="DiscordChatExporter\DiscordChatExporter.Core.dll"/>
+    <None Remove="DiscordChatExporter\DiscordChatExporter.Cli.runtimeconfig.json"/>
+    <None Remove="DiscordChatExporter\DiscordChatExporter.Cli.exe"/>
+    <None Remove="DiscordChatExporter\DiscordChatExporter.Cli.dll"/>
+    <None Remove="DiscordChatExporter\DiscordChatExporter.Cli.deps.json"/>
+    <None Remove="DiscordChatExporter\CliFx.dll"/>
+    <None Remove="data\http.txt"/>
+  </ItemGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-        <DefineConstants>DEBUG;TRACE</DefineConstants>
-        <DebugType>full</DebugType>
-    </PropertyGroup>
-    <ItemGroup>
-        <Content Remove="credentials_example.json" />
-        <Content Update="gcreds1.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </Content>
-    </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Remove="credentials_example.json"/>
+    <Content Update="gcreds1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-        <DefineConstants>DEBUG;TRACE;DNETLABS</DefineConstants>
-        <NoWarn>
-            $(NoWarn);CS8625;CS8609;CS8767;CS8603;CS8618;CS8600;CS8602;CS8605;CS8601;CS8619;CS8604;CS8619;CS8607;CS9627;CS8629;CS8620;CS8620;CS8622;CS9714;CS8621;CS8714;CS8634</NoWarn>
-        <Optimize>false</Optimize>
-    </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE;DNETLABS</DefineConstants>
+    <NoWarn>
+      $(NoWarn);CS8625;CS8609;CS8767;CS8603;CS8618;CS8600;CS8602;CS8605;CS8601;CS8619;CS8604;CS8619;CS8607;CS9627;CS8629;CS8620;CS8620;CS8622;CS9714;CS8621;CS8714;CS8634
+    </NoWarn>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-        <DefineConstants>TRACE;DNETLABS</DefineConstants>
-        <NoWarn>
-            $(NoWarn);CS8625;CS8609;CS8767;CS8603;CS8618;CS8600;CS8602;CS8605;CS8601;CS8619;CS8604;CS8619;CS8607;CS9627;CS8629;CS8620;CS8620;CS8622;CS9714;CS8621;CS8714;CS8634</NoWarn>
-        <WarningLevel>0</WarningLevel>
-    </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;DNETLABS</DefineConstants>
+    <NoWarn>
+      $(NoWarn);CS8625;CS8609;CS8767;CS8603;CS8618;CS8600;CS8602;CS8605;CS8601;CS8619;CS8604;CS8619;CS8607;CS9627;CS8629;CS8620;CS8620;CS8622;CS9714;CS8621;CS8714;CS8634
+    </NoWarn>
+    <WarningLevel>0</WarningLevel>
+  </PropertyGroup>
 
 </Project>

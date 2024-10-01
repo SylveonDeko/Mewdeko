@@ -8,15 +8,16 @@ using SkiaSharp;
 namespace Mewdeko.Modules.UserProfile;
 
 /// <summary>
-/// Handles text commands for user profiles, providing functionalities to view and manage user profile details.
+///     Handles text commands for user profiles, providing functionalities to view and manage user profile details.
 /// </summary>
 public class UserProfile(DbContextProvider dbProvider) : MewdekoModuleBase<UserProfileService>
 {
     /// <summary>
-    /// Shows the user's profile or another user's profile if specified.
+    ///     Shows the user's profile or another user's profile if specified.
     /// </summary>
     /// <param name="user">The user whose profile is to be shown. If null, shows the caller's profile.</param>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task Profile(IUser user = null)
     {
         user ??= ctx.User;
@@ -28,10 +29,11 @@ public class UserProfile(DbContextProvider dbProvider) : MewdekoModuleBase<UserP
     }
 
     /// <summary>
-    /// Sets or updates the biography in the user's profile.
+    ///     Sets or updates the biography in the user's profile.
     /// </summary>
     /// <param name="bio">The biography text. Must be under 2048 characters.</param>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task SetBio([Remainder] string bio)
     {
         if (bio.Length > 2048)
@@ -45,10 +47,11 @@ public class UserProfile(DbContextProvider dbProvider) : MewdekoModuleBase<UserP
     }
 
     /// <summary>
-    /// Sets the zodiac sign in the user's profile.
+    ///     Sets the zodiac sign in the user's profile.
     /// </summary>
     /// <param name="zodiac">The zodiac sign to set.</param>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task SetZodiac(string zodiac)
     {
         var result = await Service.SetZodiac(ctx.User, zodiac);
@@ -59,10 +62,11 @@ public class UserProfile(DbContextProvider dbProvider) : MewdekoModuleBase<UserP
     }
 
     /// <summary>
-    /// Sets the profile color based on an SKColor input.
+    ///     Sets the profile color based on an SKColor input.
     /// </summary>
     /// <param name="input">The SKColor representing the desired profile color.</param>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task SetProfileColor(SKColor input)
     {
         var discordColor = new Color(input.Red, input.Green, input.Blue);
@@ -71,10 +75,11 @@ public class UserProfile(DbContextProvider dbProvider) : MewdekoModuleBase<UserP
     }
 
     /// <summary>
-    /// Sets the birthday in the user's profile.
+    ///     Sets the birthday in the user's profile.
     /// </summary>
     /// <param name="dateTime">The birthday date.</param>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task SetBirthday([Remainder] DateTime dateTime)
     {
         await Service.SetBirthday(ctx.User, dateTime);
@@ -82,9 +87,10 @@ public class UserProfile(DbContextProvider dbProvider) : MewdekoModuleBase<UserP
     }
 
     /// <summary>
-    /// Toggles the user's opt-out status for command statistics collection.
+    ///     Toggles the user's opt-out status for command statistics collection.
     /// </summary>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task UserStatsOptOut()
     {
         var optout = await Service.ToggleOptOut(ctx.User);
@@ -96,9 +102,11 @@ public class UserProfile(DbContextProvider dbProvider) : MewdekoModuleBase<UserP
     }
 
     /// <summary>
-    /// Deletes the user's command statistics data.
+    ///     Deletes the user's command statistics data.
     /// </summary>
-    [Cmd, Aliases, Ratelimit(3600)]
+    [Cmd]
+    [Aliases]
+    [Ratelimit(3600)]
     public async Task DeleteUserStatsData()
     {
         if (await PromptUserConfirmAsync(
@@ -112,10 +120,11 @@ public class UserProfile(DbContextProvider dbProvider) : MewdekoModuleBase<UserP
     }
 
     /// <summary>
-    /// Sets the birthday privacy mode in the user's profile.
+    ///     Sets the birthday privacy mode in the user's profile.
     /// </summary>
     /// <param name="birthdayDisplayModeEnum">The birthday display mode to set.</param>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task SetBirthdayPrivacy(DiscordUser.BirthdayDisplayModeEnum birthdayDisplayModeEnum)
     {
         await Service.SetBirthdayDisplayMode(ctx.User, birthdayDisplayModeEnum);
@@ -124,10 +133,11 @@ public class UserProfile(DbContextProvider dbProvider) : MewdekoModuleBase<UserP
     }
 
     /// <summary>
-    /// Sets the profile image URL in the user's profile.
+    ///     Sets the profile image URL in the user's profile.
     /// </summary>
     /// <param name="url">The URL of the image to set as the profile image.</param>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task SetProfileImage(string url)
     {
         if (!url.IsImage())
@@ -145,10 +155,11 @@ public class UserProfile(DbContextProvider dbProvider) : MewdekoModuleBase<UserP
     }
 
     /// <summary>
-    /// Sets the privacy level of the user's profile.
+    ///     Sets the privacy level of the user's profile.
     /// </summary>
     /// <param name="privacyEnum">The privacy setting to apply.</param>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task SetPrivacy(DiscordUser.ProfilePrivacyEnum privacyEnum)
     {
         await Service.SetPrivacy(ctx.User, privacyEnum);
@@ -156,10 +167,11 @@ public class UserProfile(DbContextProvider dbProvider) : MewdekoModuleBase<UserP
     }
 
     /// <summary>
-    /// Sets or clears the Nintendo Switch friend code in the user's profile.
+    ///     Sets or clears the Nintendo Switch friend code in the user's profile.
     /// </summary>
     /// <param name="switchFc">The Nintendo Switch friend code. If blank, clears the existing code.</param>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task SetSwitchFc(string switchFc = "")
     {
         if (!await Service.SetSwitchFc(ctx.User, switchFc))
@@ -178,10 +190,11 @@ public class UserProfile(DbContextProvider dbProvider) : MewdekoModuleBase<UserP
     }
 
     /// <summary>
-    /// Displays the pronouns of the specified user or the command caller if no user is specified.
+    ///     Displays the pronouns of the specified user or the command caller if no user is specified.
     /// </summary>
     /// <param name="user">Optional. The user whose pronouns are to be displayed.</param>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task Pronouns(IUser? user = null)
     {
         user ??= ctx.User;
@@ -203,10 +216,11 @@ public class UserProfile(DbContextProvider dbProvider) : MewdekoModuleBase<UserP
     }
 
     /// <summary>
-    /// Sets or clears the pronouns for the user.
+    ///     Sets or clears the pronouns for the user.
     /// </summary>
     /// <param name="pronouns">The pronouns to set. If null or empty, clears any existing pronouns.</param>
-    [Cmd, Aliases]
+    [Cmd]
+    [Aliases]
     public async Task SetPronouns([Remainder] string? pronouns = null)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -242,12 +256,14 @@ public class UserProfile(DbContextProvider dbProvider) : MewdekoModuleBase<UserP
     }
 
     /// <summary>
-    /// Force-clears the pronouns for a user, optionally marking them as disabled due to abuse.
+    ///     Force-clears the pronouns for a user, optionally marking them as disabled due to abuse.
     /// </summary>
     /// <param name="user">The user whose pronouns are to be cleared.</param>
     /// <param name="pronounsDisabledAbuse">Whether the pronouns are being disabled due to abuse.</param>
     /// <param name="reason">The reason for the action.</param>
-    [Cmd, Aliases, OwnerOnly]
+    [Cmd]
+    [Aliases]
+    [OwnerOnly]
     public async Task PronounsForceClear(IUser? user, bool pronounsDisabledAbuse, [Remainder] string reason)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
@@ -262,12 +278,14 @@ public class UserProfile(DbContextProvider dbProvider) : MewdekoModuleBase<UserP
     }
 
     /// <summary>
-    /// Force-clears the pronouns for a user by ID, optionally marking them as disabled due to abuse.
+    ///     Force-clears the pronouns for a user by ID, optionally marking them as disabled due to abuse.
     /// </summary>
     /// <param name="user">The user ID of the user whose pronouns are to be cleared.</param>
     /// <param name="pronounsDisabledAbuse">Whether the pronouns are being disabled due to abuse.</param>
     /// <param name="reason">The reason for the action.</param>
-    [Cmd, Aliases, OwnerOnly]
+    [Cmd]
+    [Aliases]
+    [OwnerOnly]
     public async Task PronounsForceClear(ulong user, bool pronounsDisabledAbuse, [Remainder] string reason)
     {
         await using var dbContext = await dbProvider.GetContextAsync();

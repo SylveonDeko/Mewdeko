@@ -1,10 +1,10 @@
-using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using LinqToDB;
 using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Giveaways.Services;
 using Mewdeko.Services.Impl;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace Mewdeko.Controllers;
@@ -13,11 +13,13 @@ namespace Mewdeko.Controllers;
 [ApiController]
 [Route("botapi/[controller]")]
 [Authorize("ApiKeyPolicy")]
-public class GiveawaysController(GiveawayService service, BotCredentials creds, HttpClient client, DbContextProvider dbContext) : Controller
+public class GiveawaysController(
+    GiveawayService service,
+    BotCredentials creds,
+    HttpClient client,
+    DbContextProvider dbContext) : Controller
 {
-
     /// <summary>
-    ///
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -40,7 +42,7 @@ public class GiveawaysController(GiveawayService service, BotCredentials creds, 
     }
 
     /// <summary>
-    /// Gets a giveaway by its Id
+    ///     Gets a giveaway by its Id
     /// </summary>
     /// <param name="giveawayId"></param>
     /// <returns></returns>
@@ -52,7 +54,6 @@ public class GiveawaysController(GiveawayService service, BotCredentials creds, 
     }
 
     /// <summary>
-    ///
     /// </summary>
     /// <param name="guildId"></param>
     /// <returns></returns>
@@ -73,7 +74,6 @@ public class GiveawaysController(GiveawayService service, BotCredentials creds, 
     }
 
     /// <summary>
-    ///
     /// </summary>
     /// <param name="guildId"></param>
     /// <param name="model"></param>
@@ -94,7 +94,6 @@ public class GiveawaysController(GiveawayService service, BotCredentials creds, 
     }
 
     /// <summary>
-    ///
     /// </summary>
     /// <param name="guildId"></param>
     /// <param name="giveawayId"></param>
@@ -119,8 +118,12 @@ public class GiveawaysController(GiveawayService service, BotCredentials creds, 
     {
         var content = new FormUrlEncodedContent(new Dictionary<string, string>
         {
-            {"secret", creds.TurnstileKey},
-            {"response", token}
+            {
+                "secret", creds.TurnstileKey
+            },
+            {
+                "response", token
+            }
         });
 
         var response = await client.PostAsync(
@@ -131,35 +134,31 @@ public class GiveawaysController(GiveawayService service, BotCredentials creds, 
 }
 
 /// <summary>
-///
 /// </summary>
 public class GiveawayEntryRequest
 {
     /// <summary>
-    ///
     /// </summary>
     public ulong GuildId { get; set; }
+
     /// <summary>
-    ///
     /// </summary>
     public int GiveawayId { get; set; }
+
     /// <summary>
-    ///
     /// </summary>
     public ulong UserId { get; set; }
+
     /// <summary>
-    ///
     /// </summary>
     public string TurnstileToken { get; set; }
 }
 
 /// <summary>
-///
 /// </summary>
 public class TurnstileVerificationResponse
 {
     /// <summary>
-    ///
     /// </summary>
     public bool Success { get; set; }
     // Add other properties as needed

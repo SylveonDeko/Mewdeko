@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Mewdeko.Database.Extensions;
 
 /// <summary>
-/// Provides extension methods for working with GuildConfig entities in the MewdekoContext.
+///     Provides extension methods for working with GuildConfig entities in the MewdekoContext.
 /// </summary>
 public static class GuildConfigExtensions
 {
@@ -29,19 +29,22 @@ public static class GuildConfigExtensions
     }
 
     /// <summary>
-    /// Retrieves the reaction roles for a specific guild from the context.
+    ///     Retrieves the reaction roles for a specific guild from the context.
     /// </summary>
     /// <param name="ctx">The database context.</param>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns>The reaction role messages for the guild.</returns>
-    public async static Task<IndexedCollection<ReactionRoleMessage>> GetReactionRoles(this MewdekoContext ctx, ulong guildId)
-        => (await ctx.GuildConfigs
+    public static async Task<IndexedCollection<ReactionRoleMessage>> GetReactionRoles(this MewdekoContext ctx,
+        ulong guildId)
+    {
+        return (await ctx.GuildConfigs
             .Include(x => x.ReactionRoleMessages)
             .ThenInclude(x => x.ReactionRoles)
             .FirstOrDefaultAsyncEF(x => x.GuildId == guildId))?.ReactionRoleMessages;
+    }
 
     /// <summary>
-    /// Retrieves or creates a GuildConfig for a specific guild.
+    ///     Retrieves or creates a GuildConfig for a specific guild.
     /// </summary>
     /// <param name="ctx">The database context.</param>
     /// <param name="guildId">The ID of the guild.</param>
@@ -84,11 +87,11 @@ public static class GuildConfigExtensions
     }
 
     /// <summary>
-    /// Retrieves GuildConfig entities with Permissionsv2 for a specific shard.
+    ///     Retrieves GuildConfig entities with Permissionsv2 for a specific shard.
     /// </summary>
     /// <param name="configs">The DbSet of GuildConfig entities.</param>
     /// <returns>A collection of GuildConfig entities.</returns>
-    public async static Task<IEnumerable<GuildConfig>> Permissionsv2ForAll(this DbSet<GuildConfig> configs)
+    public static async Task<IEnumerable<GuildConfig>> Permissionsv2ForAll(this DbSet<GuildConfig> configs)
     {
         var query = configs
             .Include(gc => gc.Permissions)
@@ -99,7 +102,7 @@ public static class GuildConfigExtensions
     }
 
     /// <summary>
-    /// Retrieves or creates a GuildConfig with Permissionsv2 for a specific guild.
+    ///     Retrieves or creates a GuildConfig with Permissionsv2 for a specific guild.
     /// </summary>
     /// <param name="ctx">The database context.</param>
     /// <param name="guildId">The ID of the guild.</param>
@@ -131,7 +134,7 @@ public static class GuildConfigExtensions
     }
 
     /// <summary>
-    /// Retrieves the StreamRoleSettings for a specific guild.
+    ///     Retrieves the StreamRoleSettings for a specific guild.
     /// </summary>
     /// <param name="ctx">The database context.</param>
     /// <param name="guildId">The ID of the guild.</param>
@@ -146,7 +149,7 @@ public static class GuildConfigExtensions
     }
 
     /// <summary>
-    /// Retrieves the XpSettings for a specific guild.
+    ///     Retrieves the XpSettings for a specific guild.
     /// </summary>
     /// <param name="ctx">The database context.</param>
     /// <param name="guildId">The ID of the guild.</param>
@@ -168,7 +171,7 @@ public static class GuildConfigExtensions
     }
 
     /// <summary>
-    /// Retrieves or creates a GuildConfig with LogSettings for a specific guild.
+    ///     Retrieves or creates a GuildConfig with LogSettings for a specific guild.
     /// </summary>
     /// <param name="ctx">The database context.</param>
     /// <param name="guildId">The ID of the guild.</param>
@@ -207,12 +210,13 @@ public static class GuildConfigExtensions
     }
 
     /// <summary>
-    /// Includes all related entities for the GuildConfig.
+    ///     Includes all related entities for the GuildConfig.
     /// </summary>
     /// <param name="config">The DbSet of GuildConfig entities.</param>
     /// <returns>The queryable with included related entities.</returns>
-    public static IQueryable<GuildConfig> IncludeEverything(this DbSet<GuildConfig> config) =>
-        config
+    public static IQueryable<GuildConfig> IncludeEverything(this DbSet<GuildConfig> config)
+    {
+        return config
             .AsQueryable()
             .Include(gc => gc.LogSetting)
             .ThenInclude(gc => gc.IgnoredChannels)
@@ -224,8 +228,7 @@ public static class GuildConfigExtensions
             .Include(gc => gc.NsfwBlacklistedTags)
             .Include(gc => gc.XpSettings)
             .ThenInclude(x
-
- => x.ExclusionList)
+                => x.ExclusionList)
             .Include(gc => gc.DelMsgOnCmdChannels)
             .Include(gc => gc.ReactionRoleMessages)
             .ThenInclude(x => x.ReactionRoles)
@@ -239,19 +242,20 @@ public static class GuildConfigExtensions
             .Include(x => x.FilterInvitesChannelIds)
             .Include(x => x.FilterWordsChannelIds)
             .Include(x => x.FilterLinksChannelIds);
+    }
 
     /// <summary>
-    /// Represents a channel for generating content.
+    ///     Represents a channel for generating content.
     /// </summary>
     public class GeneratingChannel
     {
         /// <summary>
-        /// Gets or sets the guild ID.
+        ///     Gets or sets the guild ID.
         /// </summary>
         public ulong GuildId { get; set; }
 
         /// <summary>
-        /// Gets or sets the channel ID.
+        ///     Gets or sets the channel ID.
         /// </summary>
         public ulong ChannelId { get; set; }
     }

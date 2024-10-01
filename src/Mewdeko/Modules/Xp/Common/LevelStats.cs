@@ -3,12 +3,12 @@
 namespace Mewdeko.Modules.Xp.Common;
 
 /// <summary>
-/// Represents the level statistics of a user, calculating level based on total XP.
+///     Represents the level statistics of a user, calculating level based on total XP.
 /// </summary>
 public class LevelStats
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="LevelStats"/> class, calculating the level from total XP.
+    ///     Initializes a new instance of the <see cref="LevelStats" /> class, calculating the level from total XP.
     /// </summary>
     /// <param name="xp">The total XP.</param>
     public LevelStats(int xp)
@@ -25,7 +25,7 @@ public class LevelStats
         var lvl = 1;
         while (true)
         {
-            required = (int)(baseXp + (baseXp / 4.0 * (lvl - 1)));
+            required = (int)(baseXp + baseXp / 4.0 * (lvl - 1));
 
             if (required + totalXp > xp)
                 break;
@@ -39,22 +39,22 @@ public class LevelStats
     }
 
     /// <summary>
-    /// Gets the calculated level.
+    ///     Gets the calculated level.
     /// </summary>
     public int Level { get; }
 
     /// <summary>
-    /// Gets the XP within the current level.
+    ///     Gets the XP within the current level.
     /// </summary>
     public int LevelXp { get; }
 
     /// <summary>
-    /// Gets the required XP to reach the next level.
+    ///     Gets the required XP to reach the next level.
     /// </summary>
     public int RequiredXp { get; }
 
     /// <summary>
-    /// Gets the total XP.
+    ///     Gets the total XP.
     /// </summary>
     public int TotalXp { get; }
 }

@@ -5,41 +5,42 @@ using CommandLine;
 namespace Mewdeko.Modules.Games.Common.Acrophobia;
 
 /// <summary>
-/// Represents an Acrophobia game.
+///     Represents an Acrophobia game.
 /// </summary>
 public sealed class AcrophobiaGame : IDisposable
 {
     /// <summary>
-    /// Represents the phase of a process.
+    ///     Represents the phase of a process.
     /// </summary>
     public enum Phase
     {
         /// <summary>
-        /// Submission phase.
+        ///     Submission phase.
         /// </summary>
         Submission,
 
         /// <summary>
-        /// Voting phase.
+        ///     Voting phase.
         /// </summary>
         Voting,
 
         /// <summary>
-        /// Ended phase.
+        ///     Ended phase.
         /// </summary>
         Ended
     }
 
+    private readonly SemaphoreSlim locker = new(1, 1);
+
 
     private readonly MewdekoRandom rng;
 
-    private readonly HashSet<ulong> usersWhoVoted = [];
-    private readonly SemaphoreSlim locker = new(1, 1);
-
     private readonly Dictionary<AcrophobiaUser, int> submissions = new();
 
+    private readonly HashSet<ulong> usersWhoVoted = [];
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="AcrophobiaGame"/> class.
+    ///     Initializes a new instance of the <see cref="AcrophobiaGame" /> class.
     /// </summary>
     /// <param name="options">Represents the options in a acro game</param>
     public AcrophobiaGame(Options options)
@@ -50,22 +51,22 @@ public sealed class AcrophobiaGame : IDisposable
     }
 
     /// <summary>
-    /// Represents the current phase of the game.
+    ///     Represents the current phase of the game.
     /// </summary>
     public Phase CurrentPhase { get; private set; } = Phase.Submission;
 
     /// <summary>
-    /// Represents the starting letters for the game.
+    ///     Represents the starting letters for the game.
     /// </summary>
     public ImmutableArray<char> StartingLetters { get; private set; }
 
     /// <summary>
-    /// Gets the options for the game.
+    ///     Gets the options for the game.
     /// </summary>
     public Options Opts { get; }
 
     /// <summary>
-    /// Disposes resources used by the game.
+    ///     Disposes resources used by the game.
     /// </summary>
     public void Dispose()
     {
@@ -80,23 +81,23 @@ public sealed class AcrophobiaGame : IDisposable
     }
 
     /// <summary>
-    /// Event triggered when the game starts.
+    ///     Event triggered when the game starts.
     /// </summary>
     public event Func<AcrophobiaGame, Task> OnStarted = delegate { return Task.CompletedTask; };
 
     /// <summary>
-    /// Event triggered when the voting phase of the game starts.
+    ///     Event triggered when the voting phase of the game starts.
     /// </summary>
     public event Func<AcrophobiaGame, ImmutableArray<KeyValuePair<AcrophobiaUser, int>>, Task> OnVotingStarted =
         delegate { return Task.CompletedTask; };
 
     /// <summary>
-    /// Event triggered when a user votes.
+    ///     Event triggered when a user votes.
     /// </summary>
     public event Func<string, Task> OnUserVoted = delegate { return Task.CompletedTask; };
 
     /// <summary>
-    /// Event triggered when the game ends.
+    ///     Event triggered when the game ends.
     /// </summary>
     public event Func<AcrophobiaGame, ImmutableArray<KeyValuePair<AcrophobiaUser, int>>, Task> OnEnded = delegate
     {
@@ -104,7 +105,7 @@ public sealed class AcrophobiaGame : IDisposable
     };
 
     /// <summary>
-    /// Runs the game.
+    ///     Runs the game.
     /// </summary>
     public async Task Run()
     {
@@ -166,7 +167,7 @@ public sealed class AcrophobiaGame : IDisposable
     }
 
     /// <summary>
-    /// Handles user input for the game.
+    ///     Handles user input for the game.
     /// </summary>
     /// <param name="userId">The ID of the user.</param>
     /// <param name="userName">The name of the user.</param>
@@ -238,26 +239,26 @@ public sealed class AcrophobiaGame : IDisposable
     }
 
     /// <summary>
-    /// Represents the options for a command.
+    ///     Represents the options for a command.
     /// </summary>
     public class Options : IMewdekoCommandOptions
     {
         /// <summary>
-        /// Gets or sets the time after which the submissions are closed and voting starts.
+        ///     Gets or sets the time after which the submissions are closed and voting starts.
         /// </summary>
         [Option('s', "submission-time", Required = false, Default = 60,
             HelpText = "Time after which the submissions are closed and voting starts.")]
         public int SubmissionTime { get; set; } = 60;
 
         /// <summary>
-        /// Gets or sets the time after which the voting is closed and the winner is declared.
+        ///     Gets or sets the time after which the voting is closed and the winner is declared.
         /// </summary>
         [Option('v', "vote-time", Required = false, Default = 60,
             HelpText = "Time after which the voting is closed and the winner is declared.")]
         public int VoteTime { get; set; } = 30;
 
         /// <summary>
-        /// Normalizes the options by ensuring they are within acceptable ranges.
+        ///     Normalizes the options by ensuring they are within acceptable ranges.
         /// </summary>
         public void NormalizeOptions()
         {
