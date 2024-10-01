@@ -386,7 +386,7 @@ public class ChannelCommandService : INService, IReadyExecutor
     /// </summary>
     private static bool IsRelevantChannel(IGuildChannel channel)
     {
-        return channel is ITextChannel or IVoiceChannel or IForumChannel;
+        return channel is (ITextChannel or IVoiceChannel or IForumChannel) and not IThreadChannel;
     }
 
 
