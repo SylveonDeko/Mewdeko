@@ -766,6 +766,7 @@ public class GuildConfig : DbEntity
     /// <summary>
     ///     Gets or sets the anti mass mention settings for the guild.
     /// </summary>
+    [NewProperty]
     public AntiMassMentionSetting AntiMassMentionSetting { get; set; }
 
     /// <summary>

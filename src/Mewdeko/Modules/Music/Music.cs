@@ -35,9 +35,7 @@ public class Music(
     {
         var (player, result) = await GetPlayerAsync();
         if (string.IsNullOrWhiteSpace(result))
-        {
             await ReplyConfirmLocalizedAsync("music_join_success", player.VoiceChannelId).ConfigureAwait(false);
-        }
         else
         {
             var eb = new EmbedBuilder()

@@ -188,8 +188,8 @@ public class RoleMonitorService : INService, IReadyExecutor
     /// </summary>
     private async Task<bool> IsUserWhitelistedAsync(IGuild guild, ulong userId)
     {
-        // if (guild.OwnerId == userId)
-        //     return true;
+        if (guild.OwnerId == userId)
+            return true;
         var redisDb = dataCache.Redis.GetDatabase();
         var key = $"guild:{guild.Id}:whitelisted_users";
 

@@ -283,7 +283,7 @@ public class ChannelCommandService : INService, IReadyExecutor
                     createPrivateThreads: PermValue.Deny,
                     sendMessages: PermValue.Allow),
                 _ => existingPerms.Modify(sendMessages: PermValue.Deny, createPublicThreads: PermValue.Deny,
-                    createPrivateThreads: PermValue.Deny)
+                    createPrivateThreads: PermValue.Deny, sendMessagesInThreads: PermValue.Deny)
             };
 
             channelPermissions.Add((channel, lockdownPerms));

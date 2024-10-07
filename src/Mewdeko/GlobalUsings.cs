@@ -14,5 +14,6 @@ global using Mewdeko.Database.Extensions;
 global using Mewdeko.Database.Models;
 global using Mewdeko.Extensions;
 global using Mewdeko.Services;
+global using Mewdeko.Common.Attributes.DB;
 global using NonBlocking;
 global using EventHandler = Mewdeko.Services.Impl.EventHandler;

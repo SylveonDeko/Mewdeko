@@ -43,7 +43,7 @@ public partial class ReplacementBuilder
     /// <param name="client">The Discord client.</param>
     public ReplacementBuilder(DiscordShardedClient? client = null)
     {
-        nekosBestApi = new NekosBestApi();
+        nekosBestApi = new NekosBestApi(client?.CurrentUser.Username ?? "Mewdeko");
         this.client = client;
         WithRngRegex();
     }

@@ -93,7 +93,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.0-preview.5.24306.7"/>
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.0-preview.5.24306.7"/>
     <PackageReference Include="morelinq" Version="4.1.0"/>
-    <PackageReference Include="NekosBestApiNet" Version="1.0.6"/>
+    <PackageReference Include="NekosBestApiNet" Version="1.0.7"/>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
     <PackageReference Include="NHentaiAPI" Version="1.7.0"/>
     <PackageReference Include="NonBlocking" Version="2.1.2"/>

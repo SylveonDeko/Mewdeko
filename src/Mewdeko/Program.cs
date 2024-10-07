@@ -199,7 +199,7 @@ public class Program
             {
                 ReturnAfterSendingPaginator = true
             }))
-            .AddSingleton(new NekosBestApi())
+            .AddSingleton(new NekosBestApi("Mewdeko"))
             .AddSingleton(p => new InteractionService(p.GetRequiredService<DiscordShardedClient>()))
             .AddSingleton<Localization>()
             .AddSingleton<BotConfigService>()

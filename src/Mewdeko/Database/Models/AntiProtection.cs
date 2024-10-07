@@ -77,29 +77,34 @@ public class AntiSpamSetting : DbEntity
 /// <summary>
 ///     Represents settings for anti-mass mention protection in a guild.
 /// </summary>
+[NewProperty]
 [Table("AntiMassMentionSetting")]
 public class AntiMassMentionSetting : DbEntity
 {
     /// <summary>
     ///     Gets or sets the ID of the associated guild configuration.
     /// </summary>
+    [NewProperty]
     [ForeignKey("GuildConfigId")]
     public int GuildConfigId { get; set; }
 
     /// <summary>
     ///     Gets or sets the action to be taken when anti-mass mention measures are triggered.
     /// </summary>
+    [NewProperty]
     public PunishmentAction Action { get; set; }
 
     /// <summary>
     ///     Gets or sets the maximum number of mentions allowed in a single message before triggering anti-mass mention
     ///     measures.
     /// </summary>
+    [NewProperty]
     public int MentionThreshold { get; set; } = 3;
 
     /// <summary>
     ///     Gets or sets the maximum number of mentions allowed within a specified time window.
     /// </summary>
+    [NewProperty]
     public int MaxMentionsInTimeWindow { get; set; } = 5;
 
     /// <summary>
@@ -107,27 +112,32 @@ public class AntiMassMentionSetting : DbEntity
     ///     If the number of mentions exceeds MaxMentionsInTimeWindow within this time, anti-mass mention actions are
     ///     triggered.
     /// </summary>
+    [NewProperty]
     public int TimeWindowSeconds { get; set; } = 60;
 
     /// <summary>
     ///     Gets or sets the mute duration in minutes.
     ///     This is applied when a mute action is chosen as the punishment.
     /// </summary>
+    [NewProperty]
     public int MuteTime { get; set; } = 0;
 
     /// <summary>
     ///     Gets or sets the ID of the role to be assigned as punishment.
     /// </summary>
+    [NewProperty]
     public ulong? RoleId { get; set; }
 
     /// <summary>
     ///     Gets or sets a boolean indicating whether bots should be ignored by anti-mass mention measures.
     /// </summary>
+    [NewProperty]
     public bool IgnoreBots { get; set; } = true;
 
     /// <summary>
     ///     Gets or sets the collection of ignored channels for anti-mass mention measures.
     /// </summary>
+    [NewProperty]
     public HashSet<AntiSpamIgnore> IgnoredChannels { get; set; } = new();
 }
 
