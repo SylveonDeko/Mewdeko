@@ -28,7 +28,7 @@ public static class PermissionExtensions
         {
             var perm = perms[i];
 
-            var result = perm.CheckPermission(message, commandName, moduleName);
+            var result = perm.CheckPermission(message, commandName, moduleName.ToLower());
 
             if (result == null) continue;
             permIndex = i;
@@ -80,7 +80,7 @@ public static class PermissionExtensions
     /// <param name="commandName">The command name to check permissions against.</param>
     /// <param name="moduleName">The module name to check permissions against.</param>
     /// <returns>True if the permission is applicable and allowed, false if not allowed, or null if not applicable.</returns>
-    public static bool? CheckPermission(this Permissionv2 perm, IUserMessage message, string commandName,
+    private static bool? CheckPermission(this Permissionv2 perm, IUserMessage message, string commandName,
         string moduleName)
     {
         if (!(perm.SecondaryTarget == SecondaryPermissionType.Command &&

@@ -70,6 +70,9 @@ public class ChannelCommandService : INService, IReadyExecutor
             };
         }
 
+        if (redisJoinBlockedGuilds.Length==0)
+            return;
+
         // If there are guilds in Redis but not in lockdownGuilds (not recognized during the loop), remove them from Redis
         foreach (var guildId in redisJoinBlockedGuilds.Select(g => (ulong)g))
         {

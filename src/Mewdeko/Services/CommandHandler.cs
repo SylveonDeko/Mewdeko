@@ -625,6 +625,8 @@ public class CommandHandler : INService
         if (!searchResult.IsSuccess)
             return (false, searchResult.ErrorReason, null);
 
+        var lateBlockers = services.GetServices<ILateBlocker>().ToArray();
+
         var commands = searchResult.Commands;
         var preconditionResults = await Task.WhenAll(commands.Select(async match =>
             (match, await match.Command.CheckPreconditionsAsync(context, services).ConfigureAwait(false))));
@@ -663,6 +665,14 @@ public class CommandHandler : INService
             return (false, "You are on a short cooldown.", cmd);
 
         var chosenOverload = successfulParses[0];
+
+        foreach (var i in lateBlockers)
+        {
+            var blocked = await i.TryBlockLate(client, context, chosenOverload.match.Command.Module.Name, chosenOverload.match.Command);
+            if (blocked)
+                return (false, "lateblocker", null);
+        }
+
         var result = await chosenOverload.match.ExecuteAsync(context, chosenOverload.parseResult, services)
             .ConfigureAwait(false);
 
