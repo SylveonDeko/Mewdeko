@@ -100,7 +100,7 @@ public partial class Administration
         }
 
 
-        private static ulong? GetLogProperty(LogSetting l, LogType type)
+        private static ulong? GetLogProperty(LoggingV2 l, LogType type)
         {
             return type switch
             {
@@ -136,24 +136,6 @@ public partial class Administration
             };
         }
 
-        /// <summary>
-        ///     Sets the logging channel for a specific event type.
-        /// </summary>
-        /// <param name="type">The type of event to set the logging channel for.</param>
-        /// <remarks>
-        ///     This command is restricted to users with Administrator permissions.
-        /// </remarks>
-        /// <example>.log UserJoined</example>
-        [Cmd]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.Administrator)]
-        [Priority(1)]
-        public async Task Log(LogType type)
-        {
-            await Service.SetLogChannel(ctx.Guild.Id, ctx.Channel.Id, type).ConfigureAwait(false);
-            await ReplyConfirmLocalizedAsync("log", Format.Bold(type.ToString())).ConfigureAwait(false);
-        }
 
         /// <summary>
         ///     Sets the logging channel for a specific event type.

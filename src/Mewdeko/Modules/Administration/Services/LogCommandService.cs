@@ -256,7 +256,7 @@ public class LogCommandService : INService, IReadyExecutor
     /// <summary>
     ///     Dictionary of log settings for each guild.
     /// </summary>
-    public ConcurrentDictionary<ulong, LogSetting> GuildLogSettings { get; set; }
+    public ConcurrentDictionary<ulong, LoggingV2> GuildLogSettings { get; set; }
 
     /// <inheritdoc />
     public async Task OnReadyAsync()
@@ -271,8 +271,8 @@ public class LogCommandService : INService, IReadyExecutor
             .ToListAsyncEF();
 
         // Store the log settings in a concurrent dictionary for fast access
-        GuildLogSettings = configs
-            .ToDictionary(g => g.GuildId, g => g.LogSetting)
+        GuildLogSettings = dbContext.LoggingV2
+            .ToDictionary(g => g.GuildId, g => g)
             .ToConcurrent();
     }
 
@@ -1594,29 +1594,37 @@ public class LogCommandService : INService, IReadyExecutor
                         $"`User:` {args.Mention} | {args.Id}\n" +
                         $"`Channel:` {args2.VoiceChannel.Name}");
 
-            if (!args2.IsDeafened && args3.IsDeafened)
-                eb.WithTitle($"User {(!args3.IsSelfDeafened ? "Server Voice Deafened" : "Self Voice Deafened")}")
-                    .WithDescription(
-                        $"`User:` {args.Mention} | {args.Id}\n" +
-                        $"`Channel:` {args2.VoiceChannel.Name}");
+            switch (args2.IsDeafened)
+            {
+                case false when args3.IsDeafened:
+                    eb.WithTitle($"User {(!args3.IsSelfDeafened ? "Server Voice Deafened" : "Self Voice Deafened")}")
+                        .WithDescription(
+                            $"`User:` {args.Mention} | {args.Id}\n" +
+                            $"`Channel:` {args2.VoiceChannel.Name}");
+                    break;
+                case true when !args3.IsDeafened:
+                    eb.WithTitle("User UnDeafened")
+                        .WithDescription(
+                            $"`User:` {args.Mention} | {args.Id}\n" +
+                            $"`Channel:` {args2.VoiceChannel.Name}");
+                    break;
+            }
 
-            if (args2.IsDeafened && !args3.IsDeafened)
-                eb.WithTitle("User UnDeafened")
-                    .WithDescription(
-                        $"`User:` {args.Mention} | {args.Id}\n" +
-                        $"`Channel:` {args2.VoiceChannel.Name}");
-
-            if (!args2.IsMuted && args3.IsMuted)
-                eb.WithTitle($"User {(!args3.IsSelfMuted ? "Server Voice Muted" : "Self Voice Muted")}")
-                    .WithDescription(
-                        $"`User:` {args.Mention} | {args.Id}\n" +
-                        $"`Channel:` {args2.VoiceChannel.Name}");
-
-            if (args2.IsMuted && !args3.IsMuted)
-                eb.WithTitle("User Voice UnMuted")
-                    .WithDescription(
-                        $"`User:` {args.Mention} | {args.Id}\n" +
-                        $"`Channel:` {args2.VoiceChannel.Name}");
+            switch (args2.IsMuted)
+            {
+                case false when args3.IsMuted:
+                    eb.WithTitle($"User {(!args3.IsSelfMuted ? "Server Voice Muted" : "Self Voice Muted")}")
+                        .WithDescription(
+                            $"`User:` {args.Mention} | {args.Id}\n" +
+                            $"`Channel:` {args2.VoiceChannel.Name}");
+                    break;
+                case true when !args3.IsMuted:
+                    eb.WithTitle("User Voice UnMuted")
+                        .WithDescription(
+                            $"`User:` {args.Mention} | {args.Id}\n" +
+                            $"`Channel:` {args2.VoiceChannel.Name}");
+                    break;
+            }
 
 
             await logChannel.SendMessageAsync(embed: eb.Build());
@@ -1673,7 +1681,7 @@ public class LogCommandService : INService, IReadyExecutor
     public async Task SetLogChannel(ulong guildId, ulong channelId, LogType type)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
-        var logSetting = (await dbContext.LogSettingsFor(guildId)).LogSetting;
+        var logSetting = (await dbContext.LogSettingsFor(guildId));
         switch (type)
         {
             case LogType.Other:
@@ -1751,11 +1759,14 @@ public class LogCommandService : INService, IReadyExecutor
             case LogType.UserMuted:
                 logSetting.UserMutedId = channelId;
                 break;
+            case LogType.RoleDeleted:
+                logSetting.RoleDeletedId = channelId;
+                break;
         }
 
         try
         {
-            dbContext.LogSettings.Update(logSetting);
+            dbContext.LoggingV2.Update(logSetting);
             await dbContext.SaveChangesAsync();
             GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
         }
@@ -1774,7 +1785,7 @@ public class LogCommandService : INService, IReadyExecutor
     public async Task LogSetByType(ulong guildId, ulong channelId, LogCategoryTypes categoryTypes)
     {
         await using var dbContext = await dbProvider.GetContextAsync();
-        var logSetting = (await dbContext.LogSettingsFor(guildId)).LogSetting;
+        var logSetting = (await dbContext.LogSettingsFor(guildId));
         switch (categoryTypes)
         {
             case LogCategoryTypes.All:
@@ -1875,6 +1886,7 @@ public class LogCommandService : INService, IReadyExecutor
                 break;
         }
 
+        dbContext.LoggingV2.Update(logSetting);
         await dbContext.SaveChangesAsync();
         GuildLogSettings.AddOrUpdate(guildId, _ => logSetting, (_, _) => logSetting);
     }

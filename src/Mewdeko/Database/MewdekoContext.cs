@@ -1,4 +1,5 @@
 ﻿using Mewdeko.Common.Attributes.DB;
+using Mewdeko.Modules.OwnerOnly.Services;
 using Mewdeko.Services.Impl;
 using Microsoft.EntityFrameworkCore;
 
@@ -119,6 +120,11 @@ public class MewdekoContext : DbContext
     ///     Gets or sets the auto ban roles.
     /// </summary>
     public DbSet<AutoBanRoles> AutoBanRoles { get; set; }
+
+    /// <summary>
+    /// Logging settings for guilds
+    /// </summary>
+    public DbSet<LoggingV2> LoggingV2 { get; set; }
 
     /// <summary>
     ///     Gets or sets the publish word blacklists.
@@ -409,6 +415,11 @@ public class MewdekoContext : DbContext
     ///     Gets or sets the second version of warning punishments.
     /// </summary>
     public DbSet<WarningPunishment2> WarningPunishments2 { get; set; }
+
+    /// <summary>
+    /// gets or sets the local running instances, for dashboard management.
+    /// </summary>
+    public DbSet<LocalBotInstances> BotInstances { get; set; }
 
     /// <summary>
     ///     Configures the model that was discovered by convention from the entity types

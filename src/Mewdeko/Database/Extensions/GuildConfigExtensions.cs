@@ -176,37 +176,13 @@ public static class GuildConfigExtensions
     /// <param name="ctx">The database context.</param>
     /// <param name="guildId">The ID of the guild.</param>
     /// <returns>The GuildConfig for the guild.</returns>
-    public static async Task<GuildConfig> LogSettingsFor(this MewdekoContext ctx, ulong guildId)
+    public static async Task<LoggingV2> LogSettingsFor(this MewdekoContext ctx, ulong guildId)
     {
-        var config = await ctx.GuildConfigs
-            .Include(gc => gc.LogSetting)
-            .ThenInclude(gc => gc.IgnoredChannels)
-            .ToLinqToDB()
-            .FirstOrDefaultAsyncLinqToDB(x => x.GuildId == guildId);
-
-        if (config == null)
-        {
-            await ctx.AddAsync(config = new GuildConfig
-            {
-                GuildId = guildId,
-                Permissions = Permissionv2.GetDefaultPermlist,
-                WarningsInitialized = true,
-                WarnPunishments = DefaultWarnPunishments
-            });
-            await ctx.SaveChangesAsync();
-        }
-
-        if (config.LogSetting == null)
-        {
-            config.LogSetting = new LogSetting();
-            await ctx.SaveChangesAsync();
-        }
-
-        if (config.WarningsInitialized) return config;
-        config.WarningsInitialized = true;
-        config.WarnPunishments = DefaultWarnPunishments;
-
-        return config;
+       var log = await ctx.LoggingV2.FirstOrDefaultAsync(x => x.GuildId == guildId) ?? new LoggingV2()
+       {
+           GuildId = guildId
+       };
+       return log;
     }
 
     /// <summary>
