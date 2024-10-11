@@ -62,15 +62,6 @@ public class BotCredentials : IBotCredentials
         }
 
         UpdateCredentials(null, null);
-
-        if (!MigrateToPsql)
-        {
-            var watcher = new FileSystemWatcher(Directory.GetCurrentDirectory())
-            {
-                NotifyFilter = NotifyFilters.LastWrite, Filter = "*.json", EnableRaisingEvents = true
-            };
-            watcher.Changed += UpdateCredentials;
-        }
     }
 
     // Properties (same as before)
@@ -90,6 +81,11 @@ public class BotCredentials : IBotCredentials
     ///     Gets or sets the PostgreSQL connection string.
     /// </summary>
     public string PsqlConnectionString { get; set; }
+
+    // /// <summary>
+    // /// Gets or sets whether this is the master mewdeko instance
+    // /// </summary>
+    // public bool IsMasterInstance { get; set; } = false;
 
     /// <summary>
     ///     Gets or sets a value indicating whether to use global currency.
@@ -373,9 +369,10 @@ public class BotCredentials : IBotCredentials
             var data = configBuilder.Build();
 
             Token = data[nameof(Token)];
-            OwnerIds = data.GetSection(nameof(OwnerIds)).GetChildren()
-                .Select(c => ulong.Parse(c.Value))
-                .ToImmutableArray();
+            OwnerIds = [
+                ..data.GetSection(nameof(OwnerIds)).GetChildren()
+                    .Select(c => ulong.Parse(c.Value))
+            ];
             TurnstileKey = data[nameof(TurnstileKey)];
             GiveawayEntryUrl = data[nameof(GiveawayEntryUrl)];
             GoogleApiKey = data[nameof(GoogleApiKey)];
@@ -398,6 +395,7 @@ public class BotCredentials : IBotCredentials
             ShardRunCommand = data[nameof(ShardRunCommand)];
             ShardRunArguments = data[nameof(ShardRunArguments)];
             CleverbotApiKey = data[nameof(CleverbotApiKey)];
+            // IsMasterInstance = Convert.ToBoolean(data[nameof(IsMasterInstance)]);
             LocationIqApiKey = data[nameof(LocationIqApiKey)];
             SpotifyClientId = data[nameof(SpotifyClientId)];
             SpotifyClientSecret = data[nameof(SpotifyClientSecret)];
@@ -469,7 +467,6 @@ public class BotCredentials : IBotCredentials
                     using var conn = new NpgsqlConnection(PsqlConnectionString);
                     conn.Open();
                     conn.Close();
-                    Log.Information("Successfully connected to PostgreSQL database.");
                 }
                 catch (Exception ex)
                 {
@@ -491,7 +488,6 @@ public class BotCredentials : IBotCredentials
                 {
                     var connect = ConnectionMultiplexer.Connect(RedisConnections.Split(";")[0]);
                     connect.Close();
-                    Log.Information("Successfully connected to Redis.");
                 }
                 catch
                 {
@@ -544,6 +540,7 @@ public class BotCredentials : IBotCredentials
         public string RedisOptions { get; set; } = "127.0.0.1,syncTimeout=3000";
         public int ApiPort { get; set; } = 5001;
         public bool SkipApiKey { get; set; } = false;
+       // public bool IsMasterInstance { get; set; } = false;
         public RestartConfig RestartCommand { get; } = null;
         public string RedisConnections { get; } = "127.0.0.1:6379";
         public string LastFmApiKey { get; } = "";
