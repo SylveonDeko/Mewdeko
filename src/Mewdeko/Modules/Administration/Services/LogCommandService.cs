@@ -1058,6 +1058,15 @@ public class LogCommandService : INService, IReadyExecutor
 
             var entry = auditLogs.FirstOrDefault();
 
+            if (entry.Data is not MessageDeleteAuditLogData data)
+                return;
+
+            var currentTime = DateTimeOffset.UtcNow;
+            var timeThreshold = TimeSpan.FromSeconds(2);
+
+            var deleteUser = data.ChannelId == message.Channel.Id &&
+                             (currentTime - entry.CreatedAt) <= timeThreshold ? entry.User : message.Author;
+
             var eb = new EmbedBuilder()
                 .WithOkColor()
                 .WithTitle("Message Deleted")
@@ -1065,7 +1074,7 @@ public class LogCommandService : INService, IReadyExecutor
                     $"`Message Author:` {message.Author.Mention}\n" +
                     $"`Message Channel:` {guildChannel.Mention} | {guildChannel.Id}\n" +
                     $"`Message Content:` {message.Content}\n" +
-                    $"`Deleted By:` {(entry is null ? message.Author.Mention : entry.User.Mention)} | {(entry is null ? message.Author.Id : entry.User.Id)}");
+                    $"`Deleted By:` {deleteUser.Mention} | {deleteUser.Id}");
 
             // Handle attachments
             if (message.Attachments.Count != 0)
