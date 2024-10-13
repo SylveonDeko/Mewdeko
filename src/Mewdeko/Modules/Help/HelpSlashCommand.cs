@@ -2,6 +2,7 @@ using Discord.Commands;
 using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
+using LinqToDB.Tools;
 using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.Autocompleters;
@@ -10,6 +11,7 @@ using Mewdeko.Common.Modals;
 using Mewdeko.Modules.Help.Services;
 using Mewdeko.Modules.Permissions.Services;
 using Mewdeko.Services.Settings;
+using RequireDragonAttribute = Mewdeko.Common.Attributes.InteractionCommands.RequireDragonAttribute;
 
 namespace Mewdeko.Modules.Help;
 
@@ -31,7 +33,7 @@ public class HelpSlashCommand(
     CommandService cmds,
     CommandHandler ch,
     GuildSettingsService guildSettings,
-    BotConfigService config)
+    BotConfigService config, GlobalPermissionService perms)
     : MewdekoSlashModuleBase<HelpService>
 {
     private static readonly ConcurrentDictionary<ulong, ulong> HelpMessages = new();
@@ -84,29 +86,15 @@ public class HelpSlashCommand(
         }
 
         var prefix = await guildSettings.GetPrefix(ctx.Guild);
-        // Find commands for that module
-        // don't show commands which are blocked
-        // order by name
-        var commandInfos = cmds.Commands.Where(c =>
-                c.Module.GetTopLevelModule().Name.ToUpperInvariant()
-                    .StartsWith(module, StringComparison.InvariantCulture) &&
-                !permissionService.BlockedCommands.Contains(c.Aliases[0].ToLowerInvariant()))
-            .OrderBy(c => c.Aliases[0])
-            .Distinct(new CommandTextEqualityComparer());
-        // check preconditions for all commands, but only if it's not 'all'
-        // because all will show all commands anyway, no need to check
-        var succ = new HashSet<CommandInfo>((await Task.WhenAll(commandInfos.Select(async x =>
-            {
-                var pre = await x.CheckPreconditionsAsync(new CommandContext(ctx.Client, currentmsg), serviceProvider)
-                    .ConfigureAwait(false);
-                return (Cmd: x, Succ: pre.IsSuccess);
-            })).ConfigureAwait(false))
-            .Where(x => x.Succ)
-            .Select(x => x.Cmd));
 
-        var cmdsWithGroup = commandInfos
-            .GroupBy(c => c.Module.Name.Replace("Commands", "", StringComparison.InvariantCulture))
-            .OrderBy(x => x.Key == x.First().Module.Name ? int.MaxValue : x.Count());
+        // Pre-filter commands and create a lookup for blocked commands
+        var blockedCommandsSet = new HashSet<string>(perms.BlockedCommands.Select(c => c.ToLowerInvariant()));
+        var commandInfos = cmds.Commands
+            .Where(c => c.Module.GetTopLevelModule().Name.ToUpperInvariant()
+                            .StartsWith(module, StringComparison.InvariantCulture) &&
+                        !blockedCommandsSet.Contains(c.Aliases[0].ToLowerInvariant()))
+            .Distinct(new CommandTextEqualityComparer())
+            .ToList();
 
         if (!commandInfos.Any())
         {
@@ -114,47 +102,90 @@ public class HelpSlashCommand(
             return;
         }
 
-        var i = 0;
-        var groups = cmdsWithGroup.GroupBy(_ => i++ / 48).ToArray();
+        // Check preconditions
+        var preconditionTasks = commandInfos.Select(async x =>
+        {
+            var pre = await x.CheckPreconditionsAsync(new CommandContext(ctx.Client, currentmsg), serviceProvider);
+            return (Cmd: x, Succ: pre.IsSuccess);
+        });
+        var preconditionResults = await Task.WhenAll(preconditionTasks).ConfigureAwait(false);
+        var succ = new HashSet<CommandInfo>(preconditionResults.Where(x => x.Succ).Select(x => x.Cmd));
+
+        // Group and sort commands, ensuring no duplicates
+        var seenCommands = new HashSet<string>();
+        var cmdsWithGroup = commandInfos
+            .GroupBy(c => c.Module.Name.Replace("Commands", "", StringComparison.InvariantCulture))
+            .Select(g => new
+            {
+                ModuleName = g.Key,
+                Commands = g.Where(c => seenCommands.Add(c.Aliases[0].ToLowerInvariant()))
+                    .OrderBy(c => c.Aliases[0])
+                    .ToList()
+            })
+            .Where(g => g.Commands.Any())
+            .OrderBy(g => g.ModuleName)
+            .ToList();
+
+        var pageSize = 24;
+        var totalCommands = cmdsWithGroup.Sum(g => g.Commands.Count);
+        var totalPages = (int)Math.Ceiling(totalCommands / (double)pageSize);
+
         var paginator = new LazyPaginatorBuilder()
             .AddUser(ctx.User)
             .WithPageFactory(PageFactory)
             .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-            .WithMaxPageIndex(groups.Select(x => x.Count()).FirstOrDefault() - 1)
+            .WithMaxPageIndex(totalPages - 1)
             .WithDefaultEmotes()
+            .WithActionOnCancellation(ActionOnStop.DeleteMessage)
             .Build();
 
-        var msg = await interactivity.SendPaginatorAsync(paginator, ctx.Interaction as SocketInteraction,
-            TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+        await interactivity.SendPaginatorAsync(paginator, ctx.Interaction, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
 
-        HelpMessages.TryAdd(ctx.Channel.Id, msg.Message.Id);
-
-
-        async Task<PageBuilder> PageFactory(int page)
+        Task<PageBuilder> PageFactory(int page)
         {
-            await Task.CompletedTask.ConfigureAwait(false);
-            var transformed = groups.Select(x => x.ElementAt(page)
-                    .Where(commandInfo => !commandInfo.Attributes.Any(attribute => attribute is HelpDisabled)).Select(
-                        commandInfo =>
-                            $"{(succ.Contains(commandInfo) ? "✅" : "❌")}{prefix + commandInfo.Aliases[0]}{(commandInfo.Aliases.Skip(1).FirstOrDefault() is not null ? $"/{prefix}{commandInfo.Aliases[1]}" : "")}"))
-                .FirstOrDefault();
-            var last = groups.Select(x => x.Count()).FirstOrDefault();
-            for (i = 0; i < last; i++)
+            var pageBuilder = new PageBuilder().WithOkColor();
+            var commandsOnPage = new List<string>();
+            var currentModule = "";
+            var commandCount = 0;
+
+            foreach (var group in cmdsWithGroup)
             {
-                if (i != last - 1 || (i + 1) % 1 == 0) continue;
-                var grp = 0;
-                var count = transformed.Count();
-                transformed = transformed
-                    .GroupBy(_ => grp++ % count / 2)
-                    .Select(x => x.Count() == 1 ? $"{x.First()}" : string.Concat(x));
+                foreach (var cmd in group.Commands)
+                {
+                    if (commandCount >= page * pageSize && commandCount < (page + 1) * pageSize)
+                    {
+                        if (currentModule != group.ModuleName)
+                        {
+                            if (commandsOnPage.Any())
+                                pageBuilder.AddField(currentModule,
+                                    $"```css\n{string.Join("\n", commandsOnPage)}\n```");
+                            commandsOnPage.Clear();
+                            currentModule = group.ModuleName;
+                        }
+
+                        var cmdString =
+                            $"{(succ.Contains(cmd) ? cmd.Preconditions.Any(p => p is RequireDragonAttribute) ? "🐉" : "✅" : "❌")}" +
+                            $"{prefix}{cmd.Aliases[0]}" +
+                            $"{(cmd.Aliases.Skip(1).FirstOrDefault() is not null ? $"/{prefix}{cmd.Aliases[1]}" : "")}";
+                        commandsOnPage.Add(cmdString);
+                    }
+
+                    commandCount++;
+                    if (commandCount >= (page + 1) * pageSize) break;
+                }
+
+                if (commandCount >= (page + 1) * pageSize) break;
             }
 
-            return new PageBuilder()
-                .AddField(groups.Select(x => x.ElementAt(page).Key).FirstOrDefault(),
-                    $"```css\n{string.Join("\n", transformed)}\n```")
-                .WithDescription(
-                    $"✅: You can use this command.\n❌: You cannot use this command.\n{config.Data.LoadingEmote}: If you need any help don't hesitate to join [The Support Server](https://discord.gg/mewdeko)\nDo `{prefix}h commandname` to see info on that command")
-                .WithOkColor();
+            if (commandsOnPage.Any())
+                pageBuilder.AddField(currentModule, $"```css\n{string.Join("\n", commandsOnPage)}\n```");
+
+            pageBuilder.WithDescription(
+                $"✅: You can use this command.\n❌: You cannot use this command.\n" +
+                $"{config.Data.LoadingEmote}: If you need any help don't hesitate to join [The Support Server](https://discord.gg/mewdeko)\n" +
+                $"Do `{prefix}h commandname` to see info on that command");
+
+            return Task.FromResult(pageBuilder);
         }
     }
 
