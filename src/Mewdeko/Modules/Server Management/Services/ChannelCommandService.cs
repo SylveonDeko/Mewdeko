@@ -57,6 +57,8 @@ public class ChannelCommandService : INService, IReadyExecutor
             var guildId = guild.Id;
             var isInRedis = redisJoinBlockedGuilds.Any(g => g == (RedisValue)guildId.ToString());
             var isInDb = dbLockdownGuilds.Contains(guildId);
+            if (!isInRedis && !isInDb)
+                continue;
 
             lockdownGuilds[guildId] = isInRedis switch
             {

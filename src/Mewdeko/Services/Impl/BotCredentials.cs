@@ -82,10 +82,10 @@ public class BotCredentials : IBotCredentials
     /// </summary>
     public string PsqlConnectionString { get; set; }
 
-    // /// <summary>
-    // /// Gets or sets whether this is the master mewdeko instance
-    // /// </summary>
-    // public bool IsMasterInstance { get; set; } = false;
+    /// <summary>
+    /// Gets or sets whether this is the master mewdeko instance
+    /// </summary>
+    public bool IsMasterInstance { get; set; } = false;
 
     /// <summary>
     ///     Gets or sets a value indicating whether to use global currency.
@@ -395,7 +395,7 @@ public class BotCredentials : IBotCredentials
             ShardRunCommand = data[nameof(ShardRunCommand)];
             ShardRunArguments = data[nameof(ShardRunArguments)];
             CleverbotApiKey = data[nameof(CleverbotApiKey)];
-            // IsMasterInstance = Convert.ToBoolean(data[nameof(IsMasterInstance)]);
+            IsMasterInstance = Convert.ToBoolean(data[nameof(IsMasterInstance)]);
             LocationIqApiKey = data[nameof(LocationIqApiKey)];
             SpotifyClientId = data[nameof(SpotifyClientId)];
             SpotifyClientSecret = data[nameof(SpotifyClientSecret)];
@@ -540,7 +540,7 @@ public class BotCredentials : IBotCredentials
         public string RedisOptions { get; set; } = "127.0.0.1,syncTimeout=3000";
         public int ApiPort { get; set; } = 5001;
         public bool SkipApiKey { get; set; } = false;
-       // public bool IsMasterInstance { get; set; } = false;
+        public bool IsMasterInstance { get; set; } = false;
         public RestartConfig RestartCommand { get; } = null;
         public string RedisConnections { get; } = "127.0.0.1:6379";
         public string LastFmApiKey { get; } = "";

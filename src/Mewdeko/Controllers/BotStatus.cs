@@ -24,6 +24,7 @@ public class BotStatus(DiscordShardedClient client, StatsService statsService, C
     [HttpGet]
     public async Task<IActionResult> GetStatus()
     {
+        var creds = new BotCredentials();
         var clients = client.Shards;
         var rest = client.Rest;
         var curUser = await rest.GetUserAsync(client.CurrentUser.Id);
@@ -40,7 +41,8 @@ public class BotStatus(DiscordShardedClient client, StatsService statsService, C
             BotStatus = client.Status.ToString(),
             UserCount = clients.Select(x => x.Guilds.Sum(g => g.Users.Count)).Sum(),
             CommitHash = GetCommitHash(),
-            BotId = client.CurrentUser.Id
+            BotId = client.CurrentUser.Id,
+            InstanceUrl = $"http://localhost:{creds.ApiPort}"
         };
 
         return Ok(toReturn);
@@ -159,5 +161,10 @@ public class BotStatus(DiscordShardedClient client, StatsService statsService, C
         ///     The bots userId
         /// </summary>
         public ulong BotId { get; set; }
+
+        /// <summary>
+        /// The api url of this instance.
+        /// </summary>
+        public string InstanceUrl { get; set; }
     }
 }

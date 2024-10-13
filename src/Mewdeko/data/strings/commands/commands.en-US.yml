@@ -13,6 +13,30 @@ gpingrole:
     - "roleid"
     - "@role"
   desc: "Sets the role to ping when a giveaway starts"
+invites:
+  args:
+    - "@user"
+  desc: "Displays the number of invites for you or the specified user."
+invitesettings:
+  desc: "Shows the current invite tracking settings for the server."
+toggleinvitetracking:
+  desc: "Enables or disables invite tracking for the server."
+toggleremoveinviteonleave:
+  desc: "Toggles whether invites should be removed when a user leaves the server."
+setminaccountage:
+  args:
+    - "days"
+  desc: "Sets the minimum account age required for an invite to be counted."
+inviteleaderboard:
+  desc: "Displays a leaderboard of users with the most invites."
+whoinvited:
+  args:
+    - "@user"
+  desc: "Shows who invited the specified user or yourself to the server."
+invitedusers:
+  args:
+    - "@user"
+  desc: "Lists the users invited by you or the specified user."
 usermessages:
   args:
     - "user"

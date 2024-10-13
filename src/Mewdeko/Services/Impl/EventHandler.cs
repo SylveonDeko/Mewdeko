@@ -50,6 +50,22 @@ public class EventHandler
         client.AuditLogCreated += ClientOnAuditLogCreated;
         client.GuildAvailable += ClientOnGuildAvailable;
         client.LeftGuild += ClientOnLeftGuild;
+        client.InviteCreated += ClientOnInviteCreated;
+        client.InviteDeleted += ClientOnInviteDeleted;
+    }
+
+    private Task ClientOnInviteDeleted(SocketGuildChannel arg1, string arg2)
+    {
+        if (InviteDeleted != null)
+            _ = InviteDeleted(arg1, arg2);
+        return Task.CompletedTask;
+    }
+
+    private Task ClientOnInviteCreated(SocketInvite arg)
+    {
+        if (InviteCreated is not null)
+            _ = InviteCreated(arg);
+        return Task.CompletedTask;
     }
 
     private Task ClientOnLeftGuild(SocketGuild arg)
@@ -108,6 +124,15 @@ public class EventHandler
     ///     Occurs when a message is received.
     /// </summary>
     public event AsyncEventHandler<SocketMessage>? MessageReceived;
+
+    /// <summary>
+    ///     Occurs when a message is received.
+    /// </summary>
+    public event AsyncEventHandler<IInvite>? InviteCreated;
+    /// <summary>
+    /// Occurs when an invite gets deleted
+    /// </summary>
+    public event AsyncEventHandler<IGuildChannel, string>? InviteDeleted;
 
     /// <summary>
     ///     Occurs when a guild event is created.

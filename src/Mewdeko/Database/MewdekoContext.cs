@@ -1,6 +1,4 @@
-﻿using Mewdeko.Common.Attributes.DB;
-using Mewdeko.Modules.OwnerOnly.Services;
-using Mewdeko.Services.Impl;
+﻿using Mewdeko.Services.Impl;
 using Microsoft.EntityFrameworkCore;
 
 namespace Mewdeko.Database;
@@ -25,6 +23,15 @@ public class MewdekoContext : DbContext
     ///     Gets or sets the global user balances.
     /// </summary>
     public DbSet<GlobalUserBalance> GlobalUserBalances { get; set; }
+
+    /// <summary>
+    /// Gets or sets invite counts
+    /// </summary>
+    public DbSet<InviteCount> InviteCounts { get; set; }
+    /// <summary>
+    /// Gets or sets invited by
+    /// </summary>
+    public DbSet<InvitedBy> InvitedBy { get; set; }
 
     /// <summary>
     ///     Gets or sets the lockdown channel permissions.
@@ -420,6 +427,11 @@ public class MewdekoContext : DbContext
     /// gets or sets the local running instances, for dashboard management.
     /// </summary>
     public DbSet<LocalBotInstances> BotInstances { get; set; }
+
+    /// <summary>
+    /// Settings for invite counting
+    /// </summary>
+    public DbSet<InviteCountSettings> InviteCountSettings { get; set; }
 
     /// <summary>
     ///     Configures the model that was discovered by convention from the entity types

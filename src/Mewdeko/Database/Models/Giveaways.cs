@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using Mewdeko.Common.Attributes.DB;
 
 namespace Mewdeko.Database.Models;
 

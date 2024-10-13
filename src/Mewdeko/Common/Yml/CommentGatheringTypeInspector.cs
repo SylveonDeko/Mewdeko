@@ -23,6 +23,18 @@ public class CommentGatheringTypeInspector : TypeInspectorSkeleton
     }
 
     /// <inheritdoc />
+    public override string GetEnumName(Type enumType, string name)
+    {
+        return name;
+    }
+
+    /// <inheritdoc />
+    public override string GetEnumValue(object enumValue)
+    {
+        return enumValue.ToString();
+    }
+
+    /// <inheritdoc />
     public override IEnumerable<IPropertyDescriptor> GetProperties(Type type, object? container)
     {
         return innerTypeDescriptor
@@ -42,6 +54,8 @@ public class CommentGatheringTypeInspector : TypeInspectorSkeleton
 
         /// <inheritdoc />
         public string Name { get; }
+
+        public bool AllowNulls { get; }
 
         /// <inheritdoc />
         public Type Type
@@ -80,6 +94,9 @@ public class CommentGatheringTypeInspector : TypeInspectorSkeleton
                 baseDescriptor.ScalarStyle = value;
             }
         }
+
+        public bool Required { get; }
+        public Type? ConverterType { get; }
 
         /// <inheritdoc />
         public bool CanWrite

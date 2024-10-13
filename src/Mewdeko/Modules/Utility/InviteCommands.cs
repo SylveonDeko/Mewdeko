@@ -1,5 +1,4 @@
 ﻿using Discord.Commands;
-using Discord.Rest;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Mewdeko.Common.Attributes.TextCommands;
@@ -10,152 +9,196 @@ namespace Mewdeko.Modules.Utility;
 public partial class Utility
 {
     /// <summary>
-    ///     Commands for creating and managing server invites.
+    /// Provides commands for managing and viewing invite-related information.
     /// </summary>
-    /// <param name="serv">The service for embed pagination.</param>
-    /// <param name="client">The Discord client.</param>
     [Group]
-    public class InviteCommands(InteractiveService serv, DiscordShardedClient client) : MewdekoSubmodule<InviteService>
+    public class InviteCommands : MewdekoSubmodule<InviteCountService>
     {
+        private readonly InteractiveService interactiveService;
+
         /// <summary>
-        ///     Creates a new invite to the server with customizable options such as expiry time and maximum use count.
+        /// Initializes a new instance of the <see cref="InviteCommands"/> class.
         /// </summary>
-        /// <param name="args">Arguments to customize the invite, including expiry, max uses, and more.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        [Cmd]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [BotPerm(ChannelPermission.CreateInstantInvite)]
-        [UserPerm(ChannelPermission.CreateInstantInvite)]
-        [MewdekoOptions(typeof(InviteService.Options))]
-        public async Task InviteCreate(params string[] args)
+        /// <param name="serv">The interactive service for handling paginated responses.</param>
+        public InviteCommands(InteractiveService serv)
         {
-            var (opts, success) = OptionsParser.ParseFrom(new InviteService.Options(), args);
-            if (!success)
-                return;
-
-            var ch = (ITextChannel)ctx.Channel;
-            var invite = await ch.CreateInviteAsync(opts.Expire, opts.MaxUses, opts.Temporary, opts.Unique)
-                .ConfigureAwait(false);
-
-            await ctx.Channel.SendConfirmAsync($"{ctx.User.Mention} https://discord.gg/{invite.Code}")
-                .ConfigureAwait(false);
+            interactiveService = serv;
         }
 
         /// <summary>
-        ///     Retrieves detailed information about an existing invite, including member count and guild features.
+        /// Displays the number of invites for a user.
         /// </summary>
-        /// <param name="text">The invite code or link to gather information about.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
+        /// <param name="user">The user to check invites for. If null, checks for the command user.</param>
         [Cmd]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        public async Task InviteInfo(string text)
+        public async Task Invites(IUser user = null)
         {
-            RestGuild? guild = null;
-            var invinfo = await client.Rest.GetInviteAsync(text).ConfigureAwait(false);
-            if (!invinfo.GuildId.HasValue)
-            {
-                await ctx.Channel.SendErrorAsync(
-                    "That invite was not found. Please make sure it's valid and not a vanity.", Config);
-                return;
-            }
-
-            try
-            {
-                guild = await client.Rest.GetGuildAsync(invinfo.GuildId.Value).ConfigureAwait(false);
-            }
-            catch
-            {
-                // ignored
-            }
-
-            var eb = new EmbedBuilder().WithOkColor().WithTitle(invinfo.GuildName).WithThumbnailUrl(guild?.IconUrl)
-                .WithDescription(
-                    $"Online: {invinfo.PresenceCount}\nTotal Count: {invinfo.MemberCount}")
-                .AddField("Full Link", invinfo.Url, true)
-                .AddField("Channel",
-                    $"[{invinfo.ChannelName}](https://discord.com/channels/{invinfo.GuildId}/{invinfo.ChannelId})",
-                    true).AddField("Inviter",
-                    $"{invinfo.Inviter.Mention} ({invinfo.Inviter.Id})", true);
-            if (guild is not null)
-            {
-                eb.AddField("Partnered", guild.Features.HasFeature(GuildFeature.Partnered), true)
-                    .AddField("Server Created",
-                        $"{TimestampTag.FromDateTime(guild.CreatedAt.DateTime)}", true)
-                    .AddField("Verified", guild.Features.HasFeature(GuildFeature.Verified), true).AddField("Discovery",
-                        guild.Features.HasFeature(GuildFeature.Discoverable), true);
-            }
-
-            eb.AddField("Expires",
-                invinfo.MaxAge.HasValue
-                    ? TimestampTag.FromDateTime(
-                        DateTime.UtcNow.Add(TimeSpan.FromDays(invinfo.MaxAge.Value)))
-                    : "Permanent", true);
-            await ctx.Channel.SendMessageAsync(embed: eb.Build()).ConfigureAwait(false);
+            user ??= Context.User;
+            var invites = await Service.GetInviteCount(user.Id, Context.Guild.Id);
+            await ReplyConfirmLocalizedAsync("user_invite_count", user, invites);
         }
 
         /// <summary>
-        ///     Lists all active invites for the server, including their usage and creator information.
+        /// Displays the current invite settings for the guild.
         /// </summary>
-        /// <returns>A task that represents the asynchronous operation.</returns>
         [Cmd]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [BotPerm(GuildPermission.ManageGuild)]
-        public async Task InviteList()
+        [UserPerm(GuildPermission.ManageGuild)]
+        public async Task InviteSettings()
         {
-            var invites = await ctx.Guild.GetInvitesAsync().ConfigureAwait(false);
+            var settings = await Service.GetInviteCountSettingsAsync(Context.Guild.Id);
+            await ReplyConfirmLocalizedAsync("invite_settings",
+                GetEnDis(settings.IsEnabled),
+                GetEnDis(settings.RemoveInviteOnLeave),
+                    settings.MinAccountAge);
+        }
+
+        /// <summary>
+        /// Toggles invite tracking for the guild.
+        /// </summary>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
+        public async Task ToggleInviteTracking()
+        {
+            var newState = await Service.SetInviteTrackingEnabledAsync(Context.Guild.Id,
+                !(await Service.GetInviteCountSettingsAsync(Context.Guild.Id)).IsEnabled);
+            await ReplyConfirmLocalizedAsync(newState ? "invite_tracking_enabled" : "invite_tracking_disabled");
+        }
+
+        /// <summary>
+        /// Toggles whether invites should be removed when a user leaves the guild.
+        /// </summary>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
+        public async Task ToggleRemoveInviteOnLeave()
+        {
+            var newState = await Service.SetRemoveInviteOnLeaveAsync(Context.Guild.Id,
+                !(await Service.GetInviteCountSettingsAsync(Context.Guild.Id)).RemoveInviteOnLeave);
+            await ReplyConfirmLocalizedAsync(newState
+                ? "remove_invite_on_leave_enabled"
+                : "remove_invite_on_leave_disabled");
+        }
+
+        /// <summary>
+        /// Sets the minimum account age required for an invite to be counted.
+        /// </summary>
+        /// <param name="days">The minimum age in days.</param>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageGuild)]
+        public async Task SetMinAccountAge(int days)
+        {
+            var minAge = TimeSpan.FromDays(days);
+            await Service.SetMinAccountAgeAsync(Context.Guild.Id, minAge);
+            await ReplyConfirmLocalizedAsync("min_account_age_set", days);
+        }
+
+        /// <summary>
+        /// Displays a leaderboard of users with the most invites.
+        /// </summary>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task InviteLeaderboard()
+        {
+            var leaderboard = await Service.GetInviteLeaderboardAsync(Context.Guild);
+
+            if (leaderboard.Count == 0)
+            {
+                await ReplyErrorLocalizedAsync("no_invite_data");
+                return;
+            }
 
             var paginator = new LazyPaginatorBuilder()
-                .AddUser(ctx.User)
+                .AddUser(Context.User)
                 .WithPageFactory(PageFactory)
                 .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
-                .WithMaxPageIndex(invites.Count / 10)
+                .WithMaxPageIndex(leaderboard.Count / 20)
                 .WithDefaultEmotes()
                 .WithActionOnCancellation(ActionOnStop.DeleteMessage)
                 .Build();
 
-            await serv.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60)).ConfigureAwait(false);
+            await interactiveService.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
+                .ConfigureAwait(false);
+            return;
 
             async Task<PageBuilder> PageFactory(int page)
             {
                 await Task.CompletedTask.ConfigureAwait(false);
-                var i = 1;
-                var invs = invites.OrderByDescending(x => x.Uses).Skip(page * 9).Take(9);
-                if (!invs.Any())
-                    return new PageBuilder().WithErrorColor().WithDescription(GetText("no_invites"));
-                return invs.Aggregate(new PageBuilder().WithOkColor(),
-                    (acc, inv) => acc.AddField(
-                        $"#{i++} {inv.Inviter.ToString().TrimTo(15)} ({inv.Uses} / {(inv.MaxUses == 0 ? "∞" : inv.MaxUses?.ToString())})",
-                        inv.Url));
+                return new PageBuilder().WithOkColor()
+                    .WithTitle(GetText("invite_leaderboard_title"))
+                    .WithDescription(string.Join("\n", leaderboard.Skip(page * 20).Take(20)
+                        .Select((x, i) => $"{i + 1 + page * 20}. {x.Username} - {x.InviteCount} invites")));
             }
         }
 
         /// <summary>
-        ///     Deletes an invite from the server based on its index in the invite list.
+        /// Displays who invited a specific user to the guild.
         /// </summary>
-        /// <param name="index">The index of the invite to delete, starting from 1.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
+        /// <param name="user">The user to check. If null, checks for the command user.</param>
         [Cmd]
         [Aliases]
         [RequireContext(ContextType.Guild)]
-        [BotPerm(ChannelPermission.ManageChannels)]
-        [UserPerm(ChannelPermission.ManageChannels)]
-        public async Task InviteDelete(int index)
+        public async Task WhoInvited(IUser user = null)
         {
-            if (--index < 0)
-                return;
-            var ch = (ITextChannel)ctx.Channel;
+            user ??= Context.User;
+            var inviter = await Service.GetInviter(user.Id, Context.Guild);
 
-            var invites = await ch.GetInvitesAsync().ConfigureAwait(false);
-
-            if (invites.Count <= index)
-                return;
-            var inv = invites.ElementAt(index);
-            await inv.DeleteAsync().ConfigureAwait(false);
-
-            await ReplyAsync(GetText("invite_deleted", Format.Bold(inv.Code))).ConfigureAwait(false);
+            if (inviter == null)
+                await ReplyErrorLocalizedAsync("no_inviter_found", user.Username);
+            else
+                await ReplyConfirmLocalizedAsync("inviter_found", user.Username, inviter.Username);
         }
+
+        /// <summary>
+        /// Displays a list of users invited by a specific user.
+        /// </summary>
+        /// <param name="user">The user whose invites to check. If null, checks for the command user.</param>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        public async Task InvitedUsers(IUser user = null)
+        {
+            user ??= Context.User;
+            var invitedUsers = await Service.GetInvitedUsers(user.Id, Context.Guild);
+
+            if (invitedUsers.Count == 0)
+            {
+                await ReplyErrorLocalizedAsync("no_invited_users", user.Username);
+                return;
+            }
+
+            var paginator = new LazyPaginatorBuilder()
+                .AddUser(Context.User)
+                .WithPageFactory(PageFactory)
+                .WithFooter(PaginatorFooter.PageNumber | PaginatorFooter.Users)
+                .WithMaxPageIndex(invitedUsers.Count / 20)
+                .WithDefaultEmotes()
+                .WithActionOnCancellation(ActionOnStop.DeleteMessage)
+                .Build();
+
+            await interactiveService.SendPaginatorAsync(paginator, Context.Channel, TimeSpan.FromMinutes(60))
+                .ConfigureAwait(false);
+            return;
+
+            async Task<PageBuilder> PageFactory(int page)
+            {
+                await Task.CompletedTask.ConfigureAwait(false);
+                return new PageBuilder().WithOkColor()
+                    .WithTitle(GetText("invited_users_title", user.Username))
+                    .WithDescription(string.Join("\n",
+                        invitedUsers.Skip(page * 20).Take(20).Select(x => x.ToString())));
+            }
+        }
+
+        private string GetEnDis(bool endis)
+            => endis ? "Enabled" : "Disabled";
     }
 }

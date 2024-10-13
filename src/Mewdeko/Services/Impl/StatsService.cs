@@ -125,6 +125,7 @@ public class StatsService : IStatsService, IDisposable
                 catch
                 {
                     Log.Error("Failed to update top guilds: {0}");
+                    return;
                 }
             } while (await periodicTimer.WaitForNextTickAsync());
         });

@@ -16,6 +16,28 @@ banbyhash:
 debugembed:
   - debugembed
   - embeddebug
+invites:
+  - invites
+invitesettings:
+  - invitesettings
+  - inviteconfig
+toggleinvitetracking:
+  - toggleinvitetracking
+toggleremoveinviteonleave:
+  - toggleremoveinviteonleave
+  - triol
+setminaccountage:
+  - setminaccountage
+  - inviteminage
+inviteleaderboard:
+  - inviteleaderboard
+  - inviteslb
+whoinvited:
+  - whoinvited
+  - invitedby
+invitedusers:
+  - invitedusers
+  - userinvites
 purgeuser:
   - purgeuser
   - pruneuser

@@ -18,14 +18,14 @@ public class SkColorConverter : IYamlTypeConverter
     }
 
     /// <inheritdoc />
-    public object ReadYaml(IParser parser, Type type)
+    public object? ReadYaml(IParser parser, Type type, ObjectDeserializer rootDeserializer)
     {
         var scalar = parser.Consume<Scalar>();
         return SKColor.Parse(scalar.Value);
     }
 
     /// <inheritdoc />
-    public void WriteYaml(IEmitter emitter, object? value, Type type)
+    public void WriteYaml(IEmitter emitter, object? value, Type type, ObjectSerializer serializer)
     {
         var color = (SKColor)value;
         var val = (uint)((color.Blue << 0) | (color.Green << 8) | (color.Red << 16));
@@ -45,14 +45,14 @@ public class CultureInfoConverter : IYamlTypeConverter
     }
 
     /// <inheritdoc />
-    public object ReadYaml(IParser parser, Type type)
+    public object? ReadYaml(IParser parser, Type type, ObjectDeserializer rootDeserializer)
     {
         var scalar = parser.Consume<Scalar>();
         return new CultureInfo(scalar.Value);
     }
 
     /// <inheritdoc />
-    public void WriteYaml(IEmitter emitter, object? value, Type type)
+    public void WriteYaml(IEmitter emitter, object? value, Type type, ObjectSerializer serializer)
     {
         var ci = (CultureInfo)value;
         emitter.Emit(new Scalar(ci.Name));

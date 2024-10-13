@@ -3,6 +3,7 @@ using System;
 using Mewdeko.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Mewdeko.Database.Migrations.PostgreSql
 {
     [DbContext(typeof(MewdekoPostgresContext))]
-    partial class MewdekoPostgresContextModelSnapshot : ModelSnapshot
+    [Migration("20241013145247_Invites")]
+    partial class Invites
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1808,34 +1811,6 @@ namespace Mewdeko.Database.Migrations.PostgreSql
                     b.HasKey("Id");
 
                     b.ToTable("InviteCounts");
-                });
-
-            modelBuilder.Entity("Mewdeko.Database.Models.InviteCountSettings", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("DateAdded")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<decimal>("GuildId")
-                        .HasColumnType("numeric(20,0)");
-
-                    b.Property<bool>("IsEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<TimeSpan>("MinAccountAge")
-                        .HasColumnType("interval");
-
-                    b.Property<bool>("RemoveInviteOnLeave")
-                        .HasColumnType("boolean");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("InviteCountSettings");
                 });
 
             modelBuilder.Entity("Mewdeko.Database.Models.InvitedBy", b =>
