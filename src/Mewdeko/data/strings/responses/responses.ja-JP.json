@@ -19,6 +19,8 @@
   "instance_added": "Instance Added",
   "instance_version": "Instance Version: {0}",
   "instance_command_count": "Commands Count: {0}",
+  "greetdm_opt_out": "You have been opted out of greet dms. Keep in mind this only works where mewdeko is used for greet dms.",
+  "greetdm_opt_in": "You have been opted in to greet dms.",
   "instance_modules_count": "Modules Count: {0}",
   "instance_user_count": "User Count {0}",
   "lockdown_in_progress": "{0} Lockdown is in progress...",
