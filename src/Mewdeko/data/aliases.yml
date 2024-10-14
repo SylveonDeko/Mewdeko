@@ -38,6 +38,9 @@ whoinvited:
 invitedusers:
   - invitedusers
   - userinvites
+greetdmoptout:
+  - greetdmoptout
+  - gdmoptout
 purgeuser:
   - purgeuser
   - pruneuser

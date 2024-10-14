@@ -1,5 +1,5 @@
 ﻿using Mewdeko.Database.DbContextStuff;
-using Mewdeko.Services.Settings;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 namespace Mewdeko.Services;
@@ -9,19 +9,16 @@ namespace Mewdeko.Services;
 /// </summary>
 public class GreetSettingsService : INService
 {
-    private readonly BotConfigService bss;
     private readonly DiscordShardedClient client;
     private readonly DbContextProvider dbProvider;
+
+    private readonly GuildSettingsService gss;
 
     private readonly Channel<(GreetSettings, IGuildUser, TaskCompletionSource<bool>)> greetDmQueue =
         Channel.CreateBounded<(GreetSettings, IGuildUser, TaskCompletionSource<bool>)>(new BoundedChannelOptions(60)
         {
-            // The limit of 60 users should be only hit when there's a raid. In that case
-            // probably the best thing to do is to drop newest (raiding) users
             FullMode = BoundedChannelFullMode.DropNewest
         });
-
-    private readonly GuildSettingsService gss;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="GreetSettingsService" /> class, setting up event handlers for user
@@ -29,28 +26,24 @@ public class GreetSettingsService : INService
     /// </summary>
     /// <param name="client">The Discord client instance to interact with the Discord API.</param>
     /// <param name="gss">The service managing guild settings.</param>
-    /// <param name="db">The service for database interactions.</param>
-    /// <param name="bss">The service managing bot configurations.</param>
+    /// <param name="dbProvider">The db provider</param>
     /// <param name="eventHandler">The handler managing Discord events.</param>
-    /// <param name="bot">The main bot instance.</param>
     /// <remarks>
     ///     Event handlers are set up to listen for specific Discord events, allowing the service to respond to user and guild
     ///     activities such as joining, leaving, or boosting.
     /// </remarks>
     public GreetSettingsService(DiscordShardedClient client, GuildSettingsService gss, DbContextProvider dbProvider,
-        BotConfigService bss, EventHandler eventHandler)
+        EventHandler eventHandler)
     {
         this.dbProvider = dbProvider;
         this.client = client;
         this.gss = gss;
-        this.bss = bss;
 
         eventHandler.UserJoined += UserJoined;
         eventHandler.UserLeft += UserLeft;
         eventHandler.GuildMemberUpdated += ClientOnGuildMemberUpdated;
         _ = RunGreetLoop();
     }
-
 
     private async Task<bool> RunGreetLoop()
     {
@@ -69,17 +62,16 @@ public class GreetSettingsService : INService
         }
     }
 
-    private async Task<GreetSettings> GetGreetSettings(ulong guildId)
-    {
-        var guildConfig = await gss.GetGuildConfig(guildId);
-        return GreetSettings.Create(guildConfig);
-    }
-
     private async Task<bool> GreetDmUser(GreetSettings conf, IGuildUser user)
     {
         var completionSource = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
         await greetDmQueue.Writer.WriteAsync((conf, user, completionSource));
         return await completionSource.Task;
+    }
+    private async Task<GreetSettings> GetGreetSettings(ulong guildId)
+    {
+        var guildConfig = await gss.GetGuildConfig(guildId);
+        return GreetSettings.Create(guildConfig);
     }
 
     private async Task TriggerBoostMessage(GreetSettings conf, SocketGuildUser user)
@@ -249,22 +241,6 @@ public class GreetSettingsService : INService
     }
 
     /// <summary>
-    ///     Sets the webhook URL for greeting messages in a guild.
-    /// </summary>
-    /// <param name="guild">The guild object.</param>
-    /// <param name="url">The URL of the webhook to send greeting messages.</param>
-    /// <remarks>
-    ///     This setting allows the guild to customize the destination of greeting messages.
-    /// </remarks>
-    public async Task SetWebGreetUrl(IGuild guild, string url)
-    {
-        await using var db = await dbProvider.GetContextAsync();
-        var gc = await db.ForGuildId(guild.Id, set => set);
-        gc.GreetHook = url;
-        await gss.UpdateGuildConfig(guild.Id, gc);
-    }
-
-    /// <summary>
     ///     Sets the webhook URL for leave messages in a guild.
     /// </summary>
     /// <param name="guild">The guild object.</param>
@@ -281,45 +257,11 @@ public class GreetSettingsService : INService
     }
 
     /// <summary>
-    ///     Retrieves the direct message (DM) greeting message text for a guild.
-    /// </summary>
-    /// <param name="id">The guild's unique identifier.</param>
-    /// <returns>The DM greeting message text.</returns>
-    public async Task<string> GetDmGreetMsg(ulong id)
-    {
-        await using var dbContext = await dbProvider.GetContextAsync();
-
-        return (await dbContext.ForGuildId(id, set => set)).DmGreetMessageText;
-    }
-
-    /// <summary>
-    ///     Retrieves the channel greeting message text for a guild.
-    /// </summary>
-    /// <param name="gid">The guild's unique identifier.</param>
-    /// <returns>The channel greeting message text.</returns>
-    public async Task<string> GetGreetMsg(ulong gid)
-    {
-        await using var dbContext = await dbProvider.GetContextAsync();
-
-        return (await dbContext.ForGuildId(gid, set => set)).ChannelGreetMessageText;
-    }
-
-    /// <summary>
-    ///     Retrieves the webhook URL configured for greeting messages in a guild.
-    /// </summary>
-    /// <param name="gid">The guild's unique identifier.</param>
-    /// <returns>The webhook URL for greeting messages.</returns>
-    public async Task<string> GetGreetHook(ulong? gid)
-    {
-        return (await gss.GetGuildConfig(gid.Value)).GreetHook;
-    }
-
-    /// <summary>
     ///     Retrieves the webhook URL configured for leave messages in a guild.
     /// </summary>
     /// <param name="gid">The guild's unique identifier.</param>
     /// <returns>The webhook URL for leave messages.</returns>
-    public async Task<string> GetLeaveHook(ulong? gid)
+    private async Task<string> GetLeaveHook(ulong? gid)
     {
         return (await gss.GetGuildConfig(gid.Value)).LeaveHook;
     }
@@ -404,92 +346,39 @@ public class GreetSettingsService : INService
         }
     }
 
-    private Task GreetUsers(GreetSettings conf, ITextChannel channel, IGuildUser user)
+    /// <summary>
+    ///     Retrieves the direct message (DM) greeting message text for a guild.
+    /// </summary>
+    /// <param name="id">The guild's unique identifier.</param>
+    /// <returns>The DM greeting message text.</returns>
+    public async Task<string> GetDmGreetMsg(ulong id)
     {
-        return GreetUsers(conf, channel,
-        [
-            user
-        ]);
+        await using var dbContext = await dbProvider.GetContextAsync();
+
+        return (await dbContext.ForGuildId(id, set => set)).DmGreetMessageText;
     }
 
-    private async Task GreetUsers(GreetSettings conf, ITextChannel channel, IEnumerable<IGuildUser> users)
+    /// <summary>
+    ///     Retrieves the channel greeting message text for a guild.
+    /// </summary>
+    /// <param name="gid">The guild's unique identifier.</param>
+    /// <returns>The channel greeting message text.</returns>
+    public async Task<string> GetGreetMsg(ulong gid)
     {
-        if (!users.Any())
-            return;
+        await using var dbContext = await dbProvider.GetContextAsync();
 
-        var rep = new ReplacementBuilder()
-            .WithChannel(channel)
-            .WithClient(client)
-            .WithServer(client, (SocketGuild)channel.Guild)
-            .WithManyUsers(users)
-            .Build();
-        var gh = await GetGreetHook(channel.GuildId);
-        if (SmartEmbed.TryParse(rep.Replace(conf.ChannelGreetMessageText), channel.GuildId, out var embed,
-                out var plainText, out var components))
-        {
-            try
-            {
-                if (string.IsNullOrEmpty(gh) || gh == 0.ToString())
-                {
-                    var toDelete = await channel
-                        .SendMessageAsync(plainText, embeds: embed,
-                            components: components?.Build()).ConfigureAwait(false);
-                    if (conf.AutoDeleteGreetMessagesTimer > 0)
-                        toDelete.DeleteAfter(conf.AutoDeleteGreetMessagesTimer);
-                }
-                else
-                {
-                    var webhook = new DiscordWebhookClient(await GetGreetHook(channel.GuildId));
-                    var toDelete = await webhook
-                        .SendMessageAsync(plainText, embeds: embed, components: components?.Build())
-                        .ConfigureAwait(false);
-                    if (conf.AutoDeleteGreetMessagesTimer > 0)
-                    {
-                        var msg = await channel.GetMessageAsync(toDelete).ConfigureAwait(false) as IUserMessage;
-                        msg.DeleteAfter(conf.AutoDeleteGreetMessagesTimer);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Warning(ex, "Error embedding greet message");
-            }
-        }
-        else
-        {
-            var msg = rep.Replace(conf.ChannelGreetMessageText);
-            if (!string.IsNullOrWhiteSpace(msg))
-            {
-                try
-                {
-                    if (string.IsNullOrEmpty(gh) || gh == 0.ToString())
-                    {
-                        var toDelete = await channel.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
-                        if (conf.AutoDeleteGreetMessagesTimer > 0)
-                            toDelete.DeleteAfter(conf.AutoDeleteGreetMessagesTimer);
-                    }
-                    else
-                    {
-                        var webhook = new DiscordWebhookClient(await GetGreetHook(channel.GuildId));
-                        var toDel = await webhook.SendMessageAsync(msg.SanitizeMentions()).ConfigureAwait(false);
-                        if (conf.AutoDeleteGreetMessagesTimer > 0)
-                        {
-                            var msg2 = await channel.GetMessageAsync(toDel).ConfigureAwait(false) as IUserMessage;
-                            msg2.DeleteAfter(conf.AutoDeleteGreetMessagesTimer);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Log.Warning(ex, "Error sending greet message");
-                }
-            }
-        }
+        return (await dbContext.ForGuildId(gid, set => set)).ChannelGreetMessageText;
     }
 
     private async Task<bool> GreetDmUserInternal(GreetSettings conf, IGuildUser user)
     {
         if (!conf.SendDmGreetMessage)
+            return false;
+
+        await using var db = await dbProvider.GetContextAsync();
+
+        var dUser = await db.DiscordUser.FirstOrDefaultAsync(x => x.UserId == user.Id).ConfigureAwait(false);
+        if (dUser.GreetDmsOptOut)
             return false;
 
         var channel = await user.CreateDMChannelAsync();
@@ -536,18 +425,6 @@ public class GreetSettingsService : INService
             {
                 var conf = await GetGreetSettings(user.GuildId);
 
-                if (conf.SendChannelGreetMessage)
-                {
-                    var channel = await user.Guild.GetTextChannelAsync(conf.GreetMessageChannelId)
-                        .ConfigureAwait(false);
-                    if (channel != null)
-                    {
-                        await GreetUsers(conf, channel, [
-                            user
-                        ]).ConfigureAwait(false);
-                    }
-                }
-
                 if (conf.SendDmGreetMessage)
                 {
                     var channel = await user.CreateDMChannelAsync().ConfigureAwait(false);
@@ -573,50 +450,6 @@ public class GreetSettingsService : INService
         await using var dbContext = await dbProvider.GetContextAsync();
 
         return (await dbContext.ForGuildId(gid, set => set)).ChannelByeMessageText;
-    }
-
-    /// <summary>
-    ///     Enables or disables the channel greeting feature for a guild and sets the channel for greetings.
-    /// </summary>
-    /// <param name="guildId">The unique identifier of the guild.</param>
-    /// <param name="channelId">The channel ID where greetings should be sent.</param>
-    /// <param name="value">
-    ///     Optional. A boolean value indicating whether the feature should be enabled. If null, the setting
-    ///     will be toggled.
-    /// </param>
-    /// <returns>A boolean indicating whether the greeting feature is enabled after the operation.</returns>
-    public async Task<bool> SetGreet(ulong guildId, ulong channelId, bool? value = null)
-    {
-        await using var dbContext = await dbProvider.GetContextAsync();
-
-        var conf = await dbContext.ForGuildId(guildId, set => set);
-        conf.SendChannelGreetMessage = !conf.SendChannelGreetMessage;
-        conf.GreetMessageChannelId = channelId;
-        await dbContext.SaveChangesAsync().ConfigureAwait(false);
-        return conf.SendChannelGreetMessage;
-    }
-
-    /// <summary>
-    ///     Sets the greeting message for a guild.
-    /// </summary>
-    /// <param name="guildId">The unique identifier of the guild.</param>
-    /// <param name="message">The greeting message to be set. Mentions will be sanitized.</param>
-    /// <returns>A boolean indicating whether the greeting message feature is enabled.</returns>
-    /// <exception cref="ArgumentNullException">Thrown if the message is null or whitespace.</exception>
-    public async Task<bool> SetGreetMessage(ulong guildId, string? message)
-    {
-        message = message?.SanitizeMentions();
-
-        if (string.IsNullOrWhiteSpace(message))
-            throw new ArgumentNullException(nameof(message));
-
-        await using var dbContext = await dbProvider.GetContextAsync();
-
-        var conf = await dbContext.ForGuildId(guildId, set => set);
-        conf.ChannelGreetMessageText = message;
-        await gss.UpdateGuildConfig(guildId, conf);
-
-        return conf.SendChannelGreetMessage;
     }
 
     /// <summary>
@@ -726,27 +559,6 @@ public class GreetSettingsService : INService
         await gss.UpdateGuildConfig(guildId, conf);
     }
 
-    /// <summary>
-    ///     Sets the timer for auto-deleting greeting messages in a guild.
-    /// </summary>
-    /// <param name="id">The unique identifier of the guild.</param>
-    /// <param name="timer">
-    ///     The time in seconds after which greeting messages should be deleted. Must be between 0 and 600
-    ///     seconds.
-    /// </param>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown if the timer is outside the allowed range.</exception>
-    public async Task SetGreetDel(ulong id, int timer)
-    {
-        if (timer is < 0 or > 600)
-            return;
-
-        await using var dbContext = await dbProvider.GetContextAsync();
-
-        var conf = await dbContext.ForGuildId(id, set => set);
-        conf.AutoDeleteGreetMessagesTimer = timer;
-        await gss.UpdateGuildConfig(id, conf);
-    }
-
     #region Get Enabled Status
 
     /// <summary>
@@ -760,19 +572,6 @@ public class GreetSettingsService : INService
 
         var conf = await dbContext.ForGuildId(guildId, set => set);
         return conf.SendDmGreetMessage;
-    }
-
-    /// <summary>
-    ///     Determines if the channel greeting feature is enabled for a specified guild.
-    /// </summary>
-    /// <param name="guildId">The unique identifier of the guild.</param>
-    /// <returns>A boolean indicating if the channel greeting feature is enabled.</returns>
-    public async Task<bool> GetGreetEnabled(ulong guildId)
-    {
-        await using var dbContext = await dbProvider.GetContextAsync();
-
-        var conf = await dbContext.ForGuildId(guildId, set => set);
-        return conf.SendChannelGreetMessage;
     }
 
     /// <summary>
@@ -814,17 +613,6 @@ public class GreetSettingsService : INService
     {
         var conf = await GetGreetSettings(user.GuildId);
         await ByeUsers(conf, channel, user);
-    }
-
-    /// <summary>
-    ///     Sends a test greeting message in the specified channel for a given user.
-    /// </summary>
-    /// <param name="channel">The text channel where the message should be sent.</param>
-    /// <param name="user">The user for whom the greeting message is targeted.</param>
-    public async Task GreetTest(ITextChannel channel, IGuildUser user)
-    {
-        var conf = await GetGreetSettings(user.GuildId);
-        await GreetUsers(conf, channel, user);
     }
 
     /// <summary>
@@ -882,19 +670,10 @@ public class GreetSettings
     public ulong BoostMessageChannelId { get; set; }
 
     /// <summary>
-    ///     Gets or sets the time in seconds after which greeting messages should be automatically deleted.
-    /// </summary>
-    public int AutoDeleteGreetMessagesTimer { get; set; }
-
-    /// <summary>
     ///     Gets or sets the time in seconds after which farewell messages should be automatically deleted.
     /// </summary>
     public int AutoDeleteByeMessagesTimer { get; set; }
 
-    /// <summary>
-    ///     Gets or sets the channel ID where greeting messages should be sent.
-    /// </summary>
-    public ulong GreetMessageChannelId { get; set; }
 
     /// <summary>
     ///     Gets or sets the channel ID where farewell messages should be sent.
@@ -910,17 +689,6 @@ public class GreetSettings
     ///     Gets or sets the direct message greeting text.
     /// </summary>
     public string? DmGreetMessageText { get; set; }
-
-    /// <summary>
-    ///     Gets or sets a value indicating whether channel greeting messages are enabled for the guild.
-    /// </summary>
-    public bool SendChannelGreetMessage { get; set; }
-
-    /// <summary>
-    ///     Gets or sets the channel greeting message text.
-    /// </summary>
-    public string? ChannelGreetMessageText { get; set; }
-
     /// <summary>
     ///     Gets or sets a value indicating whether channel farewell messages are enabled for the guild.
     /// </summary>
@@ -944,13 +712,9 @@ public class GreetSettings
         return new GreetSettings
         {
             AutoDeleteByeMessagesTimer = g.AutoDeleteByeMessagesTimer,
-            AutoDeleteGreetMessagesTimer = g.AutoDeleteGreetMessagesTimer,
-            GreetMessageChannelId = g.GreetMessageChannelId,
             ByeMessageChannelId = g.ByeMessageChannelId,
             SendDmGreetMessage = g.SendDmGreetMessage,
             DmGreetMessageText = g.DmGreetMessageText,
-            SendChannelGreetMessage = g.SendChannelGreetMessage,
-            ChannelGreetMessageText = g.ChannelGreetMessageText,
             SendChannelByeMessage = g.SendChannelByeMessage,
             ChannelByeMessageText = g.ChannelByeMessageText,
             BoostMessage = g.BoostMessage,

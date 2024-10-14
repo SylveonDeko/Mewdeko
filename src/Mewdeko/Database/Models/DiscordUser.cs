@@ -69,6 +69,12 @@ public class DiscordUser : DbEntity
     public string? Discriminator { get; set; }
 
     /// <summary>
+    /// Sets whether the user has opted out of greet dms.
+    /// </summary>
+    [NewProperty]
+    public bool GreetDmsOptOut { get; set; } = false;
+
+    /// <summary>
     ///     Gets or sets the avatar ID.
     /// </summary>
     public string? AvatarId { get; set; }

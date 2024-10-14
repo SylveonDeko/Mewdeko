@@ -49,6 +49,21 @@ public partial class UserProfileService : INService
     }
 
     /// <summary>
+    /// Toggles a users ability to receive greet dms. Only viable if the server they are joining uses mewdeko for greet dms.
+    /// </summary>
+    /// <param name="user">The user who whishes to toggle the setting</param>
+    /// <returns>The opposite of the current state.</returns>
+    public async Task<bool> ToggleDmGreetOptOutAsync(IUser user)
+    {
+        await using var db = await dbProvider.GetContextAsync();
+        var dUser = await db.GetOrCreateUser(user);
+        dUser.GreetDmsOptOut = !dUser.GreetDmsOptOut;
+        db.DiscordUser.Update(dUser);
+        await db.SaveChangesAsync();
+        return dUser.GreetDmsOptOut;
+    }
+
+    /// <summary>
     ///     Asynchronously retrieves the pronouns for a given Discord user ID, either from the local database or PronounDB if
     ///     unspecified.
     /// </summary>

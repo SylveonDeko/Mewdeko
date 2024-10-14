@@ -29,6 +29,21 @@ public class UserProfile(DbContextProvider dbProvider) : MewdekoModuleBase<UserP
     }
 
     /// <summary>
+    /// Allows a user to toggle opting out of greet dms. Only works if the server they are joining uses mewdeko for dm greets.
+    /// </summary>
+    [Cmd]
+    [Aliases]
+    public async Task GreetDmOptOut()
+    {
+        var optOut = await Service.ToggleDmGreetOptOutAsync(ctx.User);
+
+        if (optOut)
+            await ReplyConfirmLocalizedAsync("greetdm_opt_out");
+        else
+            await ReplyConfirmLocalizedAsync("greetdm_opt_in");
+    }
+
+    /// <summary>
     ///     Sets or updates the biography in the user's profile.
     /// </summary>
     /// <param name="bio">The biography text. Must be under 2048 characters.</param>

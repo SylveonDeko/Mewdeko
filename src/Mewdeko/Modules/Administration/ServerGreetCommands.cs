@@ -16,31 +16,6 @@ public partial class Administration
         : MewdekoSubmodule<GreetSettingsService>
     {
         /// <summary>
-        ///     Sets the timer for deleting greeting messages.
-        /// </summary>
-        /// <remarks>
-        ///     This command allows users to set the timer for deleting greeting messages.
-        /// </remarks>
-        /// <param name="timer">The timer in seconds. Must be between 0 and 600.</param>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageGuild)]
-        public async Task GreetDel(int timer = 30)
-        {
-            if (timer is < 0 or > 600)
-                return;
-
-            await Service.SetGreetDel(ctx.Guild.Id, timer).ConfigureAwait(false);
-
-            if (timer > 0)
-                await ReplyConfirmLocalizedAsync("greetdel_on", timer).ConfigureAwait(false);
-            else
-                await ReplyConfirmLocalizedAsync("greetdel_off").ConfigureAwait(false);
-        }
-
-        /// <summary>
         ///     Displays the current boost message.
         /// </summary>
         /// <remarks>
@@ -135,73 +110,6 @@ public partial class Administration
                     .ConfigureAwait(false);
         }
 
-        /// <summary>
-        ///     Toggles greeting messages for the server.
-        /// </summary>
-        /// <remarks>
-        ///     This command allows users to toggle greeting messages for the server.
-        /// </remarks>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageGuild)]
-        public async Task Greet()
-        {
-            var enabled = await Service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
-
-            if (enabled)
-                await ReplyConfirmLocalizedAsync("greet_on").ConfigureAwait(false);
-            else
-                await ReplyConfirmLocalizedAsync("greet_off").ConfigureAwait(false);
-        }
-
-
-        /// <summary>
-        ///     Sets up a webhook for greeting messages with an optional image.
-        /// </summary>
-        /// <remarks>
-        ///     This command allows users to set up a webhook for greeting messages with an optional image.
-        /// </remarks>
-        /// <param name="chan">The text channel to set up the webhook in.</param>
-        /// <param name="name">The name of the webhook.</param>
-        /// <param name="image">The URL of the image to include in the webhook message.</param>
-        /// <param name="text">The text to include in the webhook message.</param>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageGuild)]
-        public async Task GreetHook(ITextChannel? chan, string? name, string? image = null, string? text = null)
-        {
-            if (text?.ToLower() == "disable")
-            {
-                await Service.SetWebGreetUrl(ctx.Guild, "").ConfigureAwait(false);
-                await ctx.Channel.SendConfirmAsync(GetText("greethookdisabled")).ConfigureAwait(false);
-                return;
-            }
-
-            if (image != null || ctx.Message.Attachments.Count > 0)
-            {
-                var imageUrl = image ?? ctx.Message.Attachments.FirstOrDefault()?.Url;
-                var webhook = await CreateWebhook(chan, name, imageUrl).ConfigureAwait(false);
-                var txt = $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}";
-                await Service.SetWebGreetUrl(ctx.Guild, txt).ConfigureAwait(false);
-            }
-            else if (image == null && text == null)
-            {
-                var webhook = await chan.CreateWebhookAsync(name).ConfigureAwait(false);
-                var txt = $"https://discord.com/api/webhooks/{webhook.Id}/{webhook.Token}";
-                await Service.SetWebGreetUrl(ctx.Guild, txt).ConfigureAwait(false);
-            }
-
-            var enabled = await Service.SetGreet(ctx.Guild.Id, ctx.Channel.Id).ConfigureAwait(false);
-            var message = enabled ? "greethookset" : "greethookset2";
-            await ctx.Channel.SendConfirmAsync(GetText(message, await guildSettings.GetPrefix(Context.Guild)))
-                .ConfigureAwait(false);
-        }
-
-
         private async Task<IWebhook> CreateWebhook(ITextChannel? chan, string? name, string imageUrl)
         {
             using var http = fact.CreateClient();
@@ -258,23 +166,6 @@ public partial class Administration
         }
 
         /// <summary>
-        ///     Sets up a greeting message using the specified text.
-        /// </summary>
-        /// <remarks>
-        ///     This command allows users to set up a greeting message using the specified text.
-        /// </remarks>
-        /// <param name="text">The text to include in the greeting message.</param>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageGuild)]
-        public Task GreetHook(string text)
-        {
-            return GreetHook(null, null, null, text);
-        }
-
-        /// <summary>
         ///     Sets up a leave message using the specified text.
         /// </summary>
         /// <remarks>
@@ -289,52 +180,6 @@ public partial class Administration
         public Task LeaveHook(string text)
         {
             return LeaveHook(null, null, null, text);
-        }
-
-        /// <summary>
-        ///     Displays the current greeting message.
-        /// </summary>
-        /// <remarks>
-        ///     This command displays the current greeting message set for the guild.
-        /// </remarks>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageGuild)]
-        public async Task GreetMsg()
-        {
-            var greetMsg = await Service.GetGreetMsg(ctx.Guild.Id);
-            await ReplyConfirmLocalizedAsync("greetmsg_cur", greetMsg.SanitizeMentions());
-        }
-
-        /// <summary>
-        ///     Sets the greeting message to the specified text.
-        /// </summary>
-        /// <remarks>
-        ///     This command allows users to set the greeting message to the specified text.
-        /// </remarks>
-        /// <param name="text">The text to set as the greeting message.</param>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageGuild)]
-        public async Task GreetMsg([Remainder] string? text)
-        {
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                await GreetMsg().ConfigureAwait(false);
-                return;
-            }
-
-            var sendGreetEnabled = await Service.SetGreetMessage(ctx.Guild.Id, text);
-
-            await ReplyConfirmLocalizedAsync("greetmsg_new").ConfigureAwait(false);
-            if (!sendGreetEnabled)
-                await ReplyConfirmLocalizedAsync("greetmsg_enable",
-                        $"`{await guildSettings.GetPrefix(ctx.Guild)}greet`")
-                    .ConfigureAwait(false);
         }
 
         /// <summary>
@@ -543,30 +388,6 @@ public partial class Administration
             var enabled = await Service.GetBoostEnabled(Context.Guild.Id);
             if (!enabled)
                 await ReplyConfirmLocalizedAsync("boostmsg_enable",
-                    $"`{await guildSettings.GetPrefix(ctx.Guild)}greet`").ConfigureAwait(false);
-        }
-
-        /// <summary>
-        ///     Sends a test greet message.
-        /// </summary>
-        /// <remarks>
-        ///     This command allows users to send a test greet message.
-        /// </remarks>
-        /// <param name="user">The user to send the test greet message to.</param>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        [Cmd]
-        [Aliases]
-        [RequireContext(ContextType.Guild)]
-        [UserPerm(GuildPermission.ManageGuild)]
-        [Ratelimit(5)]
-        public async Task GreetTest([Remainder] IGuildUser? user = null)
-        {
-            user ??= (IGuildUser)Context.User;
-
-            await Service.GreetTest((ITextChannel)Context.Channel, user).ConfigureAwait(false);
-            var enabled = await Service.GetGreetEnabled(Context.Guild.Id);
-            if (!enabled)
-                await ReplyConfirmLocalizedAsync("greetmsg_enable",
                     $"`{await guildSettings.GetPrefix(ctx.Guild)}greet`").ConfigureAwait(false);
         }
 

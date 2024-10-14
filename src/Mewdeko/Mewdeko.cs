@@ -260,8 +260,7 @@ public class Mewdeko
 
             var dbProvider = Services.GetRequiredService<DbContextProvider>();
             await using var dbContext = await dbProvider.GetContextAsync();
-            await dbContext.EnsureUserCreated(Client.CurrentUser.Id, Client.CurrentUser.Username,
-                Client.CurrentUser.Discriminator, Client.CurrentUser.AvatarId);
+            await dbContext.EnsureUserCreated(Client.CurrentUser.Id, Client.CurrentUser.Username, Client.CurrentUser.AvatarId);
         }
         catch (Exception ex)
         {

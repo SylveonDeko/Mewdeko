@@ -21,19 +21,17 @@ public static class DiscordUserExtensions
         this MewdekoContext ctx,
         ulong userId,
         string username,
-        string discrim,
         string avatarId)
     {
         await ctx.DiscordUser.ToLinqToDBTable().InsertOrUpdateAsync(() => new DiscordUser
         {
             UserId = userId,
             Username = username,
-            Discriminator = discrim,
             AvatarId = avatarId,
             TotalXp = 0
         }, old => new DiscordUser
         {
-            Username = username, Discriminator = discrim, AvatarId = avatarId
+            Username = username, AvatarId = avatarId
         }, () => new DiscordUser
         {
             UserId = userId
@@ -53,10 +51,9 @@ public static class DiscordUserExtensions
         this MewdekoContext ctx,
         ulong userId,
         string username,
-        string discrim,
         string avatarId)
     {
-        await ctx.EnsureUserCreated(userId, username, discrim, avatarId);
+        await ctx.EnsureUserCreated(userId, username, avatarId);
         return await ctx.DiscordUser.FirstOrDefaultAsyncEF(u => u.UserId == userId)
             .ConfigureAwait(false);
     }
@@ -69,7 +66,7 @@ public static class DiscordUserExtensions
     /// <returns>The Discord user entity.</returns>
     public static async Task<DiscordUser> GetOrCreateUser(this MewdekoContext ctx, IUser original)
     {
-        return await ctx.GetOrCreateUser(original.Id, original.Username, original.Discriminator, original.AvatarId);
+        return await ctx.GetOrCreateUser(original.Id, original.Username, original.AvatarId);
     }
 
     /// <summary>

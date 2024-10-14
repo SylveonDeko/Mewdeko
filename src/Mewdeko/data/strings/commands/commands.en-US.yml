@@ -17,17 +17,29 @@ invites:
   args:
     - "@user"
   desc: "Displays the number of invites for you or the specified user."
+greetdmoptout:
+  args:
+    - ""
+  desc: "Allows a user to optout of greet dms from mewdeko. Only works if mewdeko is the bot used for greet dms."
 invitesettings:
+  args:
+    - ""
   desc: "Shows the current invite tracking settings for the server."
 toggleinvitetracking:
+  args:
+    - ""
   desc: "Enables or disables invite tracking for the server."
 toggleremoveinviteonleave:
+  args:
+    - ""
   desc: "Toggles whether invites should be removed when a user leaves the server."
 setminaccountage:
   args:
     - "days"
   desc: "Sets the minimum account age required for an invite to be counted."
 inviteleaderboard:
+  args:
+    - ""
   desc: "Displays a leaderboard of users with the most invites."
 whoinvited:
   args:
