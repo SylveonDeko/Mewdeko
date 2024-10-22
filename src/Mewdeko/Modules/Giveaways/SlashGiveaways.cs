@@ -262,7 +262,8 @@ public class SlashGiveaways(
     [SlashUserPerm(GuildPermission.ManageMessages)]
     [CheckPermissions]
     public async Task GStart(ITextChannel chan, TimeSpan time, int winners, string what, IRole pingRole = null,
-        IAttachment attachment = null, IUser host = null, bool useButton = false, bool useCaptcha = false)
+        IAttachment attachment = null, IUser host = null, bool useButton = false, bool useCaptcha = false,
+        IRole[] requiredRoles = null, ulong requiredMessages = 0)
     {
         host ??= ctx.User;
         await ctx.Interaction.DeferAsync().ConfigureAwait(false);
@@ -271,6 +272,12 @@ public class SlashGiveaways(
             await ReplyAsync("<:Bruh:1269875636793638965>");
             return;
         }
+
+        string reqs;
+        if (requiredRoles is null || requiredRoles.Length == 0)
+            reqs = "";
+        else
+            reqs = string.Join("\n", requiredRoles.Select(x => x.Id));
 
         var emote = (await Service.GetGiveawayEmote(ctx.Guild.Id)).ToIEmote();
         if (!useButton && !useCaptcha)
@@ -312,7 +319,7 @@ public class SlashGiveaways(
 
         await Service.GiveawaysInternal(chan, time, what, winners, host.Id, ctx.Guild.Id,
             ctx.Channel as ITextChannel, ctx.Guild, banner: attachment?.Url, pingROle: pingRole, useButton: useButton,
-            useCaptcha: useCaptcha).ConfigureAwait(false);
+            useCaptcha: useCaptcha, reqroles: reqs, messageCount: requiredMessages).ConfigureAwait(false);
     }
 
     /// <summary>

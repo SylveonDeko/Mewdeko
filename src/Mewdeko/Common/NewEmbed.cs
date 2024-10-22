@@ -331,7 +331,7 @@ public class NewEmbed
             sb = error.WithPlaceholder("displayName.length cannot be greater than 80");
         else if (sel.Options.Any(x => x.Name.Length > 100))
             sb = error.WithPlaceholder("select option names length cannot be greater than 100");
-        else if (sel.Options.Any(x => x.Description.Length > 100))
+        else if (sel.Options.Any(x => x.Description?.Length > 100))
             sb = error.WithPlaceholder("select option description length cannot be greater than 100");
         else
             sb
@@ -341,7 +341,7 @@ public class NewEmbed
                 .WithMinValues(sel.MinOptions)
                 .WithOptions(sel.Options
                     .Select(x =>
-                        new SelectMenuOptionBuilder(x.Name, x.Id.ToString(), x.Description, x.Emoji?.ToIEmote()))
+                        new SelectMenuOptionBuilder(x.Name, x.Id.ToString(), x.Description ?? "None", x.Emoji?.ToIEmote()))
                     .ToList());
 
         return sb;
@@ -481,11 +481,11 @@ public class NewEmbed
         /// <summary>
         ///     Gets or sets the emoji of the option.
         /// </summary>
-        public string Emoji { get; set; }
+        public string? Emoji { get; set; }
 
         /// <summary>
         ///     Gets or sets the description of the option.
         /// </summary>
-        public string Description { get; set; }
+        public string? Description { get; set; }
     }
 }
