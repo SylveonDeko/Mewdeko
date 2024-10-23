@@ -172,7 +172,7 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
         }
 
         await Service.MultiGreetDisable(greet, enabled).ConfigureAwait(false);
-        await ctx.Interaction.SendConfirmAsync($"MultiGreet {num} set to {enabled}").ConfigureAwait(false);
+        await ctx.Interaction.SendConfirmAsync($"MultiGreet {num} set to {(enabled ? "Enabled" : "Disabled")}").ConfigureAwait(false);
     }
 
     /// <summary>

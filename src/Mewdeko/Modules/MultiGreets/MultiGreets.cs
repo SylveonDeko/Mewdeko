@@ -183,7 +183,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
         }
 
         await Service.MultiGreetDisable(greet, enabled).ConfigureAwait(false);
-        await ctx.Channel.SendConfirmAsync($"MultiGreet {num} set to {enabled}").ConfigureAwait(false);
+        await ctx.Channel.SendConfirmAsync($"MultiGreet {num} set to {(enabled ? "Enabled" : "Disabled")}").ConfigureAwait(false);
     }
 
     /// <summary>

@@ -171,7 +171,7 @@ public class SlashRoleGreets(InteractiveService interactivity, HttpClient httpCl
         }
 
         await Service.RoleGreetDisable(greet, enabled).ConfigureAwait(false);
-        await ctx.Interaction.SendConfirmAsync($"RoleGreet {num} set to {enabled}").ConfigureAwait(false);
+        await ctx.Interaction.SendConfirmAsync($"RoleGreet {num} set to {(enabled ? "Enabled" : "Disabled")}").ConfigureAwait(false);
     }
 
     /// <summary>

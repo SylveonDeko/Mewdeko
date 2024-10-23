@@ -162,6 +162,9 @@ public class RoleGreetService : INService
         if (user.IsBot && !greet.GreetBots)
             return;
 
+        if (greet.Disabled)
+            return;
+
         var inviteSettings = await inviteCountService.GetInviteCountSettingsAsync(user.Guild.Id);
         if (inviteSettings.IsEnabled)
         {

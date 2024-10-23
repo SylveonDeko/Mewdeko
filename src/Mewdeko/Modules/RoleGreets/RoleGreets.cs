@@ -192,7 +192,7 @@ public class RoleGreets(InteractiveService interactivity, HttpClient http) : Mew
         }
 
         await Service.RoleGreetDisable(greet, enabled).ConfigureAwait(false);
-        await ctx.Channel.SendConfirmAsync($"RoleGreet {num} set to {enabled}").ConfigureAwait(false);
+        await ctx.Channel.SendConfirmAsync($"RoleGreet {num} set to {(enabled ? "Enabled" : "Disabled")}").ConfigureAwait(false);
     }
 
     /// <summary>
