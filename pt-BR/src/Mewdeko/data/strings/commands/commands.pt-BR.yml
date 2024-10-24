@@ -7,6 +7,14 @@ addstatusrole:
   args:
     - "status"
   desc: Adiciona um status para ser configurado com o resto dos comandos do cargo de status
+resetmessagecounts:
+  args:
+    - ""
+    - "@user"
+    - "#channel"
+    - "@user #channel"
+  desc: >-
+    Resets message counts for the entire server, for a user, for a channel, or for a user in a specific channel.
 gpingrole:
   args:
     - "roleid"
