@@ -262,14 +262,6 @@ public class LogCommandService : INService, IReadyExecutor
     public async Task OnReadyAsync()
     {
         await using var dbContext = await dbProvider.GetContextAsync();
-        var guildIds = client.Guilds.Select(x => x.Id).ToList();
-        var configs = await dbContext.GuildConfigs
-            .AsQueryable()
-            .Include(gc => gc.LogSetting)
-            .ThenInclude(ls => ls.IgnoredChannels)
-            .Where(x => guildIds.Contains(x.GuildId))
-            .ToListAsyncEF();
-
         // Store the log settings in a concurrent dictionary for fast access
         GuildLogSettings = dbContext.LoggingV2
             .ToDictionary(g => g.GuildId, g => g)

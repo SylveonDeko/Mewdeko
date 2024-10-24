@@ -651,10 +651,6 @@ public class GuildConfig : DbEntity
     /// </summary>
     public string? ChannelByeMessageText { get; set; } = "%user% has left!";
 
-    /// <summary>
-    ///     Gets or sets the log settings for the guild.
-    /// </summary>
-    public LogSetting LogSetting { get; set; } = new();
 
     /// <summary>
     ///     Gets or sets a value indicating whether to restrict self-assigned roles to be exclusive.

@@ -6,6 +6,7 @@ using Discord.Commands;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
 using Humanizer;
+using LinqToDB;
 using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Common.JsonSettings;
 using Mewdeko.Common.TypeReaders.Models;
@@ -1866,28 +1867,33 @@ public partial class Utility(
     {
         await using var dbContext = await dbProvider.GetContextAsync();
 
-        var time = DateTime.UtcNow.Subtract(TimeSpan.FromSeconds(5));
-        var commandStats = dbContext.CommandStats.Count(x => x.DateAdded.Value >= time);
-        var users = new[]
+        var fiveSecondsAgo = DateTime.Now.AddSeconds(-5);
+        var commandStatsTask = dbContext.CommandStats
+            .Where(x => x.DateAdded >= fiveSecondsAgo)
+            .CountAsync();
+        var userTasks = new[]
         {
-            await client.Rest.GetUserAsync(280835732728184843).ConfigureAwait(false),
-            await client.Rest.GetUserAsync(786375627892064257).ConfigureAwait(false)
+            client.Rest.GetUserAsync(280835732728184843),
+            client.Rest.GetUserAsync(786375627892064257)
         };
+
+        var users = await Task.WhenAll(userTasks);
+        var commandStats = await commandStatsTask;
+
         await ctx.Channel.EmbedAsync(
-                new EmbedBuilder().WithOkColor()
-                    .WithAuthor($"{client.CurrentUser.Username} v{StatsService.BotVersion}",
-                        client.CurrentUser.GetAvatarUrl(), config.Data.SupportServer)
-                    .AddField(GetText("authors"),
-                        $"[{users[0]}](https://github.com/SylveonDeko)\n[{users[1]}](https://github.com/CottageDwellingCat)")
-                    .AddField(GetText("commands_ran"), $"{commandStats}/5s")
-                    .AddField(GetText("command_count"), cmdServ.Commands.DistinctBy(x => x.Name).Count())
-                    .AddField("Library", stats.Library)
-                    .AddField(GetText("owner_ids"), string.Join("\n", creds.OwnerIds.Select(x => $"<@{x}>")))
-                    .AddField(GetText("shard"), $"#{client.GetShardFor(ctx.Guild).ShardId} / {creds.TotalShards}")
-                    .AddField(GetText("memory"), $"{stats.Heap} MB")
-                    .AddField(GetText("uptime"), stats.GetUptimeString("\n"))
-                    .AddField("Servers", $"{client.Guilds.Count} Servers"))
-            .ConfigureAwait(false);
+            new EmbedBuilder().WithOkColor()
+                .WithAuthor($"{client.CurrentUser.Username} v{StatsService.BotVersion}",
+                    client.CurrentUser.GetAvatarUrl(), config.Data.SupportServer)
+                .AddField(GetText("authors"),
+                    $"[{users[0]}](https://github.com/SylveonDeko)\n[{users[1]}](https://github.com/CottageDwellingCat)")
+                .AddField(GetText("commands_ran"), $"{commandStats}/5s")
+                .AddField(GetText("command_count"), cmdServ.Commands.DistinctBy(x => x.Name).Count())
+                .AddField("Library", stats.Library)
+                .AddField(GetText("owner_ids"), string.Join("\n", creds.OwnerIds.Select(x => $"<@{x}>")))
+                .AddField(GetText("shard"), $"#{client.GetShardFor(ctx.Guild).ShardId} / {creds.TotalShards}")
+                .AddField(GetText("memory"), $"{stats.Heap} MB")
+                .AddField(GetText("uptime"), stats.GetUptimeString("\n"))
+                .AddField("Servers", $"{client.Guilds.Count} Servers"));
     }
 
     /// <summary>

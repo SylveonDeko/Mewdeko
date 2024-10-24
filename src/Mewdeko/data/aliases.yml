@@ -49,6 +49,12 @@ antimassmention:
   - amm
   - massmention
   - stopmassmention
+resetmessagecounts:
+  - resetmessagecounts
+  - rmc
+  - resetmsgcounts
+  - resetmessages
+  - resetcounts
 antimassmentionignorebots:
   - antimassmentionignorebots
   - ammignorebots

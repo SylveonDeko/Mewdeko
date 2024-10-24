@@ -367,4 +367,71 @@ public class MessageCountService : INService, IReadyExecutor
             .OrderByDescending(x => x.Item2)
             .ToList();
     }
+
+    /// <summary>
+    ///     Resets message counts for a specified guild, user, or channel.
+    ///     Deletes all guild messages, all messages for a user in a guild,
+    ///     all messages in a channel in a guild, or all messages from a channel from a user.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="userId">The ID of the user (optional, default is 0).</param>
+    /// <param name="channelId">The ID of the channel (optional, default is 0).</param>
+    /// <returns>
+    ///     A task that represents the asynchronous operation.
+    ///     The task result contains a boolean indicating whether message counts were found and removed.
+    /// </returns>
+    public async Task<bool> ResetCount(ulong guildId, ulong userId = 0, ulong channelId = 0)
+    {
+        var countsToRemove = new List<(ulong GuildId, ulong UserId, ulong ChannelId)>();
+        var found = false;
+
+        await using var db = await dbContext.GetContextAsync();
+
+        if (userId == 0 && channelId == 0)
+        {
+            countsToRemove = messageCounts.Keys.Where(x => x.GuildId == guildId).ToList();
+            found = countsToRemove.Count!=0;
+        }
+        else if (channelId == 0)
+        {
+            countsToRemove = messageCounts.Keys.Where(x => x.GuildId == guildId && x.UserId == userId).ToList();
+            found = countsToRemove.Count!=0;
+        }
+        else if (userId == 0)
+        {
+            countsToRemove = messageCounts.Keys.Where(x => x.GuildId == guildId && x.ChannelId == channelId).ToList();
+            found = countsToRemove.Count!=0;
+        }
+        else
+        {
+            var key = (guildId, userId, channelId);
+            if (messageCounts.ContainsKey(key))
+            {
+                countsToRemove.Add(key);
+                found = true;
+            }
+        }
+
+        if (!found) return false;
+
+        foreach (var key in countsToRemove)
+        {
+            messageCounts.TryRemove(key, out _);
+        }
+
+        var dbMessageCounts = await db.MessageCounts
+            .Where(mc => mc.GuildId == guildId)
+            .ToListAsync();
+
+        var filteredDbCounts = dbMessageCounts
+            .Where(mc => countsToRemove.Any(key =>
+                mc.GuildId == key.GuildId && mc.UserId == key.UserId && mc.ChannelId == key.ChannelId))
+            .ToList();
+
+        if (filteredDbCounts.Count == 0) return true;
+        db.MessageCounts.RemoveRange(filteredDbCounts);
+        await db.SaveChangesAsync();
+
+        return true;
+    }
 }

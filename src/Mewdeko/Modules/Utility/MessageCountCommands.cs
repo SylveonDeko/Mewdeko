@@ -389,6 +389,61 @@ public partial class Utility
             }
         }
 
+        /// <summary>
+        ///     Resets message counts for a user, channel, or both, with confirmation.
+        /// </summary>
+        /// <param name="user">Optional: The user to reset message counts for.</param>
+        /// <param name="channel">Optional: The channel to reset message counts in.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageMessages)]
+        public async Task ResetMessageCounts(IUser? user = null, ITextChannel? channel = null)
+        {
+            var confirmMessage = (user, channel) switch
+            {
+                (null, null) => GetText("confirm_reset_message_count_guild"),
+                (not null, null) => GetText("confirm_reset_message_count_user", user.Mention),
+                (null, not null) => GetText("confirm_reset_message_count_channel", channel.Mention),
+                (not null, not null) => GetText("confirm_reset_message_count_user_channel", user.Mention, channel.Mention)
+            };
+
+            if (!await PromptUserConfirmAsync(confirmMessage, ctx.User.Id))
+                return;
+
+            var result = await Service.ResetCount(ctx.Guild.Id, user?.Id ?? 0, channel?.Id ?? 0);
+
+            var responseMessage = (user, channel, result) switch
+            {
+                (null, null, true) => GetText("reset_message_count_success_guild"),
+                (not null, null, true) => GetText("reset_message_count_success_user", user.Mention),
+                (null, not null, true) => GetText("reset_message_count_success_channel", channel.Mention),
+                (not null, not null, true) => GetText("reset_message_count_success_user_channel", user.Mention, channel.Mention),
+                (null, null, false) => GetText("reset_message_count_fail_guild"),
+                (not null, null, false) => GetText("reset_message_count_fail_user", user.Mention),
+                (null, not null, false) => GetText("reset_message_count_fail_channel", channel.Mention),
+                (not null, not null, false) => GetText("reset_message_count_fail_user_channel", user.Mention, channel.Mention)
+            };
+
+            await (result ? ctx.Channel.SendConfirmAsync(responseMessage) : ctx.Channel.SendErrorAsync(responseMessage, Config));
+        }
+
+        /// <summary>
+        ///     Overload for <see cref="ResetMessageCounts(Discord.IUser?,Discord.ITextChannel?)" />
+        /// </summary>
+        /// <param name="channel">Optional: The channel to reset message counts in.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        [Cmd]
+        [Aliases]
+        [RequireContext(ContextType.Guild)]
+        [UserPerm(GuildPermission.ManageMessages)]
+        public async Task ResetMessageCounts(ITextChannel? channel)
+        {
+            await ResetMessageCounts(null, channel);
+        }
+
+
         private IEnumerable<(int Hour, int Count)> AdjustHoursToTimezone(IEnumerable<(int Hour, int Count)> utcHours,
             TimeZoneInfo timezone)
         {

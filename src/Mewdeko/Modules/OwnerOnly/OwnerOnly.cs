@@ -338,46 +338,36 @@ public class OwnerOnly(
     [Aliases]
     public async Task CommandStats()
     {
-        await using var dbContext = await dbProvider.GetContextAsync();
+        await using var context1 = await dbProvider.GetContextAsync();
+        await using var context2 = await dbProvider.GetContextAsync();
+        await using var context3 = await dbProvider.GetContextAsync();
+        await using var context4 = await dbProvider.GetContextAsync();
 
-        var commandStatsTable = dbContext.CommandStats;
-        var topCommandTask = commandStatsTable
+        var topCommandTask = context1.CommandStats
             .Where(x => !x.Trigger)
             .GroupBy(q => q.NameOrId)
-            .Select(g => new
-            {
-                g.Key, Count = g.Count()
-            })
+            .Select(g => new { g.Key, Count = g.Count() })
             .OrderByDescending(gc => gc.Count)
             .FirstOrDefaultAsyncLinqToDB();
 
-        var topModuleTask = commandStatsTable
+        var topModuleTask = context2.CommandStats
             .Where(x => !x.Trigger)
             .GroupBy(q => q.Module)
-            .Select(g => new
-            {
-                g.Key, Count = g.Count()
-            })
+            .Select(g => new { g.Key, Count = g.Count() })
             .OrderByDescending(gc => gc.Count)
             .FirstOrDefaultAsyncLinqToDB();
 
-        var topGuildTask = commandStatsTable
+        var topGuildTask = context3.CommandStats
             .Where(x => !x.Trigger)
             .GroupBy(q => q.GuildId)
-            .Select(g => new
-            {
-                g.Key, Count = g.Count()
-            })
+            .Select(g => new { g.Key, Count = g.Count() })
             .OrderByDescending(gc => gc.Count)
             .FirstOrDefaultAsyncLinqToDB();
 
-        var topUserTask = commandStatsTable
+        var topUserTask = context4.CommandStats
             .Where(x => !x.Trigger)
             .GroupBy(q => q.UserId)
-            .Select(g => new
-            {
-                g.Key, Count = g.Count()
-            })
+            .Select(g => new { g.Key, Count = g.Count() })
             .OrderByDescending(gc => gc.Count)
             .FirstOrDefaultAsyncLinqToDB();
 
@@ -396,7 +386,7 @@ public class OwnerOnly(
             .AddField("Top Command", $"{topCommand.Key} was used {topCommand.Count} times!")
             .AddField("Top Module", $"{topModule.Key} was used {topModule.Count} times!")
             .AddField("Top User", $"{user} has used commands {topUser.Count} times!")
-            .AddField("Top Guild", $"{guild} has used commands {topGuild.Count} times!");
+            .AddField("Top Guild", $"{guild?.Name ?? "Unknown"} has used commands {topGuild.Count} times!");
 
         await ctx.Channel.SendMessageAsync(embed: eb.Build());
     }

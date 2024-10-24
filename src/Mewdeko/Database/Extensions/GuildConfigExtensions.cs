@@ -194,8 +194,6 @@ public static class GuildConfigExtensions
     {
         return config
             .AsQueryable()
-            .Include(gc => gc.LogSetting)
-            .ThenInclude(gc => gc.IgnoredChannels)
             .Include(gc => gc.Permissions)
             .Include(gc => gc.CommandCooldowns)
             .Include(gc => gc.GuildRepeaters)
