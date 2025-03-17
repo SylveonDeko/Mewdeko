@@ -15,6 +15,16 @@ resetmessagecounts:
     - "@user #channel"
   desc: >-
     Resets message counts for the entire server, for a user, for a channel, or for a user in a specific channel.
+saveallrolestates:
+  args:
+    - ""
+  desc: >-
+    Saves role states for all users currently in the server.
+transferrolestates:
+  args:
+    - "serverid"
+  desc: >-
+    Transfers role states from the current server to another server, mapping roles by name.
 gpingrole:
   args:
     - "roleid"
