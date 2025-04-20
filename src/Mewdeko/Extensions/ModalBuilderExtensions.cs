@@ -18,7 +18,7 @@ public static class ModalBuilderExtensions
         Action<TextInputBuilder> input)
     {
         var components = builder.Components.ActionRows.SelectMany(x => x.Components).ToList();
-        var comp = components.First(x => x.CustomId == customId) as TextInputComponent;
+        var comp = components.Cast<TextInputComponent>().First(x => x.CustomId == customId);
 
         var tib = new TextInputBuilder
         {
@@ -34,8 +34,8 @@ public static class ModalBuilderExtensions
         input(tib);
 
         builder.Components.ActionRows.RemoveAll(x =>
-            x.Components.Any(messageComponent => messageComponent.CustomId == customId));
-        builder.Components.ActionRows.Add(new ActionRowBuilder().AddComponent(tib.Build()));
+            x.Components.Any(messageComponent => (messageComponent as TextInputComponent).CustomId == customId));
+        builder.Components.ActionRows.Add(new ActionRowBuilder().AddComponent(tib));
 
         return builder;
     }

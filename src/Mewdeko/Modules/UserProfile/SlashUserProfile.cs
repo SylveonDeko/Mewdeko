@@ -495,7 +495,7 @@ public class SlashUserProfile : MewdekoSlashModuleBase<UserProfileService>
             var user = await ctx.Client.GetUserAsync(ulong.Parse(uIdStr)).ConfigureAwait(false);
             var channel = await user.CreateDMChannelAsync().ConfigureAwait(false);
             if (SmartEmbed.TryParse(modal.Message, ctx.Guild.Id, out var eb, out var txt, out var cb))
-                await channel.SendMessageAsync(txt, embeds: eb, components: cb.Build()).ConfigureAwait(false);
+                await channel.SendMessageAsync(txt, embeds: eb, components: cb).ConfigureAwait(false);
             else
                 await channel.SendMessageAsync(modal.Message).ConfigureAwait(false);
             await RespondAsync($"sent a dm to <@{ulong.Parse(uIdStr)}>").ConfigureAwait(false);

@@ -95,7 +95,7 @@ public partial class Utility
                     out var components))
             {
                 await ctx.Channel.SendMessageAsync($"`#{quote.Id}` 📣 {plainText?.SanitizeAllMentions()}",
-                    embeds: embed, components: components?.Build()).ConfigureAwait(false);
+                    embeds: embed, components: components).ConfigureAwait(false);
                 return;
             }
 
@@ -203,7 +203,7 @@ public partial class Utility
                     out var components))
             {
                 await ctx.Channel.SendMessageAsync(infoText + plainText.SanitizeMentions(), embeds: embed,
-                        components: components?.Build())
+                        components: components)
                     .ConfigureAwait(false);
             }
             else

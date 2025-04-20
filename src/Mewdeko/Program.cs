@@ -54,7 +54,7 @@ public class Program
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         var log = LogSetup.SetupLogger("Api");
         var credentials = new BotCredentials();
-        DependencyInstaller.CheckAndInstallDependencies(credentials.PsqlConnectionString);
+        // DependencyInstaller.CheckAndInstallDependencies(credentials.PsqlConnectionString);
         var discordRestClient = new DiscordRestClient();
         await discordRestClient.LoginAsync(TokenType.Bot, credentials.Token);
         var botGatewayInfo = await discordRestClient.GetBotGatewayAsync();

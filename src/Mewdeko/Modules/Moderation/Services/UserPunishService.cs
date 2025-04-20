@@ -675,7 +675,7 @@ public class UserPunishService : INService
     /// <param name="banReason">The reason for the ban.</param>
     /// <param name="duration">The duration of the ban.</param>
     /// <returns></returns>
-    public Task<(Embed[]?, string?, ComponentBuilder?)> GetBanUserDmEmbed(ICommandContext context, IGuildUser target,
+    public Task<(Embed[]?, string?, MessageComponent?)> GetBanUserDmEmbed(ICommandContext context, IGuildUser target,
         string? defaultMessage,
         string? banReason, TimeSpan? duration)
     {
@@ -698,7 +698,7 @@ public class UserPunishService : INService
     /// <param name="banReason">The reason for the ban.</param>
     /// <param name="duration">The duration of the ban.</param>
     /// <returns></returns>
-    public Task<(Embed[]?, string?, ComponentBuilder?)> GetBanUserDmEmbed(IInteractionContext context,
+    public Task<(Embed[]?, string?, MessageComponent?)> GetBanUserDmEmbed(IInteractionContext context,
         IGuildUser target, string? defaultMessage,
         string? banReason, TimeSpan? duration)
     {
@@ -723,7 +723,7 @@ public class UserPunishService : INService
     /// <param name="banReason">The reason for the ban.</param>
     /// <param name="duration">The duration of the ban.</param>
     /// <returns></returns>
-    public async Task<(Embed[], string?, ComponentBuilder?)> GetBanUserDmEmbed(
+    public async Task<(Embed[], string?, MessageComponent?)> GetBanUserDmEmbed(
         DiscordShardedClient DiscordShardedClient,
         SocketGuild guild,
         IGuildUser moderator, IGuildUser target, string? defaultMessage, string? banReason, TimeSpan? duration)
@@ -749,7 +749,7 @@ public class UserPunishService : INService
             .WithOverride("%ban.duration%", () => duration?.ToString(@"d\.hh\:mm") ?? "perma")
             .Build();
         Embed[] embed;
-        ComponentBuilder components;
+        MessageComponent components;
         string plainText;
         // if template isn't set, use the old message style
         if (string.IsNullOrWhiteSpace(template))

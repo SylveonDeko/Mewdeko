@@ -186,7 +186,7 @@ public class MultiGreetService : INService
     {
         if (SmartEmbed.TryParse(content, guildId, out var embedData, out var plainText, out var components))
         {
-            var msg = await channel.SendMessageAsync(plainText, embeds: embedData, components: components?.Build());
+            var msg = await channel.SendMessageAsync(plainText, embeds: embedData, components: components);
             if (deleteTime > 0)
                 msg.DeleteAfter(deleteTime);
         }
@@ -202,7 +202,7 @@ public class MultiGreetService : INService
     {
         if (SmartEmbed.TryParse(content, guildId, out var embedData, out var plainText, out var components))
         {
-            return await webhook.SendMessageAsync(plainText, embeds: embedData, components: components?.Build());
+            return await webhook.SendMessageAsync(plainText, embeds: embedData, components: components);
         }
         else
         {

@@ -342,7 +342,7 @@ public class SlashMultiGreets : MewdekoSlashModuleBase<MultiGreetService>
                             out var components2))
                     {
                         await ctx.Interaction
-                            .FollowupAsync(plainText, embedData, components: components2.Build())
+                            .FollowupAsync(plainText, embedData, components: components2)
                             .ConfigureAwait(false);
                     }
                     else

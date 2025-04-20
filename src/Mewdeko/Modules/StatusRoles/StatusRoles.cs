@@ -114,7 +114,7 @@ public class StatusRoles(BotConfigService bss, InteractiveService interactivity)
                         .WithDefault(ctx).Build();
                     if (SmartEmbed.TryParse(rep.Replace(potentialStatusRole.StatusEmbed), ctx.Guild.Id, out var embeds,
                             out var plainText, out var components))
-                        await ctx.Channel.SendMessageAsync(plainText, embeds: embeds, components: components.Build());
+                        await ctx.Channel.SendMessageAsync(plainText, embeds: embeds, components: components);
                     else
                         await ctx.Channel.SendMessageAsync(rep.Replace(potentialStatusRole.StatusEmbed));
                     break;

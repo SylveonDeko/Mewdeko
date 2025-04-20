@@ -71,7 +71,7 @@ public class VoteSlashCommands(InteractiveService interactivity) : MewdekoSlashM
                     if (SmartEmbed.TryParse(rep.Replace(voteMessage), ctx.Guild.Id, out var embeds, out var plainText,
                             out var components))
                     {
-                        await ctx.Interaction.FollowupAsync(plainText, embeds, components: components.Build());
+                        await ctx.Interaction.FollowupAsync(plainText, embeds, components: components);
                     }
                     else
                     {

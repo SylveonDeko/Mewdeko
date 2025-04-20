@@ -305,7 +305,7 @@ public class AdministrationService : INService
             {
                 x.Embeds = embed;
                 x.Content = plainText?.SanitizeMentions();
-                x.Components = components.Build();
+                x.Components = components;
             }).ConfigureAwait(false);
         }
         else

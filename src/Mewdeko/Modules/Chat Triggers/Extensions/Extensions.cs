@@ -289,14 +289,14 @@ public static class Extensions
 
             if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
                 await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId)
-                    .SendMessageAsync(plainText, embeds: crembed).ConfigureAwait(false);
+                    .SendMessageAsync(plainText, embeds: crembed, components: components).ConfigureAwait(false);
             else if (!ct.CrosspostingWebhookUrl.IsNullOrWhiteSpace())
             {
                 try
                 {
                     using var whClient = new DiscordWebhookClient(ct.CrosspostingWebhookUrl);
                     await whClient.SendMessageAsync(plainText,
-                        embeds: crembed).ConfigureAwait(false);
+                        embeds: crembed, components: components).ConfigureAwait(false);
                 }
                 catch (TaskCanceledException)
                 {
@@ -306,7 +306,7 @@ public static class Extensions
 
             if (ct.NoRespond)
                 return null;
-            return await channel.SendMessageAsync(plainText, embeds: crembed, components: components?.Build())
+            return await channel.SendMessageAsync(plainText, embeds: crembed, components: components)
                 .ConfigureAwait(false);
         }
 
@@ -388,7 +388,7 @@ public static class Extensions
                 plainText = plainText.SanitizeMentions();
             if (ct.CrosspostingChannelId != 0 && ct.GuildId is not null or 0)
                 await client.GetGuild(ct.GuildId ?? 0).GetTextChannel(ct.CrosspostingChannelId)
-                    .SendMessageAsync(plainText, embeds: crembed, components: components?.Build())
+                    .SendMessageAsync(plainText, embeds: crembed, components: components)
                     .ConfigureAwait(false);
             else if (!ct.CrosspostingWebhookUrl.IsNullOrWhiteSpace())
             {
@@ -409,12 +409,12 @@ public static class Extensions
             if (!followup)
             {
                 await inter.RespondAsync(plainText, crembed, ephemeral: ephemeral,
-                    components: components?.Build()).ConfigureAwait(false);
+                    components: components).ConfigureAwait(false);
                 return await inter.GetOriginalResponseAsync().ConfigureAwait(false);
             }
 
             return await inter
-                .FollowupAsync(plainText, crembed, ephemeral: ephemeral, components: components?.Build())
+                .FollowupAsync(plainText, crembed, ephemeral: ephemeral, components: components)
                 .ConfigureAwait(false);
         }
 

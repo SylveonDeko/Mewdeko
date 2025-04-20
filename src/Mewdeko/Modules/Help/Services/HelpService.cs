@@ -94,7 +94,7 @@ public class HelpService : INService
             .WithDefault(msg.Author, msg.Channel, null, DiscordShardedClient).Build();
         if (SmartEmbed.TryParse(replacer.Replace(settings.DmHelpText), null, out var embed, out var plainText,
                 out var components))
-            await msg.Channel.SendMessageAsync(plainText, embeds: embed, components: components?.Build());
+            await msg.Channel.SendMessageAsync(plainText, embeds: embed, components: components);
         else
             await msg.Channel.SendMessageAsync(settings.DmHelpText);
     }

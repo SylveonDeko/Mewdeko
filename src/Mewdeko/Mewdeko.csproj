@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <LangVersion>12</LangVersion>
     <RunWorkingDirectory>$(MSBuildProjectDirectory)</RunWorkingDirectory>
     <OutputType>exe</OutputType>
@@ -10,21 +10,28 @@
     <EnablePreviewFeatures>True</EnablePreviewFeatures>
     <ApplicationIcon>Mewdeko.ico</ApplicationIcon>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <WarningsAsErrors>CS1591</WarningsAsErrors>
+    <!-- god i hate this  -->
+    <!-- <WarningsAsErrors>CS1591</WarningsAsErrors> -->
   </PropertyGroup>
 
 
   <!--    DO NOT DELETE   -->
   <!--    happy pride 🏳️‍⚧️ 🏳️‍🌈-->
-
+<!-- don't delete also means don't replace with happy pride sylv -->
   <ItemGroup>
     <PackageReference Include="Claudia" Version="1.3.1" />
-    <PackageReference Include="Discord.Net.WebSocket" Version="3.17.2" />
+    <!-- <PackageReference Include="Discord.Net.WebSocket" Version="3.17.2" />
     <PackageReference Include="Discord.Net.Rest" Version="3.17.2" />
     <PackageReference Include="Discord.Net.Webhook" Version="3.17.2" />
     <PackageReference Include="Discord.Net.Interactions" Version="3.17.2" />
-    <PackageReference Include="Discord.Net.Commands" Version="3.17.2" />
-    <PackageReference Include="Discord.Addons.Hosting" Version="6.1.0"/>
+    <PackageReference Include="Discord.Net.Commands" Version="3.17.2" /> --> 
+    <ProjectReference Include="../../../../dnet-dctk/src/Discord.Net.WebSocket/Discord.Net.WebSocket.csproj" />
+    <ProjectReference Include="../../../../dnet-dctk/src/Discord.Net.Rest/Discord.Net.Rest.csproj" />
+    <ProjectReference Include="../../../../dnet-dctk/src/Discord.Net.Webhook/Discord.Net.Webhook.csproj" />
+    <ProjectReference Include="../../../../dnet-dctk/src/Discord.Net.Interactions/Discord.Net.Interactions.csproj" />
+    <ProjectReference Include="../../../../dnet-dctk/src/Discord.Net.Commands/Discord.Net.Commands.csproj" />
+    <ProjectReference Include="../../../../Discord.Addons.Hosting/Discord.Addons.Hosting.csproj" />
+    <!-- <PackageReference Include="Discord.Addons.Hosting" Version="6.1.0"/> -->
     <PackageReference Include="EFCore.BulkExtensions" Version="8.1.1"/>
     <PackageReference Include="Google.Cloud.Vision.V1" Version="3.7.0"/>
     <PackageReference Include="GroqApiLibrary" Version="1.0.8" />

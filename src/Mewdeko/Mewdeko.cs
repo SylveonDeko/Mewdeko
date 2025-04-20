@@ -312,13 +312,7 @@ public class Mewdeko
             Console.WriteLine(e);
             throw;
         }
-#if !DEBUG
         await interactionService.RegisterCommandsGloballyAsync().ConfigureAwait(false);
-#endif
-#if DEBUG
-        if (Client.Guilds.Select(x => x.Id).Contains(Credentials.DebugGuildId))
-            await interactionService.RegisterCommandsToGuildAsync(Credentials.DebugGuildId);
-#endif
 
         _ = Task.Run(HandleStatusChanges);
         _ = Task.Run(async () => await ExecuteReadySubscriptions());

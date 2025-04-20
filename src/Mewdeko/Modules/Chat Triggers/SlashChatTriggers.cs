@@ -1,7 +1,9 @@
+using System.IO;
 using System.Net.Http;
 using Discord.Interactions;
 using Fergun.Interactive;
 using Fergun.Interactive.Pagination;
+using JetBrains.Annotations;
 using Mewdeko.Common.Attributes.InteractionCommands;
 using Mewdeko.Common.Autocompleters;
 using Mewdeko.Common.Configs;
@@ -33,6 +35,65 @@ public class SlashChatTriggers(IHttpClientFactory clientFactory, InteractiveServ
         await Service.RunInteractionTrigger(ctx.Interaction as SocketInteraction, ct).ConfigureAwait(false);
     }
 
+    [SlashCommand("cvtwo-test", "desc")]
+    public async Task cvtwoTest() 
+    {
+        ComponentBuilderV2 comp = new ComponentBuilderV2()
+            .WithSection(new [] {new TextDisplayBuilder("# Test\ntext in section"), new TextDisplayBuilder("new text `same section`")}, new ButtonBuilder("clickme", "deviltowniscolderinthesummertime", ButtonStyle.Success, emote: Emoji.Parse(":sparkles:")), true)
+            .WithSeparator()
+            .WithContainer(new ContainerBuilder()
+                .WithAccentColor(Color.Blue)
+                .WithSpoiler(true)
+                .WithMediaGallery(new[] {"https://grape.gay/docs/imgs/dithered-0.png", "https://grape.gay/docs/imgs/dithered-1.png"}))
+            .WithActionRow(new ActionRowBuilder().WithSelectMenu("deviltowniscolderin", new List<SelectMenuOptionBuilder> {new("test", "test1"), new("test2", "test2") }))
+            .WithContainer(new ContainerBuilder()
+                .WithAccentColor(Color.Red)
+                .WithFile(new UnfurledMediaItemProperties("attachment://TrainTickets.mp4")));
+        using var ms = new MemoryStream();
+        using var sw = new StreamWriter(ms);
+        sw.Write(File.ReadAllText("/home/cat/Downloads/tttt.m4a"));
+        ms.Seek(0, SeekOrigin.Begin);
+
+        await RespondWithFileAsync(ms, "TrainTickets.mp4", components: comp.Build());
+    }
+
+    [SlashCommand("cvtwo-chore", "desc")]
+    public async Task cvtwoChore()
+    {
+        ComponentBuilderV2 comp = new ComponentBuilderV2()
+            .WithContainer(new ContainerBuilder()
+                .WithAccentColor(Color.Blue)
+                .WithTextDisplay("# Dishes")
+                .WithSeparator(SeparatorSpacingSize.Large, true)
+                .WithSection(new SectionBuilder()
+                    .WithTextDisplay("## Run a load\nFilling the dishwasher if needed, adding soap, and pressing start.")
+                    .WithAccessory(new ButtonBuilder("Done (+5 pts)", "deviltowniscolderin", ButtonStyle.Success)))
+                .WithSeparator()
+                .WithSection(new SectionBuilder()
+                    .WithTextDisplay("## Empty the Dishwasher\nEmpty the dishwasher and flip the sign")
+                    .WithAccessory(new ButtonBuilder("Done (+10 points)", "deviltowniscolderint", ButtonStyle.Success))))
+            .WithContainer(new ContainerBuilder()
+                .WithAccentColor(Color.Purple)
+                .WithTextDisplay("# Cats")
+                .WithSection(new SectionBuilder()
+                    .WithTextDisplay("## Feed the cats\nFilling both food bowls and getting water, redeemable twice / day.")
+                    .WithAccessory(new ButtonBuilder("Done (+5 pts)", "deviltowniscolderinth", ButtonStyle.Success)))
+                .WithSeparator()
+                .WithSection(new SectionBuilder()
+                    .WithTextDisplay("## Empty a Litterbox\nRemove the poo, nothing more. Redeemable thrice/day.")
+                    .WithAccessory(new ButtonBuilder("Done (+10 pts)", "deviltowniscolderinthe", ButtonStyle.Success))));
+            // .WithContainer(new ContainerBuilder()
+            //     .WithAccentColor(Color.Green)
+            //     .WithTextDisplay("# Outside")
+            //     .WithSection(new SectionBuilder()
+            //         .WithTextDisplay("## Mow the Lawn\nOnce weekly, front and back, don't forget to wack")
+            //         .WithAccessory(new ButtonBuilder("Done (+30 pts)", "deviltowniscolderinthesu", ButtonStyle.Success)))
+            //     .WithSeparator()
+            //     .WithSection(new SectionBuilder()
+            //         .WithTextDisplay("## Shovel Snow\nA path to the garage, all of the porch, and the driveway from the house down. .")
+            //         .WithAccessory(new ButtonBuilder("Done (+30 pts)", "deviltowniscolderinthesum", ButtonStyle.Success))));
+        await RespondAsync(components: comp.Build());
+    }
     /// <summary>
     ///     Exports Chat Triggers into a .yml file.
     /// </summary>

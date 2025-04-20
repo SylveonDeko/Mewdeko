@@ -198,7 +198,7 @@ public class FeedsService : INService
                                 allSendTasks.Add(channel.EmbedAsync(embed));
                             else
                                 allSendTasks.Add(channel.SendMessageAsync(content ?? "", embeds: builder ?? null,
-                                    components: componentBuilder?.Build()));
+                                    components: componentBuilder));
                         }
                     }
                 }
@@ -297,15 +297,15 @@ public class FeedsService : INService
         if (sub.Message is "-" or null) await channel.EmbedAsync(embed);
         else
             await channel.SendMessageAsync(content ?? "", embeds: builder ?? null,
-                components: componentBuilder?.Build());
+                components: componentBuilder);
     }
 
-    private Task<(Embed[] builder, string content, ComponentBuilder componentBuilder)> GetFeedEmbed(string message,
+    private Task<(Embed[] builder, string content, MessageComponent componentBuilder)> GetFeedEmbed(string message,
         ulong guildId)
     {
         return SmartEmbed.TryParse(message, guildId, out var embed, out var content, out var components)
             ? Task.FromResult((embed, content, components))
-            : Task.FromResult<(Embed[], string, ComponentBuilder)>(([], message, null));
+            : Task.FromResult<(Embed[], string, MessageComponent)>(([], message, null));
     }
 
 

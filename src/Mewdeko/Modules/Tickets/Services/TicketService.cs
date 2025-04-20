@@ -117,7 +117,7 @@ public class TicketService : INService
             if (SmartEmbed.TryParse(content, channel.Guild.Id, out var embedData, out var plainText,
                     out var components))
             {
-                await channel.SendMessageAsync(plainText, embeds: embedData, components: components?.Build());
+                await channel.SendMessageAsync(plainText, embeds: embedData, components: components);
             }
             else
             {
@@ -819,25 +819,11 @@ public class TicketService : INService
                     guild.Id,
                     out var embeds,
                     out var plainText,
-                    out var components
+                    out _
                 );
 
                 if (success)
-                {
-                    // Add existing components if any
-                    var finalComponents = new ComponentBuilder();
-                    if (components != null)
-                    {
-                        foreach (var i in components.ActionRows)
-                        {
-                            finalComponents.AddRow(i);
-                        }
-                    }
-
-                    finalComponents.WithRows(GetDefaultTicketComponents().ActionRows);
-
-                    await channel.SendMessageAsync(plainText, embeds: embeds, components: finalComponents.Build());
-                }
+                    await channel.SendMessageAsync(plainText, embeds: embeds, components: GetDefaultTicketComponents().Build());
                 else
                 {
                     await channel.SendMessageAsync(

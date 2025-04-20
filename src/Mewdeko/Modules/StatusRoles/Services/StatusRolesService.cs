@@ -177,7 +177,7 @@ public class StatusRolesService : INService
         if (SmartEmbed.TryParse(rep.Replace(embedText), user.Guild.Id, out var embeds, out var plainText,
                 out var components))
         {
-            await channel.SendMessageAsync(plainText, embeds: embeds, components: components?.Build());
+            await channel.SendMessageAsync(plainText, embeds: embeds, components: components);
         }
         else
         {

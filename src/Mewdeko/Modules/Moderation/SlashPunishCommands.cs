@@ -626,7 +626,7 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
                     {
                         var userChannel = await user.CreateDMChannelAsync().ConfigureAwait(false);
                         await userChannel
-                            .SendMessageAsync(message, embeds: embedBuilder, components: components?.Build())
+                            .SendMessageAsync(message, embeds: embedBuilder, components: components)
                             .ConfigureAwait(false);
                     }
                 }
@@ -664,7 +664,7 @@ public class SlashPunishCommands : MewdekoSlashSubmodule<UserPunishService>
                     {
                         var userChannel = await user.CreateDMChannelAsync().ConfigureAwait(false);
                         await userChannel
-                            .SendMessageAsync(message, embeds: embedBuilder, components: components?.Build())
+                            .SendMessageAsync(message, embeds: embedBuilder, components: components)
                             .ConfigureAwait(false);
                     }
                 }

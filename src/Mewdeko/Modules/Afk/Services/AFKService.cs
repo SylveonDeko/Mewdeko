@@ -816,7 +816,7 @@ public class AfkService : INService, IReadyExecutor, IDisposable
                                 out var components))
                         {
                             var message = await msg.Channel
-                                .SendMessageAsync(plainText, embeds: embed, components: components?.Build());
+                                .SendMessageAsync(plainText, embeds: embed, components: components);
 
                             if (afkDeleteTime > 0)
                                 message.DeleteAfter(afkDeleteTime);

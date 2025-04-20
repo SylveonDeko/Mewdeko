@@ -70,7 +70,7 @@ public class Vote(InteractiveService interactivity) : MewdekoModuleBase<VoteServ
                     if (SmartEmbed.TryParse(rep.Replace(voteMessage), ctx.Guild.Id, out var embeds, out var plainText,
                             out var components))
                     {
-                        await ctx.Channel.SendMessageAsync(plainText, embeds: embeds, components: components.Build());
+                        await ctx.Channel.SendMessageAsync(plainText, embeds: embeds, components: components);
                     }
                     else
                     {

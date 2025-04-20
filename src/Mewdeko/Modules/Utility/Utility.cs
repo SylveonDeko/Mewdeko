@@ -97,7 +97,7 @@ public partial class Utility(
         try
         {
             SmartEmbed.TryParse(embedText, ctx.Guild.Id, out var embeds, out var plainText, out var components);
-            var comps = components?.Build();
+            var comps = components;
             watch.Stop();
             var eb = new EmbedBuilder()
                 .WithTitle("Embed Successfully Parsed")
@@ -1747,7 +1747,7 @@ public partial class Utility(
                 try
                 {
                     await channel.SendFilesAsync(attachments, plainText, embeds: embedData,
-                            components: components?.Build(),
+                            components: components,
                             allowedMentions: !canMention
                                 ? new AllowedMentions(AllowedMentionTypes.Users)
                                 : AllowedMentions.All)
@@ -1764,7 +1764,7 @@ public partial class Utility(
             else
                 try
                 {
-                    await channel.SendMessageAsync(plainText, embeds: embedData, components: components?.Build(),
+                    await channel.SendMessageAsync(plainText, embeds: embedData, components: components,
                             allowedMentions: !canMention
                                 ? new AllowedMentions(AllowedMentionTypes.Users)
                                 : AllowedMentions.All)

@@ -1,5 +1,9 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel;
+using System.Text.Json.Serialization;
+using FParsec;
 using Mewdeko.Common.JsonConverters;
+using Mewdeko.Database.Migrations.SQLite;
+using Microsoft.IdentityModel.Abstractions;
 using static Mewdeko.Extensions.StringExtensions;
 
 // ReSharper disable NotNullOrRequiredMemberIsNotInitialized
@@ -163,6 +167,7 @@ public class Embed
     public List<Field>? Fields { get; set; }
 }
 
+
 /// <summary>
 ///     Represents a new embed message.
 /// </summary>
@@ -191,6 +196,12 @@ public class NewEmbed
     /// </summary>
     [JsonPropertyName("components")]
     public List<NewEmbedComponent>? Components { get; set; }
+    
+    /// <summary>
+    ///     used for comp v2, should be the only prop or not be set.
+    /// </summary>
+    [JsonPropertyName("containers")]
+    public List<NewEmbedContainer> Containers {get;set;}
 
     /// <summary>
     ///     Gets a value indicating whether the message is valid.
@@ -199,6 +210,11 @@ public class NewEmbed
     {
         get
         {
+            // if any containers there must be no other content, otherwise there must be at least one content.
+            if (Containers != null && Components == null && Embed == null && Embeds == null && Content == null)
+                return true;
+            if (Containers != null)
+                return false;
             if (Content != null)
                 return true;
             if (Embed != null)
@@ -226,19 +242,28 @@ public class NewEmbed
         }
     }
 
+/// <summary>
+/// get components for the guy
+/// </summary>
+/// <param name="guildId">the guy</param>
+/// <returns>take a gander</returns>
+    public ComponentBuilder? GetComponents(ulong? guildId) => GetComponents(guildId, Components);
+
     /// <summary>
     ///     Gets the components of the message.
     /// </summary>
     /// <param name="guildId">The ID of the guild.</param>
+    /// <param name="components">Components to be used .</param>
+    /// <param name="posOffset">for deidentifying </param>
     /// <returns>A <see cref="ComponentBuilder" /> containing the components.</returns>
-    public ComponentBuilder? GetComponents(ulong? guildId)
+    public static ComponentBuilder? GetComponents(ulong? guildId, List<NewEmbedComponent> components, int posOffset = 0)
     {
         var cb = new ComponentBuilder();
 
-        var activeRowId = 0;
+        var activeRowId = posOffset;
         var rowLength = 0;
-        if (Components is null) return null;
-        foreach (var comp in Components)
+        if (components is null) return null;
+        foreach (var comp in components)
         {
 
             if (comp.IsSelect)
@@ -271,8 +296,14 @@ public class NewEmbed
 
         return cb;
     }
-
-    private static ButtonBuilder GetButton(NewEmbedComponent btn, int pos, ulong guildId)
+/// <summary>
+/// gets a button for the specified component
+/// </summary>
+/// <param name="btn">the component</param>
+/// <param name="pos">offset for unqueification</param>
+/// <param name="guildId">guildid for triggers</param>
+/// <returns></returns>
+    public static ButtonBuilder GetButton(NewEmbedComponent btn, int pos, ulong? guildId)
     {
         var bb = new ButtonBuilder();
         if (btn.Url.IsNullOrWhiteSpace() && btn.Id.IsNullOrWhiteSpace())
@@ -311,8 +342,14 @@ public class NewEmbed
 
         return bb;
     }
-
-    private SelectMenuBuilder GetSelectMenu(NewEmbedComponent sel, int pos, ulong guildId)
+/// <summary>
+/// gets a select for the specified component
+/// </summary>
+/// <param name="sel">the component</param>
+/// <param name="pos">offset for unqueification</param>
+/// <param name="guildId">guildid for triggers</param>
+/// <returns></returns>
+    public static SelectMenuBuilder GetSelectMenu(NewEmbedComponent sel, int pos, ulong guildId)
     {
         var sb = new SelectMenuBuilder();
 
@@ -484,5 +521,188 @@ public class NewEmbed
         ///     Gets or sets the description of the option.
         /// </summary>
         public string? Description { get; set; }
+    }
+    /// <summary>
+    ///     The containers (embed looking things)
+    /// </summary>
+    public class NewEmbedContainer
+    {
+        /// <summary>
+        ///     matches background if null, otherwise thats the color on the side
+        /// </summary>
+        
+        [JsonConverter(typeof(DiscordColorConverter))]
+        public Color? Color {get;set;} = null;
+        /// <summary>
+        ///     only seems to effect images in galleries and the like.
+        /// </summary>
+        public bool IsSpoiler {get;set;} = false;
+        /// <summary>
+        ///     can contain a mix of up to 10 items. have fun.
+        /// </summary>
+        public List<NewEmbedContainerItem> Items {get;set;}
+        
+        /// <summary>
+        ///     love this guy
+        /// </summary>
+        /// <param name="guildId">used for trigger buttons</param>
+        /// <param name="pos">used for button diferentiation, should be incrimented for sequentail parsing</param>
+        /// <returns>a <see cref="ContainerBuilder" /> that has all of Items in it.</returns>
+        public ContainerBuilder GetBuilder(ulong? guildId, int pos)
+        {
+            var builder = new ContainerBuilder()
+                .WithAccentColor(Color)
+                .WithSpoiler(IsSpoiler);
+            Items.ForEach(x => builder.AddComponents(x.GetComponents(pos++, guildId)));
+            return builder;
+        }
+    }
+
+    /// <summary>
+    /// Items for a <see cref="NewEmbedContainer" /> different props are needed for different types.
+    /// </summary>
+    public class NewEmbedContainerItem 
+    {
+        /// <summary>
+        ///     The tipe of item, the props you need depend on this
+        /// </summary>
+        public NewEmbedContainerItemType Type {get;set;}
+        /// <summary>
+        ///     The size of the space around a seperator, defaults to small
+        /// </summary>
+        public SeparatorSpacingSize SeperatorSize {get;set;} = SeparatorSpacingSize.Small;
+        /// <summary>
+        ///     Hides the seperator, for some reason. no idea why you would want this
+        /// </summary>
+        public bool SeperatorInvisable {get;set;} = false;
+
+        /// <summary>
+        ///  Up to 4096 characters of your own composition. pretty boring. supports full markup (so # TItle, lists, everyting) 
+        /// </summary>
+        public string TextContent {get;set;} = null;
+        // component
+
+        /// <summary>
+        ///     Sub-components for the components type, supports buttons and selects with auto-rowing like normal  
+        /// </summary>
+        public List<NewEmbedComponent> Components {get;set;} = null;
+        // section
+
+        /// <summary>
+        ///     Text with a thumb or button on the right. 
+        /// </summary>
+        public NewEmbedSection Section {get;set;} = null;
+        // gallery
+
+        /// <summary>
+        ///     up to ten urls, can link to anywhere. 
+        /// </summary>
+        public List<string> GalleryImageURLs {get;set;} = null;
+        /// <summary>
+        ///     sets the IsSpoiler property on every iamge in the gallery to this value. defautls to false.
+        /// </summary>
+        public bool GalleryIsSpoiler {get;set;} = false;
+        
+        /// <summary>
+        ///     Parses the components, returns an arrays to support multiple action rows cleanly 
+        /// </summary>
+        /// <param name="pos">Needed for component differentiation</param>
+        /// <param name="guildId">Needed for trigger buttons</param>
+        /// <returns>An array of generic component builders represnting </returns>
+        public IMessageComponentBuilder[] GetComponents(int pos, ulong? guildId) 
+        {
+            if (Type == NewEmbedContainerItemType.Text)
+                return (TextContent?.Length >= 4096 || TextContent is null)
+                    ? [new TextDisplayBuilder("TextContent must be between 0 and 4096 chars.")]
+                    : [new TextDisplayBuilder(TextContent)];
+            else if (Type == NewEmbedContainerItemType.Seperator)
+                return [new SeparatorBuilder().WithIsDivider(!SeperatorInvisable).WithSpacing(SeperatorSize)];
+            else if (Type == NewEmbedContainerItemType.Components)
+                return NewEmbed.GetComponents(guildId, Components).ActionRows.Select(x => x as IMessageComponentBuilder).ToArray();
+            else if (Type == NewEmbedContainerItemType.Section)
+                return [Section.GetBuilder(pos, guildId)];
+            else if (Type == NewEmbedContainerItemType.Gallery)
+                return (GalleryImageURLs is not null && GalleryImageURLs.Count <= 10 && GalleryImageURLs.Count >= 1)
+                    ? [new MediaGalleryBuilder().WithItems(GalleryImageURLs.Select(x => new MediaGalleryItemProperties(new(x), null, GalleryIsSpoiler)))]
+                    : [new TextDisplayBuilder("`GalleryImageURLs` must have between 1 and 10 entries")];
+            else
+                return [new TextDisplayBuilder("unknown type")];
+        }
+    }
+
+    /// <summary>
+    ///     A section with tect on the left and an accessory (button or iamge) on the right.
+    /// </summary>
+    public class NewEmbedSection 
+    {
+        /// <summary>
+        ///     up to 4096 chars of text
+        /// </summary>
+        public string Text {get;set;}
+        /// <summary>
+        ///     a button, must be null if <see cref="ImageUrl" /> is specified
+        /// </summary>
+        public NewEmbedComponent Button {get;set;} = null;
+        /// <summary>
+        ///     a link to an image, must be null if <see cref="Button" /> is specified
+        /// </summary>
+        public string ImageUrl {get;set;} = null;
+        /// <summary>
+        ///     true if the image should be spoilered. defaults to false
+        /// </summary>
+        public bool ImageIsSpoiler {get;set;} = false;
+        /// <summary>
+        ///     gets a builder representing the section
+        /// </summary>
+        /// <param name="pos">position offset for un-matching components</param>
+        /// <param name="guildId">the guildid for triggers</param>
+        /// <returns>a builder repping. the section, or an error message</returns>
+        public SectionBuilder GetBuilder(int pos, ulong? guildId) 
+        {
+            if (Button != null && ImageUrl != null)
+                return new SectionBuilder()
+                    .AddComponent(new TextDisplayBuilder("A section can only have a ImageUrl or a Component, not both"))
+                    .WithAccessory(new ButtonBuilder("error", $"{pos}", ButtonStyle.Danger, isDisabled: true));
+            if (Button == null && ImageUrl == null)
+                return new SectionBuilder()
+                    .AddComponent(new TextDisplayBuilder("A section must have either a Component or an ImageUrl"))
+                    .WithAccessory(new ButtonBuilder("Error", $"{pos}", ButtonStyle.Danger, isDisabled: true));
+            if (Text.Length >= 4096)
+                return new SectionBuilder()
+                    .AddComponent(new TextDisplayBuilder("Text length must be less than 4096"))
+                    .WithAccessory(new ButtonBuilder("Error", $"{pos}", ButtonStyle.Danger, isDisabled: true));
+            var builder = new SectionBuilder()
+                .AddComponent(new TextDisplayBuilder(Text));
+            if (ImageUrl != null)
+                return builder.WithAccessory(new ThumbnailBuilder(new() {Url=ImageUrl}, isSpoiler: ImageIsSpoiler));
+            return builder.WithAccessory(GetButton(Button, pos, guildId));
+        }
+    }
+
+/// <summary>
+///     A type of item
+/// </summary>
+    public enum NewEmbedContainerItemType 
+    {
+        /// <summary>
+        /// text
+        /// </summary>
+        Text,
+        /// <summary>
+        /// sueperator
+        /// </summary>
+        Seperator,
+        /// <summary>
+        /// list of buttons or selects
+        /// </summary>
+        Components,
+        /// <summary>
+        /// text with a button or image on the right
+        /// </summary>
+        Section,
+        /// <summary>
+        /// 1 to 10 images
+        /// </summary>
+        Gallery
     }
 }

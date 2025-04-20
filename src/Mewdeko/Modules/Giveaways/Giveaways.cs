@@ -55,7 +55,7 @@ public partial class Giveaways(
                         out var plaintext, out var components))
                 {
                     await ctx.Channel
-                        .SendMessageAsync(plaintext, embeds: embeds ?? null, components: components?.Build())
+                        .SendMessageAsync(plaintext, embeds: embeds ?? null, components: components)
                         .ConfigureAwait(false);
                 }
 

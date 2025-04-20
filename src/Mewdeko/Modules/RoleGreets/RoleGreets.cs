@@ -293,7 +293,7 @@ public class RoleGreets(InteractiveService interactivity, HttpClient http) : Mew
                     if (SmartEmbed.TryParse(content, ctx.Guild?.Id, out var embedData, out var plainText, out var cb))
                     {
                         await ctx.Channel.SendMessageAsync(plainText, embeds: embedData,
-                            components: cb.Build()).ConfigureAwait(false);
+                            components: cb).ConfigureAwait(false);
                         return;
                     }
 

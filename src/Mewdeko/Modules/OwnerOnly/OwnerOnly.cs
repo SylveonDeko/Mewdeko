@@ -1258,7 +1258,7 @@ public class OwnerOnly(
             if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild?.Id, out var embed, out var plainText,
                     out var components))
             {
-                await potentialUser.SendMessageAsync(plainText, embeds: embed, components: components.Build())
+                await potentialUser.SendMessageAsync(plainText, embeds: embed, components: components)
                     .ConfigureAwait(false);
                 await ctx.Channel.SendConfirmAsync($"Message sent to {potentialUser.Mention}!").ConfigureAwait(false);
                 return;
@@ -1282,7 +1282,7 @@ public class OwnerOnly(
             if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild.Id, out var embed, out var plainText,
                     out var components))
             {
-                await channel.SendMessageAsync(plainText, embeds: embed, components: components?.Build())
+                await channel.SendMessageAsync(plainText, embeds: embed, components: components)
                     .ConfigureAwait(false);
                 await ctx.Channel.SendConfirmAsync($"Message sent to {potentialServer} in {channel.Mention}")
                     .ConfigureAwait(false);
@@ -1305,7 +1305,7 @@ public class OwnerOnly(
         if (SmartEmbed.TryParse(rep.Replace(msg), ctx.Guild?.Id, out var embed1, out var plainText1,
                 out var components1))
         {
-            await channel.SendMessageAsync(plainText1, embeds: embed1, components: components1?.Build())
+            await channel.SendMessageAsync(plainText1, embeds: embed1, components: components1)
                 .ConfigureAwait(false);
             await ctx.Channel.SendConfirmAsync(Strings.MessageSentGuild(ctx.Guild.Id, potentialServer, user.Mention));
 

@@ -840,7 +840,7 @@ public partial class Moderation : MewdekoModule
                     {
                         var userChannel = await user.CreateDMChannelAsync().ConfigureAwait(false);
                         await userChannel
-                            .SendMessageAsync(message, embeds: embedBuilder, components: components?.Build())
+                            .SendMessageAsync(message, embeds: embedBuilder, components: components)
                             .ConfigureAwait(false);
                     }
                 }
@@ -950,7 +950,7 @@ public partial class Moderation : MewdekoModule
                 if (embedBuilder is not null || message is not null)
                 {
                     var userChannel = await user.CreateDMChannelAsync().ConfigureAwait(false);
-                    await userChannel.SendMessageAsync(message, embeds: embedBuilder, components: components?.Build())
+                    await userChannel.SendMessageAsync(message, embeds: embedBuilder, components: components)
                         .ConfigureAwait(false);
                 }
             }
@@ -1004,7 +1004,7 @@ public partial class Moderation : MewdekoModule
                 if (embedBuilder is not null || message is not null)
                 {
                     var userChannel = await user.CreateDMChannelAsync().ConfigureAwait(false);
-                    await userChannel.SendMessageAsync(message, embeds: embedBuilder, components: components?.Build())
+                    await userChannel.SendMessageAsync(message, embeds: embedBuilder, components: components)
                         .ConfigureAwait(false);
                 }
             }
@@ -1126,7 +1126,7 @@ public partial class Moderation : MewdekoModule
                 try
                 {
                     await dmChannel
-                        .SendMessageAsync(crEmbed.Item2, embeds: crEmbed.Item1, components: crEmbed.Item3?.Build())
+                        .SendMessageAsync(crEmbed.Item2, embeds: crEmbed.Item1, components: crEmbed.Item3)
                         .ConfigureAwait(false);
                 }
                 catch (Exception)

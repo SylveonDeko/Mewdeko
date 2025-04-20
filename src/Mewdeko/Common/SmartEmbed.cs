@@ -31,7 +31,7 @@ public static class SmartEmbed
         ulong? guildId,
         out Discord.Embed[]? embeds,
         out string? plainText,
-        out ComponentBuilder? components)
+        out MessageComponent? components)
     {
         try
         {
@@ -80,6 +80,18 @@ public static class SmartEmbed
                 Log.Information(ex, "Failed to parse JSON");
                 return false;
             }
+            
+            // try new comps first, if it fails then do normal parsing 
+            if (newEmbed.Containers is not null && newEmbed.Containers.Count >= 0)
+            {
+                ComponentBuilderV2 cv2b = new();
+                foreach(var container in newEmbed.Containers)
+                {
+                    cv2b.WithContainer(container.GetBuilder(guildId, cv2b.Components.Count));
+                }
+                components = cv2b.Build();
+                return true;
+            }
 
             if (newEmbed.Embed?.Fields is { Count: > 0 })
             {
@@ -121,10 +133,10 @@ public static class SmartEmbed
             }
 
             plainText = newEmbed.Content;
-            components = newEmbed.GetComponents(guildId);
+            components = newEmbed.GetComponents(guildId).Build();
             return true;
         }
-        catch
+        catch (Exception ex)
         {
             Log.Error("Unable to parse embed");
             embeds = null;

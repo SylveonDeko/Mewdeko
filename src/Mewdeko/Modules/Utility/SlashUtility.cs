@@ -217,7 +217,7 @@ public partial class SlashUtility(
         if (SmartEmbed.TryParse(rep.Replace(modal.Message), ctx.Guild?.Id, out var embedData, out var plainText,
                 out var components))
         {
-            await channel.SendMessageAsync(plainText, embeds: embedData, components: components?.Build(),
+            await channel.SendMessageAsync(plainText, embeds: embedData, components: components,
                     allowedMentions: !canMention ? new AllowedMentions(AllowedMentionTypes.Users) : AllowedMentions.All)
                 .ConfigureAwait(false);
             await ctx.Interaction.SendEphemeralConfirmAsync($"Message sent to {channel.Mention}.");

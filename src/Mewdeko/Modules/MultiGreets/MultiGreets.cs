@@ -383,7 +383,7 @@ public class MultiGreets(InteractiveService interactivity) : MewdekoModuleBase<M
                             out var components2))
                     {
                         await ctx.Channel
-                            .SendMessageAsync(plainText, embeds: embedData, components: components2.Build())
+                            .SendMessageAsync(plainText, embeds: embedData, components: components2)
                             .ConfigureAwait(false);
                     }
                     else

@@ -38,8 +38,10 @@ public sealed class BotConfig
         QuarantineNotification = true;
         UpdateBranch = "main";
         CheckForUpdates = UpdateCheckType.None;
+        ChatGptKey = "";
     }
 
+    public string ChatGptKey {get;set;}
     /// <summary>
     ///     Gets or sets the version of the bot configuration.
     /// </summary>

@@ -93,7 +93,7 @@ public class SlashStatusRoles(BotConfigService bss, InteractiveService interacti
                         .WithDefault(ctx).Build();
                     if (SmartEmbed.TryParse(rep.Replace(potentialStatusRole.StatusEmbed), ctx.Guild.Id, out var embeds,
                             out var plainText, out var components))
-                        await ctx.Interaction.FollowupAsync(plainText, embeds, components: components.Build());
+                        await ctx.Interaction.FollowupAsync(plainText, embeds, components: components);
                     else
                         await ctx.Interaction.FollowupAsync(rep.Replace(potentialStatusRole.StatusEmbed));
                     break;

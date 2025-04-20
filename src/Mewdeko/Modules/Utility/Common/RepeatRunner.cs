@@ -234,7 +234,7 @@ public class RepeatRunner : IDisposable
 
         if (SmartEmbed.TryParse(message, Channel.GuildId, out var embed, out var plainText, out var components))
         {
-            return await Channel.SendMessageAsync(plainText ?? "", embeds: embed, components: components?.Build())
+            return await Channel.SendMessageAsync(plainText ?? "", embeds: embed, components: components)
                 .ConfigureAwait(false);
         }
 
