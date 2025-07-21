@@ -223,37 +223,47 @@ public partial class Searches(
                         .WithIsInline(true))
                 .AddField(fb =>
                     fb.WithName($"📏 {Format.Bold(Strings.Latlong(ctx.Guild.Id))}")
-                        .WithValue($"{data.Coord.Lat}, {data.Coord.Lon}").WithIsInline(true))
+                        .WithValue(data.Coord != null ? $"{data.Coord.Lat}, {data.Coord.Lon}" : "N/A").WithIsInline(true))
                 .AddField(fb =>
                     fb.WithName($"☁ {Format.Bold(Strings.Condition(ctx.Guild.Id))}")
-                        .WithValue(string.Join(", ", data.Weather.Select(w => w.Main))).WithIsInline(true))
+                        .WithValue(data.Weather != null ? string.Join(", ", data.Weather.Select(w => w.Main)) : "N/A").WithIsInline(true))
                 .AddField(fb =>
-                    fb.WithName($"😓 {Format.Bold(Strings.Humidity(ctx.Guild.Id))}").WithValue($"{data.Main.Humidity}%")
+                    fb.WithName($"😓 {Format.Bold(Strings.Humidity(ctx.Guild.Id))}")
+                        .WithValue(data.Main != null ? $"{data.Main.Humidity}%" : "N/A")
                         .WithIsInline(true))
                 .AddField(fb =>
                     fb.WithName($"💨 {Format.Bold(Strings.WindSpeed(ctx.Guild.Id))}")
-                        .WithValue($"{data.Wind.Speed} m/s")
+                        .WithValue(data.Wind != null
+                            ? $"{data.Wind.Speed} m/s" +
+                              (data.Wind.Gust > 0 ? $"\nGusts: {data.Wind.Gust} m/s" : "")
+                            : "N/A")
                         .WithIsInline(true))
                 .AddField(fb =>
                     fb.WithName($"🌡 {Format.Bold(Strings.Temperature(ctx.Guild.Id))}")
-                        .WithValue($"{data.Main.Temp:F1}°C / {f(data.Main.Temp):F1}°F").WithIsInline(true))
+                        .WithValue(data.Main != null
+                            ? $"{data.Main.Temp:F1}°C / {f(data.Main.Temp):F1}°F\nFeels like: {data.Main.Feels_Like:F1}°C / {f(data.Main.Feels_Like):F1}°F"
+                            : "N/A")
+                        .WithIsInline(true))
                 .AddField(fb =>
                     fb.WithName($"🔆 {Format.Bold(Strings.MinMax(ctx.Guild.Id))}")
-                        .WithValue(
-                            $"{data.Main.TempMin:F1}°C - {data.Main.TempMax:F1}°C\n{f(data.Main.TempMin):F1}°F - {f(data.Main.TempMax):F1}°F")
+                        .WithValue(data.Main != null
+                            ? $"{data.Main.TempMin:F1}°C - {data.Main.TempMax:F1}°C\n{f(data.Main.TempMin):F1}°F - {f(data.Main.TempMax):F1}°F"
+                            : "N/A")
                         .WithIsInline(true))
                 .AddField(fb =>
                     fb.WithName($"🌄 {Format.Bold(Strings.Sunrise(ctx.Guild.Id))}")
-                        .WithValue($"{sunrise:HH:mm} {timezone}")
+                        .WithValue(sunrise.HasValue ? $"{sunrise:HH:mm} {timezone}" : "N/A")
                         .WithIsInline(true))
                 .AddField(fb =>
                     fb.WithName($"🌇 {Format.Bold(Strings.Sunset(ctx.Guild.Id))}")
-                        .WithValue($"{sunset:HH:mm} {timezone}")
+                        .WithValue(sunset.HasValue ? $"{sunset:HH:mm} {timezone}" : "N/A")
                         .WithIsInline(true))
                 .WithOkColor()
                 .WithFooter(efb =>
                     efb.WithText(Strings.WeatherAttribution(ctx.Guild.Id))
-                        .WithIconUrl($"https://openweathermap.org/img/w/{data.Weather[0].Icon}.png"));
+                        .WithIconUrl(data.Weather != null && data.Weather.Count > 0 && !string.IsNullOrWhiteSpace(data.Weather[0].Icon)
+                            ? $"https://openweathermap.org/img/w/{data.Weather[0].Icon}.png"
+                            : null));
         }
 
         await ctx.Channel.EmbedAsync(embed).ConfigureAwait(false);
