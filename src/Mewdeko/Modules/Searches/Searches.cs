@@ -210,11 +210,11 @@ public partial class Searches(
             var tz = Context.Guild is null
                 ? TimeZoneInfo.Utc
                 : tzSvc.GetTimeZoneOrUtc(Context.Guild.Id);
-            var sunrise = data.Sys.Sunrise.ToUnixTimestamp();
-            var sunset = data.Sys.Sunset.ToUnixTimestamp();
-            sunrise = sunrise.ToOffset(tz.GetUtcOffset(sunrise));
-            sunset = sunset.ToOffset(tz.GetUtcOffset(sunset));
-            var timezone = $"UTC{sunrise:zzz}";
+            var sunrise = data.Sys?.Sunrise.ToUnixTimestamp();
+            var sunset = data.Sys?.Sunset.ToUnixTimestamp();
+            sunrise = sunrise?.ToOffset(tz.GetUtcOffset(sunrise.Value));
+            sunset = sunset?.ToOffset(tz.GetUtcOffset(sunset.Value));
+            var timezone = sunrise.HasValue ? $"UTC{sunrise:zzz}" : "UTC";
 
             embed.AddField(fb =>
                     fb.WithName($"🌍 {Format.Bold(Strings.Location(ctx.Guild.Id))}")
