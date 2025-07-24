@@ -1,3 +1,4 @@
+using System.Globalization;
 using Mewdeko.Controllers.Common.Chat;
 using Mewdeko.Modules.Utility.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -72,7 +73,7 @@ public class ChatController(DiscordShardedClient client, ChatLogService chatLogS
                 e.Title,
                 e.Description,
                 e.Url,
-                Thumbnail = e.Thumbnail.HasValue ? e.Thumbnail.Value.Url : null,
+                Thumbnail = e.Thumbnail?.Url,
                 Author = e.Author.HasValue
                     ? new
                     {
@@ -104,7 +105,7 @@ public class ChatController(DiscordShardedClient client, ChatLogService chatLogS
             l.ChannelName,
             l.Name,
             CreatedBy = l.CreatedBy.ToString(),
-            Timestamp = l.DateAdded.Value.ToString(),
+            Timestamp = l.DateAdded.Value.ToString(CultureInfo.InvariantCulture),
             l.MessageCount
         });
 
@@ -128,7 +129,7 @@ public class ChatController(DiscordShardedClient client, ChatLogService chatLogS
         if (log.GuildId != guildId)
             return Forbid("This log does not belong to the specified guild");
 
-        var messages = JsonConvert.DeserializeObject(log.Messages);
+        var messages = JsonConvert.DeserializeObject<List<ChatLogMessageDto>>(log.Messages);
 
         var response = new
         {
@@ -138,7 +139,7 @@ public class ChatController(DiscordShardedClient client, ChatLogService chatLogS
             log.ChannelName,
             log.Name,
             CreatedBy = log.CreatedBy.ToString(),
-            Timestamp = log.DateAdded.Value.ToString(),
+            Timestamp = log.DateAdded.Value.ToString(CultureInfo.InvariantCulture),
             log.MessageCount,
             Messages = messages
         };

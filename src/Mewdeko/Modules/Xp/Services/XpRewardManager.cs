@@ -3,8 +3,10 @@ using DataModel;
 using LinqToDB;
 using Mewdeko.Database.DbContextStuff;
 using Mewdeko.Modules.Currency.Services;
+using Mewdeko.Modules.Xp.Events;
 using Mewdeko.Modules.Xp.Models;
 using Mewdeko.Services.Strings;
+using StackExchange.Redis;
 
 namespace Mewdeko.Modules.Xp.Services;
 
@@ -17,6 +19,7 @@ public class XpRewardManager : INService
     private readonly DiscordShardedClient client;
     private readonly ICurrencyService currencyService;
     private readonly IDataConnectionFactory dbFactory;
+    private readonly EventHandler eventHandler;
     private readonly ILogger<XpRewardManager> logger;
     private readonly GeneratedBotStrings Strings;
 
@@ -31,7 +34,8 @@ public class XpRewardManager : INService
         DiscordShardedClient client,
         IDataConnectionFactory dbFactory,
         ICurrencyService currencyService,
-        XpCacheManager cacheManager, GeneratedBotStrings strings, ILogger<XpRewardManager> logger)
+        XpCacheManager cacheManager, GeneratedBotStrings strings, ILogger<XpRewardManager> logger,
+        EventHandler eventHandler)
     {
         this.client = client;
         this.dbFactory = dbFactory;
@@ -39,6 +43,12 @@ public class XpRewardManager : INService
         this.cacheManager = cacheManager;
         Strings = strings;
         this.logger = logger;
+        this.eventHandler = eventHandler;
+
+        // Subscribe individual methods to XP level change events for better separation of concerns
+        eventHandler.Subscribe("XpLevelChanged", "XpRewardManager-Notifications", HandleLevelUpNotificationAsync);
+        eventHandler.Subscribe("XpLevelChanged", "XpRewardManager-RoleRewards", HandleRoleRewardsAsync);
+        eventHandler.Subscribe("XpLevelChanged", "XpRewardManager-CurrencyRewards", HandleCurrencyRewardsAsync);
     }
 
     /// <summary>
@@ -463,6 +473,240 @@ public class XpRewardManager : INService
                 logger.LogError(ex, "Error granting currency reward to {UserId} in {GuildId}",
                     reward.UserId, reward.GuildId);
             }
+        }
+    }
+
+    /// <summary>
+    ///     Handles XP level change events for notifications only.
+    /// </summary>
+    /// <param name="eventArgs">The level change event arguments.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    private async Task HandleLevelUpNotificationAsync(XpLevelChangedEventArgs eventArgs)
+    {
+        try
+        {
+            // Only process notifications
+            if (eventArgs.NotificationType != XpNotificationType.None)
+            {
+                var notification = new XpNotification
+                {
+                    GuildId = eventArgs.GuildId,
+                    UserId = eventArgs.UserId,
+                    Level = eventArgs.NewLevel,
+                    ChannelId = eventArgs.ChannelId,
+                    NotificationType = eventArgs.NotificationType,
+                    Sources = eventArgs.Source.ToString()
+                };
+
+                await SendNotificationsAsync([notification]).ConfigureAwait(false);
+                logger.LogDebug("Sent level up notification for user {UserId} in guild {GuildId}: Level {Level}",
+                    eventArgs.UserId, eventArgs.GuildId, eventArgs.NewLevel);
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error handling level up notification for user {UserId} in guild {GuildId}",
+                eventArgs.UserId, eventArgs.GuildId);
+        }
+    }
+
+    /// <summary>
+    ///     Handles XP level change events for role rewards only.
+    /// </summary>
+    /// <param name="eventArgs">The level change event arguments.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    private async Task HandleRoleRewardsAsync(XpLevelChangedEventArgs eventArgs)
+    {
+        try
+        {
+            var settings = await cacheManager.GetGuildXpSettingsAsync(eventArgs.GuildId);
+            var redis = cacheManager.GetRedisDatabase();
+            var server = redis.Multiplexer.GetServer(redis.Multiplexer.GetEndPoints().First());
+
+            var pattern = $"xp:rewards:{eventArgs.GuildId}:role:*";
+            var keys = new List<RedisKey>();
+
+            await foreach (var key in server.KeysAsync(pattern: pattern))
+            {
+                keys.Add(key);
+            }
+
+            if (keys.Count == 0)
+                return;
+
+            var values = await redis.StringGetAsync(keys.ToArray());
+            var allRoleRewards = new List<XpRoleReward>();
+
+            for (var i = 0; i < values.Length; i++)
+            {
+                if (values[i].HasValue)
+                {
+                    var reward = JsonSerializer.Deserialize<XpRoleReward>((string)values[i]);
+                    if (reward != null)
+                        allRoleRewards.Add(reward);
+                }
+            }
+
+            var guild = client.GetGuild(eventArgs.GuildId);
+            var user = guild?.GetUser(eventArgs.UserId);
+
+            if (guild == null || user == null)
+                return;
+
+            if (settings.ExclusiveRoleRewards)
+            {
+                var allRewardRoleIds = allRoleRewards.Select(r => r.RoleId).ToHashSet();
+                var userRewardRoles = user.Roles.Where(r => allRewardRoleIds.Contains(r.Id)).ToList();
+
+                if (userRewardRoles.Count > 0)
+                {
+                    await user.RemoveRolesAsync(userRewardRoles);
+                }
+
+                var qualifyingReward = allRoleRewards
+                    .Where(r => r.Level <= eventArgs.NewLevel)
+                    .OrderByDescending(r => r.Level)
+                    .FirstOrDefault();
+
+                if (qualifyingReward != null)
+                {
+                    var role = guild.GetRole(qualifyingReward.RoleId);
+                    if (role != null && user.Roles.All(r => r.Id != role.Id))
+                    {
+                        await user.AddRoleAsync(role);
+                    }
+                }
+            }
+            else
+            {
+                var qualifyingRoleIds = allRoleRewards
+                    .Where(r => r.Level <= eventArgs.NewLevel)
+                    .Select(r => r.RoleId)
+                    .ToHashSet();
+
+                var nonQualifyingRoleIds = allRoleRewards
+                    .Where(r => r.Level > eventArgs.NewLevel)
+                    .Select(r => r.RoleId)
+                    .ToHashSet();
+
+                var rolesToRemove = user.Roles.Where(r => nonQualifyingRoleIds.Contains(r.Id)).ToList();
+                var rolesToAdd = qualifyingRoleIds
+                    .Where(roleId => user.Roles.All(r => r.Id != roleId))
+                    .Select(roleId => guild.GetRole(roleId))
+                    .Where(role => role != null)
+                    .ToList();
+
+                if (rolesToRemove.Count > 0)
+                {
+                    await user.RemoveRolesAsync(rolesToRemove);
+                }
+
+                if (rolesToAdd.Count > 0)
+                {
+                    await user.AddRolesAsync(rolesToAdd);
+                }
+            }
+
+            logger.LogDebug("Synchronized role rewards for user {UserId} in guild {GuildId} at level {Level}",
+                eventArgs.UserId, eventArgs.GuildId, eventArgs.NewLevel);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error handling role rewards for user {UserId} in guild {GuildId}",
+                eventArgs.UserId, eventArgs.GuildId);
+        }
+    }
+
+    /// <summary>
+    ///     Handles XP level change events for currency rewards only.
+    /// </summary>
+    /// <param name="eventArgs">The level change event arguments.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    private async Task HandleCurrencyRewardsAsync(XpLevelChangedEventArgs eventArgs)
+    {
+        try
+        {
+            var redis = cacheManager.GetRedisDatabase();
+            var server = redis.Multiplexer.GetServer(redis.Multiplexer.GetEndPoints().First());
+
+            var pattern = $"xp:rewards:{eventArgs.GuildId}:currency:*";
+            var keys = new List<RedisKey>();
+
+            await foreach (var key in server.KeysAsync(pattern: pattern))
+            {
+                keys.Add(key);
+            }
+
+            if (keys.Count == 0)
+                return;
+
+            var values = await redis.StringGetAsync(keys.ToArray());
+            var allCurrencyRewards = new List<XpCurrencyReward>();
+
+            for (var i = 0; i < values.Length; i++)
+            {
+                if (values[i].HasValue)
+                {
+                    var reward = JsonSerializer.Deserialize<XpCurrencyReward>((string)values[i]);
+                    if (reward != null)
+                        allCurrencyRewards.Add(reward);
+                }
+            }
+
+            if (allCurrencyRewards.Count == 0)
+                return;
+
+            var currencyRewards = new List<CurrencyRewardItem>();
+
+            if (eventArgs.NewLevel > eventArgs.OldLevel)
+            {
+                var gainedRewards = allCurrencyRewards
+                    .Where(r => r.Level > eventArgs.OldLevel && r.Level <= eventArgs.NewLevel);
+
+                foreach (var reward in gainedRewards)
+                {
+                    currencyRewards.Add(new CurrencyRewardItem
+                    {
+                        GuildId = eventArgs.GuildId, UserId = eventArgs.UserId, Amount = reward.Amount
+                    });
+                }
+
+                if (currencyRewards.Count > 0)
+                {
+                    await GrantCurrencyRewardsAsync(currencyRewards).ConfigureAwait(false);
+                    logger.LogDebug(
+                        "Granted {Count} currency rewards for user {UserId} in guild {GuildId}: {OldLevel} -> {NewLevel}",
+                        currencyRewards.Count, eventArgs.UserId, eventArgs.GuildId, eventArgs.OldLevel,
+                        eventArgs.NewLevel);
+                }
+            }
+            else if (eventArgs.NewLevel < eventArgs.OldLevel)
+            {
+                var lostRewards = allCurrencyRewards
+                    .Where(r => r.Level > eventArgs.NewLevel && r.Level <= eventArgs.OldLevel);
+
+                foreach (var reward in lostRewards)
+                {
+                    currencyRewards.Add(new CurrencyRewardItem
+                    {
+                        GuildId = eventArgs.GuildId, UserId = eventArgs.UserId, Amount = -reward.Amount
+                    });
+                }
+
+                if (currencyRewards.Count > 0)
+                {
+                    await GrantCurrencyRewardsAsync(currencyRewards).ConfigureAwait(false);
+                    logger.LogDebug(
+                        "Removed {Count} currency rewards from user {UserId} in guild {GuildId}: {OldLevel} -> {NewLevel}",
+                        currencyRewards.Count, eventArgs.UserId, eventArgs.GuildId, eventArgs.OldLevel,
+                        eventArgs.NewLevel);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error handling currency rewards for user {UserId} in guild {GuildId}",
+                eventArgs.UserId, eventArgs.GuildId);
         }
     }
 }

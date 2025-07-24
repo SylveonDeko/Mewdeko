@@ -61,18 +61,12 @@ public class SlashUserPermAttribute : PreconditionAttribute
                     ? PreconditionResult.FromError("You must be a bot owner to add global Chat Triggers!")
                     : PreconditionResult.FromSuccess();
             }
-
-            // If the user does not have the required permissions, return an error.
-            if (permResult)
-                if (!((IGuildUser)context.User).GuildPermissions.Has(perm))
-                    return PreconditionResult.FromError($"You need the `{perm}` permission to use this command.");
-            return await UserPermissionAttribute.CheckRequirementsAsync(context, command, services);
         }
 
         // If the user does not have the required permissions, return an error.
-        if (permResult)
-            if (!((IGuildUser)context.User).GuildPermissions.Has(perm))
-                return PreconditionResult.FromError($"You need the `{perm}` permission to use this command.");
+        if (!permResult) return await UserPermissionAttribute.CheckRequirementsAsync(context, command, services);
+        if (!((IGuildUser)context.User).GuildPermissions.Has(perm))
+            return PreconditionResult.FromError($"You need the `{perm}` permission to use this command.");
         return await UserPermissionAttribute.CheckRequirementsAsync(context, command, services);
     }
 }

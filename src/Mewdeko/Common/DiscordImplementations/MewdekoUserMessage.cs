@@ -6,6 +6,8 @@
 
 using Poll = Discord.Poll;
 
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+
 namespace Mewdeko.Common.DiscordImplementations;
 
 /// <summary>

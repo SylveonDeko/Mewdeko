@@ -1,5 +1,17 @@
+using System.Text.Json;
+using DataModel;
+using Discord.Commands;
+using LinqToDB;
+using Mewdeko.Common.Attributes.TextCommands;
 using Mewdeko.Controllers.Common.Administration;
+using Mewdeko.Controllers.Common.Permissions;
+using Mewdeko.Controllers.Common.Protection;
+using Mewdeko.Modules.Administration;
+using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Administration.Services;
+using Mewdeko.Modules.Help;
+using Mewdeko.Modules.Permissions.Services;
+using Mewdeko.Services.Impl;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +27,19 @@ public class AdministrationController(
     AutoAssignRoleService autoAssignRoleService,
     ProtectionService protectionService,
     SelfAssignedRolesService selfAssignedRolesService,
+    AdministrationService administrationService,
+    AutoBanRoleService autoBanRoleService,
+    VcRoleService vcRoleService,
+    GuildTimezoneService timezoneService,
+    DiscordPermOverrideService permOverrideService,
+    ServerRecoveryService serverRecoveryService,
+    GameVoiceChannelService gameVoiceChannelService,
+    RoleCommandsService roleCommandsService,
+    GuildSettingsService guildSettingsService,
+    PermissionService permissionService,
+    CmdCdService cmdCdService,
+    CommandService commandService,
+    IDataConnectionFactory dbFactory,
     DiscordShardedClient client) : Controller
 {
     /// <summary>
@@ -89,20 +114,20 @@ public class AdministrationController(
             antiRaid = new
             {
                 enabled = antiRaidStats != null,
-                userThreshold = antiRaidStats?.AntiRaidSettings?.UserThreshold ?? 0,
-                seconds = antiRaidStats?.AntiRaidSettings?.Seconds ?? 0,
-                action = antiRaidStats?.AntiRaidSettings?.Action ?? 0,
-                punishDuration = antiRaidStats?.AntiRaidSettings?.PunishDuration ?? 0,
+                userThreshold = antiRaidStats?.AntiRaidSettings.UserThreshold ?? 0,
+                seconds = antiRaidStats?.AntiRaidSettings.Seconds ?? 0,
+                action = antiRaidStats?.AntiRaidSettings.Action ?? 0,
+                punishDuration = antiRaidStats?.AntiRaidSettings.PunishDuration ?? 0,
                 usersCount = antiRaidStats?.UsersCount ?? 0
             },
             antiSpam = new
             {
                 enabled = antiSpamStats != null,
-                messageThreshold = antiSpamStats?.AntiSpamSettings?.MessageThreshold ?? 0,
-                action = antiSpamStats?.AntiSpamSettings?.Action ?? 0,
-                muteTime = antiSpamStats?.AntiSpamSettings?.MuteTime ?? 0,
-                roleId = antiSpamStats?.AntiSpamSettings?.RoleId ?? 0,
-                userCount = antiSpamStats?.UserStats?.Count ?? 0
+                messageThreshold = antiSpamStats?.AntiSpamSettings.MessageThreshold ?? 0,
+                action = antiSpamStats?.AntiSpamSettings.Action ?? 0,
+                muteTime = antiSpamStats?.AntiSpamSettings.MuteTime ?? 0,
+                roleId = antiSpamStats?.AntiSpamSettings.RoleId ?? 0,
+                userCount = antiSpamStats?.UserStats.Count ?? 0
             },
             antiAlt = new
             {
@@ -116,69 +141,245 @@ public class AdministrationController(
             antiMassMention = new
             {
                 enabled = antiMassMentionStats != null,
-                mentionThreshold = antiMassMentionStats?.AntiMassMentionSettings?.MentionThreshold ?? 0,
-                maxMentionsInTimeWindow = antiMassMentionStats?.AntiMassMentionSettings?.MaxMentionsInTimeWindow ?? 0,
-                timeWindowSeconds = antiMassMentionStats?.AntiMassMentionSettings?.TimeWindowSeconds ?? 0,
-                action = antiMassMentionStats?.AntiMassMentionSettings?.Action ?? 0,
-                muteTime = antiMassMentionStats?.AntiMassMentionSettings?.MuteTime ?? 0,
-                roleId = antiMassMentionStats?.AntiMassMentionSettings?.RoleId ?? 0,
-                ignoreBots = antiMassMentionStats?.AntiMassMentionSettings?.IgnoreBots ?? false,
-                userCount = antiMassMentionStats?.UserStats?.Count ?? 0
+                mentionThreshold = antiMassMentionStats?.AntiMassMentionSettings.MentionThreshold ?? 0,
+                maxMentionsInTimeWindow = antiMassMentionStats?.AntiMassMentionSettings.MaxMentionsInTimeWindow ?? 0,
+                timeWindowSeconds = antiMassMentionStats?.AntiMassMentionSettings.TimeWindowSeconds ?? 0,
+                action = antiMassMentionStats?.AntiMassMentionSettings.Action ?? 0,
+                muteTime = antiMassMentionStats?.AntiMassMentionSettings.MuteTime ?? 0,
+                roleId = antiMassMentionStats?.AntiMassMentionSettings.RoleId ?? 0,
+                ignoreBots = antiMassMentionStats?.AntiMassMentionSettings.IgnoreBots ?? false,
+                userCount = antiMassMentionStats?.UserStats.Count ?? 0
             }
         });
     }
 
     /// <summary>
-    ///     Starts anti-raid protection
+    ///     Configures anti-raid protection
     /// </summary>
-    [HttpPost("protection/anti-raid/start")]
-    public async Task<IActionResult> StartAntiRaid(ulong guildId, [FromBody] AntiRaidRequest request)
+    [HttpPut("protection/anti-raid")]
+    public async Task<IActionResult> ConfigureAntiRaid(ulong guildId, [FromBody] AntiRaidConfigRequest request)
     {
-        var result = await protectionService.StartAntiRaidAsync(guildId, request.UserThreshold, request.Seconds,
-            request.Action, request.MinutesDuration);
-        if (result == null)
-            return BadRequest("Failed to start anti-raid protection");
+        if (request == null)
+            return BadRequest("Invalid request data");
 
-        return Ok(result);
+        if (request.Enabled)
+        {
+            // Validate parameters based on bot requirements
+            if (request.UserThreshold < 2 || request.UserThreshold > 30)
+                return BadRequest("User threshold must be between 2 and 30");
+
+            if (request.Seconds < 2 || request.Seconds > 300)
+                return BadRequest("Time window must be between 2 and 300 seconds");
+
+            if (request.PunishDuration < 0 || request.PunishDuration > 1440)
+                return BadRequest("Punishment duration must be between 0 and 1440 minutes");
+
+            if (request.Action == PunishmentAction.AddRole)
+                return BadRequest("AddRole action is not supported for anti-raid");
+
+            var result = await protectionService.StartAntiRaidAsync(
+                guildId,
+                request.UserThreshold,
+                request.Seconds,
+                request.Action,
+                request.PunishDuration);
+
+            if (result == null)
+                return BadRequest("Failed to start anti-raid protection");
+
+            return Ok(new
+            {
+                success = true, settings = result
+            });
+        }
+        else
+        {
+            var success = await protectionService.TryStopAntiRaid(guildId);
+            return Ok(new
+            {
+                success
+            });
+        }
     }
 
     /// <summary>
-    ///     Stops anti-raid protection
+    ///     Configures anti-spam protection
     /// </summary>
-    [HttpPost("protection/anti-raid/stop")]
-    public async Task<IActionResult> StopAntiRaid(ulong guildId)
+    [HttpPut("protection/anti-spam")]
+    public async Task<IActionResult> ConfigureAntiSpam(ulong guildId, [FromBody] AntiSpamConfigRequest request)
     {
-        var result = await protectionService.TryStopAntiRaid(guildId);
+        if (request == null)
+            return BadRequest("Invalid request data");
+
+        if (request.Enabled)
+        {
+            // Validate parameters based on bot requirements
+            if (request.MessageThreshold < 2 || request.MessageThreshold > 10)
+                return BadRequest("Message threshold must be between 2 and 10");
+
+            if (request.MuteTime < 0 || request.MuteTime > 1440)
+                return BadRequest("Mute time must be between 0 and 1440 minutes");
+
+            await protectionService.StartAntiSpamAsync(
+                guildId,
+                request.MessageThreshold,
+                request.Action,
+                request.MuteTime,
+                request.RoleId);
+
+            return Ok(new
+            {
+                success = true
+            });
+        }
+        else
+        {
+            var success = await protectionService.TryStopAntiSpam(guildId);
+            return Ok(new
+            {
+                success
+            });
+        }
+    }
+
+    /// <summary>
+    ///     Toggles ignored channel for anti-spam
+    /// </summary>
+    [HttpPost("protection/anti-spam/ignored-channels/{channelId}")]
+    public async Task<IActionResult> ToggleAntiSpamIgnoredChannel(ulong guildId, ulong channelId)
+    {
+        var added = await protectionService.AntiSpamIgnoreAsync(guildId, channelId);
         return Ok(new
         {
-            success = result
+            added
         });
     }
 
     /// <summary>
-    ///     Starts anti-spam protection
+    ///     Configures anti-alt protection
     /// </summary>
-    [HttpPost("protection/anti-spam/start")]
-    public async Task<IActionResult> StartAntiSpam(ulong guildId, [FromBody] AntiSpamRequest request)
+    [HttpPut("protection/anti-alt")]
+    public async Task<IActionResult> ConfigureAntiAlt(ulong guildId, [FromBody] AntiAltConfigRequest request)
     {
-        var result = await protectionService.StartAntiSpamAsync(guildId, request.MessageCount, request.Action,
-            request.PunishDurationMinutes, request.RoleId);
-        if (result == null)
-            return BadRequest("Failed to start anti-spam protection");
+        if (request == null)
+            return BadRequest("Invalid request data");
 
-        return Ok(result);
+        if (request.Enabled)
+        {
+            // Validate parameters
+            if (request.MinAgeMinutes < 1)
+                return BadRequest("Minimum age must be at least 1 minute");
+
+            if (request.ActionDurationMinutes < 0 || request.ActionDurationMinutes > 1440)
+                return BadRequest("Action duration must be between 0 and 1440 minutes");
+
+            await protectionService.StartAntiAltAsync(
+                guildId,
+                request.MinAgeMinutes,
+                request.Action,
+                request.ActionDurationMinutes,
+                request.RoleId);
+
+            return Ok(new
+            {
+                success = true
+            });
+        }
+        else
+        {
+            var success = await protectionService.TryStopAntiAlt(guildId);
+            return Ok(new
+            {
+                success
+            });
+        }
     }
 
     /// <summary>
-    ///     Stops anti-spam protection
+    ///     Configures anti-mass mention protection
     /// </summary>
-    [HttpPost("protection/anti-spam/stop")]
-    public async Task<IActionResult> StopAntiSpam(ulong guildId)
+    [HttpPut("protection/anti-mass-mention")]
+    public async Task<IActionResult> ConfigureAntiMassMention(ulong guildId,
+        [FromBody] AntiMassMentionConfigRequest request)
     {
-        var result = await protectionService.TryStopAntiSpam(guildId);
+        if (request == null)
+            return BadRequest("Invalid request data");
+
+        if (request.Enabled)
+        {
+            // Validate parameters
+            if (request.MentionThreshold < 1)
+                return BadRequest("Mention threshold must be at least 1");
+
+            if (request.TimeWindowSeconds < 1)
+                return BadRequest("Time window must be at least 1 second");
+
+            if (request.MaxMentionsInTimeWindow < 1)
+                return BadRequest("Max mentions in time window must be at least 1");
+
+            if (request.MuteTime < 0 || request.MuteTime > 1440)
+                return BadRequest("Mute time must be between 0 and 1440 minutes");
+
+            await protectionService.StartAntiMassMentionAsync(
+                guildId,
+                request.MentionThreshold,
+                request.TimeWindowSeconds,
+                request.MaxMentionsInTimeWindow,
+                request.IgnoreBots,
+                request.Action,
+                request.MuteTime,
+                request.RoleId);
+
+            return Ok(new
+            {
+                success = true
+            });
+        }
+        else
+        {
+            var success = await protectionService.TryStopAntiMassMention(guildId);
+            return Ok(new
+            {
+                success
+            });
+        }
+    }
+
+    /// <summary>
+    ///     Gets protection statistics
+    /// </summary>
+    [HttpGet("protection/statistics")]
+    public async Task<IActionResult> GetProtectionStatistics(ulong guildId)
+    {
+        await Task.CompletedTask;
+        var (antiSpamStats, antiRaidStats, antiAltStats, antiMassMentionStats) =
+            protectionService.GetAntiStats(guildId);
+
         return Ok(new
         {
-            success = result
+            antiRaid = new
+            {
+                enabled = antiRaidStats != null,
+                usersCount = antiRaidStats?.UsersCount ?? 0,
+                recentUsers = antiRaidStats?.RaidUsers?.Select(u => u.Id).TakeLast(10).ToList() ?? new List<ulong>()
+            },
+            antiSpam = new
+            {
+                enabled = antiSpamStats != null,
+                userCount = antiSpamStats?.UserStats?.Count ?? 0,
+                topOffenders = antiSpamStats?.UserStats?
+                    .OrderByDescending(x => x.Value.Count)
+                    .Take(10)
+                    .ToDictionary(x => x.Key, x => x.Value.Count) ?? new Dictionary<ulong, int>()
+            },
+            antiAlt = new
+            {
+                enabled = antiAltStats != null, counter = antiAltStats?.Counter ?? 0
+            },
+            antiMassMention = new
+            {
+                enabled = antiMassMentionStats != null, userCount = antiMassMentionStats?.UserStats?.Count ?? 0
+            }
         });
     }
 
@@ -231,4 +432,837 @@ public class AdministrationController(
             success
         });
     }
+
+    /// <summary>
+    ///     Gets staff role for guild
+    /// </summary>
+    [HttpGet("staff-role")]
+    public async Task<IActionResult> GetStaffRole(ulong guildId)
+    {
+        var roleId = await administrationService.GetStaffRole(guildId);
+        return Ok(roleId);
+    }
+
+    /// <summary>
+    ///     Sets staff role for guild
+    /// </summary>
+    [HttpPost("staff-role")]
+    public async Task<IActionResult> SetStaffRole(ulong guildId, [FromBody] ulong roleId)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild == null)
+            return NotFound("Guild not found");
+
+        await administrationService.StaffRoleSet(guild, roleId);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Gets member role for guild
+    /// </summary>
+    [HttpGet("member-role")]
+    public async Task<IActionResult> GetMemberRole(ulong guildId)
+    {
+        var roleId = await administrationService.GetMemberRole(guildId);
+        return Ok(roleId);
+    }
+
+    /// <summary>
+    ///     Sets member role for guild
+    /// </summary>
+    [HttpPost("member-role")]
+    public async Task<IActionResult> SetMemberRole(ulong guildId, [FromBody] ulong roleId)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild == null)
+            return NotFound("Guild not found");
+
+        await administrationService.MemberRoleSet(guild, roleId);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Gets delete message on command settings
+    /// </summary>
+    [HttpGet("delete-message-on-command")]
+    public async Task<IActionResult> GetDeleteMessageOnCommand(ulong guildId)
+    {
+        var (enabled, channels) = await administrationService.GetDelMsgOnCmdData(guildId);
+        return Ok(new
+        {
+            enabled,
+            channels = channels.Select(c => new
+            {
+                channelId = c.ChannelId, state = c.State
+            })
+        });
+    }
+
+    /// <summary>
+    ///     Toggles delete message on command globally
+    /// </summary>
+    [HttpPost("delete-message-on-command/toggle")]
+    public async Task<IActionResult> ToggleDeleteMessageOnCommand(ulong guildId)
+    {
+        var newState = await administrationService.ToggleDeleteMessageOnCommand(guildId);
+        return Ok(newState);
+    }
+
+    /// <summary>
+    ///     Sets delete message on command state for specific channel
+    /// </summary>
+    [HttpPost("delete-message-on-command/channel")]
+    public async Task<IActionResult> SetDeleteMessageOnCommandState(ulong guildId,
+        [FromBody] SetChannelStateRequest request)
+    {
+        var state = request.State switch
+        {
+            "enable" => Administration.State.Enable,
+            "disable" => Administration.State.Disable,
+            "inherit" => Administration.State.Inherit,
+            _ => Administration.State.Inherit
+        };
+
+        await administrationService.SetDelMsgOnCmdState(guildId, request.ChannelId, state);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Toggles statistics opt-out
+    /// </summary>
+    [HttpPost("stats-opt-out/toggle")]
+    public async Task<IActionResult> ToggleStatsOptOut(ulong guildId)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild == null)
+            return NotFound("Guild not found");
+
+        var newState = await administrationService.ToggleOptOut(guild);
+        return Ok(newState);
+    }
+
+    /// <summary>
+    ///     Deletes statistics data for guild
+    /// </summary>
+    [HttpDelete("stats-data")]
+    public async Task<IActionResult> DeleteStatsData(ulong guildId)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild == null)
+            return NotFound("Guild not found");
+
+        var deleted = await administrationService.DeleteStatsData(guild);
+        return Ok(deleted);
+    }
+
+    /// <summary>
+    ///     Gets auto-ban roles
+    /// </summary>
+    [HttpGet("auto-ban-roles")]
+    public async Task<IActionResult> GetAutoBanRoles(ulong guildId)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild == null)
+            return NotFound("Guild not found");
+
+        var roles = await autoBanRoleService.GetAutoBanRoles(guildId);
+        var roleData = roles.Select(roleId =>
+        {
+            var role = guild.GetRole(roleId);
+            return new
+            {
+                roleId, roleName = role?.Name ?? $"Role {roleId}"
+            };
+        });
+
+        return Ok(roleData);
+    }
+
+    /// <summary>
+    ///     Adds auto-ban role
+    /// </summary>
+    [HttpPost("auto-ban-roles")]
+    public async Task<IActionResult> AddAutoBanRole(ulong guildId, [FromBody] ulong roleId)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild?.GetRole(roleId) == null)
+            return NotFound("Role not found");
+
+        var success = await autoBanRoleService.AddAutoBanRole(guildId, roleId);
+        return Ok(success);
+    }
+
+    /// <summary>
+    ///     Removes auto-ban role
+    /// </summary>
+    [HttpDelete("auto-ban-roles/{roleId}")]
+    public async Task<IActionResult> RemoveAutoBanRole(ulong guildId, ulong roleId)
+    {
+        var success = await autoBanRoleService.RemoveAutoBanRole(guildId, roleId);
+        return Ok(success);
+    }
+
+    /// <summary>
+    ///     Gets voice channel roles
+    /// </summary>
+    [HttpGet("voice-channel-roles")]
+    public async Task<IActionResult> GetVoiceChannelRoles(ulong guildId)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild == null)
+            return NotFound("Guild not found");
+
+        if (!vcRoleService.VcRoles.TryGetValue(guildId, out var vcRoles))
+            return Ok(Array.Empty<object>());
+
+        var roleData = vcRoles.Select(kvp =>
+        {
+            var channel = guild.GetVoiceChannel(kvp.Key);
+            var role = guild.GetRole(kvp.Value.Id);
+            return new
+            {
+                channelId = kvp.Key,
+                channelName = channel?.Name ?? $"Channel {kvp.Key}",
+                roleId = kvp.Value,
+                roleName = role?.Name ?? $"Role {kvp.Value}"
+            };
+        });
+
+        return Ok(roleData);
+    }
+
+    /// <summary>
+    ///     Adds voice channel role
+    /// </summary>
+    [HttpPost("voice-channel-roles")]
+    public async Task<IActionResult> AddVoiceChannelRole(ulong guildId, [FromBody] VoiceChannelRoleRequest request)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild?.GetVoiceChannel(request.ChannelId) == null || guild.GetRole(request.RoleId) == null)
+            return NotFound("Channel or role not found");
+
+        await vcRoleService.AddVcRole(guildId, guild.GetRole(request.RoleId), request.ChannelId);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Removes voice channel role
+    /// </summary>
+    [HttpDelete("voice-channel-roles/{channelId}")]
+    public async Task<IActionResult> RemoveVoiceChannelRole(ulong guildId, ulong channelId)
+    {
+        var success = await vcRoleService.RemoveVcRole(guildId, channelId);
+        return Ok(success);
+    }
+
+    /// <summary>
+    ///     Sets self-assignable role group name
+    /// </summary>
+    [HttpPost("self-assignable-roles/groups")]
+    public async Task<IActionResult> SetSelfAssignableRoleGroup(ulong guildId, [FromBody] SetGroupRequest request)
+    {
+        var success = await selfAssignedRolesService.SetNameAsync(guildId, request.Group, request.Name);
+        return Ok(success);
+    }
+
+    /// <summary>
+    ///     Toggles self-assignable roles exclusivity
+    /// </summary>
+    [HttpPost("self-assignable-roles/exclusive/toggle")]
+    public async Task<IActionResult> ToggleSelfAssignableRolesExclusive(ulong guildId)
+    {
+        var exclusive = await selfAssignedRolesService.ToggleEsar(guildId);
+        return Ok(exclusive);
+    }
+
+    /// <summary>
+    ///     Sets level requirement for self-assignable role
+    /// </summary>
+    [HttpPost("self-assignable-roles/{roleId}/level")]
+    public async Task<IActionResult> SetSelfAssignableRoleLevelRequirement(ulong guildId, ulong roleId,
+        [FromBody] int level)
+    {
+        var guild = client.GetGuild(guildId);
+        var role = guild?.GetRole(roleId);
+        if (role == null)
+            return NotFound("Role not found");
+
+        var success = await selfAssignedRolesService.SetLevelReq(guildId, role, level);
+        return Ok(success);
+    }
+
+    /// <summary>
+    ///     Toggles auto-delete for self-assign messages
+    /// </summary>
+    [HttpPost("self-assignable-roles/auto-delete/toggle")]
+    public async Task<IActionResult> ToggleAutoDeleteSelfAssign(ulong guildId)
+    {
+        var newState = await selfAssignedRolesService.ToggleAdSarm(guildId);
+        return Ok(newState);
+    }
+
+    /// <summary>
+    ///     Gets reaction roles
+    /// </summary>
+    [HttpGet("reaction-roles")]
+    public async Task<IActionResult> GetReactionRoles(ulong guildId)
+    {
+        var (success, reactionRoles) = await roleCommandsService.Get(guildId);
+        return Ok(new
+        {
+            success, reactionRoles
+        });
+    }
+
+    /// <summary>
+    ///     Adds reaction roles to message
+    /// </summary>
+    [HttpPost("reaction-roles")]
+    public async Task<IActionResult> AddReactionRoles(ulong guildId, [FromBody] AddReactionRolesRequest request)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild == null)
+            return NotFound("Guild not found");
+
+        var reactionRoleMessage = new ReactionRoleMessage
+        {
+            MessageId = request.MessageId ?? 0,
+            ChannelId = 0, // Will be set by service if message exists
+            Exclusive = request.Exclusive,
+            ReactionRoles = request.Roles.Select(r => new ReactionRole
+            {
+                EmoteName = r.EmoteName, RoleId = r.RoleId
+            }).ToList()
+        };
+
+        var success = await roleCommandsService.Add(guildId, reactionRoleMessage);
+        return Ok(success);
+    }
+
+    /// <summary>
+    ///     Removes reaction role by index
+    /// </summary>
+    [HttpDelete("reaction-roles/{index}")]
+    public async Task<IActionResult> RemoveReactionRole(ulong guildId, int index)
+    {
+        await roleCommandsService.Remove(guildId, index);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Gets available timezones
+    /// </summary>
+    [HttpGet("timezones")]
+    public IActionResult GetAvailableTimezones()
+    {
+        var timezones = TimeZoneInfo.GetSystemTimeZones()
+            .OrderBy(tz => tz.BaseUtcOffset)
+            .Select(tz => new
+            {
+                id = tz.Id,
+                displayName = tz.DisplayName,
+                offset = DateTimeOffset.UtcNow.ToOffset(tz.GetUtcOffset(DateTimeOffset.UtcNow)).ToString("zzz")
+            });
+
+        return Ok(timezones);
+    }
+
+    /// <summary>
+    ///     Gets guild timezone
+    /// </summary>
+    [HttpGet("timezone")]
+    public async Task<IActionResult> GetGuildTimezone(ulong guildId)
+    {
+        var timezone = timezoneService.GetTimeZoneOrUtc(guildId);
+        return Ok(timezone.Id);
+    }
+
+    /// <summary>
+    ///     Sets guild timezone
+    /// </summary>
+    [HttpPost("timezone")]
+    public async Task<IActionResult> SetGuildTimezone(ulong guildId, [FromBody] SetTimezoneRequest request)
+    {
+        try
+        {
+            var timezone = TimeZoneInfo.FindSystemTimeZoneById(request.TimezoneId);
+            await timezoneService.SetTimeZone(guildId, timezone);
+            return Ok();
+        }
+        catch
+        {
+            return BadRequest("Invalid timezone ID");
+        }
+    }
+
+    /// <summary>
+    ///     Gets permission overrides
+    /// </summary>
+    [HttpGet("permission-overrides")]
+    public async Task<IActionResult> GetPermissionOverrides(ulong guildId)
+    {
+        var overrides = await permOverrideService.GetAllOverrides(guildId);
+        var result = overrides.Select(o => new
+        {
+            command = o.Command, permission = ((GuildPermission)o.Perm).ToString()
+        });
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    ///     Adds permission override
+    /// </summary>
+    [HttpPost("permission-overrides")]
+    public async Task<IActionResult> AddPermissionOverride(ulong guildId, [FromBody] PermissionOverrideRequest request)
+    {
+        if (!Enum.TryParse<GuildPermission>(request.Permission, out var permission))
+            return BadRequest("Invalid permission");
+
+        var result = await permOverrideService.AddOverride(guildId, request.Command, permission);
+        return Ok(result);
+    }
+
+    /// <summary>
+    ///     Removes permission override
+    /// </summary>
+    [HttpDelete("permission-overrides/{command}")]
+    public async Task<IActionResult> RemovePermissionOverride(ulong guildId, string command)
+    {
+        await permOverrideService.RemoveOverride(guildId, command);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Clears all permission overrides
+    /// </summary>
+    [HttpDelete("permission-overrides")]
+    public async Task<IActionResult> ClearAllPermissionOverrides(ulong guildId)
+    {
+        await permOverrideService.ClearAllOverrides(guildId);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Gets game voice channel
+    /// </summary>
+    [HttpGet("game-voice-channel")]
+    public async Task<IActionResult> GetGameVoiceChannel(ulong guildId)
+    {
+        var guildConfig = await guildSettingsService.GetGuildConfig(guildId);
+        var channelId = guildConfig.GameVoiceChannel == 0 ? null : guildConfig.GameVoiceChannel;
+        return Ok(channelId);
+    }
+
+    /// <summary>
+    ///     Toggles game voice channel
+    /// </summary>
+    [HttpPost("game-voice-channel/toggle")]
+    public async Task<IActionResult> ToggleGameVoiceChannel(ulong guildId,
+        [FromBody] ToggleGameVoiceChannelRequest request)
+    {
+        var channelId = await gameVoiceChannelService.ToggleGameVoiceChannel(guildId, request.ChannelId);
+        return Ok(channelId);
+    }
+
+    /// <summary>
+    ///     Gets server recovery status
+    /// </summary>
+    [HttpGet("server-recovery")]
+    public async Task<IActionResult> GetServerRecoveryStatus(ulong guildId)
+    {
+        var (isSetup, store) = await serverRecoveryService.RecoveryIsSetup(guildId);
+        return Ok(new
+        {
+            isSetup, recoveryKey = store?.RecoveryKey
+        });
+    }
+
+    /// <summary>
+    ///     Sets up server recovery
+    /// </summary>
+    [HttpPost("server-recovery")]
+    public async Task<IActionResult> SetupServerRecovery(ulong guildId, [FromBody] ServerRecoveryRequest request)
+    {
+        await serverRecoveryService.SetupRecovery(guildId, request.RecoveryKey, request.TwoFactorKey);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Clears server recovery
+    /// </summary>
+    [HttpDelete("server-recovery")]
+    public async Task<IActionResult> ClearServerRecovery(ulong guildId)
+    {
+        var (isSetup, store) = await serverRecoveryService.RecoveryIsSetup(guildId);
+        if (isSetup && store != null)
+        {
+            await serverRecoveryService.ClearRecoverySetup(store);
+        }
+
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Gets ban message
+    /// </summary>
+    [HttpGet("ban-message")]
+    public async Task<IActionResult> GetBanMessage(ulong guildId)
+    {
+        // This would need to be implemented in a service that manages ban messages
+        // For now, return empty string
+        return Ok("");
+    }
+
+    /// <summary>
+    ///     Sets ban message
+    /// </summary>
+    [HttpPost("ban-message")]
+    public async Task<IActionResult> SetBanMessage(ulong guildId, [FromBody] SetBanMessageRequest request)
+    {
+        // This would need to be implemented in a service that manages ban messages
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Mass ban users
+    /// </summary>
+    [HttpPost("mass-ban")]
+    public async Task<IActionResult> MassBan(ulong guildId, [FromBody] MassBanRequest request)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild == null)
+            return NotFound("Guild not found");
+
+        var succeeded = 0;
+        var failed = 0;
+
+        foreach (var userId in request.UserIds)
+        {
+            try
+            {
+                await guild.AddBanAsync(userId, reason: request.Reason);
+                succeeded++;
+            }
+            catch
+            {
+                failed++;
+            }
+        }
+
+        return Ok(new
+        {
+            succeeded, failed
+        });
+    }
+
+    /// <summary>
+    ///     Mass rename users
+    /// </summary>
+    [HttpPost("mass-rename")]
+    public async Task<IActionResult> MassRename(ulong guildId, [FromBody] MassRenameRequest request)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild == null)
+            return NotFound("Guild not found");
+
+        var renamed = 0;
+        foreach (var user in guild.Users)
+        {
+            try
+            {
+                var newNickname = request.Pattern.Replace("{username}", user.Username);
+                await user.ModifyAsync(u => u.Nickname = newNickname);
+                renamed++;
+            }
+            catch
+            {
+                // Ignore failures
+            }
+        }
+
+        return Ok(new
+        {
+            renamed
+        });
+    }
+
+    /// <summary>
+    ///     Prune users
+    /// </summary>
+    [HttpPost("prune")]
+    public async Task<IActionResult> PruneUsers(ulong guildId, [FromBody] PruneRequest request)
+    {
+        var guild = client.GetGuild(guildId);
+        if (guild == null)
+            return NotFound("Guild not found");
+
+        var pruned = await guild.PruneUsersAsync(request.Days);
+        return Ok(new
+        {
+            pruned
+        });
+    }
+
+    /// <summary>
+    ///     Prune messages to specific message
+    /// </summary>
+    [HttpPost("prune-to")]
+    public async Task<IActionResult> PruneToMessage(ulong guildId, [FromBody] PruneToMessageRequest request)
+    {
+        var guild = client.GetGuild(guildId);
+        var channel = guild?.GetTextChannel(request.ChannelId);
+        if (channel == null)
+            return NotFound("Channel not found");
+
+        var messages = await channel.GetMessagesAsync(request.MessageId, Direction.After).FlattenAsync();
+        var deleted = 0;
+
+        foreach (var message in messages)
+        {
+            try
+            {
+                await message.DeleteAsync();
+                deleted++;
+            }
+            catch
+            {
+                // Ignore failures
+            }
+        }
+
+        return Ok(new
+        {
+            deleted
+        });
+    }
+
+    #region Permissions Management
+
+    /// <summary>
+    ///     Gets permissions for a guild
+    /// </summary>
+    [HttpGet("permissions")]
+    public async Task<IActionResult> GetPermissions(ulong guildId)
+    {
+        var perms = await permissionService.GetCacheFor(guildId);
+        return Ok(perms);
+    }
+
+    /// <summary>
+    ///     Adds a new permission
+    /// </summary>
+    [HttpPost("permissions")]
+    public async Task<IActionResult> AddPermission(ulong guildId, [FromBody] Permission1 permission)
+    {
+        await permissionService.AddPermissions(guildId, permission);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Removes a permission by index
+    /// </summary>
+    [HttpDelete("permissions/{index}")]
+    public async Task<IActionResult> RemovePermission(ulong guildId, int index)
+    {
+        await permissionService.RemovePerm(guildId, index);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Moves a permission to a new position
+    /// </summary>
+    [HttpPost("permissions/move")]
+    public async Task<IActionResult> MovePermission(ulong guildId, [FromBody] MovePermRequest request)
+    {
+        await permissionService.UnsafeMovePerm(guildId, request.From, request.To);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Resets all permissions for a guild
+    /// </summary>
+    [HttpPost("permissions/reset")]
+    public async Task<IActionResult> ResetPermissions(ulong guildId)
+    {
+        await permissionService.Reset(guildId);
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Sets verbose mode for permissions
+    /// </summary>
+    [HttpPost("permissions/verbose")]
+    public async Task<IActionResult> SetVerbose(ulong guildId, [FromBody] JsonElement request)
+    {
+        var verbose = request.GetProperty("verbose").GetBoolean();
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var config = await db.GuildConfigs.Where(gc => gc.GuildId == guildId).FirstOrDefaultAsync();
+        if (config == null)
+            return NotFound("Guild configuration not found");
+
+        await db.GuildConfigs
+            .Where(gc => gc.GuildId == guildId)
+            .Set(gc => gc.VerbosePermissions, verbose)
+            .UpdateAsync();
+
+        // Update cache
+        var permissions = await db.Permissions1
+            .Where(p => p.GuildId == guildId)
+            .ToListAsync();
+
+        permissionService.UpdateCache(guildId, permissions, config);
+
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Sets the permission role for the guild
+    /// </summary>
+    [HttpPost("permissions/role")]
+    public async Task<IActionResult> SetPermissionRole(ulong guildId, [FromBody] string roleId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var rowsAffected = await db.GuildConfigs
+            .Where(gc => gc.GuildId == guildId)
+            .Set(gc => gc.PermissionRole, roleId)
+            .UpdateAsync();
+
+        if (rowsAffected == 0)
+            return NotFound($"Configuration for guild {guildId} not found.");
+
+        var config = await db.GuildConfigs.Where(gc => gc.GuildId == guildId).FirstOrDefaultAsync();
+        var permissions = await db.Permissions1
+            .Where(p => p.GuildId == guildId).ToListAsync();
+
+        permissionService.UpdateCache(guildId, permissions, config);
+
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Gets all commands and modules
+    /// </summary>
+    [HttpGet("commands")]
+    public async Task<IActionResult> GetCommandsAndModules()
+    {
+        await Task.CompletedTask;
+
+        var modules = commandService.Modules;
+        var moduleList = modules
+            .Select(module =>
+            {
+                var moduleName = module.IsSubmodule ? module.Parent!.Name : module.Name;
+                var commands = module.Commands.OrderByDescending(x => x.Name)
+                    .Select(cmd =>
+                    {
+                        var userPerm =
+                            cmd.Preconditions.FirstOrDefault(ca => ca is UserPermAttribute) as UserPermAttribute;
+                        var botPerm =
+                            cmd.Preconditions.FirstOrDefault(ca => ca is BotPermAttribute) as BotPermAttribute;
+                        var isDragon =
+                            cmd.Preconditions.FirstOrDefault(ca => ca is RequireDragonAttribute) as
+                                RequireDragonAttribute;
+
+                        return new Command
+                        {
+                            BotVersion = StatsService.BotVersion,
+                            CommandName = cmd.Aliases.Any() ? cmd.Aliases[0] : cmd.Name,
+                            Description = cmd.Summary ?? "No description available",
+                            Example = cmd.Remarks?.Split('\n').ToList() ?? [],
+                            GuildUserPermissions = userPerm?.UserPermissionAttribute.GuildPermission?.ToString() ?? "",
+                            ChannelUserPermissions =
+                                userPerm?.UserPermissionAttribute.ChannelPermission?.ToString() ?? "",
+                            GuildBotPermissions = botPerm?.GuildPermission?.ToString() ?? "",
+                            ChannelBotPermissions = botPerm?.ChannelPermission?.ToString() ?? "",
+                            IsDragon = isDragon != null
+                        };
+                    })
+                    .ToList();
+
+                return new Module(commands, moduleName);
+            })
+            .ToList();
+
+        return Ok(moduleList);
+    }
+
+    #endregion
+
+    #region Command Cooldowns
+
+    /// <summary>
+    ///     Gets command cooldowns for the guild
+    /// </summary>
+    [HttpGet("command-cooldowns")]
+    public async Task<IActionResult> GetCommandCooldowns(ulong guildId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var cooldowns = await db.CommandCooldowns
+            .Where(cc => cc.GuildId == guildId)
+            .ToListAsync();
+
+        return Ok(cooldowns);
+    }
+
+    /// <summary>
+    ///     Sets command cooldown
+    /// </summary>
+    [HttpPut("command-cooldowns/{commandName}")]
+    public async Task<IActionResult> SetCommandCooldown(ulong guildId, string commandName, [FromBody] int seconds)
+    {
+        if (seconds < 0 || seconds > 90000)
+            return BadRequest("Cooldown must be between 0 and 90000 seconds");
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        // Remove existing cooldown
+        await db.CommandCooldowns
+            .Where(cc => cc.GuildId == guildId && cc.CommandName == commandName)
+            .DeleteAsync();
+
+        if (seconds > 0)
+        {
+            // Add new cooldown
+            await db.InsertAsync(new CommandCooldown
+            {
+                GuildId = guildId, CommandName = commandName, Seconds = seconds
+            });
+        }
+
+        // Clear active cooldowns
+        if (cmdCdService.ActiveCooldowns.TryGetValue(guildId, out var activeCds))
+        {
+            activeCds.RemoveWhere(ac => ac.Command == commandName);
+        }
+
+        return Ok();
+    }
+
+    /// <summary>
+    ///     Removes command cooldown
+    /// </summary>
+    [HttpDelete("command-cooldowns/{commandName}")]
+    public async Task<IActionResult> RemoveCommandCooldown(ulong guildId, string commandName)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        await db.CommandCooldowns
+            .Where(cc => cc.GuildId == guildId && cc.CommandName == commandName)
+            .DeleteAsync();
+
+        // Clear active cooldowns
+        if (cmdCdService.ActiveCooldowns.TryGetValue(guildId, out var activeCds))
+        {
+            activeCds.RemoveWhere(ac => ac.Command == commandName);
+        }
+
+        return Ok();
+    }
+
+    #endregion
 }

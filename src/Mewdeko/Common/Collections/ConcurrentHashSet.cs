@@ -117,7 +117,7 @@ public sealed class ConcurrentHashSet<T> : IReadOnlyCollection<T>, ISet<T> where
     /// <returns>true if the item is found in the set; otherwise, false.</returns>
     public bool Contains(T item)
     {
-        return backingStore.ContainsKey(item);
+        return item != null && backingStore.ContainsKey(item);
     }
 
     /// <summary>

@@ -62,7 +62,7 @@ public class SettingsServicePropAutoCompleter : AutocompleteHandler
                 return null;
             if (pr != "currency.sign")
                 val = val.TrimTo(40);
-            return val.Replace("\n", "") ?? "-";
+            return val.Replace("\n", "");
         });
         return propValues;
     }

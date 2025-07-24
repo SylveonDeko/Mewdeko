@@ -1,5 +1,6 @@
 using DataModel;
 using LinqToDB;
+using Mewdeko.Controllers.Common.Chat;
 using Newtonsoft.Json;
 
 namespace Mewdeko.Modules.Utility.Services;
@@ -18,7 +19,7 @@ public class ChatLogService(IDataConnectionFactory dbFactory, ILogger<ChatLogSer
         string channelName,
         string name,
         ulong createdBy,
-        IEnumerable<object> messages)
+        IEnumerable<ChatLogMessageDto> messages)
     {
         try
         {

@@ -13,7 +13,7 @@ public class SaveChatLogRequest
     /// <summary>
     ///     The name for the chat log.
     /// </summary>
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     /// <summary>
     ///     The user ID who created the log.
@@ -23,5 +23,5 @@ public class SaveChatLogRequest
     /// <summary>
     ///     The messages to save in the log.
     /// </summary>
-    public object[] Messages { get; set; }
+    public List<ChatLogMessageDto> Messages { get; set; } = new();
 }

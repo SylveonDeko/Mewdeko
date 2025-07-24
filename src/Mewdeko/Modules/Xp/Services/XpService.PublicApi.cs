@@ -2,6 +2,7 @@ using System.IO;
 using System.Text.Json;
 using DataModel;
 using LinqToDB;
+using Mewdeko.Modules.Xp.Events;
 using Mewdeko.Modules.Xp.Models;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
@@ -293,6 +294,10 @@ public partial class XpService
         await using var db = await DbFactory.CreateConnectionAsync();
 
         var userXp = await cacheManager.GetOrCreateGuildUserXpAsync(db, guildId, userId);
+        var settings = await cacheManager.GetGuildXpSettingsAsync(guildId);
+
+        // Calculate old level before reset
+        var oldLevel = XpCalculator.CalculateLevel(userXp.TotalXp, (XpCurveType)settings.XpCurveType);
 
         userXp.TotalXp = 0;
 
@@ -306,6 +311,23 @@ public partial class XpService
 
         // Update cache
         _ = cacheManager.UpdateUserXpCacheAsync(userXp);
+
+        // Publish level change event if user had a level before reset
+        if (oldLevel > 0)
+        {
+            _ = EventHandler.PublishEventAsync("XpLevelChanged", new XpLevelChangedEventArgs
+            {
+                GuildId = guildId,
+                UserId = userId,
+                OldLevel = oldLevel,
+                NewLevel = 0,
+                TotalXp = 0,
+                ChannelId = 0, // No specific channel for manual XP reset
+                Source = XpSource.Manual,
+                IsLevelUp = false, // This is a level down/reset
+                NotificationType = (XpNotificationType)userXp.NotifyType
+            });
+        }
     }
 
     /// <summary>
@@ -323,6 +345,11 @@ public partial class XpService
         await using var db = await DbFactory.CreateConnectionAsync();
 
         var userXp = await cacheManager.GetOrCreateGuildUserXpAsync(db, guildId, userId);
+        var settings = await cacheManager.GetGuildXpSettingsAsync(guildId);
+
+        // Calculate old and new levels
+        var oldLevel = XpCalculator.CalculateLevel(userXp.TotalXp, (XpCurveType)settings.XpCurveType);
+        var newLevel = XpCalculator.CalculateLevel(xpAmount, (XpCurveType)settings.XpCurveType);
 
         userXp.TotalXp = xpAmount;
         userXp.LastLevelUp = DateTime.UtcNow;
@@ -330,6 +357,23 @@ public partial class XpService
 
         // Update cache
         _ = cacheManager.UpdateUserXpCacheAsync(userXp);
+
+        // Publish level change event if level changed
+        if (newLevel != oldLevel)
+        {
+            _ = EventHandler.PublishEventAsync("XpLevelChanged", new XpLevelChangedEventArgs
+            {
+                GuildId = guildId,
+                UserId = userId,
+                OldLevel = oldLevel,
+                NewLevel = newLevel,
+                TotalXp = xpAmount,
+                ChannelId = 0, // No specific channel for manual XP setting
+                Source = XpSource.Manual,
+                IsLevelUp = newLevel > oldLevel,
+                NotificationType = (XpNotificationType)userXp.NotifyType
+            });
+        }
     }
 
     /// <summary>

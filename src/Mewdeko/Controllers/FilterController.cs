@@ -57,7 +57,7 @@ public class FilterController(FilterService filterService, IDataConnectionFactor
                 warnOnFilteredWord = await filterService.GetFw(guildId) == 1,
                 warnOnInvite = await filterService.GetInvWarn(guildId) == 1
             },
-            filteredWords = filteredWords?.ToList() ?? new List<string>(),
+            filteredWords = filteredWords.ToList(),
             autoBanWords,
             channelSettings = new
             {

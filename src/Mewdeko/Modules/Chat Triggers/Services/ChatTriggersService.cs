@@ -862,7 +862,7 @@ public sealed class ChatTriggersService : IEarlyBehavior, INService, IReadyExecu
                     // If the trigger has ContainsAnywhere enabled, check if it is contained as a word within the content
                     if (ct.ContainsAnywhere)
                     {
-                        var wp = content.GetWordPosition(trigger);
+                        var wp = content.AsSpan().GetWordPosition(trigger);
                         if (wp != WordPosition.None)
                             result.Add(ct);
                         continue;

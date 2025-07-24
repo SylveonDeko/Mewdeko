@@ -127,7 +127,7 @@ public class AdministrationService : INService
     {
         await using var dbContext = await dbFactory.CreateConnectionAsync();
         var conf = await guildSettings.GetGuildConfig(guildId);
-        var dconf = dbContext.DelMsgOnCmdChannels.Where(x => x.GuildId == guildId);
+        var dconf = await dbContext.DelMsgOnCmdChannels.Where(x => x.GuildId == guildId).ToListAsync();
 
         return (conf.DeleteMessageOnCommand, dconf);
     }

@@ -13,12 +13,12 @@ public class AntiRaidConfigRequest
     public bool Enabled { get; set; }
 
     /// <summary>
-    ///     The number of users joining that triggers the anti-raid protection
+    ///     The number of users joining that triggers the anti-raid protection (2-30)
     /// </summary>
     public int UserThreshold { get; set; }
 
     /// <summary>
-    ///     The time period in seconds in which the user threshold must be reached
+    ///     The time period in seconds in which the user threshold must be reached (2-300)
     /// </summary>
     public int Seconds { get; set; }
 
@@ -28,7 +28,7 @@ public class AntiRaidConfigRequest
     public PunishmentAction Action { get; set; }
 
     /// <summary>
-    ///     The duration of the punishment in minutes, if applicable
+    ///     The duration of the punishment in minutes, if applicable (0-1440)
     /// </summary>
     public int PunishDuration { get; set; }
 }

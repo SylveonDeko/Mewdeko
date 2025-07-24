@@ -133,6 +133,7 @@ public sealed class EventHandler : IDisposable
             case "UserJoined":
             case "VoiceServerUpdated":
             case "GuildMembersDownloaded":
+            case "XpLevelChanged":
                 switch (handler)
                 {
                     case AsyncEventHandler<T> singleHandler:
@@ -788,6 +789,18 @@ public sealed class EventHandler : IDisposable
     public IReadOnlyDictionary<string, ModuleMetrics> GetModuleMetrics()
     {
         return new Dictionary<string, ModuleMetrics>(moduleMetrics);
+    }
+
+    /// <summary>
+    ///     Publishes a custom event to all subscribers.
+    /// </summary>
+    /// <typeparam name="T">The event argument type.</typeparam>
+    /// <param name="eventType">The event type name.</param>
+    /// <param name="args">The event arguments.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
+    public Task PublishEventAsync<T>(string eventType, T args)
+    {
+        return ProcessDirectEvent(eventType, args);
     }
 
     #endregion

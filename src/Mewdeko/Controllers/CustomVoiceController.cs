@@ -67,15 +67,10 @@ public class CustomVoiceController(CustomVoiceService customVoiceService, IDataC
     {
         await using var db = await dbFactory.CreateConnectionAsync();
 
-        var config = await db.CustomVoiceConfigs.FirstOrDefaultAsync(c => c.GuildId == guildId);
-
-        if (config == null)
+        var config = await db.CustomVoiceConfigs.FirstOrDefaultAsync(c => c.GuildId == guildId) ?? new CustomVoiceConfig
         {
-            config = new CustomVoiceConfig
-            {
-                GuildId = guildId, DateAdded = DateTime.UtcNow
-            };
-        }
+            GuildId = guildId, DateAdded = DateTime.UtcNow
+        };
 
         // Update all configurable properties
         config.HubVoiceChannelId = request.HubVoiceChannelId;

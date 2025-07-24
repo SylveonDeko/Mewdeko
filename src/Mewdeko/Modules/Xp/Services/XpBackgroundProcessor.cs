@@ -5,6 +5,7 @@ using DataModel;
 using LinqToDB;
 using LinqToDB.Data;
 using Mewdeko.Database.DbContextStuff;
+using Mewdeko.Modules.Xp.Events;
 using Mewdeko.Modules.Xp.Models;
 using StackExchange.Redis;
 
@@ -34,6 +35,7 @@ public class XpBackgroundProcessor : INService, IDisposable
     private readonly IDataConnectionFactory dbFactory;
     private readonly SemaphoreSlim dbThrottle;
     private readonly Timer decayTimer;
+    private readonly EventHandler eventHandler;
     private readonly ILogger<XpBackgroundProcessor> logger;
     private readonly TimeSpan maxProcessingInterval = TimeSpan.FromSeconds(5);
     private readonly Timer memoryMonitorTimer;
@@ -44,7 +46,6 @@ public class XpBackgroundProcessor : INService, IDisposable
     // Timers
     private readonly Timer processingTimer;
     private readonly NonBlocking.ConcurrentDictionary<ulong, DateTime> recentlyActiveUsers = new();
-    private readonly XpRewardManager rewardManager;
 
     // Multi-threaded queue for XP updates with reduced capacity
     private readonly BlockingCollection<XpGainItem> xpQueue;
@@ -67,14 +68,14 @@ public class XpBackgroundProcessor : INService, IDisposable
     public XpBackgroundProcessor(
         IDataConnectionFactory dbFactory,
         XpCacheManager cacheManager,
-        XpRewardManager rewardManager,
-        XpCompetitionManager competitionManager, DiscordShardedClient client, ILogger<XpBackgroundProcessor> logger)
+        XpCompetitionManager competitionManager, DiscordShardedClient client, EventHandler eventHandler,
+        ILogger<XpBackgroundProcessor> logger)
     {
         this.dbFactory = dbFactory;
         this.cacheManager = cacheManager;
-        this.rewardManager = rewardManager;
         this.competitionManager = competitionManager;
         this.client = client;
+        this.eventHandler = eventHandler;
         this.logger = logger;
 
         // Initialize thread-safe bounded queue with reduced capacity
@@ -477,14 +478,7 @@ public class XpBackgroundProcessor : INService, IDisposable
             }
 
             // Prepare result collections
-            var notifications = new List<XpNotification>();
-            var roleRewards = new List<RoleRewardItem>();
-            var currencyRewards = new List<CurrencyRewardItem>();
             var competitionUpdates = new List<CompetitionUpdateItem>();
-
-            // Cache for role and currency rewards
-            var roleRewardCache = new Dictionary<int, XpRoleReward>();
-            var currencyRewardCache = new Dictionary<int, XpCurrencyReward>();
 
             // Get all users in one query
             var userIds = userXpAggregation.Keys.ToList();
@@ -523,40 +517,19 @@ public class XpBackgroundProcessor : INService, IDisposable
                         {
                             userXp.LastLevelUp = now;
 
-                            // Add notification
-                            if ((XpNotificationType)userXp.NotifyType != XpNotificationType.None)
+                            // Publish level change event
+                            _ = eventHandler.PublishEventAsync("XpLevelChanged", new XpLevelChangedEventArgs
                             {
-                                notifications.Add(new XpNotification
-                                {
-                                    GuildId = guildId,
-                                    UserId = userId,
-                                    Level = newLevel,
-                                    ChannelId = lastItem.ChannelId,
-                                    NotificationType = (XpNotificationType)userXp.NotifyType,
-                                    Sources = sourcesText
-                                });
-                            }
-
-                            // Process role rewards
-                            await ProcessRoleRewards(
-                                db,
-                                guildId,
-                                userId,
-                                oldLevel,
-                                newLevel,
-                                settings.ExclusiveRoleRewards,
-                                roleRewardCache,
-                                roleRewards).ConfigureAwait(false);
-
-                            // Process currency rewards
-                            await ProcessCurrencyRewards(
-                                db,
-                                guildId,
-                                userId,
-                                oldLevel,
-                                newLevel,
-                                currencyRewardCache,
-                                currencyRewards).ConfigureAwait(false);
+                                GuildId = guildId,
+                                UserId = userId,
+                                OldLevel = oldLevel,
+                                NewLevel = newLevel,
+                                TotalXp = userXp.TotalXp,
+                                ChannelId = lastItem.ChannelId,
+                                Source = lastItem.Source,
+                                IsLevelUp = true,
+                                NotificationType = (XpNotificationType)userXp.NotifyType
+                            });
                         }
 
                         // Add to update collection
@@ -586,38 +559,23 @@ public class XpBackgroundProcessor : INService, IDisposable
                         var newLevel =
                             XpCalculator.CalculateLevel(newUserXp.TotalXp, (XpCurveType)settings.XpCurveType);
 
-                        // Add notification for first level
+                        // Handle initial level for new user
                         if (newLevel > 0)
                         {
-                            notifications.Add(new XpNotification
+                            // Publish level change event for new user
+                            _ = eventHandler.PublishEventAsync("XpLevelChanged", new XpLevelChangedEventArgs
                             {
                                 GuildId = guildId,
                                 UserId = userId,
-                                Level = newLevel,
+                                OldLevel = 0,
+                                NewLevel = newLevel,
+                                TotalXp = newUserXp.TotalXp,
                                 ChannelId = lastItem.ChannelId,
-                                NotificationType = XpNotificationType.None,
-                                Sources = sourcesText
+                                Source = lastItem.Source,
+                                IsLevelUp = true,
+                                NotificationType =
+                                    XpNotificationType.None // New users don't get notifications by default
                             });
-
-                            // For new users, process rewards
-                            await ProcessRoleRewards(
-                                db,
-                                guildId,
-                                userId,
-                                0,
-                                newLevel,
-                                settings.ExclusiveRoleRewards,
-                                roleRewardCache,
-                                roleRewards).ConfigureAwait(false);
-
-                            await ProcessCurrencyRewards(
-                                db,
-                                guildId,
-                                userId,
-                                0,
-                                newLevel,
-                                currencyRewardCache,
-                                currencyRewards).ConfigureAwait(false);
                         }
 
                         // Add to insert collection
@@ -640,189 +598,12 @@ public class XpBackgroundProcessor : INService, IDisposable
             // Execute database operations with retry
             await ExecuteDatabaseOperationsWithRetry(db, guildId, insertRecords, updateRecords).ConfigureAwait(false);
 
-            // Process notifications and rewards
-            await Task.WhenAll(
-                ProcessNotificationsInBatches(notifications),
-                ProcessRoleRewardsInBatches(roleRewards),
-                ProcessCurrencyRewardsInBatches(currencyRewards),
-                competitionManager.UpdateCompetitionsAsync(db, competitionUpdates)
-            ).ConfigureAwait(false);
-
             return items.Count;
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Error processing guild XP batch for {GuildId}", guildId);
             return 0;
-        }
-    }
-
-    /// <summary>
-    ///     Processes role rewards for a level change.
-    /// </summary>
-    /// <param name="db">The database connection.</param>
-    /// <param name="guildId">The guild ID.</param>
-    /// <param name="userId">The user ID.</param>
-    /// <param name="oldLevel">The old level.</param>
-    /// <param name="newLevel">The new level.</param>
-    /// <param name="exclusiveRoleRewards">Whether role rewards are exclusive.</param>
-    /// <param name="roleRewardCache">The role reward cache.</param>
-    /// <param name="roleRewards">The list to add role rewards to.</param>
-    /// <returns>A task representing the operation.</returns>
-    private async Task ProcessRoleRewards(
-        MewdekoDb db,
-        ulong guildId,
-        ulong userId,
-        int oldLevel,
-        int newLevel,
-        bool exclusiveRoleRewards,
-        Dictionary<int, XpRoleReward> roleRewardCache,
-        List<RoleRewardItem> roleRewards)
-    {
-        if (exclusiveRoleRewards)
-        {
-            // For exclusive rewards, find highest level reward
-            for (var level = newLevel; level > 0; level--)
-            {
-                if (!roleRewardCache.TryGetValue(level, out var roleReward))
-                {
-                    roleReward = await rewardManager.GetRoleRewardForLevelAsync(db, guildId, level)
-                        .ConfigureAwait(false);
-                    roleRewardCache[level] = roleReward;
-                }
-
-                if (roleReward != null)
-                {
-                    roleRewards.Add(new RoleRewardItem
-                    {
-                        GuildId = guildId, UserId = userId, RoleId = roleReward.RoleId
-                    });
-                    break;
-                }
-            }
-        }
-        else
-        {
-            // For non-exclusive, add rewards for all new levels
-            for (var level = oldLevel + 1; level <= newLevel; level++)
-            {
-                if (!roleRewardCache.TryGetValue(level, out var roleReward))
-                {
-                    roleReward = await rewardManager.GetRoleRewardForLevelAsync(db, guildId, level)
-                        .ConfigureAwait(false);
-                    roleRewardCache[level] = roleReward;
-                }
-
-                if (roleReward != null)
-                {
-                    roleRewards.Add(new RoleRewardItem
-                    {
-                        GuildId = guildId, UserId = userId, RoleId = roleReward.RoleId
-                    });
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    ///     Processes currency rewards for a level change.
-    /// </summary>
-    /// <param name="db">The database connection.</param>
-    /// <param name="guildId">The guild ID.</param>
-    /// <param name="userId">The user ID.</param>
-    /// <param name="oldLevel">The old level.</param>
-    /// <param name="newLevel">The new level.</param>
-    /// <param name="currencyRewardCache">The currency reward cache.</param>
-    /// <param name="currencyRewards">The list to add currency rewards to.</param>
-    /// <returns>A task representing the operation.</returns>
-    private async Task ProcessCurrencyRewards(
-        MewdekoDb db,
-        ulong guildId,
-        ulong userId,
-        int oldLevel,
-        int newLevel,
-        Dictionary<int, XpCurrencyReward> currencyRewardCache,
-        List<CurrencyRewardItem> currencyRewards)
-    {
-        for (var level = oldLevel + 1; level <= newLevel; level++)
-        {
-            if (!currencyRewardCache.TryGetValue(level, out var currencyReward))
-            {
-                currencyReward = await rewardManager.GetCurrencyRewardForLevelAsync(db, guildId, level)
-                    .ConfigureAwait(false);
-                currencyRewardCache[level] = currencyReward;
-            }
-
-            if (currencyReward != null)
-            {
-                currencyRewards.Add(new CurrencyRewardItem
-                {
-                    GuildId = guildId, UserId = userId, Amount = currencyReward.Amount
-                });
-            }
-        }
-    }
-
-    /// <summary>
-    ///     Processes notifications in batches to avoid rate limiting.
-    /// </summary>
-    /// <param name="notifications">The notifications to process.</param>
-    /// <returns>A task representing the operation.</returns>
-    private async Task ProcessNotificationsInBatches(List<XpNotification> notifications)
-    {
-        const int batchSize = 25;
-
-        for (var i = 0; i < notifications.Count; i += batchSize)
-        {
-            var batch = notifications.Skip(i).Take(batchSize).ToList();
-            await rewardManager.SendNotificationsAsync(batch).ConfigureAwait(false);
-
-            if (i + batchSize < notifications.Count)
-            {
-                await Task.Delay(100).ConfigureAwait(false);
-            }
-        }
-    }
-
-    /// <summary>
-    ///     Processes role rewards in batches to avoid rate limiting.
-    /// </summary>
-    /// <param name="rewards">The role rewards to process.</param>
-    /// <returns>A task representing the operation.</returns>
-    private async Task ProcessRoleRewardsInBatches(List<RoleRewardItem> rewards)
-    {
-        const int batchSize = 25;
-
-        for (var i = 0; i < rewards.Count; i += batchSize)
-        {
-            var batch = rewards.Skip(i).Take(batchSize).ToList();
-            await rewardManager.GrantRoleRewardsAsync(batch).ConfigureAwait(false);
-
-            if (i + batchSize < rewards.Count)
-            {
-                await Task.Delay(200).ConfigureAwait(false);
-            }
-        }
-    }
-
-    /// <summary>
-    ///     Processes currency rewards in batches to avoid rate limiting.
-    /// </summary>
-    /// <param name="rewards">The currency rewards to process.</param>
-    /// <returns>A task representing the operation.</returns>
-    private async Task ProcessCurrencyRewardsInBatches(List<CurrencyRewardItem> rewards)
-    {
-        const int batchSize = 50;
-
-        for (var i = 0; i < rewards.Count; i += batchSize)
-        {
-            var batch = rewards.Skip(i).Take(batchSize).ToList();
-            await rewardManager.GrantCurrencyRewardsAsync(batch).ConfigureAwait(false);
-
-            if (i + batchSize < rewards.Count)
-            {
-                await Task.Delay(100).ConfigureAwait(false);
-            }
         }
     }
 
