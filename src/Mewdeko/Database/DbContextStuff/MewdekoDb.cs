@@ -116,6 +116,17 @@ public class MewdekoDb : DataConnection
     public ITable<GuildConfig> GuildConfigs => this.GetTable<GuildConfig>();
 
     /// <summary>
+    ///     Gets the guild bot profiles table.
+    /// </summary>
+    public ITable<GuildBotProfile> GuildBotProfiles
+    {
+        get
+        {
+            return this.GetTable<GuildBotProfile>();
+        }
+    }
+
+    /// <summary>
     ///     Gets the AFK table.
     /// </summary>
     public ITable<Afk> Afks => this.GetTable<Afk>();

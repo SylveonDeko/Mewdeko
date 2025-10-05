@@ -19,6 +19,7 @@ public class AdministrationService : INService
     private readonly IDataConnectionFactory dbFactory;
     private readonly GuildSettingsService guildSettings;
     private readonly IHttpClientFactory httpClientFactory;
+    private readonly DiscordShardedClient shardedClient;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="AdministrationService" /> class with the specified dependencies.
@@ -31,13 +32,14 @@ public class AdministrationService : INService
     /// <param name="credentials">The bot credentials for authorization.</param>
     public AdministrationService(CommandHandler cmdHandler,
         GuildSettingsService guildSettings, Mewdeko bot, IDataConnectionFactory dbFactory,
-        IHttpClientFactory httpClientFactory, IBotCredentials credentials)
+        IHttpClientFactory httpClientFactory, IBotCredentials credentials, DiscordShardedClient shardedClient)
     {
         // Assign the database service and guild settings service
         this.guildSettings = guildSettings;
         this.dbFactory = dbFactory;
         this.httpClientFactory = httpClientFactory;
         this.credentials = credentials;
+        this.shardedClient = shardedClient;
 
         // Subscribe to the CommandExecuted event of the command handler
         cmdHandler.CommandExecuted += DelMsgOnCmd_Handler;
@@ -310,50 +312,127 @@ public class AdministrationService : INService
     }
 
     /// <summary>
-    ///     Sets the bot's guild-specific avatar, banner, and/or bio using the Discord REST API.
+    ///     Sets the bot's guild-specific avatar, banner, and/or bio in database and Discord API.
     /// </summary>
     /// <param name="guildId">The ID of the guild</param>
-    /// <param name="avatarUrl">Optional URL to avatar image</param>
-    /// <param name="bannerUrl">Optional URL to banner image</param>
+    /// <param name="avatarUrl">Optional URL or base64 data for avatar image</param>
+    /// <param name="bannerUrl">Optional URL or base64 data for banner image</param>
     /// <param name="bio">Optional bio text</param>
     /// <returns>A task representing the asynchronous operation</returns>
     public async Task SetGuildProfile(ulong guildId, string? avatarUrl, string? bannerUrl, string? bio)
     {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        // Get or create profile record
+        var profile = await db.GuildBotProfiles
+            .FirstOrDefaultAsync(x => x.GuildId == guildId)
+            .ConfigureAwait(false);
+
+        if (profile == null)
+        {
+            profile = new GuildBotProfile
+            {
+                GuildId = guildId, DateAdded = DateTime.UtcNow
+            };
+            await db.InsertAsync(profile).ConfigureAwait(false);
+
+            // Re-fetch to get the ID
+            profile = await db.GuildBotProfiles
+                .FirstOrDefaultAsync(x => x.GuildId == guildId)
+                .ConfigureAwait(false);
+        }
+
+        // Update database
+        if (!string.IsNullOrWhiteSpace(avatarUrl))
+            profile.AvatarUrl = avatarUrl;
+
+        if (!string.IsNullOrWhiteSpace(bannerUrl))
+            profile.BannerUrl = bannerUrl;
+
+        if (bio != null)
+            profile.Bio = bio;
+
+        profile.DateUpdated = DateTime.UtcNow;
+
+        await db.GuildBotProfiles
+            .Where(x => x.GuildId == guildId)
+            .Set(x => x.AvatarUrl, profile.AvatarUrl)
+            .Set(x => x.BannerUrl, profile.BannerUrl)
+            .Set(x => x.Bio, profile.Bio)
+            .Set(x => x.DateUpdated, profile.DateUpdated)
+            .UpdateAsync()
+            .ConfigureAwait(false);
+
+        // Now update Discord API
         using var httpClient = httpClientFactory.CreateClient();
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bot", credentials.Token);
 
-        // Build the JSON payload
         var payload = new Dictionary<string, object?>();
 
-        // Download and convert avatar if provided
+        // Process avatar
         if (!string.IsNullOrWhiteSpace(avatarUrl))
         {
-            var avatarData = await DownloadAndConvertImage(httpClient, avatarUrl).ConfigureAwait(false);
+            var avatarData = avatarUrl.StartsWith("data:image/", StringComparison.OrdinalIgnoreCase)
+                ? avatarUrl
+                : await DownloadAndConvertImage(httpClient, avatarUrl).ConfigureAwait(false);
             payload["avatar"] = avatarData;
         }
 
-        // Download and convert banner if provided
+        // Process banner
         if (!string.IsNullOrWhiteSpace(bannerUrl))
         {
-            var bannerData = await DownloadAndConvertImage(httpClient, bannerUrl).ConfigureAwait(false);
+            var bannerData = bannerUrl.StartsWith("data:image/", StringComparison.OrdinalIgnoreCase)
+                ? bannerUrl
+                : await DownloadAndConvertImage(httpClient, bannerUrl).ConfigureAwait(false);
             payload["banner"] = bannerData;
         }
 
-        // Add bio if provided
-        if (bio is not null)
-        {
+        // Add bio
+        if (bio != null)
             payload["bio"] = bio;
+
+        // Only make Discord API call if there's something to update
+        if (payload.Count > 0)
+        {
+            var jsonContent = JsonSerializer.Serialize(payload);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            var response = await httpClient.PatchAsync(
+                $"https://discord.com/api/v10/guilds/{guildId}/members/@me",
+                content).ConfigureAwait(false);
+
+            response.EnsureSuccessStatusCode();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the bot's current guild profile information from the database.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <returns>A dictionary containing the bot's guild profile data</returns>
+    public async Task<Dictionary<string, object?>> GetGuildProfile(ulong guildId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var profile = await db.GuildBotProfiles
+            .FirstOrDefaultAsync(x => x.GuildId == guildId)
+            .ConfigureAwait(false);
+
+        var result = new Dictionary<string, object?>();
+
+        if (profile != null)
+        {
+            result["avatar"] = profile.AvatarUrl;
+            result["banner"] = profile.BannerUrl;
+            result["bio"] = profile.Bio;
         }
 
-        // Make the PATCH request to Discord API
-        var jsonContent = JsonSerializer.Serialize(payload);
-        var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+        // Get current nickname from Discord.Net
+        var guild = shardedClient.GetGuild(guildId);
+        var botMember = guild?.GetUser(shardedClient.CurrentUser.Id);
+        result["nick"] = botMember?.Nickname;
 
-        var response = await httpClient.PatchAsync(
-            $"https://discord.com/api/v10/guilds/{guildId}/members/@me",
-            content).ConfigureAwait(false);
-
-        response.EnsureSuccessStatusCode();
+        return result;
     }
 
     /// <summary>
