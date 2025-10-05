@@ -21658,6 +21658,54 @@ setbio_string_2:
   desc: Sets or updates the biography in the user's profile.
   params:
     - *ref_490
+setguildavatar:
+  args:
+    - text
+  desc: Sets the bot's guild-specific avatar.
+  params:
+    - &ref_676
+      desc: URL to the avatar image or attach an image to the message.
+      name: avatarUrl
+      optional: true
+      type: string
+setguildavatar_string:
+  args:
+    - text
+  desc: Sets the bot's guild-specific avatar.
+  params:
+    - *ref_676
+setguildbanner:
+  args:
+    - text
+  desc: Sets the bot's guild-specific banner.
+  params:
+    - &ref_677
+      desc: URL to the banner image or attach an image to the message.
+      name: bannerUrl
+      optional: true
+      type: string
+setguildbanner_string:
+  args:
+    - text
+  desc: Sets the bot's guild-specific banner.
+  params:
+    - *ref_677
+setguildbio:
+  args:
+    - text
+  desc: Sets the bot's guild-specific bio.
+  params:
+    - &ref_678
+      desc: Bio text for the bot in this guild.
+      name: bio
+      optional: false
+      type: string
+setguildbio_string:
+  args:
+    - text
+  desc: Sets the bot's guild-specific bio.
+  params:
+    - *ref_678
 setbirthday:
   args:
     - time

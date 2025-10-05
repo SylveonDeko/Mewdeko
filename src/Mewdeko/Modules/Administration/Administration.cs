@@ -1,3 +1,4 @@
+using System.Net.Http;
 using System.Text.RegularExpressions;
 using Discord.Commands;
 using Fergun.Interactive;
@@ -1259,5 +1260,142 @@ public partial class Administration(InteractiveService serv, ILogger<Administrat
     {
         await channel.ModifyAsync(x => x.Name = name).ConfigureAwait(false);
         await ConfirmAsync(Strings.ChannelRenamed(ctx.Guild.Id)).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Sets the bot's guild-specific avatar.
+    /// </summary>
+    /// <param name="avatarUrl">URL to the avatar image (optional if attachment is provided)</param>
+    /// <remarks>
+    ///     This command requires the caller to have GuildPermission.ManageGuild.
+    ///     The image will be downloaded and converted to base64 for the Discord API.
+    ///     You can either provide a URL or attach an image to the message.
+    /// </remarks>
+    /// <example>.setguildavatar https://example.com/avatar.png</example>
+    /// <example>.setguildavatar (with attached image)</example>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageGuild)]
+    public async Task SetGuildAvatar([Remainder] string? avatarUrl = null)
+    {
+        try
+        {
+            // Check for attachment first, then fall back to URL parameter
+            var imageUrl = avatarUrl;
+            if (string.IsNullOrWhiteSpace(imageUrl) && ctx.Message.Attachments.Any())
+            {
+                imageUrl = ctx.Message.Attachments.First().Url;
+            }
+
+            if (string.IsNullOrWhiteSpace(imageUrl))
+            {
+                await ctx.Channel.SendErrorAsync(Strings.SetGuildProfileNoImage(ctx.Guild.Id), Config);
+                return;
+            }
+
+            var loadingMsg = await ctx.Channel.SendConfirmAsync(Strings.SetGuildProfileProcessing(ctx.Guild.Id));
+
+            await Service.SetGuildProfile(ctx.Guild.Id, imageUrl, null, null);
+
+            await loadingMsg.DeleteAsync();
+            await ctx.Channel.SendConfirmAsync(Strings.SetGuildAvatarSuccess(ctx.Guild.Id));
+        }
+        catch (HttpRequestException ex)
+        {
+            logger.LogError(ex, "HTTP error setting guild avatar for guild {GuildId}", ctx.Guild.Id);
+            await ctx.Channel.SendErrorAsync(Strings.SetGuildProfileHttpError(ctx.Guild.Id), Config);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error setting guild avatar for guild {GuildId}", ctx.Guild.Id);
+            await ctx.Channel.SendErrorAsync(Strings.SetGuildProfileError(ctx.Guild.Id), Config);
+        }
+    }
+
+    /// <summary>
+    ///     Sets the bot's guild-specific banner.
+    /// </summary>
+    /// <param name="bannerUrl">URL to the banner image (optional if attachment is provided)</param>
+    /// <remarks>
+    ///     This command requires the caller to have GuildPermission.ManageGuild.
+    ///     The image will be downloaded and converted to base64 for the Discord API.
+    ///     You can either provide a URL or attach an image to the message.
+    /// </remarks>
+    /// <example>.setguildbanner https://example.com/banner.png</example>
+    /// <example>.setguildbanner (with attached image)</example>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageGuild)]
+    public async Task SetGuildBanner([Remainder] string? bannerUrl = null)
+    {
+        try
+        {
+            // Check for attachment first, then fall back to URL parameter
+            var imageUrl = bannerUrl;
+            if (string.IsNullOrWhiteSpace(imageUrl) && ctx.Message.Attachments.Any())
+            {
+                imageUrl = ctx.Message.Attachments.First().Url;
+            }
+
+            if (string.IsNullOrWhiteSpace(imageUrl))
+            {
+                await ctx.Channel.SendErrorAsync(Strings.SetGuildProfileNoImage(ctx.Guild.Id), Config);
+                return;
+            }
+
+            var loadingMsg = await ctx.Channel.SendConfirmAsync(Strings.SetGuildProfileProcessing(ctx.Guild.Id));
+
+            await Service.SetGuildProfile(ctx.Guild.Id, null, imageUrl, null);
+
+            await loadingMsg.DeleteAsync();
+            await ctx.Channel.SendConfirmAsync(Strings.SetGuildBannerSuccess(ctx.Guild.Id));
+        }
+        catch (HttpRequestException ex)
+        {
+            logger.LogError(ex, "HTTP error setting guild banner for guild {GuildId}", ctx.Guild.Id);
+            await ctx.Channel.SendErrorAsync(Strings.SetGuildProfileHttpError(ctx.Guild.Id), Config);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error setting guild banner for guild {GuildId}", ctx.Guild.Id);
+            await ctx.Channel.SendErrorAsync(Strings.SetGuildProfileError(ctx.Guild.Id), Config);
+        }
+    }
+
+    /// <summary>
+    ///     Sets the bot's guild-specific bio.
+    /// </summary>
+    /// <param name="bio">Bio text</param>
+    /// <remarks>
+    ///     This command requires the caller to have GuildPermission.ManageGuild.
+    /// </remarks>
+    /// <example>.setguildbio This is my cool bio!</example>
+    [Cmd]
+    [Aliases]
+    [RequireContext(ContextType.Guild)]
+    [UserPerm(GuildPermission.ManageGuild)]
+    public async Task SetGuildBio([Remainder] string bio)
+    {
+        try
+        {
+            var loadingMsg = await ctx.Channel.SendConfirmAsync(Strings.SetGuildProfileProcessing(ctx.Guild.Id));
+
+            await Service.SetGuildProfile(ctx.Guild.Id, null, null, bio);
+
+            await loadingMsg.DeleteAsync();
+            await ctx.Channel.SendConfirmAsync(Strings.SetGuildBioSuccess(ctx.Guild.Id));
+        }
+        catch (HttpRequestException ex)
+        {
+            logger.LogError(ex, "HTTP error setting guild bio for guild {GuildId}", ctx.Guild.Id);
+            await ctx.Channel.SendErrorAsync(Strings.SetGuildProfileHttpError(ctx.Guild.Id), Config);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Error setting guild bio for guild {GuildId}", ctx.Guild.Id);
+            await ctx.Channel.SendErrorAsync(Strings.SetGuildProfileError(ctx.Guild.Id), Config);
+        }
     }
 }

@@ -550,7 +550,7 @@ public class BotCredentials : IBotCredentials
                 catch (Exception ex)
                 {
                     Log.Error("Failed to connect to PostgreSQL database with the provided connection string.");
-                    Log.Error(ex.Message);
+                    Log.Error($"{ex}");
                     Helpers.ReadErrorAndExit(6);
                 }
             }

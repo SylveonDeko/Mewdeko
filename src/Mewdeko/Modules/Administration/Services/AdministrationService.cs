@@ -1,4 +1,9 @@
-﻿using DataModel;
+﻿using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
+using DataModel;
 using Discord.Commands;
 using LinqToDB;
 using LinqToDB.Async;
@@ -10,8 +15,10 @@ namespace Mewdeko.Modules.Administration.Services;
 /// </summary>
 public class AdministrationService : INService
 {
+    private readonly IBotCredentials credentials;
     private readonly IDataConnectionFactory dbFactory;
     private readonly GuildSettingsService guildSettings;
+    private readonly IHttpClientFactory httpClientFactory;
 
     /// <summary>
     ///     Initializes a new instance of the <see cref="AdministrationService" /> class with the specified dependencies.
@@ -20,12 +27,17 @@ public class AdministrationService : INService
     /// <param name="dbFactory">The database service.</param>
     /// <param name="guildSettings">The guild settings service.</param>
     /// <param name="bot">The bot instance.</param>
+    /// <param name="httpClientFactory">The HTTP client factory for making REST requests.</param>
+    /// <param name="credentials">The bot credentials for authorization.</param>
     public AdministrationService(CommandHandler cmdHandler,
-        GuildSettingsService guildSettings, Mewdeko bot, IDataConnectionFactory dbFactory)
+        GuildSettingsService guildSettings, Mewdeko bot, IDataConnectionFactory dbFactory,
+        IHttpClientFactory httpClientFactory, IBotCredentials credentials)
     {
         // Assign the database service and guild settings service
         this.guildSettings = guildSettings;
         this.dbFactory = dbFactory;
+        this.httpClientFactory = httpClientFactory;
+        this.credentials = credentials;
 
         // Subscribe to the CommandExecuted event of the command handler
         cmdHandler.CommandExecuted += DelMsgOnCmd_Handler;
@@ -295,5 +307,77 @@ public class AdministrationService : INService
                 x.Components = null;
             }).ConfigureAwait(false);
         }
+    }
+
+    /// <summary>
+    ///     Sets the bot's guild-specific avatar, banner, and/or bio using the Discord REST API.
+    /// </summary>
+    /// <param name="guildId">The ID of the guild</param>
+    /// <param name="avatarUrl">Optional URL to avatar image</param>
+    /// <param name="bannerUrl">Optional URL to banner image</param>
+    /// <param name="bio">Optional bio text</param>
+    /// <returns>A task representing the asynchronous operation</returns>
+    public async Task SetGuildProfile(ulong guildId, string? avatarUrl, string? bannerUrl, string? bio)
+    {
+        using var httpClient = httpClientFactory.CreateClient();
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bot", credentials.Token);
+
+        // Build the JSON payload
+        var payload = new Dictionary<string, object?>();
+
+        // Download and convert avatar if provided
+        if (!string.IsNullOrWhiteSpace(avatarUrl))
+        {
+            var avatarData = await DownloadAndConvertImage(httpClient, avatarUrl).ConfigureAwait(false);
+            payload["avatar"] = avatarData;
+        }
+
+        // Download and convert banner if provided
+        if (!string.IsNullOrWhiteSpace(bannerUrl))
+        {
+            var bannerData = await DownloadAndConvertImage(httpClient, bannerUrl).ConfigureAwait(false);
+            payload["banner"] = bannerData;
+        }
+
+        // Add bio if provided
+        if (bio is not null)
+        {
+            payload["bio"] = bio;
+        }
+
+        // Make the PATCH request to Discord API
+        var jsonContent = JsonSerializer.Serialize(payload);
+        var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+        var response = await httpClient.PatchAsync(
+            $"https://discord.com/api/v10/guilds/{guildId}/members/@me",
+            content).ConfigureAwait(false);
+
+        response.EnsureSuccessStatusCode();
+    }
+
+    /// <summary>
+    ///     Downloads an image from a URL and converts it to a base64 data URI.
+    /// </summary>
+    /// <param name="httpClient">The HTTP client to use</param>
+    /// <param name="imageUrl">The URL of the image</param>
+    /// <returns>A base64-encoded data URI string</returns>
+    private static async Task<string> DownloadAndConvertImage(HttpClient httpClient, string imageUrl)
+    {
+        var imageBytes = await httpClient.GetByteArrayAsync(imageUrl).ConfigureAwait(false);
+        var base64 = Convert.ToBase64String(imageBytes);
+
+        // Determine the image type from the URL or default to PNG
+        var extension = Path.GetExtension(imageUrl).ToLowerInvariant();
+        var mimeType = extension switch
+        {
+            ".jpg" or ".jpeg" => "image/jpeg",
+            ".png" => "image/png",
+            ".gif" => "image/gif",
+            ".webp" => "image/webp",
+            _ => "image/png"
+        };
+
+        return $"data:{mimeType};base64,{base64}";
     }
 }
