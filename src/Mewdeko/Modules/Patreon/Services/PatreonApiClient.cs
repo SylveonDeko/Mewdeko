@@ -17,7 +17,11 @@ public class PatreonApiClient : INService
 
     private static readonly JsonSerializerOptions CachedJsonOptions = new()
     {
-        PropertyNameCaseInsensitive = true
+        PropertyNameCaseInsensitive = true,
+        Converters =
+        {
+            new PatreonResourceConverter()
+        }
     };
 
     private readonly IHttpClientFactory httpClientFactory;
@@ -325,6 +329,10 @@ public class PatreonApiClient : INService
             }
 
             var responseContent = await response.Content.ReadAsStringAsync();
+
+            // Log the raw response for debugging
+            logger.LogDebug("Patreon user identity response: {Response}", responseContent);
+
             return JsonSerializer.Deserialize<PatreonResponse<User>>(responseContent, CachedJsonOptions);
         }
         catch (Exception ex)
