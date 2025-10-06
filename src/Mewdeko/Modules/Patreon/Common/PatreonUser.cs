@@ -125,49 +125,77 @@ public class SocialConnections
     ///     DeviantArt connection
     /// </summary>
     [JsonPropertyName("deviantart")]
-    public string? DeviantArt { get; set; }
+    public SocialConnection? DeviantArt { get; set; }
 
     /// <summary>
     ///     Discord connection
     /// </summary>
     [JsonPropertyName("discord")]
-    public string? Discord { get; set; }
+    public SocialConnection? Discord { get; set; }
 
     /// <summary>
     ///     Facebook connection
     /// </summary>
     [JsonPropertyName("facebook")]
-    public string? Facebook { get; set; }
+    public SocialConnection? Facebook { get; set; }
 
     /// <summary>
     ///     Reddit connection
     /// </summary>
     [JsonPropertyName("reddit")]
-    public string? Reddit { get; set; }
+    public SocialConnection? Reddit { get; set; }
 
     /// <summary>
     ///     Spotify connection
     /// </summary>
     [JsonPropertyName("spotify")]
-    public string? Spotify { get; set; }
+    public SocialConnection? Spotify { get; set; }
 
     /// <summary>
     ///     Twitch connection
     /// </summary>
     [JsonPropertyName("twitch")]
-    public string? Twitch { get; set; }
+    public SocialConnection? Twitch { get; set; }
 
     /// <summary>
     ///     Twitter connection
     /// </summary>
     [JsonPropertyName("twitter")]
-    public string? Twitter { get; set; }
+    public SocialConnection? Twitter { get; set; }
 
     /// <summary>
     ///     YouTube connection
     /// </summary>
     [JsonPropertyName("youtube")]
-    public string? Youtube { get; set; }
+    public SocialConnection? Youtube { get; set; }
+}
+
+/// <summary>
+///     Represents a connection to a social media platform.
+///     In Patreon API v2, this is an object with user_id. Can be null if no connection exists.
+/// </summary>
+[JsonConverter(typeof(SocialConnectionConverter))]
+public class SocialConnection
+{
+    /// <summary>
+    ///     The user ID on the connected platform
+    /// </summary>
+    [JsonPropertyName("user_id")]
+    public string? UserId { get; set; }
+
+    /// <summary>
+    ///     The URL to the user's profile on the connected platform. Can be null.
+    /// </summary>
+    [JsonPropertyName("url")]
+    public string? Url { get; set; }
+
+    /// <summary>
+    ///     Gets the user ID as a string (for convenience)
+    /// </summary>
+    public override string? ToString()
+    {
+        return UserId;
+    }
 }
 
 /// <summary>

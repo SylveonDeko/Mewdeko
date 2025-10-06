@@ -186,6 +186,10 @@ public class PatreonApiClient : INService
             }
 
             var responseContent = await response.Content.ReadAsStringAsync();
+
+            // Log the raw response for debugging
+            logger.LogInformation("Patreon campaigns response: {Response}", responseContent);
+
             return JsonSerializer.Deserialize<PatreonResponse<List<Campaign>>>(responseContent,
                 CachedJsonOptions);
         }
@@ -234,6 +238,10 @@ public class PatreonApiClient : INService
             }
 
             var responseContent = await response.Content.ReadAsStringAsync();
+
+            // Log the raw response for debugging
+            logger.LogInformation("Patreon campaign response: {Response}", responseContent);
+
             return JsonSerializer.Deserialize<PatreonResponse<Campaign>>(responseContent, CachedJsonOptions);
         }
         catch (Exception ex)
@@ -287,6 +295,10 @@ public class PatreonApiClient : INService
             }
 
             var responseContent = await response.Content.ReadAsStringAsync();
+
+            // Log the raw response for debugging
+            logger.LogInformation("Patreon campaign members response: {Response}", responseContent);
+
             return JsonSerializer.Deserialize<PatreonResponse<List<Member>>>(responseContent,
                 CachedJsonOptions);
         }
@@ -331,7 +343,7 @@ public class PatreonApiClient : INService
             var responseContent = await response.Content.ReadAsStringAsync();
 
             // Log the raw response for debugging
-            logger.LogDebug("Patreon user identity response: {Response}", responseContent);
+            logger.LogInformation("Patreon user identity response: {Response}", responseContent);
 
             return JsonSerializer.Deserialize<PatreonResponse<User>>(responseContent, CachedJsonOptions);
         }
