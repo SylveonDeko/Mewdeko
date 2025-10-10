@@ -36,8 +36,52 @@ public class SuggestionsController(
         if (suggestions.Count == 0)
             return NotFound("No suggestions for this guild.");
 
-        if (userId is null) return Ok(suggestions);
-        var userSuggestions = suggestions.Where(x => x.UserId == userId);
+        // Fetch user info from guild cache only (no expensive REST calls)
+        var guild = client.GetGuild(guildId);
+        var uniqueUserIds = suggestions.Select(s => s.UserId).Distinct().ToList();
+        var userInfoMap = new Dictionary<ulong, object>();
+
+        foreach (var uid in uniqueUserIds)
+        {
+            // Only check guild cache - if not found, return "Unknown User"
+            var guildUser = guild?.GetUser(uid);
+            if (guildUser != null)
+            {
+                userInfoMap[uid] = new
+                {
+                    Id = guildUser.Id.ToString(),
+                    guildUser.Username,
+                    AvatarUrl = guildUser.GetAvatarUrl() ?? guildUser.GetDefaultAvatarUrl()
+                };
+            }
+            else
+            {
+                // User not in guild cache - don't make expensive REST calls
+                userInfoMap[uid] = new
+                {
+                    Id = uid.ToString(),
+                    Username = $"Unknown User ({uid})",
+                    AvatarUrl = "https://cdn.discordapp.com/embed/avatars/0.png"
+                };
+            }
+        }
+
+        // Enrich suggestions with user data
+        var enrichedSuggestions = suggestions.Select(s => new
+        {
+            s.Id,
+            s.GuildId,
+            s.UserId,
+            s.SuggestionId,
+            s.Suggestion1,
+            s.CurrentState,
+            s.DateAdded,
+            s.StateChangeUser,
+            User = userInfoMap[s.UserId]
+        });
+
+        if (userId is null) return Ok(enrichedSuggestions);
+        var userSuggestions = enrichedSuggestions.Where(x => x.UserId == userId);
         if (!userSuggestions.Any())
             return NotFound("No suggestions for this user.");
         return Ok(userSuggestions);

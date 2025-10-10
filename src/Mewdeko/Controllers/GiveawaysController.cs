@@ -63,7 +63,6 @@ public class GiveawaysController : Controller
             return BadRequest("Captcha verification failed");
         }
 
-
         var (successful, reason) = await service.AddUserToGiveaway(request.UserId, request.GiveawayId);
 
         if (!successful)
@@ -94,7 +93,7 @@ public class GiveawaysController : Controller
     ///     An <see cref="OkObjectResult" /> containing a list of giveaways, or <see cref="NotFoundResult" /> if an error
     ///     occurs.
     /// </returns>
-    [HttpGet("{guildId:ulong}")]
+    [HttpGet("guild/{guildId:ulong}")]
     public async Task<IActionResult> GetGiveawaysForGuild(ulong guildId)
     {
         try

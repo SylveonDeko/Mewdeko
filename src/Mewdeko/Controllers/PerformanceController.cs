@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Mewdeko.Services.Impl;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -36,12 +37,12 @@ public class PerformanceController : ControllerBase
     /// <summary>
     ///     Gets the performance data for methods tracked by the performance monitoring service.
     /// </summary>
-    /// <param name="userId">The Discord user ID to verify for owner permissions.</param>
     /// <returns>An array of performance data for the top CPU-intensive methods.</returns>
     [HttpGet("methods")]
-    public IActionResult GetPerformanceData([FromQuery] ulong userId)
+    public IActionResult GetPerformanceData()
     {
-        if (!credentials.IsOwner(userId))
+        var userId = GetAuthenticatedUserId();
+        if (userId == null || !credentials.IsOwner(userId.Value))
         {
             return Forbid();
         }
@@ -63,12 +64,12 @@ public class PerformanceController : ControllerBase
     /// <summary>
     ///     Gets event metrics from the EventHandler.
     /// </summary>
-    /// <param name="userId">The Discord user ID to verify for owner permissions.</param>
     /// <returns>Event metrics data including processing counts, execution times, and error rates.</returns>
     [HttpGet("events")]
-    public IActionResult GetEventMetrics([FromQuery] ulong userId)
+    public IActionResult GetEventMetrics()
     {
-        if (!credentials.IsOwner(userId))
+        var userId = GetAuthenticatedUserId();
+        if (userId == null || !credentials.IsOwner(userId.Value))
         {
             return Forbid();
         }
@@ -91,12 +92,12 @@ public class PerformanceController : ControllerBase
     /// <summary>
     ///     Gets module metrics from the EventHandler.
     /// </summary>
-    /// <param name="userId">The Discord user ID to verify for owner permissions.</param>
     /// <returns>Module metrics data including events processed, execution times, and error rates.</returns>
     [HttpGet("modules")]
-    public IActionResult GetModuleMetrics([FromQuery] ulong userId)
+    public IActionResult GetModuleMetrics()
     {
-        if (!credentials.IsOwner(userId))
+        var userId = GetAuthenticatedUserId();
+        if (userId == null || !credentials.IsOwner(userId.Value))
         {
             return Forbid();
         }
@@ -119,12 +120,12 @@ public class PerformanceController : ControllerBase
     /// <summary>
     ///     Gets comprehensive performance overview including methods, events, and modules.
     /// </summary>
-    /// <param name="userId">The Discord user ID to verify for owner permissions.</param>
     /// <returns>A comprehensive performance overview.</returns>
     [HttpGet("overview")]
-    public IActionResult GetPerformanceOverview([FromQuery] ulong userId)
+    public IActionResult GetPerformanceOverview()
     {
-        if (!credentials.IsOwner(userId))
+        var userId = GetAuthenticatedUserId();
+        if (userId == null || !credentials.IsOwner(userId.Value))
         {
             return Forbid();
         }
@@ -180,12 +181,12 @@ public class PerformanceController : ControllerBase
     ///     Gets metrics for a specific event type.
     /// </summary>
     /// <param name="eventType">The event type to get metrics for.</param>
-    /// <param name="userId">The Discord user ID to verify for owner permissions.</param>
     /// <returns>Detailed metrics for the specified event type.</returns>
     [HttpGet("events/{eventType}")]
-    public IActionResult GetEventMetric(string eventType, [FromQuery] ulong userId)
+    public IActionResult GetEventMetric(string eventType)
     {
-        if (!credentials.IsOwner(userId))
+        var userId = GetAuthenticatedUserId();
+        if (userId == null || !credentials.IsOwner(userId.Value))
         {
             return Forbid();
         }
@@ -214,12 +215,12 @@ public class PerformanceController : ControllerBase
     ///     Gets metrics for a specific module.
     /// </summary>
     /// <param name="moduleName">The module name to get metrics for.</param>
-    /// <param name="userId">The Discord user ID to verify for owner permissions.</param>
     /// <returns>Detailed metrics for the specified module.</returns>
     [HttpGet("modules/{moduleName}")]
-    public IActionResult GetModuleMetric(string moduleName, [FromQuery] ulong userId)
+    public IActionResult GetModuleMetric(string moduleName)
     {
-        if (!credentials.IsOwner(userId))
+        var userId = GetAuthenticatedUserId();
+        if (userId == null || !credentials.IsOwner(userId.Value))
         {
             return Forbid();
         }
@@ -247,12 +248,12 @@ public class PerformanceController : ControllerBase
     /// <summary>
     ///     Clears all performance monitoring data.
     /// </summary>
-    /// <param name="userId">The Discord user ID to verify for owner permissions.</param>
     /// <returns>An action result indicating success or failure.</returns>
     [HttpPost("clear")]
-    public IActionResult ClearPerformanceData([FromQuery] ulong userId)
+    public IActionResult ClearPerformanceData()
     {
-        if (!credentials.IsOwner(userId))
+        var userId = GetAuthenticatedUserId();
+        if (userId == null || !credentials.IsOwner(userId.Value))
         {
             return Forbid();
         }
@@ -263,5 +264,29 @@ public class PerformanceController : ControllerBase
         {
             message = "Performance data cleared. Event metrics reset automatically every hour."
         });
+    }
+
+    /// <summary>
+    ///     Gets the authenticated user ID from either JWT or API key with dashboard header
+    /// </summary>
+    private ulong? GetAuthenticatedUserId()
+    {
+        // Check JWT authentication
+        var jwtUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (jwtUserId != null && ulong.TryParse(jwtUserId, out var parsedJwtUserId))
+        {
+            return parsedJwtUserId;
+        }
+
+        // Check dashboard proxy header (API key auth)
+        if (Request.Headers.TryGetValue("x-user-id", out var userIdHeader))
+        {
+            if (ulong.TryParse(userIdHeader.ToString(), out var parsedHeaderUserId))
+            {
+                return parsedHeaderUserId;
+            }
+        }
+
+        return null;
     }
 }

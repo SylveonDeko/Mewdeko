@@ -6,6 +6,7 @@ using LinqToDB.Async;
 using Mewdeko.Common.ModuleBehaviors;
 using Mewdeko.Modules.Administration.Common;
 using Mewdeko.Modules.Moderation.Services;
+using Mewdeko.Services.Strings;
 
 namespace Mewdeko.Modules.Administration.Services;
 
@@ -16,7 +17,9 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
 {
     private readonly ConcurrentDictionary<ulong, AntiAltStats> antiAltGuilds = new();
     private readonly ConcurrentDictionary<ulong, AntiMassMentionStats> antiMassMentionGuilds = new();
+    private readonly ConcurrentDictionary<ulong, AntiMassPostStats> antiMassPostGuilds = new();
     private readonly ConcurrentDictionary<ulong, AntiPatternStats> antiPatternGuilds = new();
+    private readonly ConcurrentDictionary<ulong, AntiPostChannelStats> antiPostChannelGuilds = new();
     private readonly ConcurrentDictionary<ulong, AntiRaidStats> antiRaidGuilds = new();
     private readonly ConcurrentDictionary<ulong, AntiSpamStats> antiSpamGuilds = new();
 
@@ -36,6 +39,8 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
             FullMode = BoundedChannelFullMode.DropOldest
         });
 
+    private readonly GeneratedBotStrings strings;
+
     /// <summary>
     ///     Constructs a new instance of the ProtectionService.
     /// </summary>
@@ -45,9 +50,10 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
     /// <param name="punishService">The user punish service.</param>
     /// <param name="eventHandler">The event handler.</param>
     /// <param name="logger">The logger instance for structured logging.</param>
+    /// <param name="strings">The localization strings service.</param>
     public ProtectionService(DiscordShardedClient client,
         MuteService mute, IDataConnectionFactory dbFactory, UserPunishService punishService, EventHandler eventHandler,
-        ILogger<ProtectionService> logger)
+        ILogger<ProtectionService> logger, GeneratedBotStrings strings)
     {
         this.client = client;
         this.mute = mute;
@@ -55,10 +61,13 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
         this.punishService = punishService;
         this.logger = logger;
         this.eventHandler = eventHandler;
+        this.strings = strings;
 
         eventHandler.Subscribe("MessageReceived", "ProtectionService", HandleAntiSpam);
         eventHandler.Subscribe("UserJoined", "ProtectionService", HandleUserJoined);
         eventHandler.Subscribe("MessageReceived", "ProtectionService", HandleAntiMassMention);
+        eventHandler.Subscribe("MessageReceived", "ProtectionService", HandleAntiMassPost);
+        eventHandler.Subscribe("MessageReceived", "ProtectionService", HandleAntiPostChannel);
 
         eventHandler.Subscribe("JoinedGuild", "ProtectionService", _bot_JoinedGuild);
         eventHandler.Subscribe("LeftGuild", "ProtectionService", _client_LeftGuild);
@@ -90,6 +99,8 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
         eventHandler.Unsubscribe("MessageReceived", "ProtectionService", HandleAntiSpam);
         eventHandler.Unsubscribe("UserJoined", "ProtectionService", HandleUserJoined);
         eventHandler.Unsubscribe("MessageReceived", "ProtectionService", HandleAntiMassMention);
+        eventHandler.Unsubscribe("MessageReceived", "ProtectionService", HandleAntiMassPost);
+        eventHandler.Unsubscribe("MessageReceived", "ProtectionService", HandleAntiPostChannel);
         eventHandler.Unsubscribe("JoinedGuild", "ProtectionService", _bot_JoinedGuild);
         eventHandler.Unsubscribe("LeftGuild", "ProtectionService", _client_LeftGuild);
         return Task.CompletedTask;
@@ -149,6 +160,8 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
         antiAltGuilds.TryRemove(guild.Id, out _);
         antiMassMentionGuilds.TryRemove(guild.Id, out _);
         antiPatternGuilds.TryRemove(guild.Id, out _);
+        antiMassPostGuilds.TryRemove(guild.Id, out _);
+        antiPostChannelGuilds.TryRemove(guild.Id, out _);
         return Task.CompletedTask;
     }
 
@@ -220,6 +233,50 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
             antiPatternGuilds[guildId] = new AntiPatternStats(pattern);
         }
         else antiPatternGuilds.TryRemove(guildId, out _);
+
+        // Load anti-mass-post settings
+        var massPost = await db.GetTable<AntiMassPostSetting>().FirstOrDefaultAsync(x => x.GuildId == guildId)
+            .ConfigureAwait(false);
+
+        if (massPost != null)
+        {
+            massPost.AntiMassPostIgnoredRoles = (await db.GetTable<AntiMassPostIgnoredRole>()
+                .Where(r => r.AntiMassPostSettingId == massPost.Id)
+                .ToListAsync().ConfigureAwait(false)).ToHashSet();
+            massPost.AntiMassPostIgnoredUsers = (await db.GetTable<AntiMassPostIgnoredUser>()
+                .Where(u => u.AntiMassPostSettingId == massPost.Id)
+                .ToListAsync().ConfigureAwait(false)).ToHashSet();
+            massPost.AntiMassPostIgnoredChannels = (await db.GetTable<AntiMassPostIgnoredChannel>()
+                .Where(c => c.AntiMassPostSettingId == massPost.Id)
+                .ToListAsync().ConfigureAwait(false)).ToHashSet();
+            massPost.AntiMassPostLinkWhitelists = (await db.GetTable<AntiMassPostLinkWhitelist>()
+                .Where(w => w.AntiMassPostSettingId == massPost.Id)
+                .ToListAsync().ConfigureAwait(false)).ToHashSet();
+            massPost.AntiMassPostLinkBlacklists = (await db.GetTable<AntiMassPostLinkBlacklist>()
+                .Where(b => b.AntiMassPostSettingId == massPost.Id)
+                .ToListAsync().ConfigureAwait(false)).ToHashSet();
+            antiMassPostGuilds[guildId] = new AntiMassPostStats(massPost);
+        }
+        else antiMassPostGuilds.TryRemove(guildId, out _);
+
+        // Load anti-post-channel settings
+        var postChannel = await db.GetTable<AntiPostChannelSetting>().FirstOrDefaultAsync(x => x.GuildId == guildId)
+            .ConfigureAwait(false);
+
+        if (postChannel != null)
+        {
+            postChannel.AntiPostChannelChannels = (await db.GetTable<AntiPostChannelChannel>()
+                .Where(c => c.AntiPostChannelSettingId == postChannel.Id)
+                .ToListAsync().ConfigureAwait(false)).ToHashSet();
+            postChannel.AntiPostChannelIgnoredRoles = (await db.GetTable<AntiPostChannelIgnoredRole>()
+                .Where(r => r.AntiPostChannelSettingId == postChannel.Id)
+                .ToListAsync().ConfigureAwait(false)).ToHashSet();
+            postChannel.AntiPostChannelIgnoredUsers = (await db.GetTable<AntiPostChannelIgnoredUser>()
+                .Where(u => u.AntiPostChannelSettingId == postChannel.Id)
+                .ToListAsync().ConfigureAwait(false)).ToHashSet();
+            antiPostChannelGuilds[guildId] = new AntiPostChannelStats(postChannel);
+        }
+        else antiPostChannelGuilds.TryRemove(guildId, out _);
     }
 
     /// <summary>
@@ -839,11 +896,12 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
     }
 
     /// <summary>
-    ///     Retrieves the anti-spam, anti-raid, anti-alt, anti-mass-mention, and anti-pattern statistics for a guild.
+    ///     Retrieves the anti-spam, anti-raid, anti-alt, anti-mass-mention, anti-pattern, anti-mass-post, and anti-post-channel statistics for a guild.
     /// </summary>
     /// <param name="guildId">The ID of the guild to retrieve the statistics for.</param>
-    /// <returns>A tuple containing the anti-spam, anti-raid, anti-alt, anti-mass-mention, and anti-pattern statistics for the guild.</returns>
-    public (AntiSpamStats?, AntiRaidStats?, AntiAltStats?, AntiMassMentionStats?, AntiPatternStats?)
+    /// <returns>A tuple containing all protection statistics for the guild.</returns>
+    public (AntiSpamStats?, AntiRaidStats?, AntiAltStats?, AntiMassMentionStats?, AntiPatternStats?, AntiMassPostStats?,
+        AntiPostChannelStats?)
         GetAntiStats(ulong guildId)
     {
         antiSpamGuilds.TryGetValue(guildId, out var antiSpamStats);
@@ -851,7 +909,10 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
         antiAltGuilds.TryGetValue(guildId, out var antiAltStats);
         antiMassMentionGuilds.TryGetValue(guildId, out var antiMassMentionStats);
         antiPatternGuilds.TryGetValue(guildId, out var antiPatternStats);
-        return (antiSpamStats, antiRaidStats, antiAltStats, antiMassMentionStats, antiPatternStats);
+        antiMassPostGuilds.TryGetValue(guildId, out var antiMassPostStats);
+        antiPostChannelGuilds.TryGetValue(guildId, out var antiPostChannelStats);
+        return (antiSpamStats, antiRaidStats, antiAltStats, antiMassMentionStats, antiPatternStats, antiMassPostStats,
+            antiPostChannelStats);
     }
 
     /// <summary>
@@ -1155,6 +1216,543 @@ public class ProtectionService : INService, IReadyExecutor, IUnloadableService
 
         return await db.GetTable<AntiPatternPattern>()
             .Where(p => p.AntiPatternSettingId == setting.Id)
+            .ToListAsync().ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Handles the anti-mass-post protection for detecting cross-channel spam.
+    /// </summary>
+    /// <param name="arg">The message that was received.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    private Task HandleAntiMassPost(IMessage arg)
+    {
+        if (arg is not SocketUserMessage msg || msg.Author.IsBot || msg.Author is not IGuildUser guildUser)
+            return Task.CompletedTask;
+
+        if (msg.Channel is not ITextChannel channel)
+            return Task.CompletedTask;
+
+        if (!antiMassPostGuilds.TryGetValue(channel.Guild.Id, out var massPostStats))
+            return Task.CompletedTask;
+
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                var settings = massPostStats.AntiMassPostSettings;
+
+                // Check if user has administrator permission
+                if (guildUser.GuildPermissions.Administrator)
+                    return;
+
+                // Check if user is ignored
+                if (settings.IgnoreBots && msg.Author.IsBot)
+                    return;
+
+                if (settings.AntiMassPostIgnoredUsers.Any(u => u.UserId == msg.Author.Id))
+                    return;
+
+                // Check if user has ignored role
+                if (settings.AntiMassPostIgnoredRoles.Any(r => guildUser.RoleIds.Contains(r.RoleId)))
+                    return;
+
+                // Check if channel is ignored
+                if (settings.AntiMassPostIgnoredChannels.Any(c => c.ChannelId == channel.Id))
+                    return;
+
+                // Extract content
+                var content = msg.Content;
+                if (string.IsNullOrWhiteSpace(content) || content.Length < settings.MinContentLength)
+                    return;
+
+                // Check links only mode
+                if (settings.CheckLinksOnly)
+                {
+                    if (!content.TryGetUrlPath(out _))
+                        return;
+
+                    // Extract domains
+                    var domains = ExtractDomains(content);
+
+                    // Check blacklist first
+                    if (settings.AntiMassPostLinkBlacklists.Any(b => domains.Contains(b.Domain.ToLower())))
+                    {
+                        await PunishMassPost(guildUser, massPostStats, msg).ConfigureAwait(false);
+                        return;
+                    }
+
+                    // Check whitelist
+                    if (settings.AntiMassPostLinkWhitelists.Any() &&
+                        domains.All(d => settings.AntiMassPostLinkWhitelists.Any(w => w.Domain.ToLower() == d)))
+                        return;
+                }
+
+                // Track message
+                var userStats = massPostStats.UserStats.GetOrAdd(msg.Author.Id,
+                    _ => new UserMassPostStats(settings.TimeWindowSeconds, settings.MaxMessagesTracked));
+
+                var triggeredMessageIds = userStats.AddMessage(
+                    channel.Id,
+                    content,
+                    settings.ChannelThreshold,
+                    settings.ContentSimilarityThreshold,
+                    settings.RequireIdenticalContent,
+                    settings.CaseSensitive);
+
+                if (triggeredMessageIds != null)
+                {
+                    await PunishMassPost(guildUser, massPostStats, msg).ConfigureAwait(false);
+
+                    // Clean up tracked messages
+                    if (massPostStats.UserStats.TryRemove(msg.Author.Id, out var removedStats))
+                        removedStats.Dispose();
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "Error processing anti-mass-post for user {UserId}", msg.Author.Id);
+            }
+        });
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    ///     Extracts domains from a message content.
+    /// </summary>
+    private static HashSet<string> ExtractDomains(string content)
+    {
+        var domains = new HashSet<string>();
+        var urlRegex = new Regex(@"https?://(?:www\.)?([^/\s]+)", RegexOptions.IgnoreCase);
+        var matches = urlRegex.Matches(content);
+
+        foreach (Match match in matches)
+        {
+            if (match.Groups.Count > 1)
+            {
+                domains.Add(match.Groups[1].Value.ToLower());
+            }
+        }
+
+        return domains;
+    }
+
+    /// <summary>
+    ///     Punishes a user for mass posting and optionally deletes messages.
+    /// </summary>
+    private async Task PunishMassPost(IGuildUser user, AntiMassPostStats stats, IUserMessage triggerMessage)
+    {
+        stats.Increment();
+
+        if (stats.AntiMassPostSettings.DeleteMessages)
+        {
+            try
+            {
+                await triggerMessage.DeleteAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "Failed to delete message {MessageId}", triggerMessage.Id);
+            }
+        }
+
+        if (stats.AntiMassPostSettings.NotifyUser)
+        {
+            try
+            {
+                var dmChannel = await user.CreateDMChannelAsync().ConfigureAwait(false);
+                await dmChannel.SendMessageAsync(strings.MassPostDetectedDm(user.Guild.Id, user.Guild.Name))
+                    .ConfigureAwait(false);
+            }
+            catch
+            {
+                // DM failed, continue with punishment
+            }
+        }
+
+        await PunishUsers(stats.Action, ProtectionType.MassPosting, stats.PunishDuration, stats.RoleId, user)
+            .ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Handles the anti-post-channel protection for honeypot channels.
+    /// </summary>
+    /// <param name="arg">The message that was received.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    private Task HandleAntiPostChannel(IMessage arg)
+    {
+        if (arg is not SocketUserMessage msg || msg.Author.IsBot || msg.Author is not IGuildUser guildUser)
+            return Task.CompletedTask;
+
+        if (msg.Channel is not ITextChannel channel)
+            return Task.CompletedTask;
+
+        if (!antiPostChannelGuilds.TryGetValue(channel.Guild.Id, out var postChannelStats))
+            return Task.CompletedTask;
+
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                var settings = postChannelStats.AntiPostChannelSettings;
+
+                // Check if this channel is a honeypot
+                if (!settings.AntiPostChannelChannels.Any(c => c.ChannelId == channel.Id))
+                    return;
+
+                // Check if user has administrator permission
+                if (guildUser.GuildPermissions.Administrator)
+                    return;
+
+                // Check if user is ignored
+                if (settings.IgnoreBots && msg.Author.IsBot)
+                    return;
+
+                if (settings.AntiPostChannelIgnoredUsers.Any(u => u.UserId == msg.Author.Id))
+                    return;
+
+                // Check if user has ignored role
+                if (settings.AntiPostChannelIgnoredRoles.Any(r => guildUser.RoleIds.Contains(r.RoleId)))
+                    return;
+
+                // User posted in honeypot channel - punish them
+                postChannelStats.Increment();
+
+                if (settings.DeleteMessages)
+                {
+                    try
+                    {
+                        await msg.DeleteAsync().ConfigureAwait(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogWarning(ex, "Failed to delete message {MessageId}", msg.Id);
+                    }
+                }
+
+                if (settings.NotifyUser)
+                {
+                    try
+                    {
+                        var dmChannel = await guildUser.CreateDMChannelAsync().ConfigureAwait(false);
+                        await dmChannel
+                            .SendMessageAsync(strings.PostChannelDetectedDm(guildUser.Guild.Id, guildUser.Guild.Name))
+                            .ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                        // DM failed, continue with punishment
+                    }
+                }
+
+                await PunishUsers(settings.Action, ProtectionType.PostChannelBan, settings.PunishDuration,
+                        settings.RoleId, guildUser)
+                    .ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning(ex, "Error processing anti-post-channel for user {UserId}", msg.Author.Id);
+            }
+        });
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    ///     Starts the anti-mass-post protection for a guild.
+    /// </summary>
+    public async Task<AntiMassPostStats?> StartAntiMassPostAsync(ulong guildId, int channelThreshold,
+        int timeWindowSeconds,
+        double contentSimilarityThreshold, int minContentLength, bool checkLinksOnly, bool checkDuplicateContent,
+        bool requireIdenticalContent, bool caseSensitive, bool deleteMessages, bool notifyUser, PunishmentAction action,
+        int punishDuration, ulong? roleId, bool ignoreBots, int maxMessagesTracked)
+    {
+        if (!IsDurationAllowed(action)) punishDuration = 0;
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var settings = await db.GetTable<AntiMassPostSetting>().FirstOrDefaultAsync(x => x.GuildId == guildId)
+            .ConfigureAwait(false);
+        var isNew = settings == null;
+        settings ??= new AntiMassPostSetting
+        {
+            GuildId = guildId, DateAdded = DateTime.UtcNow
+        };
+
+        settings.Action = (int)action;
+        settings.ChannelThreshold = channelThreshold;
+        settings.TimeWindowSeconds = timeWindowSeconds;
+        settings.ContentSimilarityThreshold = contentSimilarityThreshold;
+        settings.MinContentLength = minContentLength;
+        settings.CheckLinksOnly = checkLinksOnly;
+        settings.CheckDuplicateContent = checkDuplicateContent;
+        settings.RequireIdenticalContent = requireIdenticalContent;
+        settings.CaseSensitive = caseSensitive;
+        settings.DeleteMessages = deleteMessages;
+        settings.NotifyUser = notifyUser;
+        settings.PunishDuration = punishDuration;
+        settings.RoleId = roleId;
+        settings.IgnoreBots = ignoreBots;
+        settings.MaxMessagesTracked = maxMessagesTracked;
+
+        if (isNew)
+            await db.InsertAsync(settings).ConfigureAwait(false);
+        else
+            await db.UpdateAsync(settings).ConfigureAwait(false);
+
+        await Initialize(guildId);
+        return antiMassPostGuilds.GetValueOrDefault(guildId);
+    }
+
+    /// <summary>
+    ///     Stops the anti-mass-post protection for a guild.
+    /// </summary>
+    public async Task<bool> TryStopAntiMassPost(ulong guildId)
+    {
+        var removed = antiMassPostGuilds.TryRemove(guildId, out var removedStats);
+        if (removed) removedStats.UserStats.ForEach(x => x.Value.Dispose());
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var deletedCount = await db.GetTable<AntiMassPostSetting>()
+            .Where(x => x.GuildId == guildId)
+            .DeleteAsync().ConfigureAwait(false);
+
+        return removed || deletedCount > 0;
+    }
+
+    /// <summary>
+    ///     Starts the anti-post-channel protection for a guild.
+    /// </summary>
+    public async Task<AntiPostChannelStats?> StartAntiPostChannelAsync(ulong guildId, PunishmentAction action,
+        int punishDuration, ulong? roleId, bool deleteMessages, bool notifyUser, bool ignoreBots)
+    {
+        if (!IsDurationAllowed(action)) punishDuration = 0;
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var settings = await db.GetTable<AntiPostChannelSetting>().FirstOrDefaultAsync(x => x.GuildId == guildId)
+            .ConfigureAwait(false);
+        var isNew = settings == null;
+        settings ??= new AntiPostChannelSetting
+        {
+            GuildId = guildId, DateAdded = DateTime.UtcNow
+        };
+
+        settings.Action = (int)action;
+        settings.PunishDuration = punishDuration;
+        settings.RoleId = roleId;
+        settings.DeleteMessages = deleteMessages;
+        settings.NotifyUser = notifyUser;
+        settings.IgnoreBots = ignoreBots;
+
+        if (isNew)
+            await db.InsertAsync(settings).ConfigureAwait(false);
+        else
+            await db.UpdateAsync(settings).ConfigureAwait(false);
+
+        await Initialize(guildId);
+        return antiPostChannelGuilds.GetValueOrDefault(guildId);
+    }
+
+    /// <summary>
+    ///     Stops the anti-post-channel protection for a guild.
+    /// </summary>
+    public async Task<bool> TryStopAntiPostChannel(ulong guildId)
+    {
+        var removed = antiPostChannelGuilds.TryRemove(guildId, out _);
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var deletedCount = await db.GetTable<AntiPostChannelSetting>()
+            .Where(x => x.GuildId == guildId)
+            .DeleteAsync().ConfigureAwait(false);
+
+        return removed || deletedCount > 0;
+    }
+
+    /// <summary>
+    ///     Adds a honeypot channel to the anti-post-channel protection.
+    /// </summary>
+    public async Task<bool> AddAntiPostChannelAsync(ulong guildId, ulong channelId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var setting = await db.GetTable<AntiPostChannelSetting>().FirstOrDefaultAsync(x => x.GuildId == guildId)
+            .ConfigureAwait(false);
+
+        if (setting == null) return false;
+
+        var exists = await db.GetTable<AntiPostChannelChannel>()
+            .AnyAsync(c => c.AntiPostChannelSettingId == setting.Id && c.ChannelId == channelId)
+            .ConfigureAwait(false);
+
+        if (exists) return false;
+
+        await db.InsertAsync(new AntiPostChannelChannel
+        {
+            AntiPostChannelSettingId = setting.Id, ChannelId = channelId, DateAdded = DateTime.UtcNow
+        }).ConfigureAwait(false);
+
+        await Initialize(guildId);
+        return true;
+    }
+
+    /// <summary>
+    ///     Removes a honeypot channel from the anti-post-channel protection.
+    /// </summary>
+    public async Task<bool> RemoveAntiPostChannelAsync(ulong guildId, ulong channelId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var setting = await db.GetTable<AntiPostChannelSetting>().FirstOrDefaultAsync(x => x.GuildId == guildId)
+            .ConfigureAwait(false);
+
+        if (setting == null) return false;
+
+        var deleted = await db.GetTable<AntiPostChannelChannel>()
+            .Where(c => c.AntiPostChannelSettingId == setting.Id && c.ChannelId == channelId)
+            .DeleteAsync().ConfigureAwait(false);
+
+        if (deleted > 0)
+        {
+            await Initialize(guildId);
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    ///     Toggles an ignored role for anti-post-channel protection.
+    /// </summary>
+    public async Task<bool> ToggleAntiPostChannelIgnoredRoleAsync(ulong guildId, ulong roleId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var setting = await db.GetTable<AntiPostChannelSetting>().FirstOrDefaultAsync(x => x.GuildId == guildId)
+            .ConfigureAwait(false);
+
+        if (setting == null) return false;
+
+        var exists = await db.GetTable<AntiPostChannelIgnoredRole>()
+            .AnyAsync(r => r.AntiPostChannelSettingId == setting.Id && r.RoleId == roleId)
+            .ConfigureAwait(false);
+
+        if (exists)
+        {
+            await db.GetTable<AntiPostChannelIgnoredRole>()
+                .Where(r => r.AntiPostChannelSettingId == setting.Id && r.RoleId == roleId)
+                .DeleteAsync().ConfigureAwait(false);
+        }
+        else
+        {
+            await db.InsertAsync(new AntiPostChannelIgnoredRole
+            {
+                AntiPostChannelSettingId = setting.Id, RoleId = roleId, DateAdded = DateTime.UtcNow
+            }).ConfigureAwait(false);
+        }
+
+        await Initialize(guildId);
+        return !exists; // Return true if added, false if removed
+    }
+
+    /// <summary>
+    ///     Toggles an ignored user for anti-post-channel protection.
+    /// </summary>
+    public async Task<bool> ToggleAntiPostChannelIgnoredUserAsync(ulong guildId, ulong userId)
+    {
+        await using var db = await dbFactory.CreateConnectionAsync();
+
+        var setting = await db.GetTable<AntiPostChannelSetting>().FirstOrDefaultAsync(x => x.GuildId == guildId)
+            .ConfigureAwait(false);
+
+        if (setting == null) return false;
+
+        var exists = await db.GetTable<AntiPostChannelIgnoredUser>()
+            .AnyAsync(u => u.AntiPostChannelSettingId == setting.Id && u.UserId == userId)
+            .ConfigureAwait(false);
+
+        if (exists)
+        {
+            await db.GetTable<AntiPostChannelIgnoredUser>()
+                .Where(u => u.AntiPostChannelSettingId == setting.Id && u.UserId == userId)
+                .DeleteAsync().ConfigureAwait(false);
+        }
+        else
+        {
+            await db.InsertAsync(new AntiPostChannelIgnoredUser
+            {
+                AntiPostChannelSettingId = setting.Id, UserId = userId, DateAdded = DateTime.UtcNow
+            }).ConfigureAwait(false);
+        }
+
+        await Initialize(guildId);
+        return !exists; // Return true if added, false if removed
+    }
+
+    /// <summary>
+    ///     Gets list of honeypot channel IDs.
+    /// </summary>
+    public async Task<List<ulong>> GetAntiPostChannelChannelsAsync(ulong guildId)
+    {
+        if (antiPostChannelGuilds.TryGetValue(guildId, out var stats))
+        {
+            return stats.AntiPostChannelSettings.AntiPostChannelChannels?.Select(c => c.ChannelId).ToList() ??
+                   new List<ulong>();
+        }
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var setting = await db.GetTable<AntiPostChannelSetting>().FirstOrDefaultAsync(x => x.GuildId == guildId)
+            .ConfigureAwait(false);
+
+        if (setting == null) return new List<ulong>();
+
+        return await db.GetTable<AntiPostChannelChannel>()
+            .Where(c => c.AntiPostChannelSettingId == setting.Id)
+            .Select(c => c.ChannelId)
+            .ToListAsync().ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Gets list of ignored role IDs for anti-post-channel.
+    /// </summary>
+    public async Task<List<ulong>> GetAntiPostChannelIgnoredRolesAsync(ulong guildId)
+    {
+        if (antiPostChannelGuilds.TryGetValue(guildId, out var stats))
+        {
+            return stats.AntiPostChannelSettings.AntiPostChannelIgnoredRoles?.Select(r => r.RoleId).ToList() ??
+                   new List<ulong>();
+        }
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var setting = await db.GetTable<AntiPostChannelSetting>().FirstOrDefaultAsync(x => x.GuildId == guildId)
+            .ConfigureAwait(false);
+
+        if (setting == null) return new List<ulong>();
+
+        return await db.GetTable<AntiPostChannelIgnoredRole>()
+            .Where(r => r.AntiPostChannelSettingId == setting.Id)
+            .Select(r => r.RoleId)
+            .ToListAsync().ConfigureAwait(false);
+    }
+
+    /// <summary>
+    ///     Gets list of ignored user IDs for anti-post-channel.
+    /// </summary>
+    public async Task<List<ulong>> GetAntiPostChannelIgnoredUsersAsync(ulong guildId)
+    {
+        if (antiPostChannelGuilds.TryGetValue(guildId, out var stats))
+        {
+            return stats.AntiPostChannelSettings.AntiPostChannelIgnoredUsers?.Select(u => u.UserId).ToList() ??
+                   new List<ulong>();
+        }
+
+        await using var db = await dbFactory.CreateConnectionAsync();
+        var setting = await db.GetTable<AntiPostChannelSetting>().FirstOrDefaultAsync(x => x.GuildId == guildId)
+            .ConfigureAwait(false);
+
+        if (setting == null) return new List<ulong>();
+
+        return await db.GetTable<AntiPostChannelIgnoredUser>()
+            .Where(u => u.AntiPostChannelSettingId == setting.Id)
+            .Select(u => u.UserId)
             .ToListAsync().ConfigureAwait(false);
     }
 }

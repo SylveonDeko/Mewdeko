@@ -21,7 +21,8 @@ public class ProtectionController(ProtectionService protectionService) : Control
     {
         await Task.CompletedTask;
 
-        var (antiSpamStats, antiRaidStats, antiAltStats, antiMassMentionStats, antiPatternStats) =
+        var (antiSpamStats, antiRaidStats, antiAltStats, antiMassMentionStats, antiPatternStats, antiMassPostStats,
+                antiPostChannelStats) =
             protectionService.GetAntiStats(guildId);
 
         return Ok(new
@@ -84,6 +85,39 @@ public class ProtectionController(ProtectionService protectionService) : Control
                 minimumScore = antiPatternStats?.AntiPatternSettings?.MinimumScore ?? 15,
                 patternCount = antiPatternStats?.AntiPatternSettings?.AntiPatternPatterns?.Count() ?? 0,
                 counter = antiPatternStats?.Counter ?? 0
+            },
+            antiMassPost = new
+            {
+                enabled = antiMassPostStats != null,
+                action = antiMassPostStats?.AntiMassPostSettings?.Action ?? 0,
+                channelThreshold = antiMassPostStats?.AntiMassPostSettings?.ChannelThreshold ?? 3,
+                timeWindowSeconds = antiMassPostStats?.AntiMassPostSettings?.TimeWindowSeconds ?? 60,
+                contentSimilarityThreshold = antiMassPostStats?.AntiMassPostSettings?.ContentSimilarityThreshold ?? 0.8,
+                minContentLength = antiMassPostStats?.AntiMassPostSettings?.MinContentLength ?? 20,
+                checkLinksOnly = antiMassPostStats?.AntiMassPostSettings?.CheckLinksOnly ?? true,
+                checkDuplicateContent = antiMassPostStats?.AntiMassPostSettings?.CheckDuplicateContent ?? true,
+                requireIdenticalContent = antiMassPostStats?.AntiMassPostSettings?.RequireIdenticalContent ?? false,
+                caseSensitive = antiMassPostStats?.AntiMassPostSettings?.CaseSensitive ?? false,
+                deleteMessages = antiMassPostStats?.AntiMassPostSettings?.DeleteMessages ?? true,
+                notifyUser = antiMassPostStats?.AntiMassPostSettings?.NotifyUser ?? true,
+                punishDuration = antiMassPostStats?.AntiMassPostSettings?.PunishDuration ?? 0,
+                roleId = antiMassPostStats?.AntiMassPostSettings?.RoleId ?? 0,
+                ignoreBots = antiMassPostStats?.AntiMassPostSettings?.IgnoreBots ?? true,
+                maxMessagesTracked = antiMassPostStats?.AntiMassPostSettings?.MaxMessagesTracked ?? 50,
+                userCount = antiMassPostStats?.UserStats?.Count ?? 0,
+                counter = antiMassPostStats?.Counter ?? 0
+            },
+            antiPostChannel = new
+            {
+                enabled = antiPostChannelStats != null,
+                action = antiPostChannelStats?.AntiPostChannelSettings?.Action ?? 0,
+                deleteMessages = antiPostChannelStats?.AntiPostChannelSettings?.DeleteMessages ?? true,
+                notifyUser = antiPostChannelStats?.AntiPostChannelSettings?.NotifyUser ?? true,
+                punishDuration = antiPostChannelStats?.AntiPostChannelSettings?.PunishDuration ?? 0,
+                roleId = antiPostChannelStats?.AntiPostChannelSettings?.RoleId ?? 0,
+                ignoreBots = antiPostChannelStats?.AntiPostChannelSettings?.IgnoreBots ?? true,
+                channelCount = antiPostChannelStats?.AntiPostChannelSettings?.AntiPostChannelChannels?.Count() ?? 0,
+                counter = antiPostChannelStats?.Counter ?? 0
             }
         });
     }
@@ -238,7 +272,8 @@ public class ProtectionController(ProtectionService protectionService) : Control
     {
         await Task.CompletedTask;
 
-        var (antiSpamStats, antiRaidStats, antiAltStats, antiMassMentionStats, antiPatternStats) =
+        var (antiSpamStats, antiRaidStats, antiAltStats, antiMassMentionStats, antiPatternStats, antiMassPostStats,
+                antiPostChannelStats) =
             protectionService.GetAntiStats(guildId);
 
         return Ok(new
@@ -269,6 +304,16 @@ public class ProtectionController(ProtectionService protectionService) : Control
             antiPattern = new
             {
                 enabled = antiPatternStats != null, counter = antiPatternStats?.Counter ?? 0
+            },
+            antiMassPost = new
+            {
+                enabled = antiMassPostStats != null,
+                userCount = antiMassPostStats?.UserStats?.Count ?? 0,
+                counter = antiMassPostStats?.Counter ?? 0
+            },
+            antiPostChannel = new
+            {
+                enabled = antiPostChannelStats != null, counter = antiPostChannelStats?.Counter ?? 0
             }
         });
     }

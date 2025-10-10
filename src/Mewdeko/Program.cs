@@ -1,4 +1,5 @@
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -119,7 +120,6 @@ public class Program
             {
                 builder.WebHost.UseSentry(o =>
                 {
-                    o.Debug = true;
                     o.Dsn = credentials.SentryDsn;
                     o.TracesSampleRate = 1.0;
                     o.AttachStacktrace = true;
@@ -132,7 +132,8 @@ public class Program
             builder.Services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
             ConfigureServices(builder.Services, credentials, Cache, serverCount.GetValueOrDefault());
 
-            builder.WebHost.UseUrls($"http://localhost:{credentials.ApiPort}");
+            // Listen on all interfaces (0.0.0.0) to allow mobile app access
+            builder.WebHost.UseUrls($"http://0.0.0.0:{credentials.ApiPort}");
             builder.Services.Configure<RouteOptions>(options =>
             {
                 options.ConstraintMap["ulong"] = typeof(UlongRouteConstraint);
@@ -196,8 +197,40 @@ public class Program
                 options.AddPolicy("BotInstancePolicy", policy =>
                 {
                     policy
-                        .WithOrigins($"http://localhost:{credentials.ApiPort}",
-                            $"https://localhost:{credentials.ApiPort}", "https://mewdeko.tech")
+                        .SetIsOriginAllowed(origin =>
+                        {
+                            // Allow localhost, 127.0.0.1, 10.0.2.2 (emulator), and any local network IP
+                            if (string.IsNullOrEmpty(origin)) return false;
+
+                            var uri = new Uri(origin);
+                            var host = uri.Host;
+
+                            // Allow specific domains
+                            if (host == "mewdeko.tech" || host == "api.mewdeko.tech" || host == "localhost" ||
+                                host == "127.0.0.1")
+                                return true;
+
+                            // Allow Android emulator special IP
+                            if (host == "10.0.2.2")
+                                return true;
+
+                            // Allow local network IPs (192.168.x.x, 10.x.x.x, 172.16-31.x.x)
+                            if (IPAddress.TryParse(host, out var ip))
+                            {
+                                var bytes = ip.GetAddressBytes();
+                                if (bytes.Length == 4) // IPv4
+                                {
+                                    // 192.168.x.x
+                                    if (bytes[0] == 192 && bytes[1] == 168) return true;
+                                    // 10.x.x.x
+                                    if (bytes[0] == 10) return true;
+                                    // 172.16.x.x - 172.31.x.x
+                                    if (bytes[0] == 172 && bytes[1] >= 16 && bytes[1] <= 31) return true;
+                                }
+                            }
+
+                            return false;
+                        })
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials();

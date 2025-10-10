@@ -89,6 +89,26 @@ public class BotCredentials : IBotCredentials
     public string ApiKey { get; set; } = "";
 
     /// <summary>
+    ///     Gets or sets the JWT secret key used for signing JWT tokens.
+    /// </summary>
+    public string JwtSecret { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the Discord OAuth2 Client ID (for mobile app authentication)
+    /// </summary>
+    public string DiscordClientId { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the Discord OAuth2 Client Secret (for mobile app authentication)
+    /// </summary>
+    public string DiscordClientSecret { get; set; } = "";
+
+    /// <summary>
+    ///     Gets or sets the Dashboard URL for mobile OAuth redirects
+    /// </summary>
+    public string DashboardUrl { get; set; } = "";
+
+    /// <summary>
     ///     Gets or sets the Turnstile key used for captcha verification.
     /// </summary>
     public string TurnstileKey { get; set; } = "";
@@ -458,6 +478,10 @@ public class BotCredentials : IBotCredentials
             PsqlConnectionString = data[nameof(PsqlConnectionString)];
             CsrfToken = data[nameof(CsrfToken)];
             ApiKey = data[nameof(ApiKey)];
+            JwtSecret = data[nameof(JwtSecret)];
+            DiscordClientId = data[nameof(DiscordClientId)];
+            DiscordClientSecret = data[nameof(DiscordClientSecret)];
+            DashboardUrl = data[nameof(DashboardUrl)];
             UserAgent = data[nameof(UserAgent)];
             CfClearance = data[nameof(CfClearance)];
             ApiPort = int.TryParse(data[nameof(ApiPort)], out var port) ? port : 5001;
@@ -610,6 +634,10 @@ public class BotCredentials : IBotCredentials
             "Server=ServerIp;Database=DatabaseName;Port=PsqlPort;UID=PsqlUser;Password=UserPassword";
 
         public string ApiKey { get; set; } = StringExtensions.GenerateSecureString(90);
+        public string JwtSecret { get; set; } = StringExtensions.GenerateSecureString(64);
+        public string DiscordClientId { get; set; } = "";
+        public string DiscordClientSecret { get; set; } = "";
+        public string DashboardUrl { get; set; } = "https://mewdeko.tech";
         public ulong DebugGuildId { get; set; } = 843489716674494475;
         public ulong GuildJoinsChannelId { get; set; } = 892789588739891250;
         public ulong PronounAbuseReportChannelId { get; set; } = 970086914826858547;

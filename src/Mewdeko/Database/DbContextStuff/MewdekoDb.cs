@@ -152,6 +152,116 @@ public class MewdekoDb : DataConnection
     public ITable<AntiMassMentionSetting> AntiMassMentionSettings => this.GetTable<AntiMassMentionSetting>();
 
     /// <summary>
+    ///     Gets the anti-mass-post settings table.
+    /// </summary>
+    public ITable<AntiMassPostSetting> AntiMassPostSettings
+    {
+        get
+        {
+            return this.GetTable<AntiMassPostSetting>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the anti-mass-post ignored roles table.
+    /// </summary>
+    public ITable<AntiMassPostIgnoredRole> AntiMassPostIgnoredRoles
+    {
+        get
+        {
+            return this.GetTable<AntiMassPostIgnoredRole>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the anti-mass-post ignored users table.
+    /// </summary>
+    public ITable<AntiMassPostIgnoredUser> AntiMassPostIgnoredUsers
+    {
+        get
+        {
+            return this.GetTable<AntiMassPostIgnoredUser>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the anti-mass-post ignored channels table.
+    /// </summary>
+    public ITable<AntiMassPostIgnoredChannel> AntiMassPostIgnoredChannels
+    {
+        get
+        {
+            return this.GetTable<AntiMassPostIgnoredChannel>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the anti-mass-post link whitelist table.
+    /// </summary>
+    public ITable<AntiMassPostLinkWhitelist> AntiMassPostLinkWhitelists
+    {
+        get
+        {
+            return this.GetTable<AntiMassPostLinkWhitelist>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the anti-mass-post link blacklist table.
+    /// </summary>
+    public ITable<AntiMassPostLinkBlacklist> AntiMassPostLinkBlacklists
+    {
+        get
+        {
+            return this.GetTable<AntiMassPostLinkBlacklist>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the anti-post-channel settings table.
+    /// </summary>
+    public ITable<AntiPostChannelSetting> AntiPostChannelSettings
+    {
+        get
+        {
+            return this.GetTable<AntiPostChannelSetting>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the anti-post-channel channels table.
+    /// </summary>
+    public ITable<AntiPostChannelChannel> AntiPostChannelChannels
+    {
+        get
+        {
+            return this.GetTable<AntiPostChannelChannel>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the anti-post-channel ignored roles table.
+    /// </summary>
+    public ITable<AntiPostChannelIgnoredRole> AntiPostChannelIgnoredRoles
+    {
+        get
+        {
+            return this.GetTable<AntiPostChannelIgnoredRole>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the anti-post-channel ignored users table.
+    /// </summary>
+    public ITable<AntiPostChannelIgnoredUser> AntiPostChannelIgnoredUsers
+    {
+        get
+        {
+            return this.GetTable<AntiPostChannelIgnoredUser>();
+        }
+    }
+
+    /// <summary>
     ///     Gets the anti-raid settings table.
     /// </summary>
     public ITable<AntiRaidSetting> AntiRaidSettings => this.GetTable<AntiRaidSetting>();
@@ -1117,6 +1227,83 @@ public class MewdekoDb : DataConnection
         get
         {
             return this.GetTable<CountingModerationPunishments>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the forms table.
+    /// </summary>
+    public ITable<Form> Forms
+    {
+        get
+        {
+            return this.GetTable<Form>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the form questions table.
+    /// </summary>
+    public ITable<FormQuestion> FormQuestions
+    {
+        get
+        {
+            return this.GetTable<FormQuestion>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the form question options table.
+    /// </summary>
+    public ITable<FormQuestionOption> FormQuestionOptions
+    {
+        get
+        {
+            return this.GetTable<FormQuestionOption>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the form responses table.
+    /// </summary>
+    public ITable<FormResponse> FormResponses
+    {
+        get
+        {
+            return this.GetTable<FormResponse>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the form answers table.
+    /// </summary>
+    public ITable<FormAnswer> FormAnswers
+    {
+        get
+        {
+            return this.GetTable<FormAnswer>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the form share links table.
+    /// </summary>
+    public ITable<FormShareLink> FormShareLinks
+    {
+        get
+        {
+            return this.GetTable<FormShareLink>();
+        }
+    }
+
+    /// <summary>
+    ///     Gets the form response workflows table.
+    /// </summary>
+    public ITable<FormResponseWorkflow> FormResponseWorkflows
+    {
+        get
+        {
+            return this.GetTable<FormResponseWorkflow>();
         }
     }
 }

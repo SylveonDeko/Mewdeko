@@ -664,6 +664,14 @@ public class PatreonService : BackgroundService, INService, IReadyExecutor
             {
                 var existingTier =
                     await uow.PatreonTiers.FirstOrDefaultAsync(x => x.GuildId == guildId && x.TierId == apiTier.Id);
+                // Parse Discord role ID from the API (takes first role if multiple are configured)
+                var discordRoleId = apiTier.Attributes.DiscordRoleIds?.FirstOrDefault();
+                var parsedRoleId = 0ul;
+                if (discordRoleId != null && ulong.TryParse(discordRoleId, out var roleId))
+                {
+                    parsedRoleId = roleId;
+                }
+
                 if (existingTier == null)
                 {
                     await uow.InsertAsync(new PatreonTier
@@ -672,6 +680,7 @@ public class PatreonService : BackgroundService, INService, IReadyExecutor
                         TierId = apiTier.Id,
                         TierTitle = apiTier.Attributes.Title ?? "Untitled Tier",
                         AmountCents = apiTier.Attributes.AmountCents ?? 0,
+                        DiscordRoleId = parsedRoleId,
                         Description = apiTier.Attributes.Description,
                         IsActive = apiTier.Attributes.Published ?? false,
                         DateAdded = DateTime.UtcNow
@@ -684,6 +693,7 @@ public class PatreonService : BackgroundService, INService, IReadyExecutor
                         {
                             TierTitle = apiTier.Attributes.Title ?? existingTier.TierTitle,
                             AmountCents = apiTier.Attributes.AmountCents ?? existingTier.AmountCents,
+                            DiscordRoleId = parsedRoleId,
                             Description = apiTier.Attributes.Description ?? existingTier.Description,
                             IsActive = apiTier.Attributes.Published ?? existingTier.IsActive,
                             DateAdded = DateTime.UtcNow

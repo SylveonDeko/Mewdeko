@@ -109,7 +109,8 @@ public class AdministrationController(
         await Task.CompletedTask;
 
         // Get protection stats using the GetAntiStats method
-        var (antiSpamStats, antiRaidStats, antiAltStats, antiMassMentionStats, antiPatternStats) =
+        var (antiSpamStats, antiRaidStats, antiAltStats, antiMassMentionStats, antiPatternStats, antiMassPostStats,
+                antiPostChannelStats) =
             protectionService.GetAntiStats(guildId);
 
         return Ok(new
@@ -170,6 +171,48 @@ public class AdministrationController(
                 minimumScore = antiPatternStats?.AntiPatternSettings.MinimumScore ?? 15,
                 patternCount = antiPatternStats?.AntiPatternSettings.AntiPatternPatterns?.Count() ?? 0,
                 counter = antiPatternStats?.Counter ?? 0
+            },
+            antiMassPost = new
+            {
+                enabled = antiMassPostStats != null,
+                action = antiMassPostStats?.AntiMassPostSettings.Action ?? 0,
+                channelThreshold = antiMassPostStats?.AntiMassPostSettings.ChannelThreshold ?? 3,
+                timeWindowSeconds = antiMassPostStats?.AntiMassPostSettings.TimeWindowSeconds ?? 60,
+                contentSimilarityThreshold = antiMassPostStats?.AntiMassPostSettings.ContentSimilarityThreshold ?? 0.8,
+                minContentLength = antiMassPostStats?.AntiMassPostSettings.MinContentLength ?? 20,
+                checkLinksOnly = antiMassPostStats?.AntiMassPostSettings.CheckLinksOnly ?? true,
+                checkDuplicateContent = antiMassPostStats?.AntiMassPostSettings.CheckDuplicateContent ?? true,
+                requireIdenticalContent = antiMassPostStats?.AntiMassPostSettings.RequireIdenticalContent ?? false,
+                caseSensitive = antiMassPostStats?.AntiMassPostSettings.CaseSensitive ?? false,
+                deleteMessages = antiMassPostStats?.AntiMassPostSettings.DeleteMessages ?? true,
+                notifyUser = antiMassPostStats?.AntiMassPostSettings.NotifyUser ?? true,
+                punishDuration = antiMassPostStats?.AntiMassPostSettings.PunishDuration ?? 0,
+                roleId = antiMassPostStats?.AntiMassPostSettings.RoleId ?? 0,
+                ignoreBots = antiMassPostStats?.AntiMassPostSettings.IgnoreBots ?? true,
+                maxMessagesTracked = antiMassPostStats?.AntiMassPostSettings.MaxMessagesTracked ?? 50,
+                userCount = antiMassPostStats?.UserStats.Count ?? 0,
+                counter = antiMassPostStats?.Counter ?? 0
+            },
+            antiPostChannel = new
+            {
+                enabled = antiPostChannelStats != null,
+                action = antiPostChannelStats?.AntiPostChannelSettings.Action ?? 0,
+                deleteMessages = antiPostChannelStats?.AntiPostChannelSettings.DeleteMessages ?? true,
+                notifyUser = antiPostChannelStats?.AntiPostChannelSettings.NotifyUser ?? true,
+                punishDuration = antiPostChannelStats?.AntiPostChannelSettings.PunishDuration ?? 0,
+                roleId = antiPostChannelStats?.AntiPostChannelSettings.RoleId ?? 0,
+                ignoreBots = antiPostChannelStats?.AntiPostChannelSettings.IgnoreBots ?? true,
+                channelCount = antiPostChannelStats?.AntiPostChannelSettings.AntiPostChannelChannels?.Count() ?? 0,
+                channels =
+                    antiPostChannelStats?.AntiPostChannelSettings.AntiPostChannelChannels?.Select(c => c.ChannelId)
+                        .ToList() ?? new List<ulong>(),
+                ignoredRoles =
+                    antiPostChannelStats?.AntiPostChannelSettings.AntiPostChannelIgnoredRoles?.Select(r => r.RoleId)
+                        .ToList() ?? new List<ulong>(),
+                ignoredUsers =
+                    antiPostChannelStats?.AntiPostChannelSettings.AntiPostChannelIgnoredUsers?.Select(u => u.UserId)
+                        .ToList() ?? new List<ulong>(),
+                counter = antiPostChannelStats?.Counter ?? 0
             }
         });
     }
@@ -367,13 +410,190 @@ public class AdministrationController(
     }
 
     /// <summary>
+    ///     Configures anti-mass-post protection
+    /// </summary>
+    [HttpPut("protection/anti-mass-post")]
+    public async Task<IActionResult> ConfigureAntiMassPost(ulong guildId, [FromBody] AntiMassPostConfigRequest? request)
+    {
+        if (request == null)
+            return BadRequest("Invalid request data");
+
+        if (request.Enabled)
+        {
+            if (request.ChannelThreshold is < 2 or > 20)
+                return BadRequest("Channel threshold must be between 2 and 20");
+
+            if (request.TimeWindowSeconds is < 10 or > 600)
+                return BadRequest("Time window must be between 10 and 600 seconds");
+
+            if (request.PunishDuration is < 0 or > 1440)
+                return BadRequest("Punishment duration must be between 0 and 1440 minutes");
+
+            var result = await protectionService.StartAntiMassPostAsync(
+                guildId,
+                request.ChannelThreshold,
+                request.TimeWindowSeconds,
+                request.ContentSimilarityThreshold,
+                request.MinContentLength,
+                request.CheckLinksOnly,
+                request.CheckDuplicateContent,
+                request.RequireIdenticalContent,
+                request.CaseSensitive,
+                request.DeleteMessages,
+                request.NotifyUser,
+                request.Action,
+                request.PunishDuration,
+                request.RoleId,
+                request.IgnoreBots,
+                request.MaxMessagesTracked);
+
+            if (result == null)
+                return BadRequest("Failed to start anti-mass-post protection");
+
+            return Ok(new
+            {
+                success = true
+            });
+        }
+
+        var success = await protectionService.TryStopAntiMassPost(guildId);
+        return Ok(new
+        {
+            success
+        });
+    }
+
+    /// <summary>
+    ///     Configures anti-post-channel protection
+    /// </summary>
+    [HttpPut("protection/anti-post-channel")]
+    public async Task<IActionResult> ConfigureAntiPostChannel(ulong guildId,
+        [FromBody] AntiPostChannelConfigRequest? request)
+    {
+        if (request == null)
+            return BadRequest("Invalid request data");
+
+        if (request.Enabled)
+        {
+            if (request.PunishDuration is < 0 or > 1440)
+                return BadRequest("Punishment duration must be between 0 and 1440 minutes");
+
+            var result = await protectionService.StartAntiPostChannelAsync(
+                guildId,
+                request.Action,
+                request.PunishDuration,
+                request.RoleId,
+                request.DeleteMessages,
+                request.NotifyUser,
+                request.IgnoreBots);
+
+            if (result == null)
+                return BadRequest("Failed to start anti-post-channel protection");
+
+            return Ok(new
+            {
+                success = true
+            });
+        }
+
+        var success = await protectionService.TryStopAntiPostChannel(guildId);
+        return Ok(new
+        {
+            success
+        });
+    }
+
+    /// <summary>
+    ///     Adds a honeypot channel to anti-post-channel protection
+    /// </summary>
+    [HttpPost("protection/anti-post-channel/channels/{channelId}")]
+    public async Task<IActionResult> AddAntiPostChannel(ulong guildId, ulong channelId)
+    {
+        var success = await protectionService.AddAntiPostChannelAsync(guildId, channelId);
+        return Ok(new
+        {
+            success
+        });
+    }
+
+    /// <summary>
+    ///     Removes a honeypot channel from anti-post-channel protection
+    /// </summary>
+    [HttpDelete("protection/anti-post-channel/channels/{channelId}")]
+    public async Task<IActionResult> RemoveAntiPostChannel(ulong guildId, ulong channelId)
+    {
+        var success = await protectionService.RemoveAntiPostChannelAsync(guildId, channelId);
+        return Ok(new
+        {
+            success
+        });
+    }
+
+    /// <summary>
+    ///     Gets list of honeypot channels
+    /// </summary>
+    [HttpGet("protection/anti-post-channel/channels")]
+    public async Task<IActionResult> GetAntiPostChannelChannels(ulong guildId)
+    {
+        var channels = await protectionService.GetAntiPostChannelChannelsAsync(guildId);
+        return Ok(channels);
+    }
+
+    /// <summary>
+    ///     Toggles an ignored role for anti-post-channel protection
+    /// </summary>
+    [HttpPost("protection/anti-post-channel/ignored-roles/{roleId}")]
+    public async Task<IActionResult> ToggleAntiPostChannelIgnoredRole(ulong guildId, ulong roleId)
+    {
+        var added = await protectionService.ToggleAntiPostChannelIgnoredRoleAsync(guildId, roleId);
+        return Ok(new
+        {
+            added
+        });
+    }
+
+    /// <summary>
+    ///     Gets list of ignored roles for anti-post-channel
+    /// </summary>
+    [HttpGet("protection/anti-post-channel/ignored-roles")]
+    public async Task<IActionResult> GetAntiPostChannelIgnoredRoles(ulong guildId)
+    {
+        var roles = await protectionService.GetAntiPostChannelIgnoredRolesAsync(guildId);
+        return Ok(roles);
+    }
+
+    /// <summary>
+    ///     Toggles an ignored user for anti-post-channel protection
+    /// </summary>
+    [HttpPost("protection/anti-post-channel/ignored-users/{userId}")]
+    public async Task<IActionResult> ToggleAntiPostChannelIgnoredUser(ulong guildId, ulong userId)
+    {
+        var added = await protectionService.ToggleAntiPostChannelIgnoredUserAsync(guildId, userId);
+        return Ok(new
+        {
+            added
+        });
+    }
+
+    /// <summary>
+    ///     Gets list of ignored users for anti-post-channel
+    /// </summary>
+    [HttpGet("protection/anti-post-channel/ignored-users")]
+    public async Task<IActionResult> GetAntiPostChannelIgnoredUsers(ulong guildId)
+    {
+        var users = await protectionService.GetAntiPostChannelIgnoredUsersAsync(guildId);
+        return Ok(users);
+    }
+
+    /// <summary>
     ///     Gets protection statistics
     /// </summary>
     [HttpGet("protection/statistics")]
     public async Task<IActionResult> GetProtectionStatistics(ulong guildId)
     {
         await Task.CompletedTask;
-        var (antiSpamStats, antiRaidStats, antiAltStats, antiMassMentionStats, _) =
+        var (antiSpamStats, antiRaidStats, antiAltStats, antiMassMentionStats, _, antiMassPostStats,
+                antiPostChannelStats) =
             protectionService.GetAntiStats(guildId);
 
         return Ok(new
@@ -399,6 +619,16 @@ public class AdministrationController(
             antiMassMention = new
             {
                 enabled = antiMassMentionStats != null, userCount = antiMassMentionStats?.UserStats.Count ?? 0
+            },
+            antiMassPost = new
+            {
+                enabled = antiMassPostStats != null,
+                userCount = antiMassPostStats?.UserStats.Count ?? 0,
+                counter = antiMassPostStats?.Counter ?? 0
+            },
+            antiPostChannel = new
+            {
+                enabled = antiPostChannelStats != null, counter = antiPostChannelStats?.Counter ?? 0
             }
         });
     }

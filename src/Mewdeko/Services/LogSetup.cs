@@ -120,7 +120,6 @@ public static class LogSetup
         {
             loggerConfiguration.WriteTo.Sentry(o =>
             {
-                o.Debug = true;
                 o.Dsn = sentryDsn;
                 o.MinimumBreadcrumbLevel = LogEventLevel.Debug;
                 o.MinimumEventLevel = LogEventLevel.Error;
