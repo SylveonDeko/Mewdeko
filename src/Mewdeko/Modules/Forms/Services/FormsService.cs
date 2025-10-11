@@ -985,7 +985,7 @@ public class FormsService : INService
         switch ((FormType)form.FormType)
         {
             case FormType.BanAppeal:
-                if (response.UserId.HasValue && await UnbanUserAsync(form, response.UserId.Value))
+                if (response.UserId.HasValue && await UnbanUserAsync(form, response.UserId.Value, reviewerId))
                 {
                     actionTaken = WorkflowAction.Unbanned;
                 }
@@ -1109,8 +1109,9 @@ public class FormsService : INService
     /// </summary>
     /// <param name="form">The form.</param>
     /// <param name="userId">The user ID to unban.</param>
+    /// <param name="reviewerId">The Discord user ID of the reviewer who approved the appeal.</param>
     /// <returns>True if successful.</returns>
-    private async Task<bool> UnbanUserAsync(Form form, ulong userId)
+    private async Task<bool> UnbanUserAsync(Form form, ulong userId, ulong reviewerId)
     {
         var guild = client.GetGuild(form.GuildId);
         if (guild == null)
@@ -1118,9 +1119,14 @@ public class FormsService : INService
 
         try
         {
-            await guild.RemoveBanAsync(userId);
-            logger.LogInformation("Unbanned user {UserId} from guild {GuildId} via form {FormId}",
-                userId, form.GuildId, form.Id);
+            var formName = form.Name.Length > 50 ? form.Name[..47] + "..." : form.Name;
+            var auditReason = $"Ban appeal approved by <@{reviewerId}> (Form #{form.Id}: {formName})";
+
+            await guild.RemoveBanAsync(userId, new RequestOptions
+            {
+                AuditLogReason = auditReason
+            });
+
             return true;
         }
         catch (Exception ex)
