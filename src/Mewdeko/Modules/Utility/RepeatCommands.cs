@@ -811,7 +811,7 @@ public partial class Utility
                 case "clear":
                     var clearResult =
                         await Service.UpdateRepeaterForumTagConditionsAsync(ctx.Guild.Id, repeater.Repeater.Id, null);
-                    if (clearResult != null)
+                    if (clearResult)
                         await ReplyConfirmAsync(Strings.StickyForumTagsCleared(ctx.Guild.Id, index))
                             .ConfigureAwait(false);
                     else
