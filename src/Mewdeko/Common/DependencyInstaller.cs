@@ -163,9 +163,17 @@ public static class DependencyInstaller
     ///     Throws no exceptions - all errors are logged.
     /// </remarks>
     /// <param name="psqlString">The psqlstring string.</param>
+    /// <param name="isMasterInstance">Whether this is the master instance.</param>
     /// <param name="setupCompleted">Whether PostgreSQL setup has been completed before.</param>
-    public static void CheckAndInstallDependencies(string psqlString, bool setupCompleted = false)
+    public static void CheckAndInstallDependencies(string psqlString, bool isMasterInstance,
+        bool setupCompleted = false)
     {
+        if (!isMasterInstance)
+        {
+            Log.Information("This is not the master instance. Skipping dependency installation.");
+            return;
+        }
+
         switch (Environment.OSVersion.Platform)
         {
             case PlatformID.Unix:
